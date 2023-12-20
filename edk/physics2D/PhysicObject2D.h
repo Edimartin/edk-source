@@ -74,12 +74,17 @@ public:
     bool haveSettedAngularVelocity();
 
     //function to calculate physicBoundingBox
-    bool calculatePhysicBoundingBox();
-    bool calculatePhysicBoundingBox(edk::vector::Matrix<edk::float32,3,3>* transformMat);
-    bool generatePhysicBoundingBox();
-    bool generatePhysicBoundingBox(edk::vector::Matrix<edk::float32,3,3>* transformMat);
+    bool calculateBoundingBoxPhysic();
+    bool calculateBoundingBoxPhysic(edk::vector::Matrix<edk::float32,3,3>* transformMat);
+    bool generateBoundingBoxPhysic();
+    bool generateBoundingBoxPhysic(edk::vector::Matrix<edk::float32,3,3>* transformMat);
+    //functions to calculate a new boundingBoxPhysic
+    edk::rectf32 calculateNewBoundingBoxPhysic();
+    edk::rectf32 calculateNewBoundingBoxPhysic(edk::vector::Matrix<edk::float32,3,3>* transformMat);
+    edk::rectf32 generateNewBoundingBoxPhysic();
+    edk::rectf32 generateNewBoundingBoxPhysic(edk::vector::Matrix<edk::float32,3,3>* transformMat);
     //return a copy of the physicBoundingBox
-    edk::rectf32 getPhysicBoundingBox();
+    edk::rectf32 getBoundingBoxPhysic();
 
     void removeAllMesh();
 
@@ -101,6 +106,10 @@ public:
     //get group size
     edk::uint32 getCollisionGroupSize();
     edk::uint32 getNotCollisionGroupSize();
+
+    //get world polygon
+    bool getWorldPolygonPhysic(edk::shape::Polygon2D* dest,edk::uint32 polygonPosition);
+    bool getWorldPolygonPhysic(edk::shape::Polygon2D* dest,edk::uint32 polygonPosition,edk::vector::Matrix<edk::float32,3,3>* transformMat);
 
     void drawPhysics();
     void drawWirePhysics();
@@ -127,7 +136,10 @@ public:
     //set if the body canSleep
     bool canSleep;
 private:
-    edk::rectf32 physicBoundingBox;
+    edk::rectf32 boundingBoxPhysic;
+
+    bool writeBoundingBoxPhysic(edk::rectf32* rect);
+    bool writeBoundingBoxPhysic(edk::rectf32* rect,edk::vector::Matrix<edk::float32,3,3>* transformMat);
     //transform matrices
     edk::vector::Matrix<edk::float32,3u,3u> physicMatrixPosition;
     edk::vector::Matrix<edk::float32,3u,3u> physicMatrixPivo;

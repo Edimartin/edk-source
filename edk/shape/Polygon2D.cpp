@@ -174,7 +174,7 @@ bool edk::shape::Polygon2D::setVertexUVFrames(edk::uint32 vertex,edk::vec2ui32 f
         vTemp->setUVFrames(frames);edkEnd();
         voTemp->setUVFrames(frames);edkEnd();
 
-        this->updateVBOUV();
+        this->updateVBOUV();edkEnd();
 
         //return true
         return true;
@@ -9583,6 +9583,33 @@ edk::vec2ui32 edk::shape::Polygon2D::getPolygonMorphFrames(edk::uint32 positionM
         edk::shape::Polygon2D::Polygon2DMorph* temp = this->vertexsMorph.get(positionMorph);edkEnd();
         if(temp){
             ret = temp->getFrames(0u);edkEnd();
+        }
+    }
+    return ret;
+}
+
+edk::rectf32 edk::shape::Polygon2D::getRect(){
+    edk::rectf32 ret;edkEnd();
+    edk::vec2f32 position;edkEnd();
+    edk::uint32 size = this->getVertexCount();edkEnd();
+    if(size){
+        position = this->getVertexPosition(0u);edkEnd();
+        ret.origin.x = ret.size.width = position.x;edkEnd();
+        ret.origin.y = ret.size.height = position.y;edkEnd();
+        for(edk::uint32 i=0u;i<size;i++){
+            position = this->getVertexPosition(i);edkEnd();
+            if(ret.origin.x>position.x){
+                ret.origin.x=position.x;edkEnd();
+            }
+            if(ret.size.width<position.x){
+                ret.size.width=position.x;edkEnd();
+            }
+            if(ret.origin.y>position.y){
+                ret.origin.y=position.y;edkEnd();
+            }
+            if(ret.size.height<position.y){
+                ret.size.height=position.y;edkEnd();
+            }
         }
     }
     return ret;

@@ -90,6 +90,7 @@ public:
     bool havePolygon(edk::uint32 position);
     //get the polygon in a position
     edk::shape::Polygon2D getPolygon(edk::uint32 position);
+    bool getPolygon(edk::uint32 position,edk::shape::Polygon2D* dest);
 
     //DELETE
     //clean the polygons

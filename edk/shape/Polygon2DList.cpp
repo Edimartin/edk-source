@@ -364,6 +364,17 @@ edk::shape::Polygon2D edk::shape::Polygon2DList::getPolygon(edk::uint32 position
     ret.cantDeletePolygon();
     return ret;
 }
+bool edk::shape::Polygon2DList::getPolygon(edk::uint32 position,edk::shape::Polygon2D* dest){
+    if(dest && this->havePolygon(position)){
+        //get the polygon
+        edk::shape::Polygon2D* temp = this->polygons.get(position);
+        if(temp){
+            //copy the polygon
+            return dest->cloneFrom(temp);
+        }
+    }
+    return false;
+}
 
 //DELETE
 //clean the polygons

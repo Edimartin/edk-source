@@ -296,6 +296,8 @@ public:
     //return the frames
     edk::vec2ui32 getPolygonMorphFrames(edk::uint32 positionMorph);
 
+    edk::rectf32 getRect();
+
     //Set to cant delete the polygon
     void cantDeletePolygon();
 
