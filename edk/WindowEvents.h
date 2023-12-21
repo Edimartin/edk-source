@@ -790,7 +790,7 @@ public:
                 edk::uint32 sizeJ = this->controllerAxisMoved.getControllerButtonSizeInPosition(i);edkEnd();
                 for(edk::uint32 j=0u;j<sizeJ;j++){
                     printf("[%u,%.2f]"
-                           ,this->controllerAxisMoved.getControllerAxisInPosition(i,j)
+                           ,this->controllerAxisMoved.getControllerAxisIDInPosition(i,j)
                            ,this->controllerAxisMoved.getControllerAxisValueInPosition(i,j)
                            );edkEnd();
                 }
@@ -1110,8 +1110,8 @@ public:
                     edk::uint32 sizeJ = this->controllerAxisMoved.getControllerButtonSizeInPosition(i);edkEnd();
                     file->writeBin((edk::uint32)sizeJ);edkEnd();
                     for(edk::uint32 j=0u;j<sizeJ;j++){
-                        file->writeBin((edk::uint32)this->controllerAxisMoved.getControllerAxisInPosition(i,j));edkEnd();
-                        file->writeBin((edk::uint32)this->controllerAxisMoved.getControllerAxisValueInPosition(i,j));edkEnd();
+                        file->writeBin((edk::uint32)this->controllerAxisMoved.getControllerAxisIDInPosition(i,j));edkEnd();
+                        file->writeBin((edk::float32)this->controllerAxisMoved.getControllerAxisValueInPosition(i,j));edkEnd();
                     }
                 }
                 ret=true;edkEnd();
@@ -1598,8 +1598,8 @@ public:
                             edk::uint32 sizeJ = this->controllerAxisMoved.getControllerButtonSizeInPosition(i);edkEnd();
                             file->writeBin((edk::uint32)sizeJ);edkEnd();
                             for(edk::uint32 j=0u;j<sizeJ;j++){
-                                file->writeBin((edk::uint32)this->controllerAxisMoved.getControllerAxisInPosition(i,j));edkEnd();
-                                file->writeBin((edk::uint32)this->controllerAxisMoved.getControllerAxisValueInPosition(i,j));edkEnd();
+                                file->writeBin((edk::uint32)this->controllerAxisMoved.getControllerAxisIDInPosition(i,j));edkEnd();
+                                file->writeBin((edk::float32)this->controllerAxisMoved.getControllerAxisValueInPosition(i,j));edkEnd();
                             }
                         }
                         ret=true;edkEnd();
@@ -2084,8 +2084,8 @@ public:
                             edk::uint32 sizeJ = this->controllerAxisMoved.getControllerButtonSizeInPosition(i);edkEnd();
                             file->writeBin((edk::uint32)sizeJ);edkEnd();
                             for(edk::uint32 j=0u;j<sizeJ;j++){
-                                file->writeBin((edk::uint32)this->controllerAxisMoved.getControllerAxisInPosition(i,j));edkEnd();
-                                file->writeBin((edk::uint32)this->controllerAxisMoved.getControllerAxisValueInPosition(i,j));edkEnd();
+                                file->writeBin((edk::uint32)this->controllerAxisMoved.getControllerAxisIDInPosition(i,j));edkEnd();
+                                file->writeBin((edk::float32)this->controllerAxisMoved.getControllerAxisValueInPosition(i,j));edkEnd();
                             }
                         }
                         ret=true;edkEnd();
@@ -2904,7 +2904,7 @@ private:
             return 0u;edkEnd();
         }
         //get the controller button by ID
-        edk::uint32 getControllerAxisByID(edk::uint32 controllerID,edk::uint32 position){
+        edk::uint32 getControllerAxisIDByControllerID(edk::uint32 controllerID,edk::uint32 position){
             //test if have the controller
             edk::WindowEvents::ControllerAxis* temp = (edk::WindowEvents::ControllerAxis*)this->getButtons(controllerID);edkEnd();
             //test if dont have the button
@@ -2914,7 +2914,7 @@ private:
             }
             return 0u;edkEnd();
         }//get the controller button in position
-        edk::uint32 getControllerAxisInPosition(edk::uint32 controllerPosition,edk::uint32 position){
+        edk::uint32 getControllerAxisIDInPosition(edk::uint32 controllerPosition,edk::uint32 position){
             //test if have the controller
             edk::WindowEvents::ControllerAxis* temp = (edk::WindowEvents::ControllerAxis*)this->getButtonsInPosition(controllerPosition);edkEnd();
             //test if dont have the button
@@ -2925,7 +2925,7 @@ private:
             return 0u;edkEnd();
         }
         //return the controller axisValue by ID
-        edk::float32 getControllerAxisValueByID(edk::uint32 controllerID,edk::uint32 position){
+        edk::float32 getControllerAxisValueByControllerID(edk::uint32 controllerID,edk::uint32 position){
             //test if have the controller
             edk::WindowEvents::ControllerAxis* temp = (edk::WindowEvents::ControllerAxis*)this->getButtons(controllerID);edkEnd();
             //test if dont have the button

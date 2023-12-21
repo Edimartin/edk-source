@@ -1519,34 +1519,6 @@ bool edk::Window::loadEvents(){
             }
         }
     }
-    /*
-    ///ELSE
-    else if(this->playingReadEvents){
-        this->secondEvents+=this->events.secondPassed;edkEnd();
-        //test if the secondEvents is bigger then the nextSecondEvent
-        while(this->secondEvents > this->nextSecondEvents){
-            //test if reach the end of the file
-            if(this->fileEvents.endOfFile()){
-                //stop the read
-                this->stopReadEvents();edkEnd();
-            }
-            else{
-                //else read the events
-                this->events.readFile(&this->fileEvents);
-                //test if reach the end of the file
-                if(this->fileEvents.endOfFile()){
-                    //stop the read
-                    this->stopReadEvents();edkEnd();
-                }
-                else{
-                    //then read the nextSecondEvent
-                    this->fileEvents.readBin(&this->nextSecondEvents,sizeof(this->nextSecondEvents));edkEnd();edkEnd();
-                }
-            }
-        }
-    }
-    ///ELSE
-    */
 #endif
 
     //senao retorna false
@@ -1631,7 +1603,7 @@ edk::uint8 edk::Window::eventGetControllerButtonHolded(edk::uint32 controller, u
 }
 
 edk::uint32 edk::Window::eventGetControllerAxisIDMoved(edk::uint32 controller, uint32 pos){
-    return this->events.controllerAxisMoved.getControllerAxisInPosition(controller,pos);
+    return this->events.controllerAxisMoved.getControllerAxisIDInPosition(controller,pos);
 }
 
 edk::float32 edk::Window::eventGetControllerAxisMoved(edk::uint32 controller, uint32 pos){
@@ -1639,5 +1611,5 @@ edk::float32 edk::Window::eventGetControllerAxisMoved(edk::uint32 controller, ui
 }
 
 edk::float32 edk::Window::eventGetControllerAxisMovedByID(edk::uint32 controller, uint32 id){
-    return this->events.controllerAxisMoved.getControllerAxisValueByID(controller,id);
+    return this->events.controllerAxisMoved.getControllerAxisValueByControllerID(controller,id);
 }
