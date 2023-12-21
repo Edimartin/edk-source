@@ -51,6 +51,373 @@ void edk::Object3D::calculateMatrices(){
     this->matrixTransform.multiplyThisWithMatrix(&this->matrixTranslate);edkEnd();
 }
 
+//load the mtlFile
+bool edk::Object3D::loadMTL(const edk::char8* fileName,edk::shape::Mesh3D* mesh){
+    return this->loadMTL((edk::char8*) fileName,mesh);
+}
+bool edk::Object3D::loadMTL(edk::char8* fileName,edk::shape::Mesh3D* mesh){
+    if(fileName && mesh){
+        //open the file
+        edk::File file;
+        if(file.openTextFile(fileName)){
+            edk::char8 c;edkEnd();
+            edk::char8* str;edkEnd();
+            edk::char8* temp;edkEnd();
+            edk::int32 illum=0u;
+
+            edk::float32 Ns=0.f;
+            edk::float32 Ni=0.f;
+
+            edk::color3f32 Ka,Kd,Ks,Ke;
+            edk::Name mapKd,mapBump,mapKa;
+
+            edk::float32 dValue=0.f;
+
+            edk::char8* folder = edk::String::strFolderName(fileName);
+
+            while(!file.endOfFile()){
+                c = file.readTextChar();edkEnd();
+                switch(c){
+                case '#':
+                    //comentario
+                    str = file.readTextString("\n",false);edkEnd();
+                    if(str){
+                        free(str);edkEnd();
+                    }
+                    //printf("\nComentario");fflush(stdout);edkEnd();
+                    break;
+                case 'n':
+                    //newmtl - name of the material
+                    if(file.readTextChar() == 'e'){
+                        if(file.readTextChar() == 'w'){
+                            if(file.readTextChar() == 'm'){
+                                if(file.readTextChar() == 't'){
+                                    if(file.readTextChar() == 'l'){
+                                        if(file.readTextChar() == ' '){
+                                            //find the material name
+                                            str = file.readTextString("\n",false);edkEnd();
+                                            if(str){
+                                                //printf("\nMaterial name == '%s'",str);fflush(stdout);edkEnd();
+                                                free(str);edkEnd();
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    break;
+
+                case 'i':
+                    //illum
+                    if(file.readTextChar() == 'l'){
+                        if(file.readTextChar() == 'l'){
+                            if(file.readTextChar() == 'u'){
+                                if(file.readTextChar() == 'm'){
+                                    if(file.readTextChar() == ' '){
+                                        //read the ilum value
+                                        str = file.readTextString("\n",false);edkEnd();
+                                        if(str){
+                                            illum = edk::String::strToInt32(str);
+                                            //printf("\nIllum == '%s' [%d]",str,illum);fflush(stdout);edkEnd();
+                                            free(str);edkEnd();
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    break;
+                case 'N':
+                    //Ns
+                    if(file.readTextChar() == 's'){
+                        if(file.readTextChar() == ' '){
+                            //read the ilum value
+                            str = file.readTextString("\n",false);edkEnd();
+                            if(str){
+                                Ns = edk::String::strToFloat32(str);
+                                //printf("\nNs == '%s' [%.2f]",str,Ns);fflush(stdout);edkEnd();
+                                free(str);edkEnd();
+                            }
+                        }
+                    }
+                    else if(file.readTextChar() == 'i'){
+                        if(file.readTextChar() == ' '){
+                            //read the ilum value
+                            str = file.readTextString("\n",false);edkEnd();
+                            if(str){
+                                Ni = edk::String::strToFloat32(str);
+                                //printf("\nNi == '%s' [%.2f]",str,Ni);fflush(stdout);edkEnd();
+                                free(str);edkEnd();
+                            }
+                        }
+                    }
+                    break;
+                case 'd':
+                    if(file.readTextChar() == ' '){
+                        //read the ilum value
+                        str = file.readTextString("\n",false);edkEnd();
+                        if(str){
+                            dValue = edk::String::strToFloat32(str);
+                            //printf("\nd == '%s' [%.2f]",str,dValue);fflush(stdout);edkEnd();
+                            free(str);edkEnd();
+                        }
+                    }
+                    break;
+                case 'K':
+                    c = file.readTextChar();
+                    //Ka
+                    if(c == 'a'){
+                        if(file.readTextChar() == ' '){
+                            //read the ilum value
+                            str = file.readTextString("\n",false);edkEnd();
+                            if(str){
+                                temp = str;edkEnd();
+                                if(*temp){
+                                    Ka.r = edk::String::strToFloat32(temp);edkEnd();
+                                }
+                                //search for the ' ';
+                                while(*temp){
+                                    if(*temp==' '){
+                                        temp++;edkEnd();
+                                        break;
+                                    }
+                                    temp++;edkEnd();
+                                }
+                                if(*temp){
+                                    Ka.g = edk::String::strToFloat32(temp);edkEnd();
+                                }
+                                //search for the ' ';
+                                while(*temp){
+                                    if(*temp==' '){
+                                        temp++;edkEnd();
+                                        break;
+                                    }
+                                    temp++;edkEnd();
+                                }
+                                if(*temp){
+                                    Ka.b = edk::String::strToFloat32(temp);edkEnd();
+                                }
+                                //printf("\nKa == '%s' r[%.2f] g[%.2f] b[%.2f]",str,Ka.r,Ka.g,Ka.b);fflush(stdout);edkEnd();
+                                free(str);edkEnd();
+                            }
+                        }
+                    }
+                    //Kd
+                    else if(c == 'd'){
+                        if(file.readTextChar() == ' '){
+                            //read the ilum value
+                            str = file.readTextString("\n",false);edkEnd();
+                            if(str){
+                                temp = str;edkEnd();
+                                if(*temp){
+                                    Kd.r = edk::String::strToFloat32(temp);edkEnd();
+                                }
+                                //search for the ' ';
+                                while(*temp){
+                                    if(*temp==' '){
+                                        temp++;edkEnd();
+                                        break;
+                                    }
+                                    temp++;edkEnd();
+                                }
+                                if(*temp){
+                                    Kd.g = edk::String::strToFloat32(temp);edkEnd();
+                                }
+                                //search for the ' ';
+                                while(*temp){
+                                    if(*temp==' '){
+                                        temp++;edkEnd();
+                                        break;
+                                    }
+                                    temp++;edkEnd();
+                                }
+                                if(*temp){
+                                    Kd.b = edk::String::strToFloat32(temp);edkEnd();
+                                }
+                                //printf("\nKd == '%s' r[%.2f] g[%.2f] b[%.2f]",str,Kd.r,Kd.g,Kd.b);fflush(stdout);edkEnd();
+                                free(str);edkEnd();
+                            }
+                        }
+                    }
+                    //Ks
+                    else if(c == 's'){
+                        if(file.readTextChar() == ' '){
+                            //read the ilum value
+                            str = file.readTextString("\n",false);edkEnd();
+                            if(str){
+                                temp = str;edkEnd();
+                                if(*temp){
+                                    Ks.r = edk::String::strToFloat32(temp);edkEnd();
+                                }
+                                //search for the ' ';
+                                while(*temp){
+                                    if(*temp==' '){
+                                        temp++;edkEnd();
+                                        break;
+                                    }
+                                    temp++;edkEnd();
+                                }
+                                if(*temp){
+                                    Ks.g = edk::String::strToFloat32(temp);edkEnd();
+                                }
+                                //search for the ' ';
+                                while(*temp){
+                                    if(*temp==' '){
+                                        temp++;edkEnd();
+                                        break;
+                                    }
+                                    temp++;edkEnd();
+                                }
+                                if(*temp){
+                                    Ks.b = edk::String::strToFloat32(temp);edkEnd();
+                                }
+                                //printf("\nKs == '%s' r[%.2f] g[%.2f] b[%.2f]",str,Ks.r,Ks.g,Ks.b);fflush(stdout);edkEnd();
+                                free(str);edkEnd();
+                            }
+                        }
+                    }
+                    //Ke
+                    else if(c == 'e'){
+                        if(file.readTextChar() == ' '){
+                            //read the ilum value
+                            str = file.readTextString("\n",false);edkEnd();
+                            if(str){
+                                temp = str;edkEnd();
+                                if(*temp){
+                                    Ke.r = edk::String::strToFloat32(temp);edkEnd();
+                                }
+                                //search for the ' ';
+                                while(*temp){
+                                    if(*temp==' '){
+                                        temp++;edkEnd();
+                                        break;
+                                    }
+                                    temp++;edkEnd();
+                                }
+                                if(*temp){
+                                    Ke.g = edk::String::strToFloat32(temp);edkEnd();
+                                }
+                                //search for the ' ';
+                                while(*temp){
+                                    if(*temp==' '){
+                                        temp++;edkEnd();
+                                        break;
+                                    }
+                                    temp++;edkEnd();
+                                }
+                                if(*temp){
+                                    Ke.b = edk::String::strToFloat32(temp);edkEnd();
+                                }
+                                //printf("\nKe == '%s' r[%.2f] g[%.2f] b[%.2f]",str,Ke.r,Ke.g,Ke.b);fflush(stdout);edkEnd();
+                                free(str);edkEnd();
+                            }
+                        }
+                    }
+                    break;
+                case 'm':
+                    //textures
+                    if(file.readTextChar() == 'a'){
+                        if(file.readTextChar() == 'p'){
+                            if(file.readTextChar() == '_'){
+                                c = file.readTextChar();
+                                if(c == 'K'){
+                                    c = file.readTextChar();
+                                    if(c == 'd'){
+                                        if(file.readTextChar() == ' '){
+                                            //texture Kd
+                                            str = file.readTextString("\n",false);edkEnd();
+                                            if(str){
+                                                if(folder){
+                                                    temp = edk::String::strCatMulti(folder,str,NULL);
+                                                    if(temp){
+                                                        mapKd.setName(temp);
+                                                        //printf("\nTexture Kd == '%s' == '%s'",temp,mapKd.getName());fflush(stdout);edkEnd();
+                                                        free(temp);
+                                                    }
+                                                }
+                                                else{
+                                                mapKd.setName(str);
+                                                //printf("\nTexture Kd == '%s' == '%s'",str,mapKd.getName());fflush(stdout);edkEnd();
+                                                }
+                                                free(str);edkEnd();
+                                            }
+                                        }
+                                    }
+                                    else if(c == 'a'){
+                                        if(file.readTextChar() == ' '){
+                                            //texture Ka
+                                            str = file.readTextString("\n",false);edkEnd();
+                                            if(str){
+                                                if(folder){
+                                                    temp = edk::String::strCatMulti(folder,str,NULL);
+                                                    if(temp){
+                                                        mapKa.setName(temp);
+                                                        //printf("\nTexture Ka == '%s' == '%s'",temp,mapKa.getName());fflush(stdout);edkEnd();
+                                                        free(temp);
+                                                    }
+                                                }
+                                                else{
+                                                    mapKa.setName(str);
+                                                    //printf("\nTexture Ka == '%s' == '%s'",str,mapKa.getName());fflush(stdout);edkEnd();
+                                                }
+                                                free(str);edkEnd();
+                                            }
+                                        }
+                                    }
+                                }
+                                else if(c == 'B'){
+                                    if(file.readTextChar() == 'u'){
+                                        if(file.readTextChar() == 'm'){
+                                            if(file.readTextChar() == 'p'){
+                                                if(file.readTextChar() == ' '){
+                                                    //texture bumpMap
+                                                    str = file.readTextString("\n",false);edkEnd();
+                                                    if(str){
+                                                        if(folder){
+                                                            temp = edk::String::strCatMulti(folder,str,NULL);
+                                                            if(temp){
+                                                                mapBump.setName(temp);
+                                                                //printf("\nTexture Bump == '%s' == '%s'",temp,mapBump.getName());fflush(stdout);edkEnd();
+                                                                free(temp);
+                                                            }
+                                                        }
+                                                        else{
+                                                            mapBump.setName(str);
+                                                            //printf("\nTexture Bump == '%s' == '%s'",str,mapBump.getName());fflush(stdout);edkEnd();
+                                                        }
+                                                        free(str);edkEnd();
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    break;
+                }
+            }
+            if(folder){
+                free(folder);
+            }
+            mesh->material.loadTexture(mapKd.getName(),0u);
+            mesh->material.loadTexture(mapKa.getName(),1u);
+            mesh->material.loadTexture(mapBump.getName(),2u);
+            mesh->material.setAmbient(Ka);
+            mesh->material.setDiffuse(Kd);
+            mesh->material.setSpecular(Ks);
+            mesh->material.setEmission(Ke);
+            mesh->material.setShininess(Ns);
+
+            file.closeFile();
+            return true;
+        }
+    }
+    return false;
+}
+
 void edk::Object3D::clean(){
     this->cleanSelected();
     this->cleanMeshes();
@@ -307,7 +674,10 @@ bool edk::Object3D::addObj(edk::char8* fileName){
             edk::vector::Stack<edk::uint32> sv(1000u),sp(1000u),sn(1000u);edkEnd();
 
             edk::shape::Mesh3D* mesh = NULL;edkEnd();
+            edk::uint32 meshes=0u;
             bool smooth = false;edkEnd();
+
+            edk::char8* folder = edk::String::strFolderName(fileName);
 
             while(!file.endOfFile()){
                 c = file.readTextChar();edkEnd();
@@ -331,7 +701,33 @@ bool edk::Object3D::addObj(edk::char8* fileName){
                                             //readthe mtlFile
                                             str = file.readTextString("\n",false);edkEnd();
                                             if(str){
-                                                //printf("\nMTL LIB == '%s'",str);edkEnd();
+                                                if(!mesh){
+                                                    mesh=this->newMesh();edkEnd();
+                                                }
+                                                //test if have the folder
+                                                if(folder){
+                                                    //concat to generate the mtl new name
+                                                    temp = edk::String::strCatMulti(folder,str,NULL);
+                                                    if(temp){
+                                                        //printf("\nTry load MTL == '%s'",temp);fflush(stdout);edkEnd();
+                                                        if(this->loadMTL(temp,mesh)){
+                                                            //printf("\nMTL LIB == '%s'",temp);fflush(stdout);edkEnd();
+                                                        }
+                                                        else{
+                                                            //printf("\nERROR: Can't load MTL == '%s'",temp);fflush(stdout);edkEnd();
+                                                        }
+                                                        free(temp);
+                                                    }
+                                                }
+                                                else{
+                                                    //printf("\nTry load MTL == '%s'",str);fflush(stdout);edkEnd();
+                                                    if(this->loadMTL(str,mesh)){
+                                                        //printf("\nMTL LIB == '%s'",str);fflush(stdout);edkEnd();
+                                                    }
+                                                    else{
+                                                        //printf("\nERROR: Can't load MTL == '%s'",str);fflush(stdout);edkEnd();
+                                                    }
+                                                }
                                                 free(str);edkEnd();
                                             }
                                         }
@@ -353,9 +749,17 @@ bool edk::Object3D::addObj(edk::char8* fileName){
                                 countV += mesh->getVertexSize();edkEnd();
                                 countP += mesh->getUVSize();edkEnd();
                                 countN += mesh->getNormalSize();edkEnd();
+                                if(meshes){
+                                    //create a new mesh
+                                    mesh = this->newMesh();edkEnd();
+                                    meshes++;
+                                }
                             }
-                            //new mesh
-                            mesh = this->newMesh();edkEnd();
+                            else{
+                                //new mesh
+                                mesh = this->newMesh();edkEnd();
+                                meshes++;
+                            }
                         }
                     }
                     break;
@@ -729,6 +1133,9 @@ bool edk::Object3D::addObj(edk::char8* fileName){
                     }
                     break;
                 }
+            }
+            if(folder){
+                free(folder);
             }
 
             file.closeFile();edkEnd();

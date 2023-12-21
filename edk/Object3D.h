@@ -336,6 +336,10 @@ protected:
         edk::color3f32 color;
     }meshes;
 
+    //load the mtlFile
+    bool loadMTL(const edk::char8* fileName,edk::shape::Mesh3D* mesh);
+    bool loadMTL(edk::char8* fileName,edk::shape::Mesh3D* mesh);
+
 private:
     //Tree Static Vector
     edk::light::Light lights[EDK_LIGHT_LIMIT];
