@@ -112,6 +112,7 @@ class Camera2D{
         edk::float32 getAngle();
 
         void updateAnimations();
+        void updateAnimations(edk::float32 seconds);
 
         //start the animation
         bool addShakingAngle(edk::float32 position,edk::float32 percent = 0.9f,edk::float32 interpolationDistance=0.1f);

@@ -325,36 +325,7 @@ void edk::Camera3D::drawAxisOnly(){
                             this->_far//far
                             );edkEnd();
     }
-    /*
-    //update the shaking animations
-    this->animAngle.updateClockAnimation();edkEnd();
-    if(this->animAngle.isPlaying()){
-        //calculate the angle of shaking
-        this->up = edk::Math::rotate2f(edk::vec2f32(1,0),(((this->angle + this->animAngle.getClockX())*-1)+360.f)+90);edkEnd();
-    }
-    else{
-        this->up = edk::Math::rotate2f(edk::vec2f32(1,0),((this->angle*-1)+360.f)+90);edkEnd();
-    }
-*/
 
-    //shake position
-    /*
-    this->animPosition.updateClockAnimation();edkEnd();
-    if(this->animPosition.isPlaying()){
-        this->tempPosition.x = this->position.x+this->animPosition.getClockX();edkEnd();
-        this->tempPosition.y = this->position.y+this->animPosition.getClockY();edkEnd();
-        edk::GU::guLookAt(this->tempPosition.x,this->tempPosition.y,1.f,
-                          this->tempPosition.x,this->tempPosition.y,0.f,
-                          this->up.x,this->up.y,0.f
-                          );edkEnd();
-    }
-    else{
-        edk::GU::guLookAt(this->position.x,this->position.y,1.f,
-                          this->position.x,this->position.y,0.f,
-                          this->up.x,this->up.y,0.f
-                          );edkEnd();
-    }
-    */
     edk::GU::guLookAt(this->position.x,this->position.y,this->position.z,
                       this->lookAt.x,this->lookAt.y,this->lookAt.z,
                       this->up.x,this->up.y,0.f

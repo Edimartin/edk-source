@@ -46,6 +46,12 @@ public:
     //createString
     bool createString(edk::char8* string);
     bool createString(const edk::char8* string);
+    inline bool writeString(edk::char8* string){
+        return this->createString(string);
+    }
+    inline bool writeString(const edk::char8* string){
+        return this->createString(string);
+    }
 
     //load the font image
     bool loadFontImage(edk::char8* name,edk::uint32 filter = GU_NEAREST,edk::color4f32 color = edk::color4f32(1,1,1,1));

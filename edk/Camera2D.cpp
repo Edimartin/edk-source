@@ -319,6 +319,17 @@ void edk::Camera2D::updateAnimations(){
         this->angle = this->animAngle.getClockX();edkEnd();
     }
 }
+void edk::Camera2D::updateAnimations(edk::float32 seconds){
+    this->animPosition.updateClockAnimation(seconds);edkEnd();
+    this->animAngle.updateClockAnimation(seconds);edkEnd();
+    if(this->animPosition.isPlaying()){
+        this->position.x = this->animPosition.getClockX();edkEnd();
+        this->position.y = this->animPosition.getClockY();edkEnd();
+    }
+    if(this->animAngle.isPlaying()){
+        this->angle = this->animAngle.getClockX();edkEnd();
+    }
+}
 
 //start the animation
 bool edk::Camera2D::addShakingAngle(edk::float32 position,edk::float32 percent,edk::float32 interpolationDistance){

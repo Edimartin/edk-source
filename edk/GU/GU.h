@@ -208,6 +208,34 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #define GU_REPEAT                               GL_REPEAT
 #define GU_CLAMP                                GL_CLAMP
 
+//#define GU_CLIP_DISTANCE                        GL_CLIP_DISTANCE
+#define GU_COLOR_LOGIC_OP                       GL_COLOR_LOGIC_OP
+#define GU_DEBUG_OUTPUT                         GL_DEBUG_OUTPUT
+#define GU_DEBUG_OUTPUT_SYNCHRONOUS             GL_DEBUG_OUTPUT_SYNCHRONOUS
+#define GU_DEPTH_CLAMP                          GL_DEPTH_CLAMP
+#define GU_DITHER                               GL_DITHER
+#define GU_FRAMEBUFFER_SRGB                     GL_FRAMEBUFFER_SRGB
+#define GU_LINE_SMOOTH                          GL_LINE_SMOOTH
+#define GU_MULTISAMPLE                          GL_MULTISAMPLE
+#define GU_POLYGON_OFFSET_FILL                  GL_POLYGON_OFFSET_FILL
+#define GU_POLYGON_OFFSET_LINE                  GL_POLYGON_OFFSET_LINE
+#define GU_POLYGON_OFFSET_POINT                 GL_POLYGON_OFFSET_POINT
+#define GU_POLYGON_SMOOTH                       GL_POLYGON_SMOOTH
+#define GU_PRIMITIVE_RESTART                    GL_PRIMITIVE_RESTART
+#define GU_PRIMITIVE_RESTART_FIXED_INDEX        GL_PRIMITIVE_RESTART_FIXED_INDEX
+#define GU_RASTERIZER_DISCARD                   GL_RASTERIZER_DISCARD
+#define GU_SAMPLE_ALPHA_TO_COVERAGE             GL_SAMPLE_ALPHA_TO_COVERAGE
+#define GU_SAMPLE_ALPHA_TO_ONE                  GL_SAMPLE_ALPHA_TO_ONE
+#define GU_SAMPLE_COVERAGE                      GL_SAMPLE_COVERAGE
+#define GU_SAMPLE_SHADING                       GL_SAMPLE_SHADING
+#define GU_SAMPLE_MASK                          GL_SAMPLE_MASK
+#define GU_SCISSOR_TEST                         GL_SCISSOR_TEST
+#define GU_STENCIL_TEST                         GL_STENCIL_TEST
+#define GU_TEXTURE_CUBE_MAP_SEAMLESS            GL_TEXTURE_CUBE_MAP_SEAMLESS
+#define GU_PROGRAM_POINT_SIZE                   GL_PROGRAM_POINT_SIZE
+
+
+
 //library
 namespace edk{
 class GU{
@@ -311,6 +339,35 @@ public:
     static void guBlendFunc( edk::uint32 sfactor, edk::uint32 dfactor );
 
     //ENABLE_DISABLE
+    //GU_BLEND
+    //GU_CLIP_DISTANCE i
+    //GU_COLOR_LOGIC_OP
+    //GU_CULL_FACE
+    //GU_DEBUG_OUTPUT
+    //GU_DEBUG_OUTPUT_SYNCHRONOUS
+    //GU_DEPTH_CLAMP
+    //GU_DEPTH_TEST
+    //GU_DITHER
+    //GU_FRAMEBUFFER_SRGB
+    //GU_LINE_SMOOTH
+    //GU_MULTISAMPLE
+    //GU_POLYGON_OFFSET_FILL
+    //GU_POLYGON_OFFSET_LINE
+    //GU_POLYGON_OFFSET_POINT
+    //GU_POLYGON_SMOOTH
+    //GU_PRIMITIVE_RESTART
+    //GU_PRIMITIVE_RESTART_FIXED_INDEX
+    //GU_RASTERIZER_DISCARD
+    //GU_SAMPLE_ALPHA_TO_COVERAGE
+    //GU_SAMPLE_ALPHA_TO_ONE
+    //GU_SAMPLE_COVERAGE
+    //GU_SAMPLE_SHADING
+    //GU_SAMPLE_MASK
+    //GU_SCISSOR_TEST
+    //GU_STENCIL_TEST
+    //GU_TEXTURE_CUBE_MAP_SEAMLESS
+    //GU_PROGRAM_POINT_SIZE
+
     static void guEnable( edk::uint32 cap );
     static void guDisable( edk::uint32 cap );
     //disable all lights
@@ -443,6 +500,14 @@ public:
     static void guColorMaterial( edk::uint32 face, edk::uint32 mode );
 
     //DEPTH
+    //GL_NEVER
+    //GL_LESS
+    //GL_EQUAL
+    //GL_LEQUAL
+    //GL_GREATER
+    //GL_NOTEQUAL
+    //GL_GEQUAL
+    //GL_ALWAYS
     static void guDepthFunc(edk::uint32 func);
     static void guDepthRange( edk::float64 near_val, edk::float64 far_val );
 
