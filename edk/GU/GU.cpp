@@ -1202,6 +1202,8 @@ void edk::GU::guVertexCurve2LineStrip(edk::shape::Curve2D curve,edk::uint32 cuts
         point = curve.getPoint(percent);
         edk::GU::guVertex2f32(point.x,point.y);
     }
+    point = curve.getPoint(1.f);
+    edk::GU::guVertex2f32(point.x,point.y);
 }
 void edk::GU::guVertexCurve3LineStrip(edk::shape::Curve3D curve,edk::uint32 cuts){
     edk::float32 increment = 1.f/(cuts+2u);
@@ -1210,6 +1212,8 @@ void edk::GU::guVertexCurve3LineStrip(edk::shape::Curve3D curve,edk::uint32 cuts
         point = curve.getPoint(percent);
         edk::GU::guVertex3f32(point.x,point.y,point.z);
     }
+    point = curve.getPoint(1.f);
+    edk::GU::guVertex3f32(point.x,point.y,point.z);
 }
 void edk::GU::guVertexCurve2Lines(edk::shape::Bezier2D curve,edk::uint32 cuts){
     edk::float32 increment = 1.f/(cuts+2u);
@@ -1248,6 +1252,8 @@ void edk::GU::guVertexCurve2LineStrip(edk::shape::Bezier2D curve,edk::uint32 cut
         point = curve.getPoint(percent);
         edk::GU::guVertex2f32(point.x,point.y);
     }
+    point = curve.getPoint(1.f);
+    edk::GU::guVertex2f32(point.x,point.y);
 }
 void edk::GU::guVertexCurve3LineStrip(edk::shape::Bezier3D curve,edk::uint32 cuts){
     edk::float32 increment = 1.f/(cuts+2u);
@@ -1256,6 +1262,8 @@ void edk::GU::guVertexCurve3LineStrip(edk::shape::Bezier3D curve,edk::uint32 cut
         point = curve.getPoint(percent);
         edk::GU::guVertex3f32(point.x,point.y,point.z);
     }
+    point = curve.getPoint(1.f);
+    edk::GU::guVertex3f32(point.x,point.y,point.z);
 }
 void edk::GU::guVertexCurve2Lines(edk::shape::Catmull2D curve,edk::uint32 cuts){
     edk::float32 increment = 1.f/(cuts+2u);
@@ -1294,6 +1302,8 @@ void edk::GU::guVertexCurve2LineStrip(edk::shape::Catmull2D curve,edk::uint32 cu
         point = curve.getPoint(percent);
         edk::GU::guVertex2f32(point.x,point.y);
     }
+    point = curve.getPoint(1.f);
+    edk::GU::guVertex2f32(point.x,point.y);
 }
 void edk::GU::guVertexCurve3LineStrip(edk::shape::Catmull3D curve,edk::uint32 cuts){
     edk::float32 increment = 1.f/(cuts+2u);
@@ -1302,6 +1312,8 @@ void edk::GU::guVertexCurve3LineStrip(edk::shape::Catmull3D curve,edk::uint32 cu
         point = curve.getPoint(percent);
         edk::GU::guVertex3f32(point.x,point.y,point.z);
     }
+    point = curve.getPoint(1.f);
+    edk::GU::guVertex3f32(point.x,point.y,point.z);
 }
 void edk::GU::guVertexCurve2Lines(edk::shape::Hermite2D curve,edk::uint32 cuts){
     edk::float32 increment = 1.f/(cuts+2u);
@@ -1340,6 +1352,8 @@ void edk::GU::guVertexCurve2LineStrip(edk::shape::Hermite2D curve,edk::uint32 cu
         point = curve.getPoint(percent);
         edk::GU::guVertex2f32(point.x,point.y);
     }
+    point = curve.getPoint(1.f);
+    edk::GU::guVertex2f32(point.x,point.y);
 }
 void edk::GU::guVertexCurve3LineStrip(edk::shape::Hermite3D curve,edk::uint32 cuts){
     edk::float32 increment = 1.f/(cuts+2u);
@@ -1348,6 +1362,8 @@ void edk::GU::guVertexCurve3LineStrip(edk::shape::Hermite3D curve,edk::uint32 cu
         point = curve.getPoint(percent);
         edk::GU::guVertex3f32(point.x,point.y,point.z);
     }
+    point = curve.getPoint(1.f);
+    edk::GU::guVertex3f32(point.x,point.y,point.z);
 }
 
 // LIGHTING
