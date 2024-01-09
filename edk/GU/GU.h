@@ -50,6 +50,14 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "../TypeRect.h"
 #include "../TypeSize2.h"
 #include "../TypeSize3.h"
+#include "../shape/Curve2D.h"
+#include "../shape/Curve3D.h"
+#include "../shape/Bezier2D.h"
+#include "../shape/Bezier3D.h"
+#include "../shape/Catmull2D.h"
+#include "../shape/Catmull3D.h"
+#include "../shape/Hermite2D.h"
+#include "../shape/Hermite3D.h"
 
 #include <stdlib.h>
 
@@ -467,6 +475,22 @@ public:
     static void guVertexNormal3f64(edk::vec3f64 vec);
     static void guVertexNormal3f32(edk::float32 x,edk::float32 y,edk::float32 z);
     static void guVertexNormal3f64(edk::float64 x,edk::float64 y,edk::float64 z);
+    static void guVertexCurve2Lines(edk::shape::Curve2D curve,edk::uint32 cuts);
+    static void guVertexCurve3Lines(edk::shape::Curve3D curve,edk::uint32 cuts);
+    static void guVertexCurve2LineStrip(edk::shape::Curve2D curve,edk::uint32 cuts);
+    static void guVertexCurve3LineStrip(edk::shape::Curve3D curve,edk::uint32 cuts);
+    static void guVertexCurve2Lines(edk::shape::Bezier2D curve,edk::uint32 cuts);
+    static void guVertexCurve3Lines(edk::shape::Bezier3D curve,edk::uint32 cuts);
+    static void guVertexCurve2LineStrip(edk::shape::Bezier2D curve,edk::uint32 cuts);
+    static void guVertexCurve3LineStrip(edk::shape::Bezier3D curve,edk::uint32 cuts);
+    static void guVertexCurve2Lines(edk::shape::Catmull2D curve,edk::uint32 cuts);
+    static void guVertexCurve3Lines(edk::shape::Catmull3D curve,edk::uint32 cuts);
+    static void guVertexCurve2LineStrip(edk::shape::Catmull2D curve,edk::uint32 cuts);
+    static void guVertexCurve3LineStrip(edk::shape::Catmull3D curve,edk::uint32 cuts);
+    static void guVertexCurve2Lines(edk::shape::Hermite2D curve,edk::uint32 cuts);
+    static void guVertexCurve3Lines(edk::shape::Hermite3D curve,edk::uint32 cuts);
+    static void guVertexCurve2LineStrip(edk::shape::Hermite2D curve,edk::uint32 cuts);
+    static void guVertexCurve3LineStrip(edk::shape::Hermite3D curve,edk::uint32 cuts);
 
     // LIGHTING
     //modeL:
@@ -535,6 +559,32 @@ public:
     static void guVertexTex4f64(edk::vec4f64 vec);
     static void guVertexTex4f32(edk::float32 x,edk::float32 y,edk::float32 z,edk::float32 w);
     static void guVertexTex4f64(edk::float64 x,edk::float64 y,edk::float64 z,edk::float64 w);
+
+    //LINES
+    inline static void guDrawCurve2(edk::shape::Curve2D curve,edk::uint32 cuts){edk::GU::guDrawCurve2LineStrip(curve,cuts);}
+    inline static void guDrawCurve3(edk::shape::Curve3D curve,edk::uint32 cuts){edk::GU::guDrawCurve3LineStrip(curve,cuts);}
+    static void guDrawCurve2Lines(edk::shape::Curve2D curve,edk::uint32 cuts);
+    static void guDrawCurve3Lines(edk::shape::Curve3D curve,edk::uint32 cuts);
+    static void guDrawCurve2LineStrip(edk::shape::Curve2D curve,edk::uint32 cuts);
+    static void guDrawCurve3LineStrip(edk::shape::Curve3D curve,edk::uint32 cuts);
+    inline static void guDrawCurve2(edk::shape::Bezier2D curve,edk::uint32 cuts){edk::GU::guDrawCurve2LineStrip(curve,cuts);}
+    inline static void guDrawCurve3(edk::shape::Bezier3D curve,edk::uint32 cuts){edk::GU::guDrawCurve3LineStrip(curve,cuts);}
+    static void guDrawCurve2Lines(edk::shape::Bezier2D curve,edk::uint32 cuts);
+    static void guDrawCurve3Lines(edk::shape::Bezier3D curve,edk::uint32 cuts);
+    static void guDrawCurve2LineStrip(edk::shape::Bezier2D curve,edk::uint32 cuts);
+    static void guDrawCurve3LineStrip(edk::shape::Bezier3D curve,edk::uint32 cuts);
+    inline static void guDrawCurve2(edk::shape::Catmull2D curve,edk::uint32 cuts){edk::GU::guDrawCurve2LineStrip(curve,cuts);}
+    inline static void guDrawCurve3(edk::shape::Catmull3D curve,edk::uint32 cuts){edk::GU::guDrawCurve3LineStrip(curve,cuts);}
+    static void guDrawCurve2Lines(edk::shape::Catmull2D curve,edk::uint32 cuts);
+    static void guDrawCurve3Lines(edk::shape::Catmull3D curve,edk::uint32 cuts);
+    static void guDrawCurve2LineStrip(edk::shape::Catmull2D curve,edk::uint32 cuts);
+    static void guDrawCurve3LineStrip(edk::shape::Catmull3D curve,edk::uint32 cuts);
+    inline static void guDrawCurve2(edk::shape::Hermite2D curve,edk::uint32 cuts){edk::GU::guDrawCurve2LineStrip(curve,cuts);}
+    inline static void guDrawCurve3(edk::shape::Hermite3D curve,edk::uint32 cuts){edk::GU::guDrawCurve3LineStrip(curve,cuts);}
+    static void guDrawCurve2Lines(edk::shape::Hermite2D curve,edk::uint32 cuts);
+    static void guDrawCurve3Lines(edk::shape::Hermite3D curve,edk::uint32 cuts);
+    static void guDrawCurve2LineStrip(edk::shape::Hermite2D curve,edk::uint32 cuts);
+    static void guDrawCurve3LineStrip(edk::shape::Hermite3D curve,edk::uint32 cuts);
 
     //cullFace
     static void guCullFace(edk::uint32 mode);

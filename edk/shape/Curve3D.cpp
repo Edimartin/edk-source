@@ -44,12 +44,63 @@ edk::shape::Curve3D::~Curve3D()
     //dtor
 }
 
+//set one point position
+bool edk::shape::Curve3D::setPoint(edk::uint8 position,edk::vec3f32 point){
+    switch(position){
+    case 0u:
+        this->point1 = point;edkEnd();
+        return true;
+    case 1u:
+        this->point2 = point;edkEnd();
+        return true;
+    case 2u:
+        this->point3 = point;edkEnd();
+        return true;
+    case 3u:
+        this->point4 = point;edkEnd();
+        return true;
+    default:
+        break;
+    }
+    return false;
+}
+void edk::shape::Curve3D::setPoint1(edk::vec3f32 point){
+    this->point1=point;
+}
+void edk::shape::Curve3D::setPoint2(edk::vec3f32 point){
+    this->point2=point;
+}
+void edk::shape::Curve3D::setPoint3(edk::vec3f32 point){
+    this->point3=point;
+}
+void edk::shape::Curve3D::setPoint4(edk::vec3f32 point){
+    this->point4=point;
+}
+
+//set points
+void edk::shape::Curve3D::setPoints(edk::vec3f32 p1,edk::vec3f32 p2,edk::vec3f32 p3,edk::vec3f32 p4){
+    //
+    this->point1=p1;edkEnd();
+    this->point2=p2;edkEnd();
+    this->point3=p3;edkEnd();
+    this->point4=p4;edkEnd();
+}
 
 //return the point
 edk::vec3f32 edk::shape::Curve3D::getPoint(edk::float32 percent){
-    //
-    if(percent){
-        return edk::vec3f32();edkEnd();
+    if(percent>-0.001f){
+        if(percent>0.75f){
+            return this->point4;edkEnd();
+        }
+        else if(percent>0.50f){
+            return this->point3;edkEnd();
+        }
+        else if(percent>0.25f){
+            return this->point2;edkEnd();
+        }
+        else{
+            return this->point1;edkEnd();
+        }
     }
     return edk::vec3f32();edkEnd();
 }

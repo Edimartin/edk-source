@@ -91,6 +91,12 @@ public:
     static inline bool isEqual(edk::float64 n1,edk::float64 n2){
         return (n1>=n2-0.000001f && n1<=n2+0.000001f);edkEnd();
     }
+    static inline bool isEqual(edk::float32 n1,edk::float32 n2,edk::float32 distance){
+        return (n1>=n2-distance && n1<=n2+distance);edkEnd();
+    }
+    static inline bool isEqual(edk::float64 n1,edk::float64 n2,edk::float64 distance){
+        return (n1>=n2-distance && n1<=n2+distance);edkEnd();
+    }
     static inline bool equal(edk::char8 n1 ,edk::char8 n2){
         return (n1==n2);edkEnd();
     }
@@ -123,6 +129,12 @@ public:
     }
     static inline bool equal(edk::float64 n1,edk::float64 n2){
         return (n1>=n2-0.000001f && n1<=n2+0.000001f);edkEnd();
+    }
+    static inline bool equal(edk::float32 n1,edk::float32 n2,edk::float32 distance){
+        return (n1>=n2-distance && n1<=n2+distance);edkEnd();
+    }
+    static inline bool equal(edk::float64 n1,edk::float64 n2,edk::float64 distance){
+        return (n1>=n2-distance && n1<=n2+distance);edkEnd();
     }
 
     static inline bool isEven(edk::char8  n){
@@ -598,18 +610,18 @@ public:
     static edk::float32 getAngle(edk::float32 x,edk::float32 y);
     static edk::float32 getAngle(edk::vec2f32 vec);
     //Return the 2D Angle between 2 vectors
-    static edk::float32 getAngleDist(edk::float32 x1,edk::float32 y1,
+    static edk::float32 getAngleDistanceModule(edk::float32 x1,edk::float32 y1,
                                      edk::float32 x2,edk::float32 y2
                                      );
-    static edk::float32 getAngleDist(edk::vec2f32 vec1,edk::vec2f32 vec2);
-    static edk::float32 getAngleDist(edk::float32 x1,edk::float32 y1,edk::float32 z1,
+    static edk::float32 getAngleDistanceModule(edk::vec2f32 vec1,edk::vec2f32 vec2);
+    static edk::float32 getAngleDistanceModule(edk::float32 x1,edk::float32 y1,edk::float32 z1,
                                      edk::float32 x2,edk::float32 y2,edk::float32 z2
                                      );
-    static edk::float32 getAngleDist(edk::vec3f32 vec1,edk::vec3f32 vec2);
-    static edk::float32 getAngleDist(edk::float32 x1,edk::float32 y1,edk::float32 z1,edk::float32 w1,
+    static edk::float32 getAngleDistanceModule(edk::vec3f32 vec1,edk::vec3f32 vec2);
+    static edk::float32 getAngleDistanceModule(edk::float32 x1,edk::float32 y1,edk::float32 z1,edk::float32 w1,
                                      edk::float32 x2,edk::float32 y2,edk::float32 z2,edk::float32 w2
                                      );
-    static edk::float32 getAngleDist(edk::vec4f32 vec1,edk::vec4f32 vec2);
+    static edk::float32 getAngleDistanceModule(edk::vec4f32 vec1,edk::vec4f32 vec2);
 
     //RightHand to find if the point is on the right or left
     static edk::float32 getAngleDistance(edk::float32 x1,edk::float32 y1,

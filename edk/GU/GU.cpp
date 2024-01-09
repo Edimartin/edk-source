@@ -1165,6 +1165,190 @@ void edk::GU::guVertexNormal3f64(edk::float64 x,edk::float64 y,edk::float64 z){
     glNormal3d(x,y,z);
     edk::GU_GLSL::mut.unlock();
 }
+void edk::GU::guVertexCurve2Lines(edk::shape::Curve2D curve,edk::uint32 cuts){
+    edk::float32 increment = 1.f/(cuts+2u);
+    edk::vec2f32 point1,point2;
+    edk::float32 percent1 = 0.f;
+    for(edk::float32 percent2 = increment;percent1<1.f;percent1=percent2,percent2+=increment){
+        point1 = curve.getPoint(percent1);
+        point2 = curve.getPoint(percent2);
+        edk::GU::guVertex2f32(point1.x,point1.y);
+        edk::GU::guVertex2f32(point2.x,point2.y);
+    }
+    point1 = curve.getPoint(percent1);
+    point2 = curve.getPoint(1.f);
+    edk::GU::guVertex2f32(point1.x,point1.y);
+    edk::GU::guVertex2f32(point2.x,point2.y);
+}
+void edk::GU::guVertexCurve3Lines(edk::shape::Curve3D curve,edk::uint32 cuts){
+    edk::float32 increment = 1.f/(cuts+2u);
+    edk::vec3f32 point1,point2;
+    edk::float32 percent1 = 0.f;
+    for(edk::float32 percent2 = increment;percent1<1.f;percent1=percent2,percent2+=increment){
+        point1 = curve.getPoint(percent1);
+        point2 = curve.getPoint(percent2);
+        edk::GU::guVertex3f32(point1.x,point1.y,point1.z);
+        edk::GU::guVertex3f32(point2.x,point2.y,point2.z);
+    }
+    point1 = curve.getPoint(percent1);
+    point2 = curve.getPoint(1.f);
+    edk::GU::guVertex3f32(point1.x,point1.y,point1.z);
+    edk::GU::guVertex3f32(point2.x,point2.y,point2.z);
+}
+void edk::GU::guVertexCurve2LineStrip(edk::shape::Curve2D curve,edk::uint32 cuts){
+    edk::float32 increment = 1.f/(cuts+2u);
+    edk::vec2f32 point;
+    for(edk::float32 percent = 0.f;percent<=1.f;percent+=increment){
+        point = curve.getPoint(percent);
+        edk::GU::guVertex2f32(point.x,point.y);
+    }
+}
+void edk::GU::guVertexCurve3LineStrip(edk::shape::Curve3D curve,edk::uint32 cuts){
+    edk::float32 increment = 1.f/(cuts+2u);
+    edk::vec3f32 point;
+    for(edk::float32 percent = 0.f;percent<=1.f;percent+=increment){
+        point = curve.getPoint(percent);
+        edk::GU::guVertex3f32(point.x,point.y,point.z);
+    }
+}
+void edk::GU::guVertexCurve2Lines(edk::shape::Bezier2D curve,edk::uint32 cuts){
+    edk::float32 increment = 1.f/(cuts+2u);
+    edk::vec2f32 point1,point2;
+    edk::float32 percent1 = 0.f;
+    for(edk::float32 percent2 = increment;percent1<1.f;percent1=percent2,percent2+=increment){
+        point1 = curve.getPoint(percent1);
+        point2 = curve.getPoint(percent2);
+        edk::GU::guVertex2f32(point1.x,point1.y);
+        edk::GU::guVertex2f32(point2.x,point2.y);
+    }
+    point1 = curve.getPoint(percent1);
+    point2 = curve.getPoint(1.f);
+    edk::GU::guVertex2f32(point1.x,point1.y);
+    edk::GU::guVertex2f32(point2.x,point2.y);
+}
+void edk::GU::guVertexCurve3Lines(edk::shape::Bezier3D curve,edk::uint32 cuts){
+    edk::float32 increment = 1.f/(cuts+2u);
+    edk::vec3f32 point1,point2;
+    edk::float32 percent1 = 0.f;
+    for(edk::float32 percent2 = increment;percent1<1.f;percent1=percent2,percent2+=increment){
+        point1 = curve.getPoint(percent1);
+        point2 = curve.getPoint(percent2);
+        edk::GU::guVertex3f32(point1.x,point1.y,point1.z);
+        edk::GU::guVertex3f32(point2.x,point2.y,point2.z);
+    }
+    point1 = curve.getPoint(percent1);
+    point2 = curve.getPoint(1.f);
+    edk::GU::guVertex3f32(point1.x,point1.y,point1.z);
+    edk::GU::guVertex3f32(point2.x,point2.y,point2.z);
+}
+void edk::GU::guVertexCurve2LineStrip(edk::shape::Bezier2D curve,edk::uint32 cuts){
+    edk::float32 increment = 1.f/(cuts+2u);
+    edk::vec2f32 point;
+    for(edk::float32 percent = 0.f;percent<=1.f;percent+=increment){
+        point = curve.getPoint(percent);
+        edk::GU::guVertex2f32(point.x,point.y);
+    }
+}
+void edk::GU::guVertexCurve3LineStrip(edk::shape::Bezier3D curve,edk::uint32 cuts){
+    edk::float32 increment = 1.f/(cuts+2u);
+    edk::vec3f32 point;
+    for(edk::float32 percent = 0.f;percent<=1.f;percent+=increment){
+        point = curve.getPoint(percent);
+        edk::GU::guVertex3f32(point.x,point.y,point.z);
+    }
+}
+void edk::GU::guVertexCurve2Lines(edk::shape::Catmull2D curve,edk::uint32 cuts){
+    edk::float32 increment = 1.f/(cuts+2u);
+    edk::vec2f32 point1,point2;
+    edk::float32 percent1 = 0.f;
+    for(edk::float32 percent2 = increment;percent1<1.f;percent1=percent2,percent2+=increment){
+        point1 = curve.getPoint(percent1);
+        point2 = curve.getPoint(percent2);
+        edk::GU::guVertex2f32(point1.x,point1.y);
+        edk::GU::guVertex2f32(point2.x,point2.y);
+    }
+    point1 = curve.getPoint(percent1);
+    point2 = curve.getPoint(1.f);
+    edk::GU::guVertex2f32(point1.x,point1.y);
+    edk::GU::guVertex2f32(point2.x,point2.y);
+}
+void edk::GU::guVertexCurve3Lines(edk::shape::Catmull3D curve,edk::uint32 cuts){
+    edk::float32 increment = 1.f/(cuts+2u);
+    edk::vec3f32 point1,point2;
+    edk::float32 percent1 = 0.f;
+    for(edk::float32 percent2 = increment;percent1<1.f;percent1=percent2,percent2+=increment){
+        point1 = curve.getPoint(percent1);
+        point2 = curve.getPoint(percent2);
+        edk::GU::guVertex3f32(point1.x,point1.y,point1.z);
+        edk::GU::guVertex3f32(point2.x,point2.y,point2.z);
+    }
+    point1 = curve.getPoint(percent1);
+    point2 = curve.getPoint(1.f);
+    edk::GU::guVertex3f32(point1.x,point1.y,point1.z);
+    edk::GU::guVertex3f32(point2.x,point2.y,point2.z);
+}
+void edk::GU::guVertexCurve2LineStrip(edk::shape::Catmull2D curve,edk::uint32 cuts){
+    edk::float32 increment = 1.f/(cuts+2u);
+    edk::vec2f32 point;
+    for(edk::float32 percent = 0.f;percent<=1.f;percent+=increment){
+        point = curve.getPoint(percent);
+        edk::GU::guVertex2f32(point.x,point.y);
+    }
+}
+void edk::GU::guVertexCurve3LineStrip(edk::shape::Catmull3D curve,edk::uint32 cuts){
+    edk::float32 increment = 1.f/(cuts+2u);
+    edk::vec3f32 point;
+    for(edk::float32 percent = 0.f;percent<=1.f;percent+=increment){
+        point = curve.getPoint(percent);
+        edk::GU::guVertex3f32(point.x,point.y,point.z);
+    }
+}
+void edk::GU::guVertexCurve2Lines(edk::shape::Hermite2D curve,edk::uint32 cuts){
+    edk::float32 increment = 1.f/(cuts+2u);
+    edk::vec2f32 point1,point2;
+    edk::float32 percent1 = 0.f;
+    for(edk::float32 percent2 = increment;percent1<1.f;percent1=percent2,percent2+=increment){
+        point1 = curve.getPoint(percent1);
+        point2 = curve.getPoint(percent2);
+        edk::GU::guVertex2f32(point1.x,point1.y);
+        edk::GU::guVertex2f32(point2.x,point2.y);
+    }
+    point1 = curve.getPoint(percent1);
+    point2 = curve.getPoint(1.f);
+    edk::GU::guVertex2f32(point1.x,point1.y);
+    edk::GU::guVertex2f32(point2.x,point2.y);
+}
+void edk::GU::guVertexCurve3Lines(edk::shape::Hermite3D curve,edk::uint32 cuts){
+    edk::float32 increment = 1.f/(cuts+2u);
+    edk::vec3f32 point1,point2;
+    edk::float32 percent1 = 0.f;
+    for(edk::float32 percent2 = increment;percent1<1.f;percent1=percent2,percent2+=increment){
+        point1 = curve.getPoint(percent1);
+        point2 = curve.getPoint(percent2);
+        edk::GU::guVertex3f32(point1.x,point1.y,point1.z);
+        edk::GU::guVertex3f32(point2.x,point2.y,point2.z);
+    }
+    point1 = curve.getPoint(percent1);
+    point2 = curve.getPoint(1.f);
+    edk::GU::guVertex3f32(point1.x,point1.y,point1.z);
+    edk::GU::guVertex3f32(point2.x,point2.y,point2.z);
+}
+void edk::GU::guVertexCurve2LineStrip(edk::shape::Hermite2D curve,edk::uint32 cuts){
+    edk::float32 increment = 1.f/(cuts+2u);
+    edk::vec2f32 point;
+    for(edk::float32 percent = 0.f;percent<=1.f;percent+=increment){
+        point = curve.getPoint(percent);
+        edk::GU::guVertex2f32(point.x,point.y);
+    }
+}
+void edk::GU::guVertexCurve3LineStrip(edk::shape::Hermite3D curve,edk::uint32 cuts){
+    edk::float32 increment = 1.f/(cuts+2u);
+    edk::vec3f32 point;
+    for(edk::float32 percent = 0.f;percent<=1.f;percent+=increment){
+        point = curve.getPoint(percent);
+        edk::GU::guVertex3f32(point.x,point.y,point.z);
+    }
+}
 
 // LIGHTING
 void edk::GU::guShadeModel( edk::uint32 model ){
@@ -1350,6 +1534,88 @@ void edk::GU::guVertexTex4f64(edk::float64 x,edk::float64 y,edk::float64 z,edk::
     edk::GU_GLSL::mut.lock();
     glTexCoord4d(x,y,z,w);
     edk::GU_GLSL::mut.unlock();
+}
+
+//LINES
+void edk::GU::guDrawCurve2Lines(edk::shape::Curve2D curve,edk::uint32 cuts){
+    edk::GU::guBegin(GU_LINES);
+    edk::GU::guVertexCurve2Lines(curve,cuts);
+    edk::GU::guEnd();
+}
+void edk::GU::guDrawCurve3Lines(edk::shape::Curve3D curve,edk::uint32 cuts){
+    edk::GU::guBegin(GU_LINES);
+    edk::GU::guVertexCurve3Lines(curve,cuts);
+    edk::GU::guEnd();
+}
+void edk::GU::guDrawCurve2LineStrip(edk::shape::Curve2D curve,edk::uint32 cuts){
+    edk::GU::guBegin(GU_LINE_STRIP);
+    edk::GU::guVertexCurve2LineStrip(curve,cuts);
+    edk::GU::guEnd();
+}
+void edk::GU::guDrawCurve3LineStrip(edk::shape::Curve3D curve,edk::uint32 cuts){
+    edk::GU::guBegin(GU_LINE_STRIP);
+    edk::GU::guVertexCurve3LineStrip(curve,cuts);
+    edk::GU::guEnd();
+}
+void edk::GU::guDrawCurve2Lines(edk::shape::Bezier2D curve,edk::uint32 cuts){
+    edk::GU::guBegin(GU_LINES);
+    edk::GU::guVertexCurve2Lines(curve,cuts);
+    edk::GU::guEnd();
+}
+void edk::GU::guDrawCurve3Lines(edk::shape::Bezier3D curve,edk::uint32 cuts){
+    edk::GU::guBegin(GU_LINES);
+    edk::GU::guVertexCurve3Lines(curve,cuts);
+    edk::GU::guEnd();
+}
+void edk::GU::guDrawCurve2LineStrip(edk::shape::Bezier2D curve,edk::uint32 cuts){
+    edk::GU::guBegin(GU_LINE_STRIP);
+    edk::GU::guVertexCurve2LineStrip(curve,cuts);
+    edk::GU::guEnd();
+}
+void edk::GU::guDrawCurve3LineStrip(edk::shape::Bezier3D curve,edk::uint32 cuts){
+    edk::GU::guBegin(GU_LINE_STRIP);
+    edk::GU::guVertexCurve3LineStrip(curve,cuts);
+    edk::GU::guEnd();
+}
+void edk::GU::guDrawCurve2Lines(edk::shape::Catmull2D curve,edk::uint32 cuts){
+    edk::GU::guBegin(GU_LINES);
+    edk::GU::guVertexCurve2Lines(curve,cuts);
+    edk::GU::guEnd();
+}
+void edk::GU::guDrawCurve3Lines(edk::shape::Catmull3D curve,edk::uint32 cuts){
+    edk::GU::guBegin(GU_LINES);
+    edk::GU::guVertexCurve3Lines(curve,cuts);
+    edk::GU::guEnd();
+}
+void edk::GU::guDrawCurve2LineStrip(edk::shape::Catmull2D curve,edk::uint32 cuts){
+    edk::GU::guBegin(GU_LINE_STRIP);
+    edk::GU::guVertexCurve2LineStrip(curve,cuts);
+    edk::GU::guEnd();
+}
+void edk::GU::guDrawCurve3LineStrip(edk::shape::Catmull3D curve,edk::uint32 cuts){
+    edk::GU::guBegin(GU_LINE_STRIP);
+    edk::GU::guVertexCurve3LineStrip(curve,cuts);
+    edk::GU::guEnd();
+}
+void edk::GU::guDrawCurve2Lines(edk::shape::Hermite2D curve,edk::uint32 cuts){
+    edk::GU::guBegin(GU_LINES);
+    edk::GU::guVertexCurve2Lines(curve,cuts);
+    edk::GU::guEnd();
+}
+void edk::GU::guDrawCurve3Lines(edk::shape::Hermite3D curve,edk::uint32 cuts){
+    edk::GU::guBegin(GU_LINES);
+    edk::GU::guVertexCurve3Lines(curve,cuts);
+    edk::GU::guEnd();
+}
+void edk::GU::guDrawCurve2LineStrip(edk::shape::Hermite2D curve,edk::uint32 cuts){
+    edk::GU::guBegin(GU_LINE_STRIP);
+    edk::GU::guVertexCurve2LineStrip(curve,cuts);
+    edk::GU::guEnd();
+}
+void edk::GU::guDrawCurve3LineStrip(edk::shape::Hermite3D curve,edk::uint32 cuts){
+    edk::GU::guBegin(GU_LINE_STRIP);
+    edk::GU::guVertexCurve3LineStrip(curve,cuts);
+    edk::GU::guEnd();
 }
 
 //cullFace

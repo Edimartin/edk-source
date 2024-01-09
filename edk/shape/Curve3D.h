@@ -46,6 +46,16 @@ class Curve3D{
         Curve3D(edk::vec3f32 p1,edk::vec3f32 p2,edk::vec3f32 p3,edk::vec3f32 p4);
         virtual ~Curve3D();
 
+        //set one point position
+        bool setPoint(edk::uint8 position,edk::vec3f32 point);
+        void setPoint1(edk::vec3f32 point);
+        void setPoint2(edk::vec3f32 point);
+        void setPoint3(edk::vec3f32 point);
+        void setPoint4(edk::vec3f32 point);
+
+        //set points
+        void setPoints(edk::vec3f32 p1,edk::vec3f32 p2,edk::vec3f32 p3,edk::vec3f32 p4);
+
         //return the point
         virtual edk::vec3f32 getPoint(edk::float32 percent);
 

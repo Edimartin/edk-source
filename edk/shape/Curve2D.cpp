@@ -87,8 +87,19 @@ void edk::shape::Curve2D::setPoints(edk::vec2f32 p1,edk::vec2f32 p2,edk::vec2f32
 
 //return the point
 edk::vec2f32 edk::shape::Curve2D::getPoint(edk::float32 percent){
-    if(percent){
-        return edk::vec2f32();edkEnd();
+    if(percent>-0.001f){
+        if(percent>0.75f){
+            return this->point4;edkEnd();
+        }
+        else if(percent>0.50f){
+            return this->point3;edkEnd();
+        }
+        else if(percent>0.25f){
+            return this->point2;edkEnd();
+        }
+        else{
+            return this->point1;edkEnd();
+        }
     }
     //return a zero point
     return edk::vec2f32();edkEnd();

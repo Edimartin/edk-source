@@ -581,36 +581,36 @@ edk::float32 edk::Math::getAngle(edk::vec2f32 vec){
     return 0.0f;edkEnd();
 }
 //Return the 2D Angle between 2 vectors
-edk::float32 edk::Math::getAngleDist(edk::float32 x1,edk::float32 y1,
+edk::float32 edk::Math::getAngleDistanceModule(edk::float32 x1,edk::float32 y1,
                                      edk::float32 x2,edk::float32 y2
                                      ){
-    return edk::Math::getAngleDist(edk::vec2f32(x1,y1),edk::vec2f32(x2,y2));edkEnd();
+    return edk::Math::getAngleDistanceModule(edk::vec2f32(x1,y1),edk::vec2f32(x2,y2));edkEnd();
 }
-edk::float32 edk::Math::getAngleDist(edk::vec2f32 vec1,edk::vec2f32 vec2){
+edk::float32 edk::Math::getAngleDistanceModule(edk::vec2f32 vec1,edk::vec2f32 vec2){
     //
     if(vec1==vec2){
         return 0.f;
     }
     return edk::Math::arcCosin(( edk::Math::pythagoras(vec1) * edk::Math::pythagoras(vec2)),edk::Math::dotProduct(vec1,vec2));edkEnd();
 }
-edk::float32 edk::Math::getAngleDist(edk::float32 x1,edk::float32 y1,edk::float32 z1,
+edk::float32 edk::Math::getAngleDistanceModule(edk::float32 x1,edk::float32 y1,edk::float32 z1,
                                      edk::float32 x2,edk::float32 y2,edk::float32 z2
                                      ){
-    return edk::Math::getAngleDist(edk::vec3f32(x1,y1,z1),edk::vec3f32(x2,y2,z2));edkEnd();
+    return edk::Math::getAngleDistanceModule(edk::vec3f32(x1,y1,z1),edk::vec3f32(x2,y2,z2));edkEnd();
 }
-edk::float32 edk::Math::getAngleDist(edk::vec3f32 vec1,edk::vec3f32 vec2){
+edk::float32 edk::Math::getAngleDistanceModule(edk::vec3f32 vec1,edk::vec3f32 vec2){
     //
     if(vec1==vec2){
         return 0.f;
     }
     return edk::Math::arcCosin(( edk::Math::pythagoras(vec1) * edk::Math::pythagoras(vec2)),edk::Math::dotProduct(vec1,vec2));edkEnd();
 }
-edk::float32 edk::Math::getAngleDist(edk::float32 x1,edk::float32 y1,edk::float32 z1,edk::float32 w1,
+edk::float32 edk::Math::getAngleDistanceModule(edk::float32 x1,edk::float32 y1,edk::float32 z1,edk::float32 w1,
                                      edk::float32 x2,edk::float32 y2,edk::float32 z2,edk::float32 w2
                                      ){
-    return edk::Math::getAngleDist(edk::vec4f32(x1,y1,z1,w1),edk::vec4f32(x2,y2,z2,w2));edkEnd();
+    return edk::Math::getAngleDistanceModule(edk::vec4f32(x1,y1,z1,w1),edk::vec4f32(x2,y2,z2,w2));edkEnd();
 }
-edk::float32 edk::Math::getAngleDist(edk::vec4f32 vec1,edk::vec4f32 vec2){
+edk::float32 edk::Math::getAngleDistanceModule(edk::vec4f32 vec1,edk::vec4f32 vec2){
     //
     if(vec1==vec2){
         return 0.f;
