@@ -234,6 +234,7 @@ void edk::animation::ParticlesPoint2D::TreeParticles::pauseParticles(){
 }
 
 edk::animation::ParticlesPoint2D::ParticlesPoint2D(){
+    this->isOne=false;
     this->blow = 1u;edkEnd();
     this->particles=NULL;edkEnd();
     this->nextParticle=0u;
@@ -389,12 +390,15 @@ bool edk::animation::ParticlesPoint2D::loadParticles(edk::uint32 size){
     this->cleanParticles();edkEnd();
     if(size){
         //create the new particles
-        this->particles = (edk::animation::ParticlesPoint2D::ParticleObject*)malloc(sizeof(edk::animation::ParticlesPoint2D::ParticleObject)*size);edkEnd();
+        this->particles = new edk::animation::ParticlesPoint2D::ParticleObject[size];edkEnd();
         if(this->particles){
             this->sizeParticles = size;edkEnd();
             //set the objects
             for(register edk::uint32 i = 0u;i<this->sizeParticles;i++){
                 this->particles[i].setObject(&this->obj);edkEnd();
+            }
+            if(this->sizeParticles==1u){
+                this->isOne=true;
             }
             return true;
         }
@@ -405,17 +409,24 @@ bool edk::animation::ParticlesPoint2D::loadParticles(edk::uint32 size){
 void edk::animation::ParticlesPoint2D::cleanParticles(){
     if(this->particles){
         this->stop();edkEnd();
-        free(this->particles);edkEnd();
+        if(this->isOne){
+            delete this->particles;edkEnd();
+        }
+        else{
+            delete[] this->particles;edkEnd();
+        }
         this->particles=NULL;edkEnd();
     }
     this->sizeParticles = 0u;edkEnd();
     this->nextParticle=0u;
+    this->isOne=false;
 }
 
 //player
 void edk::animation::ParticlesPoint2D::play(){
     //
     this->isPlayingBlower = true;edkEnd();
+    this->time.start();edkEnd();
     //this->isPlayingParticles=true;edkEnd();
 }
 void edk::animation::ParticlesPoint2D::pause(){
@@ -465,14 +476,16 @@ bool edk::animation::ParticlesPoint2D::isPlaying(){
 }
 
 void edk::animation::ParticlesPoint2D::update(){
-    edk::float32 second = (edk::float32)this->time.getMicroseconds() / (edk::float32)edk::watch::second;edkEnd();
-
+    edk::float32 second = (edk::float32)this->time.getMicroseconds() / (edk::float32)edk::watch::second;edkEnd();edkEnd();
+    this->update(second);edkEnd();
+    this->time.start();edkEnd();
+}
+void edk::animation::ParticlesPoint2D::update(edk::float32 seconds){
     this->saveLastSecond = this->lastSecond;edkEnd();
 
-    this->lastSecond = second;edkEnd();
+    this->lastSecond = seconds;edkEnd();
     if(this->isPlayingBlower && this->particles){
-        if(second > this->timeLimit){
-            this->time.start();edkEnd();
+        if(seconds > this->timeLimit){
             this->lastSecond = 0.f;edkEnd();
 
             for(edk::uint32 i=0u;i<this->blow;i++){
@@ -510,12 +523,11 @@ void edk::animation::ParticlesPoint2D::update(){
         }
     }
     else{
-        this->time.start();edkEnd();
         this->lastSecond = 0.f;edkEnd();
     }
 
     //update the tree
-    this->treeParticles.updateParticles(second - this->saveLastSecond);edkEnd();
+    this->treeParticles.updateParticles(seconds - this->saveLastSecond);edkEnd();
 }
 void edk::animation::ParticlesPoint2D::draw(){
     this->treeParticles.render();edkEnd();
@@ -549,6 +561,9 @@ void edk::animation::ParticlesPoint2D::drawPivo(edk::float32 size,edk::color3f32
     //
     edk::GU::guPopMatrix();edkEnd();
 }
+void edk::animation::ParticlesPoint2D::drawPivo(edk::float32 size,edk::float32 r,edk::float32 g,edk::float32 b){
+    this->drawPivo(size,edk::color3f32(r,g,b));
+}
 //draw the angles vector
 void edk::animation::ParticlesPoint2D::drawAngles(edk::float32 size,edk::color3f32 color){
     edk::GU::guPushMatrix();edkEnd();
@@ -577,6 +592,9 @@ void edk::animation::ParticlesPoint2D::drawAngles(edk::float32 size,edk::color3f
 
     //
     edk::GU::guPopMatrix();edkEnd();
+}
+void edk::animation::ParticlesPoint2D::drawAngles(edk::float32 size,edk::float32 r,edk::float32 g,edk::float32 b){
+    return this->drawAngles(size,edk::color3f32(r,g,b));
 }
 //update the particle
 void edk::animation::ParticlesPoint2D::updateParticle(edk::animation::ParticlesPoint2D::ParticleObject*){

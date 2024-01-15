@@ -93,11 +93,14 @@ public:
     bool isPlaying();
 
     void update();
+    void update(edk::float32 seconds);
     void draw();
     //draw the pivo
     void drawPivo(edk::float32 size,edk::color3f32 color);
+    void drawPivo(edk::float32 size,edk::float32 r,edk::float32 g,edk::float32 b);
     //draw the angles vector
     virtual void drawAngles(edk::float32 size,edk::color3f32 color);
+    virtual void drawAngles(edk::float32 size,edk::float32 r,edk::float32 g,edk::float32 b);
 
     bool autoRotate;
 
@@ -163,7 +166,7 @@ private:
         bool setThis(edk::animation::ParticlesPoint2D* function);
         //animation
         //edk::animation::Interpolation2DGroup animPosition;
-        edk::animation::InterpolationGroup life;
+        edk::animation::Interpolation1DGroup life;
         edk::float32 lifeLimit;
         edk::vec2f32 direction;
         edk::vec2f32* gravity;
@@ -188,6 +191,7 @@ private:
     edk::animation::ParticlesPoint2D::ParticleObject* particles;
     edk::uint32 nextParticle;
     edk::uint32 sizeParticles;
+    bool isOne;
 
     //tree with particles on scene
     class TreeParticles: public edk::vector::BinaryTree<edk::animation::ParticlesPoint2D::ParticleObject*>{

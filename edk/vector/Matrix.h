@@ -48,6 +48,11 @@ template <class typeTemplate>
 class MatrixDynamic{
 public:
     MatrixDynamic(){
+        this->isClass = edk::ID<typeTemplate>::isClass();edkEnd();
+        this->isOneW=false;edkEnd();
+        this->isOneH=false;edkEnd();
+        this->isOneWDest=false;edkEnd();
+        this->isOneHDest=false;edkEnd();
         this->canDeleteVector=true;edkEnd();
         this->matrixSize = 0u;edkEnd();
         //set the matrix to NULL
@@ -56,6 +61,11 @@ public:
         //set can delete vector
     }
     MatrixDynamic(edk::size2f32 size){
+        this->isClass = edk::ID<typeTemplate>::isClass();edkEnd();
+        this->isOneW=false;edkEnd();
+        this->isOneH=false;edkEnd();
+        this->isOneWDest=false;edkEnd();
+        this->isOneHDest=false;edkEnd();
         this->canDeleteVector=true;edkEnd();
         //set the matrix to NULL
         this->matrix=NULL;edkEnd();
@@ -64,6 +74,11 @@ public:
         this->createMatrix(size);edkEnd();
     }
     MatrixDynamic(edk::uint32 width,edk::uint32 height){
+        this->isClass = edk::ID<typeTemplate>::isClass();edkEnd();
+        this->isOneW=false;edkEnd();
+        this->isOneH=false;edkEnd();
+        this->isOneWDest=false;edkEnd();
+        this->isOneHDest=false;edkEnd();
         this->canDeleteVector=true;edkEnd();
         //set the matrix to NULL
         this->matrix=NULL;edkEnd();
@@ -88,25 +103,63 @@ public:
 
         //Test the size
         if(size.width && size.height){
-            this->matrix = (typeTemplate**)malloc(sizeof(typeTemplate*)*size.height);edkEnd();
-            if(this->matrix){
-                memset(this->matrix,0u,sizeof(typeTemplate)*size.height);edkEnd();
-                for(edk::uint32 i=0u;i<size.height;i++){
-                    this->matrix[i] = (typeTemplate*)malloc(sizeof(typeTemplate)*size.width);edkEnd();
-                    if(this->matrix[i]){
-                        memset(this->matrix[i],0u,sizeof(typeTemplate)*size.width);edkEnd();
-                    }
-                    else{
-                        for(edk::uint32 j=i+1u;i>0u;j--){
-                            //delete the matrix
-                            free(this->matrix[j]);edkEnd();
+            if(this->isClass){
+                this->matrix = (typeTemplate**)malloc(sizeof(typeTemplate*)*size.height);edkEnd();
+                if(this->matrix){
+                    memset(this->matrix,0u,sizeof(typeTemplate)*size.height);edkEnd();
+                    for(edk::uint32 i=0u;i<size.height;i++){
+                        this->matrix[i] = new typeTemplate[size.width];edkEnd();
+                        if(this->matrix[i]){
+                            //don't clean a class
+                            //memset(this->matrix[i],0u,sizeof(typeTemplate)*size.width);edkEnd();
                         }
-                        free(this->matrix);edkEnd();
-                        return false;
+                        else{
+                            for(edk::uint32 j=i+1u;i>0u;j--){
+                                //delete the matrix
+                                if(size.width>1u){
+                                    delete[] this->matrix[j];edkEnd();
+                                }
+                                else{
+                                    delete this->matrix[j];edkEnd();
+                                }
+                            }
+                            free(this->matrix);edkEnd();
+                            return false;
+                        }
                     }
+                    this->matrixSize = size;edkEnd();
+
+                    if(size.width==1u){
+                        this->isOneW=true;
+                    }
+                    if(size.height==1u){
+                        this->isOneH=true;
+                    }
+
+                    return true;
                 }
-                this->matrixSize = size;edkEnd();
-                return true;
+            }
+            else{
+                this->matrix = (typeTemplate**)malloc(sizeof(typeTemplate*)*size.height);edkEnd();
+                if(this->matrix){
+                    memset(this->matrix,0u,sizeof(typeTemplate)*size.height);edkEnd();
+                    for(edk::uint32 i=0u;i<size.height;i++){
+                        this->matrix[i] = (typeTemplate*)malloc(sizeof(typeTemplate)*size.width);edkEnd();
+                        if(this->matrix[i]){
+                            memset(this->matrix[i],0u,sizeof(typeTemplate)*size.width);edkEnd();
+                        }
+                        else{
+                            for(edk::uint32 j=i+1u;i>0u;j--){
+                                //delete the matrix
+                                free(this->matrix[j]);edkEnd();
+                            }
+                            free(this->matrix);edkEnd();
+                            return false;
+                        }
+                    }
+                    this->matrixSize = size;edkEnd();
+                    return true;
+                }
             }
         }
         //else return false
@@ -359,39 +412,91 @@ public:
                 //alloc the new matrix
                 edk::size2ui32 size = edk::size2ui32(matrix->matrixSize.width,this->matrixSize.height);edkEnd();
 
-                typeTemplate** newMatrix = (typeTemplate**)malloc(sizeof(typeTemplate*)*size.height);edkEnd();
-                if(newMatrix){
-                    memset(newMatrix,0u,sizeof(typeTemplate)*size.height);edkEnd();
-                    for(edk::uint32 y=0u;y<size.height;y++){
-                        newMatrix[y] = (typeTemplate*)malloc(sizeof(typeTemplate)*size.width);edkEnd();
-                        if(newMatrix[y]){
-                            memset(newMatrix[y],0u,sizeof(typeTemplate)*size.width);edkEnd();
-                            for(edk::uint32 x=0u;x<size.width;x++){
-                                //clean the value
-                                memset((void*)&destSum,0u,sizeof(typeTemplate));edkEnd();
-                                //multiply
-                                for(edk::uint32 i=0u;i<this->matrixSize.width;i++){
-                                    this->multiplyElement(&this->matrix[y][i],&matrix->matrix[i][x],&destMultiply);edkEnd();
-                                    this->sumElement(&destMultiply,&destSum,&destSum);edkEnd();
+             if(this->isClass){
+                    typeTemplate** newMatrix = (typeTemplate**)malloc(sizeof(typeTemplate*)*size.height);edkEnd();
+                    if(newMatrix){
+                        memset(newMatrix,0u,sizeof(typeTemplate)*size.height);edkEnd();
+                        for(edk::uint32 y=0u;y<size.height;y++){
+                            newMatrix[y] = new typeTemplate[size.width];edkEnd();
+                            if(newMatrix[y]){
+                                for(edk::uint32 x=0u;x<size.width;x++){
+                                    //multiply
+                                    for(edk::uint32 i=0u;i<this->matrixSize.width;i++){
+                                        this->multiplyElement(&this->matrix[y][i],&matrix->matrix[i][x],&destMultiply);edkEnd();
+                                        this->sumElement(&destMultiply,&destSum,&destSum);edkEnd();
+                                    }
+                                    //set the value
+                                    memcpy((void*)&newMatrix[y][x],&destSum,sizeof(typeTemplate));edkEnd();
                                 }
-                                //set the value
-                                memcpy((void*)&newMatrix[y][x],&destSum,sizeof(typeTemplate));edkEnd();
+                            }
+                            else{
+                                for(edk::uint32 j=y+1u;y>0u;j--){
+                                    //delete the matrix
+                                    if(size.height>1u){
+                                        delete[] newMatrix[j];edkEnd();
+                                    }
+                                    else{
+                                        delete newMatrix[j];edkEnd();
+                                    }
+                                }
+                                if(size.width>1u){
+                                    delete[] newMatrix;edkEnd();
+                                }
+                                else{
+                                    delete newMatrix;edkEnd();
+                                }
+                                return false;
                             }
                         }
-                        else{
-                            for(edk::uint32 j=y+1u;y>0u;j--){
-                                //delete the matrix
-                                free(newMatrix[j]);edkEnd();
-                            }
-                            free(newMatrix);edkEnd();
-                            return false;
+                        //in the end. delete the old matrix and copy the new matrix
+                        this->deleteMatrix();edkEnd();
+                        this->matrix = newMatrix;edkEnd();
+                        this->matrixSize = size;edkEnd();
+
+                        if(size.width==1u){
+                            this->isOneW=true;edkEnd();
                         }
+                        if(size.height==1u){
+                            this->isOneH=true;edkEnd();
+                        }
+                        return true;
                     }
-                    //in the end. delete the old matrix and copy the new matrix
-                    this->deleteMatrix();edkEnd();
-                    this->matrix = newMatrix;edkEnd();
-                    this->matrixSize = size;edkEnd();
-                    return true;
+                }
+                else{
+                    typeTemplate** newMatrix = (typeTemplate**)malloc(sizeof(typeTemplate*)*size.height);edkEnd();
+                    if(newMatrix){
+                        memset(newMatrix,0u,sizeof(typeTemplate)*size.height);edkEnd();
+                        for(edk::uint32 y=0u;y<size.height;y++){
+                            newMatrix[y] = (typeTemplate*)malloc(sizeof(typeTemplate)*size.width);edkEnd();
+                            if(newMatrix[y]){
+                                memset(newMatrix[y],0u,sizeof(typeTemplate)*size.width);edkEnd();
+                                for(edk::uint32 x=0u;x<size.width;x++){
+                                    //clean the value
+                                    memset((void*)&destSum,0u,sizeof(typeTemplate));edkEnd();
+                                    //multiply
+                                    for(edk::uint32 i=0u;i<this->matrixSize.width;i++){
+                                        this->multiplyElement(&this->matrix[y][i],&matrix->matrix[i][x],&destMultiply);edkEnd();
+                                        this->sumElement(&destMultiply,&destSum,&destSum);edkEnd();
+                                    }
+                                    //set the value
+                                    memcpy((void*)&newMatrix[y][x],&destSum,sizeof(typeTemplate));edkEnd();
+                                }
+                            }
+                            else{
+                                for(edk::uint32 j=y+1u;y>0u;j--){
+                                    //delete the matrix
+                                    free(newMatrix[j]);edkEnd();
+                                }
+                                free(newMatrix);edkEnd();
+                                return false;
+                            }
+                        }
+                        //in the end. delete the old matrix and copy the new matrix
+                        this->deleteMatrix();edkEnd();
+                        this->matrix = newMatrix;edkEnd();
+                        this->matrixSize = size;edkEnd();
+                        return true;
+                    }
                 }
             }
         }
@@ -430,39 +535,91 @@ public:
                 //alloc the new matrix
                 edk::size2ui32 size = edk::size2ui32(this->matrixSize.width,matrix->matrixSize.height);edkEnd();
 
-                typeTemplate** newMatrix = (typeTemplate**)malloc(sizeof(typeTemplate*)*size.height);edkEnd();
-                if(newMatrix){
-                    memset(newMatrix,0u,sizeof(typeTemplate)*size.height);edkEnd();
-                    for(edk::uint32 y=0u;y<size.height;y++){
-                        newMatrix[y] = (typeTemplate*)malloc(sizeof(typeTemplate)*size.width);edkEnd();
-                        if(newMatrix[y]){
-                            memset(newMatrix[y],0u,sizeof(typeTemplate)*size.width);edkEnd();
-                            for(edk::uint32 x=0u;x<size.width;x++){
-                                //clean the value
-                                memset((void*)&destSum,0u,sizeof(typeTemplate));edkEnd();
-                                //multiply
-                                for(edk::uint32 i=0u;i<matrix->matrixSize.width;i++){
-                                    this->multiplyElement(&matrix->matrix[y][i],&this->matrix[i][x],&destMultiply);edkEnd();
-                                    this->sumElement(&destMultiply,&destSum,&destSum);edkEnd();
+                if(this->isClass){
+                    typeTemplate** newMatrix = (typeTemplate**)malloc(sizeof(typeTemplate*)*size.height);edkEnd();
+                    if(newMatrix){
+                        memset(newMatrix,0u,sizeof(typeTemplate)*size.height);edkEnd();
+                        for(edk::uint32 y=0u;y<size.height;y++){
+                            newMatrix[y] = new typeTemplate[size.width];edkEnd();
+                            if(newMatrix[y]){
+                                for(edk::uint32 x=0u;x<size.width;x++){
+                                    //multiply
+                                    for(edk::uint32 i=0u;i<matrix->matrixSize.width;i++){
+                                        this->multiplyElement(&matrix->matrix[y][i],&this->matrix[i][x],&destMultiply);edkEnd();
+                                        this->sumElement(&destMultiply,&destSum,&destSum);edkEnd();
+                                    }
+                                    //set the value
+                                    memcpy((void*)&newMatrix[y][x],&destSum,sizeof(typeTemplate));edkEnd();
                                 }
-                                //set the value
-                                memcpy((void*)&newMatrix[y][x],&destSum,sizeof(typeTemplate));edkEnd();
+                            }
+                            else{
+                                for(edk::uint32 j=y+1u;y>0u;j--){
+                                    //delete the matrix
+                                    if(size.height>1u){
+                                        delete[] newMatrix[j];edkEnd();
+                                    }
+                                    else{
+                                        delete newMatrix[j];edkEnd();
+                                    }
+                                }
+                                if(size.width>1u){
+                                    delete[] newMatrix;edkEnd();
+                                }
+                                else{
+                                    delete newMatrix;edkEnd();
+                                }
+                                return false;
                             }
                         }
-                        else{
-                            for(edk::uint32 j=y+1u;y>0u;j--){
-                                //delete the matrix
-                                free(newMatrix[j]);edkEnd();
-                            }
-                            free(newMatrix);edkEnd();
-                            return false;
+                        //in the end. delete the old matrix and copy the new matrix
+                        this->deleteMatrix();edkEnd();
+                        this->matrix = newMatrix;edkEnd();
+                        this->matrixSize = size;edkEnd();
+
+                        if(size.width==1u){
+                            this->isOneW=true;edkEnd();
                         }
+                        if(size.height==1u){
+                            this->isOneH=true;edkEnd();
+                        }
+                        return true;
                     }
-                    //in the end. delete the old matrix and copy the new matrix
-                    this->deleteMatrix();edkEnd();
-                    this->matrix = newMatrix;edkEnd();
-                    this->matrixSize = size;edkEnd();
-                    return true;
+                }
+                else{
+                    typeTemplate** newMatrix = (typeTemplate**)malloc(sizeof(typeTemplate*)*size.height);edkEnd();
+                    if(newMatrix){
+                        memset(newMatrix,0u,sizeof(typeTemplate)*size.height);edkEnd();
+                        for(edk::uint32 y=0u;y<size.height;y++){
+                            newMatrix[y] = (typeTemplate*)malloc(sizeof(typeTemplate)*size.width);edkEnd();
+                            if(newMatrix[y]){
+                                memset(newMatrix[y],0u,sizeof(typeTemplate)*size.width);edkEnd();
+                                for(edk::uint32 x=0u;x<size.width;x++){
+                                    //clean the value
+                                    memset((void*)&destSum,0u,sizeof(typeTemplate));edkEnd();
+                                    //multiply
+                                    for(edk::uint32 i=0u;i<matrix->matrixSize.width;i++){
+                                        this->multiplyElement(&matrix->matrix[y][i],&this->matrix[i][x],&destMultiply);edkEnd();
+                                        this->sumElement(&destMultiply,&destSum,&destSum);edkEnd();
+                                    }
+                                    //set the value
+                                    memcpy((void*)&newMatrix[y][x],&destSum,sizeof(typeTemplate));edkEnd();
+                                }
+                            }
+                            else{
+                                for(edk::uint32 j=y+1u;y>0u;j--){
+                                    //delete the matrix
+                                    free(newMatrix[j]);edkEnd();
+                                }
+                                free(newMatrix);edkEnd();
+                                return false;
+                            }
+                        }
+                        //in the end. delete the old matrix and copy the new matrix
+                        this->deleteMatrix();edkEnd();
+                        this->matrix = newMatrix;edkEnd();
+                        this->matrixSize = size;edkEnd();
+                        return true;
+                    }
                 }
             }
         }
@@ -515,39 +672,91 @@ public:
                 //alloc the new matrix
                 edk::size2ui32 size = edk::size2ui32(matrix2->matrixSize.width,matrix1->matrixSize.height);edkEnd();
 
-                typeTemplate** newMatrix = (typeTemplate**)malloc(sizeof(typeTemplate*)*size.height);edkEnd();
-                if(newMatrix){
-                    memset(newMatrix,0u,sizeof(typeTemplate)*size.height);edkEnd();
-                    for(edk::uint32 y=0u;y<size.height;y++){
-                        newMatrix[y] = (typeTemplate*)malloc(sizeof(typeTemplate)*size.width);edkEnd();
-                        if(newMatrix[y]){
-                            memset(newMatrix[y],0u,sizeof(typeTemplate)*size.width);edkEnd();
-                            for(edk::uint32 x=0u;x<size.width;x++){
-                                //clean the value
-                                memset((void*)&destSum,0u,sizeof(typeTemplate));edkEnd();
-                                //multiply
-                                for(edk::uint32 i=0u;i<matrix1->matrixSize.width;i++){
-                                    this->multiplyElement(&matrix1->matrix[y][i],&matrix2->matrix[i][x],&destMultiply);edkEnd();
-                                    this->sumElement(&destMultiply,&destSum,&destSum);edkEnd();
+                if(this->isClass){
+                    typeTemplate** newMatrix = (typeTemplate**)malloc(sizeof(typeTemplate*)*size.height);edkEnd();
+                    if(newMatrix){
+                        memset(newMatrix,0u,sizeof(typeTemplate)*size.height);edkEnd();
+                        for(edk::uint32 y=0u;y<size.height;y++){
+                            newMatrix[y] = new typeTemplate[size.width];edkEnd();
+                            if(newMatrix[y]){
+                                for(edk::uint32 x=0u;x<size.width;x++){
+                                    //multiply
+                                    for(edk::uint32 i=0u;i<matrix1->matrixSize.width;i++){
+                                        this->multiplyElement(&matrix1->matrix[y][i],&matrix2->matrix[i][x],&destMultiply);edkEnd();
+                                        this->sumElement(&destMultiply,&destSum,&destSum);edkEnd();
+                                    }
+                                    //set the value
+                                    memcpy((void*)&newMatrix[y][x],&destSum,sizeof(typeTemplate));edkEnd();
                                 }
-                                //set the value
-                                memcpy((void*)&newMatrix[y][x],&destSum,sizeof(typeTemplate));edkEnd();
+                            }
+                            else{
+                                for(edk::uint32 j=y+1u;y>0u;j--){
+                                    //delete the matrix
+                                    if(size.height>1u){
+                                        delete[] newMatrix[j];edkEnd();
+                                    }
+                                    else{
+                                        delete newMatrix[j];edkEnd();
+                                    }
+                                }
+                                if(size.width>1u){
+                                    delete[] newMatrix;edkEnd();
+                                }
+                                else{
+                                    delete newMatrix;edkEnd();
+                                }
+                                return false;
                             }
                         }
-                        else{
-                            for(edk::uint32 j=y+1u;y>0u;j--){
-                                //delete the matrix
-                                free(newMatrix[j]);edkEnd();
-                            }
-                            free(newMatrix);edkEnd();
-                            return false;
+                        //in the end. delete the old matrix and copy the new matrix
+                        this->deleteMatrix();edkEnd();
+                        this->matrix = newMatrix;edkEnd();
+                        this->matrixSize = size;edkEnd();
+
+                        if(size.width==1u){
+                            this->isOneW=true;edkEnd();
                         }
+                        if(size.height==1u){
+                            this->isOneH=true;edkEnd();
+                        }
+                        return true;
                     }
-                    //in the end. delete the old matrix and copy the new matrix
-                    this->deleteMatrix();edkEnd();
-                    this->matrix = newMatrix;edkEnd();
-                    this->matrixSize = size;edkEnd();
-                    return true;
+                }
+                else{
+                    typeTemplate** newMatrix = (typeTemplate**)malloc(sizeof(typeTemplate*)*size.height);edkEnd();
+                    if(newMatrix){
+                        memset(newMatrix,0u,sizeof(typeTemplate)*size.height);edkEnd();
+                        for(edk::uint32 y=0u;y<size.height;y++){
+                            newMatrix[y] = (typeTemplate*)malloc(sizeof(typeTemplate)*size.width);edkEnd();
+                            if(newMatrix[y]){
+                                memset(newMatrix[y],0u,sizeof(typeTemplate)*size.width);edkEnd();
+                                for(edk::uint32 x=0u;x<size.width;x++){
+                                    //clean the value
+                                    memset((void*)&destSum,0u,sizeof(typeTemplate));edkEnd();
+                                    //multiply
+                                    for(edk::uint32 i=0u;i<matrix1->matrixSize.width;i++){
+                                        this->multiplyElement(&matrix1->matrix[y][i],&matrix2->matrix[i][x],&destMultiply);edkEnd();
+                                        this->sumElement(&destMultiply,&destSum,&destSum);edkEnd();
+                                    }
+                                    //set the value
+                                    memcpy((void*)&newMatrix[y][x],&destSum,sizeof(typeTemplate));edkEnd();
+                                }
+                            }
+                            else{
+                                for(edk::uint32 j=y+1u;y>0u;j--){
+                                    //delete the matrix
+                                    free(newMatrix[j]);edkEnd();
+                                }
+                                free(newMatrix);edkEnd();
+                                return false;
+                            }
+                        }
+                        //in the end. delete the old matrix and copy the new matrix
+                        this->deleteMatrix();edkEnd();
+                        this->matrix = newMatrix;edkEnd();
+                        this->matrixSize = size;edkEnd();
+                        return true;
+                    }
                 }
             }
         }
@@ -573,15 +782,35 @@ public:
         //test if is alloc
         if(this->matrix){
             //
-            for(edk::uint32 i=0u;i<this->matrixSize.height;i++){
-                free(this->matrix[i]);edkEnd();
+            if(this->isClass){
+                for(edk::uint32 i=0u;i<this->matrixSize.height;i++){
+                    if(this->isOneH){
+                        delete this->matrix[i];edkEnd();
+                    }
+                    else{
+                        delete[] this->matrix[i];edkEnd();
+                    }
+                }
+                if(this->isOneH){
+                    delete this->matrix;edkEnd();
+                }
+                else{
+                    delete[] this->matrix;edkEnd();
+                }
             }
-            free(this->matrix);edkEnd();
+            else{
+                for(edk::uint32 i=0u;i<this->matrixSize.height;i++){
+                    free(this->matrix[i]);edkEnd();
+                }
+                free(this->matrix);edkEnd();
+            }
 
             this->deleteMatrixDest();edkEnd();
         }
         this->matrix=NULL;edkEnd();
         this->matrixSize=0u;edkEnd();
+        this->isOneW=false;edkEnd();
+        this->isOneH=false;edkEnd();
     }
 
     bool cloneFrom(edk::vector::MatrixDynamic<typeTemplate>* matrix){
@@ -683,6 +912,13 @@ private:
     edk::size2ui32 matrixSize;
     //test if can delete the vector
     bool canDeleteVector;
+
+    //test if the typeTemplete is a class
+    bool isClass;
+    bool isOneW;
+    bool isOneH;
+    bool isOneWDest;
+    bool isOneHDest;
 public:
     //cant
     void cantDeleteVector(){
@@ -694,10 +930,32 @@ public:
         if(this->matrixDest){
             //
             for(edk::uint32 i=0u;i<this->matrixSize.height;i++){
-                free(this->matrixDest[i]);edkEnd();
+                if(this->isClass){
+                    if(this->isOneHDest){
+                        delete this->matrixDest[i];edkEnd();
+                    }
+                    else{
+                        delete[] this->matrixDest[i];edkEnd();
+                    }
+                }
+                else{
+                    free(this->matrixDest[i]);edkEnd();
+                }
             }
-            free(this->matrixDest);edkEnd();
+            if(this->isClass){
+                if(this->isOneWDest){
+                    delete this->matrixDest;edkEnd();
+                }
+                else{
+                    delete[] this->matrixDest;edkEnd();
+                }
+            }
+            else{
+                free(this->matrixDest);edkEnd();
+            }
         }
+        this->isOneWDest=false;
+        this->isOneHDest=false;
         this->matrixDest=NULL;edkEnd();
     }
 
@@ -708,24 +966,62 @@ public:
 
         //Test the size
         if(this->matrixSize.width && this->matrixSize.height){
-            this->matrixDest = (typeTemplate**)malloc(sizeof(typeTemplate*)*this->matrixSize.height);edkEnd();
-            if(this->matrixDest){
-                memset(this->matrixDest,0u,sizeof(typeTemplate)*this->matrixSize.height);edkEnd();
-                for(edk::uint32 i=0u;i<matrixSize.height;i++){
-                    this->matrixDest[i] = (typeTemplate*)malloc(sizeof(typeTemplate)*this->matrixSize.width);edkEnd();
-                    if(this->matrixDest[i]){
-                        memset(this->matrixDest[i],0u,sizeof(typeTemplate)*this->matrixSize.width);edkEnd();
-                    }
-                    else{
-                        for(edk::uint32 j=i+1u;i>0u;j--){
-                            //delete the matrix
-                            free(this->matrixDest[j]);edkEnd();
+            if(this->isClass){
+                this->matrixDest = (typeTemplate**)malloc(sizeof(typeTemplate*)*this->matrixSize.height);edkEnd();
+                if(this->matrixDest){
+                    memset(this->matrixDest,0u,sizeof(typeTemplate)*this->matrixSize.height);edkEnd();
+                    for(edk::uint32 i=0u;i<matrixSize.height;i++){
+                        this->matrixDest[i] = new typeTemplate[this->matrixSize.width];edkEnd();
+                        if(this->matrixDest[i]){
+                            //don't set the matrix woth classes
+                            //memset(this->matrixDest[i],0u,sizeof(typeTemplate)*this->matrixSize.width);edkEnd();
                         }
-                        free(this->matrixDest);edkEnd();
-                        return false;
+                        else{
+                            for(edk::uint32 j=i+1u;i>0u;j--){
+                                //delete the matrix
+                                if(this->matrixSize.height>1u){
+                                    delete[] this->matrixDest[j];edkEnd();
+                                }else{
+                                    delete this->matrixDest[j];edkEnd();
+                                }
+                            }
+                            if(this->matrixSize.width>1u){
+                                delete[] this->matrixDest;edkEnd();
+                            }else{
+                                delete this->matrixDest;edkEnd();
+                            }
+                            return false;
+                        }
                     }
+                    if(this->matrixSize.width==1u){
+                        this->isOneWDest=true;
+                    }
+                    if(this->matrixSize.height==1u){
+                        this->isOneHDest=true;
+                    }
+                    return true;
                 }
-                return true;
+            }
+            else{
+                this->matrixDest = (typeTemplate**)malloc(sizeof(typeTemplate*)*this->matrixSize.height);edkEnd();
+                if(this->matrixDest){
+                    memset(this->matrixDest,0u,sizeof(typeTemplate)*this->matrixSize.height);edkEnd();
+                    for(edk::uint32 i=0u;i<matrixSize.height;i++){
+                        this->matrixDest[i] = (typeTemplate*)malloc(sizeof(typeTemplate)*this->matrixSize.width);edkEnd();
+                        if(this->matrixDest[i]){
+                            memset(this->matrixDest[i],0u,sizeof(typeTemplate)*this->matrixSize.width);edkEnd();
+                        }
+                        else{
+                            for(edk::uint32 j=i+1u;i>0u;j--){
+                                //delete the matrix
+                                free(this->matrixDest[j]);edkEnd();
+                            }
+                            free(this->matrixDest);edkEnd();
+                            return false;
+                        }
+                    }
+                    return true;
+                }
             }
         }
         //else return false

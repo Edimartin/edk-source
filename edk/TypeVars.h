@@ -3,6 +3,7 @@
 
 #pragma once
 #include <stdio.h>
+#include <typeinfo>
 
 /*
 Library C++ TypeVars - Data types used in EDK engine.
@@ -39,7 +40,8 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 /*TYPES USED BY EDK ENGINE*/
 namespace edk{
-//
+//#define edkSizeof(X) ((X*)0 +1)
+
 typedef void* classID;
 
 typedef unsigned int    typeID;
@@ -100,6 +102,236 @@ public:
             va_end (args);
             fflush(stdout);
         }
+    }
+};
+template <class c1,class c2>
+class IDs{
+public:
+    inline static bool equal(){
+        if(typeid(c1) == typeid(c2)){
+            return true;
+        }
+        return false;
+    }
+    inline static bool isEqual(){
+        if(typeid(c1) == typeid(c2)){
+            return true;
+        }
+        return false;
+    }
+    inline static bool areEqual(){
+        if(typeid(c1) == typeid(c2)){
+            return true;
+        }
+        return false;
+    }
+};
+template <class typeTemplate>
+class ID{
+public:
+    inline static void print(){
+        printf("%s",typeid(typeTemplate).name());
+    }
+    inline static edk::char8* getStr(){
+        return (edk::char8*)typeid(typeTemplate).name();
+    }
+    inline static bool isClass(){
+        if((edk::uint8)sizeof(typeTemplate)>8u){
+            return true;
+        }
+        else if(edk::IDs<        char                ,typeTemplate>::equal()
+                ||edk::IDs<      short               ,typeTemplate>::equal()
+                ||edk::IDs<      int                 ,typeTemplate>::equal()
+                ||edk::IDs<      long                ,typeTemplate>::equal()
+                ||edk::IDs<      long long           ,typeTemplate>::equal()
+                ||edk::IDs<      unsigned char       ,typeTemplate>::equal()
+                ||edk::IDs<const char*               ,typeTemplate>::equal()
+                ||edk::IDs<      unsigned short      ,typeTemplate>::equal()
+                ||edk::IDs<      unsigned int        ,typeTemplate>::equal()
+                ||edk::IDs<      unsigned long       ,typeTemplate>::equal()
+                ||edk::IDs<      unsigned long long  ,typeTemplate>::equal()
+                ||edk::IDs<void*                     ,typeTemplate>::equal()
+                ||edk::IDs<const unsigned short      ,typeTemplate>::equal()
+                //
+                ||edk::IDs<      char*               ,typeTemplate>::equal()
+                ||edk::IDs<      short*              ,typeTemplate>::equal()
+                ||edk::IDs<      int*                ,typeTemplate>::equal()
+                ||edk::IDs<      long*               ,typeTemplate>::equal()
+                ||edk::IDs<      long long*          ,typeTemplate>::equal()
+                ||edk::IDs<      unsigned char*      ,typeTemplate>::equal()
+                ||edk::IDs<      unsigned short*     ,typeTemplate>::equal()
+                //
+                ||edk::IDs<const char                ,typeTemplate>::equal()
+                ||edk::IDs<const short               ,typeTemplate>::equal()
+                ||edk::IDs<const int                 ,typeTemplate>::equal()
+                ||edk::IDs<const long                ,typeTemplate>::equal()
+                ||edk::IDs<const long long           ,typeTemplate>::equal()
+                ||edk::IDs<const unsigned char       ,typeTemplate>::equal()
+                //
+                ||edk::IDs<const short*              ,typeTemplate>::equal()
+                ||edk::IDs<const int*                ,typeTemplate>::equal()
+                ||edk::IDs<const long*               ,typeTemplate>::equal()
+                ||edk::IDs<const long long*          ,typeTemplate>::equal()
+                ||edk::IDs<const unsigned char*      ,typeTemplate>::equal()
+                ||edk::IDs<void                      ,typeTemplate>::equal()
+                //
+                ||edk::IDs<const unsigned short*     ,typeTemplate>::equal()
+                ||edk::IDs<      unsigned int*       ,typeTemplate>::equal()
+                ||edk::IDs<const unsigned int        ,typeTemplate>::equal()
+                ||edk::IDs<const unsigned int*       ,typeTemplate>::equal()
+                ||edk::IDs<      unsigned long*      ,typeTemplate>::equal()
+                ||edk::IDs<const unsigned long       ,typeTemplate>::equal()
+                ||edk::IDs<const unsigned long*      ,typeTemplate>::equal()
+                ||edk::IDs<      unsigned long long* ,typeTemplate>::equal()
+                ||edk::IDs<const unsigned long long  ,typeTemplate>::equal()
+                ||edk::IDs<const unsigned long long* ,typeTemplate>::equal()
+                ){
+            return false;
+        }
+        return true;
+    }
+    template <class C>
+    inline static bool equalTo(C c){
+        if(typeid(typeTemplate) == typeid(c)){
+            return true;
+        }
+        return false;
+    }
+};
+class ID_Variable{
+public:
+    template <class C>
+    inline static void print(C c){
+        printf("%s",typeid(c).name());
+    }
+    template <class C>
+    inline static edk::char8* getStr(C c){
+        return (edk::char8*)typeid(c).name();
+    }
+    template <class C>
+    inline static bool isClass(C c){
+        if(sizeof(c)>8u){
+            return true;
+        }
+        else if(edk::ID<        char                >::equalTo(c)
+                ||edk::ID<      short               >::equalTo(c)
+                ||edk::ID<      int                 >::equalTo(c)
+                ||edk::ID<      long                >::equalTo(c)
+                ||edk::ID<      long long           >::equalTo(c)
+                ||edk::ID<      unsigned char       >::equalTo(c)
+                ||edk::ID<const char*               >::equalTo(c)
+                ||edk::ID<      unsigned short      >::equalTo(c)
+                ||edk::ID<      unsigned int        >::equalTo(c)
+                ||edk::ID<      unsigned long       >::equalTo(c)
+                ||edk::ID<      unsigned long long  >::equalTo(c)
+                ||edk::ID<void*                     >::equalTo(c)
+                ||edk::ID<const unsigned short      >::equalTo(c)
+                //
+                ||edk::ID<      char*               >::equalTo(c)
+                ||edk::ID<      short*              >::equalTo(c)
+                ||edk::ID<      int*                >::equalTo(c)
+                ||edk::ID<      long*               >::equalTo(c)
+                ||edk::ID<      long long*          >::equalTo(c)
+                ||edk::ID<      unsigned char*      >::equalTo(c)
+                ||edk::ID<      unsigned short*     >::equalTo(c)
+                //
+                ||edk::ID<const char                >::equalTo(c)
+                ||edk::ID<const short               >::equalTo(c)
+                ||edk::ID<const int                 >::equalTo(c)
+                ||edk::ID<const long                >::equalTo(c)
+                ||edk::ID<const long long           >::equalTo(c)
+                ||edk::ID<const unsigned char       >::equalTo(c)
+                //
+                ||edk::ID<const short*              >::equalTo(c)
+                ||edk::ID<const int*                >::equalTo(c)
+                ||edk::ID<const long*               >::equalTo(c)
+                ||edk::ID<const long long*          >::equalTo(c)
+                ||edk::ID<const unsigned char*      >::equalTo(c)
+                ||edk::ID<void                      >::equalTo(c)
+                //
+                ||edk::ID<const unsigned short*     >::equalTo(c)
+                ||edk::ID<      unsigned int*       >::equalTo(c)
+                ||edk::ID<const unsigned int        >::equalTo(c)
+                ||edk::ID<const unsigned int*       >::equalTo(c)
+                ||edk::ID<      unsigned long*      >::equalTo(c)
+                ||edk::ID<const unsigned long       >::equalTo(c)
+                ||edk::ID<const unsigned long*      >::equalTo(c)
+                ||edk::ID<      unsigned long long* >::equalTo(c)
+                ||edk::ID<const unsigned long long  >::equalTo(c)
+                ||edk::ID<const unsigned long long* >::equalTo(c)
+                ){
+            return false;
+        }
+        return true;
+    }
+    template <class C,typename T>
+    inline static bool isEqual(C c,T t){
+        if(typeid(c) == typeid(t)){
+            return true;
+        }
+        return false;
+    }
+    template <class C,typename T>
+    inline static bool arEqual(C c,T t){
+        if(typeid(c) == typeid(t)){
+            return true;
+        }
+        return false;
+    }
+    template <class C,typename T>
+    inline static bool equal(C c,T t){
+        if(typeid(c) == typeid(t)){
+            return true;
+        }
+        return false;
+    }
+    template <class C,typename T>
+    inline static bool equalTo(C c,T t){
+        if(typeid(c) == typeid(t)){
+            return true;
+        }
+        return false;
+    }
+};
+class C{
+public:
+    C(){}
+    virtual ~C(){}
+};
+class id{
+public:
+    static void printAll(){
+        printf("\nTypes ID's:");
+        printf("\n");
+        printf("\nedk::classID    ");edk::ID<classID>::print();
+        printf("\nedk::typeID     ");edk::ID<typeID>::print();
+        printf("\nedk::socketType ");edk::ID<socketType>::print();
+        printf("\n");
+        printf("\nedk::int8       ");edk::ID<int8>::print();
+        printf("\nedk::int16      ");edk::ID<int16>::print();
+        printf("\nedk::int32      ");edk::ID<int32>::print();
+        printf("\nedk::int64      ");edk::ID<int64>::print();
+        printf("\n");
+        printf("\nedk::uint8      ");edk::ID<uint8>::print();
+        printf("\nedk::uint16     ");edk::ID<uint16>::print();
+        printf("\nedk::uint32     ");edk::ID<uint32>::print();
+        printf("\nedk::uint64     ");edk::ID<uint64>::print();
+        printf("\n");
+        printf("\nedk::char8      ");edk::ID<char8>::print();
+        printf("\nedk::char16     ");edk::ID<char16>::print();
+        printf("\nedk::char32     ");edk::ID<char32>::print();
+        printf("\nedk::char64     ");edk::ID<char64>::print();
+        printf("\n");
+        printf("\nedk::uchar8     ");edk::ID<uchar8>::print();
+        printf("\nedk::uchar16    ");edk::ID<uchar16>::print();
+        printf("\nedk::uchar32    ");edk::ID<uchar32>::print();
+        printf("\nedk::uchar64    ");edk::ID<uchar64>::print();
+        printf("\n");
+        printf("\nedk::float32    ");edk::ID<float32>::print();
+        printf("\nedk::float64    ");edk::ID<float64>::print();
+        printf("\nTEST");
+        printf("\nedk::classID ");
+        fflush(stdout);
     }
 };
 }

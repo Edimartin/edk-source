@@ -47,12 +47,16 @@ template <class typeTemplate>
 class Array{
 public:
     Array(){
+        this->isClass = edk::ID<typeTemplate>::isClass();edkEnd();
+        this->isOne=false;edkEnd();
         this->vector=NULL;edkEnd();
         this->vectorSize=0u;edkEnd();
         this->canDeleteVector=false;edkEnd();
         this->deleteArray();edkEnd();
     }
     Array(edk::uint32 size){
+        this->isClass = edk::ID<typeTemplate>::isClass();edkEnd();
+        this->isOne=false;edkEnd();
         this->vector=NULL;edkEnd();
         this->vectorSize=0u;edkEnd();
         this->canDeleteVector=false;edkEnd();
@@ -78,16 +82,32 @@ public:
         //Test the size
         if(size){
             //create the new array
-            this->vector = (typeTemplate*)malloc(sizeof(typeTemplate)*size);edkEnd();
-            if(this->vector){
-                //save the size of the vector
-                this->vectorSize=size;edkEnd();
-                //can delete the vector
-                this->canDeleteVector=true;edkEnd();
-                //set with nulls
-                memset((void*)this->vector,0u,sizeof(typeTemplate)*size);edkEnd();
-                //return true
-                return true;
+            if(this->isClass){
+                this->vector = new typeTemplate[size];edkEnd();
+                if(this->vector){
+                    //save the size of the vector
+                    this->vectorSize=size;edkEnd();
+                    //can delete the vector
+                    this->canDeleteVector=true;edkEnd();
+                    //return true
+                    if(size==1u){
+                        this->isOne=true;edkEnd();
+                    }
+                    return true;
+                }
+            }
+            else{
+                this->vector = (typeTemplate*)malloc(sizeof(typeTemplate)*size);edkEnd();
+                if(this->vector){
+                    //save the size of the vector
+                    this->vectorSize=size;edkEnd();
+                    //can delete the vector
+                    this->canDeleteVector=true;edkEnd();
+                    //set with nulls
+                    memset((void*)this->vector,0u,sizeof(typeTemplate)*size);edkEnd();
+                    //return true
+                    return true;
+                }
             }
         }
         //else return false
@@ -167,11 +187,11 @@ public:
 
     //delete the array
     inline void deleteArray(){
-        this->clean();
+        this->clean();edkEnd();
     }
     //delete the array
     inline void cleanArray(){
-        this->clean();
+        this->clean();edkEnd();
     }
     void clean(){
         //test if is alloc
@@ -182,8 +202,19 @@ public:
             }
             EDKArrayVectorFreeCounter++;
             */
-            free(this->vector);edkEnd();
+            if(this->isClass){
+                free(this->vector);edkEnd();
+            }
+            else{
+                if(this->isOne){
+                    delete this->vector;edkEnd();
+                }
+                else{
+                    delete[] this->vector;edkEnd();
+                }
+            }
         }
+        this->isOne=false;edkEnd();
         this->vector=NULL;edkEnd();
         this->vectorSize=0u;edkEnd();
         this->canDeleteVector=false;edkEnd();
@@ -194,7 +225,7 @@ public:
         if(this->vector && this->vectorSize){
             //set the array with the value
             for(edk::uint32 i=0u;i<this->vectorSize;i++){
-                this->set(i,value);
+                this->set(i,value);edkEnd();
             }
             return true;
         }
@@ -234,6 +265,10 @@ private:
     edk::uint32 vectorSize;
     //test if can delete the vector
     bool canDeleteVector;
+
+    //test if the typeTemplete is a class
+    bool isClass;
+    bool isOne;
 private:
     edk::vector::Array<typeTemplate> operator=(edk::vector::Array<typeTemplate> vec){
         //
