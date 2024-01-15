@@ -49,9 +49,7 @@ class MatrixDynamic{
 public:
     MatrixDynamic(){
         this->isClass = edk::ID<typeTemplate>::isClass();edkEnd();
-        this->isOneW=false;edkEnd();
         this->isOneH=false;edkEnd();
-        this->isOneWDest=false;edkEnd();
         this->isOneHDest=false;edkEnd();
         this->canDeleteVector=true;edkEnd();
         this->matrixSize = 0u;edkEnd();
@@ -62,9 +60,7 @@ public:
     }
     MatrixDynamic(edk::size2f32 size){
         this->isClass = edk::ID<typeTemplate>::isClass();edkEnd();
-        this->isOneW=false;edkEnd();
         this->isOneH=false;edkEnd();
-        this->isOneWDest=false;edkEnd();
         this->isOneHDest=false;edkEnd();
         this->canDeleteVector=true;edkEnd();
         //set the matrix to NULL
@@ -75,9 +71,7 @@ public:
     }
     MatrixDynamic(edk::uint32 width,edk::uint32 height){
         this->isClass = edk::ID<typeTemplate>::isClass();edkEnd();
-        this->isOneW=false;edkEnd();
         this->isOneH=false;edkEnd();
-        this->isOneWDest=false;edkEnd();
         this->isOneHDest=false;edkEnd();
         this->canDeleteVector=true;edkEnd();
         //set the matrix to NULL
@@ -129,9 +123,6 @@ public:
                     }
                     this->matrixSize = size;edkEnd();
 
-                    if(size.width==1u){
-                        this->isOneW=true;
-                    }
                     if(size.height==1u){
                         this->isOneH=true;
                     }
@@ -412,7 +403,7 @@ public:
                 //alloc the new matrix
                 edk::size2ui32 size = edk::size2ui32(matrix->matrixSize.width,this->matrixSize.height);edkEnd();
 
-             if(this->isClass){
+                if(this->isClass){
                     typeTemplate** newMatrix = (typeTemplate**)malloc(sizeof(typeTemplate*)*size.height);edkEnd();
                     if(newMatrix){
                         memset(newMatrix,0u,sizeof(typeTemplate)*size.height);edkEnd();
@@ -453,9 +444,6 @@ public:
                         this->matrix = newMatrix;edkEnd();
                         this->matrixSize = size;edkEnd();
 
-                        if(size.width==1u){
-                            this->isOneW=true;edkEnd();
-                        }
                         if(size.height==1u){
                             this->isOneH=true;edkEnd();
                         }
@@ -576,9 +564,6 @@ public:
                         this->matrix = newMatrix;edkEnd();
                         this->matrixSize = size;edkEnd();
 
-                        if(size.width==1u){
-                            this->isOneW=true;edkEnd();
-                        }
                         if(size.height==1u){
                             this->isOneH=true;edkEnd();
                         }
@@ -713,9 +698,6 @@ public:
                         this->matrix = newMatrix;edkEnd();
                         this->matrixSize = size;edkEnd();
 
-                        if(size.width==1u){
-                            this->isOneW=true;edkEnd();
-                        }
                         if(size.height==1u){
                             this->isOneH=true;edkEnd();
                         }
@@ -791,12 +773,7 @@ public:
                         delete[] this->matrix[i];edkEnd();
                     }
                 }
-                if(this->isOneH){
-                    delete this->matrix;edkEnd();
-                }
-                else{
-                    delete[] this->matrix;edkEnd();
-                }
+                free(this->matrix);edkEnd();
             }
             else{
                 for(edk::uint32 i=0u;i<this->matrixSize.height;i++){
@@ -809,7 +786,6 @@ public:
         }
         this->matrix=NULL;edkEnd();
         this->matrixSize=0u;edkEnd();
-        this->isOneW=false;edkEnd();
         this->isOneH=false;edkEnd();
     }
 
@@ -915,9 +891,7 @@ private:
 
     //test if the typeTemplete is a class
     bool isClass;
-    bool isOneW;
     bool isOneH;
-    bool isOneWDest;
     bool isOneHDest;
 public:
     //cant
@@ -942,19 +916,8 @@ public:
                     free(this->matrixDest[i]);edkEnd();
                 }
             }
-            if(this->isClass){
-                if(this->isOneWDest){
-                    delete this->matrixDest;edkEnd();
-                }
-                else{
-                    delete[] this->matrixDest;edkEnd();
-                }
-            }
-            else{
-                free(this->matrixDest);edkEnd();
-            }
+            free(this->matrixDest);edkEnd();
         }
-        this->isOneWDest=false;
         this->isOneHDest=false;
         this->matrixDest=NULL;edkEnd();
     }
@@ -992,9 +955,6 @@ public:
                             }
                             return false;
                         }
-                    }
-                    if(this->matrixSize.width==1u){
-                        this->isOneWDest=true;
                     }
                     if(this->matrixSize.height==1u){
                         this->isOneHDest=true;

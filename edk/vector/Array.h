@@ -203,15 +203,15 @@ public:
             EDKArrayVectorFreeCounter++;
             */
             if(this->isClass){
-                free(this->vector);edkEnd();
-            }
-            else{
                 if(this->isOne){
                     delete this->vector;edkEnd();
                 }
                 else{
                     delete[] this->vector;edkEnd();
                 }
+            }
+            else{
+                free(this->vector);edkEnd();
             }
         }
         this->isOne=false;edkEnd();
