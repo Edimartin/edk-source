@@ -81,7 +81,9 @@ public:
     edk::float32 getAngleFar();
 
     //set angle object as the same angle of the real object
-    void setAngleObjectAsTheSame();
+    void setAngleObjectFromObject();
+    void setSizeObjectFromObject();
+    void setAngleAndSizeObjectFromObject();
 
     //load particles
     bool loadParticles(edk::uint32 size);

@@ -425,8 +425,15 @@ edk::float32 edk::animation::ParticlesPoint2D::getAngleFar(){
 }
 
 //set angle object as the same angle of the real object
-void edk::animation::ParticlesPoint2D::setAngleObjectAsTheSame(){
+void edk::animation::ParticlesPoint2D::setAngleObjectFromObject(){
     this->angleObject=this->obj.angle;
+}
+void edk::animation::ParticlesPoint2D::setSizeObjectFromObject(){
+    this->sizeObject=this->obj.size;
+}
+void edk::animation::ParticlesPoint2D::setAngleAndSizeObjectFromObject(){
+    this->setAngleObjectFromObject();
+    this->setSizeObjectFromObject();
 }
 
 //load particles
