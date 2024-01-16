@@ -235,16 +235,17 @@ void edk::animation::ParticlesPoint2D::TreeParticles::pauseParticles(){
 
 edk::animation::ParticlesPoint2D::ParticlesPoint2D(){
     this->isOne=false;
-    this->blow = 1u;edkEnd();
+    this->blowNear = 1u;edkEnd();
+    this->blowFar = 1u;edkEnd();
     this->particles=NULL;edkEnd();
     this->nextParticle=0u;
     this->cleanParticles();edkEnd();
     this->setAngleNearAndFar(0.f,0.f);edkEnd();
     this->setSpeedNearAndFar(1.f,1.f);edkEnd();
     this->setFrameStartAndEnd(0.f,1.f);edkEnd();
-    this->setTimeNearAndFar(1.f,1.f);edkEnd();
-    this->setLifeNearAndFar(1.f,1.f);edkEnd();
-    this->gravity = edk::vec2f32(0,0);edkEnd();
+    this->setTimeNearAndFar(0.f,0.5f);edkEnd();
+    this->setLifeNearAndFar(1.f,2.f);edkEnd();
+    this->setGravity(0,0);
     this->isPlayingBlower = false;edkEnd();
     //this->isPlayingParticles = false;edkEnd();
 
@@ -371,10 +372,48 @@ void edk::animation::ParticlesPoint2D::setGravity(edk::float32 x,edk::float32 y)
 //set the blow
 bool edk::animation::ParticlesPoint2D::setBlowCount(edk::uint32 blow){
     if(blow){
-        this->blow = blow;edkEnd();
+        this->blowFar = this->blowNear = blow;edkEnd();
         return true;
     }
-    this->blow = 1u;edkEnd();
+    this->blowFar = this->blowNear = 1u;edkEnd();
+    return false;
+}
+bool edk::animation::ParticlesPoint2D::setBlowCountNear(edk::uint32 blowNear){
+    if(blowNear){
+        this->blowNear = blowNear;
+        if(this->blowFar<this->blowNear){
+            this->blowFar=this->blowNear;
+        }
+        return true;
+    }
+    this->blowNear = 1u;
+    if(this->blowFar<this->blowNear){
+        this->blowFar=this->blowNear;
+    }
+    return false;
+}
+bool edk::animation::ParticlesPoint2D::setBlowCountFar(edk::uint32 blowFar){
+    if(blowFar){
+        this->blowFar=blowFar;
+        if(this->blowNear>this->blowFar){
+            this->blowNear=this->blowFar;
+        }
+        return true;
+    }
+    this->blowFar=1u;
+    if(this->blowNear>this->blowFar){
+        this->blowNear=this->blowFar;
+    }
+    return false;
+}
+bool edk::animation::ParticlesPoint2D::setBlowCountNearAndFar(edk::uint32 blowNear,edk::uint32 blowFar){
+    if(blowNear && blowFar){
+        this->setBlowCountNear(blowNear);
+        this->setBlowCountFar(blowFar);
+        return true;
+    }
+    this->setBlowCountNear(1u);
+    this->setBlowCountFar(1u);
     return false;
 }
 //get the angles near and far
@@ -383,6 +422,11 @@ edk::float32 edk::animation::ParticlesPoint2D::getAngleNear(){
 }
 edk::float32 edk::animation::ParticlesPoint2D::getAngleFar(){
     return this->angleNear;edkEnd();
+}
+
+//set angle object as the same angle of the real object
+void edk::animation::ParticlesPoint2D::setAngleObjectAsTheSame(){
+    this->angleObject=this->obj.angle;
 }
 
 //load particles
@@ -483,12 +527,16 @@ void edk::animation::ParticlesPoint2D::update(){
 void edk::animation::ParticlesPoint2D::update(edk::float32 seconds){
     this->saveLastSecond = this->lastSecond;edkEnd();
 
-    this->lastSecond = seconds;edkEnd();
+    this->lastSecond += seconds;edkEnd();
     if(this->isPlayingBlower && this->particles){
-        if(seconds > this->timeLimit){
-            this->lastSecond = 0.f;edkEnd();
+        if(this->lastSecond > this->timeLimit){
+            this->lastSecond -= this->timeLimit;edkEnd();
+            edk::uint32 blowSize = this->blowNear + ((this->blowFar - this->blowNear) * (edk::Random::getStaticRandPercent()*2.f));
+            if(blowSize>this->blowFar){
+                blowSize = this->blowFar;
+            }
 
-            for(edk::uint32 i=0u;i<this->blow;i++){
+            for(edk::uint32 i=0u;i<blowSize;i++){
                 if(this->nextParticle >= this->sizeParticles){
                     this->nextParticle=0u;
                 }
@@ -527,7 +575,7 @@ void edk::animation::ParticlesPoint2D::update(edk::float32 seconds){
     }
 
     //update the tree
-    this->treeParticles.updateParticles(seconds - this->saveLastSecond);edkEnd();
+    this->treeParticles.updateParticles(seconds);edkEnd();
 }
 void edk::animation::ParticlesPoint2D::draw(){
     this->treeParticles.render();edkEnd();

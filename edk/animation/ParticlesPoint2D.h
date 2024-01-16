@@ -73,9 +73,15 @@ public:
     void setGravity(edk::float32 x,edk::float32 y);
     //set the blow
     bool setBlowCount(edk::uint32 blow);
+    bool setBlowCountNear(edk::uint32 blowNear);
+    bool setBlowCountFar(edk::uint32 blowFar);
+    bool setBlowCountNearAndFar(edk::uint32 blowNear,edk::uint32 blowFar);
     //get the angles near and far
     edk::float32 getAngleNear();
     edk::float32 getAngleFar();
+
+    //set angle object as the same angle of the real object
+    void setAngleObjectAsTheSame();
 
     //load particles
     bool loadParticles(edk::uint32 size);
@@ -124,7 +130,7 @@ private:
     //save if is playing
     bool isPlayingBlower;
     //particles count to blow
-    edk::uint32 blow;
+    edk::uint32 blowNear,blowFar;
 
     //clock
     edk::watch::Time time;
