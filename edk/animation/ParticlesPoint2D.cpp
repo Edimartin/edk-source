@@ -478,14 +478,17 @@ void edk::animation::ParticlesPoint2D::play(){
     //
     this->isPlayingBlower = true;edkEnd();
     this->time.start();edkEnd();
+    this->lastSecond = this->timeLimit;
     //this->isPlayingParticles=true;edkEnd();
 }
 void edk::animation::ParticlesPoint2D::pause(){
     //
     this->isPlayingBlower = !this->isPlayingBlower;edkEnd();
+    /*
     if(this->isPlayingBlower){
         //this->isPlayingParticles=true;edkEnd();
     }
+    */
 }
 void edk::animation::ParticlesPoint2D::pauseOn(){
     if(!this->isPlayingBlower){

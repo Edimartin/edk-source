@@ -518,7 +518,107 @@ void edk::tiles::TileMap2D::endDrawTiles(edk::vec2ui32 origin,edk::size2ui32 las
 }
 
 //calculate the draw position from worldRect
-edk::rectui32 edk::tiles::TileMap2D::calculateDrawPosition(edk::rectf32 rect){
+edk::rectui32 edk::tiles::TileMap2D::calculateDrawPositionFromRect(edk::rectf32 rect){
+    rect.size.width+=rect.origin.x;
+    rect.size.height+=rect.origin.y;
+    edk::rectui32 ret;edkEnd();
+    edk::rectf32 full;edkEnd();
+    full.origin = this->getPosition();edkEnd();
+    //first move the position into the init of the map
+    full.origin.x -= this->scaleMap.width*0.5f;
+    full.origin.y -= this->scaleMap.height*0.5f;
+
+    full.size.width = full.origin.x + this->scaleMap.width*this->sizeMap.width;
+    full.size.height = full.origin.y + this->scaleMap.height*this->sizeMap.height;
+    //here i have the full tileMap rect
+
+    //now I test if the rect are colliding
+    //X1
+    if(rect.origin.x >= full.origin.x){
+        if(rect.origin.x <= full.size.width){
+            //the X is inside the full
+            ret.origin.x = (edk::uint32)((rect.origin.x-full.origin.x)/this->scaleMap.width);
+        }
+        else{
+            //else the X is the size
+            ret.origin.x=this->sizeMap.width;
+        }
+    }
+    else{
+        //else the X is zero
+        ret.origin.x=0u;
+    }
+    //X2
+    if(rect.size.width >= full.origin.x){
+        if(rect.size.width <= full.size.width){
+            //the X is inside the full
+            ret.size.width = (edk::uint32)((rect.size.width-full.origin.x)/this->scaleMap.width);
+        }
+        else{
+            //else the X is the size
+            ret.size.width=this->sizeMap.width;
+        }
+    }
+    else{
+        //else the X is zero
+        ret.size.width=0u;
+    }
+    //Y1
+    if(rect.origin.y >= full.origin.y){
+        if(rect.origin.y <= full.size.height){
+            //the X is inside the full
+            ret.origin.y = (edk::uint32)((rect.origin.y-full.origin.y)/this->scaleMap.height);
+        }
+        else{
+            //else the X is the size
+            ret.origin.y=this->sizeMap.height;
+        }
+    }
+    else{
+        //else the X is zero
+        ret.origin.y=0u;
+    }
+    //Y2
+    if(rect.size.height >= full.origin.y){
+        if(rect.size.height <= full.size.height){
+            //the X is inside the full
+            ret.size.height = (edk::uint32)((rect.size.height-full.origin.y)/this->scaleMap.height);
+        }
+        else{
+            //else the X is the size
+            ret.size.height=this->sizeMap.height;
+        }
+    }
+    else{
+        //else the X is zero
+        ret.size.height=0u;
+    }
+
+
+    //increment the end
+    if(ret.size.width<this->sizeMap.width){
+        ret.size.width++;
+    }
+    if(ret.size.height<this->sizeMap.height){
+        ret.size.height++;
+    }
+
+    //invert the Y
+    edk::uint32 temp=(edk::uint32)(((edk::int32)ret.origin.y*-1)+this->sizeMap.height);
+    ret.origin.y=(edk::uint32)(((edk::int32)ret.size.height*-1)+this->sizeMap.height);
+    ret.size.height=temp;
+
+    //test if the begin is smaller then the end
+    if(ret.size.width>ret.origin.x){
+        ret.size.width-=ret.origin.x;
+    }
+    if(ret.size.height>ret.origin.y){
+        ret.size.height-=ret.origin.y;
+    }
+
+    return ret;
+}
+edk::rectui32 edk::tiles::TileMap2D::calculateDrawPositionFromRectPoints(edk::rectf32 rect){
     edk::rectui32 ret;edkEnd();
     edk::rectf32 full;edkEnd();
     full.origin = this->getPosition();edkEnd();
@@ -1828,11 +1928,11 @@ void edk::tiles::TileMap2D::drawWithoutMaterial(edk::vec2ui32 origin,edk::size2u
     }
 }
 void edk::tiles::TileMap2D::drawInsideWorldRect(edk::rectf32 rect,edk::color4f32 color){
-    edk::rectui32 newRect = this->calculateDrawPosition(rect);edkEnd();
+    edk::rectui32 newRect = this->calculateDrawPositionFromRect(rect);edkEnd();
     this->draw(newRect.origin,edk::size2ui32(newRect.origin.x+newRect.size.width,newRect.origin.y+newRect.size.height),color);edkEnd();
 }
 void edk::tiles::TileMap2D::drawInsideWorldRectPoints(edk::rectf32 rect,edk::color4f32 color){
-    edk::rectui32 newRect = this->calculateDrawPosition(rect);edkEnd();
+    edk::rectui32 newRect = this->calculateDrawPositionFromRectPoints(rect);edkEnd();
     this->draw(newRect.origin,newRect.size,color);edkEnd();
 }
 void edk::tiles::TileMap2D::drawIsometric(edk::color4f32 color){
@@ -1958,6 +2058,9 @@ first.y=0.f;edkEnd();
 
     this->drawIsometric(origin,size,color);edkEnd();
 */
+}
+void edk::tiles::TileMap2D::drawIsometricInsideWorldRectPoints(edk::rectf32 /*rect*/,edk::color4f32 /*color*/){
+    //
 }
 //Draw tileMap without passing a color
 void edk::tiles::TileMap2D::draw(){
@@ -2097,11 +2200,11 @@ void edk::tiles::TileMap2D::drawWithoutMaterial(edk::vec2ui32 origin,edk::size2u
     }
 }
 void edk::tiles::TileMap2D::drawInsideWorldRect(edk::rectf32 rect){
-    edk::rectui32 newRect = this->calculateDrawPosition(rect);edkEnd();
+    edk::rectui32 newRect = this->calculateDrawPositionFromRect(rect);edkEnd();
     this->draw(newRect.origin,newRect.size);edkEnd();
 }
 void edk::tiles::TileMap2D::drawInsideWorldRectPoints(edk::rectf32 rect){
-    edk::rectui32 newRect = this->calculateDrawPosition(rect);edkEnd();
+    edk::rectui32 newRect = this->calculateDrawPositionFromRectPoints(rect);edkEnd();
     this->draw(newRect.origin,edk::size2ui32(newRect.origin.x+newRect.size.width,newRect.origin.y+newRect.size.height));edkEnd();
 }
 void edk::tiles::TileMap2D::drawIsometric(){
@@ -2228,7 +2331,9 @@ first.y=0.f;edkEnd();
     this->drawIsometric(origin,size);edkEnd();
 */
 }
-
+void edk::tiles::TileMap2D::drawIsometricInsideWorldRectPoints(edk::rectf32 /*rect*/){
+    //
+}
 //draw wireTiles
 void edk::tiles::TileMap2D::drawWire(edk::color4f32 color){
     if(this->tileSet){
@@ -2286,7 +2391,11 @@ void edk::tiles::TileMap2D::drawWire(edk::vec2ui32 origin,edk::size2ui32 last,ed
     }
 }
 void edk::tiles::TileMap2D::drawWireInsideWorldRect(edk::rectf32 rect,edk::color4f32 color){
-    edk::rectui32 newRect = this->calculateDrawPosition(rect);edkEnd();
+    edk::rectui32 newRect = this->calculateDrawPositionFromRect(rect);edkEnd();
+    this->drawWire(newRect.origin,edk::size2ui32(newRect.origin.x+newRect.size.width,newRect.origin.y+newRect.size.height),color);edkEnd();
+}
+void edk::tiles::TileMap2D::drawWireInsideWorldRectPoints(edk::rectf32 rect,edk::color4f32 color){
+    edk::rectui32 newRect = this->calculateDrawPositionFromRectPoints(rect);edkEnd();
     this->drawWire(newRect.origin,newRect.size,color);edkEnd();
 }
 void edk::tiles::TileMap2D::drawIsometricWire(edk::color4f32 color){
@@ -2399,6 +2508,9 @@ first.y=0.f;edkEnd();
     this->drawIsometricWire(origin,size,color);edkEnd();
     */
 }
+void edk::tiles::TileMap2D::drawIsometricWireInsideWorldRectPoints(edk::rectf32 /*rect*/,edk::color4f32 /*color*/){
+    //
+}
 //draw wireTiles without passing a color
 void edk::tiles::TileMap2D::drawWire(){
     if(this->tileSet){
@@ -2456,7 +2568,11 @@ void edk::tiles::TileMap2D::drawWire(edk::vec2ui32 origin,edk::size2ui32 last){
     }
 }
 void edk::tiles::TileMap2D::drawWireInsideWorldRect(edk::rectf32 rect){
-    edk::rectui32 newRect = this->calculateDrawPosition(rect);edkEnd();
+    edk::rectui32 newRect = this->calculateDrawPositionFromRect(rect);edkEnd();
+    this->drawWire(newRect.origin,edk::size2ui32(newRect.origin.x+newRect.size.width,newRect.origin.y+newRect.size.height));edkEnd();
+}
+void edk::tiles::TileMap2D::drawWireInsideWorldRectPoints(edk::rectf32 rect){
+    edk::rectui32 newRect = this->calculateDrawPositionFromRectPoints(rect);edkEnd();
     this->drawWire(newRect.origin,newRect.size);edkEnd();
 }
 void edk::tiles::TileMap2D::drawIsometricWire(){
@@ -2569,7 +2685,9 @@ void edk::tiles::TileMap2D::drawIsometricWireInsideWorldRect(edk::rectf32 /*rect
     this->drawIsometricWire(origin,size);edkEnd();
     */
 }
-
+void edk::tiles::TileMap2D::drawIsometricWireInsideWorldRectPoints(edk::rectf32 /*rect*/){
+    //
+}
 //draw wireTiles
 void edk::tiles::TileMap2D::drawWirePhysics(edk::color4f32 color){
     if(this->tileSet){
@@ -2631,7 +2749,11 @@ void edk::tiles::TileMap2D::drawWirePhysics(edk::vec2ui32 origin,edk::size2ui32 
     }
 }
 void edk::tiles::TileMap2D::drawWirePhysicsInsideWorldRect(edk::rectf32 rect,edk::color4f32 color){
-    edk::rectui32 newRect = this->calculateDrawPosition(rect);edkEnd();
+    edk::rectui32 newRect = this->calculateDrawPositionFromRect(rect);edkEnd();
+    this->drawWirePhysics(newRect.origin,edk::size2ui32(newRect.origin.x+newRect.size.width,newRect.origin.y+newRect.size.height),color);edkEnd();
+}
+void edk::tiles::TileMap2D::drawWirePhysicsInsideWorldRectPoints(edk::rectf32 rect,edk::color4f32 color){
+    edk::rectui32 newRect = this->calculateDrawPositionFromRectPoints(rect);edkEnd();
     this->drawWirePhysics(newRect.origin,newRect.size,color);edkEnd();
 }
 //draw wireTiles without passing a color
@@ -2695,10 +2817,13 @@ void edk::tiles::TileMap2D::drawWirePhysics(edk::vec2ui32 origin,edk::size2ui32 
     }
 }
 void edk::tiles::TileMap2D::drawWirePhysicsInsideWorldRect(edk::rectf32 rect){
-    edk::rectui32 newRect = this->calculateDrawPosition(rect);edkEnd();
+    edk::rectui32 newRect = this->calculateDrawPositionFromRect(rect);edkEnd();
+    this->drawWirePhysics(newRect.origin,edk::size2ui32(newRect.origin.x+newRect.size.width,newRect.origin.y+newRect.size.height));edkEnd();
+}
+void edk::tiles::TileMap2D::drawWirePhysicsInsideWorldRectPoints(edk::rectf32 rect){
+    edk::rectui32 newRect = this->calculateDrawPositionFromRectPoints(rect);edkEnd();
     this->drawWirePhysics(newRect.origin,newRect.size);edkEnd();
 }
-
 //draw wireWitPhysics
 void edk::tiles::TileMap2D::drawWireWithPhysics(edk::color4f32 color,edk::color4f32 physColor){
     if(this->tileSet){
@@ -2772,7 +2897,12 @@ void edk::tiles::TileMap2D::drawWireWithPhysics(edk::vec2ui32 origin,edk::size2u
     }
 }
 void edk::tiles::TileMap2D::drawWireWithPhysicsInsideWorldRect(edk::rectf32 rect,edk::color4f32 color,edk::color4f32 physColor){
-    edk::rectui32 newRect = this->calculateDrawPosition(rect);edkEnd();
+    edk::rectui32 newRect = this->calculateDrawPositionFromRect(rect);edkEnd();
+    this->drawWireWithPhysics(newRect.origin,edk::size2ui32(newRect.origin.x+newRect.size.width,newRect.origin.y+newRect.size.height),color,physColor);edkEnd();
+}
+void edk::tiles::TileMap2D::drawWireWithPhysicsInsideWorldRectPoints(edk::rectf32 rect,edk::color4f32 color,edk::color4f32 physColor){
+    //
+    edk::rectui32 newRect = this->calculateDrawPositionFromRectPoints(rect);edkEnd();
     this->drawWireWithPhysics(newRect.origin,newRect.size,color,physColor);edkEnd();
 }
 //draw one especific tile in wirte
@@ -2976,19 +3106,19 @@ void edk::tiles::TileMap2D::drawSelection(edk::vec2ui32 origin,edk::size2ui32 la
     }
 }
 void edk::tiles::TileMap2D::drawInsideWorldRectSelectionWithID(edk::rectf32 rect,edk::uint8 id){
-    edk::rectui32 newRect = this->calculateDrawPosition(rect);edkEnd();
+    edk::rectui32 newRect = this->calculateDrawPositionFromRect(rect);edkEnd();
     this->drawSelectionWithID(newRect.origin,newRect.size,id);edkEnd();
 }
 void edk::tiles::TileMap2D::drawInsideWorldRectPointsSelectionWithID(edk::rectf32 rect,edk::uint8 id){
-    edk::rectui32 newRect = this->calculateDrawPosition(rect);edkEnd();
+    edk::rectui32 newRect = this->calculateDrawPositionFromRectPoints(rect);edkEnd();
     this->drawSelectionWithID(newRect.origin,edk::size2ui32(newRect.origin.x+newRect.size.width,newRect.origin.y+newRect.size.height));edkEnd();
 }
 void edk::tiles::TileMap2D::drawInsideWorldRectSelection(edk::rectf32 rect){
-    edk::rectui32 newRect = this->calculateDrawPosition(rect);edkEnd();
+    edk::rectui32 newRect = this->calculateDrawPositionFromRect(rect);edkEnd();
     this->drawSelection(newRect.origin,newRect.size);edkEnd();
 }
 void edk::tiles::TileMap2D::drawInsideWorldRectPointsSelection(edk::rectf32 rect){
-    edk::rectui32 newRect = this->calculateDrawPosition(rect);edkEnd();
+    edk::rectui32 newRect = this->calculateDrawPositionFromRectPoints(rect);edkEnd();
     this->drawSelection(newRect.origin,edk::size2ui32(newRect.origin.x+newRect.size.width,newRect.origin.y+newRect.size.height));edkEnd();
 }
 void edk::tiles::TileMap2D::drawIsometricSelectionWithID(edk::uint8 id){
@@ -3171,6 +3301,9 @@ void edk::tiles::TileMap2D::drawIsometricInsideWorldRectSelectionWithID(edk::rec
     this->drawIsometricSelectionWithID(origin,size,id);edkEnd();
     */
 }
+void edk::tiles::TileMap2D::drawIsometricInsideWorldRectPointsSelectionWithID(edk::rectf32 /*rect*/,edk::uint8 /*id*/){
+    //
+}
 void edk::tiles::TileMap2D::drawIsometricInsideWorldRectSelection(edk::rectf32 /*rect*/){
     /*
     //scale the points
@@ -3225,6 +3358,9 @@ void edk::tiles::TileMap2D::drawIsometricInsideWorldRectSelection(edk::rectf32 /
 
     this->drawIsometricSelection(origin,size);edkEnd();
 */
+}
+void edk::tiles::TileMap2D::drawIsometricInsideWorldRectPointsSelection(edk::rectf32 /*rect*/){
+    //
 }
 
 //draw the pivo

@@ -195,6 +195,7 @@ public:
     void drawIsometric(edk::color4f32 color);
     void drawIsometric(edk::vec2ui32 origin,edk::size2ui32 last,edk::color4f32 color);
     void drawIsometricInsideWorldRect(edk::rectf32 rect,edk::color4f32 color);
+    void drawIsometricInsideWorldRectPoints(edk::rectf32 rect,edk::color4f32 color);
     //Draw tileMap without passing a color
     void draw();
     void draw(edk::vec2ui32 origin,edk::size2ui32 last);
@@ -205,32 +206,40 @@ public:
     void drawIsometric();
     void drawIsometric(edk::vec2ui32 origin,edk::size2ui32 last);
     void drawIsometricInsideWorldRect(edk::rectf32 rect);
+    void drawIsometricInsideWorldRectPoints(edk::rectf32 rect);
     //draw wireTiles
     void drawWire(edk::color4f32 color);
     void drawWire(edk::vec2ui32 origin,edk::size2ui32 last,edk::color4f32 color);
     void drawWireInsideWorldRect(edk::rectf32 rect,edk::color4f32 color);
+    void drawWireInsideWorldRectPoints(edk::rectf32 rect,edk::color4f32 color);
     void drawIsometricWire(edk::color4f32 color);
     void drawIsometricWire(edk::vec2ui32 origin,edk::size2ui32 last,edk::color4f32 color);
     void drawIsometricWireInsideWorldRect(edk::rectf32 rect,edk::color4f32 color);
+    void drawIsometricWireInsideWorldRectPoints(edk::rectf32 rect,edk::color4f32 color);
     //draw wireTiles without passing a color
     void drawWire();
     void drawWire(edk::vec2ui32 origin,edk::size2ui32 last);
     void drawWireInsideWorldRect(edk::rectf32 rect);
+    void drawWireInsideWorldRectPoints(edk::rectf32 rect);
     void drawIsometricWire();
     void drawIsometricWire(edk::vec2ui32 origin,edk::size2ui32 last);
     void drawIsometricWireInsideWorldRect(edk::rectf32 rect);
+    void drawIsometricWireInsideWorldRectPoints(edk::rectf32 rect);
     //draw wireTiles
     void drawWirePhysics(edk::color4f32 color);
     void drawWirePhysics(edk::vec2ui32 origin,edk::size2ui32 last,edk::color4f32 color);
     void drawWirePhysicsInsideWorldRect(edk::rectf32 rect,edk::color4f32 color);
+    void drawWirePhysicsInsideWorldRectPoints(edk::rectf32 rect,edk::color4f32 color);
     //draw wireTiles without passing a color
     void drawWirePhysics();
     void drawWirePhysics(edk::vec2ui32 origin,edk::size2ui32 last);
     void drawWirePhysicsInsideWorldRect(edk::rectf32 rect);
+    void drawWirePhysicsInsideWorldRectPoints(edk::rectf32 rect);
     //draw wireWitPhysics
     void drawWireWithPhysics(edk::color4f32 color=edk::color4f32(1,1,1,1),edk::color4f32 physColor=edk::color4f32(0,0,0,1));
     void drawWireWithPhysics(edk::vec2ui32 origin,edk::size2ui32 last,edk::color4f32 color=edk::color4f32(1,1,1,1),edk::color4f32 physColor=edk::color4f32(0,0,0,1));
     void drawWireWithPhysicsInsideWorldRect(edk::rectf32 rect,edk::color4f32 color=edk::color4f32(1,1,1,1),edk::color4f32 physColor=edk::color4f32(0,0,0,1));
+    void drawWireWithPhysicsInsideWorldRectPoints(edk::rectf32 rect,edk::color4f32 color=edk::color4f32(1,1,1,1),edk::color4f32 physColor=edk::color4f32(0,0,0,1));
     //draw one especific tile in wire
     bool drawTileWire(edk::vec2ui32 position,edk::color4f32 color);
     bool drawTileWire(edk::uint32 positionX,edk::uint32 positionY,edk::color4f32 color);
@@ -253,7 +262,9 @@ public:
     void drawIsometricSelection();
     void drawIsometricSelection(edk::vec2ui32 origin,edk::size2ui32 last);
     void drawIsometricInsideWorldRectSelectionWithID(edk::rectf32 rect,edk::uint8 id=0u);
+    void drawIsometricInsideWorldRectPointsSelectionWithID(edk::rectf32 rect,edk::uint8 id=0u);
     void drawIsometricInsideWorldRectSelection(edk::rectf32 rect);
+    void drawIsometricInsideWorldRectPointsSelection(edk::rectf32 rect);
     //draw the pivo
     void drawPivo(edk::float32 size,edk::color3f32 color);
     //print the tileMap ID's
@@ -318,7 +329,8 @@ private:
     void endDrawTiles(edk::vec2ui32 origin,edk::size2ui32 last);
 
     //calculate the draw position from worldRect
-    edk::rectui32 calculateDrawPosition(edk::rectf32 rect);
+    edk::rectui32 calculateDrawPositionFromRect(edk::rectf32 rect);
+    edk::rectui32 calculateDrawPositionFromRectPoints(edk::rectf32 rect);
 
     //PhysicsTiles
     class PhysicsTiles{
