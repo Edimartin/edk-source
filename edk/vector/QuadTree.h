@@ -448,6 +448,18 @@ public:
         }
         return false;
     }
+    edk::uint32 getQuadSize(edk::uint8 position){
+        if(position<4u){
+            this->quad[0u]->getTreeSize();
+        }
+        return 0u;
+    }
+    edk::uint32 getQuadsSize(){
+        return this->quad[0u]->getTreeSize()
+                + this->quad[1u]->getTreeSize()
+                + this->quad[2u]->getTreeSize()
+                + this->quad[3u]->getTreeSize();
+    }
     //get the quad in position
     edk::vector::QuadLeaf32<typeTemplate>* getQuad(edk::uint8 position){
         if(position<4u){
@@ -704,6 +716,18 @@ public:
         }
         return false;
     }
+    edk::uint64 getQuadSize(edk::uint8 position){
+        if(position<4u){
+            this->quad[0u]->getTreeSize();
+        }
+        return 0u;
+    }
+    edk::uint64 getQuadsSize(){
+        return this->quad[0u]->getTreeSize()
+                + this->quad[1u]->getTreeSize()
+                + this->quad[2u]->getTreeSize()
+                + this->quad[3u]->getTreeSize();
+    }
     //get the quad in position
     edk::vector::QuadLeaf64<typeTemplate>* getQuad(edk::uint8 position){
         if(position<4u){
@@ -934,10 +958,15 @@ public:
             //add the value in to the temp
             temp->addToTree(value);edkEnd();
             //add the root inside the queue
-            nexts.pushBack(temp);
+            nexts.pushBack(temp);edkEnd();
             while(temp){
                 //get the text from the queue
-                temp2 = nexts.popFront();
+                if(nexts.size()){
+                    temp2 = nexts.popFront();edkEnd();
+                }
+                else{
+                    temp2=NULL;edkEnd();
+                }
 
                 if(temp2){
                     temp=temp2;
@@ -1008,8 +1037,64 @@ public:
                             if(tree){
                                 size = tree->size();edkEnd();
                                 k=0u;
-                                for(edk::uint32 j=0u;j<size;j++){
-                                    valueTemp = tree->getElementInPosition(j);edkEnd();
+                                //test if the quads are new
+                                if(temp->getQuadsSize()<size-1u){
+                                    //else add the objects
+                                    for(edk::uint32 j=0u;j<size;j++){
+                                        valueTemp = tree->getElementInPosition(j);edkEnd();
+                                        counterQuads=0u;
+                                        for(edk::uint8 i=0u;i<4u;i++){
+                                            tempQuad = temp->getQuad(i);edkEnd();
+                                            //test if is colliding with the quads to just add in the tree
+                                            if(this->isElementColliding(valueTemp,
+                                                                        edk::vec2f32(tempQuad->origin.x,
+                                                                                     tempQuad->origin.y
+                                                                                     ),
+                                                                        edk::vec2f32(tempQuad->size.width,
+                                                                                     tempQuad->size.height
+                                                                                     )
+                                                                        )
+                                                    ){
+                                                counterQuads++;
+                                                if(!tempQuad->haveInTree(valueTemp)){
+                                                    tempQuad->addToTree(valueTemp);
+                                                }
+                                                if(!push[i]){
+                                                    //add the quad into the queue
+                                                    //nexts.pushBack(tempQuad);
+                                                    goInside[k]=tempQuad;
+                                                    k++;
+                                                    push[i]=true;
+                                                }
+                                            }
+                                        }
+                                        if(counterQuads>=4u){
+                                            counterIn++;
+                                        }
+                                    }
+                                    //test if need go into the nexts quads
+                                    if(counterIn<size){
+                                        bool goPush=true;
+                                        //test if have nextQuads
+                                        for(edk::uint8 i=0u;i<4u;i++){
+                                            if(goInside[i]){
+                                                nexts.pushBack(goInside[i]);
+                                                goPush=false;
+                                            }
+                                        }
+                                        if(goPush){
+                                            //go to the father
+                                            temp = temp->getFather();
+                                        }
+                                    }
+                                    else{
+                                        //else go to the father
+                                        temp = temp->getFather();
+                                    }
+                                }
+                                else{
+                                    //add just the first
+                                    valueTemp = value;edkEnd();
                                     counterQuads=0u;
                                     for(edk::uint8 i=0u;i<4u;i++){
                                         tempQuad = temp->getQuad(i);edkEnd();
@@ -1036,28 +1121,24 @@ public:
                                             }
                                         }
                                     }
-                                    if(counterQuads>=4u){
-                                        counterIn++;
-                                    }
-                                }
-                                //test if need go into the nexts quads
-                                if(counterIn<size){
-                                    bool goPush=true;
-                                    //test if have nextQuads
-                                    for(edk::uint8 i=0u;i<4u;i++){
-                                        if(goInside[i]){
-                                            nexts.pushBack(goInside[i]);
-                                            goPush=false;
+                                    if(counterQuads<4u){
+                                        bool goPush=true;
+                                        //test if have nextQuads
+                                        for(edk::uint8 i=0u;i<4u;i++){
+                                            if(goInside[i]){
+                                                nexts.pushBack(goInside[i]);
+                                                goPush=false;
+                                            }
+                                        }
+                                        if(goPush){
+                                            //go to the father
+                                            temp = temp->getFather();
                                         }
                                     }
-                                    if(goPush){
-                                        //go to the father
+                                    else{
+                                        //else go to the father
                                         temp = temp->getFather();
                                     }
-                                }
-                                else{
-                                    //else go to the father
-                                    temp = temp->getFather();
                                 }
                             }
                         }
@@ -2228,7 +2309,7 @@ public:
         this->minimumQuadSize=minimumQuadSize;edkEnd();
     }
     void setRectPoints(edk::rectf64 rect,edk::float64 minimumQuadSize=edkQuadMinimumSize){
-        this->clean(rect);edkEnd();
+        this->cleanWithRectPoints(rect);edkEnd();
         this->minimumQuadSize=minimumQuadSize;edkEnd();
     }
     void setRectPoints(edk::vec2f64 position1,edk::vec2f64 position2,edk::float64 minimumQuadSize=edkQuadMinimumSize){
@@ -2316,10 +2397,15 @@ public:
             //add the value in to the temp
             temp->addToTree(value);edkEnd();
             //add the root inside the queue
-            nexts.pushBack(temp);
+            nexts.pushBack(temp);edkEnd();
             while(temp){
                 //get the text from the queue
-                temp2 = nexts.popFront();
+                if(nexts.size()){
+                    temp2 = nexts.popFront();edkEnd();
+                }
+                else{
+                    temp2=NULL;edkEnd();
+                }
 
                 if(temp2){
                     temp=temp2;
@@ -2390,8 +2476,64 @@ public:
                             if(tree){
                                 size = tree->size();edkEnd();
                                 k=0u;
-                                for(edk::uint64 j=0u;j<size;j++){
-                                    valueTemp = tree->getElementInPosition(j);edkEnd();
+                                //test if the quads are new
+                                if(temp->getQuadsSize()<size-1u){
+                                    //else add the objects
+                                    for(edk::uint64 j=0u;j<size;j++){
+                                        valueTemp = tree->getElementInPosition(j);edkEnd();
+                                        counterQuads=0u;
+                                        for(edk::uint8 i=0u;i<4u;i++){
+                                            tempQuad = temp->getQuad(i);edkEnd();
+                                            //test if is colliding with the quads to just add in the tree
+                                            if(this->isElementColliding(valueTemp,
+                                                                        edk::vec2f64(tempQuad->origin.x,
+                                                                                     tempQuad->origin.y
+                                                                                     ),
+                                                                        edk::vec2f64(tempQuad->size.width,
+                                                                                     tempQuad->size.height
+                                                                                     )
+                                                                        )
+                                                    ){
+                                                counterQuads++;
+                                                if(!tempQuad->haveInTree(valueTemp)){
+                                                    tempQuad->addToTree(valueTemp);
+                                                }
+                                                if(!push[i]){
+                                                    //add the quad into the queue
+                                                    //nexts.pushBack(tempQuad);
+                                                    goInside[k]=tempQuad;
+                                                    k++;
+                                                    push[i]=true;
+                                                }
+                                            }
+                                        }
+                                        if(counterQuads>=4u){
+                                            counterIn++;
+                                        }
+                                    }
+                                    //test if need go into the nexts quads
+                                    if(counterIn<size){
+                                        bool goPush=true;
+                                        //test if have nextQuads
+                                        for(edk::uint8 i=0u;i<4u;i++){
+                                            if(goInside[i]){
+                                                nexts.pushBack(goInside[i]);
+                                                goPush=false;
+                                            }
+                                        }
+                                        if(goPush){
+                                            //go to the father
+                                            temp = temp->getFather();
+                                        }
+                                    }
+                                    else{
+                                        //else go to the father
+                                        temp = temp->getFather();
+                                    }
+                                }
+                                else{
+                                    //add just the first
+                                    valueTemp = value;edkEnd();
                                     counterQuads=0u;
                                     for(edk::uint8 i=0u;i<4u;i++){
                                         tempQuad = temp->getQuad(i);edkEnd();
@@ -2418,28 +2560,24 @@ public:
                                             }
                                         }
                                     }
-                                    if(counterQuads>=4u){
-                                        counterIn++;
-                                    }
-                                }
-                                //test if need go into the nexts quads
-                                if(counterIn<size){
-                                    bool goPush=true;
-                                    //test if have nextQuads
-                                    for(edk::uint8 i=0u;i<4u;i++){
-                                        if(goInside[i]){
-                                            nexts.pushBack(goInside[i]);
-                                            goPush=false;
+                                    if(counterQuads<4u){
+                                        bool goPush=true;
+                                        //test if have nextQuads
+                                        for(edk::uint8 i=0u;i<4u;i++){
+                                            if(goInside[i]){
+                                                nexts.pushBack(goInside[i]);
+                                                goPush=false;
+                                            }
+                                        }
+                                        if(goPush){
+                                            //go to the father
+                                            temp = temp->getFather();
                                         }
                                     }
-                                    if(goPush){
-                                        //go to the father
+                                    else{
+                                        //else go to the father
                                         temp = temp->getFather();
                                     }
-                                }
-                                else{
-                                    //else go to the father
-                                    temp = temp->getFather();
                                 }
                             }
                         }
