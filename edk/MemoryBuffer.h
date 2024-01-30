@@ -49,18 +49,54 @@ public:
 
     //save some bytes in the buffer
     bool writeToBuffer(edk::uint8* vector,edk::uint64 size);
+    bool writeFileFullToBuffer(edk::File* file);
+    bool writeFileToBuffer(edk::File* file);
+    bool writeFileToBuffer(edk::File* file,edk::uint64 size);
 
+    //lenght to return
+    void setLenghtToReturn(edk::uint8 lenght);
+    edk::uint8 getLenghtToReturn();
+
+    //return true if have the buffer
+    bool haveBuffer();
     //return the buffer pointer
     edk::classID getPointer();
     edk::classID pointer();
     //return the size of the buffer writed
     edk::uint64 getSize();
     edk::uint64 size();
+
+    //copy from buffer
+    edk::uint64 memCopy(edk::classID dest,edk::uint64 position,edk::uint64 size);
+    edk::uint64 memCopy(edk::classID dest,edk::uint64 size);
+    edk::uint64 memCopy(edk::classID dest);
+    edk::uint64 memCopy(edk::MemoryBuffer* dest,edk::uint64 position,edk::uint64 size);
+    edk::uint64 memCopy(edk::MemoryBuffer* dest,edk::uint64 size);
+    edk::uint64 memCopy(edk::MemoryBuffer* dest);
+
+    //print the buffer
+    bool printHex(edk::uint64 size);
+    bool printHex();
+    bool printChar(edk::uint64 size);
+    bool printChar();
+    //operator to return the value in position
+    inline edk::uchar8 operator[](edk::uint64 index){
+        if(index < this->bufferSize){
+            return this->buffer[index];
+        }
+        return 0;
+    }
 private:
     //buffer memory
     edk::uint8* buffer;
     edk::uint64 bufferSize;
     edk::uint64 bufferWritedSize;
+
+    //lenghtToReturn
+    edk::uint8 lenghtToReturn;
+
+    //function to alloc or realloc the buffer
+    void allocBuffer(edk::uint64 size);
 };
 }//end namespace edk
 
