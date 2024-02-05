@@ -324,6 +324,15 @@ protected:
             }
             return false;
         }
+        bool haveCreateMesh(edk::uint32 position){
+            if(this->havePos(position)){
+                edk::Object2D::MeshAlloc* temp = this->get(position);edkEnd();
+                if(temp){
+                    return temp->waCreated();
+                }
+            }
+            return false;
+        }
         //remove a mesh
         bool removeMesh(edk::uint32 position){
             //test if have the position

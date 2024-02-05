@@ -277,6 +277,7 @@ bool edk::shape::AnimatedPolygon2DList::selectedAnimationPlayForward(){
     if(this->selectedAnimation){
         //add new interpolationLine
         this->selectedAnimation->playForward();edkEnd();
+        this->updateFramesAnimations(0.001f);
         return true;
     }
     //else return false
@@ -287,6 +288,7 @@ bool edk::shape::AnimatedPolygon2DList::selectedAnimationPlayForwardIn(edk::floa
     if(this->selectedAnimation){
         //add new interpolationLine
         this->selectedAnimation->playForwardIn(second);edkEnd();
+        this->updateFramesAnimations(0.001f);
         return true;
     }
     //else return false
@@ -297,6 +299,7 @@ bool edk::shape::AnimatedPolygon2DList::selectedAnimationRestartForward(){
     if(this->selectedAnimation){
         //add new interpolationLine
         this->selectedAnimation->restartForward();edkEnd();
+        this->updateFramesAnimations(0.001f);
         return true;
     }
     //else return false
@@ -307,6 +310,7 @@ bool edk::shape::AnimatedPolygon2DList::selectedAnimationPlayRewind(){
     if(this->selectedAnimation){
         //add new interpolationLine
         this->selectedAnimation->playRewind();edkEnd();
+        this->updateFramesAnimations(0.001f);
         return true;
     }
     //else return false
@@ -317,6 +321,7 @@ bool edk::shape::AnimatedPolygon2DList::selectedAnimationPlayRewindIn(edk::float
     if(this->selectedAnimation){
         //add new interpolationLine
         this->selectedAnimation->playRewindIn(second);edkEnd();
+        this->updateFramesAnimations(0.001f);
         return true;
     }
     //else return false
@@ -327,6 +332,7 @@ bool edk::shape::AnimatedPolygon2DList::selectedAnimationRestartRewind(){
     if(this->selectedAnimation){
         //add new interpolationLine
         this->selectedAnimation->restartRewind();edkEnd();
+        this->updateFramesAnimations(0.001f);
         return true;
     }
     //else return false

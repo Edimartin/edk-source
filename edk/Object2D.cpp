@@ -1167,9 +1167,11 @@ void edk::Object2D::updateMeshAnimations(edk::float32 seconds){
     edk::uint32 size = this->meshes.size();edkEnd();
     edk::shape::Mesh2D *mesh;edkEnd();
     for(edk::uint32 i=0u;i<size;i++){
-        mesh = this->meshes.getMesh(i);edkEnd();
-        if(mesh){
-            mesh->updateFramesAnimations(seconds);edkEnd();
+        if(this->meshes.haveCreateMesh(i)){
+            mesh = this->meshes.getMesh(i);edkEnd();
+            if(mesh){
+                mesh->updateFramesAnimations(seconds);edkEnd();
+            }
         }
     }
 }
