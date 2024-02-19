@@ -1080,6 +1080,13 @@ bool edk::Window::setSecondPassedBeforeLoadEvents(edk::float32 seconds){
     }
     return false;
 }
+bool edk::Window::setSecondPassedAfterLoadEvents(edk::float32 seconds){
+    if(seconds>0.f){
+        this->events.secondPassed = seconds;
+        return true;
+    }
+    return false;
+}
 edk::float32 edk::Window::eventGetSecondPassed(){
     return this->events.secondPassed;
 }

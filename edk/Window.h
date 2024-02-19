@@ -297,6 +297,7 @@ public:
 
     //set and get the second passed
     bool setSecondPassedBeforeLoadEvents(edk::float32 seconds);
+    bool setSecondPassedAfterLoadEvents(edk::float32 seconds);
     edk::float32 eventGetSecondPassed();
 
     bool loadEvents();
