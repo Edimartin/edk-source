@@ -32,6 +32,7 @@ edk::shape::Circle2D::Circle2D()
 {
     //ctor
     this->polygonCircle=true;edkEnd();
+    this->type=edk::shape::typeCircle2D;
     this->createPolygon(4u,1.0);edkEnd();
 }
 edk::shape::Circle2D::Circle2D(edk::uint32 sides,edk::float32 radius){

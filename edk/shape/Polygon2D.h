@@ -59,12 +59,14 @@ enum collisionCode{
 };
 //polygon type
 enum EDKpolygon2DType{
-    polygon2D = 1u,
-    line2D,
-    rectangle2D,
-    circle2D,
+    typePolygon2D = 1u,
+    typeLine2D,
+    typeRectangle2D,
+    typeTriangle2D,
+    typeCircle2D,
+    typeQuadrangle2D,
 
-    polygon2DTypeSize
+    typePolygon2DSize
 };
 //VBO type
 enum EDKVBOType{

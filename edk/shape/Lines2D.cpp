@@ -25,7 +25,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 edk::shape::Lines2D::Lines2D(){
-    this->type = edk::shape::line2D;edkEnd();
+    this->type = edk::shape::typeLine2D;edkEnd();
     this->polygonLine=true;edkEnd();
 }
 //return true if it's lines

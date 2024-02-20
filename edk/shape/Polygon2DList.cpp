@@ -289,16 +289,24 @@ edk::uint32 edk::shape::Polygon2DList::addPolygon(edk::shape::Polygon2D polygon)
     //test al much vertex have the polygon. Test if are a polygon or Rectangle.
     else if(polygon.getVertexCount()>=2u){
         if(polygon.getVertexCount()>2u){
-            //it's a polygon
+            if(polygon.isCircle()){
+                //it's circle
 
-            //create the polygon
-            temp=new edk::shape::Polygon2D();edkEnd();
+                //create the circle
+                temp=(edk::shape::Polygon2D*)new edk::shape::Circle2D;edkEnd();
+            }
+            else{
+                //it's a polygon
+
+                //create the polygon
+                temp=new edk::shape::Polygon2D;edkEnd();
+            }
         }
         else{
             //it's a rectangle
 
             //create a rectangle
-            temp=(edk::shape::Polygon2D*) new edk::shape::Rectangle2D();edkEnd();
+            temp=(edk::shape::Polygon2D*) new edk::shape::Rectangle2D;edkEnd();
         }
     }
 

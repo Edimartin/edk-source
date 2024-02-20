@@ -34,6 +34,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "../vector/Stack.h"
 #include "Polygon2D.h"
 #include "Lines2D.h"
+#include "Circle2D.h"
 #include "Rectangle2D.h"
 #include "Triangle2D.h"
 #include "Quadrangle2D.h"

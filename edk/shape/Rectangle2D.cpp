@@ -29,14 +29,13 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endif
 
 edk::shape::Rectangle2D::Rectangle2D::Rectangle2D(){
-    this->type = edk::shape::rectangle2D;edkEnd();
+    this->type = edk::shape::typeRectangle2D;edkEnd();
     this->polygonColor.a=1.f;edkEnd();
     //create the polygon
     this->createPolygon();edkEnd();
 }
 
-edk::shape::Rectangle2D::~Rectangle2D()
-{
+edk::shape::Rectangle2D::~Rectangle2D(){
     //delete the polygon
     edk::shape::Polygon2D::deletePolygon();edkEnd();
 }

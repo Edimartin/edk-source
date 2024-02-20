@@ -28,16 +28,15 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #pragma message "            Inside Quadrangle2D.cpp"
 #endif
 
-edk::shape::Quadrangle2D::Quadrangle2D()
-{
+edk::shape::Quadrangle2D::Quadrangle2D(){
+    this->type = edk::shape::typeQuadrangle2D;edkEnd();
     //ctor
     this->polygonColor.a=1.f;edkEnd();
     //create a new polygon with 3 vertex
     edk::shape::Polygon2D::createPolygon(4u);edkEnd();
 }
 
-edk::shape::Quadrangle2D::~Quadrangle2D()
-{
+edk::shape::Quadrangle2D::~Quadrangle2D(){
     //dtor
     edk::shape::Polygon2D::deletePolygon();edkEnd();
 }
