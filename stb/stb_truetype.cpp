@@ -7,7 +7,6 @@
 ////
 ////
 
-#ifdef STB_TRUETYPE_IMPLEMENTATION
 
 #ifndef STBTT_MAX_OVERSAMPLE
 #define STBTT_MAX_OVERSAMPLE   8
@@ -3872,7 +3871,6 @@ STBTT_DEF int stbtt_CompareUTF8toUTF16_bigendian(const char *s1, int len1, const
 #pragma GCC diagnostic pop
 #endif
 
-#endif // STB_TRUETYPE_IMPLEMENTATION
 
 
 // FULL VERSION HISTORY
