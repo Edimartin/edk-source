@@ -37,6 +37,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include <stdlib.h>
 #include <stdarg.h>
 #include "./BinaryConverter.h"
+#include "ConsoleTerminal.h"
 
 #if defined(_WIN32) || defined(_WIN64)
 #include <conio.h>
@@ -69,20 +70,8 @@ int edkKbhit(void);
 #pragma message "    Compiling String"
 #endif
 
-namespace edk {
-class TTY{
-public:
-    TTY();
-    ~TTY();
-
-    bool initTerminal();
-    bool resetTerminal();
-private:
-    bool haveInit;
-};
-
+namespace edk{
 class String {
-
 public:
     //TTY to construct and destruct
     static edk::TTY tty;

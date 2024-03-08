@@ -111,7 +111,7 @@ else:unix: QMAKE_LFLAGS   += -no-pie
 LIBS += -lsfml-system -lsfml-window -lsfml-graphics -lsfml-audio
 
 win32: LIBS += -lwsock32 -lopengl32 -lglu32 -lglew32
-else:unix: LIBS += -lX11 -lGL -lGLU -lGLEW -ldl -lpthread
+else:unix: LIBS += -lpthread -ldl -lX11 -lGL -lGLU -lGLEW
 
 */
 

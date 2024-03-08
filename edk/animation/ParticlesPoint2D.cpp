@@ -196,6 +196,7 @@ bool edk::animation::ParticlesPoint2D::ParticleObject::setThis(edk::animation::P
 edk::animation::ParticlesPoint2D::TreeParticles::TreeParticles(){
     //
     this->treeRemove.treeTemp = this;edkEnd();
+    this->haveSomeParticle=false;
 }
 edk::animation::ParticlesPoint2D::TreeParticles::~TreeParticles(){
     //
@@ -210,6 +211,7 @@ void edk::animation::ParticlesPoint2D::TreeParticles::updateElement(edk::animati
     if(value->isPlaying()){
         //then update
         value->update(this->second);edkEnd();
+        this->haveSomeParticle=true;
     }
     else if(value->isStoped()){
         //add to the remove tree
@@ -231,6 +233,10 @@ void edk::animation::ParticlesPoint2D::TreeParticles::updateParticles(edk::float
 }
 void edk::animation::ParticlesPoint2D::TreeParticles::pauseParticles(){
     this->print();edkEnd();
+}
+//return true if have the particles
+bool edk::animation::ParticlesPoint2D::TreeParticles::haveParticles(){
+    return this->haveSomeParticle;
 }
 
 edk::animation::ParticlesPoint2D::ParticlesPoint2D(){
@@ -278,6 +284,29 @@ edk::animation::ParticlesPoint2D::~ParticlesPoint2D(){
 //get the position
 edk::vec2f32 edk::animation::ParticlesPoint2D::newPosition(){
     return this->position;edkEnd();
+}
+
+//add objects into the tree
+bool edk::animation::ParticlesPoint2D::addNewObject(edk::Object2D* obj,edk::float32 angleObject,edk::size2f32 sizeObject){
+    return this->treeObjects.addNewObject(obj,angleObject,sizeObject);
+}
+//remove an object from the tree
+bool edk::animation::ParticlesPoint2D::removeObject(edk::Object2D* obj){
+    return this->treeObjects.removeObject(obj);
+}
+//update the object angle and size
+bool edk::animation::ParticlesPoint2D::updateObject(edk::Object2D* obj,edk::float32 angleObject,edk::size2f32 sizeObject){
+    return this->treeObjects.updateObject(obj,angleObject,sizeObject);
+}
+bool edk::animation::ParticlesPoint2D::updateObjectAngle(edk::Object2D* obj,edk::float32 angleObject){
+    return this->treeObjects.updateObjectAngle(obj,angleObject);
+}
+bool edk::animation::ParticlesPoint2D::updateObjectSize(edk::Object2D* obj,edk::size2f32 sizeObject){
+    return this->treeObjects.updateObjectSize(obj,sizeObject);
+}
+//clean all objects inside the tree
+void edk::animation::ParticlesPoint2D::cleanObjects(){
+    this->treeObjects.cleanObjects();
 }
 
 //set angles near and far
@@ -443,10 +472,23 @@ bool edk::animation::ParticlesPoint2D::loadParticles(edk::uint32 size){
         //create the new particles
         this->particles = new edk::animation::ParticlesPoint2D::ParticleObject[size];edkEnd();
         if(this->particles){
+            edk::Object2D* temp;
+            edk::uint32 sizeObjects = this->treeObjects.size();
+            edk::uint32 positionObject=0u;
             this->sizeParticles = size;edkEnd();
             //set the objects
             for(register edk::uint32 i = 0u;i<this->sizeParticles;i++){
-                this->particles[i].setObject(&this->obj);edkEnd();
+                temp = this->treeObjects.getObjectInPosition(positionObject);
+                if(temp){
+                    this->particles[i].setObject(temp);edkEnd();
+                }
+                else{
+                    this->particles[i].setObject(&this->obj);edkEnd();
+                }
+                positionObject++;
+                if(positionObject>=sizeObjects){
+                    positionObject=0u;
+                }
             }
             if(this->sizeParticles==1u){
                 this->isOne=true;
@@ -476,10 +518,13 @@ void edk::animation::ParticlesPoint2D::cleanParticles(){
 //player
 void edk::animation::ParticlesPoint2D::play(){
     //
-    this->isPlayingBlower = true;edkEnd();
-    this->time.start();edkEnd();
-    this->lastSecond = this->timeLimit;
-    //this->isPlayingParticles=true;edkEnd();
+    if(!this->isPlaying()){
+        this->isPlayingBlower = true;edkEnd();
+        this->time.start();edkEnd();
+        this->lastSecond = this->timeLimit;
+        //add the object into the treeObjects
+        this->treeObjects.addNewObject(&this->obj,this->angleObject,this->sizeObject);
+    }
 }
 void edk::animation::ParticlesPoint2D::pause(){
     //
@@ -520,9 +565,13 @@ void edk::animation::ParticlesPoint2D::pauseParticles(){
     this->treeParticles.pauseParticles();edkEnd();
 }
 void edk::animation::ParticlesPoint2D::stop(){
-    this->isPlayingBlower = false;edkEnd();
+    if(this->isPlaying()){
+        this->isPlayingBlower = false;edkEnd();
+    }
+}
+void edk::animation::ParticlesPoint2D::stopAndCleanParticles(){
+    this->stop();edkEnd();
     this->treeParticles.clean();edkEnd();
-    //this->isPlayingParticles=false;edkEnd();
 }
 //return true if is playing
 bool edk::animation::ParticlesPoint2D::isPlaying(){
@@ -586,6 +635,9 @@ void edk::animation::ParticlesPoint2D::update(edk::float32 seconds){
 
     //update the tree
     this->treeParticles.updateParticles(seconds);edkEnd();
+    if(!this->treeParticles.haveParticles()){
+        this->treeParticles.clean();edkEnd();
+    }
 }
 void edk::animation::ParticlesPoint2D::draw(){
     this->treeParticles.render();edkEnd();

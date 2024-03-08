@@ -31,6 +31,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #pragma once
 #include "../TypeVars.h"
+#include "../Random.h"
 #include "../Object2DValues.h"
 #include "../Object2D.h"
 #include "InterpolationLine3D.h"
@@ -48,6 +49,18 @@ class ParticlesPoint2D : public edk::Object2DValues{
 public:
     ParticlesPoint2D();
     ~ParticlesPoint2D();
+
+    //add objects into the tree
+    bool addNewObject(edk::Object2D* obj,edk::float32 angleObject,edk::size2f32 sizeObject);
+    //remove an object from the tree
+    bool removeObject(edk::Object2D* obj);
+    //update the object angle and size
+    bool updateObject(edk::Object2D* obj,edk::float32 angleObject,edk::size2f32 sizeObject);
+    bool updateObjectAngle(edk::Object2D* obj,edk::float32 angleObject);
+    bool updateObjectSize(edk::Object2D* obj,edk::size2f32 sizeObject);
+    //clean all objects inside the tree
+    void cleanObjects();
+
     //angle
     void setAngleNear(edk::float32 _near);
     void setAngleFar(edk::float32 _far);
@@ -97,6 +110,7 @@ public:
     void pauseOff();
     void pauseParticles();
     void stop();
+    void stopAndCleanParticles();
     //return true if is playing
     bool isPlaying();
 
@@ -213,11 +227,20 @@ private:
         //pause particles
         void printElement(edk::animation::ParticlesPoint2D::ParticleObject* value);
 
+        //update the elements
+        void update(){
+            this->haveSomeParticle=false;
+            edk::vector::BinaryTree<edk::animation::ParticlesPoint2D::ParticleObject*>::update();edkEnd();
+        }
+
         //update the objects
         void updateParticles(edk::float32 second);
         void pauseParticles();
+        //return true if have the particles
+        bool haveParticles();
     private:
         edk::float32 second;
+        bool haveSomeParticle;
         //remove tree
         class treeRemove: public edk::vector::BinaryTree<edk::animation::ParticlesPoint2D::ParticleObject*>{
         public:
@@ -231,6 +254,137 @@ private:
             edk::vector::BinaryTree<edk::animation::ParticlesPoint2D::ParticleObject*>* treeTemp;
         }treeRemove;
     }treeParticles;
+
+
+    //tree objects
+    class ParticleObject2D{
+    public:
+        ParticleObject2D(edk::Object2D* obj,edk::float32 angleObject,edk::size2f32 sizeObject){
+            this->obj=obj;
+            this->angleObject=angleObject;
+            this->sizeObject=sizeObject;
+        }
+        ParticleObject2D(){}
+
+        //Object to draw
+        edk::Object2D* obj;
+        edk::float32 angleObject;
+        edk::size2f32 sizeObject;
+    };
+    class TreeObjects2D: public edk::vector::BinaryTree<edk::animation::ParticlesPoint2D::ParticleObject2D*>{
+    public:
+        TreeObjects2D(){}
+        ~TreeObjects2D(){
+            this->cleanObjects();
+        }
+        //compare if the value is bigger
+        bool firstBiggerSecond(edk::animation::ParticlesPoint2D::ParticleObject2D* first,edk::animation::ParticlesPoint2D::ParticleObject2D* second){
+            if(first->obj>second->obj){
+                //
+                return true;
+            }
+            return false;
+        }
+        //compare if the value is equal
+        bool firstEqualSecond(edk::animation::ParticlesPoint2D::ParticleObject2D* first,edk::animation::ParticlesPoint2D::ParticleObject2D* second){
+            if(first->obj==second->obj){
+                //
+                return true;
+            }
+            return false;
+        }
+        //clean objects on the tree
+        void cleanObjects(){
+            edk::uint32 size = this->size();
+            edk::animation::ParticlesPoint2D::ParticleObject2D* obj;
+            for(edk::uint32 i=0u;i<size;i++){
+                obj = this->getElementInPosition(i);
+                if(obj){
+                    delete obj;
+                }
+            }
+            this->clean();
+        }
+        bool removeObject(edk::Object2D* obj){
+            if(obj){
+                edk::animation::ParticlesPoint2D::ParticleObject2D* temp=this->getObject2DByObject(obj);
+                if(temp){
+                    if(this->remove(temp)){
+                        delete temp;
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+        //add a object into the tree
+        bool addNewObject(edk::Object2D* obj,edk::float32 angleObject,edk::size2f32 sizeObject){
+            edk::animation::ParticlesPoint2D::ParticleObject2D* temp=this->getObject2DByObject(obj);
+            if(!temp){
+                temp = new edk::animation::ParticlesPoint2D::ParticleObject2D(obj,angleObject,sizeObject);
+                if(temp){
+                    if(this->add(temp)){
+                        return true;
+                    }
+                    delete temp;
+                }
+            }
+            else{
+                //else just update the object
+                temp->angleObject=angleObject;
+                temp->sizeObject=sizeObject;
+            }
+            return false;
+        }
+        bool updateObject(edk::Object2D* obj,edk::float32 angleObject,edk::size2f32 sizeObject){
+            edk::animation::ParticlesPoint2D::ParticleObject2D* temp=this->getObject2DByObject(obj);
+            if(temp){
+                temp->angleObject = angleObject;
+                temp->sizeObject = sizeObject;
+                return true;
+            }
+            return false;
+        }
+        bool updateObjectAngle(edk::Object2D* obj,edk::float32 angleObject){
+            edk::animation::ParticlesPoint2D::ParticleObject2D* temp=this->getObject2DByObject(obj);
+            if(temp){
+                temp->angleObject = angleObject;
+                return true;
+            }
+            return false;
+        }
+        bool updateObjectSize(edk::Object2D* obj,edk::size2f32 sizeObject){
+            edk::animation::ParticlesPoint2D::ParticleObject2D* temp=this->getObject2DByObject(obj);
+            if(temp){
+                temp->sizeObject = sizeObject;
+                return true;
+            }
+            return false;
+        }
+        //get object in a position
+        edk::Object2D* getObjectInPosition(edk::uint32 position){
+            edk::animation::ParticlesPoint2D::ParticleObject2D* obj = getElementInPosition(position);
+            if(obj){
+                return obj->obj;
+            }
+            return NULL;
+        }
+        edk::Object2D* getObjectInPosition(edk::uint32 position,edk::float32* angleObject,edk::size2f32* sizeObject){
+            edk::animation::ParticlesPoint2D::ParticleObject2D* obj = getElementInPosition(position);
+            if(obj && angleObject && sizeObject){
+                *angleObject = obj->angleObject;
+                *sizeObject = obj->sizeObject;
+                return obj->obj;
+            }
+            return NULL;
+        }
+        private:
+        edk::animation::ParticlesPoint2D::ParticleObject2D* getObject2DByObject(edk::Object2D* obj){
+            this->objTemplate.obj = obj;
+            return this->getElement(&this->objTemplate);
+        }
+        edk::animation::ParticlesPoint2D::ParticleObject2D objTemplate;
+    }treeObjects;
 
 public:
     //update the particle
