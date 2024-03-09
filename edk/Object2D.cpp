@@ -1727,6 +1727,25 @@ void edk::Object2D::drawWire(){
     }
     edk::GU::guPopMatrix();edkEnd();
 }
+void edk::Object2D::drawWirePolygon(edk::uint32 meshPosition,edk::uint32 polygon){
+
+    //put the transformation on a stack
+    edk::GU::guPushMatrix();edkEnd();
+    //add translate
+    edk::GU::guTranslate2f32(this->position);edkEnd();
+    //add rotation
+    edk::GU::guRotateZf32(this->angle);edkEnd();
+    //add scale
+    edk::GU::guScale2f32(this->size);edkEnd();
+    //set the pivo
+    edk::GU::guTranslate2f32(this->pivo*-1.0f);edkEnd();
+
+    edk::shape::Mesh2D* mesh = this->meshes.getMesh(meshPosition);edkEnd();
+    if(mesh){
+        mesh->drawWirePolygon(polygon);edkEnd();
+    }
+    edk::GU::guPopMatrix();edkEnd();
+}
 bool edk::Object2D::drawMesh(edk::uint32 meshPosition){
     bool ret=false;edkEnd();
     //put the transformation on a stack

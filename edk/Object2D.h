@@ -200,6 +200,7 @@ public:
     virtual void drawWithoutMaterial();
     virtual void drawWithoutMaterialWithLight();
     virtual void drawWire();
+    virtual void drawWirePolygon(edk::uint32 meshPosition,edk::uint32 polygon);
     virtual bool drawMesh(edk::uint32 meshPosition);
     virtual bool drawPolygon(edk::uint32 meshPosition,edk::uint32 polygon);
     virtual bool drawMeshOneTexture(edk::uint32 meshPosition);
