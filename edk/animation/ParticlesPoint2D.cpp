@@ -294,6 +294,14 @@ bool edk::animation::ParticlesPoint2D::addNewObject(edk::Object2D* obj,edk::floa
 bool edk::animation::ParticlesPoint2D::removeObject(edk::Object2D* obj){
     return this->treeObjects.removeObject(obj);
 }
+bool edk::animation::ParticlesPoint2D::deleteObject(edk::Object2D* obj){
+    if(obj){
+        if(this->removeObject(obj)){
+            delete obj;
+        }
+    }
+    return false;
+}
 //update the object angle and size
 bool edk::animation::ParticlesPoint2D::updateObject(edk::Object2D* obj,edk::float32 angleObject,edk::size2f32 sizeObject){
     return this->treeObjects.updateObject(obj,angleObject,sizeObject);
@@ -307,6 +315,17 @@ bool edk::animation::ParticlesPoint2D::updateObjectSize(edk::Object2D* obj,edk::
 //clean all objects inside the tree
 void edk::animation::ParticlesPoint2D::cleanObjects(){
     this->treeObjects.cleanObjects();
+}
+void edk::animation::ParticlesPoint2D::deleteObjects(){
+    edk::uint32 size = this->treeObjects.size();
+    edk::Object2D* obj=NULL;
+    for(edk::uint32 i=0u;i<size;i++){
+        obj = this->treeObjects.getObjectInPosition(i);
+        if(obj){
+            delete obj;
+        }
+    }
+    this->treeObjects.clean();
 }
 
 //set angles near and far
@@ -468,7 +487,12 @@ void edk::animation::ParticlesPoint2D::setAngleAndSizeObjectFromObject(){
 //load particles
 bool edk::animation::ParticlesPoint2D::loadParticles(edk::uint32 size){
     this->cleanParticles();edkEnd();
+    this->treeObjects.removeObject(&this->obj);
     if(size){
+        if(!this->treeObjects.size()){
+            //add the object into the treeObjects
+            this->treeObjects.addNewObject(&this->obj,this->angleObject,this->sizeObject);
+        }
         //create the new particles
         this->particles = new edk::animation::ParticlesPoint2D::ParticleObject[size];edkEnd();
         if(this->particles){
@@ -522,8 +546,6 @@ void edk::animation::ParticlesPoint2D::play(){
         this->isPlayingBlower = true;edkEnd();
         this->time.start();edkEnd();
         this->lastSecond = this->timeLimit;
-        //add the object into the treeObjects
-        this->treeObjects.addNewObject(&this->obj,this->angleObject,this->sizeObject);
     }
 }
 void edk::animation::ParticlesPoint2D::pause(){

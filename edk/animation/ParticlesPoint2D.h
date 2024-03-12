@@ -54,12 +54,14 @@ public:
     bool addNewObject(edk::Object2D* obj,edk::float32 angleObject,edk::size2f32 sizeObject);
     //remove an object from the tree
     bool removeObject(edk::Object2D* obj);
+    bool deleteObject(edk::Object2D* obj);
     //update the object angle and size
     bool updateObject(edk::Object2D* obj,edk::float32 angleObject,edk::size2f32 sizeObject);
     bool updateObjectAngle(edk::Object2D* obj,edk::float32 angleObject);
     bool updateObjectSize(edk::Object2D* obj,edk::size2f32 sizeObject);
     //clean all objects inside the tree
     void cleanObjects();
+    void deleteObjects();
 
     //angle
     void setAngleNear(edk::float32 _near);

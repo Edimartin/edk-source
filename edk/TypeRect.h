@@ -881,6 +881,20 @@ public:
         if(this->size.width < rect.size.width)this->size.width = rect.size.width;
         if(this->size.height < rect.size.height)this->size.height = rect.size.height;
     }
+    //function to merge the rect with another point
+    void merge(edk::vec2i8 point){
+        if(this->origin.x > point.x)this->origin.x = point.x;
+        if(this->origin.y > point.y)this->origin.y = point.y;
+        if(this->size.width < point.x)this->size.width = point.x;
+        if(this->size.height < point.y)this->size.height = point.y;
+    }
+    //function to merge the rect with another size
+    void merge(edk::size2i8 point){
+        if(this->origin.x > point.width)this->origin.x = point.width;
+        if(this->origin.y > point.height)this->origin.y = point.height;
+        if(this->size.width < point.width)this->size.width = point.width;
+        if(this->size.height < point.height)this->size.height = point.height;
+    }
 };
 
 class recti16{
@@ -1801,6 +1815,32 @@ public:
         if(this->origin.y > rect.origin.y)this->origin.y = rect.origin.y;
         if(this->size.width < rect.size.width)this->size.width = rect.size.width;
         if(this->size.height < rect.size.height)this->size.height = rect.size.height;
+    }
+    //function to merge the rect with another point
+    void merge(edk::vec2i8 point){
+        if(this->origin.x > point.x)this->origin.x = point.x;
+        if(this->origin.y > point.y)this->origin.y = point.y;
+        if(this->size.width < point.x)this->size.width = point.x;
+        if(this->size.height < point.y)this->size.height = point.y;
+    }
+    void merge(edk::vec2i16 point){
+        if(this->origin.x > point.x)this->origin.x = point.x;
+        if(this->origin.y > point.y)this->origin.y = point.y;
+        if(this->size.width < point.x)this->size.width = point.x;
+        if(this->size.height < point.y)this->size.height = point.y;
+    }
+    //function to merge the rect with another size
+    void merge(edk::size2i8 point){
+        if(this->origin.x > point.width)this->origin.x = point.width;
+        if(this->origin.y > point.height)this->origin.y = point.height;
+        if(this->size.width < point.width)this->size.width = point.width;
+        if(this->size.height < point.height)this->size.height = point.height;
+    }
+    void merge(edk::size2i16 point){
+        if(this->origin.x > point.width)this->origin.x = point.width;
+        if(this->origin.y > point.height)this->origin.y = point.height;
+        if(this->size.width < point.width)this->size.width = point.width;
+        if(this->size.height < point.height)this->size.height = point.height;
     }
 };
 
@@ -2800,6 +2840,44 @@ public:
         if(this->origin.y > rect.origin.y)this->origin.y = rect.origin.y;
         if(this->size.width < rect.size.width)this->size.width = rect.size.width;
         if(this->size.height < rect.size.height)this->size.height = rect.size.height;
+    }
+    //function to merge the rect with another point
+    void merge(edk::vec2i8 point){
+        if(this->origin.x > point.x)this->origin.x = point.x;
+        if(this->origin.y > point.y)this->origin.y = point.y;
+        if(this->size.width < point.x)this->size.width = point.x;
+        if(this->size.height < point.y)this->size.height = point.y;
+    }
+    void merge(edk::vec2i16 point){
+        if(this->origin.x > point.x)this->origin.x = point.x;
+        if(this->origin.y > point.y)this->origin.y = point.y;
+        if(this->size.width < point.x)this->size.width = point.x;
+        if(this->size.height < point.y)this->size.height = point.y;
+    }
+    void merge(edk::vec2i32 point){
+        if(this->origin.x > point.x)this->origin.x = point.x;
+        if(this->origin.y > point.y)this->origin.y = point.y;
+        if(this->size.width < point.x)this->size.width = point.x;
+        if(this->size.height < point.y)this->size.height = point.y;
+    }
+    //function to merge the rect with another size
+    void merge(edk::size2i8 point){
+        if(this->origin.x > point.width)this->origin.x = point.width;
+        if(this->origin.y > point.height)this->origin.y = point.height;
+        if(this->size.width < point.width)this->size.width = point.width;
+        if(this->size.height < point.height)this->size.height = point.height;
+    }
+    void merge(edk::size2i16 point){
+        if(this->origin.x > point.width)this->origin.x = point.width;
+        if(this->origin.y > point.height)this->origin.y = point.height;
+        if(this->size.width < point.width)this->size.width = point.width;
+        if(this->size.height < point.height)this->size.height = point.height;
+    }
+    void merge(edk::size2i32 point){
+        if(this->origin.x > point.width)this->origin.x = point.width;
+        if(this->origin.y > point.height)this->origin.y = point.height;
+        if(this->size.width < point.width)this->size.width = point.width;
+        if(this->size.height < point.height)this->size.height = point.height;
     }
 };
 
@@ -3878,6 +3956,56 @@ public:
         if(this->size.width < rect.size.width)this->size.width = rect.size.width;
         if(this->size.height < rect.size.height)this->size.height = rect.size.height;
     }
+    //function to merge the rect with another point
+    void merge(edk::vec2i8 point){
+        if(this->origin.x > point.x)this->origin.x = point.x;
+        if(this->origin.y > point.y)this->origin.y = point.y;
+        if(this->size.width < point.x)this->size.width = point.x;
+        if(this->size.height < point.y)this->size.height = point.y;
+    }
+    void merge(edk::vec2i16 point){
+        if(this->origin.x > point.x)this->origin.x = point.x;
+        if(this->origin.y > point.y)this->origin.y = point.y;
+        if(this->size.width < point.x)this->size.width = point.x;
+        if(this->size.height < point.y)this->size.height = point.y;
+    }
+    void merge(edk::vec2i32 point){
+        if(this->origin.x > point.x)this->origin.x = point.x;
+        if(this->origin.y > point.y)this->origin.y = point.y;
+        if(this->size.width < point.x)this->size.width = point.x;
+        if(this->size.height < point.y)this->size.height = point.y;
+    }
+    void merge(edk::vec2i64 point){
+        if(this->origin.x > point.x)this->origin.x = point.x;
+        if(this->origin.y > point.y)this->origin.y = point.y;
+        if(this->size.width < point.x)this->size.width = point.x;
+        if(this->size.height < point.y)this->size.height = point.y;
+    }
+    //function to merge the rect with another size
+    void merge(edk::size2i8 point){
+        if(this->origin.x > point.width)this->origin.x = point.width;
+        if(this->origin.y > point.height)this->origin.y = point.height;
+        if(this->size.width < point.width)this->size.width = point.width;
+        if(this->size.height < point.height)this->size.height = point.height;
+    }
+    void merge(edk::size2i16 point){
+        if(this->origin.x > point.width)this->origin.x = point.width;
+        if(this->origin.y > point.height)this->origin.y = point.height;
+        if(this->size.width < point.width)this->size.width = point.width;
+        if(this->size.height < point.height)this->size.height = point.height;
+    }
+    void merge(edk::size2i32 point){
+        if(this->origin.x > point.width)this->origin.x = point.width;
+        if(this->origin.y > point.height)this->origin.y = point.height;
+        if(this->size.width < point.width)this->size.width = point.width;
+        if(this->size.height < point.height)this->size.height = point.height;
+    }
+    void merge(edk::size2i64 point){
+        if(this->origin.x > point.width)this->origin.x = point.width;
+        if(this->origin.y > point.height)this->origin.y = point.height;
+        if(this->size.width < point.width)this->size.width = point.width;
+        if(this->size.height < point.height)this->size.height = point.height;
+    }
 };
 
 class rectui8{
@@ -4408,6 +4536,20 @@ public:
         if(this->origin.y > rect.origin.y)this->origin.y = rect.origin.y;
         if(this->size.width < rect.size.width)this->size.width = rect.size.width;
         if(this->size.height < rect.size.height)this->size.height = rect.size.height;
+    }
+    //function to merge the rect with another point
+    void merge(edk::vec2ui8 point){
+        if(this->origin.x > point.x)this->origin.x = point.x;
+        if(this->origin.y > point.y)this->origin.y = point.y;
+        if(this->size.width < point.x)this->size.width = point.x;
+        if(this->size.height < point.y)this->size.height = point.y;
+    }
+    //function to merge the rect with another size
+    void merge(edk::size2ui8 point){
+        if(this->origin.x > point.width)this->origin.x = point.width;
+        if(this->origin.y > point.height)this->origin.y = point.height;
+        if(this->size.width < point.width)this->size.width = point.width;
+        if(this->size.height < point.height)this->size.height = point.height;
     }
 };
 
@@ -5017,6 +5159,32 @@ public:
         if(this->origin.y > rect.origin.y)this->origin.y = rect.origin.y;
         if(this->size.width < rect.size.width)this->size.width = rect.size.width;
         if(this->size.height < rect.size.height)this->size.height = rect.size.height;
+    }
+    //function to merge the rect with another point
+    void merge(edk::vec2ui8 point){
+        if(this->origin.x > point.x)this->origin.x = point.x;
+        if(this->origin.y > point.y)this->origin.y = point.y;
+        if(this->size.width < point.x)this->size.width = point.x;
+        if(this->size.height < point.y)this->size.height = point.y;
+    }
+    void merge(edk::vec2ui16 point){
+        if(this->origin.x > point.x)this->origin.x = point.x;
+        if(this->origin.y > point.y)this->origin.y = point.y;
+        if(this->size.width < point.x)this->size.width = point.x;
+        if(this->size.height < point.y)this->size.height = point.y;
+    }
+    //function to merge the rect with another size
+    void merge(edk::size2ui8 point){
+        if(this->origin.x > point.width)this->origin.x = point.width;
+        if(this->origin.y > point.height)this->origin.y = point.height;
+        if(this->size.width < point.width)this->size.width = point.width;
+        if(this->size.height < point.height)this->size.height = point.height;
+    }
+    void merge(edk::size2ui16 point){
+        if(this->origin.x > point.width)this->origin.x = point.width;
+        if(this->origin.y > point.height)this->origin.y = point.height;
+        if(this->size.width < point.width)this->size.width = point.width;
+        if(this->size.height < point.height)this->size.height = point.height;
     }
 };
 
@@ -5704,6 +5872,44 @@ public:
         if(this->origin.y > rect.origin.y)this->origin.y = rect.origin.y;
         if(this->size.width < rect.size.width)this->size.width = rect.size.width;
         if(this->size.height < rect.size.height)this->size.height = rect.size.height;
+    }
+    //function to merge the rect with another point
+    void merge(edk::vec2ui8 point){
+        if(this->origin.x > point.x)this->origin.x = point.x;
+        if(this->origin.y > point.y)this->origin.y = point.y;
+        if(this->size.width < point.x)this->size.width = point.x;
+        if(this->size.height < point.y)this->size.height = point.y;
+    }
+    void merge(edk::vec2ui16 point){
+        if(this->origin.x > point.x)this->origin.x = point.x;
+        if(this->origin.y > point.y)this->origin.y = point.y;
+        if(this->size.width < point.x)this->size.width = point.x;
+        if(this->size.height < point.y)this->size.height = point.y;
+    }
+    void merge(edk::vec2ui32 point){
+        if(this->origin.x > point.x)this->origin.x = point.x;
+        if(this->origin.y > point.y)this->origin.y = point.y;
+        if(this->size.width < point.x)this->size.width = point.x;
+        if(this->size.height < point.y)this->size.height = point.y;
+    }
+    //function to merge the rect with another size
+    void merge(edk::size2ui8 point){
+        if(this->origin.x > point.width)this->origin.x = point.width;
+        if(this->origin.y > point.height)this->origin.y = point.height;
+        if(this->size.width < point.width)this->size.width = point.width;
+        if(this->size.height < point.height)this->size.height = point.height;
+    }
+    void merge(edk::size2ui16 point){
+        if(this->origin.x > point.width)this->origin.x = point.width;
+        if(this->origin.y > point.height)this->origin.y = point.height;
+        if(this->size.width < point.width)this->size.width = point.width;
+        if(this->size.height < point.height)this->size.height = point.height;
+    }
+    void merge(edk::size2ui32 point){
+        if(this->origin.x > point.width)this->origin.x = point.width;
+        if(this->origin.y > point.height)this->origin.y = point.height;
+        if(this->size.width < point.width)this->size.width = point.width;
+        if(this->size.height < point.height)this->size.height = point.height;
     }
 };
 
@@ -6469,6 +6675,56 @@ public:
         if(this->origin.y > rect.origin.y)this->origin.y = rect.origin.y;
         if(this->size.width < rect.size.width)this->size.width = rect.size.width;
         if(this->size.height < rect.size.height)this->size.height = rect.size.height;
+    }
+    //function to merge the rect with another point
+    void merge(edk::vec2ui8 point){
+        if(this->origin.x > point.x)this->origin.x = point.x;
+        if(this->origin.y > point.y)this->origin.y = point.y;
+        if(this->size.width < point.x)this->size.width = point.x;
+        if(this->size.height < point.y)this->size.height = point.y;
+    }
+    void merge(edk::vec2ui16 point){
+        if(this->origin.x > point.x)this->origin.x = point.x;
+        if(this->origin.y > point.y)this->origin.y = point.y;
+        if(this->size.width < point.x)this->size.width = point.x;
+        if(this->size.height < point.y)this->size.height = point.y;
+    }
+    void merge(edk::vec2ui32 point){
+        if(this->origin.x > point.x)this->origin.x = point.x;
+        if(this->origin.y > point.y)this->origin.y = point.y;
+        if(this->size.width < point.x)this->size.width = point.x;
+        if(this->size.height < point.y)this->size.height = point.y;
+    }
+    void merge(edk::vec2ui64 point){
+        if(this->origin.x > point.x)this->origin.x = point.x;
+        if(this->origin.y > point.y)this->origin.y = point.y;
+        if(this->size.width < point.x)this->size.width = point.x;
+        if(this->size.height < point.y)this->size.height = point.y;
+    }
+    //function to merge the rect with another size
+    void merge(edk::size2ui8 point){
+        if(this->origin.x > point.width)this->origin.x = point.width;
+        if(this->origin.y > point.height)this->origin.y = point.height;
+        if(this->size.width < point.width)this->size.width = point.width;
+        if(this->size.height < point.height)this->size.height = point.height;
+    }
+    void merge(edk::size2ui16 point){
+        if(this->origin.x > point.width)this->origin.x = point.width;
+        if(this->origin.y > point.height)this->origin.y = point.height;
+        if(this->size.width < point.width)this->size.width = point.width;
+        if(this->size.height < point.height)this->size.height = point.height;
+    }
+    void merge(edk::size2ui32 point){
+        if(this->origin.x > point.width)this->origin.x = point.width;
+        if(this->origin.y > point.height)this->origin.y = point.height;
+        if(this->size.width < point.width)this->size.width = point.width;
+        if(this->size.height < point.height)this->size.height = point.height;
+    }
+    void merge(edk::size2ui64 point){
+        if(this->origin.x > point.width)this->origin.x = point.width;
+        if(this->origin.y > point.height)this->origin.y = point.height;
+        if(this->size.width < point.width)this->size.width = point.width;
+        if(this->size.height < point.height)this->size.height = point.height;
     }
 };
 
@@ -7468,6 +7724,20 @@ public:
         if(this->origin.y > rect.origin.y)this->origin.y = rect.origin.y;
         if(this->size.width < rect.size.width)this->size.width = rect.size.width;
         if(this->size.height < rect.size.height)this->size.height = rect.size.height;
+    }
+    //function to merge the rect with another point
+    void merge(edk::vec2f32 point){
+        if(this->origin.x > point.x)this->origin.x = point.x;
+        if(this->origin.y > point.y)this->origin.y = point.y;
+        if(this->size.width < point.x)this->size.width = point.x;
+        if(this->size.height < point.y)this->size.height = point.y;
+    }
+    //function to merge the rect with another size
+    void merge(edk::size2f32 point){
+        if(this->origin.x > point.width)this->origin.x = point.width;
+        if(this->origin.y > point.height)this->origin.y = point.height;
+        if(this->size.width < point.width)this->size.width = point.width;
+        if(this->size.height < point.height)this->size.height = point.height;
     }
 };
 
@@ -8473,6 +8743,26 @@ public:
         if(this->origin.y > rect.origin.y)this->origin.y = rect.origin.y;
         if(this->size.width < rect.size.width)this->size.width = rect.size.width;
         if(this->size.height < rect.size.height)this->size.height = rect.size.height;
+    }
+    //function to merge the rect with another point
+    void merge(edk::vec2f32 point){
+        if(this->origin.x > point.x)this->origin.x = point.x;
+        if(this->origin.y > point.y)this->origin.y = point.y;
+        if(this->size.width < point.x)this->size.width = point.x;
+        if(this->size.height < point.y)this->size.height = point.y;
+    }
+    void merge(edk::vec2f64 point){
+        if(this->origin.x > point.x)this->origin.x = point.x;
+        if(this->origin.y > point.y)this->origin.y = point.y;
+        if(this->size.width < point.x)this->size.width = point.x;
+        if(this->size.height < point.y)this->size.height = point.y;
+    }
+    //function to merge the rect with another size
+    void merge(edk::size2f64 point){
+        if(this->origin.x > point.width)this->origin.x = point.width;
+        if(this->origin.y > point.height)this->origin.y = point.height;
+        if(this->size.width < point.width)this->size.width = point.width;
+        if(this->size.height < point.height)this->size.height = point.height;
     }
 };
 

@@ -43,15 +43,18 @@ public:
     ParticlesLine2D();
 
     //set the points
-    void setP1(edk::vec2f32 point);
-    void setP1(edk::float32 px,edk::float32 py);
-    void setP2(edk::vec2f32 point);
-    void setP2(edk::float32 px,edk::float32 py);
-    void setPoints(edk::vec2f32 p1,edk::vec2f32 p2);
-    void setPoints(edk::float32 p1x,edk::float32 p1y,edk::float32 p2x,edk::float32 p2y);
+    void setP1Local(edk::vec2f32 point);
+    void setP1Local(edk::float32 px,edk::float32 py);
+    void setP2Local(edk::vec2f32 point);
+    void setP2Local(edk::float32 px,edk::float32 py);
+    void setPointsLocal(edk::vec2f32 p1,edk::vec2f32 p2);
+    void setPointsLocal(edk::float32 p1x,edk::float32 p1y,edk::float32 p2x,edk::float32 p2y);
+    void setPointsWorld(edk::vec2f32 p1,edk::vec2f32 p2);
+    void setPointsWorld(edk::float32 p1x,edk::float32 p1y,edk::float32 p2x,edk::float32 p2y);
 
     //draw the angles vector
     virtual void drawAngles(edk::float32 size,edk::color3f32 color);
+    virtual void drawAngles(edk::float32 size,edk::float32 r,edk::float32 g,edk::float32 b);
 protected:
     //get the position
     virtual edk::vec2f32 newPosition();
