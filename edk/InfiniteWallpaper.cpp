@@ -42,7 +42,7 @@ void edk::InfiniteWallpaper::clean(){
     this->stack.clean();edkEnd();
     this->translate=0.f;edkEnd();
     this->matrix.deleteMatrix();edkEnd();
-    this->saveLenght=0u;
+    this->saveLenght=0u;edkEnd();
 }
 //add new wallpaper
 //filter
@@ -186,7 +186,7 @@ void edk::InfiniteWallpaper::setLimitHeight(edk::uint32 height){
     this->sizeLimit.height = height;edkEnd();
 }
 void edk::InfiniteWallpaper::cleanLimit(){
-    this->sizeLimit=0u;
+    this->sizeLimit=0u;edkEnd();
 }
 void edk::InfiniteWallpaper::cleanLimitWidth(){
     this->sizeLimit.width = 0u;edkEnd();

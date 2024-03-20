@@ -39,64 +39,364 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endif
 
 namespace edk{
+template <class typeTemplate>
 class MemoryBuffer{
 public:
-    MemoryBuffer();
-    ~MemoryBuffer();
+    MemoryBuffer(){
+        //
+        this->buffer=NULL;edkEnd();
+        this->bufferSize=0u;edkEnd();
+        this->bufferWritedSize=0u;edkEnd();
+        this->lenghtToReturn=8u;edkEnd();
+    }
+    ~MemoryBuffer(){
+        this->clean();edkEnd();
+    }
 
     //clean the buffer
-    void clean();
+    void clean(){
+        if(this->buffer && this->bufferSize){
+            free(this->buffer);edkEnd();
+            this->buffer=NULL;edkEnd();
+            this->bufferSize=0u;edkEnd();
+            this->bufferWritedSize=0u;edkEnd();
+        }
+    }
 
-    //save some bytes in the buffer
-    bool writeToBuffer(edk::uint8* vector,edk::uint64 size);
-    bool writeFileFullToBuffer(edk::File* file);
-    bool writeFileToBuffer(edk::File* file);
-    bool writeFileToBuffer(edk::File* file,edk::uint64 size);
+    //save some bytes into the buffer
+    bool writeToBuffer(typeTemplate c){
+        return this->writeToBuffer((typeTemplate*)&c,1u);
+    }
+    bool writeToBuffer(typeTemplate* vector,edk::uint64 size){
+        if(vector && size){
+            this->allocBuffer(size);edkEnd();
+            if(this->buffer && this->bufferSize >= size){
+                //copy the vector to buffer
+                edkMemCpy(this->buffer,vector,sizeof(typeTemplate)*size);edkEnd();
+                this->bufferWritedSize=size;edkEnd();
+                if(this->bufferSize>this->bufferWritedSize){
+                    this->buffer[this->bufferWritedSize]=0u;edkEnd();
+                }
+                return true;
+            }
+        }
+        return false;
+    }
+    bool writeFileFullToBuffer(edk::File* file){
+        if(file){
+            edk::uint64 size = file->getFileSize();edkEnd();
+            if(size){
+                edk::uint64 seek = file->getSeek64();edkEnd();
+                bool ret=false;
+                file->seekStart64();edkEnd();
+                if(this->writeFileToBuffer(file,size)){
+                    ret=true;edkEnd();
+                }
+                file->seek(seek);edkEnd();
+                return ret;
+            }
+        }
+        return false;
+    }
+    bool writeFileToBuffer(edk::File* file){
+        if(file){
+            edk::uint64 size = file->getFileSize() - file->getSeek64();edkEnd();
+            if(size){
+                if(this->writeFileToBuffer(file,size)){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    bool writeFileToBuffer(edk::File* file,edk::uint64 size){
+        if(file && size){
+            //create the new buffer
+            edk::uint64 seek = file->getSeek64();edkEnd();
+            if((file->getFileSize() - seek) >= size){
+                this->allocBuffer(size);edkEnd();
+                if(this->buffer && this->bufferSize >= size){
+                    //copy the vector to buffer
+                    if(file->readBin(this->buffer,size)){
+                        this->bufferWritedSize=size;edkEnd();
+                        if(this->bufferSize>this->bufferWritedSize){
+                            this->buffer[this->bufferWritedSize]=0u;edkEnd();
+                        }
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    //push some bytes into the buffer
+    bool pushToBuffer(typeTemplate c){
+        return this->pushToBuffer((typeTemplate*)&c,1u);
+    }
+    bool pushToBuffer(typeTemplate* vector,edk::uint64 size){
+        if(vector && size){
+            this->reallocBuffer(size);edkEnd();
+            if(this->buffer && this->bufferSize >= size){
+                //copy the vector to buffer
+                edkMemCpy(&this->buffer[this->bufferWritedSize],vector,sizeof(typeTemplate)*size);edkEnd();
+                this->bufferWritedSize+=size;edkEnd();
+                if(this->bufferSize>this->bufferWritedSize){
+                    this->buffer[this->bufferWritedSize]=0u;edkEnd();
+                }
+                return true;
+            }
+        }
+        return false;
+    }
+    bool pushFileFullToBuffer(edk::File* file){
+        if(file){
+            edk::uint64 size = file->getFileSize();edkEnd();
+            if(size){
+                edk::uint64 seek = file->getSeek64();edkEnd();
+                bool ret=false;edkEnd();
+                file->seekStart64();edkEnd();
+                if(this->pushFileToBuffer(file,size)){
+                    ret=true;edkEnd();
+                }
+                file->seek(seek);edkEnd();
+                return ret;
+            }
+        }
+        return false;
+    }
+    bool pushFileToBuffer(edk::File* file){
+        if(file){
+            edk::uint64 size = file->getFileSize() - file->getSeek64();edkEnd();
+            if(size){
+                if(this->pushFileToBuffer(file,size)){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    bool pushFileToBuffer(edk::File* file,edk::uint64 size){
+        if(file && size){
+            //create the new buffer
+            edk::uint64 seek = file->getSeek64();edkEnd();
+            if((file->getFileSize() - seek) >= size){
+                this->reallocBuffer(size);edkEnd();
+                if(this->buffer && this->bufferSize >= size){
+                    //copy the vector to buffer
+                    if(file->readBin(&this->buffer[this->bufferWritedSize],size)){
+                        this->bufferWritedSize+=size;edkEnd();
+                        if(this->bufferSize>this->bufferWritedSize){
+                            this->buffer[this->bufferWritedSize]=0u;edkEnd();
+                        }
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
 
     //lenght to return
-    void setLenghtToReturn(edk::uint8 lenght);
-    edk::uint8 getLenghtToReturn();
+    void setLenghtToReturn(edk::uint8 lenght){
+        this->lenghtToReturn=lenght;edkEnd();
+    }
+    edk::uint8 getLenghtToReturn(){
+        return this->lenghtToReturn;
+    }
 
     //return true if have the buffer
-    bool haveBuffer();
+    bool haveBuffer(){
+        return (this->buffer && this->bufferSize);
+    }
     //return the buffer pointer
-    edk::classID getPointer();
-    edk::classID pointer();
+    edk::classID getPointer(){
+        return (edk::classID)this->buffer;
+    }
+    edk::classID pointer(){
+        return (edk::classID)this->buffer;
+    }
+    typeTemplate* getPointerStr(){
+        return (edk::char8*)this->buffer;
+    }
+    typeTemplate* pointerStr(){
+        return (edk::char8*)this->buffer;
+    }
     //return the size of the buffer writed
-    edk::uint64 getSize();
-    edk::uint64 size();
+    edk::uint64 getSize(){
+        return this->bufferWritedSize;
+    }
+    edk::uint64 size(){
+        return this->bufferWritedSize;
+    }
 
     //copy from buffer
-    edk::uint64 memCopy(edk::classID dest,edk::uint64 position,edk::uint64 size);
-    edk::uint64 memCopy(edk::classID dest,edk::uint64 size);
-    edk::uint64 memCopy(edk::classID dest);
-    edk::uint64 memCopy(edk::MemoryBuffer* dest,edk::uint64 position,edk::uint64 size);
-    edk::uint64 memCopy(edk::MemoryBuffer* dest,edk::uint64 size);
-    edk::uint64 memCopy(edk::MemoryBuffer* dest);
+    edk::uint64 memCopy(edk::classID dest,edk::uint64 position,edk::uint64 size){
+        if(dest && size && position<this->bufferSize){
+            if(size<this->bufferSize-position){
+                edkMemCpy(dest,&this->buffer[position],sizeof(typeTemplate)*size);edkEnd();
+                return size;
+            }
+        }
+        return 0u;
+    }
+    edk::uint64 memCopy(edk::classID dest,edk::uint64 size){
+        return this->memCopy(dest,0u,size);
+    }
+    edk::uint64 memCopy(edk::classID dest){
+        return this->memCopy(dest,0u,this->getSize());
+    }
+    edk::uint64 memCopy(edk::MemoryBuffer<typeTemplate>* dest,edk::uint64 position,edk::uint64 size){
+        if(dest && position<this->getSize()){
+            if(size<=this->getSize()-position){
+                //alloc the buffer
+                dest->allocBuffer(size);edkEnd();
+                if(dest->haveBuffer()){
+                    edkMemCpy(dest->buffer,&this->buffer[position],sizeof(typeTemplate)*size);edkEnd();
+                    dest->bufferWritedSize=size;edkEnd();
+                    return size;
+                }
+            }
+        }
+        return 0u;
+    }
+    edk::uint64 memCopy(edk::MemoryBuffer<typeTemplate>* dest,edk::uint64 size){
+        return memCopy(dest,0u,size);
+    }
+    edk::uint64 memCopy(edk::MemoryBuffer<typeTemplate>* dest){
+        return memCopy(dest,0u,this->getSize());
+    }
 
     //print the buffer
-    bool printHex(edk::uint64 size);
-    bool printHex();
-    bool printChar(edk::uint64 size);
-    bool printChar();
+    bool printHex(edk::uint64 size){
+        if(size && size<=this->bufferWritedSize && this->haveBuffer()){
+            typeTemplate temp;edkEnd();
+            edk::uint8 lenght = 0u;edkEnd();
+            for(edk::uint64 i=0u;i<size;i++){
+                edkMemCpy(&temp,&this->buffer[i],sizeof(typeTemplate));edkEnd();
+                this->printElement(temp);edkEnd();
+                lenght++;edkEnd();
+                if(lenght>=this->lenghtToReturn){
+                    lenght=0u;edkEnd();
+                    printf("\n");edkEnd();
+                }
+            }
+            fflush(stdout);edkEnd();
+            return true;
+        }
+        return false;
+    }
+    bool printHex(){
+        return this->printHex(this->getSize());
+    }
+    bool printChar(edk::uint64 size){
+        if(size && size<=this->bufferWritedSize && this->haveBuffer()){
+            typeTemplate temp;edkEnd();
+            edk::uint8 lenght = 0u;edkEnd();
+            for(edk::uint64 i=0u;i<size;i++){
+                edkMemCpy(&temp,&this->buffer[i],sizeof(typeTemplate));edkEnd();
+                this->printElementChar(temp);edkEnd();
+                lenght++;edkEnd();
+                if(lenght>=this->lenghtToReturn){
+                    lenght=0u;edkEnd();
+                    printf("\n");edkEnd();
+                }
+            }
+            fflush(stdout);edkEnd();
+            return true;
+        }
+        return false;
+    }
+    bool printChar(){
+        return this->printChar(this->getSize());
+    }
+    bool printStr(){
+        if(this->bufferWritedSize){
+            printf("%s",this->buffer);fflush(stdout);edkEnd();
+            return true;
+        }
+        return false;
+    }
     //operator to return the value in position
-    inline edk::uchar8 operator[](edk::uint64 index){
+    virtual inline typeTemplate operator[](edk::uint64 index){
         if(index < this->bufferSize){
             return this->buffer[index];
         }
-        return 0;
+        typeTemplate ret;edkEnd();
+        memset(&ret,0u,sizeof(typeTemplate));edkEnd();
+        return ret;
     }
-private:
+protected:
     //buffer memory
-    edk::uint8* buffer;
+    typeTemplate* buffer;
     edk::uint64 bufferSize;
     edk::uint64 bufferWritedSize;
 
+    void printElement(typeTemplate element){
+        edk::uint64 value=0uL;edkEnd();
+        edk::uint32 size = sizeof(typeTemplate);edkEnd();
+        if(sizeof(value)<size){
+            size = sizeof(value);edkEnd();
+        }
+        edkMemCpy(&value,&element,size);edkEnd();
+        printf("%08x",(edk::uint32)(((edk::uint32*)&value))[1u]);edkEnd();
+        printf("%08x ",(edk::uint32)value);edkEnd();
+    }
+    void printElementChar(typeTemplate element){
+        edk::char8 value;edkEnd();
+        edk::uint32 size = sizeof(typeTemplate);edkEnd();
+        if(sizeof(value)<size){
+            size = sizeof(value);edkEnd();
+        }
+        edkMemCpy(&value,&element,size);edkEnd();
+        printf("%c ",value);edkEnd();
+    }
+private:
     //lenghtToReturn
     edk::uint8 lenghtToReturn;
 
     //function to alloc or realloc the buffer
-    void allocBuffer(edk::uint64 size);
+    void allocBuffer(edk::uint64 size){
+        //test if the size is bigger then biffer size
+        if(size>this->bufferSize){
+            //clean the buffer and create another
+            this->clean();edkEnd();
+            this->buffer = (typeTemplate*)malloc((size+1u) * sizeof(typeTemplate));edkEnd();
+            if(!this->buffer){
+                //if it's null then return false
+                return;
+            }
+            //else set the size
+            this->bufferSize = size;edkEnd();
+        }
+    }
+    void reallocBuffer(edk::uint64 size){
+        if(this->haveBuffer()){
+            edk::uint64 newWritedSize = this->bufferWritedSize;edkEnd();
+            edk::uint64 newSize = newWritedSize+size;edkEnd();
+            //test if the size is bigger then biffer size
+            if(newSize>this->bufferSize && this->buffer){
+                typeTemplate* newBuffer;edkEnd();
+                newBuffer = (typeTemplate*)malloc((newSize+1u) * sizeof(typeTemplate));edkEnd();
+                if(!newBuffer){
+                    //if it's null then return false
+                    this->clean();edkEnd();
+                    return;
+                }
+                newBuffer[newSize] = 0u;edkEnd();
+                //copy the last buffer
+                edkMemCpy(newBuffer,this->buffer,this->bufferWritedSize * sizeof(typeTemplate));edkEnd();
+                this->clean();edkEnd();
+                //copy the new pointer
+                this->buffer = newBuffer;edkEnd();
+                this->bufferSize = newSize;edkEnd();
+                this->bufferWritedSize = newWritedSize;edkEnd();
+            }
+        }
+        else{
+            this->allocBuffer(size);edkEnd();
+        }
+    }
 };
 }//end namespace edk
 

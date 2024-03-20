@@ -43,12 +43,12 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 namespace edk{
 namespace multi{
 //object to save the thread ID and the buffer
-class BufferThreadObject : public edk::MemoryBuffer{
+class BufferThreadObject : public edk::MemoryBuffer<edk::uint8>{
 public:
     BufferThreadObject(){this->id=0u;}
     BufferThreadObject(edk::uint64 id){this->id=id;}
-    ~BufferThreadObject(){
-        edk::MemoryBuffer::clean();
+    virtual ~BufferThreadObject(){
+        edk::MemoryBuffer<edk::uint8>::clean();
     }
 
     //thread ID

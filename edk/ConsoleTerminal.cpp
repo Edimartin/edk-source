@@ -539,6 +539,8 @@ void edk::ConsoleTerminal::gotoXY(edk::uint32 x,edk::uint32 y){
 
 edk::vec2ui32 edk::ConsoleTerminal::getPosition(){
     edk::vec2ui32 ret;
+#if defined(WIN32) || defined(WIN64)//Windows
+#elif defined(__linux__) || defined(__APPLE__) //Linux //MacOS
     edk::char8 buf[30]={0};
     edk::int32 i, pow;
     edk::char8 ch;
@@ -570,7 +572,7 @@ edk::vec2ui32 edk::ConsoleTerminal::getPosition(){
         ret.y = ( buf[i] - '0' ) * pow;
     }
     tcsetattr(0, TCSANOW, &restore);
-
+#endif
     return ret;
 }
 

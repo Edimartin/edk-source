@@ -895,6 +895,19 @@ public:
         if(this->size.width < point.width)this->size.width = point.width;
         if(this->size.height < point.height)this->size.height = point.height;
     }
+    //convert the rect values
+    void convertIntoPoints(){
+        this->origin.x-=this->size.width*0.5f;
+        this->origin.y-=this->size.height*0.5f;
+        this->size.width+=this->origin.x;
+        this->size.height+=this->origin.y;
+    }
+    void convertIntoPositionAndSize(){
+        this->size.width-=this->origin.x;
+        this->size.height-=this->origin.y;
+        this->origin.x+=this->size.width*0.5f;
+        this->origin.y+=this->size.height*0.5f;
+    }
 };
 
 class recti16{
@@ -1841,6 +1854,19 @@ public:
         if(this->origin.y > point.height)this->origin.y = point.height;
         if(this->size.width < point.width)this->size.width = point.width;
         if(this->size.height < point.height)this->size.height = point.height;
+    }
+    //convert the rect values
+    void convertIntoPoints(){
+        this->origin.x-=this->size.width*0.5f;
+        this->origin.y-=this->size.height*0.5f;
+        this->size.width+=this->origin.x;
+        this->size.height+=this->origin.y;
+    }
+    void convertIntoPositionAndSize(){
+        this->size.width-=this->origin.x;
+        this->size.height-=this->origin.y;
+        this->origin.x+=this->size.width*0.5f;
+        this->origin.y+=this->size.height*0.5f;
     }
 };
 
@@ -2878,6 +2904,19 @@ public:
         if(this->origin.y > point.height)this->origin.y = point.height;
         if(this->size.width < point.width)this->size.width = point.width;
         if(this->size.height < point.height)this->size.height = point.height;
+    }
+    //convert the rect values
+    void convertIntoPoints(){
+        this->origin.x-=this->size.width*0.5f;
+        this->origin.y-=this->size.height*0.5f;
+        this->size.width+=this->origin.x;
+        this->size.height+=this->origin.y;
+    }
+    void convertIntoPositionAndSize(){
+        this->size.width-=this->origin.x;
+        this->size.height-=this->origin.y;
+        this->origin.x+=this->size.width*0.5f;
+        this->origin.y+=this->size.height*0.5f;
     }
 };
 
@@ -4006,6 +4045,19 @@ public:
         if(this->size.width < point.width)this->size.width = point.width;
         if(this->size.height < point.height)this->size.height = point.height;
     }
+    //convert the rect values
+    void convertIntoPoints(){
+        this->origin.x-=this->size.width*0.5f;
+        this->origin.y-=this->size.height*0.5f;
+        this->size.width+=this->origin.x;
+        this->size.height+=this->origin.y;
+    }
+    void convertIntoPositionAndSize(){
+        this->size.width-=this->origin.x;
+        this->size.height-=this->origin.y;
+        this->origin.x+=this->size.width*0.5f;
+        this->origin.y+=this->size.height*0.5f;
+    }
 };
 
 class rectui8{
@@ -4550,6 +4602,19 @@ public:
         if(this->origin.y > point.height)this->origin.y = point.height;
         if(this->size.width < point.width)this->size.width = point.width;
         if(this->size.height < point.height)this->size.height = point.height;
+    }
+    //convert the rect values
+    void convertIntoPoints(){
+        this->origin.x-=this->size.width*0.5f;
+        this->origin.y-=this->size.height*0.5f;
+        this->size.width+=this->origin.x;
+        this->size.height+=this->origin.y;
+    }
+    void convertIntoPositionAndSize(){
+        this->size.width-=this->origin.x;
+        this->size.height-=this->origin.y;
+        this->origin.x+=this->size.width*0.5f;
+        this->origin.y+=this->size.height*0.5f;
     }
 };
 
@@ -5185,6 +5250,19 @@ public:
         if(this->origin.y > point.height)this->origin.y = point.height;
         if(this->size.width < point.width)this->size.width = point.width;
         if(this->size.height < point.height)this->size.height = point.height;
+    }
+    //convert the rect values
+    void convertIntoPoints(){
+        this->origin.x-=this->size.width*0.5f;
+        this->origin.y-=this->size.height*0.5f;
+        this->size.width+=this->origin.x;
+        this->size.height+=this->origin.y;
+    }
+    void convertIntoPositionAndSize(){
+        this->size.width-=this->origin.x;
+        this->size.height-=this->origin.y;
+        this->origin.x+=this->size.width*0.5f;
+        this->origin.y+=this->size.height*0.5f;
     }
 };
 
@@ -5910,6 +5988,19 @@ public:
         if(this->origin.y > point.height)this->origin.y = point.height;
         if(this->size.width < point.width)this->size.width = point.width;
         if(this->size.height < point.height)this->size.height = point.height;
+    }
+    //convert the rect values
+    void convertIntoPoints(){
+        this->origin.x-=this->size.width*0.5f;
+        this->origin.y-=this->size.height*0.5f;
+        this->size.width+=this->origin.x;
+        this->size.height+=this->origin.y;
+    }
+    void convertIntoPositionAndSize(){
+        this->size.width-=this->origin.x;
+        this->size.height-=this->origin.y;
+        this->origin.x+=this->size.width*0.5f;
+        this->origin.y+=this->size.height*0.5f;
     }
 };
 
@@ -6725,6 +6816,19 @@ public:
         if(this->origin.y > point.height)this->origin.y = point.height;
         if(this->size.width < point.width)this->size.width = point.width;
         if(this->size.height < point.height)this->size.height = point.height;
+    }
+    //convert the rect values
+    void convertIntoPoints(){
+        this->origin.x-=this->size.width*0.5f;
+        this->origin.y-=this->size.height*0.5f;
+        this->size.width+=this->origin.x;
+        this->size.height+=this->origin.y;
+    }
+    void convertIntoPositionAndSize(){
+        this->size.width-=this->origin.x;
+        this->size.height-=this->origin.y;
+        this->origin.x+=this->size.width*0.5f;
+        this->origin.y+=this->size.height*0.5f;
     }
 };
 
@@ -7738,6 +7842,19 @@ public:
         if(this->origin.y > point.height)this->origin.y = point.height;
         if(this->size.width < point.width)this->size.width = point.width;
         if(this->size.height < point.height)this->size.height = point.height;
+    }
+    //convert the rect values
+    void convertIntoPoints(){
+        this->origin.x-=this->size.width*0.5f;
+        this->origin.y-=this->size.height*0.5f;
+        this->size.width+=this->origin.x;
+        this->size.height+=this->origin.y;
+    }
+    void convertIntoPositionAndSize(){
+        this->size.width-=this->origin.x;
+        this->size.height-=this->origin.y;
+        this->origin.x+=this->size.width*0.5f;
+        this->origin.y+=this->size.height*0.5f;
     }
 };
 
@@ -8763,6 +8880,19 @@ public:
         if(this->origin.y > point.height)this->origin.y = point.height;
         if(this->size.width < point.width)this->size.width = point.width;
         if(this->size.height < point.height)this->size.height = point.height;
+    }
+    //convert the rect values
+    void convertIntoPoints(){
+        this->origin.x-=this->size.width*0.5f;
+        this->origin.y-=this->size.height*0.5f;
+        this->size.width+=this->origin.x;
+        this->size.height+=this->origin.y;
+    }
+    void convertIntoPositionAndSize(){
+        this->size.width-=this->origin.x;
+        this->size.height-=this->origin.y;
+        this->origin.x+=this->size.width*0.5f;
+        this->origin.y+=this->size.height*0.5f;
     }
 };
 

@@ -45,14 +45,27 @@ public:
 
     static void printBits(edk::uchar8 byte);
     static inline void printBits(edk::char8 byte){printBits((edk::uchar8)byte);}
+
     static void printBits(edk::uchar8* bytes,edk::uint32 size,bool newLine = false);
     static void printBits(edk::char8* bytes,edk::uint32 size,bool newLine = false);
     static void printBits(const edk::uchar8* bytes,edk::uint32 size,bool newLine = false);
     static void printBits(const edk::char8* bytes,edk::uint32 size,bool newLine = false);
+
+    static void printBits(edk::uchar8* bytes,edk::uint64 size,bool newLine = false);
+    static void printBits(edk::char8* bytes,edk::uint64 size,bool newLine = false);
+    static void printBits(const edk::uchar8* bytes,edk::uint64 size,bool newLine = false);
+    static void printBits(const edk::char8* bytes,edk::uint64 size,bool newLine = false);
+
     static void printBitsInverted(edk::uchar8* bytes,edk::uint32 size,bool newLine = false);
     static void printBitsInverted(edk::char8* bytes,edk::uint32 size,bool newLine = false);
     static void printBitsInverted(const edk::uchar8* bytes,edk::uint32 size,bool newLine = false);
     static void printBitsInverted(const edk::char8* bytes,edk::uint32 size,bool newLine = false);
+
+    static void printBitsInverted(edk::uchar8* bytes,edk::uint64 size,bool newLine = false);
+    static void printBitsInverted(edk::char8* bytes,edk::uint64 size,bool newLine = false);
+    static void printBitsInverted(const edk::uchar8* bytes,edk::uint64 size,bool newLine = false);
+    static void printBitsInverted(const edk::char8* bytes,edk::uint64 size,bool newLine = false);
+
     static void printBits(edk::uint16 byte,bool newLine = false);
     static void printBits(edk::uint32 byte,bool newLine = false);
     static void printBits(edk::uint64 byte,bool newLine = false);
@@ -83,10 +96,22 @@ public:
     static void printHex(edk::char8* bytes,edk::uint32 size,bool newLine = false);
     static void printHex(const edk::uchar8* bytes,edk::uint32 size,bool newLine = false);
     static void printHex(const edk::char8* bytes,edk::uint32 size,bool newLine = false);
+
+    static void printHex(edk::uchar8* bytes,edk::uint64 size,bool newLine = false);
+    static void printHex(edk::char8* bytes,edk::uint64 size,bool newLine = false);
+    static void printHex(const edk::uchar8* bytes,edk::uint64 size,bool newLine = false);
+    static void printHex(const edk::char8* bytes,edk::uint64 size,bool newLine = false);
+
     static void printHexInverted(edk::uchar8* bytes,edk::uint32 size,bool newLine = false);
     static void printHexInverted(edk::char8* bytes,edk::uint32 size,bool newLine = false);
     static void printHexInverted(const edk::uchar8* bytes,edk::uint32 size,bool newLine = false);
     static void printHexInverted(const edk::char8* bytes,edk::uint32 size,bool newLine = false);
+
+    static void printHexInverted(edk::uchar8* bytes,edk::uint64 size,bool newLine = false);
+    static void printHexInverted(edk::char8* bytes,edk::uint64 size,bool newLine = false);
+    static void printHexInverted(const edk::uchar8* bytes,edk::uint64 size,bool newLine = false);
+    static void printHexInverted(const edk::char8* bytes,edk::uint64 size,bool newLine = false);
+
     static void printHex(edk::uint16 byte,bool newLine = false);
     static void printHex(edk::uint32 byte,bool newLine = false);
     static void printHex(edk::uint64 byte,bool newLine = false);
