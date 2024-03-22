@@ -213,6 +213,14 @@ bool edk::InfiniteHorizontal::newObjectFromObject2D(edk::Object2D* obj,edk::floa
     }
     return false;
 }
+bool edk::InfiniteHorizontal::newObjectFromObject2D(edk::physics2D::PhysicObject2D* obj,edk::float32 distance){
+    this->time.start();
+    this->lastObject = (edk::Object2D*)this->tree.addObjectPhysicFromObject(obj,distance);
+    if(this->lastObject){
+        return true;
+    }
+    return false;
+}
 
 //get the last object added
 edk::Object2D* edk::InfiniteHorizontal::getLastAddedObject(){

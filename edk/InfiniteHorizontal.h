@@ -36,6 +36,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "edk/MemoryBufferCircular.h"
 #include "edk/watch/Time.h"
 #include "edk/Object2D.h"
+#include "edk/physics2D/PhysicObject2D.h"
 
 #ifdef printMessages
 #pragma message "    Compiling InfiniteHorizontal"
@@ -69,6 +70,7 @@ public:
     bool newObjectFromPack(edk::pack::FilePackage* pack,const edk::char8* name,edk::float32 distance=0.f,edk::uint32 filter = GU_NEAREST);
     //clone a wallpaper from an object
     bool newObjectFromObject2D(edk::Object2D* obj,edk::float32 distance=0.f);
+    bool newObjectFromObject2D(edk::physics2D::PhysicObject2D* obj,edk::float32 distance=0.f);
 
     //get the last object added
     edk::Object2D* getLastAddedObject();
@@ -120,15 +122,23 @@ private:
     //objects for the tile with the distance
     class tileObject2D{
     public:
-        tileObject2D(){
+        tileObject2D(bool isPhysic){
             this->distance=0.f;
-            this->objPointer = &this->obj;
+            if(isPhysic){
+                this->objPointer = &this->objPhys;
+            }
+            else{
+                this->objPointer = &this->obj;
+            }
             this->position=this->objPointer->position;
         }
         ~tileObject2D(){
             this->obj.clean();
         }
+        //return true if the object is physic
+        inline bool isPhysic(){return (this->objPointer==(edk::Object2D*)&this->objPhys);}
         edk::Object2D obj;
+        edk::physics2D::PhysicObject2D objPhys;
         edk::Object2D* objPointer;
         edk::float32 distance;
         edk::vec2f32 position;
@@ -136,7 +146,11 @@ private:
     //Binary tree with all possible tiles
     class treeObj:public edk::vector::BinaryTree<edk::InfiniteHorizontal::tileObject2D*>{
     public:
-        treeObj(){}
+        treeObj()
+            :tileTemplate(false)
+        {
+            //
+        }
         virtual ~treeObj(){}
         //compare if the value is bigger
         virtual bool firstBiggerSecond(edk::InfiniteHorizontal::tileObject2D* first,edk::InfiniteHorizontal::tileObject2D* second){
@@ -164,6 +178,16 @@ private:
             }
             return false;
         }
+        bool removeObject(edk::physics2D::PhysicObject2D* obj){
+            edk::InfiniteHorizontal::tileObject2D* tile = this->getTileByObject(obj);
+            if(tile){
+                if(this->remove(tile)){
+                    delete tile;
+                    return true;
+                }
+            }
+            return false;
+        }
         //clean tiles
         void cleanTiles(){
             edk::InfiniteHorizontal::tileObject2D* tile;
@@ -180,7 +204,7 @@ private:
         bool addObject(edk::Object2D* obj,edk::float32 distance){
             edk::InfiniteHorizontal::tileObject2D* tile = this->getTileByObject(obj);
             if(!tile){
-                tile = new edk::InfiniteHorizontal::tileObject2D;
+                tile = new edk::InfiniteHorizontal::tileObject2D(false);
                 if(tile){
                     //clone the object
                     if(tile->obj.cloneFrom(obj)){
@@ -196,8 +220,27 @@ private:
             }
             return false;
         }
+        bool addObjectPhysic(edk::physics2D::PhysicObject2D* obj,edk::float32 distance){
+            edk::InfiniteHorizontal::tileObject2D* tile = this->getTileByObject(obj);
+            if(!tile){
+                tile = new edk::InfiniteHorizontal::tileObject2D(true);
+                if(tile){
+                    //clone the object
+                    if(tile->objPhys.cloneFrom(obj)){
+                        tile->position=obj->position;
+                        tile->distance=distance;
+                        //add into the tree
+                        if(this->add(tile)){
+                            return true;
+                        }
+                    }
+                    delete tile;
+                }
+            }
+            return false;
+        }
         edk::Object2D* newObject(edk::float32 distance){
-            edk::InfiniteHorizontal::tileObject2D* tile = new edk::InfiniteHorizontal::tileObject2D;
+            edk::InfiniteHorizontal::tileObject2D* tile = new edk::InfiniteHorizontal::tileObject2D(false);
             if(tile){
                 //add into the tree
                 if(this->add(tile)){
@@ -208,10 +251,22 @@ private:
             }
             return NULL;
         }
+        edk::physics2D::PhysicObject2D* newObjectPhysic(edk::float32 distance){
+            edk::InfiniteHorizontal::tileObject2D* tile = new edk::InfiniteHorizontal::tileObject2D(true);
+            if(tile){
+                //add into the tree
+                if(this->add(tile)){
+                    tile->distance=distance;
+                    return &tile->objPhys;
+                }
+                delete tile;
+            }
+            return NULL;
+        }
         edk::Object2D* addObjectFromObject(edk::Object2D* obj,edk::float32 distance){
             edk::InfiniteHorizontal::tileObject2D* tile = this->getTileByObject(obj);
             if(!tile){
-                tile = new edk::InfiniteHorizontal::tileObject2D;
+                tile = new edk::InfiniteHorizontal::tileObject2D(false);
                 if(tile){
                     //clone the object
                     if(tile->obj.cloneFrom(obj)){
@@ -227,11 +282,44 @@ private:
             }
             return NULL;
         }
+        edk::physics2D::PhysicObject2D* addObjectPhysicFromObject(edk::physics2D::PhysicObject2D* obj,edk::float32 distance){
+            edk::InfiniteHorizontal::tileObject2D* tile = this->getTileByObject(obj);
+            if(!tile){
+                tile = new edk::InfiniteHorizontal::tileObject2D(true);
+                if(tile){
+                    //clone the object
+                    if(tile->objPhys.cloneFrom(obj)){
+                        tile->position=obj->position;
+                        tile->distance=distance;
+                        //add into the tree
+                        if(this->add(tile)){
+                            return &tile->objPhys;
+                        }
+                    }
+                    delete tile;
+                }
+            }
+            return NULL;
+        }
         //get an object in a position
+        bool isObjectPhysicInPosition(edk::uint32 position){
+            edk::InfiniteHorizontal::tileObject2D* tile = this->getElementInPosition(position);
+            if(tile){
+                return tile->isPhysic();
+            }
+            return false;
+        }
         edk::Object2D* getObjectInPosition(edk::uint32 position){
             edk::InfiniteHorizontal::tileObject2D* tile = this->getElementInPosition(position);
             if(tile){
                 return &tile->obj;
+            }
+            return NULL;
+        }
+        edk::physics2D::PhysicObject2D* getObjectPhysicInPosition(edk::uint32 position){
+            edk::InfiniteHorizontal::tileObject2D* tile = this->getElementInPosition(position);
+            if(tile){
+                return &tile->objPhys;
             }
             return NULL;
         }
@@ -267,6 +355,10 @@ private:
         //get the tile by the object
         edk::InfiniteHorizontal::tileObject2D* getTileByObject(edk::Object2D* obj){
             this->tileTemplate.objPointer=obj;
+            return this->getElement(&this->tileTemplate);
+        }
+        edk::InfiniteHorizontal::tileObject2D* getTileByObject(edk::physics2D::PhysicObject2D* obj){
+            this->tileTemplate.objPointer=(edk::Object2D*)obj;
             return this->getElement(&this->tileTemplate);
         }
         edk::InfiniteHorizontal::tileObject2D tileTemplate;
