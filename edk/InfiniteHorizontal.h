@@ -70,6 +70,9 @@ public:
     //clone a wallpaper from an object
     bool newObjectFromObject2D(edk::Object2D* obj,edk::float32 distance=0.f);
 
+    //get the last object added
+    edk::Object2D* getLastAddedObject();
+
     void inline updateInsideRect(edk::rectf32 rect){return this->updateInsideRect(this->getSeconds(),rect);}
     void updateInsideRect(edk::float32 seconds,edk::rectf32 rect);
     void inline updateInsideRectPoints(edk::rectf32 rect){return this->updateInsideRect(this->getSeconds(),rect);}
@@ -88,15 +91,24 @@ public:
     edk::float32 speed;
 protected:
     //increment the tile position
-    edk::vec2f32 incrementTilePosition(edk::float32 seconds,edk::vec2f32 position);
+    virtual edk::vec2f32 incrementTilePosition(edk::float32 seconds,edk::vec2f32 position);
     //set the object first position
-    edk::vec2f32 firstPositionObject(edk::rectf32 rect,edk::Object2D* obj);
+    virtual edk::vec2f32 firstPositionObject(edk::rectf32 rect,edk::Object2D* obj);
     //
-    edk::rectf32 incrementRectObject(edk::rectf32 rect,edk::float32 distance);
+    virtual edk::rectf32 incrementRectObject(edk::rectf32 rect,edk::float32 distance);
+    //return a new object to be on the map
+    virtual edk::Object2D* getNextObject();
+    //calculate the aabb
+    inline bool aabbPoints(edk::rectf32 rect1,edk::rectf32 rect2){
+        return edk::collision::MathCollision::aabbPointsX(rect1,rect2);
+    }
 private:
     //time counter
     edk::watch::Time time;
     edk::Random rand;
+
+    //save the last object added
+    edk::Object2D* lastObject;
 
     //get the seconds
     inline edk::float32 getSeconds(){
@@ -193,6 +205,25 @@ private:
                     return &tile->obj;
                 }
                 delete tile;
+            }
+            return NULL;
+        }
+        edk::Object2D* addObjectFromObject(edk::Object2D* obj,edk::float32 distance){
+            edk::InfiniteHorizontal::tileObject2D* tile = this->getTileByObject(obj);
+            if(!tile){
+                tile = new edk::InfiniteHorizontal::tileObject2D;
+                if(tile){
+                    //clone the object
+                    if(tile->obj.cloneFrom(obj)){
+                        tile->position=obj->position;
+                        tile->distance=distance;
+                        //add into the tree
+                        if(this->add(tile)){
+                            return &tile->obj;
+                        }
+                    }
+                    delete tile;
+                }
             }
             return NULL;
         }

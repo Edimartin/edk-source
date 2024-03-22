@@ -34,6 +34,7 @@ edk::InfiniteHorizontal::InfiniteHorizontal(){
     this->speed=1.f;edkEnd();
     this->position = 0.f;edkEnd();
     this->time.start();edkEnd();
+    this->lastObject=NULL;edkEnd();
 }
 edk::InfiniteHorizontal::~InfiniteHorizontal(){
     //
@@ -70,6 +71,14 @@ edk::rectf32 edk::InfiniteHorizontal::incrementRectObject(edk::rectf32 rect,edk:
         }
     }
     return rect;
+}
+//return a new object to be on the map
+edk::Object2D* edk::InfiniteHorizontal::getNextObject(){
+    edk::uint32 treeSize = this->tree.size();
+    if(treeSize>1u){
+        return this->tree.getObjectInPosition(this->rand.getRandNumber(treeSize));edkEnd();
+    }
+    return this->tree.getObjectInPosition(0u);edkEnd();
 }
 
 //clean wallpapers
@@ -134,6 +143,7 @@ bool edk::InfiniteHorizontal::newObject(edk::char8* name,edk::float32 distance,e
                 rect.setPivoToCenter();edkEnd();
                 mesh->addPolygon(rect);edkEnd();
                 if(mesh->material.loadTexture(name,0u,filter)){
+                    this->lastObject = obj;
                     return true;
                 }
                 obj->cleanMeshes();edkEnd();
@@ -157,6 +167,7 @@ bool edk::InfiniteHorizontal::newObjectFromMemory(edk::char8* name,edk::uint8* i
                 rect.setPivoToCenter();edkEnd();
                 mesh->addPolygon(rect);edkEnd();
                 if(mesh->material.loadTextureFromMemory(name,image,size,0u,filter)){
+                    this->lastObject = obj;
                     return true;
                 }
                 obj->cleanMeshes();edkEnd();
@@ -180,6 +191,7 @@ bool edk::InfiniteHorizontal::newObjectFromPack(edk::pack::FilePackage* pack,edk
                 rect.setPivoToCenter();edkEnd();
                 mesh->addPolygon(rect);edkEnd();
                 if(mesh->material.loadTextureFromPack(pack,name,0u,filter)){
+                    this->lastObject = obj;
                     return true;
                 }
                 obj->cleanMeshes();edkEnd();
@@ -195,7 +207,16 @@ bool edk::InfiniteHorizontal::newObjectFromPack(edk::pack::FilePackage* pack,con
 //clone a wallpaper from an object
 bool edk::InfiniteHorizontal::newObjectFromObject2D(edk::Object2D* obj,edk::float32 distance){
     this->time.start();
-    return this->tree.addObject(obj,distance);
+    this->lastObject = this->tree.addObjectFromObject(obj,distance);
+    if(this->lastObject){
+        return true;
+    }
+    return false;
+}
+
+//get the last object added
+edk::Object2D* edk::InfiniteHorizontal::getLastAddedObject(){
+    return this->lastObject;
 }
 
 void edk::InfiniteHorizontal::updateInsideRect(edk::float32 seconds,edk::rectf32 rect){
@@ -213,12 +234,8 @@ void edk::InfiniteHorizontal::updateInsideRectPoints(edk::float32 seconds,edk::r
             tile = this->buffer[0u];edkEnd();
             this->buffer.incrementOrigin();edkEnd();
             if(tile){
-                if(treeSize){
-                    obj=this->tree.getObjectInPosition(this->rand.getRandNumber(treeSize));edkEnd();
-                }
-                else{
-                    obj=this->tree.getObjectInPosition(0u);edkEnd();
-                }
+                //add a new object
+                obj = this->getNextObject();
                 if(obj){
                     tile->objPointer=obj;edkEnd();
                     tile->position = this->firstPositionObject(rect,tile->objPointer);edkEnd();
@@ -247,7 +264,7 @@ void edk::InfiniteHorizontal::updateInsideRectPoints(edk::float32 seconds,edk::r
                 tile->objPointer->position = tile->position + this->position;edkEnd();
                 //calculate the bounding box
                 tile->objPointer->calculateBoundingBox();edkEnd();
-                if(!edk::collision::MathCollision::aabbPoints(incrementRectObject(tile->objPointer->getBoundingBox(),this->tree.getObjectDistance(tile->objPointer)),rect)){
+                if(!this->aabbPoints(incrementRectObject(tile->objPointer->getBoundingBox(),this->tree.getObjectDistance(tile->objPointer)),rect)){
                     //remove the tile
                     this->queue.popFront();edkEnd();
                     continue;
@@ -265,7 +282,7 @@ void edk::InfiniteHorizontal::updateInsideRectPoints(edk::float32 seconds,edk::r
                 tile->objPointer->position = tile->position + this->position;edkEnd();
                 //calculate the bounding box
                 tile->objPointer->calculateBoundingBox();edkEnd();
-                if(edk::collision::MathCollision::aabbPoints(incrementRectObject(tile->objPointer->getBoundingBox(),this->tree.getObjectDistance(tile->objPointer)),rect)){
+                if(this->aabbPoints(incrementRectObject(tile->objPointer->getBoundingBox(),this->tree.getObjectDistance(tile->objPointer)),rect)){
                     newRect.origin.x = tile->position.x + tile->objPointer->size.width*0.5f;edkEnd();
                     newRect.size.width = tile->position.x - tile->objPointer->size.width*0.5f;edkEnd();
                     newRect.origin.y = tile->position.y + tile->objPointer->size.height*0.5f;edkEnd();
@@ -274,12 +291,7 @@ void edk::InfiniteHorizontal::updateInsideRectPoints(edk::float32 seconds,edk::r
                     tile = this->buffer[0u];edkEnd();
                     this->buffer.incrementOrigin();edkEnd();
                     if(tile){
-                        if(treeSize){
-                            obj=this->tree.getObjectInPosition(this->rand.getRandNumber(treeSize));edkEnd();
-                        }
-                        else{
-                            obj=this->tree.getObjectInPosition(0u);edkEnd();
-                        }
+                        obj = this->getNextObject();
                         if(obj){
                             tile->objPointer=obj;edkEnd();
                             tile->position = this->firstPositionObject(newRect,tile->objPointer);edkEnd();
