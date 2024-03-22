@@ -385,7 +385,7 @@ private:
     edk::vector::Matrix<edk::float32,3u,3u> matrixPivo;
     edk::vector::Matrix<edk::float32,3u,3u> matrixAngle;
     edk::vector::Matrix<edk::float32,3u,3u> matrixSize;
-    edk::vector::Matrix<edk::float32,3,3> matrixTransform;
+    edk::vector::Matrix<edk::float32,3u,3u> matrixTransform;
 
     //object boundingBox
     edk::rectf32 boundingBox;

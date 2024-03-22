@@ -57,6 +57,20 @@ edk::vec2f32 edk::InfiniteHorizontal::firstPositionObject(edk::rectf32 rect,edk:
     }
     return position;
 }
+//
+edk::rectf32 edk::InfiniteHorizontal::incrementRectObject(edk::rectf32 rect,edk::float32 distance){
+    if(distance>0.f){
+        if(this->speed>=0.f){
+            //RIGHT
+            rect.size.width+=distance;
+        }
+        else{
+            //LEFT
+            rect.origin.x-=distance;
+        }
+    }
+    return rect;
+}
 
 //clean wallpapers
 void edk::InfiniteHorizontal::clean(){
@@ -233,7 +247,7 @@ void edk::InfiniteHorizontal::updateInsideRectPoints(edk::float32 seconds,edk::r
                 tile->objPointer->position = tile->position + this->position;edkEnd();
                 //calculate the bounding box
                 tile->objPointer->calculateBoundingBox();edkEnd();
-                if(!edk::collision::MathCollision::aabbPoints(tile->objPointer->getBoundingBox(),rect)){
+                if(!edk::collision::MathCollision::aabbPoints(incrementRectObject(tile->objPointer->getBoundingBox(),this->tree.getObjectDistance(tile->objPointer)),rect)){
                     //remove the tile
                     this->queue.popFront();edkEnd();
                     continue;
@@ -251,7 +265,7 @@ void edk::InfiniteHorizontal::updateInsideRectPoints(edk::float32 seconds,edk::r
                 tile->objPointer->position = tile->position + this->position;edkEnd();
                 //calculate the bounding box
                 tile->objPointer->calculateBoundingBox();edkEnd();
-                if(edk::collision::MathCollision::aabbPoints(tile->objPointer->getBoundingBox(),rect)){
+                if(edk::collision::MathCollision::aabbPoints(incrementRectObject(tile->objPointer->getBoundingBox(),this->tree.getObjectDistance(tile->objPointer)),rect)){
                     newRect.origin.x = tile->position.x + tile->objPointer->size.width*0.5f;edkEnd();
                     newRect.size.width = tile->position.x - tile->objPointer->size.width*0.5f;edkEnd();
                     newRect.origin.y = tile->position.y + tile->objPointer->size.height*0.5f;edkEnd();
@@ -305,6 +319,17 @@ void edk::InfiniteHorizontal::draw(){
         if(tile){
             tile->objPointer->position = tile->position + this->position;edkEnd();
             tile->objPointer->draw();edkEnd();
+        }
+    }
+}
+void edk::InfiniteHorizontal::drawWire(){
+    edk::uint32 size = this->queue.size();edkEnd();
+    edk::InfiniteHorizontal::tileWorldObject2D* tile;edkEnd();
+    for(edk::uint32 i=0u;i<size;i++){
+        tile = this->queue.get(i);edkEnd();
+        if(tile){
+            tile->objPointer->position = tile->position + this->position;edkEnd();
+            tile->objPointer->drawWire();edkEnd();
         }
     }
 }

@@ -81,8 +81,7 @@ public:
 
     //draw the wallpaper
     void draw();
-    void drawInsideSize(edk::vec2f32 position,edk::size2f32 size);
-    void drawInsidePoints(edk::vec2f32 point1,edk::vec2f32 point2);
+    void drawWire();
 
     //tiles position
     edk::vec2f32 position;
@@ -92,6 +91,8 @@ protected:
     edk::vec2f32 incrementTilePosition(edk::float32 seconds,edk::vec2f32 position);
     //set the object first position
     edk::vec2f32 firstPositionObject(edk::rectf32 rect,edk::Object2D* obj);
+    //
+    edk::rectf32 incrementRectObject(edk::rectf32 rect,edk::float32 distance);
 private:
     //time counter
     edk::watch::Time time;
