@@ -40,6 +40,10 @@ edk::Object2D::Object2D(){
     /*
     this->actions.setReadXMLActionFunction(&edk::Object2D::readXMLAction);edkEnd();
     */
+    this->father=NULL;
+
+    this->newSize=1.f;
+    this->loadSaveIdentityValues();
 }
 
 edk::Object2D::~Object2D(){
@@ -204,6 +208,98 @@ edk::Action* edk::Object2D::readXMLAction(edk::classID /*thisPointer*/,edk::uint
     }
     */
     return new edk::ActionZero();edkEnd();
+}
+
+//draw the mesh
+void edk::Object2D::drawChildremsBoundingBox(){
+    edk::uint32 size = this->childrems.size();
+    edk::Object2D* obj;
+    for(edk::uint32 i=0u;i<size;i++){
+        obj = this->childrems.getElementInPosition(i);
+        obj->drawBoundingBox();
+    }
+}
+void edk::Object2D::drawChildrems(){
+    edk::uint32 size = this->childrems.size();
+    edk::Object2D* obj;
+    for(edk::uint32 i=0u;i<size;i++){
+        obj = this->childrems.getElementInPosition(i);
+        obj->draw();
+    }
+}
+void edk::Object2D::drawChildremsOneTexture(){
+    edk::uint32 size = this->childrems.size();
+    edk::Object2D* obj;
+    for(edk::uint32 i=0u;i<size;i++){
+        obj = this->childrems.getElementInPosition(i);
+        obj->drawOneTexture();
+    }
+}
+void edk::Object2D::drawChildremsOneTextureWithLight(){
+    edk::uint32 size = this->childrems.size();
+    edk::Object2D* obj;
+    for(edk::uint32 i=0u;i<size;i++){
+        obj = this->childrems.getElementInPosition(i);
+        obj->drawOneTextureWithLight();
+    }
+}
+void edk::Object2D::drawChildremsWithoutMaterial(){
+    edk::uint32 size = this->childrems.size();
+    edk::Object2D* obj;
+    for(edk::uint32 i=0u;i<size;i++){
+        obj = this->childrems.getElementInPosition(i);
+        obj->drawWithoutMaterial();
+    }
+}
+void edk::Object2D::drawChildremsWithoutMaterialWithLight(){
+    edk::uint32 size = this->childrems.size();
+    edk::Object2D* obj;
+    for(edk::uint32 i=0u;i<size;i++){
+        obj = this->childrems.getElementInPosition(i);
+        obj->drawWithoutMaterialWithLight();
+    }
+}
+void edk::Object2D::drawChildremsWire(){
+    edk::uint32 size = this->childrems.size();
+    edk::Object2D* obj;
+    for(edk::uint32 i=0u;i<size;i++){
+        obj = this->childrems.getElementInPosition(i);
+        obj->drawWire();
+    }
+}
+//draw the pivo
+void edk::Object2D::drawChildremsPivo(edk::float32 size,edk::color3f32 color){
+    edk::uint32 cSize = this->childrems.size();
+    edk::Object2D* obj;
+    for(edk::uint32 i=0u;i<cSize;i++){
+        obj = this->childrems.getElementInPosition(i);
+        obj->drawPivo(size,color);
+    }
+}
+void edk::Object2D::drawChildremsPivo(edk::float32 size,edk::float32 r,edk::float32 g,edk::float32 b){
+    edk::uint32 cSize = this->childrems.size();
+    edk::Object2D* obj;
+    for(edk::uint32 i=0u;i<cSize;i++){
+        obj = this->childrems.getElementInPosition(i);
+        obj->drawPivo(size,r,g,b);
+    }
+}
+//update animations
+bool edk::Object2D::updateChildremsAnimations(){
+    edk::uint32 size = this->childrems.size();
+    edk::Object2D* obj;
+    for(edk::uint32 i=0u;i<size;i++){
+        obj = this->childrems.getElementInPosition(i);
+        obj->updateAnimations();
+    }
+}
+bool edk::Object2D::updateChildremsAnimations(edk::float32 seconds){
+    edk::uint32 size = this->childrems.size();
+    edk::Object2D* obj;
+    for(edk::uint32 i=0u;i<size;i++){
+        obj = this->childrems.getElementInPosition(i);
+        obj->updateAnimations(seconds);
+    }
 }
 
 //Actions
@@ -1204,11 +1300,13 @@ bool edk::Object2D::updateMeshAnimationsFromPosition(edk::uchar32 position,edk::
 bool edk::Object2D::updateAnimations(){
     bool ret=edk::Object2DValues::updateAnimations();edkEnd();
     this->updateMeshAnimations();edkEnd();
+    this->updateChildremsAnimations();
     return ret;
 }
 bool edk::Object2D::updateAnimations(edk::float32 seconds){
     bool ret=edk::Object2DValues::updateAnimations(seconds);edkEnd();
     this->updateMeshAnimations(seconds);edkEnd();
+    this->updateChildremsAnimations(seconds);
     return ret;
 }
 
@@ -1472,6 +1570,24 @@ void edk::Object2D::print(){
 }
 //draw the mesh
 void edk::Object2D::drawBoundingBox(){
+    //test if have a father
+    //if(this->father){
+            this->updateChangedValues();
+    //    //put the transformation on a stack
+    //    edk::GU::guPushMatrix();edkEnd();
+    //
+    //    edk::GU::guColor4f32(1.0,1.0,1.0,1.0);edkEnd();
+    //
+    //    edk::GU::guBegin(GU_LINE_LOOP);edkEnd();
+    //    edk::GU::guVertex2f32(this->boundingBox.origin.x  ,this->boundingBox.origin.y   );edkEnd();
+    //    edk::GU::guVertex2f32(this->boundingBox.origin.x  ,this->boundingBox.size.height);edkEnd();
+    //    edk::GU::guVertex2f32(this->boundingBox.size.width,this->boundingBox.size.height);edkEnd();
+    //    edk::GU::guVertex2f32(this->boundingBox.size.width,this->boundingBox.origin.y   );edkEnd();
+    //    edk::GU::guEnd();edkEnd();
+    //
+    //    edk::GU::guPopMatrix();edkEnd();
+    //}
+    //else{
     //put the transformation on a stack
     edk::GU::guPushMatrix();edkEnd();
 
@@ -1484,38 +1600,46 @@ void edk::Object2D::drawBoundingBox(){
     edk::GU::guVertex2f32(this->boundingBox.size.width,this->boundingBox.origin.y   );edkEnd();
     edk::GU::guEnd();edkEnd();
 
+    this->drawChildremsBoundingBox();
     edk::GU::guPopMatrix();edkEnd();
+    //}
 }
 void edk::Object2D::draw(){
     //put the transformation on a stack
     edk::GU::guPushMatrix();edkEnd();
-
-
-    edk::GU::guEnable(GU_LIGHTING);edkEnd();
-    //glEnable(GL_RESCALE_NORMAL);edkEnd();
-
     bool haveLight=false;edkEnd();
+    if(this->father){
+        this->updateChangedValues();
+        //add translate
+        edk::GU::guTranslate2f32(this->connectedPosition);edkEnd();
+        //add scale
+        edk::GU::guScale2f32(this->connectedSize);edkEnd();
+        //add rotation
+        edk::GU::guRotateZf32(this->connectedAngle);edkEnd();
+    }
+    else{
+        edk::GU::guEnable(GU_LIGHTING);edkEnd();
+        //glEnable(GL_RESCALE_NORMAL);edkEnd();
+        {
+            for(edk::uint32 i=0u;i<EDK_LIGHT_LIMIT;i++){
+                if(this->lights[i].on){
+                    edk::GU::guEnable(GU_LIGHT0+i);edkEnd();
+                    this->lights[i].draw(i);edkEnd();
+                    haveLight=true;edkEnd();
 
-    {
-        for(edk::uint32 i=0u;i<EDK_LIGHT_LIMIT;i++){
-            if(this->lights[i].on){
-                edk::GU::guEnable(GU_LIGHT0+i);edkEnd();
-                this->lights[i].draw(i);edkEnd();
-                haveLight=true;edkEnd();
-
-            }
-            else{
-                edk::GU::guDisable(GU_LIGHT0+i);edkEnd();
+                }
+                else{
+                    edk::GU::guDisable(GU_LIGHT0+i);edkEnd();
+                }
             }
         }
+        //add translate
+        edk::GU::guTranslate2f32(this->position);edkEnd();
+        //add rotation
+        edk::GU::guRotateZf32(this->angle);edkEnd();
+        //add scale
+        edk::GU::guScale2f32(this->size);edkEnd();
     }
-
-    //add translate
-    edk::GU::guTranslate2f32(this->position);edkEnd();
-    //add rotation
-    edk::GU::guRotateZf32(this->angle);edkEnd();
-    //add scale
-    edk::GU::guScale2f32(this->size);edkEnd();
     //set the pivo
     edk::GU::guTranslate2f32(this->pivo*-1.0f);edkEnd();
 
@@ -1550,19 +1674,33 @@ void edk::Object2D::draw(){
             }
         }
     }
+    this->drawChildrems();
     //glEnable(GL_RESCALE_NORMAL);edkEnd();
+    if(!this->father){
     edk::GU::guDisable(GU_LIGHTING);edkEnd();
+    }
     edk::GU::guPopMatrix();edkEnd();
 }
 void edk::Object2D::drawOneTexture(){
     //put the transformation on a stack
     edk::GU::guPushMatrix();edkEnd();
-    //add translate
-    edk::GU::guTranslate2f32(this->position);edkEnd();
-    //add rotation
-    edk::GU::guRotateZf32(this->angle);edkEnd();
-    //add scale
-    edk::GU::guScale2f32(this->size);edkEnd();
+    if(this->father){
+        this->updateChangedValues();
+        //add translate
+        edk::GU::guTranslate2f32(this->connectedPosition);edkEnd();
+        //add rotation
+        edk::GU::guRotateZf32(this->connectedAngle);edkEnd();
+        //add scale
+        edk::GU::guScale2f32(this->connectedSize);edkEnd();
+    }
+    else{
+        //add translate
+        edk::GU::guTranslate2f32(this->position);edkEnd();
+        //add rotation
+        edk::GU::guRotateZf32(this->angle);edkEnd();
+        //add scale
+        edk::GU::guScale2f32(this->size);edkEnd();
+    }
     //set the pivo
     edk::GU::guTranslate2f32(this->pivo*-1.0f);edkEnd();
 
@@ -1575,6 +1713,7 @@ void edk::Object2D::drawOneTexture(){
             mesh->drawOneTexture();edkEnd();
         }
     }
+    this->drawChildremsOneTexture();
     edk::GU::guPopMatrix();edkEnd();
 }
 void edk::Object2D::drawOneTextureWithLight(){
@@ -1598,12 +1737,23 @@ void edk::Object2D::drawOneTextureWithLight(){
             }
         }
     }
-    //add translate
-    edk::GU::guTranslate2f32(this->position);edkEnd();
-    //add rotation
-    edk::GU::guRotateZf32(this->angle);edkEnd();
-    //add scale
-    edk::GU::guScale2f32(this->size);edkEnd();
+    if(this->father){
+        this->updateChangedValues();
+        //add translate
+        edk::GU::guTranslate2f32(this->connectedPosition);edkEnd();
+        //add rotation
+        edk::GU::guRotateZf32(this->connectedAngle);edkEnd();
+        //add scale
+        edk::GU::guScale2f32(this->connectedSize);edkEnd();
+    }
+    else{
+        //add translate
+        edk::GU::guTranslate2f32(this->position);edkEnd();
+        //add rotation
+        edk::GU::guRotateZf32(this->angle);edkEnd();
+        //add scale
+        edk::GU::guScale2f32(this->size);edkEnd();
+    }
     //set the pivo
     edk::GU::guTranslate2f32(this->pivo*-1.0f);edkEnd();
 
@@ -1626,18 +1776,30 @@ void edk::Object2D::drawOneTextureWithLight(){
             }
         }
     }
+    this->drawChildremsOneTextureWithLight();
     edk::GU::guDisable(GU_LIGHTING);edkEnd();
     edk::GU::guPopMatrix();edkEnd();
 }
 void edk::Object2D::drawWithoutMaterial(){
     //put the transformation on a stack
     edk::GU::guPushMatrix();edkEnd();
-    //add translate
-    edk::GU::guTranslate2f32(this->position);edkEnd();
-    //add rotation
-    edk::GU::guRotateZf32(this->angle);edkEnd();
-    //add scale
-    edk::GU::guScale2f32(this->size);edkEnd();
+    if(this->father){
+        this->updateChangedValues();
+        //add translate
+        edk::GU::guTranslate2f32(this->connectedPosition);edkEnd();
+        //add rotation
+        edk::GU::guRotateZf32(this->connectedAngle);edkEnd();
+        //add scale
+        edk::GU::guScale2f32(this->connectedSize);edkEnd();
+    }
+    else{
+        //add translate
+        edk::GU::guTranslate2f32(this->position);edkEnd();
+        //add rotation
+        edk::GU::guRotateZf32(this->angle);edkEnd();
+        //add scale
+        edk::GU::guScale2f32(this->size);edkEnd();
+    }
     //set the pivo
     edk::GU::guTranslate2f32(this->pivo*-1.0f);edkEnd();
 
@@ -1650,6 +1812,7 @@ void edk::Object2D::drawWithoutMaterial(){
             mesh->drawWithoutMaterial();edkEnd();
         }
     }
+    this->drawChildremsWithoutMaterial();
     edk::GU::guPopMatrix();edkEnd();
 }
 void edk::Object2D::drawWithoutMaterialWithLight(){
@@ -1673,12 +1836,23 @@ void edk::Object2D::drawWithoutMaterialWithLight(){
             }
         }
     }
-    //add translate
-    edk::GU::guTranslate2f32(this->position);edkEnd();
-    //add rotation
-    edk::GU::guRotateZf32(this->angle);edkEnd();
-    //add scale
-    edk::GU::guScale2f32(this->size);edkEnd();
+    if(this->father){
+        this->updateChangedValues();
+        //add translate
+        edk::GU::guTranslate2f32(this->connectedPosition);edkEnd();
+        //add rotation
+        edk::GU::guRotateZf32(this->connectedAngle);edkEnd();
+        //add scale
+        edk::GU::guScale2f32(this->connectedSize);edkEnd();
+    }
+    else{
+        //add translate
+        edk::GU::guTranslate2f32(this->position);edkEnd();
+        //add rotation
+        edk::GU::guRotateZf32(this->angle);edkEnd();
+        //add scale
+        edk::GU::guScale2f32(this->size);edkEnd();
+    }
     //set the pivo
     edk::GU::guTranslate2f32(this->pivo*-1.0f);edkEnd();
 
@@ -1701,18 +1875,30 @@ void edk::Object2D::drawWithoutMaterialWithLight(){
             }
         }
     }
+    this->drawChildremsWithoutMaterialWithLight();
     edk::GU::guDisable(GU_LIGHTING);edkEnd();
     edk::GU::guPopMatrix();edkEnd();
 }
 void edk::Object2D::drawWire(){
     //put the transformation on a stack
     edk::GU::guPushMatrix();edkEnd();
-    //add translate
-    edk::GU::guTranslate2f32(this->position);edkEnd();
-    //add rotation
-    edk::GU::guRotateZf32(this->angle);edkEnd();
-    //add scale
-    edk::GU::guScale2f32(this->size);edkEnd();
+    if(this->father){
+        this->updateChangedValues();
+        //add translate
+        edk::GU::guTranslate2f32(this->connectedPosition);edkEnd();
+        //add rotation
+        edk::GU::guRotateZf32(this->connectedAngle);edkEnd();
+        //add scale
+        edk::GU::guScale2f32(this->connectedSize);edkEnd();
+    }
+    else{
+        //add translate
+        edk::GU::guTranslate2f32(this->position);edkEnd();
+        //add rotation
+        edk::GU::guRotateZf32(this->angle);edkEnd();
+        //add scale
+        edk::GU::guScale2f32(this->size);edkEnd();
+    }
     //set the pivo
     edk::GU::guTranslate2f32(this->pivo*-1.0f);edkEnd();
 
@@ -1725,18 +1911,30 @@ void edk::Object2D::drawWire(){
             mesh->drawWirePolygons();edkEnd();
         }
     }
+    this->drawChildremsWire();
     edk::GU::guPopMatrix();edkEnd();
 }
 void edk::Object2D::drawWirePolygon(edk::uint32 meshPosition,edk::uint32 polygon){
 
     //put the transformation on a stack
     edk::GU::guPushMatrix();edkEnd();
-    //add translate
-    edk::GU::guTranslate2f32(this->position);edkEnd();
-    //add rotation
-    edk::GU::guRotateZf32(this->angle);edkEnd();
-    //add scale
-    edk::GU::guScale2f32(this->size);edkEnd();
+    if(this->father){
+        this->updateChangedValues();
+        //add translate
+        edk::GU::guTranslate2f32(this->connectedPosition);edkEnd();
+        //add rotation
+        edk::GU::guRotateZf32(this->connectedAngle);edkEnd();
+        //add scale
+        edk::GU::guScale2f32(this->connectedSize);edkEnd();
+    }
+    else{
+        //add translate
+        edk::GU::guTranslate2f32(this->position);edkEnd();
+        //add rotation
+        edk::GU::guRotateZf32(this->angle);edkEnd();
+        //add scale
+        edk::GU::guScale2f32(this->size);edkEnd();
+    }
     //set the pivo
     edk::GU::guTranslate2f32(this->pivo*-1.0f);edkEnd();
 
@@ -1771,12 +1969,23 @@ bool edk::Object2D::drawMesh(edk::uint32 meshPosition){
         }
     }
 
-    //add translate
-    edk::GU::guTranslate2f32(this->position);edkEnd();
-    //add rotation
-    edk::GU::guRotateZf32(this->angle);edkEnd();
-    //add scale
-    edk::GU::guScale2f32(this->size);edkEnd();
+    if(this->father){
+        this->updateChangedValues();
+        //add translate
+        edk::GU::guTranslate2f32(this->connectedPosition);edkEnd();
+        //add rotation
+        edk::GU::guRotateZf32(this->connectedAngle);edkEnd();
+        //add scale
+        edk::GU::guScale2f32(this->connectedSize);edkEnd();
+    }
+    else{
+        //add translate
+        edk::GU::guTranslate2f32(this->position);edkEnd();
+        //add rotation
+        edk::GU::guRotateZf32(this->angle);edkEnd();
+        //add scale
+        edk::GU::guScale2f32(this->size);edkEnd();
+    }
     //set the pivo
     edk::GU::guTranslate2f32(this->pivo*-1.0f);edkEnd();
 
@@ -1839,12 +2048,23 @@ bool edk::Object2D::drawPolygon(edk::uint32 meshPosition,edk::uint32 polygon){
         }
     }
 
-    //add translate
-    edk::GU::guTranslate2f32(this->position);edkEnd();
-    //add rotation
-    edk::GU::guRotateZf32(this->angle);edkEnd();
-    //add scale
-    edk::GU::guScale2f32(this->size);edkEnd();
+    if(this->father){
+        this->updateChangedValues();
+        //add translate
+        edk::GU::guTranslate2f32(this->connectedPosition);edkEnd();
+        //add rotation
+        edk::GU::guRotateZf32(this->connectedAngle);edkEnd();
+        //add scale
+        edk::GU::guScale2f32(this->connectedSize);edkEnd();
+    }
+    else{
+        //add translate
+        edk::GU::guTranslate2f32(this->position);edkEnd();
+        //add rotation
+        edk::GU::guRotateZf32(this->angle);edkEnd();
+        //add scale
+        edk::GU::guScale2f32(this->size);edkEnd();
+    }
     //set the pivo
     edk::GU::guTranslate2f32(this->pivo*-1.0f);edkEnd();
 
@@ -1884,12 +2104,23 @@ bool edk::Object2D::drawMeshOneTexture(edk::uint32 meshPosition){
     bool ret = false;edkEnd();
     //put the transformation on a stack
     edk::GU::guPushMatrix();edkEnd();
-    //add translate
-    edk::GU::guTranslate2f32(this->position);edkEnd();
-    //add rotation
-    edk::GU::guRotateZf32(this->angle);edkEnd();
-    //add scale
-    edk::GU::guScale2f32(this->size);edkEnd();
+    if(this->father){
+        this->updateChangedValues();
+        //add translate
+        edk::GU::guTranslate2f32(this->connectedPosition);edkEnd();
+        //add rotation
+        edk::GU::guRotateZf32(this->connectedAngle);edkEnd();
+        //add scale
+        edk::GU::guScale2f32(this->connectedSize);edkEnd();
+    }
+    else{
+        //add translate
+        edk::GU::guTranslate2f32(this->position);edkEnd();
+        //add rotation
+        edk::GU::guRotateZf32(this->angle);edkEnd();
+        //add scale
+        edk::GU::guScale2f32(this->size);edkEnd();
+    }
     //set the pivo
     edk::GU::guTranslate2f32(this->pivo*-1.0f);edkEnd();
 
@@ -1909,12 +2140,23 @@ bool edk::Object2D::drawPolygonOneTexture(edk::uint32 meshPosition,edk::uint32 p
     bool ret = false;edkEnd();
     //put the transformation on a stack
     edk::GU::guPushMatrix();edkEnd();
-    //add translate
-    edk::GU::guTranslate2f32(this->position);edkEnd();
-    //add rotation
-    edk::GU::guRotateZf32(this->angle);edkEnd();
-    //add scale
-    edk::GU::guScale2f32(this->size);edkEnd();
+    if(this->father){
+        this->updateChangedValues();
+        //add translate
+        edk::GU::guTranslate2f32(this->connectedPosition);edkEnd();
+        //add rotation
+        edk::GU::guRotateZf32(this->connectedAngle);edkEnd();
+        //add scale
+        edk::GU::guScale2f32(this->connectedSize);edkEnd();
+    }
+    else{
+        //add translate
+        edk::GU::guTranslate2f32(this->position);edkEnd();
+        //add rotation
+        edk::GU::guRotateZf32(this->angle);edkEnd();
+        //add scale
+        edk::GU::guScale2f32(this->size);edkEnd();
+    }
     //set the pivo
     edk::GU::guTranslate2f32(this->pivo*-1.0f);edkEnd();
 
@@ -1951,12 +2193,23 @@ bool edk::Object2D::drawMeshOneTextureWithLight(edk::uint32 meshPosition){
             }
         }
     }
-    //add translate
-    edk::GU::guTranslate2f32(this->position);edkEnd();
-    //add rotation
-    edk::GU::guRotateZf32(this->angle);edkEnd();
-    //add scale
-    edk::GU::guScale2f32(this->size);edkEnd();
+    if(this->father){
+        this->updateChangedValues();
+        //add translate
+        edk::GU::guTranslate2f32(this->connectedPosition);edkEnd();
+        //add rotation
+        edk::GU::guRotateZf32(this->connectedAngle);edkEnd();
+        //add scale
+        edk::GU::guScale2f32(this->connectedSize);edkEnd();
+    }
+    else{
+        //add translate
+        edk::GU::guTranslate2f32(this->position);edkEnd();
+        //add rotation
+        edk::GU::guRotateZf32(this->angle);edkEnd();
+        //add scale
+        edk::GU::guScale2f32(this->size);edkEnd();
+    }
     //set the pivo
     edk::GU::guTranslate2f32(this->pivo*-1.0f);edkEnd();
 
@@ -2006,12 +2259,6 @@ bool edk::Object2D::drawPolygonOneTextureWithLight(edk::uint32 meshPosition,edk:
             }
         }
     }
-    //add translate
-    edk::GU::guTranslate2f32(this->position);edkEnd();
-    //add rotation
-    edk::GU::guRotateZf32(this->angle);edkEnd();
-    //add scale
-    edk::GU::guScale2f32(this->size);edkEnd();
     //set the pivo
     edk::GU::guTranslate2f32(this->pivo*-1.0f);edkEnd();
 
@@ -2041,12 +2288,23 @@ bool edk::Object2D::drawMeshWithoutMaterial(edk::uint32 meshPosition){
     bool ret = false;edkEnd();
     //put the transformation on a stack
     edk::GU::guPushMatrix();edkEnd();
-    //add translate
-    edk::GU::guTranslate2f32(this->position);edkEnd();
-    //add rotation
-    edk::GU::guRotateZf32(this->angle);edkEnd();
-    //add scale
-    edk::GU::guScale2f32(this->size);edkEnd();
+    if(this->father){
+        this->updateChangedValues();
+        //add translate
+        edk::GU::guTranslate2f32(this->connectedPosition);edkEnd();
+        //add rotation
+        edk::GU::guRotateZf32(this->connectedAngle);edkEnd();
+        //add scale
+        edk::GU::guScale2f32(this->connectedSize);edkEnd();
+    }
+    else{
+        //add translate
+        edk::GU::guTranslate2f32(this->position);edkEnd();
+        //add rotation
+        edk::GU::guRotateZf32(this->angle);edkEnd();
+        //add scale
+        edk::GU::guScale2f32(this->size);edkEnd();
+    }
     //set the pivo
     edk::GU::guTranslate2f32(this->pivo*-1.0f);edkEnd();
 
@@ -2066,12 +2324,23 @@ bool edk::Object2D::drawPolygonWithoutMaterial(edk::uint32 meshPosition,edk::uin
     bool ret = false;edkEnd();
     //put the transformation on a stack
     edk::GU::guPushMatrix();edkEnd();
-    //add translate
-    edk::GU::guTranslate2f32(this->position);edkEnd();
-    //add rotation
-    edk::GU::guRotateZf32(this->angle);edkEnd();
-    //add scale
-    edk::GU::guScale2f32(this->size);edkEnd();
+    if(this->father){
+        this->updateChangedValues();
+        //add translate
+        edk::GU::guTranslate2f32(this->connectedPosition);edkEnd();
+        //add rotation
+        edk::GU::guRotateZf32(this->connectedAngle);edkEnd();
+        //add scale
+        edk::GU::guScale2f32(this->connectedSize);edkEnd();
+    }
+    else{
+        //add translate
+        edk::GU::guTranslate2f32(this->position);edkEnd();
+        //add rotation
+        edk::GU::guRotateZf32(this->angle);edkEnd();
+        //add scale
+        edk::GU::guScale2f32(this->size);edkEnd();
+    }
     //set the pivo
     edk::GU::guTranslate2f32(this->pivo*-1.0f);edkEnd();
 
@@ -2108,12 +2377,23 @@ bool edk::Object2D::drawMeshWithoutMaterialWithLight(edk::uint32 meshPosition){
             }
         }
     }
-    //add translate
-    edk::GU::guTranslate2f32(this->position);edkEnd();
-    //add rotation
-    edk::GU::guRotateZf32(this->angle);edkEnd();
-    //add scale
-    edk::GU::guScale2f32(this->size);edkEnd();
+    if(this->father){
+        this->updateChangedValues();
+        //add translate
+        edk::GU::guTranslate2f32(this->connectedPosition);edkEnd();
+        //add rotation
+        edk::GU::guRotateZf32(this->connectedAngle);edkEnd();
+        //add scale
+        edk::GU::guScale2f32(this->connectedSize);edkEnd();
+    }
+    else{
+        //add translate
+        edk::GU::guTranslate2f32(this->position);edkEnd();
+        //add rotation
+        edk::GU::guRotateZf32(this->angle);edkEnd();
+        //add scale
+        edk::GU::guScale2f32(this->size);edkEnd();
+    }
     //set the pivo
     edk::GU::guTranslate2f32(this->pivo*-1.0f);edkEnd();
 
@@ -2162,12 +2442,23 @@ bool edk::Object2D::drawPolygonWithoutMaterialWithLight(edk::uint32 meshPosition
             }
         }
     }
-    //add translate
-    edk::GU::guTranslate2f32(this->position);edkEnd();
-    //add rotation
-    edk::GU::guRotateZf32(this->angle);edkEnd();
-    //add scale
-    edk::GU::guScale2f32(this->size);edkEnd();
+    if(this->father){
+        this->updateChangedValues();
+        //add translate
+        edk::GU::guTranslate2f32(this->connectedPosition);edkEnd();
+        //add rotation
+        edk::GU::guRotateZf32(this->connectedAngle);edkEnd();
+        //add scale
+        edk::GU::guScale2f32(this->connectedSize);edkEnd();
+    }
+    else{
+        //add translate
+        edk::GU::guTranslate2f32(this->position);edkEnd();
+        //add rotation
+        edk::GU::guRotateZf32(this->angle);edkEnd();
+        //add scale
+        edk::GU::guScale2f32(this->size);edkEnd();
+    }
     //set the pivo
     edk::GU::guTranslate2f32(this->pivo*-1.0f);edkEnd();
 
@@ -2196,12 +2487,23 @@ bool edk::Object2D::drawMeshWire(edk::uint32 meshPosition){
     bool ret=false;edkEnd();
     //put the transformation on a stack
     edk::GU::guPushMatrix();edkEnd();
-    //add translate
-    edk::GU::guTranslate2f32(this->position);edkEnd();
-    //add rotation
-    edk::GU::guRotateZf32(this->angle);edkEnd();
-    //add scale
-    edk::GU::guScale2f32(this->size);edkEnd();
+    if(this->father){
+        this->updateChangedValues();
+        //add translate
+        edk::GU::guTranslate2f32(this->connectedPosition);edkEnd();
+        //add rotation
+        edk::GU::guRotateZf32(this->connectedAngle);edkEnd();
+        //add scale
+        edk::GU::guScale2f32(this->connectedSize);edkEnd();
+    }
+    else{
+        //add translate
+        edk::GU::guTranslate2f32(this->position);edkEnd();
+        //add rotation
+        edk::GU::guRotateZf32(this->angle);edkEnd();
+        //add scale
+        edk::GU::guScale2f32(this->size);edkEnd();
+    }
     //set the pivo
     edk::GU::guTranslate2f32(this->pivo*-1.0f);edkEnd();
 
@@ -2221,12 +2523,23 @@ bool edk::Object2D::drawPolygonWire(edk::uint32 meshPosition,edk::uint32 polygon
     bool ret=false;edkEnd();
     //put the transformation on a stack
     edk::GU::guPushMatrix();edkEnd();
-    //add translate
-    edk::GU::guTranslate2f32(this->position);edkEnd();
-    //add rotation
-    edk::GU::guRotateZf32(this->angle);edkEnd();
-    //add scale
-    edk::GU::guScale2f32(this->size);edkEnd();
+    if(this->father){
+        this->updateChangedValues();
+        //add translate
+        edk::GU::guTranslate2f32(this->connectedPosition);edkEnd();
+        //add rotation
+        edk::GU::guRotateZf32(this->connectedAngle);edkEnd();
+        //add scale
+        edk::GU::guScale2f32(this->connectedSize);edkEnd();
+    }
+    else{
+        //add translate
+        edk::GU::guTranslate2f32(this->position);edkEnd();
+        //add rotation
+        edk::GU::guRotateZf32(this->angle);edkEnd();
+        //add scale
+        edk::GU::guScale2f32(this->size);edkEnd();
+    }
     //set the pivo
     edk::GU::guTranslate2f32(this->pivo*-1.0f);edkEnd();
 
@@ -2245,9 +2558,41 @@ bool edk::Object2D::drawPolygonWire(edk::uint32 meshPosition,edk::uint32 polygon
 //draw the pivo
 void edk::Object2D::drawPivo(edk::float32 size,edk::color3f32 color){
     edk::Object2D::drawPivoInPosition(this->position,size,color);
+    if(this->father){
+        edk::Object2D::drawPivoInPosition(this->connectedPosition,size,color);
+    }
+    if(this->childrems.size()){
+        edk::GU::guPushMatrix();edkEnd();
+        //add translate
+        edk::GU::guTranslate2f32(this->position);edkEnd();
+        //add rotation
+        edk::GU::guRotateZf32(this->angle);edkEnd();
+        //add scale
+        edk::GU::guScale2f32(this->size);edkEnd();
+        //set the pivo
+        edk::GU::guTranslate2f32(this->pivo*-1.0f);edkEnd();
+        this->drawChildremsPivo(size,color);
+        edk::GU::guPopMatrix();edkEnd();
+    }
 }
 void edk::Object2D::drawPivo(edk::float32 size,edk::float32 r,edk::float32 g,edk::float32 b){
     edk::Object2D::drawPivoInPosition(this->position,size,edk::color3f32(r,g,b));
+    if(this->father){
+        edk::Object2D::drawPivoInPosition(this->connectedPosition,size,edk::color3f32(r,g,b));
+    }
+    if(this->childrems.size()){
+        edk::GU::guPushMatrix();edkEnd();
+        //add translate
+        edk::GU::guTranslate2f32(this->position);edkEnd();
+        //add rotation
+        edk::GU::guRotateZf32(this->angle);edkEnd();
+        //add scale
+        edk::GU::guScale2f32(this->size);edkEnd();
+        //set the pivo
+        edk::GU::guTranslate2f32(this->pivo*-1.0f);edkEnd();
+        this->drawChildremsPivo(size,r,g,b);
+        edk::GU::guPopMatrix();edkEnd();
+    }
 }
 void edk::Object2D::drawPivoInPosition(edk::vec2f32 position,edk::float32 size,edk::color3f32 color){
     //
@@ -2510,6 +2855,60 @@ void edk::Object2D::cantDeleteObject2D(){
     this->matrixAngle.cantDeleteMatrix();edkEnd();
     this->matrixSize.cantDeleteMatrix();edkEnd();
     this->matrixTransform.cantDeleteMatrix();edkEnd();
+}
+
+//connect another object into this
+bool edk::Object2D::connectObject(edk::Object2D* obj){
+    if(obj){
+        if(!obj->father){
+            if(this->childrems.add(obj)){
+                obj->father=this;
+
+                obj->newSize = edk::size2f32(1.f / this->size.width,1.f / this->size.height);
+
+                //translate the object to be connected with the another
+                obj->connectedPosition=obj->position - this->position;
+                obj->connectedPosition.x*=obj->newSize.width;
+                obj->connectedPosition.y*=obj->newSize.height;
+                obj->connectedSize=obj->size*obj->newSize;
+                obj->connectedAngle=obj->angle-this->angle;
+
+                //saev the position
+                obj->saveTransformation();
+
+                return true;
+            }
+        }
+    }
+    return false;
+}
+bool edk::Object2D::disconnectObject(edk::Object2D* obj){
+    if(obj){
+        if(obj->father == this){
+            if(this->childrems.remove(obj)){
+                this->father=NULL;
+                obj->connectedLoadIdentityValues();
+                obj->newSize=1.f;
+                return true;
+            }
+        }
+    }
+    return false;
+}
+void edk::Object2D::cleanConnectedObjects(){
+    edk::uint32 size = this->childrems.size();
+    edk::Object2D* obj;
+    for(edk::uint32 i=0u;i<size;i++){
+        obj = this->childrems.getElementInPosition(i);
+        if(obj){
+            if(obj->father == this){
+                obj->father=NULL;
+                obj->connectedLoadIdentityValues();
+                obj->newSize=1.f;
+            }
+        }
+    }
+    this->childrems.clean();
 }
 
 bool edk::Object2D::cloneFrom(edk::Object2D* obj){

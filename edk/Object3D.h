@@ -137,6 +137,11 @@ public:
     void drawPivo(edk::float32 size,edk::color3f32 color);
     void drawPivoWithMatrix(edk::vector::Matrix<edk::float32,4u,4u>* matrix,edk::float32 size,edk::color3f32 color);
 
+    //connect another object into this
+    virtual bool connectObject(edk::Object3D* obj);
+    virtual bool disconnectObject(edk::Object3D* obj);
+    virtual bool cleanConnectedObjects();
+
     //PolygonList selected
     edk::shape::Mesh3D *selected;
     //animarion position
@@ -352,7 +357,22 @@ private:
     edk::vector::Matrix<edk::float32,4u,4u> matrixTransform;
     edk::vector::Matrix<edk::float32,4u,4u> matrixTemp;
 
+    //connected objects tree
+    edk::vector::BinaryTree<edk::Object3D*> childrems;
+    edk::Object3D* father;
+
     void calculateMatrices();
+    //draw the mesh
+    void drawChildrems();
+    void drawChildremsWithoutMaterial();
+    void drawChildremsWithoutMaterialWithLight();
+    void drawChildremsWire();
+    void drawChildremsNormals();
+    void drawChildremsNormalsWithColor(edk::color3f32 color = edk::color3f32(1,1,1));
+    void drawChildremsNormalsWithColor(edk::float32 r,edk::float32 g,edk::float32 b);
+    //draw the pivo
+    void drawChildremsPivo(edk::float32 size,edk::color3f32 color);
+    void drawChildremsPivoWithMatrix(edk::vector::Matrix<edk::float32,4u,4u>* matrix,edk::float32 size,edk::color3f32 color);
 };
 }//end namespace edk
 

@@ -100,6 +100,13 @@ public:
     edk::uint8 getTypeValue();
 protected:
     edk::TypeObject type;
+
+    //connected translations
+    edk::vec2f32 connectedPosition;
+    edk::float32 connectedAngle;
+    edk::size2f32 connectedSize;
+
+    void connectedLoadIdentityValues();
 };
 }
 

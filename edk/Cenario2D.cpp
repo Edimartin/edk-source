@@ -2568,6 +2568,8 @@ edk::physics2D::PhysicObject2D* edk::Cenario2D::newPhysicSensor(edk::uint32 leve
         case edk::TypeObject2DKinematic:
             obj = new edk::physics2D::KinematicSensor2D;edkEnd();
             break;
+        default:
+            break;
         }
         if(obj){
             if(this->addObjectToLevel(NULL,(edk::Object2D*)obj,levelPosition,depth,true)){

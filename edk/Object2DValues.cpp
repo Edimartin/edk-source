@@ -28,6 +28,7 @@ edk::Object2DValues::Object2DValues(){
     this->type=edk::TypeObject2DValues;
     //this->angle=0.f;edkEnd();
     this->loadIdentityValues();edkEnd();
+    this->connectedLoadIdentityValues();edkEnd();
     this->fixedRotation=false;edkEnd();
     //this->cleanSaved();edkEnd();
 }
@@ -38,6 +39,13 @@ void edk::Object2DValues::loadIdentityValues(){
     this->angle = 0.f;edkEnd();
     this->size = edk::size2f32(1,1);edkEnd();
 }
+
+void edk::Object2DValues::connectedLoadIdentityValues(){
+    this->connectedPosition = edk::vec2f32(0,0);edkEnd();
+    this->connectedAngle = 0.f;edkEnd();
+    this->connectedSize = edk::size2f32(1,1);edkEnd();
+}
+
 //draw the pivo
 void edk::Object2DValues::drawPivo(edk::float32 ,edk::color3f32 ){
     //

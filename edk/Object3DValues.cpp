@@ -27,9 +27,18 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 edk::Object3DValues::Object3DValues(){
     //
     this->type=edk::TypeObject3DValues;
+    this->loadIdentityValues();
+    this->connectedLoadIdentityValues();
 }
 edk::Object3DValues::~Object3DValues(){
     //
+}
+
+void edk::Object3DValues::connectedLoadIdentityValues(){
+    //
+    this->connectedPosition = edk::vec3f32(0,0,0);edkEnd();
+    this->connectedAngle = edk::vec3f32(0,0,0);edkEnd();
+    this->connectedSize = edk::size3f32(1,1,1);edkEnd();
 }
 
 void edk::Object3DValues::loadIdentityValues(){

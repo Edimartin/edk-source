@@ -40,8 +40,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endif
 
 namespace edk{
-class Object3DValues
-{
+class Object3DValues{
 public:
     Object3DValues();
     ~Object3DValues();
@@ -56,6 +55,13 @@ public:
     edk::uint8 getTypeValue();
 protected:
     edk::TypeObject type;
+
+    //connected values
+    edk::vec3f32 connectedPosition;
+    edk::vec3f32 connectedAngle;
+    edk::size3f32 connectedSize;
+
+    void connectedLoadIdentityValues();
 };
 }//end namespace edk
 

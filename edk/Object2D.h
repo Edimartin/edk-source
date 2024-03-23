@@ -228,6 +228,11 @@ public:
     //cant delete
     void cantDeleteObject2D();
 
+    //connect another object into this
+    virtual bool connectObject(edk::Object2D* obj);
+    virtual bool disconnectObject(edk::Object2D* obj);
+    virtual void cleanConnectedObjects();
+
     virtual bool cloneFrom(edk::Object2D* obj);
 
     //PolygonList selected
@@ -387,6 +392,18 @@ private:
     edk::vector::Matrix<edk::float32,3u,3u> matrixSize;
     edk::vector::Matrix<edk::float32,3u,3u> matrixTransform;
 
+    //save the position to test if are connected
+    edk::vec2f32  savePosition;
+    edk::float32  saveAngle;
+    edk::size2f32 saveSize;
+    edk::vec2f32  savePivo;
+    edk::size2f32 newSize;
+
+    //connected objects tree
+    edk::vector::BinaryTree<edk::Object2D*> childrems;
+    edk::Object2D* father;
+
+
     //object boundingBox
     edk::rectf32 boundingBox;
 
@@ -395,6 +412,113 @@ private:
 
     //Function to read the actions
     static edk::Action* readXMLAction(edk::classID thisPointer,edk::uint32 actionCode);
+
+    //draw the mesh
+    void drawChildremsBoundingBox();
+    void drawChildrems();
+    void drawChildremsOneTexture();
+    void drawChildremsOneTextureWithLight();
+    void drawChildremsWithoutMaterial();
+    void drawChildremsWithoutMaterialWithLight();
+    void drawChildremsWire();
+    //draw the pivo
+    void drawChildremsPivo(edk::float32 size,edk::color3f32 color);
+    void drawChildremsPivo(edk::float32 size,edk::float32 r,edk::float32 g,edk::float32 b);
+    //update animations
+    bool updateChildremsAnimations();
+    bool updateChildremsAnimations(edk::float32 seconds);
+
+    //load sve identity
+    inline void loadSaveIdentityValues(){
+        this->savePosition=0.f;
+        this->saveAngle=0.f;
+        this->saveSize=0.f;
+        this->savePivo=0.f;
+    }
+    inline void saveTransformation(){
+        this->savePosition = this->position;
+        this->saveSize = this->size;
+        this->saveAngle = this->angle;
+        this->savePivo = this->pivo;
+    }
+    inline void savePositionValue(){
+        this->savePosition = this->position;
+    }
+    inline void saveSizeValue(){
+        this->saveSize = this->size;
+    }
+    inline void saveAngleValue(){
+        this->saveAngle = this->angle;
+    }
+    inline void savePivoValue(){
+        this->savePivo = this->pivo;
+    }
+    inline bool haveChangeTransformation(){
+        if(!edk::Math::equal(this->savePosition.x,this->position.x)
+                || !edk::Math::equal(this->savePosition.y,this->position.y)
+                || !edk::Math::equal(this->saveSize.width,this->size.width)
+                || !edk::Math::equal(this->saveSize.height,this->size.height)
+                || !edk::Math::equal(this->saveAngle,this->angle)
+                || !edk::Math::equal(this->savePivo.x,this->pivo.x)
+                || !edk::Math::equal(this->savePivo.y,this->pivo.y)
+                ){
+            return true;
+        }
+        return false;
+    }
+    inline bool haveChangePosition(){
+        if(!edk::Math::equal(this->savePosition.x,this->position.x)
+                || !edk::Math::equal(this->savePosition.y,this->position.y)
+                ){
+            return true;
+        }
+        return false;
+    }
+    inline bool haveChangeSize(){
+        if(!edk::Math::equal(this->saveSize.width,this->size.width)
+                || !edk::Math::equal(this->saveSize.height,this->size.height)
+                ){
+            return true;
+        }
+        return false;
+    }
+    inline bool haveChangeAngle(){
+        if(!edk::Math::equal(this->saveAngle,this->angle)){
+            return true;
+        }
+        return false;
+    }
+    inline bool haveChangePivo(){
+        if(!edk::Math::equal(this->savePivo.x,this->pivo.x)
+                || !edk::Math::equal(this->savePivo.y,this->pivo.y)
+                ){
+            return true;
+        }
+        return false;
+    }
+    inline void updateChangedValues(){
+        if(this->father){
+            if(this->haveChangePosition()){
+                //update the position
+                this->connectedPosition.x+=(this->position.x - this->savePosition.x - this->father->position.x)*this->newSize.width;
+                this->connectedPosition.y+=(this->position.y - this->savePosition.y - this->father->position.y)*this->newSize.height;
+                this->savePositionValue();
+            }
+            if(this->haveChangeSize()){
+                //update the size
+                this->connectedSize+=(this->size-this->saveSize)*this->newSize;
+                this->saveSizeValue();
+            }
+            if(this->haveChangeAngle()){
+                //update the angle
+                this->connectedAngle+=this->angle-this->saveAngle;
+                this->saveAngleValue();
+            }
+            if(this->haveChangePivo()){
+                this->savePivoValue();
+            }
+        }
+    }
 
     //ACTIONS
     class ActionPosition:public edk::ActionZero{
