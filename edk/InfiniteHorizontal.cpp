@@ -222,6 +222,21 @@ bool edk::InfiniteHorizontal::newObjectFromObject2D(edk::physics2D::PhysicObject
     return false;
 }
 
+//test if have some object inside the queue
+bool edk::InfiniteHorizontal::haveObjectInQueue(edk::Object2D* obj){
+    edk::uint32 size = this->queue.size();edkEnd();
+    edk::InfiniteHorizontal::tileWorldObject2D* tile;edkEnd();
+    for(edk::uint32 i=0u;i<size;i++){
+        tile = this->queue.get(i);edkEnd();
+        if(tile){
+            if(tile->objPointer == obj){
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
 //get the last object added
 edk::Object2D* edk::InfiniteHorizontal::getLastAddedObject(){
     return this->lastObject;
@@ -234,7 +249,6 @@ void edk::InfiniteHorizontal::updateInsideRect(edk::float32 seconds,edk::rectf32
 void edk::InfiniteHorizontal::updateInsideRectPoints(edk::float32 seconds,edk::rectf32 rect){
     edk::Object2D* obj=NULL;edkEnd();
     edk::InfiniteHorizontal::tileWorldObject2D* tile = NULL;edkEnd();
-    edk::uint32 treeSize = this->tree.size();edkEnd();
     //test if have some object in the queue
     if(!this->queue.size()){
         if(this->buffer.size()){

@@ -85,6 +85,18 @@ public:
     edk::rectf32 calculateNewBoundingBox(edk::vector::Matrix<edk::float32,3,3>* transformMat);
     edk::rectf32 generateNewBoundingBox();
     edk::rectf32 generateNewBoundingBox(edk::vector::Matrix<edk::float32,3,3>* transformMat);
+
+    //function to calculate boundingBox
+    bool calculateBoundingBoxNoChildrem();
+    bool calculateBoundingBoxNoChildrem(edk::vector::Matrix<edk::float32,3,3>* transformMat);
+    bool generateBoundingBoxNoChildrem();
+    bool generateBoundingBoxNoChildrem(edk::vector::Matrix<edk::float32,3,3>* transformMat);
+    //functions to calculate a new boundingBox
+    edk::rectf32 calculateNewBoundingBoxNoChildrem();
+    edk::rectf32 calculateNewBoundingBoxNoChildrem(edk::vector::Matrix<edk::float32,3,3>* transformMat);
+    edk::rectf32 generateNewBoundingBoxNoChildrem();
+    edk::rectf32 generateNewBoundingBoxNoChildrem(edk::vector::Matrix<edk::float32,3,3>* transformMat);
+
     //return a copy of the boundingBox
     edk::rectf32 getBoundingBox();
 
@@ -407,23 +419,35 @@ private:
     //object boundingBox
     edk::rectf32 boundingBox;
 
+    void writeFatherBoundingBox(edk::rectf32* rect,edk::vector::Matrix<edk::float32,3,3>* transformMat);
     bool writeBoundingBox(edk::rectf32* rect);
     bool writeBoundingBox(edk::rectf32* rect,edk::vector::Matrix<edk::float32,3,3>* transformMat);
+    bool writeChildremBoundingBox(edk::rectf32* rect);
+    bool writeChildremBoundingBox(edk::rectf32* rect,edk::vector::Matrix<edk::float32,3,3>* transformMat);
 
     //Function to read the actions
     static edk::Action* readXMLAction(edk::classID thisPointer,edk::uint32 actionCode);
 
     //draw the mesh
     void drawChildremsBoundingBox();
-    void drawChildrems();
+    void drawChildBoundingBox();
+    void drawChildrems(bool haveLight);
+    void drawChild(bool haveLight);
     void drawChildremsOneTexture();
-    void drawChildremsOneTextureWithLight();
+    void drawChildOneTexture();
+    void drawChildremsOneTextureWithLight(bool haveLight);
+    void drawChildOneTextureWithLight(bool haveLight);
     void drawChildremsWithoutMaterial();
-    void drawChildremsWithoutMaterialWithLight();
+    void drawChildWithoutMaterial();
+    void drawChildremsWithoutMaterialWithLight(bool haveLight);
+    void drawChildWithoutMaterialWithLight(bool haveLight);
     void drawChildremsWire();
+    void drawChildWire();
     //draw the pivo
     void drawChildremsPivo(edk::float32 size,edk::color3f32 color);
+    void drawChildPivo(edk::float32 size,edk::color3f32 color);
     void drawChildremsPivo(edk::float32 size,edk::float32 r,edk::float32 g,edk::float32 b);
+    void drawChildPivo(edk::float32 size,edk::float32 r,edk::float32 g,edk::float32 b);
     //update animations
     bool updateChildremsAnimations();
     bool updateChildremsAnimations(edk::float32 seconds);

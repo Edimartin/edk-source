@@ -72,13 +72,16 @@ public:
     bool newObjectFromObject2D(edk::Object2D* obj,edk::float32 distance=0.f);
     bool newObjectFromObject2D(edk::physics2D::PhysicObject2D* obj,edk::float32 distance=0.f);
 
+    //test if have some object inside the queue
+    bool haveObjectInQueue(edk::Object2D* obj);
+
     //get the last object added
     edk::Object2D* getLastAddedObject();
 
     void inline updateInsideRect(edk::rectf32 rect){return this->updateInsideRect(this->getSeconds(),rect);}
     void updateInsideRect(edk::float32 seconds,edk::rectf32 rect);
     void inline updateInsideRectPoints(edk::rectf32 rect){return this->updateInsideRect(this->getSeconds(),rect);}
-    void updateInsideRectPoints(edk::float32 seconds,edk::rectf32 rect);
+    virtual void updateInsideRectPoints(edk::float32 seconds,edk::rectf32 rect);
     void inline updateInsideSize(edk::vec2f32 position,edk::size2f32 size){return this->updateInsideSize(this->getSeconds(),position,size);}
     void updateInsideSize(edk::float32 seconds,edk::vec2f32 position,edk::size2f32 size);
     void inline updateInsidePoints(edk::vec2f32 point1,edk::vec2f32 point2){return this->updateInsidePoints(this->getSeconds(),point1,point2);}
