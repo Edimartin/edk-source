@@ -151,6 +151,9 @@ public:
     //Set the interpolation curve points
     bool selectedAnimationSetCurveP1X(edk::uint32 position,edk::float32 second,edk::float32 x);
     bool selectedAnimationSetCurveP2X(edk::uint32 position,edk::float32 second,edk::float32 x);
+    //Speed
+    bool selectedAnimationSetSpeed(edk::float32 speed);
+    edk::float32 selectedAnimationGetSpeed();
     /*
     //XML
     virtual bool writeToXML(edk::XML* xml,edk::uint32 id);

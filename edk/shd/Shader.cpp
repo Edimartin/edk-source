@@ -58,6 +58,10 @@ edk::shd::shaderType edk::shd::Shader::readType(edk::char8* name){
             //then return fragment
             return EDK_SHADER_FRAGMENT;edkEnd();
         }
+        else if(edk::String::strCompare(&name[size-5u],(edk::char8*)".geom")){
+            //then return fragment
+            return EDK_SHADER_GEOMETRY;edkEnd();
+        }
     }
     //else return none
     return EDK_SHADER_NONE;edkEnd();
@@ -85,7 +89,7 @@ bool edk::shd::Shader::checkCompilationStatus(edk::uint32 id){
             }
             edk::GU_GLSL::guGetShaderInfoLog(id, infologLength, &charsWritten, this->log);edkEnd();
             if(infologLength > 1){
-/*
+                /*
                 printf("\nLOG: %s"
                 ,this->log
                 );edkEnd();
@@ -113,17 +117,18 @@ bool edk::shd::Shader::loadShaderFromMemory(edk::uint8* shader, edk::uint32 size
     if(shader && size){
         //then test the shaderType
         switch(type){
-            case EDK_SHADER_VERTEX:
-                //
-                this->id=edk::GU_GLSL::guCreateShader(GU_GLSL_VERTEX_SHADER);edkEnd();
-                break;
-            case EDK_SHADER_FRAGMENT:
-                //
-                this->id=edk::GU_GLSL::guCreateShader(GU_GLSL_FRAGMENT_SHADER);edkEnd();
-                break;
-            case EDK_SHADER_GEOMETRY:
-                ///TODO: ADD THE GEOMETRY SHADER IN THE FUTURE
-                break;
+        case EDK_SHADER_VERTEX:
+            //
+            this->id=edk::GU_GLSL::guCreateShader(GU_GLSL_VERTEX_SHADER);edkEnd();
+            break;
+        case EDK_SHADER_FRAGMENT:
+            //
+            this->id=edk::GU_GLSL::guCreateShader(GU_GLSL_FRAGMENT_SHADER);edkEnd();
+            break;
+        case EDK_SHADER_GEOMETRY:
+            //
+            this->id=edk::GU_GLSL::guCreateShader(GU_GLSL_GEOMETRY_SHADER);edkEnd();
+            break;
         }
         if(this->id){
             //create the shaderID

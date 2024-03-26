@@ -785,6 +785,25 @@ bool edk::shape::AnimatedPolygon2DList::selectedAnimationSetCurveP2X(edk::uint32
     //else return false
     return false;
 }
+//Speed
+bool edk::shape::AnimatedPolygon2DList::selectedAnimationSetSpeed(edk::float32 speed){
+    //test if have a animationSelected
+    if(this->selectedAnimation){
+        //add new interpolationLine
+        return this->selectedAnimation->setSpeed(speed);
+    }
+    //else return false
+    return false;
+}
+edk::float32 edk::shape::AnimatedPolygon2DList::selectedAnimationGetSpeed(){
+    //test if have a animationSelected
+    if(this->selectedAnimation){
+        //add new interpolationLine
+        return this->selectedAnimation->getSpeed();
+    }
+    //else return false
+    return 0.f;
+}
 /*
 //XML
 bool edk::shape::AnimatedPolygon2DList::writeToXML(edk::XML* xml,edk::uint32 id){
