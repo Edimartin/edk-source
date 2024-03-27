@@ -161,6 +161,21 @@ public:
     virtual bool writeText(edk::char8* text,edk::size2f32 scale);
     virtual void cleanText();
 
+    //function to calculate boundingBox
+    bool calculateBoundingBox();
+    bool calculateBoundingBox(edk::vector::Matrix<edk::float32,3,3>* transformMat);
+    bool generateBoundingBox();
+    bool generateBoundingBox(edk::vector::Matrix<edk::float32,3,3>* transformMat);
+    //functions to calculate a new boundingBox
+    edk::rectf32 calculateNewBoundingBox();
+    edk::rectf32 calculateNewBoundingBox(edk::vector::Matrix<edk::float32,3,3>* transformMat);
+    edk::rectf32 generateNewBoundingBox();
+    edk::rectf32 generateNewBoundingBox(edk::vector::Matrix<edk::float32,3,3>* transformMat);
+
+    //return a copy of the boundingBox
+    edk::rectf32 getBoundingBox();
+
+
     //load the button textures and meshes
     virtual bool load();
     virtual void unload();
@@ -233,6 +248,19 @@ protected:
     edk::gui2d::gui2dTexture saveStatus;
     //save the position to move the object
     edk::vec2f32 savePosition;
+
+    //transform matrices
+    edk::vector::Matrix<edk::float32,3u,3u> matrixPosition;
+    edk::vector::Matrix<edk::float32,3u,3u> matrixPivo;
+    edk::vector::Matrix<edk::float32,3u,3u> matrixAngle;
+    edk::vector::Matrix<edk::float32,3u,3u> matrixSize;
+    edk::vector::Matrix<edk::float32,3u,3u> matrixTransform;
+
+    //object boundingBox
+    edk::rectf32 boundingBox;
+
+    bool writeBoundingBox(edk::rectf32* rect);
+    bool writeBoundingBox(edk::rectf32* rect,edk::vector::Matrix<edk::float32,3,3>* transformMat);
 private:
 };
 }//end namespace gui2d

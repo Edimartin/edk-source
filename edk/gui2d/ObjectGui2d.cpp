@@ -42,6 +42,49 @@ edk::gui2d::ObjectGui2d::~ObjectGui2d(){
     //
 }
 
+bool edk::gui2d::ObjectGui2d::writeBoundingBox(edk::rectf32* rect){
+    //multiply the matrix by
+    this->matrixTransform.setIdentity(1.f,0.f);edkEnd();
+    //first copy the matrix
+    //generate transform matrices
+    edk::Math::generateTranslateMatrix(this->position,&this->matrixPosition);edkEnd();
+    edk::Math::generateRotateMatrixZ(this->angle,&this->matrixAngle);edkEnd();
+    edk::Math::generateScaleMatrix(this->size,&this->matrixSize);edkEnd();
+    edk::Math::generateTranslateMatrix(this->pivo*-1.0f,&this->matrixPivo);edkEnd();
+    //translate
+    this->matrixTransform.multiplyThisWithMatrix(&this->matrixPosition);edkEnd();
+    //angle
+    this->matrixTransform.multiplyThisWithMatrix(&this->matrixAngle);edkEnd();
+    //scale
+    this->matrixTransform.multiplyThisWithMatrix(&this->matrixSize);edkEnd();
+    //Pivo
+    this->matrixTransform.multiplyThisWithMatrix(&this->matrixPivo);edkEnd();
+
+    return this->obj.calculateMeshBoundingBox(rect,&this->matrixTransform);
+}
+bool edk::gui2d::ObjectGui2d::writeBoundingBox(edk::rectf32* rect,edk::vector::Matrix<edk::float32,3,3>* transformMat){
+    //first copy the matrix
+    if(this->matrixTransform.cloneFrom(transformMat)){
+        //generate transform matrices
+        edk::Math::generateTranslateMatrix(this->position,&this->matrixPosition);edkEnd();
+        edk::Math::generateRotateMatrixZ(this->angle,&this->matrixAngle);edkEnd();
+        edk::Math::generateScaleMatrix(this->size,&this->matrixSize);edkEnd();
+        edk::Math::generateTranslateMatrix(this->pivo*-1.0f,&this->matrixPivo);edkEnd();
+        //multiply the matrix by
+        //translate
+        this->matrixTransform.multiplyThisWithMatrix(&this->matrixPosition);edkEnd();
+        //angle
+        this->matrixTransform.multiplyThisWithMatrix(&this->matrixAngle);edkEnd();
+        //scale
+        this->matrixTransform.multiplyThisWithMatrix(&this->matrixSize);edkEnd();
+        //Pivo
+        this->matrixTransform.multiplyThisWithMatrix(&this->matrixPivo);edkEnd();
+
+        return this->obj.calculateMeshBoundingBox(rect,&this->matrixTransform);
+    }
+    return true;
+}
+
 void edk::gui2d::ObjectGui2d::drawStart(){
     //
     //put the transformation on a stack
@@ -659,6 +702,46 @@ bool edk::gui2d::ObjectGui2d::writeText(edk::char8* text,edk::size2f32 scale){
 }
 void edk::gui2d::ObjectGui2d::cleanText(){
     this->text.deleteMap();edkEnd();
+}
+
+//function to calculate boundingBox
+bool edk::gui2d::ObjectGui2d::calculateBoundingBox(){
+    return this->writeBoundingBox(&this->boundingBox);
+}
+bool edk::gui2d::ObjectGui2d::calculateBoundingBox(edk::vector::Matrix<edk::float32,3,3>* transformMat){
+    return this->writeBoundingBox(&this->boundingBox,transformMat);
+}
+bool edk::gui2d::ObjectGui2d::generateBoundingBox(){
+    return this->writeBoundingBox(&this->boundingBox);
+}
+bool edk::gui2d::ObjectGui2d::generateBoundingBox(edk::vector::Matrix<edk::float32,3,3>* transformMat){
+    return this->writeBoundingBox(&this->boundingBox,transformMat);
+}
+//functions to calculate a new boundingBox
+edk::rectf32 edk::gui2d::ObjectGui2d::calculateNewBoundingBox(){
+    edk::rectf32 ret;
+    this->writeBoundingBox(&ret);
+    return ret;
+}
+edk::rectf32 edk::gui2d::ObjectGui2d::calculateNewBoundingBox(edk::vector::Matrix<edk::float32,3,3>* transformMat){
+    edk::rectf32 ret;
+    this->writeBoundingBox(&ret,transformMat);
+    return ret;
+}
+edk::rectf32 edk::gui2d::ObjectGui2d::generateNewBoundingBox(){
+    edk::rectf32 ret;
+    this->writeBoundingBox(&ret);
+    return ret;
+}
+edk::rectf32 edk::gui2d::ObjectGui2d::generateNewBoundingBox(edk::vector::Matrix<edk::float32,3,3>* transformMat){
+    edk::rectf32 ret;
+    this->writeBoundingBox(&ret,transformMat);
+    return ret;
+}
+
+//return a copy of the boundingBox
+edk::rectf32 edk::gui2d::ObjectGui2d::getBoundingBox(){
+    return this->boundingBox;
 }
 
 //load the button textures and meshes
