@@ -124,7 +124,6 @@ public:
     void drawPressed();
     void drawPressedUp();
     void drawSelection();
-protected:
     bool calculateMeshBoundingBox(edk::rectf32* rect,edk::vector::Matrix<edk::float32,3,3>* transformMat);
 private:
     edk::shape::Mesh2D mesh;

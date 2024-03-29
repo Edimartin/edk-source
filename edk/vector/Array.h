@@ -51,7 +51,7 @@ public:
         this->isOne=false;edkEnd();
         this->vector=NULL;edkEnd();
         this->vectorSize=0u;edkEnd();
-        this->canDeleteVector=false;edkEnd();
+        this->canDeleteVector=true;edkEnd();
         this->deleteArray();edkEnd();
     }
     Array(edk::uint32 size){
@@ -59,7 +59,7 @@ public:
         this->isOne=false;edkEnd();
         this->vector=NULL;edkEnd();
         this->vectorSize=0u;edkEnd();
-        this->canDeleteVector=false;edkEnd();
+        this->canDeleteVector=true;edkEnd();
         this->deleteArray();edkEnd();
 
         //create the array
@@ -71,7 +71,7 @@ public:
             //
             this->deleteArray();edkEnd();
         }
-        this->canDeleteVector=false;edkEnd();
+        this->canDeleteVector=true;edkEnd();
     }
 
     //create the array
@@ -217,7 +217,7 @@ public:
         this->isOne=false;edkEnd();
         this->vector=NULL;edkEnd();
         this->vectorSize=0u;edkEnd();
-        this->canDeleteVector=false;edkEnd();
+        this->canDeleteVector=true;edkEnd();
     }
 
     //set the array with a value

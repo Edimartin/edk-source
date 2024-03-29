@@ -126,7 +126,9 @@ public:
         this->readPosition=0u;
     }
     //Destrutor
-    ~StackCell(){}
+    ~StackCell(){
+        this->clean();
+    }
     bool isLeaf(){return this->level==1u;}
     edk::uint32 getLevel(){return this->level;}
     edk::uint32 position;
@@ -378,6 +380,16 @@ public:
                                     memcpy(&ret,&retTemp,sizeof(typeTemplate));
                                     this->stackSize--;
                                     if(!this->stackSize){
+                                        //delete the array inside the root
+                                        edk::uint32 size = this->root->size();
+                                        edk::vector::Array<typeTemplate>* tempID;
+                                        for(edk::uint32 i=0u;i<size;i++){
+                                            tempID = (edk::vector::Array<typeTemplate>*)this->root->get(i);
+                                            if(tempID){
+                                                delete tempID;
+                                            }
+                                        }
+                                        this->root->clean();
                                         delete this->root;
                                         this->root=NULL;
                                     }
@@ -622,7 +634,7 @@ public:
     }
     //clean the Stack
     void clean(){
-        edk::vector::StackCell* temp = root;
+        edk::vector::StackCell* temp = this->root;
         edk::vector::StackCell* temp2;
         edk::vector::Array<typeTemplate>* tempArray;
         while(temp){
