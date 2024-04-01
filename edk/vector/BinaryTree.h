@@ -238,12 +238,16 @@ public:
     edk::uint16 errorCode;
     //Construtor
     BinaryTree(){
-        //
         this->updateElementsPositions=false;
         this->root=NULL;edkEnd();
         this->errorCode=0u;edkEnd();
         this->sizeTree=0u;edkEnd();
         this->dontDestruct = false;edkEnd();
+
+        this->errorCodePointer = &this->errorCode;edkEnd();
+        this->rootPointer = &this->root;edkEnd();
+        this->updateElementsPositionsPointer = &this->updateElementsPositions;edkEnd();
+        this->sizeTreePointer = &this->sizeTree;edkEnd();
     }
     //Destrutor
     virtual ~BinaryTree(){
@@ -258,12 +262,12 @@ public:
     //Add a value on the tree
     bool add(typeTemplate value){
         //Test if is the root element
-        if(!this->root){
+        if(!(*this->rootPointer)){
             //then add the root element
-            this->root = new BinaryLeaf<typeTemplate>;edkEnd();
-            if(this->root){
+            (*this->rootPointer) = new BinaryLeaf<typeTemplate>;edkEnd();
+            if((*this->rootPointer)){
                 //set the value
-                memcpy((void*)&this->root->value,(void*)&value,sizeof(typeTemplate));edkEnd();
+                memcpy((void*)&(*this->rootPointer)->value,(void*)&value,sizeof(typeTemplate));edkEnd();
                 //increment the sizeTree
                 this->incrementSize();edkEnd();
                 //then return true
@@ -272,7 +276,7 @@ public:
         }
         else{
             //Find the position to add the object
-            BinaryLeaf<typeTemplate>* temp=this->root;edkEnd();
+            BinaryLeaf<typeTemplate>* temp=(*this->rootPointer);edkEnd();
             //create the value
             BinaryLeaf<typeTemplate>* newValue = new BinaryLeaf<typeTemplate>;edkEnd();
             //Test if create the newValue
@@ -287,7 +291,7 @@ public:
                         delete newValue;edkEnd();
                         newValue=NULL;edkEnd();
                         //
-                        this->errorCode=EDK_ERROR_HAVE_VALUE;edkEnd();
+                        (*this->errorCodePointer)=EDK_ERROR_HAVE_VALUE;edkEnd();
                         return false;
                     }
                     else{
@@ -334,71 +338,71 @@ public:
             }
         }
         //else return false
-        this->errorCode=EDK_ERROR_HAVE_VALUE;edkEnd();
+        (*this->errorCodePointer)=EDK_ERROR_HAVE_VALUE;edkEnd();
         return false;
     }
 
     //Load the elements
     virtual void load(){
         //test if have root
-        if(this->root){
+        if((*this->rootPointer)){
             //
-            this->loadNoRecursively(this->root);edkEnd();
+            this->loadNoRecursively((*this->rootPointer));edkEnd();
         }
     }
     //Unload the elements
     virtual void unload(){
         //test if have root
-        if(this->root){
+        if((*this->rootPointer)){
             //
-            this->unloadNoRecursively(this->root);edkEnd();
+            this->unloadNoRecursively((*this->rootPointer));edkEnd();
         }
     }
     //Print the elements
     virtual void print(){
         //test if have root
-        if(this->root){
+        if((*this->rootPointer)){
             //
-            this->printNoRecursively(this->root);edkEnd();
+            this->printNoRecursively((*this->rootPointer));edkEnd();
         }
     }
     //render the elements
     virtual void render(){
         //test if have root
-        if(this->root){
+        if((*this->rootPointer)){
             //
-            this->renderNoRecursively(this->root);edkEnd();
+            this->renderNoRecursively((*this->rootPointer));edkEnd();
         }
     }
     //render the elements in wire mode
     virtual void renderWire(){
         //test if have root
-        if(this->root){
+        if((*this->rootPointer)){
             //
-            this->renderWireNoRecursively(this->root);edkEnd();
+            this->renderWireNoRecursively((*this->rootPointer));edkEnd();
         }
     }
     //draw the elements
     virtual void draw(){
         //test if have root
-        if(this->root){
+        if((*this->rootPointer)){
             //
-            this->drawNoRecursively(this->root);edkEnd();
+            this->drawNoRecursively((*this->rootPointer));edkEnd();
         }
     }
     //draw the elements in wire mode
     virtual void drawWire(){
         //test if have root
-        if(this->root){
+        if((*this->rootPointer)){
             //
-            this->drawWireNoRecursively(this->root);edkEnd();
+            this->drawWireNoRecursively((*this->rootPointer));edkEnd();
         }
     }
     virtual void update(){
         //test if have root
-        if(this->root){
+        if((*this->rootPointer)){
             //then update
-            this->updateNoRecursively(this->root);edkEnd();
+            this->updateNoRecursively((*this->rootPointer));edkEnd();
         }
     }
 
@@ -628,45 +632,45 @@ public:
 
 
 
-            if(mother==this->root){
+            if(mother==(*this->rootPointer)){
                 //
                 BinaryLeaf<typeTemplate>* leaf = NULL;edkEnd();
                 //test if have a left or right
-                if(this->root->right){
+                if((*this->rootPointer)->right){
                     //then get the left leaf
                     //save the element
-                    BinaryLeaf<typeTemplate>* temp = this->root;edkEnd();
-                    if((leaf = this->findMotherLeftLeaf(this->root->right))){
-                        //then pull the leaf to the this->root
-                        this->root = leaf->left;edkEnd();
-                        if(this->root){
-                            this->root->father=NULL;edkEnd();
+                    BinaryLeaf<typeTemplate>* temp = (*this->rootPointer);edkEnd();
+                    if((leaf = this->findMotherLeftLeaf((*this->rootPointer)->right))){
+                        //then pull the leaf to the (*this->rootPointer)
+                        (*this->rootPointer) = leaf->left;edkEnd();
+                        if((*this->rootPointer)){
+                            (*this->rootPointer)->father=NULL;edkEnd();
                         }
                         //arrage the leaf
                         leaf->left = leaf->left->right;edkEnd();
                         if(leaf->left){
                             leaf->left->father = leaf;edkEnd();
                         }
-                        //then the new this->root receive the two temps.
-                        this->root->left = temp->left;edkEnd();
-                        if(this->root->left){
-                            this->root->left->father = this->root;edkEnd();
+                        //then the new (*this->rootPointer) receive the two temps.
+                        (*this->rootPointer)->left = temp->left;edkEnd();
+                        if((*this->rootPointer)->left){
+                            (*this->rootPointer)->left->father = (*this->rootPointer);edkEnd();
                         }
-                        this->root->right = temp->right;edkEnd();
-                        if(this->root->right){
-                            this->root->right->father = this->root;edkEnd();
+                        (*this->rootPointer)->right = temp->right;edkEnd();
+                        if((*this->rootPointer)->right){
+                            (*this->rootPointer)->right->father = (*this->rootPointer);edkEnd();
                         }
                     }
                     else{
                         //else just get the right
                         //pull the right
-                        this->root=this->root->right;edkEnd();
-                        if(this->root){
-                            this->root->father=NULL;edkEnd();
+                        (*this->rootPointer)=(*this->rootPointer)->right;edkEnd();
+                        if((*this->rootPointer)){
+                            (*this->rootPointer)->father=NULL;edkEnd();
                         }
-                        this->root->left = temp->left;edkEnd();
-                        if(this->root->left){
-                            this->root->left->father = this->root;edkEnd();
+                        (*this->rootPointer)->left = temp->left;edkEnd();
+                        if((*this->rootPointer)->left){
+                            (*this->rootPointer)->left->father = (*this->rootPointer);edkEnd();
                         }
                     }
                     //delete the element
@@ -677,41 +681,41 @@ public:
                     //return true
                     return true;
                 }
-                if(this->root->left){
+                if((*this->rootPointer)->left){
                     //then get the right leaf
                     //save the element
-                    BinaryLeaf<typeTemplate>* temp = this->root;edkEnd();
-                    if((leaf = this->findMotherRightLeaf(this->root->left))){
-                        //then pull the leaf to the this->root
-                        this->root = leaf->right;edkEnd();
-                        if(this->root){
-                            this->root->father=NULL;edkEnd();
+                    BinaryLeaf<typeTemplate>* temp = (*this->rootPointer);edkEnd();
+                    if((leaf = this->findMotherRightLeaf((*this->rootPointer)->left))){
+                        //then pull the leaf to the (*this->rootPointer)
+                        (*this->rootPointer) = leaf->right;edkEnd();
+                        if((*this->rootPointer)){
+                            (*this->rootPointer)->father=NULL;edkEnd();
                         }
                         //arrage the leaf
                         leaf->right = leaf->right->left;edkEnd();
                         if(leaf->right){
                             leaf->right->father = leaf;edkEnd();
                         }
-                        //then the new this->root receive the two temps.
-                        this->root->left = temp->left;edkEnd();
-                        if(this->root->left){
-                            this->root->left->father = this->root;edkEnd();
+                        //then the new (*this->rootPointer) receive the two temps.
+                        (*this->rootPointer)->left = temp->left;edkEnd();
+                        if((*this->rootPointer)->left){
+                            (*this->rootPointer)->left->father = (*this->rootPointer);edkEnd();
                         }
-                        this->root->right = temp->right;edkEnd();
-                        if(this->root->right){
-                            this->root->right->father = this->root;edkEnd();
+                        (*this->rootPointer)->right = temp->right;edkEnd();
+                        if((*this->rootPointer)->right){
+                            (*this->rootPointer)->right->father = (*this->rootPointer);edkEnd();
                         }
                     }
                     else{
                         //else just get the right
                         //pull the right
-                        this->root=this->root->left;edkEnd();
-                        if(this->root){
-                            this->root->father = NULL;edkEnd();
+                        (*this->rootPointer)=(*this->rootPointer)->left;edkEnd();
+                        if((*this->rootPointer)){
+                            (*this->rootPointer)->father = NULL;edkEnd();
                         }
-                        this->root->right = temp->right;edkEnd();
-                        if(this->root->right){
-                            this->root->right->father = this->root;edkEnd();
+                        (*this->rootPointer)->right = temp->right;edkEnd();
+                        if((*this->rootPointer)->right){
+                            (*this->rootPointer)->right->father = (*this->rootPointer);edkEnd();
                         }
                     }
                     //delete the element
@@ -724,8 +728,8 @@ public:
                 }
 
                 //remove the root
-                delete this->root;edkEnd();
-                this->root=NULL;edkEnd();
+                delete (*this->rootPointer);edkEnd();
+                (*this->rootPointer)=NULL;edkEnd();
                 //decrement the sizeTree
                 this->decrementSize();edkEnd();
                 //return true
@@ -741,7 +745,7 @@ public:
         //
         if(this->haveRoot()){
             //
-            return (typeTemplate)this->root->value;edkEnd();
+            return (typeTemplate)(*this->rootPointer)->value;edkEnd();
         }
         else{
             //
@@ -751,7 +755,7 @@ public:
     //Return true if have a root
     bool haveRoot(){
         //
-        if(this->root){
+        if((*this->rootPointer)){
             //
             return true;
         }
@@ -762,7 +766,7 @@ public:
         //
         if(this->haveRoot()){
             //test the childs
-            return (this->root->left || this->root->right);edkEnd();
+            return ((*this->rootPointer)->left || (*this->rootPointer)->right);edkEnd();
         }
         //else return false
         return false;
@@ -796,9 +800,9 @@ public:
     //return the element position in the tree
     edk::uint32 getElementPosition(typeTemplate value){
         //test if need calculate the elementsPosition
-        if(!this->updateElementsPositions){
-            this->updatePositionsNoRecursively(this->root);
-            this->updateElementsPositions=true;
+        if(!(*this->updateElementsPositionsPointer)){
+            this->updatePositionsNoRecursively((*this->rootPointer));
+            (*this->updateElementsPositionsPointer)=true;
         }
         //find the element pointer
         BinaryLeaf<typeTemplate>* ret = this->find(value);edkEnd();
@@ -815,11 +819,11 @@ public:
         //first test if the position exist in the tree
         if(position < this->size()){
             //test if need update the positions
-            if(!this->updateElementsPositions && position>10u){
-                this->updatePositionsNoRecursively(this->root);
-                this->updateElementsPositions=true;
+            if(!(*this->updateElementsPositionsPointer) && position>10u){
+                this->updatePositionsNoRecursively((*this->rootPointer));
+                (*this->updateElementsPositionsPointer)=true;
             }
-            if(this->updateElementsPositions){
+            if((*this->updateElementsPositionsPointer)){
                 //then find the element pointer
                 BinaryLeaf<typeTemplate>* ret = this->findPosition(position);edkEnd();
                 //test if the element is founded
@@ -830,7 +834,7 @@ public:
             }
             else{
                 //then find the element pointer
-                BinaryLeaf<typeTemplate>* ret = this->getNoRecursively(this->root/*,&count*/,position);edkEnd();
+                BinaryLeaf<typeTemplate>* ret = this->getNoRecursively((*this->rootPointer)/*,&count*/,position);edkEnd();
                 //test if the element is founded
                 if(ret){
                     //return the value
@@ -844,16 +848,16 @@ public:
     }
     //force update positions
     void updatePositions(){
-        if(!this->updateElementsPositions){
-            this->updatePositionsNoRecursively(this->root);
-            this->updateElementsPositions=true;
+        if(!(*this->updateElementsPositionsPointer)){
+            this->updatePositionsNoRecursively((*this->rootPointer));
+            (*this->updateElementsPositionsPointer)=true;
         }
     }
 
     //return the size
     inline edk::uint32 getSize(){
         //
-        return this->sizeTree;edkEnd();
+        return (*this->sizeTreePointer);edkEnd();
     }
     inline edk::uint32 size(){
         //
@@ -862,13 +866,13 @@ public:
 
     //Clean the tree
     virtual void clean(){
-        this->updateElementsPositions=false;
-        if(this->root){
+        (*this->updateElementsPositionsPointer)=false;
+        if((*this->rootPointer)){
             //
-            this->sizeTree=0u;edkEnd();
-            this->cleanNoRecursively(this->root);edkEnd();
+            (*this->sizeTreePointer)=0u;edkEnd();
+            this->cleanNoRecursively((*this->rootPointer));edkEnd();
         }
-        this->root=NULL;edkEnd();
+        (*this->rootPointer)=NULL;edkEnd();
     }
     //set to cant Destruct
     void cantDestruct(){
@@ -911,11 +915,16 @@ protected:
     //UPDATE
     virtual void updateElement(typeTemplate){}
 private:
+    //errorCode
+    edk::uint16* errorCodePointer;
     //The root element on the TREE
+    BinaryLeaf<typeTemplate>** rootPointer;
     BinaryLeaf<typeTemplate>* root;
     //save if need update the positions
+    bool* updateElementsPositionsPointer;
     bool updateElementsPositions;
     //size of the tree
+    edk::uint32* sizeTreePointer;
     edk::uint32 sizeTree;
     //set if cant run the destructor
     bool dontDestruct;
@@ -932,7 +941,7 @@ private:
     //Find the position
     BinaryLeaf<typeTemplate>* findPosition(edk::uint32 position){
         //test if habe a root
-        if(this->root){
+        if((*this->rootPointer)){
             //find the position mother
             BinaryLeaf<typeTemplate>* temp = this->findPositionMother(position);edkEnd();
             if(temp){
@@ -965,14 +974,14 @@ private:
     //Find the positionMother
     BinaryLeaf<typeTemplate>* findPositionMother(edk::uint32 position){
         //first test if have a root
-        if(this->root){
+        if((*this->rootPointer)){
             //tets if is equal root
-            if(this->firstPositionEqualSecond(this->root->position,position)){
+            if(this->firstPositionEqualSecond((*this->rootPointer)->position,position)){
                 //the return root
-                return this->root;edkEnd();
+                return (*this->rootPointer);edkEnd();
             }
             //else search the element mother
-            BinaryLeaf<typeTemplate>* temp = this->root;edkEnd();
+            BinaryLeaf<typeTemplate>* temp = (*this->rootPointer);edkEnd();
             while(temp){
                 //tets if the value is bigger the temp
                 if(this->firstPositionBiggerSecond(position,temp->position)){
@@ -1021,7 +1030,7 @@ private:
     //Find the element
     BinaryLeaf<typeTemplate>* find(typeTemplate value){
         //test if habe a root
-        if(this->root){
+        if((*this->rootPointer)){
             //then create a temporary element
             BinaryLeaf<typeTemplate> element;edkEnd();
             memcpy((void*)&element.value,(void*)&value,sizeof(typeTemplate));edkEnd();
@@ -1058,18 +1067,18 @@ private:
     //Find the elementMother
     BinaryLeaf<typeTemplate>* findMother(typeTemplate value){
         //first test if have a root
-        if(this->root){
+        if((*this->rootPointer)){
             //then create a temporary element
             BinaryLeaf<typeTemplate> element;edkEnd();
             memcpy((void*)&element.value,(void*)&value,sizeof(typeTemplate));edkEnd();
             //element.value=value;edkEnd();
             //tets if is equal root
-            if(this->firstEqualSecond(this->root->value,element.value)){
+            if(this->firstEqualSecond((*this->rootPointer)->value,element.value)){
                 //the return root
-                return this->root;edkEnd();
+                return (*this->rootPointer);edkEnd();
             }
             //else search the element mother
-            BinaryLeaf<typeTemplate>* temp = this->root;edkEnd();
+            BinaryLeaf<typeTemplate>* temp = (*this->rootPointer);edkEnd();
             while(temp){
                 //tets if the value is bigger the temp
                 if(this->firstBiggerSecond(element.value,temp->value)){
@@ -1152,16 +1161,16 @@ private:
     //increment and decrement the size
     void incrementSize(){
         //
-        this->updateElementsPositions=false;
-        this->sizeTree+=1u;edkEnd();
+        (*this->updateElementsPositionsPointer)=false;
+        (*this->sizeTreePointer)+=1u;edkEnd();
     }
     bool decrementSize(){
         //
-        if(this->sizeTree){
+        if((*this->sizeTreePointer)){
             //
-            this->sizeTree-=1u;edkEnd();
+            (*this->sizeTreePointer)-=1u;edkEnd();
 
-            this->updateElementsPositions=false;
+            (*this->updateElementsPositionsPointer)=false;
             //return true
             return true;
         }
@@ -1743,7 +1752,7 @@ private:
                             }
                         }
                     }
-                    else if(temp == this->root){
+                    else if(temp == (*this->rootPointer)){
                         //need change the root
                         if(temp->right){
                             //have only the right
@@ -1755,16 +1764,16 @@ private:
                                 else{
                                     //have only the right2
                                     //rotate left
-                                    this->root = temp->right;edkEnd();
-                                    this->root->father = NULL;edkEnd();
-                                    this->root->counter--;edkEnd();
+                                    (*this->rootPointer) = temp->right;edkEnd();
+                                    (*this->rootPointer)->father = NULL;edkEnd();
+                                    (*this->rootPointer)->counter--;edkEnd();
                                     //
-                                    this->root->left = temp;edkEnd();
-                                    this->root->left->father = this->root->right->father = this->root;edkEnd();
+                                    (*this->rootPointer)->left = temp;edkEnd();
+                                    (*this->rootPointer)->left->father = (*this->rootPointer)->right->father = (*this->rootPointer);edkEnd();
                                     temp->right=NULL;edkEnd();
                                     temp->counter--;edkEnd();
                                     //
-                                    this->root->right->counter--;edkEnd();
+                                    (*this->rootPointer)->right->counter--;edkEnd();
                                 }
                             }
                             else if(temp2->left){
@@ -1856,7 +1865,7 @@ private:
                             }
                         }
                     }
-                    else if(temp == this->root){
+                    else if(temp == (*this->rootPointer)){
                         //need change the root
                         if(temp->left){
                             //have only the left
@@ -1868,16 +1877,16 @@ private:
                                 else{
                                     //have only the left2
                                     //rotate right
-                                    this->root = temp->left;edkEnd();
-                                    this->root->father = NULL;edkEnd();
-                                    this->root->counter--;edkEnd();
+                                    (*this->rootPointer) = temp->left;edkEnd();
+                                    (*this->rootPointer)->father = NULL;edkEnd();
+                                    (*this->rootPointer)->counter--;edkEnd();
                                     //
-                                    this->root->right = temp;edkEnd();
-                                    this->root->right->father = this->root->left->father = this->root;edkEnd();
+                                    (*this->rootPointer)->right = temp;edkEnd();
+                                    (*this->rootPointer)->right->father = (*this->rootPointer)->left->father = (*this->rootPointer);edkEnd();
                                     temp->left=NULL;edkEnd();
                                     temp->counter--;edkEnd();
                                     //
-                                    this->root->left->counter--;edkEnd();
+                                    (*this->rootPointer)->left->counter--;edkEnd();
                                 }
                             }
                             else if(temp2->right){
@@ -2161,6 +2170,12 @@ public:
         this->errorCode=0u;edkEnd();
         this->sizeTree=0u;edkEnd();
         this->dontDestruct = false;edkEnd();
+
+        this->errorCodePointer = &this->errorCode;
+        this->rootPointer = &this->root;
+        this->sizeTreePointer = &this->sizeTree;
+        this->mapPointer = &this->map;
+        this->elementSelectedPointer = &this->elementSelected;
     }
     //Destrutor
     virtual ~LeafsOnlyTree(){
@@ -2174,12 +2189,12 @@ public:
     //Add a value on the tree
     bool add(typeTemplate value){
         //Test if is the root element
-        if(!this->root){
+        if(!(*this->rootPointer)){
             //then add the root element
-            this->root = new BinaryLeaf<typeTemplate>;edkEnd();
-            if(this->root){
+            (*this->rootPointer) = new BinaryLeaf<typeTemplate>;edkEnd();
+            if((*this->rootPointer)){
                 //set the value
-                memcpy((void*)&this->root->value,(void*)&value,sizeof(typeTemplate));edkEnd();
+                memcpy((void*)&(*this->rootPointer)->value,(void*)&value,sizeof(typeTemplate));edkEnd();
                 //increment the sizeTree
                 this->incrementSize();edkEnd();
                 //then return true
@@ -2188,7 +2203,7 @@ public:
         }
         else{
             //Find the position to add the object
-            BinaryLeaf<typeTemplate>* temp=this->root;edkEnd();
+            BinaryLeaf<typeTemplate>* temp=(*this->rootPointer);edkEnd();
             //create the value
             BinaryLeaf<typeTemplate>* newValue = new BinaryLeaf<typeTemplate>;edkEnd();
             BinaryLeaf<typeTemplate>* newSecondValue = new BinaryLeaf<typeTemplate>;edkEnd();
@@ -2200,7 +2215,7 @@ public:
                 while(temp){
                     //then test if the value is equal
                     if(this->firstEqualSecond(temp->value, newValue->value)
-                            &&(!this->root->left && !this->root->right)
+                            &&(!(*this->rootPointer)->left && !(*this->rootPointer)->right)
                             ){
                         //The tree have the value. Delete the new value and return the tree value.
                         delete newValue;edkEnd();
@@ -2208,7 +2223,7 @@ public:
                         delete newSecondValue;edkEnd();
                         newSecondValue=NULL;edkEnd();
                         //
-                        this->errorCode=EDK_ERROR_HAVE_VALUE;edkEnd();
+                        (*this->errorCodePointer)=EDK_ERROR_HAVE_VALUE;edkEnd();
                         return false;
                     }
                     else{
@@ -2278,86 +2293,86 @@ public:
             }
         }
         //else return false
-        this->errorCode=EDK_ERROR_HAVE_VALUE;edkEnd();
+        (*this->errorCodePointer)=EDK_ERROR_HAVE_VALUE;edkEnd();
         return false;
     }
 
     //Load the elements
     virtual void load(){
         //test if have root
-        if(this->root){
+        if((*this->rootPointer)){
             //
-            this->loadNoRecursively(this->root);edkEnd();
+            this->loadNoRecursively((*this->rootPointer));edkEnd();
         }
     }
     //Unload the elements
     virtual void unload(){
         //test if have root
-        if(this->root){
+        if((*this->rootPointer)){
             //
-            this->unloadNoRecursively(this->root);edkEnd();
+            this->unloadNoRecursively((*this->rootPointer));edkEnd();
         }
     }
     //Print the elements
     virtual void print(){
         //test if have root
-        if(this->root){
+        if((*this->rootPointer)){
             //
-            this->printNoRecursively(this->root);edkEnd();
+            this->printNoRecursively((*this->rootPointer));edkEnd();
         }
     }
     //render the elements
     virtual void render(){
         //test if have root
-        if(this->root){
+        if((*this->rootPointer)){
             //
-            this->renderNoRecursively(this->root);edkEnd();
+            this->renderNoRecursively((*this->rootPointer));edkEnd();
         }
     }
     //render the elements in wire mode
     virtual void renderWire(){
         //test if have root
-        if(this->root){
+        if((*this->rootPointer)){
             //
-            this->renderWireNoRecursively(this->root);edkEnd();
+            this->renderWireNoRecursively((*this->rootPointer));edkEnd();
         }
     }
     //draw the elements
     virtual void draw(){
         //test if have root
-        if(this->root){
+        if((*this->rootPointer)){
             //
-            this->drawNoRecursively(this->root);edkEnd();
+            this->drawNoRecursively((*this->rootPointer));edkEnd();
         }
     }
     //draw the elements in wire mode
     virtual void drawWire(){
         //test if have root
-        if(this->root){
+        if((*this->rootPointer)){
             //
-            this->drawWireNoRecursively(this->root);edkEnd();
+            this->drawWireNoRecursively((*this->rootPointer));edkEnd();
         }
     }
     virtual void update(){
         //test if have root
-        if(this->root){
+        if((*this->rootPointer)){
             //then update
-            this->updateNoRecursively(this->root);edkEnd();
+            this->updateNoRecursively((*this->rootPointer));edkEnd();
         }
     }
     //print all the tree
     virtual void printTree(){
         //test if have root
-        if(this->root){
+        if((*this->rootPointer)){
             //then update
-            this->printTreeNoRecursively(this->root);edkEnd();
+            this->printTreeNoRecursively((*this->rootPointer));edkEnd();
         }
     }
 
     //Get the rootValue
     typeTemplate getRootValue(){
         if(this->haveRoot()){
-            return (typeTemplate)this->root->value;edkEnd();
+            return (typeTemplate)(*this->rootPointer)->value;edkEnd();
         }
         else{
             return (typeTemplate)0u;edkEnd();
@@ -2365,7 +2380,7 @@ public:
     }
     //Return true if have a root
     bool haveRoot(){
-        if(this->root){
+        if((*this->rootPointer)){
             return true;
         }
         //else return false
@@ -2374,7 +2389,7 @@ public:
     bool haveRootChild(){
         if(this->haveRoot()){
             //test the childs
-            return (this->root->left || this->root->right);edkEnd();
+            return ((*this->rootPointer)->left || (*this->rootPointer)->right);edkEnd();
         }
         //else return false
         return false;
@@ -2417,7 +2432,7 @@ public:
 
     //return the size
     edk::uint32 getSize(){
-        return this->sizeTree;edkEnd();
+        return (*this->sizeTreePointer);edkEnd();
     }
     edk::uint32 size(){
         return this->getSize();edkEnd();
@@ -2425,34 +2440,34 @@ public:
 
     //select an element by turns
     bool selectRoot(){
-        this->elementSelected=NULL;
-        if(this->root){
-            this->elementSelected=this->root;
+        (*this->elementSelectedPointer)=NULL;
+        if((*this->rootPointer)){
+            (*this->elementSelectedPointer)=(*this->rootPointer);
             return true;
         }
         return false;
     }
     //return true if the selected is a leaf
     bool selectIsLeaf(){
-        if(this->elementSelected){
-            return (!this->elementSelected->left && !this->elementSelected->right);
+        if((*this->elementSelectedPointer)){
+            return (!(*this->elementSelectedPointer)->left && !(*this->elementSelectedPointer)->right);
         }
         return false;
     }
     //turn the select
     bool selectTurnLeft(){
-        if(this->elementSelected){
-            if(this->elementSelected->left){
-                this->elementSelected = this->elementSelected->left;
+        if((*this->elementSelectedPointer)){
+            if((*this->elementSelectedPointer)->left){
+                (*this->elementSelectedPointer) = (*this->elementSelectedPointer)->left;
                 return true;
             }
         }
         return false;
     }
     bool selectTurnRight(){
-        if(this->elementSelected){
-            if(this->elementSelected->right){
-                this->elementSelected = this->elementSelected->right;
+        if((*this->elementSelectedPointer)){
+            if((*this->elementSelectedPointer)->right){
+                (*this->elementSelectedPointer) = (*this->elementSelectedPointer)->right;
                 return true;
             }
         }
@@ -2462,20 +2477,20 @@ public:
     typeTemplate selectGetValue(){
         typeTemplate ret;
         memset(&ret,0,sizeof(typeTemplate));
-        if(this->elementSelected){
+        if((*this->elementSelectedPointer)){
             //get the value
-            memcpy(&ret,&this->elementSelected->value,sizeof(typeTemplate));
+            memcpy(&ret,&(*this->elementSelectedPointer)->value,sizeof(typeTemplate));
         }
         return ret;
     }
 
     //Clean the tree
     virtual void clean(){
-        if(this->root){
-            this->sizeTree=0u;edkEnd();
-            this->cleanNoRecursively(this->root);edkEnd();
+        if((*this->rootPointer)){
+            (*this->sizeTreePointer)=0u;edkEnd();
+            this->cleanNoRecursively((*this->rootPointer));edkEnd();
         }
-        this->root=NULL;edkEnd();
+        (*this->rootPointer)=NULL;edkEnd();
     }
     //set to cant Destruct
     void cantDestruct(){
@@ -2512,16 +2527,21 @@ protected:
     //UPDATE
     virtual void updateElement(typeTemplate){}
 private:
+    edk::uint16* errorCodePointer;
     //The root element on the TREE
+    BinaryLeaf<typeTemplate>** rootPointer;
     BinaryLeaf<typeTemplate>* root;
     //size of the tree
+    edk::uint32* sizeTreePointer;
     edk::uint32 sizeTree;
     //set if cant run the destructor
     bool dontDestruct;
 
     //temporary map
+    edk::vector::TreeMap* mapPointer;
     edk::vector::TreeMap map;
 
+    BinaryLeaf<typeTemplate>** elementSelectedPointer;
     BinaryLeaf<typeTemplate>* elementSelected;
 
     //Find the element
@@ -2530,19 +2550,19 @@ private:
             map=&this->map;edkEnd();
         }
         //first test if have a root
-        if(this->root){
+        if((*this->rootPointer)){
             //then create a temporary element
             BinaryLeaf<typeTemplate> element;edkEnd();
             memcpy((void*)&element.value,(void*)&value,sizeof(typeTemplate));edkEnd();
             //tets if is equal root
-            if(this->firstEqualSecond(this->root->value,element.value)
-                    && (!this->root->left && !this->root->right)
+            if(this->firstEqualSecond((*this->rootPointer)->value,element.value)
+                    && (!(*this->rootPointer)->left && !(*this->rootPointer)->right)
                     ){
                 //the return root
                 return false;edkEnd();
             }
             //else search the element
-            BinaryLeaf<typeTemplate>* temp = this->root;edkEnd();
+            BinaryLeaf<typeTemplate>* temp = (*this->rootPointer);edkEnd();
             while(temp){
                 //test if the value is equal
                 if(this->firstEqualSecond(temp->value,element.value)){
@@ -2706,13 +2726,13 @@ private:
     //increment and decrement the size
     void incrementSize(){
         //
-        this->sizeTree+=1u;edkEnd();
+        (*this->sizeTreePointer)+=1u;edkEnd();
     }
     bool decrementSize(){
         //
-        if(this->sizeTree){
+        if((*this->sizeTreePointer)){
             //
-            this->sizeTree-=1u;edkEnd();
+            (*this->sizeTreePointer)-=1u;edkEnd();
 
             //return true
             return true;
@@ -2729,7 +2749,7 @@ private:
                 this->loadRecursively(temp->left);edkEnd();
             }
             //update
-            if(!this->root->left && !this->root->right){
+            if(!(*this->rootPointer)->left && !(*this->rootPointer)->right){
                 this->loadElement(temp->value);edkEnd();
             }
             if(temp->right){
@@ -2748,7 +2768,7 @@ private:
             }
             if(temp->readed==1u){
                 //load
-                if(!this->root->left && !this->root->right){
+                if(!(*this->rootPointer)->left && !(*this->rootPointer)->right){
                     this->loadElement(temp->value);edkEnd();
                 }
                 //run the callback functions
@@ -2772,7 +2792,7 @@ private:
                 this->unloadRecursively(temp->left);edkEnd();
             }
             //update
-            if(!this->root->left && !this->root->right){
+            if(!(*this->rootPointer)->left && !(*this->rootPointer)->right){
                 this->unloadElement(temp->value);edkEnd();
             }
             if(temp->right){
@@ -2791,7 +2811,7 @@ private:
             }
             if(temp->readed==1u){
                 //unload
-                if(!this->root->left && !this->root->right){
+                if(!(*this->rootPointer)->left && !(*this->rootPointer)->right){
                     this->unloadElement(temp->value);edkEnd();
                 }
                 temp->readed=2u;edkEnd();
@@ -2814,7 +2834,7 @@ private:
                 this->updateRecursively(temp->left);edkEnd();
             }
             //update
-            if(!this->root->left && !this->root->right){
+            if(!(*this->rootPointer)->left && !(*this->rootPointer)->right){
                 this->updateElement(temp->value);edkEnd();
             }
             if(temp->right){
@@ -2833,7 +2853,7 @@ private:
             }
             if(temp->readed==1u){
                 //update
-                if(!this->root->left && !this->root->right){
+                if(!(*this->rootPointer)->left && !(*this->rootPointer)->right){
                     this->updateElement(temp->value);edkEnd();
                 }
                 temp->readed=2u;edkEnd();
@@ -2857,7 +2877,7 @@ private:
                 this->printRecursively(temp->left);edkEnd();
             }
             //print
-            if(!this->root->left && !this->root->right){
+            if(!(*this->rootPointer)->left && !(*this->rootPointer)->right){
                 this->printElement(temp->value);edkEnd();
             }
             if(temp->right){
@@ -2877,7 +2897,7 @@ private:
             }
             if(temp->readed==1u){
                 //print
-                if(!this->root->left && !this->root->right){
+                if(!(*this->rootPointer)->left && !(*this->rootPointer)->right){
                     this->printElement(temp->value);edkEnd();
                 }
                 temp->readed=2u;edkEnd();
@@ -2901,7 +2921,7 @@ private:
                 this->renderRecursively(temp->left);edkEnd();
             }
             //print
-            if(!this->root->left && !this->root->right){
+            if(!(*this->rootPointer)->left && !(*this->rootPointer)->right){
                 this->renderElement(temp->value);edkEnd();
             }
             if(temp->right){
@@ -2921,7 +2941,7 @@ private:
             }
             if(temp->readed==1u){
                 //render
-                if(!this->root->left && !this->root->right){
+                if(!(*this->rootPointer)->left && !(*this->rootPointer)->right){
                     this->renderElement(temp->value);edkEnd();
                 }
                 temp->readed=2u;edkEnd();
@@ -2945,7 +2965,7 @@ private:
                 this->renderRecursively(temp->left);edkEnd();
             }
             //print
-            if(!this->root->left && !this->root->right){
+            if(!(*this->rootPointer)->left && !(*this->rootPointer)->right){
                 this->renderElement(temp->value);edkEnd();
             }
             if(temp->right){
@@ -2965,7 +2985,7 @@ private:
             }
             if(temp->readed==1u){
                 //render
-                if(!this->root->left && !this->root->right){
+                if(!(*this->rootPointer)->left && !(*this->rootPointer)->right){
                     this->renderWireElement(temp->value);edkEnd();
                 }
                 temp->readed=2u;edkEnd();
@@ -2989,7 +3009,7 @@ private:
                 this->renderRecursively(temp->left);edkEnd();
             }
             //print
-            if(!this->root->left && !this->root->right){
+            if(!(*this->rootPointer)->left && !(*this->rootPointer)->right){
                 this->drawElement(temp->value);edkEnd();
             }
             if(temp->right){
@@ -3009,7 +3029,7 @@ private:
             }
             if(temp->readed==1u){
                 //render
-                if(!this->root->left && !this->root->right){
+                if(!(*this->rootPointer)->left && !(*this->rootPointer)->right){
                     this->drawElement(temp->value);edkEnd();
                 }
                 temp->readed=2u;edkEnd();
@@ -3033,7 +3053,7 @@ private:
                 this->renderRecursively(temp->left);edkEnd();
             }
             //print
-            if(!this->root->left && !this->root->right){
+            if(!(*this->rootPointer)->left && !(*this->rootPointer)->right){
                 this->drawWireElement(temp->value);edkEnd();
             }
             if(temp->right){
@@ -3053,7 +3073,7 @@ private:
             }
             if(temp->readed==1u){
                 //render
-                if(!this->root->left && !this->root->right){
+                if(!(*this->rootPointer)->left && !(*this->rootPointer)->right){
                     this->drawWireElement(temp->value);edkEnd();
                 }
                 temp->readed=2u;edkEnd();
@@ -3079,7 +3099,7 @@ private:
                 this->renderRecursively(temp->left);edkEnd();
             }
             //print
-            if(!this->root->left && !this->root->right){
+            if(!(*this->rootPointer)->left && !(*this->rootPointer)->right){
                 printf("\nPrint");fflush(stdout);edkEnd();
                 this->printElement(temp->value);edkEnd();
             }
@@ -3134,12 +3154,12 @@ private:
             }
             //test if count is == position
             if(*count==pos
-                    && (!this->root->left && !this->root->right)
+                    && (!(*this->rootPointer)->left && !(*this->rootPointer)->right)
                     ){
                 //then return the typeTemplate
                 return temp;edkEnd();
             }
-            else if(!this->root->left && !this->root->right){
+            else if(!(*this->rootPointer)->left && !(*this->rootPointer)->right){
                 //increment count
                 count[0]++;edkEnd();
             }
@@ -3173,13 +3193,13 @@ private:
                 if(temp->readed==1u){
                     //test if count is == position
                     if(count==pos
-                            && (!this->root->left && !this->root->right)
+                            && (!(*this->rootPointer)->left && !(*this->rootPointer)->right)
                             ){
                         //then return the typeTemplate
                         ret = temp;edkEnd();
                         find=true;edkEnd();
                     }
-                    else if(!this->root->left && !this->root->right){
+                    else if(!(*this->rootPointer)->left && !(*this->rootPointer)->right){
                         //increment count
                         ++count;edkEnd();
                     }

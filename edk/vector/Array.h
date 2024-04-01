@@ -52,6 +52,11 @@ public:
         this->vector=NULL;edkEnd();
         this->vectorSize=0u;edkEnd();
         this->canDeleteVector=true;edkEnd();
+
+        this->vectorPointer = &this->vector;
+        this->vectorSizePointer = &this->vectorSize;
+        this->isOnePointer = &this->isOne;
+
         this->deleteArray();edkEnd();
     }
     Array(edk::uint32 size){
@@ -60,6 +65,11 @@ public:
         this->vector=NULL;edkEnd();
         this->vectorSize=0u;edkEnd();
         this->canDeleteVector=true;edkEnd();
+
+        this->vectorPointer = &this->vector;
+        this->vectorSizePointer = &this->vectorSize;
+        this->isOnePointer = &this->isOne;
+
         this->deleteArray();edkEnd();
 
         //create the array
@@ -83,28 +93,28 @@ public:
         if(size){
             //create the new array
             if(this->isClass){
-                this->vector = new typeTemplate[size];edkEnd();
-                if(this->vector){
+                (*this->vectorPointer) = new typeTemplate[size];edkEnd();
+                if((*this->vectorPointer)){
                     //save the size of the vector
-                    this->vectorSize=size;edkEnd();
+                    (*this->vectorSizePointer)=size;edkEnd();
                     //can delete the vector
                     this->canDeleteVector=true;edkEnd();
                     //return true
                     if(size==1u){
-                        this->isOne=true;edkEnd();
+                        (*this->isOnePointer)=true;edkEnd();
                     }
                     return true;
                 }
             }
             else{
-                this->vector = (typeTemplate*)malloc(sizeof(typeTemplate)*size);edkEnd();
-                if(this->vector){
+                (*this->vectorPointer) = (typeTemplate*)malloc(sizeof(typeTemplate)*size);edkEnd();
+                if((*this->vectorPointer)){
                     //save the size of the vector
-                    this->vectorSize=size;edkEnd();
+                    (*this->vectorSizePointer)=size;edkEnd();
                     //can delete the vector
                     this->canDeleteVector=true;edkEnd();
                     //set with nulls
-                    memset((void*)this->vector,0u,sizeof(typeTemplate)*size);edkEnd();
+                    memset((void*)(*this->vectorPointer),0u,sizeof(typeTemplate)*size);edkEnd();
                     //return true
                     return true;
                 }
@@ -119,8 +129,8 @@ public:
         //test if have the pos
         if(pos<this->getSize()){
             //set the object
-            memcpy((void*)&this->vector[pos],(void*)&obj,sizeof(typeTemplate));edkEnd();
-            //this->vector[pos]=obj;edkEnd();
+            memcpy((void*)&(*this->vectorPointer)[pos],(void*)&obj,sizeof(typeTemplate));edkEnd();
+            //(*this->vectorPointer)[pos]=obj;edkEnd();
             //return true
             return true;
         }
@@ -130,14 +140,14 @@ public:
     //SETTERS WITHOUT IF
     void setNoIF(edk::uint32 pos,typeTemplate obj){
         //set the object
-        memcpy((void*)&this->vector[pos],(void*)&obj,sizeof(typeTemplate));edkEnd();
+        memcpy((void*)&(*this->vectorPointer)[pos],(void*)&obj,sizeof(typeTemplate));edkEnd();
     }
 
     //GETTERS
     //returrn the vector size
     edk::uint32  size(){
         //
-        return this->vectorSize;edkEnd();
+        return (*this->vectorSizePointer);edkEnd();
     }
     edk::uint32  getSize(){
         //
@@ -145,7 +155,7 @@ public:
     }
     //test if have the object in the position
     bool have(edk::uint32 pos){
-        if(this->vector && pos<this->getSize()){
+        if((*this->vectorPointer) && pos<this->getSize()){
             //return the variable
             return true;
         }
@@ -153,7 +163,7 @@ public:
     }
     //return true if have the array
     inline bool haveArray(){
-        return (bool)(this->vector);
+        return (bool)((*this->vectorPointer));
     }
     //return the object
     inline typeTemplate get(edk::uint32 pos){
@@ -182,7 +192,7 @@ public:
 
     //return the poiner
     inline typeTemplate* getPointer(){
-        return this->vector;
+        return (*this->vectorPointer);
     }
 
     //delete the array
@@ -195,7 +205,7 @@ public:
     }
     void clean(){
         //test if is alloc
-        if(this->vector){
+        if((*this->vectorPointer)){
             /*
             if(EDKArrayVectorFreeCounter == 44u){
                 EDKArrayVectorFreeCounter++;
@@ -203,28 +213,28 @@ public:
             EDKArrayVectorFreeCounter++;
             */
             if(this->isClass){
-                if(this->isOne){
-                    delete this->vector;edkEnd();
+                if((*this->isOnePointer)){
+                    delete (*this->vectorPointer);edkEnd();
                 }
                 else{
-                    delete[] this->vector;edkEnd();
+                    delete[] (*this->vectorPointer);edkEnd();
                 }
             }
             else{
-                free(this->vector);edkEnd();
+                free((*this->vectorPointer));edkEnd();
             }
         }
-        this->isOne=false;edkEnd();
-        this->vector=NULL;edkEnd();
-        this->vectorSize=0u;edkEnd();
+        (*this->isOnePointer)=false;edkEnd();
+        (*this->vectorPointer)=NULL;edkEnd();
+        (*this->vectorSizePointer)=0u;edkEnd();
         this->canDeleteVector=true;edkEnd();
     }
 
     //set the array with a value
     bool setClean(typeTemplate value){
-        if(this->vector && this->vectorSize){
+        if((*this->vectorPointer) && (*this->vectorSizePointer)){
             //set the array with the value
-            for(edk::uint32 i=0u;i<this->vectorSize;i++){
+            for(edk::uint32 i=0u;i<(*this->vectorSizePointer);i++){
                 this->set(i,value);edkEnd();
             }
             return true;
@@ -251,7 +261,7 @@ public:
         this->deleteArray();edkEnd();
         if(vec){
             if(this->createArray(vec->size())){
-                memcpy((void*)this->vector,vec->vector,sizeof(typeTemplate) * vec->size());edkEnd();
+                memcpy((void*)(*this->vectorPointer),vec->vector,sizeof(typeTemplate) * vec->size());edkEnd();
             }
             return true;
         }
@@ -260,14 +270,17 @@ public:
 
 private:
     //the vector
+    typeTemplate** vectorPointer;
     typeTemplate* vector;
     //size of the vector
+    edk::uint32* vectorSizePointer;
     edk::uint32 vectorSize;
     //test if can delete the vector
     bool canDeleteVector;
 
     //test if the typeTemplete is a class
     bool isClass;
+    bool* isOnePointer;
     bool isOne;
 private:
     edk::vector::Array<typeTemplate> operator=(edk::vector::Array<typeTemplate> vec){
@@ -277,7 +290,7 @@ private:
             //
             for(edk::uint32 i=0u;i<vec.size();i++){
                 //
-                memcpy((void*)&this->vector[i],(void*)&vec[i],sizeof(typeTemplate));edkEnd();
+                memcpy((void*)&(*this->vectorPointer)[i],(void*)&vec[i],sizeof(typeTemplate));edkEnd();
             }
         }
         vec.cantDeleteVector();edkEnd();

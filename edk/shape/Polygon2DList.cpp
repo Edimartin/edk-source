@@ -388,10 +388,11 @@ bool edk::shape::Polygon2DList::getPolygon(edk::uint32 position,edk::shape::Poly
 //clean the polygons
 void edk::shape::Polygon2DList::cleanPolygons(){
     this->freeSelected();edkEnd();
+    edk::uint32 size = this->polygons.size();
     //remove all the polygons
-    for(edk::uint32 i=0u;i<this->polygons.size();i++){
+    for(edk::uint32 i=size;i>0u;i--){
         //
-        this->removePolygon(i);edkEnd();
+        this->removePolygon(size-1u);edkEnd();
     }
     this->polygons.clean();edkEnd();
 }
