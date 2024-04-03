@@ -47,6 +47,9 @@ public:
         this->_name=NULL;
         this->_size = 0u;
         this->canDelete=true;
+
+        this->_namePointer=&this->_name;
+        this->_sizePointer=&this->_size;
     }
     Name(edk::char8* _name){
         //
@@ -54,6 +57,9 @@ public:
         this->_size = 0u;
         this->setName(_name);
         this->canDelete=true;
+
+        this->_namePointer=&this->_name;
+        this->_sizePointer=&this->_size;
     }
     Name(const edk::char8* _name){
         //
@@ -61,6 +67,9 @@ public:
         this->_size = 0u;
         this->setName(_name);
         this->canDelete=true;
+
+        this->_namePointer=&this->_name;
+        this->_sizePointer=&this->_size;
     }
     virtual ~Name(){
         //
@@ -85,56 +94,66 @@ public:
         //test the new name
         if(_name){
             //copy the name
-            this->_name = edk::String::strCopy(_name);
-            if(this->_name){
-                this->_size = edk::String::strSize(this->_name);
+            (*this->_namePointer) = edk::String::strCopy(_name);
+            if((*this->_namePointer)){
+                (*this->_sizePointer) = edk::String::strSize((*this->_namePointer));
                 return true;
             }
         }
         //else return false
         return false;
     }
+    bool clone(edk::Name* name){
+        if(name){
+            return this->setName(name->getName());
+        }
+        return false;
+    }
+    bool clone(edk::Name name){
+        name.cantDelete();
+        return this->setName(name.getName());
+    }
     //get the name
     edk::char8* getName(){
         //
-        return this->_name;
+        return (*this->_namePointer);
     }
     edk::char8* name(){
         //
-        return this->_name;
+        return (*this->_namePointer);
     }
     bool haveName(){
-        return this->_name && this->_size;
+        return (*this->_namePointer) && (*this->_sizePointer);
     }
     //return the name size
     edk::uint32 getSize(){
         return this->size();
     }
     edk::uint32 size(){
-        return this->_size;
+        return (*this->_sizePointer);
     }
 
     bool nameEqual(edk::char8* _name){
-        return edk::Name::stringEqual(this->_name,_name);
+        return edk::Name::stringEqual((*this->_namePointer),_name);
     }
     bool nameEqual(const edk::char8* _name){
         return this->nameEqual((edk::char8*) _name);
     }
     bool nameEqual(edk::Name* _name){
         if(_name){
-            return edk::Name::stringEqual(this->_name,_name->_name);
+            return edk::Name::stringEqual((*this->_namePointer),_name->_name);
         }
         return false;
     }
     bool nameBiggerThan(edk::char8* _name){
-        return edk::Name::firstNameBiggerSecond(this->_name,_name);
+        return edk::Name::firstNameBiggerSecond((*this->_namePointer),_name);
     }
     bool nameBiggerThan(const edk::char8* _name){
         return nameBiggerThan((edk::char8*) _name);
     }
     bool nameBiggerThan(edk::Name* _name){
         if(_name){
-            return edk::Name::firstNameBiggerSecond(this->_name,_name->_name);
+            return edk::Name::firstNameBiggerSecond((*this->_namePointer),_name->_name);
         }
         return false;
     }
@@ -185,6 +204,13 @@ public:
         //else return false
         return false;
     }
+    bool print(){
+        if(this->haveName()){
+            printf("%s",this->getName());
+            return true;
+        }
+        return false;
+    }
     virtual void cantDelete(){
         this->canDelete=false;
     }
@@ -192,16 +218,18 @@ protected:
     //delete the name
     void deleteName(){
         //
-        if(this->_name){
-            free(this->_name);
-            this->_name=NULL;
+        if((*this->_namePointer)){
+            free((*this->_namePointer));
+            (*this->_namePointer)=NULL;
         }
-        this->_size = 0u;
+        (*this->_sizePointer) = 0u;
     }
 
 private:
     //have just one string with one name
+    edk::char8** _namePointer;
     edk::char8* _name;
+    edk::uint32* _sizePointer;
     edk::uint32 _size;
     bool canDelete;
 };

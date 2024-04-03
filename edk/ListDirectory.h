@@ -36,6 +36,8 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include <sys/stat.h>
 #include <dirent.h>
 #include "DebugFile.h"
+#include "vector/Stack.h"
+#include "NameClass.h"
 
 #ifdef printMessages
 #pragma message "    Compiling ListDirectory"
@@ -47,12 +49,60 @@ public:
     ListDirectory();
     ~ListDirectory();
 
+    void clean();
+
     //start listing the folders and files in a directory received by function parameter
     bool run(edk::char8* directory);
     bool run(const edk::char8* directory);
+    bool runFilesOnly(edk::char8* directory);
+    bool runFilesOnly(const edk::char8* directory);
+    bool runFoldersOnly(edk::char8* directory);
+    bool runFoldersOnly(const edk::char8* directory);
 
-    virtual void listFile(edk::char8* name,edk::uint64 lastModify,edk::uint64 size)=0;
-    virtual void listFolder(edk::char8* name,edk::uint64 lastModify,edk::uint64 size)=0;
+    //get files
+    edk::uint32 getFilesSize();
+    edk::char8* getFileName(edk::uint32 position);
+    edk::uint64 getFileLastModify(edk::uint32 position);
+    edk::uint64 getFileSize(edk::uint32 position);
+    void cleanFiles();
+    //get folders
+    edk::uint32 getFoldersSize();
+    edk::char8* getFolderName(edk::uint32 position);
+    edk::uint64 getFolderLastModify(edk::uint32 position);
+    edk::uint64 getFolderSize(edk::uint32 position);
+    void cleanFolders();
+
+    virtual void listFile(edk::char8* name,edk::uint64 lastModify,edk::uint64 size);
+    virtual void listFolder(edk::char8* name,edk::uint64 lastModify,edk::uint64 size);
+private:
+    //class to read the files and folders
+    class FileOrFolders{
+    public:
+        FileOrFolders(){
+            this->lastModify = this->size = 0u;
+        }
+        FileOrFolders(edk::char8* name,edk::uint64 lastModify,edk::uint64 size){
+            this->lastModify = lastModify;
+            this->size = size;
+            this->name.setName(name);
+        }
+        ~FileOrFolders(){
+            this->name.cleanName();
+        }
+        edk::ListDirectory::FileOrFolders operator=(edk::ListDirectory::FileOrFolders name){
+            this->name.clone(name.name);
+            this->lastModify = name.lastModify;
+            this->size = name.size;
+            name.name.cantDelete();
+            return name;
+        }
+        edk::Name name;
+        edk::uint64 lastModify;
+        edk::uint64 size;
+    };
+    //stack for files and folders
+    edk::vector::Stack<edk::ListDirectory::FileOrFolders*> files;
+    edk::vector::Stack<edk::ListDirectory::FileOrFolders*> folders;
 };
 }//end namespace
 
