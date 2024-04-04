@@ -55,21 +55,23 @@ public:
         //
         this->_name=NULL;
         this->_size = 0u;
-        this->setName(_name);
         this->canDelete=true;
 
         this->_namePointer=&this->_name;
         this->_sizePointer=&this->_size;
+
+        this->setName(_name);
     }
     Name(const edk::char8* _name){
         //
         this->_name=NULL;
         this->_size = 0u;
-        this->setName(_name);
         this->canDelete=true;
 
         this->_namePointer=&this->_name;
         this->_sizePointer=&this->_size;
+
+        this->setName(_name);
     }
     virtual ~Name(){
         //
