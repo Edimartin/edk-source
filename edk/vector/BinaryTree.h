@@ -309,7 +309,8 @@ public:
                                 //increment the sizeTree
                                 this->incrementSize();edkEnd();
                                 //balance the tree
-                                this->balance(temp->right);edkEnd();
+                                ///TODO - Fix the balance function in the future
+                                //this->balance(temp->right);edkEnd();
                                 //return true
                                 return true;
                             }
@@ -327,7 +328,8 @@ public:
                                 //increment the sizeTree
                                 this->incrementSize();edkEnd();
                                 //balance the tree
-                                this->balance(temp->left);edkEnd();
+                                ///TODO - Fix the balance function in the future
+                                //this->balance(temp->left);edkEnd();
                                 //return true
                                 return true;
                             }
