@@ -94,7 +94,7 @@ bool edk::Texture2D::drawToTexture(const edk::classID  data){
     //test if have texture
     if(this->getID() && this->size.width && this->size.height && this->mode){
         //then draw to texture
-        return edk::GU::guDrawToTexture(this->getID(),this->size.width,this->size.height,this->mode,this->filter,data);edkEnd();
+        return edk::GU::guDrawToTexture2D(this->getID(),this->size.width,this->size.height,this->mode,this->filter,data);edkEnd();
     }
     return false;
 }
@@ -103,7 +103,7 @@ bool edk::Texture2D::drawToTexture(const edk::classID  data, edk::uint32 filter)
     if(this->getID() && this->size.width && this->size.height && this->mode){
         //then draw to texture
         this->filter = filter;edkEnd();
-        return edk::GU::guDrawToTexture(this->getID(),this->size.width,this->size.height,this->mode,filter,data);edkEnd();
+        return edk::GU::guDrawToTexture2D(this->getID(),this->size.width,this->size.height,this->mode,filter,data);edkEnd();
     }
     return false;
 }

@@ -413,6 +413,13 @@ public:
     //disable the state
     static void guDisableClientState(edk::uint32 cap);
 
+
+    //generateVertexArray
+    static edk::uint32 guAllocVertexArray();
+    static void guUseVertexArray(edk::uint32 ID);
+    static void guDontUseVertexArray();
+    static void guDeleteVertexArray(edk::uint32 ID);
+
     //Use a TextCoord from a pointer
     static void guTexCoordPointer1i16(edk::uint64 position,edk::uint64 jump);
     static void guTexCoordPointer2i16(edk::uint64 position,edk::uint64 jump);

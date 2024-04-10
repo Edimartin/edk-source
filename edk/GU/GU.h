@@ -313,7 +313,7 @@ public:
     static void guUseOrtho(edk::float32 left, edk::float32 right, edk::float32 botton, edk::float32 top, edk::float32 near, edk::float32 far);
     static void guUsePerspective(edk::float32 fovy, edk::float32 aspect, edk::float32 near, edk::float32 far);
 
-    //create a texture
+    //create a textures
     //mode
     //GU_RGB
     //GU_RGBA
@@ -327,6 +327,19 @@ public:
     //GU_LINEAR_MIPMAP_NEAREST
     //GU_LINEAR_MIPMAP_LINEAR
     static edk::uint32 guAllocTexture2D(edk::uint32 width, edk::uint32 height, edk::uint32 mode, edk::uint32 filter, const edk::classID  data);
+    //mode
+    //GU_RGB
+    //GU_RGBA
+    //GU_LUMINANCE
+    //GU_LUMINANCE_ALPHA
+    //filter
+    //GU_NEAREST
+    //GU_LINEAR
+    //GU_NEAREST_MIPMAP_NEAREST
+    //GU_NEAREST_MIPMAP_LINEAR
+    //GU_LINEAR_MIPMAP_NEAREST
+    //GU_LINEAR_MIPMAP_LINEAR
+    static edk::uint32 guAllocTexture3D(edk::uint32 width, edk::uint32 height, edk::uint32 depth, edk::uint32 mode, edk::uint32 filter, const edk::classID  data);
     //generate the mipmap from texture
     static void guGenerateMipmap(edk::uint32 ID);
     //Draw to texture
@@ -338,8 +351,18 @@ public:
     //filter
     //GU_NEAREST
     //GU_LINEAR
-    static bool guDrawToTexture(edk::uint32 ID,edk::uint32 width, edk::uint32 height, edk::uint32 mode, edk::uint32 filter, const edk::classID  data);
-    static bool guDrawToTextureAndGenerateMipmap(edk::uint32 ID,edk::uint32 width, edk::uint32 height, edk::uint32 mode, edk::uint32 filter, const edk::classID  data);
+    static bool guDrawToTexture2D(edk::uint32 ID,edk::uint32 width, edk::uint32 height, edk::uint32 mode, edk::uint32 filter, const edk::classID  data);
+    static bool guDrawToTexture2DAndGenerateMipmap(edk::uint32 ID,edk::uint32 width, edk::uint32 height, edk::uint32 mode, edk::uint32 filter, const edk::classID  data);
+    //mode
+    //GU_RGB
+    //GU_RGBA
+    //GU_LUMINANCE
+    //GU_LUMINANCE_ALPHA
+    //filter
+    //GU_NEAREST
+    //GU_LINEAR
+    static bool guDrawToTexture3D(edk::uint32 ID,edk::uint32 width, edk::uint32 height, edk::uint32 depth, edk::uint32 mode, edk::uint32 filter, const edk::classID  data);
+    static bool guDrawToTexture3DAndGenerateMipmap(edk::uint32 ID,edk::uint32 width, edk::uint32 height, edk::uint32 depth, edk::uint32 mode, edk::uint32 filter, const edk::classID  data);
     //delete texture
     static void guDeleteTexture(edk::uint32 ID);
 
@@ -348,7 +371,7 @@ public:
 
     //ENABLE_DISABLE
     //GU_BLEND
-    //GU_CLIP_DISTANCE i
+    //GU_CLIP_DISTANCE
     //GU_COLOR_LOGIC_OP
     //GU_CULL_FACE
     //GU_DEBUG_OUTPUT
@@ -375,6 +398,9 @@ public:
     //GU_STENCIL_TEST
     //GU_TEXTURE_CUBE_MAP_SEAMLESS
     //GU_PROGRAM_POINT_SIZE
+    //GU_TEXTURE_1D
+    //GU_TEXTURE_2D
+    //GU_TEXTURE_3D
 
     static void guEnable( edk::uint32 cap );
     static void guDisable( edk::uint32 cap );
@@ -640,11 +666,12 @@ private:
 
     class TextureClass{
     public:
-        TextureClass(){this->width=0u; this->height=0u; this->mode=0u; this->filter=0u; this->data=0u;this->threadID = 0u;this->id = 0u;}
+        TextureClass(){this->width=0u; this->height=0u; this->depth=0u; this->mode=0u; this->filter=0u; this->data=0u;this->threadID = 0u;this->id = 0u;}
         ~TextureClass(){}
         edk::GU::TextureClass operator=(edk::GU::TextureClass tex){
             this->width = tex.width;
             this->height = tex.height;
+            this->depth = tex.depth;
             this->mode = tex.mode;
             this->filter = tex.filter;
             this->data = tex.data;
@@ -661,7 +688,7 @@ private:
         inline bool operator<(edk::GU::TextureClass tex){
             return (this->threadID < tex.threadID);
         }
-        edk::uint32 width; edk::uint32 height; edk::uint32 mode; edk::uint32 filter; edk::classID  data;
+        edk::uint32 width; edk::uint32 height; edk::uint32 depth; edk::uint32 mode; edk::uint32 filter; edk::classID  data;
         edk::uint32 id;
 #if __x86_64__ || __ppc64__
         edk::uint64 threadID;

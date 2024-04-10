@@ -494,7 +494,7 @@ void edk::GU::guUsePerspective(edk::float32 a, edk::float32 b, edk::float32 c, e
     edk::GU_GLSL::mut.unlock();
 }
 
-//Create a texture
+//Create a textures
 edk::uint32 edk::GU::guAllocTexture2D(edk::uint32 width, edk::uint32 height, edk::uint32 mode, edk::uint32 filter, const edk::classID  data){
     //test if it's NOT the main thread
     if(edk::GU::initiate){
@@ -589,7 +589,115 @@ edk::uint32 edk::GU::guAllocTexture2D(edk::uint32 width, edk::uint32 height, edk
                         edk::GU::mutGetTextures.unlock();
                         if(run){
                             //sleep this thread
-                            edk::watch::Time::sleepProcessMiliseconds(10u);
+                            edk::watch::Time::sleepProcessMiliseconds(1u);
+                        }
+                    }
+                    return ret;
+                }
+            }
+        }
+    }
+    return 0u;
+}
+edk::uint32 edk::GU::guAllocTexture3D(edk::uint32 width, edk::uint32 height, edk::uint32 depth, edk::uint32 mode, edk::uint32 filter, const edk::classID  data){
+    //test if it's NOT the main thread
+    if(edk::GU::initiate){
+        if(mode==GU_RGB || mode==GU_RGBA || mode==GU_LUMINANCE || mode==GU_LUMINANCE_ALPHA){
+            if(edk::multi::Thread::isThisThreadMain()){
+                edk::GU_GLSL::mutBeginEnd.lock();
+                edk::GU_GLSL::mut.lock();
+                edk::uint32 ID=0u;
+                //Create the texture name
+                glGenTextures(1u,&ID);
+                //
+                //test the ID
+                if(ID){
+                    //Set using texture
+                    glBindTexture(GL_TEXTURE_3D,ID);
+
+                    //Copy the texture
+                    glTexImage3D(GL_TEXTURE_3D,
+                                 0,
+                                 mode,
+                                 width,
+                                 height,
+                                 depth,
+                                 0,
+                                 mode,
+                                 GL_UNSIGNED_BYTE,
+                                 data
+                                 );
+
+
+                    glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MAG_FILTER, filter);
+                    glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MIN_FILTER, filter);
+                    glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+                    glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+
+                    if(filter == GU_NEAREST_MIPMAP_LINEAR || filter == GU_NEAREST_MIPMAP_NEAREST || filter == GU_LINEAR_MIPMAP_LINEAR || filter == GU_LINEAR_MIPMAP_NEAREST){
+                        //load the mipmap
+                        //glGenerateMipmap(GL_TEXTURE_3D);
+                    }
+
+                    //Clean use texture
+                    glBindTexture(GL_TEXTURE_3D, 0u);
+                }
+                edk::GU_GLSL::mut.unlock();
+                edk::GU_GLSL::mutBeginEnd.unlock();
+                //return the ID
+                return ID;
+            }
+            else{
+#if __x86_64__ || __ppc64__
+                edk::uint64 threadID = edk::multi::Thread::getThisThreadID();
+#else
+                edk::uint32 threadID = edk::multi::Thread::getThisThreadID();
+#endif
+                if(threadID){
+                    //generate the TextureClass
+                    edk::GU::TextureClass tex;
+                    tex.width=width;
+                    tex.height=height;
+                    tex.depth=depth;
+                    tex.mode=mode;
+                    tex.filter=filter;
+                    tex.data=data;
+                    tex.threadID = threadID;
+
+                    edk::uint32 ret=0u;
+
+                    edk::GU::mutGetTextures.lock();
+                    //add the tex in to the queue
+                    edk::GU::genTextures.pushBack(tex);
+                    edk::GU::mutGetTextures.unlock();
+
+                    bool run=true;
+                    //wait to get the texture ID
+                    while(run){
+                        edk::GU::mutGetTextures.lock();
+                        //test if have some textures in the tree
+                        if(edk::GU::treeTextures.size()){
+                            //tes if have the texture inside the tree
+                            if(edk::GU::treeTextures.haveTextureByThread(threadID)){
+                                //get the texture
+                                tex = edk::GU::treeTextures.getTextureByThread(threadID);
+                                edk::GU::treeTextures.remove(tex);
+                                ret=tex.id;
+                                run=false;
+                            }
+                        }
+                        //test if can't load the texture
+                        if(!edk::GU::canLoadTexture){
+                            if(ret){
+                                edk::GU::guDeleteTexture(ret);
+                            }
+                            ret=0u;
+                            run=false;
+                        }
+                        edk::GU::mutGetTextures.unlock();
+                        if(run){
+                            //sleep this thread
+                            edk::watch::Time::sleepProcessMiliseconds(1u);
                         }
                     }
                     return ret;
@@ -635,7 +743,7 @@ void edk::GU::guGenerateMipmap(edk::uint32 ID){
         }
     }
 }
-bool edk::GU::guDrawToTexture(edk::uint32 ID,edk::uint32 width, edk::uint32 height, edk::uint32 mode, edk::uint32 filter, const edk::classID  data){
+bool edk::GU::guDrawToTexture2D(edk::uint32 ID,edk::uint32 width, edk::uint32 height, edk::uint32 mode, edk::uint32 filter, const edk::classID  data){
     //test the mode
     if(edk::GU::initiate&&(mode==GU_RGB || mode==GU_RGBA || mode==GU_LUMINANCE || mode==GU_LUMINANCE_ALPHA)){
         //test the ID
@@ -688,7 +796,7 @@ bool edk::GU::guDrawToTexture(edk::uint32 ID,edk::uint32 width, edk::uint32 heig
     }
     return false;
 }
-bool edk::GU::guDrawToTextureAndGenerateMipmap(edk::uint32 ID,edk::uint32 width, edk::uint32 height, edk::uint32 mode, edk::uint32 filter, const edk::classID  data){
+bool edk::GU::guDrawToTexture2DAndGenerateMipmap(edk::uint32 ID,edk::uint32 width, edk::uint32 height, edk::uint32 mode, edk::uint32 filter, const edk::classID  data){
     //test the mode
     if(edk::GU::initiate&&(mode==GU_RGB || mode==GU_RGBA || mode==GU_LUMINANCE || mode==GU_LUMINANCE_ALPHA)){
         //test the ID
@@ -731,6 +839,122 @@ bool edk::GU::guDrawToTextureAndGenerateMipmap(edk::uint32 ID,edk::uint32 width,
 
             //Clean use texture
             glBindTexture(GL_TEXTURE_2D, 0u);
+            edk::GU_GLSL::mut.unlock();
+            edk::GU_GLSL::mutBeginEnd.unlock();
+
+            return true;
+        }
+    }
+    return false;
+}
+//mode
+//GU_RGB
+//GU_RGBA
+//GU_LUMINANCE
+//GU_LUMINANCE_ALPHA
+//filter
+//GU_NEAREST
+//GU_LINEAR
+bool edk::GU::guDrawToTexture3D(edk::uint32 ID,edk::uint32 width, edk::uint32 height, edk::uint32 depth, edk::uint32 mode, edk::uint32 filter, const edk::classID  data){
+    //test the mode
+    if(edk::GU::initiate&&(mode==GU_RGB || mode==GU_RGBA || mode==GU_LUMINANCE || mode==GU_LUMINANCE_ALPHA)){
+        //test the ID
+        if(ID){
+            edk::GU_GLSL::mutBeginEnd.lock();
+            edk::GU_GLSL::mut.lock();
+            //Set using texture
+            glBindTexture(GL_TEXTURE_3D,ID);
+            //Copy the texture
+            glTexImage3D(GL_TEXTURE_3D,
+                         0,
+                         mode,
+                         width,
+                         height,
+                         depth,
+                         0,
+                         mode,
+                         GL_UNSIGNED_BYTE,
+                         data
+                         );
+            /*
+            glTexImage3D(GLenum  target,
+                          GLint  level,
+                          GLint  internalFormat,
+                          GLsizei  width,
+                          GLsizei  height,
+                          GLsizei  depth,
+                          GLint  border,
+                          GLenum  format,
+                          GLenum  type,
+                          const GLvoid *  data
+                          );
+                          */
+
+            glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MAG_FILTER, filter);
+            glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MIN_FILTER, filter);
+            glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+            glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+
+            if(filter == GU_NEAREST_MIPMAP_LINEAR || filter == GU_NEAREST_MIPMAP_NEAREST || filter == GU_LINEAR_MIPMAP_LINEAR || filter == GU_LINEAR_MIPMAP_NEAREST){
+                //load the mipmap
+                //glGenerateMipmap(GL_TEXTURE_2D);
+            }
+
+            //Clean use texture
+            glBindTexture(GL_TEXTURE_3D, 0u);
+            edk::GU_GLSL::mut.unlock();
+            edk::GU_GLSL::mutBeginEnd.unlock();
+
+            return true;
+        }
+    }
+    return false;
+}
+bool edk::GU::guDrawToTexture3DAndGenerateMipmap(edk::uint32 ID,edk::uint32 width, edk::uint32 height, edk::uint32 depth, edk::uint32 mode, edk::uint32 filter, const edk::classID  data){
+    //test the mode
+    if(edk::GU::initiate&&(mode==GU_RGB || mode==GU_RGBA || mode==GU_LUMINANCE || mode==GU_LUMINANCE_ALPHA)){
+        //test the ID
+        if(ID){
+            edk::GU_GLSL::mutBeginEnd.lock();
+            edk::GU_GLSL::mut.lock();
+            //Set using texture
+            glBindTexture(GL_TEXTURE_3D,ID);
+            //Copy the texture
+            glTexImage3D(GL_TEXTURE_3D,
+                         0,
+                         mode,
+                         width,
+                         height,
+                         depth,
+                         0,
+                         mode,
+                         GL_UNSIGNED_BYTE,
+                         data
+                         );
+            /*
+            glTexImage3D(GLenum  target,
+                          GLint  level,
+                          GLint  internalFormat,
+                          GLsizei  width,
+                          GLsizei  height,
+                          GLsizei  depth,
+                          GLint  border,
+                          GLenum  format,
+                          GLenum  type,
+                          const GLvoid *  data
+                          );
+                          */
+
+            glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MAG_FILTER, filter);
+            glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MIN_FILTER, filter);
+            glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+            glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+
+            //generate mipmap
+            glGenerateMipmap(GL_TEXTURE_3D);
+
+            //Clean use texture
+            glBindTexture(GL_TEXTURE_3D, 0u);
             edk::GU_GLSL::mut.unlock();
             edk::GU_GLSL::mutBeginEnd.unlock();
 
@@ -1758,7 +1982,12 @@ bool edk::GU::guUpdateLoadTextures(){
                     edk::GU::mutGetTextures.unlock();
                 }
                 //load the texture
-                tex.id = edk::GU::guAllocTexture2D(tex.width,tex.height,tex.mode,tex.filter,tex.data);
+                if(tex.depth){
+                    tex.id = edk::GU::guAllocTexture3D(tex.width,tex.height,tex.depth,tex.mode,tex.filter,tex.data);
+                }
+                else{
+                    tex.id = edk::GU::guAllocTexture2D(tex.width,tex.height,tex.mode,tex.filter,tex.data);
+                }
 
                 edk::GU::mutGetTextures.lock();
                 if(!edk::GU::canLoadTexture){

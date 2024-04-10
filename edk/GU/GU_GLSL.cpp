@@ -1090,6 +1090,36 @@ void edk::GU_GLSL::guDisableClientState(edk::uint32 cap){
     edk::GU_GLSL::mut.unlock();
 }
 
+
+//generateVertexArray
+edk::uint32 edk::GU_GLSL::guAllocVertexArray(){
+    edk::uint32 ret = 0u;
+    if(edk::GU_GLSL::guShaderInitiated()){
+        edk::GU_GLSL::mut.lock();
+        glGenVertexArrays(1, &ret);
+        if(ret){
+            glBindVertexArray(ret);
+        }
+        edk::GU_GLSL::mut.unlock();
+    }
+    return ret;
+}
+void edk::GU_GLSL::guUseVertexArray(edk::uint32 ID){
+    edk::GU_GLSL::mut.lock();
+    glBindVertexArray(ID);
+    edk::GU_GLSL::mut.unlock();
+}
+void edk::GU_GLSL::guDontUseVertexArray(){
+    edk::GU_GLSL::mut.lock();
+    glBindVertexArray(0u);
+    edk::GU_GLSL::mut.unlock();
+}
+void edk::GU_GLSL::guDeleteVertexArray(edk::uint32 ID){
+    edk::GU_GLSL::mut.lock();
+    glDeleteVertexArrays(1u,&ID);
+    edk::GU_GLSL::mut.unlock();
+}
+
 //Use a TextCoord from a pointer
 void edk::GU_GLSL::guTexCoordPointer1i16(edk::uint64 position,edk::uint64 jump){
     edk::GU_GLSL::mut.lock();
