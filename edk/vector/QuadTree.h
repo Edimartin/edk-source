@@ -261,38 +261,70 @@ template <class typeTemplate>
 class QuadLeaf32 : public edk::rectf32{
 public:
     QuadLeaf32(edk::rectf32 rect = edk::rectf32(0,0,1,1)){
-        this->depth=0u;
-        this->father=NULL;edkEnd();
-        //start the values
-        this->origin = rect.origin;edkEnd();
-        this->size = rect.size;edkEnd();
-        this->counter=0u;edkEnd();
-        this->tree=NULL;edkEnd();
-        //
-        this->quad[0u] = this->quad[1u] = this->quad[2u] = this->quad[3u] = NULL;edkEnd();
-
-        //add a callback in to the tree
-        this->setTree(NULL);edkEnd();
+        this->classThis=NULL;edkEnd();
+        this->Constructor(rect,false);edkEnd();
     }
     QuadLeaf32(QuadLeaf32* father,edk::rectf32 rect = edk::rectf32(0,0,1,1)){
-        this->depth=0u;
-        this->father=father;edkEnd();
-        //start the values
-        this->origin = rect.origin;edkEnd();
-        this->size = rect.size;edkEnd();
-        this->counter=0u;edkEnd();
-        this->tree=NULL;edkEnd();
-        //
-        this->quad[0u] = this->quad[1u] = this->quad[2u] = this->quad[3u] = NULL;edkEnd();
-
-        //add a callback in to the tree
-        this->setTree(NULL);edkEnd();
+        this->classThis=NULL;edkEnd();
+        this->Constructor(father,rect,false);edkEnd();
     }
     ~QuadLeaf32(){
-        this->clean();edkEnd();
-        //delete the tree
-        this->setTree(NULL);edkEnd();
+        if(this->classThis==this){
+            this->classThis=NULL;edkEnd();
+            //can destruct the class
+            this->clean();edkEnd();
+            //delete the tree
+            this->setTree(NULL);edkEnd();
+        }
     }
+
+    void Constructor(edk::rectf32 rect = edk::rectf32(0,0,1,1),bool runFather=true){
+        if(runFather){
+            *this = rect;edkEnd();
+        }
+        if(this->classThis!=this){
+            this->classThis=this;
+
+            this->treeThis.Constructor();edkEnd();
+
+            this->depth=0u;
+            this->father=NULL;edkEnd();
+            //start the values
+            this->origin = rect.origin;edkEnd();
+            this->size = rect.size;edkEnd();
+            this->counter=0u;edkEnd();
+            this->tree=NULL;edkEnd();
+            //
+            this->quad[0u] = this->quad[1u] = this->quad[2u] = this->quad[3u] = NULL;edkEnd();
+
+            //add a callback in to the tree
+            this->setTree(NULL);edkEnd();
+        }
+    }
+    void Constructor(QuadLeaf32* father,edk::rectf32 rect = edk::rectf32(0,0,1,1),bool runFather=true){
+        if(runFather){
+            *this = rect;edkEnd();
+        }
+        if(this->classThis!=this){
+            this->classThis=this;
+
+            this->treeThis.Constructor();edkEnd();
+
+            this->depth=0u;
+            this->father=father;edkEnd();
+            //start the values
+            this->origin = rect.origin;edkEnd();
+            this->size = rect.size;edkEnd();
+            this->counter=0u;edkEnd();
+            this->tree=NULL;edkEnd();
+            //
+            this->quad[0u] = this->quad[1u] = this->quad[2u] = this->quad[3u] = NULL;edkEnd();
+
+            //add a callback in to the tree
+            this->setTree(NULL);edkEnd();
+        }
+    }
+
     void clean(){
         this->father=NULL;edkEnd();
         if(this->tree != &this->treeThis){
@@ -522,45 +554,78 @@ private:
     //tree with values
     edk::vector::BinaryTree<typeTemplate> treeThis;
     edk::vector::BinaryTree<typeTemplate>* tree;
-
+private:
+    edk::classID classThis;
 };
 //LEAF64
 template <class typeTemplate>
 class QuadLeaf64 : public edk::rectf64{
 public:
     QuadLeaf64(edk::rectf64 rect = edk::rectf64(0,0,1,1)){
-        this->depth=0u;
-        this->father=NULL;edkEnd();
-        //start the values
-        this->origin = rect.origin;edkEnd();
-        this->size = rect.size;edkEnd();
-        this->counter=0u;edkEnd();
-        this->tree=NULL;edkEnd();
-        //
-        this->quad[0u] = this->quad[1u] = this->quad[2u] = this->quad[3u] = NULL;edkEnd();
-
-        //add a callback in to the tree
-        this->setTree(NULL);edkEnd();
+        this->classThis=NULL;edkEnd();
+        this->Constructor(rect,false);edkEnd();
     }
     QuadLeaf64(QuadLeaf64* father,edk::rectf64 rect = edk::rectf64(0,0,1,1)){
-        this->depth=0u;
-        this->father=father;edkEnd();
-        //start the values
-        this->origin = rect.origin;edkEnd();
-        this->size = rect.size;edkEnd();
-        this->counter=0u;edkEnd();
-        this->tree=NULL;edkEnd();
-        //
-        this->quad[0u] = this->quad[1u] = this->quad[2u] = this->quad[3u] = NULL;edkEnd();
-
-        //add a callback in to the tree
-        this->setTree(NULL);edkEnd();
+        this->classThis=NULL;edkEnd();
+        this->Constructor(father,rect,false);edkEnd();
     }
     ~QuadLeaf64(){
-        this->clean();edkEnd();
-        //delete the tree
-        this->setTree(NULL);edkEnd();
+        if(this->classThis==this){
+            this->classThis=NULL;edkEnd();
+            //can destruct the class
+            this->clean();edkEnd();
+            //delete the tree
+            this->setTree(NULL);edkEnd();
+        }
     }
+
+    void Constructor(edk::rectf64 rect = edk::rectf64(0,0,1,1),bool runFather=true){
+        if(runFather){
+            *this = rect;edkEnd();
+        }
+        if(this->classThis!=this){
+            this->classThis=this;
+
+            this->treeThis.Constructor();edkEnd();
+
+            this->depth=0u;
+            this->father=NULL;edkEnd();
+            //start the values
+            this->origin = rect.origin;edkEnd();
+            this->size = rect.size;edkEnd();
+            this->counter=0u;edkEnd();
+            this->tree=NULL;edkEnd();
+            //
+            this->quad[0u] = this->quad[1u] = this->quad[2u] = this->quad[3u] = NULL;edkEnd();
+
+            //add a callback in to the tree
+            this->setTree(NULL);edkEnd();
+        }
+    }
+    void Constructor(QuadLeaf64* father,edk::rectf64 rect = edk::rectf64(0,0,1,1),bool runFather=true){
+        if(runFather){
+            *this = rect;edkEnd();
+        }
+        if(this->classThis!=this){
+            this->classThis=this;
+
+            this->treeThis.Constructor();edkEnd();
+
+            this->depth=0u;
+            this->father=father;edkEnd();
+            //start the values
+            this->origin = rect.origin;edkEnd();
+            this->size = rect.size;edkEnd();
+            this->counter=0u;edkEnd();
+            this->tree=NULL;edkEnd();
+            //
+            this->quad[0u] = this->quad[1u] = this->quad[2u] = this->quad[3u] = NULL;edkEnd();
+
+            //add a callback in to the tree
+            this->setTree(NULL);edkEnd();
+        }
+    }
+
     void clean(){
         this->father=NULL;edkEnd();
         if(this->tree != &this->treeThis){
@@ -790,7 +855,8 @@ private:
     //tree with values
     edk::vector::BinaryTree<typeTemplate> treeThis;
     edk::vector::BinaryTree<typeTemplate>* tree;
-
+private:
+    edk::classID classThis;
 };
 
 //QUADTREE32
@@ -798,26 +864,49 @@ template <class typeTemplate>
 class QuadTree32 : public edk::vector::BinaryTreeCallback<typeTemplate>{
 public:
     QuadTree32(){
-        this->selected = &this->treeNULL;edkEnd();
-        this->selected1 = &this->treeNULL;edkEnd();
-        this->selected2 = &this->treeNULL;edkEnd();
-        this->selected3 = &this->treeNULL;edkEnd();
-        this->treeTemp = &this->treeUpdate;edkEnd();
-        this->cleanWithRectPoints(edk::rectf32(0,0,1,1));edkEnd();
-        this->setMinimumElementInQuads(1u);
+        this->classThis=NULL;edkEnd();
+        this->Constructor(false);edkEnd();
     }
     virtual ~QuadTree32(){
-        //the destructor don't call the getOut functions because is possible the element don't exist
-        this->root.clean();edkEnd();
-        this->treeNULL.clean();edkEnd();
-        if(this->treeTemp!=&this->treeUpdate){
-            this->treeTemp->clean();edkEnd();
-            delete this->treeTemp;edkEnd();
+        if(this->classThis==this){
+            this->classThis=NULL;edkEnd();
+            //can destruct the class
+            //the destructor don't call the getOut functions because is possible the element don't exist
+            this->root.clean();edkEnd();
+            this->treeNULL.clean();edkEnd();
+            if(this->treeTemp!=&this->treeUpdate){
+                this->treeTemp->clean();edkEnd();
+                delete this->treeTemp;edkEnd();
+            }
+            this->treeUpdate.clean();edkEnd();
+            this->treeGets.clean();edkEnd();
+            this->treeOutside.clean();edkEnd();
         }
-        this->treeUpdate.clean();edkEnd();
-        this->treeGets.clean();edkEnd();
-        this->treeOutside.clean();edkEnd();
     }
+
+    void Constructor(bool runFather=true){
+        if(runFather){
+            edk::vector::BinaryTreeCallback<typeTemplate>::Constructor();edkEnd();
+        }
+        if(this->classThis!=this){
+            this->classThis=this;
+
+            this->root.Constructor();edkEnd();
+            this->treeGets.Constructor();edkEnd();
+            this->treeOutside.Constructor();edkEnd();
+            this->treeUpdate.Constructor();edkEnd();
+            this->treeNULL.Constructor();edkEnd();
+
+            this->selected = &this->treeNULL;edkEnd();
+            this->selected1 = &this->treeNULL;edkEnd();
+            this->selected2 = &this->treeNULL;edkEnd();
+            this->selected3 = &this->treeNULL;edkEnd();
+            this->treeTemp = &this->treeUpdate;edkEnd();
+            this->cleanWithRectPoints(edk::rectf32(0,0,1,1));edkEnd();
+            this->setMinimumElementInQuads(1u);
+        }
+    }
+
     //set the minimunQuadSize
     bool setMinimumQuadSize(edk::float32 minimumQuadSize){
         if(minimumQuadSize>0.f){
@@ -2231,32 +2320,55 @@ private:
         }
         this->treeTemp->clean();edkEnd();
     }
+private:
+    edk::classID classThis;
 };
 //QUADTREE64
 template <class typeTemplate>
 class QuadTree64 : public edk::vector::BinaryTreeCallback<typeTemplate>{
 public:
-    QuadTree64(){
-        this->selected = &this->treeNULL;edkEnd();
-        this->selected1 = &this->treeNULL;edkEnd();
-        this->selected2 = &this->treeNULL;edkEnd();
-        this->selected3 = &this->treeNULL;edkEnd();
-        this->treeTemp = &this->treeUpdate;edkEnd();
-        this->cleanWithRectPoints(edk::rectf64(0,0,1,1));edkEnd();
-        this->setMinimumElementInQuads(1u);
-    }
+    QuadTree64(){this->classThis=NULL;this->Constructor(false);edkEnd();}
     virtual ~QuadTree64(){
-        //the destructor don't call the getOut functions because is possible the element don't exist
-        this->root.clean();edkEnd();
-        this->treeNULL.clean();edkEnd();
-        if(this->treeTemp!=&this->treeUpdate){
-            this->treeTemp->clean();edkEnd();
-            delete this->treeTemp;edkEnd();
+        if(this->classThis==this){
+            this->classThis=NULL;edkEnd();
+            //can destruct the class
+            //the destructor don't call the getOut functions because is possible the element don't exist
+            this->root.clean();edkEnd();
+            this->treeNULL.clean();edkEnd();
+            if(this->treeTemp!=&this->treeUpdate){
+                this->treeTemp->clean();edkEnd();
+                delete this->treeTemp;edkEnd();
+            }
+            this->treeUpdate.clean();edkEnd();
+            this->treeGets.clean();edkEnd();
+            this->treeOutside.clean();edkEnd();
         }
-        this->treeUpdate.clean();edkEnd();
-        this->treeGets.clean();edkEnd();
-        this->treeOutside.clean();edkEnd();
     }
+
+    void Constructor(bool runFather=true){
+        if(runFather){
+            edk::vector::BinaryTreeCallback<typeTemplate>::Constructor();edkEnd();
+        }
+        if(this->classThis!=this){
+            this->classThis=this;
+
+            //quadtree Root
+            this->root.Constructor();edkEnd();
+            this->treeGets.Constructor();edkEnd();
+            this->treeOutside.Constructor();edkEnd();
+            this->treeUpdate.Constructor();edkEnd();
+            this->treeNULL.Constructor();edkEnd();
+
+            this->selected = &this->treeNULL;edkEnd();
+            this->selected1 = &this->treeNULL;edkEnd();
+            this->selected2 = &this->treeNULL;edkEnd();
+            this->selected3 = &this->treeNULL;edkEnd();
+            this->treeTemp = &this->treeUpdate;edkEnd();
+            this->cleanWithRectPoints(edk::rectf64(0,0,1,1));edkEnd();
+            this->setMinimumElementInQuads(1u);
+        }
+    }
+
     //set the minimunQuadSize
     bool setMinimumQuadSize(edk::float64 minimumQuadSize){
         if(minimumQuadSize>0.f){
@@ -3670,6 +3782,8 @@ private:
         }
         this->treeTemp->clean();edkEnd();
     }
+private:
+    edk::classID classThis;
 };
 
 }//end namespace vector

@@ -476,13 +476,20 @@ inicio:
 }
 
 edk::TTY::TTY(){
-    this->haveInit=false;
-    //init the terminal
-    this->initTerminal();
+    this->Constructor(false);
 }
 edk::TTY::~TTY(){
     //reset the terminal if it was initiated
     this->resetTerminal();
+}
+
+void edk::TTY::Constructor(bool /*runFather*/){
+    if(this->classThis!=this){
+        this->classThis=this;
+        this->haveInit=false;
+        //init the terminal
+        this->initTerminal();
+    }
 }
 
 bool edk::TTY::initTerminal(){
@@ -512,12 +519,27 @@ bool edk::TTY::resetTerminal(){
 
 //TTY to construct and destruct
 edk::TTY edk::ConsoleTerminal::tty;
+bool edk::ConsoleTerminal::templateConstructNeed=true;
 
 edk::ConsoleTerminal::ConsoleTerminal(){
-    //
+    this->classThis=NULL;
+    this->Constructor(false);
 }
 edk::ConsoleTerminal::~ConsoleTerminal(){
-    //
+    if(this->classThis==this){
+        this->classThis=NULL;
+        //can destruct the class
+    }
+}
+
+void edk::ConsoleTerminal::Constructor(bool /*runFather*/){
+    if(edk::ConsoleTerminal::templateConstructNeed){
+        edk::ConsoleTerminal::tty.Constructor();
+        edk::ConsoleTerminal::templateConstructNeed=false;
+    }
+    if(this->classThis!=this){
+        this->classThis=this;
+    }
 }
 
 void edk::ConsoleTerminal::push(){

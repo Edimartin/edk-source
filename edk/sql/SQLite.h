@@ -68,6 +68,8 @@ public:
     SQLite();
     ~SQLite();
 
+    void Constructor(bool runFather=true);
+
     //open dataBase
     bool openDataBase(const edk::char8* name);
     bool openDataBase(edk::char8* name);
@@ -98,6 +100,8 @@ private:
     edk::char8* addExtension(edk::char8* name,edk::char8* extension);
     //delete basename
     void deleteBaseName();
+private:
+    edk::classID classThis;
 };
 }//end namespace sql
 }//end namespace edk

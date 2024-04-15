@@ -41,25 +41,25 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 //Windows.h to the Sleep function
 #ifdef _WIN32 //Windows 32bits
-    #pragma once
-    #include <windows.h>
-    #include <winbase.h>
-    //#include <pthread_time.h>
+#pragma once
+#include <windows.h>
+#include <winbase.h>
+//#include <pthread_time.h>
 #elif _WIN64//Windows 64bits
-    #pragma once
-    #include <windows.h>
-    #include <winbase.h>
-    //#include <pthread_time.h>
+#pragma once
+#include <windows.h>
+#include <winbase.h>
+//#include <pthread_time.h>
 #elif __linux__//Linux
-    #pragma once
-    //linux use the unistd
-    #include <unistd.h>
-	#include <sys/time.h>
+#pragma once
+//linux use the unistd
+#include <unistd.h>
+#include <sys/time.h>
 #elif __APPLE__//MacOS
-    #pragma once
-    //To Find
-    #include <unistd.h>
-	#include <sys/time.h>
+#pragma once
+//To Find
+#include <unistd.h>
+#include <sys/time.h>
 #endif
 
 #include "../DebugFile.h"
@@ -107,10 +107,12 @@ const edk::uint32 second =1000000;
 
 class Time {
 
- public:
+public:
 
     Time();
     ~Time();
+
+    void Constructor(bool runFather=true);
 
     void start();
 
@@ -181,32 +183,34 @@ class Time {
     edk::char8* clockGetStr();
     void clockPrintStr();
 
- private:
+private:
 
-     //get day of the year
-     static edk::uint32 getDayOfYear(edk::uint8 dayOfMonth,edk::uint8 month,edk::uint32 year);
-     static bool isBisext(edk::uint32 year);
+    //get day of the year
+    static edk::uint32 getDayOfYear(edk::uint8 dayOfMonth,edk::uint8 month,edk::uint32 year);
+    static bool isBisext(edk::uint32 year);
 
-     //clean the str
-     inline void cleanStr(){
-         memset(this->str,0u,SIZE_EDK_WATCH_TIME_STRING);edkEnd();
-     }
+    //clean the str
+    inline void cleanStr(){
+        memset(this->str,0u,SIZE_EDK_WATCH_TIME_STRING);edkEnd();
+    }
 
 
-    #if defined(_WIN32) || defined(_WIN64)
+#if defined(_WIN32) || defined(_WIN64)
     //Windows
     LARGE_INTEGER PCFreq;
-    #endif
+#endif
     //save the startTime
     edk::uint32 timeStart;
     //save the timeDistance to pause the clock
     edk::uint32 saveTimeDistance;
 
-    #if defined(__linux__) || defined(__APPLE__)
+#if defined(__linux__) || defined(__APPLE__)
     static edk::uint32 linuxSecond;
-    #endif
+#endif
 
     static edk::uint8 monthDays[12u];
+
+    static bool templateConstructNeed;
 
     //set if occur overflow
     bool overflow;
@@ -222,6 +226,8 @@ class Time {
 #endif
     //to get the curent time in miliseconds
     struct timeb tmb;
+private:
+    edk::classID classThis;
 };
 
 }//End of namespace edk::ptr

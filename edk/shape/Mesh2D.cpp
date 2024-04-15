@@ -28,25 +28,37 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #pragma message "            Inside Mesh2D.cpp"
 #endif
 
-edk::shape::Mesh2D::Mesh2D()
-{
-    //ctor
-    this->polygons.clean(2u);edkEnd();
-    //clean the selected
-    this->freeSelected();edkEnd();
-    this->canDeleteMesh=true;edkEnd();
+edk::shape::Mesh2D::Mesh2D(){
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);edkEnd();
 }
 
-edk::shape::Mesh2D::~Mesh2D()
-{
-    if(this->canDeleteMesh){
-        this->clean();edkEnd();
+edk::shape::Mesh2D::~Mesh2D(){
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
+        if(this->canDeleteMesh){
+            this->clean();edkEnd();
+        }
+        else{
+            this->material.cantDelete();edkEnd();
+            this->cantDeleteList();edkEnd();
+        }
+        this->canDeleteMesh=true;edkEnd();
     }
-    else{
-        this->material.cantDelete();edkEnd();
-        this->cantDeleteList();edkEnd();
+}
+
+void edk::shape::Mesh2D::Constructor(bool /*runFather*/){
+    if(this->classThis!=this){
+        this->classThis=this;
+
+        this->material.Constructor();edkEnd();
+
+        this->polygons.clean(2u);edkEnd();
+        //clean the selected
+        this->freeSelected();edkEnd();
+        this->canDeleteMesh=true;edkEnd();
     }
-    this->canDeleteMesh=true;edkEnd();
 }
 
 inline bool edk::shape::Mesh2D::floatDifferent(edk::float32 f1,edk::float32 f2){

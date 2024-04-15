@@ -44,14 +44,28 @@ class Frame: public edk::Object<edk::animation::Frame>{
 public:
     Frame(){
         //
-        this->second=0.0f;edkEnd();
+        this->classThis=NULL;edkEnd();
+        this->Constructor(false);edkEnd();
     }
     Frame(edk::float32 second){
         //
         this->second=second;edkEnd();
     }
     virtual ~Frame(){
-        //
+        if(this->classThis==this){
+            this->classThis=NULL;edkEnd();
+            //can destruct the class
+        }
+    }
+
+    void Constructor(bool runFather=true){
+        if(runFather){
+            edk::Object<edk::animation::Frame>::Constructor();
+        }
+        if(this->classThis!=this){
+            this->classThis=this;
+            this->second=0.0f;edkEnd();
+        }
     }
 
     //time of the frame
@@ -193,6 +207,8 @@ private:
     inline bool operator<(edk::animation::Frame frame){frame.cantDestruct();edkEnd();return this->second<frame.second;edkEnd();}
     //Operator <=
     inline bool operator<=(edk::animation::Frame frame){frame.cantDestruct();edkEnd();return this->second<=frame.second;edkEnd();}
+private:
+    edk::classID classThis;
 };
 }//end namespace animation
 }//end namespace edk

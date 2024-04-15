@@ -152,22 +152,53 @@ edk::uint64 edk::multi::Thread::mainID=0u;
 
 edk::multi::Thread edkTHREADTEMPLATE;
 
+bool edk::multi::Thread::templateConstructNeed=true;
+
 edk::multi::Thread::Thread(){
-    //get the mainThread ID
-    if(!edk::multi::Thread::mainID){
-        edk::multi::Thread::mainID = edk::multi::Thread::getThisThreadID();
-    }
-    this->cleanThread();edkEnd();
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);edkEnd();
 }
 
 edk::multi::Thread::Thread(edk::classID (*threadFunction)(edk::classID), edk::classID parameter){
-    this->cleanThread();edkEnd();
-    this->start(threadFunction, parameter);edkEnd();
+    this->classThis=NULL;edkEnd();
+    this->Constructor(threadFunction,parameter,false);edkEnd();
 }
 
 edk::multi::Thread::~Thread(){
-    //Kill the Thread
-    this->kill();edkEnd();
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
+        //Kill the Thread
+        this->kill();edkEnd();
+    }
+}
+
+void edk::multi::Thread::Constructor(bool /*runFather*/){
+    if(this->classThis!=this){
+        this->classThis=this;
+        if(edk::multi::Thread::templateConstructNeed){
+#if defined(WIN32) || defined(WIN64)
+            edk::multi::Thread::cores=getWindowsCores();
+#elif defined __linux__
+            edk::multi::Thread::cores=sysconf(_SC_NPROCESSORS_ONLN);
+#elif defined __APPLE__
+            edk::multi::Thread::cores=getMacCores();edkEnd();
+#endif
+            edk::multi::Thread::templateConstructNeed=false;
+        }
+        //get the mainThread ID
+        if(!edk::multi::Thread::mainID){
+            edk::multi::Thread::mainID = edk::multi::Thread::getThisThreadID();
+        }
+        this->cleanThread();edkEnd();
+    }
+}
+void edk::multi::Thread::Constructor(edk::classID (*threadFunction)(edk::classID), edk::classID parameter,bool /*runFather*/){
+    if(this->classThis!=this){
+        this->classThis=this;
+        this->cleanThread();edkEnd();
+        this->start(threadFunction, parameter);edkEnd();
+    }
 }
 
 bool edk::multi::Thread::start(edk::classID (threadFunction)(edk::classID), edk::classID parameter){

@@ -65,48 +65,50 @@ void drawScene(edk::rectf32 outsideViewOrigin){
 
 namespace edk{
 class ViewGU: public edk::ViewSpriteController{
-    public:
-        ViewGU();
-        virtual ~ViewGU();
+public:
+    ViewGU();
+    virtual ~ViewGU();
 
-        //filter
-        //GU_NEAREST
-        //GU_LINEAR
-        //GU_NEAREST_MIPMAP_NEAREST
-        //GU_NEAREST_MIPMAP_LINEAR
-        //GU_LINEAR_MIPMAP_NEAREST
-        //GU_LINEAR_MIPMAP_LINEAR
-        //load the background
-        bool loadBackground(const edk::char8* name,edk::uint32 filter = GU_NEAREST);
-        bool loadBackground(edk::char8* name,edk::uint32 filter = GU_NEAREST);
-        //load the sprite from memory
-        bool loadBackgroundFromMemory(const edk::char8* name,edk::uint8* sprite,edk::uint32 size,edk::uint32 filter = GU_NEAREST);
-        bool loadBackgroundFromMemory(edk::char8* name,edk::uint8* sprite,edk::uint32 size,edk::uint32 filter = GU_NEAREST);
-        //laod the sprite from pack
-        bool loadBackgroundFromPack(edk::pack::FilePackage* pack, edk::char8* name,edk::uint32 filter = GU_NEAREST);
-        bool loadBackgroundFromPack(edk::pack::FilePackage* pack, const edk::char8* name,edk::uint32 filter = GU_NEAREST);
+    void Constructor(bool runFather=true);
 
-        //delete the background
-        void deleteBackground();
+    //filter
+    //GU_NEAREST
+    //GU_LINEAR
+    //GU_NEAREST_MIPMAP_NEAREST
+    //GU_NEAREST_MIPMAP_LINEAR
+    //GU_LINEAR_MIPMAP_NEAREST
+    //GU_LINEAR_MIPMAP_LINEAR
+    //load the background
+    bool loadBackground(const edk::char8* name,edk::uint32 filter = GU_NEAREST);
+    bool loadBackground(edk::char8* name,edk::uint32 filter = GU_NEAREST);
+    //load the sprite from memory
+    bool loadBackgroundFromMemory(const edk::char8* name,edk::uint8* sprite,edk::uint32 size,edk::uint32 filter = GU_NEAREST);
+    bool loadBackgroundFromMemory(edk::char8* name,edk::uint8* sprite,edk::uint32 size,edk::uint32 filter = GU_NEAREST);
+    //laod the sprite from pack
+    bool loadBackgroundFromPack(edk::pack::FilePackage* pack, edk::char8* name,edk::uint32 filter = GU_NEAREST);
+    bool loadBackgroundFromPack(edk::pack::FilePackage* pack, const edk::char8* name,edk::uint32 filter = GU_NEAREST);
 
-        //test the selection
-        void testSelection(edk::vec2f32 position,edk::size2f32 size = edk::size2f32(1.f,1.f));
-        void testSelection(edk::float32 x,edk::float32 y,edk::size2f32 size = edk::size2f32(1.f,1.f));
-        void testSelection(edk::float32 x,edk::float32 y,edk::float32 width=1.f,edk::float32 height=1.f);
-        void testSelection(edk::vec2i32 position,edk::size2f32 size = edk::size2f32(1.f,1.f));
-        void testSelection(edk::int32 x,edk::int32 y,edk::size2f32 size = edk::size2f32(1.f,1.f));
-        void testSelection(edk::int32 x,edk::int32 y,edk::float32 width = 1.f,edk::float32 height = 1.f);
+    //delete the background
+    void deleteBackground();
 
-        virtual void update(edk::WindowEvents* events);
+    //test the selection
+    void testSelection(edk::vec2f32 position,edk::size2f32 size = edk::size2f32(1.f,1.f));
+    void testSelection(edk::float32 x,edk::float32 y,edk::size2f32 size = edk::size2f32(1.f,1.f));
+    void testSelection(edk::float32 x,edk::float32 y,edk::float32 width=1.f,edk::float32 height=1.f);
+    void testSelection(edk::vec2i32 position,edk::size2f32 size = edk::size2f32(1.f,1.f));
+    void testSelection(edk::int32 x,edk::int32 y,edk::size2f32 size = edk::size2f32(1.f,1.f));
+    void testSelection(edk::int32 x,edk::int32 y,edk::float32 width = 1.f,edk::float32 height = 1.f);
 
-        //draw the GU scene
-        virtual void drawScene(edk::rectf32 outsideViewOrigin);
+    virtual void update(edk::WindowEvents* events);
 
-        virtual void drawSelectionScene();
+    //draw the GU scene
+    virtual void drawScene(edk::rectf32 outsideViewOrigin);
 
-        //return true if is a GU View
-        bool isGU();
-    protected:
+    virtual void drawSelectionScene();
+
+    //return true if is a GU View
+    bool isGU();
+protected:
     //Draw Functions
     //draw viewPort
     void drawViewport(edk::rectf32 outsideViewOrigin);
@@ -129,7 +131,7 @@ class ViewGU: public edk::ViewSpriteController{
     bool isRunningSelection();
     //function to run the drawScene
     virtual void runDrawScene(edk::rectf32 outsideViewOrigin);
-    private:
+private:
     //save selection position
     edk::vec2f32 selectionPosition;
     edk::size2f32 selectionSize;
@@ -137,6 +139,8 @@ class ViewGU: public edk::ViewSpriteController{
 
     edk::uint32 buffer[1024u];
     edk::uint32 sizeBuffer;
+private:
+    edk::classID classThis;
 };
 }//end namespace
 

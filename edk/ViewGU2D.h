@@ -39,23 +39,27 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 namespace edk{
 class ViewGU2D: public edk::ViewGU{
-    public:
-        ViewGU2D();
-        virtual ~ViewGU2D();
+public:
+    ViewGU2D();
+    virtual ~ViewGU2D();
 
-        //draw the GU scene
-        virtual void drawScene(edk::rectf32 outsideViewOrigin);
+    void Constructor(bool runFather=true);
 
-        //the edkGU 2D camera
-        edk::Camera2D camera;
-    protected:
+    //draw the GU scene
+    virtual void drawScene(edk::rectf32 outsideViewOrigin);
+
+    //the edkGU 2D camera
+    edk::Camera2D camera;
+protected:
     //draw the polygon on the scene
     void drawPolygon(edk::rectf32 outsideViewOrigin);
-    private:
+private:
     //draw the 2Dcamera
     void drawCamera2D();
     //draw selection camera
     void drawSelectionCamera();
+private:
+    edk::classID classThis;
 };
 }//end namespace edk
 

@@ -44,6 +44,8 @@ public:
     ViewScrollBar();
     ~ViewScrollBar();
 
+    void Constructor(bool runFather=true);
+
     void load(rectf32 outsideViewOrigin);
     void unload();
     void update(edk::WindowEvents* events);
@@ -98,6 +100,8 @@ private:
         ForegroundButton();
         ~ForegroundButton();
 
+        void Constructor(bool runFather=true);
+
         void load(rectf32 outsideViewOrigin);
         void unload();
         void update(edk::WindowEvents* events);
@@ -150,7 +154,11 @@ private:
         //mouse holded
         bool mouseHolded;
     private:
+        edk::classID classThis;
+    private:
     }foreground;
+private:
+    edk::classID classThis;
 };
 }//end namespace edk
 

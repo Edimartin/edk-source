@@ -46,6 +46,8 @@ public:
     ViewListSelection();
     ~ViewListSelection();
 
+    void Constructor(bool runFather=true);
+
     //Events
     void eventMousePressed(edk::vec2f32 point,edk::uint32 button);
     //Mouse go Inside Outside
@@ -160,6 +162,8 @@ private:
         ListCell(edk::uint32* lineSize=NULL);
         ~ListCell();
 
+        void Constructor(edk::uint32* lineSize=NULL,bool runFather=true);
+
         //create the text
         bool createText(edk::char8* text);
         //delete the text
@@ -215,12 +219,16 @@ private:
         //draw the rectangle
         void drawRect();
         void drawLines();
+    private:
+        edk::classID classThis;
     };
     //stack to put the cells
     edk::vector::Stack<edk::ViewListSelection::ListCell*> cells;
     //save the last clicked
     edk::ViewListSelection::ListCell* clicked;
     edk::uint32 clickedPosition;
+private:
+    edk::classID classThis;
 };
 }
 

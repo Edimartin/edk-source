@@ -34,30 +34,55 @@ HANDLE edk::multi::Mutex::mutDebug;
 #if defined(__linux__)/*LINUX*/ || defined(__APPLE__)//MAC OS
 pthread_mutex_t edk::multi::Mutex::mutDebug;
 #endif
+bool edk::multi::Mutex::templateConstructNeed=true;
 #endif
 
 edk::multi::Mutex::Mutex(){
-#if defined( WIN32) || defined( WIN64)
-    this->mut = CreateMutex( NULL, FALSE, NULL);edkEnd();
-    if(this->mut == NULL){
-        //
-    }
-#endif
-#if defined(__linux__) || defined(__APPLE__)//MAC OS
-    if(pthread_mutex_init(&this->mut, NULL) != 0){
-        //
-    }
-#endif
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);
 }
 edk::multi::Mutex::~Mutex(){
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
 #if defined( WIN32) || defined( WIN64)
-    if(this->mut){
-        CloseHandle(this->mut);edkEnd();
-    }
+        if(this->mut){
+            CloseHandle(this->mut);edkEnd();
+        }
 #endif
 #if defined(__linux__)/*LINUX*/ || defined(__APPLE__)//MAC OS
-    pthread_mutex_destroy(&this->mut);edkEnd();
+        pthread_mutex_destroy(&this->mut);edkEnd();
 #endif
+    }
+}
+
+void edk::multi::Mutex::Constructor(bool runFather){
+    if(runFather){
+        edk::multi::MutexDisable::Constructor();edkEnd();
+    }
+    if(this->classThis!=this){
+        this->classThis=this;
+#if defined(EDK_MUTEX_PRINT_DEBUG)
+        if(edk::multi::Mutex::templateConstructNeed){
+            edk::multi::Mutex::debugFile.DebugLineFile();
+#if defined( WIN32) || defined( WIN64)
+            HANDLE edk::multi::Mutex::mutDebug=0u;
+#endif
+            edk::multi::Mutex::templateConstructNeed=false;
+        }
+#endif
+#if defined( WIN32) || defined( WIN64)
+        this->mut = CreateMutex( NULL, FALSE, NULL);edkEnd();
+        if(this->mut == NULL){
+            //
+        }
+#endif
+#if defined(__linux__) || defined(__APPLE__)//MAC OS
+        if(pthread_mutex_init(&this->mut, NULL) != 0){
+            //
+        }
+#endif
+    }
 }
 
 //set the debugFile Name

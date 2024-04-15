@@ -62,6 +62,10 @@ public:
     Cenario2D();
     Cenario2D(edk::physics2D::World2D* world);
     virtual ~Cenario2D();
+
+    void Constructor(bool runFather=true);
+    void Constructor(edk::physics2D::World2D* world,bool runFather=true);
+
     //CALLBACKS
     virtual void contact2DBegin(edk::physics2D::Contact2D* contact);
     virtual void contact2DEnd(edk::physics2D::Contact2D* contact);
@@ -469,6 +473,7 @@ public:
 private:
     //world template
     static edk::physics2D::World2D worldTemplate;
+    static bool templateConstructNeed;
 
     //save if this cenario create the world
     bool cenarioHaveCreateWorld;
@@ -670,9 +675,24 @@ private:
     class PhysicsPosition{
     public:
         PhysicsPosition(){
-            this->level=0u;edkEnd();this->levelID=EDK_LEVEL_NOTHING;edkEnd();this->depth=0.f;edkEnd();this->mapPosition = edk::vec2ui32(0u,0u);edkEnd();
+            this->classThis=NULL;edkEnd();
+            this->Constructor(false);edkEnd();
         }
-        ~PhysicsPosition(){}
+        ~PhysicsPosition(){
+            if(this->classThis==this){
+                this->classThis=NULL;edkEnd();
+                //can destruct the class
+            }
+        }
+
+        void Constructor(bool runFather=true){
+            if(runFather){edkEnd();}
+            if(this->classThis!=this){
+                this->classThis=this;
+                this->level=0u;edkEnd();this->levelID=EDK_LEVEL_NOTHING;edkEnd();this->depth=0.f;edkEnd();this->mapPosition = edk::vec2ui32(0u,0u);edkEnd();
+            }
+        }
+
         edk::uint32 level;
         edk::uint8 levelID;
         //they have a objectID or a mapPosition
@@ -688,6 +708,8 @@ private:
         //XML
         bool writeToXML(edk::XML* xml,bool id);
         bool readFromXML(edk::XML* xml,bool id);
+    private:
+        edk::classID classThis;
     };
     bool getPhysicsLevelObject(edk::Object2D* obj,edk::Cenario2D::PhysicsPosition* objLevel);
     edk::physics2D::PhysicObject2D* getPhysicsObjectInLevel(edk::Cenario2D::PhysicsPosition objLevel);
@@ -695,11 +717,25 @@ private:
     //objects class save one object with depth
     class ObjClass{
     public:
-        //ObjClass(){this->created=false;edkEnd();this->obj=NULL;edkEnd();}
         ObjClass(bool created,edk::Object2D* obj,edk::float64 depth){
-            this->created=created;edkEnd();this->obj=obj;edkEnd();this->depth = depth;edkEnd();this->animating=false;edkEnd();this->boundingBox=0.f;edkEnd();
+            this->classThis=NULL;edkEnd();
+            this->Constructor(created,obj,depth,false);edkEnd();
         }
-        ~ObjClass(){}
+        ~ObjClass(){
+            if(this->classThis==this){
+                this->classThis=NULL;edkEnd();
+                //can destruct the class
+            }
+        }
+
+        void Constructor(bool created,edk::Object2D* obj,edk::float64 depth,bool runFather=true){
+            if(runFather){edkEnd();}
+            if(this->classThis!=this){
+                this->classThis=this;
+                this->created=created;edkEnd();this->obj=obj;edkEnd();this->depth = depth;edkEnd();this->animating=false;edkEnd();this->boundingBox=0.f;edkEnd();
+            }
+        }
+
         ObjClass operator =(ObjClass objClass){
             this->created=objClass.created;edkEnd();
             this->obj=objClass.obj;edkEnd();
@@ -749,6 +785,8 @@ private:
         edk::Object2D* obj;
         //bounding box of the object
         edk::rectf32 boundingBox;
+    private:
+        edk::classID classThis;
     };
 
     //Binary Tree save objects in a level
@@ -756,15 +794,35 @@ private:
     public:
         TreeObjDepth(){
             //
-            this->names=0u;edkEnd();
-            this->selectionID =0u;edkEnd();
-            this->seconds=0.f;edkEnd();
-            this->time.start();edkEnd();
+            this->classThis=NULL;edkEnd();
+            this->Constructor(false);edkEnd();
         }
         ~TreeObjDepth(){
-            edk::uint32 size = this->size();edkEnd();
-            for(edk::uint32 i=0u;i<size;i++){
-                this->deleteObjInPosition(0u);edkEnd();
+            if(this->classThis==this){
+                this->classThis=NULL;edkEnd();
+                //can destruct the class
+                edk::uint32 size = this->size();edkEnd();
+                for(edk::uint32 i=0u;i<size;i++){
+                    this->deleteObjInPosition(0u);edkEnd();
+                }
+            }
+        }
+
+        void Constructor(bool runFather=true){
+            if(runFather){
+                edk::vector::BinaryTree<edk::Cenario2D::ObjClass*>::Constructor();
+                edk::vector::BinaryTreeCallback<edk::Cenario2D::ObjClass*>::Constructor();
+            }
+            if(this->classThis!=this){
+                this->classThis=this;
+
+                this->time.Constructor();edkEnd();
+
+                //
+                this->names=0u;edkEnd();
+                this->selectionID =0u;edkEnd();
+                this->seconds=0.f;edkEnd();
+                this->time.start();edkEnd();
             }
         }
 
@@ -1124,14 +1182,33 @@ private:
                 return false;
             }
         }treeObj;
+    private:
+        edk::classID classThis;
     };
 
     class QuadObjs : public edk::vector::QuadTree32<edk::Cenario2D::ObjClass*>{
     public:
         QuadObjs(edk::vector::BinaryTree<edk::Cenario2DCallback*>* calls){
-            this->levelId=0u;edkEnd();this->calls=calls;edkEnd();
+            this->classThis=NULL;edkEnd();
+            this->Constructor(calls,false);edkEnd();
         }
-        ~QuadObjs(){}
+        ~QuadObjs(){
+            if(this->classThis==this){
+                this->classThis=NULL;edkEnd();
+                //can destruct the class
+            }
+        }
+
+        void Constructor(edk::vector::BinaryTree<edk::Cenario2DCallback*>* calls,bool runFather=true){
+            if(runFather){
+                edk::vector::QuadTree32<edk::Cenario2D::ObjClass*>::Constructor();
+            }
+            if(this->classThis!=this){
+                this->classThis=this;
+                this->levelId=0u;edkEnd();this->calls=calls;edkEnd();
+            }
+        }
+
         edk::uint32 levelId;
     protected:
         //test if the object is inside the leaf
@@ -1210,6 +1287,8 @@ private:
         }
         //callback tree
         edk::vector::BinaryTree<edk::Cenario2DCallback*>* calls;
+    private:
+        edk::classID classThis;
     };
 
     //Physics group to animate and update
@@ -1253,9 +1332,25 @@ private:
         QuadPhyicObjs(edk::physics2D::World2D* world,edk::vector::BinaryTree<edk::Cenario2DCallback*>* calls)
             :edk::Cenario2D::QuadObjs(calls)
         {
-            this->world=world;edkEnd();
+            this->classThis=NULL;edkEnd();
+            this->Constructor(world,calls,false);edkEnd();
         }
-        ~QuadPhyicObjs(){}
+        ~QuadPhyicObjs(){
+            if(this->classThis==this){this->classThis=NULL;edkEnd();
+                //can destruct the class
+            }
+        }
+
+        void Constructor(edk::physics2D::World2D* world,edk::vector::BinaryTree<edk::Cenario2DCallback*>* calls,bool runFather=true){
+            if(runFather){
+                edk::Cenario2D::QuadObjs::Constructor(calls);
+            }
+            if(this->classThis!=this){
+                this->classThis=this;
+                this->world=world;edkEnd();
+            }
+        }
+
     protected:
         //function to create a new tree
         virtual edk::vector::BinaryTree<edk::Cenario2D::ObjClass*>* newTree(){
@@ -1296,54 +1391,116 @@ private:
         }
     private:
         edk::physics2D::World2D* world;
+    private:
+        edk::classID classThis;
     };
 
     //Save objects in a Level
     class LevelObj{
     public:
         LevelObj(edk::Cenario2D::TreeObjDepth* objs,edk::Cenario2D::TreePhysObjDepth* objsPhys,edk::vector::BinaryTree<edk::Cenario2DCallback*>* calls){
-            this->clean();edkEnd();
-            this->calls = calls;edkEnd();
-            this->objs = objs;edkEnd();
-            this->objsPhys = objsPhys;edkEnd();
-            this->show=true;edkEnd();
-            this->canSelect=true;edkEnd();
-            this->transform.position = 0.f;edkEnd();
-            this->transform.angle = 0.f;edkEnd();
-            this->transform.size = 1.f;edkEnd();
-            this->saveTransform=this->transform;edkEnd();
-            this->matrixNewPosition.createMatrix(1u,3u);edkEnd();
-            this->matrixTransform.setIdentity(1.f,0.f);edkEnd();
-            this->matrixTransformNegative.setIdentity(1.f,0.f);edkEnd();
+            this->classThis=NULL;edkEnd();
+            this->Constructor(objs,objsPhys,calls,false);edkEnd();
         }
         LevelObj(edk::tiles::TileMap2D* tileMap,edk::vector::BinaryTree<edk::Cenario2DCallback*>* calls){
-            this->clean();edkEnd();
-            this->calls = calls;edkEnd();
-            this->tileMap = tileMap;edkEnd();
-            this->show=true;edkEnd();
-            this->canSelect=true;edkEnd();
-            this->transform.position = 0.f;edkEnd();
-            this->transform.angle = 0.f;edkEnd();
-            this->transform.size = 1.f;edkEnd();
-            this->saveTransform=this->transform;edkEnd();
-            this->matrixNewPosition.createMatrix(1u,3u);edkEnd();
-            this->matrixTransform.setIdentity(1.f,0.f);edkEnd();
-            this->matrixTransformNegative.setIdentity(1.f,0.f);edkEnd();
+            this->classThis=NULL;edkEnd();
+            this->Constructor(tileMap,calls,false);edkEnd();
         }
         LevelObj(edk::vector::BinaryTree<edk::Cenario2DCallback*>* calls){
-            this->clean();edkEnd();
-            this->calls = calls;edkEnd();
-            this->show=true;edkEnd();
-            this->canSelect=true;edkEnd();
-            this->transform.position = 0.f;edkEnd();
-            this->transform.angle = 0.f;edkEnd();
-            this->transform.size = 1.f;edkEnd();
-            this->saveTransform=this->transform;edkEnd();
-            this->matrixNewPosition.createMatrix(1u,3u);edkEnd();
-            this->matrixTransform.setIdentity(1.f,0.f);edkEnd();
-            this->matrixTransformNegative.setIdentity(1.f,0.f);edkEnd();
+            this->classThis=NULL;edkEnd();
+            this->Constructor(calls,false);edkEnd();
         }
-        ~LevelObj(){}
+        ~LevelObj(){
+            if(this->classThis==this){
+                this->classThis=NULL;edkEnd();
+                //can destruct the class
+            }
+        }
+
+        void Constructor(edk::Cenario2D::TreeObjDepth* objs,edk::Cenario2D::TreePhysObjDepth* objsPhys,edk::vector::BinaryTree<edk::Cenario2DCallback*>* calls,bool runFather=true){
+            if(runFather){edkEnd();}
+            if(this->classThis!=this){
+                this->classThis=this;
+
+                this->transform.Constructor();edkEnd();
+                this->saveTransform.Constructor();edkEnd();
+                this->matrixPosition.Constructor();edkEnd();
+                this->matrixAngle.Constructor();edkEnd();
+                this->matrixSize.Constructor();edkEnd();
+                this->matrixTransform.Constructor();edkEnd();
+                this->matrixTransformNegative.Constructor();edkEnd();
+                this->matrixNewPosition.Constructor();edkEnd();
+
+                this->clean();edkEnd();
+                this->calls = calls;edkEnd();
+                this->objs = objs;edkEnd();
+                this->objsPhys = objsPhys;edkEnd();
+                this->show=true;edkEnd();
+                this->canSelect=true;edkEnd();
+                this->transform.position = 0.f;edkEnd();
+                this->transform.angle = 0.f;edkEnd();
+                this->transform.size = 1.f;edkEnd();
+                this->saveTransform=this->transform;edkEnd();
+                this->matrixNewPosition.createMatrix(1u,3u);edkEnd();
+                this->matrixTransform.setIdentity(1.f,0.f);edkEnd();
+                this->matrixTransformNegative.setIdentity(1.f,0.f);edkEnd();
+            }
+        }
+        void Constructor(edk::tiles::TileMap2D* tileMap,edk::vector::BinaryTree<edk::Cenario2DCallback*>* calls,bool runFather=true){
+            if(runFather){edkEnd();}
+            if(this->classThis!=this){
+                this->classThis=this;
+
+                this->transform.Constructor();edkEnd();
+                this->saveTransform.Constructor();edkEnd();
+                this->matrixPosition.Constructor();edkEnd();
+                this->matrixAngle.Constructor();edkEnd();
+                this->matrixSize.Constructor();edkEnd();
+                this->matrixTransform.Constructor();edkEnd();
+                this->matrixTransformNegative.Constructor();edkEnd();
+                this->matrixNewPosition.Constructor();edkEnd();
+
+                this->clean();edkEnd();
+                this->calls = calls;edkEnd();
+                this->tileMap = tileMap;edkEnd();
+                this->show=true;edkEnd();
+                this->canSelect=true;edkEnd();
+                this->transform.position = 0.f;edkEnd();
+                this->transform.angle = 0.f;edkEnd();
+                this->transform.size = 1.f;edkEnd();
+                this->saveTransform=this->transform;edkEnd();
+                this->matrixNewPosition.createMatrix(1u,3u);edkEnd();
+                this->matrixTransform.setIdentity(1.f,0.f);edkEnd();
+                this->matrixTransformNegative.setIdentity(1.f,0.f);edkEnd();
+            }
+        }
+        void Constructor(edk::vector::BinaryTree<edk::Cenario2DCallback*>* calls,bool runFather=true){
+            if(runFather){edkEnd();}
+            if(this->classThis!=this){
+                this->classThis=this;
+
+                this->transform.Constructor();edkEnd();
+                this->saveTransform.Constructor();edkEnd();
+                this->matrixPosition.Constructor();edkEnd();
+                this->matrixAngle.Constructor();edkEnd();
+                this->matrixSize.Constructor();edkEnd();
+                this->matrixTransform.Constructor();edkEnd();
+                this->matrixTransformNegative.Constructor();edkEnd();
+                this->matrixNewPosition.Constructor();edkEnd();
+
+                this->clean();edkEnd();
+                this->calls = calls;edkEnd();
+                this->show=true;edkEnd();
+                this->canSelect=true;edkEnd();
+                this->transform.position = 0.f;edkEnd();
+                this->transform.angle = 0.f;edkEnd();
+                this->transform.size = 1.f;edkEnd();
+                this->saveTransform=this->transform;edkEnd();
+                this->matrixNewPosition.createMatrix(1u,3u);edkEnd();
+                this->matrixTransform.setIdentity(1.f,0.f);edkEnd();
+                this->matrixTransformNegative.setIdentity(1.f,0.f);edkEnd();
+            }
+        }
 
         //update the matrices if need
         inline void updateMatrices(){
@@ -2236,13 +2393,37 @@ private:
         bool canSelect;
     private:
         edk::vector::BinaryTree<edk::Cenario2DCallback*>* calls;
+    private:
+        edk::classID classThis;
     };
 
     //objects animation tree
     class TreeAnim: public edk::vector::BinaryTree<edk::Object2D*>{
     public:
-        TreeAnim(){this->seconds=0.f;edkEnd();this->time.start();edkEnd();}
-        ~TreeAnim(){this->seconds=0.f;edkEnd();}
+        TreeAnim(){
+            this->classThis=NULL;edkEnd();
+            this->Constructor(false);edkEnd();
+        }
+        ~TreeAnim(){
+            if(this->classThis==this){
+                this->classThis=NULL;edkEnd();
+                //can destruct the class
+                this->seconds=0.f;edkEnd();
+            }
+        }
+
+        void Constructor(bool runFather=true){
+            if(runFather){
+                edk::vector::BinaryTree<edk::Object2D*>::Constructor();
+            }
+            if(this->classThis!=this){
+                this->time.Constructor();edkEnd();
+                this->classThis=this;edkEnd();
+                this->seconds=0.f;edkEnd();
+                this->time.start();edkEnd();
+            }
+        }
+
         //SET
         bool setSeconds(edk::float32 seconds){
             if(seconds>0.f){
@@ -2267,22 +2448,42 @@ private:
     private:
         edk::float32 seconds;
         edk::watch::Time time;
+    private:
+        edk::classID classThis;
     }treeAnim;
 
     //objects animation tree
     class TreeAnimPhys: public edk::vector::BinaryTree<edk::physics2D::PhysicObject2D*>{
     public:
         TreeAnimPhys(edk::physics2D::World2D* world){
-            if(world){
-                this->world = world;edkEnd();
-            }
-            else{
-                this->world = &edk::Cenario2D::worldTemplate;edkEnd();
-            }
-            this->seconds=0.f;edkEnd();
-            this->time.start();edkEnd();
+            this->classThis=NULL;edkEnd();
+            this->Constructor(world,false);
         }
-        ~TreeAnimPhys(){}
+        ~TreeAnimPhys(){
+            if(this->classThis==this){
+                this->classThis=NULL;edkEnd();
+                //can destruct the class
+            }
+        }
+
+        void Constructor(edk::physics2D::World2D* world,bool runFather=true){
+            if(runFather){
+                edk::vector::BinaryTree<edk::physics2D::PhysicObject2D*>::Constructor();
+            }
+            if(this->classThis!=this){
+                this->classThis=this;
+                if(world){
+                    this->world = world;edkEnd();
+                }
+                else{
+                    this->world = &edk::Cenario2D::worldTemplate;edkEnd();
+                    this->world->Constructor();edkEnd();
+                }
+                this->seconds=0.f;edkEnd();
+                this->time.start();edkEnd();
+            }
+        }
+
         //SET
         bool setSeconds(edk::float32 seconds){
             if(seconds>0.f){
@@ -2309,9 +2510,13 @@ private:
         edk::physics2D::World2D* world;
         edk::float32 seconds;
         edk::watch::Time time;
+    private:
+        edk::classID classThis;
     }treeAnimPhys;
 
     edk::vector::Stack<edk::Cenario2D::LevelObj*> levels;
+private:
+    edk::classID classThis;
 };
 }//end namespace edk
 

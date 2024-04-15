@@ -29,16 +29,33 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endif
 
 edk::shape::Line2D::Line2D(){
-    //
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);edkEnd();
 }
 edk::shape::Line2D::Line2D(edk::vec2f32 start,edk::vec2f32 end){
-    //
-    this->start.position=start;edkEnd();
-    this->end.position=end;edkEnd();
+    this->classThis=NULL;edkEnd();
+    this->Constructor(start,end,false);edkEnd();
 }
 
 edk::shape::Line2D::~Line2D(){
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
+    }
+}
+
+void edk::shape::Line2D::Constructor(bool /*runFather*/){
     //
+    if(this->classThis!=this){
+        this->classThis=this;
+    }
+}
+void edk::shape::Line2D::Constructor(edk::vec2f32 start,edk::vec2f32 end,bool /*runFather*/){
+    if(this->classThis!=this){
+        this->classThis=this;
+        this->start.position=start;edkEnd();
+        this->end.position=end;edkEnd();
+    }
 }
 
 //set the points

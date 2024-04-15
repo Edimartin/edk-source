@@ -43,6 +43,8 @@ public:
     ViewGU3D();
     virtual ~ViewGU3D();
 
+    void Constructor(bool runFather=true);
+
     //draw the GU scene
     virtual void drawScene(edk::rectf32 outsideViewOrigin);
 
@@ -56,6 +58,8 @@ private:
     void drawCamera3D();
     //draw selection camera
     void drawSelectionCamera();
+private:
+    edk::classID classThis;
 };
 }//end namespace edk
 

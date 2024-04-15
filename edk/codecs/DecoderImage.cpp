@@ -24,14 +24,27 @@ OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-edk::codecs::DecoderImage::DecoderImage()
-{
-    //ctor
+edk::codecs::DecoderImage::DecoderImage(){
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);edkEnd();
 }
 
-edk::codecs::DecoderImage::~DecoderImage()
-{
-    //dtor
+edk::codecs::DecoderImage::~DecoderImage(){
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
+    }
+}
+
+void edk::codecs::DecoderImage::Constructor(bool runFather){
+    if(runFather){
+        edk::codecs::CodecImage::Constructor();edkEnd();
+    }
+    if(this->classThis!=this){
+        this->classThis=this;
+
+        this->file.Constructor();edkEnd();
+    }
 }
 
 //process the decoder
@@ -65,9 +78,9 @@ bool edk::codecs::DecoderImage::decodeFromFile(edk::char8* fileName){
                     //process the decoder
                     if(this->decode(edk::codecs::CodecImage::getEncoded(),edk::codecs::CodecImage::getEncodedSize())){
                         if(edk::codecs::CodecImage::getFrame() &&
-                           edk::codecs::CodecImage::getFrameWidth() &&
-                           edk::codecs::CodecImage::getFrameHeight()
-                           ){
+                                edk::codecs::CodecImage::getFrameWidth() &&
+                                edk::codecs::CodecImage::getFrameHeight()
+                                ){
                             ret=true;edkEnd();
                         }
                     }

@@ -28,18 +28,32 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #pragma message "            Inside DataList.cpp"
 #endif
 
-edk::shd::DataList::DataList()
-{
-    //ctor
-    this->selected=NULL;edkEnd();
+edk::shd::DataList::DataList(){
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);edkEnd();
 }
 
-edk::shd::DataList::~DataList()
-{
-    //dtor
-    this->selected=NULL;edkEnd();
-    //clean all the datas
-    this->cleanDatas();edkEnd();
+edk::shd::DataList::~DataList(){
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
+        this->selected=NULL;edkEnd();
+        //clean all the datas
+        this->cleanDatas();edkEnd();
+    }
+}
+
+void edk::shd::DataList::Constructor(bool runFather){
+    if(runFather){
+        edk::ObjectWithName::Constructor();edkEnd();
+    }
+    if(this->classThis!=this){
+        this->classThis=this;
+
+        this->tree.Constructor();edkEnd();
+
+        this->selected=NULL;edkEnd();
+    }
 }
 
 //select the data
@@ -352,8 +366,8 @@ bool edk::shd::DataList::setMatrix2f(edk::char8* name,edk::float32 mat[2u][2u]){
     return false;
 }
 bool edk::shd::DataList::setMatrix2f(const edk::char8* name,
-                 edk::float32 f11,edk::float32 f12,
-                 edk::float32 f21,edk::float32 f22
+                                     edk::float32 f11,edk::float32 f12,
+                                     edk::float32 f21,edk::float32 f22
                                      ){
     return this->setMatrix2f((edk::char8*) name,
                              f11,f12,
@@ -361,9 +375,9 @@ bool edk::shd::DataList::setMatrix2f(const edk::char8* name,
                              );edkEnd();
 }
 bool edk::shd::DataList::setMatrix2f(edk::char8* name,
-                 edk::float32 f11,edk::float32 f12,
-                 edk::float32 f21,edk::float32 f22
-                 ){
+                                     edk::float32 f11,edk::float32 f12,
+                                     edk::float32 f21,edk::float32 f22
+                                     ){
     //select the data
     if(this->selectData(name)){
         //set the id
@@ -391,9 +405,9 @@ bool edk::shd::DataList::setMatrix3f(edk::char8* name,edk::float32 mat[3u][3u]){
     return false;
 }
 bool edk::shd::DataList::setMatrix3f(const edk::char8* name,
-                 edk::float32 f11,edk::float32 f12,edk::float32 f13,
-                 edk::float32 f21,edk::float32 f22,edk::float32 f23,
-                 edk::float32 f31,edk::float32 f32,edk::float32 f33
+                                     edk::float32 f11,edk::float32 f12,edk::float32 f13,
+                                     edk::float32 f21,edk::float32 f22,edk::float32 f23,
+                                     edk::float32 f31,edk::float32 f32,edk::float32 f33
                                      ){
     return this->setMatrix3f((edk::char8*) name,
                              f11,f12,f13,
@@ -402,10 +416,10 @@ bool edk::shd::DataList::setMatrix3f(const edk::char8* name,
                              );edkEnd();
 }
 bool edk::shd::DataList::setMatrix3f(edk::char8* name,
-                 edk::float32 f11,edk::float32 f12,edk::float32 f13,
-                 edk::float32 f21,edk::float32 f22,edk::float32 f23,
-                 edk::float32 f31,edk::float32 f32,edk::float32 f33
-                 ){
+                                     edk::float32 f11,edk::float32 f12,edk::float32 f13,
+                                     edk::float32 f21,edk::float32 f22,edk::float32 f23,
+                                     edk::float32 f31,edk::float32 f32,edk::float32 f33
+                                     ){
     //select the data
     if(this->selectData(name)){
         //set the id
@@ -434,10 +448,10 @@ bool edk::shd::DataList::setMatrix4f(edk::char8* name,edk::float32 mat[4u][4u]){
     return false;
 }
 bool edk::shd::DataList::setMatrix4f(const edk::char8* name,
-                 edk::float32 f11,edk::float32 f12,edk::float32 f13,edk::float32 f14,
-                 edk::float32 f21,edk::float32 f22,edk::float32 f23,edk::float32 f24,
-                 edk::float32 f31,edk::float32 f32,edk::float32 f33,edk::float32 f34,
-                 edk::float32 f41,edk::float32 f42,edk::float32 f43,edk::float32 f44
+                                     edk::float32 f11,edk::float32 f12,edk::float32 f13,edk::float32 f14,
+                                     edk::float32 f21,edk::float32 f22,edk::float32 f23,edk::float32 f24,
+                                     edk::float32 f31,edk::float32 f32,edk::float32 f33,edk::float32 f34,
+                                     edk::float32 f41,edk::float32 f42,edk::float32 f43,edk::float32 f44
                                      ){
     return this->setMatrix4f((edk::char8*) name,
                              f11,f12,f13,f14,
@@ -447,11 +461,11 @@ bool edk::shd::DataList::setMatrix4f(const edk::char8* name,
                              );edkEnd();
 }
 bool edk::shd::DataList::setMatrix4f(edk::char8* name,
-                 edk::float32 f11,edk::float32 f12,edk::float32 f13,edk::float32 f14,
-                 edk::float32 f21,edk::float32 f22,edk::float32 f23,edk::float32 f24,
-                 edk::float32 f31,edk::float32 f32,edk::float32 f33,edk::float32 f34,
-                 edk::float32 f41,edk::float32 f42,edk::float32 f43,edk::float32 f44
-                 ){
+                                     edk::float32 f11,edk::float32 f12,edk::float32 f13,edk::float32 f14,
+                                     edk::float32 f21,edk::float32 f22,edk::float32 f23,edk::float32 f24,
+                                     edk::float32 f31,edk::float32 f32,edk::float32 f33,edk::float32 f34,
+                                     edk::float32 f41,edk::float32 f42,edk::float32 f43,edk::float32 f44
+                                     ){
     //select the data
     if(this->selectData(name)){
         //set the id
@@ -713,8 +727,8 @@ bool edk::shd::DataList::updateMatrix2f(edk::char8* name,edk::float32 mat[2u][2u
     return false;
 }
 bool edk::shd::DataList::updateMatrix2f(const edk::char8* name,
-                 edk::float32 f11,edk::float32 f12,
-                 edk::float32 f21,edk::float32 f22
+                                        edk::float32 f11,edk::float32 f12,
+                                        edk::float32 f21,edk::float32 f22
                                         ){
     return this->updateMatrix2f((edk::char8*) name,
                                 f11,f12,
@@ -722,9 +736,9 @@ bool edk::shd::DataList::updateMatrix2f(const edk::char8* name,
                                 );edkEnd();
 }
 bool edk::shd::DataList::updateMatrix2f(edk::char8* name,
-                 edk::float32 f11,edk::float32 f12,
-                 edk::float32 f21,edk::float32 f22
-                 ){
+                                        edk::float32 f11,edk::float32 f12,
+                                        edk::float32 f21,edk::float32 f22
+                                        ){
     //select the data
     if(this->selectData(name)){
         //set the id
@@ -754,9 +768,9 @@ bool edk::shd::DataList::updateMatrix3f(edk::char8* name,edk::float32 mat[3u][3u
     return false;
 }
 bool edk::shd::DataList::updateMatrix3f(const edk::char8* name,
-                 edk::float32 f11,edk::float32 f12,edk::float32 f13,
-                 edk::float32 f21,edk::float32 f22,edk::float32 f23,
-                 edk::float32 f31,edk::float32 f32,edk::float32 f33
+                                        edk::float32 f11,edk::float32 f12,edk::float32 f13,
+                                        edk::float32 f21,edk::float32 f22,edk::float32 f23,
+                                        edk::float32 f31,edk::float32 f32,edk::float32 f33
                                         ){
     return this->updateMatrix3f((edk::char8*) name,
                                 f11,f12,f13,
@@ -765,10 +779,10 @@ bool edk::shd::DataList::updateMatrix3f(const edk::char8* name,
                                 );edkEnd();
 }
 bool edk::shd::DataList::updateMatrix3f(edk::char8* name,
-                 edk::float32 f11,edk::float32 f12,edk::float32 f13,
-                 edk::float32 f21,edk::float32 f22,edk::float32 f23,
-                 edk::float32 f31,edk::float32 f32,edk::float32 f33
-                 ){
+                                        edk::float32 f11,edk::float32 f12,edk::float32 f13,
+                                        edk::float32 f21,edk::float32 f22,edk::float32 f23,
+                                        edk::float32 f31,edk::float32 f32,edk::float32 f33
+                                        ){
     //select the data
     if(this->selectData(name)){
         //set the id
@@ -799,10 +813,10 @@ bool edk::shd::DataList::updateMatrix4f(edk::char8* name,edk::float32 mat[4u][4u
     return false;
 }
 bool edk::shd::DataList::updateMatrix4f(const edk::char8* name,
-                 edk::float32 f11,edk::float32 f12,edk::float32 f13,edk::float32 f14,
-                 edk::float32 f21,edk::float32 f22,edk::float32 f23,edk::float32 f24,
-                 edk::float32 f31,edk::float32 f32,edk::float32 f33,edk::float32 f34,
-                 edk::float32 f41,edk::float32 f42,edk::float32 f43,edk::float32 f44
+                                        edk::float32 f11,edk::float32 f12,edk::float32 f13,edk::float32 f14,
+                                        edk::float32 f21,edk::float32 f22,edk::float32 f23,edk::float32 f24,
+                                        edk::float32 f31,edk::float32 f32,edk::float32 f33,edk::float32 f34,
+                                        edk::float32 f41,edk::float32 f42,edk::float32 f43,edk::float32 f44
                                         ){
     return this->updateMatrix4f((edk::char8*) name,
                                 f11,f12,f13,f14,
@@ -812,11 +826,11 @@ bool edk::shd::DataList::updateMatrix4f(const edk::char8* name,
                                 );edkEnd();
 }
 bool edk::shd::DataList::updateMatrix4f(edk::char8* name,
-                 edk::float32 f11,edk::float32 f12,edk::float32 f13,edk::float32 f14,
-                 edk::float32 f21,edk::float32 f22,edk::float32 f23,edk::float32 f24,
-                 edk::float32 f31,edk::float32 f32,edk::float32 f33,edk::float32 f34,
-                 edk::float32 f41,edk::float32 f42,edk::float32 f43,edk::float32 f44
-                 ){
+                                        edk::float32 f11,edk::float32 f12,edk::float32 f13,edk::float32 f14,
+                                        edk::float32 f21,edk::float32 f22,edk::float32 f23,edk::float32 f24,
+                                        edk::float32 f31,edk::float32 f32,edk::float32 f33,edk::float32 f34,
+                                        edk::float32 f41,edk::float32 f42,edk::float32 f43,edk::float32 f44
+                                        ){
     //select the data
     if(this->selectData(name)){
         //set the id

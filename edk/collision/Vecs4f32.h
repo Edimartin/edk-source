@@ -43,25 +43,49 @@ namespace collision{
 class Vecs4f32: public edk::vector::Stack<edk::vec4f32>{
 public:
     Vecs4f32(){
-        //
-        canDeleteVecs=true;edkEnd();
+        this->classThis=NULL;edkEnd();
+        this->Constructor(false);edkEnd();
     }
     Vecs4f32(edk::uint32 size):
         edk::vector::Stack<edk::vec4f32>::Stack(size){
-        //
-        canDeleteVecs=true;edkEnd();
+        this->classThis=NULL;edkEnd();
+        this->Constructor(size,false);edkEnd();
     }
     ~Vecs4f32(){
-        //delete the array
-        if(this->canDeleteVecs){
-            this->clean();edkEnd();
-            this->canDeleteVecs=false;edkEnd();
-        }
-        else{
-            //
-            this->canDeleteVecs=true;edkEnd();
+        if(this->classThis==this){
+            this->classThis=NULL;edkEnd();
+            //can destruct the class
+            //delete the array
+            if(this->canDeleteVecs){
+                this->clean();edkEnd();
+                this->canDeleteVecs=false;edkEnd();
+            }
+            else{
+                //
+                this->canDeleteVecs=true;edkEnd();
+            }
         }
     }
+
+    void Constructor(bool runFather=true){
+        if(runFather){
+            edk::vector::Stack<edk::vec4f32>::Constructor();edkEnd();
+        }
+        if(this->classThis!=this){
+            this->classThis=this;
+            canDeleteVecs=true;edkEnd();
+        }
+    }
+    void Constructor(edk::uint32 size,bool runFather=true){
+        if(runFather){
+            edk::vector::Stack<edk::vec4f32>::Constructor(size);edkEnd();
+        }
+        if(this->classThis!=this){
+            this->classThis=this;
+            canDeleteVecs=true;edkEnd();
+        }
+    }
+
     edk::uint32 pushBack(edk::vec4f32 vec){
         //first create the vector
         return edk::vector::Stack<edk::vec4f32>::pushBack(vec);
@@ -110,6 +134,8 @@ private:
     edk::collision::Vecs4f32 operator+=(edk::collision::Vecs4f32 vec){
         return vec;
     }
+private:
+    edk::classID classThis;
 };
 
 }//end namespace collision

@@ -49,6 +49,9 @@ public:
     ViewGUTexture(edk::uint32 width,edk::uint32 height);
     ~ViewGUTexture();
 
+    void Constructor(edk::size2ui32 size,bool runFather=true);
+    void Constructor(edk::uint32 width,edk::uint32 height,bool runFather=true);
+
     //set the new size of the texture
     bool setTextureSize(edk::size2ui32 size);
     bool setTextureSize(edk::uint32 width,edk::uint32 height);
@@ -91,6 +94,8 @@ private:
     edk::Texture2DRender render;
     //camera to draw the polygon with the render texture
     edk::Camera2D renderCamera;
+private:
+    edk::classID classThis;
 };
 }//end namespace edk
 

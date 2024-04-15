@@ -29,18 +29,29 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endif
 
 edk::shape::Grid3D::Grid3D(){
-    //position of the grid
-    this->position=0.f;
-    this->size=1.f;
-    this->angles=0.f;
-    //color of the lines
-    this->colorLines=edk::color4f32(0.f,0.f,0.f,1.f);
-    this->colorLinesBold=edk::color4f32(0.f,0.f,0.f,1.f);
-    this->setDistanceLines(0.f);
-    this->setDistanceLinesBold(0.f);
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);edkEnd();
 }
 edk::shape::Grid3D::~Grid3D(){
-    //
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
+    }
+}
+
+void edk::shape::Grid3D::Constructor(bool /*runFather*/){
+    if(this->classThis!=this){
+        this->classThis=this;
+        //position of the grid
+        this->position=0.f;
+        this->size=1.f;
+        this->angles=0.f;
+        //color of the lines
+        this->colorLines=edk::color4f32(0.f,0.f,0.f,1.f);
+        this->colorLinesBold=edk::color4f32(0.f,0.f,0.f,1.f);
+        this->setDistanceLines(0.f);
+        this->setDistanceLinesBold(0.f);
+    }
 }
 
 //set the distanceLines

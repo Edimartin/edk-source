@@ -52,21 +52,59 @@ namespace shape{
 class UV2D{
 public:
     UV2D(){
-        this->u=this->v=0.f;edkEnd();
+        this->classThis=NULL;edkEnd();
+        this->Constructor(false);edkEnd();
     }
     UV2D(edk::vec2f32 uv){
-        this->u=uv.x;edkEnd();
-        this->v=uv.y;edkEnd();
+        this->classThis=NULL;edkEnd();
+        this->Constructor(uv,false);edkEnd();
     }
     UV2D(edk::float32 uv){
-        this->u=uv;edkEnd();
-        this->v=uv;edkEnd();
+        this->classThis=NULL;edkEnd();
+        this->Constructor(uv,false);edkEnd();
     }
     UV2D(edk::float32 u,edk::float32 v){
-        this->u=u;edkEnd();
-        this->v=v;edkEnd();
+        this->classThis=NULL;edkEnd();
+        this->Constructor(u,v,false);edkEnd();
     }
-    virtual ~UV2D(){}
+    virtual ~UV2D(){
+        if(this->classThis==this){
+            this->classThis=NULL;edkEnd();
+            //can destruct the class
+        }
+    }
+
+    void Constructor(bool runFather=true){
+        if(runFather){edkEnd();}
+        if(this->classThis!=this){
+            this->classThis=this;
+            this->u=this->v=0.f;edkEnd();
+        }
+    }
+    void Constructor(edk::vec2f32 uv,bool runFather=true){
+        if(runFather){edkEnd();}
+        if(this->classThis!=this){
+            this->classThis=this;
+            this->u=uv.x;edkEnd();
+            this->v=uv.y;edkEnd();
+        }
+    }
+    void Constructor(edk::float32 uv,bool runFather=true){
+        if(runFather){edkEnd();}
+        if(this->classThis!=this){
+            this->classThis=this;
+            this->u=uv;edkEnd();
+            this->v=uv;edkEnd();
+        }
+    }
+    void Constructor(edk::float32 u,edk::float32 v,bool runFather=true){
+        if(runFather){edkEnd();}
+        if(this->classThis!=this){
+            this->classThis=this;
+            this->u=u;edkEnd();
+            this->v=v;edkEnd();
+        }
+    }
     edk::shape::UV2D operator=(edk::shape::UV2D uv){
         this->u=uv.u;edkEnd();
         this->v=uv.v;edkEnd();
@@ -100,16 +138,29 @@ public:
                );fflush(stdout);edkEnd();
     }
     edk::float32 u,v;
+private:
+    edk::classID classThis;
 };
 class Vertex2D{
 public:
     Vertex2D(){
-        //
-        this->color.a=1u;
-        this->type = EDK_SHAPE_NOUV;
+        this->classThis=NULL;edkEnd();
+        this->Constructor(false);edkEnd();
     }
     virtual ~Vertex2D(){
-        //
+        if(this->classThis==this){
+            this->classThis=NULL;edkEnd();
+            //can destruct the class
+        }
+    }
+
+    void Constructor(bool runFather=true){
+        if(runFather){edkEnd();}
+        if(this->classThis!=this){
+            this->classThis=this;
+            this->color.a=1u;
+            this->type = EDK_SHAPE_NOUV;
+        }
     }
 
     //position
@@ -335,17 +386,31 @@ public:
 protected:
     edk::uint8 type;
 private:
+    edk::classID classThis;
 };
 
 //Add the UV to the vertex
 class Vertex2DWithUV: public edk::shape::Vertex2D{
 public:
     Vertex2DWithUV(){
-        //
-        this->type = EDK_SHAPE_UV;edkEnd();
+        this->classThis=NULL;edkEnd();
+        this->Constructor(false);edkEnd();
     }
     virtual ~Vertex2DWithUV(){
-        //
+        if(this->classThis==this){
+            this->classThis=NULL;edkEnd();
+            //can destruct the class
+        }
+    }
+
+    void Constructor(bool runFather=true){
+        if(runFather){
+            edk::shape::Vertex2D::Constructor();edkEnd();
+        }
+        if(this->classThis!=this){
+            this->classThis=this;
+            this->type = EDK_SHAPE_UV;edkEnd();
+        }
     }
 
 
@@ -494,20 +559,33 @@ protected:
 private:
     //uvMap is private because the Vertex2DUVAnimated modify the setUV
     edk::vec2f32 uv;
+private:
+    edk::classID classThis;
 };
 
 class Vertex2DAnimatedUV: public edk::shape::Vertex2DWithUV{
     //
 public:
     Vertex2DAnimatedUV(){
-        //
-        this->type = EDK_SHAPE_ANIMATED_UV;edkEnd();
+        this->classThis=NULL;edkEnd();
+        this->Constructor(false);edkEnd();
     }
     virtual ~Vertex2DAnimatedUV(){
-        //
+        if(this->classThis==this){
+            this->classThis=NULL;edkEnd();
+            //can destruct the class
+        }
     }
 
-
+    void Constructor(bool runFather=true){
+        if(runFather){
+            edk::shape::Vertex2DWithUV::Constructor();edkEnd();
+        }
+        if(this->classThis!=this){
+            this->classThis=this;
+            this->type = EDK_SHAPE_ANIMATED_UV;edkEnd();
+        }
+    }
 
     //SETERS
     //Set the UV and the uvSaved
@@ -720,6 +798,8 @@ private:
 
     //save que UVMap to clean the animation
     edk::vec2f32 uvSaved;
+private:
+    edk::classID classThis;
 };
 
 }//end namespace shape

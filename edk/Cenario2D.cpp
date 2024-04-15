@@ -25,30 +25,88 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 edk::physics2D::World2D edk::Cenario2D::worldTemplate;
+bool edk::Cenario2D::templateConstructNeed=true;
 
 edk::Cenario2D::Cenario2D():
     treeAnimPhys(&edk::Cenario2D::worldTemplate)
 {
-    this->setCanContinueFalse();edkEnd();
-    this->world=NULL;
-    this->cenarioHaveCreateWorld=false;
-    this->clean();edkEnd();
-    this->minimunObjectsInQuads=1u;
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);edkEnd();
 }
 edk::Cenario2D::Cenario2D(edk::physics2D::World2D* world):
     treeAnimPhys(world)
 {
-    this->world=NULL;
-    this->cenarioHaveCreateWorld=false;
-    this->clean();
-    this->setWorld(world);edkEnd();
+    this->classThis=NULL;edkEnd();
+    this->Constructor(world,false);edkEnd();
 }
 edk::Cenario2D::~Cenario2D(){
-    //
-    this->clean();edkEnd();
-    this->world->removeContactCallback(this);
+    //can destruct the class
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
+        this->clean();edkEnd();
+        this->world->removeContactCallback(this);
 
-    this->deleteWorld();
+        this->deleteWorld();
+    }
+}
+
+void edk::Cenario2D::Constructor(bool runFather){
+    if(runFather){
+        edk::Object2DValues::Constructor();
+        edk::physics2D::ContactCallback2D::Constructor();
+        edk::tiles::tileCallback::Constructor();
+    }
+    if(this->classThis!=this){
+        this->classThis=this;
+
+        this->tileSet.Constructor();edkEnd();
+        this->actions.Constructor();edkEnd();
+        this->mutContinue.Constructor();edkEnd();
+        this->calls.Constructor();edkEnd();
+        this->treeAnim.Constructor();edkEnd();
+        this->treeAnimPhys.Constructor(&edk::Cenario2D::worldTemplate);edkEnd();
+        this->levels.Constructor();edkEnd();
+
+        //init the templates
+        if(edk::Cenario2D::templateConstructNeed){
+            edk::Cenario2D::worldTemplate.Constructor();edkEnd();
+            edk::Cenario2D::templateConstructNeed=false;edkEnd();
+        }
+        this->setCanContinueFalse();edkEnd();
+        this->world=NULL;edkEnd();
+        this->cenarioHaveCreateWorld=false;edkEnd();
+        this->clean();edkEnd();
+        this->minimunObjectsInQuads=1u;edkEnd();
+    }
+}
+void edk::Cenario2D::Constructor(edk::physics2D::World2D* world,bool runFather){
+    if(runFather){
+        edk::Object2DValues::Constructor();
+        edk::physics2D::ContactCallback2D::Constructor();
+        edk::tiles::tileCallback::Constructor();
+    }
+    if(this->classThis!=this){
+        this->classThis=this;
+
+        this->tileSet.Constructor();edkEnd();
+        this->actions.Constructor();edkEnd();
+        this->mutContinue.Constructor();edkEnd();
+        this->calls.Constructor();edkEnd();
+        this->treeAnim.Constructor();edkEnd();
+        this->treeAnimPhys.Constructor(world);edkEnd();
+        this->levels.Constructor();edkEnd();
+
+        //init the templates
+        if(edk::Cenario2D::templateConstructNeed){
+            edk::Cenario2D::worldTemplate.Constructor();edkEnd();
+            edk::Cenario2D::templateConstructNeed=false;edkEnd();
+        }
+        this->world=NULL;edkEnd();
+        this->cenarioHaveCreateWorld=false;edkEnd();
+        this->clean();edkEnd();
+        this->setWorld(world);edkEnd();
+    }
 }
 
 //delete the world
@@ -214,8 +272,6 @@ bool edk::Cenario2D::TreeObjDepth::writeToXML(edk::XML* xml,edk::uint32 id,bool 
                                 }
                             }
                         }
-
-
                         ret=true;edkEnd();
                         xml->selectFather();edkEnd();
                     }
@@ -1867,6 +1923,7 @@ bool edk::Cenario2D::setWorld(edk::physics2D::World2D* world){
         return true;
     }
     this->world=&edk::Cenario2D::worldTemplate;
+    this->world->Constructor();
     this->world->addContactCallback(this);edkEnd();
     return false;
 }
@@ -4977,13 +5034,13 @@ bool edk::Cenario2D::readFromXML(edk::XML* xml,edk::uint32 id){
                     }
 
                     //test if can't continue
-                    if(this->ifCantContinue()) return false;
+                    if(this->ifCantContinue()){free(name);edkEnd();free(nameID);edkEnd();return false;}
 
                     //read tileSet
                     this->tileSet.readFromXML(xml,0u);edkEnd();
 
                     //test if can't continue
-                    if(this->ifCantContinue()){this->deleteAllLevels();return false;}
+                    if(this->ifCantContinue()){this->deleteAllLevels();free(name);edkEnd();free(nameID);edkEnd();return false;}
 
                     //read the levels
                     if(xml->selectChild("levels")){
@@ -5000,7 +5057,7 @@ bool edk::Cenario2D::readFromXML(edk::XML* xml,edk::uint32 id){
                         for(edk::uint32 i=0u;i<size;i++){
 
                             //test if can't continue
-                            if(this->ifCantContinue()){this->deleteAllLevels();return false;}
+                            if(this->ifCantContinue()){this->deleteAllLevels();free(name);edkEnd();free(nameID);edkEnd();return false;}
 
                             //load the level
                             level = new edk::Cenario2D::LevelObj(&this->calls);edkEnd();
@@ -5012,7 +5069,7 @@ bool edk::Cenario2D::readFromXML(edk::XML* xml,edk::uint32 id){
                         }
 
                         //test if can't continue
-                        if(this->ifCantContinue()){this->deleteAllLevels();return false;}
+                        if(this->ifCantContinue()){this->deleteAllLevels();free(name);edkEnd();free(nameID);edkEnd();return false;}
 
                         this->loadPhysicObjectsToWorld();edkEnd();
                         xml->selectFather();edkEnd();
@@ -5034,7 +5091,7 @@ bool edk::Cenario2D::readFromXML(edk::XML* xml,edk::uint32 id){
                         for(edk::uint32 i = 0u;i<size;i++){
 
                             //test if can't continue
-                            if(this->ifCantContinue()){this->deleteAllLevels();return false;}
+                            if(this->ifCantContinue()){this->deleteAllLevels();free(name);edkEnd();free(nameID);edkEnd();return false;}
 
                             collide=false;edkEnd();
                             edk::Cenario2D::PhysicsPosition objectA;edkEnd();
@@ -5322,7 +5379,7 @@ bool edk::Cenario2D::readFromXML(edk::XML* xml,edk::uint32 id){
                     }
 
                     //test if can't continue
-                    if(this->ifCantContinue()){this->deleteAllLevels();return false;}
+                    if(this->ifCantContinue()){this->deleteAllLevels();free(name);edkEnd();free(nameID);edkEnd();return false;}
 
                     //ACTIONS
                     this->actions.readFromXML(xml,0u,this);edkEnd();
@@ -5337,7 +5394,7 @@ bool edk::Cenario2D::readFromXML(edk::XML* xml,edk::uint32 id){
                         for(edk::uint32 i=0u;i<size;i++){
 
                             //test if can't continue
-                            if(this->ifCantContinue()){this->deleteAllLevels();return false;}
+                            if(this->ifCantContinue()){this->deleteAllLevels();free(name);edkEnd();free(nameID);edkEnd();return false;}
 
                             level=this->levels.get(i);edkEnd();
                             if(level){
@@ -5397,13 +5454,13 @@ bool edk::Cenario2D::readFromXMLFromPack(edk::pack::FilePackage* pack,edk::XML* 
                     }
 
                     //test if can't continue
-                    if(this->ifCantContinue()){return false;}
+                    if(this->ifCantContinue()){free(name);edkEnd();free(nameID);edkEnd();return false;}
 
                     //read tileSet
                     this->tileSet.readFromXMLFromPack(pack,xml,0u);edkEnd();
 
                     //test if can't continue
-                    if(this->ifCantContinue()){this->deleteAllLevels();return false;}
+                    if(this->ifCantContinue()){this->deleteAllLevels();free(name);edkEnd();free(nameID);edkEnd();return false;}
 
                     //read the levels
                     if(xml->selectChild("levels")){
@@ -5420,7 +5477,7 @@ bool edk::Cenario2D::readFromXMLFromPack(edk::pack::FilePackage* pack,edk::XML* 
                         for(edk::uint32 i=0u;i<size;i++){
 
                             //test if can't continue
-                            if(this->ifCantContinue()){this->deleteAllLevels();return false;}
+                            if(this->ifCantContinue()){this->deleteAllLevels();free(name);edkEnd();free(nameID);edkEnd();return false;}
 
                             //load the level
                             level = new edk::Cenario2D::LevelObj(&this->calls);edkEnd();
@@ -5432,7 +5489,7 @@ bool edk::Cenario2D::readFromXMLFromPack(edk::pack::FilePackage* pack,edk::XML* 
                         }
 
                         //test if can't continue
-                        if(this->ifCantContinue()){this->deleteAllLevels();return false;}
+                        if(this->ifCantContinue()){this->deleteAllLevels();free(name);edkEnd();free(nameID);edkEnd();return false;}
 
                         this->loadPhysicObjectsToWorld();edkEnd();
                         xml->selectFather();edkEnd();
@@ -5454,7 +5511,7 @@ bool edk::Cenario2D::readFromXMLFromPack(edk::pack::FilePackage* pack,edk::XML* 
                         for(edk::uint32 i = 0u;i<size;i++){
 
                             //test if can't continue
-                            if(this->ifCantContinue()){this->deleteAllLevels();return false;}
+                            if(this->ifCantContinue()){this->deleteAllLevels();free(name);edkEnd();free(nameID);edkEnd();return false;}
 
                             collide=false;edkEnd();
                             edk::Cenario2D::PhysicsPosition objectA;edkEnd();
@@ -5742,7 +5799,7 @@ bool edk::Cenario2D::readFromXMLFromPack(edk::pack::FilePackage* pack,edk::XML* 
                     }
 
                     //test if can't continue
-                    if(this->ifCantContinue()){this->deleteAllLevels();return false;}
+                    if(this->ifCantContinue()){this->deleteAllLevels();free(name);edkEnd();free(nameID);edkEnd();return false;}
 
                     //ACTIONS
                     this->actions.readFromXML(xml,0u,this);edkEnd();
@@ -5757,7 +5814,7 @@ bool edk::Cenario2D::readFromXMLFromPack(edk::pack::FilePackage* pack,edk::XML* 
                         for(edk::uint32 i=0u;i<size;i++){
 
                             //test if can't continue
-                            if(this->ifCantContinue()){this->deleteAllLevels();return false;}
+                            if(this->ifCantContinue()){this->deleteAllLevels();free(name);edkEnd();free(nameID);edkEnd();return false;}
 
                             level=this->levels.get(i);edkEnd();
                             if(level){
@@ -5863,7 +5920,7 @@ bool edk::Cenario2D::readLevelFromXML(edk::XML* xml,edk::uint32 level,edk::uint3
                         for(edk::uint32 i=0u;i<levelsSize;i++){
 
                             //test if can't continue
-                            if(this->ifCantContinue()){this->deleteAllLevels();return false;}
+                            if(this->ifCantContinue()){this->deleteAllLevels();free(name);edkEnd();free(nameID);edkEnd();return false;}
 
                             //load the levelTemp
                             levelTemp = this->levels.get(i);edkEnd();
@@ -5888,7 +5945,7 @@ bool edk::Cenario2D::readLevelFromXML(edk::XML* xml,edk::uint32 level,edk::uint3
                         }
 
                         //test if can't continue
-                        if(this->ifCantContinue()){this->deleteAllLevels();return false;}
+                        if(this->ifCantContinue()){this->deleteAllLevels();free(name);edkEnd();free(nameID);edkEnd();return false;}
 
                         this->loadPhysicObjectsToWorld();edkEnd();
                         xml->selectFather();edkEnd();
@@ -5910,7 +5967,7 @@ bool edk::Cenario2D::readLevelFromXML(edk::XML* xml,edk::uint32 level,edk::uint3
                         for(edk::uint32 i = 0u;i<size;i++){
 
                             //test if can't continue
-                            if(this->ifCantContinue()){this->deleteAllLevels();return false;}
+                            if(this->ifCantContinue()){this->deleteAllLevels();free(name);edkEnd();free(nameID);edkEnd();return false;}
 
                             collide=false;edkEnd();
                             edk::Cenario2D::PhysicsPosition objectA;edkEnd();
@@ -6201,7 +6258,7 @@ bool edk::Cenario2D::readLevelFromXML(edk::XML* xml,edk::uint32 level,edk::uint3
                     xml->selectFather();edkEnd();
 
                     //test if can't continue
-                    if(this->ifCantContinue()){this->deleteAllLevels();return false;}
+                    if(this->ifCantContinue()){this->deleteAllLevels();free(name);edkEnd();free(nameID);edkEnd();return false;}
 
                     //generate the quadtree position and size
                     {
@@ -6275,13 +6332,13 @@ bool edk::Cenario2D::readLevelFromXMLFromPack(edk::pack::FilePackage* pack,edk::
                         edk::Cenario2D::LevelObj* levelTemp;edkEnd();
                         //test if the size is smaller
                         if(size<levelsSize){
-                            return false;
+                            free(name);edkEnd();free(nameID);edkEnd();return false;
                         }
                         //just load the levels
                         for(edk::uint32 i=0u;i<levelsSize;i++){
 
                             //test if can't continue
-                            if(this->ifCantContinue()){this->deleteAllLevels();return false;}
+                            if(this->ifCantContinue()){this->deleteAllLevels();free(name);edkEnd();free(nameID);edkEnd();return false;}
 
                             //load the levelTemp
                             levelTemp = this->levels.get(i);edkEnd();
@@ -6306,7 +6363,7 @@ bool edk::Cenario2D::readLevelFromXMLFromPack(edk::pack::FilePackage* pack,edk::
                         }
 
                         //test if can't continue
-                        if(this->ifCantContinue()){this->deleteAllLevels();return false;}
+                        if(this->ifCantContinue()){this->deleteAllLevels();free(name);edkEnd();free(nameID);edkEnd();return false;}
 
                         this->loadPhysicObjectsToWorld();edkEnd();
                         xml->selectFather();edkEnd();
@@ -6328,7 +6385,7 @@ bool edk::Cenario2D::readLevelFromXMLFromPack(edk::pack::FilePackage* pack,edk::
                         for(edk::uint32 i = 0u;i<size;i++){
 
                             //test if can't continue
-                            if(this->ifCantContinue()){this->deleteAllLevels();return false;}
+                            if(this->ifCantContinue()){this->deleteAllLevels();free(name);edkEnd();free(nameID);edkEnd();return false;}
 
                             collide=false;edkEnd();
                             edk::Cenario2D::PhysicsPosition objectA;edkEnd();
@@ -6619,7 +6676,7 @@ bool edk::Cenario2D::readLevelFromXMLFromPack(edk::pack::FilePackage* pack,edk::
                     xml->selectFather();edkEnd();
 
                     //test if can't continue
-                    if(this->ifCantContinue()){this->deleteAllLevels();return false;}
+                    if(this->ifCantContinue()){this->deleteAllLevels();free(name);edkEnd();free(nameID);edkEnd();return false;}
 
                     //generate the quadtree position and size
                     {
@@ -6723,14 +6780,14 @@ bool edk::Cenario2D::readLevelsFromXML(edk::XML* xml,edk::uint32 levelStart,edk:
                         edk::Cenario2D::LevelObj* levelTemp;edkEnd();
                         //test if the size is smaller
                         if(size<levelStart){
-                            return false;
+                            free(name);edkEnd();free(nameID);edkEnd();return false;
                         }
                         levelStart--;
                         //just load the levels
                         for(edk::uint32 i=0u;i<levelsSize;i++){
 
                             //test if can't continue
-                            if(this->ifCantContinue()){this->deleteAllLevels();return false;}
+                            if(this->ifCantContinue()){this->deleteAllLevels();free(name);edkEnd();free(nameID);edkEnd();return false;}
 
                             //load the levelTemp
                             levelTemp = this->levels.get(i);edkEnd();
@@ -6755,7 +6812,7 @@ bool edk::Cenario2D::readLevelsFromXML(edk::XML* xml,edk::uint32 levelStart,edk:
                         }
 
                         //test if can't continue
-                        if(this->ifCantContinue()){this->deleteAllLevels();return false;}
+                        if(this->ifCantContinue()){this->deleteAllLevels();free(name);edkEnd();free(nameID);edkEnd();return false;}
 
                         this->loadPhysicObjectsToWorld();edkEnd();
                         xml->selectFather();edkEnd();
@@ -6777,7 +6834,7 @@ bool edk::Cenario2D::readLevelsFromXML(edk::XML* xml,edk::uint32 levelStart,edk:
                         for(edk::uint32 i = 0u;i<size;i++){
 
                             //test if can't continue
-                            if(this->ifCantContinue()){this->deleteAllLevels();return false;}
+                            if(this->ifCantContinue()){this->deleteAllLevels();free(name);edkEnd();free(nameID);edkEnd();return false;}
 
                             collide=false;edkEnd();
                             edk::Cenario2D::PhysicsPosition objectA;edkEnd();
@@ -7068,7 +7125,7 @@ bool edk::Cenario2D::readLevelsFromXML(edk::XML* xml,edk::uint32 levelStart,edk:
                     xml->selectFather();edkEnd();
 
                     //test if can't continue
-                    if(this->ifCantContinue()){this->deleteAllLevels();return false;}
+                    if(this->ifCantContinue()){this->deleteAllLevels();free(name);edkEnd();free(nameID);edkEnd();return false;}
 
                     //generate the quadtree position and size
                     for(edk::uint32 i=levelStart;i<=levelEnd;i++){
@@ -7144,14 +7201,14 @@ bool edk::Cenario2D::readLevelsFromXMLFromPack(edk::pack::FilePackage* pack,edk:
                         edk::Cenario2D::LevelObj* levelTemp;edkEnd();
                         //test if the size is smaller
                         if(size<levelStart){
-                            return false;
+                            free(name);edkEnd();free(nameID);edkEnd();return false;
                         }
                         levelStart--;
                         //just load the levels
                         for(edk::uint32 i=0u;i<levelsSize;i++){
 
                             //test if can't continue
-                            if(this->ifCantContinue()){this->deleteAllLevels();return false;}
+                            if(this->ifCantContinue()){this->deleteAllLevels();free(name);edkEnd();free(nameID);edkEnd();return false;}
 
                             //load the levelTemp
                             levelTemp = this->levels.get(i);edkEnd();
@@ -7176,7 +7233,7 @@ bool edk::Cenario2D::readLevelsFromXMLFromPack(edk::pack::FilePackage* pack,edk:
                         }
 
                         //test if can't continue
-                        if(this->ifCantContinue()){this->deleteAllLevels();return false;}
+                        if(this->ifCantContinue()){this->deleteAllLevels();free(name);edkEnd();free(nameID);edkEnd();return false;}
 
                         this->loadPhysicObjectsToWorld();edkEnd();
                         xml->selectFather();edkEnd();
@@ -7198,7 +7255,7 @@ bool edk::Cenario2D::readLevelsFromXMLFromPack(edk::pack::FilePackage* pack,edk:
                         for(edk::uint32 i = 0u;i<size;i++){
 
                             //test if can't continue
-                            if(this->ifCantContinue()){this->deleteAllLevels();return false;}
+                            if(this->ifCantContinue()){this->deleteAllLevels();free(name);edkEnd();free(nameID);edkEnd();return false;}
 
                             collide=false;edkEnd();
                             edk::Cenario2D::PhysicsPosition objectA;edkEnd();
@@ -7489,7 +7546,7 @@ bool edk::Cenario2D::readLevelsFromXMLFromPack(edk::pack::FilePackage* pack,edk:
                     xml->selectFather();edkEnd();
 
                     //test if can't continue
-                    if(this->ifCantContinue()){this->deleteAllLevels();return false;}
+                    if(this->ifCantContinue()){this->deleteAllLevels();free(name);edkEnd();free(nameID);edkEnd();return false;}
 
                     //generate the quadtree position and size
                     for(edk::uint32 i=levelStart;i<=levelEnd;i++){
@@ -7584,7 +7641,7 @@ bool edk::Cenario2D::readFromXMLWithoutLoadPhysics(edk::XML* xml,edk::uint32 id)
                     }
 
                     //test if can't continue
-                    if(this->ifCantContinue()){this->deleteAllLevels();return false;}
+                    if(this->ifCantContinue()){this->deleteAllLevels();free(name);edkEnd();free(nameID);edkEnd();return false;}
 
                     //read tileSet
                     this->tileSet.readFromXML(xml,0u);edkEnd();
@@ -7603,7 +7660,7 @@ bool edk::Cenario2D::readFromXMLWithoutLoadPhysics(edk::XML* xml,edk::uint32 id)
                         for(edk::uint32 i=0u;i<size;i++){
 
                             //test if can't continue
-                            if(this->ifCantContinue()){this->deleteAllLevels();return false;}
+                            if(this->ifCantContinue()){this->deleteAllLevels();free(name);edkEnd();free(nameID);edkEnd();return false;}
 
                             //load the level
                             level = new edk::Cenario2D::LevelObj(&this->calls);edkEnd();
@@ -7618,7 +7675,7 @@ bool edk::Cenario2D::readFromXMLWithoutLoadPhysics(edk::XML* xml,edk::uint32 id)
                     }
 
                     //test if can't continue
-                    if(this->ifCantContinue()){this->deleteAllLevels();return false;}
+                    if(this->ifCantContinue()){this->deleteAllLevels();free(name);edkEnd();free(nameID);edkEnd();return false;}
 
                     //ACTIONS
                     this->actions.readFromXML(xml,0u,this);edkEnd();
@@ -7633,7 +7690,7 @@ bool edk::Cenario2D::readFromXMLWithoutLoadPhysics(edk::XML* xml,edk::uint32 id)
                         for(edk::uint32 i=0u;i<size;i++){
 
                             //test if can't continue
-                            if(this->ifCantContinue()){this->deleteAllLevels();return false;}
+                            if(this->ifCantContinue()){this->deleteAllLevels();free(name);edkEnd();free(nameID);edkEnd();return false;}
 
                             level=this->levels.get(i);edkEnd();
                             if(level){
@@ -7693,7 +7750,7 @@ bool edk::Cenario2D::readFromXMLFromPackWithoutLoadPhysics(edk::pack::FilePackag
                     }
 
                     //test if can't continue
-                    if(this->ifCantContinue()){return false;}
+                    if(this->ifCantContinue()){free(name);edkEnd();free(nameID);edkEnd();return false;}
 
                     //read tileSet
                     this->tileSet.readFromXMLFromPack(pack,xml,0u);edkEnd();
@@ -7712,7 +7769,7 @@ bool edk::Cenario2D::readFromXMLFromPackWithoutLoadPhysics(edk::pack::FilePackag
                         for(edk::uint32 i=0u;i<size;i++){
 
                             //test if can't continue
-                            if(this->ifCantContinue()){this->deleteAllLevels();return false;}
+                            if(this->ifCantContinue()){this->deleteAllLevels();free(name);edkEnd();free(nameID);edkEnd();return false;}
 
                             //load the level
                             level = new edk::Cenario2D::LevelObj(&this->calls);edkEnd();
@@ -7727,7 +7784,7 @@ bool edk::Cenario2D::readFromXMLFromPackWithoutLoadPhysics(edk::pack::FilePackag
                     }
 
                     //test if can't continue
-                    if(this->ifCantContinue()){this->deleteAllLevels();return false;}
+                    if(this->ifCantContinue()){this->deleteAllLevels();free(name);edkEnd();free(nameID);edkEnd();return false;}
 
                     //ACTIONS
                     this->actions.readFromXML(xml,0u,this);edkEnd();
@@ -7742,7 +7799,7 @@ bool edk::Cenario2D::readFromXMLFromPackWithoutLoadPhysics(edk::pack::FilePackag
                         for(edk::uint32 i=0u;i<size;i++){
 
                             //test if can't continue
-                            if(this->ifCantContinue()){this->deleteAllLevels();return false;}
+                            if(this->ifCantContinue()){this->deleteAllLevels();free(name);edkEnd();free(nameID);edkEnd();return false;}
 
                             level=this->levels.get(i);edkEnd();
                             if(level){
@@ -7842,13 +7899,13 @@ bool edk::Cenario2D::readLevelFromXMLWithoutLoadPhysics(edk::XML* xml,edk::uint3
                         edk::Cenario2D::LevelObj* levelTemp;edkEnd();
                         //test if the size is smaller
                         if(size<levelsSize){
-                            return false;
+                            free(name);edkEnd();free(nameID);edkEnd();return false;
                         }
                         //just load the levels
                         for(edk::uint32 i=0u;i<levelsSize;i++){
 
                             //test if can't continue
-                            if(this->ifCantContinue()){this->deleteAllLevels();return false;}
+                            if(this->ifCantContinue()){this->deleteAllLevels();free(name);edkEnd();free(nameID);edkEnd();return false;}
 
                             //load the levelTemp
                             levelTemp = this->levels.get(i);edkEnd();
@@ -7879,7 +7936,7 @@ bool edk::Cenario2D::readLevelFromXMLWithoutLoadPhysics(edk::XML* xml,edk::uint3
                     xml->selectFather();edkEnd();
 
                     //test if can't continue
-                    if(this->ifCantContinue()){this->deleteAllLevels();return false;}
+                    if(this->ifCantContinue()){this->deleteAllLevels();free(name);edkEnd();free(nameID);edkEnd();return false;}
 
                     //generate the quadtree position and size
                     {
@@ -7954,13 +8011,13 @@ bool edk::Cenario2D::readLevelFromXMLFromPackWithoutLoadPhysics(edk::pack::FileP
                         edk::Cenario2D::LevelObj* levelTemp;edkEnd();
                         //test if the size is smaller
                         if(size<levelsSize){
-                            return false;
+                            free(name);edkEnd();free(nameID);edkEnd();return false;
                         }
                         //just load the levels
                         for(edk::uint32 i=0u;i<levelsSize;i++){
 
                             //test if can't continue
-                            if(this->ifCantContinue()){this->deleteAllLevels();return false;}
+                            if(this->ifCantContinue()){this->deleteAllLevels();free(name);edkEnd();free(nameID);edkEnd();return false;}
 
                             //load the levelTemp
                             levelTemp = this->levels.get(i);edkEnd();
@@ -7991,7 +8048,7 @@ bool edk::Cenario2D::readLevelFromXMLFromPackWithoutLoadPhysics(edk::pack::FileP
                     xml->selectFather();edkEnd();
 
                     //test if can't continue
-                    if(this->ifCantContinue()){this->deleteAllLevels();return false;}
+                    if(this->ifCantContinue()){this->deleteAllLevels();free(name);edkEnd();free(nameID);edkEnd();return false;}
 
                     //generate the quadtree position and size
                     {
@@ -8095,14 +8152,14 @@ bool edk::Cenario2D::readLevelsFromXMLWithoutLoadPhysics(edk::XML* xml,edk::uint
                         edk::Cenario2D::LevelObj* levelTemp;edkEnd();
                         //test if the size is smaller
                         if(size<levelStart){
-                            return false;
+                            free(name);edkEnd();free(nameID);edkEnd();return false;
                         }
                         levelStart--;edkEnd();
                         //just load the levels
                         for(edk::uint32 i=0u;i<levelsSize;i++){
 
                             //test if can't continue
-                            if(this->ifCantContinue()){this->deleteAllLevels();return false;}
+                            if(this->ifCantContinue()){this->deleteAllLevels();free(name);edkEnd();free(nameID);edkEnd();return false;}
 
                             //load the levelTemp
                             levelTemp = this->levels.get(i);edkEnd();
@@ -8133,7 +8190,7 @@ bool edk::Cenario2D::readLevelsFromXMLWithoutLoadPhysics(edk::XML* xml,edk::uint
                     xml->selectFather();edkEnd();
 
                     //test if can't continue
-                    if(this->ifCantContinue()){this->deleteAllLevels();return false;}
+                    if(this->ifCantContinue()){this->deleteAllLevels();free(name);edkEnd();free(nameID);edkEnd();return false;}
 
                     //generate the quadtree position and size
                     for(edk::uint32 i=levelStart;i<=levelEnd;i++){
@@ -8210,14 +8267,14 @@ bool edk::Cenario2D::readLevelsFromXMLFromPackWithoutLoadPhysics(edk::pack::File
                         edk::Cenario2D::LevelObj* levelTemp;edkEnd();
                         //test if the size is smaller
                         if(size<levelStart){
-                            return false;
+                            free(name);edkEnd();free(nameID);edkEnd();return false;
                         }
                         levelStart--;edkEnd();
                         //just load the levels
                         for(edk::uint32 i=0u;i<levelsSize;i++){
 
                             //test if can't continue
-                            if(this->ifCantContinue()){this->deleteAllLevels();return false;}
+                            if(this->ifCantContinue()){this->deleteAllLevels();free(name);edkEnd();free(nameID);edkEnd();return false;}
 
                             //load the levelTemp
                             levelTemp = this->levels.get(i);edkEnd();
@@ -8248,7 +8305,7 @@ bool edk::Cenario2D::readLevelsFromXMLFromPackWithoutLoadPhysics(edk::pack::File
                     xml->selectFather();edkEnd();
 
                     //test if can't continue
-                    if(this->ifCantContinue()){this->deleteAllLevels();return false;}
+                    if(this->ifCantContinue()){this->deleteAllLevels();free(name);edkEnd();free(nameID);edkEnd();return false;}
 
                     //generate the quadtree position and size
                     for(edk::uint32 i=levelStart;i<=levelEnd;i++){

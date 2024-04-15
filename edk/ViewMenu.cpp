@@ -27,12 +27,28 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "edkImages/EDKmenuTemplateTexture.h"
 
 edk::ViewMenu::ViewMenu(){
-    //
-    this->borderSize = 25.f;edkEnd();
-    this->loadSpriteFromMemory(EDKmenuTemplateTextureName,EDKmenuTemplateTexture,EDKmenuTemplateTextureSize);edkEnd();
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);edkEnd();
 }
 edk::ViewMenu::~ViewMenu(){
-    //
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
+    }
+}
+
+void edk::ViewMenu::Constructor(bool runFather){
+    if(runFather){
+        edk::ViewSpriteController::Constructor();edkEnd();
+    }
+    if(this->classThis!=this){
+        this->classThis=this;
+
+        this->cam.Constructor();edkEnd();
+
+        this->borderSize = 25.f;edkEnd();
+        this->loadSpriteFromMemory(EDKmenuTemplateTextureName,EDKmenuTemplateTexture,EDKmenuTemplateTextureSize);edkEnd();
+    }
 }
 
 //set borderSize
@@ -63,7 +79,7 @@ edk::size2ui32 edk::ViewMenu::getInsideSize(){
 //draw
 void edk::ViewMenu::draw(rectf32 outsideViewOrigin){
     //remove the border to the next view
-/*
+    /*
     edk::ViewSpriteController::draw(
                 rectf32(outsideViewOrigin.origin.x + this->borderSize,
                         outsideViewOrigin.origin.y + this->borderSize,

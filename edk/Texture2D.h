@@ -66,73 +66,75 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 namespace edk{
 class Texture2D: public edk::ObjectWithName{
-    public:
-        Texture2D();
-        virtual ~Texture2D();
+public:
+    Texture2D();
+    virtual ~Texture2D();
 
-        //alloc the textureObject
-//        GU_RGB
-//        GU_RGBA
-//        GU_LUMINANCE
-//        GU_LUMINANCE_ALPHA
-        bool createTexture(edk::uint32 width, edk::uint32 height, edk::uint32 mode, const edk::classID  data = NULL, edk::uint32 filter = GU_NEAREST);
-        //draw to the texture
-        bool drawToTexture(const edk::classID  data);
-        bool drawToTexture(const edk::classID  data, edk::uint32 filter = GU_NEAREST);
-        //read the texture
+    void Constructor(bool runFather=true);
 
-        //format
-        //GU_STENCIL_INDEX
-        //GU_DEPTH_COMPONENT
-        //GU_DEPTH_STENCIL
-        //GU_RED
-        //GU_GREEN
-        //GU_BLUE
-        //GU_RG
-        //GU_RGB
-        //GU_RGBA
-        //GU_BGR
-        //GU_BGRA
-        bool readFromTexture(const edk::classID  data,edk::uint32 format = GU_RGB);
+    //alloc the textureObject
+    //        GU_RGB
+    //        GU_RGBA
+    //        GU_LUMINANCE
+    //        GU_LUMINANCE_ALPHA
+    bool createTexture(edk::uint32 width, edk::uint32 height, edk::uint32 mode, const edk::classID  data = NULL, edk::uint32 filter = GU_NEAREST);
+    //draw to the texture
+    bool drawToTexture(const edk::classID  data);
+    bool drawToTexture(const edk::classID  data, edk::uint32 filter = GU_NEAREST);
+    //read the texture
 
-        //GETTERS
-        //return the textureID
-        edk::uint32 getID();
-        size2ui32 getSize();
-        //EDK_LUMINANCE 1u
-        //EDK_LUMINANCE_ALPHA 2u
-        //EDK_RGB  3u
-        //EDK_RGBA 4u
-        edk::uint32 getModeEDK();
-        //GU_RGB
-        //GU_RGBA
-        //GU_LUMINANCE
-        //GU_LUMINANCE_ALPHA
-        edk::uint32 getModeGU();
-        uint32 width();
-        uint32 height();
-        edk::uint32 textureID();
+    //format
+    //GU_STENCIL_INDEX
+    //GU_DEPTH_COMPONENT
+    //GU_DEPTH_STENCIL
+    //GU_RED
+    //GU_GREEN
+    //GU_BLUE
+    //GU_RG
+    //GU_RGB
+    //GU_RGBA
+    //GU_BGR
+    //GU_BGRA
+    bool readFromTexture(const edk::classID  data,edk::uint32 format = GU_RGB);
 
-        //DELETE
-        //remove the texture
-        void deleteTexture();
-        //delete the ID
-        static void deleteTextureID(edk::uint32 id);
+    //GETTERS
+    //return the textureID
+    edk::uint32 getID();
+    size2ui32 getSize();
+    //EDK_LUMINANCE 1u
+    //EDK_LUMINANCE_ALPHA 2u
+    //EDK_RGB  3u
+    //EDK_RGBA 4u
+    edk::uint32 getModeEDK();
+    //GU_RGB
+    //GU_RGBA
+    //GU_LUMINANCE
+    //GU_LUMINANCE_ALPHA
+    edk::uint32 getModeGU();
+    uint32 width();
+    uint32 height();
+    edk::uint32 textureID();
+
+    //DELETE
+    //remove the texture
+    void deleteTexture();
+    //delete the ID
+    static void deleteTextureID(edk::uint32 id);
 
 
-        //Super Class Functions
-        //retain
-        edk::Texture2D* retainObject(edk::Texture2D** pointer);
-        //release
-        bool releaseObject(edk::Texture2D** pointer);
+    //Super Class Functions
+    //retain
+    edk::Texture2D* retainObject(edk::Texture2D** pointer);
+    //release
+    bool releaseObject(edk::Texture2D** pointer);
 
-        //Save the object
-        void saveObject(ObjectWithName** pointer);
+    //Save the object
+    void saveObject(ObjectWithName** pointer);
 
-        //Clean the object
-        void cleanObject(ObjectWithName** pointer);
-    protected:
-    private:
+    //Clean the object
+    void cleanObject(ObjectWithName** pointer);
+protected:
+private:
     //Texture ID
     edk::uint32 textureId;
     //tamanho do sprite
@@ -140,6 +142,8 @@ class Texture2D: public edk::ObjectWithName{
     //save the mode
     edk::uint32 mode;
     edk::uint32 filter;
+private:
+    edk::classID classThis;
 };
 }//end namespace edk
 

@@ -45,6 +45,10 @@ class DynamicObject2D : public edk::physics2D::KinematicObject2D{
 public:
     DynamicObject2D();
     ~DynamicObject2D();
+
+    void Constructor(bool runFather=true);
+private:
+    edk::classID classThis;
 };
 }
 }

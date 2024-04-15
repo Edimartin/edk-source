@@ -28,14 +28,23 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #pragma message "            Inside LineContact2D.cpp"
 #endif
 
-edk::collision::LineContact2D::LineContact2D()
-{
-    //ctor
+edk::collision::LineContact2D::LineContact2D(){
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);edkEnd();
 }
 
-edk::collision::LineContact2D::~LineContact2D()
-{
-    //dtor
+edk::collision::LineContact2D::~LineContact2D(){
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
+    }
+}
+
+void edk::collision::LineContact2D::Constructor(bool /*runFather*/){
+    //
+    if(this->classThis!=this){
+        this->classThis=this;
+    }
 }
 
 //Contacts

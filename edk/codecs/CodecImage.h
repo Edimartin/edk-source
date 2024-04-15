@@ -49,6 +49,8 @@ class CodecImage{
 public:
     CodecImage();
     virtual ~CodecImage();
+
+    void Constructor(bool runFather=true);
 protected:
     //create a new frame
     bool newFrame(edk::size2ui32 size,edk::uint8 channels);
@@ -204,6 +206,8 @@ private:
     edk::uint32 encodedSize;
     //save the quality of the frame encoded
     edk::uint32 encodedQuality;
+private:
+    edk::classID classThis;
 };
 }//end namespace codecs
 }//end namespace edk

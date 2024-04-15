@@ -67,14 +67,24 @@ const edk::char8 *hexPrint[256u] = {
 };
 
 edk::BinaryConverter::BinaryConverter(){
-    //
+    this->classThis=NULL;
+    this->Constructor(false);
 }
 edk::BinaryConverter::~BinaryConverter(){
-    //
+    if(this->classThis==this){
+        this->classThis=NULL;
+        //can destruct the class
+    }
+}
+
+void edk::BinaryConverter::Constructor(bool /*runFather*/){
+    if(this->classThis!=this){
+        this->classThis=this;
+    }
 }
 
 void edk::BinaryConverter::printBits(edk::uchar8 byte){
-/*
+    /*
     edk::uchar8 byteCompare = 0x80;
     for (edk::uint32 i = 0; i < 8u; i++){
         if(byteCompare & byte){

@@ -48,44 +48,73 @@ template <class typeTemplate>
 class MatrixDynamic{
 public:
     MatrixDynamic(){
-        this->isClass = edk::ID<typeTemplate>::isClass();edkEnd();
-        this->isOneH=false;edkEnd();
-        this->isOneHDest=false;edkEnd();
-        this->canDeleteVector=true;edkEnd();
-        this->matrixSize = 0u;edkEnd();
-        //set the matrix to NULL
-        this->matrix=NULL;edkEnd();
-        this->matrixDest=NULL;edkEnd();
-        //set can delete vector
+        this->classThis=NULL;edkEnd();
+        this->Constructor(false);edkEnd();
     }
     MatrixDynamic(edk::size2f32 size){
-        this->isClass = edk::ID<typeTemplate>::isClass();edkEnd();
-        this->isOneH=false;edkEnd();
-        this->isOneHDest=false;edkEnd();
-        this->canDeleteVector=true;edkEnd();
-        //set the matrix to NULL
-        this->matrix=NULL;edkEnd();
-        this->matrixDest=NULL;edkEnd();
-        //create a new matrix
-        this->createMatrix(size);edkEnd();
+        this->classThis=NULL;edkEnd();
+        this->Constructor(size,false);edkEnd();
     }
     MatrixDynamic(edk::uint32 width,edk::uint32 height){
-        this->isClass = edk::ID<typeTemplate>::isClass();edkEnd();
-        this->isOneH=false;edkEnd();
-        this->isOneHDest=false;edkEnd();
-        this->canDeleteVector=true;edkEnd();
-        //set the matrix to NULL
-        this->matrix=NULL;edkEnd();
-        this->matrixDest=NULL;edkEnd();
-        //create a new matrix
-        this->createMatrix(width,height);edkEnd();
+        this->classThis=NULL;edkEnd();
+        this->Constructor(width,height,false);edkEnd();
     }
     ~MatrixDynamic(){
-        if(this->canDeleteVector){
-            this->deleteMatrix();edkEnd();
+        if(this->classThis==this){
+            this->classThis=NULL;edkEnd();
+            //can destruct the class
+            if(this->canDeleteVector){
+                this->deleteMatrix();edkEnd();
+            }
+            else{
+                this->canDeleteVector=true;edkEnd();
+            }
         }
-        else{
+    }
+
+    void Constructor(bool runFather=true){
+        if(runFather){edkEnd();}
+        if(this->classThis!=this){
+            this->classThis=this;
+            this->isClass = edk::ID<typeTemplate>::isClass();edkEnd();
+            this->isOneH=false;edkEnd();
+            this->isOneHDest=false;edkEnd();
             this->canDeleteVector=true;edkEnd();
+            this->matrixSize = 0u;edkEnd();
+            //set the matrix to NULL
+            this->matrix=NULL;edkEnd();
+            this->matrixDest=NULL;edkEnd();
+            //set can delete vector
+        }
+    }
+    void Constructor(edk::size2f32 size,bool runFather=true){
+        if(runFather){edkEnd();}
+        if(this->classThis!=this){
+            this->classThis=this;
+            this->isClass = edk::ID<typeTemplate>::isClass();edkEnd();
+            this->isOneH=false;edkEnd();
+            this->isOneHDest=false;edkEnd();
+            this->canDeleteVector=true;edkEnd();
+            //set the matrix to NULL
+            this->matrix=NULL;edkEnd();
+            this->matrixDest=NULL;edkEnd();
+            //create a new matrix
+            this->createMatrix(size);edkEnd();
+        }
+    }
+    void Constructor(edk::uint32 width,edk::uint32 height,bool runFather=true){
+        if(runFather){edkEnd();}
+        if(this->classThis!=this){
+            this->classThis=this;
+            this->isClass = edk::ID<typeTemplate>::isClass();edkEnd();
+            this->isOneH=false;edkEnd();
+            this->isOneHDest=false;edkEnd();
+            this->canDeleteVector=true;edkEnd();
+            //set the matrix to NULL
+            this->matrix=NULL;edkEnd();
+            this->matrixDest=NULL;edkEnd();
+            //create a new matrix
+            this->createMatrix(width,height);edkEnd();
         }
     }
 
@@ -993,27 +1022,44 @@ public:
         this->matrix = this->matrixDest;edkEnd();
         this->matrixDest = matrixTemp;edkEnd();
     }
+private:
+    edk::classID classThis;
 };
 //Use a template to alloc whatever
 template <class typeTemplate,edk::uint32 m,edk::uint32 n>
 class Matrix : private edk::vector::MatrixDynamic<typeTemplate>{
 public:
     inline Matrix(){
-        this->canDeleteMatrix=true;edkEnd();
-        edk::vector::MatrixDynamic<typeTemplate>::createMatrix(m,n);edkEnd();
-        if(m==n){
-            canMultiplyMatrix=true;edkEnd();
-        }
-        else{
-            canMultiplyMatrix=false;edkEnd();
-        }
+        this->classThis=NULL;edkEnd();
+        this->Constructor(false);edkEnd();
     }
     inline ~Matrix(){
-        if(this->canDeleteMatrix){
-            edk::vector::MatrixDynamic<typeTemplate>::deleteMatrix();edkEnd();
+        if(this->classThis==this){
+            this->classThis=NULL;edkEnd();
+            //can destruct the class
+            if(this->canDeleteMatrix){
+                edk::vector::MatrixDynamic<typeTemplate>::deleteMatrix();edkEnd();
+            }
+            else{
+                this->canDeleteMatrix=true;edkEnd();
+            }
         }
-        else{
+    }
+
+    void Constructor(bool runFather=true){
+        if(runFather){
+            edk::vector::MatrixDynamic<typeTemplate>::Constructor();edkEnd();
+        }
+        if(this->classThis!=this){
+            this->classThis=this;
             this->canDeleteMatrix=true;edkEnd();
+            edk::vector::MatrixDynamic<typeTemplate>::createMatrix(m,n);edkEnd();
+            if(m==n){
+                canMultiplyMatrix=true;edkEnd();
+            }
+            else{
+                canMultiplyMatrix=false;edkEnd();
+            }
         }
     }
 
@@ -1214,6 +1260,8 @@ public:
         this->canDeleteMatrix=false;edkEnd();
         edk::vector::MatrixDynamic<typeTemplate>::cantDeleteVector();edkEnd();
     }
+private:
+    edk::classID classThis;
 };
 }//end namespace vector
 }//end namespace edk

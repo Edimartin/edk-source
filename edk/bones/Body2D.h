@@ -48,6 +48,8 @@ public:
     Body2D();
     virtual ~Body2D();
 
+    void Constructor(bool runFather=true);
+
     //add a new bone to the selected
     edk::bones::Bone2D* createBoneToSelected(const edk::char8* name);
     edk::bones::Bone2D* createBoneToSelected(const edk::char8* name,edk::vec2f32 position);
@@ -196,8 +198,22 @@ private:
 
     class TreeBoneName:public edk::vector::BinaryTree<edk::bones::Bone2D*>{
     public:
-        TreeBoneName(){}
-        ~TreeBoneName(){}
+        TreeBoneName(){this->classThis=NULL;this->Constructor(false);edkEnd();}
+        ~TreeBoneName(){
+            if(this->classThis==this){
+                this->classThis=NULL;edkEnd();
+                //can destruct the class
+            }
+        }
+
+        void Constructor(bool runFather=true){
+            if(runFather){
+                edk::vector::BinaryTree<edk::bones::Bone2D*>::Constructor();edkEnd();
+            }
+            if(this->classThis!=this){
+                this->classThis=this;
+            }
+        }
 
         //compare if the value is bigger
         bool firstBiggerSecond(edk::bones::Bone2D* first,edk::bones::Bone2D* second){
@@ -226,6 +242,8 @@ private:
             find.setName(name);edkEnd();
             return this->getElement(&find);
         }
+    private:
+        edk::classID classThis;
     }bones;
 
     class ChannelLink{
@@ -400,6 +418,8 @@ private:
         body.cantDelete();edkEnd();
         return body;edkEnd();
     }
+private:
+    edk::classID classThis;
 };
 }//end namespace bones
 }//end namespace edk

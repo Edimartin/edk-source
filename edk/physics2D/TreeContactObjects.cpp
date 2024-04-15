@@ -26,11 +26,25 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 edk::physics2D::TreeContactObjects::TreeContactObjects(){
-    //
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);edkEnd();
 }
 edk::physics2D::TreeContactObjects::~TreeContactObjects(){
-    //
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
+    }
 }
+
+void edk::physics2D::TreeContactObjects::Constructor(bool /*runFather*/){
+    //
+    if(this->classThis!=this){
+        this->classThis=this;
+
+        this->tree.Constructor();edkEnd();
+    }
+}
+
 //get the contact
 inline edk::physics2D::ContactObjects* edk::physics2D::TreeContactObjects::getContact(edk::physics2D::PhysicObject2D* objectA,
                                                                                       edk::physics2D::PhysicObject2D* objectB

@@ -25,13 +25,27 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 edk::multi::BufferThreadTree::BufferThreadTree(){
-    //
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);
 }
 edk::multi::BufferThreadTree::~BufferThreadTree(){
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
+        this->mut.lock();
+        this->tree.cleanBuffers();
+        this->mut.unlock();
+    }
+}
+
+void edk::multi::BufferThreadTree::Constructor(bool /*runFather*/){
     //
-    this->mut.lock();
-    this->tree.cleanBuffers();
-    this->mut.unlock();
+    if(this->classThis!=this){
+        this->classThis=this;
+
+        this->mut.Constructor();edkEnd();
+        this->tree.Constructor();edkEnd();
+    }
 }
 
 //write a vector into the buffer

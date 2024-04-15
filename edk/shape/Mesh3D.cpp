@@ -25,11 +25,24 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 edk::shape::Mesh3D::StackVertex::StackVertex(){
-    //
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);edkEnd();
 }
 edk::shape::Mesh3D::StackVertex::~StackVertex(){
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
+        this->cleanVertexes();edkEnd();
+    }
+}
+
+void edk::shape::Mesh3D::StackVertex::Constructor(bool /*runFather*/){
     //
-    this->cleanVertexes();edkEnd();
+    if(this->classThis!=this){
+        this->classThis=this;
+
+        this->stack.Constructor();edkEnd();
+    }
 }
 
 //clean all vertexes
@@ -143,11 +156,24 @@ bool edk::shape::Mesh3D::StackVertex::decrementVertex(edk::uint32 position){
 }
 
 edk::shape::Mesh3D::StackNormal::StackNormal(){
-    //
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);edkEnd();
 }
 edk::shape::Mesh3D::StackNormal::~StackNormal(){
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
+        this->cleanNormals();edkEnd();
+    }
+}
+
+void edk::shape::Mesh3D::StackNormal::Constructor(bool /*runFather*/){
     //
-    this->cleanNormals();edkEnd();
+    if(this->classThis!=this){
+        this->classThis=this;
+
+        this->stack.Constructor();edkEnd();
+    }
 }
 
 //clean all normals
@@ -243,11 +269,24 @@ bool edk::shape::Mesh3D::StackNormal::decrementNormal(edk::uint32 position){
 }
 
 edk::shape::Mesh3D::StackUV::StackUV(){
-    //
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);edkEnd();
 }
 edk::shape::Mesh3D::StackUV::~StackUV(){
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
+        this->cleanUVS();edkEnd();
+    }
+}
+
+void edk::shape::Mesh3D::StackUV::Constructor(bool /*runFather*/){
     //
-    this->cleanUVS();edkEnd();
+    if(this->classThis!=this){
+        this->classThis=this;
+
+        this->stack.Constructor();edkEnd();
+    }
 }
 
 //clean all uvs
@@ -341,11 +380,24 @@ bool edk::shape::Mesh3D::StackUV::decrementUV(edk::uint32 position){
 }
 
 edk::shape::Mesh3D::StackPolygon::StackPolygon(){
-    //
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);edkEnd();
 }
 edk::shape::Mesh3D::StackPolygon::~StackPolygon(){
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
+        this->cleanPolygons();edkEnd();
+    }
+}
+
+void edk::shape::Mesh3D::StackPolygon::Constructor(bool /*runFather*/){
     //
-    this->cleanPolygons();edkEnd();
+    if(this->classThis!=this){
+        this->classThis=this;
+
+        this->list.Constructor();edkEnd();
+    }
 }
 
 edk::uint32 edk::shape::Mesh3D::StackPolygon::size(){
@@ -453,16 +505,40 @@ void edk::shape::Mesh3D::StackPolygon::drawPolygonNormalsWithMatrixWithColor(edk
 }
 
 edk::shape::Mesh3D::Mesh3D(){
-    //mesh angles
-    this->angles = edk::vec3f32(0,0,0);edkEnd();
-    //mesh size
-    this->size = edk::size3f32(1,1,1);edkEnd();
-    //mesh position inside the object
-    this->position = edk::vec3f32(0,0,0);edkEnd();
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);edkEnd();
 }
 edk::shape::Mesh3D::~Mesh3D(){
-    //
-    this->cleanMesh();edkEnd();
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
+        this->cleanMesh();edkEnd();
+    }
+}
+
+void edk::shape::Mesh3D::Constructor(bool /*runFather*/){
+    if(this->classThis!=this){
+        this->classThis=this;
+
+        this->material.Constructor();edkEnd();
+        this->matrixTranslate.Constructor();edkEnd();
+        this->matrixRotateX.Constructor();edkEnd();
+        this->matrixRotateY.Constructor();edkEnd();
+        this->matrixRotateZ.Constructor();edkEnd();
+        this->matrixScale.Constructor();edkEnd();
+        this->matrixTransform.Constructor();edkEnd();
+        this->vertexes.Constructor();edkEnd();
+        this->normals.Constructor();edkEnd();
+        this->uvs.Constructor();edkEnd();
+        this->polygons.Constructor();edkEnd();
+
+        //mesh angles
+        this->angles = edk::vec3f32(0,0,0);edkEnd();
+        //mesh size
+        this->size = edk::size3f32(1,1,1);edkEnd();
+        //mesh position inside the object
+        this->position = edk::vec3f32(0,0,0);edkEnd();
+    }
 }
 
 void edk::shape::Mesh3D::calculateMatrices(){

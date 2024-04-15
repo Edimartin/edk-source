@@ -25,13 +25,30 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 edk::gui2d::BoxGui2d::BoxGui2d(){
-    //
-    this->textScale = this->getTextTemplateScale();
-    this->canCleanText=true;
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);edkEnd();
 }
 edk::gui2d::BoxGui2d::~BoxGui2d(){
-    //
-    this->removeAllSubObjectsBackground();
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
+        this->removeAllSubObjectsBackground();
+    }
+}
+
+void edk::gui2d::BoxGui2d::Constructor(bool runFather){
+    if(runFather){
+        edk::gui2d::ObjectGui2d::Constructor();edkEnd();
+    }
+    if(this->classThis!=this){
+        this->classThis=this;
+
+        this->nextsBack.Constructor();edkEnd();
+        this->nextsFore.Constructor();edkEnd();
+
+        this->textScale = this->getTextTemplateScale();
+        this->canCleanText=true;
+    }
 }
 
 //Add a subObject in to the nexes

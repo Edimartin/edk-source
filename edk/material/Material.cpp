@@ -25,41 +25,57 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 edk::material::Material::Material(){
-    for(edk::uint8 i=0u;i<materialTextureCount;i++){
-        //clean the textures
-        this->textures[i]=0u;
-    }
-    this->countTextures=0u;
-    this->canDelete=true;edkEnd();
-    //ambient
-    this->ambient[0] = 0.2f;edkEnd();
-    this->ambient[1] = 0.2f;edkEnd();
-    this->ambient[2] = 0.2f;edkEnd();
-    this->ambient[3] = 1.0f;edkEnd();
-    //diffuse
-    this->diffuse[0] = 0.8f;edkEnd();
-    this->diffuse[1] = 0.8f;edkEnd();
-    this->diffuse[2] = 0.8f;edkEnd();
-    this->diffuse[3] = 1.0f;edkEnd();
-    //specular
-    this->specular[0] = 0.0f;edkEnd();
-    this->specular[1] = 0.0f;edkEnd();
-    this->specular[2] = 0.0f;edkEnd();
-    this->specular[3] = 1.0f;edkEnd();
-    //emission
-    this->emission[0] = 1.0f;edkEnd();
-    this->emission[1] = 1.0f;edkEnd();
-    this->emission[2] = 1.0f;edkEnd();
-    this->emission[3] = 1.0f;edkEnd();
-    //shinines
-    this->shininess = 50.0f;edkEnd();
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);edkEnd();
 }
 edk::material::Material::~Material(){
-    if(this->canDelete){
-        //remove all the textures
-        this->removeAllTextures();edkEnd();
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
+        if(this->canDelete){
+            //remove all the textures
+            this->removeAllTextures();edkEnd();
+        }
     }
 }
+
+void edk::material::Material::Constructor(bool /*runFather*/){
+    if(this->classThis!=this){
+        this->classThis=this;
+
+        this->list.Constructor();edkEnd();
+
+        for(edk::uint8 i=0u;i<materialTextureCount;i++){
+            //clean the textures
+            this->textures[i]=0u;
+        }
+        this->countTextures=0u;
+        this->canDelete=true;edkEnd();
+        //ambient
+        this->ambient[0] = 0.2f;edkEnd();
+        this->ambient[1] = 0.2f;edkEnd();
+        this->ambient[2] = 0.2f;edkEnd();
+        this->ambient[3] = 1.0f;edkEnd();
+        //diffuse
+        this->diffuse[0] = 0.8f;edkEnd();
+        this->diffuse[1] = 0.8f;edkEnd();
+        this->diffuse[2] = 0.8f;edkEnd();
+        this->diffuse[3] = 1.0f;edkEnd();
+        //specular
+        this->specular[0] = 0.0f;edkEnd();
+        this->specular[1] = 0.0f;edkEnd();
+        this->specular[2] = 0.0f;edkEnd();
+        this->specular[3] = 1.0f;edkEnd();
+        //emission
+        this->emission[0] = 1.0f;edkEnd();
+        this->emission[1] = 1.0f;edkEnd();
+        this->emission[2] = 1.0f;edkEnd();
+        this->emission[3] = 1.0f;edkEnd();
+        //shinines
+        this->shininess = 50.0f;edkEnd();
+    }
+}
+
 //set to cantDelete
 void edk::material::Material::cantDelete(){
     this->canDelete=false;edkEnd();
@@ -828,8 +844,8 @@ bool edk::material::Material::readFromXMLFromPack(edk::pack::FilePackage* pack,e
                                     temp = edk::String::strCopyWithFilter(xml->getSelectedString(),(edk::char8*)filter);edkEnd();
                                     if(temp){
                                         this->loadTextureFromPack(pack,temp,i,
-                                                          edk::String::strToInt64(xml->getSelectedAttributeValueByName("filter"))
-                                                          );edkEnd();
+                                                                  edk::String::strToInt64(xml->getSelectedAttributeValueByName("filter"))
+                                                                  );edkEnd();
                                         free(temp);edkEnd();
                                     }
                                     xml->selectFather();edkEnd();

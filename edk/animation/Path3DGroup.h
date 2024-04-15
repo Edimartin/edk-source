@@ -42,6 +42,9 @@ namespace animation{
 class Path3DGroup : public edk::animation::Path2DGroup{
 public:
     Path3DGroup();
+    ~Path3DGroup();
+
+    void Constructor(bool runFather=true);
 
     //add a new frame
     bool addNewFrame(edk::float32 seconds,edk::float32 x,edk::float32 y,edk::float32 z);
@@ -112,6 +115,8 @@ public:
         }
         return false;
     }
+private:
+    edk::classID classThis;
 };
 }
 }

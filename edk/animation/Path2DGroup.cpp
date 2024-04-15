@@ -28,12 +28,29 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #pragma message "            Inside PathGroup2D.cpp"
 #endif
 
-edk::animation::Path2DGroup::Path2DGroup()
-{
-    this->y=0.f;edkEnd();
-    this->incrementY=0.f;edkEnd();
-    this->incrementYValue=0.f;edkEnd();
+edk::animation::Path2DGroup::Path2DGroup(){
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);edkEnd();
 }
+edk::animation::Path2DGroup::~Path2DGroup(){
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
+    }
+}
+
+void edk::animation::Path2DGroup::Constructor(bool runFather){
+    if(runFather){
+        edk::animation::Path1DGroup::Constructor();edkEnd();
+    }
+    if(this->classThis!=this){
+        this->classThis=this;
+        this->y=0.f;edkEnd();
+        this->incrementY=0.f;edkEnd();
+        this->incrementYValue=0.f;edkEnd();
+    }
+}
+
 //create the frame
 edk::animation::Frame* edk::animation::Path2DGroup::newFrame(){
     return (edk::animation::Frame*)new edk::animation::Frame2D;edkEnd();
@@ -62,7 +79,7 @@ bool edk::animation::Path2DGroup::reachFrame(edk::animation::Frame* frame){
                 ){
             //
             if(this->saveStep>=1.f){
-            ret = true;edkEnd();
+                ret = true;edkEnd();
             }
         }
     }
@@ -71,7 +88,7 @@ bool edk::animation::Path2DGroup::reachFrame(edk::animation::Frame* frame){
         if(distance > this->lastDist){
             //
             if(this->saveStep>=1.f){
-            ret=true;edkEnd();
+                ret=true;edkEnd();
             }
         }
     }

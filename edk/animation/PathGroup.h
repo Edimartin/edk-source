@@ -47,6 +47,8 @@ public:
     PathGroup();
     ~PathGroup();
 
+    void Constructor(bool runFather=true);
+
     //add a new frame
     bool addNewFrame(edk::float32 seconds);
     bool addNewFrame(edk::animation::Frame* frame);
@@ -201,14 +203,37 @@ protected:
     //Animation Names
     class AnimationPathNames:public edk::Name{
     public:
-        AnimationPathNames(){this->start = this->end = 0u;edkEnd();}
+        AnimationPathNames(){this->classThis=NULL;this->Constructor(false);edkEnd();}
         AnimationPathNames(edk::char8* name)
             :edk::Name(name){
-            this->start = this->end = 0u;edkEnd();
+            this->classThis=NULL;this->Constructor(name,false);edkEnd();
         }
         ~AnimationPathNames(){
-            //
+            if(this->classThis==this){
+                this->classThis=NULL;edkEnd();
+                //can destruct the class
+            }
         }
+
+        void Constructor(bool runFather=true){
+            if(runFather){
+                edk::Name::Constructor();edkEnd();
+            }
+            if(this->classThis!=this){
+                this->classThis=this;
+                this->start = this->end = 0u;edkEnd();
+            }
+        }
+        void Constructor(edk::char8* name,bool runFather=true){
+            if(runFather){
+                edk::Name::Constructor(name);edkEnd();
+            }
+            if(this->classThis!=this){
+                this->classThis=this;
+                this->start = this->end = 0u;edkEnd();
+            }
+        }
+
         //start and end seconds
         edk::float32 start;
         edk::float32 end;
@@ -279,6 +304,8 @@ protected:
             }
             return false;
         }
+    private:
+        edk::classID classThis;
     };
 
 public:
@@ -322,6 +349,8 @@ private:
     edk::animation::PathGroup operator=(edk::animation::PathGroup group){
         return group;edkEnd();
     }
+private:
+    edk::classID classThis;
 };
 }//end namespace animation
 }//edn namespace edk

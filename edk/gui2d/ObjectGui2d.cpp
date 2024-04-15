@@ -25,21 +25,47 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 edk::gui2d::ObjectGui2d::ObjectGui2d(){
-    //
-    this->type=edk::TypeObject2DGui;
-    this->percent1=this->percent2=this->resize=0.f;edkEnd();
-    for(edk::uint32 i = 0u;i<edk::gui2d::gui2dTextureSize;i++){
-        this->spriteSize[i].width = this->spriteSize[i].height = 0.f;edkEnd();
-    }
-    this->textSize = this->getTextTemplateScale();edkEnd();
-    this->setStatus(edk::gui2d::gui2dTextureNormal);edkEnd();
-    this->saveStatus = this->status;edkEnd();
-    this->pressed = false;edkEnd();
-    this->drawText = false;edkEnd();
-    this->selected=false;edkEnd();
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);edkEnd();
 }
 edk::gui2d::ObjectGui2d::~ObjectGui2d(){
-    //
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
+    }
+}
+
+void edk::gui2d::ObjectGui2d::Constructor(bool runFather){
+    if(runFather){
+        edk::Object2DValues::Constructor();edkEnd();
+    }
+    if(this->classThis!=this){
+        this->classThis=this;
+
+        this->obj.Constructor();edkEnd();
+        this->sprite.Constructor();edkEnd();
+        this->center.Constructor();edkEnd();
+        this->centerS.Constructor();edkEnd();
+        this->spritePolygon.Constructor();edkEnd();
+        this->text.Constructor();edkEnd();
+        this->matrixPosition.Constructor();edkEnd();
+        this->matrixPivo.Constructor();edkEnd();
+        this->matrixAngle.Constructor();edkEnd();
+        this->matrixSize.Constructor();edkEnd();
+        this->matrixTransform.Constructor();edkEnd();
+
+        this->type=edk::TypeObject2DGui;
+        this->percent1=this->percent2=this->resize=0.f;edkEnd();
+        for(edk::uint32 i = 0u;i<edk::gui2d::gui2dTextureSize;i++){
+            this->spriteSize[i].width = this->spriteSize[i].height = 0.f;edkEnd();
+        }
+        this->textSize = this->getTextTemplateScale();edkEnd();
+        this->setStatus(edk::gui2d::gui2dTextureNormal);edkEnd();
+        this->saveStatus = this->status;edkEnd();
+        this->pressed = false;edkEnd();
+        this->drawText = false;edkEnd();
+        this->selected=false;edkEnd();
+    }
 }
 
 bool edk::gui2d::ObjectGui2d::writeBoundingBox(edk::rectf32* rect){

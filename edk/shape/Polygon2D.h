@@ -97,6 +97,9 @@ public:
     Polygon2D(edk::uint32 vertexCount);
     virtual ~Polygon2D();
 
+    void Constructor(bool runFather=true);
+    void Constructor(edk::uint32 vertexCount,bool runFather=true);
+
     void clean();
 
     //create the polygon
@@ -471,13 +474,31 @@ protected:
     class Polygon2DMorph{
     public:
         Polygon2DMorph(edk::uint32 vertexCount,edk::color4f32 polygonColor){
-            this->percent=0.f;
-            this->createPolygon(vertexCount,polygonColor);
+            this->classThis=NULL;edkEnd();
+            this->Constructor(vertexCount,polygonColor,false);edkEnd();
         }
         ~Polygon2DMorph(){
-            this->vertexs.deleteArray();
-            this->vertexsOriginal.deleteArray();
+            if(this->classThis==this){
+                this->classThis=NULL;edkEnd();
+                //can destruct the class
+                this->vertexs.deleteArray();
+                this->vertexsOriginal.deleteArray();
+            }
         }
+
+        void Constructor(edk::uint32 vertexCount,edk::color4f32 polygonColor,bool runFather=true){
+            if(runFather){edkEnd();}
+            if(this->classThis!=this){
+                this->classThis=this;
+
+                this->vertexs.Constructor();
+                this->vertexsOriginal.Constructor();
+
+                this->percent=0.f;
+                this->createPolygon(vertexCount,polygonColor);
+            }
+        }
+
         edk::vector::Array<edk::shape::Vertex2D*> vertexs;
         edk::vector::Array<edk::shape::Vertex2D*> vertexsOriginal;
         edk::float32 percent;
@@ -1556,6 +1577,8 @@ protected:
             }
             return false;
         }
+    private:
+        edk::classID classThis;
     };
     edk::vector::Stack<edk::shape::Polygon2D::Polygon2DMorph*> vertexsMorph;
 private:
@@ -1573,10 +1596,10 @@ private:
     //save true if this polygon create the animationFrames
     bool createAnimationFrames;
     //transform matrices
-    edk::vector::Matrix<edk::float32,3u,3u> matrixTranslate;
-    edk::vector::Matrix<edk::float32,3u,3u> matrixRotate;
-    edk::vector::Matrix<edk::float32,3u,3u> matrixScale;
-    edk::vector::Matrix<edk::float32,3u,3u> matrixTransform;
+    edk::vector::Matrix<edk::float32,3u,3u>  matrixTranslate;
+    edk::vector::Matrix<edk::float32,3u,3u>  matrixRotate;
+    edk::vector::Matrix<edk::float32,3u,3u>  matrixScale;
+    edk::vector::Matrix<edk::float32,3u,3u>  matrixTransform;
     edk::vector::MatrixDynamic<edk::float32> matrixPosition;
     //success
     static bool successTemplate;
@@ -1640,6 +1663,8 @@ private:
         //return the polygon
         return poly;edkEnd();
     }
+private:
+    edk::classID classThis;
 };
 
 }//end namespace shape

@@ -29,17 +29,31 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endif
 
 edk::codecs::DecoderH264::DecoderH264(){
-    //
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);edkEnd();
+}
+edk::codecs::DecoderH264::~DecoderH264(){
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
+    }
+}
+
+void edk::codecs::DecoderH264::Constructor(bool runFather){
+    if(runFather){
+        edk::codecs::DecoderVideo::Constructor();edkEnd();
+    }
+    if(this->classThis!=this){
+        this->classThis=this;
 #ifdef EDK_USE_OPENH264
-    this->decoder=NULL;edkEnd();
-    this->version = WelsGetCodecVersion();edkEnd();
+        this->decoder=NULL;edkEnd();
+        this->version = WelsGetCodecVersion();edkEnd();
 #else
         edkPrintf("You must define EDK_USE_OPENH264 before use");edkEnd();
 #endif
+    }
 }
-edk::codecs::DecoderH264::~DecoderH264(){
-    //
-}
+
 //convert the frame with border
 bool edk::codecs::DecoderH264::i420TorgbWithBorder(edk::uint8* y,edk::uint8* u,edk::uint8* v,edk::size2ui32 size,edk::uint8* rgb,edk::uint32 border){
     if(rgb && size.width && size.height && y && u && v){
@@ -279,7 +293,7 @@ void edk::codecs::DecoderH264::finishDecoder(){
     WelsDestroyDecoder(this->decoder);edkEnd();
     this->decoder = NULL;edkEnd();
 #else
-        edkPrintf("You must define EDK_USE_OPENH264 before use");edkEnd();
+    edkPrintf("You must define EDK_USE_OPENH264 before use");edkEnd();
 #endif
 }
 
@@ -291,7 +305,7 @@ bool edk::codecs::DecoderH264::haveInitialized(){
         return true;
     }
 #else
-        edkPrintf("You must define EDK_USE_OPENH264 before use");edkEnd();
+    edkPrintf("You must define EDK_USE_OPENH264 before use");edkEnd();
 #endif
     return false;
 }

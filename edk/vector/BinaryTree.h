@@ -164,7 +164,20 @@ namespace vector{
 template <class typeTemplate>
 class BinaryTreeCallback{
 public:
-    BinaryTreeCallback(){}
+    BinaryTreeCallback(){this->classThis=NULL;this->Constructor(false);edkEnd();}
+    ~BinaryTreeCallback(){
+        if(this->classThis==this){
+            this->classThis=NULL;edkEnd();
+            //can destruct the class
+        }
+    }
+
+    void Constructor(bool runFather=true){
+        if(runFather){edkEnd();}
+        if(this->classThis!=this){
+            this->classThis=this;
+        }
+    }
     virtual void callbackLoadElement(typeTemplate){}
     virtual void callbackUnloadElement(typeTemplate){}
     virtual void callbackPrintElement(typeTemplate){}
@@ -173,22 +186,36 @@ public:
     virtual void callbackDrawElement(typeTemplate){}
     virtual void callbackDrawWireElement(typeTemplate){}
     virtual void callbackUpdateElement(typeTemplate){}
+private:
+    edk::classID classThis;
 };
 template <class typeTemplate>
 class UnaryLeaf{
     //Construtor
 public:
     UnaryLeaf(){
-        //
-        this->next=NULL;edkEnd();
-        this->father=NULL;edkEnd();
-        this->position=0u;
-        memset(&this->value,0u,sizeof(typeTemplate));edkEnd();
+        this->classThis=NULL;edkEnd();
+        this->Constructor(false);edkEnd();
     }
     //Destrutor
     ~UnaryLeaf(){
-        //
+        if(this->classThis==this){
+            this->classThis=NULL;edkEnd();
+            //can destruct the class
+        }
     }
+
+    void Constructor(bool runFather=true){
+        if(runFather){edkEnd();}
+        if(this->classThis!=this){
+            this->classThis=this;
+            this->next=NULL;edkEnd();
+            this->father=NULL;edkEnd();
+            this->position=0u;
+            memset(&this->value,0u,sizeof(typeTemplate));edkEnd();
+        }
+    }
+
     //LEFT
     UnaryLeaf* next;
     //add the father
@@ -198,24 +225,38 @@ public:
     typeTemplate value;
     //position of the leaf in the tree
     edk::uint32 position;
+private:
+    edk::classID classThis;
 };
 template <class typeTemplate>
 class BinaryLeaf{
     //Construtor
 public:
     BinaryLeaf(){
-        //
-        this->left=NULL;edkEnd();
-        this->right=NULL;edkEnd();
-        this->father=NULL;edkEnd();
-        this->counter=0;edkEnd();
-        this->readed=0u;edkEnd();
-        memset((void*)&this->value,0u,sizeof(typeTemplate));edkEnd();
+        this->classThis=NULL;edkEnd();
+        this->Constructor(false);edkEnd();
     }
     //Destrutor
     ~BinaryLeaf(){
-        //
+        if(this->classThis==this){
+            this->classThis=NULL;edkEnd();
+            //can destruct the class
+        }
     }
+
+    void Constructor(bool runFather=true){
+        if(runFather){edkEnd();}
+        if(this->classThis!=this){
+            this->classThis=this;
+            this->left=NULL;edkEnd();
+            this->right=NULL;edkEnd();
+            this->father=NULL;edkEnd();
+            this->counter=0;edkEnd();
+            this->readed=0u;edkEnd();
+            memset((void*)&this->value,0u,sizeof(typeTemplate));edkEnd();
+        }
+    }
+
     //RIGHT
     BinaryLeaf* left;
     BinaryLeaf* right;
@@ -230,6 +271,8 @@ public:
     typeTemplate value;
     //position of the leaf in the tree
     edk::uint32 position;
+private:
+    edk::classID classThis;
 };
 template <class typeTemplate>
 class BinaryTree{
@@ -238,27 +281,40 @@ public:
     edk::uint16 errorCode;
     //Construtor
     BinaryTree(){
-        this->updateElementsPositions=false;
-        this->root=NULL;edkEnd();
-        this->errorCode=0u;edkEnd();
-        this->sizeTree=0u;edkEnd();
-        this->dontDestruct = false;edkEnd();
-
-        this->errorCodePointer = &this->errorCode;edkEnd();
-        this->rootPointer = &this->root;edkEnd();
-        this->updateElementsPositionsPointer = &this->updateElementsPositions;edkEnd();
-        this->sizeTreePointer = &this->sizeTree;edkEnd();
+        this->classThis=NULL;edkEnd();
+        this->Constructor(false);edkEnd();
     }
     //Destrutor
     virtual ~BinaryTree(){
-        //
-        if(!this->dontDestruct){
-            this->clean();edkEnd();
-            this->root=NULL;edkEnd();
-            this->sizeTree=0u;edkEnd();
+        if(this->classThis==this){
+            this->classThis=NULL;edkEnd();
+            //can destruct the class
+            if(!this->dontDestruct){
+                this->clean();edkEnd();
+                this->root=NULL;edkEnd();
+                this->sizeTree=0u;edkEnd();
+            }
+            this->dontDestruct=false;edkEnd();
         }
-        this->dontDestruct=false;edkEnd();
     }
+
+    void Constructor(bool runFather=true){
+        if(runFather){edkEnd();}
+        if(this->classThis!=this){
+            this->classThis=this;
+            this->updateElementsPositions=false;
+            this->root=NULL;edkEnd();
+            this->errorCode=0u;edkEnd();
+            this->sizeTree=0u;edkEnd();
+            this->dontDestruct = false;edkEnd();
+
+            this->errorCodePointer = &this->errorCode;edkEnd();
+            this->rootPointer = &this->root;edkEnd();
+            this->updateElementsPositionsPointer = &this->updateElementsPositions;edkEnd();
+            this->sizeTreePointer = &this->sizeTree;edkEnd();
+        }
+    }
+
     //Add a value on the tree
     bool add(typeTemplate value){
         //Test if is the root element
@@ -1924,6 +1980,8 @@ private:
             }
         }
     }
+private:
+    edk::classID classThis;
 };
 
 //String TREE
@@ -1931,19 +1989,34 @@ class NameTree:public BinaryTree<edk::Name*>{
 public:
     //Construtor
     NameTree(){
-        //
-        this->canDeleteNames=true;edkEnd();
+        this->classThis=NULL;edkEnd();
+        this->Constructor(false);edkEnd();
     }
     //Destrutor
     ~NameTree(){
-        if(this->canDeleteNames){
-            this->deleteAllNames();edkEnd();
+        if(this->classThis==this){
+            this->classThis=NULL;edkEnd();
+            //can destruct the class
+            if(this->canDeleteNames){
+                this->deleteAllNames();edkEnd();
+            }
+            else{
+                this->cantDestruct();edkEnd();
+            }
+            this->canDeleteNames=false;edkEnd();
         }
-        else{
-            this->cantDestruct();edkEnd();
-        }
-        this->canDeleteNames=false;edkEnd();
     }
+
+    void Constructor(bool runFather=true){
+        if(runFather){
+            BinaryTree<edk::Name*>::Constructor();edkEnd();
+        }
+        if(this->classThis!=this){
+            this->classThis=this;
+            this->canDeleteNames=true;edkEnd();
+        }
+    }
+
     //Functions in const
     //ADD
     bool addName(const edk::char8* value){
@@ -2144,6 +2217,8 @@ private:
         //else return false
         return false;
     }
+private:
+    edk::classID classThis;
 };
 
 //enum with the map to go into the value
@@ -2157,8 +2232,24 @@ enum edkLeafsMap{
 //treeMAPPING
 class TreeMap: public edk::vector::Queue<edk::vector::edkLeafsMap>{
 public:
-    TreeMap(){}
-    ~TreeMap(){}
+    TreeMap(){this->classThis=NULL;this->Constructor(false);edkEnd();}
+    ~TreeMap(){
+        if(this->classThis==this){
+            this->classThis=NULL;edkEnd();
+            //can destruct the class
+        }
+    }
+
+    void Constructor(bool runFather=true){
+        if(runFather){
+            edk::vector::Queue<edk::vector::edkLeafsMap>::Constructor();edkEnd();
+        }
+        if(this->classThis!=this){
+            this->classThis=this;
+        }
+    }
+private:
+    edk::classID classThis;
 };
 
 template <class typeTemplate>
@@ -2168,26 +2259,43 @@ public:
     edk::uint16 errorCode;
     //Construtor
     LeafsOnlyTree(){
-        this->root=NULL;edkEnd();
-        this->errorCode=0u;edkEnd();
-        this->sizeTree=0u;edkEnd();
-        this->dontDestruct = false;edkEnd();
-
-        this->errorCodePointer = &this->errorCode;
-        this->rootPointer = &this->root;
-        this->sizeTreePointer = &this->sizeTree;
-        this->mapPointer = &this->map;
-        this->elementSelectedPointer = &this->elementSelected;
+        this->classThis=NULL;edkEnd();
+        this->Constructor(false);edkEnd();
     }
     //Destrutor
     virtual ~LeafsOnlyTree(){
-        if(!this->dontDestruct){
-            this->clean();edkEnd();
-            this->root=NULL;edkEnd();
-            this->sizeTree=0u;edkEnd();
+        if(this->classThis==this){
+            this->classThis=NULL;edkEnd();
+            //can destruct the class
+            if(!this->dontDestruct){
+                this->clean();edkEnd();
+                this->root=NULL;edkEnd();
+                this->sizeTree=0u;edkEnd();
+            }
+            this->dontDestruct=false;edkEnd();
         }
-        this->dontDestruct=false;edkEnd();
     }
+
+    void Constructor(bool runFather=true){
+        if(runFather){edkEnd();}
+        if(this->classThis!=this){
+            this->classThis=this;
+
+            this->map.Constructor();edkEnd();
+
+            this->root=NULL;edkEnd();
+            this->errorCode=0u;edkEnd();
+            this->sizeTree=0u;edkEnd();
+            this->dontDestruct = false;edkEnd();
+
+            this->errorCodePointer = &this->errorCode;
+            this->rootPointer = &this->root;
+            this->sizeTreePointer = &this->sizeTree;
+            this->mapPointer = &this->map;
+            this->elementSelectedPointer = &this->elementSelected;
+        }
+    }
+
     //Add a value on the tree
     bool add(typeTemplate value){
         //Test if is the root element
@@ -3267,6 +3375,8 @@ private:
             }
         }
     }
+private:
+    edk::classID classThis;
 };
 }
 }

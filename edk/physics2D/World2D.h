@@ -74,7 +74,21 @@ namespace physics2D{
 //Animation abstract to callback
 class ContactCallback2D{
 public:
-    ContactCallback2D(){}
+    ContactCallback2D(){this->classThis=NULL;this->Constructor(false);edkEnd();}
+    ~ContactCallback2D(){
+        if(this->classThis==this){
+            this->classThis=NULL;edkEnd();
+            //can destruct the class
+        }
+    }
+
+    void Constructor(bool runFather=true){
+        if(runFather){edkEnd();}
+        if(this->classThis!=this){
+            this->classThis=this;
+        }
+    }
+
     virtual void contact2DBegin(edk::physics2D::Contact2D*){}
     virtual void contact2DEnd(edk::physics2D::Contact2D*){}
     virtual void contact2DKeepBegin(edk::physics2D::Contact2D*){}
@@ -83,12 +97,17 @@ public:
     virtual void sensor2DBegin(edk::physics2D::Contact2D*){}
     virtual void sensor2DEnd(edk::physics2D::Contact2D*){}
     virtual void sensor2DKeeping(edk::physics2D::Contact2D*){}
+private:
+    edk::classID classThis;
 };
 
 class World2D{
 public:
     World2D();
-    ~World2D();
+    virtual ~World2D();
+
+    void Constructor(bool runFather=true);
+
     //Set the gravity
     void setGravity(edk::vec2f32 gravity);
     void setGravity(edk::float32 x,edk::float32 y);
@@ -447,10 +466,26 @@ private:
     //class to save the object
     class ObjectTree{
     public:
-        ObjectTree(edk::physics2D::PhysicObject2D* object,b2Body* body){this->object=object;edkEnd();this->body=body;edkEnd();}
-        ~ObjectTree(){}
+        ObjectTree(edk::physics2D::PhysicObject2D* object,b2Body* body){this->classThis=NULL;this->Constructor(object,body,false);edkEnd();}
+        ~ObjectTree(){
+            if(this->classThis==this){
+                this->classThis=NULL;edkEnd();
+                //can destruct the class
+            }
+        }
+
+        void Constructor(edk::physics2D::PhysicObject2D* object,b2Body* body,bool runFather=true){
+            if(runFather){edkEnd();}
+            if(this->classThis!=this){
+                this->classThis=this;
+                this->object=object;edkEnd();
+                this->body=body;edkEnd();
+            }
+        }
         edk::physics2D::PhysicObject2D* object;
         b2Body* body;
+    private:
+        edk::classID classThis;
     };
     //Physics TREE
     class treeObjects:public edk::vector::BinaryTree<ObjectTree*>{
@@ -561,8 +596,24 @@ private:
     //deletedTree
     class DeletedTree: public edk::vector::BinaryTree<b2Body*>{
     public:
-        DeletedTree(b2World* world){this->world = world;edkEnd();}
-        ~DeletedTree(){}
+        DeletedTree(b2World* world){this->classThis=NULL;edkEnd();
+                                    this->Constructor(world,false);edkEnd();}
+        ~DeletedTree(){
+            if(this->classThis==this){
+                this->classThis=NULL;edkEnd();
+                //can destruct the class
+            }
+        }
+
+        void Constructor(b2World* world,bool runFather=true){
+            if(runFather){
+                edk::vector::BinaryTree<b2Body*>::Constructor();edkEnd();
+            }
+            if(this->classThis!=this){
+                this->classThis=this;
+                this->world = world;edkEnd();
+            }
+        }
         void updateElement(b2Body* value){
             //update the value
             if(value){
@@ -571,14 +622,32 @@ private:
         }
         //Box2D
         b2World* world;
+    private:
+        edk::classID classThis;
     }treeDeleted;
 #endif
 
     //newTree
     class NewTree: public edk::vector::BinaryTree<edk::physics2D::PhysicObject2D*>{
     public:
-        NewTree(edk::physics2D::World2D* world){this->world = world;edkEnd();}
-        ~NewTree(){}
+        NewTree(edk::physics2D::World2D* world){this->classThis=NULL;edkEnd();
+                                                this->Constructor(world,false);edkEnd();}
+        ~NewTree(){
+            if(this->classThis==this){
+                this->classThis=NULL;edkEnd();
+                //can destruct the class
+            }
+        }
+
+        void Constructor(edk::physics2D::World2D* world,bool runFather=true){
+            if(runFather){
+                edk::vector::BinaryTree<edk::physics2D::PhysicObject2D*>::Constructor();edkEnd();
+            }
+            if(this->classThis!=this){
+                this->classThis=this;
+                this->world = world;edkEnd();
+            }
+        }
         //NEW OBJECT
         virtual void printElement(edk::physics2D::PhysicObject2D* value){
             if(!this->world->runNextStep){
@@ -599,6 +668,8 @@ private:
         }
         //edkWorld
         edk::physics2D::World2D* world;
+    private:
+        edk::classID classThis;
     }treeNew,treeLinearVelocity,treeAngularVelocity;
 
     //ContactTree
@@ -634,7 +705,11 @@ private:
     public:
         MyContactListener();
         MyContactListener(edk::physics2D::World2D* world);
-        ~MyContactListener(){}
+        ~MyContactListener();
+
+        void Constructor(bool runFather=true);
+        void Constructor(edk::physics2D::World2D* world,bool runFather=true);
+
         void BeginContact(b2Contact* contact);
         void EndContact(b2Contact* contact);
         void PreSolve(b2Contact* contact, const b2Manifold* oldManifold);
@@ -642,6 +717,8 @@ private:
         edk::physics2D::World2D* world;
         edk::float32 percentIn;
         edk::float32 percentOut;
+    private:
+        edk::classID classThis;
     }contacts;
 
 
@@ -649,8 +726,24 @@ private:
     //class to save the joint
     class JointTreeObject{
     public:
-        JointTreeObject(edk::physics2D::Joint2D* joint,b2Joint* boxJoint){this->joint=joint;edkEnd();this->boxJoint=boxJoint;edkEnd();}
-        ~JointTreeObject(){}
+        JointTreeObject(edk::physics2D::Joint2D* joint,b2Joint* boxJoint){
+            this->classThis=NULL;edkEnd();
+            this->Constructor(joint,boxJoint,false);edkEnd();
+        }
+        ~JointTreeObject(){
+            if(this->classThis==this){
+                this->classThis=NULL;edkEnd();
+                //can destruct the class
+            }
+        }
+
+        void Constructor(edk::physics2D::Joint2D* joint,b2Joint* boxJoint,bool runFather=true){
+            if(runFather){edkEnd();}
+            if(this->classThis!=this){
+                this->classThis=this;
+                this->joint=joint;edkEnd();this->boxJoint=boxJoint;edkEnd();
+            }
+        }
         edk::physics2D::Joint2D* joint;
         b2Joint* boxJoint;
 
@@ -682,6 +775,8 @@ private:
             }
             return ret;
         }
+    private:
+        edk::classID classThis;
     };
 
     //Joint Tree
@@ -880,18 +975,57 @@ private:
     //TREE to save the joints
     class ObjectIDs{
     public:
-        ObjectIDs(edk::physics2D::PhysicObject2D* object,edk::uint32 id){this->object=object;this->id = id;}
-        ObjectIDs(){this->object=NULL;this->id = 0u;}
-        ~ObjectIDs(){}
+        ObjectIDs(edk::physics2D::PhysicObject2D* object,edk::uint32 id){this->classThis=NULL;this->Constructor(object,id,false);edkEnd();}
+        ObjectIDs(){this->classThis=NULL;this->Constructor(false);edkEnd();}
+        ~ObjectIDs(){
+            if(this->classThis==this){
+                this->classThis=NULL;edkEnd();
+                //can destruct the class
+            }
+        }
+
+        void Constructor(edk::physics2D::PhysicObject2D* object,edk::uint32 id,bool runFather=true){
+            if(runFather){edkEnd();}
+            if(this->classThis!=this){
+                this->classThis=this;
+                this->object=object;
+                this->id = id;
+            }
+        }
+        void Constructor(bool runFather=true){
+            if(runFather){edkEnd();}
+            if(this->classThis!=this){
+                this->classThis=this;
+                this->object=NULL;
+                this->id = 0u;
+            }
+        }
+
         edk::physics2D::PhysicObject2D* object;
         edk::uint32 id;
+    private:
+        edk::classID classThis;
     };
     //tree
     class TreeObjectID : edk::vector::BinaryTree<edk::physics2D::World2D::ObjectIDs*>{
     public:
-        TreeObjectID(){}
+        TreeObjectID(){this->classThis=NULL;edkEnd();
+                       this->Constructor(false);edkEnd();}
         ~TreeObjectID(){
-            this->removeAllObjects();edkEnd();
+            if(this->classThis==this){
+                this->classThis=NULL;edkEnd();
+                //can destruct the class
+                this->removeAllObjects();edkEnd();
+            }
+        }
+
+        void Constructor(bool runFather=true){
+            if(runFather){
+                edk::vector::BinaryTree<edk::physics2D::World2D::ObjectIDs*>Constructor();edkEnd();
+            }
+            if(this->classThis!=this){
+                this->classThis=this;
+            }
         }
         //compare if the value is bigger
         virtual bool firstBiggerSecond(edk::physics2D::World2D::ObjectIDs* first,edk::physics2D::World2D::ObjectIDs* second){
@@ -980,7 +1114,11 @@ private:
             edk::physics2D::World2D::ObjectIDs find(object,0u);edkEnd();
             return this->getElement(&find);
         }
+    private:
+        edk::classID classThis;
     };
+private:
+    edk::classID classThis;
 };
 }
 }

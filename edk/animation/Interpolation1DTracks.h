@@ -53,6 +53,8 @@ public:
     Interpolation1DTracks();
     ~Interpolation1DTracks();
 
+    void Constructor(bool runFather=true);
+
     //Add a first interpolation
     bool addFirstInterpolationLine(edk::uint32 trackPosition,edk::float32 startSecond, edk::float32 startX, edk::float32 endSecond,edk::float32 endX);
     bool addFirstInterpolationLine(edk::uint32 trackPosition,edk::animation::Frame1D start,edk::animation::Frame1D end);
@@ -136,8 +138,22 @@ protected:
     //stack of tracks
     class StackTracks1D : public edk::animation::InterpolationTracks::StackTracks{
     public:
-        StackTracks1D(){}
-        ~StackTracks1D(){}
+        StackTracks1D(){this->classThis=NULL;this->Constructor(false);edkEnd();}
+        ~StackTracks1D(){
+            if(this->classThis==this){
+                this->classThis=NULL;edkEnd();
+                //can destruct the class
+            }
+        }
+
+        void Constructor(bool runFather=true){
+            if(runFather){
+                edk::animation::InterpolationTracks::StackTracks::Constructor();edkEnd();
+            }
+            if(this->classThis!=this){
+                this->classThis=this;
+            }
+        }
         virtual void loadElement(edk::animation::InterpolationTracks::AnimationAndPosition value){
             edk::animation::Interpolation1DGroup* group = (edk::animation::Interpolation1DGroup*)value.animation;edkEnd();
             if(group){
@@ -161,9 +177,13 @@ protected:
             }
         }
         edk::float32 x;
+    private:
+        edk::classID classThis;
     }stack;
     //
     virtual edk::animation::InterpolationGroup* newInterpolationGroup();
+private:
+    edk::classID classThis;
 };
 }//end namespace animation
 }//end namespace edk

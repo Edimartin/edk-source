@@ -40,23 +40,27 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 namespace edk{
 namespace shape{
 class Quadrangle2D : public edk::shape::Polygon2D{
-    public:
-        Quadrangle2D();
-        virtual ~Quadrangle2D();
+public:
+    Quadrangle2D();
+    virtual ~Quadrangle2D();
 
-        //Virtual Functions
-        bool createPolygon(edk::uint32 vertexCount);
-        void deletePolygon();
+    void Constructor(bool runFather=true);
 
-        //print the triangle
-        void print();
-        //Draw the triangle
-        void draw();
-        void drawWire();
-    protected:
-    private:
+    //Virtual Functions
+    bool createPolygon(edk::uint32 vertexCount);
+    void deletePolygon();
+
+    //print the triangle
+    void print();
+    //Draw the triangle
+    void draw();
+    void drawWire();
+protected:
+private:
     //createPolygon
     bool createPolygon();
+private:
+    edk::classID classThis;
 };
 }//end namespace shape
 }//end namespace edk

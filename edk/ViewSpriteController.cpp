@@ -28,18 +28,32 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #pragma message "            Inside ViewSpriteController.cpp"
 #endif
 
-edk::ViewSpriteController::ViewSpriteController()
-{
-    //ctor
-    this->spriteCode=0u;
-    this->spriteFilter=0u;
-    this->spriteSize = edk::size2ui32(0u,0u);edkEnd();
+edk::ViewSpriteController::ViewSpriteController(){
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);edkEnd();
 }
 
-edk::ViewSpriteController::~ViewSpriteController()
-{
-    //dtor
-    this->deleteSprite();edkEnd();
+edk::ViewSpriteController::~ViewSpriteController(){
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
+        this->deleteSprite();edkEnd();
+    }
+}
+
+void edk::ViewSpriteController::Constructor(bool runFather){
+    if(runFather){
+        edk::ViewController::Constructor();edkEnd();
+    }
+    if(this->classThis!=this){
+        this->classThis=this;
+
+        this->list.Constructor();edkEnd();
+
+        this->spriteCode=0u;
+        this->spriteFilter=0u;
+        this->spriteSize = edk::size2ui32(0u,0u);edkEnd();
+    }
 }
 
 //create a new sprite

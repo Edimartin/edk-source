@@ -45,6 +45,8 @@ public:
     ViewTextField();
     ~ViewTextField();
 
+    void Constructor(bool runFather=true);
+
     void load(rectf32 outsideViewOrigin);
     void unload();
     void update(edk::WindowEvents* events);
@@ -81,6 +83,8 @@ private:
     public:
         TextField();
         ~TextField();
+
+        void Constructor(bool runFather=true);
 
         void eventMousePressed(edk::vec2f32 point,edk::uint32 button);
         void eventMouseMoved(edk::vec2f32 point,edk::uint32 button);
@@ -148,7 +152,11 @@ private:
         edk::Object2D obj;
         //animation to the object
         edk::animation::Interpolation1DGroup anim;
+    private:
+        edk::classID classThis;
     }text;
+private:
+    edk::classID classThis;
 };
 }//end namespace edk
 

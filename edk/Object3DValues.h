@@ -44,6 +44,8 @@ class Object3DValues{
 public:
     Object3DValues();
     ~Object3DValues();
+
+    void Constructor(bool runFather=true);
     edk::vec3f32 position;
     edk::vec3f32 angle;
     edk::size3f32 size;
@@ -62,6 +64,8 @@ protected:
     edk::size3f32 connectedSize;
 
     void connectedLoadIdentityValues();
+private:
+    edk::classID classThis;
 };
 }//end namespace edk
 

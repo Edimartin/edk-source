@@ -24,17 +24,50 @@ OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-edk::network::ServerSocket::ServerSocket()
-{
+edk::network::ServerSocket::ServerSocket(){
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);edkEnd();
+}
+edk::network::ServerSocket::~ServerSocket(){
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
+    }
+}
+
+void edk::network::ServerSocket::Constructor(bool runFather){
+    if(runFather){
+        edk::network::Socket::Constructor();edkEnd();
+    }
+    if(this->classThis!=this){
+        this->classThis=this;
+
+        this->tree.Constructor();edkEnd();
+    }
 }
 
 edk::network::ServerSocket::treeAdress::treeAdress(){
-    //
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);edkEnd();
 }
 edk::network::ServerSocket::treeAdress::~treeAdress(){
-    //delete all the adresses
-    this->deleteAllAdress();edkEnd();
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
+        //delete all the adresses
+        this->deleteAllAdress();edkEnd();
+    }
 }
+
+void edk::network::ServerSocket::treeAdress::Constructor(bool runFather){
+    if(runFather){
+        edk::vector::BinaryTree<nodeAdress*>::Constructor();edkEnd();
+    }
+    if(this->classThis!=this){
+        this->classThis=this;
+    }
+}
+
 //Add a adress to the tree
 bool edk::network::ServerSocket::treeAdress::addAdress(edk::network::Adress host,struct sockaddr_in adress){
     //test the host
@@ -90,8 +123,8 @@ void edk::network::ServerSocket::treeAdress::deleteAllAdress(){
 }
 //compare if the value is bigger
 bool edk::network::ServerSocket::treeAdress::firstBiggerSecond(edk::network::ServerSocket::nodeAdress* first,
-                                                                 edk::network::ServerSocket::nodeAdress* second
-                                                                 ){
+                                                               edk::network::ServerSocket::nodeAdress* second
+                                                               ){
     if(first && second){
         if(first->host>second->host){
             //
@@ -101,8 +134,8 @@ bool edk::network::ServerSocket::treeAdress::firstBiggerSecond(edk::network::Ser
     return false;
 }
 bool edk::network::ServerSocket::treeAdress::firstEqualSecond(edk::network::ServerSocket::nodeAdress* first,
-                                                                edk::network::ServerSocket::nodeAdress* second
-                                                                ){
+                                                              edk::network::ServerSocket::nodeAdress* second
+                                                              ){
     if(first && second){
         if(first->host==second->host){
             //

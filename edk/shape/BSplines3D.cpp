@@ -28,21 +28,45 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #pragma message "            Inside BSplines3D.cpp"
 #endif
 
-edk::shape::BSplines3D::BSplines3D()
-{
-    //ctor
+edk::shape::BSplines3D::BSplines3D(){
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);edkEnd();
 }
 edk::shape::BSplines3D::BSplines3D(edk::vec3f32 p1,edk::vec3f32 p2,edk::vec3f32 p3,edk::vec3f32 p4){
-    //
-    this->point1=p1;edkEnd();
-    this->point2=p2;edkEnd();
-    this->point3=p3;edkEnd();
-    this->point4=p4;edkEnd();
+    this->classThis=NULL;edkEnd();
+    this->Constructor(p1,p2,p3,p4,false);edkEnd();
 }
 
-edk::shape::BSplines3D::~BSplines3D()
-{
-    //dtor
+edk::shape::BSplines3D::~BSplines3D(){
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
+    }
+}
+
+void edk::shape::BSplines3D::Constructor(bool runFather){
+    if(runFather){
+        edk::shape::Curve3D::Constructor();edkEnd();
+    }
+    if(this->classThis!=this){
+        this->classThis=this;
+        this->point1=0.f;edkEnd();
+        this->point2=0.f;edkEnd();
+        this->point3=0.f;edkEnd();
+        this->point4=0.f;edkEnd();
+    }
+}
+void edk::shape::BSplines3D::Constructor(edk::vec3f32 p1,edk::vec3f32 p2,edk::vec3f32 p3,edk::vec3f32 p4,bool runFather){
+    if(runFather){
+        edk::shape::Curve3D::Constructor();edkEnd();
+    }
+    if(this->classThis!=this){
+        this->classThis=this;
+        this->point1=p1;edkEnd();
+        this->point2=p2;edkEnd();
+        this->point3=p3;edkEnd();
+        this->point4=p4;edkEnd();
+    }
 }
 
 
@@ -52,7 +76,7 @@ edk::vec3f32 edk::shape::BSplines3D::getPoint(edk::float32 percent){
     //create a vector to return
     edk::vec3f32 ret;edkEnd();
 
-    #define div 0.166666
+#define div 0.166666
 
     //percent pow's
     edk::float32 percent2 = percent * percent;edkEnd();
@@ -60,23 +84,23 @@ edk::vec3f32 edk::shape::BSplines3D::getPoint(edk::float32 percent){
 
     //get X
     ret.x = (((-1*percent3 +3*percent2 -3*percent+1) *this->point1.x +
-            (   3*percent3 -6*percent2 +0*percent+4) *this->point2.x +
-            (  -3*percent3 +3*percent2 +3*percent+1) *this->point3.x +
-            (   1*percent3 +0*percent2 +0*percent+0) *this->point4.x)
+              (   3*percent3 -6*percent2 +0*percent+4) *this->point2.x +
+              (  -3*percent3 +3*percent2 +3*percent+1) *this->point3.x +
+              (   1*percent3 +0*percent2 +0*percent+0) *this->point4.x)
              *div
              );edkEnd();
     //get Y
     ret.y = (((-1*percent3 +3*percent2 -3*percent+1) *this->point1.y +
-            (   3*percent3 -6*percent2 +0*percent+4) *this->point2.y +
-            (  -3*percent3 +3*percent2 +3*percent+1) *this->point3.y +
-            (   1*percent3 +0*percent2 +0*percent+0) *this->point4.y)
+              (   3*percent3 -6*percent2 +0*percent+4) *this->point2.y +
+              (  -3*percent3 +3*percent2 +3*percent+1) *this->point3.y +
+              (   1*percent3 +0*percent2 +0*percent+0) *this->point4.y)
              *div
              );edkEnd();
     //get Z
     ret.y = (((-1*percent3 +3*percent2 -3*percent+1) *this->point1.z +
-            (   3*percent3 -6*percent2 +0*percent+4) *this->point2.z +
-            (  -3*percent3 +3*percent2 +3*percent+1) *this->point3.z +
-            (   1*percent3 +0*percent2 +0*percent+0) *this->point4.z)
+              (   3*percent3 -6*percent2 +0*percent+4) *this->point2.z +
+              (  -3*percent3 +3*percent2 +3*percent+1) *this->point3.z +
+              (   1*percent3 +0*percent2 +0*percent+0) *this->point4.z)
              *div
              );edkEnd();
 
@@ -86,7 +110,7 @@ edk::vec3f32 edk::shape::BSplines3D::getPoint(edk::vec3f32 p1,edk::vec3f32 p2,ed
     //create a vector to return
     edk::vec3f32 ret;edkEnd();
 
-    #define div 0.166666
+#define div 0.166666
 
     //percent pow's
     edk::float32 percent2 = percent * percent;edkEnd();
@@ -94,23 +118,23 @@ edk::vec3f32 edk::shape::BSplines3D::getPoint(edk::vec3f32 p1,edk::vec3f32 p2,ed
 
     //get X
     ret.x = (((-1*percent3 +3*percent2 -3*percent+1) *p1.x +
-            (   3*percent3 -6*percent2 +0*percent+4) *p2.x +
-            (  -3*percent3 +3*percent2 +3*percent+1) *p3.x +
-            (   1*percent3 +0*percent2 +0*percent+0) *p4.x)
+              (   3*percent3 -6*percent2 +0*percent+4) *p2.x +
+              (  -3*percent3 +3*percent2 +3*percent+1) *p3.x +
+              (   1*percent3 +0*percent2 +0*percent+0) *p4.x)
              *div
              );edkEnd();
     //get Y
     ret.y = (((-1*percent3 +3*percent2 -3*percent+1) *p1.y +
-            (   3*percent3 -6*percent2 +0*percent+4) *p2.y +
-            (  -3*percent3 +3*percent2 +3*percent+1) *p3.y +
-            (   1*percent3 +0*percent2 +0*percent+0) *p4.y)
+              (   3*percent3 -6*percent2 +0*percent+4) *p2.y +
+              (  -3*percent3 +3*percent2 +3*percent+1) *p3.y +
+              (   1*percent3 +0*percent2 +0*percent+0) *p4.y)
              *div
              );edkEnd();
     //get Z
     ret.y = (((-1*percent3 +3*percent2 -3*percent+1) *p1.z +
-            (   3*percent3 -6*percent2 +0*percent+4) *p2.z +
-            (  -3*percent3 +3*percent2 +3*percent+1) *p3.z +
-            (   1*percent3 +0*percent2 +0*percent+0) *p4.z)
+              (   3*percent3 -6*percent2 +0*percent+4) *p2.z +
+              (  -3*percent3 +3*percent2 +3*percent+1) *p3.z +
+              (   1*percent3 +0*percent2 +0*percent+0) *p4.z)
              *div
              );edkEnd();
 

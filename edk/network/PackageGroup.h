@@ -43,6 +43,8 @@ class PackageGroup{
 public:
     PackageGroup();
     ~PackageGroup();
+
+    void Constructor(bool runFather=true);
     //set the packSize
     void setPackSize(edk::uint32 packSize);
 
@@ -91,11 +93,15 @@ private:
     public:
         PackageTree();
         ~PackageTree();
+
+        void Constructor(bool runFather=true);
         //compare if the value is bigger
         bool firstBiggerSecond(edk::network::Package* first,edk::network::Package* second);
         bool firstEqualSecond(edk::network::Package* first,edk::network::Package* second);
         //get the pachage
         edk::network::Package* getPackage(edk::uint32 id);
+    private:
+        edk::classID classThis;
     }tree;
 
     edk::uint8* data;
@@ -104,6 +110,8 @@ private:
     edk::uint32 totalSize;
     //save the package ID
     edk::uint32 id;
+private:
+    edk::classID classThis;
 };
 }//end namespace network
 }//end namespace edk

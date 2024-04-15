@@ -25,16 +25,28 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 edk::sql::SQLite::SQLite(){
-#if defined(EDK_USE_SQLITE)
-    this->db = NULL;edkEnd();
-#endif
-    this->baseName=NULL;edkEnd();
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);edkEnd();
 }
 
 edk::sql::SQLite::~SQLite(){
-    //close the db
-    this->closeDataBase();edkEnd();
-    this->deleteBaseName();edkEnd();
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
+        //close the db
+        this->closeDataBase();edkEnd();
+        this->deleteBaseName();edkEnd();
+    }
+}
+
+void edk::sql::SQLite::Constructor(bool /*runFather*/){
+    if(this->classThis!=this){
+        this->classThis=this;
+#if defined(EDK_USE_SQLITE)
+        this->db = NULL;edkEnd();
+#endif
+        this->baseName=NULL;edkEnd();
+    }
 }
 
 //add a extension to the file
@@ -197,7 +209,7 @@ static edk::int32 sqlCallback(void *callback, edk::int32 argc, char **argv, char
             group = temp->getNewGroup();edkEnd();
             if(group){
                 for(i=0; i<argc; i++){
-/*
+                    /*
                     printf("%s = %s\n", azColName[i], argv[i] ? argv[i] : "NULL");edkEnd();
                     if(argv[i]){
                         group->addNode((edk::char8*)azColName[i],(edk::char8*)argv[i]);edkEnd();

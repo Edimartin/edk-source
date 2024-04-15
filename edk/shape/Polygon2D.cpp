@@ -51,75 +51,116 @@ edk::uint8 vboSizeof[edk::shape::vbo_Size] = {
 };
 
 edk::shape::Polygon2D::Polygon2D(){
-    this->vboType = edk::shape::vbo_NULL;edkEnd();
-    this->vbo=0u;edkEnd();
-    this->vboCount=0u;edkEnd();
-    this->vertexBuffer.clean();edkEnd();
-    this->canUseVBO=false;edkEnd();
-    //set the vbo function pointers
-    this->setVBOFunctionUpdateNULL();
-
-    this->type = edk::shape::typePolygon2D;edkEnd();
-    this->angle=0.f;edkEnd();
-    this->radius = 1.f;edkEnd();
-    //init the polygonCOlor
-    this->polygonColor = edk::color4f32(1,1,1,1);edkEnd();
-    this->canDeletePolygon=false;edkEnd();
-    //set frames to 1
-    this->frames = edk::vec2ui32(1u,1u);edkEnd();
-    this->framesSize = this->frames.x*this->frames.y;edkEnd();
-    this->animationFrame=NULL;edkEnd();
-    this->createAnimationFrames=false;edkEnd();
-
-    //Physics parameters
-    this->density=1.f;edkEnd();
-    this->friction=0.0f;edkEnd();
-    this->restitution=0.0f;edkEnd();
-
-    this->polygonLine = this->polygonCircle=false;edkEnd();
-    this->collisionID=collisionAways;edkEnd();
-
-    this->frameUsing=edk::vec2ui32(0u,0u);edkEnd();
-    this->matrixPosition.createMatrix(1u,3u);edkEnd();
-    this->testTransform();edkEnd();
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);edkEnd();
 }
 edk::shape::Polygon2D::Polygon2D(edk::uint32 vertexCount){
-    this->vboType = edk::shape::vbo_NULL;edkEnd();
-    this->vbo=0u;edkEnd();
-    this->vboCount=0u;edkEnd();
-    this->vertexBuffer.clean();edkEnd();
-    this->canUseVBO=false;edkEnd();
-    //set the vbo function pointers
-    this->setVBOFunctionUpdateNULL();
-    this->angle=0.f;edkEnd();
-    this->radius = 1.f;edkEnd();
-    //
-    this->polygonColor = edk::color4f32(0,0,0,1);edkEnd();
-    this->canDeletePolygon=false;edkEnd();
-    //create the vertex
-    this->createPolygon(vertexCount);edkEnd();
-    //set frames to 1
-    this->frames = edk::vec2ui32(1u,1u);edkEnd();
-    this->createAnimationFrames=false;edkEnd();
-
-    this->frameUsing=edk::vec2ui32(0u,0u);edkEnd();
-    this->testTransform();edkEnd();
+    this->classThis=NULL;edkEnd();
+    this->Constructor(vertexCount,false);edkEnd();
 }
 
 edk::shape::Polygon2D::~Polygon2D(){
-    //test if can delete the polygon
-    if(this->canDeletePolygon){
-        //destroy the polygon
-        this->deletePolygon();edkEnd();
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
+        //test if can delete the polygon
+        if(this->canDeletePolygon){
+            //destroy the polygon
+            this->deletePolygon();edkEnd();
+        }
+        else{
+            //set the shape to cant delete the vector
+            this->vertexs.cantDeleteVector();edkEnd();
+            this->vertexsOriginal.cantDeleteVector();edkEnd();
+            this->vertexBuffer.cantDeleteVector();edkEnd();
+        }
+        //else set canDeletePolygon to true
+        this->canDeletePolygon=true;edkEnd();
     }
-    else{
-        //set the shape to cant delete the vector
-        this->vertexs.cantDeleteVector();edkEnd();
-        this->vertexsOriginal.cantDeleteVector();edkEnd();
-        this->vertexBuffer.cantDeleteVector();edkEnd();
+}
+
+void edk::shape::Polygon2D::Constructor(bool /*runFather*/){
+    if(this->classThis!=this){
+        this->classThis=this;
+
+        this->vertexs.Constructor();edkEnd();
+        this->vertexsOriginal.Constructor();edkEnd();
+        this->vertexBuffer.Constructor();edkEnd();
+        this->vertexsMorph.Constructor();edkEnd();
+        this->matrixTranslate.Constructor();edkEnd();
+        this->matrixRotate.Constructor();edkEnd();
+        this->matrixScale.Constructor();edkEnd();
+        this->matrixTransform.Constructor();edkEnd();
+        this->matrixPosition.Constructor();edkEnd();
+
+        this->vboType = edk::shape::vbo_NULL;edkEnd();
+        this->vbo=0u;edkEnd();
+        this->vboCount=0u;edkEnd();
+        this->vertexBuffer.clean();edkEnd();
+        this->canUseVBO=false;edkEnd();
+        //set the vbo function pointers
+        this->setVBOFunctionUpdateNULL();
+
+        this->type = edk::shape::typePolygon2D;edkEnd();
+        this->angle=0.f;edkEnd();
+        this->radius = 1.f;edkEnd();
+        //init the polygonCOlor
+        this->polygonColor = edk::color4f32(1,1,1,1);edkEnd();
+        this->canDeletePolygon=false;edkEnd();
+        //set frames to 1
+        this->frames = edk::vec2ui32(1u,1u);edkEnd();
+        this->framesSize = this->frames.x*this->frames.y;edkEnd();
+        this->animationFrame=NULL;edkEnd();
+        this->createAnimationFrames=false;edkEnd();
+
+        //Physics parameters
+        this->density=1.f;edkEnd();
+        this->friction=0.0f;edkEnd();
+        this->restitution=0.0f;edkEnd();
+
+        this->polygonLine = this->polygonCircle=false;edkEnd();
+        this->collisionID=collisionAways;edkEnd();
+
+        this->frameUsing=edk::vec2ui32(0u,0u);edkEnd();
+        this->matrixPosition.createMatrix(1u,3u);edkEnd();
+        this->testTransform();edkEnd();
     }
-    //else set canDeletePolygon to true
-    this->canDeletePolygon=true;edkEnd();
+}
+void edk::shape::Polygon2D::Constructor(edk::uint32 vertexCount,bool /*runFather*/){
+    if(this->classThis!=this){
+        this->classThis=this;
+
+        this->vertexs.Constructor();edkEnd();
+        this->vertexsOriginal.Constructor();edkEnd();
+        this->vertexBuffer.Constructor();edkEnd();
+        this->vertexsMorph.Constructor();edkEnd();
+        this->matrixTranslate.Constructor();edkEnd();
+        this->matrixRotate.Constructor();edkEnd();
+        this->matrixScale.Constructor();edkEnd();
+        this->matrixTransform.Constructor();edkEnd();
+        this->matrixPosition.Constructor();edkEnd();
+
+        this->vboType = edk::shape::vbo_NULL;edkEnd();
+        this->vbo=0u;edkEnd();
+        this->vboCount=0u;edkEnd();
+        this->vertexBuffer.clean();edkEnd();
+        this->canUseVBO=false;edkEnd();
+        //set the vbo function pointers
+        this->setVBOFunctionUpdateNULL();
+        this->angle=0.f;edkEnd();
+        this->radius = 1.f;edkEnd();
+        //
+        this->polygonColor = edk::color4f32(0,0,0,1);edkEnd();
+        this->canDeletePolygon=false;edkEnd();
+        //create the vertex
+        this->createPolygon(vertexCount);edkEnd();
+        //set frames to 1
+        this->frames = edk::vec2ui32(1u,1u);edkEnd();
+        this->createAnimationFrames=false;edkEnd();
+
+        this->frameUsing=edk::vec2ui32(0u,0u);edkEnd();
+        this->testTransform();edkEnd();
+    }
 }
 
 //PROTECTED

@@ -43,6 +43,8 @@ public:
     DecoderVideo();
     virtual ~DecoderVideo();
 
+    void Constructor(bool runFather=true);
+
     //start the encoder
     virtual bool startDecoder(edk::uint32 spaceDecodeSize=0u);
 
@@ -69,6 +71,8 @@ public:
 
     //finish the encoder
     virtual void finishDecoder();
+private:
+    edk::classID classThis;
 };
 }//end namespace codecs
 }//end namespace edk

@@ -41,18 +41,21 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 namespace edk{
 namespace codecs{
 class DecoderPNG : public edk::codecs::DecoderImage{
-    public:
-        DecoderPNG();
-        virtual ~DecoderPNG();
+public:
+    DecoderPNG();
+    virtual ~DecoderPNG();
 
-        //process the decoder
-        bool decode(edk::uint8* encoded,edk::uint32 size);
-        bool decode(const unsigned char* encoded,edk::uint32 size);
+    void Constructor(bool runFather=true);
 
-        //return the vector size
-        edk::uint32 getVectorSize();
-    protected:
-    private:
+    //process the decoder
+    bool decode(edk::uint8* encoded,edk::uint32 size);
+    bool decode(const unsigned char* encoded,edk::uint32 size);
+
+    //return the vector size
+    edk::uint32 getVectorSize();
+protected:
+private:
+    edk::classID classThis;
 };
 }//end namespace codecs
 }//end namespace edk

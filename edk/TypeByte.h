@@ -53,8 +53,23 @@ union ubyte{
 
 class Byte{
 public:
-    Byte(){}
-    virtual ~Byte(){}
+    Byte(){
+        this->classThis=NULL;edkEnd();
+        this->Constructor(false);
+    }
+    virtual ~Byte(){
+        if(this->classThis==this){
+            this->classThis=NULL;edkEnd();
+            //can destruct the class
+        }
+    }
+
+    void Constructor(bool runFather=true){
+        if(runFather){runFather=false;}
+        if(this->classThis!=this){
+            this->classThis=this;
+        }
+    }
     //
     inline bool set(edk::uint8 position,edk::uint8 value){
         switch(position){
@@ -980,6 +995,8 @@ public:
     }
 private:
     union ubyte b;
+private:
+    edk::classID classThis;
 };
 }//end namespace ekd
 

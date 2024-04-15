@@ -59,6 +59,8 @@ public:
     FontMap();
     virtual ~FontMap();
 
+    void Constructor(bool runFather=true);
+
     //save the FontTemplate
     static bool saveTemplate(const edk::char8* folder);
     static bool saveTemplate(edk::char8* folder);
@@ -996,6 +998,8 @@ private:
         FontLine(edk::uint32 size);
         ~FontLine();
 
+        void Constructor(edk::uint32 size,bool runFather=true);
+
         //get the size
         edk::uint32 getSize();
         //return true if have the line
@@ -1009,6 +1013,8 @@ private:
     private:
         edk::uint32 size;
         edk::uint32* line;
+    private:
+        edk::classID classThis;
     };
 
     //stack with the lines
@@ -1094,6 +1100,8 @@ private:
     void drawWire(edk::uint32 originID,edk::uint32 lastID);
     void drawWire(edk::vec2ui32 origin,edk::uint32 lastID);
     void drawWire(edk::uint32 originID,edk::vec2ui32 last);
+private:
+    edk::classID classThis;
 };
 }//end namespace fonts
 }//end namespace edk

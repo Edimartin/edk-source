@@ -25,42 +25,95 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 edk::bones::Bone2D::Bone2D(){
-    this->vector = edk::vec2f32(0,1);edkEnd();
-    this->angle = 0u;edkEnd();
-    this->setIdentity(&this->mat);edkEnd();
-    this->canDeleteBone=true;edkEnd();
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);edkEnd();
 }
 edk::bones::Bone2D::Bone2D(edk::char8* name)
     : edk::Name(name){
-    this->vector = edk::vec2f32(0,1);edkEnd();
-    this->angle = 0u;edkEnd();
-    this->canDeleteBone=true;edkEnd();
+    this->classThis=NULL;edkEnd();
+    this->Constructor(name,false);edkEnd();
 }
 edk::bones::Bone2D::Bone2D(const edk::char8* name)
     : edk::Name(name){
-    this->vector = edk::vec2f32(0,1);edkEnd();
-    this->angle = 0u;edkEnd();
-    this->canDeleteBone=true;edkEnd();
+    this->classThis=NULL;edkEnd();
+    this->Constructor(name,false);edkEnd();
 }
 
 edk::bones::Bone2D::~Bone2D(){
-    //
-    if(this->canDeleteBone){
-        this->cleanBone();edkEnd();
-    }
-    else{
-        //cant delete animations
-        this->animationAngle.cantDeleteGroup();edkEnd();
-        this->animationPosition.cantDeleteGroup();edkEnd();
-        this->canDeleteBone=true;edkEnd();
-    }
-    /*
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
+        if(this->canDeleteBone){
+            this->cleanBone();edkEnd();
+        }
+        else{
+            //cant delete animations
+            this->animationAngle.cantDeleteGroup();edkEnd();
+            this->animationPosition.cantDeleteGroup();edkEnd();
+            this->canDeleteBone=true;edkEnd();
+        }
+        /*
     this->removeAllAnimationNamesThis();edkEnd();
     this->removeAllAnimations();edkEnd();
     this->removeAllConnectionObjects();edkEnd();
     this->removeAllNexts();edkEnd();
     */
+    }
 }
+
+void edk::bones::Bone2D::Constructor(bool runFather){
+    if(runFather){
+        edk::Name::Constructor();edkEnd();
+    }
+    if(this->classThis!=this){
+        this->classThis=this;
+
+        this->animationAngle.Constructor();edkEnd();
+        this->animationPosition.Constructor();edkEnd();
+        this->nexts.Constructor();edkEnd();
+        this->treeObjects.Constructor();edkEnd();
+
+        this->vector = edk::vec2f32(0,1);edkEnd();
+        this->angle = 0u;edkEnd();
+        this->setIdentity(&this->mat);edkEnd();
+        this->canDeleteBone=true;edkEnd();
+    }
+}
+void edk::bones::Bone2D::Constructor(edk::char8* name,bool runFather){
+    if(runFather){
+        edk::Name::Constructor(name);edkEnd();
+    }
+    if(this->classThis!=this){
+        this->classThis=this;
+
+        this->animationAngle.Constructor();edkEnd();
+        this->animationPosition.Constructor();edkEnd();
+        this->nexts.Constructor();edkEnd();
+        this->treeObjects.Constructor();edkEnd();
+
+        this->vector = edk::vec2f32(0,1);edkEnd();
+        this->angle = 0u;edkEnd();
+        this->canDeleteBone=true;edkEnd();
+    }
+}
+void edk::bones::Bone2D::Constructor(const edk::char8* name,bool runFather){
+    if(runFather){
+        edk::Name::Constructor(name);edkEnd();
+    }
+    if(this->classThis!=this){
+        this->classThis=this;
+
+        this->animationAngle.Constructor();edkEnd();
+        this->animationPosition.Constructor();edkEnd();
+        this->nexts.Constructor();edkEnd();
+        this->treeObjects.Constructor();edkEnd();
+
+        this->vector = edk::vec2f32(0,1);edkEnd();
+        this->angle = 0u;edkEnd();
+        this->canDeleteBone=true;edkEnd();
+    }
+}
+
 //set the indentity matrix
 bool edk::bones::Bone2D::setIdentity(edk::float32 mat[][3u][3u]){
     //test the mat

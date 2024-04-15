@@ -25,15 +25,33 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 edk::Object2DValues::Object2DValues(){
-    this->type=edk::TypeObject2DValues;
-    //this->angle=0.f;edkEnd();
-    this->loadIdentityValues();edkEnd();
-    this->connectedLoadIdentityValues();edkEnd();
-    this->fixedRotation=false;edkEnd();
-    //this->cleanSaved();edkEnd();
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);edkEnd();
 }
 edk::Object2DValues::~Object2DValues(){
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
+    }
 }
+
+void edk::Object2DValues::Constructor(bool /*runFather*/){
+    if(this->classThis!=this){
+        this->classThis=this;
+
+        this->animationPosition.Constructor();
+        this->animationRotation.Constructor();
+        this->animationSize.Constructor();
+
+        this->type=edk::TypeObject2DValues;
+        //this->angle=0.f;edkEnd();
+        this->loadIdentityValues();edkEnd();
+        this->connectedLoadIdentityValues();edkEnd();
+        this->fixedRotation=false;edkEnd();
+        //this->cleanSaved();edkEnd();
+    }
+}
+
 void edk::Object2DValues::loadIdentityValues(){
     this->position = edk::vec2f32(0,0);edkEnd();
     this->angle = 0.f;edkEnd();

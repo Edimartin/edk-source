@@ -29,16 +29,39 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endif
 
 edk::Object2D edk::InfiniteHorizontal::tileWorldObject2D::staticObj;
+bool edk::InfiniteHorizontal::tileWorldObject2D::templateConstructNeed=true;
 
 edk::InfiniteHorizontal::InfiniteHorizontal(){
-    this->speed=1.f;edkEnd();
-    this->position = 0.f;edkEnd();
-    this->time.start();edkEnd();
-    this->lastObject=NULL;edkEnd();
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);edkEnd();
 }
 edk::InfiniteHorizontal::~InfiniteHorizontal(){
-    //
-    this->clean();edkEnd();
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
+        this->clean();edkEnd();
+    }
+}
+
+void edk::InfiniteHorizontal::Constructor(bool /*runFather*/){
+    if(edk::InfiniteHorizontal::tileWorldObject2D::templateConstructNeed){
+        edk::InfiniteHorizontal::tileWorldObject2D::staticObj.Constructor();
+        edk::InfiniteHorizontal::tileWorldObject2D::templateConstructNeed=false;
+    }
+    if(this->classThis!=this){
+        this->classThis=this;
+
+        this->time.Constructor();
+        this->rand.Constructor();
+        this->tree.Constructor();
+        this->buffer.Constructor();
+        this->queue.Constructor();
+
+        this->speed=1.f;edkEnd();
+        this->position = 0.f;edkEnd();
+        this->time.start();edkEnd();
+        this->lastObject=NULL;edkEnd();
+    }
 }
 
 //increment the tile position

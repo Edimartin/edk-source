@@ -28,17 +28,29 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #pragma message "            Inside ViewGU.cpp"
 #endif
 
-edk::ViewGU::ViewGU()
-{
-    //ctor
-    this->runSelection=false;edkEnd();
-    this->sizeBuffer = sizeof(this->buffer)/sizeof(edk::uint32);edkEnd();
+edk::ViewGU::ViewGU(){
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);edkEnd();
 }
 
-edk::ViewGU::~ViewGU()
-{
-    //dtor
+edk::ViewGU::~ViewGU(){
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
+    }
 }
+
+void edk::ViewGU::Constructor(bool runFather){
+    if(runFather){
+        edk::ViewSpriteController::Constructor();edkEnd();
+    }
+    if(this->classThis!=this){
+        this->classThis=this;
+        this->runSelection=false;edkEnd();
+        this->sizeBuffer = sizeof(this->buffer)/sizeof(edk::uint32);edkEnd();
+    }
+}
+
 //return true if is a GU View
 bool edk::ViewGU::isGU(){
     //return true because its a GU View

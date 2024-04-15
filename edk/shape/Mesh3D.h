@@ -49,6 +49,8 @@ public:
     Mesh3D();
     virtual ~Mesh3D();
 
+    void Constructor(bool runFather=true);
+
     void cleanVertexes();
     void cleanNormals();
     void cleanUVs();
@@ -205,6 +207,8 @@ private:
         StackVertex();
         ~StackVertex();
 
+        void Constructor(bool runFather=true);
+
         //clean all vertexes
         void cleanVertexes();
         //get the size of the vertexes
@@ -225,15 +229,36 @@ private:
         bool decrementVertex(edk::uint32 position);
     private:
         edk::vector::Stack<edk::shape::Mesh3D::MeshVertex*> stack;
+    private:
+        edk::classID classThis;
     }vertexes;
 
     //Class to save all the normals from the polygon
     class MeshNormal{
     public:
         MeshNormal(){
-            this->use = 0u;edkEnd();
-            this->pointer = &this->normal;edkEnd();
+            this->classThis=NULL;edkEnd();
+            this->Constructor(false);edkEnd();
         }
+        ~MeshNormal(){
+            if(this->classThis==this){
+                this->classThis=NULL;edkEnd();
+                //can destruct the class
+            }
+        }
+
+        void Constructor(bool runFather=true){
+            if(runFather){edkEnd();}
+            if(this->classThis!=this){
+                this->classThis=this;
+
+                this->normal.Constructor();edkEnd();
+
+                this->use = 0u;edkEnd();
+                this->pointer = &this->normal;edkEnd();
+            }
+        }
+
         void incrementUse(){
             this->use++;edkEnd();
         }
@@ -249,12 +274,16 @@ private:
         edk::shape::Vector3D normal;
         edk::shape::Vector3D* pointer;
         edk::uint32 use;
+    private:
+        edk::classID classThis;
     };
 
     class StackNormal{
     public:
         StackNormal();
         ~StackNormal();
+
+        void Constructor(bool runFather=true);
 
         //clean all normals
         void cleanNormals();
@@ -274,6 +303,8 @@ private:
         bool decrementNormal(edk::uint32 position);
     private:
         edk::vector::Stack<edk::shape::Mesh3D::MeshNormal*> stack;
+    private:
+        edk::classID classThis;
     }normals;
 
     //Class to save all the normals from the polygon
@@ -305,6 +336,8 @@ private:
         StackUV();
         ~StackUV();
 
+        void Constructor(bool runFather=true);
+
         //clean all uvs
         void cleanUVS();
         //get the size of the uvs
@@ -323,14 +356,29 @@ private:
         bool decrementUV(edk::uint32 position);
     private:
         edk::vector::Stack<edk::shape::Mesh3D::MeshUV*> stack;
+    private:
+        edk::classID classThis;
     }uvs;
 
 
 protected:
     class PolygonList: public edk::vector::Stack<edk::shape::Polygon3D*>{
     public:
-        PolygonList(){}
-        ~PolygonList(){}
+        PolygonList(){this->classThis=NULL;edkEnd();
+                      this->Constructor(false);edkEnd();}
+        ~PolygonList(){
+            if(this->classThis==this){
+                this->classThis=NULL;edkEnd();
+                //can destruct the class
+            }
+        }
+
+        void Constructor(bool runFather=true){
+            if(runFather){edkEnd();}
+            if(this->classThis!=this){
+                this->classThis=this;
+            }
+        }
         void updateElement(edk::shape::Polygon3D* value){
             this->func(this,value);edkEnd();
         }
@@ -459,12 +507,16 @@ protected:
         bool lightIsOn[EDK_LIGHT_LIMIT];
         edk::vector::Matrix<edk::float32,4u,4u>* matrixPointer;
         edk::vector::Matrix<edk::float32,4u,4u>* matrixPointer2;
+    private:
+        edk::classID classThis;
     };
     //Polygon List
     class StackPolygon{
     public:
         StackPolygon();
         ~StackPolygon();
+
+        void Constructor(bool runFather=true);
 
         edk::uint32 size();
         edk::uint32 getSize();
@@ -499,9 +551,13 @@ protected:
     private:
         //list of polygons
         edk::shape::Mesh3D::PolygonList list;
+    private:
+        edk::classID classThis;
     }polygons;
     //mesh selected
     edk::shape::Polygon3D* selected;
+private:
+    edk::classID classThis;
 };
 }//end namespace shape
 }//end namespace edk

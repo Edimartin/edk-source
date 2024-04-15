@@ -64,6 +64,8 @@ public:
     ViewGui2d();
     ~ViewGui2d();
 
+    void Constructor(bool runFather=true);
+
     //add the object
     bool addObjectGui2d(edk::gui2d::ObjectGui2d* obj);
     //remove the object
@@ -142,20 +144,51 @@ private:
     class ObjGui2dID{
     public:
         ObjGui2dID(edk::gui2d::ObjectGui2d* pointer,edk::uint64 id){
-            this->pointer = pointer;edkEnd();
-            this->id = id;edkEnd();
+            this->classThis=NULL;edkEnd();
+            this->Constructor(pointer,id,false);
         }
-        ~ObjGui2dID(){}
+        ~ObjGui2dID(){
+            if(this->classThis==this){
+                this->classThis=NULL;edkEnd();
+                //can destruct the class
+            }
+        }
+
+        void Constructor(edk::gui2d::ObjectGui2d* pointer,edk::uint64 id,bool runFather=true){
+            if(runFather){edkEnd();}
+            if(this->classThis!=this){
+                this->classThis=this;
+                this->pointer = pointer;edkEnd();
+                this->id = id;edkEnd();
+            }
+        }
         //pointe
         edk::gui2d::ObjectGui2d* pointer;
         edk::uint64 id;
+    private:
+        edk::classID classThis;
     };
 
     //tree with objects
     class ObjGui2dPointerTree : public edk::vector::BinaryTree<edk::gui2d::ViewGui2d::ObjGui2dID*>{
     public:
-        ObjGui2dPointerTree(){}
-        ~ObjGui2dPointerTree(){}
+        ObjGui2dPointerTree(){this->classThis=NULL;this->Constructor(false);edkEnd();}
+        ~ObjGui2dPointerTree(){
+            if(this->classThis==this){
+                this->classThis=NULL;edkEnd();
+                //can destruct the class
+            }
+        }
+
+        void Constructor(bool runFather=true){
+            if(runFather){
+                edk::vector::BinaryTree<edk::gui2d::ViewGui2d::ObjGui2dID*>::Constructor();edkEnd();
+            }
+            if(this->classThis!=this){
+                this->classThis=this;
+            }
+        }
+
         //compare if the value is bigger
         virtual bool firstBiggerSecond(edk::gui2d::ViewGui2d::ObjGui2dID* first,edk::gui2d::ViewGui2d::ObjGui2dID* second){
             if(first && second){
@@ -195,12 +228,34 @@ private:
             }
             return NULL;
         }
+    private:
+        edk::classID classThis;
     };
     //tree with objects
     class ObjGui2dIDTree : public edk::vector::BinaryTree<edk::gui2d::ViewGui2d::ObjGui2dID*>{
     public:
-        ObjGui2dIDTree(){this->cleanPressed=false;edkEnd();this->startUpdateVolume=false;edkEnd();}
-        ~ObjGui2dIDTree(){this->removeAll();edkEnd();}
+        ObjGui2dIDTree(){this->classThis=NULL;this->Constructor(false);edkEnd();}
+        ~ObjGui2dIDTree(){
+            if(this->classThis==this){
+                this->classThis=NULL;edkEnd();
+                //can destruct the class
+                this->removeAll();edkEnd();
+            }
+        }
+
+        void Constructor(bool runFather=true){
+            if(runFather){
+                edk::vector::BinaryTree<edk::gui2d::ViewGui2d::ObjGui2dID*>::Constructor();edkEnd();
+            }
+            if(this->classThis!=this){
+                this->classThis=this;
+
+                this->tree.Constructor();edkEnd();
+
+                this->cleanPressed=false;edkEnd();
+                this->startUpdateVolume=false;edkEnd();
+            }
+        }
         //compare if the value is bigger
         virtual bool firstBiggerSecond(edk::gui2d::ViewGui2d::ObjGui2dID* first,edk::gui2d::ViewGui2d::ObjGui2dID* second){
             if(first && second){
@@ -380,7 +435,11 @@ private:
             }
             return false;
         }
+    private:
+        edk::classID classThis;
     }list;
+private:
+    edk::classID classThis;
 };
 }//end namespace gui2d
 }//end namespace edk

@@ -50,44 +50,48 @@ typedef edk::uint8 shaderType;
 #define EDK_SHADER_GEOMETRY 0x003
 
 class Shader: public edk::ObjectWithName{
-    public:
-        Shader();
-        virtual ~Shader();
+public:
+    Shader();
+    virtual ~Shader();
 
-        //read the shaderType in a name
-        static edk::shd::shaderType readType(edk::char8* name);
+    void Constructor(bool runFather=true);
 
-        //function from the tutorial http://marcinbugala.blogspot.com.br/2013/01/hello-world-in-opengl-3.html
-        bool checkCompilationStatus(edk::uint32 id);
+    //read the shaderType in a name
+    static edk::shd::shaderType readType(edk::char8* name);
 
-        //load the shader
-        bool loadShaderFromMemory(edk::uint8* shader, edk::uint32 size, edk::shd::shaderType type);
-        bool loadShaderFromFile(const edk::char8* name);
-        bool loadShaderFromFile(edk::char8* name);
+    //function from the tutorial http://marcinbugala.blogspot.com.br/2013/01/hello-world-in-opengl-3.html
+    bool checkCompilationStatus(edk::uint32 id);
 
-        //return true if the shader is loaded
-        bool haveShader();
-        //return the log
-        edk::char8* getCompileLog();
+    //load the shader
+    bool loadShaderFromMemory(edk::uint8* shader, edk::uint32 size, edk::shd::shaderType type);
+    bool loadShaderFromFile(const edk::char8* name);
+    bool loadShaderFromFile(edk::char8* name);
 
-        //delete the shader
-        void deleteShader();
-        //delete the log
-        void deleteLog();
-        //clean the log
-        void dontDeleteLog();
+    //return true if the shader is loaded
+    bool haveShader();
+    //return the log
+    edk::char8* getCompileLog();
 
-        //get the shaderID
-        edk::uint32 getShaderID();
-        //get shaderType
-        edk::shd::shaderType getShaderType();
-    protected:
-    private:
+    //delete the shader
+    void deleteShader();
+    //delete the log
+    void deleteLog();
+    //clean the log
+    void dontDeleteLog();
+
+    //get the shaderID
+    edk::uint32 getShaderID();
+    //get shaderType
+    edk::shd::shaderType getShaderType();
+protected:
+private:
     edk::uint32 id;
     //shaderType
     edk::shd::shaderType type;
     //compike log
     edk::char8* log;
+private:
+    edk::classID classThis;
 };
 }//end namespace shd
 }//end namespace edk

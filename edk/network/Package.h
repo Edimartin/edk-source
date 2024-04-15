@@ -46,6 +46,8 @@ public:
     Package();
     ~Package();
 
+    void Constructor(bool runFather=true);
+
     //delete the vector
     void deleteVector();
     //copy a vector to the package
@@ -112,6 +114,8 @@ private:
     bool newVector(edk::uint32 size);
     //update the header to the vector
     bool updateVector();
+private:
+    edk::classID classThis;
 };
 }//end namespace network
 }//end namespace edk

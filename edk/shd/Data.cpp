@@ -28,20 +28,33 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #pragma message "            Inside Data.cpp"
 #endif
 
-edk::shd::Data::Data()
-{
-    //set the float
-    this->ints.clean(4u);edkEnd();
-    this->floats.clean(4u);edkEnd();
-    this->ID=-1u;edkEnd();
+edk::shd::Data::Data(){
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);edkEnd();
 }
 
-edk::shd::Data::~Data()
-{
-    //dtor
-    this->cleanInts();edkEnd();
-    this->cleanFloats();edkEnd();
+edk::shd::Data::~Data(){
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
+        this->cleanInts();edkEnd();
+        this->cleanFloats();edkEnd();
+    }
 }
+
+void edk::shd::Data::Constructor(bool runFather){
+    if(runFather){
+        edk::Name::Constructor();edkEnd();
+    }
+    if(this->classThis!=this){
+        this->classThis=this;
+        //set the float
+        this->ints.clean(4u);edkEnd();
+        this->floats.clean(4u);edkEnd();
+        this->ID=-1u;edkEnd();
+    }
+}
+
 //clean the ints
 void edk::shd::Data::cleanInts(){
     //

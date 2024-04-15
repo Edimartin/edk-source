@@ -29,11 +29,28 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endif
 
 edk::animation::Path1DGroup::Path1DGroup(){
-    //
-    this->x = 0.f;edkEnd();
-    this->incrementX=0.f;edkEnd();
-    this->incrementXValue=0.f;edkEnd();
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);edkEnd();
 }
+edk::animation::Path1DGroup::~Path1DGroup(){
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
+    }
+}
+
+void edk::animation::Path1DGroup::Constructor(bool runFather){
+    if(runFather){
+        edk::animation::PathGroup::Constructor();edkEnd();
+    }
+    if(this->classThis!=this){
+        this->classThis=this;
+        this->x = 0.f;edkEnd();
+        this->incrementX=0.f;edkEnd();
+        this->incrementXValue=0.f;edkEnd();
+    }
+}
+
 //create the frame
 edk::animation::Frame* edk::animation::Path1DGroup::newFrame(){
     return (edk::animation::Frame*)new edk::animation::Frame1D;edkEnd();

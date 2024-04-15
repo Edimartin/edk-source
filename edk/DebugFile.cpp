@@ -24,16 +24,39 @@ OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-//the file is inline
-//edk::File edk::DebugFile::file;
+
+#if defined(EDK_DEBUGGER) || defined(EDK_DEBUG_MEMSET) || defined(EDK_DEBUG_MEMCPY)
+//statis file
+edk::File edk::DebugFile::file;
+bool edk::DebugFile::templateConstructNeed=true;
+#endif
 
 edk::uint64 EDKArrayVectorFreeCounter=0u;
 
 edk::DebugFile::DebugFile(){
-    //
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);edkEnd();
 }
 edk::DebugFile::~DebugFile(){
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
+        //
+#if defined(EDK_DEBUGGER) || defined(EDK_DEBUG_MEMSET) || defined(EDK_DEBUG_MEMCPY)
+        //statis file
+        if(edk::DebugFile::templateConstructNeed){
+            edk::DebugFile::file.File();
+            edk::DebugFile::templateConstructNeed=false;
+        }
+#endif
+    }
+}
+
+void edk::DebugFile::Constructor(bool /*runFather*/){
     //
+    if(this->classThis!=this){
+        this->classThis=this;
+    }
 }
 
 #if defined(EDK_DEBUGGER) || defined(EDK_DEBUG_MEMSET) || defined(EDK_DEBUG_MEMCPY)

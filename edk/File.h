@@ -99,6 +99,8 @@ public:
     File();
     ~File();
 
+    void Constructor(bool runFather=true);
+
     edk::uint64 getFileSize();
 
     bool openTextFile(edk::char8 *name);
@@ -368,12 +370,16 @@ private:
 
     //name of the file.
     edk::char8 *name;
+private:
+    edk::classID classThis;
 };
 //Class fileStream to read some stream from a file
 class FileStream{
 public:
     FileStream();
     ~FileStream();
+
+    void Constructor(bool runFather=true);
 
     bool openFileStream(edk::char8* name);
     bool openFileStream(const edk::char8* name);
@@ -402,6 +408,8 @@ public:
 private:
     edk::int32 arq;
     edk::Name name;
+private:
+    edk::classID classThis;
 };
 
 }//End of namespace edk

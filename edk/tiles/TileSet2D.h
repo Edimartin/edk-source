@@ -51,14 +51,31 @@ public:
     TileSet2D();
     ~TileSet2D();
 
+    void Constructor(bool runFather=true);
+
     //Class to return two positions of te tiles
     class Tile2Positions2D{
     public:
-        Tile2Positions2D(){this->first = this->last = 0u;edkEnd();}
-        ~Tile2Positions2D(){}
-        //
+        Tile2Positions2D(){this->classThis=NULL;this->Constructor(false);edkEnd();}
+        ~Tile2Positions2D(){
+            if(this->classThis==this){
+                this->classThis=NULL;edkEnd();
+                //can destruct the class
+            }
+        }
+
+        void Constructor(bool runFather=true){
+            if(runFather){edkEnd();}
+            if(this->classThis!=this){
+                this->classThis=this;
+                this->first = this->last = 0u;edkEnd();
+            }
+        }
+
         edk::uint32 first;
         edk::uint32 last;
+    private:
+        edk::classID classThis;
     };
 
     //Delete all tiles
@@ -560,6 +577,8 @@ private:
     edk::tiles::Tile2D tileTemp;
     //tileTemp to draw the selection
     edk::tiles::TileIsometric2D tileIsometricTemp;
+private:
+    edk::classID classThis;
 };
 }//end namespace tiles
 }//end namespace edk

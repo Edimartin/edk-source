@@ -33,9 +33,23 @@ namespace encrypt{
 class SHA1_variables{
 public:
     SHA1_variables(){
-        this->init();edkEnd();
+        this->classThis=NULL;edkEnd();
+        this->Constructor(false);edkEnd();
     }
-    ~SHA1_variables(){}
+    ~SHA1_variables(){
+        if(this->classThis==this){
+            this->classThis=NULL;edkEnd();
+            //can destruct the class
+        }
+    }
+
+    void Constructor(bool runFather=true){
+        if(runFather){edkEnd();}
+        if(this->classThis!=this){
+            this->classThis=this;
+            this->init();edkEnd();
+        }
+    }
 
 
     void transform(edk::uint8* data){
@@ -172,15 +186,28 @@ private:
     edk::uint64 bitSize;
     edk::uint32 state[5u];
     edk::uint32 k[4u];
+private:
+    edk::classID classThis;
 };
 }//end namespace encrypt
 }//end namespace edk
 
 edk::encrypt::SHA1::SHA1(){
-    //
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);edkEnd();
 }
 edk::encrypt::SHA1::~SHA1(){
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
+    }
+}
+
+void edk::encrypt::SHA1::Constructor(bool /*runFather*/){
     //
+    if(this->classThis!=this){
+        this->classThis=this;
+    }
 }
 
 bool edk::encrypt::SHA1::convertTo(edk::char8 *pass, edk::uint32 size, edk::char8 *dest){
@@ -248,11 +275,11 @@ bool edk::encrypt::SHA1::convertFileTo(edk::File* file, edk::char8 *dest){
             sha1.final(result);edkEnd();
 
             //write the result in the destiny
-    #ifdef _MSC_VER
+#ifdef _MSC_VER
             sprintf_s((char*)dest,41u
-              #else
+          #else
             sprintf((char*)dest
-            #endif
+        #endif
                     ,"%2.2x%2.2x%2.2x%2.2x%2.2x%2.2x%2.2x%2.2x%2.2x%2.2x%2.2x%2.2x%2.2x%2.2x%2.2x%2.2x%2.2x%2.2x%2.2x%2.2x"
                     ,result[0],result[1],result[2],result[3],result[4],result[5],result[6],result[7],result[8],result[9],result[10],result[11],result[12],result[13],result[14],result[15]
                     ,result[16],result[17],result[18],result[19]

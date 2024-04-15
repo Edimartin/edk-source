@@ -44,6 +44,8 @@ public:
     ViewMenu();
     ~ViewMenu();
 
+    void Constructor(bool runFather=true);
+
     //set borderSize
     bool setBorderSize(edk::uint32 size);
     //return the inside frame
@@ -59,6 +61,8 @@ protected:
 private:
     edk::Camera2D cam;
     edk::rectf32 rectMenuSave;
+private:
+    edk::classID classThis;
 };
 }//end namespace edk
 

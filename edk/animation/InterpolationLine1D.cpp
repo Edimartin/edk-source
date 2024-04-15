@@ -28,19 +28,30 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #pragma message "            Inside InterpolationLine1D.cpp"
 #endif
 
-edk::animation::InterpolationLine1D::InterpolationLine1D()
-    :InterpolationLine()
-{
-    //ctor
-    this->allocStart();edkEnd();
-    this->allocEnd();edkEnd();
-    this->curveX=false;edkEnd();
-    this->constantX=false;edkEnd();
+edk::animation::InterpolationLine1D::InterpolationLine1D(){
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);edkEnd();
 }
 
-edk::animation::InterpolationLine1D::~InterpolationLine1D()
-{
-    //dtor
+edk::animation::InterpolationLine1D::~InterpolationLine1D(){
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
+    }
+}
+
+void edk::animation::InterpolationLine1D::Constructor(bool runFather){
+    if(runFather){
+        edk::animation::InterpolationLine::Constructor();
+    }
+    if(this->classThis!=this){
+        this->classThis=this;
+        //ctor
+        this->allocStart();edkEnd();
+        this->allocEnd();edkEnd();
+        this->curveX=false;edkEnd();
+        this->constantX=false;edkEnd();
+    }
 }
 
 //set new

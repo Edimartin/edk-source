@@ -50,11 +50,12 @@ static edk::Action* newXMLAction(edk::classID thisPointer,edk::uint32 actionCode
 
 namespace edk{
 namespace animation{
-class ActionGroup
-{
+class ActionGroup{
 public:
     ActionGroup();
     virtual ~ActionGroup();
+
+    void Constructor(bool runFather=true);
 
     //add one action
     bool addAction(edk::float32 second,edk::Action* action);
@@ -136,10 +137,25 @@ private:
     class ActionsTree : public edk::vector::BinaryTree<edk::Action*>{
     public:
         ActionsTree(edk::float32 second){
-            this->second = second;edkEnd();
+            this->classThis=NULL;edkEnd();
+            this->Constructor(second,false);
         }
         ~ActionsTree(){
-            this->clean();edkEnd();
+            if(this->classThis==this){
+                this->classThis=NULL;edkEnd();
+                //can destruct the class
+                this->clean();edkEnd();
+            }
+        }
+
+        void Constructor(edk::float32 second,bool runFather=true){
+            if(runFather){
+                edk::vector::BinaryTree<edk::Action*>::Constructor();edkEnd();
+            }
+            if(this->classThis!=this){
+                this->classThis=this;
+                this->second = second;edkEnd();
+            }
         }
         //return the second
         edk::float32 getSecond(){
@@ -153,16 +169,29 @@ private:
         }
     private:
         edk::float32 second;
+    private:
+        edk::classID classThis;
     };
     class ActionReferenceCount{
     public:
         ActionReferenceCount(edk::Action* action){
-            count=0u;edkEnd();
-            this->action=action;edkEnd();
+            this->classThis=NULL;edkEnd();
+            this->Constructor(action,false);
         }
         ~ActionReferenceCount(){
-            //
-            edkEnd();
+            if(this->classThis==this){
+                this->classThis=NULL;edkEnd();
+                //can destruct the class
+            }
+        }
+
+        void Constructor(edk::Action* action,bool runFather=true){
+            if(runFather){edkEnd();}
+            if(this->classThis!=this){
+                this->classThis=this;
+                count=0u;edkEnd();
+                this->action=action;edkEnd();
+            }
         }
         void retain(){
             this->count++;edkEnd();
@@ -180,31 +209,51 @@ private:
     private:
         edk::uint32 count;
         edk::Action* action;
+    private:
+        edk::classID classThis;
     };
 
     //create a tree to save the actions
     class ActionStackTree: public edk::vector::BinaryTree<edk::animation::ActionGroup::ActionsTree*>{
     public:
         ActionStackTree(){
-            this->canDeleteTree=true;edkEnd();
+            this->classThis=NULL;edkEnd();
+            this->Constructor(false);edkEnd();
         }
         ~ActionStackTree(){
-            if(this->canDeleteTree){
-            this->cleanActions();edkEnd();
-            }
-            else{
-                this->cantDestruct();edkEnd();
-                this->actionsTree.cantDestruct();edkEnd();
-                edk::uint32 size = this->size();edkEnd();
-                edk::animation::ActionGroup::ActionsTree* temp;edkEnd();
-                for(edk::uint32 i=0u;i<size;i++){
-                    temp = this->getElementInPosition(i);edkEnd();
-                    if(temp){
-                        temp->cantDestruct();edkEnd();
+            if(this->classThis==this){
+                this->classThis=NULL;edkEnd();
+                //can destruct the class
+                if(this->canDeleteTree){
+                    this->cleanActions();edkEnd();
+                }
+                else{
+                    this->cantDestruct();edkEnd();
+                    this->actionsTree.cantDestruct();edkEnd();
+                    edk::uint32 size = this->size();edkEnd();
+                    edk::animation::ActionGroup::ActionsTree* temp;edkEnd();
+                    for(edk::uint32 i=0u;i<size;i++){
+                        temp = this->getElementInPosition(i);edkEnd();
+                        if(temp){
+                            temp->cantDestruct();edkEnd();
+                        }
                     }
                 }
+                this->canDeleteTree=true;edkEnd();
             }
-            this->canDeleteTree=true;edkEnd();
+        }
+
+        void Constructor(bool runFather=true){
+            if(runFather){
+                edk::vector::BinaryTree<edk::animation::ActionGroup::ActionsTree*>::Constructor();edkEnd();
+            }
+            if(this->classThis!=this){
+                this->classThis=this;
+
+                this->actionsTree.Constructor();edkEnd();
+
+                this->canDeleteTree=true;edkEnd();
+            }
         }
 
         //compare if the value is bigger
@@ -437,8 +486,24 @@ private:
         //tree to save all the actions used
         class TreeActions: public edk::vector::BinaryTree<edk::animation::ActionGroup::ActionReferenceCount*>{
         public:
-            TreeActions(){}
+            TreeActions(){
+                this->classThis=NULL;edkEnd();
+                this->Constructor(false);
+            }
             virtual ~TreeActions(){
+                if(this->classThis==this){
+                    this->classThis=NULL;edkEnd();
+                    //can destruct the class
+                }
+            }
+
+            void Constructor(bool runFather=true){
+                if(runFather){
+                    edk::vector::BinaryTree<edk::animation::ActionGroup::ActionReferenceCount*>::Constructor();edkEnd();
+                }
+                if(this->classThis!=this){
+                    this->classThis=this;
+                }
             }
 
             //compare if the value is bigger
@@ -520,8 +585,14 @@ private:
                 edk::animation::ActionGroup::ActionReferenceCount find(action);edkEnd();
                 return this->getElement(&find);
             }
+        private:
+            edk::classID classThis;
         }actionsTree;
+    private:
+        edk::classID classThis;
     }tree;
+private:
+    edk::classID classThis;
 };
 }//end namespace animation
 }//end namespace edk

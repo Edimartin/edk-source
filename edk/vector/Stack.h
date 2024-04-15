@@ -88,47 +88,116 @@ template <class typeTemplate>
 class StackCellLeaf : public edk::vector::Array<edk::vector::Array<typeTemplate>*>{
 public:
     //construtor
-    StackCellLeaf(){}
-    StackCellLeaf(edk::uint32 size){
-        this->createArray(size);edkEnd();
-    }
+    StackCellLeaf(){this->classThis=NULL;this->Constructor(false);edkEnd();}
+    StackCellLeaf(edk::uint32 size){this->classThis=NULL;this->Constructor(size,false);edkEnd();}
     //Destrutor
-    ~StackCellLeaf(){}
+    ~StackCellLeaf(){
+        if(this->classThis==this){
+            this->classThis=NULL;edkEnd();
+            //can destruct the class
+        }
+    }
+
+    void Constructor(bool runFather=true){
+        if(runFather){
+            edk::vector::Array<edk::vector::Array<typeTemplate>*>::Constructor();edkEnd();
+        }
+        if(this->classThis!=this){
+            this->classThis=this;
+        }
+    }
+    void Constructor(edk::uint32 size,bool runFather=true){
+        if(runFather){
+            edk::vector::Array<edk::vector::Array<typeTemplate>*>::Constructor();edkEnd();
+        }
+        if(this->classThis!=this){
+            this->classThis=this;
+            this->createArray(size);edkEnd();
+        }
+    }
+private:
+    edk::classID classThis;
 };
 
 class StackCell : public edk::vector::Array<edk::classID>{
 public:
     //construtor
     StackCell(edk::uint32 level){
-        this->level = level;
-        this->father=NULL;
-        this->position=0u;
-        this->readPosition=0u;
+        this->classThis=NULL;edkEnd();
+        this->Constructor(level,false);edkEnd();
     }
     StackCell(edk::vector::StackCell* father,edk::uint32 level){
-        this->level = level;
-        this->father=father;
-        this->position=0u;
-        this->readPosition=0u;
+        this->classThis=NULL;edkEnd();
+        this->Constructor(father,level,false);edkEnd();
     }
     StackCell(edk::uint32 size,edk::uint32 level){
-        this->father=NULL;
-        this->level = level;
-        this->createArray(size);edkEnd();
-        this->position=0u;
-        this->readPosition=0u;
+        this->classThis=NULL;edkEnd();
+        this->Constructor(size,level,false);edkEnd();
     }
     StackCell(edk::vector::StackCell* father,edk::uint32 size,edk::uint32 level){
-        this->father=father;
-        this->level = level;
-        this->createArray(size);edkEnd();
-        this->position=0u;
-        this->readPosition=0u;
+        this->classThis=NULL;edkEnd();
+        this->Constructor(father,size,level,false);edkEnd();
     }
     //Destrutor
     ~StackCell(){
-        this->clean();
+        if(this->classThis==this){
+            this->classThis=NULL;edkEnd();
+            //can destruct the class
+            this->clean();
+        }
     }
+
+    void Constructor(edk::uint32 level,bool runFather=true){
+        if(runFather){
+            edk::vector::Array<edk::classID>::Constructor();edkEnd();
+        }
+        if(this->classThis!=this){
+            this->classThis=this;
+            this->level = level;
+            this->father=NULL;
+            this->position=0u;
+            this->readPosition=0u;
+        }
+    }
+    void Constructor(edk::vector::StackCell* father,edk::uint32 level,bool runFather=true){
+        if(runFather){
+            edk::vector::Array<edk::classID>::Constructor();edkEnd();
+        }
+        if(this->classThis!=this){
+            this->classThis=this;
+            this->level = level;
+            this->father=father;
+            this->position=0u;
+            this->readPosition=0u;
+        }
+    }
+    void Constructor(edk::uint32 size,edk::uint32 level,bool runFather=true){
+        if(runFather){
+            edk::vector::Array<edk::classID>::Constructor();edkEnd();
+        }
+        if(this->classThis!=this){
+            this->classThis=this;
+            this->father=NULL;
+            this->level = level;
+            this->createArray(size);edkEnd();
+            this->position=0u;
+            this->readPosition=0u;
+        }
+    }
+    void Constructor(edk::vector::StackCell* father,edk::uint32 size,edk::uint32 level,bool runFather=true){
+        if(runFather){
+            edk::vector::Array<edk::classID>::Constructor();edkEnd();
+        }
+        if(this->classThis!=this){
+            this->classThis=this;
+            this->father=father;
+            this->level = level;
+            this->createArray(size);edkEnd();
+            this->position=0u;
+            this->readPosition=0u;
+        }
+    }
+
     bool isLeaf(){return this->level==1u;}
     edk::uint32 getLevel(){return this->level;}
     edk::uint32 position;
@@ -136,6 +205,8 @@ public:
     edk::vector::StackCell* father;
 private:
     edk::uint32 level;
+private:
+    edk::classID classThis;
 };
 
 template <class typeTemplate>
@@ -143,50 +214,71 @@ class Stack{
 public:
     //Construtor
     Stack(){
-        //clean the vectors
-        this->canDeleteVector=true;edkEnd();
-        this->StackArraySize=PatternArraySize;edkEnd();
-        this->stackSize=0u;
-
-        this->root=NULL;
-
-        this->rootPointer=&this->root;
-        this->removedPointer=&this->removed;
-        this->stackSizePointer=&this->stackSize;
-        this->stackArraySizePointer=&this->StackArraySize;
+        this->classThis=NULL;edkEnd();
+        this->Constructor(false);edkEnd();
     }
     //Construtor with arraySize
     Stack(edk::uint32 arraySize){
-        //clean the vectors
-        this->canDeleteVector=true;edkEnd();
-        //Test if the arraySize is bigger then zero
-        if(arraySize){
-            //
-            this->StackArraySize=arraySize;edkEnd();
-        }
-        else{
-            //else set the Pattern
-            this->StackArraySize=PatternArraySize;edkEnd();
-        }
-        this->stackSize=0u;
-
-        this->root=NULL;
-
-        this->rootPointer=&this->root;
-        this->removedPointer=&this->removed;
-        this->stackSizePointer=&this->stackSize;
-        this->stackArraySizePointer=&this->StackArraySize;
+        this->classThis=NULL;edkEnd();
+        this->Constructor(arraySize,true);edkEnd();
     }
     //Destrutor
     virtual ~Stack(){
-        //delete the array
-        if(this->canDeleteVector){
-            //clean
-            this->clean();edkEnd();
-            this->canDeleteVector=false;edkEnd();
+        if(this->classThis==this){
+            this->classThis=NULL;edkEnd();
+            //can destruct the class
+            //delete the array
+            if(this->canDeleteVector){
+                //clean
+                this->clean();edkEnd();
+                this->canDeleteVector=false;edkEnd();
+            }
+            else{
+                this->removed.cantDestruct();edkEnd();
+            }
         }
-        else{
-            this->removed.cantDestruct();edkEnd();
+    }
+
+    //Construtor
+    void Constructor(bool runFather=true){
+        if(runFather){edkEnd();}
+        if(this->classThis!=this){
+            this->classThis=this;
+            //clean the vectors
+            this->canDeleteVector=true;edkEnd();
+            this->StackArraySize=PatternArraySize;edkEnd();
+            this->stackSize=0u;
+
+            this->root=NULL;
+
+            this->rootPointer=&this->root;
+            this->removedPointer=&this->removed;
+            this->stackSizePointer=&this->stackSize;
+            this->stackArraySizePointer=&this->StackArraySize;
+        }
+    }
+    //Construtor with arraySize
+    void Constructor(edk::uint32 arraySize,bool runFather=true){
+        if(runFather){edkEnd();}
+        if(this->classThis!=this){
+            this->classThis=this;
+
+            this->removed.Constructor();edkEnd();
+
+            //clean the vectors
+            this->canDeleteVector=true;edkEnd();
+            //Test if the arraySize is bigger then zero
+            if(arraySize){
+                //
+                this->StackArraySize=arraySize;edkEnd();
+            }
+            else{
+                //else set the Pattern
+                this->StackArraySize=PatternArraySize;edkEnd();
+            }
+            this->stackSize=0u;
+
+            this->root=NULL;
         }
     }
 
@@ -2134,15 +2226,35 @@ private:
         ret.cantDestroy();edkEnd();
         return ret;
     }
+private:
+    edk::classID classThis;
 };
 
 class StackNames: private edk::vector::Stack<edk::Name*>{
 public:
     StackNames(){
-        this->treePointer=&this->tree;
+        this->classThis=NULL;edkEnd();
+        this->Constructor(false);edkEnd();
     }
     ~StackNames(){
-        this->clean();edkEnd();
+        if(this->classThis==this){
+            this->classThis=NULL;edkEnd();
+            //can destruct the class
+            this->clean();edkEnd();
+        }
+    }
+
+    void Constructor(bool runFather=true){
+        if(runFather){
+            edk::vector::Stack<edk::Name*>::Constructor();edkEnd();
+        }
+        if(this->classThis!=this){
+            this->classThis=this;
+
+            this->tree.Constructor();edkEnd();
+
+            this->treePointer=&this->tree;
+        }
     }
 
     //ADDS
@@ -2520,6 +2632,8 @@ private:
     //tree with the positions created by the stack
     edk::vector::BinaryTree<edk::uint32>*treePointer;
     edk::vector::BinaryTree<edk::uint32>tree;
+private:
+    edk::classID classThis;
 };
 
 }//end namespace vector

@@ -28,19 +28,29 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #pragma message "            Inside InterpolationLine.cpp"
 #endif
 
-edk::animation::InterpolationLine::InterpolationLine()
-{
-    this->startAlloc=this->endAlloc=false;edkEnd();
-    this->start=this->end=NULL;edkEnd();
-    //
-    this->allocStart();edkEnd();
-    this->allocEnd();edkEnd();
-    this->active=false;edkEnd();
+edk::animation::InterpolationLine::InterpolationLine(){
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);edkEnd();
 }
 
-edk::animation::InterpolationLine::~InterpolationLine()
-{
-    this->deleteFrames();edkEnd();
+edk::animation::InterpolationLine::~InterpolationLine(){
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
+        this->deleteFrames();edkEnd();
+    }
+}
+
+void edk::animation::InterpolationLine::Constructor(bool /*runFather*/){
+    if(this->classThis!=this){
+        this->classThis=this;
+        this->startAlloc=this->endAlloc=false;edkEnd();
+        this->start=this->end=NULL;edkEnd();
+        //
+        this->allocStart();edkEnd();
+        this->allocEnd();edkEnd();
+        this->active=false;edkEnd();
+    }
 }
 
 //calculate de distance
@@ -103,8 +113,8 @@ bool edk::animation::InterpolationLine::allocEnd(){
 //set new
 edk::animation::Frame* edk::animation::InterpolationLine::useNewFrame(edk::uint8,edk::float32 values,...){
     edk::float32* value = &values;edkEnd();
-//    if(count) value = &values;edkEnd();
-//    else value = &values;edkEnd();
+    //    if(count) value = &values;edkEnd();
+    //    else value = &values;edkEnd();
     return new edk::animation::Frame(value[0]);edkEnd();
 }
 

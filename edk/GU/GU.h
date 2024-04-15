@@ -254,6 +254,8 @@ public:
     //destrutor
     ~GU();
 
+    void Constructor(bool runFather=true);
+
     static void setCantLoadTextures();
     static void setCanLoadTextures();
 
@@ -661,13 +663,35 @@ private:
     static edk::multi::Mutex mutGetTextures;
     static edk::multi::Mutex mutDelTextures;
     static edk::multi::Mutex mutGetMipmaps;
+    static bool templateConstructNeed;
     //a boolean if can still running load the texture
     static bool canLoadTexture;
 
     class TextureClass{
     public:
-        TextureClass(){this->width=0u; this->height=0u; this->depth=0u; this->mode=0u; this->filter=0u; this->data=0u;this->threadID = 0u;this->id = 0u;}
-        ~TextureClass(){}
+        TextureClass(){this->classThis=NULL;edkEnd();
+                       this->Constructor(false);edkEnd();}
+        ~TextureClass(){
+            if(this->classThis==this){
+                this->classThis=NULL;edkEnd();
+                //can destruct the class
+            }
+        }
+
+        void Constructor(bool runFather=true){
+            if(runFather){edkEnd();}
+            if(this->classThis!=this){
+                this->classThis=this;
+                this->width=0u;
+                this->height=0u;
+                this->depth=0u;
+                this->mode=0u;
+                this->filter=0u;
+                this->data=0u;
+                this->threadID = 0u;
+                this->id = 0u;
+            }
+        }
         edk::GU::TextureClass operator=(edk::GU::TextureClass tex){
             this->width = tex.width;
             this->height = tex.height;
@@ -695,13 +719,30 @@ private:
 #else
         edk::uint32 threadID;
 #endif
+    private:
+        edk::classID classThis;
     };
     static edk::vector::Queue<edk::GU::TextureClass> genTextures;
 
     class Texture_Tree : public edk::vector::BinaryTree<edk::GU::TextureClass>{
     public:
-        Texture_Tree(){}
-        ~Texture_Tree(){}
+        Texture_Tree(){this->classThis=NULL;edkEnd();
+                       this->Constructor(false);edkEnd();}
+        ~Texture_Tree(){
+            if(this->classThis==this){
+                this->classThis=NULL;edkEnd();
+                //can destruct the class
+            }
+        }
+
+        void Constructor(bool runFather=true){
+            if(runFather){
+                edk::vector::BinaryTree<edk::GU::TextureClass>::Constructor();edkEnd();
+            }
+            if(this->classThis!=this){
+                this->classThis=this;
+            }
+        }
         //compare if the value is bigger
         virtual bool firstBiggerSecond(edk::GU::TextureClass first,edk::GU::TextureClass second){
             if(first.threadID>second.threadID){return true;}
@@ -732,6 +773,8 @@ private:
             temp.threadID = ID;
             return this->haveElement(temp);
         }
+    private:
+        edk::classID classThis;
     };
     static edk::GU::Texture_Tree treeTextures;
 
@@ -739,8 +782,24 @@ private:
 
     class MipmapClass{
     public:
-        MipmapClass(){this->threadID = 0u;this->ID = 0u;}
-        ~MipmapClass(){}
+        MipmapClass(){this->classThis=NULL;edkEnd();
+                      this->Constructor(false);edkEnd();}
+        ~MipmapClass(){
+            if(this->classThis==this){
+                this->classThis=NULL;edkEnd();
+                //can destruct the class
+            }
+        }
+
+        void Constructor(bool runFather=true){
+            if(runFather){edkEnd();}
+            if(this->classThis!=this){
+                this->classThis=this;
+                this->threadID = 0u;
+                this->ID = 0u;
+            }
+        }
+
         edk::GU::MipmapClass operator=(edk::GU::MipmapClass tex){
             this->threadID = tex.threadID;
             this->ID = tex.ID;
@@ -761,8 +820,12 @@ private:
 #else
         edk::uint32 threadID;
 #endif
+    private:
+        edk::classID classThis;
     };
     static edk::vector::Queue<edk::GU::MipmapClass> genMipmaps;
+private:
+    edk::classID classThis;
 };
 }//end namespace
 

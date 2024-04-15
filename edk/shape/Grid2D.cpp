@@ -29,17 +29,27 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endif
 
 edk::shape::Grid2D::Grid2D(){
-    //
-    this->position = 0.f;
-    this->size = 1.f;
-    this->angle=0.f;
-    this->colorLines = edk::color4f32(0.f,0.f,0.f,1.f);;
-    this->colorLinesBold = edk::color4f32(0.f,0.f,0.f,1.f);
-    this->setDistanceLines(0.f);
-    this->setDistanceLinesBold(0.f);
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);edkEnd();
 }
 edk::shape::Grid2D::~Grid2D(){
-    //
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
+    }
+}
+
+void edk::shape::Grid2D::Constructor(bool /*runFather*/){
+    if(this->classThis!=this){
+        this->classThis=this;
+        this->position = 0.f;
+        this->size = 1.f;
+        this->angle=0.f;
+        this->colorLines = edk::color4f32(0.f,0.f,0.f,1.f);;
+        this->colorLinesBold = edk::color4f32(0.f,0.f,0.f,1.f);
+        this->setDistanceLines(0.f);
+        this->setDistanceLinesBold(0.f);
+    }
 }
 
 //set the distanceLines

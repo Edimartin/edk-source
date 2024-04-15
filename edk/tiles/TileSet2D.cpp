@@ -25,14 +25,32 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 edk::tiles::TileSet2D::TileSet2D(){
-    //set the stack for tiles
-    this->tiles.clean(tileStack);edkEnd();
-    this->tileSize = edk::size2f32(1,1);edkEnd();
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);edkEnd();
 }
 
 edk::tiles::TileSet2D::~TileSet2D(){
-    //
-    this->deleteTiles();edkEnd();
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
+        this->deleteTiles();edkEnd();
+    }
+}
+
+void edk::tiles::TileSet2D::Constructor(bool /*runFather*/){
+    if(this->classThis!=this){
+        this->classThis=this;
+
+        this->tiles.Constructor();edkEnd();
+        this->treeAnimated.Constructor();edkEnd();
+        this->treeRemoveXML.Constructor();edkEnd();
+        this->tileTemp.Constructor();edkEnd();
+        this->tileIsometricTemp.Constructor();edkEnd();
+
+        //set the stack for tiles
+        this->tiles.clean(tileStack);edkEnd();
+        this->tileSize = edk::size2f32(1,1);edkEnd();
+    }
 }
 
 //Delete all tiles
@@ -294,7 +312,7 @@ edk::tiles::TileSet2D::Tile2Positions2D edk::tiles::TileSet2D::loadImageTilesFro
                                                                                       edk::uint32 y,
                                                                                       edk::uint32 filter,
                                                                                       edk::color4f32 color
-        ){
+                                                                                      ){
     //
     return this->loadImageTilesFromPack(pack,(edk::char8*)image,edk::vec2ui32(x,y),filter,color);edkEnd();
 }
@@ -303,7 +321,7 @@ edk::tiles::TileSet2D::Tile2Positions2D edk::tiles::TileSet2D::loadImageTilesFro
                                                                                       edk::vec2ui32 frames,
                                                                                       edk::uint32 filter,
                                                                                       edk::color4f32 color
-        ){
+                                                                                      ){
     //
     return this->loadImageTilesFromPack(pack,(edk::char8*)image,frames,filter,color);edkEnd();
 }
@@ -313,7 +331,7 @@ edk::tiles::TileSet2D::Tile2Positions2D edk::tiles::TileSet2D::loadImageTilesFro
                                                                                       edk::uint32 y,
                                                                                       edk::uint32 filter,
                                                                                       edk::color4f32 color
-        ){
+                                                                                      ){
     //
     return this->loadImageTilesFromPack(pack,image,edk::vec2ui32(x,y),filter,color);edkEnd();
 }
@@ -322,7 +340,7 @@ edk::tiles::TileSet2D::Tile2Positions2D edk::tiles::TileSet2D::loadImageTilesFro
                                                                                       edk::vec2ui32 frames,
                                                                                       edk::uint32 filter,
                                                                                       edk::color4f32 color
-        ){
+                                                                                      ){
     //
     //
     edk::tiles::TileSet2D::Tile2Positions2D ret;edkEnd();
@@ -510,7 +528,7 @@ edk::tiles::TileSet2D::Tile2Positions2D edk::tiles::TileSet2D::loadImageTilesIso
                                                                                                edk::uint32 y,
                                                                                                edk::uint32 filter,
                                                                                                edk::color4f32 color
-        ){
+                                                                                               ){
     return this->loadImageTilesIsometricFromPack(pack,(edk::char8*)image,edk::vec2ui32(x,y),filter,color);edkEnd();
 }
 edk::tiles::TileSet2D::Tile2Positions2D edk::tiles::TileSet2D::loadImageTilesIsometricFromPack(edk::pack::FilePackage* pack,
@@ -518,7 +536,7 @@ edk::tiles::TileSet2D::Tile2Positions2D edk::tiles::TileSet2D::loadImageTilesIso
                                                                                                edk::vec2ui32 frames,
                                                                                                edk::uint32 filter,
                                                                                                edk::color4f32 color
-        ){
+                                                                                               ){
     return this->loadImageTilesIsometricFromPack(pack,(edk::char8*)image,frames,filter,color);edkEnd();
 }
 edk::tiles::TileSet2D::Tile2Positions2D edk::tiles::TileSet2D::loadImageTilesIsometricFromPack(edk::pack::FilePackage* pack,
@@ -527,7 +545,7 @@ edk::tiles::TileSet2D::Tile2Positions2D edk::tiles::TileSet2D::loadImageTilesIso
                                                                                                edk::uint32 y,
                                                                                                edk::uint32 filter,
                                                                                                edk::color4f32 color
-        ){
+                                                                                               ){
     return this->loadImageTilesIsometricFromPack(pack,image,edk::vec2ui32(x,y),filter,color);edkEnd();
 }
 edk::tiles::TileSet2D::Tile2Positions2D edk::tiles::TileSet2D::loadImageTilesIsometricFromPack(edk::pack::FilePackage* pack,
@@ -535,7 +553,7 @@ edk::tiles::TileSet2D::Tile2Positions2D edk::tiles::TileSet2D::loadImageTilesIso
                                                                                                edk::vec2ui32 frames,
                                                                                                edk::uint32 filter,
                                                                                                edk::color4f32 color
-        ){
+                                                                                               ){
     //
     edk::tiles::TileSet2D::Tile2Positions2D ret;edkEnd();
 
@@ -718,37 +736,37 @@ edk::tiles::TileSet2D::Tile2Positions2D edk::tiles::TileSet2D::loadImageTilesIso
 
 //load the tiles from pack
 edk::tiles::TileSet2D::Tile2Positions2D edk::tiles::TileSet2D::loadImageTilesIsometricFlatFromPack(edk::pack::FilePackage* pack,
-                                                                            const edk::char8* image,
-                                                                            edk::uint32 x,
-                                                                            edk::uint32 y,
-                                                                            edk::uint32 filter,
-                                                                            edk::color4f32 color
-        ){
+                                                                                                   const edk::char8* image,
+                                                                                                   edk::uint32 x,
+                                                                                                   edk::uint32 y,
+                                                                                                   edk::uint32 filter,
+                                                                                                   edk::color4f32 color
+                                                                                                   ){
     return this->loadImageTilesIsometricFlatFromPack(pack,(edk::char8*)image,edk::vec2ui32(x,y),filter,color);edkEnd();
 }
 edk::tiles::TileSet2D::Tile2Positions2D edk::tiles::TileSet2D::loadImageTilesIsometricFlatFromPack(edk::pack::FilePackage* pack,
-                                                                            const edk::char8* image,
-                                                                            edk::vec2ui32 frames,
-                                                                            edk::uint32 filter,
-                                                                            edk::color4f32 color
-        ){
+                                                                                                   const edk::char8* image,
+                                                                                                   edk::vec2ui32 frames,
+                                                                                                   edk::uint32 filter,
+                                                                                                   edk::color4f32 color
+                                                                                                   ){
     return this->loadImageTilesIsometricFlatFromPack(pack,(edk::char8*)image,frames,filter,color);edkEnd();
 }
 edk::tiles::TileSet2D::Tile2Positions2D edk::tiles::TileSet2D::loadImageTilesIsometricFlatFromPack(edk::pack::FilePackage* pack,
-                                                                            edk::char8* image,
-                                                                            edk::uint32 x,
-                                                                            edk::uint32 y,
-                                                                            edk::uint32 filter,
-                                                                            edk::color4f32 color
-        ){
+                                                                                                   edk::char8* image,
+                                                                                                   edk::uint32 x,
+                                                                                                   edk::uint32 y,
+                                                                                                   edk::uint32 filter,
+                                                                                                   edk::color4f32 color
+                                                                                                   ){
     return this->loadImageTilesIsometricFlatFromPack(pack,image,edk::vec2ui32(x,y),filter,color);edkEnd();
 }
 edk::tiles::TileSet2D::Tile2Positions2D edk::tiles::TileSet2D::loadImageTilesIsometricFlatFromPack(edk::pack::FilePackage* pack,
-                                                                            edk::char8* image,
-                                                                            edk::vec2ui32 frames,
-                                                                            edk::uint32 filter,
-                                                                            edk::color4f32 color
-        ){
+                                                                                                   edk::char8* image,
+                                                                                                   edk::vec2ui32 frames,
+                                                                                                   edk::uint32 filter,
+                                                                                                   edk::color4f32 color
+                                                                                                   ){
     //
     edk::tiles::TileSet2D::Tile2Positions2D ret;edkEnd();
 

@@ -40,61 +40,64 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 namespace edk{
 namespace animation{
-class InterpolationLine2D:public InterpolationLine1D{
-    public:
-        InterpolationLine2D();
-        virtual ~InterpolationLine2D();
+class InterpolationLine2D:public edk::animation::InterpolationLine1D{
+public:
+    InterpolationLine2D();
+    virtual ~InterpolationLine2D();
 
-        //SETERS
-        //set the start frame
-        virtual bool setStart(edk::animation::Frame2D* frame);
-        virtual bool setStart(edk::float32 second,edk::vec2f32 value);
-        virtual bool setStart(edk::float32 second,edk::float32 x,edk::float32 y);
-        virtual bool setStartValue(edk::float32 x,edk::float32 y);
-        virtual bool setEnd(edk::animation::Frame2D* frame);
-        virtual bool setEnd(edk::float32 second,edk::vec2f32 value);
-        virtual bool setEnd(edk::float32 second,edk::float32 x,edk::float32 y);
-        virtual bool setEndValue(edk::float32 x,edk::float32 y);
-        //set the points in the curve
-        bool setP1Y(edk::float32 second,edk::float32 y);
-        bool setP2Y(edk::float32 second,edk::float32 y);
+    void Constructor(bool runFather=true);
+
+    //SETERS
+    //set the start frame
+    virtual bool setStart(edk::animation::Frame2D* frame);
+    virtual bool setStart(edk::float32 second,edk::vec2f32 value);
+    virtual bool setStart(edk::float32 second,edk::float32 x,edk::float32 y);
+    virtual bool setStartValue(edk::float32 x,edk::float32 y);
+    virtual bool setEnd(edk::animation::Frame2D* frame);
+    virtual bool setEnd(edk::float32 second,edk::vec2f32 value);
+    virtual bool setEnd(edk::float32 second,edk::float32 x,edk::float32 y);
+    virtual bool setEndValue(edk::float32 x,edk::float32 y);
+    //set the points in the curve
+    bool setP1Y(edk::float32 second,edk::float32 y);
+    bool setP2Y(edk::float32 second,edk::float32 y);
 
 
-        //Set as a curve
-        bool setCurveY(bool curve);
-        void isCurveY();
-        void isNotCurveY();
-        bool getCurveY();
-        //set as constant interpolation
-        void setConstantY();
-        void setLinearY();
+    //Set as a curve
+    bool setCurveY(bool curve);
+    void isCurveY();
+    void isNotCurveY();
+    bool getCurveY();
+    //set as constant interpolation
+    void setConstantY();
+    void setLinearY();
 
-        //GETERS
-        //return the start
-        edk::animation::Frame2D getStart2D();
-        //return the end
-        edk::animation::Frame2D getEnd2D();
+    //GETERS
+    //return the start
+    edk::animation::Frame2D getStart2D();
+    //return the end
+    edk::animation::Frame2D getEnd2D();
 
-        //return the position in the second
-        virtual edk::float32 getPositionY(edk::float32 second);
+    //return the position in the second
+    virtual edk::float32 getPositionY(edk::float32 second);
 
-        //write to XML
-        virtual bool writeToXMLStart(edk::XML* xml,edk::uint32 frameID);
-        virtual bool writeToXMLEnd(edk::XML* xml,edk::uint32 frameID);
-        //write curve
-        virtual bool writeCurveToXML(edk::XML* xml,edk::uint32 curveID);
-        //read the curve
-        virtual bool readCurveFromXML(edk::XML* xml,edk::uint32 curveID);
-    protected:
-        //set new
-        virtual edk::animation::Frame* useNewFrame(edk::uint8 count,edk::float32 values,...);
+    //write to XML
+    virtual bool writeToXMLStart(edk::XML* xml,edk::uint32 frameID);
+    virtual bool writeToXMLEnd(edk::XML* xml,edk::uint32 frameID);
+    //write curve
+    virtual bool writeCurveToXML(edk::XML* xml,edk::uint32 curveID);
+    //read the curve
+    virtual bool readCurveFromXML(edk::XML* xml,edk::uint32 curveID);
+protected:
+    //set new
+    virtual edk::animation::Frame* useNewFrame(edk::uint8 count,edk::float32 values,...);
 
-        //curve points
-        edk::size2f32 p1Y;
-        edk::size2f32 p2Y;
-        bool curveY;
-        bool constantY;
-    private:
+    //curve points
+    edk::size2f32 p1Y;
+    edk::size2f32 p2Y;
+    bool curveY;
+    bool constantY;
+private:
+    edk::classID classThis;
 };
 }//end namespace animation
 }//end namespace edk

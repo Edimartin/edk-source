@@ -42,6 +42,8 @@ class CodecVideo : private edk::codecs::CodecImage{
 public:
     CodecVideo();
     virtual ~CodecVideo();
+
+    void Constructor(bool runFather=true);
 protected:
     //create a new frame
     bool newFrame(edk::size2ui32 size,edk::uint8 channels);
@@ -106,6 +108,8 @@ private:
     bool nexKeyframe;
     //frame encoded size
     edk::uint32 usingEncodedSize;
+private:
+    edk::classID classThis;
 };
 }//end namespace codecs
 }//end namespace edk

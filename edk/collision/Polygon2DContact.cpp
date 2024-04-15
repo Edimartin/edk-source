@@ -30,10 +30,21 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
 edk::collision::Polygon2DContact::Polygon2DContact(){
-    //
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);edkEnd();
 }
 edk::collision::Polygon2DContact::~Polygon2DContact(){
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
+    }
+}
+
+void edk::collision::Polygon2DContact::Constructor(bool /*runFather*/){
     //
+    if(this->classThis!=this){
+        this->classThis=this;
+    }
 }
 //calculate the vertexes
 bool edk::collision::Polygon2DContact::pointsCalculateFromPolygonA(edk::shape::Polygon2D* polyA,

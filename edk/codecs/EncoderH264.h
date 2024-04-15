@@ -52,6 +52,8 @@ public:
     EncoderH264();
     virtual ~EncoderH264();
 
+    void Constructor(bool runFather=true);
+
     //start the encoder
     bool startEncoder(edk::size2ui32 size, edk::uint32 fps);
 
@@ -76,6 +78,8 @@ private:
     //return parameters
     SFrameBSInfo sFbi;
 #endif
+private:
+    edk::classID classThis;
 };
 }//end namespace codecs
 }//end namespace edk

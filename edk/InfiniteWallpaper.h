@@ -15,6 +15,8 @@ public:
     InfiniteWallpaper();
     ~InfiniteWallpaper();
 
+    void Constructor(bool runFather=true);
+
     //clean wallpapers
     void clean();
     //add new wallpaper
@@ -63,11 +65,27 @@ private:
     class WallpaperObject{
     public:
         WallpaperObject(edk::uint32 drawTimes){
-            this->drawTimes = drawTimes;edkEnd();
-            this->cleanDraw();edkEnd();
+            this->classThis=NULL;edkEnd();
+            this->Constructor(drawTimes,false);edkEnd();
         }
         ~WallpaperObject(){
-            this->obj.cleanMeshes();edkEnd();
+            if(this->classThis==this){
+                this->classThis=NULL;edkEnd();
+                //can destruct the class
+                this->obj.cleanMeshes();edkEnd();
+            }
+        }
+
+        void Constructor(edk::uint32 drawTimes,bool runFather=true){
+            if(runFather){edkEnd();}
+            if(this->classThis!=this){
+                this->classThis=this;
+
+                this->obj.Constructor();
+
+                this->drawTimes = drawTimes;edkEnd();
+                this->cleanDraw();edkEnd();
+            }
         }
         //return true if can draw
         bool canDraw(){
@@ -128,6 +146,8 @@ private:
     private:
         edk::uint32 drawTimes;
         edk::int64 drawCounter;
+    private:
+        edk::classID classThis;
     };
     edk::vector::Stack<edk::InfiniteWallpaper::WallpaperObject*> stack;
     edk::size2f32 saveSize;
@@ -146,6 +166,8 @@ private:
     //change the status
     void changeStatus();
     void changeSize();
+private:
+    edk::classID classThis;
 };
 }
 

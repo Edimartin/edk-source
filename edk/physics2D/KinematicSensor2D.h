@@ -44,6 +44,10 @@ class KinematicSensor2D: public edk::physics2D::StaticSensor2D{
 public:
     KinematicSensor2D();
     ~KinematicSensor2D();
+
+    void Constructor(bool runFather=true);
+private:
+    edk::classID classThis;
 };
 }
 }

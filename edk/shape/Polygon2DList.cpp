@@ -29,20 +29,35 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endif
 
 edk::shape::Polygon2DList::Polygon2DList(){
-    //clean the selected
-    this->freeSelected();edkEnd();
-    this->canDeleteList=true;edkEnd();
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);edkEnd();
 }
 
 edk::shape::Polygon2DList::~Polygon2DList(){
-    //clean the polygons
-    if(this->canDeleteList){
-        this->cleanPolygons();edkEnd();
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
+        //clean the polygons
+        if(this->canDeleteList){
+            this->cleanPolygons();edkEnd();
+        }
+        else{
+            this->polygons.cantDestroy();edkEnd();
+        }
+        this->canDeleteList=true;edkEnd();
     }
-    else{
-        this->polygons.cantDestroy();edkEnd();
+}
+
+void edk::shape::Polygon2DList::Constructor(bool /*runFather*/){
+    if(this->classThis!=this){
+        this->classThis=this;
+
+        this->polygons.Constructor();edkEnd();
+
+        //clean the selected
+        this->freeSelected();edkEnd();
+        this->canDeleteList=true;edkEnd();
     }
-    this->canDeleteList=true;edkEnd();
 }
 
 //Set polygons color

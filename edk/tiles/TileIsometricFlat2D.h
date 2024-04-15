@@ -43,8 +43,12 @@ public:
     TileIsometricFlat2D();
     virtual ~TileIsometricFlat2D();
 
+    void Constructor(bool runFather=true);
+
     //return the type of the tile to the tileSet know witch tile is before delete it
     edk::tiles::tile2DType getType();
+private:
+    edk::classID classThis;
 };
 }
 }

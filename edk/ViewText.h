@@ -43,6 +43,8 @@ public:
     ViewText();
     ~ViewText();
 
+    void Constructor(bool runFather=true);
+
     //createString
     bool createString(edk::char8* string);
     bool createString(const edk::char8* string);
@@ -87,6 +89,8 @@ private:
     //save the text lines
     edk::uint32 textLine;
     edk::uint32 saveLine;
+private:
+    edk::classID classThis;
 };
 }//end namespace edk
 

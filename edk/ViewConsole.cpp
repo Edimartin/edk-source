@@ -38,12 +38,31 @@ edk::float32 consoleColors[edk::colorSize][3u]=
 };
 
 edk::ViewConsole::ViewConsole(){
-    //
-    this->newConsole(mapSizeX,mapSizeY);edkEnd();
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);edkEnd();
 }
 edk::ViewConsole::~ViewConsole(){
-    //
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
+    }
 }
+
+void edk::ViewConsole::Constructor(bool runFather){
+    if(runFather){
+        edk::ViewGU::Constructor();edkEnd();
+    }
+    if(this->classThis!=this){
+        this->classThis=this;
+
+        this->map.Constructor();
+        this->back.Constructor();
+
+        //
+        this->newConsole(mapSizeX,mapSizeY);edkEnd();
+    }
+}
+
 //draw the polygon on the scene
 void edk::ViewConsole::runDrawScene(edk::rectf32 outsideViewOrigin){
     edk::ViewGU::runDrawScene(outsideViewOrigin);edkEnd();
@@ -1015,13 +1034,13 @@ bool edk::ViewConsole::writeScrollBarHorizontal(edk::uint32 x,
                                           ((edk::float32)lenght-2u-
                                            (edk::float32)_lenght));edkEnd();
     return writeScrollBarHorizontal(x,
-                                  y,
-                                  lenght,
-                                  _position,
-                                  _lenght,
-                                  color,
-                                  backgroundColor
-                                  );edkEnd();
+                                    y,
+                                    lenght,
+                                    _position,
+                                    _lenght,
+                                    color,
+                                    backgroundColor
+                                    );edkEnd();
 }
 bool edk::ViewConsole::writeScrollBarHorizontal(edk::vec2ui32 position,
                                                 edk::uint32 lenght,

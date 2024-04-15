@@ -47,119 +47,123 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 namespace edk{
 namespace animation{
 class Interpolation2DGroup: public edk::animation::Interpolation1DGroup{
-    public:
-        Interpolation2DGroup();
-        ~Interpolation2DGroup();
+public:
+    Interpolation2DGroup();
+    ~Interpolation2DGroup();
 
-        //Add a first interpolation
-        bool addFirstInterpolationLine(edk::float32 startSecond, edk::float32 startX, edk::float32 startY, edk::float32 endSecond,edk::float32 endX,edk::float32 endY);
-        bool addFirstInterpolationLine(edk::float32 startSecond, edk::vec2f32 startValue, edk::float32 endSecond, edk::vec2f32 endValue);
-        bool addFirstInterpolationLine(edk::animation::Frame2D start,edk::animation::Frame2D end);
+    void Constructor(bool runFather=true);
 
-        //Add New Interpolation
-        bool addNewInterpolationLine(edk::float32 second,edk::float32 x,edk::float32 y);
-        bool addNewInterpolationLine(edk::float32 second,edk::vec2f32 value);
-        bool addNewInterpolationLine(edk::animation::Frame2D frame);
+    //Add a first interpolation
+    bool addFirstInterpolationLine(edk::float32 startSecond, edk::float32 startX, edk::float32 startY, edk::float32 endSecond,edk::float32 endX,edk::float32 endY);
+    bool addFirstInterpolationLine(edk::float32 startSecond, edk::vec2f32 startValue, edk::float32 endSecond, edk::vec2f32 endValue);
+    bool addFirstInterpolationLine(edk::animation::Frame2D start,edk::animation::Frame2D end);
 
-        //Set the frame value
-        bool setFrame2D(edk::float32 second,edk::float32 x,edk::float32 y);
-        bool setFrameY(edk::float32 second,edk::float32 y);
+    //Add New Interpolation
+    bool addNewInterpolationLine(edk::float32 second,edk::float32 x,edk::float32 y);
+    bool addNewInterpolationLine(edk::float32 second,edk::vec2f32 value);
+    bool addNewInterpolationLine(edk::animation::Frame2D frame);
 
-        //Set one interpolation Y as a curve
-        bool setInterpolationCurveY(edk::uint32 position);
-        bool setInterpolationNotCurveY(edk::uint32 position);
-        bool getInterpolationIsCurveY(edk::uint32 position);
-        //set as constant interpolation
-        bool setConstantY(edk::uint32 position);
-        bool setLinearY(edk::uint32 position);
-        //set all as constant interpolation
-        void setAllConstantY();
-        void setAllLinearY();
-        //Set the interpolation curve points
-        bool setInterpolationP1Y(edk::uint32 position,edk::float32 second,edk::float32 y);
-        bool setInterpolationP2Y(edk::uint32 position,edk::float32 second,edk::float32 y);
+    //Set the frame value
+    bool setFrame2D(edk::float32 second,edk::float32 x,edk::float32 y);
+    bool setFrameY(edk::float32 second,edk::float32 y);
 
-        //create random animations
-        //shake
-        edk::float32 addShakingFramesXY(edk::vec2f32 position,edk::float32 random,edk::float32 percent = 0.9f,edk::float32 interpolationDistance=0.05f);
+    //Set one interpolation Y as a curve
+    bool setInterpolationCurveY(edk::uint32 position);
+    bool setInterpolationNotCurveY(edk::uint32 position);
+    bool getInterpolationIsCurveY(edk::uint32 position);
+    //set as constant interpolation
+    bool setConstantY(edk::uint32 position);
+    bool setLinearY(edk::uint32 position);
+    //set all as constant interpolation
+    void setAllConstantY();
+    void setAllLinearY();
+    //Set the interpolation curve points
+    bool setInterpolationP1Y(edk::uint32 position,edk::float32 second,edk::float32 y);
+    bool setInterpolationP2Y(edk::uint32 position,edk::float32 second,edk::float32 y);
 
-        //GETERS
-        //return the animationPosition
-        edk::float32 getClockY();
-        //return the interpolation Y
-        edk::float32 getInterpolationStartY(edk::float32 position);
-        edk::float32 getInterpolationEndY(edk::float32 position);
-        //return the animation start and end in Y
-        edk::float32 getAnimationStartY();
-        edk::float32 getAnimationEndY();
-        //write to XML
-        virtual bool writeToXML(edk::XML* xml,edk::uint32 id);
-        //read XML
-        virtual bool readFromXML(edk::XML* xml,edk::uint32 id);
+    //create random animations
+    //shake
+    edk::float32 addShakingFramesXY(edk::vec2f32 position,edk::float32 random,edk::float32 percent = 0.9f,edk::float32 interpolationDistance=0.05f);
 
-        virtual bool cloneFrom(edk::animation::Interpolation2DGroup* group){
-            //clean frames
-            this->cleanAnimations();edkEnd();
-            if(group){
-                //first copy the frames
-                edk::uint32 size = group->animations.size();edkEnd();
-                for(edk::uint32 i=0u;i<size;i++){
-                    //
-                    edk::animation::InterpolationLine2D* temp = (edk::animation::InterpolationLine2D*)group->animations.get(i);edkEnd();
-                    if(temp){
-                        //test if it create the start frame
-                        if(temp->getCreateStart()){
-                            //copy the frame to the animation
-                            this->addNewInterpolationLine(temp->getStart2D());edkEnd();
-                        }
-                        //test if it create the end frame
-                        if(temp->getCreateEnd()){
-                            //copy the frame to the animation
-                            this->addNewInterpolationLine(temp->getEnd2D());edkEnd();
-                        }
+    //GETERS
+    //return the animationPosition
+    edk::float32 getClockY();
+    //return the interpolation Y
+    edk::float32 getInterpolationStartY(edk::float32 position);
+    edk::float32 getInterpolationEndY(edk::float32 position);
+    //return the animation start and end in Y
+    edk::float32 getAnimationStartY();
+    edk::float32 getAnimationEndY();
+    //write to XML
+    virtual bool writeToXML(edk::XML* xml,edk::uint32 id);
+    //read XML
+    virtual bool readFromXML(edk::XML* xml,edk::uint32 id);
+
+    virtual bool cloneFrom(edk::animation::Interpolation2DGroup* group){
+        //clean frames
+        this->cleanAnimations();edkEnd();
+        if(group){
+            //first copy the frames
+            edk::uint32 size = group->animations.size();edkEnd();
+            for(edk::uint32 i=0u;i<size;i++){
+                //
+                edk::animation::InterpolationLine2D* temp = (edk::animation::InterpolationLine2D*)group->animations.get(i);edkEnd();
+                if(temp){
+                    //test if it create the start frame
+                    if(temp->getCreateStart()){
+                        //copy the frame to the animation
+                        this->addNewInterpolationLine(temp->getStart2D());edkEnd();
+                    }
+                    //test if it create the end frame
+                    if(temp->getCreateEnd()){
+                        //copy the frame to the animation
+                        this->addNewInterpolationLine(temp->getEnd2D());edkEnd();
                     }
                 }
-
-                //now copy the animation names
-                size = group->animationNames.size();edkEnd();
-                for(edk::uint32 i=0u;i<size;i++){
-                    edk::animation::AnimationName* temp = (edk::animation::AnimationName*)group->animationNames.getElementInPosition(i);edkEnd();
-                    if(temp){
-                        this->addNewAnimationName(temp->name(),temp->start,temp->end);edkEnd();
-                    }
-                }
-
-                this->setLoop(group->getLoop());edkEnd();
-                this->setIncrement(group->getIncrement());edkEnd();
-                return true;
             }
-            return false;
+
+            //now copy the animation names
+            size = group->animationNames.size();edkEnd();
+            for(edk::uint32 i=0u;i<size;i++){
+                edk::animation::AnimationName* temp = (edk::animation::AnimationName*)group->animationNames.getElementInPosition(i);edkEnd();
+                if(temp){
+                    this->addNewAnimationName(temp->name(),temp->start,temp->end);edkEnd();
+                }
+            }
+
+            this->setLoop(group->getLoop());edkEnd();
+            this->setIncrement(group->getIncrement());edkEnd();
+            return true;
         }
-    protected:
-        edk::float32 tempY;
-        edk::float32 incrementY;
-        edk::float32 incrementYValue;
-        //create the interpolation
-        virtual edk::animation::InterpolationLine* newLineInterpolation();
-        //create the frame
-        virtual edk::animation::Frame* newFrame();
-        //print the frame
-        virtual void printInterpolationLine(edk::animation::InterpolationLine *interpolation);
+        return false;
+    }
+protected:
+    edk::float32 tempY;
+    edk::float32 incrementY;
+    edk::float32 incrementYValue;
+    //create the interpolation
+    virtual edk::animation::InterpolationLine* newLineInterpolation();
+    //create the frame
+    virtual edk::animation::Frame* newFrame();
+    //print the frame
+    virtual void printInterpolationLine(edk::animation::InterpolationLine *interpolation);
 
-        //copy interpolation frame
-        virtual void copyStartToStart(edk::animation::InterpolationLine* first,edk::animation::InterpolationLine* second);
-        virtual void copyEndToEnd(edk::animation::InterpolationLine* first,edk::animation::InterpolationLine* second);
+    //copy interpolation frame
+    virtual void copyStartToStart(edk::animation::InterpolationLine* first,edk::animation::InterpolationLine* second);
+    virtual void copyEndToEnd(edk::animation::InterpolationLine* first,edk::animation::InterpolationLine* second);
 
-        //increment functions to run the increment for the values
-        virtual void runIncrementForward();
-        virtual void runIncrementRewind();
-        virtual void cleanIncrement();
-        virtual void startIncrement();
-    private:
+    //increment functions to run the increment for the values
+    virtual void runIncrementForward();
+    virtual void runIncrementRewind();
+    virtual void cleanIncrement();
+    virtual void startIncrement();
+private:
 
-        edk::animation::Interpolation2DGroup operator=(edk::animation::Interpolation2DGroup group){
-            return group;
-        }
+    edk::animation::Interpolation2DGroup operator=(edk::animation::Interpolation2DGroup group){
+        return group;
+    }
+private:
+    edk::classID classThis;
 };
 }//end namespace animarion
 }//end namespace edk

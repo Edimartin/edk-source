@@ -81,6 +81,10 @@ public:
     Texture2DFile(const char *textureFileName);
     ~Texture2DFile();
 
+    void Constructor(bool runFather=true);
+    void Constructor(edk::char8 *textureFileName,bool runFather=true);
+    void Constructor(const char *textureFileName,bool runFather=true);
+
     //set the debugFile Name
     static bool createDebugFile(const edk::char8* name);
     static bool createDebugFile(edk::char8* name);
@@ -102,6 +106,7 @@ private:
 #if defined(EDK_TEX2DFILE_PRINT_DEBUG)
     static edk::DebugLineFile debugFile;
     static edk::multi::Mutex debugMut;
+    static bool templateConstructNeed;
 #endif
 
 #if defined(EDK_TEX2DFILE_PRINT_DEBUG)
@@ -115,6 +120,8 @@ private:
         this->writeDebug((edk::char8*) text,line,(edk::char8*) file,(edk::char8*) function);
     }
 #endif
+private:
+    edk::classID classThis;
 };
 }//endNamespace
 

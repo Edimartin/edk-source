@@ -25,13 +25,41 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 edk::Object3D::Object3D(){
-    //
-    this->loadIdentityValues();edkEnd();
-    this->father=NULL;
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);edkEnd();
 }
 edk::Object3D::~Object3D(){
-    //
-    this->clean();
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
+        this->clean();
+    }
+}
+
+void edk::Object3D::Constructor(bool runFather){
+    if(runFather){
+        edk::Object3DValues::Constructor();edkEnd();
+    }
+    if(this->classThis!=this){
+        this->classThis=this;
+
+        this->animationPosition.Constructor();
+        this->animationRotation.Constructor();
+        this->animationSize.Constructor();
+        this->meshes.Constructor();
+        this->matrixTranslate.Constructor();
+        this->matrixRotateX.Constructor();
+        this->matrixRotateY.Constructor();
+        this->matrixRotateZ.Constructor();
+        this->matrixScale.Constructor();
+        this->matrixTransform.Constructor();
+        this->matrixTemp.Constructor();
+        this->childrems.Constructor();
+
+        //
+        this->loadIdentityValues();edkEnd();
+        this->father=NULL;
+    }
 }
 
 void edk::Object3D::calculateMatrices(){

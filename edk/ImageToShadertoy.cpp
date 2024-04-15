@@ -25,10 +25,21 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 edk::ImageToShadertoy::ImageToShadertoy(){
-    //
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);edkEnd();
 }
 edk::ImageToShadertoy::~ImageToShadertoy(){
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
+    }
+}
+
+void edk::ImageToShadertoy::Constructor(bool /*runFather*/){
     //
+    if(this->classThis!=this){
+        this->classThis=this;
+    }
 }
 //
 bool edk::ImageToShadertoy::writeToFile(edk::char8* imageName,edk::uint32 lineSize){

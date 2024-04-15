@@ -31,37 +31,61 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include <stdio.h>
 
 edk::View::View(){
-    this->frame = edk::rectf32(0.f,0.f,0.f,0.f);edkEnd();
-    this->positionInWindow=this->frame.origin;edkEnd();
-    this->animatedFrame = this->frame;edkEnd();
-    //set color to white
-    this->backgroundColor = edk::color4f32(1,1,1,1);edkEnd();
-    //set to show view
-    this->hide=false;edkEnd();
-    this->paused=false;edkEnd();
-    this->mouseInside=false;edkEnd();
-    this->borderSize=0.f;edkEnd();
-    this->borderTemp=0.f;edkEnd();
-    this->mousePos = edk::vec2f32(0,0);edkEnd();
-    this->saveOutsideFrame=0.f;edkEnd();
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);edkEnd();
 }
 
 edk::View::View(edk::rectf32 frame){
-    this->frame = frame;edkEnd();
-    this->positionInWindow=this->frame.origin;edkEnd();
-    this->animatedFrame = this->frame;edkEnd();
-    //set color to white
-    this->backgroundColor = edk::color4f32(1,1,1,1);edkEnd();
-    //set to show view
-    this->hide=false;edkEnd();
-    this->paused=false;edkEnd();
-    this->mouseInside=false;edkEnd();
-    this->borderSize=0.0;
-    this->borderTemp=0.f;edkEnd();
+    this->classThis=NULL;edkEnd();
+    this->Constructor(frame,false);edkEnd();
 }
 
 edk::View::~View(){
-    //
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
+    }
+}
+
+void edk::View::Constructor(bool /*runFather*/){
+    if(this->classThis!=this){
+        this->classThis=this;
+
+        this->animationPosition.Constructor();
+
+        this->frame = edk::rectf32(0.f,0.f,0.f,0.f);edkEnd();
+        this->positionInWindow=this->frame.origin;edkEnd();
+        this->animatedFrame = this->frame;edkEnd();
+        //set color to white
+        this->backgroundColor = edk::color4f32(1,1,1,1);edkEnd();
+        //set to show view
+        this->hide=false;edkEnd();
+        this->paused=false;edkEnd();
+        this->mouseInside=false;edkEnd();
+        this->borderSize=0.f;edkEnd();
+        this->borderTemp=0.f;edkEnd();
+        this->mousePos = edk::vec2f32(0,0);edkEnd();
+        this->saveOutsideFrame=0.f;edkEnd();
+    }
+}
+void edk::View::Constructor(edk::rectf32 frame,bool /*runFather*/){
+    if(this->classThis!=this){
+        this->classThis=this;
+
+        this->animationPosition.Constructor();
+
+        this->frame = frame;edkEnd();
+        this->positionInWindow=this->frame.origin;edkEnd();
+        this->animatedFrame = this->frame;edkEnd();
+        //set color to white
+        this->backgroundColor = edk::color4f32(1,1,1,1);edkEnd();
+        //set to show view
+        this->hide=false;edkEnd();
+        this->paused=false;edkEnd();
+        this->mouseInside=false;edkEnd();
+        this->borderSize=0.0;
+        this->borderTemp=0.f;edkEnd();
+    }
 }
 
 //Draw Functions

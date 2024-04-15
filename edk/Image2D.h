@@ -72,6 +72,12 @@ public:
 
     ~Image2D();
 
+    void Constructor(bool runFather=true);
+
+    void Constructor(char8 *imageFileName,bool runFather=true);
+
+    void Constructor(const char *imageFileName,bool runFather=true);
+
     //create a new Image
     bool newImage(edk::char8 *imageName,edk::size2ui32 size,edk::uint8 channels);
     bool newImage(edk::char8 *imageName,edk::uint32 width,edk::uint32 height,edk::uint8 channels);
@@ -400,6 +406,8 @@ private:
     edk::uint8 getStreamType(edk::uint8* encoded);
     //discover the nameType
     edk::uint8 getNameType(edk::char8* name);
+private:
+    edk::classID classThis;
 };
 
 }//End of namespace edk

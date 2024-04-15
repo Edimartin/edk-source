@@ -25,13 +25,27 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 edk::gui2d::Button2D::Button2D(){
-    //
-    this->type=edk::TypeObject2DButton;
-    this->obj.setBorderSize(0.25f);edkEnd();
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);edkEnd();
 }
 edk::gui2d::Button2D::~Button2D(){
-    //clean the meshes
-    this->unload();edkEnd();
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
+        //clean the meshes
+        this->unload();edkEnd();
+    }
+}
+
+void edk::gui2d::Button2D::Constructor(bool runFather){
+    if(runFather){
+        edk::gui2d::ObjectGui2d::Constructor();edkEnd();
+    }
+    if(this->classThis!=this){
+        this->classThis=this;
+        this->type=edk::TypeObject2DButton;
+        this->obj.setBorderSize(0.25f);edkEnd();
+    }
 }
 
 //load the button textures and meshes

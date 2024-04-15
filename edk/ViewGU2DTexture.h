@@ -44,14 +44,19 @@ public:
     ViewGU2DTexture(edk::uint32 width,edk::uint32 height);
     ~ViewGU2DTexture();
 
+    void Constructor(edk::size2ui32 size,bool runFather=true);
+    void Constructor(edk::uint32 width,edk::uint32 height,bool runFather=true);
+
     //the edkGU 2D camera
     edk::Camera2D camera;
 protected:
-//draw the polygon on the scene
-void drawPolygon(edk::rectf32 outsideViewOrigin);
+    //draw the polygon on the scene
+    void drawPolygon(edk::rectf32 outsideViewOrigin);
 private:
-//draw the 2Dcamera
-void drawCamera2D();
+    //draw the 2Dcamera
+    void drawCamera2D();
+private:
+    edk::classID classThis;
 };
 }//end namespace edk
 

@@ -28,12 +28,29 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #pragma message "            Inside PathGroup3D.cpp"
 #endif
 
-edk::animation::Path3DGroup::Path3DGroup()
-{
-    this->z=0.f;edkEnd();
-    this->incrementZ=0.f;edkEnd();
-    this->incrementZValue=0.f;edkEnd();
+edk::animation::Path3DGroup::Path3DGroup(){
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);edkEnd();
 }
+edk::animation::Path3DGroup::~Path3DGroup(){
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
+    }
+}
+
+void edk::animation::Path3DGroup::Constructor(bool runFather){
+    if(runFather){
+        edk::animation::Path2DGroup::Constructor();edkEnd();
+    }
+    if(this->classThis!=this){
+        this->classThis=this;
+        this->z=0.f;edkEnd();
+        this->incrementZ=0.f;edkEnd();
+        this->incrementZValue=0.f;edkEnd();
+    }
+}
+
 //create the frame
 edk::animation::Frame* edk::animation::Path3DGroup::newFrame(){
     return (edk::animation::Frame*)new edk::animation::Frame3D;edkEnd();
@@ -44,10 +61,10 @@ bool edk::animation::Path3DGroup::reachFrame(edk::animation::Frame* frame){
     edk::animation::Frame3D* temp = (edk::animation::Frame3D*)frame;edkEnd();
     //calculate the distance between the temp and the last
     edk::float32 distance = edk::Math::pythagoras(edk::vec3f32(this->getXNoIncrement() - temp->x,
-                                                                 this->getYNoIncrement() - temp->y,
-                                                                 this->getZNoIncrement() - temp->z
-                                                                 )
-                                                    );edkEnd();
+                                                               this->getYNoIncrement() - temp->y,
+                                                               this->getZNoIncrement() - temp->z
+                                                               )
+                                                  );edkEnd();
     if(distance<this->closerDistance
             ){
         if(this->saveStep>=1.f){

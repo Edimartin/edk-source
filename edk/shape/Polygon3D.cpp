@@ -27,19 +27,41 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 //save one vertex in the memory to be used in create polygon to not crash the software
 edk::shape::Vertex3D edk::shape::Polygon3D::staticVertex(0.f,0.f,0.f);
-
 edk::shape::Vector3D edk::shape::Polygon3D::staticNormal(0.f,0.f,1.f);
 edk::shape::UV2D edk::shape::Polygon3D::staticUV(0.f,0.f);
+bool edk::shape::Polygon3D::templateConstructNeed=true;
 
 
 edk::shape::Polygon3D::Polygon3D(){
-    //
-    this->smooth=true;edkEnd();
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);edkEnd();
 }
 edk::shape::Polygon3D::~Polygon3D(){
-    //
-    this->deletePolygon();edkEnd();
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
+        this->deletePolygon();edkEnd();
+    }
 }
+
+void edk::shape::Polygon3D::Constructor(bool /*runFather*/){
+    if(this->classThis!=this){
+        this->classThis=this;
+
+        this->normal.Constructor();edkEnd();
+        this->center.Constructor();edkEnd();
+        this->vertexs.Constructor();edkEnd();
+
+        if(edk::shape::Polygon3D::templateConstructNeed){
+            edk::shape::Polygon3D::staticVertex.Constructor(0.f,0.f,0.f);
+            edk::shape::Polygon3D::staticNormal.Constructor(0.f,0.f,1.f);
+            edk::shape::Polygon3D::staticUV.Constructor(0.f,0.f);
+            edk::shape::Polygon3D::templateConstructNeed=false;
+        }
+        this->smooth=true;edkEnd();
+    }
+}
+
 //update the center position
 void edk::shape::Polygon3D::updateCenterPosition(){
     edk::uint32 size = this->vertexs.size();edkEnd();

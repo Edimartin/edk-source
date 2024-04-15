@@ -24,11 +24,25 @@ OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 edk::gui2d::Text2D::Text2D(){
-    this->type=edk::TypeObject2DText;
-    edk::gui2d::ObjectGui2d::setBorderSize(0.01f);edkEnd();
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);edkEnd();
 }
 edk::gui2d::Text2D::~Text2D(){
-    //
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
+    }
+}
+
+void edk::gui2d::Text2D::Constructor(bool runFather){
+    if(runFather){
+        edk::gui2d::ObjectGui2d::Constructor();edkEnd();
+    }
+    if(this->classThis!=this){
+        this->classThis=this;
+        this->type=edk::TypeObject2DText;
+        edk::gui2d::ObjectGui2d::setBorderSize(0.01f);edkEnd();
+    }
 }
 
 //load the button textures and meshes

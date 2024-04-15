@@ -42,24 +42,28 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 namespace edk{
 namespace codecs{
 class EncoderJPEG : public edk::codecs::EncoderImage{
-    public:
-        EncoderJPEG();
-        virtual ~EncoderJPEG();
+public:
+    EncoderJPEG();
+    virtual ~EncoderJPEG();
 
-        static void jpg_write_func(void *context, void *data, int size);
+    void Constructor(bool runFather=true);
 
-        //process the encoder
-        bool encode(edk::uint8* frame,edk::size2ui32 size,edk::uint8 channels,edk::uint32 quality);
-        bool encode(edk::uint8* frame,edk::uint32 width,edk::uint32 height,edk::uint8 channels,edk::uint32 quality);
-        //delete the encoded
-        void deleteEncoded();
-    protected:
-    private:
-        edk::vector::Stack<edk::uint8> stack;
-        //Functions to write the data
-        void startWriteData();
-        void writeData(void *data, edk::uint32 size);
-        bool endWriteData();
+    static void jpg_write_func(void *context, void *data, int size);
+
+    //process the encoder
+    bool encode(edk::uint8* frame,edk::size2ui32 size,edk::uint8 channels,edk::uint32 quality);
+    bool encode(edk::uint8* frame,edk::uint32 width,edk::uint32 height,edk::uint8 channels,edk::uint32 quality);
+    //delete the encoded
+    void deleteEncoded();
+protected:
+private:
+    edk::vector::Stack<edk::uint8> stack;
+    //Functions to write the data
+    void startWriteData();
+    void writeData(void *data, edk::uint32 size);
+    bool endWriteData();
+private:
+    edk::classID classThis;
 };
 }//end namespace codecs
 }//end namespace edk

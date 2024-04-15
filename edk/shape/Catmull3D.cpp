@@ -28,21 +28,45 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #pragma message "            Inside Catmull3D.cpp"
 #endif
 
-edk::shape::Catmull3D::Catmull3D()
-{
-    //ctor
+edk::shape::Catmull3D::Catmull3D(){
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);edkEnd();
 }
 edk::shape::Catmull3D::Catmull3D(edk::vec3f32 p1,edk::vec3f32 p2,edk::vec3f32 p3,edk::vec3f32 p4){
-    //
-    this->point1=p1;edkEnd();
-    this->point2=p2;edkEnd();
-    this->point3=p3;edkEnd();
-    this->point4=p4;edkEnd();
+    this->classThis=NULL;edkEnd();
+    this->Constructor(p1,p2,p3,p4,false);edkEnd();
 }
 
-edk::shape::Catmull3D::~Catmull3D()
-{
-    //dtor
+edk::shape::Catmull3D::~Catmull3D(){
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
+    }
+}
+
+void edk::shape::Catmull3D::Constructor(bool runFather){
+    if(runFather){
+        edk::shape::Curve3D::Constructor();edkEnd();
+    }
+    if(this->classThis!=this){
+        this->classThis=this;
+        this->point1=0.f;edkEnd();
+        this->point2=0.f;edkEnd();
+        this->point3=0.f;edkEnd();
+        this->point4=0.f;edkEnd();
+    }
+}
+void edk::shape::Catmull3D::Constructor(edk::vec3f32 p1,edk::vec3f32 p2,edk::vec3f32 p3,edk::vec3f32 p4,bool runFather){
+    if(runFather){
+        edk::shape::Curve3D::Constructor();edkEnd();
+    }
+    if(this->classThis!=this){
+        this->classThis=this;
+        this->point1=p1;edkEnd();
+        this->point2=p2;edkEnd();
+        this->point3=p3;edkEnd();
+        this->point4=p4;edkEnd();
+    }
 }
 
 
@@ -61,22 +85,22 @@ edk::vec3f32 edk::shape::Catmull3D::getPoint(edk::vec3f32 p1,edk::vec3f32 p2,edk
 
     //get X
     ret.x = 0.5 *((2 * p2.x) +
-            (-p1.x + p3.x) * percent +
-            (2*p1.x - 5*p2.x + 4*p3.x - p4.x) * percent2 +
-            (-p1.x + 3*p2.x- 3*p3.x + p4.x) * percent3
-            );edkEnd();
+                  (-p1.x + p3.x) * percent +
+                  (2*p1.x - 5*p2.x + 4*p3.x - p4.x) * percent2 +
+                  (-p1.x + 3*p2.x- 3*p3.x + p4.x) * percent3
+                  );edkEnd();
     //get Y
     ret.y = 0.5 *((2 * p2.y) +
-            (-p1.y + p3.y) * percent +
-            (2*p1.y- 5*p2.y + 4*p3.y - p4.y) * percent2 +
-            (-p1.y + 3*p2.y- 3*p3.y + p4.y) * percent3
-            );edkEnd();
+                  (-p1.y + p3.y) * percent +
+                  (2*p1.y- 5*p2.y + 4*p3.y - p4.y) * percent2 +
+                  (-p1.y + 3*p2.y- 3*p3.y + p4.y) * percent3
+                  );edkEnd();
     //get Z
     ret.y = 0.5 *((2 * p2.z) +
-            (-p1.z + p3.z) * percent +
-            (2*p1.z- 5*p2.z + 4*p3.z - p4.z) * percent2 +
-            (-p1.z + 3*p2.z- 3*p3.z + p4.z) * percent3
-            );edkEnd();
+                  (-p1.z + p3.z) * percent +
+                  (2*p1.z- 5*p2.z + 4*p3.z - p4.z) * percent2 +
+                  (-p1.z + 3*p2.z- 3*p3.z + p4.z) * percent3
+                  );edkEnd();
 
     return ret;
 }

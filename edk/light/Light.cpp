@@ -29,12 +29,24 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endif
 
 edk::light::Light::Light(){
-    this->clean();edkEnd();
-    this->on = false;edkEnd();
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);edkEnd();
 }
 edk::light::Light::~Light(){
-    //
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
+    }
 }
+
+void edk::light::Light::Constructor(bool /*runFather*/){
+    if(this->classThis!=this){
+        this->classThis=this;
+        this->clean();edkEnd();
+        this->on = false;edkEnd();
+    }
+}
+
 void edk::light::Light::updateDirection(){
     this->direction[0u] = this->lightDirection[0u] - this->position[0u];edkEnd();
     this->direction[1u] = this->lightDirection[1u] - this->position[1u];edkEnd();

@@ -29,15 +29,30 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endif
 
 edk::shape::Triangle2D::Triangle2D(){
-    this->type = edk::shape::typeTriangle2D;edkEnd();
-    this->polygonColor.a=1.f;edkEnd();
-    //create a new polygon with 3 vertex
-    edk::shape::Polygon2D::createPolygon(3u);edkEnd();
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);edkEnd();
 }
 
 edk::shape::Triangle2D::~Triangle2D(){
-    //delete the polygon
-    edk::shape::Polygon2D::deletePolygon();edkEnd();
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
+        //delete the polygon
+        edk::shape::Polygon2D::deletePolygon();edkEnd();
+    }
+}
+
+void edk::shape::Triangle2D::Constructor(bool runFather){
+    if(runFather){
+        edk::shape::Polygon2D::Constructor();edkEnd();
+    }
+    if(this->classThis!=this){
+        this->classThis=this;
+        this->type = edk::shape::typeTriangle2D;edkEnd();
+        this->polygonColor.a=1.f;edkEnd();
+        //create a new polygon with 3 vertex
+        edk::shape::Polygon2D::createPolygon(3u);edkEnd();
+    }
 }
 
 //createPolygon

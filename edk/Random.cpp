@@ -33,17 +33,35 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 edk::uint32 edk::Random::seedStatic = 1u;
 
 edk::Random::Random(){
-    //
-    this->clean();
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);edkEnd();
 }
 edk::Random::Random(edk::uint32 seed){
-    //
-    this->clean();
-    this->setSeed(seed);
+    this->classThis=NULL;edkEnd();
+    this->Constructor(seed,false);edkEnd();
 }
 
 edk::Random::~Random(){
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
+    }
+}
+
+void edk::Random::Constructor(bool /*runFather*/){
     //
+    if(this->classThis!=this){
+        this->classThis=this;
+        this->clean();
+    }
+}
+void edk::Random::Constructor(edk::uint32 seed,bool /*runFather*/){
+    //
+    if(this->classThis!=this){
+        this->classThis=this;
+        this->clean();
+        this->setSeed(seed);
+    }
 }
 
 void edk::Random::clean(){

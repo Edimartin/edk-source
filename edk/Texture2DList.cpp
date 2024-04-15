@@ -35,16 +35,40 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 edk::Texture2DList::TextureCodeTree edk::Texture2DList::codeTree;
 edk::Texture2DList::NameFilterTree edk::Texture2DList::nameTree;
 edk::multi::BufferThreadTree edk::Texture2DList::bufferTree;
+bool edk::Texture2DList::templateConstructNeed=true;
 
-edk::Texture2DList::Texture2DList()
-{
-    //ctor
+edk::Texture2DList::Texture2DList(){
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);edkEnd();
 }
 
-edk::Texture2DList::~Texture2DList()
-{
-    //dtor
+edk::Texture2DList::~Texture2DList(){
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
+    }
 }
+
+void edk::Texture2DList::Constructor(bool runFather){
+    if(runFather){edkEnd();}
+    if(this->classThis!=this){
+        this->classThis=this;
+
+        this->mutTexture.Constructor();
+        this->mutNameTree.Constructor();
+        edk::Texture2DList::bufferTree.Constructor();
+        edk::Texture2DList::codeTree.Constructor();
+        edk::Texture2DList::nameTree.Constructor();
+
+        if(edk::Texture2DList::templateConstructNeed){
+            edk::Texture2DList::codeTree.Constructor();
+            edk::Texture2DList::nameTree.Constructor();
+            edk::Texture2DList::bufferTree.Constructor();
+            edk::Texture2DList::templateConstructNeed=false;
+        }
+    }
+}
+
 //get the texture by the name
 edk::Texture2DList::TextureCode* edk::Texture2DList::getTextureByName(edk::char8* name, edk::uint32 filter){
     //find the texture in the nameTree

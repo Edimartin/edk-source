@@ -30,20 +30,53 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
 edk::CommandParser::Command::Command(){
-    //
-    this->position=0u;
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);edkEnd();
 }
 edk::CommandParser::Command::~Command(){
-    //
-    this->cleanName();edkEnd();
-    this->value.cleanName();edkEnd();
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
+        //
+        this->cleanName();edkEnd();
+        this->value.cleanName();edkEnd();
+    }
+}
+
+void edk::CommandParser::Command::Constructor(bool runFather){
+    if(runFather){
+        edk::Name::Constructor();
+    }
+    if(this->classThis!=this){
+        this->classThis=this;edkEnd();
+
+        this->value.Constructor();edkEnd();
+
+        this->position=0u;edkEnd();
+    }
 }
 
 edk::CommandParser::TreeCommand::TreeCommand(){
-    //
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);edkEnd();
 }
 edk::CommandParser::TreeCommand::~TreeCommand(){
-    this->clean();edkEnd();
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
+        this->clean();edkEnd();
+    }
+}
+
+void edk::CommandParser::TreeCommand::Constructor(bool runFather){
+    if(runFather){
+        edk::vector::NameTree::Constructor();
+    }
+    if(this->classThis!=this){
+        this->classThis=this;
+
+        this->stack.Constructor();edkEnd();
+    }
 }
 
 //Print the command and value
@@ -212,15 +245,44 @@ void edk::CommandParser::TreeCommand::cleanCommands(){
 }
 
 edk::CommandParser::CommandParser(){
-    //
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);edkEnd();
 }
 edk::CommandParser::CommandParser(edk::int32 argc,edk::char8* argv[]){
-    this->parseArgcArgv(argc,argv);edkEnd();
+    this->classThis=NULL;edkEnd();
+    this->Constructor(argc,argv,false);edkEnd();
 }
 
 edk::CommandParser::~CommandParser(){
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
+        //
+        this->tree.clean();edkEnd();
+    }
+}
+
+void edk::CommandParser::Constructor(bool /*runFather*/){
+    if(this->classThis!=this){
+        this->classThis=this;
+
+        this->strPName.Constructor();edkEnd();
+        this->strPCommand.Constructor();edkEnd();
+        this->tree.Constructor();edkEnd();
+
+    }
     //
-    this->tree.clean();edkEnd();
+}
+void edk::CommandParser::Constructor(edk::int32 argc,edk::char8* argv[],bool /*runFather*/){
+    if(this->classThis!=this){
+        this->classThis=this;
+
+        this->strPName.Constructor();edkEnd();
+        this->strPCommand.Constructor();edkEnd();
+        this->tree.Constructor();edkEnd();
+
+        this->parseArgcArgv(argc,argv);edkEnd();
+    }
 }
 
 void edk::CommandParser::printProgramStrings(){

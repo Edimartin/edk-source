@@ -32,34 +32,66 @@ edk::vec2f32 edk::animation::ParticlesPoint2D::ParticleObject::gravitySet = edk:
 edk::float32 edk::animation::ParticlesPoint2D::ParticleObject::angleObject = 0.f;
 edk::size2f32 edk::animation::ParticlesPoint2D::ParticleObject::sizeObject = edk::size2f32(1,1);
 edk::animation::ParticlesPoint2D::ParticleObject::ParticleObject(edk::Object2D *obj){
-    //
-    this->obj = obj;edkEnd();
-    this->direction = edk::vec2f32(0,1);edkEnd();
-    this->speed = 1.0f;edkEnd();
-    this->autoRotate = false;edkEnd();
-    this->setGravity(NULL);edkEnd();
-    this->setAngleObject(NULL);edkEnd();
-    this->setSizeObject(NULL);edkEnd();
-    this->lifeLimit=0.f;edkEnd();
-    this->setThis(NULL);edkEnd();
-    this->frame = 0.f;edkEnd();
+    this->classThis=NULL;edkEnd();
+    this->Constructor(obj,false);edkEnd();
 }
 edk::animation::ParticlesPoint2D::ParticleObject::ParticleObject(){
-    //
-    this->obj = NULL;edkEnd();
-    this->direction = edk::vec2f32(0,1);edkEnd();
-    this->speed = 1.0f;edkEnd();
-    this->autoRotate = false;edkEnd();
-    this->setGravity(NULL);edkEnd();
-    this->setAngleObject(NULL);edkEnd();
-    this->setSizeObject(NULL);edkEnd();
-    this->lifeLimit=0.f;edkEnd();
-    this->setThis(NULL);edkEnd();
-    this->frame = 0.f;edkEnd();
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);edkEnd();
 }
 edk::animation::ParticlesPoint2D::ParticleObject::~ParticleObject(){
-    //
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
+    }
 }
+
+void edk::animation::ParticlesPoint2D::ParticleObject::Constructor(edk::Object2D *obj,bool runFather){
+    if(runFather){
+        edk::Object2DValues::Constructor();edkEnd();
+    }
+    if(this->classThis!=this){
+        this->classThis=this;
+
+        this->life.Constructor();edkEnd();
+        this->animFrame.Constructor();edkEnd();
+
+        this->obj = obj;edkEnd();
+        this->direction = edk::vec2f32(0,1);edkEnd();
+        this->speed = 1.0f;edkEnd();
+        this->autoRotate = false;edkEnd();
+        this->setGravity(NULL);edkEnd();
+        this->setAngleObject(NULL);edkEnd();
+        this->setSizeObject(NULL);edkEnd();
+        this->lifeLimit=0.f;edkEnd();
+        this->setThis(NULL);edkEnd();
+        this->frame = 0.f;edkEnd();
+    }
+}
+void edk::animation::ParticlesPoint2D::ParticleObject::Constructor(bool runFather){
+    if(runFather){
+        edk::Object2DValues::Constructor();edkEnd();
+    }
+    if(this->classThis!=this){
+        this->classThis=this;
+
+        this->life.Constructor();edkEnd();
+        this->animFrame.Constructor();edkEnd();
+
+        //
+        this->obj = NULL;edkEnd();
+        this->direction = edk::vec2f32(0,1);edkEnd();
+        this->speed = 1.0f;edkEnd();
+        this->autoRotate = false;edkEnd();
+        this->setGravity(NULL);edkEnd();
+        this->setAngleObject(NULL);edkEnd();
+        this->setSizeObject(NULL);edkEnd();
+        this->lifeLimit=0.f;edkEnd();
+        this->setThis(NULL);edkEnd();
+        this->frame = 0.f;edkEnd();
+    }
+}
+
 //set the object pointer
 void edk::animation::ParticlesPoint2D::ParticleObject::setObject(edk::Object2D *obj){
     this->obj=obj;edkEnd();
@@ -194,13 +226,30 @@ bool edk::animation::ParticlesPoint2D::ParticleObject::setThis(edk::animation::P
 }
 
 edk::animation::ParticlesPoint2D::TreeParticles::TreeParticles(){
-    //
-    this->treeRemove.treeTemp = this;edkEnd();
-    this->haveSomeParticle=false;
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);edkEnd();
 }
 edk::animation::ParticlesPoint2D::TreeParticles::~TreeParticles(){
-    //
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
+    }
 }
+
+void edk::animation::ParticlesPoint2D::TreeParticles::Constructor(bool runFather){
+    if(runFather){
+        edk::vector::BinaryTree<edk::animation::ParticlesPoint2D::ParticleObject*>::Constructor();edkEnd();
+    }
+    if(this->classThis!=this){
+        this->classThis=this;
+
+        this->treeRemove.Constructor();edkEnd();
+
+        this->treeRemove.treeTemp = this;edkEnd();
+        this->haveSomeParticle=false;
+    }
+}
+
 //render particles
 void edk::animation::ParticlesPoint2D::TreeParticles::renderElement(edk::animation::ParticlesPoint2D::ParticleObject* value){
     value->draw();edkEnd();
@@ -240,47 +289,69 @@ bool edk::animation::ParticlesPoint2D::TreeParticles::haveParticles(){
 }
 
 edk::animation::ParticlesPoint2D::ParticlesPoint2D(){
-    this->isOne=false;
-    this->blowNear = 1u;edkEnd();
-    this->blowFar = 1u;edkEnd();
-    this->particles=NULL;edkEnd();
-    this->nextParticle=0u;
-    this->cleanParticles();edkEnd();
-    this->setAngleNearAndFar(0.f,0.f);edkEnd();
-    this->setSpeedNearAndFar(1.f,1.f);edkEnd();
-    this->setFrameStartAndEnd(0.f,1.f);edkEnd();
-    this->setTimeNearAndFar(0.f,0.5f);edkEnd();
-    this->setLifeNearAndFar(1.f,2.f);edkEnd();
-    this->setGravity(0,0);
-    this->isPlayingBlower = false;edkEnd();
-    //this->isPlayingParticles = false;edkEnd();
-
-    //load the object
-    {
-        edk::shape::Mesh2D* mesh = this->obj.newMesh();edkEnd();
-        if(mesh){
-            edk::shape::Rectangle2D rect;edkEnd();
-            rect.setPivoToCenter();edkEnd();
-            mesh->addPolygon(rect);edkEnd();
-            mesh->material.setEmission(1,1,1,1);edkEnd();
-        }
-    }
-    this->time.start();edkEnd();
-    this->lastSecond = 0.f;edkEnd();
-
-    this->angle = 0u;edkEnd();
-    this->angleObject=0.f;edkEnd();
-    this->sizeObject = edk::size2f32(1,1);edkEnd();
-    this->position = edk::vec2f32(0,0);edkEnd();
-
-    //load the rand
-    edk::Random::loadStaticSeed();edkEnd();
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);edkEnd();
 }
 edk::animation::ParticlesPoint2D::~ParticlesPoint2D(){
-    //
-    this->cleanParticles();edkEnd();
-    this->obj.clean();edkEnd();
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
+        this->cleanParticles();edkEnd();
+        this->obj.clean();edkEnd();
+    }
 }
+
+void edk::animation::ParticlesPoint2D::Constructor(bool runFather){
+    if(runFather){
+        edk::Object2DValues::Constructor();edkEnd();
+    }
+    if(this->classThis!=this){
+        this->classThis=this;
+
+        //Object to draw
+        this->obj.Constructor();edkEnd();
+        this->time.Constructor();edkEnd();
+        this->treeParticles.Constructor();edkEnd();
+        this->treeObjects.Constructor();edkEnd();
+
+        this->isOne=false;
+        this->blowNear = 1u;edkEnd();
+        this->blowFar = 1u;edkEnd();
+        this->particles=NULL;edkEnd();
+        this->nextParticle=0u;
+        this->cleanParticles();edkEnd();
+        this->setAngleNearAndFar(0.f,0.f);edkEnd();
+        this->setSpeedNearAndFar(1.f,1.f);edkEnd();
+        this->setFrameStartAndEnd(0.f,1.f);edkEnd();
+        this->setTimeNearAndFar(0.f,0.5f);edkEnd();
+        this->setLifeNearAndFar(1.f,2.f);edkEnd();
+        this->setGravity(0,0);
+        this->isPlayingBlower = false;edkEnd();
+        //this->isPlayingParticles = false;edkEnd();
+
+        //load the object
+        {
+            edk::shape::Mesh2D* mesh = this->obj.newMesh();edkEnd();
+            if(mesh){
+                edk::shape::Rectangle2D rect;edkEnd();
+                rect.setPivoToCenter();edkEnd();
+                mesh->addPolygon(rect);edkEnd();
+                mesh->material.setEmission(1,1,1,1);edkEnd();
+            }
+        }
+        this->time.start();edkEnd();
+        this->lastSecond = 0.f;edkEnd();
+
+        this->angle = 0u;edkEnd();
+        this->angleObject=0.f;edkEnd();
+        this->sizeObject = edk::size2f32(1,1);edkEnd();
+        this->position = edk::vec2f32(0,0);edkEnd();
+
+        //load the rand
+        edk::Random::loadStaticSeed();edkEnd();
+    }
+}
+
 //get the position
 edk::vec2f32 edk::animation::ParticlesPoint2D::newPosition(){
     return this->position;edkEnd();

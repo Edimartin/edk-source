@@ -41,6 +41,9 @@ namespace animation{
 class ParticlesLine2D : public edk::animation::ParticlesPoint2D{
 public:
     ParticlesLine2D();
+    ~ParticlesLine2D();
+
+    void Constructor(bool runFather=true);
 
     //set the points
     void setP1Local(edk::vec2f32 point);
@@ -60,6 +63,8 @@ protected:
     virtual edk::vec2f32 newPosition();
 private:
     edk::vec2f32 point1,point2;
+private:
+    edk::classID classThis;
 };
 }//end namespace animation
 }//end namespace edk

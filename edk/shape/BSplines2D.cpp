@@ -29,21 +29,45 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endif
 
 edk::shape::BSplines2D::BSplines2D(){
-    //ctor
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);edkEnd();
 }
 edk::shape::BSplines2D::BSplines2D(edk::vec2f32 p1,edk::vec2f32 p2,edk::vec2f32 p3,edk::vec2f32 p4){
-    //
-    this->point1=p1;edkEnd();
-    this->point2=p2;edkEnd();
-    this->point3=p3;edkEnd();
-    this->point4=p4;edkEnd();
+    this->classThis=NULL;edkEnd();
+    this->Constructor(p1,p2,p3,p4,false);edkEnd();
 }
 
-edk::shape::BSplines2D::~BSplines2D()
-{
-    //dtor
+edk::shape::BSplines2D::~BSplines2D(){
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
+    }
 }
 
+void edk::shape::BSplines2D::Constructor(bool runFather){
+    if(runFather){
+        edk::shape::Curve2D::Constructor();edkEnd();
+    }
+    if(this->classThis!=this){
+        this->classThis=this;
+        this->point1=0.f;edkEnd();
+        this->point2=0.f;edkEnd();
+        this->point3=0.f;edkEnd();
+        this->point4=0.f;edkEnd();
+    }
+}
+void edk::shape::BSplines2D::Constructor(edk::vec2f32 p1,edk::vec2f32 p2,edk::vec2f32 p3,edk::vec2f32 p4,bool runFather){
+    if(runFather){
+        edk::shape::Curve2D::Constructor();edkEnd();
+    }
+    if(this->classThis!=this){
+        this->classThis=this;
+        this->point1=p1;edkEnd();
+        this->point2=p2;edkEnd();
+        this->point3=p3;edkEnd();
+        this->point4=p4;edkEnd();
+    }
+}
 
 //Implement the Bezier Curve
 edk::vec2f32 edk::shape::BSplines2D::getPoint(edk::float32 percent){
@@ -55,7 +79,7 @@ edk::vec2f32 edk::shape::BSplines2D::getPoint(edk::vec2f32 p1,edk::vec2f32 p2,ed
     //create a return point
     edk::vec2f32 ret;edkEnd();
 
-    #define div 0.1666
+#define div 0.1666
 
     //percent pow's
     edk::float32 percent2 = percent * percent;edkEnd();
@@ -63,16 +87,16 @@ edk::vec2f32 edk::shape::BSplines2D::getPoint(edk::vec2f32 p1,edk::vec2f32 p2,ed
 
     //get X
     ret.x = (((-1*percent3 +3*percent2 -3*percent+1) *p1.x +
-            (   3*percent3 -6*percent2 +0*percent+4) *p2.x +
-            (  -3*percent3 +3*percent2 +3*percent+1) *p3.x +
-            (   1*percent3 +0*percent2 +0*percent+0) *p4.x)
+              (   3*percent3 -6*percent2 +0*percent+4) *p2.x +
+              (  -3*percent3 +3*percent2 +3*percent+1) *p3.x +
+              (   1*percent3 +0*percent2 +0*percent+0) *p4.x)
              *div
              );edkEnd();
     //get Y
     ret.y = (((-1*percent3 +3*percent2 -3*percent+1) *p1.y +
-            (   3*percent3 -6*percent2 +0*percent+4) *p2.y +
-            (  -3*percent3 +3*percent2 +3*percent+1) *p3.y +
-            (   1*percent3 +0*percent2 +0*percent+0) *p4.y)
+              (   3*percent3 -6*percent2 +0*percent+4) *p2.y +
+              (  -3*percent3 +3*percent2 +3*percent+1) *p3.y +
+              (   1*percent3 +0*percent2 +0*percent+0) *p4.y)
              *div
              );edkEnd();
 

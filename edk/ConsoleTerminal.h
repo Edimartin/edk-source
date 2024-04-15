@@ -77,15 +77,21 @@ public:
     TTY();
     ~TTY();
 
+    void Constructor(bool runFather=true);
+
     bool initTerminal();
     bool resetTerminal();
 private:
     bool haveInit;
+private:
+    edk::classID classThis;
 };
 class ConsoleTerminal{
 public:
     ConsoleTerminal();
     ~ConsoleTerminal();
+
+    void Constructor(bool runFather=true);
 
     static void push();
 
@@ -126,6 +132,9 @@ public:
 private:
     //TTY to construct and destruct
     static edk::TTY tty;
+    static bool templateConstructNeed;
+private:
+    edk::classID classThis;
 };
 }//end namespace edk
 

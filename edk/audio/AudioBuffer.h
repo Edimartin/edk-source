@@ -49,34 +49,38 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 namespace edk{
 class AudioBuffer : public edk::ObjectWithName{
-    public:
-        AudioBuffer();
-        virtual ~AudioBuffer();
+public:
+    AudioBuffer();
+    virtual ~AudioBuffer();
 
-        //LOAD
-        //load the buffer from a file
-        bool loadBufferFromFile(const edk::char8* name);
-        bool loadBufferFromFile(edk::char8* name);
-        bool loadBufferFromMemory(const edk::char8* name,edk::classID vector,edk::uint32 size);
-        bool loadBufferFromMemory(edk::char8* name,edk::classID vector,edk::uint32 size);
-        bool loadBufferFromPack(edk::pack::FilePackage* pack,const edk::char8* name);
-        bool loadBufferFromPack(edk::pack::FilePackage* pack,edk::char8* name);
+    void Constructor(bool runFather=true);
 
-        //DELETE
-        //delete the buffer
-        void deleteBuffer();
+    //LOAD
+    //load the buffer from a file
+    bool loadBufferFromFile(const edk::char8* name);
+    bool loadBufferFromFile(edk::char8* name);
+    bool loadBufferFromMemory(const edk::char8* name,edk::classID vector,edk::uint32 size);
+    bool loadBufferFromMemory(edk::char8* name,edk::classID vector,edk::uint32 size);
+    bool loadBufferFromPack(edk::pack::FilePackage* pack,const edk::char8* name);
+    bool loadBufferFromPack(edk::pack::FilePackage* pack,edk::char8* name);
 
-        //GETER
-        //return the buffer pointer
-        sf::SoundBuffer* getBufferPointer();
-        //return the channels
-        edk::uint32 getChannels();
-        //return the audio duration
-        edk::float32 getDuration();
-    protected:
-    private:
-        //Possui o buffer de audio da SFML
-        sf::SoundBuffer* buffer;
+    //DELETE
+    //delete the buffer
+    void deleteBuffer();
+
+    //GETER
+    //return the buffer pointer
+    sf::SoundBuffer* getBufferPointer();
+    //return the channels
+    edk::uint32 getChannels();
+    //return the audio duration
+    edk::float32 getDuration();
+protected:
+private:
+    //Possui o buffer de audio da SFML
+    sf::SoundBuffer* buffer;
+private:
+    edk::classID classThis;
 };
 }//end namespace edk
 

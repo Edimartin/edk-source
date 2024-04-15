@@ -45,6 +45,8 @@ public:
     Joint2D(bool collide=false);
     virtual ~Joint2D();
 
+    void Constructor(bool collide=false,bool runFather=true);
+
     edk::physics2D::PhysicObject2D* objectA;
     edk::physics2D::PhysicObject2D* objectB;
 
@@ -64,6 +66,8 @@ protected:
     edk::uint8 type;
 private:
     bool collide;
+private:
+    edk::classID classThis;
 };
 }//end namespace
 }

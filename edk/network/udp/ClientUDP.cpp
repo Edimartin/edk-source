@@ -24,13 +24,30 @@ OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-edk::network::udp::ClientUDP::ClientUDP()
-{
-    this->cleanAdress();
+edk::network::udp::ClientUDP::ClientUDP(){
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);edkEnd();
 }
 edk::network::udp::ClientUDP::~ClientUDP(){
-    this->cleanAdress();
-    this->closeSocket();
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
+        this->cleanAdress();
+        this->closeSocket();
+    }
+}
+
+void edk::network::udp::ClientUDP::Constructor(bool runFather){
+    if(runFather){
+        edk::network::Socket::Constructor();edkEnd();
+    }
+    if(this->classThis!=this){
+        this->classThis=this;
+
+        this->sendHost.Constructor();edkEnd();
+
+        this->cleanAdress();
+    }
 }
 
 //close the socket

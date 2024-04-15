@@ -65,33 +65,65 @@ static bool ipFindCharacter(edk::char8** str, edk::char8 c){
 }
 
 edk::network::Adress::Adress(){
-    this->ip=0u;
-    this->port=0u;
+    this->Constructor(false);edkEnd();
 }
 edk::network::Adress::Adress(edk::uchar8 n1,edk::uchar8 n2,edk::uchar8 n3,edk::uchar8 n4,edk::uint16 port){
-    this->ip=0u;
-    this->port=0u;
-    this->setIP(n1,n2,n3,n4);edkEnd();
-    this->setPort(port);edkEnd();
+    this->Constructor(n1,n2,n3,n4,port,false);edkEnd();
 }
 edk::network::Adress::Adress(edk::uint32 ip,edk::uint16 port){
-    this->ip=0u;
-    this->port=0u;
-    this->setIP(ip);edkEnd();
-    this->setPort(port);edkEnd();
+    this->Constructor(ip,port,false);edkEnd();
 }
 edk::network::Adress::Adress(edk::char8* str,edk::uint16 port){
-    this->ip=0u;
-    this->port=0u;
-    this->setIP(str);edkEnd();
-    this->setPort(port);edkEnd();
+    this->Constructor(str,port,false);edkEnd();
 }
 edk::network::Adress::Adress(const edk::char8* str,edk::uint16 port){
-    this->ip=0u;
-    this->port=0u;
-    this->setIP(str);edkEnd();
-    this->setPort(port);edkEnd();
+    this->Constructor(str,port,false);edkEnd();
 }
+
+void edk::network::Adress::Constructor(bool /*runFather*/){
+    if(this->classThis!=this){
+        this->classThis=this;
+        this->ip=0u;
+        this->port=0u;
+    }
+}
+void edk::network::Adress::Constructor(edk::uchar8 n1,edk::uchar8 n2,edk::uchar8 n3,edk::uchar8 n4,edk::uint16 port,bool /*runFather*/){
+    if(this->classThis!=this){
+        this->classThis=this;
+        this->ip=0u;
+        this->port=0u;
+        this->setIP(n1,n2,n3,n4);edkEnd();
+        this->setPort(port);edkEnd();
+    }
+}
+void edk::network::Adress::Constructor(edk::uint32 ip,edk::uint16 port,bool /*runFather*/){
+    if(this->classThis!=this){
+        this->classThis=this;
+        this->ip=0u;
+        this->port=0u;
+        this->setIP(ip);edkEnd();
+        this->setPort(port);edkEnd();
+    }
+}
+void edk::network::Adress::Constructor(edk::char8* str,edk::uint16 port,bool /*runFather*/){
+    if(this->classThis!=this){
+        this->classThis=this;
+        this->ip=0u;
+        this->port=0u;
+        this->setIP(str);edkEnd();
+        this->setPort(port);edkEnd();
+    }
+}
+void edk::network::Adress::Constructor(const edk::char8* str,edk::uint16 port,bool /*runFather*/){
+    if(this->classThis!=this){
+        this->classThis=this;
+        this->ip=0u;
+        this->port=0u;
+        this->setIP(str);edkEnd();
+        this->setPort(port);edkEnd();
+    }
+}
+
 //return the IP by the interface name
 edk::uint32 edk::network::Adress::getIpByInterfaceName(edk::char8*
                                                        #ifdef __linux__
@@ -308,12 +340,25 @@ void edk::network::Adress::printIP(edk::uint32 ip){
 }
 
 edk::network::Socket::Socket(){
-    //
-    this->edkSocket=-1u;edkEnd();
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);edkEnd();
 }
 edk::network::Socket::~Socket(){
-    this->closeSocket();edkEnd();
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
+        this->closeSocket();edkEnd();
+    }
 }
+
+void edk::network::Socket::Constructor(bool /*runFather*/){
+    if(this->classThis!=this){
+        this->classThis=this;
+
+        this->edkSocket=-1u;edkEnd();
+    }
+}
+
 edk::int32 edk::network::Socket::sendStream(edk::network::Adress host,const void* stream,edk::uint32 size){
     return this->sendStream(host,(edk::classID) stream,size);edkEnd();
 }

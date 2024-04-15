@@ -28,25 +28,47 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #pragma message "            Inside XML.cpp"
 #endif
 
-edk::XML::XML()
-{
-    //
+edk::XML::XML(){
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);edkEnd();
 }
-edk::XML::XML(const edk::char8* xmlCode)
-{
-    //parse the xmlCode
-    this->parse(xmlCode);
+edk::XML::XML(const edk::char8* xmlCode){
+    this->classThis=NULL;edkEnd();
+    this->Constructor(xmlCode,false);edkEnd();
 }
-edk::XML::XML(edk::char8* xmlCode)
-{
-    //parse the xmlCode
-    this->parse(xmlCode);
+edk::XML::XML(edk::char8* xmlCode){
+    this->classThis=NULL;edkEnd();
+    this->Constructor(xmlCode,false);edkEnd();
 }
 
-edk::XML::~XML()
-{
-    //dtor
+edk::XML::~XML(){
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
+    }
 }
+
+void edk::XML::Constructor(bool /*runFather*/){
+    //
+    if(this->classThis!=this){
+        this->classThis=this;
+    }
+}
+void edk::XML::Constructor(const edk::char8* xmlCode,bool /*runFather*/){
+    if(this->classThis!=this){
+        this->classThis=this;
+        //parse the xmlCode
+        this->parse(xmlCode);
+    }
+}
+void edk::XML::Constructor(edk::char8* xmlCode,bool /*runFather*/){
+    if(this->classThis!=this){
+        this->classThis=this;
+        //parse the xmlCode
+        this->parse(xmlCode);
+    }
+}
+
 //Just load the file
 bool edk::XML::loadFile(const edk::char8* fileName){
     //

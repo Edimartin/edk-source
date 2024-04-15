@@ -44,31 +44,36 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 namespace edk{
 namespace shape{
 class Circle2D: public edk::shape::Polygon2D{
-    public:
-        Circle2D();
-        Circle2D(edk::uint32 sides,edk::float32 radius);
-        virtual ~Circle2D();
-        //radius of the circle
-        //edk::float32 radius;
+public:
+    Circle2D();
+    Circle2D(edk::uint32 sides,edk::float32 radius);
+    virtual ~Circle2D();
 
-        //Create the circle
-        bool createPolygon(edk::uint32 sides,edk::float32 radius);
+    void Constructor(bool runFather=true);
+    void Constructor(edk::uint32 sides,edk::float32 radius,bool runFather=true);
 
-        //delete the polygonVertex
-        void deletePolygon();
+    //radius of the circle
+    //edk::float32 radius;
 
-        //Set the color
-        bool setPolygonColor(edk::color4f32 color);
-        bool setPolygonColor(edk::float32 r,edk::float32 g,edk::float32 b);
-        bool setPolygonColor(edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a);
+    //Create the circle
+    bool createPolygon(edk::uint32 sides,edk::float32 radius);
 
-        //print the polygon
-        void print();
-        //Draw the polygon
-        void draw();
-        void drawWire();
-    protected:
-    private:
+    //delete the polygonVertex
+    void deletePolygon();
+
+    //Set the color
+    bool setPolygonColor(edk::color4f32 color);
+    bool setPolygonColor(edk::float32 r,edk::float32 g,edk::float32 b);
+    bool setPolygonColor(edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a);
+
+    //print the polygon
+    void print();
+    //Draw the polygon
+    void draw();
+    void drawWire();
+protected:
+private:
+    edk::classID classThis;
 };
 }//end namespace shape
 }//end namespace edk

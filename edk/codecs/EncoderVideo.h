@@ -43,6 +43,8 @@ public:
     EncoderVideo();
     virtual ~EncoderVideo();
 
+    void Constructor(bool runFather=true);
+
     //start the encoder
     virtual bool startEncoder(edk::size2ui32 size, edk::uint32 fps);
     bool startEncoder(edk::uint32 width, edk::uint32 height, edk::uint32 fps);
@@ -66,6 +68,8 @@ public:
 
     //finish the encoder
     virtual void finishEncoder();
+private:
+    edk::classID classThis;
 };
 }//end namespace codecs
 }//end namescace edk

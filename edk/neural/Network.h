@@ -42,8 +42,27 @@ namespace neural{
 template <class typeTemplate>
 class Network{
 public:
-    Network(){this->runProcess=false;edkEnd();}
-    ~Network(){this->clean();}
+    Network(){this->classThis=NULL;edkEnd();
+              this->Constructor(false);edkEnd();}
+    ~Network(){
+        if(this->classThis==this){
+            this->classThis=NULL;edkEnd();
+            //can destruct the class
+            this->clean();
+        }
+    }
+
+    void Constructor(bool runFather=true){
+        if(runFather){edkEnd();}
+        if(this->classThis!=this){
+            this->classThis=this;
+
+            this->values.Constructor();edkEnd();
+            this->tree.Constructor();edkEnd();
+
+            this->runProcess=false;edkEnd();
+        }
+    }
 
     void clean(){
         edk::uint32 size = this->tree.size();edkEnd();
@@ -394,6 +413,8 @@ private:
     edk::vector::NameTree tree;
     //save if run the process
     bool runProcess;
+private:
+    edk::classID classThis;
 };
 }//end namespace neural
 }//end namespace edk

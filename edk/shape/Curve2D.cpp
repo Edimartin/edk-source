@@ -28,18 +28,33 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #pragma message "            Inside Curve2D.cpp"
 #endif
 
-edk::shape::Curve2D::Curve2D()
-{
-    //ctor
+edk::shape::Curve2D::Curve2D(){
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);edkEnd();
 }
 edk::shape::Curve2D::Curve2D(edk::vec2f32 p1,edk::vec2f32 p2,edk::vec2f32 p3,edk::vec2f32 p4){
-    //
-    this->setPoints(p1,p2,p3,p4);
+    this->classThis=NULL;edkEnd();
+    this->Constructor(p1,p2,p3,p4,false);edkEnd();
 }
 
-edk::shape::Curve2D::~Curve2D()
-{
-    //dtor
+edk::shape::Curve2D::~Curve2D(){
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
+    }
+}
+
+void edk::shape::Curve2D::Constructor(bool /*runFather*/){
+    if(this->classThis!=this){
+        this->classThis=this;
+        this->setPoints(edk::vec2f32(0.f,0.f),edk::vec2f32(0.f,0.f),edk::vec2f32(0.f,0.f),edk::vec2f32(0.f,0.f));
+    }
+}
+void edk::shape::Curve2D::Constructor(edk::vec2f32 p1,edk::vec2f32 p2,edk::vec2f32 p3,edk::vec2f32 p4,bool /*runFather*/){
+    if(this->classThis!=this){
+        this->classThis=this;
+        this->setPoints(p1,p2,p3,p4);
+    }
 }
 
 //set one point position

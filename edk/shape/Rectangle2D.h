@@ -44,6 +44,8 @@ public:
     Rectangle2D();
     virtual ~Rectangle2D();
 
+    void Constructor(bool runFather=true);
+
     //Virtual Functions
     bool createPolygon(edk::uint32 vertexCount);
     void deletePolygon();
@@ -141,6 +143,8 @@ private:
         edk::shape::Rectangle2D temp;edkEnd();
         return temp;edkEnd();
     }
+private:
+    edk::classID classThis;
 };
 }//end namespace shape
 }//end namespace edk

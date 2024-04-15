@@ -60,6 +60,8 @@ public:
     ObjectGui2d();
     ~ObjectGui2d();
 
+    void Constructor(bool runFather=true);
+
     //LOAD SPRITES
     bool loadSprite(const edk::char8* name,edk::uint32 filter = GU_NEAREST);
     bool loadSprite(edk::char8* name,edk::uint32 filter = GU_NEAREST);
@@ -262,6 +264,7 @@ protected:
     bool writeBoundingBox(edk::rectf32* rect);
     bool writeBoundingBox(edk::rectf32* rect,edk::vector::Matrix<edk::float32,3,3>* transformMat);
 private:
+    edk::classID classThis;
 };
 }//end namespace gui2d
 }//end namespace edk

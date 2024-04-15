@@ -25,42 +25,57 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 edk::tiles::Tile2D::Tile2D(){
-    //create the polygon
-    edk::shape::Quadrangle2D rect;edkEnd();
-    this->middle = edk::vec2f32(0,0);edkEnd();
-    //Set the color to white
-    rect.setPolygonColor(1,1,1,1);edkEnd();
-    //Set all the quadrangle vertexs
-    //    rect.setVertexPosition(0u,0,0);edkEnd();
-    //    rect.setVertexPosition(1u,0,1);edkEnd();
-    //    rect.setVertexPosition(2u,1,1);edkEnd();
-    //    rect.setVertexPosition(3u,1,0);edkEnd();
-    rect.setVertexPosition(0u,-0.5,-0.5);edkEnd();
-    rect.setVertexPosition(1u,0.5,-0.5);edkEnd();
-    rect.setVertexPosition(2u,0.5,0.5);edkEnd();
-    rect.setVertexPosition(3u,-0.5,0.5);edkEnd();
-    //set the UV'S
-    rect.setVertexUV(0u,0,1);edkEnd();
-    rect.setVertexUV(1u,1,1);edkEnd();
-    rect.setVertexUV(2u,1,0);edkEnd();
-    rect.setVertexUV(3u,0,0);edkEnd();
-    //Use a rectPolygon to the mesh
-    this->mesh.addPolygon(rect);edkEnd();
-    this->mesh.selectPolygon(0u);edkEnd();
-    //add the mesh
-    this->obj.addMesh(&this->mesh);edkEnd();
-
-    this->obj.selectMesh(0u);edkEnd();
-
-    this->objPhys=NULL;edkEnd();
-    this->addedPhysicsPolygon=false;edkEnd();
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);edkEnd();
 }
 edk::tiles::Tile2D::~Tile2D(){
-    //
-    this->obj.removeAllMesh();edkEnd();
-    this->deletePhysics();edkEnd();
-    this->mesh.cleanTextures();edkEnd();
-    this->treeDraw.clean();edkEnd();
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        this->obj.removeAllMesh();edkEnd();
+        this->deletePhysics();edkEnd();
+        this->mesh.cleanTextures();edkEnd();
+        this->treeDraw.clean();edkEnd();
+    }
+}
+
+void edk::tiles::Tile2D::Constructor(bool /*runFather*/){
+    if(this->classThis!=this){
+        this->classThis=this;
+
+        this->obj.Constructor();edkEnd();
+        this->mesh.Constructor();edkEnd();
+        this->treeDraw.Constructor();edkEnd();
+
+        //create the polygon
+        edk::shape::Quadrangle2D rect;edkEnd();
+        this->middle = edk::vec2f32(0,0);edkEnd();
+        //Set the color to white
+        rect.setPolygonColor(1,1,1,1);edkEnd();
+        //Set all the quadrangle vertexs
+        //    rect.setVertexPosition(0u,0,0);edkEnd();
+        //    rect.setVertexPosition(1u,0,1);edkEnd();
+        //    rect.setVertexPosition(2u,1,1);edkEnd();
+        //    rect.setVertexPosition(3u,1,0);edkEnd();
+        rect.setVertexPosition(0u,-0.5,-0.5);edkEnd();
+        rect.setVertexPosition(1u,0.5,-0.5);edkEnd();
+        rect.setVertexPosition(2u,0.5,0.5);edkEnd();
+        rect.setVertexPosition(3u,-0.5,0.5);edkEnd();
+        //set the UV'S
+        rect.setVertexUV(0u,0,1);edkEnd();
+        rect.setVertexUV(1u,1,1);edkEnd();
+        rect.setVertexUV(2u,1,0);edkEnd();
+        rect.setVertexUV(3u,0,0);edkEnd();
+        //Use a rectPolygon to the mesh
+        this->mesh.addPolygon(rect);edkEnd();
+        this->mesh.selectPolygon(0u);edkEnd();
+        //add the mesh
+        this->obj.addMesh(&this->mesh);edkEnd();
+
+        this->obj.selectMesh(0u);edkEnd();
+
+        this->objPhys=NULL;edkEnd();
+        this->addedPhysicsPolygon=false;edkEnd();
+    }
 }
 
 //return the type of the tile to the tileSet know witch tile is before delete it

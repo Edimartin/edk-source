@@ -60,6 +60,8 @@ public:
     TextField2d();
     virtual ~TextField2d();
 
+    void Constructor(bool runFather=true);
+
     //clean all characters
     void cleanCharacters();
 
@@ -171,6 +173,9 @@ private:
     public:
         TextVec();
         ~TextVec();
+
+        void Constructor(bool runFather=true);
+
         void clean();
         bool write(edk::char8* str);
         edk::uint32 add(edk::char8* str,edk::uint32 position);
@@ -211,7 +216,11 @@ private:
         edk::uint32 sizeOfString();
         //return true if the character can be inside the tree
         bool canGetIt(edk::char32 c);
+    private:
+        edk::classID classThis;
     }textVec;
+private:
+    edk::classID classThis;
 };
 }//end namespace gui2d
 }//end namespace edk

@@ -48,6 +48,8 @@ public:
     LineContact2D();
     virtual ~LineContact2D();
 
+    void Constructor(bool runFather=true);
+
     //Contacts
     //point
     static bool contactPoint(edk::vec2f32 point,edk::shape::Line2D test);
@@ -60,6 +62,7 @@ public:
 
 protected:
 private:
+    edk::classID classThis;
 };
 }//end namesoace collision
 }//end namespace edk

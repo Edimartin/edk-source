@@ -57,6 +57,8 @@ public:
     DebugFile();
     ~DebugFile();
 
+    void Constructor(bool runFather=true);
+
     static bool newFile(const edk::char8* name);
     static bool newFile(edk::char8* name);
 
@@ -207,8 +209,11 @@ public:
 private:
 #if defined(EDK_DEBUGGER) || defined(EDK_DEBUG_MEMSET) || defined(EDK_DEBUG_MEMCPY)
     //statis file
-    inline static edk::File file;
+    static edk::File file;
+    static bool templateConstructNeed;
 #endif
+private:
+    edk::classID classThis;
 };
 }//end namespace edk
 

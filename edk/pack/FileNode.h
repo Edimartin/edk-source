@@ -46,6 +46,8 @@ public:
     FileNode();
     virtual ~FileNode();
 
+    void Constructor(bool runFather=true);
+
     friend edk::pack::FilePackage;
 
     //set the fileName
@@ -89,6 +91,8 @@ private:
     bool compareMD5(edk::uint8 md5[16u]);
     //print the md5
     void printMD5(edk::uint8 md5[16u]);
+private:
+    edk::classID classThis;
 };
 }
 }

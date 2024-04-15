@@ -88,6 +88,8 @@ public:
     ViewConsole();
     ~ViewConsole();
 
+    void Constructor(bool runFather=true);
+
     //set the map size
     bool newConsole(edk::size2ui32 size);
     bool newConsole(edk::uint32 width,edk::uint32 height);
@@ -385,6 +387,8 @@ protected:
 private:
     edk::fonts::FontMap map;
     edk::fonts::FontMap back;
+private:
+    edk::classID classThis;
 };
 }
 

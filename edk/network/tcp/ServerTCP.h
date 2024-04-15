@@ -49,6 +49,8 @@ public:
     ServerTCP();
     ~ServerTCP();
 
+    void Constructor(bool runFather=true);
+
     //Inicia a ouvir a porta
     edk::network::networkCodes startListen(edk::uint16 port,edk::uint32 connections=0u);
     //test if have listened
@@ -77,16 +79,34 @@ public:
 protected:
     class nodeAdressTCP : public edk::network::ServerSocket::nodeAdress{
     public:
-        nodeAdressTCP(){}
-        ~nodeAdressTCP(){}
+        nodeAdressTCP(){this->classThis=NULL;this->Constructor(false);edkEnd();}
+        ~nodeAdressTCP(){
+            if(this->classThis==this){
+                this->classThis=NULL;edkEnd();
+                //can destruct the class
+            }
+        }
+
+        void Constructor(bool runFather=true){
+            if(runFather){
+                edk::network::ServerSocket::nodeAdress::Constructor();edkEnd();
+            }
+            if(this->classThis!=this){
+                this->classThis=this;
+            }
+        }
         //clientSocket
         edk::uint32 socket;
+    private:
+        edk::classID classThis;
     };
 
 private:
     bool listened;
     //accept client
     edk::network::Adress acceptTCPClient(bool nonBlock);
+private:
+    edk::classID classThis;
 };
 }
 }

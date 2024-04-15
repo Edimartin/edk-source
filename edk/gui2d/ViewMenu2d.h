@@ -57,6 +57,8 @@ public:
     MenuObj();
     virtual ~MenuObj();
 
+    void Constructor(bool runFather=true);
+
     //get the type
     virtual edk::gui2d::gui2dTypes getType();
 
@@ -110,6 +112,8 @@ private:
 public:
     //menu colors
     edk::color4f32 color[edk::gui2d::gui2dTextureSize];
+private:
+    edk::classID classThis;
 };
 class ViewMenu2d;
 class Menu2dCallback{
@@ -123,6 +127,8 @@ class ViewMenu2d : public edk::ViewGU2D{
 public:
     ViewMenu2d();
     virtual ~ViewMenu2d();
+
+    void Constructor(bool runFather=true);
 
     //create a new object
     edk::uint32 newObject(edk::char8* spriteName,edk::char8* text1,edk::char8* text2,edk::uint32 id=0u);
@@ -211,6 +217,8 @@ private:
     void updatePositions();
     //process the selection
     void selectObject(edk::uint32 position,edk::int32 objects,edk::float32 near,edk::float32 far,edk::vector::Stack<edk::uint32>* names);
+private:
+    edk::classID classThis;
 };
 }//end namespace gui2d
 }//end namespace edk

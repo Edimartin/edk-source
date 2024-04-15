@@ -57,6 +57,11 @@ public:
     Bone2D(edk::char8* name);
     Bone2D(const edk::char8* name);
     ~Bone2D();
+
+    void Constructor(bool runFather=true);
+    void Constructor(edk::char8* name,bool runFather=true);
+    void Constructor(const edk::char8* name,bool runFather=true);
+
     edk::vec2f32 position;
     edk::vec2f32 vector;
     edk::float32 angle;
@@ -263,19 +268,38 @@ private:
     //class to add the objects to the bone
     class ObjectConnect{
     public:
-        ObjectConnect(){this->object=NULL;edkEnd();this->angle=0u;edkEnd();}
-        ObjectConnect(edk::Object2DValues* object){
-            if(object){
-                this->object=object;edkEnd();
-                this->angle=object->angle;edkEnd();
-                this->position = object->position;edkEnd();
-                this->size = object->size;edkEnd();
-            }
-            else{
-                this->object=NULL;edkEnd();this->angle=0u;edkEnd();
+        ObjectConnect(){this->classThis=NULL;this->Constructor(false);edkEnd();}
+        ObjectConnect(edk::Object2DValues* object){this->classThis=NULL;this->Constructor(object,false);edkEnd();}
+        ~ObjectConnect(){
+            if(this->classThis==this){
+                this->classThis=NULL;edkEnd();
+                //can destruct the class
             }
         }
-        ~ObjectConnect(){}
+
+        void Constructor(bool runFather=true){
+            if(runFather){edkEnd();}
+            if(this->classThis!=this){
+                this->classThis=this;
+                this->object=NULL;edkEnd();
+                this->angle=0u;edkEnd();
+            }
+        }
+        void Constructor(edk::Object2DValues* object,bool runFather=true){
+            if(runFather){edkEnd();}
+            if(this->classThis!=this){
+                this->classThis=this;
+                if(object){
+                    this->object=object;edkEnd();
+                    this->angle=object->angle;edkEnd();
+                    this->position = object->position;edkEnd();
+                    this->size = object->size;edkEnd();
+                }
+                else{
+                    this->object=NULL;edkEnd();this->angle=0u;edkEnd();
+                }
+            }
+        }
 
         //Object transformations
         edk::vec2f32 position;
@@ -284,6 +308,8 @@ private:
         //Object used in the bone
         //edk::Object2D* object;
         edk::Object2DValues * object;
+    private:
+        edk::classID classThis;
     };
 
     //tree with objects
@@ -506,6 +532,8 @@ private:
         bone.cantDelete();edkEnd();
         return bone;edkEnd();
     }
+private:
+    edk::classID classThis;
 };
 }//end namespace bones
 }//end namespace edk

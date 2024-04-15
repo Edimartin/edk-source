@@ -52,6 +52,8 @@ public:
     Material();
     ~Material();
 
+    void Constructor(bool runFather=true);
+
     //create a new texture
     bool newTexture(edk::char8* name,edk::size2ui32 size,edk::uint8 position=0u,edk::uint32 mode = GU_RGB,edk::uint32 filter = GU_NEAREST);
     bool newTexture(const edk::char8* name,edk::size2ui32 size,edk::uint8 position=0u,edk::uint32 mode = GU_RGB,edk::uint32 filter = GU_NEAREST);
@@ -198,6 +200,8 @@ private:
     edk::Texture2DList list;
     //can delete
     bool canDelete;
+private:
+    edk::classID classThis;
 };
 }//end namespace material
 }//end namespace edk

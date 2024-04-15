@@ -25,12 +25,27 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 edk::network::Package::Package(){
-    this->vec=NULL;edkEnd();
-    this->headerSize = (edk::uint32)(sizeof(edk::network::Package::PackHeader));edkEnd();
-    this->vectorSize=0u;
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);edkEnd();
 }
 edk::network::Package::~Package(){
-    this->deleteVector();edkEnd();
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
+        this->deleteVector();edkEnd();
+    }
+}
+
+void edk::network::Package::Constructor(bool /*runFather*/){
+    if(this->classThis!=this){
+        this->classThis=this;
+
+        this->header.clean();edkEnd();
+
+        this->vec=NULL;edkEnd();
+        this->headerSize = (edk::uint32)(sizeof(edk::network::Package::PackHeader));edkEnd();
+        this->vectorSize=0u;
+    }
 }
 
 //create a new package

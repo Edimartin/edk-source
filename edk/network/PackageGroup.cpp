@@ -26,11 +26,25 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
 edk::network::PackageGroup::PackageTree::PackageTree(){
-    //
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);edkEnd();
 }
 edk::network::PackageGroup::PackageTree::~PackageTree(){
-    //
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
+    }
 }
+
+void edk::network::PackageGroup::PackageTree::Constructor(bool runFather){
+    if(runFather){
+        edk::vector::BinaryTree<edk::network::Package*>::Constructor();edkEnd();
+    }
+    if(this->classThis!=this){
+        this->classThis=this;
+    }
+}
+
 //compare if the value is bigger
 bool edk::network::PackageGroup::PackageTree::firstBiggerSecond(edk::network::Package* first,edk::network::Package* second){
     //
@@ -57,14 +71,28 @@ edk::network::Package* edk::network::PackageGroup::PackageTree::getPackage(edk::
 }
 
 edk::network::PackageGroup::PackageGroup(){
-    //
-    this->setPackSize(0u);edkEnd();
-    this->data=NULL;edkEnd();
-    this->deleteVector();edkEnd();
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);edkEnd();
 }
 edk::network::PackageGroup::~PackageGroup(){
-    //
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
+    }
 }
+
+void edk::network::PackageGroup::Constructor(bool /*runFather*/){
+    if(this->classThis!=this){
+        this->classThis=this;
+
+        this->tree.Constructor();edkEnd();
+
+        this->setPackSize(0u);edkEnd();
+        this->data=NULL;edkEnd();
+        this->deleteVector();edkEnd();
+    }
+}
+
 //set the packSize
 void edk::network::PackageGroup::setPackSize(edk::uint32 packSize){
     if(packSize){

@@ -29,28 +29,62 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endif
 
 edk::ViewTextField::ViewTextField(){
-    //
-    this->borderSize = 7;edkEnd();
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);edkEnd();
 }
 edk::ViewTextField::~ViewTextField(){
-    //
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
+    }
+}
+
+void edk::ViewTextField::Constructor(bool runFather){
+    if(runFather){
+        edk::ViewMenu::Constructor();edkEnd();
+    }
+    if(this->classThis!=this){
+        this->classThis=this;
+
+        this->text.Constructor();edkEnd();
+
+        this->borderSize = 7;edkEnd();
+    }
 }
 
 edk::ViewTextField::TextField::TextField(){
-    this->saveBorder = 0u;edkEnd();
-    this->selectView = false;edkEnd();
-    this->pressInside=false;edkEnd();
-    this->string=NULL;edkEnd();
-    this->sizeString = 0u;edkEnd();
-    this->deleteString();edkEnd();
-    this->pressReturn=false;edkEnd();
-    this->pressQuote = false;edkEnd();
-    this->pressTilde = false;edkEnd();
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);edkEnd();
 }
 edk::ViewTextField::TextField::~TextField(){
-    //
-    this->cleanString();edkEnd();
-    this->deleteString();edkEnd();
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
+        this->cleanString();edkEnd();
+        this->deleteString();edkEnd();
+    }
+}
+
+void edk::ViewTextField::TextField::Constructor(bool runFather){
+    if(runFather){
+        edk::ViewText::Constructor();edkEnd();
+    }
+    if(this->classThis!=this){
+        this->classThis=this;
+
+        this->obj.Constructor();
+        this->anim.Constructor();
+
+        this->saveBorder = 0u;edkEnd();
+        this->selectView = false;edkEnd();
+        this->pressInside=false;edkEnd();
+        this->string=NULL;edkEnd();
+        this->sizeString = 0u;edkEnd();
+        this->deleteString();edkEnd();
+        this->pressReturn=false;edkEnd();
+        this->pressQuote = false;edkEnd();
+        this->pressTilde = false;edkEnd();
+    }
 }
 
 //Set the entryPosition
@@ -171,7 +205,7 @@ void edk::ViewTextField::TextField::update(edk::WindowEvents* events){
         for(edk::uint32 i=0u;i<size;i++){
             //load the keyPressed
             keyPressed = events->keyPressed.get(i);edkEnd();
-/*
+            /*
             printf("\nKey Pressed %u"
                    ,keyPressed
                    );edkEnd();
@@ -482,7 +516,7 @@ void edk::ViewTextField::TextField::update(edk::WindowEvents* events,edk::float3
         for(edk::uint32 i=0u;i<size;i++){
             //load the keyPressed
             keyPressed = events->keyPressed.get(i);edkEnd();
-/*
+            /*
             printf("\nKey Pressed %u"
                    ,keyPressed
                    );edkEnd();

@@ -24,13 +24,26 @@ OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-edk::shape::AnimatedPolygon2DList::AnimatedPolygon2DList()
-{
-    this->freeSelectedAnimation();edkEnd();
-    this->selectedID=0u;
+edk::shape::AnimatedPolygon2DList::AnimatedPolygon2DList(){
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);edkEnd();
 }
-edk::shape::AnimatedPolygon2DList::~AnimatedPolygon2DList()
-{
+edk::shape::AnimatedPolygon2DList::~AnimatedPolygon2DList(){
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
+    }
+}
+
+void edk::shape::AnimatedPolygon2DList::Constructor(bool runFather){
+    if(runFather){
+        edk::shape::Polygon2DList::Constructor();edkEnd();
+    }
+    if(this->classThis!=this){
+        this->classThis=this;
+        this->freeSelectedAnimation();edkEnd();
+        this->selectedID=0u;
+    }
 }
 
 //ANIMATIONS

@@ -50,8 +50,10 @@ public:
     Camera3D(edk::vec3f32 position,edk::vec3f32 lookAt);
     Camera3D(edk::float32 pX,edk::float32 pY,edk::float32 pZ,edk::float32 lookX,edk::float32 lookY,edk::float32 lookZ);
     virtual ~Camera3D();
-    edk::vec3f32 position;
-    edk::vec3f32 lookAt;
+
+    void Constructor(bool runFather=true);
+    void Constructor(edk::vec3f32 position,edk::vec3f32 lookAt,bool runFather=true);
+    void Constructor(edk::float32 pX,edk::float32 pY,edk::float32 pZ,edk::float32 lookX,edk::float32 lookY,edk::float32 lookZ,bool runFather=true);
 
     //Sset witch camera type its using
     void usePerspective();
@@ -109,6 +111,9 @@ public:
 
     //operator to copy the cameras
     bool cloneFrom(edk::Camera3D* cam);
+
+    edk::vec3f32 position;
+    edk::vec3f32 lookAt;
 private:
     edk::Camera3D operator=(edk::Camera3D){return *this;}
     bool perspective;
@@ -130,6 +135,8 @@ private:
     void start();
     //generate the camera matrix
     void calculateProjectionMatrix();
+private:
+    edk::classID classThis;
 };
 }//end namespace edk
 

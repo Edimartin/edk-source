@@ -29,8 +29,26 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endif
 
 edk::animation::ParticlesLine2D::ParticlesLine2D(){
-    this->point1 = this->point2 = edk::vec2f32(0,0);edkEnd();
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);edkEnd();
 }
+edk::animation::ParticlesLine2D::~ParticlesLine2D(){
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
+    }
+}
+
+void edk::animation::ParticlesLine2D::Constructor(bool runFather){
+    if(runFather){
+        edk::animation::ParticlesPoint2D::Constructor();edkEnd();
+    }
+    if(this->classThis!=this){
+        this->classThis=this;
+        this->point1 = this->point2 = edk::vec2f32(0,0);edkEnd();
+    }
+}
+
 //get the position
 edk::vec2f32 edk::animation::ParticlesLine2D::newPosition(){
     edk::float32 percent = edk::Random::getStaticRandPercent();edkEnd();

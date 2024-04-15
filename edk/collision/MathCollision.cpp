@@ -29,11 +29,24 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endif
 
 edk::collision::MathCollision::MathCollision(){
-    //
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);edkEnd();
 }
 
 edk::collision::MathCollision::~MathCollision(){
-    //
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
+    }
+}
+
+void edk::collision::MathCollision::Constructor(bool runFather){
+    if(runFather){
+        edk::Math::Constructor();edkEnd();
+    }
+    if(this->classThis!=this){
+        this->classThis=this;
+    }
 }
 
 bool edk::collision::MathCollision::boundingContact3D(edk::vec3f32 point,edk::vec3f32 vec1,edk::vec3f32 vec2){
@@ -157,8 +170,8 @@ bool edk::collision::MathCollision::aabbPoints(edk::rectf32 rect1,edk::rectf32 r
 }
 //X
 bool edk::collision::MathCollision::aabbX(edk::float32 x1,edk::float32 width1,
-                                         edk::float32 x2,edk::float32 width2
-                                         ){
+                                          edk::float32 x2,edk::float32 width2
+                                          ){
     return edk::collision::MathCollision::aabbX(edk::vec2f32(x1,0.f),edk::size2f32(width1,0.f),edk::vec2f32(x2,0.f),edk::size2f32(width2,0.f));edkEnd();
 }
 bool edk::collision::MathCollision::aabbX(edk::vec2f32 position1,edk::size2f32 size1,edk::vec2f32 position2,edk::size2f32 size2){

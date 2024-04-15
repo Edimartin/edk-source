@@ -28,16 +28,25 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #pragma message "            Inside Interpolation2DGroup.cpp"
 #endif
 
-edk::animation::Interpolation2DGroup::Interpolation2DGroup()
-{
-    //
-    this->incrementY=0.f;edkEnd();
-    this->incrementYValue=0.f;edkEnd();
+edk::animation::Interpolation2DGroup::Interpolation2DGroup(){
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);edkEnd();
 }
 
-edk::animation::Interpolation2DGroup::~Interpolation2DGroup()
-{
-    //
+edk::animation::Interpolation2DGroup::~Interpolation2DGroup(){
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
+    }
+}
+
+void edk::animation::Interpolation2DGroup::Constructor(bool runFather){
+    if(runFather){edk::animation::Interpolation1DGroup::Constructor();edkEnd();}
+    if(this->classThis!=this){
+        this->classThis=this;
+        this->incrementY=0.f;edkEnd();
+        this->incrementYValue=0.f;edkEnd();
+    }
 }
 
 //create the interpolation

@@ -28,14 +28,22 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #pragma message "            Inside RectangleContact.cpp"
 #endif
 
-edk::collision::RectangleContact::RectangleContact()
-{
-    //ctor
+edk::collision::RectangleContact::RectangleContact(){
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);edkEnd();
 }
 
-edk::collision::RectangleContact::~RectangleContact()
-{
-    //dtor
+edk::collision::RectangleContact::~RectangleContact(){
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
+    }
+}
+
+void edk::collision::RectangleContact::Constructor(bool /*runFather*/){
+    if(this->classThis!=this){
+        this->classThis=this;
+    }
 }
 
 //CONTACTS

@@ -42,8 +42,23 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 namespace edk{
 class DebugLineFile{
 public:
-    DebugLineFile(){}
-    ~DebugLineFile(){}
+    DebugLineFile(){this->classThis=NULL;edkEnd();
+                    this->Constructor(false);edkEnd();}
+    ~DebugLineFile(){
+        if(this->classThis==this){
+            this->classThis=NULL;edkEnd();
+            //can destruct the class
+        }
+    }
+
+    void Constructor(bool runFather=true){
+        if(runFather){edkEnd();}
+        if(this->classThis!=this){
+            this->classThis=this;
+
+            this->debugLineFile.Constructor();edkEnd();
+        }
+    }
 
     //create the file
     inline bool createFile(edk::char8* fileName){
@@ -102,6 +117,8 @@ public:
     }
 private:
     edk::File debugLineFile;
+private:
+    edk::classID classThis;
 };
 }//end namespace edk
 

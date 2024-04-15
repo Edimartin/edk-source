@@ -46,6 +46,8 @@ public:
     StaticSensor2D();
     ~StaticSensor2D();
 
+    void Constructor(bool runFather=true);
+
     //return if it's a sensor
     virtual bool isSensor();
 
@@ -64,6 +66,8 @@ public:
 private:
     //objects Tree
     edk::vector::BinaryTree<edk::physics2D::PhysicObject2D*> tree;
+private:
+    edk::classID classThis;
 };
 }
 }

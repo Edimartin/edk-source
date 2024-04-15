@@ -28,18 +28,29 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #pragma message "            Inside Texture2D.cpp"
 #endif
 
-edk::Texture2D::Texture2D()
-{
-    //ctor
-    this->textureId=0u;
-    this->mode = 0u;edkEnd();
-    this->filter = 0u;edkEnd();
+edk::Texture2D::Texture2D(){
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);edkEnd();
 }
 
-edk::Texture2D::~Texture2D()
-{
-    //dtor
-    this->deleteTexture();edkEnd();
+edk::Texture2D::~Texture2D(){
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
+        this->deleteTexture();edkEnd();
+    }
+}
+
+void edk::Texture2D::Constructor(bool runFather){
+    if(runFather){
+        edk::ObjectWithName::Constructor();
+    }
+    if(this->classThis!=this){
+        this->classThis=this;
+        this->textureId=0u;
+        this->mode = 0u;edkEnd();
+        this->filter = 0u;edkEnd();
+    }
 }
 
 //alloc the textureObject

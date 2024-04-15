@@ -41,11 +41,24 @@ template <class typeTemplate>
 class MemoryBufferCircular : public edk::MemoryBuffer<typeTemplate>{
 public:
     MemoryBufferCircular(){
-        //
-        this->origin=0u;edkEnd();
+        this->classThis=NULL;edkEnd();
+        this->Constructor(false);edkEnd();
     }
     ~MemoryBufferCircular(){
-        //
+        if(this->classThis==this){
+            this->classThis=NULL;edkEnd();
+            //can destruct the class
+        }
+    }
+
+    void Constructor(bool runFather=true){
+        if(runFather){
+            edk::MemoryBuffer<typeTemplate>::Constructor();edkEnd();
+        }
+        if(this->classThis!=this){
+            this->classThis=this;
+            this->origin=0u;edkEnd();
+        }
     }
 
     //increment the origin position
@@ -73,6 +86,8 @@ public:
 private:
     //position where is the origin
     edk::uint32 origin;
+private:
+    edk::classID classThis;
 };
 }//end namespace edk
 

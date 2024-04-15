@@ -24,15 +24,26 @@ OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-edk::physics2D::Joint2D::Joint2D(bool collide)
-{
-    this->objectA=NULL;edkEnd();
-    this->objectB=NULL;edkEnd();
-    this->collide = collide;edkEnd();
-    this->type = EDK_JOINT;edkEnd();
+edk::physics2D::Joint2D::Joint2D(bool collide){
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);edkEnd();
 }
 
 edk::physics2D::Joint2D::~Joint2D(){
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
+    }
+}
+
+void edk::physics2D::Joint2D::Constructor(bool collide,bool /*runFather*/){
+    if(this->classThis!=this){
+        this->classThis=this;
+        this->objectA=NULL;edkEnd();
+        this->objectB=NULL;edkEnd();
+        this->collide = collide;edkEnd();
+        this->type = EDK_JOINT;edkEnd();
+    }
 }
 
 //draw the joint in debug mode

@@ -44,66 +44,72 @@ namespace edk{
 namespace shd{
 //use the dataList in the shader
 class GLSL:public edk::shd::DataList{
-    public:
-        GLSL();
-        virtual ~GLSL();
+public:
+    GLSL();
+    virtual ~GLSL();
 
-        //create a new data
-        bool newData(edk::char8* name);
+    void Constructor(bool runFather=true);
 
-        //start the shaderLib
-        bool start();
+    //create a new data
+    bool newData(edk::char8* name);
 
-        //tests the programInfoLog
-        bool checkCompilationStatus(edk::uint32 id);
+    //start the shaderLib
+    bool start();
 
-        //LOAD
-        //load a shader from a file
-        bool loadShaderFromFile(const edk::char8* name);
-        bool loadShaderFromFile(edk::char8* name);
-        //load the shader from memory
-        bool loadShaderFromMemory(const edk::char8* name,edk::uint8* data,edk::uint32 size,edk::shd::shaderType type);
-        bool loadShaderFromMemory(edk::char8* name,edk::uint8* data,edk::uint32 size,edk::shd::shaderType type);
+    //tests the programInfoLog
+    bool checkCompilationStatus(edk::uint32 id);
 
-        //create the shaderProgram
-        bool createProgram(const edk::char8* name);
-        bool createProgram(edk::char8* name);
+    //LOAD
+    //load a shader from a file
+    bool loadShaderFromFile(const edk::char8* name);
+    bool loadShaderFromFile(edk::char8* name);
+    //load the shader from memory
+    bool loadShaderFromMemory(const edk::char8* name,edk::uint8* data,edk::uint32 size,edk::shd::shaderType type);
+    bool loadShaderFromMemory(edk::char8* name,edk::uint8* data,edk::uint32 size,edk::shd::shaderType type);
 
-        //delete the shaderProgram
-        void deleteProgram();
-        //delete the shaders
-        void deleteShaders();
-        //delete the log
-        void deleteLog();
-        //return the log
-        edk::char8* getCompilationLog();
+    //create the shaderProgram
+    bool createProgram(const edk::char8* name);
+    bool createProgram(edk::char8* name);
 
-        //Use this shader
-        void useThisShader();
-        //remove the shader from the use
-        void dontUseThisShader();
-        //dont use the shader
-        static void useNoShader();
+    //delete the shaderProgram
+    void deleteProgram();
+    //delete the shaders
+    void deleteShaders();
+    //delete the log
+    void deleteLog();
+    //return the log
+    edk::char8* getCompilationLog();
 
-        //enable or disable the shader
-        bool enableProgram();
-        void disableProgram();
-        bool isProgramEnable();
+    //Use this shader
+    void useThisShader();
+    //remove the shader from the use
+    void dontUseThisShader();
+    //dont use the shader
+    static void useNoShader();
 
-        //GETERS
-        bool usingGLSL();
-        bool usingFragment();
-        bool usingVertex();
-        bool usingGeometry();
-        bool haveProgram();
-    protected:
-    private:
+    //enable or disable the shader
+    bool enableProgram();
+    void disableProgram();
+    bool isProgramEnable();
+
+    //GETERS
+    bool usingGLSL();
+    bool usingFragment();
+    bool usingVertex();
+    bool usingGeometry();
+    bool haveProgram();
+protected:
+private:
     //shaderClass
     class shaderLink: public edk::Name{
-        public:
+    public:
         shaderLink();
         shaderLink(edk::char8* name);
         ~shaderLink();
+
+        void Constructor(bool runFather=true);
+        void Constructor(edk::char8* name,bool runFather=true);
+
         //release the shader
         void deleteShader();
         bool loadFileShader(edk::char8* name);
@@ -119,6 +125,8 @@ class GLSL:public edk::shd::DataList{
         bool attach;
         //save the log
         edk::char8* log;
+    private:
+        edk::classID classThis;
     };
     //program ID
     edk::uint32 id;
@@ -147,6 +155,8 @@ class GLSL:public edk::shd::DataList{
         edk::vector::NameTree treeNames;
         edk::float32 lastPosition;
     }tree;
+private:
+    edk::classID classThis;
 };
 }//end namespace shd
 }//end namespace edk

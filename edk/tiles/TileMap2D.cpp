@@ -26,38 +26,81 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
 edk::tiles::tileContact2D::tileContact2D(){
-    //
-    this->tileA=this->tileB=0u;
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);edkEnd();
 }
 
 edk::tiles::tileContact2D::~tileContact2D(){
-    //
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
+    }
+}
+
+void edk::tiles::tileContact2D::Constructor(bool /*runFather*/){
+    if(this->classThis!=this){
+        this->classThis=this;
+        this->tileA=this->tileB=0u;
+    }
 }
 
 edk::tiles::TileMap2D::TileMap2D(){
-    //
-    this->tileSet=NULL;edkEnd();
-    this->tileMap=NULL;edkEnd();
-    this->colorMap=NULL;edkEnd();
-    this->world=NULL;edkEnd();
-    this->sizeMap = edk::size2ui32(0u,0u);edkEnd();
-    this->color = 1.f;edkEnd();
-    this->saveOrigin = edk::vec2ui32(0u,0u);edkEnd();
-    this->saveLast = edk::size2ui32(0u,0u);edkEnd();
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);edkEnd();
 }
 edk::tiles::TileMap2D::TileMap2D(edk::tiles::TileSet2D* tileSet){
-    this->world=NULL;edkEnd();
-    this->tileMap=NULL;edkEnd();
-    this->colorMap=NULL;edkEnd();
-    this->sizeMap = edk::size2ui32(0u,0u);edkEnd();
-    this->color = 1.f;edkEnd();
-    this->setTileSet(tileSet);edkEnd();
+    this->classThis=NULL;edkEnd();
+    this->Constructor(tileSet,false);edkEnd();
 }
 edk::tiles::TileMap2D::~TileMap2D(){
-    //
-    this->deletePhysicsTiles();edkEnd();
-    this->deleteTileMap();edkEnd();
-    this->cleanWorldPointer();edkEnd();
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
+        this->deletePhysicsTiles();edkEnd();
+        this->deleteTileMap();edkEnd();
+        this->cleanWorldPointer();edkEnd();
+    }
+}
+
+void edk::tiles::TileMap2D::Constructor(bool runFather){
+    if(runFather){
+        edk::physics2D::ContactCallback2D::Constructor();edkEnd();
+    }
+    if(this->classThis!=this){
+        this->classThis=this;
+
+        this->treeCallbacks.Constructor();edkEnd();
+        this->treePhysics.Constructor();edkEnd();
+        this->treeStaticPhysics.Constructor();edkEnd();
+
+        this->tileSet=NULL;edkEnd();
+        this->tileMap=NULL;edkEnd();
+        this->colorMap=NULL;edkEnd();
+        this->world=NULL;edkEnd();
+        this->sizeMap = edk::size2ui32(0u,0u);edkEnd();
+        this->color = 1.f;edkEnd();
+        this->saveOrigin = edk::vec2ui32(0u,0u);edkEnd();
+        this->saveLast = edk::size2ui32(0u,0u);edkEnd();
+    }
+}
+void edk::tiles::TileMap2D::Constructor(edk::tiles::TileSet2D* tileSet,bool runFather){
+    if(runFather){
+        edk::physics2D::ContactCallback2D::Constructor();edkEnd();
+    }
+    if(this->classThis!=this){
+        this->classThis=this;
+
+        this->treeCallbacks.Constructor();edkEnd();
+        this->treePhysics.Constructor();edkEnd();
+        this->treeStaticPhysics.Constructor();edkEnd();
+
+        this->world=NULL;edkEnd();
+        this->tileMap=NULL;edkEnd();
+        this->colorMap=NULL;edkEnd();
+        this->sizeMap = edk::size2ui32(0u,0u);edkEnd();
+        this->color = 1.f;edkEnd();
+        this->setTileSet(tileSet);edkEnd();
+    }
 }
 
 //get the static object from tile with just one rectangle
@@ -1035,7 +1078,6 @@ void edk::tiles::TileMap2D::deleteTileMap(){
             }
         }
         free(this->tileMap);edkEnd();
-        this->sizeMap = edk::size2ui32(0u,0u);edkEnd();
     }
     this->tileMap=NULL;edkEnd();
     //delete the colorMap
@@ -1050,6 +1092,7 @@ void edk::tiles::TileMap2D::deleteTileMap(){
         this->sizeMap = edk::size2ui32(0u,0u);edkEnd();
     }
     this->colorMap=NULL;edkEnd();
+    this->sizeMap = edk::size2ui32(0u,0u);edkEnd();
 }
 //return true if have a tileMap
 bool edk::tiles::TileMap2D::haveTileMap(){

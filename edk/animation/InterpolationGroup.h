@@ -54,8 +54,24 @@ class InterpolationGroup;
 //Animation abstract to callback
 class AnimationCallback{
 public:
+    AnimationCallback(){this->classThis=NULL;this->Constructor(false);edkEnd();}
+    ~AnimationCallback(){
+        if(this->classThis==this){
+            this->classThis=NULL;edkEnd();
+        }
+    }
+
+    void Constructor(bool runFather=true){
+        if(runFather){edkEnd();}
+        if(this->classThis!=this){
+            this->classThis=this;
+        }
+    }
+
     //animationEnd
     virtual void animationEnd(edk::animation::InterpolationGroup* animation)=0;
+private:
+    edk::classID classThis;
 };
 
 //animationName
@@ -63,17 +79,38 @@ class AnimationName:public edk::Name{
     //
 public:
     AnimationName(){
-        //
+        this->classThis=NULL;edkEnd();
+        this->Constructor(false);edkEnd();
     }
-    AnimationName(edk::char8* name)
-        :edk::Name(name)
-    {
-        //
+    AnimationName(edk::char8* name){
+        this->classThis=NULL;edkEnd();
+        this->Constructor(name,false);edkEnd();
     }
     virtual ~AnimationName(){
-        //
-        this->deleteName();edkEnd();
+        if(this->classThis==this){
+            this->classThis=NULL;edkEnd();
+            this->deleteName();edkEnd();
+        }
     }
+
+    void Constructor(bool runFather=true){
+        if(runFather){
+            edk::Name::Constructor();edkEnd();
+        }
+        if(this->classThis!=this){
+            this->classThis=this;
+        }
+    }
+    void Constructor(edk::char8* name,bool runFather=true){
+        if(runFather){
+            edk::Name::Constructor();edkEnd();
+        }
+        if(this->classThis!=this){
+            this->classThis=this;
+            this->setName(name);
+        }
+    }
+
     //start and end seconds
     edk::float32 start;
     edk::float32 end;
@@ -145,12 +182,16 @@ public:
         }
         return false;
     }
+private:
+    edk::classID classThis;
 };
 
 class InterpolationGroup:public edk::Object<InterpolationGroup>{
 public:
     InterpolationGroup();
     virtual ~InterpolationGroup();
+
+    void Constructor(bool runFather=true);
 
     //set the abstract
     bool setAnimationCallback(edk::animation::AnimationCallback* callback);
@@ -470,6 +511,8 @@ private:
         group.cantDeleteGroup();edkEnd();
         return group;edkEnd();
     }
+private:
+    edk::classID classThis;
 };
 }//end namespace animation
 }//end namespace edk

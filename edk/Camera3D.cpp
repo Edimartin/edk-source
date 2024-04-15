@@ -25,28 +25,72 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 edk::Camera3D::Camera3D(){
-    //
-    this->start();edkEnd();
-    this->perspective = true;edkEnd();
-    this->firstPerson=false;edkEnd();
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);edkEnd();
 }
 edk::Camera3D::Camera3D(edk::vec3f32 position,edk::vec3f32 lookAt){
-    this->start();edkEnd();
-    this->position = position;edkEnd();
-    this->lookAt = lookAt;edkEnd();
-    this->perspective = true;edkEnd();
-    this->firstPerson=false;edkEnd();
+    this->classThis=NULL;edkEnd();
+    this->Constructor(position,lookAt,false);edkEnd();
 }
 edk::Camera3D::Camera3D(edk::float32 pX,edk::float32 pY,edk::float32 pZ,edk::float32 lookX,edk::float32 lookY,edk::float32 lookZ){
-    this->start();edkEnd();
-    this->position = edk::vec3f32(pX,pY,pZ);edkEnd();
-    this->lookAt = edk::vec3f32(lookX,lookY,lookZ);edkEnd();
-    this->perspective = true;edkEnd();
-    this->firstPerson=false;edkEnd();
+    this->classThis=NULL;edkEnd();
+    this->Constructor(pX,pY,pZ,lookX,lookY,lookZ,false);edkEnd();
 }
 edk::Camera3D::~Camera3D(){
-    //
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
+    }
 }
+
+void edk::Camera3D::Constructor(bool /*runFather*/){
+    //
+    if(this->classThis!=this){
+        this->classThis=this;
+        this->matrixTranslate.Constructor();
+        this->matrixRotateX.Constructor();
+        this->matrixRotateY.Constructor();
+        this->matrixRotateZ.Constructor();
+        this->matrixScale.Constructor();
+        this->projection.Constructor();
+        this->start();edkEnd();
+        this->perspective = true;edkEnd();
+        this->firstPerson=false;edkEnd();
+    }
+}
+void edk::Camera3D::Constructor(edk::vec3f32 position,edk::vec3f32 lookAt,bool /*runFather*/){
+    if(this->classThis!=this){
+        this->classThis=this;
+        this->matrixTranslate.Constructor();
+        this->matrixRotateX.Constructor();
+        this->matrixRotateY.Constructor();
+        this->matrixRotateZ.Constructor();
+        this->matrixScale.Constructor();
+        this->projection.Constructor();
+        this->start();edkEnd();
+        this->position = position;edkEnd();
+        this->lookAt = lookAt;edkEnd();
+        this->perspective = true;edkEnd();
+        this->firstPerson=false;edkEnd();
+    }
+}
+void edk::Camera3D::Constructor(edk::float32 pX,edk::float32 pY,edk::float32 pZ,edk::float32 lookX,edk::float32 lookY,edk::float32 lookZ,bool /*runFather*/){
+    if(this->classThis!=this){
+        this->classThis=this;
+        this->matrixTranslate.Constructor();
+        this->matrixRotateX.Constructor();
+        this->matrixRotateY.Constructor();
+        this->matrixRotateZ.Constructor();
+        this->matrixScale.Constructor();
+        this->projection.Constructor();
+        this->start();edkEnd();
+        this->position = edk::vec3f32(pX,pY,pZ);edkEnd();
+        this->lookAt = edk::vec3f32(lookX,lookY,lookZ);edkEnd();
+        this->perspective = true;edkEnd();
+        this->firstPerson=false;edkEnd();
+    }
+}
+
 void edk::Camera3D::start(){
     //
     this->position = edk::vec3f32(0.f,0.f,-1.f);edkEnd();

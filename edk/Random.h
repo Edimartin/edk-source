@@ -43,6 +43,9 @@ public:
     Random(edk::uint32 seed);
     ~Random();
 
+    void Constructor(bool runFather=true);
+    void Constructor(edk::uint32 seed,bool runFather=true);
+
     virtual void clean();
 
     //static functions
@@ -73,6 +76,8 @@ private:
     //save the seed
     static edk::uint32 seedStatic;
     edk::uint32 seed;
+private:
+    edk::classID classThis;
 };
 }//end namespace edk
 

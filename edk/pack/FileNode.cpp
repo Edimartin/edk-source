@@ -25,15 +25,32 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 edk::pack::FileNode::FileNode(){
-    this->position = 0u;edkEnd();
-    this->fileSize = 0u;edkEnd();
-    //this->position = this->fileSize = 0u;edkEnd();
-    this->cleanMD5();edkEnd();
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);edkEnd();
 }
 edk::pack::FileNode::~FileNode(){
-    this->str.cleanName();edkEnd();
-    this->fileName.cleanName();edkEnd();
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
+        this->str.cleanName();edkEnd();
+        this->fileName.cleanName();edkEnd();
+    }
 }
+
+void edk::pack::FileNode::Constructor(bool /*runFather*/){
+    if(this->classThis!=this){
+        this->classThis=this;
+
+        this->str.Constructor();edkEnd();
+        this->fileName.Constructor();edkEnd();
+
+        this->position = 0u;edkEnd();
+        this->fileSize = 0u;edkEnd();
+        //this->position = this->fileSize = 0u;edkEnd();
+        this->cleanMD5();edkEnd();
+    }
+}
+
 //clean the md5 code
 void edk::pack::FileNode::cleanMD5(){
     memset(this->md5,0u,sizeof(this->md5));edkEnd();

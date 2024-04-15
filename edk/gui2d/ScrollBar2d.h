@@ -44,6 +44,8 @@ public:
     ScrollBar2d();
     virtual ~ScrollBar2d();
 
+    void Constructor(bool runFather=true);
+
     //save the FontTemplate
     static bool saveTemplates(const edk::char8* folder);
     static bool saveTemplates(edk::char8* folder);
@@ -108,6 +110,8 @@ private:
     edk::gui2d::gui2dTexture statusInside;
     //save the object inside status to compare in update function
     edk::gui2d::gui2dTexture saveStatusInside;
+private:
+    edk::classID classThis;
 };
 }//end namespace gui2d
 }//end namespace edk

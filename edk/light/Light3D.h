@@ -45,6 +45,8 @@ public:
     Light3D();
     virtual ~Light3D();
 
+    void Constructor(bool runFather=true);
+
     //Set Vectors
     void setPosition(edk::float32 x,edk::float32 y,edk::float32 z,edk::float32 w);
     void setPosition(edk::float32 x,edk::float32 y,edk::float32 z);
@@ -83,6 +85,8 @@ public:
     edk::float32 getConstantAttenuation();
     edk::float32 getLinearAttenuation();
     edk::float32 getQuadraticAttenuation();
+private:
+    edk::classID classThis;
 };
 }//end namespace light
 }//end namespace edk

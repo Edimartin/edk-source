@@ -25,16 +25,30 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 edk::sql::MySQL::MySQL(){
-#if defined(EDK_USE_MYSQL)
-    this->con=NULL;edkEnd();
-    this->res=NULL;edkEnd();
-    this->field=NULL;edkEnd();
-#endif
-    this->error.setName(" ");edkEnd();
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);edkEnd();
 }
 edk::sql::MySQL::~MySQL(){
-    //
-    this->closeDataBase();edkEnd();
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
+        this->closeDataBase();edkEnd();
+    }
+}
+
+void edk::sql::MySQL::Constructor(bool /*runFather*/){
+    if(this->classThis!=this){
+        this->classThis=this;
+
+        this->error.Constructor();edkEnd();
+
+#if defined(EDK_USE_MYSQL)
+        this->con=NULL;edkEnd();
+        this->res=NULL;edkEnd();
+        this->field=NULL;edkEnd();
+#endif
+        this->error.setName(" ");edkEnd();
+    }
 }
 
 //open dataBase
@@ -85,9 +99,9 @@ bool edk::sql::MySQL::execute(const edk::char8* command,edk::sql::SQLGroup* call
 }
 bool edk::sql::MySQL::execute(edk::char8* command,
                               edk::sql::SQLGroup*
-#if defined(EDK_USE_MYSQL)
+                              #if defined(EDK_USE_MYSQL)
                               callback
-#endif
+                              #endif
                               ){
     this->error.setName(" ");edkEnd();
     if(this->haveOpenedDataBase()){

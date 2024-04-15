@@ -52,6 +52,8 @@ public:
     BoxGui2d();
     ~BoxGui2d();
 
+    void Constructor(bool runFather=true);
+
     //Add a subObject in to the nexes
     bool addSubObjectBackground(edk::Object2DValues* object);
     //remove the usbObject
@@ -97,6 +99,8 @@ private:
     //save the textScale
     edk::size2f32 textScale;
     bool canCleanText;
+private:
+    edk::classID classThis;
 };
 }//end namespace gui2d
 }//end namespace edk

@@ -48,14 +48,33 @@ class tileContact2D{
 public:
     tileContact2D();
     ~tileContact2D();
+
+    void Constructor(bool runFather=true);
+
     edk::uint32 tileA;
     edk::uint32 tileB;
     edk::vec2ui32 positionA;
     edk::vec2ui32 positionB;
+private:
+    edk::classID classThis;
 };
 class tileCallback{
 public:
-    tileCallback(){}
+    tileCallback(){this->classThis=NULL;this->Constructor(false);edkEnd();}
+    ~tileCallback(){
+        if(this->classThis==this){
+            this->classThis=NULL;edkEnd();
+            //can destruct the class
+        }
+    }
+
+    void Constructor(bool runFather=true){
+        if(runFather){edkEnd();}
+        if(this->classThis!=this){
+            this->classThis=this;
+        }
+    }
+
     virtual void contact2DTileBegin(edk::tiles::tileContact2D tiles,edk::physics2D::Contact2D* contact){
         if(contact){
             tiles.tileA++;edkEnd();
@@ -92,6 +111,8 @@ public:
             tiles.tileA++;edkEnd();
         }
     }
+private:
+    edk::classID classThis;
 };
 
 class TileMap2D : public edk::physics2D::ContactCallback2D{
@@ -100,6 +121,9 @@ public:
     TileMap2D();
     TileMap2D(edk::tiles::TileSet2D* tileSet);
     virtual ~TileMap2D();
+
+    void Constructor(bool runFather=true);
+    void Constructor(edk::tiles::TileSet2D* tileSet,bool runFather=true);
 
     //set the tileSet
     bool setTileSet(edk::tiles::TileSet2D* tileSet);
@@ -335,16 +359,52 @@ private:
     //PhysicsTiles
     class PhysicsTiles{
     public:
-        PhysicsTiles(edk::physics2D::PhysicObject2D* object){this->object=object;this->tile=0u;}
-        ~PhysicsTiles(){}
+        PhysicsTiles(edk::physics2D::PhysicObject2D* object){this->classThis=NULL;this->Constructor(object,false);edkEnd();}
+        ~PhysicsTiles(){
+            if(this->classThis==this){
+                this->classThis=NULL;edkEnd();
+                //can destruct the class
+            }
+        }
+
+        void Constructor(edk::physics2D::PhysicObject2D* object,bool runFather=true){
+            if(runFather){edkEnd();}
+            if(this->classThis!=this){
+                this->classThis=this;
+                this->object=object;
+                this->tile=0u;
+            }
+        }
         edk::vec2ui32 position;
         edk::physics2D::PhysicObject2D* object;
         edk::uint32 tile;
+    private:
+        edk::classID classThis;
     };
     //Physics Objects Tree
     class TreePhysicsTiles:public edk::vector::BinaryTree<edk::tiles::TileMap2D::PhysicsTiles*>{
     public:
-        ~TreePhysicsTiles(){this->deleteAll();edkEnd();this->tileSet=NULL;edkEnd();}
+        TreePhysicsTiles(){this->classThis=NULL;this->Constructor(false);edkEnd();}
+        ~TreePhysicsTiles(){
+            if(this->classThis==this){
+                this->classThis=NULL;edkEnd();
+                //can destruct the class
+                this->deleteAll();edkEnd();
+                this->tileSet=NULL;edkEnd();
+            }
+        }
+
+        void Constructor(bool runFather=true){
+            if(runFather){
+                edk::vector::BinaryTree<edk::tiles::TileMap2D::PhysicsTiles*>::Constructor();edkEnd();
+            }
+            if(this->classThis!=this){
+                this->classThis=this;
+
+                this->treePosition.Constructor();edkEnd();
+            }
+        }
+
         //compare if the value is bigger
         virtual bool firstBiggerSecond(edk::tiles::TileMap2D::PhysicsTiles* first,edk::tiles::TileMap2D::PhysicsTiles* second){
             if(first->object>second->object){
@@ -567,6 +627,8 @@ private:
                 return false;
             }
         }treePosition;
+    private:
+        edk::classID classThis;
     }treePhysics;
 
 
@@ -575,18 +637,49 @@ private:
     //StaticTileObjects
     class StaticTileObjects{
     public:
-        StaticTileObjects(edk::physics2D::PhysicObject2D* object){this->object=object;edkEnd();this->tile=0u;edkEnd();}
+        StaticTileObjects(edk::physics2D::PhysicObject2D* object){this->classThis=NULL;this->Constructor(object,false);edkEnd();}
         ~StaticTileObjects(){
-            this->positions.clean();edkEnd();
+            if(this->classThis==this){
+                this->classThis=NULL;edkEnd();
+                //can destruct the class
+                this->positions.clean();edkEnd();
+            }
         }
+
+        void Constructor(edk::physics2D::PhysicObject2D* object,bool runFather=true){
+            if(runFather){edkEnd();}
+            if(this->classThis!=this){
+                this->classThis=this;
+
+                this->positions.Constructor();edkEnd();
+
+                this->object=object;edkEnd();
+                this->tile=0u;edkEnd();
+            }
+        }
+
         edk::physics2D::PhysicObject2D* object;
         edk::uint32 tile;
 
         //tree with the positions
         class TreePositions:public edk::vector::BinaryTree<edk::vec2ui32>{
         public:
-            TreePositions(){}
-            ~TreePositions(){}
+            TreePositions(){this->classThis=NULL;this->Constructor(false);edkEnd();}
+            ~TreePositions(){
+                if(this->classThis==this){
+                    this->classThis=NULL;edkEnd();
+                    //can destruct the class
+                }
+            }
+
+            void Constructor(bool runFather=true){
+                if(runFather){
+                    edk::vector::BinaryTree<edk::vec2ui32>::Constructor();edkEnd();
+                }
+                if(this->classThis!=this){
+                    this->classThis=this;
+                }
+            }
 
             //compare if the value is bigger
             bool firstBiggerSecond(edk::vec2ui32 first,edk::vec2ui32 second){
@@ -613,12 +706,36 @@ private:
                 }
                 return false;
             }
+        private:
+            edk::classID classThis;
         }positions;
+    private:
+        edk::classID classThis;
     };
     //Physics Objects Tree
     class TreeStaticTileObjects:public edk::vector::BinaryTree<edk::tiles::TileMap2D::StaticTileObjects*>{
     public:
-        ~TreeStaticTileObjects(){this->deleteAll();edkEnd();this->tileSet=NULL;edkEnd();}
+        TreeStaticTileObjects(){this->classThis=NULL;this->Constructor(false);edkEnd();}
+        ~TreeStaticTileObjects(){
+            if(this->classThis==this){
+                this->classThis=NULL;edkEnd();
+                //can destruct the class
+                this->deleteAll();edkEnd();
+                this->tileSet=NULL;edkEnd();
+            }
+        }
+
+        void Constructor(bool runFather=true){
+            if(runFather){
+                edk::vector::BinaryTree<edk::tiles::TileMap2D::StaticTileObjects*>::Constructor();edkEnd();
+            }
+            if(this->classThis!=this){
+                this->classThis=this;
+
+                this->treePosition.Constructor();edkEnd();
+            }
+        }
+
         //compare if the value is bigger
         virtual bool firstBiggerSecond(edk::tiles::TileMap2D::StaticTileObjects* first,edk::tiles::TileMap2D::StaticTileObjects* second){
             if(first->object>second->object){
@@ -888,7 +1005,11 @@ private:
                 return false;
             }
         }treePosition;
+    private:
+        edk::classID classThis;
     }treeStaticPhysics;
+private:
+    edk::classID classThis;
 };
 }//end namespace tiles
 }//end namespace edk

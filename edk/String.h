@@ -73,9 +73,6 @@ int edkKbhit(void);
 namespace edk{
 class String {
 public:
-    //TTY to construct and destruct
-    static edk::TTY tty;
-
     static edk::float32 strToFloat32(const edk::char8 *str);
 
     static edk::float32 strToFloat32(edk::char8 *str);

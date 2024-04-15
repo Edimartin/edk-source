@@ -45,6 +45,9 @@ public:
     Line2D();
     Line2D(edk::vec2f32 start,edk::vec2f32 end);
     virtual ~Line2D();
+
+    void Constructor(bool runFather=true);
+    void Constructor(edk::vec2f32 start,edk::vec2f32 end,bool runFather=true);
     //line Vectex's
     edk::shape::Vertex2D start,end;
 
@@ -77,6 +80,7 @@ public:
     }
 protected:
 private:
+    edk::classID classThis;
 };
 }//end namespace shape
 }//end namespace edk

@@ -28,16 +28,29 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #pragma message "            Inside EncoderImage.cpp"
 #endif
 
-edk::codecs::EncoderImage::EncoderImage()
-//: edk::codecs::CodecImage()
-{
-    //printf("\nEncoderImage Construtor");edkEnd();
+edk::codecs::EncoderImage::EncoderImage(){
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);edkEnd();
 }
 
-edk::codecs::EncoderImage::~EncoderImage()
-{
-    //printf("\nEncoderImage Destrutor");edkEnd();
-    this->deleteEncoded();edkEnd();
+edk::codecs::EncoderImage::~EncoderImage(){
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
+        //printf("\nEncoderImage Destrutor");edkEnd();
+        this->deleteEncoded();edkEnd();
+    }
+}
+
+void edk::codecs::EncoderImage::Constructor(bool runFather){
+    if(runFather){
+        edk::codecs::CodecImage::Constructor();edkEnd();
+    }
+    if(this->classThis!=this){
+        this->classThis=this;
+
+        this->file.Constructor();edkEnd();
+    }
 }
 
 //process the encoder

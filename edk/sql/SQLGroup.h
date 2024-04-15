@@ -46,17 +46,47 @@ namespace sql{
 class SQLNode{
 public:
     SQLNode(){
-        this->name.cleanName();edkEnd();
-        this->value.cleanName();edkEnd();
+        this->classThis=NULL;edkEnd();
+        this->Constructor(false);edkEnd();
     }
     SQLNode(edk::char8* name,edk::char8* value){
-        this->name.setName(name);edkEnd();
-        this->value.setName(value);edkEnd();
+        this->classThis=NULL;edkEnd();
+        this->Constructor(name,value,false);edkEnd();
     }
     virtual ~SQLNode(){
-        this->name.cleanName();edkEnd();
-        this->value.cleanName();edkEnd();
+        if(this->classThis==this){
+            this->classThis=NULL;edkEnd();
+            //can destruct the class
+            this->name.cleanName();edkEnd();
+            this->value.cleanName();edkEnd();
+        }
     }
+
+    void Constructor(bool runFather=true){
+        if(runFather){edkEnd();}
+        if(this->classThis!=this){
+            this->classThis=this;
+
+            this->name.Constructor();edkEnd();
+            this->value.Constructor();edkEnd();
+
+            this->name.cleanName();edkEnd();
+            this->value.cleanName();edkEnd();
+        }
+    }
+    void Constructor(edk::char8* name,edk::char8* value,bool runFather=true){
+        if(runFather){edkEnd();}
+        if(this->classThis!=this){
+            this->classThis=this;
+
+            this->name.Constructor();edkEnd();
+            this->value.Constructor();edkEnd();
+
+            this->name.setName(name);edkEnd();
+            this->value.setName(value);edkEnd();
+        }
+    }
+
     //getters
     edk::char8* getName(){return this->name.getName();edkEnd();}
     edk::char8* getValue(){return this->value.getName();edkEnd();}
@@ -75,20 +105,38 @@ public:
 private:
     edk::Name name;
     edk::Name value;
+private:
+    edk::classID classThis;
 };
 class SQLNodes{
 public:
-    SQLNodes():nodes(5){}
+    SQLNodes():nodes(5u){this->classThis=NULL;edkEnd();
+                         this->Constructor(false);edkEnd();}
     ~SQLNodes(){
-        edk::uint32 size = this->nodes.size();edkEnd();
-        edk::sql::SQLNode* temp;edkEnd();
-        for(edk::uint32 i=0u;i<size;i++){
-            temp = this->nodes.get(i);edkEnd();
-            if(temp){
-                delete temp;edkEnd();
+        if(this->classThis==this){
+            this->classThis=NULL;edkEnd();
+            //can destruct the class
+            edk::uint32 size = this->nodes.size();edkEnd();
+            edk::sql::SQLNode* temp;edkEnd();
+            for(edk::uint32 i=0u;i<size;i++){
+                temp = this->nodes.get(i);edkEnd();
+                if(temp){
+                    delete temp;edkEnd();
+                }
             }
+            this->nodes.clean();edkEnd();
         }
-        this->nodes.clean();edkEnd();
+    }
+
+    void Constructor(bool runFather=true){
+        if(runFather){
+            this->nodes.Constructor(5u);edkEnd();
+        }
+        if(this->classThis!=this){
+            this->classThis=this;
+
+            this->nodes.Constructor();edkEnd();
+        }
     }
     //add a node
     bool addNode(edk::char8* name,edk::char8* value){
@@ -134,13 +182,30 @@ public:
 
 private:
     edk::vector::Stack<SQLNode*> nodes;
+private:
+    edk::classID classThis;
 };
 class SQLGroup{
 public:
-    SQLGroup(){}
+    SQLGroup(){this->classThis=NULL;edkEnd();
+               this->Constructor(false);edkEnd();}
     ~SQLGroup(){
-        this->deleteAllGroups();edkEnd();
+        if(this->classThis==this){
+            this->classThis=NULL;edkEnd();
+            //can destruct the class
+            this->deleteAllGroups();edkEnd();
+        }
     }
+
+    void Constructor(bool runFather=true){
+        if(runFather){edkEnd();}
+        if(this->classThis!=this){
+            this->classThis=this;
+
+            this->groups.Constructor();edkEnd();
+        }
+    }
+
     void deleteAllGroups(){
         edk::uint32 size = this->groups.size();edkEnd();
         SQLNodes* temp = NULL;edkEnd();
@@ -207,6 +272,8 @@ public:
     }
 private:
     edk::vector::Stack<SQLNodes*> groups;
+private:
+    edk::classID classThis;
 };
 }
 }

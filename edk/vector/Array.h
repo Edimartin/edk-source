@@ -47,41 +47,62 @@ template <class typeTemplate>
 class Array{
 public:
     Array(){
-        this->isClass = edk::ID<typeTemplate>::isClass();edkEnd();
-        this->isOne=false;edkEnd();
-        this->vector=NULL;edkEnd();
-        this->vectorSize=0u;edkEnd();
-        this->canDeleteVector=true;edkEnd();
-
-        this->vectorPointer = &this->vector;
-        this->vectorSizePointer = &this->vectorSize;
-        this->isOnePointer = &this->isOne;
-
-        this->deleteArray();edkEnd();
+        this->classThis=NULL;edkEnd();
+        this->Constructor(false);edkEnd();
     }
     Array(edk::uint32 size){
-        this->isClass = edk::ID<typeTemplate>::isClass();edkEnd();
-        this->isOne=false;edkEnd();
-        this->vector=NULL;edkEnd();
-        this->vectorSize=0u;edkEnd();
-        this->canDeleteVector=true;edkEnd();
-
-        this->vectorPointer = &this->vector;
-        this->vectorSizePointer = &this->vectorSize;
-        this->isOnePointer = &this->isOne;
-
-        this->deleteArray();edkEnd();
-
-        //create the array
-        this->createArray(size);edkEnd();
+        this->classThis=NULL;edkEnd();
+        this->Constructor(size,false);edkEnd();
     }
     virtual ~Array(){
-        //delete the array
-        if(this->canDeleteVector){
-            //
+        if(this->classThis==this){
+            this->classThis=NULL;edkEnd();
+            //can destruct the class
+            //delete the array
+            if(this->canDeleteVector){
+                //
+                this->deleteArray();edkEnd();
+            }
+            this->canDeleteVector=true;edkEnd();
+        }
+    }
+
+    void Constructor(bool runFather=true){
+        if(runFather){edkEnd();}
+        if(this->classThis!=this){
+            this->classThis=this;
+            this->isClass = edk::ID<typeTemplate>::isClass();edkEnd();
+            this->isOne=false;edkEnd();
+            this->vector=NULL;edkEnd();
+            this->vectorSize=0u;edkEnd();
+            this->canDeleteVector=true;edkEnd();
+
+            this->vectorPointer = &this->vector;
+            this->vectorSizePointer = &this->vectorSize;
+            this->isOnePointer = &this->isOne;
+
             this->deleteArray();edkEnd();
         }
-        this->canDeleteVector=true;edkEnd();
+    }
+    void Constructor(edk::uint32 size,bool runFather=true){
+        if(runFather){edkEnd();}
+        if(this->classThis!=this){
+            this->classThis=this;
+            this->isClass = edk::ID<typeTemplate>::isClass();edkEnd();
+            this->isOne=false;edkEnd();
+            this->vector=NULL;edkEnd();
+            this->vectorSize=0u;edkEnd();
+            this->canDeleteVector=true;edkEnd();
+
+            this->vectorPointer = &this->vector;
+            this->vectorSizePointer = &this->vectorSize;
+            this->isOnePointer = &this->isOne;
+
+            this->deleteArray();edkEnd();
+
+            //create the array
+            this->createArray(size);edkEnd();
+        }
     }
 
     //create the array
@@ -296,6 +317,8 @@ private:
         vec.cantDeleteVector();edkEnd();
         return vec;edkEnd();
     }
+private:
+    edk::classID classThis;
 };
 }//end namespace vector
 }//end namespace edk

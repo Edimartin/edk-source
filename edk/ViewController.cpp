@@ -29,24 +29,52 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endif
 
 edk::ViewController::ViewController(){
-    //
-    this->frame = edk::rectf32(0.f,0.f,0.f,0.f);edkEnd();
-    this->positionInWindow=this->frame.origin;edkEnd();
-    this->setRectInside = false;edkEnd();
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);edkEnd();
 }
 
 edk::ViewController::ViewController(rectf32 frame){
-    //
-    this->frame=frame;edkEnd();
-    this->positionInWindow=this->frame.origin;edkEnd();
-    this->setRectInside = false;edkEnd();
+    this->classThis=NULL;edkEnd();
+    this->Constructor(frame,false);edkEnd();
 }
 
 edk::ViewController::~ViewController(){
-    //
-    this->removeAllSubview();
-    this->frame = edk::rectf32(0.f,0.f,0.f,0.f);edkEnd();
-    this->positionInWindow=this->frame.origin;edkEnd();
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
+        this->removeAllSubview();
+        this->frame = edk::rectf32(0.f,0.f,0.f,0.f);edkEnd();
+        this->positionInWindow=this->frame.origin;edkEnd();
+    }
+}
+
+void edk::ViewController::Constructor(bool runFather){
+    if(runFather){
+        edk::View::Constructor();edkEnd();
+    }
+    if(this->classThis!=this){
+        this->classThis=this;
+
+        this->nexts.Constructor();edkEnd();
+
+        this->frame = edk::rectf32(0.f,0.f,0.f,0.f);edkEnd();
+        this->positionInWindow=this->frame.origin;edkEnd();
+        this->setRectInside = false;edkEnd();
+    }
+}
+void edk::ViewController::Constructor(edk::rectf32 frame,bool runFather){
+    if(runFather){
+        edk::View::Constructor();edkEnd();
+    }
+    if(this->classThis!=this){
+        this->classThis=this;
+
+        this->nexts.Constructor();edkEnd();
+
+        this->frame=frame;edkEnd();
+        this->positionInWindow=this->frame.origin;edkEnd();
+        this->setRectInside = false;edkEnd();
+    }
 }
 
 //draw the view inside in a separated function to viewTexture draw other views inside

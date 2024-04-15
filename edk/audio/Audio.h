@@ -50,90 +50,93 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 namespace edk{
 //Audio Status Type
-typedef edk::uint32    AudioStatus;
+typedef edk::uint32 AudioStatus;
 //Class
 class Audio{
-    public:
-        Audio();
-        virtual ~Audio();
+public:
+    Audio();
+    virtual ~Audio();
 
-        //OPEN
-        virtual bool open(const edk::char8* name);
-        virtual bool open(edk::char8* name);
-        virtual bool openFromMemory(const edk::char8* name,edk::classID vector,edk::uint32 size);
-        virtual bool openFromMemory(edk::char8* name,edk::classID vector,edk::uint32 size);
-        virtual bool openFromPack(edk::pack::FilePackage* pack,const edk::char8* name);
-        virtual bool openFromPack(edk::pack::FilePackage* pack,edk::char8* name);
-        void close();
+    void Constructor(bool runFather=true);
 
-        //SETERS
-        //Set the second to start read the audio
-        bool setSecond(edk::float32 second);
-        //Set if audio reproduce looping
-        void setLoop(bool loop);
-        void loopOn();
-        void loopOff();
-        //set the audio volume
-        void setVolume(edk::float32 volume);
-        //Set the audio reproduction speed
-        void setSpeed(edk::float32 speed);
+    //OPEN
+    virtual bool open(const edk::char8* name);
+    virtual bool open(edk::char8* name);
+    virtual bool openFromMemory(const edk::char8* name,edk::classID vector,edk::uint32 size);
+    virtual bool openFromMemory(edk::char8* name,edk::classID vector,edk::uint32 size);
+    virtual bool openFromPack(edk::pack::FilePackage* pack,const edk::char8* name);
+    virtual bool openFromPack(edk::pack::FilePackage* pack,edk::char8* name);
+    void close();
 
-        //GETERS
-        //return the status of the audio
-        edk::AudioStatus getStatus();
-        //return the second of the audio process
-        edk::float32 getSecond();
-        //return if are loping the audio
-        bool getLoop();
-        //return the audio volume
-        edk::float32 getVolume();
-        //return the speed of audio processing
-        edk::float32 getSpeed();
-        //get the audioChannels
-        edk::uint32 getChannels();
-        //retoena a duracao do audio
-        edk::float32 getDuration();
-        //return true if is playing
-        bool isPlaying();
-        //return true if is paused
-        bool isPaused();
-        //return true if is stopped
-        bool isStopped();
+    //SETERS
+    //Set the second to start read the audio
+    bool setSecond(edk::float32 second);
+    //Set if audio reproduce looping
+    void setLoop(bool loop);
+    void loopOn();
+    void loopOff();
+    //set the audio volume
+    void setVolume(edk::float32 volume);
+    //Set the audio reproduction speed
+    void setSpeed(edk::float32 speed);
 
-        //test if have audio
-        bool haveAudio();
+    //GETERS
+    //return the status of the audio
+    edk::AudioStatus getStatus();
+    //return the second of the audio process
+    edk::float32 getSecond();
+    //return if are loping the audio
+    bool getLoop();
+    //return the audio volume
+    edk::float32 getVolume();
+    //return the speed of audio processing
+    edk::float32 getSpeed();
+    //get the audioChannels
+    edk::uint32 getChannels();
+    //retoena a duracao do audio
+    edk::float32 getDuration();
+    //return true if is playing
+    bool isPlaying();
+    //return true if is paused
+    bool isPaused();
+    //return true if is stopped
+    bool isStopped();
 
-        //INTERACT
-        //Play
-        bool play();
-        bool playInSecond(edk::float32 second);
-        //Stop
-        bool stop();
-        //Pause
-        bool pause();
-        bool pauseOn();
-        bool pauseOff();
+    //test if have audio
+    bool haveAudio();
 
-        //INCREMENT DECREMENT
-        //increment the volume
-        void volumeUp(edk::float32 volume);
-        //decrement the volume
-        void volumeDown(edk::float32 volume);
+    //INTERACT
+    //Play
+    bool play();
+    bool playInSecond(edk::float32 second);
+    //Stop
+    bool stop();
+    //Pause
+    bool pause();
+    bool pauseOn();
+    bool pauseOff();
 
-        //increment the speed
-        void speedUp(edk::float32 speed);
-        //decrement the speed
-        void speedDown(edk::float32 speed);
-    protected:
-        //Possui o buffer de audio da SFML
-        //sf::SoundBuffer *buffer;
-        edk::AudioBuffer* buffer;
-        //E possui o manipulador de audio
-        sf::Sound *sound;
-        bool looping;
-        //audio list to load the buffer
-        edk::AudioList list;
-    private:
+    //INCREMENT DECREMENT
+    //increment the volume
+    void volumeUp(edk::float32 volume);
+    //decrement the volume
+    void volumeDown(edk::float32 volume);
+
+    //increment the speed
+    void speedUp(edk::float32 speed);
+    //decrement the speed
+    void speedDown(edk::float32 speed);
+protected:
+    //Possui o buffer de audio da SFML
+    //sf::SoundBuffer *buffer;
+    edk::AudioBuffer* buffer;
+    //E possui o manipulador de audio
+    sf::Sound *sound;
+    bool looping;
+    //audio list to load the buffer
+    edk::AudioList list;
+private:
+    edk::classID classThis;
 };
 }//end namespace edk
 

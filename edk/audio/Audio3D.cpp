@@ -28,14 +28,25 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #pragma message "            Inside Audio3D.cpp"
 #endif
 
-edk::Audio3D::Audio3D()
-{
-    //ctor
+edk::Audio3D::Audio3D(){
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);edkEnd();
 }
 
-edk::Audio3D::~Audio3D()
-{
-    //dtor
+edk::Audio3D::~Audio3D(){
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
+    }
+}
+
+void edk::Audio3D::Constructor(bool runFather){
+    if(runFather){
+        edk::Audio::Constructor();edkEnd();
+    }
+    if(this->classThis!=this){
+        this->classThis=this;
+    }
 }
 
 //OPEN

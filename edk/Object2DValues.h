@@ -46,6 +46,9 @@ class Object2DValues{
 public:
     Object2DValues();
     ~Object2DValues();
+
+    void Constructor(bool runFather=true);
+
     edk::vec2f32 position;
     edk::float32 angle;
     edk::size2f32 size;
@@ -107,6 +110,8 @@ protected:
     edk::size2f32 connectedSize;
 
     void connectedLoadIdentityValues();
+private:
+    edk::classID classThis;
 };
 }
 

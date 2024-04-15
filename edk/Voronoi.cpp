@@ -25,11 +25,22 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 edk::Voronoi::Voronoi(){
-    //
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);edkEnd();
 }
 edk::Voronoi::~Voronoi(){
-    //
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
+    }
 }
+
+void edk::Voronoi::Constructor(bool /*runFather*/){
+    if(this->classThis!=this){
+        this->classThis=this;
+    }
+}
+
 //functions used the generate the image
 bool edk::Voronoi::runGenerateImageRGB(edk::vector::Array<edk::vec2f32ColorRGB>* points,
                                        edk::uint8* image,
@@ -49,8 +60,8 @@ bool edk::Voronoi::runGenerateImageRGB(edk::vector::Array<edk::vec2f32ColorRGB>*
                     point = points->get(0u);edkEnd();
                     //get the first distance
                     distance = edk::Math::pythagoras(x - (point.position.x*width),
-                                                       y - (point.position.y*height)
-                                                       );edkEnd();
+                                                     y - (point.position.y*height)
+                                                     );edkEnd();
                     image[0u] = point.color.r;edkEnd();
                     image[1u] = point.color.g;edkEnd();
                     image[2u] = point.color.b;edkEnd();
@@ -58,8 +69,8 @@ bool edk::Voronoi::runGenerateImageRGB(edk::vector::Array<edk::vec2f32ColorRGB>*
                         point = points->get(i);edkEnd();
                         //calculate the new distance
                         distanceN = edk::Math::pythagoras(x - (point.position.x*width),
-                                                            y - (point.position.y*height)
-                                                            );edkEnd();
+                                                          y - (point.position.y*height)
+                                                          );edkEnd();
                         //test the distances
                         if(distanceN < distance){
                             distance = distanceN;edkEnd();
@@ -96,8 +107,8 @@ bool edk::Voronoi::runGenerateImageRGB(edk::vector::Array<edk::vec2f32ColorGray>
                     point = points->get(0u);edkEnd();
                     //get the first distance
                     distance = edk::Math::pythagoras(x - (point.position.x*width),
-                                                       y - (point.position.y*height)
-                                                       );edkEnd();
+                                                     y - (point.position.y*height)
+                                                     );edkEnd();
                     image[0u] = point.grayscale;edkEnd();
                     image[1u] = point.grayscale;edkEnd();
                     image[2u] = point.grayscale;edkEnd();
@@ -105,8 +116,8 @@ bool edk::Voronoi::runGenerateImageRGB(edk::vector::Array<edk::vec2f32ColorGray>
                         point = points->get(i);edkEnd();
                         //calculate the new distance
                         distanceN = edk::Math::pythagoras(x - (point.position.x*width),
-                                                            y - (point.position.y*height)
-                                                            );edkEnd();
+                                                          y - (point.position.y*height)
+                                                          );edkEnd();
                         //test the distances
                         if(distanceN < distance){
                             distance = distanceN;edkEnd();
@@ -143,15 +154,15 @@ bool edk::Voronoi::runGenerateImageGray(edk::vector::Array<edk::vec2f32ColorRGB>
                     point = points->get(0u);edkEnd();
                     //get the first distance
                     distance = edk::Math::pythagoras(x - (point.position.x*width),
-                                                       y - (point.position.y*height)
-                                                       );edkEnd();
+                                                     y - (point.position.y*height)
+                                                     );edkEnd();
                     *image = point.color.r;edkEnd();
                     for(edk::uint32 i=1u;i<size;i++){
                         point = points->get(i);edkEnd();
                         //calculate the new distance
                         distanceN = edk::Math::pythagoras(x - (point.position.x*width),
-                                                            y - (point.position.y*height)
-                                                            );edkEnd();
+                                                          y - (point.position.y*height)
+                                                          );edkEnd();
                         //test the distances
                         if(distanceN < distance){
                             distance = distanceN;edkEnd();
@@ -186,15 +197,15 @@ bool edk::Voronoi::runGenerateImageGray(edk::vector::Array<edk::vec2f32ColorGray
                     point = points->get(0u);edkEnd();
                     //get the first distance
                     distance = edk::Math::pythagoras(x - (point.position.x*width),
-                                                       y - (point.position.y*height)
-                                                       );edkEnd();
+                                                     y - (point.position.y*height)
+                                                     );edkEnd();
                     *image = point.grayscale;edkEnd();
                     for(edk::uint32 i=1u;i<size;i++){
                         point = points->get(i);edkEnd();
                         //calculate the new distance
                         distanceN = edk::Math::pythagoras(x - (point.position.x*width),
-                                                            y - (point.position.y*height)
-                                                            );edkEnd();
+                                                          y - (point.position.y*height)
+                                                          );edkEnd();
                         //test the distances
                         if(distanceN < distance){
                             distance = distanceN;edkEnd();
@@ -257,12 +268,12 @@ edk::classID edk::Voronoi::runThreadGenerateImageGrayFromRGB(edk::classID image)
         //run the function
         if(points){
             bool ret = edk::Voronoi::runGenerateImageGray(&points->points,
-                                                         points->image,
-                                                         points->width,
-                                                         points->height,
-                                                         points->start,
-                                                         points->end
-                                                         );edkEnd();
+                                                          points->image,
+                                                          points->width,
+                                                          points->height,
+                                                          points->start,
+                                                          points->end
+                                                          );edkEnd();
             delete points;edkEnd();
             return (edk::classID)ret;edkEnd();
         }
@@ -276,12 +287,12 @@ edk::classID edk::Voronoi::runThreadGenerateImageGrayFromGray(edk::classID image
         //run the function
         if(points){
             bool ret = edk::Voronoi::runGenerateImageGray(&points->points,
-                                                         points->image,
-                                                         points->width,
-                                                         points->height,
-                                                         points->start,
-                                                         points->end
-                                                         );edkEnd();
+                                                          points->image,
+                                                          points->width,
+                                                          points->height,
+                                                          points->start,
+                                                          points->end
+                                                          );edkEnd();
             delete points;edkEnd();
             return (edk::classID)ret;edkEnd();
         }
@@ -832,12 +843,12 @@ bool edk::Voronoi::multiGenerateImageGray(edk::uint32 cores,edk::vector::Array<e
                             }
                             else{
                                 edk::Voronoi::runGenerateImageGray(points,
-                                                                  image,
-                                                                  width,
-                                                                  height,
-                                                                  start,
-                                                                  end
-                                                                  );edkEnd();
+                                                                   image,
+                                                                   width,
+                                                                   height,
+                                                                   start,
+                                                                   end
+                                                                   );edkEnd();
                                 delete list;edkEnd();
                                 delete threadPointer;edkEnd();
                                 threads.set(i,NULL);edkEnd();
@@ -860,12 +871,12 @@ bool edk::Voronoi::multiGenerateImageGray(edk::uint32 cores,edk::vector::Array<e
             }
             if(start<height){
                 edk::Voronoi::runGenerateImageGray(points,
-                                                  image,
-                                                  width,
-                                                  height,
-                                                  start,
-                                                  height
-                                                  );edkEnd();
+                                                   image,
+                                                   width,
+                                                   height,
+                                                   start,
+                                                   height
+                                                   );edkEnd();
             }
             for(edk::uint32 i=0u;i<cores;i++){
                 //test if have the thread

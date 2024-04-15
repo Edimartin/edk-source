@@ -28,23 +28,47 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #pragma message "            Inside Hermite2D.cpp"
 #endif
 
-edk::shape::Hermite2D::Hermite2D()
-{
-    //ctor
-    this->attenuation=1;edkEnd();
+edk::shape::Hermite2D::Hermite2D(){
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);edkEnd();
 }
 edk::shape::Hermite2D::Hermite2D(edk::vec2f32 p1,edk::vec2f32 p2,edk::vec2f32 p3,edk::vec2f32 p4){
-    //
-    this->point1=p1;edkEnd();
-    this->point2=p2;edkEnd();
-    this->point3=p3;edkEnd();
-    this->point4=p4;edkEnd();
-    this->attenuation=1;edkEnd();
+    this->classThis=NULL;edkEnd();
+    this->Constructor(p1,p2,p3,p4,false);edkEnd();
 }
 
-edk::shape::Hermite2D::~Hermite2D()
-{
-    //dtor
+edk::shape::Hermite2D::~Hermite2D(){
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
+    }
+}
+
+void edk::shape::Hermite2D::Constructor(bool runFather){
+    if(runFather){
+        edk::shape::Curve2D::Constructor();edkEnd();
+    }
+    if(this->classThis!=this){
+        this->classThis=this;
+        this->point1=0.f;edkEnd();
+        this->point2=0.f;edkEnd();
+        this->point3=0.f;edkEnd();
+        this->point4=0.f;edkEnd();
+        this->attenuation=1;edkEnd();
+    }
+}
+void edk::shape::Hermite2D::Constructor(edk::vec2f32 p1,edk::vec2f32 p2,edk::vec2f32 p3,edk::vec2f32 p4,bool runFather){
+    if(runFather){
+        edk::shape::Curve2D::Constructor();edkEnd();
+    }
+    if(this->classThis!=this){
+        this->classThis=this;
+        this->point1=p1;edkEnd();
+        this->point2=p2;edkEnd();
+        this->point3=p3;edkEnd();
+        this->point4=p4;edkEnd();
+        this->attenuation=1;edkEnd();
+    }
 }
 
 //Implement the Bezier Curve
@@ -63,16 +87,16 @@ edk::vec2f32 edk::shape::Hermite2D::getPoint(edk::vec2f32 p1,edk::vec2f32 p2,edk
 
     //get X
     ret.x = ((( 2*percent3 -3*percent2 +0*percent +1)* p1.x +
-            (  -2*percent3 +3*percent2 +0*percent)   * p4.x +
-            (   1*percent3 -2*percent2 +1*percent)   * attenuation*p3.x +
-            (   1*percent3 -1*percent2 +0*percent)   * attenuation*p2.x
-            ));edkEnd();
+              (  -2*percent3 +3*percent2 +0*percent)   * p4.x +
+              (   1*percent3 -2*percent2 +1*percent)   * attenuation*p3.x +
+              (   1*percent3 -1*percent2 +0*percent)   * attenuation*p2.x
+              ));edkEnd();
     //get Y
     ret.y = ((( 2*percent3 -3*percent2 +0*percent +1)* p1.y +
-            (  -2*percent3 +3*percent2 +0*percent)   * p4.y +
-            (   1*percent3 -2*percent2 +1*percent)   * attenuation*p3.y +
-            (   1*percent3 -1*percent2 +0*percent)   * attenuation*p2.y
-            ));edkEnd();
+              (  -2*percent3 +3*percent2 +0*percent)   * p4.y +
+              (   1*percent3 -2*percent2 +1*percent)   * attenuation*p3.y +
+              (   1*percent3 -1*percent2 +0*percent)   * attenuation*p2.y
+              ));edkEnd();
 
     //return the ret
     return ret;

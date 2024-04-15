@@ -40,38 +40,73 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 namespace edk{
 namespace animation{
-class Frame3D:public Frame2D{
-    public:
-        Frame3D()
-        :Frame2D(){
+class Frame3D:public edk::animation::Frame2D{
+public:
+    Frame3D()
+        :edk::animation::Frame2D(){
+        this->classThis=NULL;edkEnd();
+        this->Constructor(false);edkEnd();
+    }
+    Frame3D(edk::float32 second,edk::float32 x,edk::float32 y,edk::float32 z)
+        :edk::animation::Frame2D(second,x,y),z(z){
+        this->classThis=NULL;edkEnd();
+        this->Constructor(second,x,y,z,false);edkEnd();
+    }
+    Frame3D(edk::float32 second,edk::vec3f32 value)
+        :edk::animation::Frame2D(second,value.x,value.y),z(value.z){
+        this->classThis=NULL;edkEnd();
+        this->Constructor(second,value,false);edkEnd();
+    }
+    virtual ~Frame3D(){
+        if(this->classThis==this){
+            this->classThis=NULL;edkEnd();
+            //can destruct the class
+        }
+    }
+
+
+    void Constructor(bool runFather=true){
+        if(runFather){
+            edk::animation::Frame2D::Constructor();
+        }
+        if(this->classThis!=this){
+            this->classThis=this;
             //
             this->z=0.0f;edkEnd();
         }
-        Frame3D(edk::float32 second,edk::float32 x,edk::float32 y,edk::float32 z)
-        :Frame2D(second,x,y),z(z){
-            //
+    }
+    void Constructor(edk::float32 second,edk::float32 x,edk::float32 y,edk::float32 z,bool runFather=true){
+        if(runFather){
+            edk::animation::Frame2D::Constructor(second,x,y);
         }
-        Frame3D(edk::float32 second,edk::vec3f32 value)
-        :Frame2D(second,value.x,value.y),z(value.z){
-            //
+        if(this->classThis!=this){
+            this->classThis=this;
+            this->z=z;
         }
-        virtual ~Frame3D(){
-            //
+    }
+    void Constructor(edk::float32 second,edk::vec3f32 value,bool runFather=true){
+        if(runFather){
+            edk::animation::Frame2D::Constructor(second,value.x,value.y);
         }
+        if(this->classThis!=this){
+            this->classThis=this;
+            this->z=value.z;
+        }
+    }
 
-        //z 2D of the frame
-        edk::float32 z;
+    //z 2D of the frame
+    edk::float32 z;
 
-        virtual bool cloneFrom(edk::animation::Frame3D* frame){
-            if(frame){
-                this->second = frame->second;edkEnd();
-                this->x = frame->x;edkEnd();
-                this->y = frame->y;edkEnd();
-                this->z = frame->z;edkEnd();
-                return true;
-            }
-            return false;
+    virtual bool cloneFrom(edk::animation::Frame3D* frame){
+        if(frame){
+            this->second = frame->second;edkEnd();
+            this->x = frame->x;edkEnd();
+            this->y = frame->y;edkEnd();
+            this->z = frame->z;edkEnd();
+            return true;
         }
+        return false;
+    }
 
     //write to XML
     bool writeToXML(edk::XML* xml,edk::uint32 frameID){
@@ -127,8 +162,8 @@ class Frame3D:public Frame2D{
         }
         return false;
     }
-    protected:
-    private:
+protected:
+private:
     //Operator =
     edk::animation::Frame3D operator=(edk::animation::Frame3D frame){
         //
@@ -139,6 +174,8 @@ class Frame3D:public Frame2D{
         frame.cantDestruct();edkEnd();
         return *this;edkEnd();
     }
+private:
+    edk::classID classThis;
 };
 }//end namespace animation
 }//end namespace edk

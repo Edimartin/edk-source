@@ -47,16 +47,29 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endif
 
 edk::codecs::EncoderH264::EncoderH264(){
-    //
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);edkEnd();
+}
+edk::codecs::EncoderH264::~EncoderH264(){
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
+    }
+}
+
+void edk::codecs::EncoderH264::Constructor(bool runFather){
+    if(runFather){
+        edk::codecs::EncoderVideo::Constructor();edkEnd();
+    }
+    if(this->classThis!=this){
+        this->classThis=this;
 #ifdef EDK_USE_OPENH264
-    this->encoder=NULL;edkEnd();
-    this->version = WelsGetCodecVersion();edkEnd();
+        this->encoder=NULL;edkEnd();
+        this->version = WelsGetCodecVersion();edkEnd();
 #else
         edkPrintf("You must define EDK_USE_OPENH264 before use");edkEnd();
 #endif
-}
-edk::codecs::EncoderH264::~EncoderH264(){
-    //
+    }
 }
 
 //start the encoder
@@ -189,7 +202,7 @@ void edk::codecs::EncoderH264::finishEncoder(){
     WelsDestroySVCEncoder(this->encoder);edkEnd();
     this->encoder=NULL;edkEnd();
 #else
-        edkPrintf("You must define EDK_USE_OPENH264 before use");edkEnd();
+    edkPrintf("You must define EDK_USE_OPENH264 before use");edkEnd();
 #endif
 }
 
@@ -201,7 +214,7 @@ bool edk::codecs::EncoderH264::haveInitialized(){
         return true;
     }
 #else
-        edkPrintf("You must define EDK_USE_OPENH264 before use");edkEnd();
+    edkPrintf("You must define EDK_USE_OPENH264 before use");edkEnd();
 #endif
     return false;
 }

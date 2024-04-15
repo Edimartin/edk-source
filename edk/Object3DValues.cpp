@@ -25,13 +25,24 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 edk::Object3DValues::Object3DValues(){
-    //
-    this->type=edk::TypeObject3DValues;
-    this->loadIdentityValues();
-    this->connectedLoadIdentityValues();
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);edkEnd();
 }
 edk::Object3DValues::~Object3DValues(){
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
+    }
+}
+
+void edk::Object3DValues::Constructor(bool /*runFather*/){
     //
+    if(this->classThis!=this){
+        this->classThis=this;
+        this->type=edk::TypeObject3DValues;
+        this->loadIdentityValues();
+        this->connectedLoadIdentityValues();
+    }
 }
 
 void edk::Object3DValues::connectedLoadIdentityValues(){

@@ -41,28 +41,32 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 namespace edk{
 namespace shape{
 class Curve3D{
-    public:
-        Curve3D();
-        Curve3D(edk::vec3f32 p1,edk::vec3f32 p2,edk::vec3f32 p3,edk::vec3f32 p4);
-        virtual ~Curve3D();
+public:
+    Curve3D();
+    Curve3D(edk::vec3f32 p1,edk::vec3f32 p2,edk::vec3f32 p3,edk::vec3f32 p4);
+    virtual ~Curve3D();
 
-        //set one point position
-        bool setPoint(edk::uint8 position,edk::vec3f32 point);
-        void setPoint1(edk::vec3f32 point);
-        void setPoint2(edk::vec3f32 point);
-        void setPoint3(edk::vec3f32 point);
-        void setPoint4(edk::vec3f32 point);
+    void Constructor(bool runFather=true);
+    void Constructor(edk::vec3f32 p1,edk::vec3f32 p2,edk::vec3f32 p3,edk::vec3f32 p4,bool runFather=true);
 
-        //set points
-        void setPoints(edk::vec3f32 p1,edk::vec3f32 p2,edk::vec3f32 p3,edk::vec3f32 p4);
+    //set one point position
+    bool setPoint(edk::uint8 position,edk::vec3f32 point);
+    void setPoint1(edk::vec3f32 point);
+    void setPoint2(edk::vec3f32 point);
+    void setPoint3(edk::vec3f32 point);
+    void setPoint4(edk::vec3f32 point);
 
-        //return the point
-        virtual edk::vec3f32 getPoint(edk::float32 percent);
+    //set points
+    void setPoints(edk::vec3f32 p1,edk::vec3f32 p2,edk::vec3f32 p3,edk::vec3f32 p4);
 
-        //the points of the curve
-        edk::vec3f32 point1,point2,point3,point4;
-    protected:
-    private:
+    //return the point
+    virtual edk::vec3f32 getPoint(edk::float32 percent);
+
+    //the points of the curve
+    edk::vec3f32 point1,point2,point3,point4;
+protected:
+private:
+    edk::classID classThis;
 };
 }//end namespace shape
 }//end namespace edk

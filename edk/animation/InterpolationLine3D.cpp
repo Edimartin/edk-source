@@ -28,19 +28,30 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #pragma message "            Inside InterpolationLine3D.cpp"
 #endif
 
-edk::animation::InterpolationLine3D::InterpolationLine3D()
-:InterpolationLine2D()
-{
-    //ctor
-    this->allocStart();edkEnd();
-    this->allocEnd();edkEnd();
-    this->curveZ=false;edkEnd();
-    this->constantZ=false;edkEnd();
+edk::animation::InterpolationLine3D::InterpolationLine3D(){
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);edkEnd();
 }
 
-edk::animation::InterpolationLine3D::~InterpolationLine3D()
-{
-    //dtor
+edk::animation::InterpolationLine3D::~InterpolationLine3D(){
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
+    }
+}
+
+void edk::animation::InterpolationLine3D::Constructor(bool runFather){
+    if(runFather){
+        edk::animation::InterpolationLine2D::Constructor();
+    }
+    if(this->classThis!=this){
+        this->classThis=this;
+        //ctor
+        this->allocStart();edkEnd();
+        this->allocEnd();edkEnd();
+        this->curveZ=false;edkEnd();
+        this->constantZ=false;edkEnd();
+    }
 }
 
 //set new
@@ -48,25 +59,25 @@ edk::animation::Frame* edk::animation::InterpolationLine3D::useNewFrame(edk::uin
     //
     edk::float32* value = &values;edkEnd();
     switch(count){
-        case 1:
-            //
-            edkEnd();
-            return (edk::animation::Frame*)(new edk::animation::Frame3D(value[0],0.0f,0.0f,0.0f));
-        case 2:
-            //
-            edkEnd();
-            return (edk::animation::Frame*)(new edk::animation::Frame3D(value[0],value[1],0.0f,0.0f));
-        case 3:
-            //
-            edkEnd();
-            return (edk::animation::Frame*)(new edk::animation::Frame3D(value[0],value[1],value[2],0.0f));
-        case 4:
-            //
-            edkEnd();
-            return (edk::animation::Frame*)(new edk::animation::Frame3D(value[0],value[1],value[2],value[3]));
-        default:
-            edkEnd();
-            return (edk::animation::Frame*)(new edk::animation::Frame3D());
+    case 1:
+        //
+        edkEnd();
+        return (edk::animation::Frame*)(new edk::animation::Frame3D(value[0],0.0f,0.0f,0.0f));
+    case 2:
+        //
+        edkEnd();
+        return (edk::animation::Frame*)(new edk::animation::Frame3D(value[0],value[1],0.0f,0.0f));
+    case 3:
+        //
+        edkEnd();
+        return (edk::animation::Frame*)(new edk::animation::Frame3D(value[0],value[1],value[2],0.0f));
+    case 4:
+        //
+        edkEnd();
+        return (edk::animation::Frame*)(new edk::animation::Frame3D(value[0],value[1],value[2],value[3]));
+    default:
+        edkEnd();
+        return (edk::animation::Frame*)(new edk::animation::Frame3D());
     }
     return NULL;
 }
@@ -275,8 +286,8 @@ edk::float32 edk::animation::InterpolationLine3D::getPositionZ(edk::float32 seco
         return bezier.getPoint(percent).y;edkEnd();
     }
     return retStart->z+((retEnd->z-retStart->z) *
-                       percent
-                       );edkEnd();
+                        percent
+                        );edkEnd();
 }
 
 //write to XML

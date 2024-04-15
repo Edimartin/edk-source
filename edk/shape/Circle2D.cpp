@@ -28,22 +28,42 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #pragma message "            Inside Circle2D.cpp"
 #endif
 
-edk::shape::Circle2D::Circle2D()
-{
-    //ctor
-    this->polygonCircle=true;edkEnd();
-    this->type=edk::shape::typeCircle2D;
-    this->createPolygon(4u,1.0);edkEnd();
+edk::shape::Circle2D::Circle2D(){
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);edkEnd();
 }
 edk::shape::Circle2D::Circle2D(edk::uint32 sides,edk::float32 radius){
-    //
-    this->polygonCircle=true;edkEnd();
-    this->createPolygon(sides,radius);edkEnd();
+    this->classThis=NULL;edkEnd();
+    this->Constructor(sides,radius,false);edkEnd();
 }
 
-edk::shape::Circle2D::~Circle2D()
-{
-    //dtor
+edk::shape::Circle2D::~Circle2D(){
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
+    }
+}
+
+void edk::shape::Circle2D::Constructor(bool runFather){
+    if(runFather){
+        edk::shape::Polygon2D::Constructor();edkEnd();
+    }
+    if(this->classThis!=this){
+        this->classThis=this;
+        this->polygonCircle=true;edkEnd();
+        this->type=edk::shape::typeCircle2D;
+        this->createPolygon(4u,1.0);edkEnd();
+    }
+}
+void edk::shape::Circle2D::Constructor(edk::uint32 sides,edk::float32 radius,bool runFather){
+    if(runFather){
+        edk::shape::Polygon2D::Constructor();edkEnd();
+    }
+    if(this->classThis!=this){
+        this->classThis=this;
+        this->polygonCircle=true;edkEnd();
+        this->createPolygon(sides,radius);edkEnd();
+    }
 }
 
 

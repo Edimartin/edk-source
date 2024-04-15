@@ -39,38 +39,42 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 namespace edk{
 class Audio2D : public edk::Audio{
-    public:
-        Audio2D();
-        virtual ~Audio2D();
+public:
+    Audio2D();
+    virtual ~Audio2D();
 
-        //OPEN
-        bool open(const edk::char8* name);
-        bool open(edk::char8* name);
-        bool openFromMemory(const edk::char8* name,edk::classID vector,edk::uint32 size);
-        bool openFromMemory(edk::char8* name,edk::classID vector,edk::uint32 size);
-        bool openFromPack(edk::pack::FilePackage* pack,const edk::char8* name);
-        bool openFromPack(edk::pack::FilePackage* pack,edk::char8* name);
+    void Constructor(bool runFather=true);
 
-        //Set the listener position
-        static void setListenerPosition2D(edk::vec2f32 position);
-        //Set the listener lookAt
-        static void setListenerLookAt2D(edk::vec2f32 lookAt);
+    //OPEN
+    bool open(const edk::char8* name);
+    bool open(edk::char8* name);
+    bool openFromMemory(const edk::char8* name,edk::classID vector,edk::uint32 size);
+    bool openFromMemory(edk::char8* name,edk::classID vector,edk::uint32 size);
+    bool openFromPack(edk::pack::FilePackage* pack,const edk::char8* name);
+    bool openFromPack(edk::pack::FilePackage* pack,edk::char8* name);
 
-        //SETERS
-        //Set the position of the audio in the cene
-        bool setPosition2D(edk::vec2f32 position);
-        //set if are using the listener
-        bool useListener(bool use);
+    //Set the listener position
+    static void setListenerPosition2D(edk::vec2f32 position);
+    //Set the listener lookAt
+    static void setListenerLookAt2D(edk::vec2f32 lookAt);
 
-        //GETERS
-        //return if are using the listener
-        bool usingListener();
-    protected:
-    private:
+    //SETERS
+    //Set the position of the audio in the cene
+    bool setPosition2D(edk::vec2f32 position);
+    //set if are using the listener
+    bool useListener(bool use);
+
+    //GETERS
+    //return if are using the listener
+    bool usingListener();
+protected:
+private:
     //save if are using the listener
     bool haveListener;
     //save the audio position
     edk::vec2f32 position;
+private:
+    edk::classID classThis;
 };
 }//end namespace edk
 

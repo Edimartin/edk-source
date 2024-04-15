@@ -39,27 +39,29 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 namespace edk{
 class Texture2DRender: public edk::Texture2D{
-    public:
-        Texture2DRender();
-        virtual ~Texture2DRender();
+public:
+    Texture2DRender();
+    virtual ~Texture2DRender();
 
-        //Load the renderTexture
-        bool createRender(edk::size2ui32 size);
-        bool createRender(edk::uint32 width,edk::uint32 height);
-        bool createRender(edk::int32 width,edk::int32 height);
-        //delete render
-        void deleteRender();
+    void Constructor(bool runFather=true);
 
-        //return the ID
-        edk::uint32 getBufferID();
+    //Load the renderTexture
+    bool createRender(edk::size2ui32 size);
+    bool createRender(edk::uint32 width,edk::uint32 height);
+    bool createRender(edk::int32 width,edk::int32 height);
+    //delete render
+    void deleteRender();
 
-        //use this buffer
-        void useThisBuffer();
-        //dont use frameBuffer
-        static void dontUseFrameBuffer();
+    //return the ID
+    edk::uint32 getBufferID();
 
-    protected:
-    private:
+    //use this buffer
+    void useThisBuffer();
+    //dont use frameBuffer
+    static void dontUseFrameBuffer();
+
+protected:
+private:
     //framebuffer
     edk::uint32 frameBuffer;
     //depthBuffer
@@ -70,6 +72,8 @@ class Texture2DRender: public edk::Texture2D{
 
     //load the frameBuffer
     bool loadFrameBuffer();
+private:
+    edk::classID classThis;
 };
 }//end namespace
 

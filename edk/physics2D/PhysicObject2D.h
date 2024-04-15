@@ -46,6 +46,9 @@ class PhysicObject2D : public edk::Object2D{
 public:
     PhysicObject2D();
     ~PhysicObject2D();
+
+    void Constructor(bool runFather=true);
+
     //physics meshs
     edk::physics2D::PhysicsMesh2D physicMesh;
 
@@ -177,6 +180,8 @@ protected:
 
     edk::vector::BinaryTree<edk::uint32> treeCollisionGroups;
     edk::vector::BinaryTree<edk::uint32> treeNotCollisionGroups;
+private:
+    edk::classID classThis;
 };
 }//end namespace physics
 }//end namespace edk

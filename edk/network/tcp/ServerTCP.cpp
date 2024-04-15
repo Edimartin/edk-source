@@ -24,12 +24,26 @@ OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-edk::network::tcp::ServerTCP::ServerTCP()
-{
-    this->listened=false;edkEnd();
+edk::network::tcp::ServerTCP::ServerTCP(){
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);edkEnd();
 }
 edk::network::tcp::ServerTCP::~ServerTCP(){
-    this->disconnect();edkEnd();
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
+        this->disconnect();edkEnd();
+    }
+}
+
+void edk::network::tcp::ServerTCP::Constructor(bool runFather){
+    if(runFather){
+        edk::network::ServerSocket::Constructor();edkEnd();
+    }
+    if(this->classThis!=this){
+        this->classThis=this;
+        this->listened=false;edkEnd();
+    }
 }
 
 int haveClient(int socket){

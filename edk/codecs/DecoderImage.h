@@ -40,31 +40,34 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 namespace edk{
 namespace codecs{
 class DecoderImage : protected edk::codecs::CodecImage{
-    public:
-        DecoderImage();
-        virtual ~DecoderImage();
+public:
+    DecoderImage();
+    virtual ~DecoderImage();
 
-        //process the decoder
-        virtual bool decode(edk::uint8* encoded,edk::uint32 size);
-        virtual bool decode(const unsigned char* encoded,edk::uint32 size);
+    void Constructor(bool runFather=true);
 
-        //decode from file
-        bool decodeFromFile(const edk::char8* fileName);
-        bool decodeFromFile(edk::char8* fileName);
+    //process the decoder
+    virtual bool decode(edk::uint8* encoded,edk::uint32 size);
+    virtual bool decode(const unsigned char* encoded,edk::uint32 size);
 
-        //Return the frame
-        edk::uint8* getFrame();
-        edk::size2ui32 getFrameSize();
-        edk::uint32 getFrameWidth();
-        edk::uint32 getFrameHeight();
-        edk::uint32 getFrameChannels();
-        //delete the frame
-        virtual void deleteFrame();
-        //clean the frame
-        edk::uint8* cleanFrame();
-    protected:
-        edk::File file;
-    private:
+    //decode from file
+    bool decodeFromFile(const edk::char8* fileName);
+    bool decodeFromFile(edk::char8* fileName);
+
+    //Return the frame
+    edk::uint8* getFrame();
+    edk::size2ui32 getFrameSize();
+    edk::uint32 getFrameWidth();
+    edk::uint32 getFrameHeight();
+    edk::uint32 getFrameChannels();
+    //delete the frame
+    virtual void deleteFrame();
+    //clean the frame
+    edk::uint8* cleanFrame();
+protected:
+    edk::File file;
+private:
+    edk::classID classThis;
 };
 }//end namespace codecs
 }//end namespace edk

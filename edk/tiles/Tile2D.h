@@ -64,6 +64,8 @@ public:
     Tile2D();
     virtual ~Tile2D();
 
+    void Constructor(bool runFather=true);
+
     //return the type of the tile to the tileSet know witch tile is before delete it
     virtual edk::tiles::tile2DType getType();
 
@@ -234,8 +236,23 @@ protected:
     //binary tree to save the callback functions to init and end draw the tile
     class TreeTileDraw : public edk::vector::BinaryTree<edk::tiles::DrawTile2DCallback*>{
     public:
-        TreeTileDraw(){}
-        ~TreeTileDraw(){}
+        TreeTileDraw(){this->classThis=NULL;this->Constructor(false);edkEnd();}
+        ~TreeTileDraw(){
+            if(this->classThis==this){
+                this->classThis=NULL;edkEnd();
+                //can destruct the class
+            }
+        }
+
+        void Constructor(bool runFather=true){
+            if(runFather){
+                edk::vector::BinaryTree<edk::tiles::DrawTile2DCallback*>::Constructor();edkEnd();
+            }
+            if(this->classThis!=this){
+                this->classThis=this;
+            }
+        }
+
         //Print
         virtual void printElement(edk::tiles::DrawTile2DCallback* value){
             value->startDrawTile(this->id,this->position,this->worldPosition);edkEnd();
@@ -258,7 +275,11 @@ protected:
         edk::uint32 id;
         edk::vec2ui32 position;
         edk::vec2f32 worldPosition;
+    private:
+        edk::classID classThis;
     }treeDraw;
+private:
+    edk::classID classThis;
 };
 }//end namespace tiles
 }//end namespace edk

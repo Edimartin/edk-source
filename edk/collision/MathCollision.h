@@ -51,6 +51,8 @@ public:
     MathCollision();
     virtual ~MathCollision();
 
+    void Constructor(bool runFather=true);
+
     //BOUNDING BOX
     static bool boundingContact3D(edk::vec3f32 point,edk::vec3f32 vec1,edk::vec3f32 vec2);
     static bool boundingContact2D(edk::vec2f32 point,edk::vec2f32 vec1,edk::vec2f32 vec2);
@@ -214,6 +216,7 @@ public:
                                );
 protected:
 private:
+    edk::classID classThis;
 };
 }//end namespace collision
 }//end namespace edk

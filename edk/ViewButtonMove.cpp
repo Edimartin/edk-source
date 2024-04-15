@@ -24,13 +24,26 @@ OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-edk::ViewButtonMove::ViewButtonMove()
-{
-    this->saveFirst = false;edkEnd();
-    this->holdedMouse = false;edkEnd();
+edk::ViewButtonMove::ViewButtonMove(){
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);edkEnd();
 }
-edk::ViewButtonMove::~ViewButtonMove()
-{
+edk::ViewButtonMove::~ViewButtonMove(){
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
+    }
+}
+
+void edk::ViewButtonMove::Constructor(bool runFather){
+    if(runFather){
+        edk::ViewButton::Constructor();edkEnd();
+    }
+    if(this->classThis!=this){
+        this->classThis=this;
+        this->saveFirst = false;edkEnd();
+        this->holdedMouse = false;edkEnd();
+    }
 }
 
 void edk::ViewButtonMove::updateView(edk::WindowEvents* events){

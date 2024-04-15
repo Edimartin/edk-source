@@ -43,45 +43,74 @@ namespace edk{
 class Name{
 public:
     Name(){
-        //
-        this->_name=NULL;
-        this->_size = 0u;
-        this->canDelete=true;
-
-        this->_namePointer=&this->_name;
-        this->_sizePointer=&this->_size;
+        this->classThis=NULL;
+        this->Constructor(false);
     }
     Name(edk::char8* _name){
-        //
-        this->_name=NULL;
-        this->_size = 0u;
-        this->canDelete=true;
-
-        this->_namePointer=&this->_name;
-        this->_sizePointer=&this->_size;
-
-        this->setName(_name);
+        this->classThis=NULL;
+        this->Constructor(_name,false);
     }
     Name(const edk::char8* _name){
-        //
-        this->_name=NULL;
-        this->_size = 0u;
-        this->canDelete=true;
-
-        this->_namePointer=&this->_name;
-        this->_sizePointer=&this->_size;
-
-        this->setName(_name);
+        this->classThis=NULL;
+        this->Constructor(_name,false);
     }
     virtual ~Name(){
-        //
-        if(this->canDelete){
-            this->deleteName();
-        }
-        else{
-            this->canDelete=true;
+        if(this->classThis==this){
+            this->classThis=NULL;
+            //can destruct the class
+            if(this->canDelete){
+                this->deleteName();
+            }
+            else{
+                this->canDelete=true;
+            }
         }
     }
+
+    void Constructor(bool runFather=true){
+        if(runFather){runFather=false;}
+        if(this->classThis!=this){
+            this->classThis=this;
+            //
+            this->_name=NULL;
+            this->_size = 0u;
+            this->canDelete=true;
+
+            this->_namePointer=&this->_name;
+            this->_sizePointer=&this->_size;
+        }
+    }
+    void Constructor(edk::char8* _name,bool runFather=true){
+        if(runFather){runFather=false;}
+        if(this->classThis!=this){
+            this->classThis=this;
+            //
+            this->_name=NULL;
+            this->_size = 0u;
+            this->canDelete=true;
+
+            this->_namePointer=&this->_name;
+            this->_sizePointer=&this->_size;
+
+            this->setName(_name);
+        }
+    }
+    void Constructor(const edk::char8* _name,bool runFather=true){
+        if(runFather){runFather=false;}
+        if(this->classThis!=this){
+            this->classThis=this;
+            //
+            this->_name=NULL;
+            this->_size = 0u;
+            this->canDelete=true;
+
+            this->_namePointer=&this->_name;
+            this->_sizePointer=&this->_size;
+
+            this->setName(_name);
+        }
+    }
+
     //clean the name
     void cleanName(){
         this->setName((edk::char8*)NULL);
@@ -234,6 +263,8 @@ private:
     edk::uint32* _sizePointer;
     edk::uint32 _size;
     bool canDelete;
+private:
+    edk::classID classThis;
 };
 }
 

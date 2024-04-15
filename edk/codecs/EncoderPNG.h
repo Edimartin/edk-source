@@ -42,17 +42,20 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 namespace edk{
 namespace codecs{
 class EncoderPNG : public edk::codecs::EncoderImage{
-    public:
-        EncoderPNG();
-        virtual ~EncoderPNG();
+public:
+    EncoderPNG();
+    virtual ~EncoderPNG();
 
-        //process the encoder
-        bool encode(edk::uint8* frame,edk::size2ui32 size,edk::uint8 channels,edk::uint32);
-        bool encode(edk::uint8* frame,edk::uint32 width,edk::uint32 height,edk::uint8 channels,edk::uint32 quality);
-        //delete the encoded
-        void deleteEncoded();
-    protected:
-    private:
+    void Constructor(bool runFather=true);
+
+    //process the encoder
+    bool encode(edk::uint8* frame,edk::size2ui32 size,edk::uint8 channels,edk::uint32);
+    bool encode(edk::uint8* frame,edk::uint32 width,edk::uint32 height,edk::uint8 channels,edk::uint32 quality);
+    //delete the encoded
+    void deleteEncoded();
+protected:
+private:
+    edk::classID classThis;
 };
 }//end namespace codecs
 }//end namespace edk

@@ -32,15 +32,28 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #define name_port "port"
 
 edk::sql::Postgre::Postgre(){
-    //
-#if defined(EDK_USE_POSTGRE)
-    this->C=NULL;edkEnd();
-    this->N=NULL;edkEnd();
-#endif
-    this->error.setName(" ");edkEnd();
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);edkEnd();
 }
 edk::sql::Postgre::~Postgre(){
-    //
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
+    }
+}
+
+void edk::sql::Postgre::Constructor(bool /*runFather*/){
+    if(this->classThis!=this){
+        this->classThis=this;
+
+        this->error.Constructor();edkEnd();
+
+#if defined(EDK_USE_POSTGRE)
+        this->C=NULL;edkEnd();
+        this->N=NULL;edkEnd();
+#endif
+        this->error.setName(" ");edkEnd();
+    }
 }
 
 //open dataBase
@@ -140,9 +153,9 @@ bool edk::sql::Postgre::execute(const edk::char8* command,edk::sql::SQLGroup* ca
 }
 bool edk::sql::Postgre::execute(edk::char8* command,
                                 edk::sql::SQLGroup*
-#if defined(EDK_USE_POSTGRE)
+                                #if defined(EDK_USE_POSTGRE)
                                 callback
-#endif
+                                #endif
                                 ){
     this->error.setName(" ");edkEnd();
     if(this->haveOpenedDataBase()){

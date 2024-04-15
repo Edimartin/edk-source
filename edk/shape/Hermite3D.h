@@ -41,19 +41,23 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 namespace edk{
 namespace shape{
 class Hermite3D : public edk::shape::Curve3D{
-    public:
-        Hermite3D();
-        Hermite3D(edk::vec3f32 p1,edk::vec3f32 p2,edk::vec3f32 p3,edk::vec3f32 p4);
-        virtual ~Hermite3D();
+public:
+    Hermite3D();
+    Hermite3D(edk::vec3f32 p1,edk::vec3f32 p2,edk::vec3f32 p3,edk::vec3f32 p4);
+    virtual ~Hermite3D();
 
-        //return the point
-        edk::vec3f32 getPoint(edk::float32 percent);
-        static edk::vec3f32 getPoint(edk::vec3f32 p1,edk::vec3f32 p2,edk::vec3f32 p3,edk::vec3f32 p4,edk::float32 percent,edk::float32 atenuation);
+    void Constructor(bool runFather=true);
+    void Constructor(edk::vec3f32 p1,edk::vec3f32 p2,edk::vec3f32 p3,edk::vec3f32 p4,bool runFather=true);
 
-        //Atenuation
-        edk::float32 attenuation;
-    protected:
-    private:
+    //return the point
+    edk::vec3f32 getPoint(edk::float32 percent);
+    static edk::vec3f32 getPoint(edk::vec3f32 p1,edk::vec3f32 p2,edk::vec3f32 p3,edk::vec3f32 p4,edk::float32 percent,edk::float32 atenuation);
+
+    //Atenuation
+    edk::float32 attenuation;
+protected:
+private:
+    edk::classID classThis;
 };
 }//end namespace shape
 }//end namespace edk

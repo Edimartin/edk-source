@@ -53,6 +53,8 @@ public:
     Polygon3D();
     virtual ~Polygon3D();
 
+    void Constructor(bool runFather=true);
+
     //create the polygon
     virtual bool createPolygon(edk::uint32 vertexCount);
     void deletePolygon();
@@ -108,6 +110,7 @@ private:
     static edk::shape::Vertex3D staticVertex;
     static edk::shape::Vector3D staticNormal;
     static edk::shape::UV2D staticUV;
+    static bool templateConstructNeed;
     //normal of the polygon
     edk::shape::Vector3D normal;
     edk::shape::Vector3D center;
@@ -127,10 +130,25 @@ private:
     class PolygonVertex{
     public:
         PolygonVertex(edk::shape::Vertex3D* vertex,edk::uint32 vertexID){
-            this->vertex = vertex;edkEnd();
-            this->vertexID=vertexID;edkEnd();
+            this->classThis=NULL;edkEnd();
+            this->Constructor(vertex,vertexID,false);edkEnd();
         }
-        virtual ~PolygonVertex(){}
+        virtual ~PolygonVertex(){
+            if(this->classThis==this){
+                this->classThis=NULL;edkEnd();
+                //can destruct the class
+            }
+        }
+
+        void Constructor(edk::shape::Vertex3D* vertex,edk::uint32 vertexID,bool runFather=true){
+            if(runFather){edkEnd();}
+            if(this->classThis!=this){
+                this->classThis=this;
+                this->vertex = vertex;edkEnd();
+                this->vertexID=vertexID;edkEnd();
+            }
+        }
+
         virtual void draw(){
             this->vertex->drawVertex();edkEnd();
         }
@@ -192,6 +210,8 @@ private:
         }
         edk::shape::Vertex3D* vertex;
         edk::uint32 vertexID;
+    private:
+        edk::classID classThis;
     };
     //Vertex With UV
     class PolygonVertexWithUV : public edk::shape::Polygon3D::PolygonVertex{
@@ -201,10 +221,29 @@ private:
                             )
             :edk::shape::Polygon3D::PolygonVertex(vertex,vertexID)
         {
-            this->uv = uv;edkEnd();
-            this->uvID = uvID;edkEnd();
+            this->classThis=NULL;edkEnd();
+            this->Constructor(vertex,vertexID,uv,uvID,false);edkEnd();
         }
-        virtual ~PolygonVertexWithUV(){}
+        virtual ~PolygonVertexWithUV(){
+            if(this->classThis==this){
+                this->classThis=NULL;edkEnd();
+                //can destruct the class
+            }
+        }
+
+        void Constructor(edk::shape::Vertex3D* vertex,edk::uint32 vertexID,
+                         edk::shape::UV2D* uv,edk::uint32 uvID,
+                         bool runFather=true){
+            if(runFather){
+                edk::shape::Polygon3D::PolygonVertex::Constructor(vertex,vertexID);edkEnd();
+            }
+            if(this->classThis!=this){
+                this->classThis=this;
+                this->uv = uv;edkEnd();
+                this->uvID = uvID;edkEnd();
+            }
+        }
+
         virtual void draw(){
             this->uv->drawUV();edkEnd();
             this->vertex->drawVertex();edkEnd();
@@ -261,6 +300,8 @@ private:
         }
         edk::shape::UV2D* uv;
         edk::uint32 uvID;
+    private:
+        edk::classID classThis;
     };
     //Vertex With Normal
     class PolygonVertexWithNormal : public edk::shape::Polygon3D::PolygonVertex{
@@ -270,10 +311,29 @@ private:
                                 )
             :edk::shape::Polygon3D::PolygonVertex(vertex,vertexID)
         {
-            this->normal = normal;edkEnd();
-            this->normalID = normalID;edkEnd();
+            this->classThis=NULL;edkEnd();
+            this->Constructor(vertex,vertexID,normal,normalID,false);edkEnd();
         }
-        virtual ~PolygonVertexWithNormal(){}
+        virtual ~PolygonVertexWithNormal(){
+            if(this->classThis==this){
+                this->classThis=NULL;edkEnd();
+                //can destruct the class
+            }
+        }
+
+        void Constructor(edk::shape::Vertex3D* vertex,edk::uint32 vertexID,
+                         edk::shape::Vector3D* normal,edk::uint32 normalID,
+                         bool runFather=true){
+            if(runFather){
+                edk::shape::Polygon3D::PolygonVertex::Constructor(vertex,vertexID);edkEnd();
+            }
+            if(this->classThis!=this){
+                this->classThis=this;
+                this->normal = normal;edkEnd();
+                this->normalID = normalID;edkEnd();
+            }
+        }
+
         virtual void draw(){
             this->normal->drawNormal();edkEnd();
             this->vertex->drawVertex();edkEnd();
@@ -358,6 +418,8 @@ private:
         }
         edk::shape::Vector3D* normal;
         edk::uint32 normalID;
+    private:
+        edk::classID classThis;
     };
     //Vertex With UV and Normal
     class PolygonVertexWithUVNormal: public edk::shape::Polygon3D::PolygonVertexWithNormal{
@@ -370,10 +432,33 @@ private:
                                                             ,normal,normalID
                                                             )
         {
-            this->uv = uv;edkEnd();
-            this->uvID = uvID;edkEnd();
+            this->classThis=NULL;edkEnd();
+            this->Constructor(vertex,vertexID,
+                              uv,uvID,
+                              normal,normalID,
+                              false);edkEnd();
         }
-        virtual ~PolygonVertexWithUVNormal(){}
+        virtual ~PolygonVertexWithUVNormal(){
+            if(this->classThis==this){
+                this->classThis=NULL;edkEnd();
+                //can destruct the class
+            }
+        }
+
+        void Constructor(edk::shape::Vertex3D* vertex,edk::uint32 vertexID,
+                         edk::shape::UV2D* uv,edk::uint32 uvID,
+                         edk::shape::Vector3D* normal,edk::uint32 normalID
+                         ,bool runFather=true){
+            if(runFather){
+                edk::shape::Polygon3D::PolygonVertexWithNormal::Constructor(vertex,vertexID,normal,normalID);edkEnd();
+            }
+            if(this->classThis!=this){
+                this->classThis=this;
+                this->uv = uv;edkEnd();
+                this->uvID = uvID;edkEnd();
+            }
+        }
+
         virtual void draw(){
             this->uv->drawUV();edkEnd();
             this->normal->drawNormal();edkEnd();
@@ -424,8 +509,8 @@ private:
         }
         virtual void drawNormalWithMatrixWithColor(edk::vector::Matrix<edk::float32,4u,4u>* matrix,edk::vector::Matrix<edk::float32,4u,4u>* matrixTemp,edk::color4f32 color){
             if(matrix){
-            this->vertex->drawVertexWithMatrixWithColor(matrix,matrixTemp,color);edkEnd();
-            this->normal->drawVertexPositionWithMatrix(matrix,matrixTemp,edk::vec3f32(this->vertex->x,this->vertex->y,this->vertex->z));edkEnd();
+                this->vertex->drawVertexWithMatrixWithColor(matrix,matrixTemp,color);edkEnd();
+                this->normal->drawVertexPositionWithMatrix(matrix,matrixTemp,edk::vec3f32(this->vertex->x,this->vertex->y,this->vertex->z));edkEnd();
             }
         }
         virtual void drawNormalPosition(edk::vec3f32 position){
@@ -434,8 +519,8 @@ private:
         }
         virtual void drawNormalPositionWithMatrix(edk::vector::Matrix<edk::float32,4u,4u>* matrix,edk::vector::Matrix<edk::float32,4u,4u>* matrixTemp,edk::vec3f32 position){
             if(matrix){
-            this->vertex->drawVertexWithMatrix(matrixTemp,matrixTemp);edkEnd();
-            this->vertex->drawVertexPositionWithMatrix(matrix,matrixTemp,position);edkEnd();
+                this->vertex->drawVertexWithMatrix(matrixTemp,matrixTemp);edkEnd();
+                this->vertex->drawVertexPositionWithMatrix(matrix,matrixTemp,position);edkEnd();
             }
         }
         virtual void drawNormalPositionWithColor(edk::vec3f32 position,edk::color4f32 color){
@@ -467,10 +552,14 @@ private:
         }
         edk::shape::UV2D* uv;
         edk::uint32 uvID;
+    private:
+        edk::classID classThis;
     };
     edk::shape::Polygon3D operator=(edk::shape::Polygon3D list){
         return list;edkEnd();
     }
+private:
+    edk::classID classThis;
 };
 
 }//end namespace shape

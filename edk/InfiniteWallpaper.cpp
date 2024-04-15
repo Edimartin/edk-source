@@ -1,17 +1,35 @@
 #include "InfiniteWallpaper.h"
 
 edk::InfiniteWallpaper::InfiniteWallpaper(){
-    //
-    this->percent=0.f;edkEnd();
-    this->translate=0.f;edkEnd();
-    this->clock.start();edkEnd();
-    this->saveLenght = 0u;edkEnd();
-    this->cleanLimit();edkEnd();
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);edkEnd();
 }
 edk::InfiniteWallpaper::~InfiniteWallpaper(){
-    //
-    this->clean();edkEnd();
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
+        this->clean();edkEnd();
+    }
 }
+
+void edk::InfiniteWallpaper::Constructor(bool /*runFather*/){
+    //
+    if(this->classThis!=this){
+        this->classThis=this;
+
+        this->stack.Constructor();
+        this->clock.Constructor();
+        this->matrix.Constructor();
+        this->obj.Constructor();
+
+        this->percent=0.f;edkEnd();
+        this->translate=0.f;edkEnd();
+        this->clock.start();edkEnd();
+        this->saveLenght = 0u;edkEnd();
+        this->cleanLimit();edkEnd();
+    }
+}
+
 //change the status
 void edk::InfiniteWallpaper::changeStatus(){
     edk::uint32 size = this->stack.size();edkEnd();

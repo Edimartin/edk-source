@@ -66,14 +66,61 @@ edk::vector::Queue<edk::GU_GLSL::ShaderUseClass> edk::GU_GLSL::useShaders;
 edk::vector::Queue<edk::GU_GLSL::ShaderUseClass> edk::GU_GLSL::useNoShaders;
 edk::GU_GLSL::ShaderUse_Tree edk::GU_GLSL::treeUseShaders;
 edk::GU_GLSL::ShaderUse_Tree edk::GU_GLSL::treeUseNoShaders;
+bool edk::GU_GLSL::templateConstructNeed=true;
 
 //construtor
 edk::GU_GLSL::GU_GLSL(){
-    //
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);edkEnd();
 }
 //destrutor
 edk::GU_GLSL::~GU_GLSL(){
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
+    }
+}
+
+void edk::GU_GLSL::Constructor(bool /*runFather*/){
     //
+    if(this->classThis!=this){
+        this->classThis=this;
+        if(edk::GU_GLSL::templateConstructNeed){
+
+#if defined(_WIN32) || defined(_WIN64)
+            //Windows
+            edk::GU_GLSL::mut.Constructor();
+#endif
+#ifdef __linux__
+            edk::GU_GLSL::mut.Constructor();
+#endif
+            edk::GU_GLSL::mutBeginEnd.Constructor();
+            edk::GU_GLSL::mutCreateShader.Constructor();
+            edk::GU_GLSL::mutDelShader.Constructor();
+            edk::GU_GLSL::mutUseShader.Constructor();
+            edk::GU_GLSL::mutUseNoShader.Constructor();
+            edk::GU_GLSL::genShaders.Constructor();
+            edk::GU_GLSL::delShaders.Constructor();
+            edk::GU_GLSL::treeShaders.Constructor();
+            edk::GU_GLSL::genShadersWrite.Constructor();
+            edk::GU_GLSL::treeShadersWrite.Constructor();
+            edk::GU_GLSL::genShadersCompile.Constructor();
+            edk::GU_GLSL::treeShadersCompile.Constructor();
+            edk::GU_GLSL::genShadersIV.Constructor();
+            edk::GU_GLSL::treeShadersIV.Constructor();
+            edk::GU_GLSL::genShadersLog.Constructor();
+            edk::GU_GLSL::treeShadersLog.Constructor();
+            edk::GU_GLSL::genProgramsAttach.Constructor();
+            edk::GU_GLSL::treeProgramsAttach.Constructor();
+            edk::GU_GLSL::genProgramsLink.Constructor();
+            edk::GU_GLSL::treeProgramsLink.Constructor();
+            edk::GU_GLSL::useShaders.Constructor();
+            edk::GU_GLSL::useNoShaders.Constructor();
+            edk::GU_GLSL::treeUseShaders.Constructor();
+            edk::GU_GLSL::treeUseNoShaders.Constructor();
+            edk::GU_GLSL::templateConstructNeed=false;
+        }
+    }
 }
 
 void edk::GU_GLSL::setCantCreateShaders(){

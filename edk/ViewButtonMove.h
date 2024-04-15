@@ -42,6 +42,8 @@ public:
     ViewButtonMove();
     ~ViewButtonMove();
 
+    void Constructor(bool runFather=true);
+
     virtual void updateView(edk::WindowEvents* events);
     //Function to set button position
     virtual void setPosition(edk::vec2f32 position);
@@ -60,6 +62,8 @@ private:
     void eventMouseMoved(edk::vec2f32 point,edk::uint32 button);
     void eventMouseReleased(edk::vec2f32 point,edk::uint32 button);
     void eventMouseDoubleClicked(edk::vec2f32 point,edk::uint32 button);
+private:
+    edk::classID classThis;
 };
 }//end namespace edk
 

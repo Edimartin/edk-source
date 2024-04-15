@@ -25,16 +25,30 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 edk::sql::MariaDB::MariaDB(){
-#ifdef EDK_USE_MARIADB
-    this->con=NULL;edkEnd();
-    this->res=NULL;edkEnd();
-    this->field=NULL;edkEnd();
-#endif
-    this->error.setName(" ");edkEnd();
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);edkEnd();
 }
 edk::sql::MariaDB::~MariaDB(){
-    //
-    this->closeDataBase();edkEnd();
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
+        this->closeDataBase();edkEnd();
+    }
+}
+
+void edk::sql::MariaDB::Constructor(bool /*runFather*/){
+    if(this->classThis!=this){
+        this->classThis=this;
+
+        this->error.Constructor();edkEnd();
+
+#ifdef EDK_USE_MARIADB
+        this->con=NULL;edkEnd();
+        this->res=NULL;edkEnd();
+        this->field=NULL;edkEnd();
+#endif
+        this->error.setName(" ");edkEnd();
+    }
 }
 
 //open dataBase
@@ -85,9 +99,9 @@ bool edk::sql::MariaDB::execute(const edk::char8* command,edk::sql::SQLGroup* ca
 }
 bool edk::sql::MariaDB::execute(edk::char8* command,
                                 edk::sql::SQLGroup*
-#ifdef EDK_USE_MARIADB
+                                #ifdef EDK_USE_MARIADB
                                 callback
-#endif
+                                #endif
                                 ){
     this->error.setName(" ");edkEnd();
     if(this->haveOpenedDataBase()){

@@ -40,43 +40,45 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 namespace edk{
 namespace animation{
 class InterpolationLine{
-    public:
-        InterpolationLine();
-        virtual ~InterpolationLine();
+public:
+    InterpolationLine();
+    virtual ~InterpolationLine();
 
-        //SETERS
-        //set the start frame
-        virtual bool setStart(edk::animation::Frame* frame);
-        virtual bool setStart(edk::float32 second);
-        virtual bool setStartNoFilter(edk::float32 second);
-        virtual bool setEnd(edk::animation::Frame* frame);
-        virtual bool setEnd(edk::float32 second);
-        virtual bool setEndNoFilter(edk::float32 second);
+    void Constructor(bool runFather=true);
 
-        //GETERS
-        //return the start
-        edk::animation::Frame getStart();
-        //return if create the start
-        bool getCreateStart();
-        //return the end
-        edk::animation::Frame getEnd();
-        //return if create the end
-        bool getCreateEnd();
-        //use the start frame in another interpolation
-        bool useStartInStart(edk::animation::InterpolationLine* get);
-        bool useStartInEnd(edk::animation::InterpolationLine* get);
-        //use the start frame in another interpolation
-        bool useEndInEnd(edk::animation::InterpolationLine* get);
-        bool useEndInStart(edk::animation::InterpolationLine* get);
-        //calculate de distance
-        void updateDistance();
+    //SETERS
+    //set the start frame
+    virtual bool setStart(edk::animation::Frame* frame);
+    virtual bool setStart(edk::float32 second);
+    virtual bool setStartNoFilter(edk::float32 second);
+    virtual bool setEnd(edk::animation::Frame* frame);
+    virtual bool setEnd(edk::float32 second);
+    virtual bool setEndNoFilter(edk::float32 second);
 
-        //write to XML
-        virtual bool writeToXMLStart(edk::XML* xml,edk::uint32 frameID);
-        virtual bool writeToXMLEnd(edk::XML* xml,edk::uint32 frameID);
+    //GETERS
+    //return the start
+    edk::animation::Frame getStart();
+    //return if create the start
+    bool getCreateStart();
+    //return the end
+    edk::animation::Frame getEnd();
+    //return if create the end
+    bool getCreateEnd();
+    //use the start frame in another interpolation
+    bool useStartInStart(edk::animation::InterpolationLine* get);
+    bool useStartInEnd(edk::animation::InterpolationLine* get);
+    //use the start frame in another interpolation
+    bool useEndInEnd(edk::animation::InterpolationLine* get);
+    bool useEndInStart(edk::animation::InterpolationLine* get);
+    //calculate de distance
+    void updateDistance();
 
-        bool active;
-    protected:
+    //write to XML
+    virtual bool writeToXMLStart(edk::XML* xml,edk::uint32 frameID);
+    virtual bool writeToXMLEnd(edk::XML* xml,edk::uint32 frameID);
+
+    bool active;
+protected:
 
     //frames of the interpolation
     edk::animation::Frame *start,*end;
@@ -98,7 +100,8 @@ class InterpolationLine{
 
     //switch the frames
     void switchFrames();
-    private:
+private:
+    edk::classID classThis;
 };
 }
 }

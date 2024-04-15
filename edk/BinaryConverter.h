@@ -43,6 +43,8 @@ public:
     BinaryConverter();
     virtual ~BinaryConverter();
 
+    void Constructor(bool runFather=true);
+
     static void printBits(edk::uchar8 byte);
     static inline void printBits(edk::char8 byte){printBits((edk::uchar8)byte);}
 
@@ -505,14 +507,14 @@ public:
         return ((edk::uint32)byte3<<24u) + ((edk::uint32)byte2<<16u) + ((edk::uint32)byte1<<8u) + (edk::uint32)byte0;
     }
     static inline edk::uint64 joinBytesLittleEndian(edk::uint8 byte7,
-                                                            edk::uint8 byte6,
-                                                            edk::uint8 byte5,
-                                                            edk::uint8 byte4,
-                                                            edk::uint8 byte3,
-                                                            edk::uint8 byte2,
-                                                            edk::uint8 byte1,
-                                                            edk::uint8 byte0
-                                                            ){
+                                                    edk::uint8 byte6,
+                                                    edk::uint8 byte5,
+                                                    edk::uint8 byte4,
+                                                    edk::uint8 byte3,
+                                                    edk::uint8 byte2,
+                                                    edk::uint8 byte1,
+                                                    edk::uint8 byte0
+                                                    ){
         return ((edk::uint64)byte7<<56u)
                 +
                 ((edk::uint64)byte6<<48u)
@@ -536,14 +538,14 @@ public:
         return ((edk::uint32)byte3<<24u) + ((edk::uint32)byte2<<16u) + ((edk::uint32)byte1<<8u) + (edk::uint32)byte0;
     }
     static inline edk::uint64 joinBytesBigEndian(edk::uint8 byte0,
-                                                         edk::uint8 byte1,
-                                                         edk::uint8 byte2,
-                                                         edk::uint8 byte3,
-                                                         edk::uint8 byte4,
-                                                         edk::uint8 byte5,
-                                                         edk::uint8 byte6,
-                                                         edk::uint8 byte7
-                                                         ){
+                                                 edk::uint8 byte1,
+                                                 edk::uint8 byte2,
+                                                 edk::uint8 byte3,
+                                                 edk::uint8 byte4,
+                                                 edk::uint8 byte5,
+                                                 edk::uint8 byte6,
+                                                 edk::uint8 byte7
+                                                 ){
         return ((edk::uint64)byte7<<56u)
                 +
                 ((edk::uint64)byte6<<48u)
@@ -659,6 +661,8 @@ public:
         }
         return false;
     }
+private:
+    edk::classID classThis;
 };
 }//end namespace edk
 

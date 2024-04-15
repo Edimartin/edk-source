@@ -42,6 +42,9 @@ namespace animation{
 class Path1DGroup : public edk::animation::PathGroup{
 public:
     Path1DGroup();
+    ~Path1DGroup();
+
+    void Constructor(bool runFather=true);
 
     //add a new frame
     bool addNewFrame(edk::float32 seconds,edk::float32 x);
@@ -112,6 +115,8 @@ public:
         }
         return false;
     }
+private:
+    edk::classID classThis;
 };
 }
 }

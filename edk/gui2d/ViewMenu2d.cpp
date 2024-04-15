@@ -26,29 +26,48 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
 edk::gui2d::MenuObj::MenuObj(){
-    //
-    this->active = false;edkEnd();
-    this->id = 0u;edkEnd();
-    this->status = edk::gui2d::gui2dTextureNormal;edkEnd();
-    this->saveStatus = edk::gui2d::gui2dTextureSize;edkEnd();
-    edk::uint8 size = edk::gui2d::gui2dTextureSize;edkEnd();
-    for(edk::uint8 i=0u;i<size;i++){
-        this->color[i] = edk::color4f32(1,1,1,1);edkEnd();
-    }
-    //load the mesh
-    this->obj.addMesh(&this->meshObj);edkEnd();
-    {
-        edk::shape::Rectangle2D rect;edkEnd();
-        rect.setPivoToCenter();edkEnd();
-        rect.setPolygonColor(0,0,0,1);edkEnd();
-        this->meshObj.addPolygon(rect);edkEnd();
-        this->meshObj.material.setEmission(1,1,1,1);edkEnd();
-    }
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);edkEnd();
 }
 edk::gui2d::MenuObj::~MenuObj(){
-    //
-    this->str1.cleanName();edkEnd();
-    this->str2.cleanName();edkEnd();
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
+        this->str1.cleanName();edkEnd();
+        this->str2.cleanName();edkEnd();
+    }
+}
+
+void edk::gui2d::MenuObj::Constructor(bool /*runFather*/){
+    if(this->classThis!=this){
+        this->classThis=this;
+
+        this->obj.Constructor();edkEnd();
+        this->meshObj.Constructor();edkEnd();
+        this->sprite.Constructor();edkEnd();
+        this->text1.Constructor();edkEnd();
+        this->str1.Constructor();edkEnd();
+        this->text2.Constructor();edkEnd();
+        this->str2.Constructor();edkEnd();
+
+        this->active = false;edkEnd();
+        this->id = 0u;edkEnd();
+        this->status = edk::gui2d::gui2dTextureNormal;edkEnd();
+        this->saveStatus = edk::gui2d::gui2dTextureSize;edkEnd();
+        edk::uint8 size = edk::gui2d::gui2dTextureSize;edkEnd();
+        for(edk::uint8 i=0u;i<size;i++){
+            this->color[i] = edk::color4f32(1,1,1,1);edkEnd();
+        }
+        //load the mesh
+        this->obj.addMesh(&this->meshObj);edkEnd();
+        {
+            edk::shape::Rectangle2D rect;edkEnd();
+            rect.setPivoToCenter();edkEnd();
+            rect.setPolygonColor(0,0,0,1);edkEnd();
+            this->meshObj.addPolygon(rect);edkEnd();
+            this->meshObj.material.setEmission(1,1,1,1);edkEnd();
+        }
+    }
 }
 
 //get the type
@@ -374,22 +393,41 @@ void edk::gui2d::MenuObj::drawSelection(){
 }
 
 edk::gui2d::ViewMenu2d::ViewMenu2d(){
-    //
-    this->xOrder = true;edkEnd();
-    this->positions = edk::vec2f32(0,0);edkEnd();
-    this->mouseActivate = this->mouseOn = false;edkEnd();
-
-    this->selectTree = &this->tree1;edkEnd();
-    this->selectTreeS = &this->tree2;edkEnd();
-
-    //set the obj paramerets
-    this->color[edk::gui2d::gui2dTextureNormal] = edk::color4f32(0.5f,0.5f,0.5f,1.f);edkEnd();
-    this->color[edk::gui2d::gui2dTextureUp] = edk::color4f32(0.75f,0.75f,0.75f,1.f);edkEnd();
-    this->color[edk::gui2d::gui2dTexturePressed] = edk::color4f32(0.3f,0.3f,0.3f,1.f);edkEnd();
-    this->color[edk::gui2d::gui2dTexturePressedUp] = edk::color4f32(0.4f,0.4f,0.4f,1.f);edkEnd();
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);edkEnd();
 }
 edk::gui2d::ViewMenu2d::~ViewMenu2d(){
-    //
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
+    }
+}
+
+void edk::gui2d::ViewMenu2d::Constructor(bool runFather){
+    if(runFather){
+        edk::ViewGU2D::Constructor();edkEnd();
+    }
+    if(this->classThis!=this){
+        this->classThis=this;
+
+        this->tree1.Constructor();edkEnd();
+        this->tree2.Constructor();edkEnd();
+        this->listCallback.Constructor();edkEnd();
+        this->objs.Constructor();edkEnd();
+
+        this->xOrder = true;edkEnd();
+        this->positions = edk::vec2f32(0,0);edkEnd();
+        this->mouseActivate = this->mouseOn = false;edkEnd();
+
+        this->selectTree = &this->tree1;edkEnd();
+        this->selectTreeS = &this->tree2;edkEnd();
+
+        //set the obj paramerets
+        this->color[edk::gui2d::gui2dTextureNormal] = edk::color4f32(0.5f,0.5f,0.5f,1.f);edkEnd();
+        this->color[edk::gui2d::gui2dTextureUp] = edk::color4f32(0.75f,0.75f,0.75f,1.f);edkEnd();
+        this->color[edk::gui2d::gui2dTexturePressed] = edk::color4f32(0.3f,0.3f,0.3f,1.f);edkEnd();
+        this->color[edk::gui2d::gui2dTexturePressedUp] = edk::color4f32(0.4f,0.4f,0.4f,1.f);edkEnd();
+    }
 }
 
 //return true if have the element on the callback list

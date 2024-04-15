@@ -46,6 +46,8 @@ public:
     FontSet(edk::uint32 filter = 0u);
     ~FontSet();
 
+    void Constructor(edk::uint32 filter = 0u,bool runFather=true);
+
     //load the font
     bool loadFontImage(const edk::char8* image,edk::uint32 filter = GU_NEAREST,edk::color4f32 color = edk::color4f32(0,0,0,1));
     bool loadFontImage(edk::char8* image,edk::uint32 filter = GU_NEAREST,edk::color4f32 color = edk::color4f32(0,0,0,1));
@@ -88,6 +90,8 @@ private:
     edk::tiles::TileSet2D tileSet;
     edk::Name name;
     edk::uint32 filter;
+private:
+    edk::classID classThis;
 };
 
 //list of FontSet's
@@ -95,6 +99,8 @@ class fontSetList{
 public:
     fontSetList();
     ~fontSetList();
+
+    void Constructor(bool runFather=true);
     //load the fontSet
     edk::fonts::FontSet* createFontSet(edk::char8* image,edk::uint32 filter = GU_NEAREST,edk::color4f32 color = edk::color4f32(0,0,0,1));
     //load the fontSet
@@ -115,6 +121,9 @@ private:
     public:
         FontRetain(edk::uint32 filter = 0u);
         ~FontRetain();
+
+        void Constructor(edk::uint32 filter = 0u,bool runFather=true);
+
         edk::fonts::FontSet set;
         //retain release
         void retain();
@@ -123,10 +132,28 @@ private:
         bool haveNoRetains();
     private:
         edk::uint64 retains;
+    private:
+        edk::classID classThis;
     };
 
     class TreeFont:public edk::vector::BinaryTree<edk::fonts::fontSetList::FontRetain*>{
     public:
+        TreeFont(){this->classThis=NULL;edkEnd();
+                   this->Constructor(false);edkEnd();}
+        ~TreeFont(){
+            if(this->classThis==this){
+                this->classThis=NULL;edkEnd();
+                //can destruct the class
+            }
+        }
+
+        void Constructor(bool runFather=true){
+            if(runFather){edkEnd();}
+            if(this->classThis!=this){
+                this->classThis=this;
+            }
+        }
+
         //compare if the value is bigger
         virtual bool firstBiggerSecond(edk::fonts::fontSetList::FontRetain* first,edk::fonts::fontSetList::FontRetain* second);
         virtual bool firstEqualSecond(edk::fonts::fontSetList::FontRetain* first,edk::fonts::fontSetList::FontRetain* second);
@@ -146,10 +173,15 @@ private:
     private:
         //getFontSet
         edk::fonts::fontSetList::FontRetain* getFontSetByImage(edk::char8* image,edk::uint32 filter = GU_NEAREST);
+    private:
+        edk::classID classThis;
     };
 
     //treeFonts
     static edk::fonts::fontSetList::TreeFont tree;
+    static bool templateConstructNeed;
+private:
+    edk::classID classThis;
 };
 
 }//end namespace fonts

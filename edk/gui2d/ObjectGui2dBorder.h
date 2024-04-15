@@ -57,6 +57,8 @@ public:
     ObjectGui2dBorder();
     ~ObjectGui2dBorder();
 
+    void Constructor(bool runFather=true);
+
     //save the FontTemplate
     static bool saveTemplate(const edk::char8* folder);
     static bool saveTemplate(edk::char8* folder);
@@ -131,6 +133,8 @@ private:
     edk::rectf32 rectCenter;
     edk::shape::Rectangle2D selection;
     edk::float32 border;
+private:
+    edk::classID classThis;
 };
 }//end namespace gui2d
 }//end namespace edk

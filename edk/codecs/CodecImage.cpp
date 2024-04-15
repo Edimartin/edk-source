@@ -29,21 +29,34 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endif
 
 edk::codecs::CodecImage::CodecImage(){
-    //printf("\nCodecImage Construtor");edkEnd();
-    this->frame=NULL;edkEnd();
-    this->encoded=NULL;edkEnd();
-    this->frameSize = edk::size2ui32(0u,0u);edkEnd();
-    this->encodedSize = 0u;edkEnd();
-    this->encodedQuality = 0u;edkEnd();
-    this->frameChannels = 0.f;edkEnd();
-    this->vectorFrameSize=0u;
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);edkEnd();
 }
 
 edk::codecs::CodecImage::~CodecImage(){
-    //printf("\nCodecImage Destrutor");edkEnd();
-    //delete the vectors
-    this->deleteEncoded();edkEnd();
-    this->deleteFrame();edkEnd();
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
+        //printf("\nCodecImage Destrutor");edkEnd();
+        //delete the vectors
+        this->deleteEncoded();edkEnd();
+        this->deleteFrame();edkEnd();
+    }
+}
+
+void edk::codecs::CodecImage::Constructor(bool /*runFather*/){
+    if(this->classThis!=this){
+        this->classThis=this;
+        //
+        //printf("\nCodecImage Construtor");edkEnd();
+        this->frame=NULL;edkEnd();
+        this->encoded=NULL;edkEnd();
+        this->frameSize = edk::size2ui32(0u,0u);edkEnd();
+        this->encodedSize = 0u;edkEnd();
+        this->encodedQuality = 0u;edkEnd();
+        this->frameChannels = 0.f;edkEnd();
+        this->vectorFrameSize=0u;
+    }
 }
 
 //create a new frame

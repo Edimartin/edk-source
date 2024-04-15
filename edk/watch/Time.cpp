@@ -41,25 +41,58 @@ edk::uint32 edk::watch::Time::linuxSecond = 1000000u;
 
 edk::uint8 edk::watch::Time::monthDays[12u]={31,28,31,30,31,30,31,31,30,31,30,31};
 
+bool edk::watch::Time::templateConstructNeed=true;
 
 edk::watch::Time::Time(){
-    this->cleanStr();edkEnd();
-    this->timeStart=0u;edkEnd();
-    this->saveTimeDistance=0u;edkEnd();
-#if defined(WIN32) || defined(WIN64)
-    this->systemClock=NULL;edkEnd();
-    QueryPerformanceFrequency(&this->PCFreq);edkEnd();
-    if(this->PCFreq.QuadPart==0){
-        this->PCFreq.QuadPart=1;edkEnd();
-    }
-#endif
-    //start the new clock
-    this->start();edkEnd();
-    //load the time
-    this->clockLoadLocalTime();edkEnd();
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);edkEnd();
 }
 edk::watch::Time::~Time(){
-    this->cleanStr();edkEnd();
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
+        this->cleanStr();edkEnd();
+    }
+}
+
+void edk::watch::Time::Constructor(bool /*runFather*/){
+    if(this->classThis!=this){
+        this->classThis=this;
+        if(edk::watch::Time::templateConstructNeed){
+#if defined(__linux__) || defined(__APPLE__)
+            edk::watch::Time::linuxSecond = 1000000u;
+#endif
+            edk::watch::Time::monthDays[ 0u]=31;
+            edk::watch::Time::monthDays[ 1u]=28;
+            edk::watch::Time::monthDays[ 2u]=31;
+            edk::watch::Time::monthDays[ 3u]=30;
+            edk::watch::Time::monthDays[ 4u]=31;
+            edk::watch::Time::monthDays[ 5u]=30;
+            edk::watch::Time::monthDays[ 6u]=31;
+            edk::watch::Time::monthDays[ 7u]=31;
+            edk::watch::Time::monthDays[ 8u]=30;
+            edk::watch::Time::monthDays[ 9u]=31;
+            edk::watch::Time::monthDays[10u]=30;
+            edk::watch::Time::monthDays[11u]=31;
+
+            edk::watch::Time::templateConstructNeed=false;
+        }
+
+        this->cleanStr();edkEnd();
+        this->timeStart=0u;edkEnd();
+        this->saveTimeDistance=0u;edkEnd();
+#if defined(WIN32) || defined(WIN64)
+        this->systemClock=NULL;edkEnd();
+        QueryPerformanceFrequency(&this->PCFreq);edkEnd();
+        if(this->PCFreq.QuadPart==0){
+            this->PCFreq.QuadPart=1;edkEnd();
+        }
+#endif
+        //start the new clock
+        this->start();edkEnd();
+        //load the time
+        this->clockLoadLocalTime();edkEnd();
+    }
 }
 
 
@@ -229,9 +262,9 @@ void edk::watch::Time::sleepProcessMicroseconds(edk::uint32 Microseconds){
     struct timespec temp = {seconds, nanoseconds};
     nanosleep(&temp, NULL);edkEnd();
 #elif __APPLE__//MacOS
-    //To Find
+//To Find
 #endif
-    return;edkEnd();
+return;edkEnd();
 }
 
 //get seconds since epoch
@@ -390,7 +423,7 @@ edk::uint32 edk::watch::Time::clockGetYear(){
 edk::int32 edk::watch::Time::clockGetGMTOff(){
 
 #if defined(__WIN32__) || defined(__WIN64__)
-        return 0u;edkEnd();
+    return 0u;edkEnd();
 #else
     if(systemClock){
 # ifdef	__USE_MISC
@@ -405,7 +438,7 @@ edk::int32 edk::watch::Time::clockGetGMTOff(){
 
 edk::char8* edk::watch::Time::clockGetTimezoneAbreviation(){
 #if defined(__WIN32__) || defined(__WIN64__)
-        return 0u;edkEnd();
+    return 0u;edkEnd();
 #else
     if(systemClock){
 # ifdef	__USE_MISC

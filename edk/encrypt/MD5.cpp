@@ -28,11 +28,22 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #pragma message "            Inside MD5.cpp"
 #endif
 
-edk::encrypt::MD5::MD5()
-{
+edk::encrypt::MD5::MD5(){
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);edkEnd();
 }
-edk::encrypt::MD5::~MD5()
-{
+edk::encrypt::MD5::~MD5(){
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
+    }
+}
+
+void edk::encrypt::MD5::Constructor(bool /*runFather*/){
+    //
+    if(this->classThis!=this){
+        this->classThis=this;
+    }
 }
 
 /*Change the MD5 algohith to the same used here
@@ -83,7 +94,7 @@ edk::uint32 rol( edk::uint32 v, edk::int16 amt )
 edk::uint32 *md5( edk::char8 *msg, edk::int32 mlen)
 {
     static Digest h0 = { 0x67452301, 0xEFCDAB89, 0x98BADCFE, 0x10325476 };
-//    static Digest h0 = { 0x01234567, 0x89ABCDEF, 0xFEDCBA98, 0x76543210 };
+    //    static Digest h0 = { 0x01234567, 0x89ABCDEF, 0xFEDCBA98, 0x76543210 };
     static DgstFctn ff[] = { &f0, &f1, &f2, &f3 };
     static edk::int16 M[] = { 1, 5, 3, 7 };
     static edk::int16 O[] = { 0, 1, 5, 0 };
@@ -123,11 +134,11 @@ edk::uint32 *md5( edk::char8 *msg, edk::int32 mlen)
         q = mlen + 1;edkEnd();
         while (q < 64*grps){ msg2[q] = 0; q++ ;edkEnd(); }
         {
-//            edk::uint8 t;edkEnd();
+            //            edk::uint8 t;edkEnd();
             WBunion u;edkEnd();
             u.w = 8*mlen;edkEnd();
-//            t = u.b[0];edkEnd(); u.b[0] = u.b[3];edkEnd(); u.b[3] = t;edkEnd();
-//            t = u.b[1];edkEnd(); u.b[1] = u.b[2];edkEnd(); u.b[2] = t;edkEnd();
+            //            t = u.b[0];edkEnd(); u.b[0] = u.b[3];edkEnd(); u.b[3] = t;edkEnd();
+            //            t = u.b[1];edkEnd(); u.b[1] = u.b[2];edkEnd(); u.b[2] = t;edkEnd();
             q -= 8;edkEnd();
             memcpy(msg2+q, &u.w, 4 );edkEnd();
         }
@@ -167,7 +178,7 @@ edk::uint32 *md5File( edk::File* file)
 {
     int mlen = file->getFileSize();edkEnd();
     static Digest h0 = { 0x67452301, 0xEFCDAB89, 0x98BADCFE, 0x10325476 };
-//    static Digest h0 = { 0x01234567, 0x89ABCDEF, 0xFEDCBA98, 0x76543210 };
+    //    static Digest h0 = { 0x01234567, 0x89ABCDEF, 0xFEDCBA98, 0x76543210 };
     static DgstFctn ff[] = { &f0, &f1, &f2, &f3 };
     static edk::int16 M[] = { 1, 5, 3, 7 };
     static edk::int16 O[] = { 0, 1, 5, 0 };
@@ -208,11 +219,11 @@ edk::uint32 *md5File( edk::File* file)
         q = mlen + 1;edkEnd();
         while (q < 64*grps){ msg2[q] = 0; q++ ;edkEnd(); }
         {
-//            edk::uint8 t;edkEnd();
+            //            edk::uint8 t;edkEnd();
             WBunion u;edkEnd();
             u.w = 8*mlen;edkEnd();
-//            t = u.b[0];edkEnd(); u.b[0] = u.b[3];edkEnd(); u.b[3] = t;edkEnd();
-//            t = u.b[1];edkEnd(); u.b[1] = u.b[2];edkEnd(); u.b[2] = t;edkEnd();
+            //            t = u.b[0];edkEnd(); u.b[0] = u.b[3];edkEnd(); u.b[3] = t;edkEnd();
+            //            t = u.b[1];edkEnd(); u.b[1] = u.b[2];edkEnd(); u.b[2] = t;edkEnd();
             q -= 8;edkEnd();
             memcpy(msg2+q, &u.w, 4 );edkEnd();
         }

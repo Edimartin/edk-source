@@ -25,12 +25,28 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 edk::animation::Interpolation2DTracks::Interpolation2DTracks(){
-    //
-    this->tracks = &this->stack;edkEnd();
-    this->active = false;
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);edkEnd();
 }
 edk::animation::Interpolation2DTracks::~Interpolation2DTracks(){
-    //
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
+    }
+}
+
+void edk::animation::Interpolation2DTracks::Constructor(bool runFather){
+    if(runFather){
+        edk::animation::Interpolation1DTracks::Constructor();edkEnd();
+    }
+    if(this->classThis!=this){
+        this->classThis=this;
+
+        this->stack.Constructor();edkEnd();
+
+        this->tracks = &this->stack;edkEnd();
+        this->active = false;
+    }
 }
 
 edk::animation::InterpolationGroup* edk::animation::Interpolation2DTracks::newInterpolationGroup(){

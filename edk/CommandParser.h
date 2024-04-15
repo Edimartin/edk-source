@@ -44,6 +44,9 @@ public:
     CommandParser(edk::int32 argc,edk::char8* argv[]);
     ~CommandParser();
 
+    void Constructor(bool runFather=true);
+    void Constructor(edk::int32 argc,edk::char8* argv[],bool runFather=true);
+
     //new command
     bool addCommand(const edk::char8* command,const edk::char8* value);
     bool addCommand(edk::char8* command,edk::char8* value);
@@ -97,6 +100,8 @@ private:
         Command();
         ~Command();
 
+        void Constructor(bool runFather=true);
+
         //command value
         edk::Name value;
         //command explanation
@@ -104,12 +109,16 @@ private:
 
         //command position in the stack
         edk::uint32 position;
+    private:
+        edk::classID classThis;
     };
     //command tree
     class TreeCommand:public edk::vector::NameTree{
     public:
         TreeCommand();
         ~TreeCommand();
+
+        void Constructor(bool runFather=true);
         //Print the command and value
         void printElement(edk::Name* value);
         //print only the command name
@@ -138,7 +147,11 @@ private:
     private:
         //stack with the commands
         edk::vector::StackNames stack;
+    private:
+        edk::classID classThis;
     }tree;
+private:
+    edk::classID classThis;
 };
 }//end namespace edk
 

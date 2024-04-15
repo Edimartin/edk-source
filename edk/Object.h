@@ -83,19 +83,35 @@ template <class typeTemplate>
 class Object{
 public:
     Object(){
-        //
-        this->dontDestruct=false;edkEnd();
+        this->classThis=NULL;edkEnd();
+        this->Constructor(false);edkEnd();
     }
     virtual ~Object(){
-        //remove all
-        if(!this->dontDestruct){
-            this->removeAll();edkEnd();
+        if(this->classThis==this){
+            this->classThis=NULL;edkEnd();
+            //can destruct the class
+            //remove all
+            if(!this->dontDestruct){
+                this->removeAll();edkEnd();
+            }
+            else{
+                //set the tree
+                this->retains.cantDestruct();edkEnd();
+            }
+            this->dontDestruct=false;edkEnd();
         }
-        else{
-            //set the tree
-            this->retains.cantDestruct();edkEnd();
+    }
+
+    void Constructor(bool runFather=true){
+        if(runFather){edkEnd();}
+        //
+        if(this->classThis!=this){
+            this->classThis=this;
+
+            this->retains.Constructor();
+
+            this->dontDestruct=false;edkEnd();
         }
-        this->dontDestruct=false;edkEnd();
     }
 
     //retain
@@ -203,6 +219,8 @@ private:
     edk::vector::BinaryTree<typeTemplate**> retains;
     //set if cant run the destructor
     bool dontDestruct;
+private:
+    edk::classID classThis;
 };
 
 //Create a object with name
@@ -217,6 +235,10 @@ public:
     //destructor
     virtual ~ObjectWithName();
 
+    void Constructor(bool runFather=true);
+    void Constructor(edk::char8* name,bool runFather=true);
+    void Constructor(const edk::char8* name,bool runFather=true);
+
     //Set the name
     bool setName(edk::char8* name);
     bool setName(const edk::char8* name);
@@ -230,6 +252,8 @@ public:
 private:
     //private name
     edk::char8* objectName;
+private:
+    edk::classID classThis;
 };
 
 
@@ -240,11 +264,24 @@ class ObjectsTree :public edk::vector::BinaryTree<edk::Object<typeTemplate>*>{
     //
 public:
     ObjectsTree(){
-        //
+        this->classThis=NULL;edkEnd();
+        this->Constructor(false);edkEnd();
     }
     virtual ~ObjectsTree(){
-        //
-        this->clean();edkEnd();
+        if(this->classThis==this){
+            this->classThis=NULL;edkEnd();
+            //can destruct the class
+            this->clean();edkEnd();
+        }
+    }
+
+    void Constructor(bool runFather=true){
+        if(runFather){
+            edk::vector::BinaryTree<edk::Object<typeTemplate>*>::Constructor();edkEnd();
+        }
+        if(this->classThis!=this){
+            this->classThis=this;
+        }
     }
     //Diferente Add to retain the object
     bool add(edk::Object<typeTemplate>* value){
@@ -335,6 +372,8 @@ public:
         //
         return edk::vector::BinaryTree<edk::Object<typeTemplate>*>::haveElement(value);edkEnd();
     }
+private:
+    edk::classID classThis;
 };
 
 
@@ -344,10 +383,23 @@ class ObjectNameTree: public edk::vector::BinaryTree<edk::ObjectWithName*>{
     //
 public:
     ObjectNameTree(){
-        //
+        this->classThis=NULL;edkEnd();
+        this->Constructor(false);edkEnd();
     }
     virtual ~ObjectNameTree(){
-        //
+        if(this->classThis==this){
+            this->classThis=NULL;edkEnd();
+            //can destruct the class
+        }
+    }
+
+    void Constructor(bool runFather=true){
+        if(runFather){
+            edk::vector::BinaryTree<edk::ObjectWithName*>::Constructor();edkEnd();
+        }
+        if(this->classThis!=this){
+            this->classThis=this;
+        }
     }
     //Add
     //edk::Object<typeTemplate>* value,edk::Object<typeTemplate>** objRetain
@@ -369,6 +421,8 @@ private:
     //compare the names
     bool firstNameBiggerSecond(edk::char8* name1,edk::char8* name2);
     bool nameEqual(edk::char8* name1,edk::char8* name2);
+private:
+    edk::classID classThis;
 };
 
 

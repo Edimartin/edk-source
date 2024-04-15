@@ -28,14 +28,23 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #pragma message "            Inside Math.cpp"
 #endif
 
-edk::Math::Math()
-{
-    //ctor
+edk::Math::Math(){
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);edkEnd();
 }
 
-edk::Math::~Math()
-{
-    //dtor
+edk::Math::~Math(){
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
+    }
+}
+
+void edk::Math::Constructor(bool /*runFather*/){
+    //
+    if(this->classThis!=this){
+        this->classThis=this;
+    }
 }
 
 //SquareRoot
@@ -582,8 +591,8 @@ edk::float32 edk::Math::getAngle(edk::vec2f32 vec){
 }
 //Return the 2D Angle between 2 vectors
 edk::float32 edk::Math::getAngleDistanceModule(edk::float32 x1,edk::float32 y1,
-                                     edk::float32 x2,edk::float32 y2
-                                     ){
+                                               edk::float32 x2,edk::float32 y2
+                                               ){
     return edk::Math::getAngleDistanceModule(edk::vec2f32(x1,y1),edk::vec2f32(x2,y2));edkEnd();
 }
 edk::float32 edk::Math::getAngleDistanceModule(edk::vec2f32 vec1,edk::vec2f32 vec2){
@@ -594,8 +603,8 @@ edk::float32 edk::Math::getAngleDistanceModule(edk::vec2f32 vec1,edk::vec2f32 ve
     return edk::Math::arcCosin(( edk::Math::pythagoras(vec1) * edk::Math::pythagoras(vec2)),edk::Math::dotProduct(vec1,vec2));edkEnd();
 }
 edk::float32 edk::Math::getAngleDistanceModule(edk::float32 x1,edk::float32 y1,edk::float32 z1,
-                                     edk::float32 x2,edk::float32 y2,edk::float32 z2
-                                     ){
+                                               edk::float32 x2,edk::float32 y2,edk::float32 z2
+                                               ){
     return edk::Math::getAngleDistanceModule(edk::vec3f32(x1,y1,z1),edk::vec3f32(x2,y2,z2));edkEnd();
 }
 edk::float32 edk::Math::getAngleDistanceModule(edk::vec3f32 vec1,edk::vec3f32 vec2){
@@ -606,8 +615,8 @@ edk::float32 edk::Math::getAngleDistanceModule(edk::vec3f32 vec1,edk::vec3f32 ve
     return edk::Math::arcCosin(( edk::Math::pythagoras(vec1) * edk::Math::pythagoras(vec2)),edk::Math::dotProduct(vec1,vec2));edkEnd();
 }
 edk::float32 edk::Math::getAngleDistanceModule(edk::float32 x1,edk::float32 y1,edk::float32 z1,edk::float32 w1,
-                                     edk::float32 x2,edk::float32 y2,edk::float32 z2,edk::float32 w2
-                                     ){
+                                               edk::float32 x2,edk::float32 y2,edk::float32 z2,edk::float32 w2
+                                               ){
     return edk::Math::getAngleDistanceModule(edk::vec4f32(x1,y1,z1,w1),edk::vec4f32(x2,y2,z2,w2));edkEnd();
 }
 edk::float32 edk::Math::getAngleDistanceModule(edk::vec4f32 vec1,edk::vec4f32 vec2){

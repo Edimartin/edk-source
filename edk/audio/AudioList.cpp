@@ -31,14 +31,23 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //Tree with the audioNames
 edk::ObjectNameTree audioTree;
 
-edk::AudioList::AudioList()
-{
-    //ctor
+edk::AudioList::AudioList(){
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);edkEnd();
 }
 
-edk::AudioList::~AudioList()
-{
-    //dtor
+edk::AudioList::~AudioList(){
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
+    }
+}
+
+void edk::AudioList::Constructor(bool /*runFather*/){
+    //
+    if(this->classThis!=this){
+        this->classThis=this;
+    }
 }
 
 

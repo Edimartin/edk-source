@@ -50,6 +50,8 @@ public:
     ParticlesPoint2D();
     ~ParticlesPoint2D();
 
+    void Constructor(bool runFather=true);
+
     //add objects into the tree
     bool addNewObject(edk::Object2D* obj,edk::float32 angleObject,edk::size2f32 sizeObject);
     //remove an object from the tree
@@ -166,6 +168,10 @@ private:
         ParticleObject(edk::Object2D *obj);
         ParticleObject();
         ~ParticleObject();
+
+        void Constructor(edk::Object2D *obj,bool runFather=true);
+        void Constructor(bool runFather=true);
+
         //set the object pointer
         void setObject(edk::Object2D *obj);
         void setGravity(edk::vec2f32* gravity);
@@ -209,6 +215,8 @@ private:
         static edk::vec2f32 gravitySet;
         static edk::float32 angleObject;
         static edk::size2f32 sizeObject;
+    private:
+        edk::classID classThis;
     };
 
     //particles vector
@@ -222,6 +230,8 @@ private:
     public:
         TreeParticles();
         ~TreeParticles();
+
+        void Constructor(bool runFather=true);
         //render particles
         void renderElement(edk::animation::ParticlesPoint2D::ParticleObject* value);
         //update particles
@@ -246,15 +256,33 @@ private:
         //remove tree
         class treeRemove: public edk::vector::BinaryTree<edk::animation::ParticlesPoint2D::ParticleObject*>{
         public:
-            treeRemove(){}
-            ~treeRemove(){}
+            treeRemove(){this->classThis=NULL;this->Constructor(false);}
+            ~treeRemove(){
+                if(this->classThis==this){
+                    this->classThis=NULL;edkEnd();
+                    //can destruct the class
+                }
+            }
+
+            void Constructor(bool runFather=true){
+                if(runFather){
+                    edk::vector::BinaryTree<edk::animation::ParticlesPoint2D::ParticleObject*>::Constructor();
+                }
+                if(this->classThis!=this){
+                    this->classThis=this;
+                }
+            }
             //update particles
             void updateElement(edk::animation::ParticlesPoint2D::ParticleObject* value){
                 //remove the element from treeTemp
                 this->treeTemp->remove(value);edkEnd();
             }
             edk::vector::BinaryTree<edk::animation::ParticlesPoint2D::ParticleObject*>* treeTemp;
+        private:
+            edk::classID classThis;
         }treeRemove;
+    private:
+        edk::classID classThis;
     }treeParticles;
 
 
@@ -262,22 +290,47 @@ private:
     class ParticleObject2D{
     public:
         ParticleObject2D(edk::Object2D* obj,edk::float32 angleObject,edk::size2f32 sizeObject){
-            this->obj=obj;
-            this->angleObject=angleObject;
-            this->sizeObject=sizeObject;
+            this->Constructor(obj,angleObject,sizeObject,false);edkEnd();
         }
         ParticleObject2D(){}
+
+        void Constructor(edk::Object2D* obj,edk::float32 angleObject,edk::size2f32 sizeObject,bool runFather=true){
+            if(runFather){edkEnd();}
+            if(this->classThis==this){
+                this->classThis=NULL;edkEnd();
+                this->obj=obj;
+                this->angleObject=angleObject;
+                this->sizeObject=sizeObject;
+            }
+        }
 
         //Object to draw
         edk::Object2D* obj;
         edk::float32 angleObject;
         edk::size2f32 sizeObject;
+    private:
+        edk::classID classThis;
     };
     class TreeObjects2D: public edk::vector::BinaryTree<edk::animation::ParticlesPoint2D::ParticleObject2D*>{
     public:
-        TreeObjects2D(){}
+        TreeObjects2D(){this->classThis=NULL;this->Constructor(false);edkEnd();}
         ~TreeObjects2D(){
-            this->cleanObjects();
+            if(this->classThis==this){
+                this->classThis=NULL;edkEnd();
+                //can destruct the class
+                this->cleanObjects();
+            }
+        }
+
+        void Constructor(bool runFather=true){
+            if(runFather){
+                edk::vector::BinaryTree<edk::animation::ParticlesPoint2D::ParticleObject2D*>::Constructor();
+            }
+            if(this->classThis!=this){
+                this->classThis=this;
+
+                this->objTemplate.Constructor(NULL,0.f,edk::size2f32(0.f,0.f));edkEnd();
+            }
         }
         //compare if the value is bigger
         bool firstBiggerSecond(edk::animation::ParticlesPoint2D::ParticleObject2D* first,edk::animation::ParticlesPoint2D::ParticleObject2D* second){
@@ -380,12 +433,14 @@ private:
             }
             return NULL;
         }
-        private:
+    private:
         edk::animation::ParticlesPoint2D::ParticleObject2D* getObject2DByObject(edk::Object2D* obj){
             this->objTemplate.obj = obj;
             return this->getElement(&this->objTemplate);
         }
         edk::animation::ParticlesPoint2D::ParticleObject2D objTemplate;
+    private:
+        edk::classID classThis;
     }treeObjects;
 
 public:
@@ -393,6 +448,8 @@ public:
     virtual void updateParticle(edk::animation::ParticlesPoint2D::ParticleObject* particle);
     //create a frame animation
     virtual void newFrameAnimation(edk::animation::Interpolation1DGroup* animFrame,edk::float32 life);
+private:
+    edk::classID classThis;
 };
 }//end namespace animation
 }//end namespace edk

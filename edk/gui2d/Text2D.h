@@ -51,6 +51,8 @@ public:
     Text2D();
     ~Text2D();
 
+    void Constructor(bool runFather=true);
+
     //load the button textures and meshes
     bool load();
     void unload();
@@ -61,6 +63,8 @@ public:
 
     //draw the button
     void draw();
+private:
+    edk::classID classThis;
 };
 }
 }

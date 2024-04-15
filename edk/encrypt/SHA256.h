@@ -50,6 +50,8 @@ public:
     SHA256();
     ~SHA256();
 
+    void Constructor(bool runFather=true);
+
     //process the SHA256
     static bool convertTo(edk::char8 *pass, edk::uint32 size, edk::char8 *dest);
     static bool convertTo(const edk::char8 *pass, edk::uint32 size, edk::char8 *dest);
@@ -72,6 +74,8 @@ public:
     static edk::char8* convertFile(edk::File* file);
     static edk::char8* convertFile(edk::char8 *fileName);
     static edk::char8* convertFile(const edk::char8 *fileName);
+private:
+    edk::classID classThis;
 };
 }//end namespace encrypt
 }//end namespace edk

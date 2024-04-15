@@ -33,20 +33,44 @@ edk::ObjectNameTree shaderTree;
 
 
 edk::shd::GLSL::shaderLink::shaderLink(){
-    //
-    this->position = 0.f;edkEnd();
-    this->id=0u;
-    this->attach=false;edkEnd();
-    this->log=NULL;edkEnd();
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);edkEnd();
 }
 edk::shd::GLSL::shaderLink::shaderLink(edk::char8* name){
-    //set the name
-    edk::Name::setName(name);edkEnd();
+    this->classThis=NULL;edkEnd();
+    this->Constructor(name,false);edkEnd();
 }
 edk::shd::GLSL::shaderLink::~shaderLink(){
-    //delete the shader
-    this->deleteShader();edkEnd();
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
+        //delete the shader
+        this->deleteShader();edkEnd();
+    }
 }
+
+void edk::shd::GLSL::shaderLink::Constructor(bool runFather){
+    if(runFather){
+        edk::Name::Constructor();edkEnd();
+    }
+    if(this->classThis!=this){
+        this->classThis=this;
+        this->position = 0.f;edkEnd();
+        this->id=0u;
+        this->attach=false;edkEnd();
+        this->log=NULL;edkEnd();
+    }
+}
+void edk::shd::GLSL::shaderLink::Constructor(edk::char8* name,bool runFather){
+    if(runFather){
+        edk::Name::Constructor();edkEnd();
+    }
+    if(this->classThis!=this){
+        this->classThis=this;
+        edk::Name::setName(name);edkEnd();
+    }
+}
+
 //release the shader
 void edk::shd::GLSL::shaderLink::deleteShader(){
     this->deleteLog();edkEnd();
@@ -202,7 +226,7 @@ edk::shd::GLSL::TreeShader::TreeShader(){
 bool edk::shd::GLSL::TreeShader::firstBiggerSecond(edk::shd::GLSL::shaderLink* first,edk::shd::GLSL::shaderLink* second){
     if(first&&second){
         if(first->position>second->position){
-        return true;
+            return true;
         }
     }
     return false;
@@ -210,7 +234,7 @@ bool edk::shd::GLSL::TreeShader::firstBiggerSecond(edk::shd::GLSL::shaderLink* f
 bool edk::shd::GLSL::TreeShader::firstEqualSecond(edk::shd::GLSL::shaderLink* first,edk::shd::GLSL::shaderLink* second){
     if(first&&second){
         if(first->position==second->position){
-        return true;
+            return true;
         }
     }
     return false;
@@ -258,22 +282,37 @@ void edk::shd::GLSL::TreeShader::cleanShaders(){
     this->treeNames.clean();edkEnd();
 }
 
-edk::shd::GLSL::GLSL()
-{
-    //ctor
-    this->id=0u;
-    this->idTemp=0u;
-    this->enable=true;edkEnd();
-    this->log=NULL;edkEnd();
+edk::shd::GLSL::GLSL(){
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);edkEnd();
 }
 
-edk::shd::GLSL::~GLSL()
-{
-    this->deleteLog();edkEnd();
-    //delete the program
-    this->deleteProgram();edkEnd();
-    //delete the shaders
-    this->deleteShaders();edkEnd();
+edk::shd::GLSL::~GLSL(){
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
+        this->deleteLog();edkEnd();
+        //delete the program
+        this->deleteProgram();edkEnd();
+        //delete the shaders
+        this->deleteShaders();edkEnd();
+    }
+}
+
+void edk::shd::GLSL::Constructor(bool runFather){
+    if(runFather){
+        edk::shd::DataList::Constructor();edkEnd();
+    }
+    if(this->classThis!=this){
+        this->classThis=this;
+
+        this->tree.Constructor();edkEnd();
+
+        this->id=0u;
+        this->idTemp=0u;
+        this->enable=true;edkEnd();
+        this->log=NULL;edkEnd();
+    }
 }
 
 //start the lib
@@ -504,7 +543,7 @@ bool edk::shd::GLSL::createProgram(edk::char8* name){
             //test if create the program
             if(this->id){
                 if(this->enable){
-                this->idTemp=id;edkEnd();
+                    this->idTemp=id;edkEnd();
                 }
                 //test if aready have shaders
                 edk::uint32 size = this->tree.size();edkEnd();

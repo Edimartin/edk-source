@@ -45,102 +45,108 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 namespace edk{
 class Camera2D{
-    public:
-        Camera2D();
-        Camera2D(edk::vec2f32 position);
-        Camera2D(edk::float32 posX,edk::float32 posY);
-        virtual ~Camera2D();
+public:
+    Camera2D();
+    Camera2D(edk::vec2f32 position);
+    Camera2D(edk::float32 posX,edk::float32 posY);
+    virtual ~Camera2D();
 
-        //Position of the camera 2D
-        edk::vec2f32 position;
+    void Constructor(bool runFather=true);
+    void Constructor(edk::vec2f32 position,bool runFather=true);
+    void Constructor(edk::float32 posX,edk::float32 posY,bool runFather=true);
 
-        //SETTERS
-        //set the size
-        void setSize(edk::size2f32 size);
-        void setSize(edk::float32 sizeW,edk::float32 sizeH);
-        void setSizeW(edk::float32 width);
-        void setSizeH(edk::float32 height);
-        //Set a rectangle to the camera
-        bool setRect(edk::rectf32 rect);
-        bool setRect(edk::vec2f32 origin,size2f32 size);
-        bool setRect(edk::float32 originX,edk::float32 originY,edk::float32 width,edk::float32 height);
-        //Set the points of the camera in the world
-        bool setPoints(edk::vec2f32 p1, edk::vec2f32 p2);
-        bool setPoints(edk::float32 p1X,edk::float32 p1Y,edk::float32 p2X,edk::float32 p2Y);
-        //save the position in the save buffer to calculate the distance
-        void savePosition();
-        void pastePosition();
+    //Position of the camera 2D
+    edk::vec2f32 position;
 
-        //GETTERS
-        //get the size
-        edk::size2f32 getSize();
-        //return the camera rect
-        edk::rectf32 getRect();
+    //SETTERS
+    //set the size
+    void setSize(edk::size2f32 size);
+    void setSize(edk::float32 sizeW,edk::float32 sizeH);
+    void setSizeW(edk::float32 width);
+    void setSizeH(edk::float32 height);
+    //Set a rectangle to the camera
+    bool setRect(edk::rectf32 rect);
+    bool setRect(edk::vec2f32 origin,size2f32 size);
+    bool setRect(edk::float32 originX,edk::float32 originY,edk::float32 width,edk::float32 height);
+    //Set the points of the camera in the world
+    bool setPoints(edk::vec2f32 p1, edk::vec2f32 p2);
+    bool setPoints(edk::float32 p1X,edk::float32 p1Y,edk::float32 p2X,edk::float32 p2Y);
+    //save the position in the save buffer to calculate the distance
+    void savePosition();
+    void pastePosition();
 
-        //get the distance beetween the position and save distance
-        edk::float32 getDistanceFromSave();
-        //get the camera translate from saveDistance
-        edk::vec2f32 getTranslateFromSave();
+    //GETTERS
+    //get the size
+    edk::size2f32 getSize();
+    //return the camera rect
+    edk::rectf32 getRect();
 
-        //draw the camera
-        void draw();
-        void drawOrthoOnly();
-        void drawOrthoOnly(edk::float32 seconds);
+    //get the distance beetween the position and save distance
+    edk::float32 getDistanceFromSave();
+    //get the camera translate from saveDistance
+    edk::vec2f32 getTranslateFromSave();
 
-        //move the camera
-        void moveLeft(edk::float32 dist);
-        void moveLeft(edk::float64 dist);
-        void moveRight(edk::float32 dist);
-        void moveRight(edk::float64 dist);
-        void moveUp(edk::float32 dist);
-        void moveUp(edk::float64 dist);
-        void moveDown(edk::float32 dist);
-        void moveDown(edk::float64 dist);
-        void move(edk::vec2f32 position);
-        void move(edk::float32 x,edk::float32 y);
+    //draw the camera
+    void draw();
+    void drawOrthoOnly();
+    void drawOrthoOnly(edk::float32 seconds);
 
-        void scaleX(edk::float32 dist);
-        void scaleX(edk::float64 dist);
-        void scaleY(edk::float32 dist);
-        void scaleY(edk::float64 dist);
+    //move the camera
+    void moveLeft(edk::float32 dist);
+    void moveLeft(edk::float64 dist);
+    void moveRight(edk::float32 dist);
+    void moveRight(edk::float64 dist);
+    void moveUp(edk::float32 dist);
+    void moveUp(edk::float64 dist);
+    void moveDown(edk::float32 dist);
+    void moveDown(edk::float64 dist);
+    void move(edk::vec2f32 position);
+    void move(edk::float32 x,edk::float32 y);
 
-        //set camera angle
-        void setAngle(edk::float32 angle);
-        //rotate the camera
-        void rotateCamera(edk::float32 angle);
-        //get the camera angle
-        edk::float32 getAngle();
+    void scaleX(edk::float32 dist);
+    void scaleX(edk::float64 dist);
+    void scaleY(edk::float32 dist);
+    void scaleY(edk::float64 dist);
 
-        void updateAnimations();
-        void updateAnimations(edk::float32 seconds);
+    //set camera angle
+    void setAngle(edk::float32 angle);
+    //rotate the camera
+    void rotateCamera(edk::float32 angle);
+    //get the camera angle
+    edk::float32 getAngle();
 
-        //start the animation
-        bool addShakingAngle(edk::float32 position,edk::float32 percent = 0.9f,edk::float32 interpolationDistance=0.1f);
-        bool addShakingPosition(edk::vec2f32 position,edk::float32 random,edk::float32 percent = 0.9f,edk::float32 interpolationDistance=0.05f);
+    void updateAnimations();
+    void updateAnimations(edk::float32 seconds);
 
-        //operator to copy the cameras
-        bool cloneFrom(edk::Camera2D* cam);
-        //animated position
-        edk::animation::Interpolation2DGroup animPosition;
-        //animated angle
-        edk::animation::Interpolation1DGroup animAngle;
-    protected:
-    private:
-        edk::Camera2D operator=(edk::Camera2D){return *this;}
-        //size of the camera screen
-        edk::size2f32 size;
-        edk::vec2f32 up;
-        edk::vec2f32 tempPosition;
-        edk::float32 angle;
+    //start the animation
+    bool addShakingAngle(edk::float32 position,edk::float32 percent = 0.9f,edk::float32 interpolationDistance=0.1f);
+    bool addShakingPosition(edk::vec2f32 position,edk::float32 random,edk::float32 percent = 0.9f,edk::float32 interpolationDistance=0.05f);
 
-        //save the camera positon to calculate the distance
-        edk::vec2f32 positionSave;
+    //operator to copy the cameras
+    bool cloneFrom(edk::Camera2D* cam);
+    //animated position
+    edk::animation::Interpolation2DGroup animPosition;
+    //animated angle
+    edk::animation::Interpolation1DGroup animAngle;
+protected:
+private:
+    edk::Camera2D operator=(edk::Camera2D){return *this;}
+    //size of the camera screen
+    edk::size2f32 size;
+    edk::vec2f32 up;
+    edk::vec2f32 tempPosition;
+    edk::float32 angle;
 
-        //animated position
-        edk::animation::Interpolation2DGroup animShakingPosition;
-        //animated angle
-        edk::animation::Interpolation1DGroup animShakingAngle;
+    //save the camera positon to calculate the distance
+    edk::vec2f32 positionSave;
+
+    //animated position
+    edk::animation::Interpolation2DGroup animShakingPosition;
+    //animated angle
+    edk::animation::Interpolation1DGroup animShakingAngle;
     void start();
+private:
+    edk::classID classThis;
 };
 }//end namespace edk
 

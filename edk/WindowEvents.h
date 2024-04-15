@@ -94,21 +94,50 @@ enum EventWindowType{
 class WindowEvents{
 public:
     WindowEvents(){
-        //
-        this->focus=true;edkEnd();
-
-        //start all doubleClicks
-        edk::uint32 size = edk::mouse::mouseButtonsSize;
-        for(edk::uint32 i=0u;i<size;i++){
-            this->timeMouseDouble[i].start();
-        }
-
-        //set the mouse double click limit
-        this->timeMouseDoubleLimit = EDK_TIME_LIMIT_DOUBLE_CLICK;
-        this->runForceSecondPassed=false;edkEnd();
+        this->classThis=NULL;edkEnd();
+        this->Constructor(false);edkEnd();
     }
     virtual ~WindowEvents(){
-        //
+        if(this->classThis==this){
+            this->classThis=NULL;edkEnd();
+            //can destruct the class
+        }
+    }
+
+    void Constructor(bool runFather=true){
+        if(runFather){edkEnd();}
+        if(this->classThis!=this){
+            this->classThis=this;
+
+            this->keyPressed.Constructor();edkEnd();
+            this->keyRelease.Constructor();edkEnd();
+            this->keyHolded.Constructor();edkEnd();
+            this->keyText.Constructor();edkEnd();
+            this->mousePressed.Constructor();edkEnd();
+            this->mouseRelease.Constructor();edkEnd();
+            this->mouseHolded.Constructor();edkEnd();
+            this->mouseDoubleClick.Constructor();edkEnd();
+            for(edk::uint32 i=0u;i<edk::mouse::mouseButtonsSize;i++){
+                timeMouseDouble[i].Constructor();edkEnd();
+            }
+            this->controllerPressed.Constructor();edkEnd();
+            this->controllerHolded.Constructor();edkEnd();
+            this->controllerReleased.Constructor();edkEnd();
+            this->controllerAxisMoved.Constructor();edkEnd();
+
+            //
+            this->focus=true;edkEnd();
+
+            //start all doubleClicks
+            edk::uint32 size = edk::mouse::mouseButtonsSize;
+            for(edk::uint32 i=0u;i<size;i++){
+                this->timeMouseDouble[i].start();
+            }
+
+            //set the mouse double click limit
+            this->timeMouseDoubleLimit = EDK_TIME_LIMIT_DOUBLE_CLICK;
+            this->runForceSecondPassed=false;edkEnd();
+        }
     }
 
     //friendClass
@@ -2544,16 +2573,50 @@ private:
     //Controller
     class ControllerButtons{
     public:
-        ControllerButtons(){this->controller=0u;edkEnd();}
-        virtual ~ControllerButtons(){this->buttons.clean();edkEnd();}
+        ControllerButtons(){this->classThis=NULL;this->Constructor(false);edkEnd();}
+        virtual ~ControllerButtons(){
+            if(this->classThis==this){
+                this->classThis=NULL;edkEnd();
+                //can destruct the class
+                this->buttons.clean();edkEnd();
+            }
+        }
+
+        void Constructor(bool runFather=true){
+            if(runFather){edkEnd();}
+            if(this->classThis!=this){
+                this->classThis=this;
+
+                this->buttons.Constructor();edkEnd();
+
+                this->controller=0u;edkEnd();
+            }
+        }
         edk::uint32 controller;
         edk::vector::BinaryTree<edk::uint32> buttons;
+    private:
+        edk::classID classThis;
     };
     //controller button tree
     class ControllerButtonsEvent{
     public:
-        ControllerButtonsEvent(){}
-        virtual ~ControllerButtonsEvent(){this->clean();edkEnd();}
+        ControllerButtonsEvent(){this->classThis=NULL;this->Constructor(false);edkEnd();}
+        virtual ~ControllerButtonsEvent(){
+            if(this->classThis==this){
+                this->classThis=NULL;edkEnd();
+                //can destruct the class
+                this->clean();edkEnd();
+            }
+        }
+
+        void Constructor(bool runFather=true){
+            if(runFather){edkEnd();}
+            if(this->classThis!=this){
+                this->classThis=this;
+
+                this->buttons.Constructor();edkEnd();
+            }
+        }
 
         bool cloneFrom(edk::WindowEvents::ControllerButtonsEvent* event){
             this->clean();
@@ -2700,8 +2763,22 @@ private:
     protected:
         class ButtonTree: public edk::vector::BinaryTree<edk::WindowEvents::ControllerButtons*>{
         public:
-            ButtonTree(){}
-            ~ButtonTree(){}
+            ButtonTree(){this->classThis=NULL;this->Constructor(false);edkEnd();}
+            ~ButtonTree(){
+                if(this->classThis==this){
+                    this->classThis=NULL;edkEnd();
+                    //can destruct the class
+                }
+            }
+
+            void Constructor(bool runFather=true){
+                if(runFather){
+                    edk::vector::BinaryTree<edk::WindowEvents::ControllerButtons*>::Constructor();edkEnd();
+                }
+                if(this->classThis!=this){
+                    this->classThis=this;
+                }
+            }
             //compare if the value is bigger
             bool firstBiggerSecond(edk::WindowEvents::ControllerButtons* first,edk::WindowEvents::ControllerButtons* second){
                 if(first&&second){
@@ -2719,6 +2796,8 @@ private:
                 }
                 return false;
             }
+        private:
+            edk::classID classThis;
         }buttons;
 
         //get the controller by ID
@@ -2736,23 +2815,74 @@ private:
             find.controller = controller;edkEnd();
             return this->buttons.haveElement(&find);
         }
+    private:
+        edk::classID classThis;
     };
     class ControllerAxis: public edk::WindowEvents::ControllerButtons{
     public:
-        ControllerAxis(){this->controller=0u;edkEnd();}
-        virtual ~ControllerAxis(){this->axisValue.clean();edkEnd();}
+        ControllerAxis(){this->classThis=NULL;this->Constructor(false);edkEnd();}
+        virtual ~ControllerAxis(){
+            if(this->classThis==this){
+                this->classThis=NULL;edkEnd();
+                //can destruct the class
+                this->axisValue.clean();edkEnd();
+            }
+        }
+
+        void Constructor(bool runFather=true){
+            if(runFather){
+                edk::WindowEvents::ControllerButtons::Constructor();
+            }
+            if(this->classThis!=this){
+                this->classThis=this;
+
+                this->axisValue.Constructor();edkEnd();
+
+                this->controller=0u;edkEnd();
+            }
+        }
         class AxisValue{
         public:
-            AxisValue(){this->value=0.f;edkEnd();this->id=0u;edkEnd();}
-            ~AxisValue(){}
+            AxisValue(){this->classThis=NULL;this->Constructor(false);edkEnd();}
+            ~AxisValue(){
+                if(this->classThis==this){
+                    this->classThis=NULL;edkEnd();
+                    //can destruct the class
+                }
+            }
+
+            void Constructor(bool runFather=true){
+                if(runFather){edkEnd();}
+                if(this->classThis!=this){
+                    this->classThis=this;
+                    this->value=0.f;edkEnd();
+                    this->id=0u;edkEnd();
+                }
+            }
             edk::float32 value;
             edk::uint32 id;
+        private:
+            edk::classID classThis;
         };
         //tree to save the values
         class AxisValueTree: public edk::vector::BinaryTree<edk::WindowEvents::ControllerAxis::AxisValue*>{
         public:
-            AxisValueTree(){}
-            ~AxisValueTree(){}
+            AxisValueTree(){this->classThis=NULL;this->Constructor(false);edkEnd();}
+            ~AxisValueTree(){
+                if(this->classThis==this){
+                    this->classThis=NULL;edkEnd();
+                    //can destruct the class
+                }
+            }
+
+            void Constructor(bool runFather=true){
+                if(runFather){
+                    edk::vector::BinaryTree<edk::WindowEvents::ControllerAxis::AxisValue*>::Constructor();edkEnd();
+                }
+                if(this->classThis!=this){
+                    this->classThis=this;
+                }
+            }
             bool firstBiggerSecond(edk::WindowEvents::ControllerAxis::AxisValue* first,edk::WindowEvents::ControllerAxis::AxisValue* second){
                 if(first&&second){
                     if(first->id>second->id){
@@ -2857,12 +2987,30 @@ private:
                 find.id = axis;edkEnd();
                 return this->getElement(&find);
             }
+        private:
+            edk::classID classThis;
         }axisValue;
+    private:
+        edk::classID classThis;
     };
     class ControllerAxisEvent : private edk::WindowEvents::ControllerButtonsEvent{
     public:
-        ControllerAxisEvent(){}
-        ~ControllerAxisEvent(){}
+        ControllerAxisEvent(){this->classThis=NULL;this->Constructor(false);edkEnd();}
+        ~ControllerAxisEvent(){
+            if(this->classThis==this){
+                this->classThis=NULL;edkEnd();
+                //can destruct the class
+            }
+        }
+
+        void Constructor(bool runFather=true){
+            if(runFather){
+                edk::WindowEvents::ControllerButtonsEvent::Constructor();edkEnd();
+            }
+            if(this->classThis!=this){
+                this->classThis=this;
+            }
+        }
 
         bool cloneFrom(edk::WindowEvents::ControllerAxisEvent* event){
             if(event){
@@ -2973,6 +3121,8 @@ private:
             }
             return false;
         }
+    private:
+        edk::classID classThis;
     };
 
 public:
@@ -2981,6 +3131,8 @@ public:
     edk::WindowEvents::ControllerButtonsEvent controllerHolded;
     edk::WindowEvents::ControllerButtonsEvent controllerReleased;
     edk::WindowEvents::ControllerAxisEvent controllerAxisMoved;
+private:
+    edk::classID classThis;
 };
 }//end namespace edk
 

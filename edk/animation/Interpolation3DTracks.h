@@ -52,6 +52,8 @@ public:
     Interpolation3DTracks();
     ~Interpolation3DTracks();
 
+    void Constructor(bool runFather=true);
+
     //Add a first interpolation
     bool addFirstInterpolationLine(edk::uint32 trackPosition,edk::float32 startSecond, edk::float32 startX, edk::float32 startY, edk::float32 startZ,
                                    edk::float32 endSecond,edk::float32 endX,edk::float32 endY,edk::float32 endZ);
@@ -129,8 +131,24 @@ protected:
     //stack of tracks
     class StackTracks3D : public edk::animation::Interpolation2DTracks::StackTracks2D{
     public:
-        StackTracks3D(){}
-        ~StackTracks3D(){}
+        StackTracks3D(){this->classThis=NULL;edkEnd();
+                        this->Constructor(false);edkEnd();}
+        ~StackTracks3D(){
+            if(this->classThis==this){
+                this->classThis=NULL;edkEnd();
+                //can destruct the class
+            }
+        }
+
+        void Constructor(bool runFather=true){
+            if(runFather){
+                edk::animation::Interpolation2DTracks::StackTracks2D::Constructor();edkEnd();
+            }
+            if(this->classThis!=this){
+                this->classThis=this;
+            }
+        }
+
         virtual void renderElement(edk::animation::InterpolationTracks::AnimationAndPosition value){
             edk::animation::Interpolation3DGroup* group = (edk::animation::Interpolation3DGroup*)value.animation;edkEnd();
             if(group){
@@ -154,9 +172,13 @@ protected:
             }
         }
         edk::float32 z;
+    private:
+        edk::classID classThis;
     }stack;
     //
     virtual edk::animation::InterpolationGroup* newInterpolationGroup();
+private:
+    edk::classID classThis;
 };
 }//end namespace animation
 }//end namespace edk

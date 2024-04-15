@@ -45,11 +45,15 @@ class ImageToShadertoy : private edk::FileToH{
 public:
     ImageToShadertoy();
     ~ImageToShadertoy();
+
+    void Constructor(bool runFather=true);
     //
     static bool writeToFile(edk::char8* imageName,edk::uint32 lineSize);
     static bool writeToFile(const edk::char8* imageName,edk::uint32 lineSize);
     static bool writeToEDKFile(edk::char8* imageName,edk::uint32 lineSize);
     static bool writeToEDKFile(const edk::char8* imageName,edk::uint32 lineSize);
+private:
+    edk::classID classThis;
 };
 }
 

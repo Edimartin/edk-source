@@ -44,6 +44,8 @@ public:
     ViewSpriteController();
     virtual ~ViewSpriteController();
 
+    void Constructor(bool runFather=true);
+
     //filter
     //GU_NEAREST
     //GU_LINEAR
@@ -93,6 +95,8 @@ private:
     edk::Texture2DList list;
     edk::uint32 spriteFilter;
     edk::size2ui32 spriteSize;
+private:
+    edk::classID classThis;
 };
 }//end namespace
 

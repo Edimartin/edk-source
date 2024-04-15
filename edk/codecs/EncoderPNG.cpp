@@ -28,15 +28,26 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #pragma message "            Inside EncoderPNG.cpp"
 #endif
 
-edk::codecs::EncoderPNG::EncoderPNG()
-{
-    //ctor
+edk::codecs::EncoderPNG::EncoderPNG(){
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);edkEnd();
 }
 
-edk::codecs::EncoderPNG::~EncoderPNG()
-{
-    //dtor
-    this->deleteEncoded();edkEnd();
+edk::codecs::EncoderPNG::~EncoderPNG(){
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
+        this->deleteEncoded();edkEnd();
+    }
+}
+
+void edk::codecs::EncoderPNG::Constructor(bool runFather){
+    if(runFather){
+        edk::codecs::EncoderImage::Constructor();edkEnd();
+    }
+    if(this->classThis!=this){
+        this->classThis=this;
+    }
 }
 
 //process the encoder

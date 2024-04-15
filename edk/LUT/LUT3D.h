@@ -48,6 +48,8 @@ public:
     LUT3D();
     virtual ~LUT3D();
 
+    void Constructor(bool runFather=true);
+
     //create a new table
     bool newTable(edk::uint16 size);
     //delete the table
@@ -84,6 +86,8 @@ private:
     edk::size2ui32 imageSize;
     //calculate the imageSize
     edk::size2ui32 calcImageSize(edk::uint16 size);
+private:
+    edk::classID classThis;
 };
 }//end namespace edk
 

@@ -27,17 +27,42 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #if defined(EDK_FILEPACK_PRINT_DEBUG)
 edk::DebugLineFile edk::pack::FilePackage::debugFile;
 edk::multi::Mutex edk::pack::FilePackage::debugMut;
+bool edk::pack::FilePackage::templateConstructNeed=true;
 #endif
 
 edk::pack::FilePackage::FilePackage(){
-    this->selected = NULL;edkEnd();
-    this->buffer = NULL;edkEnd();
-    this->bufferSize = 0u;edkEnd();
-    this->bufferReadSize = 0u;edkEnd();
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);edkEnd();
 }
 edk::pack::FilePackage::~FilePackage(){
-    this->deleteBuffer();edkEnd();
-    this->removeAllNames();edkEnd();
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
+        this->deleteBuffer();edkEnd();
+        this->removeAllNames();edkEnd();
+    }
+}
+
+void edk::pack::FilePackage::Constructor(bool /*runFather*/){
+    if(this->classThis!=this){
+        this->classThis=this;
+
+        this->tree.Constructor();edkEnd();
+        this->mutex.Constructor();edkEnd();
+        this->file.Constructor();edkEnd();
+
+#if defined(EDK_FILEPACK_PRINT_DEBUG)
+        if(edk::pack::FilePackage::templateConstructNeed){
+            edk::pack::FilePackage::debugFile.Constructor();
+            edk::pack::FilePackage::debugMut.Constructor();
+            edk::pack::FilePackage::templateConstructNeed=false;
+        }
+#endif
+        this->selected = NULL;edkEnd();
+        this->buffer = NULL;edkEnd();
+        this->bufferSize = 0u;edkEnd();
+        this->bufferReadSize = 0u;edkEnd();
+    }
 }
 
 //set the debugFile Name

@@ -57,6 +57,8 @@ public:
     InterpolationTracks();
     ~InterpolationTracks();
 
+    void Constructor(bool runFather=true);
+
     //set the abstract
     bool addAnimationCallback(edk::animation::AnimationTracksCallback* callback);
     bool removeAnimationCallback(edk::animation::AnimationTracksCallback* callback);
@@ -343,8 +345,22 @@ protected:
     //animations in position
     class AnimationAndPosition{
     public:
-        AnimationAndPosition(){this->animation=NULL;edkEnd();this->number = 0u;edkEnd();}
-        ~AnimationAndPosition(){}
+        AnimationAndPosition(){this->classThis=NULL;this->Constructor(false);edkEnd();}
+        ~AnimationAndPosition(){
+            if(this->classThis==this){
+                this->classThis=NULL;edkEnd();
+                //can destruct the class
+            }
+        }
+
+        void Constructor(bool runFather=true){
+            if(runFather){edkEnd();}
+            if(this->classThis!=this){
+                this->classThis=this;
+                this->animation=NULL;edkEnd();
+                this->number = 0u;edkEnd();
+            }
+        }
         edk::animation::InterpolationTracks::AnimationAndPosition* operator=(edk::animation::InterpolationTracks::AnimationAndPosition anim){
             this->animation=anim.animation;edkEnd();
             this->number=anim.number;edkEnd();
@@ -364,6 +380,8 @@ protected:
         }
         edk::animation::InterpolationGroup* animation;
         edk::uint32 number;
+    private:
+        edk::classID classThis;
     };
     //animationCallbacks
     edk::vector::BinaryTree<edk::animation::AnimationTracksCallback*> callbacks;
@@ -372,8 +390,23 @@ protected:
     //stack of tracks
     class StackTracks : public edk::vector::Stack<edk::animation::InterpolationTracks::AnimationAndPosition>{
     public:
-        StackTracks(){this->seconds=0.f;edkEnd();}
-        ~StackTracks(){}
+        StackTracks(){this->classThis=NULL;this->Constructor(false);edkEnd();}
+        ~StackTracks(){
+            if(this->classThis==this){
+                this->classThis=NULL;edkEnd();
+                //can destruct the class
+            }
+        }
+
+        void Constructor(bool runFather=true){
+            if(runFather){
+                edk::vector::Stack<edk::animation::InterpolationTracks::AnimationAndPosition>::Constructor();edkEnd();
+            }
+            if(this->classThis!=this){
+                this->classThis=this;
+                this->seconds=0.f;edkEnd();
+            }
+        }
         //
         /*
         virtual void loadElement(edk::animation::InterpolationTracks::AnimationAndPosition value){
@@ -413,6 +446,8 @@ protected:
         }
         */
         edk::float32 seconds;
+    private:
+        edk::classID classThis;
     }stack;
     //track temp
     edk::animation::InterpolationTracks::StackTracks* tracks;
@@ -422,6 +457,8 @@ private:
     void animationEnd(edk::animation::InterpolationGroup* animation);
 
     edk::animation::InterpolationTracks operator=(edk::animation::InterpolationTracks tracks){return tracks;edkEnd();}
+private:
+    edk::classID classThis;
 };
 }//end namespace anim
 }//end namespace edk

@@ -216,7 +216,7 @@ void eventMouseLeftView(edk::vec2f32 point){
 namespace edk {
 class ViewController;
 class View {
- public:
+public:
     View();
 
     View(edk::rectf32 frame);
@@ -225,6 +225,9 @@ class View {
     friend edk::ViewController;
 
     virtual ~View();
+
+    void Constructor(bool runFather=true);
+    void Constructor(edk::rectf32 frame,bool runFather=true);
 
     virtual void draw(edk::rectf32 outsideViewOrigin);
     virtual void resize(edk::rectf32 outsideViewOrigin);
@@ -329,7 +332,7 @@ class View {
     //return if the pause is true
     virtual bool isPaused();
 
- public:
+public:
     edk::rectf32 frame;
     edk::vec2f32 positionInWindow;
     edk::rectf32 animatedFrame;
@@ -342,7 +345,7 @@ class View {
     edk::vec2f32 mousePos;
     edk::float64 borderSize;
 
- protected:
+protected:
     edk::rectf32 rectTemp;
     edk::float32 borderTemp;
     //save if it's paused
@@ -373,6 +376,8 @@ class View {
 private:
     //save the outside frame to test if it was changed
     edk::rectf32 saveOutsideFrame;
+private:
+    edk::classID classThis;
 };
 
 }//End of namespace edk

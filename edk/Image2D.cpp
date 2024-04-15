@@ -29,50 +29,78 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endif
 
 edk::Image2D::Image2D(){
-    //ctor
-    this->imageName=NULL;edkEnd();
-    this->imageFileName=NULL;edkEnd();
-    this->vec = NULL;edkEnd();
-    this->colors = NULL;edkEnd();
-    this->channelsValue=0u;
-    this->palette=NULL;edkEnd();
-    this->paletteSize=0u;
-    this->bytesPerColors=0u;
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);edkEnd();
 }
 
 edk::Image2D::Image2D(char8 *imageFileName){
-    //clean all
-    this->imageName=NULL;edkEnd();
-    this->imageFileName=NULL;edkEnd();
-    this->vec = NULL;edkEnd();
-    this->colors = NULL;edkEnd();
-    this->channelsValue=0u;
-    this->palette=NULL;edkEnd();
-    this->paletteSize=0u;
-    this->bytesPerColors=0u;
-    //load the image
-    this->loadFromFile(imageFileName);edkEnd();
+    this->classThis=NULL;edkEnd();
+    this->Constructor(imageFileName,false);edkEnd();
 }
 
 edk::Image2D::Image2D(const char *imageFileName){
-    //clean all
-    this->imageName=NULL;edkEnd();
-    this->imageFileName=NULL;edkEnd();
-    this->vec = NULL;edkEnd();
-    this->colors = NULL;edkEnd();
-    this->channelsValue=0u;
-    this->palette=NULL;edkEnd();
-    this->paletteSize=0u;
-    this->bytesPerColors=0u;
-    //load the image
-    this->loadFromFile(imageFileName);edkEnd();
+    this->classThis=NULL;edkEnd();
+    this->Constructor(imageFileName,false);edkEnd();
 }
 
 edk::Image2D::~Image2D(){
-    //dtor
-    this->deleteImage();edkEnd();
-    //    this->deleteName();edkEnd();
-    //    this->deleteFileName();edkEnd();
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
+        //dtor
+        this->deleteImage();edkEnd();
+        //    this->deleteName();edkEnd();
+        //    this->deleteFileName();edkEnd();
+    }
+}
+
+void edk::Image2D::Constructor(bool /*runFather*/){
+    if(this->classThis!=this){
+        this->classThis=this;
+        //ctor
+        this->imageName=NULL;edkEnd();
+        this->imageFileName=NULL;edkEnd();
+        this->vec = NULL;edkEnd();
+        this->colors = NULL;edkEnd();
+        this->channelsValue=0u;
+        this->palette=NULL;edkEnd();
+        this->paletteSize=0u;
+        this->bytesPerColors=0u;
+    }
+}
+
+void edk::Image2D::Constructor(char8 *imageFileName,bool /*runFather*/){
+    if(this->classThis!=this){
+        this->classThis=this;
+        //clean all
+        this->imageName=NULL;edkEnd();
+        this->imageFileName=NULL;edkEnd();
+        this->vec = NULL;edkEnd();
+        this->colors = NULL;edkEnd();
+        this->channelsValue=0u;
+        this->palette=NULL;edkEnd();
+        this->paletteSize=0u;
+        this->bytesPerColors=0u;
+        //load the image
+        this->loadFromFile(imageFileName);edkEnd();
+    }
+}
+
+void edk::Image2D::Constructor(const char *imageFileName,bool /*runFather*/){
+    if(this->classThis!=this){
+        this->classThis=this;
+        //clean all
+        this->imageName=NULL;edkEnd();
+        this->imageFileName=NULL;edkEnd();
+        this->vec = NULL;edkEnd();
+        this->colors = NULL;edkEnd();
+        this->channelsValue=0u;
+        this->palette=NULL;edkEnd();
+        this->paletteSize=0u;
+        this->bytesPerColors=0u;
+        //load the image
+        this->loadFromFile(imageFileName);edkEnd();
+    }
 }
 
 

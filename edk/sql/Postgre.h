@@ -52,6 +52,8 @@ public:
     Postgre();
     virtual ~Postgre();
 
+    void Constructor(bool runFather=true);
+
     //open dataBase
     bool openDataBase(const edk::char8* database,const edk::char8* user,const edk::char8* password);
     bool openDataBase(edk::char8* database,edk::char8* user,edk::char8* password);
@@ -78,6 +80,8 @@ private:
     pqxx::nontransaction* N;
 #endif
     edk::Name error;
+private:
+    edk::classID classThis;
 };
 }//end namespace sql
 }//end namespace edk

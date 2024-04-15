@@ -29,17 +29,29 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #pragma message "            Inside Texture2DRender.cpp"
 #endif
 
-edk::Texture2DRender::Texture2DRender()
-{
-    //ctor
-    this->frameBuffer=0u;
-    this->depthBuffer=0u;
-    edk::GU_GLSL::guShaderInit();edkEnd();
+edk::Texture2DRender::Texture2DRender(){
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);edkEnd();
 }
 
-edk::Texture2DRender::~Texture2DRender()
-{
-    this->deleteRender();edkEnd();
+edk::Texture2DRender::~Texture2DRender(){
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
+        this->deleteRender();edkEnd();
+    }
+}
+
+void edk::Texture2DRender::Constructor(bool runFather){
+    if(runFather){
+        edk::Texture2D::Constructor();edkEnd();
+    }
+    if(this->classThis!=this){
+        this->classThis=this;
+        this->frameBuffer=0u;
+        this->depthBuffer=0u;
+        edk::GU_GLSL::guShaderInit();edkEnd();
+    }
 }
 
 //delete the frameBuffer

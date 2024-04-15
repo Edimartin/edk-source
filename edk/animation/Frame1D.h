@@ -43,16 +43,40 @@ namespace animation{
 class Frame1D: public edk::animation::Frame{
 public:
     Frame1D(){
-        //
-        this->x=0.0f;edkEnd();
+        this->classThis=NULL;edkEnd();
+        this->Constructor(false);edkEnd();
     }
     Frame1D(edk::float32 second,edk::float32 x){
-        //
-        this->second=second;edkEnd();
-        this->x=x;edkEnd();
+        this->classThis=NULL;edkEnd();
+        this->Constructor(second,x,false);edkEnd();
     }
     virtual ~Frame1D(){
-        //
+        if(this->classThis==this){
+            this->classThis=NULL;edkEnd();
+            //can destruct the class
+        }
+    }
+
+    void Constructor(bool runFather=true){
+        if(runFather){
+            edk::animation::Frame::Constructor();edkEnd();
+        }
+        if(this->classThis!=this){
+            this->classThis=this;
+            //
+            this->x=0.0f;edkEnd();
+        }
+    }
+    void Constructor(edk::float32 second,edk::float32 x,bool runFather=true){
+        if(runFather){
+            edk::animation::Frame::Constructor();edkEnd();
+        }
+        if(this->classThis!=this){
+            this->classThis=this;
+            //
+            this->second=second;edkEnd();
+            this->x=x;edkEnd();
+        }
     }
 
     //x 2D of the frame
@@ -131,14 +155,9 @@ private:
         frame.cantDestruct();edkEnd();
         return *this;edkEnd();
     }
+private:
+    edk::classID classThis;
 };
-
-
-
-
-
-
-
 }//end namespace animation
 }//end namespace edk
 

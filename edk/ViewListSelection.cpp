@@ -29,34 +29,49 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endif
 
 edk::ViewListSelection::ListCell::ListCell(edk::uint32* lineSize){
-    //
-    this->showing = false;edkEnd();
-    if(lineSize){
-        this->lineSize = lineSize;edkEnd();
-    }
-    else{
-        this->lineSize = &this->sizeTemp;edkEnd();
-    }
-    this->drawColor = this->backgroundColor;edkEnd();
-    this->backgroundColorShowing = edk::color4f32(0.75f,0.75f,1.0f,1.f);edkEnd();
-    this->id = 0u;edkEnd();
-
-    //text color
-    this->textColor = edk::color4f32(0.0f,0.0f,0.0f,1.f);edkEnd();
-    //text color selecting
-    this->textColorSelecting = edk::color4f32(0.5f,0.5f,0.5f,1.f);edkEnd();
-
-    this->showing=true;
-    this->selecting=true;
-    //set if the cell are selected
-    this->selected=false;
-
-    //set the text to black color
-    this->text.setColor(0.f,0.f,0.f,1.f);edkEnd();
+    this->classThis=NULL;edkEnd();
+    this->Constructor(lineSize,false);edkEnd();
 }
 edk::ViewListSelection::ListCell::~ListCell(){
-    this->lineSize = &this->sizeTemp;edkEnd();
-    this->cleanText();edkEnd();
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
+        this->lineSize = &this->sizeTemp;edkEnd();
+        this->cleanText();edkEnd();
+    }
+}
+
+void edk::ViewListSelection::ListCell::Constructor(edk::uint32* lineSize,bool /*runFather*/){
+    //
+    if(this->classThis!=this){
+        this->classThis=this;
+
+        this->text.Constructor();
+
+        this->showing = false;edkEnd();
+        if(lineSize){
+            this->lineSize = lineSize;edkEnd();
+        }
+        else{
+            this->lineSize = &this->sizeTemp;edkEnd();
+        }
+        this->drawColor = this->backgroundColor;edkEnd();
+        this->backgroundColorShowing = edk::color4f32(0.75f,0.75f,1.0f,1.f);edkEnd();
+        this->id = 0u;edkEnd();
+
+        //text color
+        this->textColor = edk::color4f32(0.0f,0.0f,0.0f,1.f);edkEnd();
+        //text color selecting
+        this->textColorSelecting = edk::color4f32(0.5f,0.5f,0.5f,1.f);edkEnd();
+
+        this->showing=true;
+        this->selecting=true;
+        //set if the cell are selected
+        this->selected=false;
+
+        //set the text to black color
+        this->text.setColor(0.f,0.f,0.f,1.f);edkEnd();
+    }
 }
 
 //draw the rectangle
@@ -184,16 +199,36 @@ void edk::ViewListSelection::ListCell::setPosition(edk::float32 y){
 }
 
 edk::ViewListSelection::ViewListSelection(){
-    //cameraSize
-    this->cameraWidth=1u;edkEnd();
-    this->cameraHeight=1u;edkEnd();
-    this->moveScroll = 0.1f;edkEnd();
-    this->clicked = NULL;edkEnd();
-    this->clickedPosition=0u;
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);edkEnd();
 }
 edk::ViewListSelection::~ViewListSelection(){
-    //
-    this->cleanCells();edkEnd();
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
+        this->cleanCells();edkEnd();
+    }
+}
+
+void edk::ViewListSelection::Constructor(bool runFather){
+    if(runFather){
+        edk::ViewGU2D::Constructor();edkEnd();
+    }
+    if(this->classThis!=this){
+        this->classThis=this;
+
+        this->scroll.Constructor();edkEnd();
+        this->mouseButtons.Constructor();edkEnd();
+        this->mouseButtonsNew.Constructor();edkEnd();
+        this->cells.Constructor();edkEnd();
+
+        //cameraSize
+        this->cameraWidth=1u;edkEnd();
+        this->cameraHeight=1u;edkEnd();
+        this->moveScroll = 0.1f;edkEnd();
+        this->clicked = NULL;edkEnd();
+        this->clickedPosition=0u;
+    }
 }
 
 //update the cells position

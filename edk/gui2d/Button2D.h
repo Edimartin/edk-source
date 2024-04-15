@@ -50,6 +50,8 @@ public:
     Button2D();
     virtual ~Button2D();
 
+    void Constructor(bool runFather=true);
+
     //load the button textures and meshes
     bool load();
     void unload();
@@ -61,6 +63,7 @@ public:
     //draw the button
     void draw();
 private:
+    edk::classID classThis;
 };
 }//end namespace gui2d
 }//end namespace edk

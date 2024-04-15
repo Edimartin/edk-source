@@ -29,42 +29,66 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endif
 
 edk::Object2D::Object2D(){
-    //
-    this->type=edk::TypeObject2D;
-    this->selected=NULL;edkEnd();
-    //rotation
-    this->angle=0.0f;edkEnd();
-    //Scale
-    this->size = edk::size2f32(1.f,1.f);edkEnd();
-    this->canDeleteObject=true;edkEnd();
-    /*
-    this->actions.setReadXMLActionFunction(&edk::Object2D::readXMLAction);edkEnd();
-    */
-    this->father=NULL;
-
-    this->newSize=1.f;
-    this->loadSaveIdentityValues();
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);edkEnd();
 }
 
 edk::Object2D::~Object2D(){
-    /*
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
+        /*
     this->actions.cleanReadXMLActionFunction();edkEnd();
     */
-    //dtor
-    if(this->canDeleteObject){
-        this->cleanMeshes();edkEnd();
-    }
-    else{
-        this->meshes.cantDestroy();edkEnd();
-        this->meshes.cantDeleteMeshes();edkEnd();
-        this->animationPosition.cantDeleteGroup();edkEnd();
-        this->animationRotation.cantDeleteGroup();edkEnd();
-        this->animationSize.cantDeleteGroup();edkEnd();
-        /*
+        //dtor
+        if(this->canDeleteObject){
+            this->cleanMeshes();edkEnd();
+        }
+        else{
+            this->meshes.cantDestroy();edkEnd();
+            this->meshes.cantDeleteMeshes();edkEnd();
+            this->animationPosition.cantDeleteGroup();edkEnd();
+            this->animationRotation.cantDeleteGroup();edkEnd();
+            this->animationSize.cantDeleteGroup();edkEnd();
+            /*
         this->actions.cantDeleteGroup();edkEnd();
         */
+        }
+        this->canDeleteObject=true;edkEnd();
     }
-    this->canDeleteObject=true;edkEnd();
+}
+
+void edk::Object2D::Constructor(bool runFather){
+    if(runFather){
+        edk::Object2DValues::Constructor();edkEnd();
+    }
+    if(this->classThis!=this){
+        this->classThis=this;
+
+        this->meshes.Constructor();
+        this->matrixPosition.Constructor();
+        this->matrixPivo.Constructor();
+        this->matrixAngle.Constructor();
+        this->matrixSize.Constructor();
+        this->matrixTransform.Constructor();
+        this->childrems.Constructor();
+
+        //
+        this->type=edk::TypeObject2D;
+        this->selected=NULL;edkEnd();
+        //rotation
+        this->angle=0.0f;edkEnd();
+        //Scale
+        this->size = edk::size2f32(1.f,1.f);edkEnd();
+        this->canDeleteObject=true;edkEnd();
+        /*
+    this->actions.setReadXMLActionFunction(&edk::Object2D::readXMLAction);edkEnd();
+    */
+        this->father=NULL;
+
+        this->newSize=1.f;
+        this->loadSaveIdentityValues();
+    }
 }
 
 void edk::Object2D::writeFatherBoundingBox(edk::rectf32* rect,edk::vector::Matrix<edk::float32,3,3>* transformMat){

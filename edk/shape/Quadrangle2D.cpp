@@ -29,17 +29,32 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endif
 
 edk::shape::Quadrangle2D::Quadrangle2D(){
-    this->type = edk::shape::typeQuadrangle2D;edkEnd();
-    //ctor
-    this->polygonColor.a=1.f;edkEnd();
-    //create a new polygon with 3 vertex
-    edk::shape::Polygon2D::createPolygon(4u);edkEnd();
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);edkEnd();
 }
 
 edk::shape::Quadrangle2D::~Quadrangle2D(){
-    //dtor
-    edk::shape::Polygon2D::deletePolygon();edkEnd();
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
+        edk::shape::Polygon2D::deletePolygon();edkEnd();
+    }
 }
+
+void edk::shape::Quadrangle2D::Constructor(bool runFather){
+    if(runFather){
+        edk::shape::Polygon2D::Constructor();edkEnd();
+    }
+    if(this->classThis!=this){
+        this->classThis=this;
+        this->type = edk::shape::typeQuadrangle2D;edkEnd();
+        //ctor
+        this->polygonColor.a=1.f;edkEnd();
+        //create a new polygon with 3 vertex
+        edk::shape::Polygon2D::createPolygon(4u);edkEnd();
+    }
+}
+
 //createPolygon
 bool edk::shape::Quadrangle2D::createPolygon(){
     //

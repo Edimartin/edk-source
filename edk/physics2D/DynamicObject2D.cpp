@@ -25,7 +25,22 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 edk::physics2D::DynamicObject2D::DynamicObject2D(){
-    this->type=edk::TypeObject2DDynamic;
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);edkEnd();
 }
 edk::physics2D::DynamicObject2D::~DynamicObject2D(){
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
+    }
+}
+
+void edk::physics2D::DynamicObject2D::Constructor(bool runFather){
+    if(runFather){
+        edk::physics2D::KinematicObject2D::Constructor();edkEnd();
+    }
+    if(this->classThis!=this){
+        this->classThis=this;
+        this->type=edk::TypeObject2DDynamic;
+    }
 }

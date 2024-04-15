@@ -28,20 +28,38 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #pragma message "            Inside Curve3D.cpp"
 #endif
 
-edk::shape::Curve3D::Curve3D()
-{
-    //ctor
+edk::shape::Curve3D::Curve3D(){
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);edkEnd();
 }
 edk::shape::Curve3D::Curve3D(edk::vec3f32 p1,edk::vec3f32 p2,edk::vec3f32 p3,edk::vec3f32 p4){
-    //
-    this->point1=p1;edkEnd();
-    this->point2=p2;edkEnd();
-    this->point3=p3;edkEnd();
-    this->point4=p4;edkEnd();
+    this->classThis=NULL;edkEnd();
+    this->Constructor(p1,p2,p3,p4,false);edkEnd();
 }
-edk::shape::Curve3D::~Curve3D()
-{
-    //dtor
+edk::shape::Curve3D::~Curve3D(){
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
+    }
+}
+
+void edk::shape::Curve3D::Constructor(bool /*runFather*/){
+    if(this->classThis!=this){
+        this->classThis=this;
+        this->point1=0.f;edkEnd();
+        this->point2=0.f;edkEnd();
+        this->point3=0.f;edkEnd();
+        this->point4=0.f;edkEnd();
+    }
+}
+void edk::shape::Curve3D::Constructor(edk::vec3f32 p1,edk::vec3f32 p2,edk::vec3f32 p3,edk::vec3f32 p4,bool /*runFather*/){
+    if(this->classThis!=this){
+        this->classThis=this;
+        this->point1=p1;edkEnd();
+        this->point2=p2;edkEnd();
+        this->point3=p3;edkEnd();
+        this->point4=p4;edkEnd();
+    }
 }
 
 //set one point position

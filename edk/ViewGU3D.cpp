@@ -25,11 +25,27 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 edk::ViewGU3D::ViewGU3D(){
-    //
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);edkEnd();
 }
 edk::ViewGU3D::~ViewGU3D(){
-    //
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
+    }
 }
+
+void edk::ViewGU3D::Constructor(bool runFather){
+    if(runFather){
+        edk::ViewGU::Constructor();edkEnd();
+    }
+    if(this->classThis!=this){
+        this->classThis=this;
+
+        this->camera.Constructor();edkEnd();
+    }
+}
+
 //draw the 2Dcamera
 void edk::ViewGU3D::drawCamera3D(){
     //

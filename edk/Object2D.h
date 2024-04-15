@@ -60,6 +60,8 @@ public:
     Object2D();
     virtual ~Object2D();
 
+    void Constructor(bool runFather=true);
+
     //clean the obect
     virtual void clean();
 
@@ -253,10 +255,23 @@ protected:
 
     class MeshAlloc{
     public:
-        MeshAlloc(bool myMesh,edk::shape::Mesh2D* mesh){this->myMesh = myMesh;edkEnd();this->mesh=mesh;edkEnd();}
+        MeshAlloc(bool myMesh,edk::shape::Mesh2D* mesh){this->classThis=NULL;this->Constructor(myMesh,mesh,false);edkEnd();}
         ~MeshAlloc(){
-            if(this->myMesh){
-                delete this->mesh;edkEnd();
+            if(this->classThis==this){
+                this->classThis=NULL;edkEnd();
+                //can destruct the class
+                if(this->myMesh){
+                    delete this->mesh;edkEnd();
+                }
+            }
+        }
+
+        void Constructor(bool myMesh,edk::shape::Mesh2D* mesh,bool runFather=true){
+            if(runFather){edkEnd();}
+            if(this->classThis!=this){
+                this->classThis=this;
+                this->myMesh = myMesh;edkEnd();
+                this->mesh=mesh;edkEnd();
             }
         }
         //get the mesh
@@ -265,22 +280,39 @@ protected:
     private:
         bool myMesh;
         edk::shape::Mesh2D* mesh;
+    private:
+        edk::classID classThis;
     };
 
     //Meshs class
     class MeshsStack: public edk::vector::Stack <edk::Object2D::MeshAlloc*>{
     public:
         MeshsStack(){
-            this->canDeleteMeshes=true;edkEnd();
+            this->classThis=NULL;edkEnd();
+            this->Constructor(false);edkEnd();
         }
         ~MeshsStack(){
-            if(this->canDeleteMeshes){
-                this->removeAllMeshes();edkEnd();
+            if(this->classThis==this){
+                this->classThis=NULL;edkEnd();
+                //can destruct the class
+                if(this->canDeleteMeshes){
+                    this->removeAllMeshes();edkEnd();
+                }
+                else{
+                    //
+                }
+                this->canDeleteMeshes=true;edkEnd();
             }
-            else{
-                //
+        }
+
+        void Constructor(bool runFather=true){
+            if(runFather){
+                edk::vector::Stack <edk::Object2D::MeshAlloc*>::Constructor();edkEnd();
             }
-            this->canDeleteMeshes=true;edkEnd();
+            if(this->classThis!=this){
+                this->classThis=this;
+                this->canDeleteMeshes=true;edkEnd();
+            }
         }
 
         edk::uint32 pushBackMesh(edk::shape::Mesh2D* mesh,bool create){
@@ -386,6 +418,8 @@ protected:
 
     private:
         bool canDeleteMeshes;
+    private:
+        edk::classID classThis;
     }meshes;
 
     bool canDeleteObject;
@@ -802,6 +836,8 @@ private:
         obj.cantDeleteObject2D();edkEnd();
         return obj;edkEnd();
     }
+private:
+    edk::classID classThis;
 };
 }//end namespace
 

@@ -29,16 +29,28 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endif
 
 edk::Audio::Audio(){
-    //ctor
-    this->buffer=NULL;edkEnd();
-    this->sound=NULL;edkEnd();
-    this->looping=false;
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);edkEnd();
 }
 
-edk::Audio::~Audio()
-{
-    //dtor
-    this->close();edkEnd();
+edk::Audio::~Audio(){
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
+        this->close();edkEnd();
+    }
+}
+
+void edk::Audio::Constructor(bool /*runFather*/){
+    if(this->classThis!=this){
+        this->classThis=this;
+
+        this->list.Constructor();edkEnd();
+
+        this->buffer=NULL;edkEnd();
+        this->sound=NULL;edkEnd();
+        this->looping=false;
+    }
 }
 
 

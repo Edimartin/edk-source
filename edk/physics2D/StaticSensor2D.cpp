@@ -24,13 +24,30 @@ OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-edk::physics2D::StaticSensor2D::StaticSensor2D()
-{
-    this->isObjectSensor=true;edkEnd();
-    this->type = edk::TypeObject2DStatic;edkEnd();
+edk::physics2D::StaticSensor2D::StaticSensor2D(){
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);edkEnd();
 }
 edk::physics2D::StaticSensor2D::~StaticSensor2D(){
-    this->tree.clean();edkEnd();
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
+        this->tree.clean();edkEnd();
+    }
+}
+
+void edk::physics2D::StaticSensor2D::Constructor(bool runFather){
+    if(runFather){
+        edk::physics2D::PhysicObject2D::Constructor();edkEnd();
+    }
+    if(this->classThis!=this){
+        this->classThis=this;
+
+        this->tree.Constructor();edkEnd();
+
+        this->isObjectSensor=true;edkEnd();
+        this->type = edk::TypeObject2DStatic;edkEnd();
+    }
 }
 
 //return if it's a sensor

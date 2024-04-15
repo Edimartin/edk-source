@@ -52,16 +52,30 @@ class dataTREE: public edk::vector::NameTree{
     //
 public:
     dataTREE(){
-        //
+        this->classThis=NULL;edkEnd();
+        this->Constructor(false);edkEnd();
     }
     ~dataTREE(){
-        //
+        if(this->classThis==this){
+            this->classThis=NULL;edkEnd();
+            //can destruct the class
+        }
     }
+
+    void Constructor(bool runFather=true){
+        if(runFather){edkEnd();}
+        if(this->classThis!=this){
+            this->classThis=this;
+        }
+    }
+
     void updateElement(edk::Name* shader){
         //update the tree
         edk::shd::Data* temp = (edk::shd::Data*)shader;edkEnd();
         temp->updateData();edkEnd();
     }
+private:
+    edk::classID classThis;
 };
 
 
@@ -69,6 +83,8 @@ class DataList:public edk::ObjectWithName{
 public:
     DataList();
     virtual ~DataList();
+
+    void Constructor(bool runFather=true);
 
     //create a new data
     virtual bool newData(const edk::char8* name);
@@ -176,39 +192,39 @@ public:
     bool updateMatrix2f(const edk::char8* name,edk::float32 mat[2u][2u]);
     bool updateMatrix2f(edk::char8* name,edk::float32 mat[2u][2u]);
     bool updateMatrix2f(const edk::char8* name,
-                     edk::float32 f11,edk::float32 f12,
-                     edk::float32 f21,edk::float32 f22
-                     );
+                        edk::float32 f11,edk::float32 f12,
+                        edk::float32 f21,edk::float32 f22
+                        );
     bool updateMatrix2f(edk::char8* name,
-                     edk::float32 f11,edk::float32 f12,
-                     edk::float32 f21,edk::float32 f22
-                     );
+                        edk::float32 f11,edk::float32 f12,
+                        edk::float32 f21,edk::float32 f22
+                        );
     bool updateMatrix3f(const edk::char8* name,edk::float32 mat[3u][3u]);
     bool updateMatrix3f(edk::char8* name,edk::float32 mat[3u][3u]);
     bool updateMatrix3f(const edk::char8* name,
-                     edk::float32 f11,edk::float32 f12,edk::float32 f13,
-                     edk::float32 f21,edk::float32 f22,edk::float32 f23,
-                     edk::float32 f31,edk::float32 f32,edk::float32 f33
-                     );
+                        edk::float32 f11,edk::float32 f12,edk::float32 f13,
+                        edk::float32 f21,edk::float32 f22,edk::float32 f23,
+                        edk::float32 f31,edk::float32 f32,edk::float32 f33
+                        );
     bool updateMatrix3f(edk::char8* name,
-                     edk::float32 f11,edk::float32 f12,edk::float32 f13,
-                     edk::float32 f21,edk::float32 f22,edk::float32 f23,
-                     edk::float32 f31,edk::float32 f32,edk::float32 f33
-                     );
+                        edk::float32 f11,edk::float32 f12,edk::float32 f13,
+                        edk::float32 f21,edk::float32 f22,edk::float32 f23,
+                        edk::float32 f31,edk::float32 f32,edk::float32 f33
+                        );
     bool updateMatrix4f(const edk::char8* name,edk::float32 mat[4u][4u]);
     bool updateMatrix4f(edk::char8* name,edk::float32 mat[4u][4u]);
     bool updateMatrix4f(const edk::char8* name,
-                     edk::float32 f11,edk::float32 f12,edk::float32 f13,edk::float32 f14,
-                     edk::float32 f21,edk::float32 f22,edk::float32 f23,edk::float32 f24,
-                     edk::float32 f31,edk::float32 f32,edk::float32 f33,edk::float32 f34,
-                     edk::float32 f41,edk::float32 f42,edk::float32 f43,edk::float32 f44
-                     );
+                        edk::float32 f11,edk::float32 f12,edk::float32 f13,edk::float32 f14,
+                        edk::float32 f21,edk::float32 f22,edk::float32 f23,edk::float32 f24,
+                        edk::float32 f31,edk::float32 f32,edk::float32 f33,edk::float32 f34,
+                        edk::float32 f41,edk::float32 f42,edk::float32 f43,edk::float32 f44
+                        );
     bool updateMatrix4f(edk::char8* name,
-                     edk::float32 f11,edk::float32 f12,edk::float32 f13,edk::float32 f14,
-                     edk::float32 f21,edk::float32 f22,edk::float32 f23,edk::float32 f24,
-                     edk::float32 f31,edk::float32 f32,edk::float32 f33,edk::float32 f34,
-                     edk::float32 f41,edk::float32 f42,edk::float32 f43,edk::float32 f44
-                     );
+                        edk::float32 f11,edk::float32 f12,edk::float32 f13,edk::float32 f14,
+                        edk::float32 f21,edk::float32 f22,edk::float32 f23,edk::float32 f24,
+                        edk::float32 f31,edk::float32 f32,edk::float32 f33,edk::float32 f34,
+                        edk::float32 f41,edk::float32 f42,edk::float32 f43,edk::float32 f44
+                        );
 
     //update one data
     virtual bool updateData(const edk::char8* name);
@@ -233,6 +249,8 @@ private:
 
     //select the data
     bool selectData(edk::char8* name);
+private:
+    edk::classID classThis;
 };
 }//end namespace shd
 }//end namespace edk

@@ -1664,11 +1664,27 @@ static edk::uchar8 EDKButtonPressedUpTemplate[8008] = {
 };
 
 edk::gui2d::ObjectGui2dBorder::ObjectGui2dBorder(){
-    //
-    this->setBorderSize(0.1f);edkEnd();
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);edkEnd();
 }
 edk::gui2d::ObjectGui2dBorder::~ObjectGui2dBorder(){
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
+    }
+}
+
+void edk::gui2d::ObjectGui2dBorder::Constructor(bool /*runFather*/){
     //
+    if(this->classThis!=this){
+        this->classThis=this;
+
+        this->mesh.Constructor();edkEnd();
+        this->center.Constructor();edkEnd();
+        this->selection.Constructor();edkEnd();
+
+        this->setBorderSize(0.1f);edkEnd();
+    }
 }
 
 bool edk::gui2d::ObjectGui2dBorder::calculateMeshBoundingBox(edk::rectf32* rect,edk::vector::Matrix<edk::float32,3,3>* transformMat){

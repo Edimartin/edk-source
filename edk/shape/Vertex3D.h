@@ -56,13 +56,35 @@ namespace shape{
 class Vector3D: public edk::vec3f32{
 public:
     Vector3D(){
+        this->classThis=NULL;edkEnd();
+        this->Constructor(false);edkEnd();
     }
     Vector3D(edk::float32 x,edk::float32 y,edk::float32 z){
-        this->x=x;edkEnd();
-        this->y=y;edkEnd();
-        this->z=z;edkEnd();
+        this->classThis=NULL;edkEnd();
+        this->Constructor(x,y,z);edkEnd();
     }
-    virtual ~Vector3D(){}
+    virtual ~Vector3D(){
+        if(this->classThis==this){
+            this->classThis=NULL;edkEnd();
+            //can destruct the class
+        }
+    }
+
+    void Constructor(bool runFather=true){
+        if(runFather){edkEnd();}
+        if(this->classThis!=this){
+            this->classThis=this;
+        }
+    }
+    void Constructor(edk::float32 x,edk::float32 y,edk::float32 z,bool runFather=true){
+        if(runFather){edkEnd();}
+        if(this->classThis!=this){
+            this->classThis=this;
+            this->x=x;edkEnd();
+            this->y=y;edkEnd();
+            this->z=z;edkEnd();
+        }
+    }
     //functions to draw the vector as
     //VERTEX
     virtual void drawVertex(){
@@ -145,69 +167,155 @@ public:
                this->x,this->y,this->z
                );edkEnd();
     }
-    private:
+private:
     edk::vec3f32 temp;
+private:
+    edk::classID classThis;
 };
 
 class Vertex3D : public edk::shape::Vector3D{
 public:
     Vertex3D(){
-        this->x=this->y=this->z=0.f;edkEnd();
-        this->r=this->g=this->b=this->a=1.f;edkEnd();
+        this->classThis=NULL;edkEnd();
+        this->Constructor(false);edkEnd();
     }
     Vertex3D(edk::vec3f32 position){
-        this->x=position.x;edkEnd();
-        this->y=position.y;edkEnd();
-        this->z=position.z;edkEnd();
-        this->r=this->g=this->b=this->a=1.f;edkEnd();
+        this->classThis=NULL;edkEnd();
+        this->Constructor(position,false);edkEnd();
     }
     Vertex3D(edk::vec3f32 position,edk::color3f32 color){
-        this->x=position.x;edkEnd();
-        this->y=position.y;edkEnd();
-        this->z=position.z;edkEnd();
-        this->r=color.r;edkEnd();
-        this->g=color.g;edkEnd();
-        this->b=color.b;edkEnd();
-        this->a=1.f;edkEnd();
+        this->classThis=NULL;edkEnd();
+        this->Constructor(position,color,false);edkEnd();
     }
     Vertex3D(edk::vec3f32 position,edk::color4f32 color){
-        this->x=position.x;edkEnd();
-        this->y=position.y;edkEnd();
-        this->z=position.z;edkEnd();
-        this->r=color.r;edkEnd();
-        this->g=color.g;edkEnd();
-        this->b=color.b;edkEnd();
-        this->a=color.a;edkEnd();
+        this->classThis=NULL;edkEnd();
+        this->Constructor(position,color,false);edkEnd();
     }
     Vertex3D(edk::float32 x,edk::float32 y,edk::float32 z){
-        this->x=x;edkEnd();
-        this->y=y;edkEnd();
-        this->z=z;edkEnd();
-        this->r=this->g=this->b=this->a=1.f;edkEnd();
+        this->classThis=NULL;edkEnd();
+        this->Constructor(x,y,z,false);edkEnd();
     }
     Vertex3D(edk::float32 x,edk::float32 y,edk::float32 z,
              edk::float32 r,edk::float32 g,edk::float32 b
              ){
-        this->x=x;edkEnd();
-        this->y=y;edkEnd();
-        this->z=z;edkEnd();
-        this->r=r;edkEnd();
-        this->g=g;edkEnd();
-        this->b=b;edkEnd();
-        this->a=1.f;edkEnd();
+        this->classThis=NULL;edkEnd();
+        this->Constructor(x,y,z,r,g,b,false);edkEnd();
     }
     Vertex3D(edk::float32 x,edk::float32 y,edk::float32 z,
              edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a
              ){
-        this->x=x;edkEnd();
-        this->y=y;edkEnd();
-        this->z=z;edkEnd();
-        this->r=r;edkEnd();
-        this->g=g;edkEnd();
-        this->b=b;edkEnd();
-        this->a=a;edkEnd();
+        this->classThis=NULL;edkEnd();
+        this->Constructor(x,y,z,r,g,b,a,false);edkEnd();
     }
-    virtual ~Vertex3D(){}
+    virtual ~Vertex3D(){
+        if(this->classThis==this){
+            this->classThis=NULL;edkEnd();
+            //can destruct the class
+        }
+    }
+
+
+    void Constructor(bool runFather=true){
+        if(runFather){
+            edk::shape::Vector3D::Constructor();edkEnd();
+        }
+        if(this->classThis!=this){
+            this->classThis=this;
+            this->x=this->y=this->z=0.f;edkEnd();
+            this->r=this->g=this->b=this->a=1.f;edkEnd();
+        }
+    }
+    void Constructor(edk::vec3f32 position,bool runFather=true){
+        if(runFather){
+            edk::shape::Vector3D::Constructor();edkEnd();
+        }
+        if(this->classThis!=this){
+            this->classThis=this;
+            this->x=position.x;edkEnd();
+            this->y=position.y;edkEnd();
+            this->z=position.z;edkEnd();
+            this->r=this->g=this->b=this->a=1.f;edkEnd();
+        }
+    }
+    void Constructor(edk::vec3f32 position,edk::color3f32 color,bool runFather=true){
+        if(runFather){
+            edk::shape::Vector3D::Constructor();edkEnd();
+        }
+        if(this->classThis!=this){
+            this->classThis=this;
+            this->x=position.x;edkEnd();
+            this->y=position.y;edkEnd();
+            this->z=position.z;edkEnd();
+            this->r=color.r;edkEnd();
+            this->g=color.g;edkEnd();
+            this->b=color.b;edkEnd();
+            this->a=1.f;edkEnd();
+        }
+    }
+    void Constructor(edk::vec3f32 position,edk::color4f32 color,bool runFather=true){
+        if(runFather){
+            edk::shape::Vector3D::Constructor();edkEnd();
+        }
+        if(this->classThis!=this){
+            this->classThis=this;
+            this->x=position.x;edkEnd();
+            this->y=position.y;edkEnd();
+            this->z=position.z;edkEnd();
+            this->r=color.r;edkEnd();
+            this->g=color.g;edkEnd();
+            this->b=color.b;edkEnd();
+            this->a=color.a;edkEnd();
+        }
+    }
+    void Constructor(edk::float32 x,edk::float32 y,edk::float32 z,bool runFather=true){
+        if(runFather){
+            edk::shape::Vector3D::Constructor();edkEnd();
+        }
+        if(this->classThis!=this){
+            this->classThis=this;
+            this->x=x;edkEnd();
+            this->y=y;edkEnd();
+            this->z=z;edkEnd();
+            this->r=this->g=this->b=this->a=1.f;edkEnd();
+        }
+    }
+    void Constructor(edk::float32 x,edk::float32 y,edk::float32 z,
+                     edk::float32 r,edk::float32 g,edk::float32 b,
+                     bool runFather=true
+            ){
+        if(runFather){
+            edk::shape::Vector3D::Constructor();edkEnd();
+        }
+        if(this->classThis!=this){
+            this->classThis=this;
+            this->x=x;edkEnd();
+            this->y=y;edkEnd();
+            this->z=z;edkEnd();
+            this->r=r;edkEnd();
+            this->g=g;edkEnd();
+            this->b=b;edkEnd();
+            this->a=1.f;edkEnd();
+        }
+    }
+    void Constructor(edk::float32 x,edk::float32 y,edk::float32 z,
+                     edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a,
+                     bool runFather=true
+            ){
+        if(runFather){
+            edk::shape::Vector3D::Constructor();edkEnd();
+        }
+        if(this->classThis!=this){
+            this->classThis=this;
+            this->x=x;edkEnd();
+            this->y=y;edkEnd();
+            this->z=z;edkEnd();
+            this->r=r;edkEnd();
+            this->g=g;edkEnd();
+            this->b=b;edkEnd();
+            this->a=a;edkEnd();
+        }
+    }
+
     //OPERATORS
     edk::shape::Vertex3D operator=(edk::shape::Vertex3D vertex){
         this->x=vertex.x;edkEnd();
@@ -328,6 +436,8 @@ public:
         edk::shape::Vector3D::printVertex();edkEnd();
     }
     edk::float32 r,g,b,a;
+private:
+    edk::classID classThis;
 };
 
 /*
@@ -343,6 +453,8 @@ public:
     virtual ~Vertex3D(){
         //
     }
+
+    void Constructor(bool runFather=true){}
 
     //position
     edk::vec3f32 position;edkEnd();
@@ -594,6 +706,8 @@ public:
         //
     }
 
+    void Constructor(bool runFather=true){}
+
 
 
     //SETERS
@@ -752,6 +866,8 @@ public:
     virtual ~Vertex3DAnimatedUV(){
         //
     }
+
+    void Constructor(bool runFather=true){}
 
 
 

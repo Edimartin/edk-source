@@ -24,14 +24,25 @@ OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-edk::codecs::DecoderPNG::DecoderPNG()
-{
-    //ctor
+edk::codecs::DecoderPNG::DecoderPNG(){
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);edkEnd();
 }
 
-edk::codecs::DecoderPNG::~DecoderPNG()
-{
-    //dtor
+edk::codecs::DecoderPNG::~DecoderPNG(){
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
+    }
+}
+
+void edk::codecs::DecoderPNG::Constructor(bool runFather){
+    if(runFather){
+        edk::codecs::DecoderImage::Constructor();edkEnd();
+    }
+    if(this->classThis!=this){
+        this->classThis=this;
+    }
 }
 
 //process the decoder

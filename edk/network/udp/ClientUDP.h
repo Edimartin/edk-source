@@ -44,6 +44,8 @@ public:
     ClientUDP();
     ~ClientUDP();
 
+    void Constructor(bool runFather=true);
+
     //close the socket
     void closeSocket();
 
@@ -84,6 +86,8 @@ protected:
     void loadNewSendAdress(edk::char8* ip);
 private:
     edk::network::Adress sendHost;
+private:
+    edk::classID classThis;
 };
 }//end namespace udp
 }//end namespace network

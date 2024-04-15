@@ -43,8 +43,20 @@ namespace edk{
 //This is an Action. You can use this class to save actions to animation or ctrl+z.
 class Action{
 public:
-    Action(){}
-    virtual ~Action(){}
+    Action(){this->classThis=NULL;this->Constructor(false);edkEnd();}
+    virtual ~Action(){
+        if(this->classThis==this){
+            this->classThis=NULL;edkEnd();
+            //can destruct the class
+        }
+    }
+
+    void Constructor(bool runFather=true){
+        if(runFather){edkEnd();}
+        if(this->classThis!=this){
+            this->classThis=this;
+        }
+    }
 
     //run action function
     virtual void runAction()=0;
@@ -57,11 +69,28 @@ public:
 
     //return the code
     virtual edk::uint64 getCode()=0;
+private:
+    edk::classID classThis;
 };
 class ActionZero: public edk::Action{
 public:
-    ActionZero(){this->code = 0u;edkEnd();}
-    virtual ~ActionZero(){}
+    ActionZero(){this->classThis=NULL;this->Constructor(false);}
+    virtual ~ActionZero(){
+        if(this->classThis==this){
+            this->classThis=NULL;edkEnd();
+            //can destruct the class
+        }
+    }
+
+    void Constructor(bool runFather=true){
+        if(runFather){
+            edk::Action::Constructor();
+        }
+        if(this->classThis!=this){
+            this->classThis=this;
+            this->code = 0u;edkEnd();
+        }
+    }
 
     //run action function
     virtual void runAction(){}
@@ -127,19 +156,56 @@ public:
     }
 protected:
     edk::uint64 code;
+private:
+    edk::classID classThis;
 };
 //Action with names
 class ActionName: public edk::Name ,public edk::Action{
 public:
-    ActionName(){this->code = 0u;edkEnd();}
+    ActionName(){this->classThis=NULL;this->Constructor(false);edkEnd();}
     ActionName(edk::char8* _name){
-        edk::Name::setName(_name);edkEnd();
+        this->classThis=NULL;edkEnd();
+        this->Constructor(_name,false);edkEnd();
     }
     ActionName(const edk::char8* _name){
-        edk::Name::setName(_name);edkEnd();
+        this->classThis=NULL;edkEnd();
+        this->Constructor(_name,false);edkEnd();
     }
     virtual ~ActionName(){
+        if(this->classThis==this){
+            this->classThis=NULL;edkEnd();
+            //can destruct the class
         this->deleteName();edkEnd();
+        }
+    }
+
+    void Constructor(bool runFather=true){
+        if(runFather){
+            edk::Name::Constructor();edkEnd();
+            edk::Action::Constructor();edkEnd();
+        }
+        if(this->classThis!=this){
+            this->classThis=this;
+            this->code = 0u;edkEnd();
+        }
+    }
+    void Constructor(edk::char8* _name,bool runFather=true){
+        if(runFather){
+            edk::Name::Constructor(_name);edkEnd();
+            edk::Action::Constructor();edkEnd();
+        }
+        if(this->classThis!=this){
+            this->classThis=this;
+        }
+    }
+    void Constructor(const edk::char8* _name,bool runFather=true){
+        if(runFather){
+            edk::Name::Constructor(_name);edkEnd();
+            edk::Action::Constructor();edkEnd();
+        }
+        if(this->classThis!=this){
+            this->classThis=this;
+        }
     }
 
     //run action function
@@ -207,6 +273,8 @@ public:
     }
 protected:
     edk::uint64 code;
+private:
+    edk::classID classThis;
 };
 }//end namespace edk
 

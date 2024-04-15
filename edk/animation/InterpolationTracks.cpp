@@ -25,15 +25,33 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 edk::animation::InterpolationTracks::InterpolationTracks(){
-    //
-    this->time.start();edkEnd();
-    this->tracks = &this->stack;edkEnd();
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);edkEnd();
 }
 edk::animation::InterpolationTracks::~InterpolationTracks(){
-    //
-    this->cleanTracks();edkEnd();
-    //remove all animationCallbacks
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
+        this->cleanTracks();edkEnd();
+        //remove all animationCallbacks
+    }
 }
+
+void edk::animation::InterpolationTracks::Constructor(bool runFather){
+    if(runFather){
+        edk::animation::AnimationCallback::Constructor();edkEnd();
+    }
+    if(this->classThis!=this){
+        this->classThis=this;
+
+        this->stack.Constructor();edkEnd();
+        this->time.Constructor();edkEnd();
+
+        this->time.start();edkEnd();
+        this->tracks = &this->stack;edkEnd();
+    }
+}
+
 //animation callback
 void edk::animation::InterpolationTracks::animationEnd(edk::animation::InterpolationGroup* animation){
     //get the animation position

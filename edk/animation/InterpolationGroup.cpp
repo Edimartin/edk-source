@@ -29,40 +29,60 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endif
 
 edk::animation::InterpolationGroup::InterpolationGroup(){
-    this->frameSelectedStart=false;edkEnd();
-    this->animationSecond=0.f;edkEnd();
-    this->tempFrame=NULL;edkEnd();
-    this->playing=false;edkEnd();
-    this->paused=false;edkEnd();
-    this->looping=false;edkEnd();
-    this->incrementing=false;edkEnd();
-    this->interpolationSelect=0u;
-    this->interpolationStart=this->interpolationEnd=0u;
-    this->frameStart=this->frameEnd=0.0f;edkEnd();
-    this->tempInterpolation=NULL;edkEnd();
-    this->setStart=false;edkEnd();
-    this->rewind=false;edkEnd();
-    this->nameSelected=NULL;edkEnd();
-    this->callback=NULL;edkEnd();
-    this->frameSelected=NULL;edkEnd();
-    this->canDeleteGroup=true;edkEnd();
-    this->setfirstInterpolation=false;edkEnd();
-    this->speed = 1.f;edkEnd();
-    this->active=false;edkEnd();
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);edkEnd();
 }
 
 edk::animation::InterpolationGroup::~InterpolationGroup(){
-    if(this->canDeleteGroup){
-        //clean the animations
-        this->cleanAnimations();edkEnd();
-        this->deleteTempFrame();edkEnd();
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
+        if(this->canDeleteGroup){
+            //clean the animations
+            this->cleanAnimations();edkEnd();
+            this->deleteTempFrame();edkEnd();
+        }
+        else{
+            this->animations.cantDestroy();edkEnd();
+            this->animationNames.cantDeleteNames();edkEnd();
+            this->cantDestruct();edkEnd();
+        }
+        this->canDeleteGroup=true;edkEnd();
     }
-    else{
-        this->animations.cantDestroy();edkEnd();
-        this->animationNames.cantDeleteNames();edkEnd();
-        this->cantDestruct();edkEnd();
+}
+
+void edk::animation::InterpolationGroup::Constructor(bool runFather){
+    if(runFather){
+        edk::Object<InterpolationGroup>::Constructor();edkEnd();
     }
-    this->canDeleteGroup=true;edkEnd();
+    if(this->classThis!=this){
+        this->classThis=this;
+
+        this->animations.Constructor();edkEnd();
+        this->animationNames.Constructor();edkEnd();
+        this->clock.Constructor();edkEnd();
+
+        this->frameSelectedStart=false;edkEnd();
+        this->animationSecond=0.f;edkEnd();
+        this->tempFrame=NULL;edkEnd();
+        this->playing=false;edkEnd();
+        this->paused=false;edkEnd();
+        this->looping=false;edkEnd();
+        this->incrementing=false;edkEnd();
+        this->interpolationSelect=0u;
+        this->interpolationStart=this->interpolationEnd=0u;
+        this->frameStart=this->frameEnd=0.0f;edkEnd();
+        this->tempInterpolation=NULL;edkEnd();
+        this->setStart=false;edkEnd();
+        this->rewind=false;edkEnd();
+        this->nameSelected=NULL;edkEnd();
+        this->callback=NULL;edkEnd();
+        this->frameSelected=NULL;edkEnd();
+        this->canDeleteGroup=true;edkEnd();
+        this->setfirstInterpolation=false;edkEnd();
+        this->speed = 1.f;edkEnd();
+        this->active=false;edkEnd();
+    }
 }
 
 //create the interpolation
@@ -1619,10 +1639,10 @@ edk::float32 edk::animation::InterpolationGroup::updateClockAnimation(edk::float
                         }
                     }
                     else if(this->interpolationSelect){
-                            this->interpolationSelect--;edkEnd();
-                        }
-                        else{
-                            break;
+                        this->interpolationSelect--;edkEnd();
+                    }
+                    else{
+                        break;
                     }
                 }
 
@@ -1833,8 +1853,8 @@ bool edk::animation::InterpolationGroup::writeToXML(edk::XML* xml,edk::uint32 id
                             this->tempFrame->writeToXML(xml,count);edkEnd();
                             count++;edkEnd();
                         }
-			edk::uint32 size = 0u;
-						
+                        edk::uint32 size = 0u;
+
                         //write the animationFrames
                         size = this->animations.size();edkEnd();
                         for(edk::uint32 i=0u;i<size;i++){

@@ -51,6 +51,8 @@ public:
     FilePackage();
     virtual ~FilePackage();
 
+    void Constructor(bool runFather=true);
+
     //set the debugFile Name
     static bool createDebugFile(const edk::char8* name);
     static bool createDebugFile(edk::char8* name);
@@ -123,14 +125,27 @@ private:
 #if defined(EDK_FILEPACK_PRINT_DEBUG)
     static edk::DebugLineFile debugFile;
     static edk::multi::Mutex debugMut;
+    static bool templateConstructNeed;
 #endif
 
     //node tree
     class treeInt:public edk::vector::BinaryTree<edk::pack::FileNode*>{
     public:
-        treeInt(){}
+        treeInt(){this->classThis=NULL;edkEnd();
+                  this->Constructor(false);edkEnd();}
         virtual ~treeInt(){
-            this->removeAllNodes();edkEnd();
+            if(this->classThis==this){
+                this->classThis=NULL;edkEnd();
+                //can destruct the class
+                this->removeAllNodes();edkEnd();
+            }
+        }
+
+        void Constructor(bool runFather=true){
+            if(runFather){edkEnd();}
+            if(this->classThis!=this){
+                this->classThis=this;
+            }
         }
         //compare if the value is bigger
         virtual bool firstBiggerSecond(edk::pack::FileNode* first,edk::pack::FileNode* second){
@@ -221,6 +236,8 @@ private:
             }
             return false;
         }
+    private:
+        edk::classID classThis;
     }tree;
     bool readNodeToBuffer(edk::pack::FileNode* node);
     //read the file bytes
@@ -240,6 +257,8 @@ private:
         this->writeDebug((edk::char8*) text,line,(edk::char8*) file,(edk::char8*) function);
     }
 #endif
+private:
+    edk::classID classThis;
 };
 }
 }

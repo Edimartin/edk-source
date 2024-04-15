@@ -295,8 +295,22 @@ public:
 };
 class C{
 public:
-    C(){}
-    virtual ~C(){}
+    C(){this->classThis=NULL;this->Constructor(false);}
+    virtual ~C(){
+        if(this->classThis==this){
+            this->classThis=NULL;
+            //can destruct the class
+        }
+    }
+
+    void Constructor(bool runFather=true){
+        if(runFather){runFather=false;}
+        if(this->classThis!=this){
+            this->classThis=this;
+        }
+    }
+private:
+    edk::classID classThis;
 };
 class id{
 public:

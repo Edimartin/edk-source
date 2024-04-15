@@ -50,17 +50,39 @@ edk::vector::Queue<edk::uint32> edk::GU::delTextures;
 edk::multi::Mutex edk::GU::mutGetTextures;
 edk::multi::Mutex edk::GU::mutDelTextures;
 edk::vector::Queue<edk::GU::MipmapClass> edk::GU::genMipmaps;
+bool edk::GU::templateConstructNeed=true;
 //a boolean if can still running load the texture
 bool edk::GU::canLoadTexture=true;
 
 //construtor
 edk::GU::GU(){
-    //
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);edkEnd();
 }
 
 //destrutor
 edk::GU::~GU(){
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
+    }
+}
+
+void edk::GU::Constructor(bool /*runFather*/){
     //
+    if(this->classThis!=this){
+        this->classThis=this;
+        if(edk::GU::templateConstructNeed){
+            edk::GU::genTextures.Constructor(50u);
+            edk::GU::treeTextures.Constructor();
+            edk::GU::mutGetMipmaps.Constructor();
+            edk::GU::delTextures.Constructor();
+            edk::GU::mutGetTextures.Constructor();
+            edk::GU::mutDelTextures.Constructor();
+            edk::GU::genMipmaps.Constructor();
+            edk::GU::templateConstructNeed=false;
+        }
+    }
 }
 
 void edk::GU::setCantLoadTextures(){

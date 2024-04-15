@@ -59,6 +59,8 @@ class Mesh2D: public edk::shape::AnimatedPolygon2DList{
 public:
     Mesh2D();
     virtual ~Mesh2D();
+
+    void Constructor(bool runFather=true);
     //DELETE
     //clean Mesh
     void clean();
@@ -113,23 +115,54 @@ private:
     class AnimationDouble{
     public:
         AnimationDouble(edk::animation::Interpolation1DGroup* first,edk::uint32 id){
-            this->first = first;edkEnd();
-            this->id=id;edkEnd();
+            this->classThis=NULL;edkEnd();
+            this->Constructor(first,id,false);edkEnd();
         }
-        ~AnimationDouble(){}
+        ~AnimationDouble(){
+            if(this->classThis==this){
+                this->classThis=NULL;edkEnd();
+                //can destruct the class
+            }
+        }
+
+        void Constructor(edk::animation::Interpolation1DGroup* first,edk::uint32 id,bool runFather=true){
+            if(this->classThis!=this){
+                this->classThis=this;
+                if(runFather){edkEnd();}
+                this->first = first;edkEnd();
+                this->id=id;edkEnd();
+            }
+        }
         edk::animation::Interpolation1DGroup* first;
         edk::uint32 id;
+    private:
+        edk::classID classThis;
     };
 
     //class to save animations pointer
     class TreeAnimations: public edk::vector::BinaryTree<edk::shape::Mesh2D::AnimationDouble*>{
     public:
         TreeAnimations(){
-            //
+            this->classThis=NULL;edkEnd();
+            this->Constructor(false);edkEnd();
         }
         ~TreeAnimations(){
-            this->cleanAllAnimations();edkEnd();
+            if(this->classThis==this){
+                this->classThis=NULL;edkEnd();
+                //can destruct the class
+                this->cleanAllAnimations();edkEnd();
+            }
         }
+
+        void Constructor(bool runFather=true){
+            if(runFather){
+                edk::vector::BinaryTree<edk::shape::Mesh2D::AnimationDouble*>::Constructor();edkEnd();
+            }
+            if(this->classThis!=this){
+                this->classThis=this;
+            }
+        }
+
         //compare if the value is bigger
         virtual bool firstBiggerSecond(edk::shape::Mesh2D::AnimationDouble* first,edk::shape::Mesh2D::AnimationDouble* second){
             if(first->first>second->first){
@@ -198,14 +231,33 @@ private:
             edk::shape::Mesh2D::AnimationDouble find(first,0u);edkEnd();
             return this->getElement(&find);
         }
+    private:
+        edk::classID classThis;
     };
 private:
     //functions to vertex triangularization
     class TriangleValues{
     public:
-        TriangleValues(edk::uint32 i,edk::uint32 j,edk::uint32 w){this->i=i;edkEnd();this->j=j;edkEnd();this->k=w;edkEnd();}
-        ~TriangleValues(){}
+        TriangleValues(edk::uint32 i,edk::uint32 j,edk::uint32 w){this->classThis=NULL;this->Constructor(i,j,w,false);edkEnd();}
+        ~TriangleValues(){
+            if(this->classThis==this){
+                this->classThis=NULL;edkEnd();
+                //can destruct the class
+            }
+        }
+
+        void Constructor(edk::uint32 i,edk::uint32 j,edk::uint32 w,bool runFather=true){
+            if(runFather){edkEnd();}
+            if(this->classThis!=this){
+                this->classThis=this;
+                this->i=i;edkEnd();
+                this->j=j;edkEnd();
+                this->k=w;edkEnd();
+            }
+        }
         edk::uint32 i,j,k;
+    private:
+        edk::classID classThis;
     };
     //binary tree with the triangle vertex positions in stack
     class treeTriangles:public edk::vector::BinaryTree<TriangleValues*>{
@@ -322,6 +374,8 @@ private:
         mesh.cantDeleteMesh();edkEnd();
         return mesh;edkEnd();
     }
+private:
+    edk::classID classThis;
 };
 }//end namespace shape
 }//end namespace edk

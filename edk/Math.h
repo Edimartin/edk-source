@@ -57,6 +57,8 @@ public:
     Math();
     virtual ~Math();
 
+    void Constructor(bool runFather=true);
+
     //equal comparison
     static inline bool isEqual(edk::char8 n1 ,edk::char8 n2){
         return (n1==n2);edkEnd();
@@ -611,16 +613,16 @@ public:
     static edk::float32 getAngle(edk::vec2f32 vec);
     //Return the 2D Angle between 2 vectors
     static edk::float32 getAngleDistanceModule(edk::float32 x1,edk::float32 y1,
-                                     edk::float32 x2,edk::float32 y2
-                                     );
+                                               edk::float32 x2,edk::float32 y2
+                                               );
     static edk::float32 getAngleDistanceModule(edk::vec2f32 vec1,edk::vec2f32 vec2);
     static edk::float32 getAngleDistanceModule(edk::float32 x1,edk::float32 y1,edk::float32 z1,
-                                     edk::float32 x2,edk::float32 y2,edk::float32 z2
-                                     );
+                                               edk::float32 x2,edk::float32 y2,edk::float32 z2
+                                               );
     static edk::float32 getAngleDistanceModule(edk::vec3f32 vec1,edk::vec3f32 vec2);
     static edk::float32 getAngleDistanceModule(edk::float32 x1,edk::float32 y1,edk::float32 z1,edk::float32 w1,
-                                     edk::float32 x2,edk::float32 y2,edk::float32 z2,edk::float32 w2
-                                     );
+                                               edk::float32 x2,edk::float32 y2,edk::float32 z2,edk::float32 w2
+                                               );
     static edk::float32 getAngleDistanceModule(edk::vec4f32 vec1,edk::vec4f32 vec2);
 
     //RightHand to find if the point is on the right or left
@@ -1320,8 +1322,8 @@ public:
                                     insideSizeWidth,insideSizeHeight
                                     );
     }
-protected:
 private:
+    edk::classID classThis;
 };
 }//end namespace
 

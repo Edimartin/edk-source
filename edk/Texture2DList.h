@@ -56,6 +56,8 @@ public:
     Texture2DList();
     ~Texture2DList();
 
+    void Constructor(bool runFather=true);
+
     //filter
     //GU_NEAREST
     //GU_LINEAR
@@ -153,13 +155,28 @@ private:
     class TextureCode: public edk::Name {
     public:
         TextureCode(){
-            this->code=0u;edkEnd();
-            this->file=NULL;edkEnd();
-            this->count=0u;edkEnd();
-            this->filter = 0u;edkEnd();
+            this->classThis=NULL;edkEnd();
+            this->Constructor(false);edkEnd();
         }
         ~TextureCode(){
-            this->deleteTexture();edkEnd();
+            if(this->classThis==this){
+                this->classThis=NULL;edkEnd();
+                //can destruct the class
+                this->deleteTexture();edkEnd();
+            }
+        }
+
+        void Constructor(bool runFather=true){
+            if(runFather){
+                edk::Name::Constructor();edkEnd();
+            }
+            if(this->classThis!=this){
+                this->classThis=this;
+                this->code=0u;edkEnd();
+                this->file=NULL;edkEnd();
+                this->count=0u;edkEnd();
+                this->filter = 0u;edkEnd();
+            }
         }
         void deleteTexture(){
             if(this->file){
@@ -286,10 +303,29 @@ private:
     private:
         //textures using count
         edk::uint32 count;
+    private:
+        edk::classID classThis;
     };
     //Tree to save the textures by the code
     class TextureCodeTree:public edk::vector::BinaryTree<edk::Texture2DList::TextureCode*>{
     public:
+        TextureCodeTree(){this->classThis=NULL;this->Constructor(false);edkEnd();}
+        ~TextureCodeTree(){
+            if(this->classThis==this){
+                this->classThis=NULL;edkEnd();
+                //can destruct the class
+            }
+        }
+
+        void Constructor(bool runFather=true){
+            if(runFather){
+                edk::vector::BinaryTree<edk::Texture2DList::TextureCode*>Constructor();edkEnd();
+            }
+            if(this->classThis!=this){
+                this->classThis=this;
+            }
+        }
+
         //virtual functions
         virtual bool firstBiggerSecond(edk::Texture2DList::TextureCode* first,edk::Texture2DList::TextureCode* second){
             //load the textures
@@ -310,10 +346,29 @@ private:
             }
             return false;
         }
+    private:
+        edk::classID classThis;
     };
     //nameFilterTree
     class NameFilterTree: public edk::vector::BinaryTree<edk::Texture2DList::TextureCode*>{
     public:
+        NameFilterTree(){this->classThis=NULL;this->Constructor(false);edkEnd();}
+        ~NameFilterTree(){
+            if(this->classThis==this){
+                this->classThis=NULL;edkEnd();
+                //can destruct the class
+            }
+        }
+
+        void Constructor(bool runFather=true){
+            if(runFather){
+                edk::vector::BinaryTree<edk::Texture2DList::TextureCode*>Constructor();edkEnd();
+            }
+            if(this->classThis!=this){
+                this->classThis=this;
+            }
+        }
+
         //virtual functions
         virtual bool firstBiggerSecond(edk::Texture2DList::TextureCode* first,edk::Texture2DList::TextureCode* second){
             //load the textures
@@ -345,11 +400,15 @@ private:
             }
             return false;
         }
+    private:
+        edk::classID classThis;
     };
     //Tree to save the textures by code
     static edk::Texture2DList::TextureCodeTree codeTree;
     //Tree to save the textures by name
     static edk::Texture2DList::NameFilterTree nameTree;
+
+    static bool templateConstructNeed;
 
     //get the texture by the name
     edk::Texture2DList::TextureCode* getTextureByName(edk::char8* name, edk::uint32 filter);
@@ -363,6 +422,8 @@ private:
     bool removeTexture(edk::Texture2DList::TextureCode* temp);
     //delete the texture
     bool deleteTexture(edk::Texture2DList::TextureCode* temp);
+private:
+    edk::classID classThis;
 };
 }
 

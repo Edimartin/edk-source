@@ -29,19 +29,35 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endif
 
 edk::animation::ActionGroup::ActionGroup(){
-    this->canDeleteGroup=true;edkEnd();
-    this->valueTemp=0.0;
-    this->setReadXMLActionFunction(&this->readXMLZero);edkEnd();
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);edkEnd();
 }
 edk::animation::ActionGroup::~ActionGroup(){
-    if(this->canDeleteGroup){
-        this->clean();edkEnd();
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
+        if(this->canDeleteGroup){
+            this->clean();edkEnd();
+        }
+        else{
+            this->anim.cantDeleteGroup();edkEnd();
+            this->tree.cantDeleteTrees();edkEnd();
+        }
+        this->canDeleteGroup=true;edkEnd();
     }
-    else{
-        this->anim.cantDeleteGroup();edkEnd();
-        this->tree.cantDeleteTrees();edkEnd();
+}
+
+void edk::animation::ActionGroup::Constructor(bool /*runFather*/){
+    if(this->classThis!=this){
+        this->classThis=this;
+
+        this->anim.Constructor();edkEnd();
+        this->tree.Constructor();edkEnd();
+
+        this->canDeleteGroup=true;edkEnd();
+        this->valueTemp=0.0;
+        this->setReadXMLActionFunction(&this->readXMLZero);edkEnd();
     }
-    this->canDeleteGroup=true;edkEnd();
 }
 
 //return the zero action

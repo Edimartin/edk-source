@@ -40,8 +40,20 @@ namespace edk {
 namespace multi{
 class MutexDisable{
 public:
-    MutexDisable(){}
-    ~MutexDisable(){}
+    MutexDisable(){this->classThis=NULL;this->Constructor(false);edkEnd();}
+    ~MutexDisable(){
+        if(this->classThis==this){
+            this->classThis=NULL;edkEnd();
+            //can destruct the class
+        }
+    }
+
+    void Constructor(bool runFather=true){
+        if(runFather){edkEnd();}
+        if(this->classThis!=this){
+            this->classThis=this;
+        }
+    }
 
     //lock this mutex to another don't run the code
     inline void lock(){}
@@ -49,11 +61,15 @@ public:
     inline void unlock(){}
     //try lock the mutex (if true it's locked)
     inline bool tryLock(){return false;}
+private:
+    edk::classID classThis;
 };
 class Mutex : public edk::multi::MutexDisable{
 public:
     Mutex();
     virtual ~Mutex();
+
+    void Constructor(bool runFather=true);
 
     //set the debugFile Name
     static bool createDebugFile(const edk::char8* name);
@@ -162,8 +178,10 @@ private:
     inline void writeDebug(const edk::char8* text,edk::char8* mutFunction){
         this->writeDebug((edk::char8*) text,(edk::char8*) mutFunction);
     }
-
+    static bool templateConstructNeed;
 #endif
+private:
+    edk::classID classThis;
 };
 }//end namespace multi
 }//end namespace edk

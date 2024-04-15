@@ -58,6 +58,8 @@ public:
     Object3D();
     ~Object3D();
 
+    void Constructor(bool runFather=true);
+
     void clean();
 
     //get the bodyType
@@ -157,10 +159,23 @@ protected:
 
     class MeshAlloc{
     public:
-        MeshAlloc(bool myMesh,edk::shape::Mesh3D* mesh){this->myMesh = myMesh;edkEnd();this->mesh=mesh;edkEnd();}
+        MeshAlloc(bool myMesh,edk::shape::Mesh3D* mesh){this->classThis=NULL;this->Constructor(myMesh,mesh,false);edkEnd();}
         ~MeshAlloc(){
-            if(this->myMesh){
-                delete this->mesh;edkEnd();
+            if(this->classThis==this){
+                this->classThis=NULL;edkEnd();
+                //can destruct the class
+                if(this->myMesh){
+                    delete this->mesh;edkEnd();
+                }
+            }
+        }
+
+        void Constructor(bool myMesh,edk::shape::Mesh3D* mesh,bool runFather=true){
+            if(runFather){edkEnd();}
+            if(this->classThis!=this){
+                this->classThis=this;
+                this->myMesh = myMesh;edkEnd();
+                this->mesh=mesh;edkEnd();
             }
         }
         //get the mesh
@@ -169,23 +184,40 @@ protected:
     private:
         bool myMesh;
         edk::shape::Mesh3D* mesh;
+    private:
+        edk::classID classThis;
     };
 
     //Meshs class
     class MeshsStack: public edk::vector::Stack <edk::Object3D::MeshAlloc*>{
     public:
         MeshsStack(){
-            this->canDeleteMeshes=true;edkEnd();
-            this->func = edk::Object3D::MeshsStack::runDrawWire;edkEnd();
+            this->classThis=NULL;edkEnd();
+            this->Constructor(false);edkEnd();
         }
         ~MeshsStack(){
-            if(this->canDeleteMeshes){
-                this->removeAllMeshes();edkEnd();
+            if(this->classThis==this){
+                this->classThis=NULL;edkEnd();
+                //can destruct the class
+                if(this->canDeleteMeshes){
+                    this->removeAllMeshes();edkEnd();
+                }
+                else{
+                    //
+                }
+                this->canDeleteMeshes=true;edkEnd();
             }
-            else{
-                //
+        }
+
+        void Constructor(bool runFather=true){
+            if(runFather){
+                edk::vector::Stack <edk::Object3D::MeshAlloc*>::Constructor();edkEnd();
             }
-            this->canDeleteMeshes=true;edkEnd();
+            if(this->classThis!=this){
+                this->classThis=this;
+                this->canDeleteMeshes=true;edkEnd();
+                this->func = edk::Object3D::MeshsStack::runDrawWire;edkEnd();
+            }
         }
 
         void updateElement(edk::Object3D::MeshAlloc* value){
@@ -339,6 +371,8 @@ protected:
 
         void (*func)(edk::Object3D::MeshsStack* list,edk::Object3D::MeshAlloc* value);
         edk::color3f32 color;
+    private:
+        edk::classID classThis;
     }meshes;
 
     //load the mtlFile
@@ -373,6 +407,8 @@ private:
     //draw the pivo
     void drawChildremsPivo(edk::float32 size,edk::color3f32 color);
     void drawChildremsPivoWithMatrix(edk::vector::Matrix<edk::float32,4u,4u>* matrix,edk::float32 size,edk::color3f32 color);
+private:
+    edk::classID classThis;
 };
 }//end namespace edk
 

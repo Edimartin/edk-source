@@ -45,6 +45,8 @@ public:
     Sun();
     ~Sun();
 
+    void Constructor(bool runFather=true);
+
     //DRAW THE LIGH USING THE LIGHT NUMBER
     void draw(edk::uint32 lightNumber);
     //draw the pivo
@@ -72,6 +74,8 @@ public:
     edk::float32 getDirectionZ();
     edk::vec2f32 getDirection2f();
     edk::vec3f32 getDirection3f();
+private:
+    edk::classID classThis;
 };
 }//end namespace light
 }//end namespace edk

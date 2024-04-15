@@ -45,6 +45,8 @@ public:
     Spot();
     ~Spot();
 
+    void Constructor(bool runFather=true);
+
     //DRAW THE LIGH USING THE LIGHT NUMBER
     void draw(edk::uint32 lightNumber);
     //draw the pivo
@@ -85,6 +87,8 @@ public:
     edk::float32 getConstantAttenuation();
     edk::float32 getLinearAttenuation();
     edk::float32 getQuadraticAttenuation();
+private:
+    edk::classID classThis;
 };
 }//end namespace light
 }//end namespace edk

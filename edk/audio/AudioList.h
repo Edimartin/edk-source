@@ -41,25 +41,28 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 namespace edk{
 class AudioList{
-    public:
-        AudioList();
-        virtual ~AudioList();
+public:
+    AudioList();
+    virtual ~AudioList();
 
-        //LOAD
-        //Load the audio. If are loaded, just return the
-        bool loadAudio(const edk::char8* name, edk::AudioBuffer** retainAudio);
-        bool loadAudio(edk::char8* name, edk::AudioBuffer** retainAudio);
-        bool loadAudioFromMemory(const edk::char8* name,edk::classID vector,edk::uint32 size, edk::AudioBuffer** retainAudio);
-        bool loadAudioFromMemory(edk::char8* name,edk::classID vector,edk::uint32 size, edk::AudioBuffer** retainAudio);
-        bool loadAudioFromPack(edk::pack::FilePackage* pack,const edk::char8* name, edk::AudioBuffer** retainAudio);
-        bool loadAudioFromPack(edk::pack::FilePackage* pack,edk::char8* name, edk::AudioBuffer** retainAudio);
-        //remove audio. Release the audio file
-        bool removeAudio(edk::AudioBuffer** retainAudio);
-        //delete the audioBuffer
-        void deleteAudio(edk::AudioBuffer* retainAudio);
+    void Constructor(bool runFather=true);
 
-    protected:
-    private:
+    //LOAD
+    //Load the audio. If are loaded, just return the
+    bool loadAudio(const edk::char8* name, edk::AudioBuffer** retainAudio);
+    bool loadAudio(edk::char8* name, edk::AudioBuffer** retainAudio);
+    bool loadAudioFromMemory(const edk::char8* name,edk::classID vector,edk::uint32 size, edk::AudioBuffer** retainAudio);
+    bool loadAudioFromMemory(edk::char8* name,edk::classID vector,edk::uint32 size, edk::AudioBuffer** retainAudio);
+    bool loadAudioFromPack(edk::pack::FilePackage* pack,const edk::char8* name, edk::AudioBuffer** retainAudio);
+    bool loadAudioFromPack(edk::pack::FilePackage* pack,edk::char8* name, edk::AudioBuffer** retainAudio);
+    //remove audio. Release the audio file
+    bool removeAudio(edk::AudioBuffer** retainAudio);
+    //delete the audioBuffer
+    void deleteAudio(edk::AudioBuffer* retainAudio);
+
+protected:
+private:
+    edk::classID classThis;
 };
 }//and namespace edk
 

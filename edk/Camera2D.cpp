@@ -29,25 +29,64 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endif
 
 edk::Camera2D::Camera2D(){
-    //
-    this->start();edkEnd();
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);edkEnd();
 }
 edk::Camera2D::Camera2D(edk::vec2f32 position){
-    //
-    this->start();edkEnd();
-    //set the position
-    this->positionSave = this->position = position;edkEnd();
+    this->classThis=NULL;edkEnd();
+    this->Constructor(position,false);edkEnd();
 }
 edk::Camera2D::Camera2D(edk::float32 posX,edk::float32 posY){
-    //
-    this->start();edkEnd();
-    //set the position
-    this->positionSave = this->position = edk::vec2f32(posX,posY);edkEnd();
+    this->classThis=NULL;edkEnd();
+    this->Constructor(posX,posY,false);edkEnd();
 }
 
 edk::Camera2D::~Camera2D(){
-    //dtor
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
+    }
 }
+
+void edk::Camera2D::Constructor(bool /*runFather*/){
+    //
+    if(this->classThis!=this){
+        this->classThis=this;
+        //construct the variables
+        this->animPosition.Constructor();
+        this->animAngle.Constructor();
+        this->animShakingPosition.Constructor();
+        this->animShakingAngle.Constructor();
+        this->start();edkEnd();
+    }
+}
+void edk::Camera2D::Constructor(edk::vec2f32 position,bool /*runFather*/){
+    //
+    if(this->classThis!=this){
+        this->classThis=this;
+        this->animPosition.Constructor();
+        this->animAngle.Constructor();
+        this->animShakingPosition.Constructor();
+        this->animShakingAngle.Constructor();
+        this->start();edkEnd();
+        //set the position
+        this->positionSave = this->position = position;edkEnd();
+    }
+}
+void edk::Camera2D::Constructor(edk::float32 posX,edk::float32 posY,bool /*runFather*/){
+    //
+    if(this->classThis!=this){
+        this->classThis=this;
+        this->animPosition.Constructor();
+        this->animAngle.Constructor();
+        this->animShakingPosition.Constructor();
+        this->animShakingAngle.Constructor();
+        this->start();edkEnd();
+        //set the position
+        this->positionSave = this->position = edk::vec2f32(posX,posY);edkEnd();
+    }
+}
+
 void edk::Camera2D::start(){
     //set the start position of the camera
     this->positionSave = this->position = edk::vec2f32(0.0f,0.0f);edkEnd();

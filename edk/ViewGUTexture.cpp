@@ -25,16 +25,50 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 edk::ViewGUTexture::ViewGUTexture(edk::size2ui32 size){
-    //load the texture
-    this->render.createRender(size);edkEnd();
+    this->classThis=NULL;edkEnd();
+    this->Constructor(size,false);edkEnd();
 }
 edk::ViewGUTexture::ViewGUTexture(edk::uint32 width,edk::uint32 height){
-    //
-    this->render.createRender(width,height);edkEnd();
+    this->classThis=NULL;edkEnd();
+    this->Constructor(width,height,false);edkEnd();
 }
 edk::ViewGUTexture::~ViewGUTexture(){
-    //delete render
-    this->render.deleteRender();edkEnd();
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
+        //delete render
+        this->render.deleteRender();edkEnd();
+    }
+}
+
+void edk::ViewGUTexture::Constructor(edk::size2ui32 size,bool runFather){
+    if(runFather){
+        edk::ViewGU::Constructor();edkEnd();
+    }
+    if(this->classThis!=this){
+        this->classThis=this;
+
+        this->shader.Constructor();
+        this->render.Constructor();
+        this->renderCamera.Constructor();
+
+        //load the texture
+        this->render.createRender(size);edkEnd();
+    }
+}
+void edk::ViewGUTexture::Constructor(edk::uint32 width,edk::uint32 height,bool runFather){
+    if(runFather){
+        edk::ViewGU::Constructor();edkEnd();
+    }
+    if(this->classThis!=this){
+        this->classThis=this;
+
+        this->shader.Constructor();
+        this->render.Constructor();
+        this->renderCamera.Constructor();
+
+        this->render.createRender(width,height);edkEnd();
+    }
 }
 
 //set the new size of the texture
@@ -76,10 +110,10 @@ void edk::ViewGUTexture::draw(rectf32 outsideViewOrigin){
 
         //draw bufferViewPort
         edk::GU::guSetViewport(0u
-                             ,0u
-                             ,this->render.getSize().width
-                             ,this->render.getSize().height
-                             );edkEnd();
+                               ,0u
+                               ,this->render.getSize().width
+                               ,this->render.getSize().height
+                               );edkEnd();
         edk::GU::guColor4f32(this->backgroundColor);edkEnd();
         //set backGround Color
 
@@ -123,17 +157,17 @@ void edk::ViewGUTexture::draw(rectf32 outsideViewOrigin){
 
         //Draw a quadrangle
         edk::GU::guBegin(GU_QUADS);edkEnd();
-            edk::GU::guVertexTex2f32(0.f, 0.f);edkEnd();
-            edk::GU::guVertex3f32(0.f, 0.f, 0.f);edkEnd();
+        edk::GU::guVertexTex2f32(0.f, 0.f);edkEnd();
+        edk::GU::guVertex3f32(0.f, 0.f, 0.f);edkEnd();
 
-            edk::GU::guVertexTex2f32(0.f, 1.f);edkEnd();
-            edk::GU::guVertex3f32(0.f, 1.f, 0.f);edkEnd();
+        edk::GU::guVertexTex2f32(0.f, 1.f);edkEnd();
+        edk::GU::guVertex3f32(0.f, 1.f, 0.f);edkEnd();
 
-            edk::GU::guVertexTex2f32(1.f, 1.f);edkEnd();
-            edk::GU::guVertex3f32(1.f, 1.f, 0.f);edkEnd();
+        edk::GU::guVertexTex2f32(1.f, 1.f);edkEnd();
+        edk::GU::guVertex3f32(1.f, 1.f, 0.f);edkEnd();
 
-            edk::GU::guVertexTex2f32(1.f, 0.f);edkEnd();
-            edk::GU::guVertex3f32(1.f, 0.f, 0.f);edkEnd();
+        edk::GU::guVertexTex2f32(1.f, 0.f);edkEnd();
+        edk::GU::guVertex3f32(1.f, 0.f, 0.f);edkEnd();
         edk::GU::guEnd();edkEnd();
 
         edk::GU::guUseTexture2D(0u);edkEnd();

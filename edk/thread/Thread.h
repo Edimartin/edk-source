@@ -70,7 +70,6 @@ void* function(void* id){
 namespace edk {
 namespace multi{
 class Thread {
-
 public:
 
     Thread();
@@ -78,6 +77,9 @@ public:
     Thread(edk::classID (*threadFunction)(edk::classID), edk::classID parameter);
 
     virtual ~Thread();
+
+    void Constructor(bool runFather=true);
+    void Constructor(edk::classID (*threadFunction)(edk::classID), edk::classID parameter,bool runFather=true);
 
     bool start(edk::classID (threadFunction)(edk::classID), edk::classID parameter);
 
@@ -166,6 +168,7 @@ private:
 #else
     static edk::uint32 mainID;
 #endif
+    static bool templateConstructNeed;
 
 protected:
     /**
@@ -179,6 +182,8 @@ protected:
     //thread cpus to affinity
     cpu_set_t cpus;
 #endif
+private:
+    edk::classID classThis;
 };
 
 
@@ -205,17 +210,42 @@ template <typename typeTemplate>
 class ThreadClass : public edk::multi::Thread{
 public:
     ThreadClass(){
-        this->cleanThread();edkEnd();
+        this->classThis=NULL;edkEnd();
+        this->Constructor(false);edkEnd();
     }
 
     ThreadClass(edk::classID (typeTemplate::*threadClassFunc)(edk::classID), edk::classID parameter){
-        this->cleanThread();edkEnd();
-        this->start(threadClassFunc, parameter);edkEnd();
+        this->classThis=NULL;edkEnd();
+        this->Constructor(threadClassFunc,parameter,false);edkEnd();
     }
 
     ~ThreadClass(){
-        //Kill the Thread
-        this->kill();edkEnd();
+        if(this->classThis==this){
+            this->classThis=NULL;edkEnd();
+            //can destruct the class
+            //Kill the Thread
+            this->kill();edkEnd();
+        }
+    }
+
+    void Constructor(bool runFather=true){
+        if(runFather){
+            edk::multi::Thread::Constructor();edkEnd();
+        }
+        if(this->classThis!=this){
+            this->classThis=this;
+            this->cleanThread();edkEnd();
+        }
+    }
+    void Constructor(edk::classID (typeTemplate::*threadClassFunc)(edk::classID), edk::classID parameter,bool runFather=true){
+        if(runFather){
+            edk::multi::Thread::Constructor();edkEnd();
+        }
+        if(this->classThis!=this){
+            this->classThis=this;
+            this->cleanThread();edkEnd();
+            this->start(threadClassFunc, parameter);edkEnd();
+        }
     }
 
     bool start(edk::classID (typeTemplate::*threadClassFunc)(edk::classID), edk::classID parameter){
@@ -381,6 +411,8 @@ bool runClassFunc(){
 private:
 //Pointer of the user function. Setted on Start.
 edk::classID  (typeTemplate::*threadClassFunc)(edk::classID);
+private:
+edk::classID classThis;
 };
 
 } // End of namespace multi

@@ -42,6 +42,9 @@ namespace network{
 class ServerSocket : public edk::network::Socket{
 public:
     ServerSocket();
+    ~ServerSocket();
+
+    void Constructor(bool runFather=true);
     //Send the message
     virtual edk::int32 sendStream(edk::network::Adress host,edk::classID stream,edk::uint32 size)=0;
     virtual edk::int32 sendStreamNonBlock(edk::network::Adress host,edk::classID stream,edk::uint32 size)=0;
@@ -52,11 +55,26 @@ protected:
     //node to save the adresses
     class nodeAdress{
     public:
-        nodeAdress(){}
-        ~nodeAdress(){}
+        nodeAdress(){this->classThis=NULL;edkEnd();
+                     this->Constructor(false);edkEnd();}
+        ~nodeAdress(){
+            if(this->classThis==this){
+                this->classThis=NULL;edkEnd();
+                //can destruct the class
+            }
+        }
+
+        void Constructor(bool runFather=true){
+            if(runFather){edkEnd();}
+            if(this->classThis!=this){
+                this->classThis=this;
+            }
+        }
         //socket adress
         edk::network::Adress host;
         struct sockaddr_in adress;
+    private:
+        edk::classID classThis;
     };
     //Tree used to save the adresses
     //Binary Tree
@@ -64,6 +82,8 @@ protected:
     public:
         treeAdress();
         ~treeAdress();
+
+        void Constructor(bool runFather=true);
         //Add a adress to the tree
         bool addAdress(edk::network::Adress host,struct sockaddr_in adress);
         //get a adress in the tree
@@ -76,7 +96,11 @@ protected:
         //compare if the value is bigger
         bool firstBiggerSecond(nodeAdress* first,nodeAdress* second);
         bool firstEqualSecond(nodeAdress* first,nodeAdress* second);
+    private:
+        edk::classID classThis;
     }tree;
+private:
+    edk::classID classThis;
 };
 }
 }

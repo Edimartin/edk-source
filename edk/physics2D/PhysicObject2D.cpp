@@ -35,32 +35,57 @@ enum bodyType{
 }
 
 edk::physics2D::PhysicObject2D::PhysicObject2D(){
-    this->type=edk::TypeObject2DPhysic;
-    this->fixedRotation=false;edkEnd();
-    this->canSleep=false;edkEnd();
-    this->isObjectSensor=false;edkEnd();
-
-    this->speed=0.f;edkEnd();
-    this->linearVelocity = edk::vec2f32(0,0);edkEnd();
-    this->linearVelocitySetted=false;edkEnd();
-    this->angularVelocity=0.f;edkEnd();
-    this->angularVelocitySetted=false;edkEnd();
-    this->direction = edk::vec2f32(0,0);edkEnd();
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);edkEnd();
 }
 edk::physics2D::PhysicObject2D::~PhysicObject2D(){
-    if(this->canDeleteObject){
-        this->physicMesh.cleanPolygons();edkEnd();
-        this->treeCollisionGroups.clean();edkEnd();
-        this->treeNotCollisionGroups.clean();edkEnd();
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
+        if(this->canDeleteObject){
+            this->physicMesh.cleanPolygons();edkEnd();
+            this->treeCollisionGroups.clean();edkEnd();
+            this->treeNotCollisionGroups.clean();edkEnd();
+        }
+        else{
+            //set the mesh to not delete
+            this->physicMesh.cantDeleteList();edkEnd();
+            this->animationPosition.cantDeleteGroup();edkEnd();
+            this->animationRotation.cantDeleteGroup();edkEnd();
+            this->treeCollisionGroups.cantDestruct();edkEnd();
+            this->treeNotCollisionGroups.cantDestruct();edkEnd();
+            edk::Object2D::cantDeleteObject2D();edkEnd();
+        }
     }
-    else{
-        //set the mesh to not delete
-        this->physicMesh.cantDeleteList();edkEnd();
-        this->animationPosition.cantDeleteGroup();edkEnd();
-        this->animationRotation.cantDeleteGroup();edkEnd();
-        this->treeCollisionGroups.cantDestruct();edkEnd();
-        this->treeNotCollisionGroups.cantDestruct();edkEnd();
-        edk::Object2D::cantDeleteObject2D();edkEnd();
+}
+
+void edk::physics2D::PhysicObject2D::Constructor(bool runFather){
+    if(runFather){
+        edk::Object2D::Constructor();edkEnd();
+    }
+    if(this->classThis!=this){
+        this->classThis=this;
+
+        this->physicMesh.Constructor();edkEnd();
+        this->physicMatrixPosition.Constructor();edkEnd();
+        this->physicMatrixPivo.Constructor();edkEnd();
+        this->physicMatrixAngle.Constructor();edkEnd();
+        this->physicMatrixSize.Constructor();edkEnd();
+        this->physicMatrixTransform.Constructor();edkEnd();
+        this->treeCollisionGroups.Constructor();edkEnd();
+        this->treeNotCollisionGroups.Constructor();edkEnd();
+
+        this->type=edk::TypeObject2DPhysic;
+        this->fixedRotation=false;edkEnd();
+        this->canSleep=false;edkEnd();
+        this->isObjectSensor=false;edkEnd();
+
+        this->speed=0.f;edkEnd();
+        this->linearVelocity = edk::vec2f32(0,0);edkEnd();
+        this->linearVelocitySetted=false;edkEnd();
+        this->angularVelocity=0.f;edkEnd();
+        this->angularVelocitySetted=false;edkEnd();
+        this->direction = edk::vec2f32(0,0);edkEnd();
     }
 }
 

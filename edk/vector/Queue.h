@@ -53,23 +53,50 @@ class QueueCel : public edk::vector::Array<typeTemplate>{
 public:
     //construtor
     QueueCel(){
-        //clean the next
-        this->next=NULL;edkEnd();
+        this->classThis=NULL;edkEnd();
+        this->Constructor(false);edkEnd();
     }
     QueueCel(edk::uint32 size){
-        //clean the next
-        this->next=NULL;edkEnd();
-        //
-        this->createArray(size);edkEnd();
+        this->classThis=NULL;edkEnd();
+        this->Constructor(size,false);edkEnd();
     }
     //Destrutor
     ~QueueCel(){
-        //clean the next
-        this->next=NULL;edkEnd();
+        if(this->classThis==this){
+            this->classThis=NULL;edkEnd();
+            //can destruct the class
+            //clean the next
+            this->next=NULL;edkEnd();
+        }
+    }
+
+    void Constructor(bool runFather=true){
+        if(runFather){
+            edk::vector::Array<typeTemplate>::Constructor();edkEnd();
+        }
+        if(this->classThis!=this){
+            this->classThis=this;
+            //clean the next
+            this->next=NULL;edkEnd();
+        }
+    }
+    void Constructor(edk::uint32 size,bool runFather=true){
+        if(runFather){
+            edk::vector::Array<typeTemplate>::Constructor();edkEnd();
+        }
+        if(this->classThis!=this){
+            this->classThis=this;
+            //clean the next
+            this->next=NULL;edkEnd();
+            //
+            this->createArray(size);edkEnd();
+        }
     }
 
     //Next array
     edk::vector::QueueCel<typeTemplate>* next;
+private:
+    edk::classID classThis;
 };
 //Use a template to alloc whatever
 template <class typeTemplate>
@@ -78,47 +105,68 @@ template <class typeTemplate>
 class Queue{
 public:
     Queue(){
-        //
-        this->first = this->last = NULL;edkEnd();
-        this->arraySize = PatternArraySize;edkEnd();
-        this->start = this->end = 0u;edkEnd();
-        this->_size = 0u;edkEnd();
-        this->runDeleteVector=true;edkEnd();
-
-        //Have the first cel
-        this->firstPointer=&this->first;
-        this->lastPointer=&this->last;
-        this->arraySizePointer=&this->arraySize;
-        this->startPointer=&this->start;
-        this->endPointer=&this->end;
-        this->_sizePointer=&this->_size;
+        this->classThis=NULL;edkEnd();
+        this->Constructor(false);
     }
     Queue(edk::uint32 size){
-        //
-        this->first = this->last = NULL;edkEnd();
-        if(size){
-            this->arraySize = size;edkEnd();
-        }
-        else{
-            this->arraySize = PatternArraySize;edkEnd();
-        }
-        this->start = this->end = 0u;edkEnd();
-        this->_size = 0u;edkEnd();
-        this->runDeleteVector=true;edkEnd();
-
-        //Have the first cel
-        this->firstPointer=&this->first;
-        this->lastPointer=&this->last;
-        this->arraySizePointer=&this->arraySize;
-        this->startPointer=&this->start;
-        this->endPointer=&this->end;
-        this->_sizePointer=&this->_size;
+        this->classThis=NULL;edkEnd();
+        this->Constructor(size,false);
     }
     ~Queue(){
-        if(this->runDeleteVector){
-            this->clean(10u);
+        if(this->classThis==this){
+            this->classThis=NULL;edkEnd();
+            //can destruct the class
+            if(this->runDeleteVector){
+                this->clean(10u);
+            }
+            this->runDeleteVector=true;
         }
-        this->runDeleteVector=true;
+    }
+
+    void Constructor(bool runFather=true){
+        if(runFather){edkEnd();}
+        if(this->classThis!=this){
+            this->classThis=this;
+            //
+            this->first = this->last = NULL;edkEnd();
+            this->arraySize = PatternArraySize;edkEnd();
+            this->start = this->end = 0u;edkEnd();
+            this->_size = 0u;edkEnd();
+            this->runDeleteVector=true;edkEnd();
+
+            //Have the first cel
+            this->firstPointer=&this->first;
+            this->lastPointer=&this->last;
+            this->arraySizePointer=&this->arraySize;
+            this->startPointer=&this->start;
+            this->endPointer=&this->end;
+            this->_sizePointer=&this->_size;
+        }
+    }
+    void Constructor(edk::uint32 size,bool runFather=true){
+        if(runFather){edkEnd();}
+        if(this->classThis!=this){
+            this->classThis=this;
+            //
+            this->first = this->last = NULL;edkEnd();
+            if(size){
+                this->arraySize = size;edkEnd();
+            }
+            else{
+                this->arraySize = PatternArraySize;edkEnd();
+            }
+            this->start = this->end = 0u;edkEnd();
+            this->_size = 0u;edkEnd();
+            this->runDeleteVector=true;edkEnd();
+
+            //Have the first cel
+            this->firstPointer=&this->first;
+            this->lastPointer=&this->last;
+            this->arraySizePointer=&this->arraySize;
+            this->startPointer=&this->start;
+            this->endPointer=&this->end;
+            this->_sizePointer=&this->_size;
+        }
     }
 
     //clean the queue
@@ -317,6 +365,8 @@ private:
 
     //test if can delete the vector
     bool runDeleteVector;
+private:
+    edk::classID classThis;
 };
 
 }//end namespace vector

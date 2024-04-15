@@ -28,18 +28,29 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #pragma message "            Inside AudioBuffer.cpp"
 #endif
 
-edk::AudioBuffer::AudioBuffer()
-{
-    //ctor
-    this->buffer=NULL;edkEnd();
+edk::AudioBuffer::AudioBuffer(){
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);edkEnd();
 }
 
-edk::AudioBuffer::~AudioBuffer()
-{
-    //delete the buffer
-    this->deleteBuffer();edkEnd();
+edk::AudioBuffer::~AudioBuffer(){
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
+        //delete the buffer
+        this->deleteBuffer();edkEnd();
+    }
 }
 
+void edk::AudioBuffer::Constructor(bool runFather){
+    if(runFather){
+        edk::ObjectWithName::Constructor();edkEnd();
+    }
+    if(this->classThis!=this){
+        this->classThis=this;
+        this->buffer=NULL;edkEnd();
+    }
+}
 
 //LOAD
 //load the buffer from a file
@@ -106,29 +117,29 @@ bool edk::AudioBuffer::loadBufferFromPack(edk::pack::FilePackage* pack,edk::char
         pack->mutex.lock();edkEnd();
         if(pack->goToFile(name)){
             if(pack->readFileToBuffer()){
-//                if(pack->readFileToBuffer(name)){
-                    //open the file using SFML
-                    this->buffer=new sf::SoundBuffer;edkEnd();
-                    if(this->buffer){
-                        //load from the file
-                        //if(this->buffer->Memory(pack->getBuffer(),pack->getBufferSize()) ){//1.6
-                        if(this->buffer->loadFromMemory(pack->getBuffer(),pack->getBufferSize())){//2.0
-                            pack->mutex.unlock();edkEnd();
-                            //then set the name
-                            this->setName(name);edkEnd();
-                            //return true
-                            return true;
-                        }
-                        else{
-                            pack->mutex.unlock();edkEnd();
-                        }
-                        delete this->buffer;edkEnd();
-                        this->buffer=NULL;edkEnd();
+                //                if(pack->readFileToBuffer(name)){
+                //open the file using SFML
+                this->buffer=new sf::SoundBuffer;edkEnd();
+                if(this->buffer){
+                    //load from the file
+                    //if(this->buffer->Memory(pack->getBuffer(),pack->getBufferSize()) ){//1.6
+                    if(this->buffer->loadFromMemory(pack->getBuffer(),pack->getBufferSize())){//2.0
+                        pack->mutex.unlock();edkEnd();
+                        //then set the name
+                        this->setName(name);edkEnd();
+                        //return true
+                        return true;
                     }
                     else{
                         pack->mutex.unlock();edkEnd();
                     }
-//                }
+                    delete this->buffer;edkEnd();
+                    this->buffer=NULL;edkEnd();
+                }
+                else{
+                    pack->mutex.unlock();edkEnd();
+                }
+                //                }
             }
             else{
                 pack->mutex.unlock();edkEnd();

@@ -66,9 +66,9 @@ void unpause(){
 
 namespace edk {
 class Window;
-class ViewController : public View {
+class ViewController : public edk::View {
     //
-    public:
+public:
     ViewController();
 
     ViewController(edk::rectf32 frame);
@@ -77,6 +77,9 @@ class ViewController : public View {
     friend edk::Window;
 
     ~ViewController();
+
+    void Constructor(bool runFather=true);
+    void Constructor(edk::rectf32 frame,bool runFather=true);
 
     virtual bool addSubview(edk::View *addView);
 
@@ -125,13 +128,14 @@ protected:
     void runUnpause();
     //run the pauseSwitch function in the views
     void runPauseSwitch();
- private:
-
+private:
     //The list of views inside this view
     edk::vector::Stack<edk::View*> nexts;
     //save the rect inside
     edk::rectf32 rectInside;
     bool setRectInside;
+private:
+    edk::classID classThis;
 };
 
 }//End of namespace edk

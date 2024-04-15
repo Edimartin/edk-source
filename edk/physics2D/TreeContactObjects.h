@@ -44,18 +44,36 @@ namespace physics2D{
 class ContactObjects{
 public:
     ContactObjects(edk::physics2D::PhysicObject2D* objectA,edk::physics2D::PhysicObject2D* objectB){
-        this->objectA=objectA;edkEnd();
-        this->objectB=objectB;edkEnd();
+        this->classThis=NULL;edkEnd();
+        this->Constructor(objectA,objectB);edkEnd();
     }
-    ~ContactObjects(){}
+    ~ContactObjects(){
+        if(this->classThis==this){
+            this->classThis=NULL;edkEnd();
+            //can destruct the class
+        }
+    }
+
+    void Constructor(edk::physics2D::PhysicObject2D* objectA,edk::physics2D::PhysicObject2D* objectB,bool runFather=true){
+        if(runFather){edkEnd();}
+        if(this->classThis!=this){
+            this->classThis=this;
+            this->objectA=objectA;edkEnd();
+            this->objectB=objectB;edkEnd();
+        }
+    }
 
     edk::physics2D::PhysicObject2D* objectA;
     edk::physics2D::PhysicObject2D* objectB;
+private:
+    edk::classID classThis;
 };
 class TreeContactObjects{
 public:
     TreeContactObjects();
     ~TreeContactObjects();
+
+    void Constructor(bool runFather=true);
 
     //clean the tree
     void clean();
@@ -69,8 +87,22 @@ private:
     edk::physics2D::ContactObjects* getContact(edk::physics2D::PhysicObject2D* objectA,edk::physics2D::PhysicObject2D* objectB);
     class TreeObjects : public edk::vector::BinaryTree<edk::physics2D::ContactObjects*>{
     public:
-        TreeObjects(){}
-        ~TreeObjects(){}
+        TreeObjects(){this->classThis=NULL;this->Constructor(false);edkEnd();}
+        ~TreeObjects(){
+            if(this->classThis==this){
+                this->classThis=NULL;edkEnd();
+                //can destruct the class
+            }
+        }
+
+        void Constructor(bool runFather=true){
+            if(runFather){
+                edk::vector::BinaryTree<edk::physics2D::ContactObjects*>Constructor();edkEnd();
+            }
+            if(this->classThis!=this){
+                this->classThis=this;
+            }
+        }
 
         //compare if the value is bigger
         bool firstBiggerSecond(edk::physics2D::ContactObjects* first,edk::physics2D::ContactObjects* second){
@@ -97,7 +129,11 @@ private:
             }
             return false;
         }
+    private:
+        edk::classID classThis;
     }tree;
+private:
+    edk::classID classThis;
 };
 }//end namespace physics2D
 }//end namespace edk

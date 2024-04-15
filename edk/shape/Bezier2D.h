@@ -41,17 +41,20 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 namespace edk{
 namespace shape{
 class Bezier2D:public edk::shape::Curve2D{
-    public:
-        Bezier2D();
-        Bezier2D(edk::vec2f32 p1,edk::vec2f32 p2,edk::vec2f32 p3,edk::vec2f32 p4);
-        virtual ~Bezier2D();
+public:
+    Bezier2D();
+    Bezier2D(edk::vec2f32 p1,edk::vec2f32 p2,edk::vec2f32 p3,edk::vec2f32 p4);
+    virtual ~Bezier2D();
 
-        //Implement the Bezier Curve
-        edk::vec2f32 getPoint(edk::float32 percent);
+    void Constructor(bool runFather=true);
+    void Constructor(edk::vec2f32 p1,edk::vec2f32 p2,edk::vec2f32 p3,edk::vec2f32 p4,bool runFather=true);
 
-        static edk::vec2f32 getPoint(edk::vec2f32 p1,edk::vec2f32 p2,edk::vec2f32 p3,edk::vec2f32 p4,edk::float32 percent);
-    protected:
-    private:
+    //Implement the Bezier Curve
+    edk::vec2f32 getPoint(edk::float32 percent);
+    static edk::vec2f32 getPoint(edk::vec2f32 p1,edk::vec2f32 p2,edk::vec2f32 p3,edk::vec2f32 p4,edk::float32 percent);
+protected:
+private:
+    edk::classID classThis;
 };
 }//end namespace shape
 }//end namespace edk

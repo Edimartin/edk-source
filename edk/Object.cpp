@@ -29,29 +29,64 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endif
 
 edk::ObjectWithName::ObjectWithName(){
-    //
-    this->objectName=NULL;edkEnd();
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);edkEnd();
 }
 //construtor
 edk::ObjectWithName::ObjectWithName(edk::char8* name){
-    //
-    this->objectName=NULL;edkEnd();
-    this->setName(name);edkEnd();
+    this->classThis=NULL;edkEnd();
+    this->Constructor(name,false);edkEnd();
 }
 //construtor
 edk::ObjectWithName::ObjectWithName(const edk::char8* name){
-    //
-    this->objectName=NULL;edkEnd();
-    this->setName(name);edkEnd();
+    this->classThis=NULL;edkEnd();
+    this->Constructor(name,false);edkEnd();
 }
 
 //destructor
 edk::ObjectWithName::~ObjectWithName(){
-    //
-    this->deleteName();edkEnd();
-    //else remove all
-    this->removeAll();edkEnd();
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
+        this->deleteName();edkEnd();
+        //else remove all
+        this->removeAll();edkEnd();
+    }
 }
+
+void edk::ObjectWithName::Constructor(bool runFather){
+    if(runFather){
+        edk::Object<edk::ObjectWithName>::Constructor();edkEnd();
+    }
+    if(this->classThis!=this){
+        this->classThis=this;
+        //
+        this->objectName=NULL;edkEnd();
+    }
+}
+void edk::ObjectWithName::Constructor(edk::char8* name,bool runFather){
+    if(runFather){
+        edk::Object<edk::ObjectWithName>::Constructor();edkEnd();
+    }
+    if(this->classThis!=this){
+        this->classThis=this;
+        //
+        this->objectName=NULL;edkEnd();
+        this->setName(name);edkEnd();
+    }
+}
+void edk::ObjectWithName::Constructor(const edk::char8* name,bool runFather){
+    if(runFather){
+        edk::Object<edk::ObjectWithName>::Constructor();edkEnd();
+    }
+    if(this->classThis!=this){
+        this->classThis=this;
+        //
+        this->objectName=NULL;edkEnd();
+        this->setName(name);edkEnd();
+    }
+}
+
 bool edk::ObjectWithName::setName(edk::char8* name)
 {
     //delete the last name

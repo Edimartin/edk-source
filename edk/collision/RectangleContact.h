@@ -41,14 +41,17 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 namespace edk{
 namespace collision{
 class RectangleContact{
-    public:
-        RectangleContact();
-        virtual ~RectangleContact();
+public:
+    RectangleContact();
+    virtual ~RectangleContact();
 
-        //CONTACTS
-        static bool contactPoint(edk::vec2f32 point, edk::shape::Rectangle2D rectangle);
-    protected:
-    private:
+    void Constructor(bool runFather=true);
+
+    //CONTACTS
+    static bool contactPoint(edk::vec2f32 point, edk::shape::Rectangle2D rectangle);
+protected:
+private:
+    edk::classID classThis;
 };
 }//end namespace collision
 }//end namespace edk

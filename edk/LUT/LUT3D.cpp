@@ -26,14 +26,27 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 edk::LUT3D::LUT3D(){
     //
-    this->cube=NULL;edkEnd();
-    this->size=0u;
-    this->imageSize = 0u;edkEnd();
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);edkEnd();
 }
 edk::LUT3D::~LUT3D(){
-    //
-    this->deleteTable();edkEnd();
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
+        this->deleteTable();edkEnd();
+    }
 }
+
+void edk::LUT3D::Constructor(bool /*runFather*/){
+    //
+    if(this->classThis!=this){
+        this->classThis=this;
+        this->cube=NULL;edkEnd();
+        this->size=0u;
+        this->imageSize = 0u;edkEnd();
+    }
+}
+
 //calculate the imageSize
 edk::size2ui32 edk::LUT3D::calcImageSize(edk::uint16 size){
     edk::uint32 vecSize = size*size*size;edkEnd();

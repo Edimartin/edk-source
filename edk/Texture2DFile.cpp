@@ -31,28 +31,91 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #if defined(EDK_TEX2DFILE_PRINT_DEBUG)
 edk::DebugLineFile edk::Texture2DFile::debugFile;
 edk::multi::Mutex edk::Texture2DFile::debugMut;
+bool edk::Texture2DFile::templateConstructNeed=true;
 #endif
 
-edk::Texture2DFile::Texture2DFile()
-{
-    //ctor
+edk::Texture2DFile::Texture2DFile(){
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);edkEnd();
 }
 edk::Texture2DFile::Texture2DFile(edk::char8 *textureFileName){
-    //
-    this->setName(textureFileName);edkEnd();
+    this->classThis=NULL;edkEnd();
+    this->Constructor(textureFileName,false);edkEnd();
 }
 edk::Texture2DFile::Texture2DFile(const char *textureFileName){
-    //
-    this->setName(textureFileName);edkEnd();
+    this->classThis=NULL;edkEnd();
+    this->Constructor(textureFileName,false);edkEnd();
 }
 
-edk::Texture2DFile::~Texture2DFile()
-{
-    //dtor
-    this->deleteTexture();edkEnd();
-    this->deleteName();edkEnd();
-    //remove all
-    this->removeAll();edkEnd();
+edk::Texture2DFile::~Texture2DFile(){
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
+        this->deleteTexture();edkEnd();
+        this->deleteName();edkEnd();
+        //remove all
+        this->removeAll();edkEnd();
+    }
+}
+
+void edk::Texture2DFile::Constructor(bool runFather){
+    if(runFather){
+        edk::Texture2D::Constructor();edkEnd();
+    }
+    if(this->classThis!=this){
+        this->classThis=this;
+
+        this->image.Constructor();
+
+#if defined(EDK_TEX2DFILE_PRINT_DEBUG)
+        if(edk::Texture2DFile::templateConstructNeed){
+            edk::Texture2DFile::debugFile.Constructor();
+            edk::Texture2DFile::debugMut.Constructor();
+            edk::Texture2DFile::templateConstructNeed=false;
+        }
+#endif
+        //ctor
+    }
+}
+void edk::Texture2DFile::Constructor(edk::char8 *textureFileName,bool runFather){
+    if(runFather){
+        edk::Texture2D::Constructor();edkEnd();
+    }
+    if(this->classThis!=this){
+        this->classThis=this;
+
+        this->image.Constructor();
+
+#if defined(EDK_TEX2DFILE_PRINT_DEBUG)
+        if(edk::Texture2DFile::templateConstructNeed){
+            edk::Texture2DFile::debugFile.Constructor();
+            edk::Texture2DFile::debugMut.Constructor();
+            edk::Texture2DFile::templateConstructNeed=false;
+        }
+#endif
+        //
+        this->setName(textureFileName);edkEnd();
+    }
+}
+void edk::Texture2DFile::Constructor(const char *textureFileName,bool runFather){
+    if(runFather){
+        edk::Texture2D::Constructor();edkEnd();
+    }
+    if(this->classThis!=this){
+        this->classThis=this;
+
+        this->image.Constructor();
+
+#if defined(EDK_TEX2DFILE_PRINT_DEBUG)
+        if(edk::Texture2DFile::templateConstructNeed){
+            edk::Texture2DFile::debugFile.Constructor();
+            edk::Texture2DFile::debugMut.Constructor();
+            edk::Texture2DFile::templateConstructNeed=false;
+        }
+#endif
+        //
+        this->setName(textureFileName);edkEnd();
+    }
 }
 
 //set the debugFile Name
@@ -107,7 +170,7 @@ bool edk::Texture2DFile::loadFromFile(edk::char8 *fileName,edk::uint32 filter){
         case 1u://GRAYSCALE
             //load the texture
 #if defined(EDK_TEX2DFILE_PRINT_DEBUG)
-    this->writeDebug("createTexture(GRAYSCALE)",__LINE__,__FILE__,__func__);
+            this->writeDebug("createTexture(GRAYSCALE)",__LINE__,__FILE__,__func__);
 #endif
             this->createTexture(this->image.width(),
                                 this->image.height(),
@@ -119,7 +182,7 @@ bool edk::Texture2DFile::loadFromFile(edk::char8 *fileName,edk::uint32 filter){
         case 3u://RGB
             //load the texture
 #if defined(EDK_TEX2DFILE_PRINT_DEBUG)
-    this->writeDebug("createTexture(RGB)",__LINE__,__FILE__,__func__);
+            this->writeDebug("createTexture(RGB)",__LINE__,__FILE__,__func__);
 #endif
             this->createTexture(this->image.width(),
                                 this->image.height(),
@@ -131,7 +194,7 @@ bool edk::Texture2DFile::loadFromFile(edk::char8 *fileName,edk::uint32 filter){
         case 4u://RGBA
             //load the texture
 #if defined(EDK_TEX2DFILE_PRINT_DEBUG)
-    this->writeDebug("createTexture(RGBA)",__LINE__,__FILE__,__func__);
+            this->writeDebug("createTexture(RGBA)",__LINE__,__FILE__,__func__);
 #endif
             this->createTexture(this->image.width(),
                                 this->image.height(),
@@ -184,15 +247,15 @@ bool edk::Texture2DFile::loadFromMemory(edk::uint8* image,edk::uint32 size,edk::
     if(image && size){
         //process the decode
 #if defined(EDK_TEX2DFILE_PRINT_DEBUG)
-    edk::char8* strSize = edk::String::uint32ToStr(size);
-    if(strSize){
-        edk::char8* str = edk::String::strCatMulti("loadFromMemoryToRGBA(Size[",strSize,"])",NULL);
-        if(str){
-            this->writeDebug(str,__LINE__,__FILE__,__func__);
-            free(str);
+        edk::char8* strSize = edk::String::uint32ToStr(size);
+        if(strSize){
+            edk::char8* str = edk::String::strCatMulti("loadFromMemoryToRGBA(Size[",strSize,"])",NULL);
+            if(str){
+                this->writeDebug(str,__LINE__,__FILE__,__func__);
+                free(str);
+            }
+            free(strSize);
         }
-        free(strSize);
-    }
 #endif
         if(this->image.loadFromMemoryToRGBA(image,size)){
             //test the channels
@@ -201,7 +264,7 @@ bool edk::Texture2DFile::loadFromMemory(edk::uint8* image,edk::uint32 size,edk::
             {
                 //load the texture
 #if defined(EDK_TEX2DFILE_PRINT_DEBUG)
-    this->writeDebug("createTexture(GRAYSCALE)",__LINE__,__FILE__,__func__);
+                this->writeDebug("createTexture(GRAYSCALE)",__LINE__,__FILE__,__func__);
 #endif
                 this->createTexture(this->image.width(),
                                     this->image.height(),
@@ -215,7 +278,7 @@ bool edk::Texture2DFile::loadFromMemory(edk::uint8* image,edk::uint32 size,edk::
             {
                 //load the texture
 #if defined(EDK_TEX2DFILE_PRINT_DEBUG)
-    this->writeDebug("createTexture(RGB)",__LINE__,__FILE__,__func__);
+                this->writeDebug("createTexture(RGB)",__LINE__,__FILE__,__func__);
 #endif
                 this->createTexture(this->image.width(),
                                     this->image.height(),
@@ -229,7 +292,7 @@ bool edk::Texture2DFile::loadFromMemory(edk::uint8* image,edk::uint32 size,edk::
             {
                 //load the texture
 #if defined(EDK_TEX2DFILE_PRINT_DEBUG)
-    this->writeDebug("createTexture(RGBA)",__LINE__,__FILE__,__func__);
+                this->writeDebug("createTexture(RGBA)",__LINE__,__FILE__,__func__);
 #endif
                 this->createTexture(this->image.width(),
                                     this->image.height(),
@@ -293,23 +356,23 @@ bool edk::Texture2DFile::setFromMemory(edk::uint8* image,edk::uint32 width,edk::
         {
             //load the texture
 #if defined(EDK_TEX2DFILE_PRINT_DEBUG)
-    edk::char8* strWidth = edk::String::uint32ToStr(width);
-    if(strWidth){
-        edk::char8* strHeight = edk::String::uint32ToStr(height);
-        if(strHeight){
-            edk::char8* strChannels = edk::String::uint32ToStr(channels);
-            if(strChannels){
-                edk::char8* str = edk::String::strCatMulti("createTexture(GRAYSCALE,Size[",strWidth,",",strWidth,"] channels[",strChannels,"])",NULL);
-                if(str){
-                    this->writeDebug(str,__LINE__,__FILE__,__func__);
-                    free(str);
+            edk::char8* strWidth = edk::String::uint32ToStr(width);
+            if(strWidth){
+                edk::char8* strHeight = edk::String::uint32ToStr(height);
+                if(strHeight){
+                    edk::char8* strChannels = edk::String::uint32ToStr(channels);
+                    if(strChannels){
+                        edk::char8* str = edk::String::strCatMulti("createTexture(GRAYSCALE,Size[",strWidth,",",strWidth,"] channels[",strChannels,"])",NULL);
+                        if(str){
+                            this->writeDebug(str,__LINE__,__FILE__,__func__);
+                            free(str);
+                        }
+                        free(strChannels);
+                    }
+                    free(strHeight);
                 }
-                free(strChannels);
+                free(strWidth);
             }
-            free(strHeight);
-        }
-        free(strWidth);
-    }
 #endif
             this->createTexture(width,
                                 height,
@@ -323,23 +386,23 @@ bool edk::Texture2DFile::setFromMemory(edk::uint8* image,edk::uint32 width,edk::
         {
             //load the texture
 #if defined(EDK_TEX2DFILE_PRINT_DEBUG)
-    edk::char8* strWidth = edk::String::uint32ToStr(width);
-    if(strWidth){
-        edk::char8* strHeight = edk::String::uint32ToStr(height);
-        if(strHeight){
-            edk::char8* strChannels = edk::String::uint32ToStr(channels);
-            if(strChannels){
-                edk::char8* str = edk::String::strCatMulti("createTexture(RGB,Size[",strWidth,",",strWidth,"] channels[",strChannels,"])",NULL);
-                if(str){
-                    this->writeDebug(str,__LINE__,__FILE__,__func__);
-                    free(str);
+            edk::char8* strWidth = edk::String::uint32ToStr(width);
+            if(strWidth){
+                edk::char8* strHeight = edk::String::uint32ToStr(height);
+                if(strHeight){
+                    edk::char8* strChannels = edk::String::uint32ToStr(channels);
+                    if(strChannels){
+                        edk::char8* str = edk::String::strCatMulti("createTexture(RGB,Size[",strWidth,",",strWidth,"] channels[",strChannels,"])",NULL);
+                        if(str){
+                            this->writeDebug(str,__LINE__,__FILE__,__func__);
+                            free(str);
+                        }
+                        free(strChannels);
+                    }
+                    free(strHeight);
                 }
-                free(strChannels);
+                free(strWidth);
             }
-            free(strHeight);
-        }
-        free(strWidth);
-    }
 #endif
             this->createTexture(width,
                                 height,
@@ -353,23 +416,23 @@ bool edk::Texture2DFile::setFromMemory(edk::uint8* image,edk::uint32 width,edk::
         {
             //load the texture
 #if defined(EDK_TEX2DFILE_PRINT_DEBUG)
-    edk::char8* strWidth = edk::String::uint32ToStr(width);
-    if(strWidth){
-        edk::char8* strHeight = edk::String::uint32ToStr(height);
-        if(strHeight){
-            edk::char8* strChannels = edk::String::uint32ToStr(channels);
-            if(strChannels){
-                edk::char8* str = edk::String::strCatMulti("createTexture(RGBA,Size[",strWidth,",",strWidth,"] channels[",strChannels,"])",NULL);
-                if(str){
-                    this->writeDebug(str,__LINE__,__FILE__,__func__);
-                    free(str);
+            edk::char8* strWidth = edk::String::uint32ToStr(width);
+            if(strWidth){
+                edk::char8* strHeight = edk::String::uint32ToStr(height);
+                if(strHeight){
+                    edk::char8* strChannels = edk::String::uint32ToStr(channels);
+                    if(strChannels){
+                        edk::char8* str = edk::String::strCatMulti("createTexture(RGBA,Size[",strWidth,",",strWidth,"] channels[",strChannels,"])",NULL);
+                        if(str){
+                            this->writeDebug(str,__LINE__,__FILE__,__func__);
+                            free(str);
+                        }
+                        free(strChannels);
+                    }
+                    free(strHeight);
                 }
-                free(strChannels);
+                free(strWidth);
             }
-            free(strHeight);
-        }
-        free(strWidth);
-    }
 #endif
             this->createTexture(width,
                                 height,

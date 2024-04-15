@@ -28,19 +28,30 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #pragma message "            Inside Interpolation1DGroup.cpp"
 #endif
 
-edk::animation::Interpolation1DGroup::Interpolation1DGroup()
-    :edk::animation::InterpolationGroup()
-{
-    //ctor
-    this->incrementX=0.f;edkEnd();
-    this->incrementXValue=0.f;edkEnd();
-    this->tempX=0.f;edkEnd();
+edk::animation::Interpolation1DGroup::Interpolation1DGroup(){
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);edkEnd();
 }
 
-edk::animation::Interpolation1DGroup::~Interpolation1DGroup()
-{
-    //dtor
+edk::animation::Interpolation1DGroup::~Interpolation1DGroup(){
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
+    }
 }
+
+void edk::animation::Interpolation1DGroup::Constructor(bool runFather){
+    if(runFather){
+        edk::animation::InterpolationGroup::Constructor();edkEnd();
+    }
+    if(this->classThis!=this){
+        this->classThis=this;
+        this->incrementX=0.f;edkEnd();
+        this->incrementXValue=0.f;edkEnd();
+        this->tempX=0.f;edkEnd();
+    }
+}
+
 //create the interpolation
 edk::animation::InterpolationLine* edk::animation::Interpolation1DGroup::newLineInterpolation(){
     //
@@ -358,8 +369,8 @@ edk::float32 edk::animation::Interpolation1DGroup::addShakingFramesX(edk::float3
         //increment the second
         second+=interpolationDistance;edkEnd();
         while(position>0.1f
-               ||
-               position<-0.1f
+              ||
+              position<-0.1f
               ){
             //add the interpolation
             this->addNewInterpolationLine(second,position + translate);edkEnd();

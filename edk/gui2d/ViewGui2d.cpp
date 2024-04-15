@@ -25,32 +25,55 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 edk::gui2d::ViewGui2d::ViewGui2d(){
-    //
-    this->idCounter = 0u;edkEnd();
-    this->mouseStatus = edk::gui2d::gui2dMouseNothing;edkEnd();
-    this->objPressed = NULL;edkEnd();
-    this->objSelected = NULL;edkEnd();
-    this->idSelected = 0u;edkEnd();
-    this->selectTree = &this->tree1;edkEnd();
-    this->selectTreeS = &this->tree2;edkEnd();
-    this->shift = false;edkEnd();
-    //press quote
-    this->pressQuote=false;edkEnd();
-    this->pressTilde=false;edkEnd();
-    //start the distances
-    this->distanceClick.start();edkEnd();
-    this->distanceDoubleClick.start();edkEnd();
-    //run doubleClick
-    this->doubleClick=false;edkEnd();
-
-    this->enableMouse();edkEnd();
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);edkEnd();
 }
 edk::gui2d::ViewGui2d::~ViewGui2d(){
-    //
-    this->tree1.clean();edkEnd();
-    this->tree2.clean();edkEnd();
-    this->volume.cleanMeshes();edkEnd();
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
+        this->tree1.clean();edkEnd();
+        this->tree2.clean();edkEnd();
+        this->volume.cleanMeshes();edkEnd();
+    }
 }
+
+void edk::gui2d::ViewGui2d::Constructor(bool runFather){
+    if(runFather){
+        edk::ViewGU2D::Constructor();edkEnd();
+    }
+    if(this->classThis!=this){
+        this->classThis=this;
+
+        this->tree1.Constructor();edkEnd();
+        this->tree2.Constructor();edkEnd();
+        this->volume.Constructor();edkEnd();
+        this->distanceClick.Constructor();edkEnd();
+        this->distanceDoubleClick.Constructor();edkEnd();
+        this->listCallback.Constructor();edkEnd();
+        this->list.Constructor();edkEnd();
+
+        this->idCounter = 0u;edkEnd();
+        this->mouseStatus = edk::gui2d::gui2dMouseNothing;edkEnd();
+        this->objPressed = NULL;edkEnd();
+        this->objSelected = NULL;edkEnd();
+        this->idSelected = 0u;edkEnd();
+        this->selectTree = &this->tree1;edkEnd();
+        this->selectTreeS = &this->tree2;edkEnd();
+        this->shift = false;edkEnd();
+        //press quote
+        this->pressQuote=false;edkEnd();
+        this->pressTilde=false;edkEnd();
+        //start the distances
+        this->distanceClick.start();edkEnd();
+        this->distanceDoubleClick.start();edkEnd();
+        //run doubleClick
+        this->doubleClick=false;edkEnd();
+
+        this->enableMouse();edkEnd();
+    }
+}
+
 //return true if have the element on the callback list
 bool edk::gui2d::ViewGui2d::haveCallback(edk::gui2d::ObjectGui2dCallback* callback){
     //test the callback

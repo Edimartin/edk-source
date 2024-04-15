@@ -28,16 +28,31 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #pragma message "            Inside ViewGU2D.cpp"
 #endif
 
-edk::ViewGU2D::ViewGU2D()
-{
-    //ctor
-    this->camera.position=edk::vec2f32(0u,0u);edkEnd();
+edk::ViewGU2D::ViewGU2D(){
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);edkEnd();
 }
 
-edk::ViewGU2D::~ViewGU2D()
-{
-    //dtor
+edk::ViewGU2D::~ViewGU2D(){
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
+    }
 }
+
+void edk::ViewGU2D::Constructor(bool runFather){
+    if(runFather){
+        edk::ViewGU::Constructor();edkEnd();
+    }
+    if(this->classThis!=this){
+        this->classThis=this;
+
+        this->camera.Constructor();edkEnd();
+
+        this->camera.position=edk::vec2f32(0u,0u);edkEnd();
+    }
+}
+
 //draw the 2Dcamera
 void edk::ViewGU2D::drawCamera2D(){
     //draw the camera2D

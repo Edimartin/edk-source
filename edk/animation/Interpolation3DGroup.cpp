@@ -28,18 +28,29 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #pragma message "            Inside Interpolation3DGroup.cpp"
 #endif
 
-edk::animation::Interpolation3DGroup::Interpolation3DGroup()
-{
-    //ctor
-    this->incrementZ=0.f;edkEnd();
-    this->incrementZValue=0.f;edkEnd();
+edk::animation::Interpolation3DGroup::Interpolation3DGroup(){
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);edkEnd();
 }
 
-edk::animation::Interpolation3DGroup::~Interpolation3DGroup()
-{
-    //dtor
+edk::animation::Interpolation3DGroup::~Interpolation3DGroup(){
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
+    }
 }
 
+void edk::animation::Interpolation3DGroup::Constructor(bool runFather){
+    if(runFather){
+        Interpolation2DGroup::Constructor();edkEnd();
+    }
+    if(this->classThis!=this){
+        this->classThis=this;
+        //ctor
+        this->incrementZ=0.f;edkEnd();
+        this->incrementZValue=0.f;edkEnd();
+    }
+}
 
 //create the interpolation
 edk::animation::InterpolationLine* edk::animation::Interpolation3DGroup::newLineInterpolation(){

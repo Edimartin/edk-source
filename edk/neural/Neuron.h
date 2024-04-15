@@ -47,18 +47,55 @@ class Neuron;
 template <class typeTemplate>
 class Value: public edk::Name{
 public:
-    Value(){this->value = (typeTemplate)0u;edkEnd();this->neuron = NULL;edkEnd();}
-    ~Value(){this->cleanName();edkEnd();}
+    Value(){this->classThis=NULL;edkEnd();
+            this->Constructor(false);edkEnd();}
+    ~Value(){
+        if(this->classThis==this){
+            this->classThis=NULL;edkEnd();
+            //can destruct the class
+            this->cleanName();edkEnd();
+        }
+    }
+
+    void Constructor(bool runFather=true){
+        if(runFather){
+            edk::Name::Constructor();edkEnd();
+        }
+        if(this->classThis!=this){
+            this->classThis=this;
+            this->value = (typeTemplate)0u;edkEnd();
+            this->neuron = NULL;edkEnd();
+        }
+    }
     typeTemplate value;
     edk::neural::Neuron<typeTemplate> *neuron;
+private:
+    edk::classID classThis;
 };
 template <class typeTemplate>
 class NameValues: private edk::vector::BinaryTree<edk::neural::Value<typeTemplate>*>{
 public:
-    NameValues(){}
-    ~NameValues(){
-        this->clean();edkEnd();
+    NameValues(){
+        this->classThis=NULL;edkEnd();
+        this->Constructor(false);edkEnd();
     }
+    ~NameValues(){
+        if(this->classThis==this){
+            this->classThis=NULL;edkEnd();
+            //can destruct the class
+            this->clean();edkEnd();
+        }
+    }
+
+    void Constructor(bool runFather=true){
+        if(runFather){
+            edk::vector::BinaryTree<edk::neural::Value<typeTemplate>*>::Constructor();edkEnd();
+        }
+        if(this->classThis!=this){
+            this->classThis=this;
+        }
+    }
+
     //clean the values
     void clean(){
         edk::neural::Value<typeTemplate>* temp;edkEnd();
@@ -180,6 +217,8 @@ private:
         }
         return false;
     }
+private:
+    edk::classID classThis;
 };
 template <class typeTemplate>
 class Network;
@@ -188,11 +227,30 @@ template <class typeTemplate>
 class Neuron: public edk::Name{
 public:
     Neuron(){
-        this->haveSum=false;edkEnd();
-        this->sum=0;edkEnd();
+        this->classThis=NULL;edkEnd();
+        this->Constructor(false);edkEnd();
     }
     ~Neuron(){
-        this->cleanWeights();edkEnd();
+        if(this->classThis==this){
+            this->classThis=NULL;edkEnd();
+            //can destruct the class
+            this->cleanWeights();edkEnd();
+        }
+    }
+
+    void Constructor(bool runFather=true){
+        if(runFather){
+            edk::Name::Constructor();edkEnd();
+        }
+        if(this->classThis!=this){
+            this->classThis=this;
+
+            //the sum of all values inside the neuron
+            this->treeWeights.Constructor();edkEnd();
+
+            this->haveSum=false;edkEnd();
+            this->sum=0;edkEnd();
+        }
     }
 
     //friend class is a class who can access the private values from another class
@@ -479,10 +537,26 @@ private:
     class Weights: public edk::Name{
     public:
         Weights(){
-            this->weight=(typeTemplate)0u;edkEnd();
-            this->connected=NULL;edkEnd();
+            this->classThis=NULL;edkEnd();
+            this->Constructor(false);edkEnd();
         }
-        ~Weights(){}
+        ~Weights(){
+            if(this->classThis==this){
+                this->classThis=NULL;edkEnd();
+                //can destruct the class
+            }
+        }
+
+        void Constructor(bool runFather=true){
+            if(runFather){
+                edk::Name::Constructor();edkEnd();
+            }
+            if(this->classThis!=this){
+                this->classThis=this;
+                this->weight=(typeTemplate)0u;edkEnd();
+                this->connected=NULL;edkEnd();
+            }
+        }
         bool cloneFrom(edk::neural::Neuron<typeTemplate>::Weights<typeTemplate> *temp){
             if(temp){
                 if(this->setName(temp->getName())){
@@ -497,9 +571,13 @@ private:
         edk::int32 weight;
         //neuron connecteds
         edk::neural::Neuron<typeTemplate> *connected;
+    private:
+        edk::classID classThis;
     };
     //values tree
     edk::vector::NameTree treeWeights;
+private:
+    edk::classID classThis;
 };
 }//end neural
 }//end edk

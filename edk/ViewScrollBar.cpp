@@ -30,38 +30,60 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #include "edkImages/EDKmenuTemplateTexture.h"
 
-edk::ViewScrollBar::ViewScrollBar()
-{
-    this->backgroundColor.a = 0.f;edkEnd();
+edk::ViewScrollBar::ViewScrollBar(){
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);edkEnd();
 }
-edk::ViewScrollBar::~ViewScrollBar()
-{
-}
-void edk::ViewScrollBar::updateFrames(){
-    //test the rectScroll
-    if(this->rectScrollSave!=this->frame){
-        this->rectScrollSave = this->frame;edkEnd();
-        //save the percent
-        edk::vec2f32 percent = this->foreground.getPercent();edkEnd();
-        //update the button
-        this->background.frame.size = this->rectScrollSave.size;edkEnd();
-        this->foreground.frame.size = this->rectScrollSave.size;edkEnd();
-        this->foreground.updateFrame();edkEnd();
-        //update the percent
-        this->foreground.setPercent(percent);edkEnd();
+edk::ViewScrollBar::~ViewScrollBar(){
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
     }
 }
 
-edk::ViewScrollBar::ForegroundButton::ForegroundButton(){
-    //
-    this->sizeObject = edk::size2f32(1,1);edkEnd();
-    this->borderSize = 25;edkEnd();
-    this->loadSpriteFromMemory(EDKmenuTemplateTextureName,EDKmenuTemplateTexture,EDKmenuTemplateTextureSize,GU_LINEAR);edkEnd();
-    this->mouseHolded=false;edkEnd();
+void edk::ViewScrollBar::Constructor(bool runFather){
+    if(runFather){
+        edk::ViewController::Constructor();edkEnd();
+    }
+    if(this->classThis!=this){
+        this->classThis=this;
+
+        this->background.Constructor();edkEnd();
+        this->foreground.Constructor();edkEnd();
+
+        this->backgroundColor.a = 0.f;edkEnd();
+    }
 }
+
+void edk::ViewScrollBar::updateFrames(){
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);edkEnd();
+}
+
+edk::ViewScrollBar::ForegroundButton::ForegroundButton(){
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);edkEnd();
+}
+
 //set size
 edk::ViewScrollBar::ForegroundButton::~ForegroundButton(){
-    //
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
+    }
+}
+
+void edk::ViewScrollBar::ForegroundButton::Constructor(bool runFather){
+    if(runFather){
+        edk::ViewGU2D::Constructor();edkEnd();
+    }
+    if(this->classThis!=this){
+        this->classThis=this;
+        this->sizeObject = edk::size2f32(1,1);edkEnd();
+        this->borderSize = 25;edkEnd();
+        this->loadSpriteFromMemory(EDKmenuTemplateTextureName,EDKmenuTemplateTexture,EDKmenuTemplateTextureSize,GU_LINEAR);edkEnd();
+        this->mouseHolded=false;edkEnd();
+    }
 }
 
 void edk::ViewScrollBar::ForegroundButton::load(rectf32){

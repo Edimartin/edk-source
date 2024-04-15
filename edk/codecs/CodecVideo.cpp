@@ -29,19 +29,33 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endif
 
 edk::codecs::CodecVideo::CodecVideo(){
-    this->usingEncodedSize=0u;
-    this->Y=NULL;edkEnd();
-    this->U=NULL;edkEnd();
-    this->V=NULL;edkEnd();
-    this->sizeY=0u;
-    this->sizeU=0u;
-    this->sizeV=0u;
-    this->nexKeyframe=false;edkEnd();
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);edkEnd();
 }
 edk::codecs::CodecVideo::~CodecVideo(){
-    //
-    this->deleteFrame();edkEnd();
-    this->deleteSpaceEncoded();edkEnd();
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
+        this->deleteFrame();edkEnd();
+        this->deleteSpaceEncoded();edkEnd();
+    }
+}
+
+void edk::codecs::CodecVideo::Constructor(bool runFather){
+    if(runFather){
+        edk::codecs::CodecImage::Constructor();edkEnd();
+    }
+    if(this->classThis!=this){
+        this->classThis=this;
+        this->usingEncodedSize=0u;
+        this->Y=NULL;edkEnd();
+        this->U=NULL;edkEnd();
+        this->V=NULL;edkEnd();
+        this->sizeY=0u;
+        this->sizeU=0u;
+        this->sizeV=0u;
+        this->nexKeyframe=false;edkEnd();
+    }
 }
 
 //create a new frame

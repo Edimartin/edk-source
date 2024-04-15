@@ -29,31 +29,47 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endif
 
 edk::animation::PathGroup::PathGroup(){
-    //
-    this->animationPosition = this->positionStart = this->positionEnd = 0u;edkEnd();
-    this->secondStart = this->secondEnd = 0.f;edkEnd();
-    this->rewind = this->playing = this->looping= this->incrementing = false;edkEnd();
-    this->canDelete=true;edkEnd();
-    this->lastDist=0.f;edkEnd();
-    this->saveStep = 0.f;edkEnd();
-    this->closerDistance=0.5f;edkEnd();
-    this->changeFrame=false;edkEnd();
-    this->step = 0.f;edkEnd();
-    this->active=false;edkEnd();
-    this->nameSelected=NULL;edkEnd();
-    this->speed=1.f;edkEnd();
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);edkEnd();
 }
 edk::animation::PathGroup::~PathGroup(){
-    //
-    if(this->canDelete){
-        this->deleteFrames();edkEnd();
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
+        if(this->canDelete){
+            this->deleteFrames();edkEnd();
+        }
+        else{
+            this->animations.cantDestroy();edkEnd();
+            this->animationNames.cantDeleteNames();edkEnd();
+        }
+        this->canDelete=true;edkEnd();
+        this->nameSelected=NULL;edkEnd();
     }
-    else{
-        this->animations.cantDestroy();edkEnd();
-        this->animationNames.cantDeleteNames();edkEnd();
+}
+
+void edk::animation::PathGroup::Constructor(bool runFather){
+    if(runFather){edkEnd();}
+    if(this->classThis!=this){
+        this->classThis=this;
+
+        this->animations.Constructor();edkEnd();
+        this->clock.Constructor();edkEnd();
+        this->animationNames.Constructor();edkEnd();
+
+        this->animationPosition = this->positionStart = this->positionEnd = 0u;edkEnd();
+        this->secondStart = this->secondEnd = 0.f;edkEnd();
+        this->rewind = this->playing = this->looping= this->incrementing = false;edkEnd();
+        this->canDelete=true;edkEnd();
+        this->lastDist=0.f;edkEnd();
+        this->saveStep = 0.f;edkEnd();
+        this->closerDistance=0.5f;edkEnd();
+        this->changeFrame=false;edkEnd();
+        this->step = 0.f;edkEnd();
+        this->active=false;edkEnd();
+        this->nameSelected=NULL;edkEnd();
+        this->speed=1.f;edkEnd();
     }
-    this->canDelete=true;edkEnd();
-    this->nameSelected=NULL;edkEnd();
 }
 
 //create the frame
@@ -139,14 +155,14 @@ edk::uint32 edk::animation::PathGroup::getPositionFromSecond(edk::float32 second
                 }
             }
             else{
-            if(second < temp->second){
-                //get the animation position
-                break;
-            }
-            else if(second> temp->second-0.0001f){
-                //copy the position
-                ret=i;edkEnd();
-            }
+                if(second < temp->second){
+                    //get the animation position
+                    break;
+                }
+                else if(second> temp->second-0.0001f){
+                    //copy the position
+                    ret=i;edkEnd();
+                }
             }
         }
     }

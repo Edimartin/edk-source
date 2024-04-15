@@ -46,6 +46,8 @@ public:
     Grid2D();
     ~Grid2D();
 
+    void Constructor(bool runFather=true);
+
     //set the distanceLines
     bool setDistanceLines(edk::float32 distance);
     bool setDistanceLinesBold(edk::float32 distance);
@@ -70,6 +72,8 @@ private:
     edk::float32 limit;
     edk::float32 p1,p2;
     edk::float32 i;
+private:
+    edk::classID classThis;
 };
 }//end namespace shape
 }//end namespace edk

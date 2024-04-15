@@ -25,11 +25,25 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 edk::light::Point::Point(){
-    //
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);edkEnd();
 }
 edk::light::Point::~Point(){
-    //
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
+    }
 }
+
+void edk::light::Point::Constructor(bool runFather){
+    if(runFather){
+        edk::light::Light::Constructor();edkEnd();
+    }
+    if(this->classThis!=this){
+        this->classThis=this;
+    }
+}
+
 //DRAW THE LIGH USING THE LIGHT NUMBER
 void edk::light::Point::draw(edk::uint32 lightNumber){
     edk::GU::guLightfv32(GU_LIGHT0+lightNumber,GU_POSITION,this->position);edkEnd();

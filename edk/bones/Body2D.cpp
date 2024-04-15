@@ -33,23 +33,42 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #define CHANNEL_YROT 0x05
 #define CHANNEL_ZROT 0x06
 
-edk::bones::Body2D::Body2D()
-{
-    this->position = edk::vec2f32(0,0);edkEnd();
-    this->angle=0;
-    this->cleanSelected();edkEnd();
-
-    this->root.vector = vec2f32(0.f,0.001f);edkEnd();
-
-    this->canDelete=true;edkEnd();
+edk::bones::Body2D::Body2D(){
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);edkEnd();
 }
 edk::bones::Body2D::~Body2D(){
-    if(this->canDelete){
-        this->deleteAllBones();edkEnd();
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
+        if(this->canDelete){
+            this->deleteAllBones();edkEnd();
+        }
+        else{
+            this->canDelete=true;edkEnd();
+            //this->root.cantDelete();edkEnd();
+        }
     }
-    else{
+}
+
+void edk::bones::Body2D::Constructor(bool runFather){
+    if(runFather){
+        edk::Object2DValues::Constructor();edkEnd();
+    }
+    if(this->classThis!=this){
+        this->classThis=this;
+
+        this->root.Constructor();edkEnd();
+        this->bones.Constructor();edkEnd();
+        this->links.Constructor();edkEnd();
+
+        this->position = edk::vec2f32(0,0);edkEnd();
+        this->angle=0;
+        this->cleanSelected();edkEnd();
+
+        this->root.vector = vec2f32(0.f,0.001f);edkEnd();
+
         this->canDelete=true;edkEnd();
-        //this->root.cantDelete();edkEnd();
     }
 }
 
@@ -576,9 +595,9 @@ bool edk::bones::Body2D::loadBVH(edk::char8* name,edk::uint8 mode){
                                                                                         ){
                                                                                     //add the new interpolation
                                                                                     channelLinks.get(j).bone->animationPosition.addNewInterpolationLine(frameClock,
-                                                                                                                                                    channelValue,
-                                                                                                                                                    0
-                                                                                                                                                    );edkEnd();
+                                                                                                                                                        channelValue,
+                                                                                                                                                        0
+                                                                                                                                                        );edkEnd();
                                                                                 }
                                                                                 //else just set the x value
                                                                                 channelLinks.get(j).bone->animationPosition.setFrameX(frameClock,channelValue);edkEnd();
@@ -595,9 +614,9 @@ bool edk::bones::Body2D::loadBVH(edk::char8* name,edk::uint8 mode){
                                                                                         !channelLinks.get(j).bone->animationPosition.selectTempFrame(frameClock)){
                                                                                     //add the new interpolation
                                                                                     channelLinks.get(j).bone->animationPosition.addNewInterpolationLine(frameClock,
-                                                                                                                                                    channelLinks.get(j).bone->position.x,
-                                                                                                                                                    channelValue
-                                                                                                                                                    );edkEnd();
+                                                                                                                                                        channelLinks.get(j).bone->position.x,
+                                                                                                                                                        channelValue
+                                                                                                                                                        );edkEnd();
                                                                                 }
                                                                                 //else just set the x value
                                                                                 channelLinks.get(j).bone->animationPosition.setFrameY(frameClock,channelValue);edkEnd();
@@ -611,9 +630,9 @@ bool edk::bones::Body2D::loadBVH(edk::char8* name,edk::uint8 mode){
                                                                                         !channelLinks.get(j).bone->animationPosition.selectTempFrame(frameClock)){
                                                                                     //add the new interpolation
                                                                                     channelLinks.get(j).bone->animationPosition.addNewInterpolationLine(frameClock,
-                                                                                                                                                    channelValue,
-                                                                                                                                                    0
-                                                                                                                                                    );edkEnd();
+                                                                                                                                                        channelValue,
+                                                                                                                                                        0
+                                                                                                                                                        );edkEnd();
                                                                                 }
                                                                                 //else just set the x value
                                                                                 channelLinks.get(j).bone->animationPosition.setFrameX(frameClock,channelValue);edkEnd();
@@ -630,9 +649,9 @@ bool edk::bones::Body2D::loadBVH(edk::char8* name,edk::uint8 mode){
                                                                                         !channelLinks.get(j).bone->animationPosition.selectTempFrame(frameClock)){
                                                                                     //add the new interpolation
                                                                                     channelLinks.get(j).bone->animationPosition.addNewInterpolationLine(frameClock,
-                                                                                                                                                    channelLinks.get(j).bone->position.x,
-                                                                                                                                                    channelValue
-                                                                                                                                                    );edkEnd();
+                                                                                                                                                        channelLinks.get(j).bone->position.x,
+                                                                                                                                                        channelValue
+                                                                                                                                                        );edkEnd();
                                                                                 }
                                                                                 //else just set the x value
                                                                                 channelLinks.get(j).bone->animationPosition.setFrameY(frameClock,channelValue);edkEnd();

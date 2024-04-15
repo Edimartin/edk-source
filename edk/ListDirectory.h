@@ -49,6 +49,8 @@ public:
     ListDirectory();
     ~ListDirectory();
 
+    void Constructor(bool runFather=true);
+
     void clean();
 
     //start listing the folders and files in a directory received by function parameter
@@ -79,15 +81,42 @@ private:
     class FileOrFolders{
     public:
         FileOrFolders(){
-            this->lastModify = this->size = 0u;
+            this->classThis=NULL;edkEnd();
+            this->Constructor(false);edkEnd();
         }
         FileOrFolders(edk::char8* name,edk::uint64 lastModify,edk::uint64 size){
-            this->lastModify = lastModify;
-            this->size = size;
-            this->name.setName(name);
+            this->classThis=NULL;edkEnd();
+            this->Constructor(name,lastModify,size,false);edkEnd();
         }
         ~FileOrFolders(){
-            this->name.cleanName();
+            if(this->classThis==this){
+                this->classThis=NULL;edkEnd();
+                //can destruct the class
+                this->name.cleanName();
+            }
+        }
+
+        void Constructor(bool runFather=true){
+            if(runFather){edkEnd();}
+            if(this->classThis!=this){
+                this->classThis=this;
+
+                this->name.Constructor();
+
+                this->lastModify = this->size = 0u;
+            }
+        }
+        void Constructor(edk::char8* name,edk::uint64 lastModify,edk::uint64 size,bool runFather=true){
+            if(runFather){edkEnd();}
+            if(this->classThis!=this){
+                this->classThis=this;
+
+                this->name.Constructor();
+
+                this->lastModify = lastModify;
+                this->size = size;
+                this->name.setName(name);
+            }
         }
         edk::ListDirectory::FileOrFolders operator=(edk::ListDirectory::FileOrFolders name){
             this->name.clone(name.name);
@@ -99,10 +128,14 @@ private:
         edk::Name name;
         edk::uint64 lastModify;
         edk::uint64 size;
+    private:
+        edk::classID classThis;
     };
     //stack for files and folders
     edk::vector::Stack<edk::ListDirectory::FileOrFolders*> files;
     edk::vector::Stack<edk::ListDirectory::FileOrFolders*> folders;
+private:
+    edk::classID classThis;
 };
 }//end namespace
 

@@ -88,33 +88,55 @@ void edk::Window::updateControllerEvents(){
 
 
 edk::Window::Window(){
-    //por padrao a window e o mouse sao renderizados
-    this->renderMouse = true;edkEnd();
-    this->renderWindow = true;edkEnd();
-    this->activeRender = false;edkEnd();
-    this->windowFocus = true;edkEnd();
-    this->mouseInside=false;edkEnd();
-    this->cleanEvents();edkEnd();
-    this->time.start();edkEnd();
-#if defined(EDK_WINDOW_EVENTS_RW)
-    this->fileEvents.closeFile();edkEnd();
-    this->playingWriteEvents=false;edkEnd();
-    this->playingReadEvents=false;edkEnd();
-    this->pausedFileEvents=false;edkEnd();
-    this->saveHaveEvents=true;edkEnd();
-    this->nextSecondEvents=0.f;edkEnd();
-    this->secondEvents=0.f;edkEnd();
-    this->saveEvents.clean();
-#endif
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);edkEnd();
 }
 
 edk::Window::~Window(){
-    //clean the events
-    this->cleanEvents();edkEnd();
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
+        //clean the events
+        this->cleanEvents();edkEnd();
 #if defined(EDK_WINDOW_EVENTS_RW)
-    this->fileEvents.closeFile();edkEnd();
-    this->treeEventTypes.clean();edkEnd();
+        this->fileEvents.closeFile();edkEnd();
+        this->treeEventTypes.clean();edkEnd();
 #endif
+    }
+}
+
+void edk::Window::Constructor(bool /*runFather*/){
+    if(this->classThis!=this){
+        this->classThis=this;
+
+        this->viewWindow.Constructor();edkEnd();
+        this->time.Constructor();edkEnd();
+        this->events.Constructor();edkEnd();
+#if defined(EDK_WINDOW_EVENTS_RW)
+        this->saveEvents.Constructor();
+        this->fileEvents.Constructor();
+        this->treeEventTypes.Constructor();
+#endif
+
+        //por padrao a window e o mouse sao renderizados
+        this->renderMouse = true;edkEnd();
+        this->renderWindow = true;edkEnd();
+        this->activeRender = false;edkEnd();
+        this->windowFocus = true;edkEnd();
+        this->mouseInside=false;edkEnd();
+        this->cleanEvents();edkEnd();
+        this->time.start();edkEnd();
+#if defined(EDK_WINDOW_EVENTS_RW)
+        this->fileEvents.closeFile();edkEnd();
+        this->playingWriteEvents=false;edkEnd();
+        this->playingReadEvents=false;edkEnd();
+        this->pausedFileEvents=false;edkEnd();
+        this->saveHaveEvents=true;edkEnd();
+        this->nextSecondEvents=0.f;edkEnd();
+        this->secondEvents=0.f;edkEnd();
+        this->saveEvents.clean();
+#endif
+    }
 }
 
 bool edk::Window::createWindow(uint32 width, uint32 height/*, uint32 bitsPerPixel*/, char8 *name, typeID design, uint32 depth, uint32 stencil, uint32 antialiasing){

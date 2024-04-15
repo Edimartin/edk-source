@@ -41,16 +41,20 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 namespace edk{
 namespace shape{
 class BSplines2D:public edk::shape::Curve2D{
-    public:
-        BSplines2D();
-        BSplines2D(edk::vec2f32 p1,edk::vec2f32 p2,edk::vec2f32 p3,edk::vec2f32 p4);
-        virtual ~BSplines2D();
+public:
+    BSplines2D();
+    BSplines2D(edk::vec2f32 p1,edk::vec2f32 p2,edk::vec2f32 p3,edk::vec2f32 p4);
+    virtual ~BSplines2D();
 
-        //Implement the Bezier Curve
-        edk::vec2f32 getPoint(edk::float32 percent);
-        static edk::vec2f32 getPoint(edk::vec2f32 p1,edk::vec2f32 p2,edk::vec2f32 p3,edk::vec2f32 p4,edk::float32 percent);
-    protected:
-    private:
+    void Constructor(bool runFather=true);
+    void Constructor(edk::vec2f32 p1,edk::vec2f32 p2,edk::vec2f32 p3,edk::vec2f32 p4,bool runFather=true);
+
+    //Implement the Bezier Curve
+    edk::vec2f32 getPoint(edk::float32 percent);
+    static edk::vec2f32 getPoint(edk::vec2f32 p1,edk::vec2f32 p2,edk::vec2f32 p3,edk::vec2f32 p4,edk::float32 percent);
+protected:
+private:
+    edk::classID classThis;
 };
 }//end namespace shape
 }//end namespace edk

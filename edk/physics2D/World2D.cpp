@@ -25,13 +25,35 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 #if defined(EDK_USE_BOX2D)
 edk::physics2D::World2D::MyContactListener::MyContactListener(){
-    //
-    this->world = NULL;edkEnd();
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);edkEnd();
 }
 edk::physics2D::World2D::MyContactListener::MyContactListener(edk::physics2D::World2D* world){
-    //
-    this->world = world;edkEnd();
+    this->classThis=NULL;edkEnd();
+    this->Constructor(world,false);edkEnd();
 }
+edk::physics2D::World2D::MyContactListener::~MyContactListener(){
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
+    }
+}
+
+void edk::physics2D::World2D::MyContactListener::Constructor(bool runFather){
+    if(runFather){edkEnd();}
+    if(this->classThis!=this){
+        this->classThis=this;
+        this->world = NULL;edkEnd();
+    }
+}
+void edk::physics2D::World2D::MyContactListener::Constructor(edk::physics2D::World2D* world,bool runFather){
+    if(runFather){edkEnd();}
+    if(this->classThis!=this){
+        this->classThis=this;
+        this->world = world;edkEnd();
+    }
+}
+
 void edk::physics2D::World2D::MyContactListener::BeginContact(b2Contact* contact){
     /*
     printf("\nContact Begin %u"
@@ -854,29 +876,17 @@ bool edk::physics2D::World2D::ObjectsJointsTree::firstEqualSecond(edk::physics2D
 }
 
 edk::physics2D::World2D::World2D():
-#if defined(EDK_USE_BOX2D)
-    world(b2Vec2(0,0)),treeStatic(),treeKinematic(),treeDynamic()
-    ,treeDeleted(&this->world),
-      #endif
-     treeNew(this),treeLinearVelocity(this)
-    ,treeAngularVelocity(this),treeConcacts()
     #if defined(EDK_USE_BOX2D)
-   ,contacts(this)
-   #endif
+    world(b2Vec2(0,0)),treeStatic(),treeKinematic(),treeDynamic()
+  ,treeDeleted(&this->world),
+    #endif
+    treeNew(this),treeLinearVelocity(this)
+  ,treeAngularVelocity(this),treeConcacts()
+  #if defined(EDK_USE_BOX2D)
+  ,contacts(this)
+  #endif
 {
-    this->setMeterDistance(1.f);edkEnd();
-    //set the initial gravity
-    this->setGravity(edk::vec2f32(0.f,-9.8f));edkEnd();
-
-#if defined(EDK_USE_BOX2D)
-    this->world.SetContactListener(&this->contacts);edkEnd();
-#endif
-
-    this->clockStart();edkEnd();
-    this->clockScale=1.f;edkEnd();
-
-    this->runNextStep=false;edkEnd();
-    this->paused=false;edkEnd();
+    this->Constructor(false);edkEnd();
 }
 edk::physics2D::World2D::~World2D(){
     //
@@ -987,6 +997,49 @@ edk::physics2D::World2D::~World2D(){
     }
     this->treeDynamic.clean();edkEnd();
 #endif
+}
+
+void edk::physics2D::World2D::Constructor(bool /*runFather*/){
+    if(this->classThis!=this){
+        this->classThis=this;
+
+        this->clock.Constructor();edkEnd();
+        this->beginContacs.Constructor();edkEnd();
+        this->keepBeginContacs.Constructor();edkEnd();
+        this->keepEndContacs.Constructor();edkEnd();
+        this->endContacs.Constructor();edkEnd();
+        this->sensorBeginContacs.Constructor();edkEnd();
+        this->sensorKeepContacs.Constructor();edkEnd();
+        this->sensorEndContacs.Constructor();edkEnd();
+        this->treeCallbacks.Constructor();edkEnd();
+        this->treeStatic.Constructor();edkEnd();
+        this->treeKinematic.Constructor();edkEnd();
+        this->treeDynamic.Constructor();edkEnd();
+        this->treeDeleted.Constructor(&this->world);edkEnd();
+        this->treeNew.Constructor(this);edkEnd();
+        this->treeLinearVelocity.Constructor(this);edkEnd();
+        this->treeAngularVelocity.Constructor(this);edkEnd();
+        this->treeConcacts.Constructor();edkEnd();
+#if defined(EDK_USE_BOX2D)
+        this->contacts.Constructor();edkEnd();
+        this->treeJoint.Constructor();edkEnd();
+#endif
+        this->treeJointObjects.Constructor();edkEnd();
+
+        this->setMeterDistance(1.f);edkEnd();
+        //set the initial gravity
+        this->setGravity(edk::vec2f32(0.f,-9.8f));edkEnd();
+
+#if defined(EDK_USE_BOX2D)
+        this->world.SetContactListener(&this->contacts);edkEnd();
+#endif
+
+        this->clockStart();edkEnd();
+        this->clockScale=1.f;edkEnd();
+
+        this->runNextStep=false;edkEnd();
+        this->paused=false;edkEnd();
+    }
 }
 
 #if defined(EDK_USE_BOX2D)

@@ -47,6 +47,8 @@ class Light{
 public:
     Light();
     virtual ~Light();
+
+    void Constructor(bool runFather=true);
     //clean the light
     void clean();
     //Set Colors
@@ -84,10 +86,10 @@ public:
     void print(){
         printf("\nAmbiant %.2f %.2f %.2f %.2f"
                ,this->ambient[0u]
-               ,this->ambient[1u]
-               ,this->ambient[2u]
-               ,this->ambient[3u]
-               );edkEnd();
+                ,this->ambient[1u]
+                ,this->ambient[2u]
+                ,this->ambient[3u]
+                );edkEnd();
     }
 
     //Operator =
@@ -163,6 +165,8 @@ protected:
     edk::float32 getQuadraticAttenuation();
 private:
     void updateDirection();
+private:
+    edk::classID classThis;
 };
 }//end namespace light
 }//end namespace edk

@@ -25,10 +25,24 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 edk::ListDirectory::ListDirectory(){
-    //
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);edkEnd();
 }
 edk::ListDirectory::~ListDirectory(){
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
+    }
+}
+
+void edk::ListDirectory::Constructor(bool /*runFather*/){
     //
+    if(this->classThis!=this){
+        this->classThis=this;
+
+        this->files.Constructor();
+        this->folders.Constructor();
+    }
 }
 
 void edk::ListDirectory::clean(){

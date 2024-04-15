@@ -52,6 +52,8 @@ public:
     DecoderH264();
     virtual ~DecoderH264();
 
+    void Constructor(bool runFather=true);
+
     //start the encoder
     bool startDecoder(edk::uint32 spaceDecodeSize);
 
@@ -74,6 +76,8 @@ private:
 #endif
     //convert the frame with border
     bool i420TorgbWithBorder(edk::uint8* y,edk::uint8* u,edk::uint8* v,edk::size2ui32 size,edk::uint8* rgb,edk::uint32 border);
+private:
+    edk::classID classThis;
 };
 }//end namespace codecs
 }//end namespace edk

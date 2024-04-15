@@ -28,15 +28,26 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #pragma message "            Inside Audio2D.cpp"
 #endif
 
-edk::Audio2D::Audio2D()
-{
-    //ctor
-    this->haveListener=false;edkEnd();
+edk::Audio2D::Audio2D(){
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);edkEnd();
 }
 
-edk::Audio2D::~Audio2D()
-{
-    //dtor
+edk::Audio2D::~Audio2D(){
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
+    }
+}
+
+void edk::Audio2D::Constructor(bool runFather){
+    if(runFather){
+        edk::Audio::Constructor();edkEnd();
+    }
+    if(this->classThis!=this){
+        this->classThis=this;
+        this->haveListener=false;edkEnd();
+    }
 }
 
 //OPEN

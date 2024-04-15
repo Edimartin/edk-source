@@ -54,6 +54,8 @@ public:
     Polygon2DContact();
     ~Polygon2DContact();
 
+    void Constructor(bool runFather=true);
+
     //boolean with two polygons
     static bool booleanAnotB(edk::shape::Polygon2D* polyA,edk::shape::Polygon2D* polyB,edk::shape::Polygon2D* polyDest);
 
@@ -62,8 +64,22 @@ public:
 private:
     class ContactVertex{
     public:
-        ContactVertex(){}
-        ~ContactVertex(){}
+        ContactVertex(){this->classThis=NULL;this->Constructor(false); }
+        ~ContactVertex(){
+            if(this->classThis==this){
+                this->classThis=NULL;
+                //can destruct the class
+            }
+        }
+
+        void Constructor(bool runFather=true){
+            if(runFather){ }
+            if(this->classThis!=this){
+                this->classThis=this;
+
+                this->vec.Constructor();edkEnd();
+            }
+        }
         edk::shape::Vertex2DAnimatedUV vec;
         edk::vec2ui32 posA;
         edk::vec2ui32 posB;
@@ -95,6 +111,8 @@ private:
         bool operator==(ContactVertex vec){
             return edk::Math::equal(this->distance,vec.distance);
         }
+    private:
+        edk::classID classThis;
     };
     //calculate the vertexes
     static bool pointsCalculateFromPolygonA(edk::shape::Polygon2D* polyA,
@@ -110,6 +128,8 @@ private:
                                             edk::shape::Polygon2D* polyB,
                                             edk::shape::Polygon2D* polyNewA
                                             );
+private:
+    edk::classID classThis;
 };
 }//end namespace collision
 }//end namespace edk

@@ -43,14 +43,27 @@ template <class typeTemplate>
 class MemoryBuffer{
 public:
     MemoryBuffer(){
-        //
-        this->buffer=NULL;edkEnd();
-        this->bufferSize=0u;edkEnd();
-        this->bufferWritedSize=0u;edkEnd();
-        this->lenghtToReturn=8u;edkEnd();
+        this->classThis=NULL;edkEnd();
+        this->Constructor(false);edkEnd();
     }
     ~MemoryBuffer(){
-        this->clean();edkEnd();
+        if(this->classThis==this){
+            this->classThis=NULL;edkEnd();
+            //can destruct the class
+            this->clean();edkEnd();
+        }
+    }
+
+    void Constructor(bool runFather=true){
+        if(runFather){edkEnd();}
+        if(this->classThis!=this){
+            this->classThis=this;
+            //
+            this->buffer=NULL;edkEnd();
+            this->bufferSize=0u;edkEnd();
+            this->bufferWritedSize=0u;edkEnd();
+            this->lenghtToReturn=8u;edkEnd();
+        }
     }
 
     //clean the buffer
@@ -397,6 +410,8 @@ private:
             this->allocBuffer(size);edkEnd();
         }
     }
+private:
+    edk::classID classThis;
 };
 }//end namespace edk
 

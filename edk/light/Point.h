@@ -44,6 +44,8 @@ class Point: public edk::light::Light{
 public:
     Point();
     ~Point();
+
+    void Constructor(bool runFather=true);
     //DRAW THE LIGH USING THE LIGHT NUMBER
     virtual void draw(edk::uint32 lightNumber);
 
@@ -59,6 +61,8 @@ public:
     edk::float32 getPositionZ();
     edk::vec2f32 getPosition2f();
     edk::vec3f32 getPosition3f();
+private:
+    edk::classID classThis;
 };
 }//end namespace light
 }//end namespace edk

@@ -41,19 +41,23 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 namespace edk{
 namespace shape{
 class Hermite2D:public edk::shape::Curve2D{
-    public:
-        Hermite2D();
-        Hermite2D(edk::vec2f32 p1,edk::vec2f32 p2,edk::vec2f32 p3,edk::vec2f32 p4);
-        virtual ~Hermite2D();
+public:
+    Hermite2D();
+    Hermite2D(edk::vec2f32 p1,edk::vec2f32 p2,edk::vec2f32 p3,edk::vec2f32 p4);
+    virtual ~Hermite2D();
 
-        //Implement the Bezier Curve
-        edk::vec2f32 getPoint(edk::float32 percent);
-        static edk::vec2f32 getPoint(edk::vec2f32 p1,edk::vec2f32 p2,edk::vec2f32 p3,edk::vec2f32 p4,edk::float32 percent,edk::float32 attenuation=1.f);
+    void Constructor(bool runFather=true);
+    void Constructor(edk::vec2f32 p1,edk::vec2f32 p2,edk::vec2f32 p3,edk::vec2f32 p4,bool runFather=true);
 
-        //add a atenuation
-        edk::float32 attenuation;
-    protected:
-    private:
+    //Implement the Bezier Curve
+    edk::vec2f32 getPoint(edk::float32 percent);
+    static edk::vec2f32 getPoint(edk::vec2f32 p1,edk::vec2f32 p2,edk::vec2f32 p3,edk::vec2f32 p4,edk::float32 percent,edk::float32 attenuation=1.f);
+
+    //add a atenuation
+    edk::float32 attenuation;
+protected:
+private:
+    edk::classID classThis;
 };
 }//end namespace shape
 }//end namespace edk

@@ -52,6 +52,8 @@ public:
     Polygon2DList();
     virtual ~Polygon2DList();
 
+    void Constructor(bool runFather=true);
+
     //Set polygons color
     bool setPolygonsColor(edk::color4f32 color);
     bool setPolygonsColor(edk::color3f32 color);
@@ -244,6 +246,8 @@ private:
         this->cantDeleteList();edkEnd();
         return list;edkEnd();
     }
+private:
+    edk::classID classThis;
 };
 }//end namespace shape
 }//end namespace edk

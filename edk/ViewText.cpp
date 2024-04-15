@@ -28,19 +28,36 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #pragma message "            Inside ViewText.cpp"
 #endif
 
-edk::ViewText::ViewText()
-{
-    this->textLine=0u;
-    this->saveLine=0u;
-    this->text.setColor(0.f,0.f,0.f,1.f);edkEnd();
-    this->cleanString();edkEnd();
+edk::ViewText::ViewText(){
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);edkEnd();
+}
+edk::ViewText::~ViewText(){
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
+    }
+}
 
-    //set the text to black color
-    this->text.setColor(0.f,0.f,0.f,1.f);edkEnd();
+void edk::ViewText::Constructor(bool runFather){
+    if(runFather){
+        edk::ViewGU2D::Constructor();edkEnd();
+    }
+    if(this->classThis!=this){
+        this->classThis=this;
+
+        this->text.Constructor();edkEnd();
+
+        this->textLine=0u;
+        this->saveLine=0u;
+        this->text.setColor(0.f,0.f,0.f,1.f);edkEnd();
+        this->cleanString();edkEnd();
+
+        //set the text to black color
+        this->text.setColor(0.f,0.f,0.f,1.f);edkEnd();
+    }
 }
-edk::ViewText::~ViewText()
-{
-}
+
 //draw the GU scene
 
 void edk::ViewText::drawScene(edk::rectf32){
@@ -52,12 +69,12 @@ void edk::ViewText::drawScene(edk::rectf32){
         this->rectSave=this->frame;edkEnd();
 
         if(this->textLine){
-        //resize the camera
-        this->camera.setRect(0.f,
-                             0.f - (this->textLine - 1u),
-                             this->rectSave.size.width / (this->rectSave.size.height / this->textLine),
-                             1 + (this->textLine - 1u)
-                             );edkEnd();
+            //resize the camera
+            this->camera.setRect(0.f,
+                                 0.f - (this->textLine - 1u),
+                                 this->rectSave.size.width / (this->rectSave.size.height / this->textLine),
+                                 1 + (this->textLine - 1u)
+                                 );edkEnd();
         }
         else if(this->frame.size.height){
             //update the camera size
@@ -133,14 +150,16 @@ void edk::ViewText::setAlpha(edk::uint8 value){
 
 //update the width
 void edk::ViewText::updateWidth(){
-    this->frame.size.width = (
-                (
-                (this->text.getMapSizeWidth() / this->text.getMapSizeHeight())
-                * this->frame.size.height
-                )
-              * this->text.getMapScaleWidth()
-                )
-            ;edkEnd();
+    if(this->text.getMapSizeHeight()){
+        this->frame.size.width = (
+                    (
+                        (this->text.getMapSizeWidth() / this->text.getMapSizeHeight())
+                        * this->frame.size.height
+                        )
+                    * this->text.getMapScaleWidth()
+                    )
+                ;edkEnd();
+    }
 }
 void edk::ViewText::setScale(edk::size2f32 scale){
     this->text.setScale(scale);edkEnd();

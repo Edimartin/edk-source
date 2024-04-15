@@ -45,6 +45,8 @@ public:
     AnimatedPolygon2DList();
     ~AnimatedPolygon2DList();
 
+    void Constructor(bool runFather=true);
+
     //ANIMATIONS
     //create a new animation in a polygon
     bool setAnimationFramesToPolygon(edk::uint32 position);
@@ -164,6 +166,8 @@ protected:
     //animationSelected
     edk::animation::Interpolation1DGroup* selectedAnimation;
     edk::uint32 selectedID;
+private:
+    edk::classID classThis;
 };
 }//end namespace shape
 }//end namespace edk

@@ -40,35 +40,39 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 namespace edk{
 namespace codecs{
 class EncoderImage : protected edk::codecs::CodecImage{
-    public:
-        EncoderImage();
-        virtual ~EncoderImage();
+public:
+    EncoderImage();
+    virtual ~EncoderImage();
 
-        //process the encoder
-        virtual bool encode(edk::uint8* frame,edk::size2ui32 size,edk::uint8 channels,edk::uint32 quality);
-        virtual bool encode(edk::uint8* frame,edk::uint32 width,edk::uint32 height,edk::uint8 channels,edk::uint32 quality);
-        virtual bool encode(const unsigned char* frame,edk::size2ui32 size,edk::uint8 channels,edk::uint32 quality);
-        virtual bool encode(const unsigned char* frame,edk::uint32 width,edk::uint32 height,edk::uint8 channels,edk::uint32 quality);
+    void Constructor(bool runFather=true);
 
-        //process the encoder and save to a file
-        bool encodeToFile(edk::uint8* frame,edk::size2ui32 size,edk::uint8 channels,edk::uint32 quality,const edk::char8* fileName);
-        bool encodeToFile(edk::uint8* frame,edk::size2ui32 size,edk::uint8 channels,edk::uint32 quality,edk::char8* fileName);
-        bool encodeToFile(edk::uint8* frame,edk::uint32 width,edk::uint32 height,edk::uint8 channels,edk::uint32 quality,const edk::char8* fileName);
-        bool encodeToFile(edk::uint8* frame,edk::uint32 width,edk::uint32 height,edk::uint8 channels,edk::uint32 quality,edk::char8* fileName);
-        bool encodeToFile(const unsigned char* frame,edk::size2ui32 size,edk::uint8 channels,edk::uint32 quality,const edk::char8* fileName);
-        bool encodeToFile(const unsigned char* frame,edk::size2ui32 size,edk::uint8 channels,edk::uint32 quality,edk::char8* fileName);
-        bool encodeToFile(const unsigned char* frame,edk::uint32 width,edk::uint32 height,edk::uint8 channels,edk::uint32 quality,const edk::char8* fileName);
-        bool encodeToFile(const unsigned char* frame,edk::uint32 width,edk::uint32 height,edk::uint8 channels,edk::uint32 quality,edk::char8* fileName);
+    //process the encoder
+    virtual bool encode(edk::uint8* frame,edk::size2ui32 size,edk::uint8 channels,edk::uint32 quality);
+    virtual bool encode(edk::uint8* frame,edk::uint32 width,edk::uint32 height,edk::uint8 channels,edk::uint32 quality);
+    virtual bool encode(const unsigned char* frame,edk::size2ui32 size,edk::uint8 channels,edk::uint32 quality);
+    virtual bool encode(const unsigned char* frame,edk::uint32 width,edk::uint32 height,edk::uint8 channels,edk::uint32 quality);
 
-        //return the frame encoded
-        edk::uint8* getEncoded();
-        edk::uint32 getEncodedSize();
-        //delete the encoded
-        virtual void deleteEncoded();
-    protected:
-    private:
-        //file manipulator
-        edk::File file;
+    //process the encoder and save to a file
+    bool encodeToFile(edk::uint8* frame,edk::size2ui32 size,edk::uint8 channels,edk::uint32 quality,const edk::char8* fileName);
+    bool encodeToFile(edk::uint8* frame,edk::size2ui32 size,edk::uint8 channels,edk::uint32 quality,edk::char8* fileName);
+    bool encodeToFile(edk::uint8* frame,edk::uint32 width,edk::uint32 height,edk::uint8 channels,edk::uint32 quality,const edk::char8* fileName);
+    bool encodeToFile(edk::uint8* frame,edk::uint32 width,edk::uint32 height,edk::uint8 channels,edk::uint32 quality,edk::char8* fileName);
+    bool encodeToFile(const unsigned char* frame,edk::size2ui32 size,edk::uint8 channels,edk::uint32 quality,const edk::char8* fileName);
+    bool encodeToFile(const unsigned char* frame,edk::size2ui32 size,edk::uint8 channels,edk::uint32 quality,edk::char8* fileName);
+    bool encodeToFile(const unsigned char* frame,edk::uint32 width,edk::uint32 height,edk::uint8 channels,edk::uint32 quality,const edk::char8* fileName);
+    bool encodeToFile(const unsigned char* frame,edk::uint32 width,edk::uint32 height,edk::uint8 channels,edk::uint32 quality,edk::char8* fileName);
+
+    //return the frame encoded
+    edk::uint8* getEncoded();
+    edk::uint32 getEncodedSize();
+    //delete the encoded
+    virtual void deleteEncoded();
+protected:
+private:
+    //file manipulator
+    edk::File file;
+private:
+    edk::classID classThis;
 };
 }//end namespace codecs
 }//end namespace edk

@@ -44,6 +44,10 @@ class KinematicObject2D : public edk::physics2D::StaticObject2D{
 public:
     KinematicObject2D();
     ~KinematicObject2D();
+
+    void Constructor(bool runFather=true);
+private:
+    edk::classID classThis;
 };
 }
 }

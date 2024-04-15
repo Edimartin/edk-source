@@ -76,6 +76,8 @@ public:
 
     ~Window();
 
+    void Constructor(bool runFather=true);
+
     bool createWindow(edk::uint32 width, edk::uint32 height/*, edk::uint32 bitsPerPixel*/, char8 *name, typeID design, edk::uint32 depth, edk::uint32 stencil, edk::uint32 antialiasing);
 
     bool createWindow(edk::uint32 width, edk::uint32 height/*, edk::uint32 bitsPerPixel*/, const char *name, typeID design, edk::uint32 depth, edk::uint32 stencil, edk::uint32 antialiasing);
@@ -397,6 +399,8 @@ private:
     //eventTypes to be writed in the file
     edk::vector::BinaryTree<edk::EventWindowType> treeEventTypes;
 #endif
+private:
+    edk::classID classThis;
 };
 
 }//End of namespace edk

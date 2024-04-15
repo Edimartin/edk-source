@@ -41,16 +41,20 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 namespace edk{
 namespace shape{
 class Catmull3D : public edk::shape::Curve3D{
-    public:
-        Catmull3D();
-        Catmull3D(edk::vec3f32 p1,edk::vec3f32 p2,edk::vec3f32 p3,edk::vec3f32 p4);
-        virtual ~Catmull3D();
+public:
+    Catmull3D();
+    Catmull3D(edk::vec3f32 p1,edk::vec3f32 p2,edk::vec3f32 p3,edk::vec3f32 p4);
+    virtual ~Catmull3D();
 
-        //return the point
-        edk::vec3f32 getPoint(edk::float32 percent);
-        static edk::vec3f32 getPoint(edk::vec3f32 p1,edk::vec3f32 p2,edk::vec3f32 p3,edk::vec3f32 p4,edk::float32 percent);
-    protected:
-    private:
+    void Constructor(bool runFather=true);
+    void Constructor(edk::vec3f32 p1,edk::vec3f32 p2,edk::vec3f32 p3,edk::vec3f32 p4,bool runFather=true);
+
+    //return the point
+    edk::vec3f32 getPoint(edk::float32 percent);
+    static edk::vec3f32 getPoint(edk::vec3f32 p1,edk::vec3f32 p2,edk::vec3f32 p3,edk::vec3f32 p4,edk::float32 percent);
+protected:
+private:
+    edk::classID classThis;
 };
 }//end namespace shape
 }//end namespace edk

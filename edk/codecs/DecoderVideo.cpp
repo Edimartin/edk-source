@@ -29,10 +29,24 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endif
 
 edk::codecs::DecoderVideo::DecoderVideo(){
-    //
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);edkEnd();
 }
 edk::codecs::DecoderVideo::~DecoderVideo(){
-    this->finishDecoder();edkEnd();
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
+        this->finishDecoder();edkEnd();
+    }
+}
+
+void edk::codecs::DecoderVideo::Constructor(bool runFather){
+    if(runFather){
+        edk::codecs::CodecVideo::Constructor();edkEnd();
+    }
+    if(this->classThis!=this){
+        this->classThis=this;
+    }
 }
 
 //start the encoder

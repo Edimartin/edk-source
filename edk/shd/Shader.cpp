@@ -28,19 +28,30 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #pragma message "            Inside Shader.cpp"
 #endif
 
-edk::shd::Shader::Shader()
-{
-    //ctor
-    this->id=0u;
-    this->type=EDK_SHADER_NONE;edkEnd();
-    this->log=NULL;edkEnd();
+edk::shd::Shader::Shader(){
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);edkEnd();
 }
-edk::shd::Shader::~Shader()
-{
-    //dtor
-    this->deleteShader();edkEnd();
-    //delete the log
-    this->deleteLog();edkEnd();
+edk::shd::Shader::~Shader(){
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
+        this->deleteShader();edkEnd();
+        //delete the log
+        this->deleteLog();edkEnd();
+    }
+}
+
+void edk::shd::Shader::Constructor(bool runFather){
+    if(runFather){
+        edk::ObjectWithName::Constructor();edkEnd();
+    }
+    if(this->classThis!=this){
+        this->classThis=this;
+        this->id=0u;
+        this->type=EDK_SHADER_NONE;edkEnd();
+        this->log=NULL;edkEnd();
+    }
 }
 
 //read the shaderType in a name

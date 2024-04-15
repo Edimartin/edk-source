@@ -28,16 +28,30 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #pragma message "            Inside EncoderJPEG.cpp"
 #endif
 
-edk::codecs::EncoderJPEG::EncoderJPEG()
-{
-    //ctor
+edk::codecs::EncoderJPEG::EncoderJPEG(){
+    this->classThis=NULL;edkEnd();
+    this->Constructor(false);edkEnd();
 }
 
-edk::codecs::EncoderJPEG::~EncoderJPEG()
-{
-    //dtor
-    this->deleteEncoded();edkEnd();
+edk::codecs::EncoderJPEG::~EncoderJPEG(){
+    if(this->classThis==this){
+        this->classThis=NULL;edkEnd();
+        //can destruct the class
+        this->deleteEncoded();edkEnd();
+    }
 }
+
+void edk::codecs::EncoderJPEG::Constructor(bool runFather){
+    if(runFather){
+        edk::codecs::EncoderImage::Constructor();edkEnd();
+    }
+    if(this->classThis!=this){
+        this->classThis=this;
+
+        this->stack.Constructor();edkEnd();
+    }
+}
+
 //Functions to write the data
 void edk::codecs::EncoderJPEG::startWriteData(){
     //
