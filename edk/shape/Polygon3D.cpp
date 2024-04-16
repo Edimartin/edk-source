@@ -26,10 +26,10 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
 //save one vertex in the memory to be used in create polygon to not crash the software
+bool edk::shape::Polygon3D::templateConstructNeed=true;
 edk::shape::Vertex3D edk::shape::Polygon3D::staticVertex(0.f,0.f,0.f);
 edk::shape::Vector3D edk::shape::Polygon3D::staticNormal(0.f,0.f,1.f);
 edk::shape::UV2D edk::shape::Polygon3D::staticUV(0.f,0.f);
-bool edk::shape::Polygon3D::templateConstructNeed=true;
 
 
 edk::shape::Polygon3D::Polygon3D(){

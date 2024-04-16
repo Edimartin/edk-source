@@ -28,8 +28,8 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #pragma message "            Inside InfiniteHorizontal.cpp"
 #endif
 
-edk::Object2D edk::InfiniteHorizontal::tileWorldObject2D::staticObj;
 bool edk::InfiniteHorizontal::tileWorldObject2D::templateConstructNeed=true;
+edk::Object2D edk::InfiniteHorizontal::tileWorldObject2D::staticObj;
 
 edk::InfiniteHorizontal::InfiniteHorizontal(){
     this->classThis=NULL;edkEnd();

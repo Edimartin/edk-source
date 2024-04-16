@@ -35,6 +35,14 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "TypeVars.h"
 #include "File.h"
 
+#if defined(__linux__)/*LINUX*/ || defined(__APPLE__)//MAC OS
+#include <unistd.h>
+#endif
+//windows thread
+#if defined(WIN32) || defined(WIN64) //Windows
+#include <windows.h>
+#endif
+
 #ifdef printMessages
 #pragma message "    Compiling DebugFile"
 #endif
@@ -87,15 +95,20 @@ public:
             //create the file
             edk::DebugFile::newFile(EDK_DEBUG_FILE_NAME);
         }
+        //get the PID to wrtie
         if(edk::DebugFile::file.writeText(line)){
             if(edk::DebugFile::file.writeText(" ")){
                 if(edk::DebugFile::file.writeText(fileName)){
                     if(edk::DebugFile::file.writeText(" ")){
                         if(edk::DebugFile::file.writeText(funcName)){
-                            if(edk::DebugFile::file.writeText("\n")){
-                                //flush the file
-                                edk::DebugFile::file.flush();
-                                return true;
+                            if(edk::DebugFile::file.writeText(" ")){
+                                if(edk::DebugFile::file.writeText(edk::DebugFile::getPID())){
+                                    if(edk::DebugFile::file.writeText("\n")){
+                                        //flush the file
+                                        edk::DebugFile::file.flush();
+                                        return true;
+                                    }
+                                }
                             }
                         }
                     }
@@ -138,12 +151,16 @@ public:
                 if(edk::DebugFile::file.writeText(fileName)){
                     if(edk::DebugFile::file.writeText(" ")){
                         if(edk::DebugFile::file.writeText(funcName)){
-                            if(edk::DebugFile::file.writeText(" memSetSize(")){
-                                if(edk::DebugFile::file.writeText(size)){
-                                    if(edk::DebugFile::file.writeText(")\n")){
-                                        //flush the file
-                                        edk::DebugFile::file.flush();
-                                        return true;
+                            if(edk::DebugFile::file.writeText(" ")){
+                                if(edk::DebugFile::file.writeText(edk::DebugFile::getPID())){
+                                    if(edk::DebugFile::file.writeText(" memSetSize(")){
+                                        if(edk::DebugFile::file.writeText(size)){
+                                            if(edk::DebugFile::file.writeText(")\n")){
+                                                //flush the file
+                                                edk::DebugFile::file.flush();
+                                                return true;
+                                            }
+                                        }
                                     }
                                 }
                             }
@@ -188,12 +205,16 @@ public:
                 if(edk::DebugFile::file.writeText(fileName)){
                     if(edk::DebugFile::file.writeText(" ")){
                         if(edk::DebugFile::file.writeText(funcName)){
-                            if(edk::DebugFile::file.writeText(" memCpySize(")){
-                                if(edk::DebugFile::file.writeText(size)){
-                                    if(edk::DebugFile::file.writeText(")\n")){
-                                        //flush the file
-                                        edk::DebugFile::file.flush();
-                                        return true;
+                            if(edk::DebugFile::file.writeText(" ")){
+                                if(edk::DebugFile::file.writeText(edk::DebugFile::getPID())){
+                                    if(edk::DebugFile::file.writeText(" memCpySize(")){
+                                        if(edk::DebugFile::file.writeText(size)){
+                                            if(edk::DebugFile::file.writeText(")\n")){
+                                                //flush the file
+                                                edk::DebugFile::file.flush();
+                                                return true;
+                                            }
+                                        }
                                     }
                                 }
                             }
@@ -212,6 +233,24 @@ private:
     static edk::File file;
     static bool templateConstructNeed;
 #endif
+
+    static edk::uint64 getPID(){
+#if defined(__linux__)/*LINUX*/ || defined(__APPLE__)//MAC OS
+        return (edk::uint64)getpid();
+#endif
+#if defined(WIN32) || defined(WIN64) //Windows
+        return (edk::uint64)_getpid();
+#endif
+    }
+    static edk::uint64 getChildPID(){
+#if defined(__linux__)/*LINUX*/ || defined(__APPLE__)//MAC OS
+        return (edk::uint64)getppid();
+#endif
+#if defined(WIN32) || defined(WIN64) //Windows
+        return (edk::uint64)/*_getppid()*/0uL;
+#endif
+    }
+
 private:
     edk::classID classThis;
 };

@@ -40,6 +40,7 @@ public:
 //GU_PROJECTION
 //GU_TEXTURE
 edk::uint32 matrixMode = GU_FALSE;
+bool edk::GU::templateConstructNeed=true;
 edk::uint32 edk::GU::initiate=0u;
 edk::uint32 edk::GU::ID=0u;
 edk::vector::Queue<edk::GU::TextureClass> edk::GU::genTextures(50u);
@@ -50,7 +51,6 @@ edk::vector::Queue<edk::uint32> edk::GU::delTextures;
 edk::multi::Mutex edk::GU::mutGetTextures;
 edk::multi::Mutex edk::GU::mutDelTextures;
 edk::vector::Queue<edk::GU::MipmapClass> edk::GU::genMipmaps;
-bool edk::GU::templateConstructNeed=true;
 //a boolean if can still running load the texture
 bool edk::GU::canLoadTexture=true;
 

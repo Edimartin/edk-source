@@ -25,9 +25,9 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #if defined(EDK_FILEPACK_PRINT_DEBUG)
+bool edk::pack::FilePackage::templateConstructNeed=true;
 edk::DebugLineFile edk::pack::FilePackage::debugFile;
 edk::multi::Mutex edk::pack::FilePackage::debugMut;
-bool edk::pack::FilePackage::templateConstructNeed=true;
 #endif
 
 edk::pack::FilePackage::FilePackage(){

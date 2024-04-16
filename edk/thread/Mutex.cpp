@@ -27,14 +27,14 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
 #if defined(EDK_MUTEX_PRINT_DEBUG)
+bool edk::multi::Mutex::templateConstructNeed=true;
 edk::DebugLineFile edk::multi::Mutex::debugFile;
 #if defined( WIN32) || defined( WIN64)
-HANDLE edk::multi::Mutex::mutDebug;
+HANDLE edk::multi::Mutex::mutDebug = (HANDLE)0u;
 #endif
 #if defined(__linux__)/*LINUX*/ || defined(__APPLE__)//MAC OS
 pthread_mutex_t edk::multi::Mutex::mutDebug;
 #endif
-bool edk::multi::Mutex::templateConstructNeed=true;
 #endif
 
 edk::multi::Mutex::Mutex(){
@@ -66,7 +66,7 @@ void edk::multi::Mutex::Constructor(bool runFather){
         if(edk::multi::Mutex::templateConstructNeed){
             edk::multi::Mutex::debugFile.Constructor();
 #if defined( WIN32) || defined( WIN64)
-            HANDLE edk::multi::Mutex::mutDebug=0u;
+            edk::multi::Mutex::mutDebug = (HANDLE)0u;
 #endif
             edk::multi::Mutex::templateConstructNeed=false;
         }

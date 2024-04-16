@@ -148,11 +148,11 @@ void edk::multi::Thread::cleanThread(){
     this->funcParameter=(void*)NULL;edkEnd();
 }
 
+bool edk::multi::Thread::templateConstructNeed=true;
+
 edk::uint64 edk::multi::Thread::mainID=0u;
 
 edk::multi::Thread edkTHREADTEMPLATE;
-
-bool edk::multi::Thread::templateConstructNeed=true;
 
 edk::multi::Thread::Thread(){
     this->classThis=NULL;edkEnd();

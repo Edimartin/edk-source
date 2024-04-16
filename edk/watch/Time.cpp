@@ -38,10 +38,9 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 edk::uint32 edk::watch::Time::linuxSecond = 1000000u;
 #endif
 
+bool edk::watch::Time::templateConstructNeed=true;
 
 edk::uint8 edk::watch::Time::monthDays[12u]={31,28,31,30,31,30,31,31,30,31,30,31};
-
-bool edk::watch::Time::templateConstructNeed=true;
 
 edk::watch::Time::Time(){
     this->classThis=NULL;edkEnd();

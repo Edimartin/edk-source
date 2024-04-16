@@ -28,6 +28,9 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #pragma message "            Inside GU_GLSL.cpp"
 #endif
 
+//a boolean if can still running load the texture
+bool edk::GU_GLSL::canLoadShader=true;
+bool edk::GU_GLSL::templateConstructNeed=true;
 bool edk::GU_GLSL::initiate=false;
 #if defined(_WIN32) || defined(_WIN64)
 //Windows
@@ -44,8 +47,6 @@ edk::multi::Mutex edk::GU_GLSL::mutCreateShader;
 edk::multi::Mutex edk::GU_GLSL::mutDelShader;
 edk::multi::Mutex edk::GU_GLSL::mutUseShader;
 edk::multi::Mutex edk::GU_GLSL::mutUseNoShader;
-//a boolean if can still running load the texture
-bool edk::GU_GLSL::canLoadShader=true;
 
 edk::vector::Queue<edk::GU_GLSL::ShaderClass> edk::GU_GLSL::genShaders;
 edk::vector::Queue<edk::uint32> edk::GU_GLSL::delShaders;
@@ -66,7 +67,6 @@ edk::vector::Queue<edk::GU_GLSL::ShaderUseClass> edk::GU_GLSL::useShaders;
 edk::vector::Queue<edk::GU_GLSL::ShaderUseClass> edk::GU_GLSL::useNoShaders;
 edk::GU_GLSL::ShaderUse_Tree edk::GU_GLSL::treeUseShaders;
 edk::GU_GLSL::ShaderUse_Tree edk::GU_GLSL::treeUseNoShaders;
-bool edk::GU_GLSL::templateConstructNeed=true;
 
 //construtor
 edk::GU_GLSL::GU_GLSL(){

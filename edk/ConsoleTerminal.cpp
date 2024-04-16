@@ -28,6 +28,8 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #pragma message "            Inside ConsoleTerminal.cpp"
 #endif
 
+bool edk::ConsoleTerminal::templateConstructNeed=true;
+
 #if defined (__linux__) || defined(__APPLE__)
 //https://stackoverflow.com/questions/1513734/problem-with-kbhitand-getch-for-linux?answertab=trending#tab-top
 struct termios oldTermios;
@@ -519,7 +521,6 @@ bool edk::TTY::resetTerminal(){
 
 //TTY to construct and destruct
 edk::TTY edk::ConsoleTerminal::tty;
-bool edk::ConsoleTerminal::templateConstructNeed=true;
 
 edk::ConsoleTerminal::ConsoleTerminal(){
     this->classThis=NULL;

@@ -24,8 +24,8 @@ OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-edk::physics2D::World2D edk::Cenario2D::worldTemplate;
 bool edk::Cenario2D::templateConstructNeed=true;
+edk::physics2D::World2D edk::Cenario2D::worldTemplate;
 
 edk::Cenario2D::Cenario2D():
     treeAnimPhys(&edk::Cenario2D::worldTemplate)

@@ -27,8 +27,8 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #if defined(EDK_DEBUGGER) || defined(EDK_DEBUG_MEMSET) || defined(EDK_DEBUG_MEMCPY)
 //statis file
-edk::File edk::DebugFile::file;
 bool edk::DebugFile::templateConstructNeed=true;
+edk::File edk::DebugFile::file;
 #endif
 
 edk::uint64 EDKArrayVectorFreeCounter=0u;
@@ -45,7 +45,7 @@ edk::DebugFile::~DebugFile(){
 #if defined(EDK_DEBUGGER) || defined(EDK_DEBUG_MEMSET) || defined(EDK_DEBUG_MEMCPY)
         //statis file
         if(edk::DebugFile::templateConstructNeed){
-            edk::DebugFile::file.File();
+            edk::DebugFile::file.Constructor();
             edk::DebugFile::templateConstructNeed=false;
         }
 #endif

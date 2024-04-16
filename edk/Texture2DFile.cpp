@@ -29,9 +29,9 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endif
 
 #if defined(EDK_TEX2DFILE_PRINT_DEBUG)
+bool edk::Texture2DFile::templateConstructNeed=true;
 edk::DebugLineFile edk::Texture2DFile::debugFile;
 edk::multi::Mutex edk::Texture2DFile::debugMut;
-bool edk::Texture2DFile::templateConstructNeed=true;
 #endif
 
 edk::Texture2DFile::Texture2DFile(){

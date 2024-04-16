@@ -355,8 +355,8 @@ void edk::fonts::fontSetList::TreeFont::deleteAllFontSet(){
     this->clean();edkEnd();
 }
 
-edk::fonts::fontSetList::TreeFont edk::fonts::fontSetList::tree;
 bool edk::fonts::fontSetList::templateConstructNeed=true;
+edk::fonts::fontSetList::TreeFont edk::fonts::fontSetList::tree;
 //static treeFonts
 edk::fonts::fontSetList::fontSetList(){
     this->classThis=NULL;edkEnd();

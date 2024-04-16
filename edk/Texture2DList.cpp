@@ -32,10 +32,10 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #define EDK_TEXTURE_LOADER_TENTATIVES 2u
 
 //textureTree ordened by the name of the textures
+bool edk::Texture2DList::templateConstructNeed=true;
 edk::Texture2DList::TextureCodeTree edk::Texture2DList::codeTree;
 edk::Texture2DList::NameFilterTree edk::Texture2DList::nameTree;
 edk::multi::BufferThreadTree edk::Texture2DList::bufferTree;
-bool edk::Texture2DList::templateConstructNeed=true;
 
 edk::Texture2DList::Texture2DList(){
     this->classThis=NULL;edkEnd();
