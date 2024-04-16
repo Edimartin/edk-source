@@ -1021,7 +1021,7 @@ private:
 
         void Constructor(bool runFather=true){
             if(runFather){
-                edk::vector::BinaryTree<edk::physics2D::World2D::ObjectIDs*>Constructor();edkEnd();
+                edk::vector::BinaryTree<edk::physics2D::World2D::ObjectIDs*>::Constructor();edkEnd();
             }
             if(this->classThis!=this){
                 this->classThis=this;

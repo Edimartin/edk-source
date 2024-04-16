@@ -64,7 +64,7 @@ void edk::multi::Mutex::Constructor(bool runFather){
         this->classThis=this;
 #if defined(EDK_MUTEX_PRINT_DEBUG)
         if(edk::multi::Mutex::templateConstructNeed){
-            edk::multi::Mutex::debugFile.DebugLineFile();
+            edk::multi::Mutex::debugFile.Constructor();
 #if defined( WIN32) || defined( WIN64)
             HANDLE edk::multi::Mutex::mutDebug=0u;
 #endif

@@ -319,7 +319,7 @@ private:
 
         void Constructor(bool runFather=true){
             if(runFather){
-                edk::vector::BinaryTree<edk::Texture2DList::TextureCode*>Constructor();edkEnd();
+                edk::vector::BinaryTree<edk::Texture2DList::TextureCode*>::Constructor();edkEnd();
             }
             if(this->classThis!=this){
                 this->classThis=this;
@@ -362,7 +362,7 @@ private:
 
         void Constructor(bool runFather=true){
             if(runFather){
-                edk::vector::BinaryTree<edk::Texture2DList::TextureCode*>Constructor();edkEnd();
+                edk::vector::BinaryTree<edk::Texture2DList::TextureCode*>::Constructor();edkEnd();
             }
             if(this->classThis!=this){
                 this->classThis=this;

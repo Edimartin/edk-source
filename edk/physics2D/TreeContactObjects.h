@@ -97,7 +97,7 @@ private:
 
         void Constructor(bool runFather=true){
             if(runFather){
-                edk::vector::BinaryTree<edk::physics2D::ContactObjects*>Constructor();edkEnd();
+                edk::vector::BinaryTree<edk::physics2D::ContactObjects*>::Constructor();edkEnd();
             }
             if(this->classThis!=this){
                 this->classThis=this;
