@@ -56,8 +56,18 @@ void edk::ViewScrollBar::Constructor(bool runFather){
 }
 
 void edk::ViewScrollBar::updateFrames(){
-    this->classThis=NULL;edkEnd();
-    this->Constructor(false);edkEnd();
+    //test the rectScroll
+    if(this->rectScrollSave!=this->frame){
+        this->rectScrollSave = this->frame;edkEnd();
+        //save the percent
+        edk::vec2f32 percent = this->foreground.getPercent();edkEnd();
+        //update the button
+        this->background.frame.size = this->rectScrollSave.size;edkEnd();
+        this->foreground.frame.size = this->rectScrollSave.size;edkEnd();
+        this->foreground.updateFrame();edkEnd();
+        //update the percent
+        this->foreground.setPercent(percent);edkEnd();
+    }
 }
 
 edk::ViewScrollBar::ForegroundButton::ForegroundButton(){

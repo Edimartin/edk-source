@@ -1013,10 +1013,12 @@ void edk::physics2D::World2D::Constructor(bool /*runFather*/){
         this->sensorKeepContacs.Constructor();edkEnd();
         this->sensorEndContacs.Constructor();edkEnd();
         this->treeCallbacks.Constructor();edkEnd();
+#if defined(EDK_USE_BOX2D)
         this->treeStatic.Constructor();edkEnd();
         this->treeKinematic.Constructor();edkEnd();
         this->treeDynamic.Constructor();edkEnd();
         this->treeDeleted.Constructor(&this->world);edkEnd();
+#endif
         this->treeNew.Constructor(this);edkEnd();
         this->treeLinearVelocity.Constructor(this);edkEnd();
         this->treeAngularVelocity.Constructor(this);edkEnd();
