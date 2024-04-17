@@ -23,6 +23,7 @@ LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
 OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
+
 #if defined(EDK_USE_BOX2D)
 edk::physics2D::World2D::MyContactListener::MyContactListener(){
     this->classThis=NULL;edkEnd();
@@ -55,11 +56,11 @@ void edk::physics2D::World2D::MyContactListener::Constructor(edk::physics2D::Wor
 }
 
 void edk::physics2D::World2D::MyContactListener::BeginContact(b2Contact* contact){
-    /*
-    printf("\nContact Begin %u"
-           ,contact
-           );edkEnd();
-*/
+
+    //printf("\nContact Begin %u"
+    //       ,contact
+    //       );edkEnd();
+
     //en begin the contact will really be enabled
     contact->SetReallyEnabled(true);
     b2Body* bodyA = contact->GetFixtureA()->GetBody();edkEnd();
@@ -341,11 +342,11 @@ void edk::physics2D::World2D::MyContactListener::BeginContact(b2Contact* contact
 
 #if defined(EDK_USE_BOX2D)
 void edk::physics2D::World2D::MyContactListener::EndContact(b2Contact* contact){
-    /*
-    printf("\nContact END %u"
-           ,contact
-           );edkEnd();
-*/
+
+    //printf("\nContact END %u"
+    //       ,contact
+    //       );edkEnd();
+
     //find contact
     b2Body* bodyA = contact->GetFixtureA()->GetBody();edkEnd();
     b2Body* bodyB = contact->GetFixtureB()->GetBody();edkEnd();
@@ -472,11 +473,11 @@ void edk::physics2D::World2D::MyContactListener::EndContact(b2Contact* contact){
 #if defined(EDK_USE_BOX2D)
 
 void edk::physics2D::World2D::MyContactListener::PreSolve(b2Contact* contact, const b2Manifold*){
-    /*
-    printf("\nContact PreSolve %u"
-           ,contact
-           );edkEnd();
-*/
+
+    //printf("\nContact PreSolve %u"
+    //       ,contact
+    //       );edkEnd();
+
     //find contact
     b2Body* bodyA = contact->GetFixtureA()->GetBody();edkEnd();
     b2Body* bodyB = contact->GetFixtureB()->GetBody();edkEnd();
@@ -612,13 +613,13 @@ void edk::physics2D::World2D::MyContactListener::PreSolve(b2Contact* contact, co
 
 #if defined(EDK_USE_BOX2D)
 void edk::physics2D::World2D::MyContactListener::PostSolve(b2Contact* contact, const b2ContactImpulse* impulse){
-    /*
-    printf("\nContact PostSolve impulses %u tangent %.2f normal %.2f"
-           ,impulse->count
-           ,impulse->tangentImpulses[0u]
-           ,impulse->normalImpulses[0u]
-           );edkEnd();
-*/
+
+    //printf("\nContact PostSolve impulses %u tangent %.2f normal %.2f"
+    //       ,impulse->count
+    //       ,impulse->tangentImpulses[0u]
+    //       ,impulse->normalImpulses[0u]
+    //       );edkEnd();
+
     //find contact
     b2Body* bodyA = contact->GetFixtureA()->GetBody();edkEnd();
     b2Body* bodyB = contact->GetFixtureB()->GetBody();edkEnd();
@@ -1021,7 +1022,7 @@ void edk::physics2D::World2D::Constructor(bool /*runFather*/){
         this->treeAngularVelocity.Constructor(this);edkEnd();
         this->treeConcacts.Constructor();edkEnd();
 #if defined(EDK_USE_BOX2D)
-        this->contacts.Constructor();edkEnd();
+        this->contacts.Constructor(this);edkEnd();
         this->treeJoint.Constructor();edkEnd();
 #endif
         this->treeJointObjects.Constructor();edkEnd();
@@ -2192,7 +2193,6 @@ bool edk::physics2D::World2D::removeObject(edk::physics2D::PhysicObject2D* objec
                 }
                 return true;
             }
-
 #endif
         }
     }

@@ -932,12 +932,12 @@ bool edk::collision::Polygon2DContact::booleanAnotB(edk::shape::Polygon2D* polyA
             }
         }
         if(ret && polyDest->getVertexCount()){
-            /*
+
             //print the vertexes
-            printf("\n%u %s %s",__LINE__,__FILE__,__func__);
-            polyDest->print();
-            fflush(stdout);
-            */
+            //printf("\n%u %s %s",__LINE__,__FILE__,__func__);
+            //polyDest->print();
+            //fflush(stdout);
+
             return true;
         }
     }
@@ -1119,15 +1119,15 @@ bool edk::collision::Polygon2DContact::boolean(edk::shape::Polygon2D* polyA,edk:
         }
         if(ret){
             //print the vertexes
-            /*
-            printf("\n%u %s %s",__LINE__,__FILE__,__func__);fflush(stdout);
-            printf("\naOutside %u",aOutside.size());fflush(stdout);
-            printf("\naInside %u",aInside.size());fflush(stdout);
-            printf("\nbOutside %u",bOutside.size());fflush(stdout);
-            printf("\nbInside %u",bInside.size());fflush(stdout);
-            printf("\nnewVertexesA %u",newVertexesA.size());fflush(stdout);
-            printf("\nnewVertexesB %u",newVertexesB.size());fflush(stdout);
-            */
+
+            //printf("\n%u %s %s",__LINE__,__FILE__,__func__);fflush(stdout);
+            //printf("\naOutside %u",aOutside.size());fflush(stdout);
+            //printf("\naInside %u",aInside.size());fflush(stdout);
+            //printf("\nbOutside %u",bOutside.size());fflush(stdout);
+            //printf("\nbInside %u",bInside.size());fflush(stdout);
+            //printf("\nnewVertexesA %u",newVertexesA.size());fflush(stdout);
+            //printf("\nnewVertexesB %u",newVertexesB.size());fflush(stdout);
+
             switch(type){
             case edk::collision::TypeBooleanUnion:
                 break;
