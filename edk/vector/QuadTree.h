@@ -280,7 +280,8 @@ public:
 
     void Constructor(edk::rectf32 rect = edk::rectf32(0,0,1,1),bool runFather=true){
         if(runFather){
-            *this = rect;edkEnd();
+            this->origin = rect.origin;edkEnd();
+            this->size = rect.size;edkEnd();
         }
         if(this->classThis!=this){
             this->classThis=this;
@@ -303,7 +304,8 @@ public:
     }
     void Constructor(QuadLeaf32* father,edk::rectf32 rect = edk::rectf32(0,0,1,1),bool runFather=true){
         if(runFather){
-            *this = rect;edkEnd();
+            this->origin = rect.origin;edkEnd();
+            this->size = rect.size;edkEnd();
         }
         if(this->classThis!=this){
             this->classThis=this;
@@ -327,10 +329,14 @@ public:
 
     void clean(){
         this->father=NULL;edkEnd();
-        if(this->tree != &this->treeThis){
-            this->treeThis.clean();edkEnd();
+        if(this->tree){
+            if(this->tree == &this->treeThis){
+                this->treeThis.clean();edkEnd();
+            }
+            else{
+                this->tree->clean();edkEnd();
+            }
         }
-        this->tree->clean();edkEnd();
         this->deleteQuads();edkEnd();
     }
     //new quads
@@ -405,8 +411,10 @@ public:
     //set the tree new pointer
     bool setTree(edk::vector::BinaryTree<typeTemplate>* tree){
         //delete the last tree
-        if(this->tree != &this->treeThis){
-            delete this->tree;edkEnd();
+        if(this->tree){
+            if(this->tree != &this->treeThis){
+                delete this->tree;edkEnd();
+            }
         }
         if(tree){
             this->tree = tree;edkEnd();
@@ -581,7 +589,8 @@ public:
 
     void Constructor(edk::rectf64 rect = edk::rectf64(0,0,1,1),bool runFather=true){
         if(runFather){
-            *this = rect;edkEnd();
+            this->origin = rect.origin;edkEnd();
+            this->size = rect.size;edkEnd();
         }
         if(this->classThis!=this){
             this->classThis=this;
@@ -604,7 +613,8 @@ public:
     }
     void Constructor(QuadLeaf64* father,edk::rectf64 rect = edk::rectf64(0,0,1,1),bool runFather=true){
         if(runFather){
-            *this = rect;edkEnd();
+            this->origin = rect.origin;edkEnd();
+            this->size = rect.size;edkEnd();
         }
         if(this->classThis!=this){
             this->classThis=this;
@@ -628,10 +638,14 @@ public:
 
     void clean(){
         this->father=NULL;edkEnd();
-        if(this->tree != &this->treeThis){
-            this->treeThis.clean();edkEnd();
+        if(this->tree){
+            if(this->tree == &this->treeThis){
+                this->treeThis.clean();edkEnd();
+            }
+            else{
+                this->tree->clean();edkEnd();
+            }
         }
-        this->tree->clean();edkEnd();
         this->deleteQuads();edkEnd();
     }
     //new quads
@@ -706,8 +720,10 @@ public:
     //set the tree new pointer
     bool setTree(edk::vector::BinaryTree<typeTemplate>* tree){
         //delete the last tree
-        if(this->tree != &this->treeThis){
-            delete this->tree;edkEnd();
+        if(this->tree){
+            if(this->tree != &this->treeThis){
+                delete this->tree;edkEnd();
+            }
         }
         if(tree){
             this->tree = tree;edkEnd();
@@ -903,7 +919,8 @@ public:
             this->selected3 = &this->treeNULL;edkEnd();
             this->treeTemp = &this->treeUpdate;edkEnd();
             this->cleanWithRectPoints(edk::rectf32(0,0,1,1));edkEnd();
-            this->setMinimumElementInQuads(1u);
+            this->minimumElementInQuads=1u;
+            this->setMinimumElementInQuads(0u);
         }
     }
 
@@ -2365,7 +2382,8 @@ public:
             this->selected3 = &this->treeNULL;edkEnd();
             this->treeTemp = &this->treeUpdate;edkEnd();
             this->cleanWithRectPoints(edk::rectf64(0,0,1,1));edkEnd();
-            this->setMinimumElementInQuads(1u);
+            this->minimumElementInQuads=1u;
+            this->setMinimumElementInQuads(0u);
         }
     }
 

@@ -1414,6 +1414,7 @@ private:
             if(this->classThis==this){
                 this->classThis=NULL;edkEnd();
                 //can destruct the class
+                this->cleanLevelQuads();
             }
         }
 
@@ -1430,6 +1431,12 @@ private:
                 this->matrixTransform.Constructor();edkEnd();
                 this->matrixTransformNegative.Constructor();edkEnd();
                 this->matrixNewPosition.Constructor();edkEnd();
+
+                this->objs=NULL;
+                this->objsPhys=NULL;
+                this->tileMap=NULL;
+                this->quadObjs=NULL;
+                this->quadPhysicObjs=NULL;
 
                 this->clean();edkEnd();
                 this->calls = calls;edkEnd();
@@ -1460,6 +1467,12 @@ private:
                 this->matrixTransformNegative.Constructor();edkEnd();
                 this->matrixNewPosition.Constructor();edkEnd();
 
+                this->objs=NULL;
+                this->objsPhys=NULL;
+                this->tileMap=NULL;
+                this->quadObjs=NULL;
+                this->quadPhysicObjs=NULL;
+
                 this->clean();edkEnd();
                 this->calls = calls;edkEnd();
                 this->tileMap = tileMap;edkEnd();
@@ -1487,6 +1500,12 @@ private:
                 this->matrixTransform.Constructor();edkEnd();
                 this->matrixTransformNegative.Constructor();edkEnd();
                 this->matrixNewPosition.Constructor();edkEnd();
+
+                this->objs=NULL;
+                this->objsPhys=NULL;
+                this->tileMap=NULL;
+                this->quadObjs=NULL;
+                this->quadPhysicObjs=NULL;
 
                 this->clean();edkEnd();
                 this->calls = calls;edkEnd();
@@ -2104,7 +2123,29 @@ private:
             }
         }
 
-        void clean(){this->objs = NULL;edkEnd();this->objsPhys = NULL;edkEnd();this->tileMap = NULL;edkEnd();this->quadObjs = NULL;edkEnd();this->quadPhysicObjs = NULL;edkEnd();}
+        void clean(){
+            this->cleanLevelQuads();
+            if(this->objs){
+                delete this->objs;
+            }
+            if(this->objsPhys){
+                delete this->objsPhys;
+            }
+            if(this->tileMap){
+                delete this->tileMap;
+            }
+            if(this->quadObjs){
+                delete this->quadObjs;
+            }
+            if(this->quadPhysicObjs){
+                delete this->quadPhysicObjs;
+            }
+            this->objs = NULL;edkEnd();
+            this->objsPhys = NULL;edkEnd();
+            this->tileMap = NULL;edkEnd();
+            this->quadObjs = NULL;edkEnd();
+            this->quadPhysicObjs = NULL;edkEnd();
+        }
         bool haveSome(){
             if(this->objs){
                 return true;

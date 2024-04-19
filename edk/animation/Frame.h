@@ -49,7 +49,8 @@ public:
     }
     Frame(edk::float32 second){
         //
-        this->second=second;edkEnd();
+        this->classThis=NULL;edkEnd();
+        this->Constructor(second,false);edkEnd();
     }
     virtual ~Frame(){
         if(this->classThis==this){
@@ -63,9 +64,18 @@ public:
             edk::Object<edk::animation::Frame>::Constructor();
         }
         if(this->classThis!=this){
-            this->classThis=this;
+            this->classThis=this;edkEnd();
             this->second=0.0f;edkEnd();
         }
+    }
+    void Constructor(edk::float32 second,bool runFather=true){
+        if(runFather){
+            edk::Object<edk::animation::Frame>::Constructor();
+        }
+        if(this->classThis!=this){
+            this->classThis=this;edkEnd();
+        }
+        this->second=second;edkEnd();
     }
 
     //time of the frame
