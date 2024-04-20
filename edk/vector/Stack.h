@@ -279,6 +279,11 @@ public:
             this->stackSize=0u;
 
             this->root=NULL;
+
+            this->rootPointer=&this->root;
+            this->removedPointer=&this->removed;
+            this->stackSizePointer=&this->stackSize;
+            this->stackArraySizePointer=&this->StackArraySize;
         }
     }
 
