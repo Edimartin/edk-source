@@ -55,10 +55,12 @@ public:
     //return the ID
     edk::uint32 getBufferID();
 
-    //use this buffer
+    //use this frameBuffer
     void useThisBuffer();
     //dont use frameBuffer
     static void dontUseFrameBuffer();
+    //dont use this frameBuffer
+    void dontUseThisFrameBuffer();
 
 protected:
 private:

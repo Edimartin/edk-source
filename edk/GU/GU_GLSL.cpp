@@ -1495,13 +1495,22 @@ bool edk::GU_GLSL::guSetDrawBuffers(edk::uint32 size,const edk::uint32 *buffers)
         edk::GU_GLSL::mut.unlock();
         return true;
     }
+    //else draw NONE
+    edk::GU_GLSL::mut.lock();
+    glDrawBuffer(GL_NONE);
+    edk::GU_GLSL::mut.unlock();
     return false;
 }
 //set one drawBuffer
 bool edk::GU_GLSL::guSetDrawBuffer(edk::uint32 buffer){
-    edk::uint32 buffers[1u] = {buffer};
-    bool ret;
-    ret = edk::GU_GLSL::guSetDrawBuffers(1u,buffers);
+    bool ret=false;
+    if(buffer){
+        edk::uint32 buffers[1u] = {buffer};
+        ret = edk::GU_GLSL::guSetDrawBuffers(1u,buffers);
+    }
+    else{
+        ret = edk::GU_GLSL::guSetDrawBuffers(0u,NULL);
+    }
     return ret;
 }
 //Check frameBuffer

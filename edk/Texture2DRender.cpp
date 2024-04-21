@@ -110,13 +110,17 @@ bool edk::Texture2DRender::createRender(edk::size2ui32 size){
 edk::uint32 edk::Texture2DRender::getBufferID(){
     return this->frameBuffer;edkEnd();
 }
-//use this buffer
+//use this frameBuffer
 void edk::Texture2DRender::useThisBuffer(){
     edk::GU_GLSL::guUseFrameBuffer(GU_FRAMEBUFFER,this->frameBuffer);edkEnd();
 }
 //dont use frameBuffer
 void edk::Texture2DRender::dontUseFrameBuffer(){
     edk::GU_GLSL::guUseFrameBuffer(GU_FRAMEBUFFER,0u);edkEnd();
+}
+//dont use this frameBuffer
+void edk::Texture2DRender::dontUseThisFrameBuffer(){
+    edk::Texture2DRender::dontUseFrameBuffer();
 }
 
 bool edk::Texture2DRender::createRender(edk::uint32 width,edk::uint32 height){
