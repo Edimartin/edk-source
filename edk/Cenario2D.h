@@ -1336,7 +1336,8 @@ private:
             this->Constructor(world,calls,false);edkEnd();
         }
         ~QuadPhyicObjs(){
-            if(this->classThis==this){this->classThis=NULL;edkEnd();
+            if(this->classThis==this){
+                this->classThis=NULL;edkEnd();
                 //can destruct the class
             }
         }

@@ -290,14 +290,15 @@ private:
     class ParticleObject2D{
     public:
         ParticleObject2D(edk::Object2D* obj,edk::float32 angleObject,edk::size2f32 sizeObject){
+            this->classThis=NULL;
             this->Constructor(obj,angleObject,sizeObject,false);edkEnd();
         }
         ParticleObject2D(){}
 
         void Constructor(edk::Object2D* obj,edk::float32 angleObject,edk::size2f32 sizeObject,bool runFather=true){
             if(runFather){edkEnd();}
-            if(this->classThis==this){
-                this->classThis=NULL;edkEnd();
+            if(this->classThis!=this){
+                this->classThis=this;edkEnd();
                 this->obj=obj;
                 this->angleObject=angleObject;
                 this->sizeObject=sizeObject;
