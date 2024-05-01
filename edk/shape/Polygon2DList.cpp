@@ -239,7 +239,7 @@ edk::float32 edk::shape::Polygon2DList::getPolygonRestitution(edk::uint32 positi
 }
 
 //function to calculate boundingBox
-bool edk::shape::Polygon2DList::calculateBoundingBox(edk::rectf32* rectangle,edk::vector::Matrix<edk::float32,3,3>* transformMat){
+bool edk::shape::Polygon2DList::calculateBoundingBox(edk::rectf32* rectangle,edk::vector::Matrixf32<3u,3u>* transformMat){
     if(rectangle && transformMat){
         edk::uint32 size = this->polygons.size();edkEnd();
         if(size){
@@ -258,7 +258,7 @@ bool edk::shape::Polygon2DList::calculateBoundingBox(edk::rectf32* rectangle,edk
     }
     return false;
 }
-edk::rectf32 edk::shape::Polygon2DList::generateBoundingBox(edk::vector::Matrix<edk::float32,3,3>* transformMat){
+edk::rectf32 edk::shape::Polygon2DList::generateBoundingBox(edk::vector::Matrixf32<3u,3u>* transformMat){
     edk::rectf32 ret;edkEnd();
     if(transformMat){
         edk::uint32 size = this->polygons.size();edkEnd();
@@ -277,7 +277,7 @@ edk::rectf32 edk::shape::Polygon2DList::generateBoundingBox(edk::vector::Matrix<
     }
     return ret;
 }
-bool edk::shape::Polygon2DList::getWorldPolygon(edk::shape::Polygon2D* dest,edk::uint32 polygonPosition,edk::vector::Matrix<edk::float32,3,3>* transformMat){
+bool edk::shape::Polygon2DList::getWorldPolygon(edk::shape::Polygon2D* dest,edk::uint32 polygonPosition,edk::vector::Matrixf32<3u,3u>* transformMat){
     bool ret=false;edkEnd();
     if(dest){
         if(transformMat){

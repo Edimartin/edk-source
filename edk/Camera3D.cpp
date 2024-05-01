@@ -340,7 +340,7 @@ void edk::Camera3D::rotateAngleUp(edk::float32 angle){
 void edk::Camera3D::updateProjection(){
     this->calculateProjectionMatrix();
 }
-edk::vector::Matrix<edk::float32,4u,4u>* edk::Camera3D::getProjection(){
+edk::vector::Matrixf32<4u,4u>* edk::Camera3D::getProjection(){
     return &this->projection;
 }
 

@@ -128,16 +128,16 @@ public:
     virtual void drawNormalsWithColor(edk::color3f32 color = edk::color3f32(1,1,1));
     virtual void drawNormalsWithColor(edk::float32 r,edk::float32 g,edk::float32 b);
     //draw the mesh with projection matrix
-    virtual void drawWithMatrix(edk::vector::Matrix<edk::float32,4u,4u>* matrix);
-    virtual void drawWithMatrixWithoutMaterial(edk::vector::Matrix<edk::float32,4u,4u>* matrix);
-    virtual void drawWithMatrixWithoutMaterialWithLight(edk::vector::Matrix<edk::float32,4u,4u>* matrix);
-    virtual void drawWireWithMatrix(edk::vector::Matrix<edk::float32,4u,4u>* matrix);
-    virtual void drawNormalsWithMatrix(edk::vector::Matrix<edk::float32,4u,4u>* matrix);
-    virtual void drawNormalsWithMatrixWithColor(edk::vector::Matrix<edk::float32,4u,4u>* matrix,edk::color3f32 color = edk::color3f32(1,1,1));
-    virtual void drawNormalsWithMatrixWithColor(edk::vector::Matrix<edk::float32,4u,4u>* matrix,edk::float32 r,edk::float32 g,edk::float32 b);
+    virtual void drawWithMatrix(edk::vector::Matrixf32<4u,4u>* matrix);
+    virtual void drawWithMatrixWithoutMaterial(edk::vector::Matrixf32<4u,4u>* matrix);
+    virtual void drawWithMatrixWithoutMaterialWithLight(edk::vector::Matrixf32<4u,4u>* matrix);
+    virtual void drawWireWithMatrix(edk::vector::Matrixf32<4u,4u>* matrix);
+    virtual void drawNormalsWithMatrix(edk::vector::Matrixf32<4u,4u>* matrix);
+    virtual void drawNormalsWithMatrixWithColor(edk::vector::Matrixf32<4u,4u>* matrix,edk::color3f32 color = edk::color3f32(1,1,1));
+    virtual void drawNormalsWithMatrixWithColor(edk::vector::Matrixf32<4u,4u>* matrix,edk::float32 r,edk::float32 g,edk::float32 b);
     //draw the pivo
     void drawPivo(edk::float32 size,edk::color3f32 color);
-    void drawPivoWithMatrix(edk::vector::Matrix<edk::float32,4u,4u>* matrix,edk::float32 size,edk::color3f32 color);
+    void drawPivoWithMatrix(edk::vector::Matrixf32<4u,4u>* matrix,edk::float32 size,edk::color3f32 color);
 
     //connect another object into this
     virtual bool connectObject(edk::Object3D* obj);
@@ -383,13 +383,13 @@ private:
     //Tree Static Vector
     edk::light::Light lights[EDK_LIGHT_LIMIT];
 
-    edk::vector::Matrix<edk::float32,4u,4u> matrixTranslate;
-    edk::vector::Matrix<edk::float32,4u,4u> matrixRotateX;
-    edk::vector::Matrix<edk::float32,4u,4u> matrixRotateY;
-    edk::vector::Matrix<edk::float32,4u,4u> matrixRotateZ;
-    edk::vector::Matrix<edk::float32,4u,4u> matrixScale;
-    edk::vector::Matrix<edk::float32,4u,4u> matrixTransform;
-    edk::vector::Matrix<edk::float32,4u,4u> matrixTemp;
+    edk::vector::Matrixf32<4u,4u> matrixTranslate;
+    edk::vector::Matrixf32<4u,4u> matrixRotateX;
+    edk::vector::Matrixf32<4u,4u> matrixRotateY;
+    edk::vector::Matrixf32<4u,4u> matrixRotateZ;
+    edk::vector::Matrixf32<4u,4u> matrixScale;
+    edk::vector::Matrixf32<4u,4u> matrixTransform;
+    edk::vector::Matrixf32<4u,4u> matrixTemp;
 
     //connected objects tree
     edk::vector::BinaryTree<edk::Object3D*> childrems;
@@ -406,7 +406,7 @@ private:
     void drawChildremsNormalsWithColor(edk::float32 r,edk::float32 g,edk::float32 b);
     //draw the pivo
     void drawChildremsPivo(edk::float32 size,edk::color3f32 color);
-    void drawChildremsPivoWithMatrix(edk::vector::Matrix<edk::float32,4u,4u>* matrix,edk::float32 size,edk::color3f32 color);
+    void drawChildremsPivoWithMatrix(edk::vector::Matrixf32<4u,4u>* matrix,edk::float32 size,edk::color3f32 color);
 private:
     edk::classID classThis;
 };

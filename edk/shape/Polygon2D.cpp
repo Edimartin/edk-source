@@ -8769,7 +8769,7 @@ void edk::shape::Polygon2D::setRestitution(edk::float32 restitution){
 }
 
 //function to calculate boundingBox
-bool edk::shape::Polygon2D::calculateBoundingBox(edk::rectf32* rectangle,edk::vector::Matrix<edk::float32,3,3>* transformMat){
+bool edk::shape::Polygon2D::calculateBoundingBox(edk::rectf32* rectangle,edk::vector::Matrixf32<3u,3u>* transformMat){
     if(transformMat && rectangle && this->getVertexCount()){
         //generate the boundingBox
         edk::rectf32 temp = this->generateBoundingBox(transformMat);edkEnd();
@@ -8791,7 +8791,7 @@ bool edk::shape::Polygon2D::calculateBoundingBox(edk::rectf32* rectangle,edk::ve
     }
     return false;
 }
-edk::rectf32 edk::shape::Polygon2D::generateBoundingBox(edk::vector::Matrix<edk::float32,3,3>* transformMat){
+edk::rectf32 edk::shape::Polygon2D::generateBoundingBox(edk::vector::Matrixf32<3u,3u>* transformMat){
     edk::rectf32 ret;edkEnd();
     edk::uint32 size = this->getVertexCount();edkEnd();
     if(size){
@@ -8937,7 +8937,7 @@ edk::rectf32 edk::shape::Polygon2D::generateBoundingBox(edk::vector::Matrix<edk:
     }
     return ret;
 }
-bool edk::shape::Polygon2D::getWorldPolygon(edk::shape::Polygon2D* dest,edk::vector::Matrix<edk::float32,3,3>* transformMat){
+bool edk::shape::Polygon2D::getWorldPolygon(edk::shape::Polygon2D* dest,edk::vector::Matrixf32<3u,3u>* transformMat){
     bool ret=false;edkEnd();
     if(dest){
         edk::uint32 size = this->getVertexCount();edkEnd();

@@ -51,6 +51,11 @@ void edk::Object3DValues::connectedLoadIdentityValues(){
     this->connectedAngle = edk::vec3f32(0,0,0);edkEnd();
     this->connectedSize = edk::size3f32(1,1,1);edkEnd();
 }
+void edk::Object3DValues::updateValuesFromConnected(){
+    this->position = this->connectedPosition;edkEnd();
+    this->angle = this->connectedAngle;edkEnd();
+    this->size = this->connectedSize;edkEnd();
+}
 
 void edk::Object3DValues::loadIdentityValues(){
     //

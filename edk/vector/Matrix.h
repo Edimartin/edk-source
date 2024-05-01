@@ -212,7 +212,7 @@ public:
         memcpy(&this->matrix[y][x],&obj,sizeof(typeTemplate));edkEnd();
     }
     //set the matrix as identity
-    bool setIdentity(typeTemplate valueOne,typeTemplate valueZero){
+    virtual bool setIdentity(typeTemplate valueOne,typeTemplate valueZero){
         if(this->matrixSize.width && this->matrixSize.height){
             for(edk::uint32 y=0u;y<this->matrixSize.height;y++){
                 for(edk::uint32 x=0u;x<this->matrixSize.width;x++){
@@ -300,7 +300,7 @@ public:
                     ){
                 for(edk::uint32 y=0u;y<this->matrixSize.height;y++){
                     for(edk::uint32 x=0u;x<this->matrixSize.width;x++){
-                        if(memcmp(this->matrix[y][x],matrix->matrix[y][x],sizeof(typeTemplate))){
+                        if(edkMemCmp((edk::classID)&this->matrix[y][x],(edk::classID)&matrix->matrix[y][x],sizeof(typeTemplate))){
                             return false;
                         }
                     }
@@ -775,7 +775,7 @@ public:
     }
 
     //print the matrix
-    bool printMatrix(){
+    virtual bool printMatrix(){
         if(this->matrix && this->matrixSize.width && this->matrixSize.height){
             printf("\nMatrix [%u] [%u]",this->matrixSize.width,this->matrixSize.height);edkEnd();
             for(edk::uint32 y=0u;y<this->matrixSize.height;y++){
@@ -1071,7 +1071,7 @@ public:
         return edk::vector::MatrixDynamic<typeTemplate>::set(x,y,obj);edkEnd();
     }
     //set the matrix as identity
-    inline bool setIdentity(typeTemplate valueOne,typeTemplate valueZero){
+    inline virtual bool setIdentity(typeTemplate valueOne,typeTemplate valueZero){
         return edk::vector::MatrixDynamic<typeTemplate>::setIdentity(valueOne,valueZero);edkEnd();
     }
 
@@ -1114,12 +1114,22 @@ public:
         return edk::vector::MatrixDynamic<typeTemplate>::get(x,y);edkEnd();
     }
 
+    //GETTERS WITHOUT IF
+    inline typeTemplate getNoIF(edk::vec2ui32 position){
+        //return the variable
+        return edk::vector::MatrixDynamic<typeTemplate>::getNoIF(position);
+    }
+    //return the value in a position
+    inline typeTemplate getNoIF(edk::uint32 x,edk::uint32 y){
+        return edk::vector::MatrixDynamic<typeTemplate>::getNoIF(x,y);
+    }
+
     //test if a matrix is equal then other
-    inline bool isEqual(edk::vector::Matrix<typeTemplate,m,n>* matrix){
+    inline virtual bool isEqual(edk::vector::Matrix<typeTemplate,m,n>* matrix){
         return edk::vector::MatrixDynamic<typeTemplate>::isEqual(matrix);edkEnd();
     }
     //add the matrix with another
-    inline bool add(edk::vector::Matrix<typeTemplate,m,n>* matrix){
+    inline virtual bool add(edk::vector::Matrix<typeTemplate,m,n>* matrix){
         return edk::vector::MatrixDynamic<typeTemplate>::add(matrix);edkEnd();
     }
     //add the matrix with another
@@ -1127,7 +1137,7 @@ public:
         return edk::vector::MatrixDynamic<typeTemplate>::increment(value);edkEnd();
     }
     //sub the matrix with another
-    inline bool sub(edk::vector::Matrix<typeTemplate,m,n>* matrix){
+    inline virtual bool sub(edk::vector::Matrix<typeTemplate,m,n>* matrix){
         return edk::vector::MatrixDynamic<typeTemplate>::sub(matrix);edkEnd();
     }
     //add the matrix with another
@@ -1139,25 +1149,25 @@ public:
     inline bool canMultiplyThis(){
         return this->canMultiplyMatrix;edkEnd();
     }
-    inline bool canMultiplyThisWithMatrix(edk::vector::Matrix<typeTemplate,m,n>*){
+    inline virtual bool canMultiplyThisWithMatrix(edk::vector::Matrix<typeTemplate,m,n>*){
         return this->canMultiplyMatrix;edkEnd();
     }
     inline bool canMultiplyThisWithMatrix(edk::vector::MatrixDynamic<typeTemplate>* matrix){
         return edk::vector::MatrixDynamic<typeTemplate>::canMultiplyThisWithMatrix(matrix);edkEnd();
     }
-    inline bool canMultiplyMatrixWithThis(edk::vector::Matrix<typeTemplate,m,n>*){
+    inline virtual bool canMultiplyMatrixWithThis(edk::vector::Matrix<typeTemplate,m,n>*){
         return this->canMultiplyMatrix;edkEnd();
     }
     inline bool canMultiplyMatrixWithThis(edk::vector::MatrixDynamic<typeTemplate>* matrix){
         return edk::vector::MatrixDynamic<typeTemplate>::canMultiplyMatrixWithThis(matrix);edkEnd();
     }
-    inline bool multiplyThisWithMatrix(edk::vector::Matrix<typeTemplate,m,n>* matrix){
+    inline virtual bool multiplyThisWithMatrix(edk::vector::Matrix<typeTemplate,m,n>* matrix){
         if(this->canMultiplyMatrix){
             return edk::vector::MatrixDynamic<typeTemplate>::multiplyThisWithMatrix(matrix);edkEnd();
         }
         return false;
     }
-    inline bool multiplyMatrixWithThis(edk::vector::Matrix<typeTemplate,m,n>* matrix){
+    inline virtual bool multiplyMatrixWithThis(edk::vector::Matrix<typeTemplate,m,n>* matrix){
         if(this->canMultiplyMatrix){
             return edk::vector::MatrixDynamic<typeTemplate>::multiplyMatrixWithThis(matrix);edkEnd();
         }
@@ -1167,10 +1177,10 @@ public:
     inline bool canMultiply(edk::vector::MatrixDynamic<typeTemplate>* matrix1,edk::vector::MatrixDynamic<typeTemplate>* matrix2){
         return edk::vector::MatrixDynamic<typeTemplate>::multiply(matrix1,matrix2);edkEnd();
     }
-    inline bool canMultiply(edk::vector::Matrix<typeTemplate,m,n>*,edk::vector::Matrix<typeTemplate,m,n>*){
+    inline virtual bool canMultiply(edk::vector::Matrix<typeTemplate,m,n>*,edk::vector::Matrix<typeTemplate,m,n>*){
         return this->canMultiplyMatrix;edkEnd();
     }
-    inline bool multiply(edk::vector::Matrix<typeTemplate,m,n>* matrix1,edk::vector::Matrix<typeTemplate,m,n>* matrix2){
+    inline virtual bool multiply(edk::vector::Matrix<typeTemplate,m,n>* matrix1,edk::vector::Matrix<typeTemplate,m,n>* matrix2){
         if(this->canMultiplyMatrix){
             return edk::vector::MatrixDynamic<typeTemplate>::multiply(matrix1,matrix2);edkEnd();
         }
@@ -1178,11 +1188,11 @@ public:
     }
 
     //print the matrix
-    inline bool printMatrix(){
+    inline virtual bool printMatrix(){
         return edk::vector::MatrixDynamic<typeTemplate>::printMatrix();edkEnd();
     }
 
-    inline bool cloneFrom(edk::vector::Matrix<typeTemplate,m,n>* matrix){
+    inline virtual bool cloneFrom(edk::vector::Matrix<typeTemplate,m,n>* matrix){
         return edk::vector::MatrixDynamic<typeTemplate>::cloneFrom(matrix);edkEnd();
     }
 
@@ -1252,6 +1262,7 @@ protected:
 private:
     //test if can delete the vector
     bool canDeleteMatrix;
+protected:
     //save if can multiply the matrix
     bool canMultiplyMatrix;
 public:
@@ -1259,6 +1270,91 @@ public:
     void cantDeleteMatrix(){
         this->canDeleteMatrix=false;edkEnd();
         edk::vector::MatrixDynamic<typeTemplate>::cantDeleteVector();edkEnd();
+    }
+private:
+    edk::classID classThis;
+};
+template <edk::uint32 m,edk::uint32 n>
+class Matrixf32: public edk::vector::Matrix<edk::float32,m,n>{
+public:
+    Matrixf32(){
+        this->classThis=NULL;edkEnd();
+        this->Constructor(false);edkEnd();
+    }
+    ~Matrixf32(){
+        if(this->classThis==this){
+            this->classThis=NULL;edkEnd();
+        }
+    }
+
+    void Constructor(bool runFather=true){
+        if(runFather){
+            edk::vector::Matrix<edk::float32,m,n>::Constructor();edkEnd();
+        }
+        if(this->classThis!=this){
+            this->classThis=this;
+        }
+    }
+
+    //set the matrix as identity
+    inline virtual bool setIdentity(edk::float32 valueOne,edk::float32 valueZero){
+        return edk::vector::Matrix<edk::float32,m,n>::setIdentity(valueOne,valueZero);edkEnd();
+    }
+    inline virtual bool setIdentity(){
+        return edk::vector::Matrix<edk::float32,m,n>::setIdentity(1.f,0.f);edkEnd();
+    }
+
+    //test if a matrix is equal then other
+    inline virtual bool isEqual(edk::vector::Matrixf32<m,n>* matrix){
+        return  edk::vector::Matrix<edk::float32,m,n>::isEqual(matrix);edkEnd();
+    }
+    //add the matrix with another
+    inline virtual bool add(edk::vector::Matrixf32<m,n>* matrix){
+        return  edk::vector::Matrix<edk::float32,m,n>::add(matrix);edkEnd();
+    }
+    //sub the matrix with another
+    inline virtual bool sub(edk::vector::Matrixf32<m,n>* matrix){
+        return  edk::vector::Matrix<edk::float32,m,n>::sub(matrix);edkEnd();
+    }
+
+    //return true if can multiply
+    inline virtual bool canMultiplyThisWithMatrix(edk::vector::Matrixf32<m,n>*){
+        return this->canMultiplyMatrix;edkEnd();
+    }
+    inline virtual bool canMultiplyMatrixWithThis(edk::vector::Matrixf32<m,n>*){
+        return this->canMultiplyMatrix;edkEnd();
+    }
+    inline virtual bool multiplyThisWithMatrix(edk::vector::Matrixf32<m,n>* matrix){
+        if(this->canMultiplyMatrix){
+            return  edk::vector::Matrix<edk::float32,m,n>::multiplyThisWithMatrix(matrix);edkEnd();
+        }
+        return false;
+    }
+    inline virtual bool multiplyMatrixWithThis(edk::vector::Matrixf32<m,n>* matrix){
+        if(this->canMultiplyMatrix){
+            return  edk::vector::Matrix<edk::float32,m,n>::multiplyMatrixWithThis(matrix);edkEnd();
+        }
+        return false;
+    }
+    //return true if can multiply
+    inline virtual bool canMultiply(edk::vector::Matrixf32<m,n>*,edk::vector::Matrixf32<m,n>*){
+        return this->canMultiplyMatrix;edkEnd();
+    }
+    inline virtual bool multiply(edk::vector::Matrixf32<m,n>* matrix1,edk::vector::Matrixf32<m,n>* matrix2){
+        if(this->canMultiplyMatrix){
+            return  edk::vector::Matrix<edk::float32,m,n>::multiply(matrix1,matrix2);edkEnd();
+        }
+        return false;
+    }
+
+    //print the matrix
+    inline virtual bool cloneFrom(edk::vector::Matrixf32<m,n>* matrix){
+        return  edk::vector::Matrix<edk::float32,m,n>::cloneFrom(matrix);edkEnd();
+    }
+
+protected:
+    inline void printElement(edk::uint32 x,edk::uint32 y,edk::float32* value){
+        printf("\n[%u][%u] == [%.2f]",x,y,(edk::float32)(*value));edkEnd();
     }
 private:
     edk::classID classThis;

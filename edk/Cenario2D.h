@@ -745,7 +745,7 @@ private:
         bool haveCreated(){return this->created;edkEnd();}
         edk::Object2D* getObject(){return this->obj;edkEnd();}
         //function to calculate the boundingBox
-        edk::rectf32 calculateBoundingBox(edk::vector::Matrix<edk::float32,3,3>* transformMat){
+        edk::rectf32 calculateBoundingBox(edk::vector::Matrixf32<3u,3u>* transformMat){
             if(this->obj){
                 this->obj->calculateBoundingBox(transformMat);edkEnd();
                 this->boundingBox = this->obj->getBoundingBox();edkEnd();
@@ -2425,11 +2425,11 @@ private:
         edk::Cenario2D::QuadObjs* quadObjs;
         edk::Cenario2D::QuadPhyicObjs* quadPhysicObjs;
         //matrices used to generate the bounding box of the object
-        edk::vector::Matrix<edk::float32,3u,3u> matrixPosition;
-        edk::vector::Matrix<edk::float32,3u,3u> matrixAngle;
-        edk::vector::Matrix<edk::float32,3u,3u> matrixSize;
-        edk::vector::Matrix<edk::float32,3,3> matrixTransform;
-        edk::vector::Matrix<edk::float32,3,3> matrixTransformNegative;
+        edk::vector::Matrixf32<3u,3u> matrixPosition;
+        edk::vector::Matrixf32<3u,3u> matrixAngle;
+        edk::vector::Matrixf32<3u,3u> matrixSize;
+        edk::vector::Matrixf32<3u,3u> matrixTransform;
+        edk::vector::Matrixf32<3u,3u> matrixTransformNegative;
         edk::vector::MatrixDynamic<edk::float32> matrixNewPosition;
         bool show;
         bool canSelect;

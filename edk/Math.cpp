@@ -653,7 +653,7 @@ edk::float32 edk::Math::getAngleDistance(edk::vec2f32 vec1,edk::vec2f32 vec2){
 //generate matrices
 //2D
 //translate matrix
-bool edk::Math::generateTranslateMatrix(edk::vec2f32 position,edk::vector::Matrix<edk::float32,3u,3u>* dest){
+bool edk::Math::generateTranslateMatrix(edk::vec2f32 position,edk::vector::Matrixf32<3u,3u>* dest){
     if(dest){
         //clean the matrix
         dest->setIdentity(1.f,0.f);edkEnd();
@@ -665,7 +665,7 @@ bool edk::Math::generateTranslateMatrix(edk::vec2f32 position,edk::vector::Matri
     return false;
 }
 //rotate matrix
-bool edk::Math::generateRotateMatrixX(edk::float32 angle,edk::vector::Matrix<edk::float32,3u,3u>* dest){
+bool edk::Math::generateRotateMatrixX(edk::float32 angle,edk::vector::Matrixf32<3u,3u>* dest){
     if(dest){
         //clean the matrix
         dest->setIdentity(1.f,0.f);edkEnd();
@@ -678,7 +678,7 @@ bool edk::Math::generateRotateMatrixX(edk::float32 angle,edk::vector::Matrix<edk
     }
     return false;
 }
-bool edk::Math::generateRotateMatrixY(edk::float32 angle,edk::vector::Matrix<edk::float32,3u,3u>* dest){
+bool edk::Math::generateRotateMatrixY(edk::float32 angle,edk::vector::Matrixf32<3u,3u>* dest){
     if(dest){
         //clean the matrix
         dest->setIdentity(1.f,0.f);edkEnd();
@@ -691,7 +691,7 @@ bool edk::Math::generateRotateMatrixY(edk::float32 angle,edk::vector::Matrix<edk
     }
     return false;
 }
-bool edk::Math::generateRotateMatrixZ(edk::float32 angle,edk::vector::Matrix<edk::float32,3u,3u>* dest){
+bool edk::Math::generateRotateMatrixZ(edk::float32 angle,edk::vector::Matrixf32<3u,3u>* dest){
     if(dest){
         //clean the matrix
         dest->setIdentity(1.f,0.f);edkEnd();
@@ -705,7 +705,7 @@ bool edk::Math::generateRotateMatrixZ(edk::float32 angle,edk::vector::Matrix<edk
     return false;
 }
 //scale matrix
-bool edk::Math::generateScaleMatrix(edk::size2f32 size,edk::vector::Matrix<edk::float32,3u,3u>* dest){
+bool edk::Math::generateScaleMatrix(edk::size2f32 size,edk::vector::Matrixf32<3u,3u>* dest){
     if(dest){
         //clean the matrix
         dest->setIdentity(1.f,0.f);edkEnd();
@@ -718,7 +718,7 @@ bool edk::Math::generateScaleMatrix(edk::size2f32 size,edk::vector::Matrix<edk::
 }
 //3D
 //translate matrix
-bool edk::Math::generateTranslateMatrix(edk::vec3f32 position,edk::vector::Matrix<edk::float32,3u,3u>* dest){
+bool edk::Math::generateTranslateMatrix(edk::vec3f32 position,edk::vector::Matrixf32<3u,3u>* dest){
     if(dest){
         //clean the matrix
         dest->setIdentity(1.f,0.f);edkEnd();
@@ -730,7 +730,7 @@ bool edk::Math::generateTranslateMatrix(edk::vec3f32 position,edk::vector::Matri
     }
     return false;
 }
-bool edk::Math::generateTranslateMatrix(edk::vec3f32 position,edk::vector::Matrix<edk::float32,4u,4u>* dest){
+bool edk::Math::generateTranslateMatrix(edk::vec3f32 position,edk::vector::Matrixf32<4u,4u>* dest){
     if(dest){
         //clean the matrix
         dest->setIdentity(1.f,0.f);edkEnd();
@@ -743,7 +743,7 @@ bool edk::Math::generateTranslateMatrix(edk::vec3f32 position,edk::vector::Matri
     return false;
 }
 //rotate matrix
-bool edk::Math::generateRotateMatrixX(edk::float32 angle,edk::vector::Matrix<edk::float32,4u,4u>* dest){
+bool edk::Math::generateRotateMatrixX(edk::float32 angle,edk::vector::Matrixf32<4u,4u>* dest){
     if(dest){
         //clean the matrix
         dest->setIdentity(1.f,0.f);edkEnd();
@@ -756,7 +756,7 @@ bool edk::Math::generateRotateMatrixX(edk::float32 angle,edk::vector::Matrix<edk
     }
     return false;
 }
-bool edk::Math::generateRotateMatrixY(edk::float32 angle,edk::vector::Matrix<edk::float32,4u,4u>* dest){
+bool edk::Math::generateRotateMatrixY(edk::float32 angle,edk::vector::Matrixf32<4u,4u>* dest){
     if(dest){
         //clean the matrix
         dest->setIdentity(1.f,0.f);edkEnd();
@@ -769,7 +769,7 @@ bool edk::Math::generateRotateMatrixY(edk::float32 angle,edk::vector::Matrix<edk
     }
     return false;
 }
-bool edk::Math::generateRotateMatrixZ(edk::float32 angle,edk::vector::Matrix<edk::float32,4u,4u>* dest){
+bool edk::Math::generateRotateMatrixZ(edk::float32 angle,edk::vector::Matrixf32<4u,4u>* dest){
     if(dest){
         //clean the matrix
         dest->setIdentity(1.f,0.f);edkEnd();
@@ -783,7 +783,7 @@ bool edk::Math::generateRotateMatrixZ(edk::float32 angle,edk::vector::Matrix<edk
     return false;
 }
 //scale matrix
-bool edk::Math::generateScaleMatrix(edk::size3f32 size,edk::vector::Matrix<edk::float32,3u,3u>* dest){
+bool edk::Math::generateScaleMatrix(edk::size3f32 size,edk::vector::Matrixf32<3u,3u>* dest){
     if(dest){
         //clean the matrix
         dest->setIdentity(1.f,0.f);edkEnd();
@@ -795,7 +795,7 @@ bool edk::Math::generateScaleMatrix(edk::size3f32 size,edk::vector::Matrix<edk::
     }
     return false;
 }
-bool edk::Math::generateScaleMatrix(edk::size3f32 size,edk::vector::Matrix<edk::float32,4u,4u>* dest){
+bool edk::Math::generateScaleMatrix(edk::size3f32 size,edk::vector::Matrixf32<4u,4u>* dest){
     if(dest){
         //clean the matrix
         dest->setIdentity(1.f,0.f);edkEnd();

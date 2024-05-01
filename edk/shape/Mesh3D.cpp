@@ -448,7 +448,7 @@ void edk::shape::Mesh3D::StackPolygon::printPolygons(){
 void edk::shape::Mesh3D::StackPolygon::drawPolygons(){
     this->list.render();edkEnd();
 }
-void edk::shape::Mesh3D::StackPolygon::drawPolygonsWithMatrix(edk::vector::Matrix<edk::float32,4u,4u>* matrix,edk::vector::Matrix<edk::float32,4u,4u>* matrixTemp){
+void edk::shape::Mesh3D::StackPolygon::drawPolygonsWithMatrix(edk::vector::Matrixf32<4u,4u>* matrix,edk::vector::Matrixf32<4u,4u>* matrixTemp){
     if(matrix){
         edk::uint32 size = this->list.size();
         edk::shape::Polygon3D* poly;
@@ -462,7 +462,7 @@ void edk::shape::Mesh3D::StackPolygon::drawPolygonsWithMatrix(edk::vector::Matri
 void edk::shape::Mesh3D::StackPolygon::drawWire(){
     this->list.drawWire();edkEnd();
 }
-void edk::shape::Mesh3D::StackPolygon::drawWireWithMatrix(edk::vector::Matrix<edk::float32,4u,4u>* matrix,edk::vector::Matrix<edk::float32,4u,4u>* matrixTemp){
+void edk::shape::Mesh3D::StackPolygon::drawWireWithMatrix(edk::vector::Matrixf32<4u,4u>* matrix,edk::vector::Matrixf32<4u,4u>* matrixTemp){
     if(matrix){
         this->list.drawWireWithMatrix(matrix,matrixTemp);edkEnd();
     }
@@ -471,7 +471,7 @@ void edk::shape::Mesh3D::StackPolygon::drawWireWithMatrix(edk::vector::Matrix<ed
 void edk::shape::Mesh3D::StackPolygon::drawWireWithColor(edk::color4f32 color){
     this->list.drawWireWithColor(color);edkEnd();
 }
-void edk::shape::Mesh3D::StackPolygon::drawWireWithMatrixWithColor(edk::vector::Matrix<edk::float32,4u,4u>* matrix,edk::vector::Matrix<edk::float32,4u,4u>* matrixTemp,edk::color4f32 color){
+void edk::shape::Mesh3D::StackPolygon::drawWireWithMatrixWithColor(edk::vector::Matrixf32<4u,4u>* matrix,edk::vector::Matrixf32<4u,4u>* matrixTemp,edk::color4f32 color){
     if(matrix){
         this->list.drawWireWithMatrixWithColor(matrix,matrixTemp,color);edkEnd();
     }
@@ -480,7 +480,7 @@ void edk::shape::Mesh3D::StackPolygon::drawWireWithMatrixWithColor(edk::vector::
 void edk::shape::Mesh3D::StackPolygon::drawPolygonVertexs(edk::color4f32 color){
     this->list.drawPolygonVertexs(color);edkEnd();
 }
-void edk::shape::Mesh3D::StackPolygon::drawPolygonVertexsWithMatrix(edk::vector::Matrix<edk::float32,4u,4u>* matrix,edk::vector::Matrix<edk::float32,4u,4u>* matrixTemp,edk::color4f32 color){
+void edk::shape::Mesh3D::StackPolygon::drawPolygonVertexsWithMatrix(edk::vector::Matrixf32<4u,4u>* matrix,edk::vector::Matrixf32<4u,4u>* matrixTemp,edk::color4f32 color){
     if(matrix){
         this->list.drawPolygonVertexsWithMatrix(matrix,matrixTemp,color);edkEnd();
     }
@@ -489,7 +489,7 @@ void edk::shape::Mesh3D::StackPolygon::drawPolygonVertexsWithMatrix(edk::vector:
 void edk::shape::Mesh3D::StackPolygon::drawPolygonNormals(){
     this->list.drawPolygonNormals();edkEnd();
 }
-void edk::shape::Mesh3D::StackPolygon::drawPolygonNormalsWithMatrix(edk::vector::Matrix<edk::float32,4u,4u>* matrix,edk::vector::Matrix<edk::float32,4u,4u>* matrixTemp){
+void edk::shape::Mesh3D::StackPolygon::drawPolygonNormalsWithMatrix(edk::vector::Matrixf32<4u,4u>* matrix,edk::vector::Matrixf32<4u,4u>* matrixTemp){
     if(matrix){
         this->list.drawPolygonNormalsWithMatrix(matrix,matrixTemp);edkEnd();
     }
@@ -498,7 +498,7 @@ void edk::shape::Mesh3D::StackPolygon::drawPolygonNormalsWithMatrix(edk::vector:
 void edk::shape::Mesh3D::StackPolygon::drawPolygonNormalsWithColor(edk::color3f32 color){
     this->list.drawPolygonNormalsWithColor(color);edkEnd();
 }
-void edk::shape::Mesh3D::StackPolygon::drawPolygonNormalsWithMatrixWithColor(edk::vector::Matrix<edk::float32,4u,4u>* matrix,edk::vector::Matrix<edk::float32,4u,4u>* matrixTemp,edk::color3f32 color){
+void edk::shape::Mesh3D::StackPolygon::drawPolygonNormalsWithMatrixWithColor(edk::vector::Matrixf32<4u,4u>* matrix,edk::vector::Matrixf32<4u,4u>* matrixTemp,edk::color3f32 color){
     if(matrix){
         this->list.drawPolygonNormalsWithMatrixWithColor(matrix,matrixTemp,color);edkEnd();
     }
@@ -949,7 +949,7 @@ void edk::shape::Mesh3D::drawPolygons(){
     this->polygons.drawPolygons();edkEnd();
     edk::GU::guPopMatrix();edkEnd();
 }
-void edk::shape::Mesh3D::drawPolygonsWithMatrix(edk::vector::Matrix<edk::float32,4u,4u>* matrix,edk::vector::Matrix<edk::float32,4u,4u>* matrixTemp){
+void edk::shape::Mesh3D::drawPolygonsWithMatrix(edk::vector::Matrixf32<4u,4u>* matrix,edk::vector::Matrixf32<4u,4u>* matrixTemp){
     if(matrix){
         //generate the matrices
         this->calculateMatrices();edkEnd();
@@ -972,7 +972,7 @@ void edk::shape::Mesh3D::drawWirePolygons(){
     this->polygons.drawWire();edkEnd();
     edk::GU::guPopMatrix();edkEnd();
 }
-void edk::shape::Mesh3D::drawWirePolygonsWithMatrix(edk::vector::Matrix<edk::float32,4u,4u>* matrix,edk::vector::Matrix<edk::float32,4u,4u>* matrixTemp){
+void edk::shape::Mesh3D::drawWirePolygonsWithMatrix(edk::vector::Matrixf32<4u,4u>* matrix,edk::vector::Matrixf32<4u,4u>* matrixTemp){
     if(matrix){
         this->calculateMatrices();edkEnd();
         //multiply with the matrix
@@ -993,7 +993,7 @@ void edk::shape::Mesh3D::drawWirePolygonsWithColor(edk::color4f32 color){
     this->polygons.drawWireWithColor(color);edkEnd();
     edk::GU::guPopMatrix();edkEnd();
 }
-void edk::shape::Mesh3D::drawWirePolygonsWithMatrixWithColor(edk::vector::Matrix<edk::float32,4u,4u>* matrix,edk::vector::Matrix<edk::float32,4u,4u>* matrixTemp,edk::color4f32 color){
+void edk::shape::Mesh3D::drawWirePolygonsWithMatrixWithColor(edk::vector::Matrixf32<4u,4u>* matrix,edk::vector::Matrixf32<4u,4u>* matrixTemp,edk::color4f32 color){
     if(matrix){
         this->calculateMatrices();edkEnd();
         //multiply with the matrix
@@ -1014,7 +1014,7 @@ void edk::shape::Mesh3D::drawVertexs(edk::color3f32 color){
     this->polygons.drawPolygonVertexs(edk::color4f32(color.r,color.g,color.b,1.f));edkEnd();
     edk::GU::guPopMatrix();edkEnd();
 }
-void edk::shape::Mesh3D::drawVertexsWithMatrix(edk::vector::Matrix<edk::float32,4u,4u>* matrix,edk::vector::Matrix<edk::float32,4u,4u>* matrixTemp,edk::color3f32 color){
+void edk::shape::Mesh3D::drawVertexsWithMatrix(edk::vector::Matrixf32<4u,4u>* matrix,edk::vector::Matrixf32<4u,4u>* matrixTemp,edk::color3f32 color){
     if(matrix){
         this->calculateMatrices();edkEnd();
         //multiply with the matrix
@@ -1035,7 +1035,7 @@ void edk::shape::Mesh3D::drawPolygonsNormals(){
     this->polygons.drawPolygonNormals();edkEnd();
     edk::GU::guPopMatrix();edkEnd();
 }
-void edk::shape::Mesh3D::drawPolygonsNormalsWithMatrix(edk::vector::Matrix<edk::float32,4u,4u>* matrix,edk::vector::Matrix<edk::float32,4u,4u>* matrixTemp){
+void edk::shape::Mesh3D::drawPolygonsNormalsWithMatrix(edk::vector::Matrixf32<4u,4u>* matrix,edk::vector::Matrixf32<4u,4u>* matrixTemp){
     if(matrix){
         this->calculateMatrices();edkEnd();
         //multiply with the matrix
@@ -1056,7 +1056,7 @@ void edk::shape::Mesh3D::drawPolygonsNormalsWithColor(edk::color3f32 color){
     this->polygons.drawPolygonNormalsWithColor(color);edkEnd();
     edk::GU::guPopMatrix();edkEnd();
 }
-void edk::shape::Mesh3D::drawPolygonsNormalsWithMatrixWithColor(edk::vector::Matrix<edk::float32,4u,4u>* matrix,edk::vector::Matrix<edk::float32,4u,4u>* matrixTemp,edk::color3f32 color){
+void edk::shape::Mesh3D::drawPolygonsNormalsWithMatrixWithColor(edk::vector::Matrixf32<4u,4u>* matrix,edk::vector::Matrixf32<4u,4u>* matrixTemp,edk::color3f32 color){
     if(matrix){
         this->calculateMatrices();edkEnd();
         //multiply with the matrix
@@ -1081,7 +1081,7 @@ void edk::shape::Mesh3D::drawOneTexture(){
         this->drawPolygons();edkEnd();
     }
 }
-void edk::shape::Mesh3D::drawOneTextureWithMatrix(edk::vector::Matrix<edk::float32,4u,4u>* matrix,edk::vector::Matrix<edk::float32,4u,4u>* matrixTemp){
+void edk::shape::Mesh3D::drawOneTextureWithMatrix(edk::vector::Matrixf32<4u,4u>* matrix,edk::vector::Matrixf32<4u,4u>* matrixTemp){
     if(matrix){
         //set the texture if have one
         if(this->material.haveTexture()){
@@ -1113,7 +1113,7 @@ void edk::shape::Mesh3D::drawOneTexture(edk::uint32 position){
         this->drawPolygons();edkEnd();
     }
 }
-void edk::shape::Mesh3D::drawOneTextureWithMatrix(edk::vector::Matrix<edk::float32,4u,4u>* matrix,edk::vector::Matrix<edk::float32,4u,4u>* matrixTemp,edk::uint32 position){
+void edk::shape::Mesh3D::drawOneTextureWithMatrix(edk::vector::Matrixf32<4u,4u>* matrix,edk::vector::Matrixf32<4u,4u>* matrixTemp,edk::uint32 position){
     if(matrix){
         //set the texture if have one
         if(this->material.haveTexture()){
@@ -1149,7 +1149,7 @@ bool edk::shape::Mesh3D::selectedDrawOneTexture(){
     }
     return false;
 }
-bool edk::shape::Mesh3D::selectedDrawOneTextureWithMatrix(edk::vector::Matrix<edk::float32,4u,4u>* matrix,edk::vector::Matrix<edk::float32,4u,4u>* matrixTemp){
+bool edk::shape::Mesh3D::selectedDrawOneTextureWithMatrix(edk::vector::Matrixf32<4u,4u>* matrix,edk::vector::Matrixf32<4u,4u>* matrixTemp){
     if(matrix){
         if(this->selected){
             //set the texture if have one
@@ -1189,7 +1189,7 @@ bool edk::shape::Mesh3D::selectedDrawOneTexture(edk::uint32 position){
     }
     return false;
 }
-bool edk::shape::Mesh3D::selectedDrawOneTextureWithMatrix(edk::vector::Matrix<edk::float32,4u,4u>* matrix,edk::vector::Matrix<edk::float32,4u,4u>* matrixTemp,edk::uint32 position){
+bool edk::shape::Mesh3D::selectedDrawOneTextureWithMatrix(edk::vector::Matrixf32<4u,4u>* matrix,edk::vector::Matrixf32<4u,4u>* matrixTemp,edk::uint32 position){
     if(matrix){
         if(this->selected){
             //set the texture if have one
@@ -1227,7 +1227,7 @@ void edk::shape::Mesh3D::drawMultiTexture(){
         this->drawPolygons();edkEnd();
     }
 }
-void edk::shape::Mesh3D::drawMultiTextureWithMatrix(edk::vector::Matrix<edk::float32,4u,4u>* matrix,edk::vector::Matrix<edk::float32,4u,4u>* matrixTemp){
+void edk::shape::Mesh3D::drawMultiTextureWithMatrix(edk::vector::Matrixf32<4u,4u>* matrix,edk::vector::Matrixf32<4u,4u>* matrixTemp){
     if(matrix){
         //set the texture if have one
         if(this->material.haveTexture()){
@@ -1263,7 +1263,7 @@ bool edk::shape::Mesh3D::selectedDrawMultiTexture(){
     }
     return false;
 }
-bool edk::shape::Mesh3D::selectedDrawMultiTextureWithMatrix(edk::vector::Matrix<edk::float32,4u,4u>* matrix,edk::vector::Matrix<edk::float32,4u,4u>* matrixTemp){
+bool edk::shape::Mesh3D::selectedDrawMultiTextureWithMatrix(edk::vector::Matrixf32<4u,4u>* matrix,edk::vector::Matrixf32<4u,4u>* matrixTemp){
     if(matrix){
         if(this->selected){
             //set the texture if have one
@@ -1289,7 +1289,7 @@ void edk::shape::Mesh3D::drawWire(){
     //else just draw the mesh
     this->drawWirePolygons();edkEnd();
 }
-void edk::shape::Mesh3D::drawWireWithMatrix(edk::vector::Matrix<edk::float32,4u,4u>* matrix,edk::vector::Matrix<edk::float32,4u,4u>* matrixTemp){
+void edk::shape::Mesh3D::drawWireWithMatrix(edk::vector::Matrixf32<4u,4u>* matrix,edk::vector::Matrixf32<4u,4u>* matrixTemp){
     if(matrix){
         this->material.drawNoTexture();edkEnd();
         //else just draw the mesh

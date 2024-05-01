@@ -120,7 +120,7 @@ bool edk::physics2D::PhysicObject2D::writeBoundingBoxPhysic(edk::rectf32* rect){
     }
     return false;
 }
-bool edk::physics2D::PhysicObject2D::writeBoundingBoxPhysic(edk::rectf32* rect,edk::vector::Matrix<edk::float32,3,3>* transformMat){
+bool edk::physics2D::PhysicObject2D::writeBoundingBoxPhysic(edk::rectf32* rect,edk::vector::Matrixf32<3u,3u>* transformMat){
     //first copy the matrix
     if(this->physicMatrixTransform.cloneFrom(transformMat)){
         //generate transform matrices
@@ -236,13 +236,13 @@ bool edk::physics2D::PhysicObject2D::haveSettedAngularVelocity(){
 bool edk::physics2D::PhysicObject2D::calculateBoundingBoxPhysic(){
     return this->writeBoundingBoxPhysic(&this->boundingBoxPhysic);
 }
-bool edk::physics2D::PhysicObject2D::calculateBoundingBoxPhysic(edk::vector::Matrix<edk::float32,3,3>* transformMat){
+bool edk::physics2D::PhysicObject2D::calculateBoundingBoxPhysic(edk::vector::Matrixf32<3u,3u>* transformMat){
     return this->writeBoundingBoxPhysic(&this->boundingBoxPhysic,transformMat);
 }
 bool edk::physics2D::PhysicObject2D::generateBoundingBoxPhysic(){
     return this->writeBoundingBoxPhysic(&this->boundingBoxPhysic);
 }
-bool edk::physics2D::PhysicObject2D::generateBoundingBoxPhysic(edk::vector::Matrix<edk::float32,3,3>* transformMat){
+bool edk::physics2D::PhysicObject2D::generateBoundingBoxPhysic(edk::vector::Matrixf32<3u,3u>* transformMat){
     return this->writeBoundingBoxPhysic(&this->boundingBoxPhysic,transformMat);
 }
 //functions to calculate a new boundingBoxPhysic
@@ -251,7 +251,7 @@ edk::rectf32 edk::physics2D::PhysicObject2D::calculateNewBoundingBoxPhysic(){
     this->writeBoundingBoxPhysic(&ret);
     return ret;
 }
-edk::rectf32 edk::physics2D::PhysicObject2D::calculateNewBoundingBoxPhysic(edk::vector::Matrix<edk::float32,3,3>* transformMat){
+edk::rectf32 edk::physics2D::PhysicObject2D::calculateNewBoundingBoxPhysic(edk::vector::Matrixf32<3u,3u>* transformMat){
     edk::rectf32 ret;
     this->writeBoundingBoxPhysic(&ret,transformMat);
     return ret;
@@ -261,7 +261,7 @@ edk::rectf32 edk::physics2D::PhysicObject2D::generateNewBoundingBoxPhysic(){
     this->writeBoundingBoxPhysic(&ret);
     return ret;
 }
-edk::rectf32 edk::physics2D::PhysicObject2D::generateNewBoundingBoxPhysic(edk::vector::Matrix<edk::float32,3,3>* transformMat){
+edk::rectf32 edk::physics2D::PhysicObject2D::generateNewBoundingBoxPhysic(edk::vector::Matrixf32<3u,3u>* transformMat){
     edk::rectf32 ret;
     this->writeBoundingBoxPhysic(&ret,transformMat);
     return ret;
@@ -360,7 +360,7 @@ bool edk::physics2D::PhysicObject2D::getWorldPolygonPhysic(edk::shape::Polygon2D
     }
     return ret;
 }
-bool edk::physics2D::PhysicObject2D::getWorldPolygonPhysic(edk::shape::Polygon2D* dest,edk::uint32 polygonPosition,edk::vector::Matrix<edk::float32,3,3>* transformMat){
+bool edk::physics2D::PhysicObject2D::getWorldPolygonPhysic(edk::shape::Polygon2D* dest,edk::uint32 polygonPosition,edk::vector::Matrixf32<3u,3u>* transformMat){
     bool ret=false;edkEnd();
     if(dest){
         //first copy the matrix

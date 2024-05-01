@@ -78,14 +78,14 @@ public:
 
     //function to calculate physicBoundingBox
     bool calculateBoundingBoxPhysic();
-    bool calculateBoundingBoxPhysic(edk::vector::Matrix<edk::float32,3,3>* transformMat);
+    bool calculateBoundingBoxPhysic(edk::vector::Matrixf32<3u,3u>* transformMat);
     bool generateBoundingBoxPhysic();
-    bool generateBoundingBoxPhysic(edk::vector::Matrix<edk::float32,3,3>* transformMat);
+    bool generateBoundingBoxPhysic(edk::vector::Matrixf32<3u,3u>* transformMat);
     //functions to calculate a new boundingBoxPhysic
     edk::rectf32 calculateNewBoundingBoxPhysic();
-    edk::rectf32 calculateNewBoundingBoxPhysic(edk::vector::Matrix<edk::float32,3,3>* transformMat);
+    edk::rectf32 calculateNewBoundingBoxPhysic(edk::vector::Matrixf32<3u,3u>* transformMat);
     edk::rectf32 generateNewBoundingBoxPhysic();
-    edk::rectf32 generateNewBoundingBoxPhysic(edk::vector::Matrix<edk::float32,3,3>* transformMat);
+    edk::rectf32 generateNewBoundingBoxPhysic(edk::vector::Matrixf32<3u,3u>* transformMat);
     //return a copy of the physicBoundingBox
     edk::rectf32 getBoundingBoxPhysic();
 
@@ -112,7 +112,7 @@ public:
 
     //get world polygon
     bool getWorldPolygonPhysic(edk::shape::Polygon2D* dest,edk::uint32 polygonPosition);
-    bool getWorldPolygonPhysic(edk::shape::Polygon2D* dest,edk::uint32 polygonPosition,edk::vector::Matrix<edk::float32,3,3>* transformMat);
+    bool getWorldPolygonPhysic(edk::shape::Polygon2D* dest,edk::uint32 polygonPosition,edk::vector::Matrixf32<3u,3u>* transformMat);
 
     void drawPhysics();
     void drawWirePhysics();
@@ -142,13 +142,13 @@ private:
     edk::rectf32 boundingBoxPhysic;
 
     bool writeBoundingBoxPhysic(edk::rectf32* rect);
-    bool writeBoundingBoxPhysic(edk::rectf32* rect,edk::vector::Matrix<edk::float32,3,3>* transformMat);
+    bool writeBoundingBoxPhysic(edk::rectf32* rect,edk::vector::Matrixf32<3u,3u>* transformMat);
     //transform matrices
-    edk::vector::Matrix<edk::float32,3u,3u> physicMatrixPosition;
-    edk::vector::Matrix<edk::float32,3u,3u> physicMatrixPivo;
-    edk::vector::Matrix<edk::float32,3u,3u> physicMatrixAngle;
-    edk::vector::Matrix<edk::float32,3u,3u> physicMatrixSize;
-    edk::vector::Matrix<edk::float32,3,3> physicMatrixTransform;
+    edk::vector::Matrixf32<3u,3u> physicMatrixPosition;
+    edk::vector::Matrixf32<3u,3u> physicMatrixPivo;
+    edk::vector::Matrixf32<3u,3u> physicMatrixAngle;
+    edk::vector::Matrixf32<3u,3u> physicMatrixSize;
+    edk::vector::Matrixf32<3u,3u> physicMatrixTransform;
 
     virtual edk::physics2D::PhysicObject2D operator=(edk::physics2D::PhysicObject2D obj){
         //copy the object

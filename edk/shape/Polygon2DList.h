@@ -76,9 +76,9 @@ public:
     edk::float32 getPolygonRestitution(edk::uint32 position);
 
     //function to calculate boundingBox
-    bool calculateBoundingBox(edk::rectf32* rectangle,edk::vector::Matrix<edk::float32,3,3>* transformMat);
-    edk::rectf32 generateBoundingBox(edk::vector::Matrix<edk::float32,3,3>* transformMat);
-    bool getWorldPolygon(edk::shape::Polygon2D* dest,edk::uint32 polygonPosition,edk::vector::Matrix<edk::float32,3,3>* transformMat);
+    bool calculateBoundingBox(edk::rectf32* rectangle,edk::vector::Matrixf32<3u,3u>* transformMat);
+    edk::rectf32 generateBoundingBox(edk::vector::Matrixf32<3u,3u>* transformMat);
+    bool getWorldPolygon(edk::shape::Polygon2D* dest,edk::uint32 polygonPosition,edk::vector::Matrixf32<3u,3u>* transformMat);
 
     //ADD
     //add a polygon to the mesh

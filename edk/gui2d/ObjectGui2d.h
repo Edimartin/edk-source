@@ -165,14 +165,14 @@ public:
 
     //function to calculate boundingBox
     bool calculateBoundingBox();
-    bool calculateBoundingBox(edk::vector::Matrix<edk::float32,3,3>* transformMat);
+    bool calculateBoundingBox(edk::vector::Matrixf32<3u,3u>* transformMat);
     bool generateBoundingBox();
-    bool generateBoundingBox(edk::vector::Matrix<edk::float32,3,3>* transformMat);
+    bool generateBoundingBox(edk::vector::Matrixf32<3u,3u>* transformMat);
     //functions to calculate a new boundingBox
     edk::rectf32 calculateNewBoundingBox();
-    edk::rectf32 calculateNewBoundingBox(edk::vector::Matrix<edk::float32,3,3>* transformMat);
+    edk::rectf32 calculateNewBoundingBox(edk::vector::Matrixf32<3u,3u>* transformMat);
     edk::rectf32 generateNewBoundingBox();
-    edk::rectf32 generateNewBoundingBox(edk::vector::Matrix<edk::float32,3,3>* transformMat);
+    edk::rectf32 generateNewBoundingBox(edk::vector::Matrixf32<3u,3u>* transformMat);
 
     //return a copy of the boundingBox
     edk::rectf32 getBoundingBox();
@@ -252,17 +252,17 @@ protected:
     edk::vec2f32 savePosition;
 
     //transform matrices
-    edk::vector::Matrix<edk::float32,3u,3u> matrixPosition;
-    edk::vector::Matrix<edk::float32,3u,3u> matrixPivo;
-    edk::vector::Matrix<edk::float32,3u,3u> matrixAngle;
-    edk::vector::Matrix<edk::float32,3u,3u> matrixSize;
-    edk::vector::Matrix<edk::float32,3u,3u> matrixTransform;
+    edk::vector::Matrixf32<3u,3u> matrixPosition;
+    edk::vector::Matrixf32<3u,3u> matrixPivo;
+    edk::vector::Matrixf32<3u,3u> matrixAngle;
+    edk::vector::Matrixf32<3u,3u> matrixSize;
+    edk::vector::Matrixf32<3u,3u> matrixTransform;
 
     //object boundingBox
     edk::rectf32 boundingBox;
 
     bool writeBoundingBox(edk::rectf32* rect);
-    bool writeBoundingBox(edk::rectf32* rect,edk::vector::Matrix<edk::float32,3,3>* transformMat);
+    bool writeBoundingBox(edk::rectf32* rect,edk::vector::Matrixf32<3u,3u>* transformMat);
 private:
     edk::classID classThis;
 };

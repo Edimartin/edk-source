@@ -79,25 +79,25 @@ public:
 
     //function to calculate boundingBox
     bool calculateBoundingBox();
-    bool calculateBoundingBox(edk::vector::Matrix<edk::float32,3,3>* transformMat);
+    bool calculateBoundingBox(edk::vector::Matrixf32<3u,3u>* transformMat);
     bool generateBoundingBox();
-    bool generateBoundingBox(edk::vector::Matrix<edk::float32,3,3>* transformMat);
+    bool generateBoundingBox(edk::vector::Matrixf32<3u,3u>* transformMat);
     //functions to calculate a new boundingBox
     edk::rectf32 calculateNewBoundingBox();
-    edk::rectf32 calculateNewBoundingBox(edk::vector::Matrix<edk::float32,3,3>* transformMat);
+    edk::rectf32 calculateNewBoundingBox(edk::vector::Matrixf32<3u,3u>* transformMat);
     edk::rectf32 generateNewBoundingBox();
-    edk::rectf32 generateNewBoundingBox(edk::vector::Matrix<edk::float32,3,3>* transformMat);
+    edk::rectf32 generateNewBoundingBox(edk::vector::Matrixf32<3u,3u>* transformMat);
 
     //function to calculate boundingBox
     bool calculateBoundingBoxNoChildrem();
-    bool calculateBoundingBoxNoChildrem(edk::vector::Matrix<edk::float32,3,3>* transformMat);
+    bool calculateBoundingBoxNoChildrem(edk::vector::Matrixf32<3u,3u>* transformMat);
     bool generateBoundingBoxNoChildrem();
-    bool generateBoundingBoxNoChildrem(edk::vector::Matrix<edk::float32,3,3>* transformMat);
+    bool generateBoundingBoxNoChildrem(edk::vector::Matrixf32<3u,3u>* transformMat);
     //functions to calculate a new boundingBox
     edk::rectf32 calculateNewBoundingBoxNoChildrem();
-    edk::rectf32 calculateNewBoundingBoxNoChildrem(edk::vector::Matrix<edk::float32,3,3>* transformMat);
+    edk::rectf32 calculateNewBoundingBoxNoChildrem(edk::vector::Matrixf32<3u,3u>* transformMat);
     edk::rectf32 generateNewBoundingBoxNoChildrem();
-    edk::rectf32 generateNewBoundingBoxNoChildrem(edk::vector::Matrix<edk::float32,3,3>* transformMat);
+    edk::rectf32 generateNewBoundingBoxNoChildrem(edk::vector::Matrixf32<3u,3u>* transformMat);
 
     //return a copy of the boundingBox
     edk::rectf32 getBoundingBox();
@@ -126,7 +126,7 @@ public:
 
     //get world polygon
     bool getWorldPolygon(edk::shape::Polygon2D* dest,edk::uint32 meshPosition,edk::uint32 polygonPosition);
-    bool getWorldPolygon(edk::shape::Polygon2D* dest,edk::uint32 meshPosition,edk::uint32 polygonPosition,edk::vector::Matrix<edk::float32,3,3>* transformMat);
+    bool getWorldPolygon(edk::shape::Polygon2D* dest,edk::uint32 meshPosition,edk::uint32 polygonPosition,edk::vector::Matrixf32<3u,3u>* transformMat);
 
     //LIGHT
     bool setLight(edk::uint32 position,edk::light::Light light);
@@ -243,9 +243,16 @@ public:
     void cantDeleteObject2D();
 
     //connect another object into this
-    virtual bool connectObject(edk::Object2D* obj);
-    virtual bool disconnectObject(edk::Object2D* obj);
-    virtual void cleanConnectedObjects();
+    virtual bool connectObjectBack(edk::Object2D* obj);
+    virtual bool updateConnectedObjectBackValues(edk::Object2D* obj);
+    virtual bool haveConnectedObjectBack(edk::Object2D* obj);
+    virtual bool disconnectObjectBack(edk::Object2D* obj);
+    virtual void cleanConnectedObjectsBack();
+    virtual bool connectObjectFront(edk::Object2D* obj);
+    virtual bool updateConnectedObjectFrontValues(edk::Object2D* obj);
+    virtual bool haveConnectedObjectFront(edk::Object2D* obj);
+    virtual bool disconnectObjectFront(edk::Object2D* obj);
+    virtual void cleanConnectedObjectsFront();
 
     virtual bool cloneFrom(edk::Object2D* obj);
 
@@ -432,11 +439,11 @@ private:
     edk::animation::ActionGroup actions;
     */
     //transform matrices
-    edk::vector::Matrix<edk::float32,3u,3u> matrixPosition;
-    edk::vector::Matrix<edk::float32,3u,3u> matrixPivo;
-    edk::vector::Matrix<edk::float32,3u,3u> matrixAngle;
-    edk::vector::Matrix<edk::float32,3u,3u> matrixSize;
-    edk::vector::Matrix<edk::float32,3u,3u> matrixTransform;
+    edk::vector::Matrixf32<3u,3u> matrixPosition;
+    edk::vector::Matrixf32<3u,3u> matrixPivo;
+    edk::vector::Matrixf32<3u,3u> matrixAngle;
+    edk::vector::Matrixf32<3u,3u> matrixSize;
+    edk::vector::Matrixf32<3u,3u> matrixTransform;
 
     //save the position to test if are connected
     edk::vec2f32  savePosition;
@@ -446,45 +453,84 @@ private:
     edk::size2f32 newSize;
 
     //connected objects tree
-    edk::vector::BinaryTree<edk::Object2D*> childrems;
+    edk::vector::BinaryTree<edk::Object2D*> childremsFront;
+    edk::vector::BinaryTree<edk::Object2D*> childremsBack;
     edk::Object2D* father;
 
 
     //object boundingBox
     edk::rectf32 boundingBox;
 
-    void writeFatherBoundingBox(edk::rectf32* rect,edk::vector::Matrix<edk::float32,3,3>* transformMat);
+    void writeFatherBoundingBox(edk::rectf32* rect,edk::vector::Matrixf32<3u,3u>* transformMat);
     bool writeBoundingBox(edk::rectf32* rect);
-    bool writeBoundingBox(edk::rectf32* rect,edk::vector::Matrix<edk::float32,3,3>* transformMat);
+    bool writeBoundingBox(edk::rectf32* rect,edk::vector::Matrixf32<3u,3u>* transformMat);
     bool writeChildremBoundingBox(edk::rectf32* rect);
-    bool writeChildremBoundingBox(edk::rectf32* rect,edk::vector::Matrix<edk::float32,3,3>* transformMat);
+    bool writeChildremBoundingBox(edk::rectf32* rect,edk::vector::Matrixf32<3u,3u>* transformMat);
 
     //Function to read the actions
     static edk::Action* readXMLAction(edk::classID thisPointer,edk::uint32 actionCode);
 
     //draw the mesh
+    void drawChildremsBackBoundingBox();
+    void drawChildBackBoundingBox();
+    void drawChildremsFrontBoundingBox();
+    void drawChildFrontBoundingBox();
     void drawChildremsBoundingBox();
     void drawChildBoundingBox();
+    void drawChildremsBack(bool haveLight);
+    void drawChildBack(bool haveLight);
+    void drawChildremsFront(bool haveLight);
+    void drawChildFront(bool haveLight);
     void drawChildrems(bool haveLight);
     void drawChild(bool haveLight);
+    void drawChildremsBackOneTexture();
+    void drawChildBackOneTexture();
+    void drawChildremsFrontOneTexture();
+    void drawChildFrontOneTexture();
     void drawChildremsOneTexture();
     void drawChildOneTexture();
+    void drawChildremsBackOneTextureWithLight(bool haveLight);
+    void drawChildBackOneTextureWithLight(bool haveLight);
+    void drawChildremsFrontOneTextureWithLight(bool haveLight);
+    void drawChildFrontOneTextureWithLight(bool haveLight);
     void drawChildremsOneTextureWithLight(bool haveLight);
     void drawChildOneTextureWithLight(bool haveLight);
+    void drawChildremsBackWithoutMaterial();
+    void drawChildBackWithoutMaterial();
+    void drawChildremsFrontWithoutMaterial();
+    void drawChildFrontWithoutMaterial();
     void drawChildremsWithoutMaterial();
     void drawChildWithoutMaterial();
+    void drawChildremsBackWithoutMaterialWithLight(bool haveLight);
+    void drawChildBackWithoutMaterialWithLight(bool haveLight);
+    void drawChildremsFrontWithoutMaterialWithLight(bool haveLight);
+    void drawChildFrontWithoutMaterialWithLight(bool haveLight);
     void drawChildremsWithoutMaterialWithLight(bool haveLight);
     void drawChildWithoutMaterialWithLight(bool haveLight);
+    void drawChildremsBackWire();
+    void drawChildBackWire();
+    void drawChildremsFrontWire();
+    void drawChildFrontWire();
     void drawChildremsWire();
     void drawChildWire();
     //draw the pivo
+    void drawChildremsBackPivo(edk::float32 size,edk::color3f32 color);
+    void drawChildBackPivo(edk::float32 size,edk::color3f32 color);
+    void drawChildremsFrontPivo(edk::float32 size,edk::color3f32 color);
+    void drawChildFrontPivo(edk::float32 size,edk::color3f32 color);
     void drawChildremsPivo(edk::float32 size,edk::color3f32 color);
     void drawChildPivo(edk::float32 size,edk::color3f32 color);
+    void drawChildremsBackPivo(edk::float32 size,edk::float32 r,edk::float32 g,edk::float32 b);
+    void drawChildBackPivo(edk::float32 size,edk::float32 r,edk::float32 g,edk::float32 b);
+    void drawChildremsFrontPivo(edk::float32 size,edk::float32 r,edk::float32 g,edk::float32 b);
+    void drawChildFrontPivo(edk::float32 size,edk::float32 r,edk::float32 g,edk::float32 b);
     void drawChildremsPivo(edk::float32 size,edk::float32 r,edk::float32 g,edk::float32 b);
     void drawChildPivo(edk::float32 size,edk::float32 r,edk::float32 g,edk::float32 b);
     //update animations
-    bool updateChildremsAnimations();
-    bool updateChildremsAnimations(edk::float32 seconds);
+    void updateChildremsAnimations();
+    void updateChildremsAnimations(edk::float32 seconds);
+    //update the values from father
+    bool updateValuesFromFather(edk::vector::Matrixf32<3u,3u>* matrixTransform);
 
     //load sve identity
     inline void loadSaveIdentityValues(){
@@ -558,18 +604,20 @@ private:
         if(this->father){
             if(this->haveChangePosition()){
                 //update the position
+                /*
                 this->connectedPosition.x+=(this->position.x - this->savePosition.x - this->father->position.x)*this->newSize.width;
                 this->connectedPosition.y+=(this->position.y - this->savePosition.y - this->father->position.y)*this->newSize.height;
+                */
                 this->savePositionValue();
             }
             if(this->haveChangeSize()){
                 //update the size
-                this->connectedSize+=(this->size-this->saveSize)*this->newSize;
+                //this->connectedSize+=(this->size-this->saveSize)*this->newSize;
                 this->saveSizeValue();
             }
             if(this->haveChangeAngle()){
                 //update the angle
-                this->connectedAngle+=this->angle-this->saveAngle;
+                //this->connectedAngle+=this->angle-this->saveAngle;
                 this->saveAngleValue();
             }
             if(this->haveChangePivo()){

@@ -63,6 +63,11 @@ void edk::Object2DValues::connectedLoadIdentityValues(){
     this->connectedAngle = 0.f;edkEnd();
     this->connectedSize = edk::size2f32(1,1);edkEnd();
 }
+void edk::Object2DValues::updateValuesFromConnected(){
+    this->position = this->connectedPosition;edkEnd();
+    this->angle = this->connectedAngle;edkEnd();
+    this->size = this->connectedSize;edkEnd();
+}
 
 //draw the pivo
 void edk::Object2DValues::drawPivo(edk::float32 ,edk::color3f32 ){

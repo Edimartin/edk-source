@@ -173,7 +173,7 @@ public:
         return false;
     }
 
-    //write memset in to file
+    //write memcopy in to file
     static inline bool writeMemCpyDebug(edk::uint64 line,const edk::char8* fileName,const edk::char8* funcName, edk::uint64 size){
         return edk::DebugFile::writeMemCpyDebug(line,(edk::char8*) fileName,(edk::char8*) funcName,size);
     }
@@ -208,6 +208,60 @@ public:
                             if(edk::DebugFile::file.writeText(" ")){
                                 if(edk::DebugFile::file.writeText(edk::DebugFile::getPID())){
                                     if(edk::DebugFile::file.writeText(" memCpySize(")){
+                                        if(edk::DebugFile::file.writeText(size)){
+                                            if(edk::DebugFile::file.writeText(")\n")){
+                                                //flush the file
+                                                edk::DebugFile::file.flush();
+                                                return true;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+#endif
+        return false;
+    }
+
+    //write memcopy in to file
+    static inline bool writeMemCmpDebug(edk::uint64 line,const edk::char8* fileName,const edk::char8* funcName, edk::uint64 size){
+        return edk::DebugFile::writeMemCmpDebug(line,(edk::char8*) fileName,(edk::char8*) funcName,size);
+    }
+    static inline bool writeMemCmpDebug(edk::uint64
+                                    #if defined(EDK_DEBUGGER) || defined(EDK_DEBUG_MEMSET) || defined(EDK_DEBUG_MEMCMP)
+                                        line
+                                    #endif
+                                        ,edk::char8*
+                                    #if defined(EDK_DEBUGGER) || defined(EDK_DEBUG_MEMSET) || defined(EDK_DEBUG_MEMCMP)
+                                        fileName
+                                    #endif
+                                        ,edk::char8*
+                                    #if defined(EDK_DEBUGGER) || defined(EDK_DEBUG_MEMSET) || defined(EDK_DEBUG_MEMCMP)
+                                        funcName
+                                    #endif
+                                        ,edk::uint64
+                                    #if defined(EDK_DEBUGGER) || defined(EDK_DEBUG_MEMSET) || defined(EDK_DEBUG_MEMCMP)
+                                        size
+                                    #endif
+                                        ){
+#if defined(EDK_DEBUGGER) || defined(EDK_DEBUG_MEMSET) || defined(EDK_DEBUG_MEMCMP)
+        //test if haven't open the file
+        if(!edk::DebugFile::file.isOpened()){
+            //create the file
+            edk::DebugFile::newFile(EDK_DEBUG_FILE_NAME);
+        }
+        if(edk::DebugFile::file.writeText(line)){
+            if(edk::DebugFile::file.writeText(" ")){
+                if(edk::DebugFile::file.writeText(fileName)){
+                    if(edk::DebugFile::file.writeText(" ")){
+                        if(edk::DebugFile::file.writeText(funcName)){
+                            if(edk::DebugFile::file.writeText(" ")){
+                                if(edk::DebugFile::file.writeText(edk::DebugFile::getPID())){
+                                    if(edk::DebugFile::file.writeText(" memCmpSize(")){
                                         if(edk::DebugFile::file.writeText(size)){
                                             if(edk::DebugFile::file.writeText(")\n")){
                                                 //flush the file
@@ -265,14 +319,12 @@ private:
 #if defined(EDK_DEBUG_MEMSET)
 #define edkMemSet(vec,set,size) \
     \
-    \
     memset(vec,set,size); \
     edk::DebugFile::writeMemSetDebug(__LINE__,__FILE__,__func__,size); \
     edk::NothingClass::edk_nothing()
 #else
 #define edkMemSet(vec,set,size) \
-    memset(vec,set,size); \
-    edk::NothingClass::edk_nothing()
+    memset(vec,set,size)
 #endif
 
 #if defined(EDK_DEBUG_MEMCPY)
@@ -283,8 +335,19 @@ private:
     edk::NothingClass::edk_nothing()
 #else
 #define edkMemCpy(dest,vec,size) \
-    memcpy(dest,vec,size); \
-    edk::NothingClass::edk_nothing()
+    memcpy(dest,vec,size)
+#endif
+
+#if defined(EDK_DEBUG_MEMCMP)
+#define edkMemCmp(dest,vec,size) \
+    \
+    bool ret = memcmp(dest,vec,size); \
+    edk::DebugFile::writeMemCmpDebug(__LINE__,__FILE__,__func__,size); \
+    edk::NothingClass::edk_nothing() \
+    return ret
+#else
+#define edkMemCmp(dest,vec,size) \
+    memcmp(dest,vec,size)
 #endif
 
 #endif // DEBUGFILE_H

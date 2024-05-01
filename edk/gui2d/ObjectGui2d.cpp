@@ -88,7 +88,7 @@ bool edk::gui2d::ObjectGui2d::writeBoundingBox(edk::rectf32* rect){
 
     return this->obj.calculateMeshBoundingBox(rect,&this->matrixTransform);
 }
-bool edk::gui2d::ObjectGui2d::writeBoundingBox(edk::rectf32* rect,edk::vector::Matrix<edk::float32,3,3>* transformMat){
+bool edk::gui2d::ObjectGui2d::writeBoundingBox(edk::rectf32* rect,edk::vector::Matrixf32<3u,3u>* transformMat){
     //first copy the matrix
     if(this->matrixTransform.cloneFrom(transformMat)){
         //generate transform matrices
@@ -734,13 +734,13 @@ void edk::gui2d::ObjectGui2d::cleanText(){
 bool edk::gui2d::ObjectGui2d::calculateBoundingBox(){
     return this->writeBoundingBox(&this->boundingBox);
 }
-bool edk::gui2d::ObjectGui2d::calculateBoundingBox(edk::vector::Matrix<edk::float32,3,3>* transformMat){
+bool edk::gui2d::ObjectGui2d::calculateBoundingBox(edk::vector::Matrixf32<3u,3u>* transformMat){
     return this->writeBoundingBox(&this->boundingBox,transformMat);
 }
 bool edk::gui2d::ObjectGui2d::generateBoundingBox(){
     return this->writeBoundingBox(&this->boundingBox);
 }
-bool edk::gui2d::ObjectGui2d::generateBoundingBox(edk::vector::Matrix<edk::float32,3,3>* transformMat){
+bool edk::gui2d::ObjectGui2d::generateBoundingBox(edk::vector::Matrixf32<3u,3u>* transformMat){
     return this->writeBoundingBox(&this->boundingBox,transformMat);
 }
 //functions to calculate a new boundingBox
@@ -749,7 +749,7 @@ edk::rectf32 edk::gui2d::ObjectGui2d::calculateNewBoundingBox(){
     this->writeBoundingBox(&ret);
     return ret;
 }
-edk::rectf32 edk::gui2d::ObjectGui2d::calculateNewBoundingBox(edk::vector::Matrix<edk::float32,3,3>* transformMat){
+edk::rectf32 edk::gui2d::ObjectGui2d::calculateNewBoundingBox(edk::vector::Matrixf32<3u,3u>* transformMat){
     edk::rectf32 ret;
     this->writeBoundingBox(&ret,transformMat);
     return ret;
@@ -759,7 +759,7 @@ edk::rectf32 edk::gui2d::ObjectGui2d::generateNewBoundingBox(){
     this->writeBoundingBox(&ret);
     return ret;
 }
-edk::rectf32 edk::gui2d::ObjectGui2d::generateNewBoundingBox(edk::vector::Matrix<edk::float32,3,3>* transformMat){
+edk::rectf32 edk::gui2d::ObjectGui2d::generateNewBoundingBox(edk::vector::Matrixf32<3u,3u>* transformMat){
     edk::rectf32 ret;
     this->writeBoundingBox(&ret,transformMat);
     return ret;

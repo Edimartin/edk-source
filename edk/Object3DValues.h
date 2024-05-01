@@ -64,6 +64,7 @@ protected:
     edk::size3f32 connectedSize;
 
     void connectedLoadIdentityValues();
+    void updateValuesFromConnected();
 private:
     edk::classID classThis;
 };

@@ -110,6 +110,7 @@ protected:
     edk::size2f32 connectedSize;
 
     void connectedLoadIdentityValues();
+    void updateValuesFromConnected();
 private:
     edk::classID classThis;
 };

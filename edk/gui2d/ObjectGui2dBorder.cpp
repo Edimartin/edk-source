@@ -1687,7 +1687,7 @@ void edk::gui2d::ObjectGui2dBorder::Constructor(bool /*runFather*/){
     }
 }
 
-bool edk::gui2d::ObjectGui2dBorder::calculateMeshBoundingBox(edk::rectf32* rect,edk::vector::Matrix<edk::float32,3,3>* transformMat){
+bool edk::gui2d::ObjectGui2dBorder::calculateMeshBoundingBox(edk::rectf32* rect,edk::vector::Matrixf32<3u,3u>* transformMat){
     if(this->mesh.getPolygonSize()){
         *rect = this->mesh.generateBoundingBox(transformMat);edkEnd();
         return true;

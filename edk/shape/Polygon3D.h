@@ -78,20 +78,20 @@ public:
     virtual bool print();
     //draw the polygon
     virtual void draw();
-    virtual void drawWithMatrix(edk::vector::Matrix<edk::float32,4u,4u>* matrix,edk::vector::Matrix<edk::float32,4u,4u>* matrixTemp);
+    virtual void drawWithMatrix(edk::vector::Matrixf32<4u,4u>* matrix,edk::vector::Matrixf32<4u,4u>* matrixTemp);
     //Draw the polygon with lines
     virtual void drawWire();
-    virtual void drawWireWithMatrix(edk::vector::Matrix<edk::float32,4u,4u>* matrix,edk::vector::Matrix<edk::float32,4u,4u>* matrixTemp);
+    virtual void drawWireWithMatrix(edk::vector::Matrixf32<4u,4u>* matrix,edk::vector::Matrixf32<4u,4u>* matrixTemp);
     virtual void drawWireWithColor(edk::color4f32 color=edk::color4f32(1,1,1,1));
-    virtual void drawWithWireWithMatrixWithColor(edk::vector::Matrix<edk::float32,4u,4u>* matrix,edk::vector::Matrix<edk::float32,4u,4u>* matrixTemp,edk::color4f32 color=edk::color4f32(1,1,1,1));
+    virtual void drawWithWireWithMatrixWithColor(edk::vector::Matrixf32<4u,4u>* matrix,edk::vector::Matrixf32<4u,4u>* matrixTemp,edk::color4f32 color=edk::color4f32(1,1,1,1));
     //draw vertexs
     virtual void drawPolygonVertexs(edk::color4f32 color=edk::color4f32(1,1,1,1));
-    virtual void drawPolygonVertexsWithMatrix(edk::vector::Matrix<edk::float32,4u,4u>* matrix,edk::vector::Matrix<edk::float32,4u,4u>* matrixTemp,edk::color4f32 color=edk::color4f32(1,1,1,1));
+    virtual void drawPolygonVertexsWithMatrix(edk::vector::Matrixf32<4u,4u>* matrix,edk::vector::Matrixf32<4u,4u>* matrixTemp,edk::color4f32 color=edk::color4f32(1,1,1,1));
 
     virtual void drawPolygonNormals();
-    virtual void drawPolygonNormalsWithMatrix(edk::vector::Matrix<edk::float32,4u,4u>* matrix,edk::vector::Matrix<edk::float32,4u,4u>* matrixTemp);
+    virtual void drawPolygonNormalsWithMatrix(edk::vector::Matrixf32<4u,4u>* matrix,edk::vector::Matrixf32<4u,4u>* matrixTemp);
     virtual void drawPolygonNormalsWithColor(edk::color4f32 color=edk::color4f32(1,1,1,1));
-    virtual void drawPolygonNormalsWithMatrixWithColor(edk::vector::Matrix<edk::float32,4u,4u>* matrix,edk::vector::Matrix<edk::float32,4u,4u>* matrixTemp,edk::color4f32 color=edk::color4f32(1,1,1,1));
+    virtual void drawPolygonNormalsWithMatrixWithColor(edk::vector::Matrixf32<4u,4u>* matrix,edk::vector::Matrixf32<4u,4u>* matrixTemp,edk::color4f32 color=edk::color4f32(1,1,1,1));
 
     bool cloneFrom(edk::shape::Polygon3D* poly);
 
@@ -100,11 +100,11 @@ public:
 protected:
     //Draw the polygon
     virtual bool drawVertexs();
-    virtual bool drawVertexsWithMatrix(edk::vector::Matrix<edk::float32,4u,4u>* matrix,edk::vector::Matrix<edk::float32,4u,4u>* matrixTemp);
+    virtual bool drawVertexsWithMatrix(edk::vector::Matrixf32<4u,4u>* matrix,edk::vector::Matrixf32<4u,4u>* matrixTemp);
     virtual bool drawVertexsOnly();
-    virtual bool drawVertexsOnlyWithMatrix(edk::vector::Matrix<edk::float32,4u,4u>* matrix,edk::vector::Matrix<edk::float32,4u,4u>* matrixTemp);
+    virtual bool drawVertexsOnlyWithMatrix(edk::vector::Matrixf32<4u,4u>* matrix,edk::vector::Matrixf32<4u,4u>* matrixTemp);
     virtual bool drawVertexsWithColor(edk::color4f32 color);
-    virtual bool drawVertexsWithMatrixWithColor(edk::vector::Matrix<edk::float32,4u,4u>* matrix,edk::vector::Matrix<edk::float32,4u,4u>* matrixTemp,edk::color4f32 color);
+    virtual bool drawVertexsWithMatrixWithColor(edk::vector::Matrixf32<4u,4u>* matrix,edk::vector::Matrixf32<4u,4u>* matrixTemp,edk::color4f32 color);
 private:
     //save one vertex in the memory to be used in create polygon to not crash the software
     static edk::shape::Vertex3D staticVertex;
@@ -152,7 +152,7 @@ private:
         virtual void draw(){
             this->vertex->drawVertex();edkEnd();
         }
-        virtual void drawWithMatrix(edk::vector::Matrix<edk::float32,4u,4u>* matrix,edk::vector::Matrix<edk::float32,4u,4u>* matrixTemp){
+        virtual void drawWithMatrix(edk::vector::Matrixf32<4u,4u>* matrix,edk::vector::Matrixf32<4u,4u>* matrixTemp){
             if(matrix){
                 this->vertex->drawVertexWithMatrix(matrix,matrixTemp);edkEnd();
             }
@@ -161,7 +161,7 @@ private:
             normal.drawNormal();edkEnd();
             this->vertex->drawVertex();edkEnd();
         }
-        virtual void drawWithMatrixWithNormal(edk::vector::Matrix<edk::float32,4u,4u>* matrix,edk::vector::Matrix<edk::float32,4u,4u>* matrixTemp,edk::shape::Vector3D normal){
+        virtual void drawWithMatrixWithNormal(edk::vector::Matrixf32<4u,4u>* matrix,edk::vector::Matrixf32<4u,4u>* matrixTemp,edk::shape::Vector3D normal){
             if(matrix){
                 normal.drawNormalWithMatrix(matrix,matrixTemp);edkEnd();
                 this->vertex->drawVertexWithMatrix(matrix,matrixTemp);edkEnd();
@@ -170,13 +170,13 @@ private:
         virtual void drawWithoutNormal(){
             this->vertex->drawVertex();edkEnd();
         }
-        virtual void drawWithoutNormalWithMatrix(edk::vector::Matrix<edk::float32,4u,4u>* matrix,edk::vector::Matrix<edk::float32,4u,4u>* matrixTemp){
+        virtual void drawWithoutNormalWithMatrix(edk::vector::Matrixf32<4u,4u>* matrix,edk::vector::Matrixf32<4u,4u>* matrixTemp){
             this->vertex->drawVertexWithMatrix(matrix,matrixTemp);edkEnd();
         }
         void drawVertex(){
             this->vertex->drawVertex();edkEnd();
         }
-        void drawVertexWithMatrix(edk::vector::Matrix<edk::float32,4u,4u>* matrix,edk::vector::Matrix<edk::float32,4u,4u>* matrixTemp){
+        void drawVertexWithMatrix(edk::vector::Matrixf32<4u,4u>* matrix,edk::vector::Matrixf32<4u,4u>* matrixTemp){
             if(matrix){
                 this->vertex->drawVertexWithMatrix(matrix,matrixTemp);edkEnd();
             }
@@ -184,19 +184,19 @@ private:
         void drawWithColor(edk::color4f32 color){
             this->vertex->drawVertexWithColor(color);edkEnd();
         }
-        void drawWithMatrixWithColor(edk::vector::Matrix<edk::float32,4u,4u>* matrix,edk::vector::Matrix<edk::float32,4u,4u>* matrixTemp,edk::color4f32 color){
+        void drawWithMatrixWithColor(edk::vector::Matrixf32<4u,4u>* matrix,edk::vector::Matrixf32<4u,4u>* matrixTemp,edk::color4f32 color){
             if(matrix){
                 this->vertex->drawVertexWithMatrixWithColor(matrix,matrixTemp,color);edkEnd();
             }
         }
         virtual void drawNormal(){}
-        virtual void drawNormalWithMatrix(edk::vector::Matrix<edk::float32,4u,4u>*,edk::vector::Matrix<edk::float32,4u,4u>*){}
+        virtual void drawNormalWithMatrix(edk::vector::Matrixf32<4u,4u>*,edk::vector::Matrixf32<4u,4u>*){}
         virtual void drawNormalWithColor(edk::color4f32){}
-        virtual void drawNormalWithMatrixWithColor(edk::vector::Matrix<edk::float32,4u,4u>*,edk::vector::Matrix<edk::float32,4u,4u>*,edk::color4f32){}
+        virtual void drawNormalWithMatrixWithColor(edk::vector::Matrixf32<4u,4u>*,edk::vector::Matrixf32<4u,4u>*,edk::color4f32){}
         virtual void drawNormalPosition(edk::vec3f32){}
-        virtual void drawNormalPositionWithMatrix(edk::vector::Matrix<edk::float32,3u,3u>*,edk::vec3f32,edk::vector::Matrix<edk::float32,3u,3u>*){}
+        virtual void drawNormalPositionWithMatrix(edk::vector::Matrixf32<3u,3u>*,edk::vec3f32,edk::vector::Matrixf32<3u,3u>*){}
         virtual void drawNormalPositionWithColor(edk::vec3f32,edk::color4f32){}
-        virtual void drawNormalPositionWithMatrixWithColor(edk::vector::Matrix<edk::float32,4u,4u>*,edk::vector::Matrix<edk::float32,4u,4u>*,edk::vec3f32,edk::color4f32){}
+        virtual void drawNormalPositionWithMatrixWithColor(edk::vector::Matrixf32<4u,4u>*,edk::vector::Matrixf32<4u,4u>*,edk::vec3f32,edk::color4f32){}
         virtual void print(){
             this->vertex->printVertex();edkEnd();
         }
@@ -248,7 +248,7 @@ private:
             this->uv->drawUV();edkEnd();
             this->vertex->drawVertex();edkEnd();
         }
-        virtual void drawWithMatrix(edk::vector::Matrix<edk::float32,4u,4u>* matrix,edk::vector::Matrix<edk::float32,4u,4u>* matrixTemp){
+        virtual void drawWithMatrix(edk::vector::Matrixf32<4u,4u>* matrix,edk::vector::Matrixf32<4u,4u>* matrixTemp){
             if(matrix){
                 this->uv->drawUV();edkEnd();
                 this->vertex->drawVertexWithMatrix(matrix,matrixTemp);edkEnd();
@@ -259,7 +259,7 @@ private:
             normal.drawNormal();edkEnd();
             this->vertex->drawVertex();edkEnd();
         }
-        virtual void drawWithMatrixWithNormal(edk::vector::Matrix<edk::float32,4u,4u>* matrix,edk::vector::Matrix<edk::float32,4u,4u>* matrixTemp,edk::shape::Vector3D normal){
+        virtual void drawWithMatrixWithNormal(edk::vector::Matrixf32<4u,4u>* matrix,edk::vector::Matrixf32<4u,4u>* matrixTemp,edk::shape::Vector3D normal){
             if(matrix){
                 this->uv->drawUV();edkEnd();
                 normal.drawNormalWithMatrix(matrix,matrixTemp);edkEnd();
@@ -270,20 +270,20 @@ private:
             this->uv->drawUV();edkEnd();
             this->vertex->drawVertex();edkEnd();
         }
-        virtual void drawWithoutNormalWithMatrix(edk::vector::Matrix<edk::float32,4u,4u>* matrix,edk::vector::Matrix<edk::float32,4u,4u>* matrixTemp){
+        virtual void drawWithoutNormalWithMatrix(edk::vector::Matrixf32<4u,4u>* matrix,edk::vector::Matrixf32<4u,4u>* matrixTemp){
             if(matrix){
                 this->uv->drawUV();edkEnd();
                 this->vertex->drawVertexWithMatrix(matrix,matrixTemp);edkEnd();
             }
         }
         virtual void drawNormal(){}
-        virtual void drawNormalWithMatrix(edk::vector::Matrix<edk::float32,4u,4u>*,edk::vector::Matrix<edk::float32,4u,4u>*){}
+        virtual void drawNormalWithMatrix(edk::vector::Matrixf32<4u,4u>*,edk::vector::Matrixf32<4u,4u>*){}
         virtual void drawNormalWithColor(edk::color4f32){}
-        virtual void drawNormalWithMatrixWithColor(edk::vector::Matrix<edk::float32,4u,4u>*,edk::vector::Matrix<edk::float32,4u,4u>*,edk::color4f32){}
+        virtual void drawNormalWithMatrixWithColor(edk::vector::Matrixf32<4u,4u>*,edk::vector::Matrixf32<4u,4u>*,edk::color4f32){}
         virtual void drawNormalPosition(edk::vec3f32){}
-        virtual void drawNormalPositionWithMatrix(edk::vector::Matrix<edk::float32,4u,4u>*,edk::vector::Matrix<edk::float32,4u,4u>*,edk::vec3f32){}
+        virtual void drawNormalPositionWithMatrix(edk::vector::Matrixf32<4u,4u>*,edk::vector::Matrixf32<4u,4u>*,edk::vec3f32){}
         virtual void drawNormalPositionWithColor(edk::vec3f32,edk::color4f32){}
-        virtual void drawNormalPositionWithMatrixWithColor(edk::vector::Matrix<edk::float32,4u,4u>*,edk::vector::Matrix<edk::float32,4u,4u>*,edk::vec3f32,edk::color4f32){}
+        virtual void drawNormalPositionWithMatrixWithColor(edk::vector::Matrixf32<4u,4u>*,edk::vector::Matrixf32<4u,4u>*,edk::vec3f32,edk::color4f32){}
         virtual void print(){
             this->vertex->printVertex();edkEnd();
             this->uv->printUV();edkEnd();
@@ -338,7 +338,7 @@ private:
             this->normal->drawNormal();edkEnd();
             this->vertex->drawVertex();edkEnd();
         }
-        virtual void drawWithMatrix(edk::vector::Matrix<edk::float32,4u,4u>* matrix,edk::vector::Matrix<edk::float32,4u,4u>* matrixTemp){
+        virtual void drawWithMatrix(edk::vector::Matrixf32<4u,4u>* matrix,edk::vector::Matrixf32<4u,4u>* matrixTemp){
             if(matrix){
                 this->normal->drawNormalWithMatrix(matrix,matrixTemp);edkEnd();
                 this->vertex->drawVertexWithMatrix(matrix,matrixTemp);edkEnd();
@@ -348,7 +348,7 @@ private:
             normal.drawNormal();edkEnd();
             this->vertex->drawVertex();edkEnd();
         }
-        virtual void drawWithMatrixWithNormal(edk::vector::Matrix<edk::float32,4u,4u>* matrix,edk::vector::Matrix<edk::float32,4u,4u>* matrixTemp,edk::shape::Vector3D normal){
+        virtual void drawWithMatrixWithNormal(edk::vector::Matrixf32<4u,4u>* matrix,edk::vector::Matrixf32<4u,4u>* matrixTemp,edk::shape::Vector3D normal){
             if(matrix){
                 normal.drawNormalWithMatrix(matrix,matrixTemp);edkEnd();
                 this->vertex->drawVertexWithMatrix(matrix,matrixTemp);edkEnd();
@@ -357,7 +357,7 @@ private:
         virtual void drawWithoutNormal(){
             this->vertex->drawVertex();edkEnd();
         }
-        virtual void drawWithoutNormalWithMatrix(edk::vector::Matrix<edk::float32,4u,4u>* matrix,edk::vector::Matrix<edk::float32,4u,4u>* matrixTemp){
+        virtual void drawWithoutNormalWithMatrix(edk::vector::Matrixf32<4u,4u>* matrix,edk::vector::Matrixf32<4u,4u>* matrixTemp){
             if(matrix){
                 this->vertex->drawVertexWithMatrix(matrix,matrixTemp);edkEnd();
             }
@@ -366,7 +366,7 @@ private:
             this->vertex->drawVertex();edkEnd();
             this->normal->drawVertexPosition(edk::vec3f32(this->vertex->x,this->vertex->y,this->vertex->z));edkEnd();
         }
-        virtual void drawNormalWithMatrix(edk::vector::Matrix<edk::float32,4u,4u>* matrix,edk::vector::Matrix<edk::float32,4u,4u>* matrixTemp){
+        virtual void drawNormalWithMatrix(edk::vector::Matrixf32<4u,4u>* matrix,edk::vector::Matrixf32<4u,4u>* matrixTemp){
             if(matrix){
                 this->vertex->drawVertexWithMatrix(matrix,matrixTemp);edkEnd();
                 this->normal->drawVertexPositionWithMatrix(matrix,matrixTemp,edk::vec3f32(this->vertex->x,this->vertex->y,this->vertex->z));edkEnd();
@@ -376,7 +376,7 @@ private:
             this->vertex->drawVertexWithColor(color);edkEnd();
             this->normal->drawVertexPosition(edk::vec3f32(this->vertex->x,this->vertex->y,this->vertex->z));edkEnd();
         }
-        virtual void drawNormalWithMatrixWithColor(edk::vector::Matrix<edk::float32,4u,4u>* matrix,edk::vector::Matrix<edk::float32,4u,4u>* matrixTemp,edk::color4f32 color){
+        virtual void drawNormalWithMatrixWithColor(edk::vector::Matrixf32<4u,4u>* matrix,edk::vector::Matrixf32<4u,4u>* matrixTemp,edk::color4f32 color){
             if(matrix){
                 this->vertex->drawVertexWithMatrixWithColor(matrix,matrixTemp,color);edkEnd();
                 this->normal->drawVertexPositionWithMatrix(matrix,matrixTemp,edk::vec3f32(this->vertex->x,this->vertex->y,this->vertex->z));edkEnd();
@@ -386,7 +386,7 @@ private:
             this->vertex->drawVertex();edkEnd();
             this->vertex->drawVertexPosition(position);edkEnd();
         }
-        virtual void drawNormalPositionWithMatrix(edk::vector::Matrix<edk::float32,4u,4u>* matrix,edk::vector::Matrix<edk::float32,4u,4u>* matrixTemp,edk::vec3f32 position){
+        virtual void drawNormalPositionWithMatrix(edk::vector::Matrixf32<4u,4u>* matrix,edk::vector::Matrixf32<4u,4u>* matrixTemp,edk::vec3f32 position){
             if(matrix){
                 this->vertex->drawVertexWithMatrix(matrix,matrixTemp);edkEnd();
                 this->vertex->drawVertexPositionWithMatrix(matrix,matrixTemp,position);edkEnd();
@@ -396,7 +396,7 @@ private:
             this->vertex->drawVertexWithColor(color);edkEnd();
             this->vertex->drawVertexPosition(position);edkEnd();
         }
-        virtual void drawNormalPositionWithMatrixWithColor(edk::vector::Matrix<edk::float32,4u,4u>* matrix,edk::vector::Matrix<edk::float32,4u,4u>* matrixTemp,edk::vec3f32 position,edk::color4f32 color){
+        virtual void drawNormalPositionWithMatrixWithColor(edk::vector::Matrixf32<4u,4u>* matrix,edk::vector::Matrixf32<4u,4u>* matrixTemp,edk::vec3f32 position,edk::color4f32 color){
             if(matrix){
                 this->vertex->drawVertexWithMatrixWithColor(matrix,matrixTemp,color);edkEnd();
                 this->vertex->drawVertexPositionWithMatrix(matrix,matrixTemp,position);edkEnd();
@@ -464,7 +464,7 @@ private:
             this->normal->drawNormal();edkEnd();
             this->vertex->drawVertex();edkEnd();
         }
-        virtual void drawWithMatrix(edk::vector::Matrix<edk::float32,4u,4u>* matrix,edk::vector::Matrix<edk::float32,4u,4u>* matrixTemp){
+        virtual void drawWithMatrix(edk::vector::Matrixf32<4u,4u>* matrix,edk::vector::Matrixf32<4u,4u>* matrixTemp){
             if(matrix){
                 this->uv->drawUV();edkEnd();
                 this->normal->drawNormalWithMatrix(matrix,matrixTemp);edkEnd();
@@ -476,7 +476,7 @@ private:
             normal.drawNormal();edkEnd();
             this->vertex->drawVertex();edkEnd();
         }
-        virtual void drawWithMatrixWithNormal(edk::vector::Matrix<edk::float32,4u,4u>* matrix,edk::vector::Matrix<edk::float32,4u,4u>* matrixTemp,edk::shape::Vector3D normal){
+        virtual void drawWithMatrixWithNormal(edk::vector::Matrixf32<4u,4u>* matrix,edk::vector::Matrixf32<4u,4u>* matrixTemp,edk::shape::Vector3D normal){
             if(matrix){
                 this->uv->drawUV();edkEnd();
                 normal.drawNormalWithMatrix(matrix,matrixTemp);edkEnd();
@@ -487,7 +487,7 @@ private:
             this->uv->drawUV();edkEnd();
             this->vertex->drawVertex();edkEnd();
         }
-        virtual void drawWithoutNormalWithMatrix(edk::vector::Matrix<edk::float32,4u,4u>* matrix,edk::vector::Matrix<edk::float32,4u,4u>* matrixTemp){
+        virtual void drawWithoutNormalWithMatrix(edk::vector::Matrixf32<4u,4u>* matrix,edk::vector::Matrixf32<4u,4u>* matrixTemp){
             if(matrix){
                 this->uv->drawUV();edkEnd();
                 this->vertex->drawVertexWithMatrix(matrix,matrixTemp);edkEnd();
@@ -497,7 +497,7 @@ private:
             this->vertex->drawVertex();edkEnd();
             this->normal->drawVertexPosition(edk::vec3f32(this->vertex->x,this->vertex->y,this->vertex->z));edkEnd();
         }
-        virtual void drawNormalWithMatrix(edk::vector::Matrix<edk::float32,4u,4u>* matrix,edk::vector::Matrix<edk::float32,4u,4u>* matrixTemp){
+        virtual void drawNormalWithMatrix(edk::vector::Matrixf32<4u,4u>* matrix,edk::vector::Matrixf32<4u,4u>* matrixTemp){
             if(matrix){
                 this->vertex->drawVertexWithMatrix(matrix,matrixTemp);edkEnd();
                 this->normal->drawVertexPositionWithMatrix(matrix,matrixTemp,edk::vec3f32(this->vertex->x,this->vertex->y,this->vertex->z));edkEnd();
@@ -507,7 +507,7 @@ private:
             this->vertex->drawVertexWithColor(color);edkEnd();
             this->normal->drawVertexPosition(edk::vec3f32(this->vertex->x,this->vertex->y,this->vertex->z));edkEnd();
         }
-        virtual void drawNormalWithMatrixWithColor(edk::vector::Matrix<edk::float32,4u,4u>* matrix,edk::vector::Matrix<edk::float32,4u,4u>* matrixTemp,edk::color4f32 color){
+        virtual void drawNormalWithMatrixWithColor(edk::vector::Matrixf32<4u,4u>* matrix,edk::vector::Matrixf32<4u,4u>* matrixTemp,edk::color4f32 color){
             if(matrix){
                 this->vertex->drawVertexWithMatrixWithColor(matrix,matrixTemp,color);edkEnd();
                 this->normal->drawVertexPositionWithMatrix(matrix,matrixTemp,edk::vec3f32(this->vertex->x,this->vertex->y,this->vertex->z));edkEnd();
@@ -517,7 +517,7 @@ private:
             this->vertex->drawVertex();edkEnd();
             this->vertex->drawVertexPosition(position);edkEnd();
         }
-        virtual void drawNormalPositionWithMatrix(edk::vector::Matrix<edk::float32,4u,4u>* matrix,edk::vector::Matrix<edk::float32,4u,4u>* matrixTemp,edk::vec3f32 position){
+        virtual void drawNormalPositionWithMatrix(edk::vector::Matrixf32<4u,4u>* matrix,edk::vector::Matrixf32<4u,4u>* matrixTemp,edk::vec3f32 position){
             if(matrix){
                 this->vertex->drawVertexWithMatrix(matrixTemp,matrixTemp);edkEnd();
                 this->vertex->drawVertexPositionWithMatrix(matrix,matrixTemp,position);edkEnd();
@@ -527,7 +527,7 @@ private:
             this->vertex->drawVertexWithColor(color);edkEnd();
             this->vertex->drawVertexPosition(position);edkEnd();
         }
-        virtual void drawNormalPositionWithMatrixWithColor(edk::vector::Matrix<edk::float32,4u,4u>* matrix,edk::vector::Matrix<edk::float32,4u,4u>* matrixTemp,edk::vec3f32 position,edk::color4f32 color){
+        virtual void drawNormalPositionWithMatrixWithColor(edk::vector::Matrixf32<4u,4u>* matrix,edk::vector::Matrixf32<4u,4u>* matrixTemp,edk::vec3f32 position,edk::color4f32 color){
             if(matrix){
             }
             this->vertex->drawVertexWithMatrixWithColor(matrix,matrixTemp,color);edkEnd();
