@@ -165,6 +165,8 @@ public:
     //function to calculate boundingBox
     bool calculateBoundingBox(edk::rectf32* rectangle,edk::vector::Matrixf32<3u,3u>* transformMat);
     edk::rectf32 generateBoundingBox(edk::vector::Matrixf32<3u,3u>* transformMat);
+    bool calculateBoundingPoint(edk::vec2f32* point,edk::vector::Matrixf32<3u,3u>* transformMat);
+    edk::vec2f32 generateBoundingPoint(edk::vector::Matrixf32<3u,3u>* transformMat);
     bool getWorldPolygon(edk::shape::Polygon2D* dest,edk::vector::Matrixf32<3u,3u>* transformMat);
 
     //delete the polygonVertex

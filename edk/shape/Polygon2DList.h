@@ -78,6 +78,8 @@ public:
     //function to calculate boundingBox
     bool calculateBoundingBox(edk::rectf32* rectangle,edk::vector::Matrixf32<3u,3u>* transformMat);
     edk::rectf32 generateBoundingBox(edk::vector::Matrixf32<3u,3u>* transformMat);
+    bool calculateBoundingPoint(edk::vec2f32 point,edk::vec2f32* dest,edk::vector::Matrixf32<3u,3u>* transformMat);
+    edk::vec2f32 generateBoundingPoint(edk::vec2f32 point,edk::vector::Matrixf32<3u,3u>* transformMat);
     bool getWorldPolygon(edk::shape::Polygon2D* dest,edk::uint32 polygonPosition,edk::vector::Matrixf32<3u,3u>* transformMat);
 
     //ADD
@@ -219,6 +221,7 @@ public:
 protected:
     //list of polygons
     edk::vector::Stack<edk::shape::Polygon2D*> polygons;
+    edk::shape::Rectangle2D tempP;
     //mesh selected
     edk::shape::Polygon2D* selected;
 private:

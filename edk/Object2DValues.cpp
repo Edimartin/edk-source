@@ -62,6 +62,7 @@ void edk::Object2DValues::connectedLoadIdentityValues(){
     this->connectedPosition = edk::vec2f32(0,0);edkEnd();
     this->connectedAngle = 0.f;edkEnd();
     this->connectedSize = edk::size2f32(1,1);edkEnd();
+    this->connectedPivo = edk::vec2f32(0,0);edkEnd();
 }
 void edk::Object2DValues::updateValuesFromConnected(){
     this->position = this->connectedPosition;edkEnd();

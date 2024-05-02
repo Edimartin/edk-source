@@ -57,6 +57,13 @@ void edk::shape::Polygon2DList::Constructor(bool /*runFather*/){
         //clean the selected
         this->freeSelected();edkEnd();
         this->canDeleteList=true;edkEnd();
+
+        this->tempP.Constructor();
+        this->tempP.setTranslate(0.f,0.f);
+        this->tempP.setScale(1.f,1.f);
+        this->tempP.setAngle(0.f);
+        this->tempP.setVertexPosition(0u,0.f,0.f);
+        this->tempP.setVertexPosition(1u,1.f,1.f);
     }
 }
 
@@ -274,6 +281,21 @@ edk::rectf32 edk::shape::Polygon2DList::generateBoundingBox(edk::vector::Matrixf
                 }
             }
         }
+    }
+    return ret;
+}
+bool edk::shape::Polygon2DList::calculateBoundingPoint(edk::vec2f32 point,edk::vec2f32* dest,edk::vector::Matrixf32<3u,3u>* transformMat){
+    if(dest && transformMat){
+        this->tempP.setVertexPosition(0u,point);
+        return this->tempP.calculateBoundingPoint(dest,transformMat);
+    }
+    return false;
+}
+edk::vec2f32 edk::shape::Polygon2DList::generateBoundingPoint(edk::vec2f32 point,edk::vector::Matrixf32<3u,3u>* transformMat){
+    edk::vec2f32 ret;edkEnd();
+    if(transformMat){
+        this->tempP.setVertexPosition(0u,point);
+        ret = this->tempP.generateBoundingPoint(transformMat);
     }
     return ret;
 }

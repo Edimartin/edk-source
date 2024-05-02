@@ -106,8 +106,9 @@ protected:
 
     //connected translations
     edk::vec2f32 connectedPosition;
-    edk::float32 connectedAngle;
     edk::size2f32 connectedSize;
+    edk::float32 connectedAngle;
+    edk::vec2f32 connectedPivo;
 
     void connectedLoadIdentityValues();
     void updateValuesFromConnected();

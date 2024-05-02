@@ -8813,11 +8813,11 @@ edk::rectf32 edk::shape::Polygon2D::generateBoundingBox(edk::vector::Matrixf32<3
             //transform all the vertices
             if(this->matrixPosition.haveMatrix()){
                 //transform the first vertex
-                if(vertexs.get(0u)){
+                if(this->vertexs.get(0u)){
                     edk::vec2f32 vexPosition;edkEnd();
                     //
-                    this->matrixPosition.set(0u,0u,vertexs.getNoIF(0u)->position.x);edkEnd();
-                    this->matrixPosition.set(0u,1u,vertexs.getNoIF(0u)->position.y);edkEnd();
+                    this->matrixPosition.set(0u,0u,this->vertexs.getNoIF(0u)->position.x);edkEnd();
+                    this->matrixPosition.set(0u,1u,this->vertexs.getNoIF(0u)->position.y);edkEnd();
                     this->matrixPosition.set(0u,2u,1.f);edkEnd();
 
                     //multiply the matrix
@@ -8829,10 +8829,10 @@ edk::rectf32 edk::shape::Polygon2D::generateBoundingBox(edk::vector::Matrixf32<3
                     ret.size.height = ret.origin.y;edkEnd();
                     if(size==2u){
                         //process the rectangle or line
-                        if(vertexs.get(1u)){
+                        if(this->vertexs.get(1u)){
                             //V0x1
-                            this->matrixPosition.set(0u,0u,vertexs.getNoIF(0u)->position.x);edkEnd();
-                            this->matrixPosition.set(0u,1u,vertexs.getNoIF(1u)->position.y);edkEnd();
+                            this->matrixPosition.set(0u,0u,this->vertexs.getNoIF(0u)->position.x);edkEnd();
+                            this->matrixPosition.set(0u,1u,this->vertexs.getNoIF(1u)->position.y);edkEnd();
                             this->matrixPosition.set(0u,2u,1.f);edkEnd();
 
                             //multiply the matrix
@@ -8855,8 +8855,8 @@ edk::rectf32 edk::shape::Polygon2D::generateBoundingBox(edk::vector::Matrixf32<3
                             }
 
                             //V1x0
-                            this->matrixPosition.set(0u,0u,vertexs.getNoIF(1u)->position.x);edkEnd();
-                            this->matrixPosition.set(0u,1u,vertexs.getNoIF(0u)->position.y);edkEnd();
+                            this->matrixPosition.set(0u,0u,this->vertexs.getNoIF(1u)->position.x);edkEnd();
+                            this->matrixPosition.set(0u,1u,this->vertexs.getNoIF(0u)->position.y);edkEnd();
                             this->matrixPosition.set(0u,2u,1.f);edkEnd();
 
                             //multiply the matrix
@@ -8879,8 +8879,8 @@ edk::rectf32 edk::shape::Polygon2D::generateBoundingBox(edk::vector::Matrixf32<3
                             }
 
                             //V1x1
-                            this->matrixPosition.set(0u,0u,vertexs.getNoIF(1u)->position.x);edkEnd();
-                            this->matrixPosition.set(0u,1u,vertexs.getNoIF(1u)->position.y);edkEnd();
+                            this->matrixPosition.set(0u,0u,this->vertexs.getNoIF(1u)->position.x);edkEnd();
+                            this->matrixPosition.set(0u,1u,this->vertexs.getNoIF(1u)->position.y);edkEnd();
                             this->matrixPosition.set(0u,2u,1.f);edkEnd();
 
                             //multiply the matrix
@@ -8905,9 +8905,9 @@ edk::rectf32 edk::shape::Polygon2D::generateBoundingBox(edk::vector::Matrixf32<3
                     }
                     else{
                         for(edk::uint32 i=0u;i<size;i++){
-                            if(vertexs.get(i)){
-                                this->matrixPosition.set(0u,0u,vertexs.getNoIF(i)->position.x);edkEnd();
-                                this->matrixPosition.set(0u,1u,vertexs.getNoIF(i)->position.y);edkEnd();
+                            if(this->vertexs.get(i)){
+                                this->matrixPosition.set(0u,0u,this->vertexs.getNoIF(i)->position.x);edkEnd();
+                                this->matrixPosition.set(0u,1u,this->vertexs.getNoIF(i)->position.y);edkEnd();
                                 this->matrixPosition.set(0u,2u,1.f);edkEnd();
 
                                 //multiply the matrix
@@ -8932,6 +8932,51 @@ edk::rectf32 edk::shape::Polygon2D::generateBoundingBox(edk::vector::Matrixf32<3
                         }
                     }
                 }
+            }
+        }
+    }
+    return ret;
+}
+bool edk::shape::Polygon2D::calculateBoundingPoint(edk::vec2f32* point,edk::vector::Matrixf32<3u,3u>* transformMat){
+    if(transformMat && point && this->getVertexCount()){
+        //generate the boundingBox
+        *point = this->generateBoundingPoint(transformMat);edkEnd();
+        return true;
+    }
+    return false;
+}
+edk::vec2f32 edk::shape::Polygon2D::generateBoundingPoint(edk::vector::Matrixf32<3u,3u>* transformMat){
+    edk::vec2f32 ret;edkEnd();
+    edk::uint32 size = this->getVertexCount();edkEnd();
+    if(size){
+        //first copy the matrix
+        if(this->matrixTransform.cloneFrom(transformMat)){
+            //generate transform matrices
+            edk::Math::generateTranslateMatrix(this->translate,&this->matrixTranslate);edkEnd();
+            edk::Math::generateRotateMatrixZ(this->angle,&this->matrixRotate);edkEnd();
+            edk::Math::generateScaleMatrix(this->scale,&this->matrixScale);edkEnd();
+
+            //multiply the matrix by
+            //translate
+            this->matrixTransform.multiplyThisWithMatrix(&this->matrixTranslate);edkEnd();
+            //angle
+            this->matrixTransform.multiplyThisWithMatrix(&this->matrixRotate);edkEnd();
+            //scale
+            this->matrixTransform.multiplyThisWithMatrix(&this->matrixScale);edkEnd();
+
+            //transform all the vertices
+            if(this->matrixPosition.haveMatrix()){
+                //transform the point
+                //
+                this->matrixPosition.set(0u,0u,this->vertexs.getNoIF(0u)->position.x);edkEnd();
+                this->matrixPosition.set(0u,1u,this->vertexs.getNoIF(0u)->position.y);edkEnd();
+                this->matrixPosition.set(0u,2u,1.f);edkEnd();
+
+                //multiply the matrix
+                this->matrixPosition.multiplyMatrixWithThis((edk::vector::MatrixDynamic<edk::float32>*)&this->matrixTransform);edkEnd();
+
+                ret.x = this->matrixPosition.getNoIF(0u,0u);edkEnd();
+                ret.y = this->matrixPosition.getNoIF(0u,1u);edkEnd();
             }
         }
     }
