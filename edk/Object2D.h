@@ -245,14 +245,21 @@ public:
     //connect another object into this
     virtual bool connectObjectBack(edk::Object2D* obj);
     virtual bool updateConnectedObjectBackValues(edk::Object2D* obj);
+    virtual edk::vec2f32 getConnectedObjectBackWorldPosition(edk::Object2D* obj);
     virtual bool haveConnectedObjectBack(edk::Object2D* obj);
     virtual bool disconnectObjectBack(edk::Object2D* obj);
     virtual void cleanConnectedObjectsBack();
     virtual bool connectObjectFront(edk::Object2D* obj);
     virtual bool updateConnectedObjectFrontValues(edk::Object2D* obj);
+    virtual edk::vec2f32 getConnectedObjectFrontWorldPosition(edk::Object2D* obj);
     virtual bool haveConnectedObjectFront(edk::Object2D* obj);
     virtual bool disconnectObjectFront(edk::Object2D* obj);
     virtual void cleanConnectedObjectsFront();
+    virtual bool updateConnectedObjectValues(edk::Object2D* obj);
+    virtual edk::vec2f32 getConnectedObjectWorldPosition(edk::Object2D* obj);
+    virtual bool haveConnectedObject(edk::Object2D* obj);
+    virtual bool disconnectObject(edk::Object2D* obj);
+    virtual void cleanConnectedObjects();
 
     virtual bool cloneFrom(edk::Object2D* obj);
 

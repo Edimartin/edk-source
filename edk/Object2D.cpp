@@ -4320,6 +4320,13 @@ bool edk::Object2D::updateConnectedObjectBackValues(edk::Object2D* obj){
                         obj->position = mesh->generateBoundingPoint(edk::vec2f32(0.f,0.f),&obj->matrixTransform);edkEnd();
                         //calculate the angle
                         obj->angle+=edk::Math::getAngle(mesh->generateBoundingPoint(edk::vec2f32(1.f,0.f),&obj->matrixTransform)-obj->position);
+
+                        while(obj->angle<0.f){
+                            obj->angle+=360.f;
+                        }
+                        while(obj->angle>360.f){
+                            obj->angle-=360.f;
+                        }
                     }
                 }
                 return true;
@@ -4327,6 +4334,29 @@ bool edk::Object2D::updateConnectedObjectBackValues(edk::Object2D* obj){
         }
     }
     return false;
+}
+edk::vec2f32 edk::Object2D::getConnectedObjectBackWorldPosition(edk::Object2D* obj){
+    edk::vec2f32 ret;
+    if(obj){
+        if(obj->father == this){
+            if(this->childremsBack.haveElement(obj)){
+                edk::shape::Mesh2D* mesh;edkEnd();
+
+                //update the values
+                obj->matrixTransform.setIdentity();
+                obj->updateValuesFromFather(&obj->matrixTransform);
+
+                if(obj->meshes.size()){
+                    mesh = obj->meshes.getMesh(0u);edkEnd();
+                    if(mesh){
+                        //calculate the position
+                        ret = mesh->generateBoundingPoint(edk::vec2f32(0.f,0.f),&obj->matrixTransform);edkEnd();
+                    }
+                }
+            }
+        }
+    }
+    return ret;
 }
 bool edk::Object2D::haveConnectedObjectBack(edk::Object2D* obj){
     if(obj){
@@ -4413,6 +4443,29 @@ bool edk::Object2D::updateConnectedObjectFrontValues(edk::Object2D* obj){
     }
     return false;
 }
+edk::vec2f32 edk::Object2D::getConnectedObjectFrontWorldPosition(edk::Object2D* obj){
+    edk::vec2f32 ret;
+    if(obj){
+        if(obj->father == this){
+            if(this->childremsBack.haveElement(obj)){
+                edk::shape::Mesh2D* mesh;edkEnd();
+
+                //update the values
+                obj->matrixTransform.setIdentity();
+                obj->updateValuesFromFather(&obj->matrixTransform);
+
+                if(obj->meshes.size()){
+                    mesh = obj->meshes.getMesh(0u);edkEnd();
+                    if(mesh){
+                        //calculate the position
+                        ret = mesh->generateBoundingPoint(edk::vec2f32(0.f,0.f),&obj->matrixTransform);edkEnd();
+                    }
+                }
+            }
+        }
+    }
+    return ret;
+}
 bool edk::Object2D::haveConnectedObjectFront(edk::Object2D* obj){
     if(obj){
         if(obj->father == this){
@@ -4450,6 +4503,71 @@ void edk::Object2D::cleanConnectedObjectsFront(){
         }
     }
     this->childremsFront.clean();
+}
+bool edk::Object2D::updateConnectedObjectValues(edk::Object2D* obj){
+    if(obj){
+        if(obj->father == this){
+            if(this->childremsBack.haveElement(obj) || this->childremsFront.haveElement(obj)){
+                edk::shape::Mesh2D* mesh;edkEnd();
+
+                //update the values
+                obj->matrixTransform.setIdentity();
+                obj->updateValuesFromFather(&obj->matrixTransform);
+
+                if(obj->meshes.size()){
+                    mesh = obj->meshes.getMesh(0u);edkEnd();
+                    if(mesh){
+                        //calculate the position
+                        obj->position = mesh->generateBoundingPoint(edk::vec2f32(0.f,0.f),&obj->matrixTransform);edkEnd();
+                        //calculate the angle
+                        obj->angle+=edk::Math::getAngle(mesh->generateBoundingPoint(edk::vec2f32(1.f,0.f),&obj->matrixTransform)-obj->position);
+                    }
+                }
+                return true;
+            }
+        }
+    }
+    return false;
+}
+edk::vec2f32 edk::Object2D::getConnectedObjectWorldPosition(edk::Object2D* obj){
+    edk::vec2f32 ret;
+    if(obj){
+        if(obj->father == this){
+            if(this->childremsBack.haveElement(obj)||this->childremsFront.haveElement(obj)){
+                edk::shape::Mesh2D* mesh;edkEnd();
+
+                //update the values
+                obj->matrixTransform.setIdentity();
+                obj->updateValuesFromFather(&obj->matrixTransform);
+
+                if(obj->meshes.size()){
+                    mesh = obj->meshes.getMesh(0u);edkEnd();
+                    if(mesh){
+                        //calculate the position
+                        ret = mesh->generateBoundingPoint(edk::vec2f32(0.f,0.f),&obj->matrixTransform);edkEnd();
+                    }
+                }
+            }
+        }
+    }
+    return ret;
+}
+bool edk::Object2D::haveConnectedObject(edk::Object2D* obj){
+    if(obj){
+        if(obj->father == this){
+            if(this->childremsBack.haveElement(obj)||this->childremsFront.haveElement(obj)){
+                return true;
+            }
+        }
+    }
+    return false;
+}
+bool edk::Object2D::disconnectObject(edk::Object2D* obj){
+    return (this->disconnectObjectBack(obj) || this->disconnectObjectFront(obj));
+}
+void edk::Object2D::cleanConnectedObjects(){
+    this->cleanConnectedObjectsBack();
+    this->cleanConnectedObjectsFront();
 }
 
 bool edk::Object2D::cloneFrom(edk::Object2D* obj){
