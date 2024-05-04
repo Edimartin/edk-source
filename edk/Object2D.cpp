@@ -58,12 +58,392 @@ edk::Object2D::~Object2D(){
     }
 }
 
+//Draw function
+//HIDE
+void edk::Object2D::drawHideBoundingBox(){
+    //
+}
+void edk::Object2D::drawHide(bool ){}
+void edk::Object2D::drawHideOneTexture(){}
+void edk::Object2D::drawHideOneTextureWithLight(bool ){}
+void edk::Object2D::drawHideWithoutMaterial(){}
+void edk::Object2D::drawHideWithoutMaterialWithLight(bool ){}
+void edk::Object2D::drawHideWire(){}
+void edk::Object2D::drawHideWirePolygon(edk::uint32 ,edk::uint32 ){}
+bool edk::Object2D::drawHideMesh(bool haveLight,edk::uint32 ){}
+bool edk::Object2D::drawHidePolygon(bool haveLight,edk::uint32 ,edk::uint32 ){return true;}
+bool edk::Object2D::drawHideMeshOneTexture(edk::uint32 ){return true;}
+bool edk::Object2D::drawHidePolygonOneTexture(edk::uint32 ,edk::uint32 ){return true;}
+bool edk::Object2D::drawHideMeshOneTextureWithLight(bool haveLight,edk::uint32 ){return true;}
+bool edk::Object2D::drawHidePolygonOneTextureWithLight(bool haveLight,edk::uint32 ,edk::uint32 ){return true;}
+bool edk::Object2D::drawHideMeshWithoutMaterial(edk::uint32 ){return true;}
+bool edk::Object2D::drawHidePolygonWithoutMaterial(edk::uint32 ,edk::uint32 ){return true;}
+bool edk::Object2D::drawHideMeshWithoutMaterialWithLight(bool haveLight,edk::uint32 ){return true;}
+bool edk::Object2D::drawHidePolygonWithoutMaterialWithLight(bool haveLight,edk::uint32 ,edk::uint32 ){return true;}
+bool edk::Object2D::drawHideMeshWire(edk::uint32 ){return true;}
+bool edk::Object2D::drawHidePolygonWire(edk::uint32 ,edk::uint32 ){return true;}
+//UNHIDE
+void edk::Object2D::drawUnhideBoundingBox(){
+    edk::GU::guBegin(GU_LINE_LOOP);edkEnd();
+    edk::GU::guVertex2f32(this->boundingBox.origin.x  ,this->boundingBox.origin.y   );edkEnd();
+    edk::GU::guVertex2f32(this->boundingBox.origin.x  ,this->boundingBox.size.height);edkEnd();
+    edk::GU::guVertex2f32(this->boundingBox.size.width,this->boundingBox.size.height);edkEnd();
+    edk::GU::guVertex2f32(this->boundingBox.size.width,this->boundingBox.origin.y   );edkEnd();
+    edk::GU::guEnd();edkEnd();
+}
+void edk::Object2D::drawUnhide(bool haveLight){
+    edk::shape::Mesh2D* mesh;edkEnd();
+    if(haveLight){
+        edk::uint32 size = this->meshes.size();edkEnd();
+        for(edk::uint32 i=size;i>0u;i--){
+            //
+            mesh = this->meshes.getMesh(i-1u);edkEnd();
+            if(mesh){
+                if(mesh->material.haveOneTexture()){
+                    mesh->drawOneTexture();edkEnd();
+                }
+                else{
+                    mesh->drawMultiTexture();edkEnd();
+                }
+            }
+        }
+    }
+    else{
+        edk::uint32 size = this->meshes.size();edkEnd();
+        for(edk::uint32 i=size;i>0u;i--){
+            //
+            mesh = this->meshes.getMesh(i-1u);edkEnd();
+            if(mesh){
+                if(mesh->material.haveOneTexture()){
+                    mesh->drawOneTexture();edkEnd();
+                }
+                else{
+                    mesh->drawMultiTexture();edkEnd();
+                }
+            }
+        }
+    }
+}
+void edk::Object2D::drawUnhideOneTexture(){
+    edk::shape::Mesh2D* mesh;edkEnd();
+    //print all polygonList
+    for(edk::uint32 i=this->meshes.size();i>0u;i--){
+        //
+        mesh = this->meshes.getMesh(i-1u);edkEnd();
+        if(mesh){
+            mesh->drawOneTexture();edkEnd();
+        }
+    }
+}
+void edk::Object2D::drawUnhideOneTextureWithLight(bool haveLight){
+    edk::shape::Mesh2D* mesh;edkEnd();
+    if(haveLight){
+        for(edk::uint32 i=this->meshes.size();i>0u;i--){
+            //
+            mesh = this->meshes.getMesh(i-1u);edkEnd();
+            if(mesh){
+                mesh->drawOneTexture();edkEnd();
+            }
+        }
+    }
+    else{
+        for(edk::uint32 i=this->meshes.size();i>0u;i--){
+            //
+            mesh = this->meshes.getMesh(i-1u);edkEnd();
+            if(mesh){
+                mesh->drawOneTexture();edkEnd();
+            }
+        }
+    }
+}
+void edk::Object2D::drawUnhideWithoutMaterial(){
+    edk::shape::Mesh2D* mesh;edkEnd();
+    //print all polygonList
+    for(edk::uint32 i=this->meshes.size();i>0u;i--){
+        //
+        mesh = this->meshes.getMesh(i-1u);edkEnd();
+        if(mesh){
+            mesh->drawWithoutMaterial();edkEnd();
+        }
+    }
+}
+void edk::Object2D::drawUnhideWithoutMaterialWithLight(bool haveLight){
+    edk::shape::Mesh2D* mesh;edkEnd();
+    if(haveLight){
+        for(edk::uint32 i=this->meshes.size();i>0u;i--){
+            //
+            mesh = this->meshes.getMesh(i-1u);edkEnd();
+            if(mesh){
+                mesh->drawWithoutMaterial();edkEnd();
+            }
+        }
+    }
+    else{
+        for(edk::uint32 i=this->meshes.size();i>0u;i--){
+            //
+            mesh = this->meshes.getMesh(i-1u);edkEnd();
+            if(mesh){
+                mesh->drawWithoutMaterial();edkEnd();
+            }
+        }
+    }
+}
+void edk::Object2D::drawUnhideWire(){
+    edk::shape::Mesh2D* mesh;edkEnd();
+    //print all polygonList
+    for(edk::uint32 i=this->meshes.size();i>0u;i--){
+        //
+        mesh = this->meshes.getMesh(i-1u);edkEnd();
+        if(mesh){
+            mesh->drawWirePolygons();edkEnd();
+        }
+    }
+}
+void edk::Object2D::drawUnhideWirePolygon(edk::uint32 meshPosition,edk::uint32 polygon){
+    edk::shape::Mesh2D* mesh = this->meshes.getMesh(meshPosition);edkEnd();
+    if(mesh){
+        mesh->drawWirePolygon(polygon);edkEnd();
+    }
+}
+bool edk::Object2D::drawUnhideMesh(bool haveLight,edk::uint32 meshPosition){
+    bool ret=false;
+    edk::shape::Mesh2D* mesh;edkEnd();
+    if(haveLight){
+        if(meshPosition < this->meshes.size()){
+            mesh = this->meshes.getMesh(meshPosition);edkEnd();
+            if(mesh){
+                if(mesh->material.haveOneTexture()){
+                    mesh->drawOneTexture();edkEnd();
+                }
+                else{
+                    mesh->drawMultiTexture();edkEnd();
+                }
+                ret=true;edkEnd();
+            }
+        }
+    }
+    else{
+        if(meshPosition < this->meshes.size()){
+            mesh = this->meshes.getMesh(meshPosition);edkEnd();
+            if(mesh){
+                if(mesh->material.haveOneTexture()){
+                    mesh->drawOneTexture();edkEnd();
+                }
+                else{
+                    mesh->drawMultiTexture();edkEnd();
+                }
+                ret=true;edkEnd();
+            }
+        }
+    }
+    return ret;
+}
+bool edk::Object2D::drawUnhidePolygon(bool haveLight,edk::uint32 meshPosition,edk::uint32 polygon){
+    bool ret=false;
+    edk::shape::Mesh2D* mesh;edkEnd();
+    if(haveLight){
+        if(meshPosition < this->meshes.size()){
+            mesh = this->meshes.getMesh(meshPosition);edkEnd();
+            if(mesh){
+                if(mesh->material.haveOneTexture()){
+                    ret = mesh->drawPolygonOneTexture(polygon);edkEnd();
+                }
+                else{
+                    ret = mesh->drawPolygonMultiTexture(polygon);edkEnd();
+                }
+            }
+        }
+    }
+    else{
+        if(meshPosition < this->meshes.size()){
+            mesh = this->meshes.getMesh(meshPosition);edkEnd();
+            if(mesh){
+                if(mesh->material.haveOneTexture()){
+                    ret = mesh->drawPolygonOneTexture(polygon);edkEnd();
+                }
+                else{
+                    ret = mesh->drawPolygonMultiTexture(polygon);edkEnd();
+                }
+            }
+        }
+    }
+    return ret;
+}
+bool edk::Object2D::drawUnhideMeshOneTexture(edk::uint32 meshPosition){
+    bool ret=false;
+    edk::shape::Mesh2D* mesh;edkEnd();
+    //
+    if(meshPosition<this->meshes.size()){
+        mesh = this->meshes.getMesh(meshPosition);edkEnd();
+        if(mesh){
+            mesh->drawOneTexture();edkEnd();
+            ret = true;edkEnd();
+        }
+    }
+    return ret;
+}
+bool edk::Object2D::drawUnhidePolygonOneTexture(edk::uint32 meshPosition,edk::uint32 polygon){
+    bool ret=false;
+    edk::shape::Mesh2D* mesh;edkEnd();
+    //
+    if(meshPosition<this->meshes.size()){
+        mesh = this->meshes.getMesh(meshPosition);edkEnd();
+        if(mesh){
+            ret = mesh->drawPolygonOneTexture(polygon);edkEnd();
+        }
+    }
+    return ret;
+}
+bool edk::Object2D::drawUnhideMeshOneTextureWithLight(bool haveLight,edk::uint32 meshPosition){
+    bool ret=false;
+    edk::shape::Mesh2D* mesh;edkEnd();
+    if(haveLight){
+        if(meshPosition < this->meshes.size()){
+            mesh = this->meshes.getMesh(meshPosition);edkEnd();
+            if(mesh){
+                mesh->drawOneTexture();edkEnd();
+                ret = true;edkEnd();
+            }
+        }
+    }
+    else{
+        for(edk::uint32 i=this->meshes.size();i>0u;i--){
+            //
+            mesh = this->meshes.getMesh(i-1u);edkEnd();
+            if(mesh){
+                mesh->drawOneTexture();edkEnd();
+                ret = true;edkEnd();
+            }
+        }
+    }
+    return ret;
+}
+bool edk::Object2D::drawUnhidePolygonOneTextureWithLight(bool haveLight,edk::uint32 meshPosition,edk::uint32 polygon){
+    bool ret=false;
+    edk::shape::Mesh2D* mesh;edkEnd();
+    if(haveLight){
+        if(meshPosition < this->meshes.size()){
+            mesh = this->meshes.getMesh(meshPosition);edkEnd();
+            if(mesh){
+                ret = mesh->drawPolygonOneTexture(polygon);edkEnd();
+            }
+        }
+    }
+    else{
+        for(edk::uint32 i=this->meshes.size();i>0u;i--){
+            //
+            mesh = this->meshes.getMesh(i-1u);edkEnd();
+            if(mesh){
+                ret = mesh->drawPolygonOneTexture(polygon);edkEnd();
+            }
+        }
+    }
+    return ret;
+}
+bool edk::Object2D::drawUnhideMeshWithoutMaterial(edk::uint32 meshPosition){
+    bool ret=false;
+    edk::shape::Mesh2D* mesh;edkEnd();
+    //print all polygonList
+    if(meshPosition<this->meshes.size()){
+        mesh = this->meshes.getMesh(meshPosition);edkEnd();
+        if(mesh){
+            mesh->drawWithoutMaterial();edkEnd();
+            ret = true;edkEnd();
+        }
+    }
+    return ret;
+}
+bool edk::Object2D::drawUnhidePolygonWithoutMaterial(edk::uint32 meshPosition,edk::uint32 polygon){
+    bool ret=false;
+    edk::shape::Mesh2D* mesh;edkEnd();
+    //print all polygonList
+    if(meshPosition<this->meshes.size()){
+        mesh = this->meshes.getMesh(meshPosition);edkEnd();
+        if(mesh){
+            ret = mesh->drawPolygonWithoutMaterial(polygon);edkEnd();
+        }
+    }
+    return ret;
+}
+bool edk::Object2D::drawUnhideMeshWithoutMaterialWithLight(bool haveLight,edk::uint32 meshPosition){
+    bool ret=false;
+    edk::shape::Mesh2D* mesh;edkEnd();
+    if(haveLight){
+        if(meshPosition<this->meshes.size()){
+            mesh = this->meshes.getMesh(meshPosition);edkEnd();
+            if(mesh){
+                mesh->drawWithoutMaterial();edkEnd();
+                ret=true;edkEnd();
+            }
+        }
+    }
+    else{
+        if(meshPosition<this->meshes.size()){
+            mesh = this->meshes.getMesh(meshPosition);edkEnd();
+            if(mesh){
+                mesh->drawWithoutMaterial();edkEnd();
+                ret=true;edkEnd();
+            }
+        }
+    }
+    return ret;
+}
+bool edk::Object2D::drawUnhidePolygonWithoutMaterialWithLight(bool haveLight,edk::uint32 meshPosition,edk::uint32 polygon){
+    bool ret=false;
+    edk::shape::Mesh2D* mesh;edkEnd();
+    if(haveLight){
+        if(meshPosition<this->meshes.size()){
+            mesh = this->meshes.getMesh(meshPosition);edkEnd();
+            if(mesh){
+                ret = mesh->drawPolygonWithoutMaterial(polygon);edkEnd();
+            }
+        }
+    }
+    else{
+        if(meshPosition<this->meshes.size()){
+            mesh = this->meshes.getMesh(meshPosition);edkEnd();
+            if(mesh){
+                ret = mesh->drawPolygonWithoutMaterial(polygon);edkEnd();
+            }
+        }
+    }
+    return ret;
+}
+bool edk::Object2D::drawUnhideMeshWire(edk::uint32 meshPosition){
+    bool ret=false;
+    edk::shape::Mesh2D* mesh;edkEnd();
+    //print all polygonList
+    if(meshPosition<this->meshes.size()){
+        mesh = this->meshes.getMesh(meshPosition);edkEnd();
+        if(mesh){
+            mesh->drawWirePolygons();edkEnd();
+            ret = true;edkEnd();
+        }
+    }
+    return ret;
+}
+bool edk::Object2D::drawUnhidePolygonWire(edk::uint32 meshPosition,edk::uint32 polygon){
+    bool ret=false;
+
+    edk::shape::Mesh2D* mesh;edkEnd();
+    //print all polygonList
+    if(meshPosition<this->meshes.size()){
+        mesh = this->meshes.getMesh(meshPosition);edkEnd();
+        if(mesh){
+            ret = mesh->drawWirePolygon(polygon);edkEnd();
+        }
+    }
+    return ret;
+}
+
 void edk::Object2D::Constructor(bool runFather){
     if(runFather){
         edk::Object2DValues::Constructor();edkEnd();
     }
     if(this->classThis!=this){
         this->classThis=this;
+
+        this->hided=true;
 
         this->meshes.Constructor();
         this->matrixPosition.Constructor();
@@ -89,6 +469,8 @@ void edk::Object2D::Constructor(bool runFather){
 
         this->newSize=1.f;
         this->loadSaveIdentityValues();
+
+        this->unhide();
     }
 }
 
@@ -520,7 +902,6 @@ void edk::Object2D::drawChildremsBackBoundingBox(){
 void edk::Object2D::drawChildBackBoundingBox(){
     //test if have a father
     //if(this->father){
-    this->updateChangedValues();
     //    //put the transformation on a stack
     //    edk::GU::guPushMatrix();edkEnd();
     //
@@ -543,12 +924,7 @@ void edk::Object2D::drawChildBackBoundingBox(){
 
     this->drawChildremsBackBoundingBox();
 
-    edk::GU::guBegin(GU_LINE_LOOP);edkEnd();
-    edk::GU::guVertex2f32(this->boundingBox.origin.x  ,this->boundingBox.origin.y   );edkEnd();
-    edk::GU::guVertex2f32(this->boundingBox.origin.x  ,this->boundingBox.size.height);edkEnd();
-    edk::GU::guVertex2f32(this->boundingBox.size.width,this->boundingBox.size.height);edkEnd();
-    edk::GU::guVertex2f32(this->boundingBox.size.width,this->boundingBox.origin.y   );edkEnd();
-    edk::GU::guEnd();edkEnd();
+    (this->*functionDrawBoundingBox)();
 
     edk::GU::guPopMatrix();edkEnd();
     //}
@@ -564,7 +940,6 @@ void edk::Object2D::drawChildremsFrontBoundingBox(){
 void edk::Object2D::drawChildFrontBoundingBox(){
     //test if have a father
     //if(this->father){
-    this->updateChangedValues();
     //    //put the transformation on a stack
     //    edk::GU::guPushMatrix();edkEnd();
     //
@@ -583,14 +958,7 @@ void edk::Object2D::drawChildFrontBoundingBox(){
     //put the transformation on a stack
     edk::GU::guPushMatrix();edkEnd();
 
-    edk::GU::guColor4f32(1.0,1.0,1.0,1.0);edkEnd();
-
-    edk::GU::guBegin(GU_LINE_LOOP);edkEnd();
-    edk::GU::guVertex2f32(this->boundingBox.origin.x  ,this->boundingBox.origin.y   );edkEnd();
-    edk::GU::guVertex2f32(this->boundingBox.origin.x  ,this->boundingBox.size.height);edkEnd();
-    edk::GU::guVertex2f32(this->boundingBox.size.width,this->boundingBox.size.height);edkEnd();
-    edk::GU::guVertex2f32(this->boundingBox.size.width,this->boundingBox.origin.y   );edkEnd();
-    edk::GU::guEnd();edkEnd();
+    (this->*functionDrawBoundingBox)();
 
     this->drawChildremsFrontBoundingBox();
     edk::GU::guPopMatrix();edkEnd();
@@ -612,7 +980,6 @@ void edk::Object2D::drawChildremsBoundingBox(){
 void edk::Object2D::drawChildBoundingBox(){
     //test if have a father
     //if(this->father){
-    this->updateChangedValues();
     //    //put the transformation on a stack
     //    edk::GU::guPushMatrix();edkEnd();
     //
@@ -635,12 +1002,7 @@ void edk::Object2D::drawChildBoundingBox(){
 
     this->drawChildremsBackBoundingBox();
 
-    edk::GU::guBegin(GU_LINE_LOOP);edkEnd();
-    edk::GU::guVertex2f32(this->boundingBox.origin.x  ,this->boundingBox.origin.y   );edkEnd();
-    edk::GU::guVertex2f32(this->boundingBox.origin.x  ,this->boundingBox.size.height);edkEnd();
-    edk::GU::guVertex2f32(this->boundingBox.size.width,this->boundingBox.size.height);edkEnd();
-    edk::GU::guVertex2f32(this->boundingBox.size.width,this->boundingBox.origin.y   );edkEnd();
-    edk::GU::guEnd();edkEnd();
+    (this->*functionDrawBoundingBox)();
 
     this->drawChildremsFrontBoundingBox();
     edk::GU::guPopMatrix();edkEnd();
@@ -663,7 +1025,6 @@ void edk::Object2D::drawChildBack(bool haveLight){
     edk::GU::guTranslate2f32(this->connectedPosition);edkEnd();
     edk::GU::guTranslate2f32(this->connectedPivo*-1.0f);edkEnd();
 
-    this->updateChangedValues();
     //add translate
     edk::GU::guTranslate2f32(this->position);edkEnd();
     //add scale
@@ -675,37 +1036,8 @@ void edk::Object2D::drawChildBack(bool haveLight){
 
     this->drawChildremsBack(haveLight);
 
-    edk::shape::Mesh2D* mesh;edkEnd();
-    if(haveLight){
-        edk::uint32 size = this->meshes.size();edkEnd();
-        for(edk::uint32 i=size;i>0u;i--){
-            //
-            mesh = this->meshes.getMesh(i-1u);edkEnd();
-            if(mesh){
-                if(mesh->material.haveOneTexture()){
-                    mesh->drawOneTexture();edkEnd();
-                }
-                else{
-                    mesh->drawMultiTexture();edkEnd();
-                }
-            }
-        }
-    }
-    else{
-        edk::uint32 size = this->meshes.size();edkEnd();
-        for(edk::uint32 i=size;i>0u;i--){
-            //
-            mesh = this->meshes.getMesh(i-1u);edkEnd();
-            if(mesh){
-                if(mesh->material.haveOneTexture()){
-                    mesh->drawOneTexture();edkEnd();
-                }
-                else{
-                    mesh->drawMultiTexture();edkEnd();
-                }
-            }
-        }
-    }
+    (this->*functionDraw)(haveLight);
+
     //glEnable(GL_RESCALE_NORMAL);edkEnd();
     edk::GU::guPopMatrix();edkEnd();
 }
@@ -726,7 +1058,6 @@ void edk::Object2D::drawChildFront(bool haveLight){
     edk::GU::guTranslate2f32(this->connectedPosition);edkEnd();
     edk::GU::guTranslate2f32(this->connectedPivo*-1.0f);edkEnd();
 
-    this->updateChangedValues();
     //add translate
     edk::GU::guTranslate2f32(this->position);edkEnd();
     //add scale
@@ -736,37 +1067,8 @@ void edk::Object2D::drawChildFront(bool haveLight){
     //set the pivo
     edk::GU::guTranslate2f32(this->pivo*-1.0f);edkEnd();
 
-    edk::shape::Mesh2D* mesh;edkEnd();
-    if(haveLight){
-        edk::uint32 size = this->meshes.size();edkEnd();
-        for(edk::uint32 i=size;i>0u;i--){
-            //
-            mesh = this->meshes.getMesh(i-1u);edkEnd();
-            if(mesh){
-                if(mesh->material.haveOneTexture()){
-                    mesh->drawOneTexture();edkEnd();
-                }
-                else{
-                    mesh->drawMultiTexture();edkEnd();
-                }
-            }
-        }
-    }
-    else{
-        edk::uint32 size = this->meshes.size();edkEnd();
-        for(edk::uint32 i=size;i>0u;i--){
-            //
-            mesh = this->meshes.getMesh(i-1u);edkEnd();
-            if(mesh){
-                if(mesh->material.haveOneTexture()){
-                    mesh->drawOneTexture();edkEnd();
-                }
-                else{
-                    mesh->drawMultiTexture();edkEnd();
-                }
-            }
-        }
-    }
+    (this->*functionDraw)(haveLight);
+
     this->drawChildremsFront(haveLight);
     //glEnable(GL_RESCALE_NORMAL);edkEnd();
     edk::GU::guPopMatrix();edkEnd();
@@ -793,7 +1095,6 @@ void edk::Object2D::drawChild(bool haveLight){
     edk::GU::guTranslate2f32(this->connectedPosition);edkEnd();
     edk::GU::guTranslate2f32(this->connectedPivo*-1.0f);edkEnd();
 
-    this->updateChangedValues();
     //add translate
     edk::GU::guTranslate2f32(this->position);edkEnd();
     //add scale
@@ -805,37 +1106,8 @@ void edk::Object2D::drawChild(bool haveLight){
 
     this->drawChildremsBack(haveLight);
 
-    edk::shape::Mesh2D* mesh;edkEnd();
-    if(haveLight){
-        edk::uint32 size = this->meshes.size();edkEnd();
-        for(edk::uint32 i=size;i>0u;i--){
-            //
-            mesh = this->meshes.getMesh(i-1u);edkEnd();
-            if(mesh){
-                if(mesh->material.haveOneTexture()){
-                    mesh->drawOneTexture();edkEnd();
-                }
-                else{
-                    mesh->drawMultiTexture();edkEnd();
-                }
-            }
-        }
-    }
-    else{
-        edk::uint32 size = this->meshes.size();edkEnd();
-        for(edk::uint32 i=size;i>0u;i--){
-            //
-            mesh = this->meshes.getMesh(i-1u);edkEnd();
-            if(mesh){
-                if(mesh->material.haveOneTexture()){
-                    mesh->drawOneTexture();edkEnd();
-                }
-                else{
-                    mesh->drawMultiTexture();edkEnd();
-                }
-            }
-        }
-    }
+    (this->*functionDraw)(haveLight);
+
     this->drawChildremsFront(haveLight);
     //glEnable(GL_RESCALE_NORMAL);edkEnd();
     edk::GU::guPopMatrix();edkEnd();
@@ -857,7 +1129,6 @@ void edk::Object2D::drawChildBackOneTexture(){
     edk::GU::guTranslate2f32(this->connectedPosition);edkEnd();
     edk::GU::guTranslate2f32(this->connectedPivo*-1.0f);edkEnd();
 
-    this->updateChangedValues();
     //add translate
     edk::GU::guTranslate2f32(this->position);edkEnd();
     //add scale
@@ -869,15 +1140,8 @@ void edk::Object2D::drawChildBackOneTexture(){
 
     this->drawChildremsBackOneTexture();
 
-    edk::shape::Mesh2D* mesh;edkEnd();
-    //print all polygonList
-    for(edk::uint32 i=this->meshes.size();i>0u;i--){
-        //
-        mesh = this->meshes.getMesh(i-1u);edkEnd();
-        if(mesh){
-            mesh->drawOneTexture();edkEnd();
-        }
-    }
+    (this->*functionDrawOneTexture)();
+
     edk::GU::guPopMatrix();edkEnd();
 }
 void edk::Object2D::drawChildremsFrontOneTexture(){
@@ -897,7 +1161,6 @@ void edk::Object2D::drawChildFrontOneTexture(){
     edk::GU::guTranslate2f32(this->connectedPosition);edkEnd();
     edk::GU::guTranslate2f32(this->connectedPivo*-1.0f);edkEnd();
 
-    this->updateChangedValues();
     //add translate
     edk::GU::guTranslate2f32(this->position);edkEnd();
     //add scale
@@ -907,15 +1170,8 @@ void edk::Object2D::drawChildFrontOneTexture(){
     //set the pivo
     edk::GU::guTranslate2f32(this->pivo*-1.0f);edkEnd();
 
-    edk::shape::Mesh2D* mesh;edkEnd();
-    //print all polygonList
-    for(edk::uint32 i=this->meshes.size();i>0u;i--){
-        //
-        mesh = this->meshes.getMesh(i-1u);edkEnd();
-        if(mesh){
-            mesh->drawOneTexture();edkEnd();
-        }
-    }
+    (this->*functionDrawOneTexture)();
+
     this->drawChildremsFrontOneTexture();
     edk::GU::guPopMatrix();edkEnd();
 }
@@ -941,7 +1197,6 @@ void edk::Object2D::drawChildOneTexture(){
     edk::GU::guTranslate2f32(this->connectedPosition);edkEnd();
     edk::GU::guTranslate2f32(this->connectedPivo*-1.0f);edkEnd();
 
-    this->updateChangedValues();
     //add translate
     edk::GU::guTranslate2f32(this->position);edkEnd();
     //add scale
@@ -953,15 +1208,8 @@ void edk::Object2D::drawChildOneTexture(){
 
     this->drawChildremsBackOneTexture();
 
-    edk::shape::Mesh2D* mesh;edkEnd();
-    //print all polygonList
-    for(edk::uint32 i=this->meshes.size();i>0u;i--){
-        //
-        mesh = this->meshes.getMesh(i-1u);edkEnd();
-        if(mesh){
-            mesh->drawOneTexture();edkEnd();
-        }
-    }
+    (this->*functionDrawOneTexture)();
+
     this->drawChildremsFrontOneTexture();
     edk::GU::guPopMatrix();edkEnd();
 }
@@ -982,7 +1230,6 @@ void edk::Object2D::drawChildBackOneTextureWithLight(bool haveLight){
     edk::GU::guTranslate2f32(this->connectedPosition);edkEnd();
     edk::GU::guTranslate2f32(this->connectedPivo*-1.0f);edkEnd();
 
-    this->updateChangedValues();
     //add translate
     edk::GU::guTranslate2f32(this->position);edkEnd();
     //add scale
@@ -994,25 +1241,8 @@ void edk::Object2D::drawChildBackOneTextureWithLight(bool haveLight){
 
     this->drawChildremsBackOneTextureWithLight(haveLight);
 
-    edk::shape::Mesh2D* mesh;edkEnd();
-    if(haveLight){
-        for(edk::uint32 i=this->meshes.size();i>0u;i--){
-            //
-            mesh = this->meshes.getMesh(i-1u);edkEnd();
-            if(mesh){
-                mesh->drawOneTexture();edkEnd();
-            }
-        }
-    }
-    else{
-        for(edk::uint32 i=this->meshes.size();i>0u;i--){
-            //
-            mesh = this->meshes.getMesh(i-1u);edkEnd();
-            if(mesh){
-                mesh->drawOneTexture();edkEnd();
-            }
-        }
-    }
+    (this->*functionDrawOneTextureWithLight)(haveLight);
+
     edk::GU::guPopMatrix();edkEnd();
 }
 void edk::Object2D::drawChildremsFrontOneTextureWithLight(bool haveLight){
@@ -1032,7 +1262,6 @@ void edk::Object2D::drawChildFrontOneTextureWithLight(bool haveLight){
     edk::GU::guTranslate2f32(this->connectedPosition);edkEnd();
     edk::GU::guTranslate2f32(this->connectedPivo*-1.0f);edkEnd();
 
-    this->updateChangedValues();
     //add translate
     edk::GU::guTranslate2f32(this->position);edkEnd();
     //add scale
@@ -1042,25 +1271,8 @@ void edk::Object2D::drawChildFrontOneTextureWithLight(bool haveLight){
     //set the pivo
     edk::GU::guTranslate2f32(this->pivo*-1.0f);edkEnd();
 
-    edk::shape::Mesh2D* mesh;edkEnd();
-    if(haveLight){
-        for(edk::uint32 i=this->meshes.size();i>0u;i--){
-            //
-            mesh = this->meshes.getMesh(i-1u);edkEnd();
-            if(mesh){
-                mesh->drawOneTexture();edkEnd();
-            }
-        }
-    }
-    else{
-        for(edk::uint32 i=this->meshes.size();i>0u;i--){
-            //
-            mesh = this->meshes.getMesh(i-1u);edkEnd();
-            if(mesh){
-                mesh->drawOneTexture();edkEnd();
-            }
-        }
-    }
+    (this->*functionDrawOneTextureWithLight)(haveLight);
+
     this->drawChildremsFrontOneTextureWithLight(haveLight);
     edk::GU::guPopMatrix();edkEnd();
 }
@@ -1086,7 +1298,6 @@ void edk::Object2D::drawChildOneTextureWithLight(bool haveLight){
     edk::GU::guTranslate2f32(this->connectedPosition);edkEnd();
     edk::GU::guTranslate2f32(this->connectedPivo*-1.0f);edkEnd();
 
-    this->updateChangedValues();
     //add translate
     edk::GU::guTranslate2f32(this->position);edkEnd();
     //add scale
@@ -1098,25 +1309,8 @@ void edk::Object2D::drawChildOneTextureWithLight(bool haveLight){
 
     this->drawChildremsBackOneTextureWithLight(haveLight);
 
-    edk::shape::Mesh2D* mesh;edkEnd();
-    if(haveLight){
-        for(edk::uint32 i=this->meshes.size();i>0u;i--){
-            //
-            mesh = this->meshes.getMesh(i-1u);edkEnd();
-            if(mesh){
-                mesh->drawOneTexture();edkEnd();
-            }
-        }
-    }
-    else{
-        for(edk::uint32 i=this->meshes.size();i>0u;i--){
-            //
-            mesh = this->meshes.getMesh(i-1u);edkEnd();
-            if(mesh){
-                mesh->drawOneTexture();edkEnd();
-            }
-        }
-    }
+    (this->*functionDrawOneTextureWithLight)(haveLight);
+
     this->drawChildremsFrontOneTextureWithLight(haveLight);
     edk::GU::guPopMatrix();edkEnd();
 }
@@ -1137,7 +1331,6 @@ void edk::Object2D::drawChildBackWithoutMaterial(){
     edk::GU::guTranslate2f32(this->connectedPosition);edkEnd();
     edk::GU::guTranslate2f32(this->connectedPivo*-1.0f);edkEnd();
 
-    this->updateChangedValues();
     //add translate
     edk::GU::guTranslate2f32(this->position);edkEnd();
     //add rotation
@@ -1149,15 +1342,8 @@ void edk::Object2D::drawChildBackWithoutMaterial(){
 
     this->drawChildremsBackWithoutMaterial();
 
-    edk::shape::Mesh2D* mesh;edkEnd();
-    //print all polygonList
-    for(edk::uint32 i=this->meshes.size();i>0u;i--){
-        //
-        mesh = this->meshes.getMesh(i-1u);edkEnd();
-        if(mesh){
-            mesh->drawWithoutMaterial();edkEnd();
-        }
-    }
+    (this->*functionDrawWithoutMaterial)();
+
     edk::GU::guPopMatrix();edkEnd();
 }
 void edk::Object2D::drawChildremsFrontWithoutMaterial(){
@@ -1177,7 +1363,6 @@ void edk::Object2D::drawChildFrontWithoutMaterial(){
     edk::GU::guTranslate2f32(this->connectedPosition);edkEnd();
     edk::GU::guTranslate2f32(this->connectedPivo*-1.0f);edkEnd();
 
-    this->updateChangedValues();
     //add translate
     edk::GU::guTranslate2f32(this->position);edkEnd();
     //add scale
@@ -1221,7 +1406,6 @@ void edk::Object2D::drawChildWithoutMaterial(){
     edk::GU::guTranslate2f32(this->connectedPosition);edkEnd();
     edk::GU::guTranslate2f32(this->connectedPivo*-1.0f);edkEnd();
 
-    this->updateChangedValues();
     //add translate
     edk::GU::guTranslate2f32(this->position);edkEnd();
     //add scale
@@ -1262,7 +1446,6 @@ void edk::Object2D::drawChildBackWithoutMaterialWithLight(bool haveLight){
     edk::GU::guTranslate2f32(this->connectedPosition);edkEnd();
     edk::GU::guTranslate2f32(this->connectedPivo*-1.0f);edkEnd();
 
-    this->updateChangedValues();
     //add translate
     edk::GU::guTranslate2f32(this->position);edkEnd();
     //add scale
@@ -1274,25 +1457,8 @@ void edk::Object2D::drawChildBackWithoutMaterialWithLight(bool haveLight){
 
     this->drawChildremsBackWithoutMaterialWithLight(haveLight);
 
-    edk::shape::Mesh2D* mesh;edkEnd();
-    if(haveLight){
-        for(edk::uint32 i=this->meshes.size();i>0u;i--){
-            //
-            mesh = this->meshes.getMesh(i-1u);edkEnd();
-            if(mesh){
-                mesh->drawWithoutMaterial();edkEnd();
-            }
-        }
-    }
-    else{
-        for(edk::uint32 i=this->meshes.size();i>0u;i--){
-            //
-            mesh = this->meshes.getMesh(i-1u);edkEnd();
-            if(mesh){
-                mesh->drawWithoutMaterial();edkEnd();
-            }
-        }
-    }
+    (this->*functionDrawWithoutMaterialWithLight)(haveLight);
+
     edk::GU::guPopMatrix();edkEnd();
 }
 void edk::Object2D::drawChildremsFrontWithoutMaterialWithLight(bool haveLight){
@@ -1312,7 +1478,6 @@ void edk::Object2D::drawChildFrontWithoutMaterialWithLight(bool haveLight){
     edk::GU::guTranslate2f32(this->connectedPosition);edkEnd();
     edk::GU::guTranslate2f32(this->connectedPivo*-1.0f);edkEnd();
 
-    this->updateChangedValues();
     //add translate
     edk::GU::guTranslate2f32(this->position);edkEnd();
     //add scale
@@ -1322,25 +1487,8 @@ void edk::Object2D::drawChildFrontWithoutMaterialWithLight(bool haveLight){
     //set the pivo
     edk::GU::guTranslate2f32(this->pivo*-1.0f);edkEnd();
 
-    edk::shape::Mesh2D* mesh;edkEnd();
-    if(haveLight){
-        for(edk::uint32 i=this->meshes.size();i>0u;i--){
-            //
-            mesh = this->meshes.getMesh(i-1u);edkEnd();
-            if(mesh){
-                mesh->drawWithoutMaterial();edkEnd();
-            }
-        }
-    }
-    else{
-        for(edk::uint32 i=this->meshes.size();i>0u;i--){
-            //
-            mesh = this->meshes.getMesh(i-1u);edkEnd();
-            if(mesh){
-                mesh->drawWithoutMaterial();edkEnd();
-            }
-        }
-    }
+    (this->*functionDrawWithoutMaterialWithLight)(haveLight);
+
     this->drawChildremsFrontWithoutMaterialWithLight(haveLight);
     edk::GU::guPopMatrix();edkEnd();
 }
@@ -1366,7 +1514,6 @@ void edk::Object2D::drawChildWithoutMaterialWithLight(bool haveLight){
     edk::GU::guTranslate2f32(this->connectedPosition);edkEnd();
     edk::GU::guTranslate2f32(this->connectedPivo*-1.0f);edkEnd();
 
-    this->updateChangedValues();
     //add translate
     edk::GU::guTranslate2f32(this->position);edkEnd();
     //add scale
@@ -1378,25 +1525,8 @@ void edk::Object2D::drawChildWithoutMaterialWithLight(bool haveLight){
 
     this->drawChildremsBackWithoutMaterialWithLight(haveLight);
 
-    edk::shape::Mesh2D* mesh;edkEnd();
-    if(haveLight){
-        for(edk::uint32 i=this->meshes.size();i>0u;i--){
-            //
-            mesh = this->meshes.getMesh(i-1u);edkEnd();
-            if(mesh){
-                mesh->drawWithoutMaterial();edkEnd();
-            }
-        }
-    }
-    else{
-        for(edk::uint32 i=this->meshes.size();i>0u;i--){
-            //
-            mesh = this->meshes.getMesh(i-1u);edkEnd();
-            if(mesh){
-                mesh->drawWithoutMaterial();edkEnd();
-            }
-        }
-    }
+    (this->*functionDrawWithoutMaterialWithLight)(haveLight);
+
     this->drawChildremsFrontWithoutMaterialWithLight(haveLight);
     edk::GU::guPopMatrix();edkEnd();
 }
@@ -1417,7 +1547,6 @@ void edk::Object2D::drawChildBackWire(){
     edk::GU::guTranslate2f32(this->connectedPosition);edkEnd();
     edk::GU::guTranslate2f32(this->connectedPivo*-1.0f);edkEnd();
 
-    this->updateChangedValues();
     //add translate
     edk::GU::guTranslate2f32(this->position);edkEnd();
     //add scale
@@ -1429,15 +1558,8 @@ void edk::Object2D::drawChildBackWire(){
 
     this->drawChildremsBackWire();
 
-    edk::shape::Mesh2D* mesh;edkEnd();
-    //print all polygonList
-    for(edk::uint32 i=this->meshes.size();i>0u;i--){
-        //
-        mesh = this->meshes.getMesh(i-1u);edkEnd();
-        if(mesh){
-            mesh->drawWirePolygons();edkEnd();
-        }
-    }
+    (this->*functionDrawWire)();
+
     edk::GU::guPopMatrix();edkEnd();
 }
 void edk::Object2D::drawChildremsFrontWire(){
@@ -1457,7 +1579,6 @@ void edk::Object2D::drawChildFrontWire(){
     edk::GU::guTranslate2f32(this->connectedPosition);edkEnd();
     edk::GU::guTranslate2f32(this->connectedPivo*-1.0f);edkEnd();
 
-    this->updateChangedValues();
     //add translate
     edk::GU::guTranslate2f32(this->position);edkEnd();
     //add scale
@@ -1467,15 +1588,8 @@ void edk::Object2D::drawChildFrontWire(){
     //set the pivo
     edk::GU::guTranslate2f32(this->pivo*-1.0f);edkEnd();
 
-    edk::shape::Mesh2D* mesh;edkEnd();
-    //print all polygonList
-    for(edk::uint32 i=this->meshes.size();i>0u;i--){
-        //
-        mesh = this->meshes.getMesh(i-1u);edkEnd();
-        if(mesh){
-            mesh->drawWirePolygons();edkEnd();
-        }
-    }
+    (this->*functionDrawWire)();
+
     this->drawChildremsFrontWire();
     edk::GU::guPopMatrix();edkEnd();
 }
@@ -1501,7 +1615,6 @@ void edk::Object2D::drawChildWire(){
     edk::GU::guTranslate2f32(this->connectedPosition);edkEnd();
     edk::GU::guTranslate2f32(this->connectedPivo*-1.0f);edkEnd();
 
-    this->updateChangedValues();
     //add translate
     edk::GU::guTranslate2f32(this->position);edkEnd();
     //add scale
@@ -1513,15 +1626,8 @@ void edk::Object2D::drawChildWire(){
 
     this->drawChildremsBackWire();
 
-    edk::shape::Mesh2D* mesh;edkEnd();
-    //print all polygonList
-    for(edk::uint32 i=this->meshes.size();i>0u;i--){
-        //
-        mesh = this->meshes.getMesh(i-1u);edkEnd();
-        if(mesh){
-            mesh->drawWirePolygons();edkEnd();
-        }
-    }
+    (this->*functionDrawWire)();
+
     this->drawChildremsFrontWire();
     edk::GU::guPopMatrix();edkEnd();
 }
@@ -2770,6 +2876,69 @@ bool edk::Object2D::lightOff(edk::uint32 position){
     return false;
 }
 
+//HIDE
+bool edk::Object2D::hide(){
+    if(!this->hided){
+        //
+        this->functionDrawBoundingBox = &edk::Object2D::drawHideBoundingBox;
+        this->functionDraw = &edk::Object2D::drawHide;
+        this->functionDrawOneTexture = &edk::Object2D::drawHideOneTexture;
+        this->functionDrawOneTextureWithLight = &edk::Object2D::drawHideOneTextureWithLight;
+        this->functionDrawWithoutMaterial = &edk::Object2D::drawHideWithoutMaterial;
+        this->functionDrawWithoutMaterialWithLight = &edk::Object2D::drawHideWithoutMaterialWithLight;
+        this->functionDrawWire = &edk::Object2D::drawHideWire;
+        this->functionDrawWirePolygon = &edk::Object2D::drawHideWirePolygon;
+        this->functionDrawMesh = &edk::Object2D::drawHideMesh;
+        this->functionDrawPolygon = &edk::Object2D::drawHidePolygon;
+        this->functionDrawMeshOneTexture = &edk::Object2D::drawHideMeshOneTexture;
+        this->functionDrawPolygonOneTexture = &edk::Object2D::drawHidePolygonOneTexture;
+        this->functionDrawMeshOneTextureWithLight = &edk::Object2D::drawHideMeshOneTextureWithLight;
+        this->functionDrawPolygonOneTextureWithLight = &edk::Object2D::drawHidePolygonOneTextureWithLight;
+        this->functionDrawMeshWithoutMaterial = &edk::Object2D::drawHideMeshWithoutMaterial;
+        this->functionDrawPolygonWithoutMaterial = &edk::Object2D::drawHidePolygonWithoutMaterial;
+        this->functionDrawMeshWithoutMaterialWithLight = &edk::Object2D::drawHideMeshWithoutMaterialWithLight;
+        this->functionDrawPolygonWithoutMaterialWithLight = &edk::Object2D::drawHidePolygonWithoutMaterialWithLight;
+        this->functionDrawMeshWire = &edk::Object2D::drawHideMeshWire;
+        this->functionDrawPolygonWire = &edk::Object2D::drawHidePolygonWire;
+
+        this->hided=true;
+
+        return true;
+    }
+    return false;
+}
+//UNHIDE
+bool edk::Object2D::unhide(){
+    if(this->hided){
+        //
+        this->functionDrawBoundingBox = &edk::Object2D::drawUnhideBoundingBox;
+        this->functionDraw = &edk::Object2D::drawUnhide;
+        this->functionDrawOneTexture = &edk::Object2D::drawUnhideOneTexture;
+        this->functionDrawOneTextureWithLight = &edk::Object2D::drawUnhideOneTextureWithLight;
+        this->functionDrawWithoutMaterial = &edk::Object2D::drawUnhideWithoutMaterial;
+        this->functionDrawWithoutMaterialWithLight = &edk::Object2D::drawUnhideWithoutMaterialWithLight;
+        this->functionDrawWire = &edk::Object2D::drawUnhideWire;
+        this->functionDrawWirePolygon = &edk::Object2D::drawUnhideWirePolygon;
+        this->functionDrawMesh = &edk::Object2D::drawUnhideMesh;
+        this->functionDrawPolygon = &edk::Object2D::drawUnhidePolygon;
+        this->functionDrawMeshOneTexture = &edk::Object2D::drawUnhideMeshOneTexture;
+        this->functionDrawPolygonOneTexture = &edk::Object2D::drawUnhidePolygonOneTexture;
+        this->functionDrawMeshOneTextureWithLight = &edk::Object2D::drawUnhideMeshOneTextureWithLight;
+        this->functionDrawPolygonOneTextureWithLight = &edk::Object2D::drawUnhidePolygonOneTextureWithLight;
+        this->functionDrawMeshWithoutMaterial = &edk::Object2D::drawUnhideMeshWithoutMaterial;
+        this->functionDrawPolygonWithoutMaterial = &edk::Object2D::drawUnhidePolygonWithoutMaterial;
+        this->functionDrawMeshWithoutMaterialWithLight = &edk::Object2D::drawUnhideMeshWithoutMaterialWithLight;
+        this->functionDrawPolygonWithoutMaterialWithLight = &edk::Object2D::drawUnhidePolygonWithoutMaterialWithLight;
+        this->functionDrawMeshWire = &edk::Object2D::drawUnhideMeshWire;
+        this->functionDrawPolygonWire = &edk::Object2D::drawUnhidePolygonWire;
+
+        this->hided=false;
+
+        return true;
+    }
+    return false;
+}
+
 //play all mesh animations
 void edk::Object2D::playMeshAnimations(){
     edk::uint32 size = this->meshes.size();edkEnd();
@@ -3150,7 +3319,6 @@ void edk::Object2D::print(){
 void edk::Object2D::drawBoundingBox(){
     //test if have a father
     //if(this->father){
-    this->updateChangedValues();
     //    //put the transformation on a stack
     //    edk::GU::guPushMatrix();edkEnd();
     //
@@ -3173,12 +3341,7 @@ void edk::Object2D::drawBoundingBox(){
 
     this->drawChildremsBackBoundingBox();
 
-    edk::GU::guBegin(GU_LINE_LOOP);edkEnd();
-    edk::GU::guVertex2f32(this->boundingBox.origin.x  ,this->boundingBox.origin.y   );edkEnd();
-    edk::GU::guVertex2f32(this->boundingBox.origin.x  ,this->boundingBox.size.height);edkEnd();
-    edk::GU::guVertex2f32(this->boundingBox.size.width,this->boundingBox.size.height);edkEnd();
-    edk::GU::guVertex2f32(this->boundingBox.size.width,this->boundingBox.origin.y   );edkEnd();
-    edk::GU::guEnd();edkEnd();
+    (this->*functionDrawBoundingBox)();
 
     this->drawChildremsFrontBoundingBox();
     edk::GU::guPopMatrix();edkEnd();
@@ -3215,37 +3378,8 @@ void edk::Object2D::draw(){
 
     this->drawChildremsBack(haveLight);
 
-    edk::shape::Mesh2D* mesh;edkEnd();
-    if(haveLight){
-        edk::uint32 size = this->meshes.size();edkEnd();
-        for(edk::uint32 i=size;i>0u;i--){
-            //
-            mesh = this->meshes.getMesh(i-1u);edkEnd();
-            if(mesh){
-                if(mesh->material.haveOneTexture()){
-                    mesh->drawOneTexture();edkEnd();
-                }
-                else{
-                    mesh->drawMultiTexture();edkEnd();
-                }
-            }
-        }
-    }
-    else{
-        edk::uint32 size = this->meshes.size();edkEnd();
-        for(edk::uint32 i=size;i>0u;i--){
-            //
-            mesh = this->meshes.getMesh(i-1u);edkEnd();
-            if(mesh){
-                if(mesh->material.haveOneTexture()){
-                    mesh->drawOneTexture();edkEnd();
-                }
-                else{
-                    mesh->drawMultiTexture();edkEnd();
-                }
-            }
-        }
-    }
+    (this->*functionDraw)(haveLight);
+
     this->drawChildremsFront(haveLight);
     //glEnable(GL_RESCALE_NORMAL);edkEnd();
     edk::GU::guDisable(GU_LIGHTING);edkEnd();
@@ -3266,15 +3400,8 @@ void edk::Object2D::drawOneTexture(){
 
     this->drawChildremsBackOneTexture();
 
-    edk::shape::Mesh2D* mesh;edkEnd();
-    //print all polygonList
-    for(edk::uint32 i=this->meshes.size();i>0u;i--){
-        //
-        mesh = this->meshes.getMesh(i-1u);edkEnd();
-        if(mesh){
-            mesh->drawOneTexture();edkEnd();
-        }
-    }
+    (this->*functionDrawOneTexture)();
+
     this->drawChildremsFrontOneTexture();
     edk::GU::guPopMatrix();edkEnd();
 }
@@ -3310,25 +3437,8 @@ void edk::Object2D::drawOneTextureWithLight(){
 
     this->drawChildremsBackOneTextureWithLight(haveLight);
 
-    edk::shape::Mesh2D* mesh;edkEnd();
-    if(haveLight){
-        for(edk::uint32 i=this->meshes.size();i>0u;i--){
-            //
-            mesh = this->meshes.getMesh(i-1u);edkEnd();
-            if(mesh){
-                mesh->drawOneTexture();edkEnd();
-            }
-        }
-    }
-    else{
-        for(edk::uint32 i=this->meshes.size();i>0u;i--){
-            //
-            mesh = this->meshes.getMesh(i-1u);edkEnd();
-            if(mesh){
-                mesh->drawOneTexture();edkEnd();
-            }
-        }
-    }
+    (this->*functionDrawOneTextureWithLight)(haveLight);
+
     this->drawChildremsFrontOneTextureWithLight(haveLight);
     edk::GU::guDisable(GU_LIGHTING);edkEnd();
     edk::GU::guPopMatrix();edkEnd();
@@ -3347,15 +3457,8 @@ void edk::Object2D::drawWithoutMaterial(){
 
     this->drawChildremsBackWithoutMaterial();
 
-    edk::shape::Mesh2D* mesh;edkEnd();
-    //print all polygonList
-    for(edk::uint32 i=this->meshes.size();i>0u;i--){
-        //
-        mesh = this->meshes.getMesh(i-1u);edkEnd();
-        if(mesh){
-            mesh->drawWithoutMaterial();edkEnd();
-        }
-    }
+    (this->*functionDrawWithoutMaterial)();
+
     this->drawChildremsFrontWithoutMaterial();
     edk::GU::guPopMatrix();edkEnd();
 }
@@ -3391,25 +3494,8 @@ void edk::Object2D::drawWithoutMaterialWithLight(){
 
     this->drawChildremsBackWithoutMaterialWithLight(haveLight);
 
-    edk::shape::Mesh2D* mesh;edkEnd();
-    if(haveLight){
-        for(edk::uint32 i=this->meshes.size();i>0u;i--){
-            //
-            mesh = this->meshes.getMesh(i-1u);edkEnd();
-            if(mesh){
-                mesh->drawWithoutMaterial();edkEnd();
-            }
-        }
-    }
-    else{
-        for(edk::uint32 i=this->meshes.size();i>0u;i--){
-            //
-            mesh = this->meshes.getMesh(i-1u);edkEnd();
-            if(mesh){
-                mesh->drawWithoutMaterial();edkEnd();
-            }
-        }
-    }
+    (this->*functionDrawWithoutMaterialWithLight)(haveLight);
+
     this->drawChildremsFrontWithoutMaterialWithLight(haveLight);
     edk::GU::guDisable(GU_LIGHTING);edkEnd();
     edk::GU::guPopMatrix();edkEnd();
@@ -3428,20 +3514,12 @@ void edk::Object2D::drawWire(){
 
     this->drawChildremsBackWire();
 
-    edk::shape::Mesh2D* mesh;edkEnd();
-    //print all polygonList
-    for(edk::uint32 i=this->meshes.size();i>0u;i--){
-        //
-        mesh = this->meshes.getMesh(i-1u);edkEnd();
-        if(mesh){
-            mesh->drawWirePolygons();edkEnd();
-        }
-    }
+    (this->*functionDrawWire)();
+
     this->drawChildremsFrontWire();
     edk::GU::guPopMatrix();edkEnd();
 }
 void edk::Object2D::drawWirePolygon(edk::uint32 meshPosition,edk::uint32 polygon){
-
     //put the transformation on a stack
     edk::GU::guPushMatrix();edkEnd();
     //add translate
@@ -3453,10 +3531,8 @@ void edk::Object2D::drawWirePolygon(edk::uint32 meshPosition,edk::uint32 polygon
     //set the pivo
     edk::GU::guTranslate2f32(this->pivo*-1.0f);edkEnd();
 
-    edk::shape::Mesh2D* mesh = this->meshes.getMesh(meshPosition);edkEnd();
-    if(mesh){
-        mesh->drawWirePolygon(polygon);edkEnd();
-    }
+    (this->*functionDrawWirePolygon)(meshPosition,polygon);
+
     edk::GU::guPopMatrix();edkEnd();
 }
 bool edk::Object2D::drawMesh(edk::uint32 meshPosition){
@@ -3493,35 +3569,8 @@ bool edk::Object2D::drawMesh(edk::uint32 meshPosition){
     //set the pivo
     edk::GU::guTranslate2f32(this->pivo*-1.0f);edkEnd();
 
-    edk::shape::Mesh2D* mesh;edkEnd();
-    if(haveLight){
-        if(meshPosition < this->meshes.size()){
-            mesh = this->meshes.getMesh(meshPosition);edkEnd();
-            if(mesh){
-                if(mesh->material.haveOneTexture()){
-                    mesh->drawOneTexture();edkEnd();
-                }
-                else{
-                    mesh->drawMultiTexture();edkEnd();
-                }
-                ret=true;edkEnd();
-            }
-        }
-    }
-    else{
-        if(meshPosition < this->meshes.size()){
-            mesh = this->meshes.getMesh(meshPosition);edkEnd();
-            if(mesh){
-                if(mesh->material.haveOneTexture()){
-                    mesh->drawOneTexture();edkEnd();
-                }
-                else{
-                    mesh->drawMultiTexture();edkEnd();
-                }
-                ret=true;edkEnd();
-            }
-        }
-    }
+    ret = (this->*functionDrawMesh)(haveLight,meshPosition);
+
     //glEnable(GL_RESCALE_NORMAL);edkEnd();
     edk::GU::guDisable(GU_LIGHTING);edkEnd();
     edk::GU::guPopMatrix();edkEnd();
@@ -3561,33 +3610,8 @@ bool edk::Object2D::drawPolygon(edk::uint32 meshPosition,edk::uint32 polygon){
     //set the pivo
     edk::GU::guTranslate2f32(this->pivo*-1.0f);edkEnd();
 
-    edk::shape::Mesh2D* mesh;edkEnd();
-    if(haveLight){
-        if(meshPosition < this->meshes.size()){
-            mesh = this->meshes.getMesh(meshPosition);edkEnd();
-            if(mesh){
-                if(mesh->material.haveOneTexture()){
-                    ret = mesh->drawPolygonOneTexture(polygon);edkEnd();
-                }
-                else{
-                    ret = mesh->drawPolygonMultiTexture(polygon);edkEnd();
-                }
-            }
-        }
-    }
-    else{
-        if(meshPosition < this->meshes.size()){
-            mesh = this->meshes.getMesh(meshPosition);edkEnd();
-            if(mesh){
-                if(mesh->material.haveOneTexture()){
-                    ret = mesh->drawPolygonOneTexture(polygon);edkEnd();
-                }
-                else{
-                    ret = mesh->drawPolygonMultiTexture(polygon);edkEnd();
-                }
-            }
-        }
-    }
+    ret = (this->*functionDrawPolygon)(haveLight,meshPosition,polygon);
+
     //glEnable(GL_RESCALE_NORMAL);edkEnd();
     edk::GU::guDisable(GU_LIGHTING);edkEnd();
     edk::GU::guPopMatrix();edkEnd();
@@ -3606,15 +3630,8 @@ bool edk::Object2D::drawMeshOneTexture(edk::uint32 meshPosition){
     //set the pivo
     edk::GU::guTranslate2f32(this->pivo*-1.0f);edkEnd();
 
-    edk::shape::Mesh2D* mesh;edkEnd();
-    //
-    if(meshPosition<this->meshes.size()){
-        mesh = this->meshes.getMesh(meshPosition);edkEnd();
-        if(mesh){
-            mesh->drawOneTexture();edkEnd();
-            ret = true;edkEnd();
-        }
-    }
+    ret = (this->*functionDrawMeshOneTexture)(meshPosition);
+
     edk::GU::guPopMatrix();edkEnd();
     return ret;
 }
@@ -3631,14 +3648,8 @@ bool edk::Object2D::drawPolygonOneTexture(edk::uint32 meshPosition,edk::uint32 p
     //set the pivo
     edk::GU::guTranslate2f32(this->pivo*-1.0f);edkEnd();
 
-    edk::shape::Mesh2D* mesh;edkEnd();
-    //
-    if(meshPosition<this->meshes.size()){
-        mesh = this->meshes.getMesh(meshPosition);edkEnd();
-        if(mesh){
-            ret = mesh->drawPolygonOneTexture(polygon);edkEnd();
-        }
-    }
+    ret = (this->*functionDrawPolygonOneTexture)(meshPosition,polygon);
+
     edk::GU::guPopMatrix();edkEnd();
     return ret;
 }
@@ -3673,26 +3684,8 @@ bool edk::Object2D::drawMeshOneTextureWithLight(edk::uint32 meshPosition){
     //set the pivo
     edk::GU::guTranslate2f32(this->pivo*-1.0f);edkEnd();
 
-    edk::shape::Mesh2D* mesh;edkEnd();
-    if(haveLight){
-        if(meshPosition < this->meshes.size()){
-            mesh = this->meshes.getMesh(meshPosition);edkEnd();
-            if(mesh){
-                mesh->drawOneTexture();edkEnd();
-                ret = true;edkEnd();
-            }
-        }
-    }
-    else{
-        for(edk::uint32 i=this->meshes.size();i>0u;i--){
-            //
-            mesh = this->meshes.getMesh(i-1u);edkEnd();
-            if(mesh){
-                mesh->drawOneTexture();edkEnd();
-                ret = true;edkEnd();
-            }
-        }
-    }
+    ret = (this->*functionDrawMeshOneTextureWithLight)(haveLight,meshPosition);
+
     edk::GU::guDisable(GU_LIGHTING);edkEnd();
     edk::GU::guPopMatrix();edkEnd();
     return ret;
@@ -3722,24 +3715,8 @@ bool edk::Object2D::drawPolygonOneTextureWithLight(edk::uint32 meshPosition,edk:
     //set the pivo
     edk::GU::guTranslate2f32(this->pivo*-1.0f);edkEnd();
 
-    edk::shape::Mesh2D* mesh;edkEnd();
-    if(haveLight){
-        if(meshPosition < this->meshes.size()){
-            mesh = this->meshes.getMesh(meshPosition);edkEnd();
-            if(mesh){
-                ret = mesh->drawPolygonOneTexture(polygon);edkEnd();
-            }
-        }
-    }
-    else{
-        for(edk::uint32 i=this->meshes.size();i>0u;i--){
-            //
-            mesh = this->meshes.getMesh(i-1u);edkEnd();
-            if(mesh){
-                ret = mesh->drawPolygonOneTexture(polygon);edkEnd();
-            }
-        }
-    }
+    ret = (this->*functionDrawPolygonOneTextureWithLight)(haveLight,meshPosition,polygon);
+
     edk::GU::guDisable(GU_LIGHTING);edkEnd();
     edk::GU::guPopMatrix();edkEnd();
     return ret;
@@ -3757,15 +3734,8 @@ bool edk::Object2D::drawMeshWithoutMaterial(edk::uint32 meshPosition){
     //set the pivo
     edk::GU::guTranslate2f32(this->pivo*-1.0f);edkEnd();
 
-    edk::shape::Mesh2D* mesh;edkEnd();
-    //print all polygonList
-    if(meshPosition<this->meshes.size()){
-        mesh = this->meshes.getMesh(meshPosition);edkEnd();
-        if(mesh){
-            mesh->drawWithoutMaterial();edkEnd();
-            ret = true;edkEnd();
-        }
-    }
+    ret = (this->*functionDrawMeshWithoutMaterial)(meshPosition);
+
     edk::GU::guPopMatrix();edkEnd();
     return ret;
 }
@@ -3782,14 +3752,8 @@ bool edk::Object2D::drawPolygonWithoutMaterial(edk::uint32 meshPosition,edk::uin
     //set the pivo
     edk::GU::guTranslate2f32(this->pivo*-1.0f);edkEnd();
 
-    edk::shape::Mesh2D* mesh;edkEnd();
-    //print all polygonList
-    if(meshPosition<this->meshes.size()){
-        mesh = this->meshes.getMesh(meshPosition);edkEnd();
-        if(mesh){
-            ret = mesh->drawPolygonWithoutMaterial(polygon);edkEnd();
-        }
-    }
+    ret = (this->*functionDrawPolygonWithoutMaterial)(meshPosition,polygon);
+
     edk::GU::guPopMatrix();edkEnd();
     return ret;
 }
@@ -3824,25 +3788,8 @@ bool edk::Object2D::drawMeshWithoutMaterialWithLight(edk::uint32 meshPosition){
     //set the pivo
     edk::GU::guTranslate2f32(this->pivo*-1.0f);edkEnd();
 
-    edk::shape::Mesh2D* mesh;edkEnd();
-    if(haveLight){
-        if(meshPosition<this->meshes.size()){
-            mesh = this->meshes.getMesh(meshPosition);edkEnd();
-            if(mesh){
-                mesh->drawWithoutMaterial();edkEnd();
-                ret=true;edkEnd();
-            }
-        }
-    }
-    else{
-        if(meshPosition<this->meshes.size()){
-            mesh = this->meshes.getMesh(meshPosition);edkEnd();
-            if(mesh){
-                mesh->drawWithoutMaterial();edkEnd();
-                ret=true;edkEnd();
-            }
-        }
-    }
+    ret = (this->*functionDrawMeshWithoutMaterialWithLight)(haveLight,meshPosition);
+
     edk::GU::guDisable(GU_LIGHTING);edkEnd();
     edk::GU::guPopMatrix();edkEnd();
     return ret;
@@ -3878,23 +3825,8 @@ bool edk::Object2D::drawPolygonWithoutMaterialWithLight(edk::uint32 meshPosition
     //set the pivo
     edk::GU::guTranslate2f32(this->pivo*-1.0f);edkEnd();
 
-    edk::shape::Mesh2D* mesh;edkEnd();
-    if(haveLight){
-        if(meshPosition<this->meshes.size()){
-            mesh = this->meshes.getMesh(meshPosition);edkEnd();
-            if(mesh){
-                ret = mesh->drawPolygonWithoutMaterial(polygon);edkEnd();
-            }
-        }
-    }
-    else{
-        if(meshPosition<this->meshes.size()){
-            mesh = this->meshes.getMesh(meshPosition);edkEnd();
-            if(mesh){
-                ret = mesh->drawPolygonWithoutMaterial(polygon);edkEnd();
-            }
-        }
-    }
+    ret = (this->*functionDrawPolygonWithoutMaterialWithLight)(haveLight,meshPosition,polygon);
+
     edk::GU::guDisable(GU_LIGHTING);edkEnd();
     edk::GU::guPopMatrix();edkEnd();
     return ret;
@@ -3912,15 +3844,8 @@ bool edk::Object2D::drawMeshWire(edk::uint32 meshPosition){
     //set the pivo
     edk::GU::guTranslate2f32(this->pivo*-1.0f);edkEnd();
 
-    edk::shape::Mesh2D* mesh;edkEnd();
-    //print all polygonList
-    if(meshPosition<this->meshes.size()){
-        mesh = this->meshes.getMesh(meshPosition);edkEnd();
-        if(mesh){
-            mesh->drawWirePolygons();edkEnd();
-            ret = true;edkEnd();
-        }
-    }
+    ret = (this->*functionDrawMeshWire)(meshPosition);
+
     edk::GU::guPopMatrix();edkEnd();
     return ret;
 }
@@ -3937,14 +3862,8 @@ bool edk::Object2D::drawPolygonWire(edk::uint32 meshPosition,edk::uint32 polygon
     //set the pivo
     edk::GU::guTranslate2f32(this->pivo*-1.0f);edkEnd();
 
-    edk::shape::Mesh2D* mesh;edkEnd();
-    //print all polygonList
-    if(meshPosition<this->meshes.size()){
-        mesh = this->meshes.getMesh(meshPosition);edkEnd();
-        if(mesh){
-            ret = mesh->drawWirePolygon(polygon);edkEnd();
-        }
-    }
+    ret = (this->*functionDrawPolygonWire)(meshPosition,polygon);
+
     edk::GU::guPopMatrix();edkEnd();
     return ret;
 }
