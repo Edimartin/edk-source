@@ -72,12 +72,19 @@ edk::vec2f32 edk::InfiniteHorizontal::incrementTilePosition(edk::float32 seconds
 //set the object first position
 edk::vec2f32 edk::InfiniteHorizontal::firstPositionObject(edk::rectf32 rect,edk::Object2D* obj){
     edk::vec2f32 position;edkEnd();
+    edk::size2f32 size = obj->size;
+    if(size.width<0.f){
+        size.width*=-1.f;edkEnd();
+    }
+    if(size.height<0.f){
+        size.height*=-1.f;edkEnd();
+    }
     position = this->tree.getObjectPosition(obj);edkEnd();
     if(this->speed>=0.f){
-        position.x = rect.size.width - obj->size.width*0.5f - this->tree.getObjectDistance(obj);edkEnd();
+        position.x = rect.size.width - size.width*0.5f - this->tree.getObjectDistance(obj);edkEnd();
     }
     else{
-        position.x = rect.origin.x + obj->size.width*0.5f + this->tree.getObjectDistance(obj);edkEnd();
+        position.x = rect.origin.x + size.width*0.5f + this->tree.getObjectDistance(obj);edkEnd();
     }
     return position;
 }
@@ -328,10 +335,17 @@ void edk::InfiniteHorizontal::updateInsideRectPoints(edk::float32 seconds,edk::r
                 //calculate the bounding box
                 tile->objPointer->calculateBoundingBox();edkEnd();
                 if(this->aabbPoints(incrementRectObject(tile->objPointer->getBoundingBox(),this->tree.getObjectDistance(tile->objPointer)),rect)){
-                    newRect.origin.x = tile->position.x + tile->objPointer->size.width*0.5f;edkEnd();
-                    newRect.size.width = tile->position.x - tile->objPointer->size.width*0.5f;edkEnd();
-                    newRect.origin.y = tile->position.y + tile->objPointer->size.height*0.5f;edkEnd();
-                    newRect.size.height = tile->position.y - tile->objPointer->size.height*0.5f;edkEnd();
+                    edk::size2f32 size = tile->objPointer->size;
+                    if(size.width<0.f){
+                        size.width*=-1.f;edkEnd();
+                    }
+                    if(size.height<0.f){
+                        size.height*=-1.f;edkEnd();
+                    }
+                    newRect.origin.x = tile->position.x + size.width*0.5f;edkEnd();
+                    newRect.size.width = tile->position.x - size.width*0.5f;edkEnd();
+                    newRect.origin.y = tile->position.y + size.height*0.5f;edkEnd();
+                    newRect.size.height = tile->position.y - size.height*0.5f;edkEnd();
                     //add a new tile
                     tile = this->buffer[0u];edkEnd();
                     this->buffer.incrementOrigin();edkEnd();

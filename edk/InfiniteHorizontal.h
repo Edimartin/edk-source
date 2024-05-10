@@ -285,7 +285,7 @@ private:
             if(tile){
                 //add into the tree
                 if(this->add(tile)){
-                    tile->distance=distance;
+                    tile->distance=distance - 0.1f;
                     return &tile->obj;
                 }
                 delete tile;
@@ -297,7 +297,7 @@ private:
             if(tile){
                 //add into the tree
                 if(this->add(tile)){
-                    tile->distance=distance;
+                    tile->distance=distance - 0.1f;
                     return &tile->objPhys;
                 }
                 delete tile;
@@ -312,7 +312,7 @@ private:
                     //clone the object
                     if(tile->obj.cloneFrom(obj)){
                         tile->position=obj->position;
-                        tile->distance=distance;
+                        tile->distance=distance - 0.1f;
                         //add into the tree
                         if(this->add(tile)){
                             return &tile->obj;
@@ -331,7 +331,7 @@ private:
                     //clone the object
                     if(tile->objPhys.cloneFrom(obj)){
                         tile->position=obj->position;
-                        tile->distance=distance;
+                        tile->distance=distance - 0.1f;
                         //add into the tree
                         if(this->add(tile)){
                             return &tile->objPhys;
