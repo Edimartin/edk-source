@@ -2559,6 +2559,7 @@ edk::shape::Mesh2D* edk::Object2D::newMesh(edk::uint32* position){
 //clean the obect
 void edk::Object2D::clean(){
     //
+    this->cleanConnectedObjects();
     this->cleanSelected();edkEnd();
     this->cleanMeshes();edkEnd();
     this->pivo = 0.f;edkEnd();
