@@ -49,6 +49,9 @@ public:
 
     void Constructor(bool runFather=true);
 
+    //print the values
+    virtual void print();
+
     edk::vec2f32 position;
     edk::float32 angle;
     edk::size2f32 size;

@@ -52,6 +52,31 @@ void edk::Object2DValues::Constructor(bool /*runFather*/){
     }
 }
 
+//print the values
+void edk::Object2DValues::print(){
+    printf("\nVALUES:"
+           "\nposition          [%.2f][%.2f]"
+           "\nangle             [%.2f]"
+           "\nsize              [%.2f][%.2f]"
+           "\npivo              [%.2f][%.2f]"
+           "\nfixedRotation     '%s'"
+           "\n"
+           "\nconnectedPosition [%.2f][%.2f]"
+           "\nconnectedAngle    [%.2f]"
+           "\nconnectedSize     [%.2f][%.2f]"
+           "\nconnectedPivo     [%.2f][%.2f]"
+           ,this->position.x,this->position.y
+           ,this->angle
+           ,this->size.width,this->size.height
+           ,this->pivo.x,this->pivo.y
+           ,this->fixedRotation?"true":"false"
+                                ,this->connectedPosition.x,this->connectedPivo.y
+           ,this->connectedAngle
+           ,this->connectedSize.width,this->connectedSize.height
+           ,this->connectedPivo.x,this->connectedPivo.y
+           );
+}
+
 void edk::Object2DValues::loadIdentityValues(){
     this->position = edk::vec2f32(0,0);edkEnd();
     this->angle = 0.f;edkEnd();

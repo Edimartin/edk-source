@@ -121,7 +121,10 @@ edk::uint32 edk::Random::getRandNumber(){
     return ((this->seed = edkRandom(this->seed)));edkEnd();
 }
 edk::uint32 edk::Random::getRandNumber(edk::uint32 limit){
-    return this->getRandNumber()%limit;edkEnd();
+    if(limit){
+        return this->getRandNumber()%limit;edkEnd();
+    }
+    return 0u;
 }
 //4294967295
 edk::float32 edk::Random::getRandPercent(){

@@ -3301,6 +3301,8 @@ bool edk::Object2D::actionPlayNameFor(edk::float32 /*second*/,edk::float32 /*dur
 //DRAW
 //print the mesh
 void edk::Object2D::print(){
+    edk::Object2DValues::print();
+
     edk::uint32 size = this->meshes.size();edkEnd();
     edk::shape::Mesh2D* mesh;edkEnd();
     //print all polygonList
