@@ -124,11 +124,14 @@ void edk::physics2D::World2D::MyContactListener::BeginContact(b2Contact* contact
                 }
             }
             if(contactTemp){
+                contactTemp->enableContact();
+                /*
                 if(!contactTemp->isEnabled()){
                     contact->SetEnabled(false);edkEnd();
                     contact->SetReallyEnabled(false);edkEnd();
                     return;edkEnd();
                 }
+                */
                 //update the values
                 contactTemp->objectA = (edk::physics2D::PhysicObject2D*)bodyA->GetUserData().pointer;edkEnd();
                 contactTemp->objectB = (edk::physics2D::PhysicObject2D*)bodyB->GetUserData().pointer;edkEnd();

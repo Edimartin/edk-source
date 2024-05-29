@@ -38,6 +38,7 @@ edk::physics2D::Contact2D::Contact2D(edk::classID pointer){
     this->points = 0u;edkEnd();
     this->enabled = true;edkEnd();
     this->areadyContacted=false;edkEnd();
+    this->enableContact();
 }
 edk::uint8 edk::physics2D::Contact2D::getMaxPoints(){
     return EDK_MAX_CONTACTS_POINTS;edkEnd();
