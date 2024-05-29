@@ -24,9 +24,11 @@ OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-edk::physics2D::Contact2D::Contact2D(edk::classID pointer){
+edk::physics2D::Contact2D::Contact2D(edk::classID pointer,edk::classID pointerBodyA,edk::classID pointerBodyB){
     //
     this->contactPointer=pointer;edkEnd();
+    this->contactBodyA=pointerBodyA;edkEnd();
+    this->contactBodyB=pointerBodyB;edkEnd();
     this->objectA=NULL;edkEnd();
     this->objectB=NULL;edkEnd();
     this->shapeA=0u;
@@ -36,7 +38,6 @@ edk::physics2D::Contact2D::Contact2D(edk::classID pointer){
     this->objectAWorldPosition=0.f;edkEnd();
     this->objectBWorldPosition=0.f;edkEnd();
     this->points = 0u;edkEnd();
-    this->enabled = true;edkEnd();
     this->areadyContacted=false;edkEnd();
     this->enableContact();
 }
@@ -47,6 +48,12 @@ edk::uint8 edk::physics2D::Contact2D::getMaxPoints(){
 //return the contactPointer
 edk::classID edk::physics2D::Contact2D::getContactPointer(){
     return this->contactPointer;edkEnd();
+}
+edk::classID edk::physics2D::Contact2D::getContactBodyA(){
+    return this->contactBodyA;edkEnd();
+}
+edk::classID edk::physics2D::Contact2D::getContactBodyB(){
+    return this->contactBodyB;edkEnd();
 }
 
 //disable the contact

@@ -47,6 +47,9 @@ public:
     void Constructor(edk::size2ui32 size,bool runFather=true);
     void Constructor(edk::uint32 width,edk::uint32 height,bool runFather=true);
 
+    virtual void updateAnimations();
+    virtual void updateAnimations(edk::float32 seconds);
+
     //the edkGU 2D camera
     edk::Camera2D camera;
 protected:

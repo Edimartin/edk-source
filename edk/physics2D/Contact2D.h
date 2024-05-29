@@ -44,7 +44,7 @@ namespace physics2D{
 class World2D;
 class Contact2D{
 public:
-    Contact2D(edk::classID pointer);
+    Contact2D(edk::classID pointer,edk::classID pointerBodyA,edk::classID pointerBodyB);
 
     friend edk::physics2D::World2D;
 
@@ -53,6 +53,8 @@ public:
 
     //return the contactPointer
     edk::classID getContactPointer();
+    edk::classID getContactBodyA();
+    edk::classID getContactBodyB();
 
     //disable the contact
     void disableContact();
@@ -90,7 +92,7 @@ public:
 
 
 private:
-    edk::classID contactPointer;
+    edk::classID contactPointer,contactBodyA,contactBodyB;
     //set if is enabled
     bool enabled;
     //save if aready have the contact

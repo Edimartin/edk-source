@@ -683,19 +683,37 @@ private:
                 //
                 return true;
             }
+            else if(first->getContactPointer()==second->getContactPointer()){
+                if(first->getContactBodyA()>second->getContactBodyA()){
+                    //
+                    return true;
+                }
+                else if(first->getContactBodyA()==second->getContactBodyA()){
+                    if(first->getContactBodyB()>second->getContactBodyB()){
+                        //
+                        return true;
+                    }
+                }
+            }
             return false;
         }
         bool firstEqualSecond(edk::physics2D::Contact2D* first,edk::physics2D::Contact2D* second){
             //
-            if(first->getContactPointer()==second->getContactPointer()){
+            if(first->getContactPointer()==second->getContactPointer()
+                    && first->getContactBodyA()==second->getContactBodyA()
+                    && first->getContactBodyB()==second->getContactBodyB()
+                    ){
                 //
                 return true;
             }
             return false;
         }
         //return the contact
-        inline edk::physics2D::Contact2D* getContact(edk::classID pointer){
-            edk::physics2D::Contact2D find(pointer);edkEnd();
+        inline edk::physics2D::Contact2D* getContact(edk::classID pointer,
+                                                     edk::classID pointerBodyA,
+                                                     edk::classID pointerBodyB
+                                                     ){
+            edk::physics2D::Contact2D find(pointer,pointerBodyA,pointerBodyB);edkEnd();
             return this->getElement(&find);
         }
     }treeConcacts;

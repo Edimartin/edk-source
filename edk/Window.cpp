@@ -487,10 +487,10 @@ void edk::Window::updateView(edk::View* view,edk::vec2f32 screenPosition){
         this->events.mousePos.y -= (edk::int32)view->animatedFrame.origin.y;edkEnd();
         //update the position in the screen
         view->positionInWindow=view->frame.origin+screenPosition;
-        //update the envents on the view
-        view->updateView(&this->events);edkEnd();
         //update the animations on the view
         view->updateAnimations();edkEnd();
+        //update the envents on the view
+        view->updateView(&this->events);edkEnd();
         //tets if is not a leaf
         if(!view->isLeaf()){
             //load the temp

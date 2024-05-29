@@ -373,11 +373,11 @@ void edk::Camera2D::updateAnimations(edk::float32 seconds){
 //start the animation
 bool edk::Camera2D::addShakingAngle(edk::float32 position,edk::float32 percent,edk::float32 interpolationDistance){
     //stop the last animation
-    this->animAngle.stop();edkEnd();
-    this->animAngle.cleanAnimations();edkEnd();
+    this->animShakingAngle.stop();edkEnd();
+    this->animShakingAngle.cleanAnimations();edkEnd();
     //create the shaking animation
-    if(this->animAngle.addShakingFramesX(position,percent,interpolationDistance)){
-        this->animAngle.playForward();edkEnd();
+    if(this->animShakingAngle.addShakingFramesX(position,percent,interpolationDistance)){
+        this->animShakingAngle.playForward();edkEnd();
         //return true;
         return true;
     }
@@ -385,11 +385,11 @@ bool edk::Camera2D::addShakingAngle(edk::float32 position,edk::float32 percent,e
 }
 bool edk::Camera2D::addShakingPosition(edk::vec2f32 position,edk::float32 random,edk::float32 percent,edk::float32 interpolationDistance){
     //stop the last animation
-    this->animPosition.stop();edkEnd();
-    this->animPosition.cleanAnimations();edkEnd();
+    this->animShakingPosition.stop();edkEnd();
+    this->animShakingPosition.cleanAnimations();edkEnd();
     //create the shaking animation
-    if(this->animPosition.addShakingFramesXY(position,random,percent,interpolationDistance)){
-        this->animPosition.playForward();edkEnd();
+    if(this->animShakingPosition.addShakingFramesXY(position,random,percent,interpolationDistance)){
+        this->animShakingPosition.playForward();edkEnd();
         //return true;
         return true;
     }

@@ -67,6 +67,15 @@ void edk::ViewGU2DTexture::Constructor(edk::uint32 width,edk::uint32 height,bool
     }
 }
 
+void edk::ViewGU2DTexture::updateAnimations(){
+    this->camera.updateAnimations();
+    edk::View::updateAnimations();
+}
+void edk::ViewGU2DTexture::updateAnimations(edk::float32 seconds){
+    this->camera.updateAnimations(seconds);
+    edk::View::updateAnimations(seconds);
+}
+
 //draw the 2Dcamera
 void edk::ViewGU2DTexture::drawCamera2D(){
     //

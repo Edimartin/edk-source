@@ -80,6 +80,10 @@ void edk::ViewGU2D::drawPolygon(edk::rectf32 outsideViewOrigin){
 
     edk::GU::guDisableAllLights();edkEnd();
 }
+void edk::ViewGU2D::runUpdate(edk::WindowEvents* events){
+    this->camera.updateAnimations(events->secondPassed);
+    edk::View::runUpdate(events);
+}
 
 
 //draw

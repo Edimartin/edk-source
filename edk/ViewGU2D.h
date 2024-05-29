@@ -53,6 +53,7 @@ public:
 protected:
     //draw the polygon on the scene
     void drawPolygon(edk::rectf32 outsideViewOrigin);
+    virtual void runUpdate(edk::WindowEvents* events);
 private:
     //draw the 2Dcamera
     void drawCamera2D();

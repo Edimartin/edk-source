@@ -82,7 +82,7 @@ void edk::physics2D::World2D::MyContactListener::BeginContact(b2Contact* contact
     edk::uint8 count = contact->GetManifold()->pointCount;edkEnd();
     if(count){
         //get the contact
-        edk::physics2D::Contact2D* contactTemp = this->world->treeConcacts.getContact(contact);edkEnd();
+        edk::physics2D::Contact2D* contactTemp = this->world->treeConcacts.getContact(contact,bodyA,bodyB);edkEnd();
 
         //test if the two objecs are on the same group
         edk::physics2D::PhysicObject2D* objectA = (edk::physics2D::PhysicObject2D*)bodyA->GetUserData().pointer;edkEnd();
@@ -115,7 +115,7 @@ void edk::physics2D::World2D::MyContactListener::BeginContact(b2Contact* contact
         if(thisContinue){
             if(!contactTemp){
                 //create the new contact
-                contactTemp = new edk::physics2D::Contact2D(contact);edkEnd();
+                contactTemp = new edk::physics2D::Contact2D(contact,bodyA,bodyB);edkEnd();
                 //add the contactTemp on the tree
                 if(!this->world->treeConcacts.add(contactTemp)){
                     //delete contactTemp
@@ -123,15 +123,10 @@ void edk::physics2D::World2D::MyContactListener::BeginContact(b2Contact* contact
                     contactTemp=NULL;edkEnd();
                 }
             }
-            if(contactTemp){
+            else{
                 contactTemp->enableContact();
-                /*
-                if(!contactTemp->isEnabled()){
-                    contact->SetEnabled(false);edkEnd();
-                    contact->SetReallyEnabled(false);edkEnd();
-                    return;edkEnd();
-                }
-                */
+            }
+            if(contactTemp){
                 //update the values
                 contactTemp->objectA = (edk::physics2D::PhysicObject2D*)bodyA->GetUserData().pointer;edkEnd();
                 contactTemp->objectB = (edk::physics2D::PhysicObject2D*)bodyB->GetUserData().pointer;edkEnd();
@@ -365,7 +360,7 @@ void edk::physics2D::World2D::MyContactListener::EndContact(b2Contact* contact){
         return;edkEnd();
     }
 
-    edk::physics2D::Contact2D* contactTemp = this->world->treeConcacts.getContact(contact);edkEnd();
+    edk::physics2D::Contact2D* contactTemp = this->world->treeConcacts.getContact(contact,bodyA,bodyB);edkEnd();
     if(contactTemp){
         contactTemp->objectA->setLinearVelocity(bodyA->GetLinearVelocity().x * this->percentOut,bodyA->GetLinearVelocity().y * this->percentOut);edkEnd();
         contactTemp->objectA->setAngularVelocity(bodyA->GetAngularVelocity() * (180.f / b2_pi));edkEnd();
@@ -496,7 +491,7 @@ void edk::physics2D::World2D::MyContactListener::PreSolve(b2Contact* contact, co
         return;edkEnd();
     }
 
-    edk::physics2D::Contact2D* contactTemp = this->world->treeConcacts.getContact(contact);edkEnd();
+    edk::physics2D::Contact2D* contactTemp = this->world->treeConcacts.getContact(contact,bodyA,bodyB);edkEnd();
     if(contactTemp){
         if(!contactTemp->isEnabled()){
             contact->SetEnabled(false);edkEnd();
@@ -638,7 +633,7 @@ void edk::physics2D::World2D::MyContactListener::PostSolve(b2Contact* contact, c
         return;edkEnd();
     }
 
-    edk::physics2D::Contact2D* contactTemp = this->world->treeConcacts.getContact(contact);edkEnd();
+    edk::physics2D::Contact2D* contactTemp = this->world->treeConcacts.getContact(contact,bodyA,bodyB);edkEnd();
     if(contactTemp){
         contactTemp->objectA->setLinearVelocity(bodyA->GetLinearVelocity().x * this->percentOut,bodyA->GetLinearVelocity().y * this->percentOut);edkEnd();
         contactTemp->objectA->setAngularVelocity(bodyA->GetAngularVelocity() * (180.f / b2_pi));edkEnd();
