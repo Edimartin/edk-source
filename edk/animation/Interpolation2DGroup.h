@@ -83,7 +83,7 @@ public:
 
     //create random animations
     //shake
-    edk::float32 addShakingFramesXY(edk::vec2f32 position,edk::float32 random,edk::float32 percent = 0.9f,edk::float32 interpolationDistance=0.05f);
+    edk::float32 addShakingFramesXY(edk::vec2f32 position,edk::float32 randomPercent,edk::float32 percent = 0.9f,edk::float32 interpolationDistance=0.05f);
 
     //GETERS
     //return the animationPosition

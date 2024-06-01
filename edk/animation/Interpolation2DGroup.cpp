@@ -356,7 +356,7 @@ bool edk::animation::Interpolation2DGroup::setInterpolationP2Y(edk::uint32 posit
 
 //create random animations
 //shake
-edk::float32 edk::animation::Interpolation2DGroup::addShakingFramesXY(edk::vec2f32 position,edk::float32 random,edk::float32 percent,edk::float32 interpolationDistance){
+edk::float32 edk::animation::Interpolation2DGroup::addShakingFramesXY(edk::vec2f32 position,edk::float32 randomPercent,edk::float32 percent,edk::float32 interpolationDistance){
     //test if is not animatin the shake
     if(interpolationDistance>0.f
             &&
@@ -410,7 +410,7 @@ edk::float32 edk::animation::Interpolation2DGroup::addShakingFramesXY(edk::vec2f
             //get the random angle between -90 and 90
             angle = -90.f + (edk::Random::getStaticRandPercent() * 180.f);edkEnd();
             //rotate the angle
-            position = edk::Math::rotatePlus(position,180.f + (angle * random));edkEnd();
+            position = edk::Math::rotatePlus(position,180.f + (angle * randomPercent));edkEnd();
             //increment the second
             second+=interpolationDistance;edkEnd();
             //add the next frame

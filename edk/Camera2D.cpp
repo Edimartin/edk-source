@@ -51,23 +51,42 @@ edk::Camera2D::~Camera2D(){
 void edk::Camera2D::Constructor(bool /*runFather*/){
     //
     if(this->classThis!=this){
-        this->classThis=this;
+        this->classThis=this;edkEnd();
         //construct the variables
-        this->animPosition.Constructor();
-        this->animAngle.Constructor();
-        this->animShakingPosition.Constructor();
-        this->animShakingAngle.Constructor();
+        this->shakePosition=edk::vec2f32(0.f,0.f);edkEnd();
+        this->shakeAngle=0.f;edkEnd();
+        this->shakeDistance=0.f;
+        this->runningShakePosition=false;edkEnd();
+        this->runningShakeAngle=false;edkEnd();
+        this->shakeSecondsInit=0.f;edkEnd();
+        this->shakeRandomPercent=0.f;edkEnd();
+        this->shakeInterpolationDistance=0.f;edkEnd();
+        this->secondPassed=0.f;edkEnd();
+        this->animPosition.Constructor();edkEnd();
+        this->animAngle.Constructor();edkEnd();
+        this->animShakingPosition.Constructor();edkEnd();
+        this->animShakingAngle.Constructor();edkEnd();
+        this->positionSave = this->position = edk::vec2f32(0.f,0.f);edkEnd();
         this->start();edkEnd();
     }
 }
 void edk::Camera2D::Constructor(edk::vec2f32 position,bool /*runFather*/){
     //
     if(this->classThis!=this){
-        this->classThis=this;
-        this->animPosition.Constructor();
-        this->animAngle.Constructor();
-        this->animShakingPosition.Constructor();
-        this->animShakingAngle.Constructor();
+        this->classThis=this;edkEnd();
+        this->shakePosition=edk::vec2f32(0.f,0.f);edkEnd();
+        this->shakeAngle=0.f;edkEnd();
+        this->shakeDistance=0.f;
+        this->runningShakePosition=false;edkEnd();
+        this->runningShakeAngle=false;edkEnd();
+        this->shakeSecondsInit=0.f;edkEnd();
+        this->shakeRandomPercent=0.f;edkEnd();
+        this->shakeInterpolationDistance=0.f;edkEnd();
+        this->secondPassed=0.f;edkEnd();
+        this->animPosition.Constructor();edkEnd();
+        this->animAngle.Constructor();edkEnd();
+        this->animShakingPosition.Constructor();edkEnd();
+        this->animShakingAngle.Constructor();edkEnd();
         this->start();edkEnd();
         //set the position
         this->positionSave = this->position = position;edkEnd();
@@ -76,11 +95,20 @@ void edk::Camera2D::Constructor(edk::vec2f32 position,bool /*runFather*/){
 void edk::Camera2D::Constructor(edk::float32 posX,edk::float32 posY,bool /*runFather*/){
     //
     if(this->classThis!=this){
-        this->classThis=this;
-        this->animPosition.Constructor();
-        this->animAngle.Constructor();
-        this->animShakingPosition.Constructor();
-        this->animShakingAngle.Constructor();
+        this->classThis=this;edkEnd();
+        this->shakePosition=edk::vec2f32(0.f,0.f);edkEnd();
+        this->shakeAngle=0.f;edkEnd();
+        this->shakeDistance=0.f;
+        this->runningShakePosition=false;edkEnd();
+        this->runningShakeAngle=false;edkEnd();
+        this->shakeSecondsInit=0.f;edkEnd();
+        this->shakeRandomPercent=0.f;edkEnd();
+        this->shakeInterpolationDistance=0.f;edkEnd();
+        this->secondPassed=0.f;edkEnd();
+        this->animPosition.Constructor();edkEnd();
+        this->animAngle.Constructor();edkEnd();
+        this->animShakingPosition.Constructor();edkEnd();
+        this->animShakingAngle.Constructor();edkEnd();
         this->start();edkEnd();
         //set the position
         this->positionSave = this->position = edk::vec2f32(posX,posY);edkEnd();
@@ -207,31 +235,74 @@ void edk::Camera2D::drawOrthoOnly(){
                         1.f//far
                         );edkEnd();
     //update the shaking animations
-    this->animShakingAngle.updateClockAnimation();edkEnd();
-    if(this->animShakingAngle.isPlaying()){
-        //calculate the angle of shaking
-        this->up = edk::Math::rotate(edk::vec2f32(1,0),(((this->angle + this->animShakingAngle.getClockX())*-1)+360.f)+90);edkEnd();
+
+    //shake angle
+    this->animShakeInitAngle.updateClockAnimation(this->secondPassed);
+    if(this->runningShakeAngle || this->animShakeInitAngle.isPlaying()){
+        edk::float32 secondPercent;
+        if(this->animShakeInitAngle.isPlaying()){
+            secondPercent = this->animShakeInitAngle.getClockX();
+        }
+        else{
+            secondPercent=1.f;
+        }
+
+        this->shakeAngle = -90.f + (edk::Random::getStaticRandPercent() * 180.f);edkEnd();
+        //rotate the angle
+        this->up = edk::Math::rotatePlus(edk::vec2f32(1.f,0.f),180.f + (this->shakeAngle * this->shakeRandomPercent*secondPercent));edkEnd();
+
+        this->shakeAngle = edk::Math::pythagoras(this->up);
     }
     else{
-        this->up = edk::Math::rotate(edk::vec2f32(1,0),((this->angle*-1)+360.f)+90);edkEnd();
+        this->animShakingAngle.updateClockAnimation();edkEnd();
+        if(this->animShakingAngle.isPlaying()){
+            //calculate the angle of shaking
+            this->up = edk::Math::rotate(edk::vec2f32(1,0),(((this->angle + this->animShakingAngle.getClockX())*-1)+360.f)+90);edkEnd();
+        }
+        else{
+            this->up = edk::Math::rotate(edk::vec2f32(1,0),((this->angle*-1)+360.f)+90);edkEnd();
+        }
     }
 
     //shake position
-    this->animShakingPosition.updateClockAnimation();edkEnd();
-    if(this->animShakingPosition.isPlaying()){
-        this->tempPosition.x = this->position.x+this->animShakingPosition.getClockX();edkEnd();
-        this->tempPosition.y = this->position.y+this->animShakingPosition.getClockY();edkEnd();
+    this->animShakeInitPosition.updateClockAnimation(this->secondPassed);
+    if(this->runningShakePosition || this->animShakeInitPosition.isPlaying()){
+        edk::float32 secondPercent;
+        if(this->animShakeInitPosition.isPlaying()){
+            secondPercent = this->animShakeInitPosition.getClockX();
+        }
+        else{
+            secondPercent=1.f;
+        }
+        //get next position
+        this->shakeAngle = -90.f + (edk::Random::getStaticRandPercent() * 180.f);edkEnd();
+        //rotate the angle
+        this->shakePosition = edk::Math::rotatePlus(this->shakePosition,180.f + (this->shakeAngle * this->shakeRandomPercent));edkEnd();
+        this->tempPosition.x = this->position.x+(this->shakePosition.x*secondPercent);edkEnd();
+        this->tempPosition.y = this->position.y+(this->shakePosition.y*secondPercent);edkEnd();
         edk::GU::guLookAt(this->tempPosition.x,this->tempPosition.y,1.f,
                           this->tempPosition.x,this->tempPosition.y,0.f,
                           this->up.x,this->up.y,0.f
                           );edkEnd();
     }
     else{
-        edk::GU::guLookAt(this->position.x,this->position.y,1.f,
-                          this->position.x,this->position.y,0.f,
-                          this->up.x,this->up.y,0.f
-                          );edkEnd();
+        this->animShakingPosition.updateClockAnimation(this->secondPassed);edkEnd();
+        if(this->animShakingPosition.isPlaying()){
+            this->tempPosition.x = this->position.x+this->animShakingPosition.getClockX();edkEnd();
+            this->tempPosition.y = this->position.y+this->animShakingPosition.getClockY();edkEnd();
+            edk::GU::guLookAt(this->tempPosition.x,this->tempPosition.y,1.f,
+                              this->tempPosition.x,this->tempPosition.y,0.f,
+                              this->up.x,this->up.y,0.f
+                              );edkEnd();
+        }
+        else{
+            edk::GU::guLookAt(this->position.x,this->position.y,1.f,
+                              this->position.x,this->position.y,0.f,
+                              this->up.x,this->up.y,0.f
+                              );edkEnd();
+        }
     }
+    this->secondPassed=0.f;
 }
 void edk::Camera2D::drawOrthoOnly(edk::float32 seconds){
     edk::GU::guUseOrtho(-this->size.width,
@@ -348,8 +419,10 @@ edk::float32 edk::Camera2D::getAngle(){
 
 //update the camera animations
 void edk::Camera2D::updateAnimations(){
-    this->animPosition.updateClockAnimation();edkEnd();
-    this->animAngle.updateClockAnimation();edkEnd();
+    this->secondPassed = this->clock.getSeconds();
+    this->clock.start();
+    this->animPosition.updateClockAnimation(this->secondPassed);edkEnd();
+    this->animAngle.updateClockAnimation(this->secondPassed);edkEnd();
     if(this->animPosition.isPlaying()){
         this->position.x = this->animPosition.getClockX();edkEnd();
         this->position.y = this->animPosition.getClockY();edkEnd();
@@ -368,32 +441,129 @@ void edk::Camera2D::updateAnimations(edk::float32 seconds){
     if(this->animAngle.isPlaying()){
         this->angle = this->animAngle.getClockX();edkEnd();
     }
+    this->secondPassed = seconds;
+    this->clock.start();
 }
 
 //start the animation
-bool edk::Camera2D::addShakingAngle(edk::float32 position,edk::float32 percent,edk::float32 interpolationDistance){
+bool edk::Camera2D::addShakingAngle(edk::float32 angle,
+                                    edk::float32 percent,
+                                    edk::float32 interpolationDistance
+                                    ){
     //stop the last animation
     this->animShakingAngle.stop();edkEnd();
     this->animShakingAngle.cleanAnimations();edkEnd();
     //create the shaking animation
-    if(this->animShakingAngle.addShakingFramesX(position,percent,interpolationDistance)){
+    if(this->animShakingAngle.addShakingFramesX(angle,percent,interpolationDistance)){
         this->animShakingAngle.playForward();edkEnd();
         //return true;
         return true;
     }
     return false;
 }
-bool edk::Camera2D::addShakingPosition(edk::vec2f32 position,edk::float32 random,edk::float32 percent,edk::float32 interpolationDistance){
+bool edk::Camera2D::addShakingPosition(edk::vec2f32 position,
+                                       edk::float32 randomPercent,
+                                       edk::float32 percent,
+                                       edk::float32 interpolationDistance
+                                       ){
     //stop the last animation
     this->animShakingPosition.stop();edkEnd();
     this->animShakingPosition.cleanAnimations();edkEnd();
     //create the shaking animation
-    if(this->animShakingPosition.addShakingFramesXY(position,random,percent,interpolationDistance)){
+    if(this->animShakingPosition.addShakingFramesXY(position,randomPercent,percent,interpolationDistance)){
         this->animShakingPosition.playForward();edkEnd();
         //return true;
         return true;
     }
     return false;
+}
+
+//start and end shakking
+bool edk::Camera2D::startShakeAngle(edk::float32 angle,
+                                    edk::float32 secondsInit,
+                                    edk::float32 interpolationDistance
+                                    ){
+    this->shakeAngle=angle;
+    this->shakeInterpolationDistance=interpolationDistance;
+    this->animShakeInitAngle.clean();
+    this->animShakeInitAngle.addFirstInterpolationLine(0.f,0.f,secondsInit,1.f);
+    this->animShakeInitAngle.restartForward();
+    this->shakeDistance = edk::Math::pythagoras(position);
+    if(!this->runningShakeAngle){
+        this->runningShakeAngle=true;
+        return true;
+    }
+    return false;
+}
+bool edk::Camera2D::stopShakeAngle(edk::float32 secondsEnd){
+    //test if are running
+    if(this->runningShakeAngle){
+        this->runningShakeAngle=false;
+        this->animShakeInitAngle.clean();
+        this->animShakeInitAngle.addFirstInterpolationLine(0.f,0.f,secondsEnd,1.f);
+        this->animShakeInitAngle.restartRewind();
+/*
+        //add a new shake position
+        return this->addShakingAngle(this->shakeAngle,
+                                     0.9f,
+                                     this->shakeInterpolationDistance
+                                     );
+*/
+    }
+    return false;
+}
+bool edk::Camera2D::stopShakeAngle(){
+    //test if are running
+    if(this->runningShakeAngle){
+        this->runningShakeAngle=false;
+        this->animShakeInitAngle.restartRewind();
+        return true;
+    }
+    return false;
+}
+bool edk::Camera2D::isShakingAngle(){
+    return (this->runningShakeAngle || this->animShakeInitAngle.isPlaying());
+}
+bool edk::Camera2D::startShakePosition(edk::vec2f32 position,
+                                       edk::float32 randomPercent,
+                                       edk::float32 secondsInit,
+                                       edk::float32 interpolationDistance
+                                       ){
+    this->shakeAngle = edk::Math::getAngle(position);
+    this->shakePosition=position;
+    this->shakeRandomPercent=randomPercent;
+    this->shakeInterpolationDistance=interpolationDistance;
+    this->animShakeInitPosition.clean();
+    this->animShakeInitPosition.addFirstInterpolationLine(0.f,0.f,secondsInit,1.f);
+    this->animShakeInitPosition.restartForward();
+    if(!this->runningShakePosition){
+        this->runningShakePosition=true;
+        return true;
+    }
+    return false;
+}
+bool edk::Camera2D::stopShakePosition(edk::float32 secondsEnd){
+    //test if are running
+    if(this->runningShakePosition){
+        this->runningShakePosition=false;
+        this->animShakeInitPosition.clean();
+        this->animShakeInitPosition.addFirstInterpolationLine(0.f,0.f,secondsEnd,1.f);
+        this->animShakeInitPosition.restartRewind();
+        return true;
+    }
+    return false;
+}
+bool edk::Camera2D::stopShakePosition(){
+    //test if are running
+    if(this->runningShakePosition){
+        this->runningShakePosition=false;
+        this->animShakeInitPosition.restartRewind();
+        return true;
+    }
+    return false;
+}
+bool edk::Camera2D::isShakingPosition(){
+    return (this->runningShakePosition || this->animShakeInitPosition.isPlaying());
 }
 
 //operator to copy the cameras

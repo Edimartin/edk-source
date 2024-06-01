@@ -119,8 +119,32 @@ public:
     void updateAnimations(edk::float32 seconds);
 
     //start the animation
-    bool addShakingAngle(edk::float32 position,edk::float32 percent = 0.9f,edk::float32 interpolationDistance=0.1f);
-    bool addShakingPosition(edk::vec2f32 position,edk::float32 random,edk::float32 percent = 0.9f,edk::float32 interpolationDistance=0.05f);
+    bool addShakingAngle(edk::float32 angle,
+                         edk::float32 percent = 0.9f,
+                         edk::float32 interpolationDistance=0.1f
+            );
+    bool addShakingPosition(edk::vec2f32 position,
+                            edk::float32 randomPercent,
+                            edk::float32 percent = 0.9f,
+                            edk::float32 interpolationDistance=0.05f
+            );
+
+    //start and end shakking
+    bool startShakeAngle(edk::float32 angle,
+                         edk::float32 secondsInit=0.5f,
+                         edk::float32 interpolationDistance=0.1f
+            );
+    bool stopShakeAngle(edk::float32 secondsEnd=0.5f);
+    bool stopShakeAngle();
+    bool isShakingAngle();
+    bool startShakePosition(edk::vec2f32 position,
+                            edk::float32 randomPercent,
+                            edk::float32 secondsInit=0.5f,
+                            edk::float32 interpolationDistance=0.05f
+            );
+    bool stopShakePosition(edk::float32 secondsEnd);
+    bool stopShakePosition();
+    bool isShakingPosition();
 
     //operator to copy the cameras
     bool cloneFrom(edk::Camera2D* cam);
@@ -144,6 +168,23 @@ private:
     edk::animation::Interpolation2DGroup animShakingPosition;
     //animated angle
     edk::animation::Interpolation1DGroup animShakingAngle;
+
+    //shaking position to shake with not animation
+    edk::vec2f32 shakePosition;
+    edk::float32 shakeAngle;
+    edk::float32 shakeDistance;
+    bool runningShakePosition;
+    bool runningShakeAngle;
+    edk::float32 shakeSecondsInit;
+    edk::float32 shakeRandomPercent;
+    edk::float32 shakeInterpolationDistance;
+    edk::animation::Interpolation1DGroup animShakeInitPosition;
+    edk::animation::Interpolation1DGroup animShakeInitAngle;
+
+    //seconds to animation
+    edk::float32 secondPassed;
+    edk::watch::Time clock;
+
     void start();
 private:
     edk::classID classThis;
