@@ -53,6 +53,15 @@ void edk::ViewGU2D::Constructor(bool runFather){
     }
 }
 
+void edk::ViewGU2D::updateAnimations(){
+    this->camera.updateAnimations();
+    edk::View::updateAnimations();
+}
+void edk::ViewGU2D::updateAnimations(edk::float32 seconds){
+    this->camera.updateAnimations(seconds);
+    edk::View::updateAnimations(seconds);
+}
+
 //draw the 2Dcamera
 void edk::ViewGU2D::drawCamera2D(){
     //draw the camera2D
@@ -79,10 +88,6 @@ void edk::ViewGU2D::drawPolygon(edk::rectf32 outsideViewOrigin){
     this->drawScene(outsideViewOrigin);edkEnd();
 
     edk::GU::guDisableAllLights();edkEnd();
-}
-void edk::ViewGU2D::runUpdate(edk::WindowEvents* events){
-    this->camera.updateAnimations(events->secondPassed);
-    edk::View::runUpdate(events);
 }
 
 

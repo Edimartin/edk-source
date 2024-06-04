@@ -286,7 +286,6 @@ void edk::Camera2D::drawOrthoOnly(){
                           );edkEnd();
     }
     else{
-        this->animShakingPosition.updateClockAnimation(this->secondPassed);edkEnd();
         if(this->animShakingPosition.isPlaying()){
             this->tempPosition.x = this->position.x+this->animShakingPosition.getClockX();edkEnd();
             this->tempPosition.y = this->position.y+this->animShakingPosition.getClockY();edkEnd();

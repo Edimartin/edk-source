@@ -488,7 +488,7 @@ void edk::Window::updateView(edk::View* view,edk::vec2f32 screenPosition){
         //update the position in the screen
         view->positionInWindow=view->frame.origin+screenPosition;
         //update the animations on the view
-        view->updateAnimations();edkEnd();
+        view->updateAnimations(this->events.secondPassed);edkEnd();
         //update the envents on the view
         view->updateView(&this->events);edkEnd();
         //tets if is not a leaf
