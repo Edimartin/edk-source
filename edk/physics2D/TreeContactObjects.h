@@ -68,6 +68,34 @@ public:
 private:
     edk::classID classThis;
 };
+class ContactObject{
+public:
+    ContactObject(edk::physics2D::PhysicObject2D* object){
+        this->classThis=NULL;edkEnd();
+        this->Constructor(object);edkEnd();
+    }
+    ~ContactObject(){
+        if(this->classThis==this){
+            this->classThis=NULL;edkEnd();
+            //can destruct the class
+            this->pointers.clean();
+        }
+    }
+
+    void Constructor(edk::physics2D::PhysicObject2D* object,bool runFather=true){
+        if(runFather){edkEnd();}
+        if(this->classThis!=this){
+            this->classThis=this;edkEnd();
+            this->object=object;edkEnd();
+            this->pointers.Constructor();
+        }
+    }
+
+    edk::physics2D::PhysicObject2D* object;
+    edk::vector::BinaryTree<edk::physics2D::ContactObjects*> pointers;
+private:
+    edk::classID classThis;
+};
 class TreeContactObjects{
 public:
     TreeContactObjects();
@@ -76,15 +104,19 @@ public:
     void Constructor(bool runFather=true);
 
     //clean the tree
-    void clean();
+    void cleanContacts();
     //add new contact
-    bool add(edk::physics2D::PhysicObject2D* objectA,edk::physics2D::PhysicObject2D* objectB);
+    bool addContact(edk::physics2D::PhysicObject2D* objectA,edk::physics2D::PhysicObject2D* objectB);
     //return true if have the objects in the tree
-    bool haveElement(edk::physics2D::PhysicObject2D* objectA,edk::physics2D::PhysicObject2D* objectB);
+    bool haveContact(edk::physics2D::PhysicObject2D* objectA,edk::physics2D::PhysicObject2D* objectB);
+    //return true if have removed the contact from two objects
+    bool removeContact(edk::physics2D::PhysicObject2D* objectA,edk::physics2D::PhysicObject2D* objectB);
 
 private:
+    edk::physics2D::ContactObjects search;
     //get the contact
-    edk::physics2D::ContactObjects* getContact(edk::physics2D::PhysicObject2D* objectA,edk::physics2D::PhysicObject2D* objectB);
+    edk::physics2D::ContactObjects* getContactFirst(edk::physics2D::PhysicObject2D* objectA,edk::physics2D::PhysicObject2D* objectB);
+    edk::physics2D::ContactObjects* getContactSecond(edk::physics2D::PhysicObject2D* objectA,edk::physics2D::PhysicObject2D* objectB);
     class TreeObjects : public edk::vector::BinaryTree<edk::physics2D::ContactObjects*>{
     public:
         TreeObjects(){this->classThis=NULL;this->Constructor(false);edkEnd();}
@@ -131,7 +163,7 @@ private:
         }
     private:
         edk::classID classThis;
-    }tree;
+    }treeFirst,treeSecond;
 private:
     edk::classID classThis;
 };

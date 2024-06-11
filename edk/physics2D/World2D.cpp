@@ -83,6 +83,9 @@ void edk::physics2D::World2D::MyContactListener::BeginContact(b2Contact* contact
     if(count){
         //get the contact
         edk::physics2D::Contact2D* contactTemp = this->world->treeConcacts.getContact(contact,bodyA,bodyB);edkEnd();
+        if(!contactTemp){
+            contactTemp = this->world->treeSensorConcacts.getContact(contact,bodyA,bodyB);edkEnd();
+        }
 
         //test if the two objecs are on the same group
         edk::physics2D::PhysicObject2D* objectA = (edk::physics2D::PhysicObject2D*)bodyA->GetUserData().pointer;edkEnd();
@@ -116,11 +119,21 @@ void edk::physics2D::World2D::MyContactListener::BeginContact(b2Contact* contact
             if(!contactTemp){
                 //create the new contact
                 contactTemp = new edk::physics2D::Contact2D(contact,bodyA,bodyB);edkEnd();
-                //add the contactTemp on the tree
-                if(!this->world->treeConcacts.add(contactTemp)){
-                    //delete contactTemp
-                    delete contactTemp;edkEnd();
-                    contactTemp=NULL;edkEnd();
+                if(objectA->isSensor() || objectB->isSensor()){
+                    //add the contactTemp on the tree
+                    if(!this->world->treeSensorConcacts.add(contactTemp)){
+                        //delete contactTemp
+                        delete contactTemp;edkEnd();
+                        contactTemp=NULL;edkEnd();
+                    }
+                }
+                else{
+                    //add the contactTemp on the tree
+                    if(!this->world->treeConcacts.add(contactTemp)){
+                        //delete contactTemp
+                        delete contactTemp;edkEnd();
+                        contactTemp=NULL;edkEnd();
+                    }
                 }
             }
             else{
@@ -243,7 +256,9 @@ void edk::physics2D::World2D::MyContactListener::BeginContact(b2Contact* contact
                                 }
                             }
                             else{
-                                if(this->world->treeConcacts.remove((contactTemp))){
+                                if(this->world->treeConcacts.remove((contactTemp))
+                                        || this->world->treeSensorConcacts.remove((contactTemp))
+                                        ){
                                     delete (contactTemp);edkEnd();
                                 }
                             }
@@ -257,7 +272,9 @@ void edk::physics2D::World2D::MyContactListener::BeginContact(b2Contact* contact
                                 }
                             }
                             else{
-                                if(this->world->treeConcacts.remove((contactTemp))){
+                                if(this->world->treeConcacts.remove((contactTemp))
+                                        || this->world->treeSensorConcacts.remove((contactTemp))
+                                        ){
                                     delete (contactTemp);edkEnd();
                                 }
                             }
@@ -286,7 +303,9 @@ void edk::physics2D::World2D::MyContactListener::BeginContact(b2Contact* contact
                                 }
                             }
                             else{
-                                if(this->world->treeConcacts.remove((contactTemp))){
+                                if(this->world->treeConcacts.remove((contactTemp))
+                                        || this->world->treeSensorConcacts.remove((contactTemp))
+                                        ){
                                     delete (contactTemp);edkEnd();
                                 }
                             }
@@ -300,7 +319,9 @@ void edk::physics2D::World2D::MyContactListener::BeginContact(b2Contact* contact
                                 }
                             }
                             else{
-                                if(this->world->treeConcacts.remove((contactTemp))){
+                                if(this->world->treeConcacts.remove((contactTemp))
+                                        || this->world->treeSensorConcacts.remove((contactTemp))
+                                        ){
                                     delete (contactTemp);edkEnd();
                                 }
                             }
@@ -327,7 +348,9 @@ void edk::physics2D::World2D::MyContactListener::BeginContact(b2Contact* contact
         }
         else{
             if(contactTemp){
-                if(this->world->treeConcacts.remove((contactTemp))){
+                if(this->world->treeConcacts.remove((contactTemp))
+                        || this->world->treeSensorConcacts.remove((contactTemp))
+                        ){
                     delete (contactTemp);edkEnd();
                 }
             }
@@ -361,6 +384,9 @@ void edk::physics2D::World2D::MyContactListener::EndContact(b2Contact* contact){
     }
 
     edk::physics2D::Contact2D* contactTemp = this->world->treeConcacts.getContact(contact,bodyA,bodyB);edkEnd();
+    if(!contactTemp){
+        contactTemp = this->world->treeSensorConcacts.getContact(contact,bodyA,bodyB);edkEnd();
+    }
     if(contactTemp){
         contactTemp->objectA->setLinearVelocity(bodyA->GetLinearVelocity().x * this->percentOut,bodyA->GetLinearVelocity().y * this->percentOut);edkEnd();
         contactTemp->objectA->setAngularVelocity(bodyA->GetAngularVelocity() * (180.f / b2_pi));edkEnd();
@@ -461,6 +487,7 @@ void edk::physics2D::World2D::MyContactListener::EndContact(b2Contact* contact){
 
         //remove contactTemp from the tree
         this->world->treeConcacts.remove(contactTemp);edkEnd();
+        this->world->treeSensorConcacts.remove(contactTemp);edkEnd();
         //delete contactTemp
         delete contactTemp;edkEnd();
     }
@@ -492,6 +519,9 @@ void edk::physics2D::World2D::MyContactListener::PreSolve(b2Contact* contact, co
     }
 
     edk::physics2D::Contact2D* contactTemp = this->world->treeConcacts.getContact(contact,bodyA,bodyB);edkEnd();
+    if(!contactTemp){
+        contactTemp = this->world->treeSensorConcacts.getContact(contact,bodyA,bodyB);edkEnd();
+    }
     if(contactTemp){
         if(!contactTemp->isEnabled()){
             contact->SetEnabled(false);edkEnd();
@@ -634,6 +664,9 @@ void edk::physics2D::World2D::MyContactListener::PostSolve(b2Contact* contact, c
     }
 
     edk::physics2D::Contact2D* contactTemp = this->world->treeConcacts.getContact(contact,bodyA,bodyB);edkEnd();
+    if(!contactTemp){
+        contactTemp = this->world->treeSensorConcacts.getContact(contact,bodyA,bodyB);edkEnd();
+    }
     if(contactTemp){
         contactTemp->objectA->setLinearVelocity(bodyA->GetLinearVelocity().x * this->percentOut,bodyA->GetLinearVelocity().y * this->percentOut);edkEnd();
         contactTemp->objectA->setAngularVelocity(bodyA->GetAngularVelocity() * (180.f / b2_pi));edkEnd();
@@ -880,7 +913,7 @@ edk::physics2D::World2D::World2D():
   ,treeDeleted(&this->world),
     #endif
     treeNew(this),treeLinearVelocity(this)
-  ,treeAngularVelocity(this),treeConcacts()
+  ,treeAngularVelocity(this),treeConcacts(),treeSensorConcacts()
   #if defined(EDK_USE_BOX2D)
   ,contacts(this)
   #endif
@@ -894,13 +927,13 @@ edk::physics2D::World2D::~World2D(){
     b2Body* body=NULL;edkEnd();
 #endif
 
-    this->beginContacs.clean();edkEnd();
-    this->keepBeginContacs.clean();edkEnd();
-    this->keepEndContacs.clean();edkEnd();
-    this->endContacs.clean();edkEnd();
-    this->sensorBeginContacs.clean();edkEnd();
-    this->sensorKeepContacs.clean();edkEnd();
-    this->sensorEndContacs.clean();edkEnd();
+    this->beginContacs.cleanContacts();edkEnd();
+    this->keepBeginContacs.cleanContacts();edkEnd();
+    this->keepEndContacs.cleanContacts();edkEnd();
+    this->endContacs.cleanContacts();edkEnd();
+    this->sensorBeginContacs.cleanContacts();edkEnd();
+    this->sensorKeepContacs.cleanContacts();edkEnd();
+    this->sensorEndContacs.cleanContacts();edkEnd();
 
     this->treeCallbacks.clean();edkEnd();
 
@@ -913,6 +946,15 @@ edk::physics2D::World2D::~World2D(){
         }
     }
     this->treeConcacts.clean();edkEnd();
+
+    size = this->treeSensorConcacts.getSize();edkEnd();
+    for(edk::uint32 i=0u;i<size;i++){
+        edk::physics2D::Contact2D* temp = this->treeSensorConcacts.getElementInPosition(i);edkEnd();
+        if(temp){
+            delete temp;edkEnd();
+        }
+    }
+    this->treeSensorConcacts.clean();edkEnd();
 
     //destroy objectJoints
     size = this->treeJointObjects.size();edkEnd();
@@ -1021,6 +1063,7 @@ void edk::physics2D::World2D::Constructor(bool /*runFather*/){
         this->treeLinearVelocity.Constructor(this);edkEnd();
         this->treeAngularVelocity.Constructor(this);edkEnd();
         this->treeConcacts.Constructor();edkEnd();
+        this->treeSensorConcacts.Constructor();edkEnd();
 #if defined(EDK_USE_BOX2D)
         this->contacts.Constructor(this);edkEnd();
         this->treeJoint.Constructor();edkEnd();
@@ -1517,9 +1560,9 @@ bool edk::physics2D::World2D::removeObjectJoints(edk::physics2D::PhysicObject2D*
 //contact functions
 void edk::physics2D::World2D::physicsContactBegin(edk::physics2D::Contact2D* contact){
     //test if have this objects in the tree
-    if(!this->beginContacs.haveElement(contact->objectA,contact->objectB)){
+    if(!this->beginContacs.haveContact(contact->objectA,contact->objectB)){
         //add the new contact into the tree
-        this->beginContacs.add(contact->objectA,contact->objectB);edkEnd();
+        this->beginContacs.addContact(contact->objectA,contact->objectB);edkEnd();
     }
     else{
         //else set the contact to aready have it
@@ -1535,9 +1578,9 @@ void edk::physics2D::World2D::physicsContactBegin(edk::physics2D::Contact2D* con
 }
 void edk::physics2D::World2D::physicsContactEnd(edk::physics2D::Contact2D* contact){
     //test if have this objects in the tree
-    if(!this->endContacs.haveElement(contact->objectA,contact->objectB)){
+    if(!this->endContacs.haveContact(contact->objectA,contact->objectB)){
         //add the new contact into the tree
-        this->endContacs.add(contact->objectA,contact->objectB);edkEnd();
+        this->endContacs.addContact(contact->objectA,contact->objectB);edkEnd();
     }
     else{
         //else set the contact to aready have it
@@ -1553,9 +1596,9 @@ void edk::physics2D::World2D::physicsContactEnd(edk::physics2D::Contact2D* conta
 }
 void edk::physics2D::World2D::physicsContactKeepBegin(edk::physics2D::Contact2D* contact){
     //test if have this objects in the tree
-    if(!this->keepBeginContacs.haveElement(contact->objectA,contact->objectB)){
+    if(!this->keepBeginContacs.haveContact(contact->objectA,contact->objectB)){
         //add the new contact into the tree
-        this->keepBeginContacs.add(contact->objectA,contact->objectB);edkEnd();
+        this->keepBeginContacs.addContact(contact->objectA,contact->objectB);edkEnd();
     }
     else{
         //else set the contact to aready have it
@@ -1571,9 +1614,9 @@ void edk::physics2D::World2D::physicsContactKeepBegin(edk::physics2D::Contact2D*
 }
 void edk::physics2D::World2D::physicsContactKeepEnd(edk::physics2D::Contact2D* contact){
     //test if have this objects in the tree
-    if(!this->keepEndContacs.haveElement(contact->objectA,contact->objectB)){
+    if(!this->keepEndContacs.haveContact(contact->objectA,contact->objectB)){
         //add the new contact into the tree
-        this->keepEndContacs.add(contact->objectA,contact->objectB);edkEnd();
+        this->keepEndContacs.addContact(contact->objectA,contact->objectB);edkEnd();
     }
     else{
         //else set the contact to aready have it
@@ -1590,9 +1633,9 @@ void edk::physics2D::World2D::physicsContactKeepEnd(edk::physics2D::Contact2D* c
 //contact sensors
 void edk::physics2D::World2D::physicsSensorBegin(edk::physics2D::Contact2D* contact){
     //test if have this objects in the tree
-    if(!this->sensorBeginContacs.haveElement(contact->objectA,contact->objectB)){
+    if(!this->sensorBeginContacs.haveContact(contact->objectA,contact->objectB)){
         //add the new contact into the tree
-        this->sensorBeginContacs.add(contact->objectA,contact->objectB);edkEnd();
+        this->sensorBeginContacs.addContact(contact->objectA,contact->objectB);edkEnd();
     }
     else{
         //else set the contact to aready have it
@@ -1608,9 +1651,9 @@ void edk::physics2D::World2D::physicsSensorBegin(edk::physics2D::Contact2D* cont
 }
 void edk::physics2D::World2D::physicsSensorEnd(edk::physics2D::Contact2D* contact){
     //test if have this objects in the tree
-    if(!this->sensorEndContacs.haveElement(contact->objectA,contact->objectB)){
+    if(!this->sensorEndContacs.haveContact(contact->objectA,contact->objectB)){
         //add the new contact into the tree
-        this->sensorEndContacs.add(contact->objectA,contact->objectB);edkEnd();
+        this->sensorEndContacs.addContact(contact->objectA,contact->objectB);edkEnd();
     }
     else{
         //else set the contact to aready have it
@@ -1626,9 +1669,9 @@ void edk::physics2D::World2D::physicsSensorEnd(edk::physics2D::Contact2D* contac
 }
 void edk::physics2D::World2D::physicsSensorKeeping(edk::physics2D::Contact2D* contact){
     //test if have this objects in the tree
-    if(!this->sensorKeepContacs.haveElement(contact->objectA,contact->objectB)){
+    if(!this->sensorKeepContacs.haveContact(contact->objectA,contact->objectB)){
         //add the new contact into the tree
-        this->sensorKeepContacs.add(contact->objectA,contact->objectB);edkEnd();
+        this->sensorKeepContacs.addContact(contact->objectA,contact->objectB);edkEnd();
     }
     else{
         //else set the contact to aready have it
@@ -2180,6 +2223,8 @@ bool edk::physics2D::World2D::removeObject(edk::physics2D::PhysicObject2D* objec
                 if(temp){
                     this->treeKinematic.removeBody(temp);edkEnd();
                 }
+                break;
+            default:
                 break;
             }
             if(temp){
@@ -3293,14 +3338,58 @@ void edk::physics2D::World2D::nextStep(edk::float32
 #endif
         this->runNextStep = false;edkEnd();
 
+        {
+            edk::uint32 size = this->treeSensorConcacts.size();
+            edk::physics2D::Contact2D* contactTemp;
+            edk::physics2D::StaticSensor2D* sensor;
+            for(edk::uint32 i=0u;i<size;i++){
+                contactTemp = this->treeSensorConcacts.getElementInPosition(i);
+                //test if the objectA is a sensor
+                if(contactTemp->objectA->isSensor()){
+                    //load the sensor
+                    sensor = (edk::physics2D::StaticSensor2D*)contactTemp->objectA;edkEnd();
+                    //test if the sensor have objects
+                    if(sensor->getActivateSize()){
+                        //test if have the object in the sensor tree
+                        if(sensor->haveActivateObject(contactTemp->objectB)){
+                            //this->world->sensorEnd(contactTemp);edkEnd();
+                            this->physicsSensorKeeping(contactTemp);edkEnd();
+                        }
+                    }
+                    else{
+                        //test if the object is in the sensor
+                        //this->world->sensorEnd(contactTemp);edkEnd();
+                        this->physicsSensorKeeping(contactTemp);edkEnd();
+                    }
+                }
+                else if(contactTemp->objectB->isSensor()){
+                    //load the sensor
+                    sensor = (edk::physics2D::StaticSensor2D*)contactTemp->objectB;edkEnd();
+                    //test if the sensor have objects
+                    if(sensor->getActivateSize()){
+                        //test if have the object in the sensor tree
+                        if(sensor->haveActivateObject(contactTemp->objectA)){
+                            //this->world->sensorEnd(contactTemp);edkEnd();
+                            this->physicsSensorKeeping(contactTemp);edkEnd();
+                        }
+                    }
+                    else{
+                        //test if the object is in the sensor
+                        //this->world->sensorEnd(contactTemp);edkEnd();
+                        this->physicsSensorKeeping(contactTemp);edkEnd();
+                    }
+                }
+            }
+        }
+
         //clean the treeObjectContacts
-        this->beginContacs.clean();edkEnd();
-        this->keepBeginContacs.clean();edkEnd();
-        this->keepEndContacs.clean();edkEnd();
-        this->endContacs.clean();edkEnd();
-        this->sensorBeginContacs.clean();edkEnd();
-        this->sensorKeepContacs.clean();edkEnd();
-        this->sensorEndContacs.clean();edkEnd();
+        this->beginContacs.cleanContacts();edkEnd();
+        this->keepBeginContacs.cleanContacts();edkEnd();
+        this->keepEndContacs.cleanContacts();edkEnd();
+        this->endContacs.cleanContacts();edkEnd();
+        this->sensorBeginContacs.cleanContacts();edkEnd();
+        this->sensorKeepContacs.cleanContacts();edkEnd();
+        this->sensorEndContacs.cleanContacts();edkEnd();
 
         //create new objects
         this->treeNew.print();edkEnd();
@@ -3365,11 +3454,15 @@ void edk::physics2D::World2D::setClockScale(edk::float32 clockScale){
 
 //return the size of contacts
 edk::uint32 edk::physics2D::World2D::getContactSize(){
-    return this->treeConcacts.getSize();edkEnd();
+    return this->treeConcacts.getSize() + this->treeSensorConcacts.getSize();edkEnd();
 }
 //return the contact
 edk::physics2D::Contact2D* edk::physics2D::World2D::getContact(edk::uint32 position){
-    return this->treeConcacts.getElementInPosition(position);edkEnd();
+    edk::physics2D::Contact2D* ret = this->treeConcacts.getElementInPosition(position);edkEnd();
+    if(!ret){
+        return this->treeSensorConcacts.getElementInPosition(position - this->treeConcacts.size());edkEnd();
+    }
+    return ret;
 }
 
 

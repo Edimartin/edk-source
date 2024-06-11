@@ -25,7 +25,9 @@ OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-edk::physics2D::TreeContactObjects::TreeContactObjects(){
+edk::physics2D::TreeContactObjects::TreeContactObjects()
+    :search(NULL,NULL)
+{
     this->classThis=NULL;edkEnd();
     this->Constructor(false);edkEnd();
 }
@@ -41,53 +43,71 @@ void edk::physics2D::TreeContactObjects::Constructor(bool /*runFather*/){
     if(this->classThis!=this){
         this->classThis=this;
 
-        this->tree.Constructor();edkEnd();
+        this->treeFirst.Constructor();edkEnd();
+        this->treeSecond.Constructor();edkEnd();
     }
 }
 
 //get the contact
-inline edk::physics2D::ContactObjects* edk::physics2D::TreeContactObjects::getContact(edk::physics2D::PhysicObject2D* objectA,
-                                                                                      edk::physics2D::PhysicObject2D* objectB
-                                                                                      ){
+inline edk::physics2D::ContactObjects* edk::physics2D::TreeContactObjects::getContactFirst(edk::physics2D::PhysicObject2D* objectA,
+                                                                                           edk::physics2D::PhysicObject2D* objectB
+                                                                                           ){
     //
-    edk::physics2D::ContactObjects search(objectA,objectB);edkEnd();
-    return this->tree.getElement(&search);
+    this->search.objectA = objectA;edkEnd();
+    this->search.objectB = objectB;edkEnd();
+    return this->treeFirst.getElement(&search);
+}
+inline edk::physics2D::ContactObjects* edk::physics2D::TreeContactObjects::getContactSecond(edk::physics2D::PhysicObject2D* objectA,
+                                                                                            edk::physics2D::PhysicObject2D* objectB
+                                                                                            ){
+    //
+    this->search.objectA = objectB;edkEnd();
+    this->search.objectB = objectA;edkEnd();
+    return this->treeSecond.getElement(&search);
 }
 
 //clean the tree
-void edk::physics2D::TreeContactObjects::clean(){
-    edk::uint32 size = this->tree.size();edkEnd();
+void edk::physics2D::TreeContactObjects::cleanContacts(){
+    edk::uint32 size = this->treeFirst.size();edkEnd();
     edk::physics2D::ContactObjects* temp;edkEnd();
     for(edk::uint32 i=0u;i<size;i++){
-        temp = this->tree.getElementInPosition(i);edkEnd();
+        temp = this->treeFirst.getElementInPosition(i);edkEnd();
         if(temp){
             delete temp;edkEnd();
         }
     }
-    this->tree.clean();edkEnd();
+    this->treeFirst.clean();edkEnd();
+    size = this->treeSecond.size();edkEnd();
+    for(edk::uint32 i=0u;i<size;i++){
+        temp = this->treeSecond.getElementInPosition(i);edkEnd();
+        if(temp){
+            delete temp;edkEnd();
+        }
+    }
+    this->treeSecond.clean();edkEnd();
 }
 //add new contact
-bool edk::physics2D::TreeContactObjects::add(edk::physics2D::PhysicObject2D* objectA,edk::physics2D::PhysicObject2D* objectB){
+bool edk::physics2D::TreeContactObjects::addContact(edk::physics2D::PhysicObject2D* objectA,edk::physics2D::PhysicObject2D* objectB){
     //test the objects
     if(objectA && objectB){
         //search for the objects on the tree
-        edk::physics2D::ContactObjects* temp = this->getContact(objectA,objectB);edkEnd();
+        edk::physics2D::ContactObjects* temp = this->getContactFirst(objectA,objectB);edkEnd();
         if(!temp){
             //else the tree don't have the objects
 
             //add two contacts
             edk::physics2D::ContactObjects* first = new edk::physics2D::ContactObjects(objectA,objectB);edkEnd();
             if(first){
-                if(this->tree.add(first)){
+                if(this->treeFirst.add(first)){
                     //create the second object
                     edk::physics2D::ContactObjects* second = new edk::physics2D::ContactObjects(objectB,objectA);edkEnd();
                     if(second){
-                        if(this->tree.add(second)){
+                        if(this->treeSecond.add(second)){
                             return true;
                         }
                         delete second;edkEnd();
                     }
-                    this->tree.remove(first);edkEnd();
+                    this->treeFirst.remove(first);edkEnd();
                 }
                 delete first;edkEnd();
             }
@@ -96,10 +116,47 @@ bool edk::physics2D::TreeContactObjects::add(edk::physics2D::PhysicObject2D* obj
     return false;
 }
 //return true if have the objects in the tree
-bool edk::physics2D::TreeContactObjects::haveElement(edk::physics2D::PhysicObject2D* objectA,edk::physics2D::PhysicObject2D* objectB){
-    edk::physics2D::ContactObjects* temp = this->getContact(objectA,objectB);edkEnd();
+bool edk::physics2D::TreeContactObjects::haveContact(edk::physics2D::PhysicObject2D* objectA,edk::physics2D::PhysicObject2D* objectB){
+    edk::physics2D::ContactObjects* temp = this->getContactFirst(objectA,objectB);edkEnd();
+    if(temp){
+        return true;
+    }
+    temp = this->getContactSecond(objectA,objectB);edkEnd();
     if(temp){
         return true;
     }
     return false;
+}
+//return true if have removed the contact from two objects
+bool edk::physics2D::TreeContactObjects::removeContact(edk::physics2D::PhysicObject2D* objectA,edk::physics2D::PhysicObject2D* objectB){
+    bool ret=false;
+    edk::physics2D::ContactObjects* temp = this->getContactFirst(objectA,objectB);edkEnd();
+    if(temp){
+        if(this->treeFirst.remove(temp)){
+            delete temp;
+            ret = true;
+        }
+    }
+    temp = this->getContactFirst(objectB,objectA);edkEnd();
+    if(temp){
+        if(this->treeFirst.remove(temp)){
+            delete temp;
+            ret = true;
+        }
+    }
+    temp = this->getContactSecond(objectA,objectB);edkEnd();
+    if(temp){
+        if(this->treeSecond.remove(temp)){
+            delete temp;
+            ret = true;
+        }
+    }
+    temp = this->getContactSecond(objectB,objectA);edkEnd();
+    if(temp){
+        if(this->treeSecond.remove(temp)){
+            delete temp;
+            ret = true;
+        }
+    }
+    return ret;
 }

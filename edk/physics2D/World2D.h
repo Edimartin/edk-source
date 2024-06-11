@@ -436,6 +436,7 @@ private:
     edk::physics2D::TreeContactObjects sensorKeepContacs;
     edk::physics2D::TreeContactObjects sensorEndContacs;
 
+
 #if defined(EDK_USE_BOX2D)
     //return the body
     b2Body* getBody(edk::physics2D::PhysicObject2D* object);
@@ -716,7 +717,7 @@ private:
             edk::physics2D::Contact2D find(pointer,pointerBodyA,pointerBodyB);edkEnd();
             return this->getElement(&find);
         }
-    }treeConcacts;
+    }treeConcacts,treeSensorConcacts;
 
 #if defined(EDK_USE_BOX2D)
     class MyContactListener : public b2ContactListener {
