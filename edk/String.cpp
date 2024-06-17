@@ -3881,6 +3881,43 @@ bool edk::String::strCompare(const edk::char8 *str1, const edk::char8 *str2){
     return edk::String::strCompare((edk::char8*)str1,(edk::char8*)str2);
 }
 
+bool edk::String::strCompareInside(edk::char8 *str1, edk::char8 *str2){
+    //alloc the return
+    if(str1 && str2){
+        edk::char8 *str;
+        //search the second string inside the first
+        while(*str1){
+            if(*str1 == *str2){
+                str = str2;
+                while(*str1 || *str){
+                    if(*str1 != *str){
+                        break;
+                    }
+                    str1++;
+                    str++;
+                }
+                if(!*str){
+                    return true;
+                }
+                continue;
+            }
+            str1++;
+        }
+    }
+    return false;
+}
+
+bool edk::String::strCompareInside(const edk::char8 *str1, edk::char8 *str2){
+    return edk::String::strCompareInside((edk::char8 *)str1, (edk::char8 *)str2);
+}
+bool edk::String::strCompareInside(edk::char8 *str1, const edk::char8 *str2){
+    return edk::String::strCompareInside((edk::char8 *)str1, (edk::char8 *)str2);
+}
+
+bool edk::String::strCompareInside(const edk::char8 *str1, const edk::char8 *str2){
+    return edk::String::strCompareInside((edk::char8*)str1,(edk::char8*)str2);
+}
+
 bool edk::String::strCompareBeggin(edk::char8 *beggin, edk::char8 *str){
     if(beggin && str){
         while(*beggin && *str){
@@ -4077,13 +4114,11 @@ bool edk::String::strCompareWithFilter(const edk::char8 *str1, edk::char8 *str2,
 //return true if a string is inside the other string
 edk::char8* edk::String::strInside(edk::char8 *str, edk::char8 *compare){
     edk::char8* temp = NULL;
-    edk::char8* ret = NULL;
     if(str && compare){
         while(*str){
             //test if are equal
             if(*str == *compare){
                 temp = compare;
-                ret = str;
                 //test the other characters
                 while(*str && *temp){
                     //increment
@@ -4096,7 +4131,7 @@ edk::char8* edk::String::strInside(edk::char8 *str, edk::char8 *compare){
                 //test if reach the end
                 if(!*temp){
                     //reach the end
-                    return ret;
+                    return str;
                 }
                 if(!*str){
                     //then return NULL;
@@ -4132,6 +4167,60 @@ edk::char8* edk::String::strHaveInside(const edk::char8 *str, const edk::char8 *
     return edk::String::strInside((edk::char8 *)str, (edk::char8 *)compare);
 }
 
+edk::char8* edk::String::strInsideBeggin(edk::char8 *str, edk::char8 *compare){
+    edk::char8* temp = NULL;
+    if(str && compare){
+        while(*str){
+            //test if are equal
+            if(*str == *compare){
+                temp = compare;
+                //test the other characters
+                while(*str && *temp){
+                    //increment
+                    str++;
+                    temp++;
+                    if(*str != *temp){
+                        break;
+                    }
+                }
+                //test if reach the end
+                if(!*temp){
+                    //reach the end
+                    return str;
+                }
+                if(!*str){
+                    //then return NULL;
+                    return NULL;
+                }
+            }
+
+            break;
+        }
+    }
+    return NULL;
+}
+edk::char8* edk::String::strInsideBeggin(const edk::char8 *str, edk::char8 *compare){
+    return edk::String::strInsideBeggin((edk::char8 *)str, compare);
+}
+edk::char8* edk::String::strInsideBeggin(edk::char8 *str, const edk::char8 *compare){
+    return edk::String::strInsideBeggin(str, (edk::char8 *)compare);
+}
+edk::char8* edk::String::strInsideBeggin(const edk::char8 *str, const edk::char8 *compare){
+    return edk::String::strInsideBeggin((edk::char8 *)str, (edk::char8 *)compare);
+}
+edk::char8* edk::String::strHaveInsideBeggin(edk::char8 *str, edk::char8 *compare){
+    return edk::String::strInsideBeggin(str, compare);
+}
+edk::char8* edk::String::strHaveInsideBeggin(const edk::char8 *str, edk::char8 *compare){
+    return edk::String::strInsideBeggin((edk::char8 *)str, compare);
+}
+edk::char8* edk::String::strHaveInsideBeggin(edk::char8 *str, const edk::char8 *compare){
+    return edk::String::strInsideBeggin(str, (edk::char8 *)compare);
+}
+edk::char8* edk::String::strHaveInsideBeggin(const edk::char8 *str, const edk::char8 *compare){
+    return edk::String::strInsideBeggin((edk::char8 *)str, (edk::char8 *)compare);
+}
+
 //return true if the first string is bigger than the second string
 bool edk::String::strBiggerStr(edk::char8 *str1, edk::char8 *str2){
     //test the strings
@@ -4163,6 +4252,40 @@ bool edk::String::strBiggerStr(edk::char8 *str1, const edk::char8 *str2){
 }
 bool edk::String::strBiggerStr(const edk::char8 *str1, const edk::char8 *str2){
     return edk::String::strBiggerStr((edk::char8 *)str1, (edk::char8 *)str2);
+}
+
+//JUMP
+edk::char8* edk::String::strJumpTo(edk::char8* str,edk::char8* filter){
+    if(str && filter){
+        edk::uint32 size = edk::String::strSize(filter);
+        if(size){
+            while(*str){
+                for(edk::uint32 i=0u;i<size;i++){
+                    if(*str == filter[i]){
+                        str++;
+                        return str;
+                    }
+                }
+                str++;
+            }
+        }
+    }
+    return NULL;
+}
+edk::char8* edk::String::strJumpTo(const edk::char8* str,edk::char8* filter){
+    return edk::String::strJumpTo((edk::char8*) str,filter);
+}
+edk::char8* edk::String::strJumpTo(edk::char8* str,const edk::char8* filter){
+    return edk::String::strJumpTo(str,(edk::char8*) filter);
+}
+edk::char8* edk::String::strJumpTo(const edk::char8* str,const edk::char8* filter){
+    return edk::String::strJumpTo((edk::char8*) str,(edk::char8*) filter);
+}
+edk::char8* edk::String::strJumpToEndLine(edk::char8* str){
+    return edk::String::strJumpTo(str,"\n\10\13");
+}
+edk::char8* edk::String::strJumpToEndLine(const edk::char8* str){
+    return edk::String::strJumpTo((edk::char8*) str,"\n\10\13");
 }
 
 edk::uint64 edk::String::strSize(edk::char8 *str){

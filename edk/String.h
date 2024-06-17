@@ -280,6 +280,13 @@ public:
 
     static bool strCompare(const edk::char8 *str1, const edk::char8 *str2);
 
+    static bool strCompareInside(edk::char8 *str1, edk::char8 *str2);
+
+    static bool strCompareInside(const edk::char8 *str1, edk::char8 *str2);
+    static bool strCompareInside(edk::char8 *str1, const edk::char8 *str2);
+
+    static bool strCompareInside(const edk::char8 *str1, const edk::char8 *str2);
+
     static bool strCompareBeggin(edk::char8 *beggin, edk::char8 *str);
 
     static bool strCompareBeggin(const edk::char8 *beggin, edk::char8 *str);
@@ -314,11 +321,28 @@ public:
     static edk::char8* strHaveInside(edk::char8 *str, const edk::char8 *compare);
     static edk::char8* strHaveInside(const edk::char8 *str, const edk::char8 *compare);
 
+    static edk::char8* strInsideBeggin(edk::char8 *str, edk::char8 *compare);
+    static edk::char8* strInsideBeggin(const edk::char8 *str, edk::char8 *compare);
+    static edk::char8* strInsideBeggin(edk::char8 *str, const edk::char8 *compare);
+    static edk::char8* strInsideBeggin(const edk::char8 *str, const edk::char8 *compare);
+    static edk::char8* strHaveInsideBeggin(edk::char8 *str, edk::char8 *compare);
+    static edk::char8* strHaveInsideBeggin(const edk::char8 *str, edk::char8 *compare);
+    static edk::char8* strHaveInsideBeggin(edk::char8 *str, const edk::char8 *compare);
+    static edk::char8* strHaveInsideBeggin(const edk::char8 *str, const edk::char8 *compare);
+
     //return true if the first string is bigger than the second string
     static bool strBiggerStr(edk::char8 *str1, edk::char8 *str2);
     static bool strBiggerStr(const edk::char8 *str1, edk::char8 *str2);
     static bool strBiggerStr(edk::char8 *str1, const edk::char8 *str2);
     static bool strBiggerStr(const edk::char8 *str1, const edk::char8 *str2);
+
+    //JUMP
+    static edk::char8* strJumpTo(edk::char8* str,edk::char8* filter);
+    static edk::char8* strJumpTo(const edk::char8* str,edk::char8* filter);
+    static edk::char8* strJumpTo(edk::char8* str,const edk::char8* filter);
+    static edk::char8* strJumpTo(const edk::char8* str,const edk::char8* filter);
+    static edk::char8* strJumpToEndLine(edk::char8* str);
+    static edk::char8* strJumpToEndLine(const edk::char8* str);
 
     static edk::uint64 strSize(edk::char8 *str);
 

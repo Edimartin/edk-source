@@ -67,6 +67,7 @@ void edk::Cenario2D::Constructor(bool runFather){
         this->treeAnim.Constructor();edkEnd();
         this->treeAnimPhys.Constructor(&edk::Cenario2D::worldTemplate);edkEnd();
         this->levels.Constructor();edkEnd();
+        this->minimunObjectsInQuads=1u;edkEnd();
 
         //init the templates
         if(edk::Cenario2D::templateConstructNeed){
@@ -77,7 +78,6 @@ void edk::Cenario2D::Constructor(bool runFather){
         this->world=NULL;edkEnd();
         this->cenarioHaveCreateWorld=false;edkEnd();
         this->clean();edkEnd();
-        this->minimunObjectsInQuads=1u;edkEnd();
     }
 }
 void edk::Cenario2D::Constructor(edk::physics2D::World2D* world,bool runFather){
@@ -96,6 +96,7 @@ void edk::Cenario2D::Constructor(edk::physics2D::World2D* world,bool runFather){
         this->treeAnim.Constructor();edkEnd();
         this->treeAnimPhys.Constructor(world);edkEnd();
         this->levels.Constructor();edkEnd();
+        this->minimunObjectsInQuads=1u;edkEnd();
 
         //init the templates
         if(edk::Cenario2D::templateConstructNeed){
