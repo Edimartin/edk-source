@@ -489,6 +489,7 @@ void edk::TTY::Constructor(bool /*runFather*/){
     if(this->classThis!=this){
         this->classThis=this;
         this->haveInit=false;
+        this->haveInitMouse=false;
         //init the terminal
         this->initTerminal();
     }
@@ -508,6 +509,7 @@ bool edk::TTY::initTerminal(){
 }
 bool edk::TTY::resetTerminal(){
     if(this->haveInit){
+        this->disableMouse();
 #if defined (__linux__) || defined(__APPLE__)
         //set the ttyRaw
         if(edkTTYreset(0) < 0){
@@ -518,9 +520,41 @@ bool edk::TTY::resetTerminal(){
     }
     return false;
 }
+bool edk::TTY::enableMouse(){
+    if(!this->haveInitMouse){
+#if defined (__linux__) || defined(__APPLE__)
+        //activate the mouse
+        printf("\e[?1000h"); // Ativa o modo de envio de eventos de mouse
+        //system("stty raw");
+        fflush(stdout);
+#endif
+        this->haveInitMouse=true;
+        return true;
+    }
+    return true;
+}
+bool edk::TTY::disableMouse(){
+#if defined (__linux__) || defined(__APPLE__)
+    if(this->haveInitMouse){
+        //desactivate the mouse
+        printf("\e[?1000l"); // Desativa o modo de envio de eventos de mouse
+        //system("stty cooked");
+        fflush(stdout);
+        return true;
+    }
+#endif
+    return false;
+}
 
 //TTY to construct and destruct
 edk::TTY edk::ConsoleTerminal::tty;
+edk::char8* edk::ConsoleTerminal::buffer=NULL;
+edk::uint32 edk::ConsoleTerminal::bufferLenth=0u;
+edk::uint32 edk::ConsoleTerminal::bufferSize=0u;
+edk::char8* edk::ConsoleTerminal::key=NULL;
+edk::uint32 edk::ConsoleTerminal::keyLenth=0u;
+edk::uint32 edk::ConsoleTerminal::keySize=0u;
+edk::uint32 edk::ConsoleTerminal::keyPos=0u;
 
 edk::ConsoleTerminal::ConsoleTerminal(){
     this->classThis=NULL;
@@ -541,6 +575,13 @@ void edk::ConsoleTerminal::Constructor(bool /*runFather*/){
     if(this->classThis!=this){
         this->classThis=this;
     }
+}
+
+void edk::ConsoleTerminal::enableMouse(){
+    edk::ConsoleTerminal::tty.enableMouse();
+}
+void edk::ConsoleTerminal::disableMouse(){
+    edk::ConsoleTerminal::tty.disableMouse();
 }
 
 void edk::ConsoleTerminal::push(){
@@ -607,14 +648,131 @@ edk::size2ui32 edk::ConsoleTerminal::getHeight(){
 }
 
 bool edk::ConsoleTerminal::keyPressed(){
-    if(edkKbhit()){
+    if(edk::ConsoleTerminal::keyPos < edk::ConsoleTerminal::keySize){
         return true;
+    }
+    else if(edkKbhit()){
+        edk::char8 key = edkGetch();
+        if(edkKbhit()){
+            //test if it's the escape
+            if(key == 27u
+                    || key == 50u
+                    || key == 51u
+                    ){
+                edk::ConsoleTerminal::keySize=0u;
+                edk::ConsoleTerminal::bufferSize=0u;
+                edk::ConsoleTerminal::keyPos=0u;
+                //read the buffer
+                do{
+                    edk::char8* temp = edk::ConsoleTerminal::buffer;
+                    edk::uint32 lenght=0u;
+                    if(!temp){
+                        edk::ConsoleTerminal::bufferLenth=10u;
+                        edk::ConsoleTerminal::bufferSize=0u;
+                        temp = edk::ConsoleTerminal::buffer=(edk::char8*)malloc(sizeof(edk::char8) * edk::ConsoleTerminal::bufferLenth);
+                    }
+                    if(temp){
+                        if(edk::ConsoleTerminal::bufferSize>=edk::ConsoleTerminal::bufferLenth){
+                            lenght = edk::ConsoleTerminal::bufferLenth;
+                            edk::ConsoleTerminal::bufferLenth+=10u;
+                            //copy the memory
+                            edk::ConsoleTerminal::buffer=(edk::char8*)malloc(sizeof(edk::char8) * edk::ConsoleTerminal::bufferLenth);
+                            if(edk::ConsoleTerminal::buffer){
+                                //copy the buffer
+                                memcpy(edk::ConsoleTerminal::buffer,temp,sizeof(edk::char8)*lenght);
+                                free(temp);
+                                temp = edk::ConsoleTerminal::buffer;
+                            }
+                        }
+                        if(edk::ConsoleTerminal::bufferSize<edk::ConsoleTerminal::bufferLenth){
+                            //add the new character
+                            temp[edk::ConsoleTerminal::bufferSize]=edkGetch();
+                            edk::ConsoleTerminal::bufferSize++;
+                        }
+                    }
+                }while(edkKbhit());
+            }
+            else{
+                edk::ConsoleTerminal::keySize=0u;
+                edk::ConsoleTerminal::bufferSize=0u;
+                edk::ConsoleTerminal::keyPos=0u;
+                if(edk::ConsoleTerminal::keySize){
+                    memset(edk::ConsoleTerminal::key,0u,sizeof(edk::char8) * edk::ConsoleTerminal::keyLenth);
+                    edk::ConsoleTerminal::keySize=0u;
+                    edk::ConsoleTerminal::key[edk::ConsoleTerminal::keySize] = key;
+                    edk::ConsoleTerminal::keySize++;
+                }
+
+                //read the keys
+                do{
+                    edk::char8* temp = edk::ConsoleTerminal::key;
+                    edk::uint32 lenght=0u;
+                    if(!temp){
+                        edk::ConsoleTerminal::keyLenth=10u;
+                        edk::ConsoleTerminal::keySize=0u;
+                        temp = edk::ConsoleTerminal::key=(edk::char8*)malloc(sizeof(edk::char8) * edk::ConsoleTerminal::keyLenth);
+                        edk::ConsoleTerminal::key[edk::ConsoleTerminal::keySize] = key;
+                        edk::ConsoleTerminal::keySize++;
+                    }
+                    if(temp){
+                        if(edk::ConsoleTerminal::keySize>=edk::ConsoleTerminal::keyLenth){
+                            lenght = edk::ConsoleTerminal::keyLenth;
+                            edk::ConsoleTerminal::keyLenth+=10u;
+                            //copy the memory
+                            edk::ConsoleTerminal::key=(edk::char8*)malloc(sizeof(edk::char8) * edk::ConsoleTerminal::keyLenth);
+                            if(edk::ConsoleTerminal::key){
+                                //copy the key
+                                memcpy(edk::ConsoleTerminal::key,temp,sizeof(edk::char8)*lenght);
+                                free(temp);
+                                temp = edk::ConsoleTerminal::key;
+                            }
+                        }
+                        if(edk::ConsoleTerminal::keySize<edk::ConsoleTerminal::keyLenth){
+                            //add the new character
+                            temp[edk::ConsoleTerminal::keySize]=edkGetch();
+                            edk::ConsoleTerminal::keySize++;
+                        }
+                    }
+                }while(edkKbhit());
+            }
+        }
+        else{
+            if(edk::ConsoleTerminal::bufferSize){
+                memset(edk::ConsoleTerminal::buffer,0u,sizeof(edk::char8) * edk::ConsoleTerminal::bufferLenth);
+                edk::ConsoleTerminal::bufferSize=0u;
+            }
+            //copy the key into the key byffer
+            edk::ConsoleTerminal::keySize=0u;
+            edk::ConsoleTerminal::keyPos=0u;
+            edk::char8* temp = edk::ConsoleTerminal::key;
+            if(!temp){
+                edk::ConsoleTerminal::keyLenth=10u;
+                edk::ConsoleTerminal::keySize=0u;
+                temp = edk::ConsoleTerminal::key=(edk::char8*)malloc(sizeof(edk::char8) * edk::ConsoleTerminal::keyLenth);
+                edk::ConsoleTerminal::key[edk::ConsoleTerminal::keySize] = key;
+                edk::ConsoleTerminal::keySize++;
+            }
+            else{
+                if(edk::ConsoleTerminal::keySize<edk::ConsoleTerminal::keyLenth){
+                    //add the new character
+                    temp[edk::ConsoleTerminal::keySize]=key;
+                    edk::ConsoleTerminal::keySize++;
+                }
+            }
+            //printf("\n%u %s %s",__LINE__,__FILE__,__func__);fflush(stdout);
+            return true;
+        }
     }
     return false;
 }
 
-edk::char8  edk::ConsoleTerminal::readKey(){
-    return edkGetch();
+edk::char8 edk::ConsoleTerminal::readKey(){
+    if(edk::ConsoleTerminal::keyPos < edk::ConsoleTerminal::keySize){
+        edk::char8 c = edk::ConsoleTerminal::key[edk::ConsoleTerminal::keyPos];
+        edk::ConsoleTerminal::keyPos++;
+        return c;
+    }
+    return '\0';
 }
 
 edk::char8* edk::ConsoleTerminal::readString(){
@@ -635,7 +793,8 @@ void edk::ConsoleTerminal::clear(){
     system("cls");
 #elif defined(__linux__) || defined(__APPLE__) //Linux //MacOS
     //printf("\033");fflush(stdout);
-    printf("\033[H\033[J");fflush(stdout);
+    //printf("\033[H\033[J");fflush(stdout);
+    system("clear");
 #endif
 }
 

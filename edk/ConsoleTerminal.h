@@ -81,8 +81,11 @@ public:
 
     bool initTerminal();
     bool resetTerminal();
+    bool enableMouse();
+    bool disableMouse();
 private:
     bool haveInit;
+    bool haveInitMouse;
 private:
     edk::classID classThis;
 };
@@ -92,6 +95,9 @@ public:
     ~ConsoleTerminal();
 
     void Constructor(bool runFather=true);
+
+    static void enableMouse();
+    static void disableMouse();
 
     static void push();
 
@@ -133,6 +139,13 @@ private:
     //TTY to construct and destruct
     static edk::TTY tty;
     static bool templateConstructNeed;
+    static edk::char8* key;
+    static edk::uint32 keyPos;
+    static edk::uint32 keyLenth;
+    static edk::uint32 keySize;
+    static edk::char8* buffer;
+    static edk::uint32 bufferLenth;
+    static edk::uint32 bufferSize;
 private:
     edk::classID classThis;
 };

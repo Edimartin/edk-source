@@ -379,6 +379,7 @@ private:
                 //if it's null then return false
                 return;
             }
+            this->buffer[size]=0u;
             //else set the size
             this->bufferSize = size;edkEnd();
         }
