@@ -102,8 +102,6 @@ bool edk::shape::Rectangle2D::createPolygon(){
                 temp = (edk::shape::Vertex2DWithUV*)this->vertexsOriginal.get(1u);edkEnd();
                 temp->setUV((edk::float32)1,(edk::float32)1);edkEnd();
             }
-            //set can delete the polygon
-            this->canDeletePolygon=true;edkEnd();
             //then return true
             ret = true;
         }

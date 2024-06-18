@@ -322,7 +322,6 @@ bool edk::animation::InterpolationLine::setEndNoFilter(edk::float32 second){
 //return the start
 edk::animation::Frame edk::animation::InterpolationLine::getStart(){
     //
-    this->start->cantDestruct();edkEnd();
     return *this->start;edkEnd();
 }
 //return if create the start
@@ -332,7 +331,6 @@ bool edk::animation::InterpolationLine::getCreateStart(){
 //return the end
 edk::animation::Frame edk::animation::InterpolationLine::getEnd(){
     //
-    this->end->cantDestruct();edkEnd();
     return *this->end;edkEnd();
 }
 //return if create the end

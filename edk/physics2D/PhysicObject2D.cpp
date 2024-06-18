@@ -42,20 +42,9 @@ edk::physics2D::PhysicObject2D::~PhysicObject2D(){
     if(this->classThis==this){
         this->classThis=NULL;edkEnd();
         //can destruct the class
-        if(this->canDeleteObject){
-            this->physicMesh.cleanPolygons();edkEnd();
-            this->treeCollisionGroups.clean();edkEnd();
-            this->treeNotCollisionGroups.clean();edkEnd();
-        }
-        else{
-            //set the mesh to not delete
-            this->physicMesh.cantDeleteList();edkEnd();
-            this->animationPosition.cantDeleteGroup();edkEnd();
-            this->animationRotation.cantDeleteGroup();edkEnd();
-            this->treeCollisionGroups.cantDestruct();edkEnd();
-            this->treeNotCollisionGroups.cantDestruct();edkEnd();
-            edk::Object2D::cantDeleteObject2D();edkEnd();
-        }
+        this->physicMesh.cleanPolygons();edkEnd();
+        this->treeCollisionGroups.clean();edkEnd();
+        this->treeNotCollisionGroups.clean();edkEnd();
     }
 }
 

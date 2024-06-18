@@ -327,6 +327,7 @@ bool edk::shape::Polygon3D::setNormal(edk::uint32 position,edk::shape::Vector3D*
             edk::uint32 vertexID = vert->vertexID;edkEnd();
             edk::shape::UV2D* uv = vert->uv;edkEnd();
             edk::uint32 uvID = vert->uvID;edkEnd();
+            delete vert;
             edk::shape::Polygon3D::PolygonVertexWithUVNormal* vert2 =
                     new edk::shape::Polygon3D::PolygonVertexWithUVNormal(vertex,vertexID,uv,uvID,normal,0u);edkEnd();
             if(vert2){

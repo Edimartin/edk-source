@@ -63,19 +63,8 @@ edk::shape::Polygon2D::~Polygon2D(){
     if(this->classThis==this){
         this->classThis=NULL;edkEnd();
         //can destruct the class
-        //test if can delete the polygon
-        if(this->canDeletePolygon){
-            //destroy the polygon
-            this->deletePolygon();edkEnd();
-        }
-        else{
-            //set the shape to cant delete the vector
-            this->vertexs.cantDeleteVector();edkEnd();
-            this->vertexsOriginal.cantDeleteVector();edkEnd();
-            this->vertexBuffer.cantDeleteVector();edkEnd();
-        }
-        //else set canDeletePolygon to true
-        this->canDeletePolygon=true;edkEnd();
+        //destroy the polygon
+        this->deletePolygon();edkEnd();
     }
 }
 
@@ -106,7 +95,6 @@ void edk::shape::Polygon2D::Constructor(bool /*runFather*/){
         this->radius = 1.f;edkEnd();
         //init the polygonCOlor
         this->polygonColor = edk::color4f32(1,1,1,1);edkEnd();
-        this->canDeletePolygon=false;edkEnd();
         //set frames to 1
         this->frames = edk::vec2ui32(1u,1u);edkEnd();
         this->framesSize = this->frames.x*this->frames.y;edkEnd();
@@ -151,7 +139,6 @@ void edk::shape::Polygon2D::Constructor(edk::uint32 vertexCount,bool /*runFather
         this->radius = 1.f;edkEnd();
         //
         this->polygonColor = edk::color4f32(0,0,0,1);edkEnd();
-        this->canDeletePolygon=false;edkEnd();
         //create the vertex
         this->createPolygon(vertexCount);edkEnd();
         //set frames to 1
@@ -8256,9 +8243,6 @@ bool edk::shape::Polygon2D::createPolygon(edk::uint32 vertexCount){
                         this->vertexsOriginal.getNoIF(i)->color = this->polygonColor;edkEnd();
                     }
                 }
-                //set can delete the polygon in the future
-                this->canDeletePolygon=true;edkEnd();
-
                 //then return true
                 ret = true;
             }
@@ -9029,38 +9013,34 @@ bool edk::shape::Polygon2D::getWorldPolygon(edk::shape::Polygon2D* dest,edk::vec
 
 //delete the polygonVertex
 void edk::shape::Polygon2D::deletePolygon(){
-    if(this->canDeletePolygon){
-        //remove the animation
-        this->framesRemoveAnimation();edkEnd();
-        edk::uint32 size = this->getVertexCount();edkEnd();
-        for(edk::uint32 i=0u;i<size;i++){
-            //
-            if(this->vertexs.get(i)){
-                delete this->vertexs.getNoIF(i);edkEnd();
-            }
-            if(this->vertexsOriginal.get(i)){
-                delete this->vertexsOriginal.getNoIF(i);edkEnd();
-            }
+    //remove the animation
+    this->framesRemoveAnimation();edkEnd();
+    edk::uint32 size = this->getVertexCount();edkEnd();
+    for(edk::uint32 i=0u;i<size;i++){
+        //
+        if(this->vertexs.get(i)){
+            delete this->vertexs.getNoIF(i);edkEnd();
         }
-        this->vertexs.deleteArray();edkEnd();
-        this->vertexsOriginal.deleteArray();edkEnd();
-
-        //delete the morph
-        size = this->getMorphCount();edkEnd();
-        edk::shape::Polygon2D::Polygon2DMorph* temp = NULL;
-        for(edk::uint32 i=0u;i<size;i++){
-            temp = this->vertexsMorph.get(i);
-            if(temp){
-                delete temp;
-            }
+        if(this->vertexsOriginal.get(i)){
+            delete this->vertexsOriginal.getNoIF(i);edkEnd();
         }
-        this->vertexsMorph.clean();
-
-        //clear the vertexBuffer
-        this->vertexBuffer.clean();
-
-        this->canDeletePolygon=false;edkEnd();
     }
+    this->vertexs.deleteArray();edkEnd();
+    this->vertexsOriginal.deleteArray();edkEnd();
+
+    //delete the morph
+    size = this->getMorphCount();edkEnd();
+    edk::shape::Polygon2D::Polygon2DMorph* temp = NULL;
+    for(edk::uint32 i=0u;i<size;i++){
+        temp = this->vertexsMorph.get(i);
+        if(temp){
+            delete temp;
+        }
+    }
+    this->vertexsMorph.clean();
+
+    //clear the vertexBuffer
+    this->vertexBuffer.clean();
 }
 //remove the UV of one vertex
 bool edk::shape::Polygon2D::removeVertexUV(edk::uint32 vertex){
@@ -9699,18 +9679,6 @@ edk::rectf32 edk::shape::Polygon2D::getRect(){
         }
     }
     return ret;
-}
-
-//Set to cant delete the polygon
-void edk::shape::Polygon2D::cantDeletePolygon(){
-    //
-    this->canDeletePolygon=false;edkEnd();
-    //set matrices can't delete the matrix and vector
-    this->matrixPosition.cantDeleteVector();edkEnd();
-    this->matrixTranslate.cantDeleteMatrix();edkEnd();
-    this->matrixRotate.cantDeleteMatrix();edkEnd();
-    this->matrixScale.cantDeleteMatrix();edkEnd();
-    this->matrixTransform.cantDeleteMatrix();edkEnd();
 }
 
 //print the polygon

@@ -238,12 +238,6 @@ public:
         return false;
     }
 
-    //cant
-    void cantDeleteVector(){
-        //
-        this->canDeleteVector=false;edkEnd();
-    }
-
     /*
         //OPERATORS
         //[]

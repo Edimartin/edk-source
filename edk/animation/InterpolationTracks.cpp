@@ -1769,31 +1769,6 @@ bool edk::animation::InterpolationTracks::printSelectedFrames(edk::uint32 trackP
     return false;
 }
 
-//cand delete
-bool edk::animation::InterpolationTracks::cantDeleteGroup(){
-    bool ret=false;edkEnd();
-    edk::uint32 size = this->tracks->size();edkEnd();
-    if(size){
-        edk::animation::InterpolationTracks::AnimationAndPosition temp;edkEnd();
-        for(edk::uint32 i=0u;i<size;i++){
-            temp = this->tracks->get(i);edkEnd();
-            if(temp.animation){
-                temp.animation->cantDeleteGroup();edkEnd();
-            }
-        }
-        ret=true;edkEnd();
-    }
-    return ret;
-}
-bool edk::animation::InterpolationTracks::cantDeleteGroupTrack(edk::uint32 trackPosition){
-    //get track in position
-    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks->get(trackPosition);edkEnd();
-    if(temp.animation){
-        temp.animation->cantDeleteGroup();edkEnd();
-        return true;
-    }
-    return false;
-}
 //write to XML
 bool edk::animation::InterpolationTracks::writeToXML(edk::XML* xml,edk::uint32 id){
     //test the XML

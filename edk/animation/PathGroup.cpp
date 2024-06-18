@@ -36,14 +36,7 @@ edk::animation::PathGroup::~PathGroup(){
     if(this->classThis==this){
         this->classThis=NULL;edkEnd();
         //can destruct the class
-        if(this->canDelete){
-            this->deleteFrames();edkEnd();
-        }
-        else{
-            this->animations.cantDestroy();edkEnd();
-            this->animationNames.cantDeleteNames();edkEnd();
-        }
-        this->canDelete=true;edkEnd();
+        this->deleteFrames();edkEnd();
         this->nameSelected=NULL;edkEnd();
     }
 }
@@ -60,7 +53,6 @@ void edk::animation::PathGroup::Constructor(bool runFather){
         this->animationPosition = this->positionStart = this->positionEnd = 0u;edkEnd();
         this->secondStart = this->secondEnd = 0.f;edkEnd();
         this->rewind = this->playing = this->looping= this->incrementing = false;edkEnd();
-        this->canDelete=true;edkEnd();
         this->lastDist=0.f;edkEnd();
         this->saveStep = 0.f;edkEnd();
         this->closerDistance=0.5f;edkEnd();
@@ -820,10 +812,6 @@ edk::float32 edk::animation::PathGroup::updateClockAnimation(edk::float32 distan
     return 0.f;
 }
 
-//cand delete
-void edk::animation::PathGroup::cantDeleteGroup(){
-    this->canDelete = false;edkEnd();
-}
 //write to XML
 bool edk::animation::PathGroup::writeToXML(edk::XML* xml,edk::uint32 id){
     //test the XML

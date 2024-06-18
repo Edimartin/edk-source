@@ -1814,13 +1814,11 @@ bool edk::tiles::TileSet2D::addTilePhysicsPolygon(edk::uint32 tile,edk::shape::P
         if(this->tiles.havePos(tile)){
             edk::tiles::Tile2D* temp = this->tiles.get(tile);edkEnd();
             if(temp){
-                poly.cantDeletePolygon();edkEnd();
                 return temp->addPhysicsPolygon(poly);edkEnd();
             }
         }
     }
     //else return false
-    poly.cantDeletePolygon();edkEnd();
     return false;
 }
 bool edk::tiles::TileSet2D::cleanTilePhysicsPolygons(edk::uint32 tile){

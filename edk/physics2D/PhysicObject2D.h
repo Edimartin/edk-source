@@ -162,7 +162,6 @@ private:
         this->animationPosition.cloneFrom(&obj.animationPosition);edkEnd();
         //this->animationRotation = obj.animationRotation;edkEnd();
         this->animationRotation.cloneFrom(&obj.animationRotation);edkEnd();
-        obj.cantDeleteObject2D();edkEnd();
         return obj;edkEnd();
     }
 

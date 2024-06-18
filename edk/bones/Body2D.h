@@ -189,12 +189,9 @@ public:
     void calculateInverseKinematic(edk::char8* name,edk::vec2f32 worldPoint,edk::uint32 tail,edk::uint32 times);
     void calculateInverseKinematic(edk::bones::Bone2D* bone,edk::vec2f32 worldPoint,edk::uint32 tail,edk::uint32 times);
 
-    virtual void cantDelete();
 private:
     edk::bones::Bone2D root;
     edk::bones::Bone2D* selected;
-    //edk::vector::NameTree bones;
-    bool canDelete;
 
     class TreeBoneName:public edk::vector::BinaryTree<edk::bones::Bone2D*>{
     public:
@@ -414,8 +411,6 @@ private:
         this->angle = body.angle;edkEnd();
         this->fixedRotation = body.fixedRotation;edkEnd();
 
-        //
-        body.cantDelete();edkEnd();
         return body;edkEnd();
     }
 private:

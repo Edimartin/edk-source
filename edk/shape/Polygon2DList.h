@@ -216,8 +216,6 @@ public:
     virtual void drawVertexs(edk::color3f32 color = edk::color3f32(1,1,1));
     virtual bool drawPolygonVertexs(edk::uint32 polygon,edk::color3f32 color = edk::color3f32(1,1,1));
 
-    //Set to cant delete the polygon
-    void cantDeleteList();
 protected:
     //list of polygons
     edk::vector::Stack<edk::shape::Polygon2D*> polygons;
@@ -225,8 +223,6 @@ protected:
     //mesh selected
     edk::shape::Polygon2D* selected;
 private:
-    bool canDeleteList;
-
     //Operator
     edk::shape::Polygon2DList operator=(edk::shape::Polygon2DList list){
         //delete the polygons
@@ -245,8 +241,6 @@ private:
             }
         }
         this->selectPolygon(select);edkEnd();
-        list.cantDeleteList();edkEnd();
-        this->cantDeleteList();edkEnd();
         return list;edkEnd();
     }
 private:

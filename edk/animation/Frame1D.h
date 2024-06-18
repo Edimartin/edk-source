@@ -152,7 +152,6 @@ private:
         //
         this->second = frame.second;edkEnd();
         this->x = frame.x;edkEnd();
-        frame.cantDestruct();edkEnd();
         return *this;edkEnd();
     }
 private:

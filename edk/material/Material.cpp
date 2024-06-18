@@ -32,10 +32,8 @@ edk::material::Material::~Material(){
     if(this->classThis==this){
         this->classThis=NULL;edkEnd();
         //can destruct the class
-        if(this->canDelete){
-            //remove all the textures
-            this->removeAllTextures();edkEnd();
-        }
+        //remove all the textures
+        this->removeAllTextures();edkEnd();
     }
 }
 
@@ -50,7 +48,6 @@ void edk::material::Material::Constructor(bool /*runFather*/){
             this->textures[i]=0u;
         }
         this->countTextures=0u;
-        this->canDelete=true;edkEnd();
         //ambient
         this->ambient[0] = 0.2f;edkEnd();
         this->ambient[1] = 0.2f;edkEnd();
@@ -76,10 +73,6 @@ void edk::material::Material::Constructor(bool /*runFather*/){
     }
 }
 
-//set to cantDelete
-void edk::material::Material::cantDelete(){
-    this->canDelete=false;edkEnd();
-}
 //draw the material parameters
 void edk::material::Material::useMaterialParameters(){
     edk::GU::guMaterialfv32(GU_FRONT,GU_AMBIENT,this->ambient);edkEnd();

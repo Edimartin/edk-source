@@ -41,13 +41,7 @@ edk::bones::Body2D::~Body2D(){
     if(this->classThis==this){
         this->classThis=NULL;edkEnd();
         //can destruct the class
-        if(this->canDelete){
-            this->deleteAllBones();edkEnd();
-        }
-        else{
-            this->canDelete=true;edkEnd();
-            //this->root.cantDelete();edkEnd();
-        }
+        this->deleteAllBones();edkEnd();
     }
 }
 
@@ -67,8 +61,6 @@ void edk::bones::Body2D::Constructor(bool runFather){
         this->cleanSelected();edkEnd();
 
         this->root.vector = vec2f32(0.f,0.001f);edkEnd();
-
-        this->canDelete=true;edkEnd();
     }
 }
 
@@ -1355,9 +1347,4 @@ void edk::bones::Body2D::calculateInverseKinematic(edk::bones::Bone2D* bone,edk:
             this->root.calculateInverseKinematic(bone,&found,worldPoint,tail,&count,this->angle,this->size,&newMat);edkEnd();
         }
     }
-}
-
-void edk::bones::Body2D::cantDelete(){
-    this->canDelete=false;edkEnd();
-    this->root.cantDelete();edkEnd();
 }

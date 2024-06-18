@@ -470,10 +470,8 @@ bool edk::tiles::Tile2D::addPhysicsPolygon(edk::shape::Polygon2D poly){
         //add thepolygon
         this->objPhys->physicMesh.addPolygon(poly);edkEnd();
         this->addedPhysicsPolygon=false;edkEnd();
-        poly.cantDeletePolygon();edkEnd();
         return true;
     }
-    poly.cantDeletePolygon();edkEnd();
     return false;
 }
 bool edk::tiles::Tile2D::cleanPhysicsPolygons(){

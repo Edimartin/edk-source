@@ -139,9 +139,6 @@ public:
     void drawStartWithMultiTexture();
     void drawEndWithTexture();
 
-    //set to cantDelete
-    void cantDelete();
-
     //XML
     virtual bool writeToXML(edk::XML* xml,edk::uint32 id);
     virtual bool readFromXML(edk::XML* xml,edk::uint32 id);
@@ -177,9 +174,6 @@ public:
         memcpy(this->emission,mat.emission,sizeOf);edkEnd();
         this->shininess = mat.shininess;edkEnd();
         this->countTextures = mat.countTextures;edkEnd();
-        //set to dont delete the textures in the destructor
-        mat.cantDelete();edkEnd();
-        this->cantDelete();edkEnd();
         return mat;edkEnd();
     }
 protected:
@@ -198,8 +192,6 @@ private:
     edk::uint8 countTextures;
     //textureList
     edk::Texture2DList list;
-    //can delete
-    bool canDelete;
 private:
     edk::classID classThis;
 };

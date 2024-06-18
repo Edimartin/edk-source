@@ -220,7 +220,5 @@ edk::uint32 edk::physics2D::PhysicsMesh2D::addPolygon(edk::shape::Polygon2D poly
             }
         }
     }
-    //remove the delete from the polygon. This dont delete polygon in the next destrutor
-    polygon.cantDeletePolygon();edkEnd();
     return ret;
 }

@@ -40,21 +40,7 @@ edk::Object2D::~Object2D(){
         /*
     this->actions.cleanReadXMLActionFunction();edkEnd();
     */
-        //dtor
-        if(this->canDeleteObject){
-            this->cleanMeshes();edkEnd();
-        }
-        else{
-            this->meshes.cantDestroy();edkEnd();
-            this->meshes.cantDeleteMeshes();edkEnd();
-            this->animationPosition.cantDeleteGroup();edkEnd();
-            this->animationRotation.cantDeleteGroup();edkEnd();
-            this->animationSize.cantDeleteGroup();edkEnd();
-            /*
-        this->actions.cantDeleteGroup();edkEnd();
-        */
-        }
-        this->canDeleteObject=true;edkEnd();
+        this->cleanMeshes();edkEnd();
     }
 }
 
@@ -461,7 +447,6 @@ void edk::Object2D::Constructor(bool runFather){
         this->angle=0.0f;edkEnd();
         //Scale
         this->size = edk::size2f32(1.f,1.f);edkEnd();
-        this->canDeleteObject=true;edkEnd();
         /*
     this->actions.setReadXMLActionFunction(&edk::Object2D::readXMLAction);edkEnd();
     */
@@ -4189,17 +4174,6 @@ bool edk::Object2D::readFromXMLFromPack(edk::pack::FilePackage* pack,edk::XML* x
         return ret;
     }
     return false;
-}
-
-//cant delete
-void edk::Object2D::cantDeleteObject2D(){
-    this->canDeleteObject=false;edkEnd();
-    //transform matrices
-    this->matrixPosition.cantDeleteMatrix();edkEnd();
-    this->matrixPivo.cantDeleteMatrix();edkEnd();
-    this->matrixAngle.cantDeleteMatrix();edkEnd();
-    this->matrixSize.cantDeleteMatrix();edkEnd();
-    this->matrixTransform.cantDeleteMatrix();edkEnd();
 }
 
 //connect another object into this

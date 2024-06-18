@@ -245,14 +245,12 @@ void edk::animation::InterpolationLine2D::setLinearY(){
 edk::animation::Frame2D edk::animation::InterpolationLine2D::getStart2D(){
     //convert the frame to return
     edk::animation::Frame2D* ret = (edk::animation::Frame2D*)this->start;edkEnd();
-    ret->cantDestruct();edkEnd();
     return *ret;edkEnd();
 }
 //return the end
 edk::animation::Frame2D edk::animation::InterpolationLine2D::getEnd2D(){
     //convert the frame to return
     edk::animation::Frame2D* ret = (edk::animation::Frame2D*)this->end;edkEnd();
-    ret->cantDestruct();edkEnd();
     return *ret;edkEnd();
 }
 

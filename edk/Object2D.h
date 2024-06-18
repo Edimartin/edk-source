@@ -244,9 +244,6 @@ public:
     virtual bool readFromXML(edk::XML* xml,edk::uint32 id);
     virtual bool readFromXMLFromPack(edk::pack::FilePackage* pack,edk::XML* xml,edk::uint32 id);
 
-    //cant delete
-    void cantDeleteObject2D();
-
     //connect another object into this
     virtual bool connectObjectBack(edk::Object2D* obj);
     virtual bool updateConnectedObjectBackValues(edk::Object2D* obj);
@@ -314,13 +311,7 @@ protected:
             if(this->classThis==this){
                 this->classThis=NULL;edkEnd();
                 //can destruct the class
-                if(this->canDeleteMeshes){
-                    this->removeAllMeshes();edkEnd();
-                }
-                else{
-                    //
-                }
-                this->canDeleteMeshes=true;edkEnd();
+                this->removeAllMeshes();edkEnd();
             }
         }
 
@@ -330,7 +321,6 @@ protected:
             }
             if(this->classThis!=this){
                 this->classThis=this;
-                this->canDeleteMeshes=true;edkEnd();
             }
         }
 
@@ -431,17 +421,10 @@ protected:
             }
             this->clean();edkEnd();
         }
-        void cantDeleteMeshes(){
-            this->canDeleteMeshes = false;edkEnd();
-        }
 
-    private:
-        bool canDeleteMeshes;
     private:
         edk::classID classThis;
     }meshes;
-
-    bool canDeleteObject;
 
 private:
     //Tree Static Vector
@@ -867,8 +850,6 @@ private:
             }
         }
         */
-
-        obj.cantDeleteObject2D();edkEnd();
         return obj;edkEnd();
     }
 

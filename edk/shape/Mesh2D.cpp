@@ -37,14 +37,7 @@ edk::shape::Mesh2D::~Mesh2D(){
     if(this->classThis==this){
         this->classThis=NULL;edkEnd();
         //can destruct the class
-        if(this->canDeleteMesh){
-            this->clean();edkEnd();
-        }
-        else{
-            this->material.cantDelete();edkEnd();
-            this->cantDeleteList();edkEnd();
-        }
-        this->canDeleteMesh=true;edkEnd();
+        this->clean();edkEnd();
     }
 }
 
@@ -57,7 +50,7 @@ void edk::shape::Mesh2D::Constructor(bool /*runFather*/){
         this->polygons.clean(2u);edkEnd();
         //clean the selected
         this->freeSelected();edkEnd();
-        this->canDeleteMesh=true;edkEnd();
+
     }
 }
 
@@ -332,7 +325,6 @@ bool edk::shape::Mesh2D::triangularizateFromVertex(edk::vector::Stack<edk::vec2f
 }
 bool edk::shape::Mesh2D::triangularizateFromPolygon(edk::shape::Polygon2D polygon){
     bool ret = edk::shape::Mesh2D::polygonTriangularization(polygon,this);edkEnd();
-    polygon.cantDeletePolygon();edkEnd();
     return ret;
 }
 bool edk::shape::Mesh2D::putHoleInPolygon(edk::shape::Polygon2D outside,edk::shape::Polygon2D inside){
@@ -515,8 +507,6 @@ bool edk::shape::Mesh2D::putHoleInPolygon(edk::shape::Polygon2D outside,edk::sha
     if(haveOut){
         outTemp.deletePolygon();edkEnd();
     }
-    outside.cantDeletePolygon();edkEnd();
-    inside.cantDeletePolygon();edkEnd();
     return ret;
 }
 
@@ -537,7 +527,6 @@ bool edk::shape::Mesh2D::putHoleInRectangle(edk::rectf32 rect,edk::shape::Polygo
 
         poly.deletePolygon();edkEnd();
     }
-    inside.cantDeletePolygon();edkEnd();
     return ret;
 }
 
@@ -1451,13 +1440,9 @@ bool edk::shape::Mesh2D::polygonTriangularization(edk::shape::Polygon2D polygon,
             }
         }
     }
-    polygon.cantDeletePolygon();edkEnd();
     return ret;
 }
 
-void edk::shape::Mesh2D::cantDeleteMesh(){
-    canDeleteMesh=false;edkEnd();
-}
 //XML
 bool edk::shape::Mesh2D::writeToXML(edk::XML* xml,edk::uint32 id){
     if(edk::shape::Polygon2DList::writeToXML(xml,id)){
@@ -1581,7 +1566,6 @@ bool edk::shape::Mesh2D::cloneFrom(edk::shape::Mesh2D* mesh){
             //Set the ID of the animation selected
             this->selectAnimationFramesFromPolygon(mesh->getAnimationFramesSelectedID());edkEnd();
         }
-        mesh->cantDeleteList();edkEnd();
 
         this->material = mesh->material;edkEnd();
         return true;

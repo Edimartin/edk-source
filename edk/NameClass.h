@@ -58,12 +58,7 @@ public:
         if(this->classThis==this){
             this->classThis=NULL;
             //can destruct the class
-            if(this->canDelete){
-                this->deleteName();
-            }
-            else{
-                this->canDelete=true;
-            }
+            this->deleteName();
         }
     }
 
@@ -74,8 +69,6 @@ public:
             //
             this->_name=NULL;
             this->_size = 0u;
-            this->canDelete=true;
-
             this->_namePointer=&this->_name;
             this->_sizePointer=&this->_size;
         }
@@ -87,7 +80,6 @@ public:
             //
             this->_name=NULL;
             this->_size = 0u;
-            this->canDelete=true;
 
             this->_namePointer=&this->_name;
             this->_sizePointer=&this->_size;
@@ -102,7 +94,6 @@ public:
             //
             this->_name=NULL;
             this->_size = 0u;
-            this->canDelete=true;
 
             this->_namePointer=&this->_name;
             this->_sizePointer=&this->_size;
@@ -141,7 +132,6 @@ public:
         return false;
     }
     bool clone(edk::Name name){
-        name.cantDelete();
         return this->setName(name.getName());
     }
     //get the name
@@ -242,9 +232,6 @@ public:
         }
         return false;
     }
-    virtual void cantDelete(){
-        this->canDelete=false;
-    }
 protected:
     //delete the name
     void deleteName(){
@@ -262,7 +249,6 @@ private:
     edk::char8* _name;
     edk::uint32* _sizePointer;
     edk::uint32 _size;
-    bool canDelete;
 private:
     edk::classID classThis;
 };

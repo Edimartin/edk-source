@@ -186,8 +186,6 @@ private:
                 this->addNewAnimationName(temp->name(),temp->start,temp->end);edkEnd();
             }
         }
-        //
-        group.cantDeleteGroup();edkEnd();
         return group;edkEnd();
     }
 private:

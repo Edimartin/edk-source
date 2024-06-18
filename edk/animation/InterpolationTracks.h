@@ -305,9 +305,6 @@ public:
     //Print the frames from start and end
     bool printSelectedFrames(edk::uint32 trackPosition);
 
-    //cand delete
-    bool cantDeleteGroup();
-    bool cantDeleteGroupTrack(edk::uint32 trackPosition);
     //write to XML
     virtual bool writeToXML(edk::XML* xml,edk::uint32 id);
     //read XML

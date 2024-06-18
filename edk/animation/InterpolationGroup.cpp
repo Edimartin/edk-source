@@ -37,17 +37,9 @@ edk::animation::InterpolationGroup::~InterpolationGroup(){
     if(this->classThis==this){
         this->classThis=NULL;edkEnd();
         //can destruct the class
-        if(this->canDeleteGroup){
-            //clean the animations
-            this->cleanAnimations();edkEnd();
-            this->deleteTempFrame();edkEnd();
-        }
-        else{
-            this->animations.cantDestroy();edkEnd();
-            this->animationNames.cantDeleteNames();edkEnd();
-            this->cantDestruct();edkEnd();
-        }
-        this->canDeleteGroup=true;edkEnd();
+        //clean the animations
+        this->cleanAnimations();edkEnd();
+        this->deleteTempFrame();edkEnd();
     }
 }
 
@@ -78,7 +70,6 @@ void edk::animation::InterpolationGroup::Constructor(bool runFather){
         this->nameSelected=NULL;edkEnd();
         this->callback=NULL;edkEnd();
         this->frameSelected=NULL;edkEnd();
-        this->canDeleteGroup=true;edkEnd();
         this->setfirstInterpolation=false;edkEnd();
         this->speed = 1.f;edkEnd();
         this->active=false;edkEnd();
@@ -549,7 +540,6 @@ void edk::animation::InterpolationGroup::clean(){
     this->nameSelected=NULL;edkEnd();
     this->callback=NULL;edkEnd();
     this->frameSelected=NULL;edkEnd();
-    this->canDeleteGroup=true;edkEnd();
     this->setfirstInterpolation=false;edkEnd();
     this->speed = 1.f;edkEnd();
     this->active=false;edkEnd();
@@ -1811,11 +1801,6 @@ bool edk::animation::InterpolationGroup::printSelectedFrames(){
     }
     //else return false
     return false;
-}
-
-//cand delete
-void edk::animation::InterpolationGroup::cantDeleteGroup(){
-    this->canDeleteGroup=false;edkEnd();
 }
 
 //write to XML

@@ -43,15 +43,7 @@ edk::bones::Bone2D::~Bone2D(){
     if(this->classThis==this){
         this->classThis=NULL;edkEnd();
         //can destruct the class
-        if(this->canDeleteBone){
-            this->cleanBone();edkEnd();
-        }
-        else{
-            //cant delete animations
-            this->animationAngle.cantDeleteGroup();edkEnd();
-            this->animationPosition.cantDeleteGroup();edkEnd();
-            this->canDeleteBone=true;edkEnd();
-        }
+        this->cleanBone();edkEnd();
         /*
     this->removeAllAnimationNamesThis();edkEnd();
     this->removeAllAnimations();edkEnd();
@@ -76,7 +68,6 @@ void edk::bones::Bone2D::Constructor(bool runFather){
         this->vector = edk::vec2f32(0,1);edkEnd();
         this->angle = 0u;edkEnd();
         this->setIdentity(&this->mat);edkEnd();
-        this->canDeleteBone=true;edkEnd();
     }
 }
 void edk::bones::Bone2D::Constructor(edk::char8* name,bool runFather){
@@ -93,7 +84,6 @@ void edk::bones::Bone2D::Constructor(edk::char8* name,bool runFather){
 
         this->vector = edk::vec2f32(0,1);edkEnd();
         this->angle = 0u;edkEnd();
-        this->canDeleteBone=true;edkEnd();
     }
 }
 void edk::bones::Bone2D::Constructor(const edk::char8* name,bool runFather){
@@ -110,7 +100,6 @@ void edk::bones::Bone2D::Constructor(const edk::char8* name,bool runFather){
 
         this->vector = edk::vec2f32(0,1);edkEnd();
         this->angle = 0u;edkEnd();
-        this->canDeleteBone=true;edkEnd();
     }
 }
 
@@ -1280,8 +1269,4 @@ edk::vec2f32 edk::bones::Bone2D::calculateInverseKinematic(edk::bones::Bone2D* b
     ret.x=0.f;edkEnd();
     ret.y=0.f;edkEnd();
     return ret;
-}
-void edk::bones::Bone2D::cantDelete(){
-    edk::Name::cantDelete();edkEnd();
-    this->canDeleteBone = false;edkEnd();
 }

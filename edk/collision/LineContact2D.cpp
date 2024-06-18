@@ -70,7 +70,6 @@ bool edk::collision::LineContact2D::contactLine(edk::shape::Line2D line,
 edk::collision::Vecs2f32 edk::collision::LineContact2D::contactCircle(edk::shape::Circle2D circle,edk::shape::Line2D test){
     //
     //else return no point
-    circle.cantDeletePolygon();edkEnd();
     return edk::collision::MathCollision::straightCircle2D(test.start.position,test.end.position,circle.getTranslate(),circle.getCircleRadius()) ;edkEnd();
 }
 //polygon
@@ -122,8 +121,6 @@ edk::collision::Vecs2f32 edk::collision::LineContact2D::contactPolygon(edk::shap
             ret.incrementFrom(&straight);edkEnd();
         }
     }
-    //set cant delete the polygon
-    polygon.cantDeletePolygon();edkEnd();
     //else return no point
     return ret;
 }

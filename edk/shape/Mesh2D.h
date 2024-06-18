@@ -99,7 +99,6 @@ public:
     static bool vertexTriangularization(edk::vector::Stack<edk::vec2f32>* vertexes,edk::shape::Mesh2D *mesh);
     static bool polygonTriangularization(edk::shape::Polygon2D polygon,edk::shape::Mesh2D *mesh);
 
-    void cantDeleteMesh();
     //XML
     virtual bool writeToXML(edk::XML* xml,edk::uint32 id);
     virtual bool readFromXML(edk::XML* xml,edk::uint32 id);
@@ -110,8 +109,6 @@ public:
     //Material used for the mesh
     edk::material::Material material;
 private:
-    bool canDeleteMesh;
-
     class AnimationDouble{
     public:
         AnimationDouble(edk::animation::Interpolation1DGroup* first,edk::uint32 id){
@@ -367,11 +364,7 @@ private:
             //Set the ID of the animation selected
             this->selectAnimationFramesFromPolygon(mesh.getAnimationFramesSelectedID());edkEnd();
         }
-        mesh.cantDeleteList();edkEnd();
-
         this->material = mesh.material;edkEnd();
-        mesh.cantDeleteList();edkEnd();
-        mesh.cantDeleteMesh();edkEnd();
         return mesh;edkEnd();
     }
 private:

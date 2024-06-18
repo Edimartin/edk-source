@@ -248,14 +248,12 @@ void edk::animation::InterpolationLine3D::setLinearZ(){
 edk::animation::Frame3D edk::animation::InterpolationLine3D::getStart3D(){
     //convert the frame to return
     edk::animation::Frame3D* ret = (edk::animation::Frame3D*)this->start;edkEnd();
-    ret->cantDestruct();edkEnd();
     return *ret;edkEnd();
 }
 //return the end
 edk::animation::Frame3D edk::animation::InterpolationLine3D::getEnd3D(){
     //convert the frame to return
     edk::animation::Frame3D* ret = (edk::animation::Frame3D*)this->end;edkEnd();
-    ret->cantDestruct();edkEnd();
     return *ret;edkEnd();
 }
 

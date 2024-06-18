@@ -341,8 +341,6 @@ public:
     //Print the frames from start and end
     bool printSelectedFrames();
 
-    //cand delete
-    void cantDeleteGroup();
     //write to XML
     virtual bool writeToXML(edk::XML* xml,edk::uint32 id);
     //read XML
@@ -451,8 +449,6 @@ private:
     //callbacks
     edk::animation::AnimationCallback* callback;
 
-    bool canDeleteGroup;
-
     //Frame functions
     //delete tempFrame
     void deleteTempFrame();
@@ -507,8 +503,6 @@ private:
                 this->addNewAnimationName(temp->name(),temp->start,temp->end);edkEnd();
             }
         }
-        //
-        group.cantDeleteGroup();edkEnd();
         return group;edkEnd();
     }
 private:

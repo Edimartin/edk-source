@@ -35,15 +35,7 @@ edk::animation::ActionGroup::ActionGroup(){
 edk::animation::ActionGroup::~ActionGroup(){
     if(this->classThis==this){
         this->classThis=NULL;edkEnd();
-        //can destruct the class
-        if(this->canDeleteGroup){
-            this->clean();edkEnd();
-        }
-        else{
-            this->anim.cantDeleteGroup();edkEnd();
-            this->tree.cantDeleteTrees();edkEnd();
-        }
-        this->canDeleteGroup=true;edkEnd();
+        this->clean();edkEnd();
     }
 }
 
@@ -54,7 +46,6 @@ void edk::animation::ActionGroup::Constructor(bool /*runFather*/){
         this->anim.Constructor();edkEnd();
         this->tree.Constructor();edkEnd();
 
-        this->canDeleteGroup=true;edkEnd();
         this->valueTemp=0.0;
         this->setReadXMLActionFunction(&this->readXMLZero);edkEnd();
     }
@@ -370,9 +361,4 @@ bool edk::animation::ActionGroup::setReadXMLActionFunction(edk::Action*(*readXML
 //clean readXMLAction function
 void edk::animation::ActionGroup::cleanReadXMLActionFunction(){
     this->setReadXMLActionFunction(&this->readXMLZero);edkEnd();
-}
-
-//cand delete
-void edk::animation::ActionGroup::cantDeleteGroup(){
-    this->canDeleteGroup=false;edkEnd();
 }

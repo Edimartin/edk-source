@@ -202,21 +202,20 @@ private:
     edk::animation::Frame operator=(edk::animation::Frame frame){
         //
         this->second = frame.second;edkEnd();
-        frame.cantDestruct();edkEnd();
         return *this;edkEnd();
     }
     //Operator ==
-    inline bool operator==(edk::animation::Frame frame){frame.cantDestruct();edkEnd();return this->second==frame.second;edkEnd();}
+    inline bool operator==(edk::animation::Frame frame){return this->second==frame.second;edkEnd();}
     //Operator !=
-    inline bool operator!=(edk::animation::Frame frame){frame.cantDestruct();edkEnd();return this->second!=frame.second;edkEnd();}
+    inline bool operator!=(edk::animation::Frame frame){return this->second!=frame.second;edkEnd();}
     //Operator >
-    inline bool operator>(edk::animation::Frame frame){frame.cantDestruct();edkEnd();return this->second>frame.second;edkEnd();}
+    inline bool operator>(edk::animation::Frame frame){return this->second>frame.second;edkEnd();}
     //Operator >=
-    inline bool operator>=(edk::animation::Frame frame){frame.cantDestruct();edkEnd();return this->second>=frame.second;edkEnd();}
+    inline bool operator>=(edk::animation::Frame frame){return this->second>=frame.second;edkEnd();}
     //Operator <
-    inline bool operator<(edk::animation::Frame frame){frame.cantDestruct();edkEnd();return this->second<frame.second;edkEnd();}
+    inline bool operator<(edk::animation::Frame frame){return this->second<frame.second;edkEnd();}
     //Operator <=
-    inline bool operator<=(edk::animation::Frame frame){frame.cantDestruct();edkEnd();return this->second<=frame.second;edkEnd();}
+    inline bool operator<=(edk::animation::Frame frame){return this->second<=frame.second;edkEnd();}
 private:
     edk::classID classThis;
 };

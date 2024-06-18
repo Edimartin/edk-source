@@ -38,13 +38,7 @@ edk::shape::Polygon2DList::~Polygon2DList(){
         this->classThis=NULL;edkEnd();
         //can destruct the class
         //clean the polygons
-        if(this->canDeleteList){
-            this->cleanPolygons();edkEnd();
-        }
-        else{
-            this->polygons.cantDestroy();edkEnd();
-        }
-        this->canDeleteList=true;edkEnd();
+        this->cleanPolygons();edkEnd();
     }
 }
 
@@ -56,7 +50,6 @@ void edk::shape::Polygon2DList::Constructor(bool /*runFather*/){
 
         //clean the selected
         this->freeSelected();edkEnd();
-        this->canDeleteList=true;edkEnd();
 
         this->tempP.Constructor();
         this->tempP.setTranslate(0.f,0.f);
@@ -374,8 +367,6 @@ edk::uint32 edk::shape::Polygon2DList::addPolygon(edk::shape::Polygon2D polygon)
     //set temp NULL
     temp=NULL;edkEnd();
 
-    //remove the delete from the polygon. This dont delete polygon in the next destrutor
-    polygon.cantDeletePolygon();edkEnd();
     //else return 0u;edkEnd();
     return ret;
 }
@@ -406,7 +397,6 @@ edk::shape::Polygon2D edk::shape::Polygon2DList::getPolygon(edk::uint32 position
             ret.cloneFrom(temp);
         }
     }
-    ret.cantDeletePolygon();
     return ret;
 }
 bool edk::shape::Polygon2DList::getPolygon(edk::uint32 position,edk::shape::Polygon2D* dest){
@@ -1217,10 +1207,4 @@ bool edk::shape::Polygon2DList::drawPolygonVertexs(edk::uint32 polygon,edk::colo
         }
     }
     return false;
-}
-
-//Set to cant delete the polygon
-void edk::shape::Polygon2DList::cantDeleteList(){
-    this->canDeleteList=false;edkEnd();
-    this->polygons.cantDestroy();edkEnd();
 }

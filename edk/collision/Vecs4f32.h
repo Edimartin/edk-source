@@ -56,14 +56,7 @@ public:
             this->classThis=NULL;edkEnd();
             //can destruct the class
             //delete the array
-            if(this->canDeleteVecs){
-                this->clean();edkEnd();
-                this->canDeleteVecs=false;edkEnd();
-            }
-            else{
-                //
-                this->canDeleteVecs=true;edkEnd();
-            }
+            this->clean();edkEnd();
         }
     }
 
@@ -73,7 +66,6 @@ public:
         }
         if(this->classThis!=this){
             this->classThis=this;
-            canDeleteVecs=true;edkEnd();
         }
     }
     void Constructor(edk::uint32 size,bool runFather=true){
@@ -82,7 +74,6 @@ public:
         }
         if(this->classThis!=this){
             this->classThis=this;
-            canDeleteVecs=true;edkEnd();
         }
     }
 
@@ -95,12 +86,6 @@ public:
         return edk::vector::Stack<edk::vec4f32>::pushBack(edk::vec4f32(x,y,z,w));
     }
 
-    //cant
-    void cantDeleteVector(){
-        //
-        edk::vector::Stack<edk::vec4f32>::cantDestroy();edkEnd();
-        this->canDeleteVecs=false;
-    }
     //OPERATORS
     //[]
     edk::vec4f32 operator[](edk::uint32 n){
@@ -125,8 +110,6 @@ public:
     }
 protected:
 private:
-    bool canDeleteVecs;
-
     edk::collision::Vecs4f32 operator=(edk::collision::Vecs4f32 vec){
         return vec;
     }

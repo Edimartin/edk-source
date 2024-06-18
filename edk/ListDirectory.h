@@ -122,7 +122,6 @@ private:
             this->name.clone(name.name);
             this->lastModify = name.lastModify;
             this->size = name.size;
-            name.name.cantDelete();
             return name;
         }
         edk::Name name;

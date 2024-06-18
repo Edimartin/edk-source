@@ -199,13 +199,7 @@ protected:
             if(this->classThis==this){
                 this->classThis=NULL;edkEnd();
                 //can destruct the class
-                if(this->canDeleteMeshes){
-                    this->removeAllMeshes();edkEnd();
-                }
-                else{
-                    //
-                }
-                this->canDeleteMeshes=true;edkEnd();
+                this->removeAllMeshes();edkEnd();
             }
         }
 
@@ -215,7 +209,6 @@ protected:
             }
             if(this->classThis!=this){
                 this->classThis=this;
-                this->canDeleteMeshes=true;edkEnd();
                 this->func = edk::Object3D::MeshsStack::runDrawWire;edkEnd();
             }
         }
@@ -325,9 +318,6 @@ protected:
             }
             this->clean();edkEnd();
         }
-        void cantDeleteMeshes(){
-            this->canDeleteMeshes = false;edkEnd();
-        }
 
 
         //Draw the polygon normals
@@ -367,7 +357,6 @@ protected:
         }
 
     private:
-        bool canDeleteMeshes;
 
         void (*func)(edk::Object3D::MeshsStack* list,edk::Object3D::MeshAlloc* value);
         edk::color3f32 color;

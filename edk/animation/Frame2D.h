@@ -171,7 +171,6 @@ private:
         this->second = frame.second;edkEnd();
         this->x = frame.x;edkEnd();
         this->y = frame.y;edkEnd();
-        frame.cantDestruct();edkEnd();
         return *this;edkEnd();
     }
 private:

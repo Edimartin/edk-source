@@ -231,14 +231,12 @@ void edk::animation::InterpolationLine1D::setLinearX(){
 edk::animation::Frame1D edk::animation::InterpolationLine1D::getStart1D(){
     //convert the frame to return
     edk::animation::Frame1D* ret = (edk::animation::Frame1D*)this->start;edkEnd();
-    ret->cantDestruct();edkEnd();
     return *ret;edkEnd();
 }
 //return the end
 edk::animation::Frame1D edk::animation::InterpolationLine1D::getEnd1D(){
     //convert the frame to return
     edk::animation::Frame1D* ret = (edk::animation::Frame1D*)this->end;edkEnd();
-    ret->cantDestruct();edkEnd();
     return *ret;edkEnd();
 }
 

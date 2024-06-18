@@ -305,9 +305,6 @@ public:
 
     edk::rectf32 getRect();
 
-    //Set to cant delete the polygon
-    void cantDeletePolygon();
-
     //print the polygon
     virtual void print();
     //Draw the polygon
@@ -380,8 +377,6 @@ protected:
     edk::color4f32 polygonColor;
     //set the vertexFrames
     bool setVertexUVFrames(edk::uint32 vertex,edk::vec2ui32 frames);
-    //set if can delete the polygon
-    bool canDeletePolygon;
     //Draw the polygon
     virtual void drawVertexs();
     virtual void drawVertexsWithColor(edk::color4f32 color);
@@ -504,32 +499,27 @@ protected:
         edk::vector::Array<edk::shape::Vertex2D*> vertexs;
         edk::vector::Array<edk::shape::Vertex2D*> vertexsOriginal;
         edk::float32 percent;
-        //set if can delete the polygon
-        bool canDeletePolygon;
 
         //delete the polygonVertex
         void deletePolygon(){
-            if(this->canDeletePolygon){
-                //remove the animation
-                edk::uint32 size = this->vertexs.size();edkEnd();
-                for(edk::uint32 i=0u;i<size;i++){
-                    //
-                    if(this->vertexs.get(i)){
-                        delete this->vertexs.getNoIF(i);edkEnd();
-                    }
+            //remove the animation
+            edk::uint32 size = this->vertexs.size();edkEnd();
+            for(edk::uint32 i=0u;i<size;i++){
+                //
+                if(this->vertexs.get(i)){
+                    delete this->vertexs.getNoIF(i);edkEnd();
                 }
-                this->vertexs.deleteArray();edkEnd();
-                size = this->vertexsOriginal.size();edkEnd();
-                for(edk::uint32 i=0u;i<size;i++){
-                    //
-                    if(this->vertexsOriginal.get(i)){
-                        delete this->vertexsOriginal.getNoIF(i);edkEnd();
-                    }
-                }
-                this->vertexsOriginal.deleteArray();edkEnd();
-
-                this->canDeletePolygon=false;edkEnd();
             }
+            this->vertexs.deleteArray();edkEnd();
+            size = this->vertexsOriginal.size();edkEnd();
+            for(edk::uint32 i=0u;i<size;i++){
+                //
+                if(this->vertexsOriginal.get(i)){
+                    delete this->vertexsOriginal.getNoIF(i);edkEnd();
+                }
+            }
+            this->vertexsOriginal.deleteArray();edkEnd();
+
         }
 
         //create the polygon
@@ -556,7 +546,6 @@ protected:
                                 this->vertexsOriginal.getNoIF(i)->color = polygonColor;edkEnd();
                             }
                         }
-                        this->canDeletePolygon=true;edkEnd();
                         //then return true
                         return true;
                     }
@@ -1660,8 +1649,6 @@ private:
         //set the animation
         this->framesSetAnimation(poly.framesGetAnimation());edkEnd();
         this->createAnimationFrames = poly.createAnimationFrames;edkEnd();
-        //cant delete the polygon
-        poly.cantDeletePolygon();edkEnd();
         //return the polygon
         return poly;edkEnd();
     }

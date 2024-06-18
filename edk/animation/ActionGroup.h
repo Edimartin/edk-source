@@ -115,10 +115,7 @@ public:
     //clean readXMLAction function
     void cleanReadXMLActionFunction();
 
-    //cand delete
-    void cantDeleteGroup();
 private:
-    bool canDeleteGroup;
     //animation
     edk::animation::Interpolation1DGroup anim;
     //save the value
@@ -224,22 +221,7 @@ private:
             if(this->classThis==this){
                 this->classThis=NULL;edkEnd();
                 //can destruct the class
-                if(this->canDeleteTree){
-                    this->cleanActions();edkEnd();
-                }
-                else{
-                    this->cantDestruct();edkEnd();
-                    this->actionsTree.cantDestruct();edkEnd();
-                    edk::uint32 size = this->size();edkEnd();
-                    edk::animation::ActionGroup::ActionsTree* temp;edkEnd();
-                    for(edk::uint32 i=0u;i<size;i++){
-                        temp = this->getElementInPosition(i);edkEnd();
-                        if(temp){
-                            temp->cantDestruct();edkEnd();
-                        }
-                    }
-                }
-                this->canDeleteTree=true;edkEnd();
+                this->cleanActions();edkEnd();
             }
         }
 
@@ -251,8 +233,6 @@ private:
                 this->classThis=this;
 
                 this->actionsTree.Constructor();edkEnd();
-
-                this->canDeleteTree=true;edkEnd();
             }
         }
 
@@ -279,22 +259,6 @@ private:
                 tree->update();edkEnd();
             }
             return false;
-        }
-
-        //cant delete the tree
-        void cantDeleteTrees(){
-            /*
-            this->cantDestruct();edkEnd();
-            edk::uint32 size = this->size();edkEnd();
-            edk::animation::ActionGroup::ActionsTree* temp;edkEnd();
-            for(edk::uint32 i=0u;i<size;i++){
-                temp = this->getElementInPosition(i);edkEnd();
-                if(temp){
-              temp->cantDestruct();edkEnd();
-              }
-            }
-            */
-            this->canDeleteTree=false;edkEnd();
         }
 
         //Add a new Action
@@ -470,7 +434,6 @@ private:
         }
 
     private:
-        bool canDeleteTree;
         edk::animation::ActionGroup::ActionsTree* getActionTree(edk::float32 second){
             edk::animation::ActionGroup::ActionsTree find(second);edkEnd();
             return this->getElement(&find);

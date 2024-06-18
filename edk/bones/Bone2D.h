@@ -208,8 +208,6 @@ public:
                                            edk::float32 mat[][3u][3u] = NULL
             );
 
-    virtual void cantDelete();
-
 
 
     //set the indentity matrix
@@ -491,7 +489,6 @@ private:
     void printMatrix(edk::float32 mat[3u][3u]);
     void printVector(edk::float32 mat[3u]);
 
-    bool canDeleteBone;
 private:
     //operator
     edk::bones::Bone2D operator=(edk::bones::Bone2D bone){
@@ -528,8 +525,6 @@ private:
             }
         }
 
-        //can delete bone
-        bone.cantDelete();edkEnd();
         return bone;edkEnd();
     }
 private:

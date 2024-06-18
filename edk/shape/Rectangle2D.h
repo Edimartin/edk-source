@@ -136,9 +136,6 @@ private:
                 };
             }
         }
-        //cant delete the polygon
-        poly.cantDeletePolygon();edkEnd();
-        this->cantDeletePolygon();edkEnd();
         //return the polygon
         edk::shape::Rectangle2D temp;edkEnd();
         return temp;edkEnd();

@@ -516,26 +516,18 @@ void edk::Window::mousePressView(edk::ViewController* view, edk::vec2i32 point, 
     if(view && point.x){
         //remove the warning
     }
-    //buttons cant delete
-    buttons.cantDestroy();edkEnd();
 }
 void edk::Window::mouseReleaseView(edk::ViewController* view, edk::vec2i32 point, edk::vector::Stack<edk::uint32> buttons){
     //
     if(view && point.x){
         //remove the warning
     }
-
-    //buttons cant delete
-    buttons.cantDestroy();edkEnd();
 }
 void edk::Window::mouseDoubleClickView(edk::ViewController* view, edk::vec2i32 point, edk::vector::Stack<edk::uint32> buttons){
     //
     if(view && point.x){
         //remove the warning
     }
-
-    //buttons cant delete
-    buttons.cantDestroy();edkEnd();
 }
 
 bool edk::Window::drawStart(){

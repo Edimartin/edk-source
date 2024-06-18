@@ -947,8 +947,6 @@ bool edk::collision::MathCollision::polygonPoint(edk::shape::Polygon2D polygon, 
             }
         }
         if(pointEnd.x<point.x){
-            //set cant delete the polygon
-            polygon.cantDeletePolygon();edkEnd();
             //else return false
             return false;
         }
@@ -1000,15 +998,11 @@ bool edk::collision::MathCollision::polygonPoint(edk::shape::Polygon2D polygon, 
             //test if the collisions are even
             if(!edk::Math::isEven(collisions)){
                 //INSIDE
-                //set cant delete the polygon
-                polygon.cantDeletePolygon();edkEnd();
                 //then return true because is inside
                 return true;
             }
         }
     }
-    //set cant delete the polygon
-    polygon.cantDeletePolygon();edkEnd();
     //else return false
     return false;
 }

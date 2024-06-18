@@ -137,8 +137,6 @@ public:
     virtual edk::float32 updateClockAnimation();
     virtual edk::float32 updateClockAnimation(edk::float32 distance);
 
-    //cand delete
-    void cantDeleteGroup();
     //write to XML
     virtual bool writeToXML(edk::XML* xml,edk::uint32 id);
     //read XML
@@ -177,8 +175,6 @@ protected:
     //save the step
     edk::float32 saveStep;
 private:
-    bool canDelete;
-    //
     //set if if playing
     bool playing;
     //set if is playing rewind
