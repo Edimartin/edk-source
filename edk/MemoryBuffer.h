@@ -287,11 +287,13 @@ public:
             edk::uint8 lenght = 0u;edkEnd();
             for(edk::uint64 i=0u;i<size;i++){
                 edkMemCpy(&temp,&this->buffer[i],sizeof(typeTemplate));edkEnd();
-                this->printElement(temp);edkEnd();
-                lenght++;edkEnd();
+                this->printElementHEX(temp);edkEnd();
                 if(lenght>=this->lenghtToReturn){
                     lenght=0u;edkEnd();
                     printf("\n");edkEnd();
+                }
+                else{
+                    lenght++;edkEnd();
                 }
             }
             fflush(stdout);edkEnd();
@@ -302,6 +304,33 @@ public:
     bool printHex(){
         return this->printHex(this->getSize());
     }
+    bool printHexFromPosition(edk::uint64 position,edk::uint64 size){
+        if(size && (size+position)<=this->bufferWritedSize && this->haveBuffer()){
+            typeTemplate temp;edkEnd();
+            edk::uint8 lenght = 0u;edkEnd();
+            size += position;
+            for(edk::uint64 i=position;i<size;i++){
+                edkMemCpy(&temp,&this->buffer[i],sizeof(typeTemplate));edkEnd();
+                this->printElementHEX(temp);edkEnd();
+                if(lenght>=this->lenghtToReturn){
+                    lenght=0u;edkEnd();
+                    printf("\n");edkEnd();
+                }
+                else{
+                    lenght++;edkEnd();
+                }
+            }
+            fflush(stdout);edkEnd();
+            return true;
+        }
+        return false;
+    }
+    bool printHexFromPosition(edk::uint64 position){
+        if(position<this->bufferWritedSize){
+            return this->printHexFromPosition(position,this->getSize() - position);
+        }
+        return false;
+    }
     bool printChar(edk::uint64 size){
         if(size && size<=this->bufferWritedSize && this->haveBuffer()){
             typeTemplate temp;edkEnd();
@@ -309,10 +338,12 @@ public:
             for(edk::uint64 i=0u;i<size;i++){
                 edkMemCpy(&temp,&this->buffer[i],sizeof(typeTemplate));edkEnd();
                 this->printElementChar(temp);edkEnd();
-                lenght++;edkEnd();
                 if(lenght>=this->lenghtToReturn){
                     lenght=0u;edkEnd();
                     printf("\n");edkEnd();
+                }
+                else{
+                    lenght++;edkEnd();
                 }
             }
             fflush(stdout);edkEnd();
@@ -322,6 +353,77 @@ public:
     }
     bool printChar(){
         return this->printChar(this->getSize());
+    }
+    bool printCharFromPosition(edk::uint64 position,edk::uint64 size){
+        if(size && (size+position)<=this->bufferWritedSize && this->haveBuffer()){
+            typeTemplate temp;edkEnd();
+            edk::uint8 lenght = 0u;edkEnd();
+            size += position;
+            for(edk::uint64 i=position;i<size;i++){
+                edkMemCpy(&temp,&this->buffer[i],sizeof(typeTemplate));edkEnd();
+                this->printElementChar(temp);edkEnd();
+                if(lenght>=this->lenghtToReturn){
+                    lenght=0u;edkEnd();
+                    printf("\n");edkEnd();
+                }
+                else{
+                    lenght++;edkEnd();
+                }
+            }
+            fflush(stdout);edkEnd();
+            return true;
+        }
+        return false;
+    }
+    bool printCharFromPosition(edk::uint64 position){
+        return this->printCharFromPosition(position,this->getSize() - position);
+    }
+    bool printLetters(edk::uint64 size){
+        if(size && size<=this->bufferWritedSize && this->haveBuffer()){
+            typeTemplate temp;edkEnd();
+            edk::uint8 lenght = 0u;edkEnd();
+            for(edk::uint64 i=0u;i<size;i++){
+                edkMemCpy(&temp,&this->buffer[i],sizeof(typeTemplate));edkEnd();
+                this->printElementLetter(temp);edkEnd();
+                if(lenght>=this->lenghtToReturn){
+                    lenght=0u;edkEnd();
+                    printf("\n");edkEnd();
+                }
+                else{
+                    lenght++;edkEnd();
+                }
+            }
+            fflush(stdout);edkEnd();
+            return true;
+        }
+        return false;
+    }
+    bool printLetters(){
+        return this->printLetters(this->getSize());
+    }
+    bool printLettersFromPosition(edk::uint64 position,edk::uint64 size){
+        if(size && (size+position)<=this->bufferWritedSize && this->haveBuffer()){
+            typeTemplate temp;edkEnd();
+            edk::uint8 lenght = 0u;edkEnd();
+            size += position;
+            for(edk::uint64 i=position;i<size;i++){
+                edkMemCpy(&temp,&this->buffer[i],sizeof(typeTemplate));edkEnd();
+                this->printElementLetter(temp);edkEnd();
+                if(lenght>=this->lenghtToReturn){
+                    lenght=0u;edkEnd();
+                    printf("\n");edkEnd();
+                }
+                else{
+                    lenght++;edkEnd();
+                }
+            }
+            fflush(stdout);edkEnd();
+            return true;
+        }
+        return false;
+    }
+    bool printLettersFromPosition(edk::uint64 position){
+        return this->printLettersFromPosition(position,this->getSize() - position);
     }
     bool printStr(){
         if(this->bufferWritedSize){
@@ -355,6 +457,11 @@ protected:
         printf("%08x",(edk::uint32)(((edk::uint32*)&value))[1u]);edkEnd();
         printf("%08x ",(edk::uint32)value);edkEnd();
     }
+    void printElementHEX(typeTemplate element){
+        edk::uint8 value=0uL;edkEnd();
+        edkMemCpy(&value,&element,sizeof(value));edkEnd();
+        printf("%02x ",(edk::uint32)value);edkEnd();
+    }
     void printElementChar(typeTemplate element){
         edk::char8 value;edkEnd();
         edk::uint32 size = sizeof(typeTemplate);edkEnd();
@@ -362,8 +469,19 @@ protected:
             size = sizeof(value);edkEnd();
         }
         edkMemCpy(&value,&element,size);edkEnd();
-        printf("%c ",value);edkEnd();
+        printf("%c",value);edkEnd();
     }
+    void printElementLetter(typeTemplate element){
+        edk::uint8 value=0uL;edkEnd();
+        edkMemCpy(&value,&element,sizeof(value));edkEnd();
+        if(value>31 && value<127){
+            printf("%c",(edk::uint32)value);edkEnd();
+        }
+        else{
+            printf(".");edkEnd();
+        }
+    }
+
 private:
     //lenghtToReturn
     edk::uint8 lenghtToReturn;

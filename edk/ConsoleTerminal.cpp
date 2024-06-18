@@ -534,16 +534,19 @@ bool edk::TTY::enableMouse(){
     return true;
 }
 bool edk::TTY::disableMouse(){
-#if defined (__linux__) || defined(__APPLE__)
     if(this->haveInitMouse){
+#if defined (__linux__) || defined(__APPLE__)
         //desactivate the mouse
         printf("\e[?1000l"); // Desativa o modo de envio de eventos de mouse
         //system("stty cooked");
         fflush(stdout);
         return true;
-    }
 #endif
+    }
     return false;
+}
+bool edk::TTY::mouseEnabled(){
+    return this->haveInitMouse;
 }
 
 //TTY to construct and destruct
@@ -655,9 +658,11 @@ bool edk::ConsoleTerminal::keyPressed(){
         edk::char8 key = edkGetch();
         if(edkKbhit()){
             //test if it's the escape
-            if(key == 27u
+            if(edk::ConsoleTerminal::tty.mouseEnabled()
+                    &&
+                    (key == 27u
                     || key == 50u
-                    || key == 51u
+                    || key == 51u)
                     ){
                 edk::ConsoleTerminal::keySize=0u;
                 edk::ConsoleTerminal::bufferSize=0u;
@@ -696,9 +701,8 @@ bool edk::ConsoleTerminal::keyPressed(){
                 edk::ConsoleTerminal::keySize=0u;
                 edk::ConsoleTerminal::bufferSize=0u;
                 edk::ConsoleTerminal::keyPos=0u;
-                if(edk::ConsoleTerminal::keySize){
+                if(edk::ConsoleTerminal::key){
                     memset(edk::ConsoleTerminal::key,0u,sizeof(edk::char8) * edk::ConsoleTerminal::keyLenth);
-                    edk::ConsoleTerminal::keySize=0u;
                     edk::ConsoleTerminal::key[edk::ConsoleTerminal::keySize] = key;
                     edk::ConsoleTerminal::keySize++;
                 }
@@ -759,7 +763,6 @@ bool edk::ConsoleTerminal::keyPressed(){
                     edk::ConsoleTerminal::keySize++;
                 }
             }
-            //printf("\n%u %s %s",__LINE__,__FILE__,__func__);fflush(stdout);
             return true;
         }
     }
@@ -772,7 +775,10 @@ edk::char8 edk::ConsoleTerminal::readKey(){
         edk::ConsoleTerminal::keyPos++;
         return c;
     }
-    return '\0';
+    //else just get the new key
+    edk::ConsoleTerminal::keySize=0u;
+    edk::ConsoleTerminal::keyPos=0u;
+    return edkGetch();
 }
 
 edk::char8* edk::ConsoleTerminal::readString(){
@@ -805,8 +811,8 @@ edk::size2ui32 edk::ConsoleTerminal::getSize(){
 #else
     struct winsize w;
     ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
-    ret.width = w.ws_row;
-    ret.height = w.ws_col;
+    ret.width = w.ws_col;
+    ret.height = w.ws_row;
 #endif
     return ret;
 }

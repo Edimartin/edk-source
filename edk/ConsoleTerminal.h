@@ -83,6 +83,7 @@ public:
     bool resetTerminal();
     bool enableMouse();
     bool disableMouse();
+    bool mouseEnabled();
 private:
     bool haveInit;
     bool haveInitMouse;
