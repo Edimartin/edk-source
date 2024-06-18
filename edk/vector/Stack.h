@@ -228,14 +228,8 @@ public:
             this->classThis=NULL;edkEnd();
             //can destruct the class
             //delete the array
-            if(this->canDeleteVector){
-                //clean
-                this->clean();edkEnd();
-                this->canDeleteVector=false;edkEnd();
-            }
-            else{
-                this->removed.cantDestruct();edkEnd();
-            }
+            this->clean();edkEnd();
+            //this->removed.cantDestruct();edkEnd();
         }
     }
 
@@ -245,7 +239,6 @@ public:
         if(this->classThis!=this){
             this->classThis=this;
             //clean the vectors
-            this->canDeleteVector=true;edkEnd();
             this->StackArraySize=PatternArraySize;edkEnd();
             this->stackSize=0u;
 
@@ -265,8 +258,6 @@ public:
 
             this->removed.Constructor();edkEnd();
 
-            //clean the vectors
-            this->canDeleteVector=true;edkEnd();
             //Test if the arraySize is bigger then zero
             if(arraySize){
                 //
@@ -2063,12 +2054,6 @@ public:
         return false;
     }
 
-    //cant
-    void cantDestroy(){
-        //
-        this->canDeleteVector=false;edkEnd();
-    }
-
     //OPERATORS
     /*
     //[] //To return the object in the pos
@@ -2122,8 +2107,6 @@ private:
     //Size of the array on the stack
     edk::uint32* stackArraySizePointer;
     edk::uint32 StackArraySize;
-    //test if can delete the vector
-    bool canDeleteVector;
 
     //get the position in the stack
     bool getPosition(edk::uint32 pos,edk::vector::Array<typeTemplate>* array[],edk::uint32* posArray){
@@ -2589,11 +2572,6 @@ public:
             return this->bringPositionPlusTimes(position,position2-position);edkEnd();
         }
         return false;
-    }
-
-    //cant
-    void cantDestroy(){
-        edk::vector::Stack<edk::Name*>::cantDestroy();edkEnd();
     }
 
     //OPERATORS

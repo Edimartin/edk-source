@@ -175,7 +175,7 @@ public:
     void Constructor(bool runFather=true){
         if(runFather){edkEnd();}
         if(this->classThis!=this){
-            this->classThis=this;
+            this->classThis=this;edkEnd();
         }
     }
     virtual void callbackLoadElement(typeTemplate){}
@@ -208,10 +208,10 @@ public:
     void Constructor(bool runFather=true){
         if(runFather){edkEnd();}
         if(this->classThis!=this){
-            this->classThis=this;
+            this->classThis=this;edkEnd();
             this->next=NULL;edkEnd();
             this->father=NULL;edkEnd();
-            this->position=0u;
+            this->position=0u;edkEnd();
             memset(&this->value,0u,sizeof(typeTemplate));edkEnd();
         }
     }
@@ -247,7 +247,7 @@ public:
     void Constructor(bool runFather=true){
         if(runFather){edkEnd();}
         if(this->classThis!=this){
-            this->classThis=this;
+            this->classThis=this;edkEnd();
             this->left=NULL;edkEnd();
             this->right=NULL;edkEnd();
             this->father=NULL;edkEnd();
@@ -289,24 +289,20 @@ public:
         if(this->classThis==this){
             this->classThis=NULL;edkEnd();
             //can destruct the class
-            if(!this->dontDestruct){
-                this->clean();edkEnd();
-                this->root=NULL;edkEnd();
-                this->sizeTree=0u;edkEnd();
-            }
-            this->dontDestruct=false;edkEnd();
+            this->clean();edkEnd();
+            this->root=NULL;edkEnd();
+            this->sizeTree=0u;edkEnd();
         }
     }
 
     void Constructor(bool runFather=true){
         if(runFather){edkEnd();}
         if(this->classThis!=this){
-            this->classThis=this;
-            this->updateElementsPositions=false;
+            this->classThis=this;edkEnd();
+            this->updateElementsPositions=false;edkEnd();
             this->root=NULL;edkEnd();
             this->errorCode=0u;edkEnd();
             this->sizeTree=0u;edkEnd();
-            this->dontDestruct = false;edkEnd();
 
             this->errorCodePointer = &this->errorCode;edkEnd();
             this->rootPointer = &this->root;edkEnd();
@@ -379,7 +375,8 @@ public:
                             }
                             else{
                                 //else add the value in left
-                                temp->left = newValue;edkEnd(); newValue=NULL;edkEnd();
+                                temp->left = newValue;edkEnd();
+                                newValue=NULL;edkEnd();
                                 temp->left->father = temp;edkEnd();
                                 //increment the sizeTree
                                 this->incrementSize();edkEnd();
@@ -867,7 +864,7 @@ public:
         //test if the element is founded
         if(ret){
             //return the value
-            return ret->position;edkEnd();
+            return ret->position;
         }
         //else return zero
         return 0u;
@@ -878,8 +875,8 @@ public:
         if(position < this->size()){
             //test if need update the positions
             if(!(*this->updateElementsPositionsPointer) && position>10u){
-                this->updatePositionsNoRecursively((*this->rootPointer));
-                (*this->updateElementsPositionsPointer)=true;
+                this->updatePositionsNoRecursively((*this->rootPointer));edkEnd();
+                (*this->updateElementsPositionsPointer)=true;edkEnd();
             }
             if((*this->updateElementsPositionsPointer)){
                 //then find the element pointer
@@ -907,8 +904,8 @@ public:
     //force update positions
     void updatePositions(){
         if(!(*this->updateElementsPositionsPointer)){
-            this->updatePositionsNoRecursively((*this->rootPointer));
-            (*this->updateElementsPositionsPointer)=true;
+            this->updatePositionsNoRecursively((*this->rootPointer));edkEnd();
+            (*this->updateElementsPositionsPointer)=true;edkEnd();
         }
     }
 
@@ -924,18 +921,13 @@ public:
 
     //Clean the tree
     virtual void clean(){
-        (*this->updateElementsPositionsPointer)=false;
+        (*this->updateElementsPositionsPointer)=false;edkEnd();
         if((*this->rootPointer)){
             //
             (*this->sizeTreePointer)=0u;edkEnd();
             this->cleanNoRecursively((*this->rootPointer));edkEnd();
         }
         (*this->rootPointer)=NULL;edkEnd();
-    }
-    //set to cant Destruct
-    void cantDestruct(){
-        //
-        this->dontDestruct=true;edkEnd();
     }
 
 protected:
@@ -976,16 +968,14 @@ private:
     //errorCode
     edk::uint16* errorCodePointer;
     //The root element on the TREE
-    BinaryLeaf<typeTemplate>** rootPointer;
     BinaryLeaf<typeTemplate>* root;
+    BinaryLeaf<typeTemplate>** rootPointer;
     //save if need update the positions
-    bool* updateElementsPositionsPointer;
     bool updateElementsPositions;
+    bool* updateElementsPositionsPointer;
     //size of the tree
-    edk::uint32* sizeTreePointer;
     edk::uint32 sizeTree;
-    //set if cant run the destructor
-    bool dontDestruct;
+    edk::uint32* sizeTreePointer;
 
     //compare if the value is bigger
     virtual bool firstPositionBiggerSecond(edk::uint32 first,edk::uint32 second){
@@ -1219,7 +1209,7 @@ private:
     //increment and decrement the size
     void incrementSize(){
         //
-        (*this->updateElementsPositionsPointer)=false;
+        (*this->updateElementsPositionsPointer)=false;edkEnd();
         (*this->sizeTreePointer)+=1u;edkEnd();
     }
     bool decrementSize(){
@@ -1228,7 +1218,7 @@ private:
             //
             (*this->sizeTreePointer)-=1u;edkEnd();
 
-            (*this->updateElementsPositionsPointer)=false;
+            (*this->updateElementsPositionsPointer)=false;edkEnd();
             //return true
             return true;
         }
@@ -1246,7 +1236,7 @@ private:
             //update the position
             if(position){
                 temp->position = *position;edkEnd();
-                *position++;
+                *position++;edkEnd();
             }
             if(temp->right){
                 this->updatePositionsRecursively(temp->right);edkEnd();
@@ -1254,7 +1244,7 @@ private:
         }
     }
     void updatePositionsNoRecursively(BinaryLeaf<typeTemplate>* temp){
-        edk::uint32 position=0u;
+        edk::uint32 position=0u;edkEnd();
         while(temp){
             if(temp->readed==0u){
                 temp->readed=1u;edkEnd();
@@ -1266,7 +1256,7 @@ private:
             if(temp->readed==1u){
                 //load
                 temp->position = position;edkEnd();
-                position++;
+                position++;edkEnd();
                 //run the callback functions
                 temp->readed=2u;edkEnd();
                 if(temp->right){
@@ -1612,7 +1602,7 @@ private:
             //test if count is == position
             if(*count==pos){
                 //then return the typeTemplate
-                return temp;edkEnd();
+                return temp;
             }
             else{
                 //increment count
@@ -1997,13 +1987,7 @@ public:
         if(this->classThis==this){
             this->classThis=NULL;edkEnd();
             //can destruct the class
-            if(this->canDeleteNames){
-                this->deleteAllNames();edkEnd();
-            }
-            else{
-                this->cantDestruct();edkEnd();
-            }
-            this->canDeleteNames=false;edkEnd();
+            this->deleteAllNames();edkEnd();
         }
     }
 
@@ -2013,7 +1997,6 @@ public:
         }
         if(this->classThis!=this){
             this->classThis=this;
-            this->canDeleteNames=true;edkEnd();
         }
     }
 
@@ -2129,10 +2112,6 @@ public:
         return NULL;
     }
 
-    void cantDeleteNames(){
-        this->canDeleteNames=false;edkEnd();
-    }
-
 protected:
     //Virtual Functions
     bool firstBiggerSecond(edk::Name* first,edk::Name* second){
@@ -2170,7 +2149,6 @@ protected:
     }
 
 private:
-    bool canDeleteNames;
     //compare the names
     bool firstNameBiggerSecond(edk::char8* name1,edk::char8* name2){
         //test the strings

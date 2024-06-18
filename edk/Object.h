@@ -91,14 +91,7 @@ public:
             this->classThis=NULL;edkEnd();
             //can destruct the class
             //remove all
-            if(!this->dontDestruct){
-                this->removeAll();edkEnd();
-            }
-            else{
-                //set the tree
-                this->retains.cantDestruct();edkEnd();
-            }
-            this->dontDestruct=false;edkEnd();
+            this->removeAll();edkEnd();
         }
     }
 
@@ -109,8 +102,6 @@ public:
             this->classThis=this;
 
             this->retains.Constructor();
-
-            this->dontDestruct=false;edkEnd();
         }
     }
 
@@ -164,11 +155,6 @@ public:
         //
         return !this->retains.haveRootChild();edkEnd();
     }
-    //set to cant Destruct
-    void cantDestruct(){
-        //
-        dontDestruct=true;edkEnd();
-    }
 
 protected:
     //Save the object
@@ -217,8 +203,6 @@ protected:
 private:
     //binaryTree
     edk::vector::BinaryTree<typeTemplate**> retains;
-    //set if cant run the destructor
-    bool dontDestruct;
 private:
     edk::classID classThis;
 };

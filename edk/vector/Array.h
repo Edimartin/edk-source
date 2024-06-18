@@ -59,27 +59,20 @@ public:
             this->classThis=NULL;edkEnd();
             //can destruct the class
             //delete the array
-            if(this->canDeleteVector){
-                //
-                this->deleteArray();edkEnd();
-            }
-            this->canDeleteVector=true;edkEnd();
+            this->deleteArray();edkEnd();
         }
     }
 
     void Constructor(bool runFather=true){
         if(runFather){edkEnd();}
         if(this->classThis!=this){
-            this->classThis=this;
+            this->classThis=this;edkEnd();
             this->isClass = edk::ID<typeTemplate>::isClass();edkEnd();
-            this->isOne=false;edkEnd();
             this->vector=NULL;edkEnd();
             this->vectorSize=0u;edkEnd();
-            this->canDeleteVector=true;edkEnd();
 
-            this->vectorPointer = &this->vector;
-            this->vectorSizePointer = &this->vectorSize;
-            this->isOnePointer = &this->isOne;
+            this->vectorPointer = &this->vector;edkEnd();
+            this->vectorSizePointer = &this->vectorSize;edkEnd();
 
             this->deleteArray();edkEnd();
         }
@@ -87,16 +80,13 @@ public:
     void Constructor(edk::uint32 size,bool runFather=true){
         if(runFather){edkEnd();}
         if(this->classThis!=this){
-            this->classThis=this;
+            this->classThis=this;edkEnd();
             this->isClass = edk::ID<typeTemplate>::isClass();edkEnd();
-            this->isOne=false;edkEnd();
             this->vector=NULL;edkEnd();
             this->vectorSize=0u;edkEnd();
-            this->canDeleteVector=true;edkEnd();
 
-            this->vectorPointer = &this->vector;
-            this->vectorSizePointer = &this->vectorSize;
-            this->isOnePointer = &this->isOne;
+            this->vectorPointer = &this->vector;edkEnd();
+            this->vectorSizePointer = &this->vectorSize;edkEnd();
 
             this->deleteArray();edkEnd();
 
@@ -118,12 +108,6 @@ public:
                 if((*this->vectorPointer)){
                     //save the size of the vector
                     (*this->vectorSizePointer)=size;edkEnd();
-                    //can delete the vector
-                    this->canDeleteVector=true;edkEnd();
-                    //return true
-                    if(size==1u){
-                        (*this->isOnePointer)=true;edkEnd();
-                    }
                     return true;
                 }
             }
@@ -132,8 +116,6 @@ public:
                 if((*this->vectorPointer)){
                     //save the size of the vector
                     (*this->vectorSizePointer)=size;edkEnd();
-                    //can delete the vector
-                    this->canDeleteVector=true;edkEnd();
                     //set with nulls
                     memset((void*)(*this->vectorPointer),0u,sizeof(typeTemplate)*size);edkEnd();
                     //return true
@@ -234,21 +216,14 @@ public:
             EDKArrayVectorFreeCounter++;
             */
             if(this->isClass){
-                if((*this->isOnePointer)){
-                    delete (*this->vectorPointer);edkEnd();
-                }
-                else{
-                    delete[] (*this->vectorPointer);edkEnd();
-                }
+                delete[] (*this->vectorPointer);edkEnd();
             }
             else{
                 free((*this->vectorPointer));edkEnd();
             }
         }
-        (*this->isOnePointer)=false;edkEnd();
         (*this->vectorPointer)=NULL;edkEnd();
         (*this->vectorSizePointer)=0u;edkEnd();
-        this->canDeleteVector=true;edkEnd();
     }
 
     //set the array with a value
@@ -296,13 +271,9 @@ private:
     //size of the vector
     edk::uint32* vectorSizePointer;
     edk::uint32 vectorSize;
-    //test if can delete the vector
-    bool canDeleteVector;
 
     //test if the typeTemplete is a class
     bool isClass;
-    bool* isOnePointer;
-    bool isOne;
 private:
     edk::vector::Array<typeTemplate> operator=(edk::vector::Array<typeTemplate> vec){
         //

@@ -116,10 +116,7 @@ public:
         if(this->classThis==this){
             this->classThis=NULL;edkEnd();
             //can destruct the class
-            if(this->runDeleteVector){
-                this->clean(10u);
-            }
-            this->runDeleteVector=true;
+            this->clean(10u);
         }
     }
 
@@ -132,7 +129,6 @@ public:
             this->arraySize = PatternArraySize;edkEnd();
             this->start = this->end = 0u;edkEnd();
             this->_size = 0u;edkEnd();
-            this->runDeleteVector=true;edkEnd();
 
             //Have the first cel
             this->firstPointer=&this->first;
@@ -157,7 +153,6 @@ public:
             }
             this->start = this->end = 0u;edkEnd();
             this->_size = 0u;edkEnd();
-            this->runDeleteVector=true;edkEnd();
 
             //Have the first cel
             this->firstPointer=&this->first;
@@ -340,9 +335,6 @@ public:
         }
         return ret;
     }
-    void cantDelete(){
-        this->runDeleteVector=false;
-    }
 
 protected:
 private:
@@ -362,9 +354,6 @@ private:
     //save the queue size
     edk::uint32* _sizePointer;
     edk::uint32 _size;
-
-    //test if can delete the vector
-    bool runDeleteVector;
 private:
     edk::classID classThis;
 };
