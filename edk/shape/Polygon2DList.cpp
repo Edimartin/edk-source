@@ -419,7 +419,7 @@ void edk::shape::Polygon2DList::cleanPolygons(){
     //remove all the polygons
     for(edk::uint32 i=size;i>0u;i--){
         //
-        this->removePolygon(size-1u);edkEnd();
+        this->removePolygon(i-1u);edkEnd();
     }
     this->polygons.clean();edkEnd();
 }

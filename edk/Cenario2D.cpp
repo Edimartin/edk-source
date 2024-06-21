@@ -30,12 +30,16 @@ edk::physics2D::World2D edk::Cenario2D::worldTemplate;
 edk::Cenario2D::Cenario2D():
     treeAnimPhys(&edk::Cenario2D::worldTemplate)
 {
+    this->world=&edk::Cenario2D::worldTemplate;
+    this->world->Constructor();
     this->classThis=NULL;edkEnd();
     this->Constructor(&edk::Cenario2D::worldTemplate,false);edkEnd();
 }
 edk::Cenario2D::Cenario2D(edk::physics2D::World2D* world):
     treeAnimPhys(world)
 {
+    this->world=&edk::Cenario2D::worldTemplate;
+    this->world->Constructor();
     this->classThis=NULL;edkEnd();
     this->Constructor(world,false);edkEnd();
 }
