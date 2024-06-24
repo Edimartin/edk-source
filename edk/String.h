@@ -294,12 +294,12 @@ public:
 
     static bool strCompareBeggin(const edk::char8 *beggin, const edk::char8 *str);
 
-    static bool strCompareEnd(edk::char8 *end, edk::char8 *str);
+    static bool strCompareEnd(edk::char8 *str, edk::char8 *end);
 
-    static bool strCompareEnd(const edk::char8 *end, edk::char8 *str);
-    static bool strCompareEnd(edk::char8 *end, const edk::char8 *str);
+    static bool strCompareEnd(const edk::char8 *str, edk::char8 *end);
+    static bool strCompareEnd(edk::char8 *str, const edk::char8 *end);
 
-    static bool strCompareEnd(const edk::char8 *end, const edk::char8 *str);
+    static bool strCompareEnd(const edk::char8 *str, const edk::char8 *end);
 
     //Compare string removing some characters with filter
     static bool strCompareWithFilter(edk::char8 *str1, edk::char8 *str2,edk::char8 *filter);
@@ -329,6 +329,15 @@ public:
     static edk::char8* strHaveInsideBeggin(const edk::char8 *str, edk::char8 *compare);
     static edk::char8* strHaveInsideBeggin(edk::char8 *str, const edk::char8 *compare);
     static edk::char8* strHaveInsideBeggin(const edk::char8 *str, const edk::char8 *compare);
+
+    static edk::char8* strInsideEnd(edk::char8 *str, edk::char8 *compare);
+    static edk::char8* strInsideEnd(const edk::char8 *str, edk::char8 *compare);
+    static edk::char8* strInsideEnd(edk::char8 *str, const edk::char8 *compare);
+    static edk::char8* strInsideEnd(const edk::char8 *str, const edk::char8 *compare);
+    static edk::char8* strHaveInsideEnd(edk::char8 *str, edk::char8 *compare);
+    static edk::char8* strHaveInsideEnd(const edk::char8 *str, edk::char8 *compare);
+    static edk::char8* strHaveInsideEnd(edk::char8 *str, const edk::char8 *compare);
+    static edk::char8* strHaveInsideEnd(const edk::char8 *str, const edk::char8 *compare);
 
     //return true if the first string is bigger than the second string
     static bool strBiggerStr(edk::char8 *str1, edk::char8 *str2);

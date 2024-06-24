@@ -60,6 +60,13 @@ public:
     bool runFilesOnly(const edk::char8* directory);
     bool runFoldersOnly(edk::char8* directory);
     bool runFoldersOnly(const edk::char8* directory);
+    //recursive
+    bool runRecursive(edk::char8* directory);
+    bool runRecursive(const edk::char8* directory);
+    bool runFilesOnlyRecursive(edk::char8* directory);
+    bool runFilesOnlyRecursive(const edk::char8* directory);
+    bool runFoldersOnlyRecursive(edk::char8* directory);
+    bool runFoldersOnlyRecursive(const edk::char8* directory);
 
     //get files
     edk::uint32 getFilesSize();
@@ -77,6 +84,14 @@ public:
     virtual void listFile(edk::char8* name,edk::uint64 lastModify,edk::uint64 size);
     virtual void listFolder(edk::char8* name,edk::uint64 lastModify,edk::uint64 size);
 private:
+
+    //start listing the folders and files in a directory received by function parameter
+    bool runNoClean(edk::char8* directory);
+    bool runNoClean(const edk::char8* directory);
+    bool runNoCleanFilesOnly(edk::char8* directory);
+    bool runNoCleanFilesOnly(const edk::char8* directory);
+    bool runNoCleanFoldersOnly(edk::char8* directory);
+    bool runNoCleanFoldersOnly(const edk::char8* directory);
     //class to read the files and folders
     class FileOrFolders{
     public:
@@ -133,6 +148,7 @@ private:
     //stack for files and folders
     edk::vector::Stack<edk::ListDirectory::FileOrFolders*> files;
     edk::vector::Stack<edk::ListDirectory::FileOrFolders*> folders;
+    edk::Name directorySave;
 private:
     edk::classID classThis;
 };

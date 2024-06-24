@@ -35,6 +35,167 @@ edk::ListDirectory::~ListDirectory(){
     }
 }
 
+//start listing the folders and files in a directory received by function parameter
+bool edk::ListDirectory::runNoClean(edk::char8* directory){
+    if(directory){
+        //directory pointer
+        DIR *dir;edkEnd();
+        //file pointer
+        struct dirent *file;edkEnd();
+        //status of the file
+        struct stat status;edkEnd();
+
+
+        edk::char8* str = NULL;
+        if(edk::String::strCompareEnd(directory,"/")){
+            str = edk::String::strCopy(directory);
+        }
+        else{
+            str = edk::String::strCat(directory,"/");
+        }
+        if(str){
+            this->directorySave.setName(str);
+            free(str);
+        }
+
+        edk::char8* temp=NULL;edkEnd();
+        //open the directory
+        dir = opendir(directory);edkEnd();
+        if(dir){
+            //printf("\nDirectory %s",directory);edkEnd();
+            //list the files
+            while((file = readdir(dir)) != NULL){
+                //create the file string to read the status
+                temp = edk::String::strCatMulti(directory,"/",file->d_name,NULL);edkEnd();
+                if(temp){
+                    //read the status
+                    stat(temp, &status);edkEnd();
+
+                    switch(status.st_mode & S_IFMT){
+                    case S_IFDIR:
+                        //FOLDER
+                        //test if the folder are different the . or ..
+                        if(!edk::String::strCompare(file->d_name,".")
+                                && !edk::String::strCompare(file->d_name,"..")
+                                ){
+                            //printf("\nFolder:'%s' LastModify:%lu size:%lu",file->d_name,status.st_mtime,status.st_size);fflush(stdout);edkEnd();
+                            this->listFolder(file->d_name,status.st_mtime,status.st_size);edkEnd();
+                        }
+                        break;
+                    case S_IFREG:
+                        //FILE
+                        //printf("\nFile  :'%s' LastModify:%lu size:%lu",file->d_name,status.st_mtime,status.st_size);fflush(stdout);edkEnd();
+                        this->listFile(file->d_name,status.st_mtime,status.st_size);edkEnd();
+                        break;
+                    }
+
+                    free(temp);edkEnd();
+                }
+            }
+            closedir(dir);edkEnd();
+            return true;
+        }
+    }
+    return false;
+}
+bool edk::ListDirectory::runNoClean(const edk::char8* directory){
+    return this->runNoClean((edk::char8*) directory);edkEnd();
+}
+bool edk::ListDirectory::runNoCleanFilesOnly(edk::char8* directory){
+    if(directory){
+        //directory pointer
+        DIR *dir;edkEnd();
+        //file pointer
+        struct dirent *file;edkEnd();
+        //status of the file
+        struct stat status;edkEnd();
+
+        edk::char8* temp=NULL;edkEnd();
+        //open the directory
+        dir = opendir(directory);edkEnd();
+        if(dir){
+            //printf("\nDirectory %s",directory);edkEnd();
+            //list the files
+            while((file = readdir(dir)) != NULL){
+                //create the file string to read the status
+                temp = edk::String::strCatMulti(directory,"/",file->d_name,NULL);edkEnd();
+                if(temp){
+                    //read the status
+                    stat(temp, &status);edkEnd();
+
+                    switch(status.st_mode & S_IFMT){
+                    case S_IFDIR:
+                        //FOLDER
+                        break;
+                    case S_IFREG:
+                        //FILE
+                        //printf("\nFile  :'%s' LastModify:%lu size:%lu",file->d_name,status.st_mtime,status.st_size);fflush(stdout);edkEnd();
+                        this->listFile(file->d_name,status.st_mtime,status.st_size);edkEnd();
+                        break;
+                    }
+
+                    free(temp);edkEnd();
+                }
+            }
+            closedir(dir);edkEnd();
+            return true;
+        }
+    }
+    return false;
+}
+bool edk::ListDirectory::runNoCleanFilesOnly(const edk::char8* directory){
+    return this->runNoCleanFoldersOnly((edk::char8*) directory);
+}
+bool edk::ListDirectory::runNoCleanFoldersOnly(edk::char8* directory){
+    if(directory){
+        //directory pointer
+        DIR *dir;edkEnd();
+        //file pointer
+        struct dirent *file;edkEnd();
+        //status of the file
+        struct stat status;edkEnd();
+
+        edk::char8* temp=NULL;edkEnd();
+        //open the directory
+        dir = opendir(directory);edkEnd();
+        if(dir){
+            //printf("\nDirectory %s",directory);edkEnd();
+            //list the files
+            while((file = readdir(dir)) != NULL){
+                //create the file string to read the status
+                temp = edk::String::strCatMulti(directory,"/",file->d_name,NULL);edkEnd();
+                if(temp){
+                    //read the status
+                    stat(temp, &status);edkEnd();
+
+                    switch(status.st_mode & S_IFMT){
+                    case S_IFDIR:
+                        //FOLDER
+                        //test if the folder are different the . or ..
+                        if(!edk::String::strCompare(file->d_name,".")
+                                && !edk::String::strCompare(file->d_name,"..")
+                                ){
+                            //printf("\nFolder:'%s' LastModify:%lu size:%lu",file->d_name,status.st_mtime,status.st_size);fflush(stdout);edkEnd();
+                            this->listFolder(file->d_name,status.st_mtime,status.st_size);edkEnd();
+                        }
+                        break;
+                    case S_IFREG:
+                        break;
+                    }
+
+                    free(temp);edkEnd();
+                }
+            }
+            closedir(dir);edkEnd();
+            return true;
+        }
+    }
+    return false;
+}
+bool edk::ListDirectory::runNoCleanFoldersOnly(const edk::char8* directory){
+    return this->runNoCleanFoldersOnly((edk::char8*) directory);
+}
+
 void edk::ListDirectory::Constructor(bool /*runFather*/){
     //
     if(this->classThis!=this){
@@ -54,53 +215,7 @@ void edk::ListDirectory::clean(){
 bool edk::ListDirectory::run(edk::char8* directory){
     this->folders.clean();
     this->files.clean();
-    if(directory){
-        //directory pointer
-        DIR *dir;edkEnd();
-        //file pointer
-        struct dirent *file;edkEnd();
-        //status of the file
-        struct stat status;edkEnd();
-
-        edk::char8* temp=NULL;edkEnd();
-        //open the directory
-        dir = opendir(directory);edkEnd();
-        if(dir){
-            //printf("\nDirectory %s",directory);edkEnd();
-            //list the files
-            while((file = readdir(dir)) != NULL){
-                //create the file string to read the status
-                temp = edk::String::strCatMulti(directory,"/",file->d_name,NULL);edkEnd();
-                if(temp){
-                    //read the status
-                    stat(temp, &status);edkEnd();
-
-                    switch(status.st_mode & S_IFMT){
-                    case S_IFDIR:
-                        //FOLDER
-                        //test if the folder are different the . or ..
-                        if(!edk::String::strCompare(file->d_name,".")
-                                && !edk::String::strCompare(file->d_name,"..")
-                                ){
-                            //printf("\nFolder:'%s' LastModify:%lu size:%lu",file->d_name,status.st_mtime,status.st_size);fflush(stdout);edkEnd();
-                            this->listFolder(file->d_name,status.st_mtime,status.st_size);edkEnd();
-                        }
-                        break;
-                    case S_IFREG:
-                        //FILE
-                        //printf("\nFile  :'%s' LastModify:%lu size:%lu",file->d_name,status.st_mtime,status.st_size);fflush(stdout);edkEnd();
-                        this->listFile(file->d_name,status.st_mtime,status.st_size);edkEnd();
-                        break;
-                    }
-
-                    free(temp);edkEnd();
-                }
-            }
-            closedir(dir);edkEnd();
-            return true;
-        }
-    }
-    return false;
+    return this->runNoClean(directory);
 }
 bool edk::ListDirectory::run(const edk::char8* directory){
     return this->run((edk::char8*) directory);edkEnd();
@@ -108,46 +223,7 @@ bool edk::ListDirectory::run(const edk::char8* directory){
 bool edk::ListDirectory::runFilesOnly(edk::char8* directory){
     this->folders.clean();
     this->files.clean();
-    if(directory){
-        //directory pointer
-        DIR *dir;edkEnd();
-        //file pointer
-        struct dirent *file;edkEnd();
-        //status of the file
-        struct stat status;edkEnd();
-
-        edk::char8* temp=NULL;edkEnd();
-        //open the directory
-        dir = opendir(directory);edkEnd();
-        if(dir){
-            //printf("\nDirectory %s",directory);edkEnd();
-            //list the files
-            while((file = readdir(dir)) != NULL){
-                //create the file string to read the status
-                temp = edk::String::strCatMulti(directory,"/",file->d_name,NULL);edkEnd();
-                if(temp){
-                    //read the status
-                    stat(temp, &status);edkEnd();
-
-                    switch(status.st_mode & S_IFMT){
-                    case S_IFDIR:
-                        //FOLDER
-                        break;
-                    case S_IFREG:
-                        //FILE
-                        //printf("\nFile  :'%s' LastModify:%lu size:%lu",file->d_name,status.st_mtime,status.st_size);fflush(stdout);edkEnd();
-                        this->listFile(file->d_name,status.st_mtime,status.st_size);edkEnd();
-                        break;
-                    }
-
-                    free(temp);edkEnd();
-                }
-            }
-            closedir(dir);edkEnd();
-            return true;
-        }
-    }
-    return false;
+    return this->runNoCleanFilesOnly(directory);
 }
 bool edk::ListDirectory::runFilesOnly(const edk::char8* directory){
     return this->runFoldersOnly((edk::char8*) directory);
@@ -155,53 +231,99 @@ bool edk::ListDirectory::runFilesOnly(const edk::char8* directory){
 bool edk::ListDirectory::runFoldersOnly(edk::char8* directory){
     this->folders.clean();
     this->files.clean();
+    return this->runNoCleanFoldersOnly(directory);
+}
+bool edk::ListDirectory::runFoldersOnly(const edk::char8* directory){
+    return this->runFoldersOnly((edk::char8*) directory);
+}
+//recursive
+bool edk::ListDirectory::runRecursive(edk::char8* directory){
+    this->folders.clean();
+    this->files.clean();
     if(directory){
-        //directory pointer
-        DIR *dir;edkEnd();
-        //file pointer
-        struct dirent *file;edkEnd();
-        //status of the file
-        struct stat status;edkEnd();
-
-        edk::char8* temp=NULL;edkEnd();
-        //open the directory
-        dir = opendir(directory);edkEnd();
-        if(dir){
-            //printf("\nDirectory %s",directory);edkEnd();
-            //list the files
-            while((file = readdir(dir)) != NULL){
-                //create the file string to read the status
-                temp = edk::String::strCatMulti(directory,"/",file->d_name,NULL);edkEnd();
-                if(temp){
-                    //read the status
-                    stat(temp, &status);edkEnd();
-
-                    switch(status.st_mode & S_IFMT){
-                    case S_IFDIR:
-                        //FOLDER
-                        //test if the folder are different the . or ..
-                        if(!edk::String::strCompare(file->d_name,".")
-                                && !edk::String::strCompare(file->d_name,"..")
-                                ){
-                            //printf("\nFolder:'%s' LastModify:%lu size:%lu",file->d_name,status.st_mtime,status.st_size);fflush(stdout);edkEnd();
-                            this->listFolder(file->d_name,status.st_mtime,status.st_size);edkEnd();
+        //run the first with the directory
+        if(this->runNoClean(directory)){
+            //get the size of directories
+            edk::uint32 size = this->folders.size();
+            edk::uint32 i=0u;
+            edk::ListDirectory::FileOrFolders* folderTemp=NULL;
+            do{
+                for(;i<size;i++){
+                    //print the folder name
+                    folderTemp = this->folders.get(i);
+                    if(folderTemp){
+                        if(folderTemp->name.haveName()){
+                            this->runNoClean(folderTemp->name.getName());
                         }
-                        break;
-                    case S_IFREG:
-                        break;
                     }
-
-                    free(temp);edkEnd();
                 }
-            }
-            closedir(dir);edkEnd();
+            }while(i<size);
             return true;
         }
     }
     return false;
 }
-bool edk::ListDirectory::runFoldersOnly(const edk::char8* directory){
-    return this->runFoldersOnly((edk::char8*) directory);
+bool edk::ListDirectory::runRecursive(const edk::char8* directory){
+    return this->runRecursive((edk::char8*) directory);
+}
+bool edk::ListDirectory::runFilesOnlyRecursive(edk::char8* directory){
+    this->folders.clean();
+    this->files.clean();
+    if(directory){
+        //run the first with the directory
+        if(this->runNoClean(directory)){
+            //get the size of directories
+            edk::uint32 size = this->folders.size();
+            edk::uint32 i=0u;
+            edk::ListDirectory::FileOrFolders* folderTemp=NULL;
+            do{
+                for(;i<size;i++){
+                    //print the folder name
+                    folderTemp = this->folders.get(i);
+                    if(folderTemp){
+                        if(folderTemp->name.haveName()){
+                            this->runNoClean(folderTemp->name.getName());
+                        }
+                    }
+                }
+            }while(i<size);
+            this->cleanFolders();
+            return true;
+        }
+    }
+    return false;
+}
+bool edk::ListDirectory::runFilesOnlyRecursive(const edk::char8* directory){
+    return this->runFilesOnlyRecursive((edk::char8*) directory);
+}
+bool edk::ListDirectory::runFoldersOnlyRecursive(edk::char8* directory){
+    this->folders.clean();
+    this->files.clean();
+    if(directory){
+        //run the first with the directory
+        if(this->runNoCleanFoldersOnly(directory)){
+            //get the size of directories
+            edk::uint32 size = this->folders.size();
+            edk::uint32 i=0u;
+            edk::ListDirectory::FileOrFolders* folderTemp=NULL;
+            do{
+                for(;i<size;i++){
+                    //print the folder name
+                    folderTemp = this->folders.get(i);
+                    if(folderTemp){
+                        if(folderTemp->name.haveName()){
+                            this->runNoCleanFoldersOnly(folderTemp->name.getName());
+                        }
+                    }
+                }
+            }while(i<size);
+            return true;
+        }
+    }
+    return false;
+}
+bool edk::ListDirectory::runFoldersOnlyRecursive(const edk::char8* directory){
+    return this->runFoldersOnlyRecursive((edk::char8*) directory);
 }
 
 //get files
@@ -267,23 +389,58 @@ void edk::ListDirectory::cleanFolders(){
     this->folders.clean();
 }
 
-void edk::ListDirectory::listFile(edk::char8* name,edk::uint64 lastModify,edk::uint64 size){
-    edk::ListDirectory::FileOrFolders* temp = new edk::ListDirectory::FileOrFolders(name,lastModify,size);
-    if(temp){
-        edk::uint32 size = this->files.size();
-        this->files.pushBack(temp);
-        if(size >= this->files.size()){
-            delete temp;
+void edk::ListDirectory::listFile(edk::char8* name,edk::uint64 lastModify,edk::uint64 size){//test if have directory saved
+    edk::ListDirectory::FileOrFolders* temp = NULL;
+    if(this->directorySave.haveName()){
+        edk::char8* str = edk::String::strCat(this->directorySave.getName(),name);
+        if(str){
+            temp = new edk::ListDirectory::FileOrFolders(str,lastModify,size);
+            if(temp){
+                edk::uint32 size = this->files.size();
+                this->files.pushBack(temp);
+                if(size >= this->files.size()){
+                    delete temp;
+                }
+            }
+            free(str);
+        }
+    }
+    else{
+        temp = new edk::ListDirectory::FileOrFolders(name,lastModify,size);
+        if(temp){
+            edk::uint32 size = this->files.size();
+            this->files.pushBack(temp);
+            if(size >= this->files.size()){
+                delete temp;
+            }
         }
     }
 }
 void edk::ListDirectory::listFolder(edk::char8* name,edk::uint64 lastModify,edk::uint64 size){
-    edk::ListDirectory::FileOrFolders* temp = new edk::ListDirectory::FileOrFolders(name,lastModify,size);
-    if(temp){
-        edk::uint32 size = this->folders.size();
-        this->folders.pushBack(temp);
-        if(size >= this->folders.size()){
-            delete temp;
+    //test if have directory saved
+    edk::ListDirectory::FileOrFolders* temp = NULL;
+    if(this->directorySave.haveName()){
+        edk::char8* str = edk::String::strCat(this->directorySave.getName(),name);
+        if(str){
+            temp = new edk::ListDirectory::FileOrFolders(str,lastModify,size);
+            if(temp){
+                edk::uint32 size = this->folders.size();
+                this->folders.pushBack(temp);
+                if(size >= this->folders.size()){
+                    delete temp;
+                }
+            }
+            free(str);
+        }
+    }
+    else{
+        temp = new edk::ListDirectory::FileOrFolders(name,lastModify,size);
+        if(temp){
+            edk::uint32 size = this->folders.size();
+            this->folders.pushBack(temp);
+            if(size >= this->folders.size()){
+                delete temp;
+            }
         }
     }
 }

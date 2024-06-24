@@ -3945,7 +3945,7 @@ bool edk::String::strCompareBeggin(const edk::char8 *beggin, const edk::char8 *s
     return edk::String::strCompareBeggin((edk::char8*)beggin,(edk::char8*)str);
 }
 
-bool edk::String::strCompareEnd(edk::char8 *end, edk::char8 *str){
+bool edk::String::strCompareEnd(edk::char8 *str, edk::char8 *end){
     if(end && str){
         //save the str1
         if(*end){
@@ -3978,16 +3978,16 @@ bool edk::String::strCompareEnd(edk::char8 *end, edk::char8 *str){
     }
     return false;
 }
-bool edk::String::strCompareEnd(const edk::char8 *end, edk::char8 *str){
-    return edk::String::strCompareEnd((edk::char8 *)end, (edk::char8 *)str);
+bool edk::String::strCompareEnd(const edk::char8 *str, edk::char8 *end){
+    return edk::String::strCompareEnd((edk::char8 *)str, (edk::char8 *)end);
 }
-bool edk::String::strCompareEnd(edk::char8 *end, const edk::char8 *str){
-    return edk::String::strCompareEnd((edk::char8 *)end, (edk::char8 *)str);
+bool edk::String::strCompareEnd(edk::char8 *str, const edk::char8 *end){
+    return edk::String::strCompareEnd((edk::char8 *)str, (edk::char8 *)end);
 }
 
 
-bool edk::String::strCompareEnd(const edk::char8 *end, const edk::char8 *str){
-    return edk::String::strCompareEnd((edk::char8*)end,(edk::char8*)str);
+bool edk::String::strCompareEnd(const edk::char8 *str, const edk::char8 *end){
+    return edk::String::strCompareEnd((edk::char8*)str,(edk::char8*)end);
 }
 
 //Compare string removing some characters with filter
@@ -4219,6 +4219,50 @@ edk::char8* edk::String::strHaveInsideBeggin(edk::char8 *str, const edk::char8 *
 }
 edk::char8* edk::String::strHaveInsideBeggin(const edk::char8 *str, const edk::char8 *compare){
     return edk::String::strInsideBeggin((edk::char8 *)str, (edk::char8 *)compare);
+}
+
+edk::char8* edk::String::strInsideEnd(edk::char8 *str, edk::char8 *compare){
+    if(str && compare){
+        edk::uint32 size = edk::String::strSize(str);
+        edk::uint32 sizeCompare = edk::String::strSize(compare);
+        if(size>1u && sizeCompare>1u){
+            if(size>=sizeCompare){
+                //test the str with the compare
+                edk::char8* temp = &str[size-1u];
+                edk::char8* tempCompare = &str[sizeCompare-1u];
+                for(edk::uint32 i=0u;i<sizeCompare;i++){
+                    //compare if are different
+                    if(*temp != *tempCompare){
+                        return NULL;
+                    }
+                }
+                //return the temp
+                return temp;
+            }
+        }
+    }
+    return NULL;
+}
+edk::char8* edk::String::strInsideEnd(const edk::char8 *str, edk::char8 *compare){
+    return edk::String::strInsideEnd((edk::char8 *)str, compare);
+}
+edk::char8* edk::String::strInsideEnd(edk::char8 *str, const edk::char8 *compare){
+    return edk::String::strInsideEnd(str, (edk::char8 *)compare);
+}
+edk::char8* edk::String::strInsideEnd(const edk::char8 *str, const edk::char8 *compare){
+    return edk::String::strInsideEnd((edk::char8 *)str, (edk::char8 *)compare);
+}
+edk::char8* edk::String::strHaveInsideEnd(edk::char8 *str, edk::char8 *compare){
+    return edk::String::strInsideEnd(str, compare);
+}
+edk::char8* edk::String::strHaveInsideEnd(const edk::char8 *str, edk::char8 *compare){
+    return edk::String::strInsideEnd((edk::char8 *)str, compare);
+}
+edk::char8* edk::String::strHaveInsideEnd(edk::char8 *str, const edk::char8 *compare){
+    return edk::String::strHaveInsideEnd(str, (edk::char8 *)compare);
+}
+edk::char8* edk::String::strHaveInsideEnd(const edk::char8 *str, const edk::char8 *compare){
+    return edk::String::strHaveInsideEnd((edk::char8 *)str, (edk::char8 *)compare);
 }
 
 //return true if the first string is bigger than the second string

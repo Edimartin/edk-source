@@ -143,6 +143,14 @@ public:
     static bool isFile(edk::char8 *name);
     static bool isFile(const edk::char8 *name);
 
+    //return the lines size of a file
+    static edk::uint64 fileSize(edk::char8 *name);
+    static edk::uint64 fileSize(const edk::char8 *name);
+
+    //return the size of a file
+    static edk::uint64 fileLinesSize(edk::char8 *name);
+    static edk::uint64 fileLinesSize(const edk::char8 *name);
+
     bool createAndOpenTextFile(edk::char8 *name);
 
     bool createAndOpenTextFile(const edk::char8 *name);

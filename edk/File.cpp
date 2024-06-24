@@ -1099,6 +1099,42 @@ bool edk::File::isFile(const edk::char8* name){
     return edk::File::isFile((edk::char8*)name);
 }
 
+//return the size of a file
+edk::uint64 edk::File::fileSize(edk::char8 *name){
+    edk::uint64 size=0u;
+    edk::File file;
+    if(file.openBinFile(name)){
+        size = file.getFileSize();
+    }
+    return size;
+}
+edk::uint64 edk::File::fileSize(const edk::char8 *name){
+    return edk::File::fileSize((edk::char8 *)name);
+}
+
+//return the lines size of a file
+edk::uint64 edk::File::fileLinesSize(edk::char8 *name){
+    edk::uint64 size=0u;
+    edk::File file;
+    if(file.openBinFile(name)){
+        edk::char8 str[1024u+1u];
+        edk::uint16 limit = sizeof(str)-1u;
+        edk::uint16 readed;
+        while(!file.endOfFile()){
+            readed = file.readBin(str,limit);
+            for(edk::uint16 i=0u;i<readed;i++){
+                if(str[i]=='\n' || str[i]==10 || str[i]==13){
+                    size++;
+                }
+            }
+        }
+    }
+    return size;
+}
+edk::uint64 edk::File::fileLinesSize(const edk::char8 *name){
+    return edk::File::fileSize((edk::char8 *)name);
+}
+
 bool edk::File::createAndOpenTextFile(edk::char8 *name){
     //Close the file
     this->closeFile();
