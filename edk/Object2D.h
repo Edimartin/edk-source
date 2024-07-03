@@ -139,6 +139,9 @@ public:
     //UNHIDE
     bool unhide();
 
+    bool isHided();
+    bool areHided();
+
     //play all mesh animations
     void playMeshAnimations();
     bool playMeshAnimations(edk::uchar32 position);

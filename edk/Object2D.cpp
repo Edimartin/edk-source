@@ -429,7 +429,7 @@ void edk::Object2D::Constructor(bool runFather){
     if(this->classThis!=this){
         this->classThis=this;
 
-        this->hided=true;
+        this->hided=false;
 
         this->meshes.Constructor();
         this->matrixPosition.Constructor();
@@ -2923,6 +2923,16 @@ bool edk::Object2D::unhide(){
         return true;
     }
     return false;
+}
+
+bool edk::Object2D::getHided(){
+    return this->hided;
+}
+bool edk::Object2D::isHided(){
+    return this->hided;
+}
+bool edk::Object2D::areHided(){
+    return this->hided;
 }
 
 //play all mesh animations
