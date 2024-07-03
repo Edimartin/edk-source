@@ -139,6 +139,7 @@ public:
     //UNHIDE
     bool unhide();
 
+    bool getHided();
     bool isHided();
     bool areHided();
 
