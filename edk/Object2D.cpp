@@ -429,7 +429,7 @@ void edk::Object2D::Constructor(bool runFather){
     if(this->classThis!=this){
         this->classThis=this;
 
-        this->hided=false;
+        this->hided=true;
 
         this->meshes.Constructor();
         this->matrixPosition.Constructor();
