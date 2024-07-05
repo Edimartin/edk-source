@@ -312,7 +312,7 @@ private:
                     //clone the object
                     if(tile->obj.cloneFrom(obj)){
                         tile->position=obj->position;
-                        tile->distance=distance - 0.1f;
+                        tile->distance=distance - 0.01f;
                         //add into the tree
                         if(this->add(tile)){
                             return &tile->obj;

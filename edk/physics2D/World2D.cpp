@@ -918,6 +918,7 @@ edk::physics2D::World2D::World2D():
   ,contacts(this)
   #endif
 {
+    this->classThis=NULL;edkEnd();
     this->Constructor(false);edkEnd();
 }
 edk::physics2D::World2D::~World2D(){

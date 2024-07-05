@@ -2934,6 +2934,12 @@ bool edk::Object2D::isHided(){
 bool edk::Object2D::areHided(){
     return this->hided;
 }
+bool edk::Object2D::isUnhided(){
+    return !this->hided;
+}
+bool edk::Object2D::areUnhided(){
+    return !this->hided;
+}
 
 //play all mesh animations
 void edk::Object2D::playMeshAnimations(){

@@ -133,6 +133,7 @@ public:
     bool clonePhysicsMeshFromMeshPosition(edk::uint32 position);
 
     virtual bool cloneFrom(edk::physics2D::PhysicObject2D* obj);
+    virtual bool cloneFromWithType(edk::physics2D::PhysicObject2D* obj);
 
     virtual bool cloneFrom(edk::Object2D* obj);
 

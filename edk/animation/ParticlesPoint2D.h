@@ -293,7 +293,7 @@ private:
             this->classThis=NULL;
             this->Constructor(obj,angleObject,sizeObject,false);edkEnd();
         }
-        ParticleObject2D(){}
+        ~ParticleObject2D(){}
 
         void Constructor(edk::Object2D* obj,edk::float32 angleObject,edk::size2f32 sizeObject,bool runFather=true){
             if(runFather){edkEnd();}
@@ -314,7 +314,9 @@ private:
     };
     class TreeObjects2D: public edk::vector::BinaryTree<edk::animation::ParticlesPoint2D::ParticleObject2D*>{
     public:
-        TreeObjects2D(){this->classThis=NULL;this->Constructor(false);edkEnd();}
+        TreeObjects2D()
+            :objTemplate(NULL,0.f,edk::size2f32(0.f,0.f))
+        {this->classThis=NULL;this->Constructor(false);edkEnd();}
         ~TreeObjects2D(){
             if(this->classThis==this){
                 this->classThis=NULL;edkEnd();

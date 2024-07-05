@@ -142,6 +142,8 @@ public:
     bool getHided();
     bool isHided();
     bool areHided();
+    bool isUnhided();
+    bool areUnhided();
 
     //play all mesh animations
     void playMeshAnimations();

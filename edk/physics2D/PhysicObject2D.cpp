@@ -884,6 +884,34 @@ bool edk::physics2D::PhysicObject2D::cloneFrom(edk::physics2D::PhysicObject2D* o
         this->animationPosition.cloneFrom(&obj->animationPosition);edkEnd();
         //this->animationRotation = obj->animationRotation;edkEnd();
         this->animationRotation.cloneFrom(&obj->animationRotation);edkEnd();
+
+        //copy the collision groups
+        edk::uint32 size;edkEnd();
+        size = obj->treeCollisionGroups.size();edkEnd();
+        for(edk::uint32 i=0u;i<size;i++){
+            this->treeCollisionGroups.add(obj->treeCollisionGroups.getElementInPosition(i));edkEnd();
+        }
+        size = obj->treeNotCollisionGroups.size();edkEnd();
+        for(edk::uint32 i=0u;i<size;i++){
+            this->treeNotCollisionGroups.add(obj->treeNotCollisionGroups.getElementInPosition(i));edkEnd();
+        }
+        return true;
+    }
+    return false;
+}
+bool edk::physics2D::PhysicObject2D::cloneFromWithType(edk::physics2D::PhysicObject2D* obj){
+    if(obj){
+        edk::Object2D::cloneFrom(obj);edkEnd();
+        //copy the mesh
+        //this->physicMesh=obj->physicMesh;edkEnd();
+        this->physicMesh.cloneFrom(&obj->physicMesh);edkEnd();
+        this->canSleep = obj->canSleep;edkEnd();
+        this->fixedRotation = obj->fixedRotation;edkEnd();
+        this->animationPosition.cloneFrom(&obj->animationPosition);edkEnd();
+        //this->animationRotation = obj->animationRotation;edkEnd();
+        this->animationRotation.cloneFrom(&obj->animationRotation);edkEnd();
+        this->type=obj->type;edkEnd();
+
         //copy the collision groups
         edk::uint32 size;edkEnd();
         size = obj->treeCollisionGroups.size();edkEnd();
