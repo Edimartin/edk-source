@@ -2300,7 +2300,7 @@ edk::char8* edk::String::int64ToStr(edk::int64 value){
         }
         else{
             //else set NULL
-            str=0u;
+            str=NULL;
         }
     }
     return str;
@@ -5928,6 +5928,205 @@ bool edk::String::strFolderName(edk::char8* str,edk::char8* dest){
 }
 bool edk::String::strFolderName(const edk::char8* str,edk::char8* dest){
     return edk::String::strFolderName((edk::char8*) str,(edk::char8*) dest);
+}
+//return the file name from a string without extension
+edk::char8* edk::String::strFileNameNoExtension(edk::char8* str){
+    edk::char8* ret = NULL;
+    if(str){
+        //create a pointer to read the string
+        edk::char8* temp = str;
+        //go to the end of the string
+        while(*temp){
+            temp++;
+        }
+        //boto the last point
+        edk::char8* temp2 = temp-1u;
+        while(*temp2){
+            //search for the last point '.'
+            if(*temp2=='.'){
+                //temp = temp2-1u;
+                break;
+            }
+            temp2--;
+        }
+        if(temp2!=temp){
+            temp = temp2;
+        }
+
+        edk::uint32 size = 0u;
+        //go back counting the size of the string
+        while(*temp!='/' && *temp!='\\' && temp!=str){
+            temp--;
+            size++;
+        }
+        if(*temp=='/' || *temp=='\\'){
+            temp++;
+            if(size){
+                size--;
+            }
+        }
+        if(size){
+            //create a new string with the size
+            ret = (edk::char8*)malloc(sizeof(edk::char8) * (size+1u));
+            if(ret){
+                //set the string end
+                ret[size]='\0';
+                //copy the name of the file to the return
+                for(edk::uint32 i = 0u;i<size;i++){
+                    ret[i] = temp[i];
+                }
+            }
+        }
+    }
+    return ret;
+}
+edk::char8* edk::String::strFileNameNoExtension(const edk::char8* str){
+    return edk::String::strFileNameNoExtension((edk::char8*) str);
+}
+bool edk::String::strFileNameNoExtension(edk::char8* str,edk::char8* dest){
+    bool ret=false;
+    if(str && dest){
+        //create a pointer to read the string
+        edk::char8* temp = str;
+        //go to the end of the string
+        while(*temp){
+            temp++;
+        }
+        if(temp!=str){
+            ret=true;
+        }
+        //boto the last point
+        edk::char8* temp2 = temp-1u;
+        while(*temp2){
+            //search for the last point '.'
+            if(*temp2=='.'){
+                //temp = temp2-1u;
+                break;
+            }
+            temp2--;
+        }
+        if(temp2!=temp){
+            temp = temp2;
+        }
+
+        //go back
+        while(*temp=='/' && *temp=='\\' && temp!=str){
+            temp--;
+        }
+        if(*temp!='/' || *temp!='\\'){
+            temp++;
+        }
+        //copy the string from the temp
+        while(*temp){
+            *dest = *temp;
+            temp++;
+            dest++;
+        }
+        //at the end set the dest end
+        *dest=0u;
+        return ret;
+    }
+    return ret;
+}
+bool edk::String::strFileNameNoExtension(const edk::char8* str,edk::char8* dest){
+    return edk::String::strFileNameNoExtension((edk::char8*) str, dest);
+}
+//return the file name with the folder from a string without extension
+edk::char8* edk::String::strFolderAndFileNameNoExtension(edk::char8* str){
+    edk::char8* ret = NULL;
+    if(str){
+        //create a pointer to read the string
+        edk::char8* temp = str;
+        edk::uint32 size = 0u;
+        //go to the end of the string
+        while(*temp){
+            size++;
+            temp++;
+        }
+        //boto the last point
+        edk::char8* temp2 = temp-1u;
+        edk::uint32 sizeCut = 0u;
+        while(*temp2){
+            //search for the last point '.'
+            sizeCut++;
+            if(*temp2=='.'){
+                break;
+            }
+            temp2--;
+        }
+        if(temp2==temp){
+            sizeCut=0u;
+        }
+        if(size){
+            if(sizeCut){
+                if(sizeCut<size){
+                    size-=sizeCut;
+                }
+            }
+            //create a new string with the size
+            ret = (edk::char8*)malloc(sizeof(edk::char8) * (size+1u));
+            if(ret){
+                //set the string end
+                ret[size]='\0';
+                //copy the name of the file to the return
+                for(edk::uint32 i = 0u;i<size;i++){
+                    ret[i] = str[i];
+                }
+            }
+        }
+    }
+    return ret;
+}
+edk::char8* edk::String::strFolderAndFileNameNoExtension(const edk::char8* str){
+    return edk::String::strFolderAndFileNameNoExtension((edk::char8*) str);
+}
+bool edk::String::strFolderAndFileNameNoExtension(edk::char8* str,edk::char8* dest){
+    bool ret=false;
+    if(str && dest){
+        //create a pointer to read the string
+        edk::char8* temp = str;
+        //go to the end of the string
+        while(*temp){
+            temp++;
+        }
+        if(temp!=str){
+            ret=true;
+        }
+        //boto the last point
+        edk::char8* temp2 = temp-1u;
+        while(*temp2){
+            //search for the last point '.'
+            if(*temp2=='.'){
+                //temp = temp2-1u;
+                break;
+            }
+            temp2--;
+        }
+        if(temp2!=temp){
+            temp = temp2;
+        }
+
+        //go back
+        while(*temp=='/' && *temp=='\\' && temp!=str){
+            temp--;
+        }
+        if(*temp!='/' || *temp!='\\'){
+            temp++;
+        }
+        //copy the string from the temp
+        while(*temp){
+            *dest = *temp;
+            temp++;
+            dest++;
+        }
+        //at the end set the dest end
+        *dest=0u;
+        return ret;
+    }
+    return ret;
+}
+bool edk::String::strFolderAndFileNameNoExtension(const edk::char8* str,edk::char8* dest){
+    return edk::String::strFolderAndFileNameNoExtension((edk::char8*) str, dest);
 }
 
 //BASE64

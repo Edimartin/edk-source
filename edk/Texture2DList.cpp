@@ -498,10 +498,6 @@ edk::uint32 edk::Texture2DList::loadTextureFromPack(edk::pack::FilePackage* pack
                         temp=NULL;edkEnd();
                     }
                 }
-                if(temp){
-                    delete temp;edkEnd();
-                    temp=NULL;edkEnd();
-                }
             }
             if(temp){
                 if(edk::multi::Thread::isThisThreadMain()){

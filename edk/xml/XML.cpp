@@ -1634,8 +1634,7 @@ edk::char8* edk::XML::getSelectedString(){
     if(this->haveSelected()){
         //test if have a text
         if(*this->selected.text()){
-            //return the text
-            return (edk::char8*)this->selected.text().as_string();
+            return edk::String::strCopy((edk::char8*)this->selected.text().as_string());
         }
     }
     //else return NULL

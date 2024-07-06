@@ -492,6 +492,16 @@ public:
     static edk::char8* strFolderName(const edk::char8* str);
     static bool strFolderName(edk::char8* str,edk::char8* dest);
     static bool strFolderName(const edk::char8* str,edk::char8* dest);
+    //return the file name from a string without extension
+    static edk::char8* strFileNameNoExtension(edk::char8* str);
+    static edk::char8* strFileNameNoExtension(const edk::char8* str);
+    static bool strFileNameNoExtension(edk::char8* str,edk::char8* dest);
+    static bool strFileNameNoExtension(const edk::char8* str,edk::char8* dest);
+    //return the file name with the folder from a string without extension
+    static edk::char8* strFolderAndFileNameNoExtension(edk::char8* str);
+    static edk::char8* strFolderAndFileNameNoExtension(const edk::char8* str);
+    static bool strFolderAndFileNameNoExtension(edk::char8* str,edk::char8* dest);
+    static bool strFolderAndFileNameNoExtension(const edk::char8* str,edk::char8* dest);
 
     //BASE64
     //encode

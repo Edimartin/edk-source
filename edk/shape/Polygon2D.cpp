@@ -10200,7 +10200,7 @@ bool edk::shape::Polygon2D::cloneFrom(edk::shape::Polygon2D* poly){
                         this->setVertexUVFrames(i,poly->getFrames());edkEnd();
 
                         uvaTemp = new edk::shape::Vertex2DAnimatedUV;
-                        if(uvTemp){
+                        if(uvaTemp){
                             //set the values
                             uvaTemp->position = temp->position;
                             uvaTemp->color = temp->color;
