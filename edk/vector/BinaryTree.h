@@ -852,6 +852,32 @@ public:
         memset((void*)&retZero,0u,sizeof(typeTemplate));edkEnd();
         return retZero;
     }
+    typeTemplate getElementBefore(typeTemplate value){
+        //find the element pointer
+        BinaryLeaf<typeTemplate>* ret = this->findBefore(value);edkEnd();
+        //test if the element is founded
+        if(ret){
+            //return the value
+            return ret->value;edkEnd();
+        }
+        //else return zero
+        typeTemplate retZero;edkEnd();
+        memset((void*)&retZero,0u,sizeof(typeTemplate));edkEnd();
+        return retZero;
+    }
+    typeTemplate getElementAfter(typeTemplate value){
+        //find the element pointer
+        BinaryLeaf<typeTemplate>* ret = this->findAfter(value);edkEnd();
+        //test if the element is founded
+        if(ret){
+            //return the value
+            return ret->value;edkEnd();
+        }
+        //else return zero
+        typeTemplate retZero;edkEnd();
+        memset((void*)&retZero,0u,sizeof(typeTemplate));edkEnd();
+        return retZero;
+    }
     //return the element position in the tree
     edk::uint32 getElementPosition(typeTemplate value){
         //test if need calculate the elementsPosition
@@ -1112,6 +1138,62 @@ private:
         //else return NULL
         return NULL;
     }
+    BinaryLeaf<typeTemplate>* findBefore(typeTemplate value){
+        //test if habe a root
+        if((*this->rootPointer)){
+            //then create a temporary element
+            BinaryLeaf<typeTemplate> element;edkEnd();
+            memcpy((void*)&element.value,(void*)&value,sizeof(typeTemplate));edkEnd();
+            //element.value=value;edkEnd();
+            //find the mother
+            BinaryLeaf<typeTemplate>* temp = this->findMotherBefore(value);edkEnd();
+            if(temp){
+                //test if the mother is the element
+                if(this->firstEqualSecond(temp->value,element.value)){
+                    if(temp->left){
+                        return temp->left;
+                    }
+                }
+                else{
+                    //test if the element is the left or right
+                    if(this->firstBiggerSecond(element.value,temp->value)){
+                        //return this left
+                        return temp;edkEnd();
+                    }
+                }
+            }
+        }
+        //else return NULL
+        return NULL;
+    }
+    BinaryLeaf<typeTemplate>* findAfter(typeTemplate value){
+        //test if habe a root
+        if((*this->rootPointer)){
+            //then create a temporary element
+            BinaryLeaf<typeTemplate> element;edkEnd();
+            memcpy((void*)&element.value,(void*)&value,sizeof(typeTemplate));edkEnd();
+            //element.value=value;edkEnd();
+            //find the mother
+            BinaryLeaf<typeTemplate>* temp = this->findMotherAfter(value);edkEnd();
+            if(temp){
+                //test if the mother is the element
+                if(this->firstEqualSecond(temp->value,element.value)){
+                    if(temp->right){
+                        return temp->right;
+                    }
+                }
+                else{
+                    //test if the element is the left or right
+                    if(this->firstBiggerSecond(temp->value,element.value)){
+                        //return this left
+                        return temp;edkEnd();
+                    }
+                }
+            }
+        }
+        //else return NULL
+        return NULL;
+    }
     //Find the elementMother
     BinaryLeaf<typeTemplate>* findMother(typeTemplate value){
         //first test if have a root
@@ -1164,6 +1246,139 @@ private:
                     else{
                         //else it dont have the element
                         break;
+                    }
+                }
+            }
+        }
+        //else return NULL
+        return NULL;
+    }
+    BinaryLeaf<typeTemplate>* findMotherBefore(typeTemplate value){
+        //first test if have a root
+        if((*this->rootPointer)){
+            //then create a temporary element
+            BinaryLeaf<typeTemplate> element;edkEnd();
+            memcpy((void*)&element.value,(void*)&value,sizeof(typeTemplate));edkEnd();
+            //element.value=value;edkEnd();
+            //tets if is equal root
+            if(this->firstEqualSecond((*this->rootPointer)->value,element.value)){
+
+                //then return root->left
+                return (*this->rootPointer)->left;edkEnd();
+            }
+            //else search the element mother
+            BinaryLeaf<typeTemplate>* temp = (*this->rootPointer);edkEnd();
+            BinaryLeaf<typeTemplate>* tempFather = (*this->rootPointer);edkEnd();
+            while(temp){
+                //tets if the value is bigger the temp
+                if(this->firstBiggerSecond(element.value,temp->value)){
+                    //then the next maybe is the RIGHT
+                    if(temp->right){
+                        //test if the value is equal
+                        if(this->firstEqualSecond(temp->right->value,element.value)){
+                            if(temp->left){
+                                return temp->left;
+                            }
+                            else{
+                                return tempFather;
+                            }
+                        }
+                        else{
+                            //else the temp'receive the right
+                            tempFather=temp;edkEnd();
+                            temp = temp->right;edkEnd();
+                        }
+                    }
+                    else{
+                        return temp;
+                    }
+                }
+                else{
+                    //then the next maybe is the LEFT
+                    //test if the left exist
+                    if(temp->left){
+                        //test if the value is equal
+                        if(this->firstEqualSecond(temp->left->value,element.value)){
+                            if(temp->left){
+                                return temp->left;
+                            }
+                            else{
+                                return tempFather;
+                            }
+                        }
+                        else{
+                            //else the temp receive the left
+                            temp=temp->left;edkEnd();
+                        }
+                    }
+                    else{
+                        return tempFather;
+                    }
+                }
+            }
+        }
+        //else return NULL
+        return NULL;
+    }
+    BinaryLeaf<typeTemplate>* findMotherAfter(typeTemplate value){
+        //first test if have a root
+        if((*this->rootPointer)){
+            //then create a temporary element
+            BinaryLeaf<typeTemplate> element;edkEnd();
+            memcpy((void*)&element.value,(void*)&value,sizeof(typeTemplate));edkEnd();
+            //element.value=value;edkEnd();
+            //tets if is equal root
+            if(this->firstEqualSecond((*this->rootPointer)->value,element.value)){
+                //the return root
+                return (*this->rootPointer)->right;edkEnd();
+            }
+            //else search the element mother
+            BinaryLeaf<typeTemplate>* temp = (*this->rootPointer);edkEnd();
+            BinaryLeaf<typeTemplate>* tempFather = (*this->rootPointer);edkEnd();
+            while(temp){
+                //tets if the value is bigger the temp
+                if(this->firstBiggerSecond(element.value,temp->value)){
+                    //then the next maybe is the RIGHT
+                    if(temp->right){
+                        //test if the value is equal
+                        if(this->firstEqualSecond(temp->right->value,element.value)){
+                            if(temp->right){
+                                return temp->right;
+                            }
+                            else{
+                                return tempFather;
+                            }
+                        }
+                        else{
+                            //else the temp'receive the right
+                            temp = temp->right;edkEnd();
+                        }
+                    }
+                    else{
+                        return tempFather;
+                    }
+                }
+                else{
+                    //then the next maybe is the LEFT
+                    //test if the left exist
+                    if(temp->left){
+                        //test if the value is equal
+                        if(this->firstEqualSecond(temp->left->value,element.value)){
+                            if(temp->right){
+                                return temp->right;
+                            }
+                            else{
+                                return tempFather;
+                            }
+                        }
+                        else{
+                            //else the temp receive the left
+                            tempFather=temp;edkEnd();
+                            temp=temp->left;edkEnd();
+                        }
+                    }
+                    else{
+                        return temp;
                     }
                 }
             }

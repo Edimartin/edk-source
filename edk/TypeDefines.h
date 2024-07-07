@@ -239,6 +239,14 @@ namespace edk{
     */
 //SFML 2.0
 
+enum byteSize{
+    kiloByte = 1000uL,
+    megaByte = edk::kiloByte*1000uL,
+    gigaByte = edk::megaByte*1000uL,
+    petaByte = edk::gigaByte*1000uL,
+    exaByte = edk::petaByte*1000uL,
+};
+
 namespace key{
 enum code{
     nothing = 0u,
