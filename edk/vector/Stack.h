@@ -91,7 +91,7 @@ public:
     StackCellLeaf(){this->classThis=NULL;this->Constructor(false);edkEnd();}
     StackCellLeaf(edk::uint32 size){this->classThis=NULL;this->Constructor(size,false);edkEnd();}
     //Destrutor
-    ~StackCellLeaf(){
+    virtual ~StackCellLeaf(){
         if(this->classThis==this){
             this->classThis=NULL;edkEnd();
             //can destruct the class
@@ -139,7 +139,7 @@ public:
         this->Constructor(father,size,level,false);edkEnd();
     }
     //Destrutor
-    ~StackCell(){
+    virtual ~StackCell(){
         if(this->classThis==this){
             this->classThis=NULL;edkEnd();
             //can destruct the class
@@ -2224,7 +2224,7 @@ public:
         this->classThis=NULL;edkEnd();
         this->Constructor(false);edkEnd();
     }
-    ~StackNames(){
+    virtual ~StackNames(){
         if(this->classThis==this){
             this->classThis=NULL;edkEnd();
             //can destruct the class

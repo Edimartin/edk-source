@@ -219,7 +219,7 @@ public:
         this->Constructor(threadClassFunc,parameter,false);edkEnd();
     }
 
-    ~ThreadClass(){
+    virtual ~ThreadClass(){
         if(this->classThis==this){
             this->classThis=NULL;edkEnd();
             //can destruct the class

@@ -44,7 +44,7 @@ public:
         this->classThis=NULL;edkEnd();
         this->Constructor(false);edkEnd();
     }
-    ~MemoryBufferCircular(){
+    virtual ~MemoryBufferCircular(){
         if(this->classThis==this){
             this->classThis=NULL;edkEnd();
             //can destruct the class

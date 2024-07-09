@@ -47,7 +47,7 @@ namespace edk{
 class ListDirectory{
 public:
     ListDirectory();
-    ~ListDirectory();
+    virtual ~ListDirectory();
 
     void Constructor(bool runFather=true);
 
@@ -103,7 +103,7 @@ private:
             this->classThis=NULL;edkEnd();
             this->Constructor(name,lastModify,size,false);edkEnd();
         }
-        ~FileOrFolders(){
+        virtual ~FileOrFolders(){
             if(this->classThis==this){
                 this->classThis=NULL;edkEnd();
                 //can destruct the class

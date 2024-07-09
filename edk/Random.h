@@ -41,7 +41,7 @@ class Random{
 public:
     Random();
     Random(edk::uint32 seed);
-    ~Random();
+    virtual ~Random();
 
     void Constructor(bool runFather=true);
     void Constructor(edk::uint32 seed,bool runFather=true);

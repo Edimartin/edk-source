@@ -75,7 +75,7 @@ namespace edk {
 class TTY{
 public:
     TTY();
-    ~TTY();
+    virtual ~TTY();
 
     void Constructor(bool runFather=true);
 
@@ -93,7 +93,7 @@ private:
 class ConsoleTerminal{
 public:
     ConsoleTerminal();
-    ~ConsoleTerminal();
+    virtual ~ConsoleTerminal();
 
     void Constructor(bool runFather=true);
 

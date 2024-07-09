@@ -97,7 +97,7 @@ namespace edk{
 class File{
 public:
     File();
-    ~File();
+    virtual ~File();
 
     void Constructor(bool runFather=true);
 
@@ -385,7 +385,7 @@ private:
 class FileStream{
 public:
     FileStream();
-    ~FileStream();
+    virtual ~FileStream();
 
     void Constructor(bool runFather=true);
 

@@ -1,8 +1,8 @@
-#ifndef QUEUE
-#define QUEUE
+#ifndef QUEUESTATIC_H
+#define QUEUESTATIC_H
 
 /*
-Library Queue - Create and generate a Queue in EDK Game Engine
+Library QueueStatic - Create and generate a QueueStatic in EDK Game Engine
 Copyright 2013 Eduardo Moura Sales Martins (edimartin@gmail.com)
 
 Permission is hereby granted, free of charge, to any person obtaining
@@ -33,7 +33,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include <stdio.h>
 #include <string.h>
 #include "../TypeVars.h"
-#include "Array.h"
+#include "ArrayStatic.h"
 
 #ifdef printMessages
 #pragma message "    Compiling Array"
@@ -48,31 +48,40 @@ namespace vector{
 
 //NEXT CEL
 template <class typeTemplate>
-class QueueCel : public edk::vector::Array<typeTemplate>{
+class QueueStaticCel : public edk::vector::ArrayStatic<typeTemplate>{
     //
 public:
     //construtor
-    QueueCel(){
+    QueueStaticCel(){}
+    //Destrutor
+    virtual ~QueueStaticCel(){}
+
+
+    //construtor
+    virtual void construct(){
+        edk::vector::ArrayStatic<typeTemplate>::construct();
         this->classThis=NULL;edkEnd();
         this->Constructor(false);edkEnd();
     }
-    QueueCel(edk::uint32 size){
+    virtual void construct(edk::uint32 size){
+        edk::vector::ArrayStatic<typeTemplate>::construct();
         this->classThis=NULL;edkEnd();
         this->Constructor(size,false);edkEnd();
     }
     //Destrutor
-    virtual ~QueueCel(){
+    virtual void destruct(){
         if(this->classThis==this){
             this->classThis=NULL;edkEnd();
             //can destruct the class
             //clean the next
             this->next=NULL;edkEnd();
+            edk::vector::ArrayStatic<typeTemplate>::destruct();
         }
     }
 
     void Constructor(bool runFather=true){
         if(runFather){
-            edk::vector::Array<typeTemplate>::Constructor();edkEnd();
+            edk::vector::ArrayStatic<typeTemplate>::Constructor();edkEnd();
         }
         if(this->classThis!=this){
             this->classThis=this;
@@ -82,7 +91,7 @@ public:
     }
     void Constructor(edk::uint32 size,bool runFather=true){
         if(runFather){
-            edk::vector::Array<typeTemplate>::Constructor();edkEnd();
+            edk::vector::ArrayStatic<typeTemplate>::Constructor();edkEnd();
         }
         if(this->classThis!=this){
             this->classThis=this;
@@ -94,7 +103,7 @@ public:
     }
 
     //Next array
-    edk::vector::QueueCel<typeTemplate>* next;
+    edk::vector::QueueStaticCel<typeTemplate>* next;
 private:
     edk::classID classThis;
 };
@@ -102,17 +111,17 @@ private:
 template <class typeTemplate>
 //The arrayClass
 
-class Queue{
+class QueueStatic{
 public:
-    Queue(){
+    QueueStatic(){
         this->classThis=NULL;edkEnd();
         this->Constructor(false);
     }
-    Queue(edk::uint32 size){
+    QueueStatic(edk::uint32 size){
         this->classThis=NULL;edkEnd();
         this->Constructor(size,false);
     }
-    virtual ~Queue(){
+    virtual ~QueueStatic(){
         if(this->classThis==this){
             this->classThis=NULL;edkEnd();
             //can destruct the class
@@ -176,8 +185,8 @@ public:
         }
 
         //clean the vectors
-        edk::vector::QueueCel<typeTemplate>* temp = NULL;edkEnd();
-        edk::vector::QueueCel<typeTemplate>* tempDelete = (*this->firstPointer);edkEnd();
+        edk::vector::QueueStaticCel<typeTemplate>* temp = NULL;edkEnd();
+        edk::vector::QueueStaticCel<typeTemplate>* tempDelete = (*this->firstPointer);edkEnd();
         while(tempDelete){
             //
             if(tempDelete->next){
@@ -187,6 +196,7 @@ public:
                 temp=NULL;edkEnd();
             }
             //delete the tempDelete
+            tempDelete->destruct();
             delete tempDelete;edkEnd();
             tempDelete = temp;edkEnd();
         }
@@ -201,8 +211,9 @@ public:
         //test if have the end
         if(!(*this->lastPointer)){
             //create a new first and last
-            (*this->firstPointer) = new edk::vector::QueueCel<typeTemplate>((*this->arraySizePointer));edkEnd();
+            (*this->firstPointer) = new edk::vector::QueueStaticCel<typeTemplate>();edkEnd();
             if((*this->firstPointer)){
+                (*this->firstPointer)->construct((*this->arraySizePointer));
                 //set the last
                 (*this->lastPointer) = (*this->firstPointer);edkEnd();
             }
@@ -217,8 +228,9 @@ public:
             //test if the increment is passing the size
             if((*this->endPointer)>=(*this->arraySizePointer)){
                 //create the next last
-                (*this->lastPointer)->next = new edk::vector::QueueCel<typeTemplate>((*this->arraySizePointer));edkEnd();
+                (*this->lastPointer)->next = new edk::vector::QueueStaticCel<typeTemplate>();edkEnd();
                 if((*this->lastPointer)->next){
+                    (*this->lastPointer)->next->construct((*this->arraySizePointer));
                     (*this->lastPointer) = (*this->lastPointer)->next;edkEnd();
                 }
                 (*this->endPointer)=0u;edkEnd();
@@ -249,7 +261,8 @@ public:
                 }
                 if((*this->startPointer)>=(*this->endPointer)){
                     //get the last value. Delete the cel's
-                    delete first;edkEnd();
+                    (*this->firstPointer)->destruct();
+                    delete (*this->firstPointer);edkEnd();
                     (*this->firstPointer) = (*this->lastPointer) = NULL;edkEnd();
                     (*this->startPointer) = (*this->endPointer) = 0u;edkEnd();
                     (*this->_sizePointer) = 0u;edkEnd();
@@ -265,8 +278,9 @@ public:
                 //test if reach the end
                 if((*this->startPointer)>=(*this->arraySizePointer)){
                     //delete the first and go to the next
-                    edk::vector::QueueCel<typeTemplate>* temp = (*this->firstPointer);edkEnd();
+                    edk::vector::QueueStaticCel<typeTemplate>* temp = (*this->firstPointer);edkEnd();
                     (*this->firstPointer) = (*this->firstPointer)->next;edkEnd();
+                    temp->destruct();
                     delete temp;edkEnd();
                     (*this->startPointer) = 0u;edkEnd();
 
@@ -274,7 +288,8 @@ public:
                     //tes if reach the last
                     if((*this->firstPointer)==(*this->lastPointer) && !(*this->endPointer)){
                         //delete the first and last
-                        delete first;edkEnd();
+                        (*this->firstPointer)->destruct();
+                        delete (*this->firstPointer);edkEnd();
                         (*this->firstPointer) = (*this->lastPointer) = NULL;edkEnd();
                         (*this->startPointer) = (*this->endPointer) = 0u;edkEnd();
                         (*this->_sizePointer) = 0u;edkEnd();
@@ -307,7 +322,7 @@ public:
             else{
                 pos-=(*this->arraySizePointer)-(*this->startPointer);edkEnd();
                 //else search for the value in other cel's
-                edk::vector::QueueCel<typeTemplate>* temp = (*this->firstPointer)->next;edkEnd();
+                edk::vector::QueueStaticCel<typeTemplate>* temp = (*this->firstPointer)->next;edkEnd();
                 while(temp){
                     //test if the value is in this cel
                     if(pos<(*this->arraySizePointer)){
@@ -339,11 +354,11 @@ public:
 protected:
 private:
     //Have the first cel
-    edk::vector::QueueCel<typeTemplate>** firstPointer;
-    edk::vector::QueueCel<typeTemplate>* first;
+    edk::vector::QueueStaticCel<typeTemplate>** firstPointer;
+    edk::vector::QueueStaticCel<typeTemplate>* first;
     //Have the next cel
-    edk::vector::QueueCel<typeTemplate>** lastPointer;
-    edk::vector::QueueCel<typeTemplate>* last;
+    edk::vector::QueueStaticCel<typeTemplate>** lastPointer;
+    edk::vector::QueueStaticCel<typeTemplate>* last;
     //save the array size
     edk::uint32 *arraySizePointer;
     edk::uint32 arraySize;
@@ -361,5 +376,4 @@ private:
 }//end namespace vector
 }//end namespace edk
 
-#endif // QUEUE
-
+#endif // QUEUESTATIC_H

@@ -42,7 +42,7 @@ class CommandParser{
 public:
     CommandParser();
     CommandParser(edk::int32 argc,edk::char8* argv[]);
-    ~CommandParser();
+    virtual ~CommandParser();
 
     void Constructor(bool runFather=true);
     void Constructor(edk::int32 argc,edk::char8* argv[],bool runFather=true);
@@ -98,7 +98,7 @@ private:
     class Command : public edk::Name{
     public:
         Command();
-        ~Command();
+        virtual ~Command();
 
         void Constructor(bool runFather=true);
 
@@ -116,7 +116,7 @@ private:
     class TreeCommand:public edk::vector::NameTree{
     public:
         TreeCommand();
-        ~TreeCommand();
+        virtual ~TreeCommand();
 
         void Constructor(bool runFather=true);
         //Print the command and value

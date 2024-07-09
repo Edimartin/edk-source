@@ -41,7 +41,7 @@ namespace multi{
 class MutexDisable{
 public:
     MutexDisable(){this->classThis=NULL;this->Constructor(false);edkEnd();}
-    ~MutexDisable(){
+    virtual ~MutexDisable(){
         if(this->classThis==this){
             this->classThis=NULL;edkEnd();
             //can destruct the class

@@ -82,7 +82,7 @@ private:
 class BufferThreadTree{
 public:
     BufferThreadTree();
-    ~BufferThreadTree();
+    virtual ~BufferThreadTree();
 
     void Constructor(bool runFather=true);
 
@@ -101,7 +101,7 @@ private:
     class TreeBuffers : public edk::vector::BinaryTree<edk::multi::BufferThreadObject*>{
     public:
         TreeBuffers(){this->classThis=NULL;this->Constructor(false);edkEnd();}
-        ~TreeBuffers(){
+        virtual ~TreeBuffers(){
             if(this->classThis==this){
                 this->classThis=NULL;edkEnd();
                 //can destruct the class

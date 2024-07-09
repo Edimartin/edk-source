@@ -33,8 +33,9 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endif
 
 #include "DebugFile.h"
-#include "vector/BinaryTree.h"
-#include "vector/Stack.h"
+#include "vector/BinaryTreeStatic.h"
+#include "vector/StackStatic.h"
+#include "thread/Mutex.h"
 
 #ifdef printMessages
 #pragma message "    Compiling MemoryManager"
@@ -44,18 +45,20 @@ namespace edk{
 class MemoryManager{
 public:
     MemoryManager(edk::uint64 size);
-    ~MemoryManager();
+    virtual ~MemoryManager();
 
     bool haveBuffer();
 
     //create a new buffer
-    static bool newBuffer(edk::uint64 size);
-    static bool cleanBuffer();
-    static bool deleteBuffer();
+    static bool cleanAndNewBuffer(edk::uint64 size);
+    static bool newBuffer();
+    static bool cleanBuffers();
+    static inline bool deleteBuffers(){return edk::MemoryManager::cleanBuffers();}
     static edk::uint64 size();
 
     //set the memory with zeros
-    static bool setZeros();
+    static bool setZeros(edk::uint32 position);
+    static bool setZerosAllBuffers();
 
     //function to alloc new memory
     template <class typeTemplate>
@@ -63,7 +66,7 @@ public:
         if(size && pointer){
             //alloc the memory
             *pointer = (typeTemplate*)edk::MemoryManager::privateAlloc(size*sizeof(typeTemplate),pointer);
-            return true;
+            if(*pointer) return true;
         }
         return false;
     }
@@ -78,10 +81,43 @@ public:
         return false;
     }
 private:
+    static edk::classID classThis;
+
+    //mutex for threads
+    static edk::multi::Mutex mut;
+
+    class MemoryBuffer{
+    public:
+        MemoryBuffer(){
+            this->buffer=NULL;
+            this->positionLast=0uL;
+        }
+        virtual ~MemoryBuffer(){}
+        MemoryBuffer operator=(MemoryBuffer m){
+            this->buffer=m.buffer;
+            this->positionLast=m.positionLast;
+            return m;
+        }
+        bool operator>(MemoryBuffer m){
+            if(this->buffer > m.buffer){
+                return true;
+            }
+            return false;
+        }
+        bool operator==(MemoryBuffer m){
+            if(this->buffer == m.buffer){
+                return true;
+            }
+            return false;
+        }
+        edk::classID buffer;
+        edk::classID positionLast;
+    };
     class MemoryPositions{
     public:
         MemoryPositions(){}
-        ~MemoryPositions(){}
+        virtual ~MemoryPositions(){}
+        void construct(){}
         MemoryPositions operator=(MemoryPositions m){
             this->start=m.start;
             this->end=m.end;
@@ -107,15 +143,25 @@ private:
     };
     class MemorySizes{
     public:
-        MemorySizes(){this->size=0u;}
-        ~MemorySizes(){}
+        MemorySizes(){}
+        virtual ~MemorySizes(){}
+
+        virtual void construct(){
+            this->size=0u;
+            this->tree.construct();
+        }
+
+        virtual void destruct(){
+            this->tree.destruct();
+        }
+
         edk::uint64 size;
-        edk::vector::BinaryTree<edk::MemoryManager::MemoryPositions> tree;
+        edk::vector::BinaryTreeStatic<edk::MemoryManager::MemoryPositions> tree;
     };
     class MemoryPointer : public edk::MemoryManager::MemoryPositions{
     public:
         MemoryPointer(){this->pointer=NULL;}
-        ~MemoryPointer(){}
+        virtual ~MemoryPointer(){}
         MemoryPointer operator=(MemoryPointer m){
             this->start=m.start;
             this->end=m.end;
@@ -137,19 +183,25 @@ private:
         edk::classID pointer;
     };
 
-    static edk::classID classThis;
-
-    static edk::classID buffer;
-    static edk::classID positionLast;
     static edk::uint64 bufferSize;
-    static edk::vector::BinaryTree<edk::MemoryManager::MemoryPointer> treeAlloc;
+    static edk::vector::BinaryTreeStatic<edk::MemoryManager::MemoryPointer> treeAlloc;
 
     //tree sizes
-    class TreeSizes : public edk::vector::BinaryTree<edk::MemoryManager::MemorySizes*>{
+    class TreeSizes : public edk::vector::BinaryTreeStatic<edk::MemoryManager::MemorySizes*>{
     public:
         TreeSizes(){}
-        ~TreeSizes(){
+        virtual ~TreeSizes(){
+        }
+        virtual void construct(){
+            edk::vector::BinaryTreeStatic<edk::MemoryManager::MemorySizes*>::construct();
+            this->objTemplate.construct();
+            edk::vector::BinaryTreeStatic<edk::MemoryManager::MemorySizes*>::construct();
+        }
+
+        virtual void destruct(){
+            this->objTemplate.destruct();
             this->cleanSizes();
+            edk::vector::BinaryTreeStatic<edk::MemoryManager::MemorySizes*>::destruct();
         }
 
         //compare if the value is bigger
@@ -178,6 +230,7 @@ private:
             for(edk::uint32 i=0u;i<size;i++){
                 temp = this->getElementInPosition(i);
                 if(temp){
+                    temp->destruct();
                     delete temp;
                 }
             }
@@ -192,8 +245,10 @@ private:
                     //create a new temp
                     temp = new edk::MemoryManager::MemorySizes;
                     if(temp){
+                        temp->construct();
                         temp->size=size;
                         if(!this->add(temp)){
+                            temp->destruct();
                             delete temp;
                             temp=NULL;
                         }
@@ -202,6 +257,7 @@ private:
                 //test if have the temp
                 if(temp){
                     edk::MemoryManager::MemoryPositions position;
+                    position.construct();
                     position.start = start;
                     position.end = end;
                     //add the position
@@ -213,6 +269,7 @@ private:
                         if(!temp->tree.size()){
                             //remove it
                             if(this->remove(temp)){
+                                temp->destruct();
                                 delete temp;
                             }
                         }
@@ -240,6 +297,7 @@ private:
                     if(!temp->tree.size()){
                         //remove it
                         if(this->remove(temp)){
+                            temp->destruct();
                             delete temp;
                         }
                     }
@@ -257,9 +315,8 @@ private:
 
         //return if have one size in the tree
         bool haveSize(edk::uint64 size){
-            edk::MemoryManager::MemorySizes objTemplate;
-            objTemplate.size = size;
-            return this->haveElement(&objTemplate);
+            this->objTemplate.size = size;
+            return this->haveElement(&this->objTemplate);
         }
         bool haveSize(edk::uint64 start,edk::uint64 end){
             return this->haveSize(end-start);
@@ -304,6 +361,7 @@ private:
                         if(!temp->tree.size()){
                             //remove it
                             if(this->remove(temp)){
+                                temp->destruct();
                                 delete temp;
                             }
                         }
@@ -319,37 +377,38 @@ private:
 
         //get a size after or before
         edk::uint64 getSizeBefore(edk::uint64 size){
-            edk::MemoryManager::MemorySizes objTemplate;
-            objTemplate.size = size;
-            edk::MemoryManager::MemorySizes* temp = this->getElementBefore(&objTemplate);
+            this->objTemplate.size = size;
+            edk::MemoryManager::MemorySizes* temp = this->getElementBefore(&this->objTemplate);
             if(temp){
                 return temp->size;
             }
             return 0uL;
         }
         edk::uint64 getSizeAfter(edk::uint64 size){
-            edk::MemoryManager::MemorySizes objTemplate;
-            objTemplate.size = size;
-            edk::MemoryManager::MemorySizes* temp = this->getElementAfter(&objTemplate);
+            this->objTemplate.size = size;
+            edk::MemoryManager::MemorySizes* temp = this->getElementAfter(&this->objTemplate);
             if(temp){
                 return temp->size;
             }
             return 0uL;
         }
     private:
+        edk::MemoryManager::MemorySizes objTemplate;
         edk::MemoryManager::MemorySizes* tempGetSize(edk::uint64 size){
-            edk::MemoryManager::MemorySizes objTemplate;
-            objTemplate.size = size;
-            return this->getElement(&objTemplate);
+            this->objTemplate.size = size;
+            return this->getElement(&this->objTemplate);
         }
     }static treeRemoved;
+
+    //tree memoryBuffers
+    static edk::vector::StackStatic<edk::MemoryManager::MemoryBuffer> stackBuffers;
+    static edk::uint32 bufferLastPosition;
 
     //save if have the buffer
     bool saveHaveBuffer;
 
     //alloc a new memory inside the buffer
-    static edk::classID privateAlloc(edk::uint64 size,edk::classID pointer);
+    static edk::classID privateAlloc(edk::uint64 size,edk::classID pointer,edk::uint8 recursive=1u);
 };
 }
-
 #endif // MEMORYMANAGER_H

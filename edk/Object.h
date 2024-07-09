@@ -49,7 +49,7 @@ class obj: public edk::Object<obj>{
         //consturtor
     }
     //Construtor virtual precisa chamar a funcao protegida
-    ~obj(){
+    virtual ~obj(){
         //destrutor
         this->removeAll();edkEnd();
     }

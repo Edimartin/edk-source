@@ -110,7 +110,7 @@ class Time {
 public:
 
     Time();
-    ~Time();
+    virtual ~Time();
 
     void Constructor(bool runFather=true);
 

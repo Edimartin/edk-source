@@ -1,6 +1,5 @@
-#ifndef EDK_VECTOR_BINARYTREE_H
-#define EDK_VECTOR_BINARYTREE_H
-
+#ifndef BINARYTREESTATIC_H
+#define BINARYTREESTATIC_H
 /*
 Library binaryTree - Create a binaryTree in EDK Game Engine
 Copyright 2013 Eduardo Moura Sales Martins (edimartin@gmail.com)
@@ -35,8 +34,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "../TypeVars.h"
 #include "../NameClass.h"
 #include "../String.h"
-#include "./Array.h"
-#include "./Queue.h"
+#include "./QueueStatic.h"
 
 #ifdef printMessages
 #pragma message "    Compiling BinaryTree"
@@ -56,7 +54,7 @@ binaryTree was created to order elements in the memory
 //code sample
 
 //Binary Tree
-class treeObj:public edk::vector::BinaryTree<obj*>{
+class treeObj:public edk::vector::BinaryTreeStatic<obj*>{
 public:
     treeObj(){}
     virtual ~treeObj(){}
@@ -124,33 +122,33 @@ public:
 
     //Load the elements
     virtual void load(){
-        edk::vector::BinaryTree<obj*>::load();edkEnd();
+        edk::vector::BinaryTreeStatic<obj*>::load();edkEnd();
     }
     //Unload the elements
     virtual void unload(){
-        edk::vector::BinaryTree<obj*>::unload();edkEnd();
+        edk::vector::BinaryTreeStatic<obj*>::unload();edkEnd();
     }
     //Print the elements
     virtual void print(){
-        edk::vector::BinaryTree<obj*>::print();edkEnd();
+        edk::vector::BinaryTreeStatic<obj*>::print();edkEnd();
     }
     //render the elements
     virtual void render(){
-        edk::vector::BinaryTree<obj*>::render();edkEnd();
+        edk::vector::BinaryTreeStatic<obj*>::render();edkEnd();
     }
     virtual void renderWire(){
-        edk::vector::BinaryTree<obj*>::renderWire();edkEnd();
+        edk::vector::BinaryTreeStatic<obj*>::renderWire();edkEnd();
     }
     //draw the elements
     virtual void draw(){
-        edk::vector::BinaryTree<obj*>::draw();edkEnd();
+        edk::vector::BinaryTreeStatic<obj*>::draw();edkEnd();
     }
     virtual void drawWire(){
-        edk::vector::BinaryTree<obj*>::drawWire();edkEnd();
+        edk::vector::BinaryTreeStatic<obj*>::drawWire();edkEnd();
     }
     //update the elements
     virtual void update(){
-        edk::vector::BinaryTree<obj*>::update();edkEnd();
+        edk::vector::BinaryTreeStatic<obj*>::update();edkEnd();
     }
 };
 
@@ -162,10 +160,13 @@ namespace edk{
 namespace vector{
 //Tree callbacks
 template <class typeTemplate>
-class BinaryTreeCallback{
+class BinaryTreeStaticCallback{
 public:
-    BinaryTreeCallback(){this->classThis=NULL;this->Constructor(false);edkEnd();}
-    virtual ~BinaryTreeCallback(){
+    BinaryTreeStaticCallback(){}
+    virtual ~BinaryTreeStaticCallback(){}
+
+    virtual void construct(){this->classThis=NULL;this->Constructor(false);edkEnd();}
+    virtual void destruct(){
         if(this->classThis==this){
             this->classThis=NULL;edkEnd();
             //can destruct the class
@@ -190,15 +191,19 @@ private:
     edk::classID classThis;
 };
 template <class typeTemplate>
-class UnaryLeaf{
+class UnaryLeafStatic{
     //Construtor
 public:
-    UnaryLeaf(){
+    UnaryLeafStatic(){}
+    //Destrutor
+    virtual ~UnaryLeafStatic(){}
+
+    virtual void construct(){
         this->classThis=NULL;edkEnd();
         this->Constructor(false);edkEnd();
     }
     //Destrutor
-    virtual ~UnaryLeaf(){
+    virtual void destruct(){
         if(this->classThis==this){
             this->classThis=NULL;edkEnd();
             //can destruct the class
@@ -217,9 +222,9 @@ public:
     }
 
     //LEFT
-    UnaryLeaf* next;
+    UnaryLeafStatic* next;
     //add the father
-    UnaryLeaf* father;
+    UnaryLeafStatic* father;
 
     //Value of the leaf
     typeTemplate value;
@@ -229,15 +234,19 @@ private:
     edk::classID classThis;
 };
 template <class typeTemplate>
-class BinaryLeaf{
+class BinaryLeafStatic{
     //Construtor
 public:
-    BinaryLeaf(){
+    BinaryLeafStatic(){}
+    //Destrutor
+    virtual ~BinaryLeafStatic(){}
+
+    virtual void construct(){
         this->classThis=NULL;edkEnd();
         this->Constructor(false);edkEnd();
     }
     //Destrutor
-    virtual ~BinaryLeaf(){
+    virtual void destruct(){
         if(this->classThis==this){
             this->classThis=NULL;edkEnd();
             //can destruct the class
@@ -258,10 +267,10 @@ public:
     }
 
     //RIGHT
-    BinaryLeaf* left;
-    BinaryLeaf* right;
+    BinaryLeafStatic* left;
+    BinaryLeafStatic* right;
     //add the father
-    BinaryLeaf* father;
+    BinaryLeafStatic* father;
 
     //counter to balance the tree
     edk::int32 counter;
@@ -275,17 +284,22 @@ private:
     edk::classID classThis;
 };
 template <class typeTemplate>
-class BinaryTree{
+class BinaryTreeStatic{
 public:
     //errorCode
     edk::uint16 errorCode;
     //Construtor
-    BinaryTree(){
+    BinaryTreeStatic(){}
+    //Destrutor
+    virtual ~BinaryTreeStatic(){}
+
+    //Construtor
+    virtual void construct(){
         this->classThis=NULL;edkEnd();
         this->Constructor(false);edkEnd();
     }
     //Destrutor
-    virtual ~BinaryTree(){
+    virtual void destruct(){
         if(this->classThis==this){
             this->classThis=NULL;edkEnd();
             //can destruct the class
@@ -316,8 +330,9 @@ public:
         //Test if is the root element
         if(!(*this->rootPointer)){
             //then add the root element
-            (*this->rootPointer) = new BinaryLeaf<typeTemplate>;edkEnd();
+            (*this->rootPointer) = new BinaryLeafStatic<typeTemplate>;edkEnd();
             if((*this->rootPointer)){
+                (*this->rootPointer)->construct();
                 //set the value
                 memcpy((void*)&(*this->rootPointer)->value,(void*)&value,sizeof(typeTemplate));edkEnd();
                 //increment the sizeTree
@@ -328,11 +343,12 @@ public:
         }
         else{
             //Find the position to add the object
-            BinaryLeaf<typeTemplate>* temp=(*this->rootPointer);edkEnd();
+            BinaryLeafStatic<typeTemplate>* temp=(*this->rootPointer);edkEnd();
             //create the value
-            BinaryLeaf<typeTemplate>* newValue = new BinaryLeaf<typeTemplate>;edkEnd();
+            BinaryLeafStatic<typeTemplate>* newValue = new BinaryLeafStatic<typeTemplate>;edkEnd();
             //Test if create the newValue
             if(newValue){
+                newValue->construct();
                 memcpy((void*)&newValue->value,(void*)&value,sizeof(typeTemplate));edkEnd();
                 //Find the position
                 //test if the temp exist
@@ -340,6 +356,7 @@ public:
                     //then test if the value is equal
                     if(this->firstEqualSecond(temp->value, newValue->value)){
                         //The tree have the value. Delete the new value and return the tree value.
+                        newValue->destruct();
                         delete newValue;edkEnd();
                         newValue=NULL;edkEnd();
                         //
@@ -389,6 +406,7 @@ public:
                         }
                     }
                 }
+                newValue->destruct();
                 delete newValue;edkEnd();
             }
         }
@@ -464,20 +482,20 @@ public:
     //Remove the element
     bool remove(typeTemplate value){
         //first find the element mother
-        BinaryLeaf<typeTemplate>* mother = this->findMother(value);edkEnd();
-        BinaryLeaf<typeTemplate> element;edkEnd();
+        BinaryLeafStatic<typeTemplate>* mother = this->findMother(value);edkEnd();
+        BinaryLeafStatic<typeTemplate> element;edkEnd();
         memcpy((void*)&element.value,(void*)&value,sizeof(typeTemplate));edkEnd();
         if(mother){
             //if find the mother search who is the element
             if(mother->left){
                 //test if it's left
                 if(this->firstEqualSecond(mother->left->value,element.value)){
-                    BinaryLeaf<typeTemplate>* leaf = NULL;edkEnd();
+                    BinaryLeafStatic<typeTemplate>* leaf = NULL;edkEnd();
                     //test if the element (mother->left) have childrens
                     if(mother->left->right){
                         //then get the left leaf
                         //save the element
-                        BinaryLeaf<typeTemplate>* temp = mother->left;edkEnd();
+                        BinaryLeafStatic<typeTemplate>* temp = mother->left;edkEnd();
                         if((leaf = this->findMotherLeftLeaf(mother->left->right))){
                             //then pull the leaf to the mother->left
                             mother->left = leaf->left;edkEnd();
@@ -512,6 +530,7 @@ public:
                             }
                         }
                         //delete the element
+                        temp->destruct();
                         delete temp;edkEnd();
                         temp=NULL;edkEnd();
                         //decrement the sizeTree
@@ -522,7 +541,7 @@ public:
                     if(mother->left->left){
                         //then get the right leaf
                         //save the element
-                        BinaryLeaf<typeTemplate>* temp = mother->left;edkEnd();
+                        BinaryLeafStatic<typeTemplate>* temp = mother->left;edkEnd();
                         if((leaf = this->findMotherRightLeaf(mother->left->left))){
                             //then pull the leaf to the mother->left
                             mother->left = leaf->right;edkEnd();
@@ -557,6 +576,7 @@ public:
                             }
                         }
                         //delete the element
+                        temp->destruct();
                         delete temp;edkEnd();
                         temp=NULL;edkEnd();
                         //decrement the sizeTree
@@ -567,6 +587,7 @@ public:
                     //He dont have childrens
 
                     //delete the element
+                    mother->left->destruct();
                     delete mother->left;edkEnd();
                     mother->left=NULL;edkEnd();
                     //decrement the sizeTree
@@ -581,12 +602,12 @@ public:
             if(mother->right){
                 //test if it's left
                 if(this->firstEqualSecond(mother->right->value,element.value)){
-                    BinaryLeaf<typeTemplate>* leaf = NULL;edkEnd();
+                    BinaryLeafStatic<typeTemplate>* leaf = NULL;edkEnd();
                     //test if the element (mother->right) have childrens
                     if(mother->right->right){
                         //then get the left leaf
                         //save the element
-                        BinaryLeaf<typeTemplate>* temp = mother->right;edkEnd();
+                        BinaryLeafStatic<typeTemplate>* temp = mother->right;edkEnd();
                         if((leaf = this->findMotherLeftLeaf(mother->right->right))){
                             //then pull the leaf to the mother->right
                             mother->right = leaf->left;edkEnd();
@@ -621,6 +642,7 @@ public:
                             }
                         }
                         //delete the element
+                        temp->destruct();
                         delete temp;edkEnd();
                         temp=NULL;edkEnd();
                         //decrement the sizeTree
@@ -631,7 +653,7 @@ public:
                     if(mother->right->left){
                         //then get the right leaf
                         //save the element
-                        BinaryLeaf<typeTemplate>* temp = mother->right;edkEnd();
+                        BinaryLeafStatic<typeTemplate>* temp = mother->right;edkEnd();
                         if((leaf = this->findMotherRightLeaf(mother->right->left))){
                             //then pull the leaf to the mother->right
                             mother->right = leaf->right;edkEnd();
@@ -666,6 +688,7 @@ public:
                             }
                         }
                         //delete the element
+                        temp->destruct();
                         delete temp;edkEnd();
                         temp=NULL;edkEnd();
                         //decrement the sizeTree
@@ -676,6 +699,7 @@ public:
                     //He dont have childrens
 
                     //just delete;edkEnd();
+                    mother->right->destruct();
                     delete mother->right;edkEnd();
                     mother->right=NULL;edkEnd();
                     //decrement the sizeTree
@@ -689,12 +713,12 @@ public:
 
             if(mother==(*this->rootPointer)){
                 //
-                BinaryLeaf<typeTemplate>* leaf = NULL;edkEnd();
+                BinaryLeafStatic<typeTemplate>* leaf = NULL;edkEnd();
                 //test if have a left or right
                 if((*this->rootPointer)->right){
                     //then get the left leaf
                     //save the element
-                    BinaryLeaf<typeTemplate>* temp = (*this->rootPointer);edkEnd();
+                    BinaryLeafStatic<typeTemplate>* temp = (*this->rootPointer);edkEnd();
                     if((leaf = this->findMotherLeftLeaf((*this->rootPointer)->right))){
                         //then pull the leaf to the (*this->rootPointer)
                         (*this->rootPointer) = leaf->left;edkEnd();
@@ -729,6 +753,7 @@ public:
                         }
                     }
                     //delete the element
+                    temp->destruct();
                     delete temp;edkEnd();
                     temp=NULL;edkEnd();
                     //decrement the sizeTree
@@ -739,7 +764,7 @@ public:
                 if((*this->rootPointer)->left){
                     //then get the right leaf
                     //save the element
-                    BinaryLeaf<typeTemplate>* temp = (*this->rootPointer);edkEnd();
+                    BinaryLeafStatic<typeTemplate>* temp = (*this->rootPointer);edkEnd();
                     if((leaf = this->findMotherRightLeaf((*this->rootPointer)->left))){
                         //then pull the leaf to the (*this->rootPointer)
                         (*this->rootPointer) = leaf->right;edkEnd();
@@ -774,6 +799,7 @@ public:
                         }
                     }
                     //delete the element
+                    temp->destruct();
                     delete temp;edkEnd();
                     temp=NULL;edkEnd();
                     //decrement the sizeTree
@@ -783,6 +809,7 @@ public:
                 }
 
                 //remove the root
+                (*this->rootPointer)->destruct();
                 delete (*this->rootPointer);edkEnd();
                 (*this->rootPointer)=NULL;edkEnd();
                 //decrement the sizeTree
@@ -841,7 +868,7 @@ public:
     //return the element
     typeTemplate getElement(typeTemplate value){
         //find the element pointer
-        BinaryLeaf<typeTemplate>* ret = this->find(value);edkEnd();
+        BinaryLeafStatic<typeTemplate>* ret = this->find(value);edkEnd();
         //test if the element is founded
         if(ret){
             //return the value
@@ -854,7 +881,7 @@ public:
     }
     typeTemplate getElementBefore(typeTemplate value){
         //find the element pointer
-        BinaryLeaf<typeTemplate>* ret = this->findBefore(value);edkEnd();
+        BinaryLeafStatic<typeTemplate>* ret = this->findBefore(value);edkEnd();
         //test if the element is founded
         if(ret){
             //return the value
@@ -867,7 +894,7 @@ public:
     }
     typeTemplate getElementAfter(typeTemplate value){
         //find the element pointer
-        BinaryLeaf<typeTemplate>* ret = this->findAfter(value);edkEnd();
+        BinaryLeafStatic<typeTemplate>* ret = this->findAfter(value);edkEnd();
         //test if the element is founded
         if(ret){
             //return the value
@@ -886,7 +913,7 @@ public:
             (*this->updateElementsPositionsPointer)=true;
         }
         //find the element pointer
-        BinaryLeaf<typeTemplate>* ret = this->find(value);edkEnd();
+        BinaryLeafStatic<typeTemplate>* ret = this->find(value);edkEnd();
         //test if the element is founded
         if(ret){
             //return the value
@@ -906,7 +933,7 @@ public:
             }
             if((*this->updateElementsPositionsPointer)){
                 //then find the element pointer
-                BinaryLeaf<typeTemplate>* ret = this->findPosition(position);edkEnd();
+                BinaryLeafStatic<typeTemplate>* ret = this->findPosition(position);edkEnd();
                 //test if the element is founded
                 if(ret){
                     //return the value
@@ -915,7 +942,7 @@ public:
             }
             else{
                 //then find the element pointer
-                BinaryLeaf<typeTemplate>* ret = this->getNoRecursively((*this->rootPointer)/*,&count*/,position);edkEnd();
+                BinaryLeafStatic<typeTemplate>* ret = this->getNoRecursively((*this->rootPointer)/*,&count*/,position);edkEnd();
                 //test if the element is founded
                 if(ret){
                     //return the value
@@ -994,8 +1021,8 @@ private:
     //errorCode
     edk::uint16* errorCodePointer;
     //The root element on the TREE
-    BinaryLeaf<typeTemplate>* root;
-    BinaryLeaf<typeTemplate>** rootPointer;
+    BinaryLeafStatic<typeTemplate>* root;
+    BinaryLeafStatic<typeTemplate>** rootPointer;
     //save if need update the positions
     bool updateElementsPositions;
     bool* updateElementsPositionsPointer;
@@ -1013,11 +1040,11 @@ private:
         return false;
     }
     //Find the position
-    BinaryLeaf<typeTemplate>* findPosition(edk::uint32 position){
+    BinaryLeafStatic<typeTemplate>* findPosition(edk::uint32 position){
         //test if habe a root
         if((*this->rootPointer)){
             //find the position mother
-            BinaryLeaf<typeTemplate>* temp = this->findPositionMother(position);edkEnd();
+            BinaryLeafStatic<typeTemplate>* temp = this->findPositionMother(position);edkEnd();
             if(temp){
                 //test if the mother is the element
                 if(this->firstPositionEqualSecond(temp->position,position)){
@@ -1046,7 +1073,7 @@ private:
         return NULL;
     }
     //Find the positionMother
-    BinaryLeaf<typeTemplate>* findPositionMother(edk::uint32 position){
+    BinaryLeafStatic<typeTemplate>* findPositionMother(edk::uint32 position){
         //first test if have a root
         if((*this->rootPointer)){
             //tets if is equal root
@@ -1055,7 +1082,7 @@ private:
                 return (*this->rootPointer);edkEnd();
             }
             //else search the element mother
-            BinaryLeaf<typeTemplate>* temp = (*this->rootPointer);edkEnd();
+            BinaryLeafStatic<typeTemplate>* temp = (*this->rootPointer);edkEnd();
             while(temp){
                 //tets if the value is bigger the temp
                 if(this->firstPositionBiggerSecond(position,temp->position)){
@@ -1102,15 +1129,15 @@ private:
     }
 
     //Find the element
-    BinaryLeaf<typeTemplate>* find(typeTemplate value){
+    BinaryLeafStatic<typeTemplate>* find(typeTemplate value){
         //test if habe a root
         if((*this->rootPointer)){
             //then create a temporary element
-            BinaryLeaf<typeTemplate> element;edkEnd();
+            BinaryLeafStatic<typeTemplate> element;edkEnd();
             memcpy((void*)&element.value,(void*)&value,sizeof(typeTemplate));edkEnd();
             //element.value=value;edkEnd();
             //find the mother
-            BinaryLeaf<typeTemplate>* temp = this->findMother(value);edkEnd();
+            BinaryLeafStatic<typeTemplate>* temp = this->findMother(value);edkEnd();
             if(temp){
                 //test if the mother is the element
                 if(this->firstEqualSecond(temp->value,element.value)){
@@ -1138,15 +1165,15 @@ private:
         //else return NULL
         return NULL;
     }
-    BinaryLeaf<typeTemplate>* findBefore(typeTemplate value){
+    BinaryLeafStatic<typeTemplate>* findBefore(typeTemplate value){
         //test if habe a root
         if((*this->rootPointer)){
             //then create a temporary element
-            BinaryLeaf<typeTemplate> element;edkEnd();
+            BinaryLeafStatic<typeTemplate> element;edkEnd();
             memcpy((void*)&element.value,(void*)&value,sizeof(typeTemplate));edkEnd();
             //element.value=value;edkEnd();
             //find the mother
-            BinaryLeaf<typeTemplate>* temp = this->findMotherBefore(value);edkEnd();
+            BinaryLeafStatic<typeTemplate>* temp = this->findMotherBefore(value);edkEnd();
             if(temp){
                 //test if the mother is the element
                 if(this->firstEqualSecond(temp->value,element.value)){
@@ -1166,15 +1193,15 @@ private:
         //else return NULL
         return NULL;
     }
-    BinaryLeaf<typeTemplate>* findAfter(typeTemplate value){
+    BinaryLeafStatic<typeTemplate>* findAfter(typeTemplate value){
         //test if habe a root
         if((*this->rootPointer)){
             //then create a temporary element
-            BinaryLeaf<typeTemplate> element;edkEnd();
+            BinaryLeafStatic<typeTemplate> element;edkEnd();
             memcpy((void*)&element.value,(void*)&value,sizeof(typeTemplate));edkEnd();
             //element.value=value;edkEnd();
             //find the mother
-            BinaryLeaf<typeTemplate>* temp = this->findMotherAfter(value);edkEnd();
+            BinaryLeafStatic<typeTemplate>* temp = this->findMotherAfter(value);edkEnd();
             if(temp){
                 //test if the mother is the element
                 if(this->firstEqualSecond(temp->value,element.value)){
@@ -1195,11 +1222,11 @@ private:
         return NULL;
     }
     //Find the elementMother
-    BinaryLeaf<typeTemplate>* findMother(typeTemplate value){
+    BinaryLeafStatic<typeTemplate>* findMother(typeTemplate value){
         //first test if have a root
         if((*this->rootPointer)){
             //then create a temporary element
-            BinaryLeaf<typeTemplate> element;edkEnd();
+            BinaryLeafStatic<typeTemplate> element;edkEnd();
             memcpy((void*)&element.value,(void*)&value,sizeof(typeTemplate));edkEnd();
             //element.value=value;edkEnd();
             //tets if is equal root
@@ -1208,7 +1235,7 @@ private:
                 return (*this->rootPointer);edkEnd();
             }
             //else search the element mother
-            BinaryLeaf<typeTemplate>* temp = (*this->rootPointer);edkEnd();
+            BinaryLeafStatic<typeTemplate>* temp = (*this->rootPointer);edkEnd();
             while(temp){
                 //tets if the value is bigger the temp
                 if(this->firstBiggerSecond(element.value,temp->value)){
@@ -1253,11 +1280,11 @@ private:
         //else return NULL
         return NULL;
     }
-    BinaryLeaf<typeTemplate>* findMotherBefore(typeTemplate value){
+    BinaryLeafStatic<typeTemplate>* findMotherBefore(typeTemplate value){
         //first test if have a root
         if((*this->rootPointer)){
             //then create a temporary element
-            BinaryLeaf<typeTemplate> element;edkEnd();
+            BinaryLeafStatic<typeTemplate> element;edkEnd();
             memcpy((void*)&element.value,(void*)&value,sizeof(typeTemplate));edkEnd();
             //element.value=value;edkEnd();
             //tets if is equal root
@@ -1267,8 +1294,8 @@ private:
                 return (*this->rootPointer)->left;edkEnd();
             }
             //else search the element mother
-            BinaryLeaf<typeTemplate>* temp = (*this->rootPointer);edkEnd();
-            BinaryLeaf<typeTemplate>* tempFather = (*this->rootPointer);edkEnd();
+            BinaryLeafStatic<typeTemplate>* temp = (*this->rootPointer);edkEnd();
+            BinaryLeafStatic<typeTemplate>* tempFather = (*this->rootPointer);edkEnd();
             while(temp){
                 //tets if the value is bigger the temp
                 if(this->firstBiggerSecond(element.value,temp->value)){
@@ -1320,11 +1347,11 @@ private:
         //else return NULL
         return NULL;
     }
-    BinaryLeaf<typeTemplate>* findMotherAfter(typeTemplate value){
+    BinaryLeafStatic<typeTemplate>* findMotherAfter(typeTemplate value){
         //first test if have a root
         if((*this->rootPointer)){
             //then create a temporary element
-            BinaryLeaf<typeTemplate> element;edkEnd();
+            BinaryLeafStatic<typeTemplate> element;edkEnd();
             memcpy((void*)&element.value,(void*)&value,sizeof(typeTemplate));edkEnd();
             //element.value=value;edkEnd();
             //tets if is equal root
@@ -1333,8 +1360,8 @@ private:
                 return (*this->rootPointer)->right;edkEnd();
             }
             //else search the element mother
-            BinaryLeaf<typeTemplate>* temp = (*this->rootPointer);edkEnd();
-            BinaryLeaf<typeTemplate>* tempFather = (*this->rootPointer);edkEnd();
+            BinaryLeafStatic<typeTemplate>* temp = (*this->rootPointer);edkEnd();
+            BinaryLeafStatic<typeTemplate>* tempFather = (*this->rootPointer);edkEnd();
             while(temp){
                 //tets if the value is bigger the temp
                 if(this->firstBiggerSecond(element.value,temp->value)){
@@ -1387,10 +1414,10 @@ private:
         return NULL;
     }
     //Find the Last left
-    BinaryLeaf<typeTemplate>* findMotherLeftLeaf(BinaryLeaf<typeTemplate>* root){
+    BinaryLeafStatic<typeTemplate>* findMotherLeftLeaf(BinaryLeafStatic<typeTemplate>* root){
         //test if the root is alloc
         if(root){
-            BinaryLeaf<typeTemplate>* mother = NULL;edkEnd();
+            BinaryLeafStatic<typeTemplate>* mother = NULL;edkEnd();
             //then find the last left
             while(root->left){
                 mother=root;edkEnd();
@@ -1404,10 +1431,10 @@ private:
         return NULL;
     }
     //Find the Last right
-    BinaryLeaf<typeTemplate>* findMotherRightLeaf(BinaryLeaf<typeTemplate>* root){
+    BinaryLeafStatic<typeTemplate>* findMotherRightLeaf(BinaryLeafStatic<typeTemplate>* root){
         //test if the root is alloc
         if(root){
-            BinaryLeaf<typeTemplate>* mother = NULL;edkEnd();
+            BinaryLeafStatic<typeTemplate>* mother = NULL;edkEnd();
             //then find the last right
             while(root->right){
                 mother=root;edkEnd();
@@ -1442,7 +1469,7 @@ private:
     }
 
     //recursively to load
-    void updatePositionsRecursively(BinaryLeaf<typeTemplate>* temp,edk::uint32 *position=NULL){
+    void updatePositionsRecursively(BinaryLeafStatic<typeTemplate>* temp,edk::uint32 *position=NULL){
         if(temp){
             //
             if(temp->left){
@@ -1458,7 +1485,7 @@ private:
             }
         }
     }
-    void updatePositionsNoRecursively(BinaryLeaf<typeTemplate>* temp){
+    void updatePositionsNoRecursively(BinaryLeafStatic<typeTemplate>* temp){
         edk::uint32 position=0u;edkEnd();
         while(temp){
             if(temp->readed==0u){
@@ -1487,7 +1514,7 @@ private:
     }
 
     //recursively to load
-    void loadRecursively(BinaryLeaf<typeTemplate>* temp){
+    void loadRecursively(BinaryLeafStatic<typeTemplate>* temp){
         if(temp){
             //
             if(temp->left){
@@ -1500,7 +1527,7 @@ private:
             }
         }
     }
-    void loadNoRecursively(BinaryLeaf<typeTemplate>* temp){
+    void loadNoRecursively(BinaryLeafStatic<typeTemplate>* temp){
         while(temp){
             if(temp->readed==0u){
                 temp->readed=1u;edkEnd();
@@ -1526,7 +1553,7 @@ private:
         }
     }
     //recursively to unload
-    void unloadRecursively(BinaryLeaf<typeTemplate>* temp){
+    void unloadRecursively(BinaryLeafStatic<typeTemplate>* temp){
         if(temp){
             //
             if(temp->left){
@@ -1539,7 +1566,7 @@ private:
             }
         }
     }
-    void unloadNoRecursively(BinaryLeaf<typeTemplate>* temp){
+    void unloadNoRecursively(BinaryLeafStatic<typeTemplate>* temp){
         while(temp){
             if(temp->readed==0u){
                 temp->readed=1u;edkEnd();
@@ -1564,7 +1591,7 @@ private:
         }
     }
     //update the values runing the update function
-    void updateRecursively(BinaryLeaf<typeTemplate>* temp){
+    void updateRecursively(BinaryLeafStatic<typeTemplate>* temp){
         if(temp){
             //
             if(temp->left){
@@ -1577,7 +1604,7 @@ private:
             }
         }
     }
-    void updateNoRecursively(BinaryLeaf<typeTemplate>* temp){
+    void updateNoRecursively(BinaryLeafStatic<typeTemplate>* temp){
         while(temp){
             if(temp->readed==0u){
                 temp->readed=1u;edkEnd();
@@ -1602,7 +1629,7 @@ private:
         }
     }
     //recursively to print
-    void printRecursively(BinaryLeaf<typeTemplate>* temp){
+    void printRecursively(BinaryLeafStatic<typeTemplate>* temp){
         if(temp){
             //
             if(temp->left){
@@ -1617,7 +1644,7 @@ private:
             }
         }
     }
-    void printNoRecursively(BinaryLeaf<typeTemplate>* temp){
+    void printNoRecursively(BinaryLeafStatic<typeTemplate>* temp){
         while(temp){
             if(temp->readed==0u){
                 temp->readed=1u;edkEnd();
@@ -1642,7 +1669,7 @@ private:
         }
     }
     //recursively to render
-    void renderRecursively(BinaryLeaf<typeTemplate>* temp){
+    void renderRecursively(BinaryLeafStatic<typeTemplate>* temp){
         if(temp){
             //
             if(temp->left){
@@ -1657,7 +1684,7 @@ private:
             }
         }
     }
-    void renderNoRecursively(BinaryLeaf<typeTemplate>* temp){
+    void renderNoRecursively(BinaryLeafStatic<typeTemplate>* temp){
         while(temp){
             if(temp->readed==0u){
                 temp->readed=1u;edkEnd();
@@ -1682,7 +1709,7 @@ private:
         }
     }
     //recursively to renderWire
-    void renderWireRecursively(BinaryLeaf<typeTemplate>* temp){
+    void renderWireRecursively(BinaryLeafStatic<typeTemplate>* temp){
         if(temp){
             //
             if(temp->left){
@@ -1697,7 +1724,7 @@ private:
             }
         }
     }
-    void renderWireNoRecursively(BinaryLeaf<typeTemplate>* temp){
+    void renderWireNoRecursively(BinaryLeafStatic<typeTemplate>* temp){
         while(temp){
             if(temp->readed==0u){
                 temp->readed=1u;edkEnd();
@@ -1722,7 +1749,7 @@ private:
         }
     }
     //recursively to draw
-    void drawRecursively(BinaryLeaf<typeTemplate>* temp){
+    void drawRecursively(BinaryLeafStatic<typeTemplate>* temp){
         if(temp){
             //
             if(temp->left){
@@ -1737,7 +1764,7 @@ private:
             }
         }
     }
-    void drawNoRecursively(BinaryLeaf<typeTemplate>* temp){
+    void drawNoRecursively(BinaryLeafStatic<typeTemplate>* temp){
         while(temp){
             if(temp->readed==0u){
                 temp->readed=1u;edkEnd();
@@ -1762,7 +1789,7 @@ private:
         }
     }
     //recursively to drawWire
-    void drawWireRecursively(BinaryLeaf<typeTemplate>* temp){
+    void drawWireRecursively(BinaryLeafStatic<typeTemplate>* temp){
         if(temp){
             //
             if(temp->left){
@@ -1777,7 +1804,7 @@ private:
             }
         }
     }
-    void drawWireNoRecursively(BinaryLeaf<typeTemplate>* temp){
+    void drawWireNoRecursively(BinaryLeafStatic<typeTemplate>* temp){
         while(temp){
             if(temp->readed==0u){
                 temp->readed=1u;edkEnd();
@@ -1802,9 +1829,9 @@ private:
         }
     }
     //set if find it
-    BinaryLeaf<typeTemplate>* getRecursively(BinaryLeaf<typeTemplate>* temp,edk::uint32* count, edk::uint32 pos){
+    BinaryLeafStatic<typeTemplate>* getRecursively(BinaryLeafStatic<typeTemplate>* temp,edk::uint32* count, edk::uint32 pos){
         //the return
-        BinaryLeaf<typeTemplate>* ret=NULL;edkEnd();
+        BinaryLeafStatic<typeTemplate>* ret=NULL;edkEnd();
         if(temp){
             if(temp->left){
                 //
@@ -1836,9 +1863,9 @@ private:
         //return the ret
         return ret;
     }
-    BinaryLeaf<typeTemplate>* getNoRecursively(BinaryLeaf<typeTemplate>* temp,edk::uint32 pos){
+    BinaryLeafStatic<typeTemplate>* getNoRecursively(BinaryLeafStatic<typeTemplate>* temp,edk::uint32 pos){
         edk::uint32 count = 0u;edkEnd();
-        BinaryLeaf<typeTemplate>* ret = NULL;edkEnd();
+        BinaryLeafStatic<typeTemplate>* ret = NULL;edkEnd();
         bool find=false;edkEnd();
         //test if have temp
         while(temp){
@@ -1880,7 +1907,7 @@ private:
         return ret;
     }
     //clean recursively
-    void cleanRecursively(BinaryLeaf<typeTemplate>* temp){
+    void cleanRecursively(BinaryLeafStatic<typeTemplate>* temp){
         //
         if(temp){
             //
@@ -1892,11 +1919,12 @@ private:
                 this->cleanRecursively(temp->left);edkEnd();
             }
             temp->left=NULL;edkEnd();
+            temp->destruct();
             delete temp;edkEnd();
         }
     }
-    void cleanNoRecursively(BinaryLeaf<typeTemplate>* temp){
-        BinaryLeaf<typeTemplate>* tempDelete;edkEnd();
+    void cleanNoRecursively(BinaryLeafStatic<typeTemplate>* temp){
+        BinaryLeafStatic<typeTemplate>* tempDelete;edkEnd();
         //test if have temp
         while(temp){
             if(temp->readed==0u){
@@ -1919,15 +1947,16 @@ private:
                 temp->readed=0u;edkEnd();
                 tempDelete = temp;edkEnd();
                 temp = temp->father;edkEnd();
+                tempDelete->destruct();
                 delete tempDelete;edkEnd();
             }
         }
     }
     //balance the tree starting from a new leaf
-    void balance(BinaryLeaf<typeTemplate>* leaf){
+    void balance(BinaryLeafStatic<typeTemplate>* leaf){
         //test the temp
         if(leaf){
-            BinaryLeaf<typeTemplate>* temp = leaf;edkEnd();
+            BinaryLeafStatic<typeTemplate>* temp = leaf;edkEnd();
             //increment the counters
             while(temp){
                 //test if havethe father
@@ -1947,8 +1976,8 @@ private:
             }
             //now balance the tree
             temp = leaf;edkEnd();
-            BinaryLeaf<typeTemplate>* temp2;edkEnd();
-            BinaryLeaf<typeTemplate>* father;edkEnd();
+            BinaryLeafStatic<typeTemplate>* temp2;edkEnd();
+            BinaryLeafStatic<typeTemplate>* father;edkEnd();
             bool continuing = false;edkEnd();
             while(temp){
                 //test if the counter is bigger then 1 or -1
@@ -1991,7 +2020,7 @@ private:
                                 }
                             }
                             else if(temp2->left){
-                                BinaryLeaf<typeTemplate>*  newRoot = temp2;edkEnd();
+                                BinaryLeafStatic<typeTemplate>*  newRoot = temp2;edkEnd();
                                 temp2 = temp2->left;edkEnd();
                                 if(temp2->right){
                                     //do nothing
@@ -2040,7 +2069,7 @@ private:
                                 }
                             }
                             else if(temp2->left){
-                                BinaryLeaf<typeTemplate>*  newRoot = temp2;edkEnd();
+                                BinaryLeafStatic<typeTemplate>*  newRoot = temp2;edkEnd();
                                 temp2 = temp2->left;edkEnd();
                                 if(temp2->right){
                                     //do nothing
@@ -2104,7 +2133,7 @@ private:
                                 }
                             }
                             else if(temp2->right){
-                                BinaryLeaf<typeTemplate>*  newRoot = temp2;edkEnd();
+                                BinaryLeafStatic<typeTemplate>*  newRoot = temp2;edkEnd();
                                 temp2 = temp2->right;edkEnd();
                                 if(temp2->left){
                                     //do nothing
@@ -2153,7 +2182,7 @@ private:
                                 }
                             }
                             else if(temp2->right){
-                                BinaryLeaf<typeTemplate>*  newRoot = temp2;edkEnd();
+                                BinaryLeafStatic<typeTemplate>*  newRoot = temp2;edkEnd();
                                 temp2 = temp2->right;edkEnd();
                                 if(temp2->left){
                                     //do nothing
@@ -2190,15 +2219,15 @@ private:
 };
 
 //String TREE
-class NameTree:public BinaryTree<edk::Name*>{
+class NameTreeStatic:public edk::vector::BinaryTreeStatic<edk::Name*>{
 public:
     //Construtor
-    NameTree(){
+    NameTreeStatic(){
         this->classThis=NULL;edkEnd();
         this->Constructor(false);edkEnd();
     }
     //Destrutor
-    virtual ~NameTree(){
+    virtual ~NameTreeStatic(){
         if(this->classThis==this){
             this->classThis=NULL;edkEnd();
             //can destruct the class
@@ -2208,7 +2237,7 @@ public:
 
     void Constructor(bool runFather=true){
         if(runFather){
-            BinaryTree<edk::Name*>::Constructor();edkEnd();
+            edk::vector::BinaryTreeStatic<edk::Name*>::Constructor();edkEnd();
         }
         if(this->classThis!=this){
             this->classThis=this;
@@ -2226,7 +2255,7 @@ public:
             edk::Name* temp = new edk::Name(value);edkEnd();
             if(temp){
                 //
-                if(edk::vector::BinaryTree<edk::Name*>::add(temp)){
+                if(edk::vector::BinaryTreeStatic<edk::Name*>::add(temp)){
                     //
                     return true;
                 }
@@ -2244,14 +2273,14 @@ public:
     bool removeName(edk::char8* value){
         //
         edk::Name find(value);edkEnd();
-        return edk::vector::BinaryTree<edk::Name*>::remove(&find);
+        return edk::vector::BinaryTreeStatic<edk::Name*>::remove(&find);
     }
     //REMOVE THE ELEMENT IN POSITION
     bool removeNameInPosition(edk::uint32 position){
         //get the element
         edk::Name* temp = this->getElementInPosition(position);edkEnd();
         if(temp){
-            return edk::vector::BinaryTree<edk::Name*>::remove(temp);edkEnd();
+            return edk::vector::BinaryTreeStatic<edk::Name*>::remove(temp);edkEnd();
         }
         return false;
     }
@@ -2263,8 +2292,8 @@ public:
     bool deleteName(edk::char8* value){
         //
         edk::Name find(value);edkEnd();
-        edk::Name *temp =  edk::vector::BinaryTree<edk::Name*>::getElement(&find);edkEnd();
-        if(edk::vector::BinaryTree<edk::Name*>::remove(temp)){
+        edk::Name *temp =  edk::vector::BinaryTreeStatic<edk::Name*>::getElement(&find);edkEnd();
+        if(edk::vector::BinaryTreeStatic<edk::Name*>::remove(temp)){
             delete temp;edkEnd();
             return true;
         }
@@ -2275,7 +2304,7 @@ public:
         //get the element
         edk::Name* temp = this->getElementInPosition(position);edkEnd();
         if(temp){
-            if(edk::vector::BinaryTree<edk::Name*>::remove(temp)){
+            if(edk::vector::BinaryTreeStatic<edk::Name*>::remove(temp)){
                 delete temp;edkEnd();
                 return true;
             }
@@ -2284,14 +2313,14 @@ public:
     }
     //DELETE ALL THE NAMES
     void deleteAllNames(){
-        for(edk::uint32 i=0u;i<edk::vector::BinaryTree<edk::Name*>::size();i++){
+        for(edk::uint32 i=0u;i<edk::vector::BinaryTreeStatic<edk::Name*>::size();i++){
             edk::Name* temp = this->getElementInPosition(i);edkEnd();
             if(temp){
                 delete temp;edkEnd();
                 temp=NULL;edkEnd();
             }
         }
-        edk::vector::BinaryTree<edk::Name*>::clean();edkEnd();
+        edk::vector::BinaryTreeStatic<edk::Name*>::clean();edkEnd();
     }
     //remove all names
     //HAVE ELEMENT
@@ -2302,7 +2331,7 @@ public:
     bool haveName(edk::char8* value){
         //
         edk::Name temp(value);edkEnd();
-        return edk::vector::BinaryTree<edk::Name*>::haveElement(&temp);
+        return edk::vector::BinaryTreeStatic<edk::Name*>::haveElement(&temp);
     }
     //GET ELEMENT
     edk::Name* getElementByName(const edk::char8* value){
@@ -2312,7 +2341,7 @@ public:
     edk::Name* getElementByName(edk::char8* value){
         //
         edk::Name temp(value);edkEnd();
-        return edk::vector::BinaryTree<edk::Name*>::getElement(&temp);
+        return edk::vector::BinaryTreeStatic<edk::Name*>::getElement(&temp);
     }
     //GET NAME IN POSITION
     edk::char8* getNameInPosition(edk::uint32 position){
@@ -2415,18 +2444,18 @@ private:
 };
 
 //enum with the map to go into the value
-enum edkLeafsMap{
-    edkLeafNULL=0u,
-    edkLeaftLEFT,
-    edkLeaftRIGHT,
+enum edkLeafsStaticMap{
+    edkLeafStaticNULL=0u,
+    edkLeaftStaticLEFT,
+    edkLeaftStaticRIGHT,
     //
-    edkLeaftSize
+    edkLeaftStaticSize
 };
 //treeMAPPING
-class TreeMap: public edk::vector::Queue<edk::vector::edkLeafsMap>{
+class TreeMapStatic: public edk::vector::QueueStatic<edk::vector::edkLeafsStaticMap>{
 public:
-    TreeMap(){this->classThis=NULL;this->Constructor(false);edkEnd();}
-    virtual ~TreeMap(){
+    TreeMapStatic(){this->classThis=NULL;this->Constructor(false);edkEnd();}
+    virtual ~TreeMapStatic(){
         if(this->classThis==this){
             this->classThis=NULL;edkEnd();
             //can destruct the class
@@ -2435,7 +2464,7 @@ public:
 
     void Constructor(bool runFather=true){
         if(runFather){
-            edk::vector::Queue<edk::vector::edkLeafsMap>::Constructor();edkEnd();
+            edk::vector::QueueStatic<edk::vector::edkLeafsStaticMap>::Constructor();edkEnd();
         }
         if(this->classThis!=this){
             this->classThis=this;
@@ -2446,17 +2475,17 @@ private:
 };
 
 template <class typeTemplate>
-class LeafsOnlyTree{
+class LeafsOnlyTreeStatic{
 public:
     //errorCode
     edk::uint16 errorCode;
     //Construtor
-    LeafsOnlyTree(){
+    LeafsOnlyTreeStatic(){
         this->classThis=NULL;edkEnd();
         this->Constructor(false);edkEnd();
     }
     //Destrutor
-    virtual ~LeafsOnlyTree(){
+    virtual ~LeafsOnlyTreeStatic(){
         if(this->classThis==this){
             this->classThis=NULL;edkEnd();
             //can destruct the class
@@ -2494,8 +2523,9 @@ public:
         //Test if is the root element
         if(!(*this->rootPointer)){
             //then add the root element
-            (*this->rootPointer) = new BinaryLeaf<typeTemplate>;edkEnd();
+            (*this->rootPointer) = new BinaryLeafStatic<typeTemplate>;edkEnd();
             if((*this->rootPointer)){
+                (*this->rootPointer)->construct();
                 //set the value
                 memcpy((void*)&(*this->rootPointer)->value,(void*)&value,sizeof(typeTemplate));edkEnd();
                 //increment the sizeTree
@@ -2506,12 +2536,14 @@ public:
         }
         else{
             //Find the position to add the object
-            BinaryLeaf<typeTemplate>* temp=(*this->rootPointer);edkEnd();
+            BinaryLeafStatic<typeTemplate>* temp=(*this->rootPointer);edkEnd();
             //create the value
-            BinaryLeaf<typeTemplate>* newValue = new BinaryLeaf<typeTemplate>;edkEnd();
-            BinaryLeaf<typeTemplate>* newSecondValue = new BinaryLeaf<typeTemplate>;edkEnd();
+            BinaryLeafStatic<typeTemplate>* newValue = new BinaryLeafStatic<typeTemplate>;edkEnd();
+            BinaryLeafStatic<typeTemplate>* newSecondValue = new BinaryLeafStatic<typeTemplate>;edkEnd();
             //Test if create the newValue
             if(newValue && newSecondValue){
+                newValue->construct();
+                newSecondValue->construct();
                 memcpy((void*)&newValue->value,(void*)&value,sizeof(typeTemplate));edkEnd();
                 //Find the position
                 //test if the temp exist
@@ -2521,8 +2553,10 @@ public:
                             &&(!(*this->rootPointer)->left && !(*this->rootPointer)->right)
                             ){
                         //The tree have the value. Delete the new value and return the tree value.
+                        newValue->destruct();
                         delete newValue;edkEnd();
                         newValue=NULL;edkEnd();
+                        newSecondValue->destruct();
                         delete newSecondValue;edkEnd();
                         newSecondValue=NULL;edkEnd();
                         //
@@ -2540,8 +2574,9 @@ public:
                             else{
                                 //else add the value in right
                                 if(temp->left){
-                                    BinaryLeaf<typeTemplate>* newThirdValue = new BinaryLeaf<typeTemplate>;edkEnd();
+                                    BinaryLeafStatic<typeTemplate>* newThirdValue = new BinaryLeafStatic<typeTemplate>;edkEnd();
                                     if(newThirdValue){
+                                        newThirdValue->construct();
                                         memcpy((void*)&newThirdValue->value,(void*)&temp->value,sizeof(typeTemplate));edkEnd();
                                         temp->right = newThirdValue;edkEnd();
                                         temp->right->father = temp;edkEnd();
@@ -2569,8 +2604,9 @@ public:
                             else{
                                 //else add the value in left
                                 if(temp->right){
-                                    BinaryLeaf<typeTemplate>* newThirdValue = new BinaryLeaf<typeTemplate>;edkEnd();
+                                    BinaryLeafStatic<typeTemplate>* newThirdValue = new BinaryLeafStatic<typeTemplate>;edkEnd();
                                     if(newThirdValue){
+                                        newThirdValue->construct();
                                         memcpy((void*)&newThirdValue->value,(void*)&temp->value,sizeof(typeTemplate));edkEnd();
                                         temp->left = newThirdValue;edkEnd();
                                         temp->left->father = temp;edkEnd();
@@ -2591,7 +2627,9 @@ public:
                         }
                     }
                 }
+                newValue->destruct();
                 delete newValue;edkEnd();
+                newSecondValue->destruct();
                 delete newSecondValue;edkEnd();
             }
         }
@@ -2710,7 +2748,7 @@ public:
     }
 
     //get the element map
-    bool getElementMap(typeTemplate value,edk::vector::TreeMap *map){
+    bool getElementMap(typeTemplate value,edk::vector::TreeMapStatic *map){
         if(map){
             //find the value and generate the map
             return this->find(value,map);
@@ -2721,7 +2759,7 @@ public:
     //return the element
     typeTemplate getElement(typeTemplate value){
         //find the element pointer
-        BinaryLeaf<typeTemplate>* ret = this->find(value);edkEnd();
+        BinaryLeafStatic<typeTemplate>* ret = this->find(value);edkEnd();
         //test if the element is founded
         if(ret){
             //return the value
@@ -2832,8 +2870,8 @@ protected:
 private:
     edk::uint16* errorCodePointer;
     //The root element on the TREE
-    BinaryLeaf<typeTemplate>** rootPointer;
-    BinaryLeaf<typeTemplate>* root;
+    BinaryLeafStatic<typeTemplate>** rootPointer;
+    BinaryLeafStatic<typeTemplate>* root;
     //size of the tree
     edk::uint32* sizeTreePointer;
     edk::uint32 sizeTree;
@@ -2841,21 +2879,21 @@ private:
     bool dontDestruct;
 
     //temporary map
-    edk::vector::TreeMap* mapPointer;
-    edk::vector::TreeMap map;
+    edk::vector::TreeMapStatic* mapPointer;
+    edk::vector::TreeMapStatic map;
 
-    BinaryLeaf<typeTemplate>** elementSelectedPointer;
-    BinaryLeaf<typeTemplate>* elementSelected;
+    BinaryLeafStatic<typeTemplate>** elementSelectedPointer;
+    BinaryLeafStatic<typeTemplate>* elementSelected;
 
     //Find the element
-    bool find(typeTemplate value,edk::vector::TreeMap *map=NULL){
+    bool find(typeTemplate value,edk::vector::TreeMapStatic *map=NULL){
         if(!map){
             map=&this->map;edkEnd();
         }
         //first test if have a root
         if((*this->rootPointer)){
             //then create a temporary element
-            BinaryLeaf<typeTemplate> element;edkEnd();
+            BinaryLeafStatic<typeTemplate> element;edkEnd();
             memcpy((void*)&element.value,(void*)&value,sizeof(typeTemplate));edkEnd();
             //tets if is equal root
             if(this->firstEqualSecond((*this->rootPointer)->value,element.value)
@@ -2865,7 +2903,7 @@ private:
                 return false;edkEnd();
             }
             //else search the element
-            BinaryLeaf<typeTemplate>* temp = (*this->rootPointer);edkEnd();
+            BinaryLeafStatic<typeTemplate>* temp = (*this->rootPointer);edkEnd();
             while(temp){
                 //test if the value is equal
                 if(this->firstEqualSecond(temp->value,element.value)){
@@ -2877,7 +2915,7 @@ private:
                             if(temp->left){
                                 if(this->firstEqualSecond(temp->left->value,element.value)){
                                     temp = temp->left;edkEnd();
-                                    map->pushBack(edk::vector::edkLeaftLEFT);edkEnd();
+                                    map->pushBack(edk::vector::edkLeaftStaticLEFT);edkEnd();
                                     edkEnd();
                                     continue;
                                 }
@@ -2888,7 +2926,7 @@ private:
                             if(temp->right){
                                 if(this->firstEqualSecond(temp->right->value,element.value)){
                                     temp = temp->right;edkEnd();
-                                    map->pushBack(edk::vector::edkLeaftRIGHT);edkEnd();
+                                    map->pushBack(edk::vector::edkLeaftStaticRIGHT);edkEnd();
                                     edkEnd();
                                     continue;
                                 }
@@ -2911,7 +2949,7 @@ private:
                 else if(this->firstBiggerSecond(element.value,temp->value)){
                     //then the next maybe is the RIGHT
                     if(temp->right){
-                        map->pushBack(edk::vector::edkLeaftRIGHT);edkEnd();
+                        map->pushBack(edk::vector::edkLeaftStaticRIGHT);edkEnd();
                         //Go RIGHT
                         //test if the value is equal
                         if(this->firstEqualSecond(temp->right->value,element.value)){
@@ -2924,7 +2962,7 @@ private:
                                     if(temp->left){
                                         if(this->firstEqualSecond(temp->left->value,element.value)){
                                             temp = temp->left;edkEnd();
-                                            map->pushBack(edk::vector::edkLeaftLEFT);edkEnd();
+                                            map->pushBack(edk::vector::edkLeaftStaticLEFT);edkEnd();
                                             edkEnd();
                                             continue;
                                         }
@@ -2935,7 +2973,7 @@ private:
                                     if(temp->right){
                                         if(this->firstEqualSecond(temp->right->value,element.value)){
                                             temp = temp->right;edkEnd();
-                                            map->pushBack(edk::vector::edkLeaftRIGHT);edkEnd();
+                                            map->pushBack(edk::vector::edkLeaftStaticRIGHT);edkEnd();
                                             edkEnd();
                                             continue;
                                         }
@@ -2968,7 +3006,7 @@ private:
                     //then the next maybe is the LEFT
                     //test if the left exist
                     if(temp->left){
-                        map->pushBack(edk::vector::edkLeaftLEFT);edkEnd();
+                        map->pushBack(edk::vector::edkLeaftStaticLEFT);edkEnd();
                         //test if the value is equal
                         if(this->firstEqualSecond(temp->left->value,element.value)){
                             edk::uchar8 dontHave=2u;
@@ -2980,7 +3018,7 @@ private:
                                     if(temp->left){
                                         if(this->firstEqualSecond(temp->left->value,element.value)){
                                             temp = temp->left;edkEnd();
-                                            map->pushBack(edk::vector::edkLeaftLEFT);edkEnd();
+                                            map->pushBack(edk::vector::edkLeaftStaticLEFT);edkEnd();
                                             edkEnd();
                                             continue;
                                         }
@@ -2991,7 +3029,7 @@ private:
                                     if(temp->right){
                                         if(this->firstEqualSecond(temp->right->value,element.value)){
                                             temp = temp->right;edkEnd();
-                                            map->pushBack(edk::vector::edkLeaftRIGHT);edkEnd();
+                                            map->pushBack(edk::vector::edkLeaftStaticRIGHT);edkEnd();
                                             edkEnd();
                                             continue;
                                         }
@@ -3045,7 +3083,7 @@ private:
     }
 
     //recursively to load
-    void loadRecursively(BinaryLeaf<typeTemplate>* temp){
+    void loadRecursively(BinaryLeafStatic<typeTemplate>* temp){
         if(temp){
             //
             if(temp->left){
@@ -3060,7 +3098,7 @@ private:
             }
         }
     }
-    void loadNoRecursively(BinaryLeaf<typeTemplate>* temp){
+    void loadNoRecursively(BinaryLeafStatic<typeTemplate>* temp){
         while(temp){
             if(temp->readed==0u){
                 temp->readed=1u;edkEnd();
@@ -3088,7 +3126,7 @@ private:
         }
     }
     //recursively to unload
-    void unloadRecursively(BinaryLeaf<typeTemplate>* temp){
+    void unloadRecursively(BinaryLeafStatic<typeTemplate>* temp){
         if(temp){
             //
             if(temp->left){
@@ -3103,7 +3141,7 @@ private:
             }
         }
     }
-    void unloadNoRecursively(BinaryLeaf<typeTemplate>* temp){
+    void unloadNoRecursively(BinaryLeafStatic<typeTemplate>* temp){
         while(temp){
             if(temp->readed==0u){
                 temp->readed=1u;edkEnd();
@@ -3130,7 +3168,7 @@ private:
         }
     }
     //update the values runing the update function
-    void updateRecursively(BinaryLeaf<typeTemplate>* temp){
+    void updateRecursively(BinaryLeafStatic<typeTemplate>* temp){
         if(temp){
             //
             if(temp->left){
@@ -3145,7 +3183,7 @@ private:
             }
         }
     }
-    void updateNoRecursively(BinaryLeaf<typeTemplate>* temp){
+    void updateNoRecursively(BinaryLeafStatic<typeTemplate>* temp){
         while(temp){
             if(temp->readed==0u){
                 temp->readed=1u;edkEnd();
@@ -3172,7 +3210,7 @@ private:
         }
     }
     //recursively to print
-    void printRecursively(BinaryLeaf<typeTemplate>* temp){
+    void printRecursively(BinaryLeafStatic<typeTemplate>* temp){
         if(temp){
             //
             if(temp->left){
@@ -3189,7 +3227,7 @@ private:
             }
         }
     }
-    void printNoRecursively(BinaryLeaf<typeTemplate>* temp){
+    void printNoRecursively(BinaryLeafStatic<typeTemplate>* temp){
         while(temp){
             if(temp->readed==0u){
                 temp->readed=1u;edkEnd();
@@ -3216,7 +3254,7 @@ private:
         }
     }
     //recursively to render
-    void renderRecursively(BinaryLeaf<typeTemplate>* temp){
+    void renderRecursively(BinaryLeafStatic<typeTemplate>* temp){
         if(temp){
             //
             if(temp->left){
@@ -3233,7 +3271,7 @@ private:
             }
         }
     }
-    void renderNoRecursively(BinaryLeaf<typeTemplate>* temp){
+    void renderNoRecursively(BinaryLeafStatic<typeTemplate>* temp){
         while(temp){
             if(temp->readed==0u){
                 temp->readed=1u;edkEnd();
@@ -3260,7 +3298,7 @@ private:
         }
     }
     //recursively to renderWire
-    void renderWireRecursively(BinaryLeaf<typeTemplate>* temp){
+    void renderWireRecursively(BinaryLeafStatic<typeTemplate>* temp){
         if(temp){
             //
             if(temp->left){
@@ -3277,7 +3315,7 @@ private:
             }
         }
     }
-    void renderWireNoRecursively(BinaryLeaf<typeTemplate>* temp){
+    void renderWireNoRecursively(BinaryLeafStatic<typeTemplate>* temp){
         while(temp){
             if(temp->readed==0u){
                 temp->readed=1u;edkEnd();
@@ -3304,7 +3342,7 @@ private:
         }
     }
     //recursively to draw
-    void drawRecursively(BinaryLeaf<typeTemplate>* temp){
+    void drawRecursively(BinaryLeafStatic<typeTemplate>* temp){
         if(temp){
             //
             if(temp->left){
@@ -3321,7 +3359,7 @@ private:
             }
         }
     }
-    void drawNoRecursively(BinaryLeaf<typeTemplate>* temp){
+    void drawNoRecursively(BinaryLeafStatic<typeTemplate>* temp){
         while(temp){
             if(temp->readed==0u){
                 temp->readed=1u;edkEnd();
@@ -3348,7 +3386,7 @@ private:
         }
     }
     //recursively to drawWire
-    void drawWireRecursively(BinaryLeaf<typeTemplate>* temp){
+    void drawWireRecursively(BinaryLeafStatic<typeTemplate>* temp){
         if(temp){
             //
             if(temp->left){
@@ -3365,7 +3403,7 @@ private:
             }
         }
     }
-    void drawWireNoRecursively(BinaryLeaf<typeTemplate>* temp){
+    void drawWireNoRecursively(BinaryLeafStatic<typeTemplate>* temp){
         while(temp){
             if(temp->readed==0u){
                 temp->readed=1u;edkEnd();
@@ -3392,7 +3430,7 @@ private:
         }
     }
     //printTree
-    void printTreeRecursively(BinaryLeaf<typeTemplate>* temp){
+    void printTreeRecursively(BinaryLeafStatic<typeTemplate>* temp){
         if(temp){
             //
             if(temp->left){
@@ -3414,7 +3452,7 @@ private:
             }
         }
     }
-    void printTreeNoRecursively(BinaryLeaf<typeTemplate>* temp){
+    void printTreeNoRecursively(BinaryLeafStatic<typeTemplate>* temp){
         while(temp){
             if(temp->readed==0u){
                 temp->readed=1u;edkEnd();
@@ -3443,9 +3481,9 @@ private:
         }
     }
     //set if find it
-    BinaryLeaf<typeTemplate>* getRecursively(BinaryLeaf<typeTemplate>* temp,edk::uint32* count, edk::uint32 pos){
+    BinaryLeafStatic<typeTemplate>* getRecursively(BinaryLeafStatic<typeTemplate>* temp,edk::uint32* count, edk::uint32 pos){
         //the return
-        BinaryLeaf<typeTemplate>* ret=NULL;edkEnd();
+        BinaryLeafStatic<typeTemplate>* ret=NULL;edkEnd();
         if(temp){
             if(temp->left){
                 //
@@ -3479,9 +3517,9 @@ private:
         //return the ret
         return ret;
     }
-    BinaryLeaf<typeTemplate>* getNoRecursively(BinaryLeaf<typeTemplate>* temp,edk::uint32 pos){
+    BinaryLeafStatic<typeTemplate>* getNoRecursively(BinaryLeafStatic<typeTemplate>* temp,edk::uint32 pos){
         edk::uint32 count = 0u;edkEnd();
-        BinaryLeaf<typeTemplate>* ret = NULL;edkEnd();
+        BinaryLeafStatic<typeTemplate>* ret = NULL;edkEnd();
         bool find=false;edkEnd();
         //test if have temp
         while(temp){
@@ -3525,7 +3563,7 @@ private:
         return ret;
     }
     //clean recursively
-    void cleanRecursively(BinaryLeaf<typeTemplate>* temp){
+    void cleanRecursively(BinaryLeafStatic<typeTemplate>* temp){
         //
         if(temp){
             //
@@ -3537,11 +3575,12 @@ private:
                 this->cleanRecursively(temp->left);edkEnd();
             }
             temp->left=NULL;edkEnd();
+            temp->destruct();
             delete temp;edkEnd();
         }
     }
-    void cleanNoRecursively(BinaryLeaf<typeTemplate>* temp){
-        BinaryLeaf<typeTemplate>* tempDelete;edkEnd();
+    void cleanNoRecursively(BinaryLeafStatic<typeTemplate>* temp){
+        BinaryLeafStatic<typeTemplate>* tempDelete;edkEnd();
         //test if have temp
         while(temp){
             if(temp->readed==0u){
@@ -3564,6 +3603,7 @@ private:
                 temp->readed=0u;edkEnd();
                 tempDelete = temp;edkEnd();
                 temp = temp->father;edkEnd();
+                tempDelete->destruct();
                 delete tempDelete;edkEnd();
             }
         }
@@ -3574,4 +3614,4 @@ private:
 }
 }
 
-#endif // BinaryTree_H
+#endif // BINARYTREESTATIC_H

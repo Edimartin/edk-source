@@ -63,7 +63,7 @@ namespace edk{
 class DebugFile{
 public:
     DebugFile();
-    ~DebugFile();
+    virtual ~DebugFile();
 
     void Constructor(bool runFather=true);
 

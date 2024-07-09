@@ -268,7 +268,7 @@ public:
         this->classThis=NULL;edkEnd();
         this->Constructor(father,rect,false);edkEnd();
     }
-    ~QuadLeaf32(){
+    virtual ~QuadLeaf32(){
         if(this->classThis==this){
             this->classThis=NULL;edkEnd();
             //can destruct the class
@@ -577,7 +577,7 @@ public:
         this->classThis=NULL;edkEnd();
         this->Constructor(father,rect,false);edkEnd();
     }
-    ~QuadLeaf64(){
+    virtual ~QuadLeaf64(){
         if(this->classThis==this){
             this->classThis=NULL;edkEnd();
             //can destruct the class

@@ -44,7 +44,7 @@ class DebugLineFile{
 public:
     DebugLineFile(){this->classThis=NULL;edkEnd();
                     this->Constructor(false);edkEnd();}
-    ~DebugLineFile(){
+    virtual ~DebugLineFile(){
         if(this->classThis==this){
             this->classThis=NULL;edkEnd();
             //can destruct the class

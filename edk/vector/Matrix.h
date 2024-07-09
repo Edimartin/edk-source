@@ -59,7 +59,7 @@ public:
         this->classThis=NULL;edkEnd();
         this->Constructor(width,height,false);edkEnd();
     }
-    ~MatrixDynamic(){
+    virtual ~MatrixDynamic(){
         if(this->classThis==this){
             this->classThis=NULL;edkEnd();
             //can destruct the class
@@ -1175,7 +1175,7 @@ public:
         this->classThis=NULL;edkEnd();
         this->Constructor(false);edkEnd();
     }
-    ~Matrixf32(){
+    virtual ~Matrixf32(){
         if(this->classThis==this){
             this->classThis=NULL;edkEnd();
         }
@@ -1260,7 +1260,7 @@ public:
         this->classThis=NULL;edkEnd();
         this->Constructor(false);edkEnd();
     }
-    ~Matrixf64(){
+    virtual ~Matrixf64(){
         if(this->classThis==this){
             this->classThis=NULL;edkEnd();
         }
