@@ -121,6 +121,7 @@ private:
         MemoryPositions operator=(MemoryPositions m){
             this->start=m.start;
             this->end=m.end;
+            this->buffer=m.buffer;
             return m;
         }
         bool operator>(MemoryPositions m){
@@ -140,6 +141,7 @@ private:
             return false;
         }
         edk::uint64 start,end;
+        edk::MemoryManager::MemoryBuffer buffer;
     };
     class MemorySizes{
     public:
@@ -166,6 +168,7 @@ private:
             this->start=m.start;
             this->end=m.end;
             this->pointer=m.pointer;
+            this->buffer=m.buffer;
             return m;
         }
         bool operator>(MemoryPointer m){
@@ -181,6 +184,7 @@ private:
             return false;
         }
         edk::classID pointer;
+        edk::MemoryManager::MemoryBuffer buffer;
     };
 
     static edk::uint64 bufferSize;
@@ -193,14 +197,13 @@ private:
         virtual ~TreeSizes(){
         }
         virtual void construct(){
-            edk::vector::BinaryTreeStatic<edk::MemoryManager::MemorySizes*>::construct();
             this->objTemplate.construct();
             edk::vector::BinaryTreeStatic<edk::MemoryManager::MemorySizes*>::construct();
         }
 
         virtual void destruct(){
-            this->objTemplate.destruct();
             this->cleanSizes();
+            this->objTemplate.destruct();
             edk::vector::BinaryTreeStatic<edk::MemoryManager::MemorySizes*>::destruct();
         }
 
@@ -237,7 +240,7 @@ private:
             this->clean();
         }
         //create a new size
-        bool newPosition(edk::uint64 size,edk::uint64 start,edk::uint64 end){
+        bool newPosition(edk::MemoryManager::MemoryBuffer buffer,edk::uint64 size,edk::uint64 start,edk::uint64 end){
             if(size){
                 //test if DON'T have the size
                 edk::MemoryManager::MemorySizes* temp = this->tempGetSize(size);
@@ -260,6 +263,7 @@ private:
                     position.construct();
                     position.start = start;
                     position.end = end;
+                    position.buffer = buffer;
                     //add the position
                     if(temp->tree.add(position)){
                         return true;
@@ -278,11 +282,14 @@ private:
             }
             return false;
         }
-        bool newPosition(edk::uint64 start,edk::uint64 end){
-            return this->newPosition(end-start,start,end);
+        bool newPosition(edk::MemoryManager::MemoryBuffer buffer,edk::uint64 start,edk::uint64 end){
+            return this->newPosition(buffer,end-start,start,end);
+        }
+        bool newPosition(edk::MemoryManager::MemoryBuffer buffer,edk::MemoryManager::MemoryPositions pos){
+            return this->newPosition(buffer,pos.end - pos.start,pos.start,pos.end);
         }
         bool newPosition(edk::MemoryManager::MemoryPositions pos){
-            return this->newPosition(pos.end - pos.start,pos.start,pos.end);
+            return this->newPosition(pos.buffer,pos.end - pos.start,pos.start,pos.end);
         }
         //remove a position from the tree
         bool removePosition(edk::uint64 size,edk::uint64 start,edk::uint64 end){
@@ -332,6 +339,17 @@ private:
             if(temp){
                 if(position < temp->tree.size()){
                     ret = temp->tree.getElementInPosition(position);
+                }
+            }
+            return ret;
+        }
+        edk::MemoryManager::MemoryBuffer getBufferInPosition(edk::uint64 size,edk::uint32 position){
+            edk::MemoryManager::MemoryBuffer ret;
+            edk::MemoryManager::MemorySizes* temp = this->tempGetSize(size);
+            if(temp){
+                if(position < temp->tree.size()){
+                    edk::MemoryManager::MemoryPositions pos = temp->tree.getElementInPosition(position);
+                    ret = pos.buffer;
                 }
             }
             return ret;

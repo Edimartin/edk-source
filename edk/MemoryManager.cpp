@@ -81,12 +81,14 @@ edk::classID edk::MemoryManager::privateAlloc(edk::uint64 size,edk::classID poin
             //calculate the size if have the size inside the tree
             if(edk::MemoryManager::treeRemoved.haveSize(size)){
                 //pop the position from a size
+                edk::MemoryManager::MemoryBuffer buffer = edk::MemoryManager::treeRemoved.getBufferInPosition(size,0u);
                 edk::MemoryManager::MemoryPositions pos = edk::MemoryManager::treeRemoved.popPosInPosition(size,0u);
                 //
                 edk::MemoryManager::MemoryPointer newAlloc;
                 newAlloc.start = pos.start;
                 newAlloc.end = pos.end;
                 newAlloc.pointer = pointer;
+                newAlloc.buffer = buffer;
                 if(edk::MemoryManager::treeAlloc.add(newAlloc)){
                     ret = (edk::classID)newAlloc.start;
                 }
@@ -98,15 +100,18 @@ edk::classID edk::MemoryManager::privateAlloc(edk::uint64 size,edk::classID poin
                     if(size<newSize){
                         edk::MemoryManager::MemoryPointer newAlloc;
                         //pop the position from a size
+                        edk::MemoryManager::MemoryBuffer buffer = edk::MemoryManager::treeRemoved.getBufferInPosition(newSize,0u);
                         edk::MemoryManager::MemoryPositions pos = edk::MemoryManager::treeRemoved.popPosInPosition(newSize,0u);
                         //create the new alloc
                         newAlloc.start = pos.start;
                         newAlloc.end = pos.start+size;
                         newAlloc.pointer = pointer;
+                        newAlloc.buffer = buffer;
                         if(edk::MemoryManager::treeAlloc.add(newAlloc)){
                             ret = (edk::classID)newAlloc.start;
                             //increment start
                             pos.start+=size;
+                            pos.buffer = buffer;
                             //add the new position into the tree
                             edk::MemoryManager::treeRemoved.newPosition(pos);
                         }
@@ -139,6 +144,7 @@ edk::classID edk::MemoryManager::privateAlloc(edk::uint64 size,edk::classID poin
                     pos.start = (edk::uint64)buffer.positionLast;
                     buffer.positionLast = (edk::classID)((edk::uint64)buffer.buffer + edk::MemoryManager::bufferSize);
                     pos.end = (edk::uint64)buffer.positionLast;
+                    pos.buffer = buffer;
                     //add the new position into the tree
                     edk::MemoryManager::treeRemoved.newPosition(pos);
 
@@ -275,6 +281,7 @@ bool edk::MemoryManager::freeMemory(edk::classID pointer){
             edk::MemoryManager::MemoryPositions pos;
             pos.start = temp.start;
             pos.end = temp.end;
+            pos.buffer = temp.buffer;
             if(edk::MemoryManager::treeRemoved.newPosition(pos)){
                 if(edk::MemoryManager::treeAlloc.remove(temp)){
                     //add it into the tree removed
