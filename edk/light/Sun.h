@@ -43,7 +43,7 @@ namespace light{
 class Sun : public edk::light::Light{
 public:
     Sun();
-    ~Sun();
+    virtual ~Sun();
 
     void Constructor(bool runFather=true);
 

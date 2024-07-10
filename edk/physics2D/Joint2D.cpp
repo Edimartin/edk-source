@@ -26,7 +26,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 edk::physics2D::Joint2D::Joint2D(bool collide){
     this->classThis=NULL;edkEnd();
-    this->Constructor(false);edkEnd();
+    this->Constructor(collide,false);edkEnd();
 }
 
 edk::physics2D::Joint2D::~Joint2D(){

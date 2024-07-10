@@ -76,7 +76,7 @@ public:
     //Window can use the protected functions of the view
     friend edk::Window;
 
-    ~ViewController();
+    virtual ~ViewController();
 
     void Constructor(bool runFather=true);
     void Constructor(edk::rectf32 frame,bool runFather=true);

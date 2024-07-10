@@ -73,7 +73,7 @@ class example: edk::ViewGU2D{
     //construtor
     example();edkEnd();
     //destrutor
-    ~example();edkEnd();
+    virtual ~example();edkEnd();
 
     //Load and Unload
     void load(edk::rectf32 outsideViewOrigin);edkEnd();

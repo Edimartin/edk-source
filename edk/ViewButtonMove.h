@@ -40,7 +40,7 @@ namespace edk{
 class ViewButtonMove : public edk::ViewButton{
 public:
     ViewButtonMove();
-    ~ViewButtonMove();
+    virtual ~ViewButtonMove();
 
     void Constructor(bool runFather=true);
 

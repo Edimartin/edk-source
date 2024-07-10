@@ -46,7 +46,7 @@ namespace edk{
 class InfiniteHorizontal{
 public:
     InfiniteHorizontal();
-    ~InfiniteHorizontal();
+    virtual ~InfiniteHorizontal();
 
     void Constructor(bool runFather=true);
 
@@ -131,7 +131,7 @@ private:
             this->classThis=NULL;edkEnd();
             this->Constructor(isPhysic,false);edkEnd();
         }
-        ~tileObject2D(){
+        virtual ~tileObject2D(){
             if(this->classThis==this){
                 this->classThis=NULL;edkEnd();
                 //can destruct the class
@@ -410,7 +410,7 @@ private:
     class tileWorldObject2D{
     public:
         tileWorldObject2D(){this->classThis=NULL;this->Constructor(false);edkEnd();}
-        ~tileWorldObject2D(){
+        virtual ~tileWorldObject2D(){
             if(this->classThis==this){
                 this->classThis=NULL;edkEnd();
                 //can destruct the class

@@ -48,7 +48,7 @@ namespace encrypt{
 class SHA256{
 public:
     SHA256();
-    ~SHA256();
+    virtual ~SHA256();
 
     void Constructor(bool runFather=true);
 

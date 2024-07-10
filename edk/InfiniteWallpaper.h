@@ -13,7 +13,7 @@ namespace edk{
 class InfiniteWallpaper{
 public:
     InfiniteWallpaper();
-    ~InfiniteWallpaper();
+    virtual ~InfiniteWallpaper();
 
     void Constructor(bool runFather=true);
 
@@ -68,7 +68,7 @@ private:
             this->classThis=NULL;edkEnd();
             this->Constructor(drawTimes,false);edkEnd();
         }
-        ~WallpaperObject(){
+        virtual ~WallpaperObject(){
             if(this->classThis==this){
                 this->classThis=NULL;edkEnd();
                 //can destruct the class

@@ -1108,6 +1108,8 @@ b2Body* edk::physics2D::World2D::getBody(edk::physics2D::PhysicObject2D* object)
         case edk::TypeObject2DDynamic:
             return this->treeDynamic.getBody(object);
             //break;
+        default:
+            break;
         }
     }
     return NULL;
@@ -2359,6 +2361,8 @@ bool edk::physics2D::World2D::haveObject(edk::physics2D::PhysicObject2D* object)
             return this->treeKinematic.haveBody(object);
 #endif
             break;
+        default:
+            break;
         }
     }
     return false;
@@ -2455,6 +2459,8 @@ bool edk::physics2D::World2D::updateObjectVelocity(edk::physics2D::PhysicObject2
             temp = this->treeKinematic.getBody(object);edkEnd();
 #endif
             break;
+        default:
+            break;
         }
 #if defined(EDK_USE_BOX2D)
         if(temp){
@@ -2500,6 +2506,8 @@ bool edk::physics2D::World2D::updateObjectLinearVelocity(edk::physics2D::PhysicO
             temp = this->treeKinematic.getBody(object);edkEnd();
 #endif
             break;
+        default:
+            break;
         }
 #if defined(EDK_USE_BOX2D)
         if(temp){
@@ -2541,6 +2549,8 @@ bool edk::physics2D::World2D::updateObjectAngularVelocity(edk::physics2D::Physic
             temp = this->treeKinematic.getBody(object);edkEnd();
 #endif
             break;
+        default:
+            break;
         }
 #if defined(EDK_USE_BOX2D)
         if(temp){
@@ -2576,6 +2586,8 @@ bool edk::physics2D::World2D::cleanObjectVelocity(edk::physics2D::PhysicObject2D
             temp = this->treeKinematic.getBody(object);edkEnd();
 #endif
             break;
+        default:
+            break;
         }
 #if defined(EDK_USE_BOX2D)
         if(temp){
@@ -2609,6 +2621,8 @@ bool edk::physics2D::World2D::updateObjectStatus(edk::physics2D::PhysicObject2D*
 #if defined(EDK_USE_BOX2D)
             temp = this->treeKinematic.getBody(object);edkEnd();
 #endif
+            break;
+        default:
             break;
         }
 #if defined(EDK_USE_BOX2D)
@@ -2648,6 +2662,8 @@ bool edk::physics2D::World2D::updateObjectPosition(edk::physics2D::PhysicObject2
             temp = this->treeKinematic.getBody(object);edkEnd();
 #endif
             break;
+        default:
+            break;
         }
 #if defined(EDK_USE_BOX2D)
         if(temp){
@@ -2686,6 +2702,8 @@ bool edk::physics2D::World2D::updateObjectPositionX(edk::physics2D::PhysicObject
             temp = this->treeKinematic.getBody(object);edkEnd();
 #endif
             break;
+        default:
+            break;
         }
 #if defined(EDK_USE_BOX2D)
         if(temp){
@@ -2723,6 +2741,8 @@ bool edk::physics2D::World2D::updateObjectPositionY(edk::physics2D::PhysicObject
 #if defined(EDK_USE_BOX2D)
             temp = this->treeKinematic.getBody(object);edkEnd();
 #endif
+            break;
+        default:
             break;
         }
 #if defined(EDK_USE_BOX2D)
@@ -2764,6 +2784,8 @@ bool edk::physics2D::World2D::updateObjectSyncronizePosition(edk::physics2D::Phy
             temp = this->treeKinematic.getBody(object);edkEnd();
 #endif
             break;
+        default:
+            break;
         }
 #if defined(EDK_USE_BOX2D)
         if(temp){
@@ -2797,6 +2819,8 @@ bool edk::physics2D::World2D::updateObjectSyncronizePositionX(edk::physics2D::Ph
 #if defined(EDK_USE_BOX2D)
             temp = this->treeKinematic.getBody(object);edkEnd();
 #endif
+            break;
+        default:
             break;
         }
 #if defined(EDK_USE_BOX2D)
@@ -2832,6 +2856,8 @@ bool edk::physics2D::World2D::updateObjectSyncronizePositionY(edk::physics2D::Ph
             temp = this->treeKinematic.getBody(object);edkEnd();
 #endif
             break;
+        default:
+            break;
         }
 #if defined(EDK_USE_BOX2D)
         if(temp){
@@ -2865,6 +2891,8 @@ bool edk::physics2D::World2D::updateObjectAngle(edk::physics2D::PhysicObject2D* 
 #if defined(EDK_USE_BOX2D)
             temp = this->treeKinematic.getBody(object);edkEnd();
 #endif
+            break;
+        default:
             break;
         }
 #if defined(EDK_USE_BOX2D)
@@ -2900,6 +2928,8 @@ bool edk::physics2D::World2D::updateObjectPositionAndAngle(edk::physics2D::Physi
 #if defined(EDK_USE_BOX2D)
             temp = this->treeKinematic.getBody(object);edkEnd();
 #endif
+            break;
+        default:
             break;
         }
 #if defined(EDK_USE_BOX2D)
@@ -2941,6 +2971,8 @@ bool edk::physics2D::World2D::updateObjectPositionXAndAngle(edk::physics2D::Phys
             temp = this->treeKinematic.getBody(object);edkEnd();
 #endif
             break;
+        default:
+            break;
         }
 #if defined(EDK_USE_BOX2D)
         if(temp){
@@ -2980,6 +3012,8 @@ bool edk::physics2D::World2D::updateObjectPositionYAndAngle(edk::physics2D::Phys
 #if defined(EDK_USE_BOX2D)
             temp = this->treeKinematic.getBody(object);edkEnd();
 #endif
+            break;
+        default:
             break;
         }
 #if defined(EDK_USE_BOX2D)
@@ -3103,6 +3137,8 @@ bool edk::physics2D::World2D::setLinearVelocity(edk::physics2D::PhysicObject2D* 
             temp = this->treeKinematic.getBody(object);edkEnd();
 #endif
             break;
+        default:
+            break;
         }
 #if defined(EDK_USE_BOX2D)
         if(temp){
@@ -3135,6 +3171,8 @@ bool edk::physics2D::World2D::setAngularVelocity(edk::physics2D::PhysicObject2D*
 #if defined(EDK_USE_BOX2D)
             temp = this->treeKinematic.getBody(object);edkEnd();
 #endif
+            break;
+        default:
             break;
         }
 #if defined(EDK_USE_BOX2D)
@@ -3179,6 +3217,8 @@ bool edk::physics2D::World2D::applyForce(edk::physics2D::PhysicObject2D* object,
 #if defined(EDK_USE_BOX2D)
             temp = this->treeKinematic.getBody(object);edkEnd();
 #endif
+            break;
+        default:
             break;
         }
 #if defined(EDK_USE_BOX2D)
@@ -3226,6 +3266,8 @@ bool edk::physics2D::World2D::applyLinearImpulse(edk::physics2D::PhysicObject2D*
             temp = this->treeKinematic.getBody(object);edkEnd();
 #endif
             break;
+        default:
+            break;
         }
 #if defined(EDK_USE_BOX2D)
         if(temp){
@@ -3263,6 +3305,8 @@ bool edk::physics2D::World2D::applyAngularImpulse(edk::physics2D::PhysicObject2D
 #if defined(EDK_USE_BOX2D)
             temp = this->treeKinematic.getBody(object);edkEnd();
 #endif
+            break;
+        default:
             break;
         }
 #if defined(EDK_USE_BOX2D)
@@ -3303,6 +3347,8 @@ bool edk::physics2D::World2D::applyTorque(edk::physics2D::PhysicObject2D* object
 #if defined(EDK_USE_BOX2D)
             temp = this->treeKinematic.getBody(object);edkEnd();
 #endif
+            break;
+        default:
             break;
         }
 #if defined(EDK_USE_BOX2D)

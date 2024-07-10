@@ -43,7 +43,7 @@ namespace shape{
 class AnimatedPolygon2DList : public edk::shape::Polygon2DList{
 public:
     AnimatedPolygon2DList();
-    ~AnimatedPolygon2DList();
+    virtual ~AnimatedPolygon2DList();
 
     void Constructor(bool runFather=true);
 

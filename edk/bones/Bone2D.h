@@ -56,7 +56,7 @@ public:
     Bone2D();
     Bone2D(edk::char8* name);
     Bone2D(const edk::char8* name);
-    ~Bone2D();
+    virtual ~Bone2D();
 
     void Constructor(bool runFather=true);
     void Constructor(edk::char8* name,bool runFather=true);
@@ -268,7 +268,7 @@ private:
     public:
         ObjectConnect(){this->classThis=NULL;this->Constructor(false);edkEnd();}
         ObjectConnect(edk::Object2DValues* object){this->classThis=NULL;this->Constructor(object,false);edkEnd();}
-        ~ObjectConnect(){
+        virtual ~ObjectConnect(){
             if(this->classThis==this){
                 this->classThis=NULL;edkEnd();
                 //can destruct the class

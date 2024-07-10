@@ -54,7 +54,7 @@ namespace edk{
 class Texture2DList{
 public:
     Texture2DList();
-    ~Texture2DList();
+    virtual ~Texture2DList();
 
     void Constructor(bool runFather=true);
 
@@ -158,7 +158,7 @@ private:
             this->classThis=NULL;edkEnd();
             this->Constructor(false);edkEnd();
         }
-        ~TextureCode(){
+        virtual ~TextureCode(){
             if(this->classThis==this){
                 this->classThis=NULL;edkEnd();
                 //can destruct the class
@@ -310,7 +310,7 @@ private:
     class TextureCodeTree:public edk::vector::BinaryTree<edk::Texture2DList::TextureCode*>{
     public:
         TextureCodeTree(){this->classThis=NULL;this->Constructor(false);edkEnd();}
-        ~TextureCodeTree(){
+        virtual ~TextureCodeTree(){
             if(this->classThis==this){
                 this->classThis=NULL;edkEnd();
                 //can destruct the class
@@ -353,7 +353,7 @@ private:
     class NameFilterTree: public edk::vector::BinaryTree<edk::Texture2DList::TextureCode*>{
     public:
         NameFilterTree(){this->classThis=NULL;this->Constructor(false);edkEnd();}
-        ~NameFilterTree(){
+        virtual ~NameFilterTree(){
             if(this->classThis==this){
                 this->classThis=NULL;edkEnd();
                 //can destruct the class

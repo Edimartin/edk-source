@@ -52,7 +52,7 @@ enum TypesBoolean{
 class Polygon2DContact{
 public:
     Polygon2DContact();
-    ~Polygon2DContact();
+    virtual ~Polygon2DContact();
 
     void Constructor(bool runFather=true);
 
@@ -65,7 +65,7 @@ private:
     class ContactVertex{
     public:
         ContactVertex(){this->classThis=NULL;this->Constructor(false); }
-        ~ContactVertex(){
+        virtual ~ContactVertex(){
             if(this->classThis==this){
                 this->classThis=NULL;
                 //can destruct the class

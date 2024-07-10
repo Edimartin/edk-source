@@ -59,7 +59,7 @@ namespace sql{
 class MariaDB{
 public:
     MariaDB();
-    ~MariaDB();
+    virtual ~MariaDB();
 
     void Constructor(bool runFather=true);
 

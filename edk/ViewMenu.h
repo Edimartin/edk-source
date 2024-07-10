@@ -42,7 +42,7 @@ namespace edk{
 class ViewMenu: public edk::ViewSpriteController{
 public:
     ViewMenu();
-    ~ViewMenu();
+    virtual ~ViewMenu();
 
     void Constructor(bool runFather=true);
 

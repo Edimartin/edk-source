@@ -43,7 +43,7 @@ namespace light{
 class Point: public edk::light::Light{
 public:
     Point();
-    ~Point();
+    virtual ~Point();
 
     void Constructor(bool runFather=true);
     //DRAW THE LIGH USING THE LIGHT NUMBER

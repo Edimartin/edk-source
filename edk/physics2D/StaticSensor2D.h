@@ -44,7 +44,7 @@ namespace physics2D{
 class StaticSensor2D: public edk::physics2D::PhysicObject2D{
 public:
     StaticSensor2D();
-    ~StaticSensor2D();
+    virtual ~StaticSensor2D();
 
     void Constructor(bool runFather=true);
 

@@ -46,7 +46,7 @@ namespace shape{
 class Grid3D{
 public:
     Grid3D();
-    ~Grid3D();
+    virtual ~Grid3D();
 
     void Constructor(bool runFather=true);
 

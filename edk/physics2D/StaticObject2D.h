@@ -43,7 +43,7 @@ namespace physics2D{
 class StaticObject2D: public edk::physics2D::PhysicObject2D{
 public:
     StaticObject2D();
-    ~StaticObject2D();
+    virtual ~StaticObject2D();
 
     void Constructor(bool runFather=true);
 private:

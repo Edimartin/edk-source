@@ -42,7 +42,7 @@ namespace network{
 class ServerSocket : public edk::network::Socket{
 public:
     ServerSocket();
-    ~ServerSocket();
+    virtual ~ServerSocket();
 
     void Constructor(bool runFather=true);
     //Send the message
@@ -57,7 +57,7 @@ protected:
     public:
         nodeAdress(){this->classThis=NULL;edkEnd();
                      this->Constructor(false);edkEnd();}
-        ~nodeAdress(){
+        virtual ~nodeAdress(){
             if(this->classThis==this){
                 this->classThis=NULL;edkEnd();
                 //can destruct the class
@@ -81,7 +81,7 @@ protected:
     class treeAdress:public edk::vector::BinaryTree<nodeAdress*>{
     public:
         treeAdress();
-        ~treeAdress();
+        virtual ~treeAdress();
 
         void Constructor(bool runFather=true);
         //Add a adress to the tree

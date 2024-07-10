@@ -51,7 +51,7 @@ namespace animation{
 class Interpolation2DTracks : public edk::animation::Interpolation1DTracks{
 public:
     Interpolation2DTracks();
-    ~Interpolation2DTracks();
+    virtual ~Interpolation2DTracks();
 
     void Constructor(bool runFather=true);
 
@@ -139,7 +139,7 @@ protected:
     class StackTracks2D : public edk::animation::Interpolation1DTracks::StackTracks1D{
     public:
         StackTracks2D(){this->classThis=NULL;this->Constructor(false);edkEnd();}
-        ~StackTracks2D(){
+        virtual ~StackTracks2D(){
             if(this->classThis==this){
                 this->classThis=NULL;edkEnd();
                 //can destruct the class

@@ -66,7 +66,7 @@ namespace sql{
 class SQLite{
 public:
     SQLite();
-    ~SQLite();
+    virtual ~SQLite();
 
     void Constructor(bool runFather=true);
 

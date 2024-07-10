@@ -45,7 +45,7 @@ namespace physics2D{
 class PhysicObject2D : public edk::Object2D{
 public:
     PhysicObject2D();
-    ~PhysicObject2D();
+    virtual ~PhysicObject2D();
 
     void Constructor(bool runFather=true);
 

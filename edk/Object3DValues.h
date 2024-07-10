@@ -43,7 +43,7 @@ namespace edk{
 class Object3DValues{
 public:
     Object3DValues();
-    ~Object3DValues();
+    virtual ~Object3DValues();
 
     void Constructor(bool runFather=true);
     edk::vec3f32 position;

@@ -48,7 +48,7 @@ namespace encrypt{
 class SHA1{
 public:
     SHA1();
-    ~SHA1();
+    virtual ~SHA1();
 
     void Constructor(bool runFather=true);
 

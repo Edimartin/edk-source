@@ -50,7 +50,7 @@ class Material{
 #define materialTextureCount 32u
 public:
     Material();
-    ~Material();
+    virtual ~Material();
 
     void Constructor(bool runFather=true);
 

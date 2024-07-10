@@ -49,7 +49,7 @@ namespace gui2d{
 class Text2D: public edk::gui2d::ObjectGui2d{
 public:
     Text2D();
-    ~Text2D();
+    virtual ~Text2D();
 
     void Constructor(bool runFather=true);
 

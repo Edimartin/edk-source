@@ -47,7 +47,7 @@ namespace tiles{
 class tileContact2D{
 public:
     tileContact2D();
-    ~tileContact2D();
+    virtual ~tileContact2D();
 
     void Constructor(bool runFather=true);
 
@@ -61,7 +61,7 @@ private:
 class tileCallback{
 public:
     tileCallback(){this->classThis=NULL;this->Constructor(false);edkEnd();}
-    ~tileCallback(){
+    virtual ~tileCallback(){
         if(this->classThis==this){
             this->classThis=NULL;edkEnd();
             //can destruct the class
@@ -360,7 +360,7 @@ private:
     class PhysicsTiles{
     public:
         PhysicsTiles(edk::physics2D::PhysicObject2D* object){this->classThis=NULL;this->Constructor(object,false);edkEnd();}
-        ~PhysicsTiles(){
+        virtual ~PhysicsTiles(){
             if(this->classThis==this){
                 this->classThis=NULL;edkEnd();
                 //can destruct the class
@@ -385,7 +385,7 @@ private:
     class TreePhysicsTiles:public edk::vector::BinaryTree<edk::tiles::TileMap2D::PhysicsTiles*>{
     public:
         TreePhysicsTiles(){this->classThis=NULL;this->Constructor(false);edkEnd();}
-        ~TreePhysicsTiles(){
+        virtual ~TreePhysicsTiles(){
             if(this->classThis==this){
                 this->classThis=NULL;edkEnd();
                 //can destruct the class
@@ -638,7 +638,7 @@ private:
     class StaticTileObjects{
     public:
         StaticTileObjects(edk::physics2D::PhysicObject2D* object){this->classThis=NULL;this->Constructor(object,false);edkEnd();}
-        ~StaticTileObjects(){
+        virtual ~StaticTileObjects(){
             if(this->classThis==this){
                 this->classThis=NULL;edkEnd();
                 //can destruct the class
@@ -665,7 +665,7 @@ private:
         class TreePositions:public edk::vector::BinaryTree<edk::vec2ui32>{
         public:
             TreePositions(){this->classThis=NULL;this->Constructor(false);edkEnd();}
-            ~TreePositions(){
+            virtual ~TreePositions(){
                 if(this->classThis==this){
                     this->classThis=NULL;edkEnd();
                     //can destruct the class
@@ -716,7 +716,7 @@ private:
     class TreeStaticTileObjects:public edk::vector::BinaryTree<edk::tiles::TileMap2D::StaticTileObjects*>{
     public:
         TreeStaticTileObjects(){this->classThis=NULL;this->Constructor(false);edkEnd();}
-        ~TreeStaticTileObjects(){
+        virtual ~TreeStaticTileObjects(){
             if(this->classThis==this){
                 this->classThis=NULL;edkEnd();
                 //can destruct the class

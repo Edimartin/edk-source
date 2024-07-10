@@ -44,7 +44,7 @@ namespace shape{
 class Grid2D{
 public:
     Grid2D();
-    ~Grid2D();
+    virtual ~Grid2D();
 
     void Constructor(bool runFather=true);
 

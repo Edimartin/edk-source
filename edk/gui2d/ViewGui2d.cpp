@@ -437,7 +437,7 @@ void edk::gui2d::ViewGui2d::update(edk::WindowEvents* events){
     size = events->keyPressed.size();edkEnd();
     if(size){
         if(this->objSelected){
-            if(this->objSelected->getType() == edk::gui2d::gui2dTypeTextField){
+            if(this->objSelected->getTypeGUI() == edk::gui2d::gui2dTypeTextField){
                 edk::gui2d::TextField2d* field = (edk::gui2d::TextField2d*)this->objSelected;edkEnd();
                 edk::uint32 keyPressed = 0u;edkEnd();
 
@@ -491,7 +491,7 @@ void edk::gui2d::ViewGui2d::update(edk::WindowEvents* events){
     size = events->keyText.size();edkEnd();
     if(size){
         if(this->objSelected){
-            if(this->objSelected->getType() == edk::gui2d::gui2dTypeTextField){
+            if(this->objSelected->getTypeGUI() == edk::gui2d::gui2dTypeTextField){
                 edk::gui2d::TextField2d* field = (edk::gui2d::TextField2d*)this->objSelected;edkEnd();
                 edk::uchar32 c;edkEnd();
                 for(edk::uint32 i=0u;i<size;i++){
@@ -509,7 +509,7 @@ void edk::gui2d::ViewGui2d::update(edk::WindowEvents* events){
                     case 0x0d:
                     case 0x0a:
                         if(this->objSelected){
-                            if(this->objSelected->getType() == edk::gui2d::gui2dTypeTextField){
+                            if(this->objSelected->getTypeGUI() == edk::gui2d::gui2dTypeTextField){
                                 this->processReturnPressed(this->objSelected);edkEnd();
                             }
                         }

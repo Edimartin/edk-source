@@ -204,7 +204,7 @@ public:
     GU_GLSL();
 
     //destrutor
-    ~GU_GLSL();
+    virtual ~GU_GLSL();
 
     void Constructor(bool runFather=true);
 
@@ -571,7 +571,7 @@ private:
     class ShaderClass{
     public:
         ShaderClass(){this->classThis=NULL;this->Constructor(false);edkEnd();}
-        ~ShaderClass(){
+        virtual ~ShaderClass(){
             if(this->classThis==this){
                 this->classThis=NULL;edkEnd();
                 //can destruct the class
@@ -618,7 +618,7 @@ private:
     class Shader_Tree : public edk::vector::BinaryTree<edk::GU_GLSL::ShaderClass>{
     public:
         Shader_Tree(){this->classThis=NULL;this->Constructor(false);edkEnd();}
-        ~Shader_Tree(){
+        virtual ~Shader_Tree(){
             if(this->classThis==this){
                 this->classThis=NULL;edkEnd();
                 //can destruct the class
@@ -672,7 +672,7 @@ private:
     class ShaderWriteClass{
     public:
         ShaderWriteClass(){this->classThis=NULL;this->Constructor(false);edkEnd();}
-        ~ShaderWriteClass(){
+        virtual ~ShaderWriteClass(){
             if(this->classThis==this){
                 this->classThis=NULL;edkEnd();
                 //can destruct the class
@@ -724,7 +724,7 @@ private:
     class ShaderWrite_Tree : public edk::vector::BinaryTree<edk::GU_GLSL::ShaderWriteClass>{
     public:
         ShaderWrite_Tree(){this->classThis=NULL;this->Constructor(false);edkEnd();}
-        ~ShaderWrite_Tree(){
+        virtual ~ShaderWrite_Tree(){
             if(this->classThis==this){
                 this->classThis=NULL;edkEnd();
                 //can destruct the class
@@ -778,7 +778,7 @@ private:
     class ShaderCompileClass{
     public:
         ShaderCompileClass(){this->classThis=NULL;this->Constructor(false);edkEnd();}
-        ~ShaderCompileClass(){
+        virtual ~ShaderCompileClass(){
             if(this->classThis==this){
                 this->classThis=NULL;edkEnd();
                 //can destruct the class
@@ -821,7 +821,7 @@ private:
     class ShaderCompile_Tree : public edk::vector::BinaryTree<edk::GU_GLSL::ShaderCompileClass>{
     public:
         ShaderCompile_Tree(){this->classThis=NULL;this->Constructor(false);edkEnd();}
-        ~ShaderCompile_Tree(){
+        virtual ~ShaderCompile_Tree(){
             if(this->classThis==this){
                 this->classThis=NULL;edkEnd();
                 //can destruct the class
@@ -875,7 +875,7 @@ private:
     class ShaderIVClass{
     public:
         ShaderIVClass(){this->classThis=NULL;this->Constructor(false);edkEnd();}
-        ~ShaderIVClass(){
+        virtual ~ShaderIVClass(){
             if(this->classThis==this){
                 this->classThis=NULL;edkEnd();
                 //can destruct the class
@@ -927,7 +927,7 @@ private:
     class ShaderIV_Tree : public edk::vector::BinaryTree<edk::GU_GLSL::ShaderIVClass>{
     public:
         ShaderIV_Tree(){this->classThis=NULL;this->Constructor(false);edkEnd();}
-        ~ShaderIV_Tree(){
+        virtual ~ShaderIV_Tree(){
             if(this->classThis==this){
                 this->classThis=NULL;edkEnd();
                 //can destruct the class
@@ -981,7 +981,7 @@ private:
     class ShaderLogClass{
     public:
         ShaderLogClass(){this->classThis=NULL;this->Constructor(false);edkEnd();}
-        ~ShaderLogClass(){
+        virtual ~ShaderLogClass(){
             if(this->classThis==this){
                 this->classThis=NULL;edkEnd();
                 //can destruct the class
@@ -1036,7 +1036,7 @@ private:
     class ShaderLog_Tree : public edk::vector::BinaryTree<edk::GU_GLSL::ShaderLogClass>{
     public:
         ShaderLog_Tree(){this->classThis=NULL;this->Constructor(false);edkEnd();}
-        ~ShaderLog_Tree(){
+        virtual ~ShaderLog_Tree(){
             if(this->classThis==this){
                 this->classThis=NULL;edkEnd();
                 //can destruct the class
@@ -1090,7 +1090,7 @@ private:
     class ProgramAttachClass{
     public:
         ProgramAttachClass(){this->classThis=NULL;this->Constructor(false);edkEnd();}
-        ~ProgramAttachClass(){
+        virtual ~ProgramAttachClass(){
             if(this->classThis==this){
                 this->classThis=NULL;edkEnd();
                 //can destruct the class
@@ -1139,7 +1139,7 @@ private:
     class ProgramAttach_Tree : public edk::vector::BinaryTree<edk::GU_GLSL::ProgramAttachClass>{
     public:
         ProgramAttach_Tree(){this->classThis=NULL;this->Constructor(false);edkEnd();}
-        ~ProgramAttach_Tree(){
+        virtual ~ProgramAttach_Tree(){
             if(this->classThis==this){
                 this->classThis=NULL;edkEnd();
                 //can destruct the class
@@ -1193,7 +1193,7 @@ private:
     class ProgramLinkClass{
     public:
         ProgramLinkClass(){this->classThis=NULL;this->Constructor(false);edkEnd();}
-        ~ProgramLinkClass(){
+        virtual ~ProgramLinkClass(){
             if(this->classThis==this){
                 this->classThis=NULL;edkEnd();
                 //can destruct the class
@@ -1236,7 +1236,7 @@ private:
     class ProgramLink_Tree : public edk::vector::BinaryTree<edk::GU_GLSL::ProgramLinkClass>{
     public:
         ProgramLink_Tree(){this->classThis=NULL;this->Constructor(false);edkEnd();}
-        ~ProgramLink_Tree(){
+        virtual ~ProgramLink_Tree(){
             if(this->classThis==this){
                 this->classThis=NULL;edkEnd();
                 //can destruct the class
@@ -1289,7 +1289,7 @@ private:
     class ShaderUseClass{
     public:
         ShaderUseClass(){this->classThis=NULL;this->Constructor(false);edkEnd();}
-        ~ShaderUseClass(){
+        virtual ~ShaderUseClass(){
             if(this->classThis==this){
                 this->classThis=NULL;edkEnd();
                 //can destruct the class
@@ -1334,7 +1334,7 @@ private:
     public:
         ShaderUse_Tree(){this->classThis=NULL;edkEnd();
                          this->Constructor(false);edkEnd();}
-        ~ShaderUse_Tree(){
+        virtual ~ShaderUse_Tree(){
             if(this->classThis==this){
                 this->classThis=NULL;edkEnd();
                 //can destruct the class

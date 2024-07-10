@@ -47,7 +47,7 @@ class ViewGUTexture : public edk::ViewGU{
 public:
     ViewGUTexture(edk::size2ui32 size);
     ViewGUTexture(edk::uint32 width,edk::uint32 height);
-    ~ViewGUTexture();
+    virtual ~ViewGUTexture();
 
     void Constructor(edk::size2ui32 size,bool runFather=true);
     void Constructor(edk::uint32 width,edk::uint32 height,bool runFather=true);

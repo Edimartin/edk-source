@@ -55,7 +55,7 @@ public:
         this->classThis=NULL;edkEnd();
         this->Constructor(false);edkEnd();
     }
-    ~dataTREE(){
+    virtual ~dataTREE(){
         if(this->classThis==this){
             this->classThis=NULL;edkEnd();
             //can destruct the class

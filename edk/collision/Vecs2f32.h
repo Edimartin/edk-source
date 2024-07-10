@@ -51,7 +51,7 @@ public:
         this->classThis=NULL;edkEnd();
         this->Constructor(size,false);edkEnd();
     }
-    ~Vecs2f32(){
+    virtual ~Vecs2f32(){
         if(this->classThis==this){
             this->classThis=NULL;edkEnd();
             //can destruct the class

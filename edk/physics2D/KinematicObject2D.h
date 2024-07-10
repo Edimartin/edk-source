@@ -43,7 +43,7 @@ namespace physics2D{
 class KinematicObject2D : public edk::physics2D::StaticObject2D{
 public:
     KinematicObject2D();
-    ~KinematicObject2D();
+    virtual ~KinematicObject2D();
 
     void Constructor(bool runFather=true);
 private:

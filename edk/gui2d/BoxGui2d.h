@@ -50,7 +50,7 @@ namespace gui2d{
 class BoxGui2d: public edk::gui2d::ObjectGui2d{
 public:
     BoxGui2d();
-    ~BoxGui2d();
+    virtual ~BoxGui2d();
 
     void Constructor(bool runFather=true);
 

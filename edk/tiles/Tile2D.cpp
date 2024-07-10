@@ -455,6 +455,8 @@ bool edk::tiles::Tile2D::setPhysics(edk::TypeObject type){
     case edk::TypeObject2DDynamic:
         this->objPhys = new edk::physics2D::DynamicObject2D;edkEnd();
         break;
+    default:
+        break;
     }
     return this->cleanPhysicsPolygons();edkEnd();
 }

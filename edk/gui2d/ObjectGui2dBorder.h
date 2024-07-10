@@ -55,7 +55,7 @@ enum gui2dTexture{
 class ObjectGui2dBorder{
 public:
     ObjectGui2dBorder();
-    ~ObjectGui2dBorder();
+    virtual ~ObjectGui2dBorder();
 
     void Constructor(bool runFather=true);
 

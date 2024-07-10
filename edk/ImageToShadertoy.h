@@ -44,7 +44,7 @@ namespace edk{
 class ImageToShadertoy : private edk::FileToH{
 public:
     ImageToShadertoy();
-    ~ImageToShadertoy();
+    virtual ~ImageToShadertoy();
 
     void Constructor(bool runFather=true);
     //

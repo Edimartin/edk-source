@@ -44,7 +44,7 @@ namespace network{
 class Package{
 public:
     Package();
-    ~Package();
+    virtual ~Package();
 
     void Constructor(bool runFather=true);
 

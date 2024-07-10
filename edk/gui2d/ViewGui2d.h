@@ -62,7 +62,7 @@ public:
 class ViewGui2d : public edk::ViewGU2D{
 public:
     ViewGui2d();
-    ~ViewGui2d();
+    virtual ~ViewGui2d();
 
     void Constructor(bool runFather=true);
 
@@ -147,7 +147,7 @@ private:
             this->classThis=NULL;edkEnd();
             this->Constructor(pointer,id,false);
         }
-        ~ObjGui2dID(){
+        virtual ~ObjGui2dID(){
             if(this->classThis==this){
                 this->classThis=NULL;edkEnd();
                 //can destruct the class
@@ -173,7 +173,7 @@ private:
     class ObjGui2dPointerTree : public edk::vector::BinaryTree<edk::gui2d::ViewGui2d::ObjGui2dID*>{
     public:
         ObjGui2dPointerTree(){this->classThis=NULL;this->Constructor(false);edkEnd();}
-        ~ObjGui2dPointerTree(){
+        virtual ~ObjGui2dPointerTree(){
             if(this->classThis==this){
                 this->classThis=NULL;edkEnd();
                 //can destruct the class
@@ -235,7 +235,7 @@ private:
     class ObjGui2dIDTree : public edk::vector::BinaryTree<edk::gui2d::ViewGui2d::ObjGui2dID*>{
     public:
         ObjGui2dIDTree(){this->classThis=NULL;this->Constructor(false);edkEnd();}
-        ~ObjGui2dIDTree(){
+        virtual ~ObjGui2dIDTree(){
             if(this->classThis==this){
                 this->classThis=NULL;edkEnd();
                 //can destruct the class
@@ -278,7 +278,7 @@ private:
         }
         //Print
         virtual void printElement(edk::gui2d::ViewGui2d::ObjGui2dID* value){
-            if(value->pointer->getType() != edk::gui2d::gui2dTypeText){
+            if(value->pointer->getTypeGUI() != edk::gui2d::gui2dTypeText){
                 //draw the element for selection
                 edk::GU::guPushName(value->id);edkEnd();
                 value->pointer->drawSelection();edkEnd();

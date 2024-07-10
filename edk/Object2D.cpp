@@ -56,16 +56,16 @@ void edk::Object2D::drawHideWithoutMaterial(){}
 void edk::Object2D::drawHideWithoutMaterialWithLight(bool ){}
 void edk::Object2D::drawHideWire(){}
 void edk::Object2D::drawHideWirePolygon(edk::uint32 ,edk::uint32 ){}
-bool edk::Object2D::drawHideMesh(bool haveLight,edk::uint32 ){}
-bool edk::Object2D::drawHidePolygon(bool haveLight,edk::uint32 ,edk::uint32 ){return true;}
+bool edk::Object2D::drawHideMesh(bool /*haveLight*/,edk::uint32 ){return true;}
+bool edk::Object2D::drawHidePolygon(bool /*haveLight*/,edk::uint32 ,edk::uint32 ){return true;}
 bool edk::Object2D::drawHideMeshOneTexture(edk::uint32 ){return true;}
 bool edk::Object2D::drawHidePolygonOneTexture(edk::uint32 ,edk::uint32 ){return true;}
-bool edk::Object2D::drawHideMeshOneTextureWithLight(bool haveLight,edk::uint32 ){return true;}
-bool edk::Object2D::drawHidePolygonOneTextureWithLight(bool haveLight,edk::uint32 ,edk::uint32 ){return true;}
+bool edk::Object2D::drawHideMeshOneTextureWithLight(bool /*haveLight*/,edk::uint32 ){return true;}
+bool edk::Object2D::drawHidePolygonOneTextureWithLight(bool /*haveLight*/,edk::uint32 ,edk::uint32 ){return true;}
 bool edk::Object2D::drawHideMeshWithoutMaterial(edk::uint32 ){return true;}
 bool edk::Object2D::drawHidePolygonWithoutMaterial(edk::uint32 ,edk::uint32 ){return true;}
-bool edk::Object2D::drawHideMeshWithoutMaterialWithLight(bool haveLight,edk::uint32 ){return true;}
-bool edk::Object2D::drawHidePolygonWithoutMaterialWithLight(bool haveLight,edk::uint32 ,edk::uint32 ){return true;}
+bool edk::Object2D::drawHideMeshWithoutMaterialWithLight(bool /*haveLight*/,edk::uint32 ){return true;}
+bool edk::Object2D::drawHidePolygonWithoutMaterialWithLight(bool /*haveLight*/,edk::uint32 ,edk::uint32 ){return true;}
 bool edk::Object2D::drawHideMeshWire(edk::uint32 ){return true;}
 bool edk::Object2D::drawHidePolygonWire(edk::uint32 ,edk::uint32 ){return true;}
 //UNHIDE

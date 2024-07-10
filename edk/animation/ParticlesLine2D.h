@@ -41,7 +41,7 @@ namespace animation{
 class ParticlesLine2D : public edk::animation::ParticlesPoint2D{
 public:
     ParticlesLine2D();
-    ~ParticlesLine2D();
+    virtual ~ParticlesLine2D();
 
     void Constructor(bool runFather=true);
 

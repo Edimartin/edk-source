@@ -42,7 +42,7 @@ namespace animation{
 class Path2DGroup : public edk::animation::Path1DGroup{
 public:
     Path2DGroup();
-    ~Path2DGroup();
+    virtual ~Path2DGroup();
 
     void Constructor(bool runFather=true);
 

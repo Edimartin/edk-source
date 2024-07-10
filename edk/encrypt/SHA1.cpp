@@ -36,7 +36,7 @@ public:
         this->classThis=NULL;edkEnd();
         this->Constructor(false);edkEnd();
     }
-    ~SHA1_variables(){
+    virtual ~SHA1_variables(){
         if(this->classThis==this){
             this->classThis=NULL;edkEnd();
             //can destruct the class

@@ -56,7 +56,7 @@ namespace edk{
 class Object3D: public edk::Object3DValues{
 public:
     Object3D();
-    ~Object3D();
+    virtual ~Object3D();
 
     void Constructor(bool runFather=true);
 
@@ -142,7 +142,7 @@ public:
     //connect another object into this
     virtual bool connectObject(edk::Object3D* obj);
     virtual bool disconnectObject(edk::Object3D* obj);
-    virtual bool cleanConnectedObjects();
+    virtual void cleanConnectedObjects();
 
     //PolygonList selected
     edk::shape::Mesh3D *selected;
@@ -160,7 +160,7 @@ protected:
     class MeshAlloc{
     public:
         MeshAlloc(bool myMesh,edk::shape::Mesh3D* mesh){this->classThis=NULL;this->Constructor(myMesh,mesh,false);edkEnd();}
-        ~MeshAlloc(){
+        virtual ~MeshAlloc(){
             if(this->classThis==this){
                 this->classThis=NULL;edkEnd();
                 //can destruct the class
@@ -195,7 +195,7 @@ protected:
             this->classThis=NULL;edkEnd();
             this->Constructor(false);edkEnd();
         }
-        ~MeshsStack(){
+        virtual ~MeshsStack(){
             if(this->classThis==this){
                 this->classThis=NULL;edkEnd();
                 //can destruct the class

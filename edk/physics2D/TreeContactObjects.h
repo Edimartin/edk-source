@@ -47,7 +47,7 @@ public:
         this->classThis=NULL;edkEnd();
         this->Constructor(objectA,objectB);edkEnd();
     }
-    ~ContactObjects(){
+    virtual ~ContactObjects(){
         if(this->classThis==this){
             this->classThis=NULL;edkEnd();
             //can destruct the class
@@ -74,7 +74,7 @@ public:
         this->classThis=NULL;edkEnd();
         this->Constructor(object);edkEnd();
     }
-    ~ContactObject(){
+    virtual ~ContactObject(){
         if(this->classThis==this){
             this->classThis=NULL;edkEnd();
             //can destruct the class
@@ -99,7 +99,7 @@ private:
 class TreeContactObjects{
 public:
     TreeContactObjects();
-    ~TreeContactObjects();
+    virtual ~TreeContactObjects();
 
     void Constructor(bool runFather=true);
 
@@ -120,7 +120,7 @@ private:
     class TreeObjects : public edk::vector::BinaryTree<edk::physics2D::ContactObjects*>{
     public:
         TreeObjects(){this->classThis=NULL;this->Constructor(false);edkEnd();}
-        ~TreeObjects(){
+        virtual ~TreeObjects(){
             if(this->classThis==this){
                 this->classThis=NULL;edkEnd();
                 //can destruct the class

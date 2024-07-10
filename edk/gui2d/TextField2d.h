@@ -172,7 +172,7 @@ private:
     class TextVec{
     public:
         TextVec();
-        ~TextVec();
+        virtual ~TextVec();
 
         void Constructor(bool runFather=true);
 

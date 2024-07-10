@@ -43,7 +43,7 @@ namespace edk{
 class ViewTextField: public edk::ViewMenu{
 public:
     ViewTextField();
-    ~ViewTextField();
+    virtual ~ViewTextField();
 
     void Constructor(bool runFather=true);
 
@@ -82,7 +82,7 @@ private:
     class TextField: public edk::ViewText{
     public:
         TextField();
-        ~TextField();
+        virtual ~TextField();
 
         void Constructor(bool runFather=true);
 

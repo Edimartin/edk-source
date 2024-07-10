@@ -45,7 +45,7 @@ namespace animation{
 class PathGroup{
 public:
     PathGroup();
-    ~PathGroup();
+    virtual ~PathGroup();
 
     void Constructor(bool runFather=true);
 
@@ -204,7 +204,7 @@ protected:
             :edk::Name(name){
             this->classThis=NULL;this->Constructor(name,false);edkEnd();
         }
-        ~AnimationPathNames(){
+        virtual ~AnimationPathNames(){
             if(this->classThis==this){
                 this->classThis=NULL;edkEnd();
                 //can destruct the class

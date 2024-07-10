@@ -41,7 +41,7 @@ namespace edk{
 class ViewText:public edk::ViewGU2D{
 public:
     ViewText();
-    ~ViewText();
+    virtual ~ViewText();
 
     void Constructor(bool runFather=true);
 

@@ -474,7 +474,7 @@ protected:
             this->classThis=NULL;edkEnd();
             this->Constructor(vertexCount,polygonColor,false);edkEnd();
         }
-        ~Polygon2DMorph(){
+        virtual ~Polygon2DMorph(){
             if(this->classThis==this){
                 this->classThis=NULL;edkEnd();
                 //can destruct the class

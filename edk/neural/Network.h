@@ -44,7 +44,7 @@ class Network{
 public:
     Network(){this->classThis=NULL;edkEnd();
               this->Constructor(false);edkEnd();}
-    ~Network(){
+    virtual ~Network(){
         if(this->classThis==this){
             this->classThis=NULL;edkEnd();
             //can destruct the class

@@ -159,8 +159,8 @@ bool edk::shape::Polygon3D::drawVertexsWithMatrix(edk::vector::Matrixf32<4u,4u>*
             }
             return true;
         }
-        return false;
     }
+    return false;
 }
 bool edk::shape::Polygon3D::drawVertexsOnly(){
     edk::uint32 size = this->vertexs.size();edkEnd();
@@ -189,8 +189,8 @@ bool edk::shape::Polygon3D::drawVertexsOnlyWithMatrix(edk::vector::Matrixf32<4u,
             }
             return true;
         }
-        return false;
     }
+    return false;
 }
 //draw the vertezes
 bool edk::shape::Polygon3D::drawVertexsWithColor(edk::color4f32 color){
@@ -220,8 +220,8 @@ bool edk::shape::Polygon3D::drawVertexsWithMatrixWithColor(edk::vector::Matrixf3
             }
             return true;
         }
-        return false;
     }
+    return false;
 }
 
 //create the polygon

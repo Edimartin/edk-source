@@ -49,7 +49,7 @@ namespace animation{
 class Interpolation2DGroup: public edk::animation::Interpolation1DGroup{
 public:
     Interpolation2DGroup();
-    ~Interpolation2DGroup();
+    virtual ~Interpolation2DGroup();
 
     void Constructor(bool runFather=true);
 

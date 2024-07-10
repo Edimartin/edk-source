@@ -44,7 +44,7 @@ namespace physics2D{
 class DynamicObject2D : public edk::physics2D::KinematicObject2D{
 public:
     DynamicObject2D();
-    ~DynamicObject2D();
+    virtual ~DynamicObject2D();
 
     void Constructor(bool runFather=true);
 private:

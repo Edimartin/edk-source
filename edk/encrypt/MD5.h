@@ -49,7 +49,7 @@ namespace encrypt{
 class MD5{
 public:
     MD5();
-    ~MD5();
+    virtual ~MD5();
 
     void Constructor(bool runFather=true);
 

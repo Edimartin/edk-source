@@ -44,7 +44,7 @@ namespace physics2D{
 class DynamicSensor2D: public edk::physics2D::KinematicSensor2D{
 public:
     DynamicSensor2D();
-    ~DynamicSensor2D();
+    virtual ~DynamicSensor2D();
 
     void Constructor(bool runFather=true);
 private:

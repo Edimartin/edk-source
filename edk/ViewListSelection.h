@@ -44,7 +44,7 @@ namespace edk{
 class ViewListSelection : public edk::ViewGU2D{
 public:
     ViewListSelection();
-    ~ViewListSelection();
+    virtual ~ViewListSelection();
 
     void Constructor(bool runFather=true);
 
@@ -160,7 +160,7 @@ private:
     class ListCell{
     public:
         ListCell(edk::uint32* lineSize=NULL);
-        ~ListCell();
+        virtual ~ListCell();
 
         void Constructor(edk::uint32* lineSize=NULL,bool runFather=true);
 

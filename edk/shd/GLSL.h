@@ -105,7 +105,7 @@ private:
     public:
         shaderLink();
         shaderLink(edk::char8* name);
-        ~shaderLink();
+        virtual ~shaderLink();
 
         void Constructor(bool runFather=true);
         void Constructor(edk::char8* name,bool runFather=true);

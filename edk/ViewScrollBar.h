@@ -42,7 +42,7 @@ namespace edk{
 class ViewScrollBar : public edk::ViewController{
 public:
     ViewScrollBar();
-    ~ViewScrollBar();
+    virtual ~ViewScrollBar();
 
     void Constructor(bool runFather=true);
 
@@ -98,7 +98,7 @@ private:
     class ForegroundButton:public edk::ViewGU2D{
     public:
         ForegroundButton();
-        ~ForegroundButton();
+        virtual ~ForegroundButton();
 
         void Constructor(bool runFather=true);
 

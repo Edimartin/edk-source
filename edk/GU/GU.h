@@ -252,7 +252,7 @@ public:
     GU();
 
     //destrutor
-    ~GU();
+    virtual ~GU();
 
     void Constructor(bool runFather=true);
 
@@ -671,7 +671,7 @@ private:
     public:
         TextureClass(){this->classThis=NULL;edkEnd();
                        this->Constructor(false);edkEnd();}
-        ~TextureClass(){
+        virtual ~TextureClass(){
             if(this->classThis==this){
                 this->classThis=NULL;edkEnd();
                 //can destruct the class
@@ -728,7 +728,7 @@ private:
     public:
         Texture_Tree(){this->classThis=NULL;edkEnd();
                        this->Constructor(false);edkEnd();}
-        ~Texture_Tree(){
+        virtual ~Texture_Tree(){
             if(this->classThis==this){
                 this->classThis=NULL;edkEnd();
                 //can destruct the class
@@ -784,7 +784,7 @@ private:
     public:
         MipmapClass(){this->classThis=NULL;edkEnd();
                       this->Constructor(false);edkEnd();}
-        ~MipmapClass(){
+        virtual ~MipmapClass(){
             if(this->classThis==this){
                 this->classThis=NULL;edkEnd();
                 //can destruct the class

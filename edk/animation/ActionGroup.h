@@ -137,7 +137,7 @@ private:
             this->classThis=NULL;edkEnd();
             this->Constructor(second,false);
         }
-        ~ActionsTree(){
+        virtual ~ActionsTree(){
             if(this->classThis==this){
                 this->classThis=NULL;edkEnd();
                 //can destruct the class
@@ -175,7 +175,7 @@ private:
             this->classThis=NULL;edkEnd();
             this->Constructor(action,false);
         }
-        ~ActionReferenceCount(){
+        virtual ~ActionReferenceCount(){
             if(this->classThis==this){
                 this->classThis=NULL;edkEnd();
                 //can destruct the class
@@ -217,7 +217,7 @@ private:
             this->classThis=NULL;edkEnd();
             this->Constructor(false);edkEnd();
         }
-        ~ActionStackTree(){
+        virtual ~ActionStackTree(){
             if(this->classThis==this){
                 this->classThis=NULL;edkEnd();
                 //can destruct the class

@@ -2608,6 +2608,8 @@ edk::physics2D::PhysicObject2D* edk::Cenario2D::newPhysicObject(edk::uint32 leve
         case edk::TypeObject2DDynamic:
             obj = new edk::physics2D::DynamicObject2D;edkEnd();
             break;
+        default:
+            break;
         }
         if(obj){
             if(this->addObjectToLevel(NULL,(edk::Object2D*)obj,levelPosition,depth,true)){
@@ -2729,7 +2731,7 @@ bool edk::Cenario2D::changePhysicsToSensor(edk::uint32 levelPosition){
             }
         }
     }
-    return false;
+    return ret;
 }
 //get the object
 edk::physics2D::PhysicObject2D* edk::Cenario2D::getPhysicObject(edk::uint32 levelPosition,edk::float32 depth){
@@ -8528,7 +8530,7 @@ bool edk::Cenario2D::setMinimunObjectsInQuads(edk::uint32 minimunObjectsInQuads)
     this->minimunObjectsInQuads=1u;
     return false;
 }
-edk::uint32 edk::Cenario2D::getMinimunObjectsInQuads(edk::uint32 minimunObjectsInQuads){
+edk::uint32 edk::Cenario2D::getMinimunObjectsInQuads(){
     return this->minimunObjectsInQuads;
 }
 

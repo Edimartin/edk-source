@@ -70,7 +70,7 @@ public:
 
     Image2D(const char *imageFileName);
 
-    ~Image2D();
+    virtual ~Image2D();
 
     void Constructor(bool runFather=true);
 

@@ -47,7 +47,7 @@ namespace tcp{
 class ServerTCP : public edk::network::ServerSocket{
 public:
     ServerTCP();
-    ~ServerTCP();
+    virtual ~ServerTCP();
 
     void Constructor(bool runFather=true);
 
@@ -80,7 +80,7 @@ protected:
     class nodeAdressTCP : public edk::network::ServerSocket::nodeAdress{
     public:
         nodeAdressTCP(){this->classThis=NULL;this->Constructor(false);edkEnd();}
-        ~nodeAdressTCP(){
+        virtual ~nodeAdressTCP(){
             if(this->classThis==this){
                 this->classThis=NULL;edkEnd();
                 //can destruct the class

@@ -55,7 +55,7 @@ public:
 class InterpolationTracks : public edk::animation::AnimationCallback{
 public:
     InterpolationTracks();
-    ~InterpolationTracks();
+    virtual ~InterpolationTracks();
 
     void Constructor(bool runFather=true);
 
@@ -343,7 +343,7 @@ protected:
     class AnimationAndPosition{
     public:
         AnimationAndPosition(){this->classThis=NULL;this->Constructor(false);edkEnd();}
-        ~AnimationAndPosition(){
+        virtual ~AnimationAndPosition(){
             if(this->classThis==this){
                 this->classThis=NULL;edkEnd();
                 //can destruct the class
@@ -388,7 +388,7 @@ protected:
     class StackTracks : public edk::vector::Stack<edk::animation::InterpolationTracks::AnimationAndPosition>{
     public:
         StackTracks(){this->classThis=NULL;this->Constructor(false);edkEnd();}
-        ~StackTracks(){
+        virtual ~StackTracks(){
             if(this->classThis==this){
                 this->classThis=NULL;edkEnd();
                 //can destruct the class

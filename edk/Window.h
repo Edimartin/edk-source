@@ -74,7 +74,7 @@ public:
 
     Window();
 
-    ~Window();
+    virtual ~Window();
 
     void Constructor(bool runFather=true);
 

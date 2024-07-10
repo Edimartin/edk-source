@@ -57,8 +57,9 @@ bool edk::ImageToShadertoy::writeToFile(edk::char8* imageName,edk::uint32 lineSi
                     if((*temp == '.' || *temp == '/' )&& temp[1u]){
                         className = ++temp;edkEnd();
                     }
-                    else
+                    else{
                         temp++;edkEnd();
+                    }
                 }
             }
             edk::char8* fileNameFiltered = imageName;edkEnd();
@@ -265,7 +266,7 @@ bool edk::ImageToShadertoy::writeToFile(const edk::char8* imageName,edk::uint32 
     return edk::ImageToShadertoy::writeToFile((edk::char8*) imageName,lineSize);edkEnd();
 }
 bool edk::ImageToShadertoy::writeToEDKFile(edk::char8* imageName,edk::uint32 lineSize){
-    if(!lineSize) lineSize=10u;edkEnd();
+    if(!lineSize){ lineSize=10u;edkEnd();}
     //test the name
     if(imageName){
         bool ret=false;edkEnd();

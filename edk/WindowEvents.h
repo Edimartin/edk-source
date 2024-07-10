@@ -2764,7 +2764,7 @@ private:
         class ButtonTree: public edk::vector::BinaryTree<edk::WindowEvents::ControllerButtons*>{
         public:
             ButtonTree(){this->classThis=NULL;this->Constructor(false);edkEnd();}
-            ~ButtonTree(){
+            virtual ~ButtonTree(){
                 if(this->classThis==this){
                     this->classThis=NULL;edkEnd();
                     //can destruct the class
@@ -2844,7 +2844,7 @@ private:
         class AxisValue{
         public:
             AxisValue(){this->classThis=NULL;this->Constructor(false);edkEnd();}
-            ~AxisValue(){
+            virtual ~AxisValue(){
                 if(this->classThis==this){
                     this->classThis=NULL;edkEnd();
                     //can destruct the class
@@ -2868,7 +2868,7 @@ private:
         class AxisValueTree: public edk::vector::BinaryTree<edk::WindowEvents::ControllerAxis::AxisValue*>{
         public:
             AxisValueTree(){this->classThis=NULL;this->Constructor(false);edkEnd();}
-            ~AxisValueTree(){
+            virtual ~AxisValueTree(){
                 if(this->classThis==this){
                     this->classThis=NULL;edkEnd();
                     //can destruct the class
@@ -2996,7 +2996,7 @@ private:
     class ControllerAxisEvent : private edk::WindowEvents::ControllerButtonsEvent{
     public:
         ControllerAxisEvent(){this->classThis=NULL;this->Constructor(false);edkEnd();}
-        ~ControllerAxisEvent(){
+        virtual ~ControllerAxisEvent(){
             if(this->classThis==this){
                 this->classThis=NULL;edkEnd();
                 //can destruct the class

@@ -278,7 +278,7 @@ protected:
     class MeshAlloc{
     public:
         MeshAlloc(bool myMesh,edk::shape::Mesh2D* mesh){this->classThis=NULL;this->Constructor(myMesh,mesh,false);edkEnd();}
-        ~MeshAlloc(){
+        virtual ~MeshAlloc(){
             if(this->classThis==this){
                 this->classThis=NULL;edkEnd();
                 //can destruct the class
@@ -313,7 +313,7 @@ protected:
             this->classThis=NULL;edkEnd();
             this->Constructor(false);edkEnd();
         }
-        ~MeshsStack(){
+        virtual ~MeshsStack(){
             if(this->classThis==this){
                 this->classThis=NULL;edkEnd();
                 //can destruct the class

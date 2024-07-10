@@ -43,7 +43,7 @@ namespace light{
 class Spot : public edk::light::Light{
 public:
     Spot();
-    ~Spot();
+    virtual ~Spot();
 
     void Constructor(bool runFather=true);
 

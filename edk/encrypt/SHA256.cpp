@@ -55,7 +55,7 @@ public:
         this->classThis=NULL;edkEnd();
         this->Constructor(false);edkEnd();
     }
-    ~SHA256_variables(){
+    virtual ~SHA256_variables(){
         if(this->classThis==this){
             this->classThis=NULL;edkEnd();
             //can destruct the class

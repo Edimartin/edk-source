@@ -996,7 +996,7 @@ private:
     class FontLine{
     public:
         FontLine(edk::uint32 size);
-        ~FontLine();
+        virtual ~FontLine();
 
         void Constructor(edk::uint32 size,bool runFather=true);
 

@@ -49,7 +49,7 @@ namespace tiles{
 class TileSet2D{
 public:
     TileSet2D();
-    ~TileSet2D();
+    virtual ~TileSet2D();
 
     void Constructor(bool runFather=true);
 
@@ -57,7 +57,7 @@ public:
     class Tile2Positions2D{
     public:
         Tile2Positions2D(){this->classThis=NULL;this->Constructor(false);edkEnd();}
-        ~Tile2Positions2D(){
+        virtual ~Tile2Positions2D(){
             if(this->classThis==this){
                 this->classThis=NULL;edkEnd();
                 //can destruct the class

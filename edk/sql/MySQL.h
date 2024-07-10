@@ -51,7 +51,7 @@ namespace sql{
 class MySQL{
 public:
     MySQL();
-    ~MySQL();
+    virtual ~MySQL();
 
     void Constructor(bool runFather=true);
 

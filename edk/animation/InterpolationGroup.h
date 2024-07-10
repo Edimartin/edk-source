@@ -55,7 +55,7 @@ class InterpolationGroup;
 class AnimationCallback{
 public:
     AnimationCallback(){this->classThis=NULL;this->Constructor(false);edkEnd();}
-    ~AnimationCallback(){
+    virtual ~AnimationCallback(){
         if(this->classThis==this){
             this->classThis=NULL;edkEnd();
         }

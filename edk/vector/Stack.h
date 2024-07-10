@@ -401,7 +401,7 @@ public:
     typeTemplate popBack(){
         typeTemplate ret;
         typeTemplate retTemp;
-        memset(&ret,0u,sizeof(typeTemplate));
+        memset((edk::classID)&ret,0u,sizeof(typeTemplate));
 
         edk::vector::StackCell* temp = (*this->rootPointer);
         edk::vector::StackCell* temp2;
@@ -471,7 +471,7 @@ public:
                                     //remove
                                     tempArray->set(positionRemove,ret);
                                     //
-                                    memcpy(&ret,&retTemp,sizeof(typeTemplate));
+                                    memcpy((edk::classID)&ret,(edk::classID)&retTemp,sizeof(typeTemplate));
                                     (*this->stackSizePointer)--;
                                     if(!(*this->stackSizePointer)){
                                         //delete the array inside the root
@@ -506,7 +506,7 @@ public:
                                 //remove
                                 tempArray->set(positionRemove,ret);
                                 //
-                                memcpy(&ret,&retTemp,sizeof(typeTemplate));
+                                memcpy((edk::classID)&ret,(edk::classID)&retTemp,sizeof(typeTemplate));
                                 (*this->stackSizePointer)--;
                                 if(!((*this->stackSizePointer))){
                                     delete (*this->rootPointer);

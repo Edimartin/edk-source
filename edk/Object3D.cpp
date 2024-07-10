@@ -1811,7 +1811,7 @@ bool edk::Object3D::disconnectObject(edk::Object3D* obj){
     }
     return false;
 }
-bool edk::Object3D::cleanConnectedObjects(){
+void edk::Object3D::cleanConnectedObjects(){
     edk::uint32 size = this->childrems.size();
     edk::Object3D* obj;
     for(edk::uint32 i=0u;i<size;i++){

@@ -115,7 +115,7 @@ private:
             this->classThis=NULL;edkEnd();
             this->Constructor(first,id,false);edkEnd();
         }
-        ~AnimationDouble(){
+        virtual ~AnimationDouble(){
             if(this->classThis==this){
                 this->classThis=NULL;edkEnd();
                 //can destruct the class
@@ -143,7 +143,7 @@ private:
             this->classThis=NULL;edkEnd();
             this->Constructor(false);edkEnd();
         }
-        ~TreeAnimations(){
+        virtual ~TreeAnimations(){
             if(this->classThis==this){
                 this->classThis=NULL;edkEnd();
                 //can destruct the class
@@ -236,7 +236,7 @@ private:
     class TriangleValues{
     public:
         TriangleValues(edk::uint32 i,edk::uint32 j,edk::uint32 w){this->classThis=NULL;this->Constructor(i,j,w,false);edkEnd();}
-        ~TriangleValues(){
+        virtual ~TriangleValues(){
             if(this->classThis==this){
                 this->classThis=NULL;edkEnd();
                 //can destruct the class

@@ -113,15 +113,18 @@ template <class typeTemplate>
 
 class QueueStatic{
 public:
-    QueueStatic(){
+    QueueStatic(){}
+    virtual ~QueueStatic(){}
+
+    virtual void construct(){
         this->classThis=NULL;edkEnd();
         this->Constructor(false);
     }
-    QueueStatic(edk::uint32 size){
+    virtual void construct(edk::uint32 size){
         this->classThis=NULL;edkEnd();
         this->Constructor(size,false);
     }
-    virtual ~QueueStatic(){
+    virtual void destruct(){
         if(this->classThis==this){
             this->classThis=NULL;edkEnd();
             //can destruct the class

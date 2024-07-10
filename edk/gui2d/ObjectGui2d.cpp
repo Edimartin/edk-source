@@ -304,6 +304,11 @@ void edk::gui2d::ObjectGui2d::updateTextSize(edk::size2f32 sizeText,edk::size2f3
                            );edkEnd();
 }
 
+//get GUI type
+edk::gui2d::gui2dTypes edk::gui2d::ObjectGui2d::getTypeGUI(){
+    return this->typeGUI;
+}
+
 //LOAD SPRITES
 bool edk::gui2d::ObjectGui2d::loadSprite(const edk::char8* name,edk::uint32 filter){
     return this->loadSprite((edk::char8*) name,filter);edkEnd();

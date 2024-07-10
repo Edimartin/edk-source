@@ -205,7 +205,7 @@ private:
     class StackVertex{
     public:
         StackVertex();
-        ~StackVertex();
+        virtual ~StackVertex();
 
         void Constructor(bool runFather=true);
 
@@ -240,7 +240,7 @@ private:
             this->classThis=NULL;edkEnd();
             this->Constructor(false);edkEnd();
         }
-        ~MeshNormal(){
+        virtual ~MeshNormal(){
             if(this->classThis==this){
                 this->classThis=NULL;edkEnd();
                 //can destruct the class
@@ -281,7 +281,7 @@ private:
     class StackNormal{
     public:
         StackNormal();
-        ~StackNormal();
+        virtual ~StackNormal();
 
         void Constructor(bool runFather=true);
 
@@ -334,7 +334,7 @@ private:
     class StackUV{
     public:
         StackUV();
-        ~StackUV();
+        virtual ~StackUV();
 
         void Constructor(bool runFather=true);
 
@@ -366,7 +366,7 @@ protected:
     public:
         PolygonList(){this->classThis=NULL;edkEnd();
                       this->Constructor(false);edkEnd();}
-        ~PolygonList(){
+        virtual ~PolygonList(){
             if(this->classThis==this){
                 this->classThis=NULL;edkEnd();
                 //can destruct the class
@@ -514,7 +514,7 @@ protected:
     class StackPolygon{
     public:
         StackPolygon();
-        ~StackPolygon();
+        virtual ~StackPolygon();
 
         void Constructor(bool runFather=true);
 

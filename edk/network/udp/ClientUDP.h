@@ -42,7 +42,7 @@ namespace udp{
 class ClientUDP: public edk::network::Socket{
 public:
     ClientUDP();
-    ~ClientUDP();
+    virtual ~ClientUDP();
 
     void Constructor(bool runFather=true);
 

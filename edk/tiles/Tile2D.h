@@ -237,7 +237,7 @@ protected:
     class TreeTileDraw : public edk::vector::BinaryTree<edk::tiles::DrawTile2DCallback*>{
     public:
         TreeTileDraw(){this->classThis=NULL;this->Constructor(false);edkEnd();}
-        ~TreeTileDraw(){
+        virtual ~TreeTileDraw(){
             if(this->classThis==this){
                 this->classThis=NULL;edkEnd();
                 //can destruct the class

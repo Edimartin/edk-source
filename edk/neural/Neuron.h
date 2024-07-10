@@ -49,7 +49,7 @@ class Value: public edk::Name{
 public:
     Value(){this->classThis=NULL;edkEnd();
             this->Constructor(false);edkEnd();}
-    ~Value(){
+    virtual ~Value(){
         if(this->classThis==this){
             this->classThis=NULL;edkEnd();
             //can destruct the class
@@ -79,7 +79,7 @@ public:
         this->classThis=NULL;edkEnd();
         this->Constructor(false);edkEnd();
     }
-    ~NameValues(){
+    virtual ~NameValues(){
         if(this->classThis==this){
             this->classThis=NULL;edkEnd();
             //can destruct the class
@@ -230,7 +230,7 @@ public:
         this->classThis=NULL;edkEnd();
         this->Constructor(false);edkEnd();
     }
-    ~Neuron(){
+    virtual ~Neuron(){
         if(this->classThis==this){
             this->classThis=NULL;edkEnd();
             //can destruct the class
@@ -540,7 +540,7 @@ private:
             this->classThis=NULL;edkEnd();
             this->Constructor(false);edkEnd();
         }
-        ~Weights(){
+        virtual ~Weights(){
             if(this->classThis==this){
                 this->classThis=NULL;edkEnd();
                 //can destruct the class

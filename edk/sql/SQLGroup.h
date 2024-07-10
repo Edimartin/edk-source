@@ -112,7 +112,7 @@ class SQLNodes{
 public:
     SQLNodes():nodes(5u){this->classThis=NULL;edkEnd();
                          this->Constructor(false);edkEnd();}
-    ~SQLNodes(){
+    virtual ~SQLNodes(){
         if(this->classThis==this){
             this->classThis=NULL;edkEnd();
             //can destruct the class
@@ -189,7 +189,7 @@ class SQLGroup{
 public:
     SQLGroup(){this->classThis=NULL;edkEnd();
                this->Constructor(false);edkEnd();}
-    ~SQLGroup(){
+    virtual ~SQLGroup(){
         if(this->classThis==this){
             this->classThis=NULL;edkEnd();
             //can destruct the class

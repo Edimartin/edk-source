@@ -79,7 +79,7 @@ public:
     Texture2DFile();
     Texture2DFile(edk::char8 *textureFileName);
     Texture2DFile(const char *textureFileName);
-    ~Texture2DFile();
+    virtual ~Texture2DFile();
 
     void Constructor(bool runFather=true);
     void Constructor(edk::char8 *textureFileName,bool runFather=true);

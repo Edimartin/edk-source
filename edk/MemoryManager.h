@@ -80,6 +80,13 @@ public:
         }
         return false;
     }
+
+    //update the connecteds
+    static bool connectAllRemoveds();
+    static bool connectOneRemoved();
+
+    //print all the positions removed's
+    static void printRemoveds();
 private:
     static edk::classID classThis;
 
@@ -125,8 +132,8 @@ private:
             return m;
         }
         bool operator>(MemoryPositions m){
-            if(this->start > m.end
-                    && this->end > m.end
+            if(this->start > m.start
+                    //&& this->end > m.end
                     ){
                 return true;
             }
@@ -185,6 +192,24 @@ private:
         }
         edk::classID pointer;
         edk::MemoryManager::MemoryBuffer buffer;
+    };
+
+    //class to save equally positions
+    class MemoryConnected{
+    public:
+        MemoryConnected(){}
+        virtual ~MemoryConnected(){}
+
+        virtual void construct(){
+            this->buffer=NULL;
+            this->stack.construct();
+        }
+        virtual void destruct(){
+            this->stack.destruct();
+        }
+
+        edk::classID buffer;
+        edk::vector::StackStatic<edk::MemoryManager::MemoryPositions> stack;
     };
 
     static edk::uint64 bufferSize;
@@ -416,7 +441,174 @@ private:
             this->objTemplate.size = size;
             return this->getElement(&this->objTemplate);
         }
-    }static treeRemoved;
+    }static treeSizeRemoved;
+    class TreePosRemoved: public edk::vector::BinaryTreeStatic<edk::MemoryManager::MemoryPositions>{
+    public:
+        TreePosRemoved(){}
+        ~TreePosRemoved(){}
+
+        virtual void construct(){
+            this->stackConnecteds.construct();
+            edk::vector::BinaryTreeStatic<edk::MemoryManager::MemoryPositions>::construct();
+        }
+        virtual void destruct(){
+            edk::vector::BinaryTreeStatic<edk::MemoryManager::MemoryPositions>::destruct();
+            this->stackConnecteds.destruct();
+        }
+        //UPDATE
+        virtual void updateElement(edk::MemoryManager::MemoryPositions value){
+            //update the value
+            if(this->havePos){
+                //test if the buffer are the same
+                if(this->posLast.buffer.buffer == value.buffer.buffer){
+                    //test if they are connected
+                    if(this->posLast.end == value.start){
+                        this->stackConnecteds.addNewPosition(value.buffer.buffer,value);
+                        this->posLast = value;
+                    }
+                    else{
+                        //else force create a new connected
+                        this->stackConnecteds.forceAddNewPosition(value.buffer.buffer,value);
+                        this->posLast = value;
+                    }
+                }
+                else{
+                    //else finish the posStack
+                    this->stackConnecteds.forceAddNewPosition(value.buffer.buffer,value);
+                    this->posLast = value;
+                }
+            }
+            else{
+                this->havePos=true;
+                this->posLast = value;
+                //add the new position
+                this->stackConnecteds.forceAddNewPosition(value.buffer.buffer,value);
+            }
+        }
+        //update the elements
+        virtual void update(){
+            this->havePos=false;
+            edk::vector::BinaryTreeStatic<edk::MemoryManager::MemoryPositions>::update();
+        }
+
+        //get connecteds
+        edk::uint32 getConnectedsSize(){
+            return this->stackConnecteds.size();
+        }
+        edk::uint32 getConnectedsSizeInPosition(edk::uint32 position){
+            return this->stackConnecteds.getSizeInPosition(position);
+        }
+        edk::MemoryManager::MemoryPositions getConnectedInPosition(edk::uint32 positionConnected,edk::uint32 position){
+            return this->stackConnecteds.getPosInPosition(positionConnected,position);
+        }
+
+        void cleanConnecteds(){
+            this->stackConnecteds.destruct();
+            this->stackConnecteds.construct();
+        }
+    private:
+        bool havePos;
+        edk::MemoryManager::MemoryPositions posLast;
+
+        //class to save the connected positions
+        class StackConnecteds: public edk::vector::StackStatic<edk::MemoryManager::MemoryConnected*>{
+        public:
+            StackConnecteds(){}
+            ~StackConnecteds(){}
+
+            virtual void construct(){
+                edk::vector::StackStatic<edk::MemoryManager::MemoryConnected*>::construct();
+            }
+            virtual void destruct(){
+                this->cleanPos();
+                edk::vector::StackStatic<edk::MemoryManager::MemoryConnected*>::destruct();
+            }
+
+            //clean all memoryConnected in the stack
+            void cleanPos(){
+                edk::uint32 size = this->size();
+                edk::MemoryManager::MemoryConnected* pos;
+                for(edk::uint32 i=0u;i<size;i++){
+                    pos = this->get(i);
+                    if(pos){
+                        pos->destruct();
+                        delete pos;
+                    }
+                }
+                this->clean();
+            }
+
+            //add a new position
+            bool addNewPosition(edk::classID buffer,edk::MemoryManager::MemoryPositions pos){
+                if(buffer){
+                    edk::MemoryManager::MemoryConnected* connected = NULL;
+
+                    //test if have the connected with the same buffer inside the stack
+                    if(this->size()){
+                        connected = this->get(this->size()-1u);
+                        if(connected){
+                            //test if the buffer aren't the same
+                            if(connected->buffer != buffer){
+                                //need create a new connected
+                                connected=NULL;
+                            }
+                        }
+                    }
+                    if(!connected){
+                        //create a new connected
+                        connected = new edk::MemoryManager::MemoryConnected;
+                        if(connected){
+                            connected->construct();
+                            connected->buffer=buffer;
+                            this->pushBack(connected);
+                        }
+                    }
+                    if(connected){
+                        //add the position into the connected
+                        connected->stack.pushBack(pos);
+                        return true;
+                    }
+                }
+                return false;
+            }
+            bool forceAddNewPosition(edk::classID buffer,edk::MemoryManager::MemoryPositions pos){
+                edk::MemoryManager::MemoryConnected* connected = NULL;
+                //create a new connected
+                connected = new edk::MemoryManager::MemoryConnected;
+                if(connected){
+                    connected->construct();
+                    connected->buffer=buffer;
+                    this->pushBack(connected);
+                }
+                return this->addNewPosition(buffer,pos);
+            }
+
+            //return the size in a stack in a position
+            edk::uint32 getSizeInPosition(edk::uint32 positionStack){
+                if(this->havePos(positionStack)){
+                    edk::MemoryManager::MemoryConnected* connected = this->get(positionStack);
+                    if(connected){
+                        return connected->stack.size();
+                    }
+                }
+                return 0u;
+            }
+            //get a position in a position
+            edk::MemoryManager::MemoryPositions getPosInPosition(edk::uint32 positionStack,edk::uint32 positionInStack){
+                edk::MemoryManager::MemoryPositions pos;
+                pos.buffer.buffer=NULL;
+                if(this->havePos(positionStack)){
+                    edk::MemoryManager::MemoryConnected* connected = this->get(positionStack);
+                    if(connected){
+                        if(connected->stack.havePos(positionInStack)){
+                            pos = connected->stack.get(positionInStack);
+                        }
+                    }
+                }
+                return pos;
+            }
+        }stackConnecteds;
+    }static treePositionsRemoved;
 
     //tree memoryBuffers
     static edk::vector::StackStatic<edk::MemoryManager::MemoryBuffer> stackBuffers;

@@ -44,7 +44,7 @@ namespace fonts{
 class FontSet{
 public:
     FontSet(edk::uint32 filter = 0u);
-    ~FontSet();
+    virtual ~FontSet();
 
     void Constructor(edk::uint32 filter = 0u,bool runFather=true);
 
@@ -98,7 +98,7 @@ private:
 class fontSetList{
 public:
     fontSetList();
-    ~fontSetList();
+    virtual ~fontSetList();
 
     void Constructor(bool runFather=true);
     //load the fontSet
@@ -120,7 +120,7 @@ private:
     class FontRetain{
     public:
         FontRetain(edk::uint32 filter = 0u);
-        ~FontRetain();
+        virtual ~FontRetain();
 
         void Constructor(edk::uint32 filter = 0u,bool runFather=true);
 
@@ -140,7 +140,7 @@ private:
     public:
         TreeFont(){this->classThis=NULL;edkEnd();
                    this->Constructor(false);edkEnd();}
-        ~TreeFont(){
+        virtual ~TreeFont(){
             if(this->classThis==this){
                 this->classThis=NULL;edkEnd();
                 //can destruct the class

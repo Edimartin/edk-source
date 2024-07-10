@@ -170,7 +170,7 @@ private:
 class Socket{
 public:
     Socket();
-    ~Socket();
+    virtual ~Socket();
 
     void Constructor(bool runFather=true);
 

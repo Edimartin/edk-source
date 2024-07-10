@@ -58,9 +58,12 @@ enum gui2dTypes{
 class ObjectGui2d: public edk::Object2DValues{
 public:
     ObjectGui2d();
-    ~ObjectGui2d();
+    virtual ~ObjectGui2d();
 
     void Constructor(bool runFather=true);
+
+    //get GUI type
+    edk::gui2d::gui2dTypes getTypeGUI();
 
     //LOAD SPRITES
     bool loadSprite(const edk::char8* name,edk::uint32 filter = GU_NEAREST);
@@ -260,6 +263,8 @@ protected:
 
     //object boundingBox
     edk::rectf32 boundingBox;
+
+    edk::gui2d::gui2dTypes typeGUI;
 
     bool writeBoundingBox(edk::rectf32* rect);
     bool writeBoundingBox(edk::rectf32* rect,edk::vector::Matrixf32<3u,3u>* transformMat);

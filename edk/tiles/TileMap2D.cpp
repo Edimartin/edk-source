@@ -3152,7 +3152,7 @@ void edk::tiles::TileMap2D::drawInsideWorldRectSelectionWithID(edk::rectf32 rect
     edk::rectui32 newRect = this->calculateDrawPositionFromRect(rect);edkEnd();
     this->drawSelectionWithID(newRect.origin,newRect.size,id);edkEnd();
 }
-void edk::tiles::TileMap2D::drawInsideWorldRectPointsSelectionWithID(edk::rectf32 rect,edk::uint8 id){
+void edk::tiles::TileMap2D::drawInsideWorldRectPointsSelectionWithID(edk::rectf32 rect,edk::uint8 /*id*/){
     edk::rectui32 newRect = this->calculateDrawPositionFromRectPoints(rect);edkEnd();
     this->drawSelectionWithID(newRect.origin,edk::size2ui32(newRect.origin.x+newRect.size.width,newRect.origin.y+newRect.size.height));edkEnd();
 }

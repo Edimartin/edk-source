@@ -196,7 +196,7 @@ private:
     class TreeBoneName:public edk::vector::BinaryTree<edk::bones::Bone2D*>{
     public:
         TreeBoneName(){this->classThis=NULL;this->Constructor(false);edkEnd();}
-        ~TreeBoneName(){
+        virtual ~TreeBoneName(){
             if(this->classThis==this){
                 this->classThis=NULL;edkEnd();
                 //can destruct the class

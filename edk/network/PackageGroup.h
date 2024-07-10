@@ -42,7 +42,7 @@ namespace network{
 class PackageGroup{
 public:
     PackageGroup();
-    ~PackageGroup();
+    virtual ~PackageGroup();
 
     void Constructor(bool runFather=true);
     //set the packSize
@@ -92,7 +92,7 @@ private:
     class PackageTree:public edk::vector::BinaryTree<edk::network::Package*>{
     public:
         PackageTree();
-        ~PackageTree();
+        virtual ~PackageTree();
 
         void Constructor(bool runFather=true);
         //compare if the value is bigger

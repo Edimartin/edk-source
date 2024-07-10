@@ -75,7 +75,7 @@ namespace physics2D{
 class ContactCallback2D{
 public:
     ContactCallback2D(){this->classThis=NULL;this->Constructor(false);edkEnd();}
-    ~ContactCallback2D(){
+    virtual ~ContactCallback2D(){
         if(this->classThis==this){
             this->classThis=NULL;edkEnd();
             //can destruct the class
@@ -468,7 +468,7 @@ private:
     class ObjectTree{
     public:
         ObjectTree(edk::physics2D::PhysicObject2D* object,b2Body* body){this->classThis=NULL;this->Constructor(object,body,false);edkEnd();}
-        ~ObjectTree(){
+        virtual ~ObjectTree(){
             if(this->classThis==this){
                 this->classThis=NULL;edkEnd();
                 //can destruct the class
@@ -599,7 +599,7 @@ private:
     public:
         DeletedTree(b2World* world){this->classThis=NULL;edkEnd();
                                     this->Constructor(world,false);edkEnd();}
-        ~DeletedTree(){
+        virtual ~DeletedTree(){
             if(this->classThis==this){
                 this->classThis=NULL;edkEnd();
                 //can destruct the class
@@ -633,7 +633,7 @@ private:
     public:
         NewTree(edk::physics2D::World2D* world){this->classThis=NULL;edkEnd();
                                                 this->Constructor(world,false);edkEnd();}
-        ~NewTree(){
+        virtual ~NewTree(){
             if(this->classThis==this){
                 this->classThis=NULL;edkEnd();
                 //can destruct the class
@@ -724,7 +724,7 @@ private:
     public:
         MyContactListener();
         MyContactListener(edk::physics2D::World2D* world);
-        ~MyContactListener();
+        virtual ~MyContactListener();
 
         void Constructor(bool runFather=true);
         void Constructor(edk::physics2D::World2D* world,bool runFather=true);
@@ -749,7 +749,7 @@ private:
             this->classThis=NULL;edkEnd();
             this->Constructor(joint,boxJoint,false);edkEnd();
         }
-        ~JointTreeObject(){
+        virtual ~JointTreeObject(){
             if(this->classThis==this){
                 this->classThis=NULL;edkEnd();
                 //can destruct the class
@@ -996,7 +996,7 @@ private:
     public:
         ObjectIDs(edk::physics2D::PhysicObject2D* object,edk::uint32 id){this->classThis=NULL;this->Constructor(object,id,false);edkEnd();}
         ObjectIDs(){this->classThis=NULL;this->Constructor(false);edkEnd();}
-        ~ObjectIDs(){
+        virtual ~ObjectIDs(){
             if(this->classThis==this){
                 this->classThis=NULL;edkEnd();
                 //can destruct the class
@@ -1030,7 +1030,7 @@ private:
     public:
         TreeObjectID(){this->classThis=NULL;edkEnd();
                        this->Constructor(false);edkEnd();}
-        ~TreeObjectID(){
+        virtual ~TreeObjectID(){
             if(this->classThis==this){
                 this->classThis=NULL;edkEnd();
                 //can destruct the class

@@ -30,7 +30,8 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 edk::vector::BinaryTreeStatic<edk::MemoryManager::MemoryPointer> edk::MemoryManager::treeAlloc;
 edk::vector::StackStatic<edk::MemoryManager::MemoryBuffer> edk::MemoryManager::stackBuffers;
-edk::MemoryManager::TreeSizes edk::MemoryManager::treeRemoved;
+edk::MemoryManager::TreeSizes edk::MemoryManager::treeSizeRemoved;
+edk::MemoryManager::TreePosRemoved edk::MemoryManager::treePositionsRemoved;
 edk::multi::Mutex edk::MemoryManager::mut;
 edk::classID edk::MemoryManager::classThis=NULL;
 edk::uint64 edk::MemoryManager::bufferSize=0uL;
@@ -39,7 +40,8 @@ edk::uint32 edk::MemoryManager::bufferLastPosition=0u;
 edk::MemoryManager::MemoryManager(edk::uint64 size){
     if(!edk::MemoryManager::classThis){
         edk::MemoryManager::classThis=this;
-        edk::MemoryManager::treeRemoved.construct();
+        edk::MemoryManager::treeSizeRemoved.construct();
+        edk::MemoryManager::treePositionsRemoved.construct();
         edk::MemoryManager::treeAlloc.construct();
         edk::MemoryManager::stackBuffers.construct();
         if(size){
@@ -59,7 +61,8 @@ edk::MemoryManager::~MemoryManager(){
         if(this->saveHaveBuffer){
             edk::MemoryManager::deleteBuffers();
         }
-        edk::MemoryManager::treeRemoved.destruct();
+        edk::MemoryManager::treePositionsRemoved.destruct();
+        edk::MemoryManager::treeSizeRemoved.destruct();
         edk::MemoryManager::treeAlloc.destruct();
         edk::MemoryManager::stackBuffers.destruct();
         edk::MemoryManager::classThis=NULL;
@@ -75,14 +78,15 @@ edk::classID edk::MemoryManager::privateAlloc(edk::uint64 size,edk::classID poin
     edk::classID ret=NULL;
     if(pointer){
         //test if have some memory removed
-        if(edk::MemoryManager::treeRemoved.size()){
+        if(edk::MemoryManager::treeSizeRemoved.size()){
             //test if can alloc from a removed
 
             //calculate the size if have the size inside the tree
-            if(edk::MemoryManager::treeRemoved.haveSize(size)){
+            if(edk::MemoryManager::treeSizeRemoved.haveSize(size)){
                 //pop the position from a size
-                edk::MemoryManager::MemoryBuffer buffer = edk::MemoryManager::treeRemoved.getBufferInPosition(size,0u);
-                edk::MemoryManager::MemoryPositions pos = edk::MemoryManager::treeRemoved.popPosInPosition(size,0u);
+                edk::MemoryManager::MemoryBuffer buffer = edk::MemoryManager::treeSizeRemoved.getBufferInPosition(size,0u);
+                edk::MemoryManager::MemoryPositions pos = edk::MemoryManager::treeSizeRemoved.popPosInPosition(size,0u);
+                edk::MemoryManager::treePositionsRemoved.remove(pos);
                 //
                 edk::MemoryManager::MemoryPointer newAlloc;
                 newAlloc.start = pos.start;
@@ -95,13 +99,14 @@ edk::classID edk::MemoryManager::privateAlloc(edk::uint64 size,edk::classID poin
             }
             else{
                 //else test if have a size after
-                edk::uint64 newSize = edk::MemoryManager::treeRemoved.getSizeAfter(size);
+                edk::uint64 newSize = edk::MemoryManager::treeSizeRemoved.getSizeAfter(size);
                 if(newSize){
                     if(size<newSize){
                         edk::MemoryManager::MemoryPointer newAlloc;
                         //pop the position from a size
-                        edk::MemoryManager::MemoryBuffer buffer = edk::MemoryManager::treeRemoved.getBufferInPosition(newSize,0u);
-                        edk::MemoryManager::MemoryPositions pos = edk::MemoryManager::treeRemoved.popPosInPosition(newSize,0u);
+                        edk::MemoryManager::MemoryBuffer buffer = edk::MemoryManager::treeSizeRemoved.getBufferInPosition(newSize,0u);
+                        edk::MemoryManager::MemoryPositions pos = edk::MemoryManager::treeSizeRemoved.popPosInPosition(newSize,0u);
+                        edk::MemoryManager::treePositionsRemoved.remove(pos);
                         //create the new alloc
                         newAlloc.start = pos.start;
                         newAlloc.end = pos.start+size;
@@ -113,7 +118,8 @@ edk::classID edk::MemoryManager::privateAlloc(edk::uint64 size,edk::classID poin
                             pos.start+=size;
                             pos.buffer = buffer;
                             //add the new position into the tree
-                            edk::MemoryManager::treeRemoved.newPosition(pos);
+                            edk::MemoryManager::treeSizeRemoved.newPosition(pos);
+                            edk::MemoryManager::treePositionsRemoved.add(pos);
                         }
                     }
                 }
@@ -133,9 +139,19 @@ edk::classID edk::MemoryManager::privateAlloc(edk::uint64 size,edk::classID poin
                     newAlloc.start = (edk::uint64)buffer.positionLast;
                     newAlloc.end = (edk::uint64)buffer.positionLast+size;
                     newAlloc.pointer = pointer;
+                    newAlloc.buffer = buffer;
                     if(edk::MemoryManager::treeAlloc.add(newAlloc)){
                         buffer.positionLast=(edk::classID)newAlloc.end;
                         ret = (edk::classID)newAlloc.start;
+                        //update the buffer in the tack
+                        edk::MemoryManager::stackBuffers.set(edk::MemoryManager::bufferLastPosition,buffer);
+
+                        printf("\n%u %s %s pointer == %lu size==%u pos[%lu][%lu]",__LINE__,__FILE__,__func__
+                               ,(edk::uint64)pointer
+                               ,edk::MemoryManager::treeAlloc.size()
+                               ,newAlloc.start
+                               ,newAlloc.end
+                               );fflush(stdout);
                     }
                 }
                 else if(recursive){
@@ -146,7 +162,8 @@ edk::classID edk::MemoryManager::privateAlloc(edk::uint64 size,edk::classID poin
                     pos.end = (edk::uint64)buffer.positionLast;
                     pos.buffer = buffer;
                     //add the new position into the tree
-                    edk::MemoryManager::treeRemoved.newPosition(pos);
+                    edk::MemoryManager::treeSizeRemoved.newPosition(pos);
+                    edk::MemoryManager::treePositionsRemoved.add(pos);
 
                     //neeed realloc the memory
                     if(edk::MemoryManager::newBuffer()){
@@ -282,15 +299,118 @@ bool edk::MemoryManager::freeMemory(edk::classID pointer){
             pos.start = temp.start;
             pos.end = temp.end;
             pos.buffer = temp.buffer;
-            if(edk::MemoryManager::treeRemoved.newPosition(pos)){
-                if(edk::MemoryManager::treeAlloc.remove(temp)){
-                    //add it into the tree removed
-                    edk::MemoryManager::mut.unlock();
-                    return true;
+            if(edk::MemoryManager::treeSizeRemoved.newPosition(pos)){
+                if(edk::MemoryManager::treePositionsRemoved.add(pos)){
+                    if(edk::MemoryManager::treeAlloc.remove(temp)){
+                        //add it into the tree removed
+                        edk::MemoryManager::mut.unlock();
+                        return true;
+                    }
+                    edk::MemoryManager::treePositionsRemoved.remove(pos);
                 }
+                edk::MemoryManager::treeSizeRemoved.removePosition(pos);
             }
         }
     }
     edk::MemoryManager::mut.unlock();
     return false;
+}
+
+//update the connecteds
+bool edk::MemoryManager::connectAllRemoveds(){
+    edk::MemoryManager::mut.lock();
+    //update connecteds temporary
+    edk::MemoryManager::treePositionsRemoved.update();
+    edk::uint32 size = edk::MemoryManager::treePositionsRemoved.getConnectedsSize();
+    if(size){
+        edk::MemoryManager::MemoryPositions pos;
+        edk::MemoryManager::MemoryPositions temp;
+        edk::uint32 sizeConnected;
+        for(edk::uint32 i=0u;i<size;i++){
+            //create a new position
+            sizeConnected = edk::MemoryManager::treePositionsRemoved.getConnectedsSizeInPosition(i);
+            if(sizeConnected>1u){
+                //create the new position
+                pos = edk::MemoryManager::treePositionsRemoved.getConnectedInPosition(i,0u);
+                //remove the position
+                edk::MemoryManager::treePositionsRemoved.remove(pos);
+                edk::MemoryManager::treeSizeRemoved.removePosition(pos);
+                //have to create a new merged position
+                for(edk::uint32 j=1u;j<sizeConnected;j++){
+                    //
+                    temp = edk::MemoryManager::treePositionsRemoved.getConnectedInPosition(i,j);
+                    //remove the position
+                    edk::MemoryManager::treePositionsRemoved.remove(temp);
+                    edk::MemoryManager::treeSizeRemoved.removePosition(temp);
+                    pos.end = temp.end;
+                }
+                //in the end add the new position
+                edk::MemoryManager::treePositionsRemoved.add(pos);
+                edk::MemoryManager::treeSizeRemoved.newPosition(pos);
+            }
+        }
+        edk::MemoryManager::treePositionsRemoved.cleanConnecteds();
+        edk::MemoryManager::mut.unlock();
+        return true;
+    }
+    edk::MemoryManager::mut.unlock();
+    return false;
+}
+bool edk::MemoryManager::connectOneRemoved(){
+    edk::MemoryManager::mut.lock();
+    //update connecteds temporary
+    edk::MemoryManager::treePositionsRemoved.update();
+    edk::uint32 size = edk::MemoryManager::treePositionsRemoved.getConnectedsSize();
+    if(size){
+        size=1u;
+        edk::MemoryManager::MemoryPositions pos;
+        edk::MemoryManager::MemoryPositions temp;
+        edk::uint32 sizeConnected;
+        for(edk::uint32 i=0u;i<size;i++){
+            //create a new position
+            sizeConnected = edk::MemoryManager::treePositionsRemoved.getConnectedsSizeInPosition(i);
+            if(sizeConnected>1u){
+                //create the new position
+                pos = edk::MemoryManager::treePositionsRemoved.getConnectedInPosition(i,0u);
+                //remove the position
+                edk::MemoryManager::treePositionsRemoved.remove(pos);
+                edk::MemoryManager::treeSizeRemoved.removePosition(pos);
+                //have to create a new merged position
+                for(edk::uint32 j=1u;j<sizeConnected;j++){
+                    //
+                    temp = edk::MemoryManager::treePositionsRemoved.getConnectedInPosition(i,j);
+                    //remove the position
+                    edk::MemoryManager::treePositionsRemoved.remove(temp);
+                    edk::MemoryManager::treeSizeRemoved.removePosition(temp);
+                    pos.end = temp.end;
+                }
+                //in the end add the new position
+                edk::MemoryManager::treePositionsRemoved.add(pos);
+                edk::MemoryManager::treeSizeRemoved.newPosition(pos);
+            }
+        }
+        edk::MemoryManager::treePositionsRemoved.cleanConnecteds();
+        edk::MemoryManager::mut.unlock();
+        return true;
+    }
+    edk::MemoryManager::mut.unlock();
+    return false;
+}
+
+//print all the positions removed's
+void edk::MemoryManager::printRemoveds(){
+    edk::MemoryManager::mut.lock();
+    printf("\nREMOVEDS:");
+    edk::uint32 size = edk::MemoryManager::treePositionsRemoved.size();
+    edk::MemoryManager::MemoryPositions pos;
+    for(edk::uint32 i=0u;i<size;i++){
+        pos = edk::MemoryManager::treePositionsRemoved.getElementInPosition(i);
+        printf("\nBuffer %lu ([%lu][%lu])"
+               ,(edk::uint64)pos.buffer.buffer
+               ,pos.start
+               ,pos.end
+               );
+    }
+    fflush(stdout);
+    edk::MemoryManager::mut.unlock();
 }

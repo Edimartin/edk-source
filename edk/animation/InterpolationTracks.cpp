@@ -1674,8 +1674,9 @@ bool edk::animation::InterpolationTracks::isPausedTrack(edk::uint32 trackPositio
     }
     return false;
 }
-bool edk::animation::InterpolationTracks::isPausedNameTrack(edk::uint32 trackPosition,const edk::char8* name){
+bool edk::animation::InterpolationTracks::isPausedNameTrack(edk::uint32 /*trackPosition*/,const edk::char8* /*name*/){
     //
+    return false;
 }
 bool edk::animation::InterpolationTracks::isPausedNameTrack(edk::uint32 trackPosition,edk::char8* name){
     if(name){

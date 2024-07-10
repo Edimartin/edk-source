@@ -463,7 +463,7 @@ public:
     virtual bool readLevelsFromXMLFromPackWithoutLoadPhysics(edk::pack::FilePackage* pack,edk::char8* fileName,edk::uint32 levelStart,edk::uint32 levelEnd);
 
     bool setMinimunObjectsInQuads(edk::uint32 minimunObjectsInQuads);
-    edk::uint32 getMinimunObjectsInQuads(edk::uint32 minimunObjectsInQuads);
+    edk::uint32 getMinimunObjectsInQuads();
 
     //set it cant continue loading the cenario
     void cantContinueReading();
@@ -678,7 +678,7 @@ private:
             this->classThis=NULL;edkEnd();
             this->Constructor(false);edkEnd();
         }
-        ~PhysicsPosition(){
+        virtual ~PhysicsPosition(){
             if(this->classThis==this){
                 this->classThis=NULL;edkEnd();
                 //can destruct the class
@@ -721,7 +721,7 @@ private:
             this->classThis=NULL;edkEnd();
             this->Constructor(created,obj,depth,false);edkEnd();
         }
-        ~ObjClass(){
+        virtual ~ObjClass(){
             if(this->classThis==this){
                 this->classThis=NULL;edkEnd();
                 //can destruct the class
@@ -797,7 +797,7 @@ private:
             this->classThis=NULL;edkEnd();
             this->Constructor(false);edkEnd();
         }
-        ~TreeObjDepth(){
+        virtual ~TreeObjDepth(){
             if(this->classThis==this){
                 this->classThis=NULL;edkEnd();
                 //can destruct the class
@@ -1192,7 +1192,7 @@ private:
             this->classThis=NULL;edkEnd();
             this->Constructor(calls,false);edkEnd();
         }
-        ~QuadObjs(){
+        virtual ~QuadObjs(){
             if(this->classThis==this){
                 this->classThis=NULL;edkEnd();
                 //can destruct the class
@@ -1335,7 +1335,7 @@ private:
             this->classThis=NULL;edkEnd();
             this->Constructor(world,calls,false);edkEnd();
         }
-        ~QuadPhyicObjs(){
+        virtual ~QuadPhyicObjs(){
             if(this->classThis==this){
                 this->classThis=NULL;edkEnd();
                 //can destruct the class
@@ -1411,7 +1411,7 @@ private:
             this->classThis=NULL;edkEnd();
             this->Constructor(calls,false);edkEnd();
         }
-        ~LevelObj(){
+        virtual ~LevelObj(){
             if(this->classThis==this){
                 this->classThis=NULL;edkEnd();
                 //can destruct the class
@@ -2446,7 +2446,7 @@ private:
             this->classThis=NULL;edkEnd();
             this->Constructor(false);edkEnd();
         }
-        ~TreeAnim(){
+        virtual ~TreeAnim(){
             if(this->classThis==this){
                 this->classThis=NULL;edkEnd();
                 //can destruct the class
@@ -2501,7 +2501,7 @@ private:
             this->classThis=NULL;edkEnd();
             this->Constructor(world,false);
         }
-        ~TreeAnimPhys(){
+        virtual ~TreeAnimPhys(){
             if(this->classThis==this){
                 this->classThis=NULL;edkEnd();
                 //can destruct the class

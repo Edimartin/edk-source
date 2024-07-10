@@ -45,7 +45,7 @@ namespace edk{
 class Object2DValues{
 public:
     Object2DValues();
-    ~Object2DValues();
+    virtual ~Object2DValues();
 
     void Constructor(bool runFather=true);
 

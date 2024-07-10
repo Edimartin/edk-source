@@ -86,7 +86,7 @@ enum ConsoleColors{
 class ViewConsole : public edk::ViewGU{
 public:
     ViewConsole();
-    ~ViewConsole();
+    virtual ~ViewConsole();
 
     void Constructor(bool runFather=true);
 

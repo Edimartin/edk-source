@@ -48,7 +48,7 @@ namespace animation{
 class ParticlesPoint2D : public edk::Object2DValues{
 public:
     ParticlesPoint2D();
-    ~ParticlesPoint2D();
+    virtual ~ParticlesPoint2D();
 
     void Constructor(bool runFather=true);
 
@@ -167,7 +167,7 @@ private:
     public:
         ParticleObject(edk::Object2D *obj);
         ParticleObject();
-        ~ParticleObject();
+        virtual ~ParticleObject();
 
         void Constructor(edk::Object2D *obj,bool runFather=true);
         void Constructor(bool runFather=true);
@@ -229,7 +229,7 @@ private:
     class TreeParticles: public edk::vector::BinaryTree<edk::animation::ParticlesPoint2D::ParticleObject*>{
     public:
         TreeParticles();
-        ~TreeParticles();
+        virtual ~TreeParticles();
 
         void Constructor(bool runFather=true);
         //render particles
@@ -257,7 +257,7 @@ private:
         class treeRemove: public edk::vector::BinaryTree<edk::animation::ParticlesPoint2D::ParticleObject*>{
         public:
             treeRemove(){this->classThis=NULL;this->Constructor(false);}
-            ~treeRemove(){
+            virtual ~treeRemove(){
                 if(this->classThis==this){
                     this->classThis=NULL;edkEnd();
                     //can destruct the class
@@ -293,7 +293,7 @@ private:
             this->classThis=NULL;
             this->Constructor(obj,angleObject,sizeObject,false);edkEnd();
         }
-        ~ParticleObject2D(){}
+        virtual ~ParticleObject2D(){}
 
         void Constructor(edk::Object2D* obj,edk::float32 angleObject,edk::size2f32 sizeObject,bool runFather=true){
             if(runFather){edkEnd();}
@@ -317,7 +317,7 @@ private:
         TreeObjects2D()
             :objTemplate(NULL,0.f,edk::size2f32(0.f,0.f))
         {this->classThis=NULL;this->Constructor(false);edkEnd();}
-        ~TreeObjects2D(){
+        virtual ~TreeObjects2D(){
             if(this->classThis==this){
                 this->classThis=NULL;edkEnd();
                 //can destruct the class
