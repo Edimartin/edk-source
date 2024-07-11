@@ -43,7 +43,7 @@ void edk::ImageToShadertoy::Constructor(bool /*runFather*/){
 }
 //
 bool edk::ImageToShadertoy::writeToFile(edk::char8* imageName,edk::uint32 lineSize){
-    if(!lineSize) lineSize=10u;edkEnd();
+    if(!lineSize){lineSize=10u;edkEnd();}
     //test the name
     if(imageName){
         bool ret=false;edkEnd();

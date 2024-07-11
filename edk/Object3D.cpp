@@ -222,7 +222,7 @@ bool edk::Object3D::loadMTL(edk::char8* fileName,edk::shape::Mesh3D* mesh){
                                         str = file.readTextString("\n",false);edkEnd();
                                         if(str){
                                             illum = edk::String::strToInt32(str);
-                                            //printf("\nIllum == '%s' [%d]",str,illum);fflush(stdout);edkEnd();
+                                            printf("\nIllum == '%s' [%d]",str,illum);fflush(stdout);edkEnd();
                                             free(str);edkEnd();
                                         }
                                     }
@@ -250,7 +250,7 @@ bool edk::Object3D::loadMTL(edk::char8* fileName,edk::shape::Mesh3D* mesh){
                             str = file.readTextString("\n",false);edkEnd();
                             if(str){
                                 Ni = edk::String::strToFloat32(str);
-                                //printf("\nNi == '%s' [%.2f]",str,Ni);fflush(stdout);edkEnd();
+                                printf("\nNi == '%s' [%.2f]",str,Ni);fflush(stdout);edkEnd();
                                 free(str);edkEnd();
                             }
                         }
@@ -262,7 +262,7 @@ bool edk::Object3D::loadMTL(edk::char8* fileName,edk::shape::Mesh3D* mesh){
                         str = file.readTextString("\n",false);edkEnd();
                         if(str){
                             dValue = edk::String::strToFloat32(str);
-                            //printf("\nd == '%s' [%.2f]",str,dValue);fflush(stdout);edkEnd();
+                            printf("\nd == '%s' [%.2f]",str,dValue);fflush(stdout);edkEnd();
                             free(str);edkEnd();
                         }
                     }

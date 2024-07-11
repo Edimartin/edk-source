@@ -511,19 +511,19 @@ void edk::Window::updateView(edk::View* view,edk::vec2f32 screenPosition){
     }
 }
 //contactView
-void edk::Window::mousePressView(edk::ViewController* view, edk::vec2i32 point, edk::vector::Stack<edk::uint32> buttons){
+void edk::Window::mousePressView(edk::ViewController* view, edk::vec2i32 point, edk::vector::Stack<edk::uint32> /*buttons*/){
     //
     if(view && point.x){
         //remove the warning
     }
 }
-void edk::Window::mouseReleaseView(edk::ViewController* view, edk::vec2i32 point, edk::vector::Stack<edk::uint32> buttons){
+void edk::Window::mouseReleaseView(edk::ViewController* view, edk::vec2i32 point, edk::vector::Stack<edk::uint32> /*buttons*/){
     //
     if(view && point.x){
         //remove the warning
     }
 }
-void edk::Window::mouseDoubleClickView(edk::ViewController* view, edk::vec2i32 point, edk::vector::Stack<edk::uint32> buttons){
+void edk::Window::mouseDoubleClickView(edk::ViewController* view, edk::vec2i32 point, edk::vector::Stack<edk::uint32> /*buttons*/){
     //
     if(view && point.x){
         //remove the warning
@@ -702,7 +702,11 @@ bool edk::Window::haveSomethingTypes(edk::EventWindowType types, ...){
 }
 
 //start writing events into a file
-bool edk::Window::startWriteEvents(edk::char8* fileName){
+bool edk::Window::startWriteEvents(edk::char8*
+#if defined(EDK_WINDOW_EVENTS_RW)
+                                   fileName
+#endif
+                                   ){
     this->stopWriteEvents();edkEnd();
 #if defined(EDK_WINDOW_EVENTS_RW)
     //create the file
@@ -719,7 +723,13 @@ bool edk::Window::startWriteEvents(edk::char8* fileName){
 bool edk::Window::startWriteEvents(const edk::char8* fileName){
     return this->startWriteEvents((edk::char8*) fileName);
 }
-bool edk::Window::startWriteEvents(edk::char8* fileName,edk::EventWindowType types, ...){
+bool edk::Window::startWriteEvents(edk::char8*
+                                   fileName
+                                   ,edk::EventWindowType
+                                   #if defined(EDK_WINDOW_EVENTS_RW)
+                                   types
+                                   #endif
+                                   , ...){
     //create the file
     if(this->startWriteEvents(fileName)){
 #if defined(EDK_WINDOW_EVENTS_RW)
@@ -753,7 +763,11 @@ bool edk::Window::startWriteEvents(const edk::char8* fileName,edk::EventWindowTy
     return this->startWriteEvents((edk::char8*) fileName,types);
 }
 //start reading events from a file
-bool edk::Window::startReadEvents(edk::char8* fileName){
+bool edk::Window::startReadEvents(edk::char8*
+#if defined(EDK_WINDOW_EVENTS_RW)
+                                  fileName
+#endif
+                                  ){
     this->stopReadEvents();edkEnd();
 #if defined(EDK_WINDOW_EVENTS_RW)
     //create the file

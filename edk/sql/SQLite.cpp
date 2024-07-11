@@ -198,8 +198,8 @@ bool edk::sql::SQLite::deleteDataBase(edk::char8* name){
     }
     return false;
 }
-
 //execute a command
+#if defined(EDK_USE_SQLITE)
 static edk::int32 sqlCallback(void *callback, edk::int32 argc, char **argv, char **azColName){
     edk::int32 i;edkEnd();
     if(argc){
@@ -218,17 +218,23 @@ static edk::int32 sqlCallback(void *callback, edk::int32 argc, char **argv, char
                         group->addNode((edk::char8*)azColName[i],(edk::char8*)"NULL");edkEnd();
                     }
 */
-                    group->addNode((edk::char8*)azColName[i],(edk::char8*)argv[i]);edkEnd();
+                    return group->addNode((edk::char8*)azColName[i],(edk::char8*)argv[i]);edkEnd();
                 }
             }
         }
     }
     return 0;
 }
+#endif
 bool edk::sql::SQLite::execute(const edk::char8* command,edk::sql::SQLGroup* callback){
     return this->execute((edk::char8*) command,callback);edkEnd();
 }
-bool edk::sql::SQLite::execute(edk::char8* command,edk::sql::SQLGroup* callback){
+bool edk::sql::SQLite::execute(edk::char8* command
+                               ,edk::sql::SQLGroup*
+#if defined(EDK_USE_SQLITE)
+                               callback
+#endif
+                               ){
     //est if have opened the dataBase
     if(this->haveOpenedDataBase() && command){
 #if defined(EDK_USE_SQLITE)
