@@ -296,13 +296,13 @@ public:
     //return the value in a position
     typeTemplate get(edk::uint32 pos){
         typeTemplate ret;edkEnd();
-        memset(&ret,0,sizeof(typeTemplate));
+        memset((edk::classID)&ret,0,sizeof(typeTemplate));
         //first test if have the first cell
         if((*this->firstPointer) && pos<(*this->_sizePointer)){
             //test if the position is in the first cel
             if((pos+(*this->startPointer))<(*this->arraySizePointer)){
                 //get the value
-                memcpy(&ret,(edk::classID)&(*this->firstPointer)->getPointer()[(*this->startPointer)+pos],sizeof(typeTemplate));
+                memcpy((edk::classID)&ret,(edk::classID)&(*this->firstPointer)->getPointer()[(*this->startPointer)+pos],sizeof(typeTemplate));
             }
             else{
                 pos-=(*this->arraySizePointer)-(*this->startPointer);edkEnd();
@@ -313,7 +313,7 @@ public:
                     if(pos<(*this->arraySizePointer)){
                         if(temp==(*this->lastPointer)){
                             if(pos<(*this->endPointer)){
-                                memcpy(&ret,(edk::classID)&temp->getPointer()[pos],sizeof(typeTemplate));
+                                memcpy((edk::classID)&ret,(edk::classID)&temp->getPointer()[pos],sizeof(typeTemplate));
                                 break;
                             }
                             else{
@@ -321,7 +321,7 @@ public:
                             }
                         }
                         else{
-                            memcpy(&ret,(edk::classID)&temp->getPointer()[pos],sizeof(typeTemplate));
+                            memcpy((edk::classID)&ret,(edk::classID)&temp->getPointer()[pos],sizeof(typeTemplate));
                             break;
                         }
                     }

@@ -416,6 +416,29 @@ edk::float32 edk::Camera2D::getAngle(){
     return this->angle;edkEnd();
 }
 
+//pause the animations
+void edk::Camera2D::pauseAnim(){
+    this->animAngle.pause();
+    this->animPosition.pause();
+    this->animShakeInitAngle.pause();
+    this->animShakingPosition.pause();
+}
+void edk::Camera2D::pauseAnimOn(){
+    this->animAngle.pause();
+    this->animPosition.pause();
+    this->animShakeInitAngle.pause();
+    this->animShakingPosition.pause();
+}
+void edk::Camera2D::pauseAnimOff(){
+    this->animAngle.pause();
+    this->animPosition.pause();
+    this->animShakeInitAngle.pause();
+    this->animShakingPosition.pause();
+}
+bool edk::Camera2D::isPausedAnim(){
+    return this->animAngle.isPaused();
+}
+
 //update the camera animations
 void edk::Camera2D::updateAnimations(){
     this->secondPassed = this->clock.getSeconds();

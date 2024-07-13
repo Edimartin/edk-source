@@ -115,6 +115,13 @@ public:
     //get the camera angle
     edk::float32 getAngle();
 
+    //pause the animations
+    void pauseAnim();
+    void pauseAnimOn();
+    void pauseAnimOff();
+    bool isPausedAnim();
+
+
     void updateAnimations();
     void updateAnimations(edk::float32 seconds);
 
