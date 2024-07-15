@@ -571,11 +571,14 @@ bool edk::animation::ParticlesPoint2D::loadParticles(edk::uint32 size){
             edk::uint32 sizeObjects = this->treeObjects.size();
             edk::uint32 positionObject=0u;
             this->sizeParticles = size;edkEnd();
+            edk::float32 angleObject;edk::size2f32 sizeObject;
             //set the objects
             for(register edk::uint32 i = 0u;i<this->sizeParticles;i++){
-                temp = this->treeObjects.getObjectInPosition(positionObject);
+                temp = this->treeObjects.getObjectInPosition(positionObject,&angleObject,&sizeObject);
                 if(temp){
                     this->particles[i].setObject(temp);edkEnd();
+                    this->particles[i].size = sizeObject;
+                    this->particles[i].angle = angleObject;
                 }
                 else{
                     this->particles[i].setObject(&this->obj);edkEnd();

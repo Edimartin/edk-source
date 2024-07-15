@@ -4359,7 +4359,7 @@ edk::vec2f32 edk::Object2D::getConnectedObjectFrontWorldPosition(edk::Object2D* 
     edk::vec2f32 ret;
     if(obj){
         if(obj->father == this){
-            if(this->childremsBack.haveElement(obj)){
+            if(this->childremsFront.haveElement(obj)){
                 edk::shape::Mesh2D* mesh;edkEnd();
 
                 //update the values
