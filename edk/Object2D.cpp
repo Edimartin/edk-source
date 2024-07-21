@@ -81,9 +81,9 @@ void edk::Object2D::drawUnhide(bool haveLight){
     edk::shape::Mesh2D* mesh;edkEnd();
     if(haveLight){
         edk::uint32 size = this->meshes.size();edkEnd();
-        for(edk::uint32 i=size;i>0u;i--){
+        for(edk::uint32 i=0u;i<size;i++){
             //
-            mesh = this->meshes.getMesh(i-1u);edkEnd();
+            mesh = this->meshes.getMesh(i);edkEnd();
             if(mesh){
                 if(mesh->material.haveOneTexture()){
                     mesh->drawOneTexture();edkEnd();
@@ -96,9 +96,9 @@ void edk::Object2D::drawUnhide(bool haveLight){
     }
     else{
         edk::uint32 size = this->meshes.size();edkEnd();
-        for(edk::uint32 i=size;i>0u;i--){
+        for(edk::uint32 i=0u;i<size;i++){
             //
-            mesh = this->meshes.getMesh(i-1u);edkEnd();
+            mesh = this->meshes.getMesh(i);edkEnd();
             if(mesh){
                 if(mesh->material.haveOneTexture()){
                     mesh->drawOneTexture();edkEnd();
@@ -113,9 +113,10 @@ void edk::Object2D::drawUnhide(bool haveLight){
 void edk::Object2D::drawUnhideOneTexture(){
     edk::shape::Mesh2D* mesh;edkEnd();
     //print all polygonList
-    for(edk::uint32 i=this->meshes.size();i>0u;i--){
+    edk::uint32 size = this->meshes.size();edkEnd();
+    for(edk::uint32 i=0u;i<size;i++){
         //
-        mesh = this->meshes.getMesh(i-1u);edkEnd();
+        mesh = this->meshes.getMesh(i);edkEnd();
         if(mesh){
             mesh->drawOneTexture();edkEnd();
         }
@@ -124,18 +125,20 @@ void edk::Object2D::drawUnhideOneTexture(){
 void edk::Object2D::drawUnhideOneTextureWithLight(bool haveLight){
     edk::shape::Mesh2D* mesh;edkEnd();
     if(haveLight){
-        for(edk::uint32 i=this->meshes.size();i>0u;i--){
+        edk::uint32 size = this->meshes.size();edkEnd();
+        for(edk::uint32 i=0u;i<size;i++){
             //
-            mesh = this->meshes.getMesh(i-1u);edkEnd();
+            mesh = this->meshes.getMesh(i);edkEnd();
             if(mesh){
                 mesh->drawOneTexture();edkEnd();
             }
         }
     }
     else{
-        for(edk::uint32 i=this->meshes.size();i>0u;i--){
+        edk::uint32 size = this->meshes.size();edkEnd();
+        for(edk::uint32 i=0u;i<size;i++){
             //
-            mesh = this->meshes.getMesh(i-1u);edkEnd();
+            mesh = this->meshes.getMesh(i);edkEnd();
             if(mesh){
                 mesh->drawOneTexture();edkEnd();
             }
@@ -145,9 +148,10 @@ void edk::Object2D::drawUnhideOneTextureWithLight(bool haveLight){
 void edk::Object2D::drawUnhideWithoutMaterial(){
     edk::shape::Mesh2D* mesh;edkEnd();
     //print all polygonList
-    for(edk::uint32 i=this->meshes.size();i>0u;i--){
+    edk::uint32 size = this->meshes.size();edkEnd();
+    for(edk::uint32 i=0u;i<size;i++){
         //
-        mesh = this->meshes.getMesh(i-1u);edkEnd();
+        mesh = this->meshes.getMesh(i);edkEnd();
         if(mesh){
             mesh->drawWithoutMaterial();edkEnd();
         }
@@ -156,18 +160,20 @@ void edk::Object2D::drawUnhideWithoutMaterial(){
 void edk::Object2D::drawUnhideWithoutMaterialWithLight(bool haveLight){
     edk::shape::Mesh2D* mesh;edkEnd();
     if(haveLight){
-        for(edk::uint32 i=this->meshes.size();i>0u;i--){
+        edk::uint32 size = this->meshes.size();edkEnd();
+        for(edk::uint32 i=0u;i<size;i++){
             //
-            mesh = this->meshes.getMesh(i-1u);edkEnd();
+            mesh = this->meshes.getMesh(i);edkEnd();
             if(mesh){
                 mesh->drawWithoutMaterial();edkEnd();
             }
         }
     }
     else{
-        for(edk::uint32 i=this->meshes.size();i>0u;i--){
+        edk::uint32 size = this->meshes.size();edkEnd();
+        for(edk::uint32 i=0u;i<size;i++){
             //
-            mesh = this->meshes.getMesh(i-1u);edkEnd();
+            mesh = this->meshes.getMesh(i);edkEnd();
             if(mesh){
                 mesh->drawWithoutMaterial();edkEnd();
             }
@@ -177,9 +183,10 @@ void edk::Object2D::drawUnhideWithoutMaterialWithLight(bool haveLight){
 void edk::Object2D::drawUnhideWire(){
     edk::shape::Mesh2D* mesh;edkEnd();
     //print all polygonList
-    for(edk::uint32 i=this->meshes.size();i>0u;i--){
+    edk::uint32 size = this->meshes.size();edkEnd();
+    for(edk::uint32 i=0u;i<size;i++){
         //
-        mesh = this->meshes.getMesh(i-1u);edkEnd();
+        mesh = this->meshes.getMesh(i);edkEnd();
         if(mesh){
             mesh->drawWirePolygons();edkEnd();
         }
@@ -293,9 +300,10 @@ bool edk::Object2D::drawUnhideMeshOneTextureWithLight(bool haveLight,edk::uint32
         }
     }
     else{
-        for(edk::uint32 i=this->meshes.size();i>0u;i--){
+        edk::uint32 size = this->meshes.size();edkEnd();
+        for(edk::uint32 i=0u;i<size;i++){
             //
-            mesh = this->meshes.getMesh(i-1u);edkEnd();
+            mesh = this->meshes.getMesh(i);edkEnd();
             if(mesh){
                 mesh->drawOneTexture();edkEnd();
                 ret = true;edkEnd();
@@ -316,9 +324,10 @@ bool edk::Object2D::drawUnhidePolygonOneTextureWithLight(bool haveLight,edk::uin
         }
     }
     else{
-        for(edk::uint32 i=this->meshes.size();i>0u;i--){
+        edk::uint32 size = this->meshes.size();edkEnd();
+        for(edk::uint32 i=0u;i<size;i++){
             //
-            mesh = this->meshes.getMesh(i-1u);edkEnd();
+            mesh = this->meshes.getMesh(i);edkEnd();
             if(mesh){
                 ret = mesh->drawPolygonOneTexture(polygon);edkEnd();
             }
@@ -1359,9 +1368,10 @@ void edk::Object2D::drawChildFrontWithoutMaterial(){
 
     edk::shape::Mesh2D* mesh;edkEnd();
     //print all polygonList
-    for(edk::uint32 i=this->meshes.size();i>0u;i--){
+    edk::uint32 size = this->meshes.size();edkEnd();
+    for(edk::uint32 i=0u;i<size;i++){
         //
-        mesh = this->meshes.getMesh(i-1u);edkEnd();
+        mesh = this->meshes.getMesh(i);edkEnd();
         if(mesh){
             mesh->drawWithoutMaterial();edkEnd();
         }
@@ -1404,9 +1414,10 @@ void edk::Object2D::drawChildWithoutMaterial(){
 
     edk::shape::Mesh2D* mesh;edkEnd();
     //print all polygonList
-    for(edk::uint32 i=this->meshes.size();i>0u;i--){
+    edk::uint32 size = this->meshes.size();edkEnd();
+    for(edk::uint32 i=0u;i<size;i++){
         //
-        mesh = this->meshes.getMesh(i-1u);edkEnd();
+        mesh = this->meshes.getMesh(i);edkEnd();
         if(mesh){
             mesh->drawWithoutMaterial();edkEnd();
         }
