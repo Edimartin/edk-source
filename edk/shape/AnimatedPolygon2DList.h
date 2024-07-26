@@ -140,8 +140,12 @@ public:
     //Play the animationName
     bool selectedAnimationPlayNameForward(const edk::char8* name);
     bool selectedAnimationPlayNameForward(edk::char8* name);
+    bool selectedAnimationPlayNameForwardIn(const edk::char8* name,edk::float32 second);
+    bool selectedAnimationPlayNameForwardIn(edk::char8* name,edk::float32 second);
     bool selectedAnimationPlayNameRewind(const edk::char8* name);
     bool selectedAnimationPlayNameRewind(edk::char8* name);
+    bool selectedAnimationPlayNameRewindIn(const edk::char8* name,edk::float32 second);
+    bool selectedAnimationPlayNameRewindIn(edk::char8* name,edk::float32 second);
     //remove the animationName
     bool selectedAnimationRemoveAnimationName(const edk::char8* name);
     bool selectedAnimationRemoveAnimationName(edk::char8* name);

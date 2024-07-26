@@ -707,6 +707,26 @@ bool edk::shape::AnimatedPolygon2DList::selectedAnimationPlayNameForward(edk::ch
     //else return false
     return false;
 }
+bool edk::shape::AnimatedPolygon2DList::selectedAnimationPlayNameForwardIn(const edk::char8* name,edk::float32 second){
+    //test if have a animationSelected
+    if(this->selectedAnimation){
+        //add new interpolationLine
+        this->selectedAnimation->playNameForwardIn(name,second);edkEnd();
+        return true;
+    }
+    //else return false
+    return false;
+}
+bool edk::shape::AnimatedPolygon2DList::selectedAnimationPlayNameForwardIn(edk::char8* name,edk::float32 second){
+    //test if have a animationSelected
+    if(this->selectedAnimation){
+        //add new interpolationLine
+        this->selectedAnimation->playNameForwardIn(name,second);edkEnd();
+        return true;
+    }
+    //else return false
+    return false;
+}
 bool edk::shape::AnimatedPolygon2DList::selectedAnimationPlayNameRewind(const edk::char8* name){
     //test if have a animationSelected
     if(this->selectedAnimation){
@@ -722,6 +742,26 @@ bool edk::shape::AnimatedPolygon2DList::selectedAnimationPlayNameRewind(edk::cha
     if(this->selectedAnimation){
         //add new interpolationLine
         this->selectedAnimation->playNameRewind(name);edkEnd();
+        return true;
+    }
+    //else return false
+    return false;
+}
+bool edk::shape::AnimatedPolygon2DList::selectedAnimationPlayNameRewindIn(const edk::char8* name,edk::float32 second){
+    //test if have a animationSelected
+    if(this->selectedAnimation){
+        //add new interpolationLine
+        this->selectedAnimation->playNameRewindIn(name,second);edkEnd();
+        return true;
+    }
+    //else return false
+    return false;
+}
+bool edk::shape::AnimatedPolygon2DList::selectedAnimationPlayNameRewindIn(edk::char8* name,edk::float32 second){
+    //test if have a animationSelected
+    if(this->selectedAnimation){
+        //add new interpolationLine
+        this->selectedAnimation->playNameRewindIn(name,second);edkEnd();
         return true;
     }
     //else return false

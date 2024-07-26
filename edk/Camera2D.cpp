@@ -200,7 +200,7 @@ edk::size2f32 edk::Camera2D::getSize(){
 //return the camera rect
 edk::rectf32 edk::Camera2D::getRect(){
     return edk::rectf32(this->position.x - (this->size.width),this->position.y - (this->size.height),
-                        this->size.width*2.f,this->size.height*2.f
+                        this->position.x + this->size.width,this->position.y + this->size.height
                         );edkEnd();
 }
 

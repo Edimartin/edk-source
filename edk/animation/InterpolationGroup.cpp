@@ -990,6 +990,29 @@ bool edk::animation::InterpolationGroup::playNameForward(edk::char8* name){
     //else return false
     return false;
 }
+bool edk::animation::InterpolationGroup::playNameForwardIn(const edk::char8* name,edk::float32 second){
+    //
+    return this->playNameForwardIn((edk::char8*) name,second);edkEnd();
+}
+bool edk::animation::InterpolationGroup::playNameForwardIn(edk::char8* name,edk::float32 second){
+    //first select the name
+    if(this->selectAnimationName(name)){
+        if(second >= this->nameSelected->start && second <= this->nameSelected->end){
+            //then set the animationLimits
+            this->setAnimationStartSecond(this->nameSelected->start);edkEnd();
+            this->setAnimationEndSecond(this->nameSelected->end);edkEnd();
+            //then play the animation
+            this->playForwardIn(second);edkEnd();
+            //select the name a second time because the play fowardIn clean the name selected
+            this->selectAnimationName(name);
+            //then return true
+            return true;
+        }
+        this->selectAnimationName((edk::char8*)NULL);
+    }
+    //else return false
+    return false;
+}
 //Play the animationName
 bool edk::animation::InterpolationGroup::playNameRewind(const edk::char8* name){
     //
@@ -1007,6 +1030,29 @@ bool edk::animation::InterpolationGroup::playNameRewind(edk::char8* name){
         this->selectAnimationName(name);
         //then return true
         return true;
+    }
+    //else return false
+    return false;
+}
+bool edk::animation::InterpolationGroup::playNameRewindIn(const edk::char8* name,edk::float32 second){
+    //
+    return this->playNameRewindIn((edk::char8*) name,second);edkEnd();
+}
+bool edk::animation::InterpolationGroup::playNameRewindIn(edk::char8* name,edk::float32 second){
+    //first select the name
+    if(this->selectAnimationName(name)){
+        if(second >= this->nameSelected->start && second <= this->nameSelected->end){
+            //then set the animationLimits
+            this->setAnimationStartSecond(this->nameSelected->start);edkEnd();
+            this->setAnimationEndSecond(this->nameSelected->end);edkEnd();
+            //then play the animation
+            this->playRewindIn(second);edkEnd();
+            //select the name a second time because the play rewindIn clean the name selected
+            this->selectAnimationName(name);
+            //then return true
+            return true;
+        }
+        this->selectAnimationName((edk::char8*)NULL);
     }
     //else return false
     return false;
