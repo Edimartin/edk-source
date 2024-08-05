@@ -193,10 +193,13 @@ public:
     void print();
     //draw the boneLine
     void draw();
+    void drawLines();
+    void drawPoints(edk::float32 scale);
     //update the objects
     void updateObjects(edk::float32 angle=0.f,edk::size2f32 size = edk::size2f32(1,1),edk::float32 mat[][3u][3u] = NULL,edk::float32 angleRemove = 0.f,edk::float32 angleMultiply = 1.f);
     //calculate the bone point in the world
-    edk::vec2f32 getWorldVector(edk::bones::Bone2D* bone,bool* found,edk::float32 angle=0.f,edk::size2f32 size = edk::size2f32(1,1),edk::float32 mat[][3u][3u] = NULL);
+    edk::vec2f32 getWorldVector(edk::bones::Bone2D* bone,bool* found,edk::float32 angle=0.f,edk::size2f32 size = edk::size2f32(1,1),edk::vector::Matrixf32<3u,3u>* transformMat=NULL);
+    edk::vec2f32 getWorldPosition(edk::bones::Bone2D* bone,bool* found,edk::float32 angle=0.f,edk::size2f32 size = edk::size2f32(1,1),edk::vector::Matrixf32<3u,3u>* transformMat=NULL);
     //calculate the IK with a point in the world
     edk::vec2f32 calculateInverseKinematic(edk::bones::Bone2D* bone,
                                            bool* found,
@@ -205,7 +208,7 @@ public:
                                            edk::uint32* count,
                                            edk::float32 angle=0.f,
                                            edk::size2f32 size = edk::size2f32(1,1),
-                                           edk::float32 mat[][3u][3u] = NULL
+                                           edk::vector::Matrixf32<3u,3u>* transformMat = NULL
             );
 
 
@@ -262,6 +265,11 @@ public:
 
 private:
     edk::vector::NameTree nexts;
+    //transform matrices
+    edk::vector::Matrixf32<3u,3u>  matrixTranslate;
+    edk::vector::Matrixf32<3u,3u>  matrixRotate;
+    edk::vector::Matrixf32<3u,3u>  matrixTransform;
+    edk::vector::MatrixDynamic<edk::float32> matrixPosition;
 
     //class to add the objects to the bone
     class ObjectConnect{

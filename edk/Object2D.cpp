@@ -436,21 +436,22 @@ void edk::Object2D::Constructor(bool runFather){
         edk::Object2DValues::Constructor();edkEnd();
     }
     if(this->classThis!=this){
-        this->classThis=this;
+        this->classThis=this;edkEnd();
 
-        this->hided=true;
+        this->hided=true;edkEnd();
 
-        this->meshes.Constructor();
-        this->matrixPosition.Constructor();
-        this->matrixPivo.Constructor();
-        this->matrixAngle.Constructor();
-        this->matrixSize.Constructor();
-        this->matrixTransform.Constructor();
-        this->childremsFront.Constructor();
-        this->childremsBack.Constructor();
+        this->meshes.Constructor();edkEnd();
+        this->matrixPosition.Constructor();edkEnd();
+        this->matrixPivo.Constructor();edkEnd();
+        this->matrixAngle.Constructor();edkEnd();
+        this->matrixSize.Constructor();edkEnd();
+        this->matrixTransform.Constructor();edkEnd();
+        this->matrixPivo.Constructor();edkEnd();
+        this->childremsFront.Constructor();edkEnd();
+        this->childremsBack.Constructor();edkEnd();
 
         //
-        this->type=edk::TypeObject2D;
+        this->type=edk::TypeObject2D;edkEnd();
         this->selected=NULL;edkEnd();
         //rotation
         this->angle=0.0f;edkEnd();
@@ -459,12 +460,12 @@ void edk::Object2D::Constructor(bool runFather){
         /*
     this->actions.setReadXMLActionFunction(&edk::Object2D::readXMLAction);edkEnd();
     */
-        this->father=NULL;
+        this->father=NULL;edkEnd();
 
-        this->newSize=1.f;
-        this->loadSaveIdentityValues();
+        this->newSize=1.f;edkEnd();
+        this->loadSaveIdentityValues();edkEnd();
 
-        this->unhide();
+        this->unhide();edkEnd();
     }
 }
 

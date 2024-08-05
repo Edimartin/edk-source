@@ -78,6 +78,11 @@ public:
     bool selectedSetVector(edk::vec2f32 vector);
     bool selectedSetVector(edk::float32 x,edk::float32 y);
     bool selectedSetAngle(edk::float32 angle);
+    edk::vec2f32 selectedGetPosition();
+    edk::vec2f32 selectedGetWorldPosition();
+    edk::vec2f32 selectedGetWorldVector();
+    edk::vec2f32 selectedGetVector();
+    edk::float32 selectedGetAngle();
     //animations
     bool selectedCleanAnimationPosition();
     bool selectedCleanAnimationNamesPosition();
@@ -181,10 +186,14 @@ public:
     void print();
     //draw the bones
     void draw();
+    //draw the bones
+    void drawLines();
+    void drawPoints(edk::float32 size);
     //update the connected objects
     void updateObjects();
     //return the world vector of the bone
     edk::vec2f32 getBoneWorldVector(edk::bones::Bone2D* bone, bool* found = NULL);
+    edk::vec2f32 getBoneWorldPosition(edk::bones::Bone2D* bone, bool* found = NULL);
     void calculateInverseKinematic(const edk::char8* name,edk::vec2f32 worldPoint,edk::uint32 tail,edk::uint32 times);
     void calculateInverseKinematic(edk::char8* name,edk::vec2f32 worldPoint,edk::uint32 tail,edk::uint32 times);
     void calculateInverseKinematic(edk::bones::Bone2D* bone,edk::vec2f32 worldPoint,edk::uint32 tail,edk::uint32 times);
@@ -192,6 +201,13 @@ public:
 private:
     edk::bones::Bone2D root;
     edk::bones::Bone2D* selected;
+
+    //transform matrices
+    edk::vector::Matrixf32<3u,3u> matrixPosition;
+    edk::vector::Matrixf32<3u,3u> matrixPivo;
+    edk::vector::Matrixf32<3u,3u> matrixAngle;
+    edk::vector::Matrixf32<3u,3u> matrixSize;
+    edk::vector::Matrixf32<3u,3u> matrixTransform;
 
     class TreeBoneName:public edk::vector::BinaryTree<edk::bones::Bone2D*>{
     public:

@@ -64,6 +64,11 @@ void edk::bones::Bone2D::Constructor(bool runFather){
         this->animationPosition.Constructor();edkEnd();
         this->nexts.Constructor();edkEnd();
         this->treeObjects.Constructor();edkEnd();
+        this->matrixTranslate.Constructor();edkEnd();
+        this->matrixRotate.Constructor();edkEnd();
+        this->matrixTransform.Constructor();edkEnd();
+        this->matrixPosition.Constructor();edkEnd();
+        this->matrixPosition.createMatrix(3u,3u);
 
         this->vector = edk::vec2f32(0,1);edkEnd();
         this->angle = 0u;edkEnd();
@@ -81,6 +86,11 @@ void edk::bones::Bone2D::Constructor(edk::char8* name,bool runFather){
         this->animationPosition.Constructor();edkEnd();
         this->nexts.Constructor();edkEnd();
         this->treeObjects.Constructor();edkEnd();
+        this->matrixTranslate.Constructor();edkEnd();
+        this->matrixRotate.Constructor();edkEnd();
+        this->matrixTransform.Constructor();edkEnd();
+        this->matrixPosition.Constructor();edkEnd();
+        this->matrixPosition.createMatrix(3u,3u);
 
         this->vector = edk::vec2f32(0,1);edkEnd();
         this->angle = 0u;edkEnd();
@@ -97,6 +107,11 @@ void edk::bones::Bone2D::Constructor(const edk::char8* name,bool runFather){
         this->animationPosition.Constructor();edkEnd();
         this->nexts.Constructor();edkEnd();
         this->treeObjects.Constructor();edkEnd();
+        this->matrixTranslate.Constructor();edkEnd();
+        this->matrixRotate.Constructor();edkEnd();
+        this->matrixTransform.Constructor();edkEnd();
+        this->matrixPosition.Constructor();edkEnd();
+        this->matrixPosition.createMatrix(3u,3u);
 
         this->vector = edk::vec2f32(0,1);edkEnd();
         this->angle = 0u;edkEnd();
@@ -1005,6 +1020,53 @@ void edk::bones::Bone2D::draw(){
     edk::GU::guRotateZf32(this->angle*-1.f);edkEnd();
     edk::GU::guTranslate2f32(this->position*-1.f);edkEnd();
 }
+void edk::bones::Bone2D::drawLines(){
+    //    printf("Angle == %.2f  ",this->angle);edkEnd();
+    //    printf("position %.2f %.2f ",this->position.x,this->position.y);edkEnd();
+
+    //edk::GU::guTranslate2f32(this->position);edkEnd();
+    edk::GU::guTranslate2f32(this->position.x,this->position.y);edkEnd();
+    edk::GU::guRotateZf32(this->angle);edkEnd();
+
+    edk::GU::guBegin(GU_LINES);edkEnd();
+    //edk::GU::guVertex2f32(this->position.x,this->position.y);edkEnd();
+    edk::GU::guVertex2f32(0,0);edkEnd();
+    edk::GU::guVertex2f32(this->vector.x,this->vector.y);edkEnd();
+    edk::GU::guEnd();edkEnd();
+
+    //draw the line
+    //edk::GU::guTranslate2f32(this->vector);edkEnd();
+    for(edk::uint32 i=0u;i<this->nexts.size();i++){
+        edk::bones::Bone2D* temp = (edk::bones::Bone2D*)this->nexts.getElementInPosition(i);edkEnd();
+        temp->drawLines();edkEnd();
+    }
+
+    edk::GU::guRotateZf32(this->angle*-1.f);edkEnd();
+    edk::GU::guTranslate2f32(this->position*-1.f);edkEnd();
+}
+void edk::bones::Bone2D::drawPoints(edk::float32 scale){
+    //    printf("Angle == %.2f  ",this->angle);edkEnd();
+    //    printf("position %.2f %.2f ",this->position.x,this->position.y);edkEnd();
+
+    edk::GU::guTranslate2f32(this->position.x,this->position.y);edkEnd();
+    edk::GU::guRotateZf32(this->angle);edkEnd();
+
+    edk::GU::guBegin(GU_POLYGON);edkEnd();
+    edk::GU::guVertex2f32(-scale,-scale);edkEnd();
+    edk::GU::guVertex2f32(-scale,+scale);edkEnd();
+    edk::GU::guVertex2f32(+scale,+scale);edkEnd();
+    edk::GU::guVertex2f32(+scale,-scale);edkEnd();
+    edk::GU::guEnd();edkEnd();
+
+    //draw the line
+    for(edk::uint32 i=0u;i<this->nexts.size();i++){
+        edk::bones::Bone2D* temp = (edk::bones::Bone2D*)this->nexts.getElementInPosition(i);edkEnd();
+        temp->drawPoints(scale);edkEnd();
+    }
+
+    edk::GU::guRotateZf32(this->angle*-1.f);edkEnd();
+    edk::GU::guTranslate2f32(this->position*-1.f);edkEnd();
+}
 //update the objects
 void edk::bones::Bone2D::updateObjects(edk::float32 angle,edk::size2f32 size,edk::float32 mat[][3u][3u],edk::float32 angleRemove,edk::float32 angleMultiply){
     angle+=this->angle*angleMultiply;edkEnd();
@@ -1061,78 +1123,105 @@ void edk::bones::Bone2D::updateObjects(edk::float32 angle,edk::size2f32 size,edk
     }
 }
 //calculate the bone point in the world
-edk::vec2f32 edk::bones::Bone2D::getWorldVector(edk::bones::Bone2D* bone,bool* found,edk::float32 angle,edk::size2f32 size,edk::float32 mat[][3u][3u]){
-
-    angle+=this->angle;edkEnd();
-    //rotate de position
-    edk::float32 vecPos[3u];edkEnd();
-    vecPos[0u] = this->position.x;edkEnd();
-    vecPos[1u] = this->position.y;edkEnd();
-    vecPos[2u] = 1.f;edkEnd();
-
-
-    //test the matrix
-    if(mat){
-        //rotate the bone position as the bone father
-        edk::bones::Bone2D::multiplyMatrix(mat,&vecPos);edkEnd();
-    }
-
-    edk::vec2f32 posTemp;edkEnd();
-    posTemp.x = vecPos[0u];edkEnd();
-    posTemp.y = vecPos[1u];edkEnd();
-
-    //TRANSLATE AND ROTATE DE BONE POSITION
-    edk::float32 translate[3u][3u];edkEnd();
-    edk::bones::Bone2D::generateTranslateMatrix(posTemp,&translate);edkEnd();
-    //generate matrix
-    edk::float32 rotate[3u][3u];edkEnd();
-    edk::bones::Bone2D::generateRotationMatrix(angle,&rotate);edkEnd();
-    //generate scale
-    edk::float32 scale[3u][3u];edkEnd();
-    edk::bones::Bone2D::generateScaleMatrix(size,&scale);edkEnd();
-
-    //create a new matrix
-    edk::float32 newMat[3u][3u];edkEnd();
-    edk::bones::Bone2D::setIdentity(&newMat);edkEnd();
-
-    //multiply the rotatio matrix
-    edk::bones::Bone2D::multiplyMatrix(&rotate,&newMat);edkEnd();
-    //multiply the scale matrix
-    edk::bones::Bone2D::multiplyMatrix(&scale,&newMat);edkEnd();
-    //multiply the translation matrix
-    edk::bones::Bone2D::multiplyMatrix(&translate,&newMat);edkEnd();
-
+edk::vec2f32 edk::bones::Bone2D::getWorldVector(edk::bones::Bone2D* bone,bool* found,edk::float32 angle,edk::size2f32 size,edk::vector::Matrixf32<3u,3u>* transformMat){
     edk::vec2f32 ret(0,0);edkEnd();
+    //first copy the matrix
+    if(this->matrixTransform.cloneFrom(transformMat)){
+        this->matrixPosition.setIdentity(1.f,0.f);
 
-    //test if find the bone
-    if(bone){
-        if(bone == this){
+        //generate transform matrices
+        edk::Math::generateTranslateMatrix(this->position,&this->matrixTranslate);edkEnd();
+        edk::Math::generateRotateMatrixZ(this->angle,&this->matrixRotate);edkEnd();
 
-            edk::float32 vec[3u];edkEnd();
-            //copy the position to the vector
-            vec[0u] = this->vector.x;edkEnd();
-            vec[1u] = this->vector.y;edkEnd();
-            vec[2u] = 1.f;edkEnd();
+        //multiply the matrix by
+        //translate
+        this->matrixTransform.multiplyThisWithMatrix(&this->matrixTranslate);edkEnd();
+        //angle
+        this->matrixTransform.multiplyThisWithMatrix(&this->matrixRotate);edkEnd();
 
-            //multiply for the matrix
-            edk::bones::Bone2D::multiplyMatrix(&newMat,&vec);edkEnd();
+        //transform all the vertices
+        if(this->matrixPosition.haveMatrix()){
+            if(bone){
+                if(bone == this){
+                    //
+                    this->matrixPosition.set(0u,0u,this->vector.x);edkEnd();
+                    this->matrixPosition.set(0u,1u,this->vector.y);edkEnd();
+                    this->matrixPosition.set(0u,2u,1.f);edkEnd();
 
-            //return the point
-            ret.x = vec[0u];edkEnd();
-            ret.y = vec[1u];edkEnd();
+                    //multiply the matrix
+                    this->matrixPosition.multiplyMatrixWithThis((edk::vector::MatrixDynamic<edk::float32>*)&this->matrixTransform);edkEnd();
 
-            *found=true;edkEnd();
+                    ret.x = this->matrixPosition.getNoIF(0u,0u);edkEnd();
+                    ret.y = this->matrixPosition.getNoIF(0u,1u);edkEnd();
 
-            return ret;
+                    *found=true;edkEnd();
+
+                    return ret;
+                }
+            }
+            else{
+                return ret;
+            }
         }
-    }
-    else{
-        return ret;
     }
 
     for(edk::uint32 i=0u;i<this->nexts.size();i++){
         edk::bones::Bone2D* temp = (edk::bones::Bone2D*)this->nexts.getElementInPosition(i);edkEnd();
-        ret = temp->getWorldVector(bone,found,angle,size,&newMat);edkEnd();
+        ret = temp->getWorldVector(bone,found,angle,size,&this->matrixTransform);edkEnd();
+        if(*found){
+            return ret;
+        }
+    }
+    ret.x=0.f;edkEnd();
+    ret.y=0.f;edkEnd();
+    return ret;
+}
+edk::vec2f32 edk::bones::Bone2D::getWorldPosition(edk::bones::Bone2D* bone,bool* found,edk::float32 angle,edk::size2f32 size,edk::vector::Matrixf32<3u,3u>* transformMat){
+    edk::vec2f32 ret(0,0);edkEnd();
+    //first copy the matrix
+    if(this->matrixTransform.cloneFrom(transformMat)){
+
+        this->matrixPosition.setIdentity(1.f,0.f);
+
+        //transform all the vertices
+        if(this->matrixPosition.haveMatrix()){
+            if(bone){
+                if(bone == this){
+                    //
+                    this->matrixPosition.set(0u,0u,this->position.x);edkEnd();
+                    this->matrixPosition.set(0u,1u,this->position.y);edkEnd();
+                    this->matrixPosition.set(0u,2u,1.f);edkEnd();
+
+                    //multiply the matrix
+                    this->matrixPosition.multiplyMatrixWithThis((edk::vector::MatrixDynamic<edk::float32>*)&this->matrixTransform);edkEnd();
+
+                    ret.x = this->matrixPosition.getNoIF(0u,0u);edkEnd();
+                    ret.y = this->matrixPosition.getNoIF(0u,1u);edkEnd();
+
+                    *found=true;edkEnd();
+
+                    return ret;
+                }
+            }
+            else{
+                return ret;
+            }
+        }
+    }
+
+    //generate transform matrices
+    edk::Math::generateTranslateMatrix(this->position,&this->matrixTranslate);edkEnd();
+    edk::Math::generateRotateMatrixZ(this->angle,&this->matrixRotate);edkEnd();
+
+    //multiply the matrix by
+    //translate
+    this->matrixTransform.multiplyThisWithMatrix(&this->matrixTranslate);edkEnd();
+    //angle
+    this->matrixTransform.multiplyThisWithMatrix(&this->matrixRotate);edkEnd();
+
+    for(edk::uint32 i=0u;i<this->nexts.size();i++){
+        edk::bones::Bone2D* temp = (edk::bones::Bone2D*)this->nexts.getElementInPosition(i);edkEnd();
+        ret = temp->getWorldPosition(bone,found,angle,size,&this->matrixTransform);edkEnd();
         if(*found){
             return ret;
         }
@@ -1149,124 +1238,239 @@ edk::vec2f32 edk::bones::Bone2D::calculateInverseKinematic(edk::bones::Bone2D* b
                                                            edk::uint32* count,
                                                            edk::float32 angle,
                                                            edk::size2f32 size,
-                                                           edk::float32 mat[][3u][3u]
-){
+                                                           edk::vector::Matrixf32<3u,3u>* transformMat
+                                                           ){
+    edk::vec2f32 ret(0,0);edkEnd();
+    if(this->matrixTransform.cloneFrom(transformMat)){
+        //test if found the bone
+        if(bone){
+            if(bone == this){
+                *found=true;edkEnd();
+                *count=0u;
+
+                edk::vector::Matrixf32<3u,3u>  matrixVector;
+                matrixVector.cloneFrom(transformMat);
+
+                edk::Math::generateTranslateMatrix(this->position,&this->matrixTranslate);edkEnd();
+                edk::Math::generateRotateMatrixZ(this->angle,&this->matrixRotate);edkEnd();
+
+                //multiply the matrix by
+                //translate
+                matrixVector.multiplyThisWithMatrix(&this->matrixTranslate);edkEnd();
+                //angle
+                matrixVector.multiplyThisWithMatrix(&this->matrixRotate);edkEnd();
+
+                this->matrixPosition.setIdentity(1.f,0.f);
+
+                //calculate the boneVector in the world
+                this->matrixPosition.set(0u,0u,this->vector.x);edkEnd();
+                this->matrixPosition.set(0u,1u,this->vector.y);edkEnd();
+                this->matrixPosition.set(0u,2u,1.f);edkEnd();
+
+                //multiply the matrix
+                this->matrixPosition.multiplyMatrixWithThis((edk::vector::MatrixDynamic<edk::float32>*)&matrixVector);edkEnd();
+
+                ret.x = this->matrixPosition.getNoIF(0u,0u);edkEnd();
+                ret.y = this->matrixPosition.getNoIF(0u,1u);edkEnd();
+
+                //get the bone worldPosition
+                edk::vec2f32 positionWorld;
+                this->matrixPosition.setIdentity(1.f,0.f);
+                //
+                this->matrixPosition.set(0u,0u,this->position.x);edkEnd();
+                this->matrixPosition.set(0u,1u,this->position.y);edkEnd();
+                this->matrixPosition.set(0u,2u,1.f);edkEnd();
+
+                //multiply the matrix
+                this->matrixPosition.multiplyMatrixWithThis((edk::vector::MatrixDynamic<edk::float32>*)&this->matrixTransform);edkEnd();
+
+                positionWorld.x = this->matrixPosition.getNoIF(0u,0u);edkEnd();
+                positionWorld.y = this->matrixPosition.getNoIF(0u,1u);edkEnd();
+/*
+                printf("\n ret[%.2f] worldPoint[%.2f]"
+                       ,edk::Math::getAngle(ret-positionWorld)
+                       ,edk::Math::getAngle(worldPoint-positionWorld)
+                       );fflush(stdout);
+*/
+                edk::float32 rotateAngle = edk::Math::getAngle(worldPoint-positionWorld)-edk::Math::getAngle(ret-positionWorld);
+
+                this->angle+=rotateAngle;edkEnd();
+                if(this->angle<0.f){
+                    this->angle+=360.f;edkEnd();
+                }
+                if(this->angle>360.f){
+                    this->angle-=360.f;edkEnd();
+                }
+
+                //rotate the ret
+                ret = edk::Math::rotatePlus(ret - positionWorld,rotateAngle)+positionWorld;
+                return ret;
+            }
+            else{
+                if(!(*found)){
+                    //generate transform matrices
+                    edk::Math::generateTranslateMatrix(this->position,&this->matrixTranslate);edkEnd();
+                    edk::Math::generateRotateMatrixZ(this->angle,&this->matrixRotate);edkEnd();
+
+                    //multiply the matrix by
+                    //translate
+                    this->matrixTransform.multiplyThisWithMatrix(&this->matrixTranslate);edkEnd();
+                    //angle
+                    this->matrixTransform.multiplyThisWithMatrix(&this->matrixRotate);edkEnd();
+
+                    //else search the selected bone
+                    edk::uint32 size = this->nexts.size();
+                    for(edk::uint32 i=0u;i<size;i++){
+                        edk::bones::Bone2D* temp = (edk::bones::Bone2D*)this->nexts.getElementInPosition(i);edkEnd();
+                        ret = temp->calculateInverseKinematic(bone,found,worldPoint,limit,count,angle,size,&this->matrixTransform);edkEnd();
+                        if(*found){
+                            //rotate the angle
+                            if(*count<limit){
+                                //increment the count
+                                *count+=1u;edkEnd();
+
+                                this->matrixPosition.setIdentity(1.f,0.f);
+
+                                //get the bone worldPosition
+                                edk::vec2f32 positionWorld;
+                                //transform all the vertices
+                                if(this->matrixPosition.haveMatrix()){
+                                    //
+                                    this->matrixPosition.set(0u,0u,this->position.x);edkEnd();
+                                    this->matrixPosition.set(0u,1u,this->position.y);edkEnd();
+                                    this->matrixPosition.set(0u,2u,1.f);edkEnd();
+
+                                    //multiply the matrix
+                                    this->matrixPosition.multiplyMatrixWithThis((edk::vector::MatrixDynamic<edk::float32>*)&this->matrixTransform);edkEnd();
+
+                                    positionWorld.x = this->matrixPosition.getNoIF(0u,0u);edkEnd();
+                                    positionWorld.y = this->matrixPosition.getNoIF(0u,1u);edkEnd();
+/*
+                                    printf("\n ret[%.2f] worldPoint[%.2f]"
+                                           ,edk::Math::getAngle(ret-positionWorld)
+                                           ,edk::Math::getAngle(worldPoint-positionWorld)
+                                           );fflush(stdout);
+*/
+                                    edk::float32 rotateAngle = edk::Math::getAngle(worldPoint-positionWorld)-edk::Math::getAngle(ret-positionWorld);
+
+                                    this->angle+=rotateAngle;edkEnd();
+                                    if(this->angle<0.f){
+                                        this->angle+=360.f;edkEnd();
+                                    }
+                                    if(this->angle>360.f){
+                                        this->angle-=360.f;edkEnd();
+                                    }
+
+                                    //rotate the ret
+                                    ret = edk::Math::rotatePlus(ret - positionWorld,rotateAngle)+positionWorld;
+                                }
+                            }
+                            return ret;
+                        }
+                    }
+                }
+            }
+
+        }
+        else{
+            return ret;
+        }
+    }
+    return ret;
+
+    edk::vec2f32 posTemp;edkEnd();
     edk::float32 saveAngle = angle;edkEnd();
     edk::size2f32 saveSize = size;edkEnd();
 
-    angle+=this->angle;edkEnd();
-    //rotate de position
-    edk::float32 vecPos[3u];edkEnd();
-    vecPos[0u] = this->position.x;edkEnd();
-    vecPos[1u] = this->position.y;edkEnd();
-    vecPos[2u] = 1.f;edkEnd();
+    if(this->matrixTransform.cloneFrom(transformMat)){
 
-
-    //test the matrix
-    if(mat){
-        //rotate the bone position as the bone father
-        edk::bones::Bone2D::multiplyMatrix(mat,&vecPos);edkEnd();
-    }
-
-    edk::vec2f32 posTemp;edkEnd();
-    posTemp.x = vecPos[0u];edkEnd();
-    posTemp.y = vecPos[1u];edkEnd();
-    /*
-    printf("\nPosTemp %.2f %.2f angle %.2f scale %.2f %.2f"
-           ,posTemp.x
-           ,posTemp.y
-           ,angle
-           ,size.width
-           ,size.height
-           );edkEnd();
-*/
-    //TRANSLATE AND ROTATE DE BONE POSITION
-    edk::float32 translate[3u][3u];edkEnd();
-    edk::bones::Bone2D::generateTranslateMatrix(posTemp,&translate);edkEnd();
-    //generate matrix
-    edk::float32 rotate[3u][3u];edkEnd();
-    edk::bones::Bone2D::generateRotationMatrix(angle,&rotate);edkEnd();
-    //generate scale
-    edk::float32 scale[3u][3u];edkEnd();
-    edk::bones::Bone2D::generateScaleMatrix(size,&scale);edkEnd();
-
-    //create a new matrix
-    edk::float32 newMat[3u][3u];edkEnd();
-    edk::bones::Bone2D::setIdentity(&newMat);edkEnd();
-
-    //multiply the rotatio matrix
-    edk::bones::Bone2D::multiplyMatrix(&rotate,&newMat);edkEnd();
-    //multiply the scale matrix
-    edk::bones::Bone2D::multiplyMatrix(&scale,&newMat);edkEnd();
-    //multiply the translation matrix
-    edk::bones::Bone2D::multiplyMatrix(&translate,&newMat);edkEnd();
-
-    edk::vec2f32 ret(0,0);edkEnd();
-
-    //test if find the bone
-    if(bone){
-        if(bone == this){
-            *found=true;edkEnd();
-            *count=0u;
+        //test if find the bone
+        if(bone){
+            if(bone == this){
+                *found=true;edkEnd();
+                *count=0u;
+            }
         }
-    }
-    else{
-        return ret;
-    }
+        else{
+            return ret;
+        }
 
-    if(!*found){
-        for(edk::uint32 i=0u;i<this->nexts.size();i++){
-            edk::bones::Bone2D* temp = (edk::bones::Bone2D*)this->nexts.getElementInPosition(i);edkEnd();
-            ret = temp->calculateInverseKinematic(bone,found,worldPoint,limit,count,angle,size,&newMat);edkEnd();
-            if(*found){
-                break;
+
+        if(*found){
+            bool foundVector = false;edkEnd();
+            if(*count<limit){
+                //
+                //printf("\nCalculate");edkEnd();
+
+                //load the world vector
+                edk::vec2f32 point = worldPoint - posTemp;edkEnd();
+                edk::vec2f32 worldVector = this->getWorldVector(bone,&foundVector,saveAngle,saveSize,&this->matrixTransform);edkEnd();
+                edk::vec2f32 boneVector = worldVector - posTemp;edkEnd();
+                //get the angle between the two vectors
+                edk::float32 rotateAngle = edk::Math::getAngle(point) - edk::Math::getAngle(boneVector);edkEnd();
+                /*
+                printf(" rotate %.2f"
+                       ,rotateAngle
+                       );edkEnd();
+    */
+                this->angle+=rotateAngle;edkEnd();
+                if(this->angle<0.f){
+                    this->angle+=360.f;edkEnd();
+                }
+                if(this->angle>360.f){
+                    this->angle-=360.f;edkEnd();
+                }
+                *count+=1u;edkEnd();
+            }
+        }
+
+        this->matrixPosition.setIdentity(1.f,0.f);
+
+        //transform all the vertices
+        if(this->matrixPosition.haveMatrix()){
+
+
+            if(bone){
+                if(bone == this){
+                    //
+                    this->matrixPosition.set(0u,0u,this->position.x);edkEnd();
+                    this->matrixPosition.set(0u,1u,this->position.y);edkEnd();
+                    this->matrixPosition.set(0u,2u,1.f);edkEnd();
+
+                    //multiply the matrix
+                    this->matrixPosition.multiplyMatrixWithThis((edk::vector::MatrixDynamic<edk::float32>*)&this->matrixTransform);edkEnd();
+
+                    ret.x = this->matrixPosition.getNoIF(0u,0u);edkEnd();
+                    ret.y = this->matrixPosition.getNoIF(0u,1u);edkEnd();
+
+                    *found=true;edkEnd();
+
+                    return ret;
+                }
+            }
+            else{
+                return ret;
+            }
+        }
+        //generate transform matrices
+        edk::Math::generateTranslateMatrix(this->position,&this->matrixTranslate);edkEnd();
+        edk::Math::generateRotateMatrixZ(this->angle,&this->matrixRotate);edkEnd();
+
+        //multiply the matrix by
+        //translate
+        this->matrixTransform.multiplyThisWithMatrix(&this->matrixTranslate);edkEnd();
+        //angle
+        this->matrixTransform.multiplyThisWithMatrix(&this->matrixRotate);edkEnd();
+
+        if(!*found){
+            for(edk::uint32 i=0u;i<this->nexts.size();i++){
+                edk::bones::Bone2D* temp = (edk::bones::Bone2D*)this->nexts.getElementInPosition(i);edkEnd();
+                ret = temp->calculateInverseKinematic(bone,found,worldPoint,limit,count,angle,size,&this->matrixTransform);edkEnd();
+                if(*found){
+                    break;
+                }
             }
         }
     }
-
-    if(*found){
-        bool foundVector = false;edkEnd();
-        if(*count<limit){
-            //
-            //printf("\nCalculate");edkEnd();
-
-            //load the world vector
-            edk::vec2f32 point = worldPoint - posTemp;edkEnd();
-            edk::vec2f32 worldVector = this->getWorldVector(bone,&foundVector,saveAngle,saveSize,mat);edkEnd();
-            edk::vec2f32 boneVector = worldVector - posTemp;edkEnd();
-            /*
-            printf("\nWorldPoint %.2f %.2f Point %.2f %.2f worldVector %.2f %.2f boneVector %.2f %.2f posTemp %.2f %.2f"
-                   ,worldPoint.x
-                   ,worldPoint.y
-                   ,point.x
-                   ,point.y
-                   ,worldVector.x
-                   ,worldVector.y
-                   ,boneVector.x
-                   ,boneVector.y
-                   ,posTemp.x
-                   ,posTemp.y
-                   );edkEnd();
-*/
-            //get the angle between the two vectors
-            edk::float32 rotateAngle = edk::Math::getAngle(point) - edk::Math::getAngle(boneVector);edkEnd();
-            /*
-            printf(" rotate %.2f"
-                   ,rotateAngle
-                   );edkEnd();
-*/
-            this->angle+=rotateAngle;edkEnd();
-            if(this->angle<0.f){
-                this->angle+=360.f;edkEnd();
-            }
-            if(this->angle>360.f){
-                this->angle-=360.f;edkEnd();
-            }
-            *count+=1u;edkEnd();
-        }
-    }
-
-    ret.x=0.f;edkEnd();
-    ret.y=0.f;edkEnd();
     return ret;
 }
