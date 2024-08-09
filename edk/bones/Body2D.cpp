@@ -1422,6 +1422,9 @@ void edk::bones::Body2D::calculateInverseKinematic(edk::char8* name,edk::vec2f32
 }
 void edk::bones::Body2D::calculateInverseKinematic(edk::bones::Bone2D* bone,edk::vec2f32 worldPoint,edk::uint32 tail,edk::uint32 times){
     if(bone){
+        edk::uint32 count;edkEnd();
+        edk::uint32 counterAngles=0u;
+        edk::uint32 counterEnd=0u;
         bool found=false;edkEnd();
         for(edk::uint32 i=0u;i<times;i++){
             //multiply the matrix by
@@ -1441,8 +1444,29 @@ void edk::bones::Body2D::calculateInverseKinematic(edk::bones::Bone2D* bone,edk:
 
             //get the position
             found=false;edkEnd();
-            edk::uint32 count;edkEnd();
-            this->root.calculateInverseKinematic(bone,&found,worldPoint,tail,&count,this->angle,this->size,&this->matrixTransform);edkEnd();
+            this->root.calculateInverseKinematic(bone,&found,worldPoint,tail,&count,&counterAngles,&this->matrixTransform);edkEnd();
+            if(counterAngles==tail){
+                if(counterEnd>2u){
+                    break;
+                }
+                else{
+                    counterEnd++;
+                }
+            }
+            else{
+                counterEnd=0u;
+            }
         }
     }
+}
+
+//calculate the bones lenght
+edk::float32 edk::bones::Body2D::calculateLenght(edk::bones::Bone2D* bone,edk::uint32 tail){
+    if(bone){
+        //search for the bone and calculate the lenght
+        edk::uint32 counter=0u;edkEnd();
+        bool found=false;edkEnd();
+        return this->root.calculateLenght(bone,tail,&counter,&found);
+    }
+    return 0.f;
 }

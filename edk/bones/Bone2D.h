@@ -209,8 +209,7 @@ public:
                                            edk::vec2f32 worldPoint,
                                            edk::uint32 limit,
                                            edk::uint32* count,
-                                           edk::float32 angle=0.f,
-                                           edk::size2f32 size = edk::size2f32(1,1),
+                                           edk::uint32* counterAngles,
                                            edk::vector::Matrixf32<3u,3u>* transformMat = NULL
             );
 
@@ -228,6 +227,9 @@ public:
     static bool generateTranslateMatrix(edk::vec2f32 position,edk::float32 mat[][3u][3u]);
     static bool generateRotationMatrix(edk::float32 angle,edk::float32 mat[][3u][3u]);
     static bool generateScaleMatrix(edk::size2f32 size,edk::float32 mat[][3u][3u]);
+
+    //calculate the lenght
+    edk::float32 calculateLenght(edk::bones::Bone2D* bone,edk::uint32 tail,edk::uint32* counter,bool* found);
 
     virtual bool cloneFrom(edk::bones::Bone2D* bone){
         if(bone){

@@ -199,6 +199,9 @@ public:
     void calculateInverseKinematic(edk::char8* name,edk::vec2f32 worldPoint,edk::uint32 tail,edk::uint32 times);
     void calculateInverseKinematic(edk::bones::Bone2D* bone,edk::vec2f32 worldPoint,edk::uint32 tail,edk::uint32 times);
 
+    //calculate the bones lenght
+    edk::float32 calculateLenght(edk::bones::Bone2D* bone,edk::uint32 tail);
+
 private:
     edk::bones::Bone2D root;
     edk::bones::Bone2D* selected;
@@ -281,7 +284,6 @@ private:
 
     //load the BVH
     bool loadBVH(edk::char8* name,edk::uint8 mode);
-
 public:
     virtual bool cloneFrom(edk::bones::Body2D* body){
         //delete all bones

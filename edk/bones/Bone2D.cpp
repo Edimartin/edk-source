@@ -290,6 +290,40 @@ bool edk::bones::Bone2D::generateScaleMatrix(edk::size2f32 size,edk::float32 mat
     return false;
 }
 
+//calculate the lenght
+edk::float32 edk::bones::Bone2D::calculateLenght(edk::bones::Bone2D* bone,edk::uint32 tail,edk::uint32* counter,bool* found){
+    edk::float32 ret=0.f;edkEnd();
+    if(bone){
+        //test if find the bone
+        if(bone == this){
+            //
+            *counter=1u;edkEnd();
+            *found=true;edkEnd();
+            return edk::Math::pythagoras(this->vector);
+        }
+        else{
+            //else search another bone
+            edk::uint32 size = this->nexts.size();edkEnd();
+            for(edk::uint32 i=0u;i<size;i++){
+                edk::bones::Bone2D* temp = (edk::bones::Bone2D*)this->nexts.getElementInPosition(i);edkEnd();
+                ret = temp->calculateLenght(bone,tail,counter,found);edkEnd();
+                if(*found){
+                    //found it
+                    if(*counter<tail){
+                        //increment the count
+                        *counter+=1u;edkEnd();
+
+                        ret+=edk::Math::pythagoras(this->vector);edkEnd();
+                        *counter=1u;edkEnd();
+                    }
+                    break;
+                }
+            }
+        }
+    }
+    return ret;
+}
+
 //TEMP print the matrix
 void edk::bones::Bone2D::printMatrix(edk::float32 mat[3u][3u]){
     //then clean the matrix
@@ -1282,23 +1316,22 @@ edk::vec2f32 edk::bones::Bone2D::calculateInverseKinematic(edk::bones::Bone2D* b
                                                            edk::vec2f32 worldPoint,
                                                            edk::uint32 limit,
                                                            edk::uint32* count,
-                                                           edk::float32 angle,
-                                                           edk::size2f32,
+                                                           edk::uint32* counterAngles,
                                                            edk::vector::Matrixf32<3u,3u>* transformMat
                                                            ){
     edk::vec2f32 ret(0,0);edkEnd();
     edk::vec2f32 positionWorld(0,0);
     edk::float32 rotateAngle;
-    edk::float32 angle1,angle2;
     if(this->matrixTransform.cloneFrom(transformMat)){
         //test if found the bone
         if(bone){
             if(bone == this){
                 *found=true;edkEnd();
-                *count=0u;
+                *count=0u;edkEnd();
+                *counterAngles=0u;edkEnd();
 
-                edk::vector::Matrixf32<3u,3u>  matrixVector;
-                matrixVector.cloneFrom(transformMat);
+                edk::vector::Matrixf32<3u,3u>  matrixVector;edkEnd();
+                matrixVector.cloneFrom(transformMat);edkEnd();
 
                 edk::Math::generateTranslateMatrix(this->position,&this->matrixTranslate);edkEnd();
                 edk::Math::generateRotateMatrixZ(this->angle,&this->matrixRotate);edkEnd();
@@ -1309,7 +1342,7 @@ edk::vec2f32 edk::bones::Bone2D::calculateInverseKinematic(edk::bones::Bone2D* b
                 //angle
                 matrixVector.multiplyThisWithMatrix(&this->matrixRotate);edkEnd();
 
-                this->matrixPosition.setIdentity(1.f,0.f);
+                this->matrixPosition.setIdentity(1.f,0.f);edkEnd();
 
                 //calculate the boneVector in the world
                 this->matrixPosition.set(0u,0u,this->vector.x);edkEnd();
@@ -1323,7 +1356,7 @@ edk::vec2f32 edk::bones::Bone2D::calculateInverseKinematic(edk::bones::Bone2D* b
                 ret.y = this->matrixPosition.getNoIF(0u,1u);edkEnd();
 
                 //get the bone worldPosition
-                this->matrixPosition.setIdentity(1.f,0.f);
+                this->matrixPosition.setIdentity(1.f,0.f);edkEnd();
                 //
                 this->matrixPosition.set(0u,0u,0.f);edkEnd();
                 this->matrixPosition.set(0u,1u,0.f);edkEnd();
@@ -1335,11 +1368,7 @@ edk::vec2f32 edk::bones::Bone2D::calculateInverseKinematic(edk::bones::Bone2D* b
                 positionWorld.x = this->matrixPosition.getNoIF(0u,0u);edkEnd();
                 positionWorld.y = this->matrixPosition.getNoIF(0u,1u);edkEnd();
 
-                angle1 = edk::Math::getAngle(worldPoint-positionWorld)-edk::Math::getAngle(ret-positionWorld);
-                angle2 = edk::Math::getAngle(ret-positionWorld)-edk::Math::getAngle(worldPoint-positionWorld);
-
-                //rotateAngle = edk::Math::getAngle(worldPoint-positionWorld)-edk::Math::getAngle(ret-positionWorld);
-                rotateAngle = angle1;
+                rotateAngle = edk::Math::getAngle(worldPoint-positionWorld)-edk::Math::getAngle(ret-positionWorld);edkEnd();
 /*
                 printf("\n%u ret[%.2f] worldPoint[%.2f] rotateAngle[%.2f]",__LINE__
                        ,edk::Math::getAngle(ret-positionWorld)
@@ -1347,12 +1376,6 @@ edk::vec2f32 edk::bones::Bone2D::calculateInverseKinematic(edk::bones::Bone2D* b
                        ,rotateAngle
                        );fflush(stdout);
 */
-                if(rotateAngle>360.f){
-                    rotateAngle-=360.f;
-                }
-                if(rotateAngle<-360.f){
-                    rotateAngle+=360.f;
-                }
 
                 if(rotateAngle>edkIKAngleLimit || rotateAngle<-edkIKAngleLimit){
                     this->angle+=rotateAngle;edkEnd();
@@ -1364,9 +1387,12 @@ edk::vec2f32 edk::bones::Bone2D::calculateInverseKinematic(edk::bones::Bone2D* b
                     }
 
                     //rotate the ret
-                    ret = edk::Math::rotatePlus(ret - positionWorld,rotateAngle)+positionWorld;
+                    ret = edk::Math::rotatePlus(ret - positionWorld,rotateAngle)+positionWorld;edkEnd();
                 }
-                this->ikPosition = ret;
+                else{
+                    *counterAngles+=1u;edkEnd();
+                }
+                this->ikPosition = ret;edkEnd();
                 //increment the count
                 *count+=1u;edkEnd();
                 return ret;
@@ -1387,14 +1413,14 @@ edk::vec2f32 edk::bones::Bone2D::calculateInverseKinematic(edk::bones::Bone2D* b
                     edk::uint32 size = this->nexts.size();
                     for(edk::uint32 i=0u;i<size;i++){
                         edk::bones::Bone2D* temp = (edk::bones::Bone2D*)this->nexts.getElementInPosition(i);edkEnd();
-                        ret = temp->calculateInverseKinematic(bone,found,worldPoint,limit,count,angle,size,&this->matrixTransform);edkEnd();
+                        ret = temp->calculateInverseKinematic(bone,found,worldPoint,limit,count,counterAngles,&this->matrixTransform);edkEnd();
                         if(*found){
                             //rotate the angle
                             if(*count<limit){
                                 //increment the count
                                 *count+=1u;edkEnd();
 
-                                this->matrixPosition.setIdentity(1.f,0.f);
+                                this->matrixPosition.setIdentity(1.f,0.f);edkEnd();
 
                                 //transform all the vertices
                                 if(this->matrixPosition.haveMatrix()){
@@ -1409,7 +1435,7 @@ edk::vec2f32 edk::bones::Bone2D::calculateInverseKinematic(edk::bones::Bone2D* b
                                     positionWorld.x = this->matrixPosition.getNoIF(0u,0u);edkEnd();
                                     positionWorld.y = this->matrixPosition.getNoIF(0u,1u);edkEnd();
 
-                                    rotateAngle = edk::Math::getAngle(worldPoint-positionWorld)-edk::Math::getAngle(ret-positionWorld);
+                                    rotateAngle = edk::Math::getAngle(worldPoint-positionWorld)-edk::Math::getAngle(ret-positionWorld);edkEnd();
 /*
                                     printf("\n%u ret[%.2f] worldPoint[%.2f] rotateAngle[%.2f]",__LINE__
                                            ,edk::Math::getAngle(ret-positionWorld)
@@ -1417,12 +1443,6 @@ edk::vec2f32 edk::bones::Bone2D::calculateInverseKinematic(edk::bones::Bone2D* b
                                            ,rotateAngle
                                            );fflush(stdout);
 */
-                                    if(rotateAngle>360.f){
-                                        rotateAngle-=360.f;
-                                    }
-                                    if(rotateAngle<-360.f){
-                                        rotateAngle+=360.f;
-                                    }
 
                                     if(rotateAngle>edkIKAngleLimit || rotateAngle<-edkIKAngleLimit){
                                         this->angle+=rotateAngle;edkEnd();
@@ -1433,11 +1453,14 @@ edk::vec2f32 edk::bones::Bone2D::calculateInverseKinematic(edk::bones::Bone2D* b
                                             this->angle-=360.f;edkEnd();
                                         }
                                         //rotate the ret
-                                        ret = edk::Math::rotatePlus(ret - positionWorld,rotateAngle)+positionWorld;
+                                        ret = edk::Math::rotatePlus(ret - positionWorld,rotateAngle)+positionWorld;edkEnd();
+                                    }
+                                    else{
+                                        *counterAngles+=1u;edkEnd();
                                     }
                                 }
                             }
-                            this->ikPosition = ret;
+                            this->ikPosition = ret;edkEnd();
                             return ret;
                         }
                     }
@@ -1445,10 +1468,10 @@ edk::vec2f32 edk::bones::Bone2D::calculateInverseKinematic(edk::bones::Bone2D* b
             }
         }
         else{
-            this->ikPosition = ret;
+            this->ikPosition = ret;edkEnd();
             return ret;
         }
     }
-    this->ikPosition = ret;
+    this->ikPosition = ret;edkEnd();
     return ret;
 }
