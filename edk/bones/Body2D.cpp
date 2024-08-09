@@ -1276,6 +1276,29 @@ void edk::bones::Body2D::drawLines(){
     this->root.drawLines();edkEnd();
     edk::GU::guPopMatrix();edkEnd();
 }
+void edk::bones::Body2D::drawLinesIK(){
+    edk::GU::guPushMatrix();edkEnd();
+    //multiply the matrix by
+    this->matrixTransform.setIdentity();edkEnd();
+
+    //generate transform matrices
+    edk::Math::generateTranslateMatrix(this->position,&this->matrixPosition);edkEnd();
+    edk::Math::generateRotateMatrixZ(this->angle,&this->matrixAngle);edkEnd();
+    edk::Math::generateScaleMatrix(this->size,&this->matrixSize);edkEnd();
+
+    //translate
+    this->matrixTransform.multiplyThisWithMatrix(&this->matrixPosition);edkEnd();
+    //angle
+    this->matrixTransform.multiplyThisWithMatrix(&this->matrixAngle);edkEnd();
+    //scale
+    this->matrixTransform.multiplyThisWithMatrix(&this->matrixSize);edkEnd();
+
+    edk::GU::guBegin(GU_LINES);edkEnd();
+    this->root.drawLinesIK(&this->matrixTransform);edkEnd();
+    edk::GU::guEnd();edkEnd();
+
+    edk::GU::guPopMatrix();edkEnd();
+}
 void edk::bones::Body2D::drawPoints(edk::float32 size){
     edk::GU::guPushMatrix();edkEnd();
     edk::GU::guTranslate2f32(this->position);edkEnd();

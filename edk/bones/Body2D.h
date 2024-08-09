@@ -188,6 +188,7 @@ public:
     void draw();
     //draw the bones
     void drawLines();
+    void drawLinesIK();
     void drawPoints(edk::float32 size);
     //update the connected objects
     void updateObjects();

@@ -66,6 +66,8 @@ public:
     edk::vec2f32 vector;
     edk::float32 angle;
 
+    edk::vec2f32 ikPosition;
+
     //adimations
     edk::animation::Interpolation1DGroup animationAngle;
     edk::animation::Interpolation2DGroup animationPosition;
@@ -194,6 +196,7 @@ public:
     //draw the boneLine
     void draw();
     void drawLines();
+    void drawLinesIK(edk::vector::Matrixf32<3u,3u>* transformMat);
     void drawPoints(edk::float32 scale);
     //update the objects
     void updateObjects(edk::float32 angle=0.f,edk::size2f32 size = edk::size2f32(1,1),edk::float32 mat[][3u][3u] = NULL,edk::float32 angleRemove = 0.f,edk::float32 angleMultiply = 1.f);
