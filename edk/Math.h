@@ -1262,6 +1262,15 @@ public:
     static inline bool generateScaleMatrix3D(edk::float32 width,edk::float32 height,edk::float32 lenght,edk::vector::Matrixf32<4u,4u>* dest){
         return edk::Math::generateScaleMatrix(edk::size3f32(width,height,lenght),dest);
     }
+    //lookat matrix
+    static bool generateLookAtMatrix(edk::vec3f32 position,edk::vec3f32 look,edk::vec3f32 up,edk::vector::Matrixf32<4u,4u>* dest);
+    static inline bool generateLookAtMatrix(edk::float32 x,edk::float32 y,edk::float32 z,
+                                            edk::float32 lookX,edk::float32 lookY,edk::float32 lookZ,
+                                            edk::float32 upX,edk::float32 upY,edk::float32 upZ,
+                                            edk::vector::Matrixf32<4u,4u>* dest
+                                            ){
+        return edk::Math::generateLookAtMatrix(edk::vec3f32(x,y,z),edk::vec3f32(lookX,lookY,lookZ),edk::vec3f32(upX,upY,upZ),dest);
+    }
 
     //Rotate de vectors
     static edk::float32 rotateX(edk::float32 radius, edk::float32 angle);

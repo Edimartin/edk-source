@@ -807,6 +807,35 @@ bool edk::Math::generateScaleMatrix(edk::size3f32 size,edk::vector::Matrixf32<4u
     }
     return false;
 }
+//lookat matrix
+bool edk::Math::generateLookAtMatrix(edk::vec3f32 position,edk::vec3f32 look,edk::vec3f32 up,edk::vector::Matrixf32<4u,4u>* dest){
+    if(dest){
+        edk::vec3f32 forward = position - look;
+        forward = edk::Math::normalise(forward);
+        edk::vec3f32 right = edk::Math::crossProduct(up,forward);
+        right = edk::Math::normalise(right);
+        edk::vec3f32 newUP = edk::Math::crossProduct(forward,right);
+
+        //set the values
+        dest->set(0u,0u,right.x);edkEnd();
+        dest->set(0u,1u,right.y);edkEnd();
+        dest->set(0u,2u,right.z);edkEnd();
+        //
+        dest->set(2u,0u,newUP.x);edkEnd();
+        dest->set(2u,1u,newUP.y);edkEnd();
+        dest->set(2u,2u,newUP.z);edkEnd();
+        //
+        dest->set(3u,0u,forward.x);edkEnd();
+        dest->set(3u,1u,forward.y);edkEnd();
+        dest->set(3u,2u,forward.z);edkEnd();
+        //
+        dest->set(4u,0u,position.x);edkEnd();
+        dest->set(4u,1u,position.y);edkEnd();
+        dest->set(4u,2u,position.z);edkEnd();
+        return true;
+    }
+    return false;
+}
 
 //Rotate de vector
 edk::float32 edk::Math::rotateX(edk::float32 radius, edk::float32 angle){
