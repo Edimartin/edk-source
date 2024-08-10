@@ -756,21 +756,23 @@ edk::bones::Bone2D* edk::bones::Body2D::createBoneToSelected(edk::char8* name,ed
 edk::bones::Bone2D* edk::bones::Body2D::createBoneToSelected(edk::char8* name,edk::vec2f32 position,edk::float32 angle){
     //test the name
     if(name){
-        //create the new bone
-        edk::bones::Bone2D* next = new edk::bones::Bone2D(name);edkEnd();
-        if(next){
-            //add the next in the tree
-            if(this->bones.add(next)){
-                this->selected->vector = position;edkEnd();
-                //set the bone position and angle
-                next->position= position;edkEnd();
-                next->angle = angle;edkEnd();
+        if(this->selected){
+            //create the new bone
+            edk::bones::Bone2D* next = new edk::bones::Bone2D(name);edkEnd();
+            if(next){
+                //add the next in the tree
+                if(this->bones.add(next)){
+                    this->selected->vector = position;edkEnd();
+                    //set the bone position and angle
+                    next->position= position;edkEnd();
+                    next->angle = angle;edkEnd();
 
-                //add the bone to the nexts in the selected
-                this->selected->addNext(next);edkEnd();
-                return next;edkEnd();
+                    //add the bone to the nexts in the selected
+                    this->selected->addNext(next);edkEnd();
+                    return next;edkEnd();
+                }
+                delete next;edkEnd();
             }
-            delete next;edkEnd();
         }
     }
     return NULL;
@@ -779,16 +781,59 @@ edk::bones::Bone2D* edk::bones::Body2D::createBoneToSelected(edk::char8* name,ed
     return this->createBoneToSelected(name,edk::vec2f32(positionX,positionY),angle);edkEnd();
 }
 
+
+//add a new bone with world position to the selected
+edk::bones::Bone2D* edk::bones::Body2D::createBoneWorldPositionToSelected(const edk::char8* name){
+    return this->createBoneWorldPositionToSelected((edk::char8*) name);edkEnd();
+}
+edk::bones::Bone2D* edk::bones::Body2D::createBoneWorldPositionToSelected(const edk::char8* name,edk::vec2f32 position){
+    return this->createBoneWorldPositionToSelected((edk::char8*) name,position);edkEnd();
+}
+edk::bones::Bone2D* edk::bones::Body2D::createBoneWorldPositionToSelected(const edk::char8* name,edk::float32 positionX,edk::float32 positionY){
+    return this->createBoneWorldPositionToSelected((edk::char8*) name,edk::vec2f32(positionX,positionY));edkEnd();
+}
+edk::bones::Bone2D* edk::bones::Body2D::createBoneWorldPositionToSelected(const edk::char8* name,edk::vec2f32 position,edk::float32 angle){
+    return this->createBoneWorldPositionToSelected((edk::char8*) name,position,angle);edkEnd();
+}
+edk::bones::Bone2D* edk::bones::Body2D::createBoneWorldPositionToSelected(const edk::char8* name,edk::float32 positionX,edk::float32 positionY,edk::float32 angle){
+    return this->createBoneWorldPositionToSelected((edk::char8*) name,edk::vec2f32(positionX,positionY),angle);edkEnd();
+}
+edk::bones::Bone2D* edk::bones::Body2D::createBoneWorldPositionToSelected(edk::char8* name){
+    return this->createBoneWorldPositionToSelected(name,edk::vec2f32(0,0));edkEnd();
+}
+edk::bones::Bone2D* edk::bones::Body2D::createBoneWorldPositionToSelected(edk::char8* name,edk::vec2f32 position){
+    return this->createBoneWorldPositionToSelected(name,position,0);edkEnd();
+}
+edk::bones::Bone2D* edk::bones::Body2D::createBoneWorldPositionToSelected(edk::char8* name,edk::float32 positionX,edk::float32 positionY){
+    return this->createBoneWorldPositionToSelected(name,edk::vec2f32(positionX,positionY),0);edkEnd();
+}
+edk::bones::Bone2D* edk::bones::Body2D::createBoneWorldPositionToSelected(edk::char8* name,edk::vec2f32 position,edk::float32 angle){
+    //test the name
+    if(name){
+        if(this->selected){
+            //create a new position to connect the bone
+            position -= this->getBoneWorldPosition(this->selected);
+            return createBoneToSelected(name,position,angle);
+        }
+    }
+    return NULL;
+}
+edk::bones::Bone2D* edk::bones::Body2D::createBoneWorldPositionToSelected(edk::char8* name,edk::float32 positionX,edk::float32 positionY,edk::float32 angle){
+    return this->createBoneWorldPositionToSelected(name,edk::vec2f32(positionX,positionY),angle);edkEnd();
+}
+
 //Add the bone to the selected
 bool edk::bones::Body2D::addBoneToSelected(edk::bones::Bone2D* bone){
     if(bone){
-        edk::bones::Bone2D* temp = /*(edk::bones::Bone2D*)*/this->bones.getElement(bone);edkEnd();
-        //test if have the bone on the tree
-        if(temp){
-            //then remove from the last bone
-            this->removeRecursive(&this->root,temp);edkEnd();
-            //then add the bone to the selected
-            return this->selected->addNext(temp);edkEnd();
+        if(this->selected){
+            edk::bones::Bone2D* temp = /*(edk::bones::Bone2D*)*/this->bones.getElement(bone);edkEnd();
+            //test if have the bone on the tree
+            if(temp){
+                //then remove from the last bone
+                this->removeRecursive(&this->root,temp);edkEnd();
+                //then add the bone to the selected
+                return this->selected->addNext(temp);edkEnd();
+            }
         }
     }
     return false;
@@ -798,13 +843,46 @@ bool edk::bones::Body2D::addBoneToSelected(const edk::char8* name){
 }
 bool edk::bones::Body2D::addBoneToSelected(edk::char8* name){
     if(name){
-        //find the bone
-        edk::bones::Bone2D* temp = this->getBoneByName(name);edkEnd();
-        if(temp){
-            //then remove from the last bone
-            this->removeRecursive(&this->root,temp);edkEnd();
-            //then add the bone to the selected
-            return this->selected->addNext(temp);edkEnd();
+        if(this->selected){
+            //find the bone
+            edk::bones::Bone2D* temp = this->getBoneByName(name);edkEnd();
+            if(temp){
+                //then remove from the last bone
+                this->removeRecursive(&this->root,temp);edkEnd();
+                //then add the bone to the selected
+                return this->selected->addNext(temp);edkEnd();
+            }
+        }
+    }
+    return false;
+}
+
+//Add the bone world position to the selected
+bool edk::bones::Body2D::addBoneWorldPositionToSelected(edk::bones::Bone2D* bone){
+    if(bone){
+        if(this->selected){
+            edk::bones::Bone2D* temp = /*(edk::bones::Bone2D*)*/this->bones.getElement(bone);edkEnd();
+            //test if have the bone on the tree
+            if(temp){
+                temp->position-=this->getBoneWorldPosition(this->selected);
+                return this->addBoneToSelected(temp);
+            }
+        }
+    }
+    return false;
+}
+bool edk::bones::Body2D::addBoneWorldPositionToSelected(const edk::char8* name){
+    return this->addBoneWorldPositionToSelected((edk::char8*) name);edkEnd();
+}
+bool edk::bones::Body2D::addBoneWorldPositionToSelected(edk::char8* name){
+    if(name){
+        if(this->selected){
+            //find the bone
+            edk::bones::Bone2D* temp = this->getBoneByName(name);edkEnd();
+            if(temp){
+                temp->position-=this->getBoneWorldPosition(this->selected);
+                return this->addBoneToSelected(temp);
+            }
         }
     }
     return false;

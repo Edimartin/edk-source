@@ -62,10 +62,27 @@ public:
     edk::bones::Bone2D* createBoneToSelected(edk::char8* name,edk::vec2f32 position,edk::float32 angle);
     edk::bones::Bone2D* createBoneToSelected(edk::char8* name,edk::float32 positionX,edk::float32 positionY,edk::float32 angle);
 
+    //add a new bone with world position to the selected
+    edk::bones::Bone2D* createBoneWorldPositionToSelected(const edk::char8* name);
+    edk::bones::Bone2D* createBoneWorldPositionToSelected(const edk::char8* name,edk::vec2f32 position);
+    edk::bones::Bone2D* createBoneWorldPositionToSelected(const edk::char8* name,edk::float32 positionX,edk::float32 positionY);
+    edk::bones::Bone2D* createBoneWorldPositionToSelected(const edk::char8* name,edk::vec2f32 position,edk::float32 angle);
+    edk::bones::Bone2D* createBoneWorldPositionToSelected(const edk::char8* name,edk::float32 positionX,edk::float32 positionY,edk::float32 angle);
+    edk::bones::Bone2D* createBoneWorldPositionToSelected(edk::char8* name);
+    edk::bones::Bone2D* createBoneWorldPositionToSelected(edk::char8* name,edk::vec2f32 position);
+    edk::bones::Bone2D* createBoneWorldPositionToSelected(edk::char8* name,edk::float32 positionX,edk::float32 positionY);
+    edk::bones::Bone2D* createBoneWorldPositionToSelected(edk::char8* name,edk::vec2f32 position,edk::float32 angle);
+    edk::bones::Bone2D* createBoneWorldPositionToSelected(edk::char8* name,edk::float32 positionX,edk::float32 positionY,edk::float32 angle);
+
     //Add the bone to the selected
     bool addBoneToSelected(edk::bones::Bone2D* bone);
     bool addBoneToSelected(const edk::char8* name);
     bool addBoneToSelected(edk::char8* name);
+
+    //Add the bone world position to the selected
+    bool addBoneWorldPositionToSelected(edk::bones::Bone2D* bone);
+    bool addBoneWorldPositionToSelected(const edk::char8* name);
+    bool addBoneWorldPositionToSelected(edk::char8* name);
 
     //Select the bone
     bool selectBone(edk::bones::Bone2D* bone);
