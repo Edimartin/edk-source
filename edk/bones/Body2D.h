@@ -79,12 +79,19 @@ public:
     bool addBoneToSelected(const edk::char8* name);
     bool addBoneToSelected(edk::char8* name);
 
+    bool removeBoneFromSelected(edk::bones::Bone2D* bone);
+    bool removeBoneFromSelected(const edk::char8* name);
+    bool removeBoneFromSelected(edk::char8* name);
+
+    bool removeBonesFromSelected();
+
     //Add the bone world position to the selected
     bool addBoneWorldPositionToSelected(edk::bones::Bone2D* bone);
     bool addBoneWorldPositionToSelected(const edk::char8* name);
     bool addBoneWorldPositionToSelected(edk::char8* name);
 
     //Select the bone
+    void selectBoneRoot();
     bool selectBone(edk::bones::Bone2D* bone);
     //Select the bone by the name
     bool selectBoneByName(const edk::char8* name);

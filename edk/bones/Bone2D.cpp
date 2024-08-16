@@ -24,7 +24,7 @@ OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-#define edkIKAngleLimit 0.1f
+#define edkIKAngleLimit 0.01f
 
 edk::bones::Bone2D::Bone2D(){
     this->classThis=NULL;edkEnd();
@@ -1369,7 +1369,7 @@ edk::vec2f32 edk::bones::Bone2D::calculateInverseKinematic(edk::bones::Bone2D* b
                 positionWorld.y = this->matrixPosition.getNoIF(0u,1u);edkEnd();
 
                 rotateAngle = edk::Math::getAngle(worldPoint-positionWorld)-edk::Math::getAngle(ret-positionWorld);edkEnd();
-/*
+                /*
                 printf("\n%u ret[%.2f] worldPoint[%.2f] rotateAngle[%.2f]",__LINE__
                        ,edk::Math::getAngle(ret-positionWorld)
                        ,edk::Math::getAngle(worldPoint-positionWorld)
@@ -1411,32 +1411,33 @@ edk::vec2f32 edk::bones::Bone2D::calculateInverseKinematic(edk::bones::Bone2D* b
 
                     //else search the selected bone
                     edk::uint32 size = this->nexts.size();
-                    for(edk::uint32 i=0u;i<size;i++){
-                        edk::bones::Bone2D* temp = (edk::bones::Bone2D*)this->nexts.getElementInPosition(i);edkEnd();
-                        ret = temp->calculateInverseKinematic(bone,found,worldPoint,limit,count,counterAngles,&this->matrixTransform);edkEnd();
-                        if(*found){
-                            //rotate the angle
-                            if(*count<limit){
-                                //increment the count
-                                *count+=1u;edkEnd();
+                    if(size){
+                        for(edk::uint32 i=0u;i<size;i++){
+                            edk::bones::Bone2D* temp = (edk::bones::Bone2D*)this->nexts.getElementInPosition(i);edkEnd();
+                            ret = temp->calculateInverseKinematic(bone,found,worldPoint,limit,count,counterAngles,&this->matrixTransform);edkEnd();
+                            if(*found){
+                                //rotate the angle
+                                if(*count<limit){
+                                    //increment the count
+                                    *count+=1u;edkEnd();
 
-                                this->matrixPosition.setIdentity(1.f,0.f);edkEnd();
+                                    this->matrixPosition.setIdentity(1.f,0.f);edkEnd();
 
-                                //transform all the vertices
-                                if(this->matrixPosition.haveMatrix()){
-                                    //
-                                    this->matrixPosition.set(0u,0u,0.f);edkEnd();
-                                    this->matrixPosition.set(0u,1u,0.f);edkEnd();
-                                    this->matrixPosition.set(0u,2u,1.f);edkEnd();
+                                    //transform all the vertices
+                                    if(this->matrixPosition.haveMatrix()){
+                                        //
+                                        this->matrixPosition.set(0u,0u,0.f);edkEnd();
+                                        this->matrixPosition.set(0u,1u,0.f);edkEnd();
+                                        this->matrixPosition.set(0u,2u,1.f);edkEnd();
 
-                                    //multiply the matrix
-                                    this->matrixPosition.multiplyMatrixWithThis((edk::vector::MatrixDynamic<edk::float32>*)&this->matrixTransform);edkEnd();
+                                        //multiply the matrix
+                                        this->matrixPosition.multiplyMatrixWithThis((edk::vector::MatrixDynamic<edk::float32>*)&this->matrixTransform);edkEnd();
 
-                                    positionWorld.x = this->matrixPosition.getNoIF(0u,0u);edkEnd();
-                                    positionWorld.y = this->matrixPosition.getNoIF(0u,1u);edkEnd();
+                                        positionWorld.x = this->matrixPosition.getNoIF(0u,0u);edkEnd();
+                                        positionWorld.y = this->matrixPosition.getNoIF(0u,1u);edkEnd();
 
-                                    rotateAngle = edk::Math::getAngle(worldPoint-positionWorld)-edk::Math::getAngle(ret-positionWorld);edkEnd();
-/*
+                                        rotateAngle = edk::Math::getAngle(worldPoint-positionWorld)-edk::Math::getAngle(ret-positionWorld);edkEnd();
+                                        /*
                                     printf("\n%u ret[%.2f] worldPoint[%.2f] rotateAngle[%.2f]",__LINE__
                                            ,edk::Math::getAngle(ret-positionWorld)
                                            ,edk::Math::getAngle(worldPoint-positionWorld)
@@ -1444,25 +1445,29 @@ edk::vec2f32 edk::bones::Bone2D::calculateInverseKinematic(edk::bones::Bone2D* b
                                            );fflush(stdout);
 */
 
-                                    if(rotateAngle>edkIKAngleLimit || rotateAngle<-edkIKAngleLimit){
-                                        this->angle+=rotateAngle;edkEnd();
-                                        if(this->angle<0.f){
-                                            this->angle+=360.f;edkEnd();
+                                        if(rotateAngle>edkIKAngleLimit || rotateAngle<-edkIKAngleLimit){
+                                            this->angle+=rotateAngle;edkEnd();
+                                            if(this->angle<0.f){
+                                                this->angle+=360.f;edkEnd();
+                                            }
+                                            if(this->angle>360.f){
+                                                this->angle-=360.f;edkEnd();
+                                            }
+                                            //rotate the ret
+                                            ret = edk::Math::rotatePlus(ret - positionWorld,rotateAngle)+positionWorld;edkEnd();
                                         }
-                                        if(this->angle>360.f){
-                                            this->angle-=360.f;edkEnd();
+                                        else{
+                                            *counterAngles+=1u;edkEnd();
                                         }
-                                        //rotate the ret
-                                        ret = edk::Math::rotatePlus(ret - positionWorld,rotateAngle)+positionWorld;edkEnd();
-                                    }
-                                    else{
-                                        *counterAngles+=1u;edkEnd();
                                     }
                                 }
+                                this->ikPosition = ret;edkEnd();
+                                return ret;
                             }
-                            this->ikPosition = ret;edkEnd();
-                            return ret;
                         }
+                    }
+                    else{
+                        return ret;
                     }
                 }
             }

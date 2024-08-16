@@ -165,10 +165,14 @@ public:
     bool playNameForwardAllTracks(edk::char8* name);
     bool playNameForward(edk::uint32 trackPosition,const edk::char8* name);
     bool playNameForward(edk::uint32 trackPosition,edk::char8* name);
+    bool playNameForwardIn(edk::uint32 trackPosition,const edk::char8* name,edk::float32 second);
+    bool playNameForwardIn(edk::uint32 trackPosition,edk::char8* name,edk::float32 second);
     bool playNameRewindAllTracks(const edk::char8* name);
     bool playNameRewindAllTracks(edk::char8* name);
     bool playNameRewind(edk::uint32 trackPosition,const edk::char8* name);
     bool playNameRewind(edk::uint32 trackPosition,edk::char8* name);
+    bool playNameRewindIn(edk::uint32 trackPosition,const edk::char8* name,edk::float32 second);
+    bool playNameRewindIn(edk::uint32 trackPosition,edk::char8* name,edk::float32 second);
     //remove the animationName
     bool removeAnimationName(edk::uint32 trackPosition,const edk::char8* name);
     bool removeAnimationName(edk::uint32 trackPosition,edk::char8* name);

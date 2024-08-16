@@ -550,6 +550,24 @@ bool edk::animation::InterpolationTracks::playNameForward(edk::uint32 trackPosit
     this->time.start();edkEnd();
     return false;
 }
+bool edk::animation::InterpolationTracks::playNameForwardIn(edk::uint32 trackPosition,const edk::char8* name,edk::float32 second){
+    //get track in position
+    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks->get(trackPosition);edkEnd();
+    if(temp.animation){
+        return temp.animation->playNameForwardIn(name,second);edkEnd();
+    }
+    this->time.start();edkEnd();
+    return false;
+}
+bool edk::animation::InterpolationTracks::playNameForwardIn(edk::uint32 trackPosition,edk::char8* name,edk::float32 second){
+    //get track in position
+    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks->get(trackPosition);edkEnd();
+    if(temp.animation){
+        return temp.animation->playNameForwardIn(name,second);edkEnd();
+    }
+    this->time.start();edkEnd();
+    return false;
+}
 bool edk::animation::InterpolationTracks::playNameRewindAllTracks(const edk::char8* name){
     bool ret=false;edkEnd();
     edk::uint32 size = this->tracks->size();edkEnd();
@@ -598,6 +616,24 @@ bool edk::animation::InterpolationTracks::playNameRewind(edk::uint32 trackPositi
     edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks->get(trackPosition);edkEnd();
     if(temp.animation){
         return temp.animation->playNameRewind(name);edkEnd();
+    }
+    this->time.start();edkEnd();
+    return false;
+}
+bool edk::animation::InterpolationTracks::playNameRewindIn(edk::uint32 trackPosition,const edk::char8* name,edk::float32 second){
+    //get track in position
+    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks->get(trackPosition);edkEnd();
+    if(temp.animation){
+        return temp.animation->playNameRewindIn(name,second);edkEnd();
+    }
+    this->time.start();edkEnd();
+    return false;
+}
+bool edk::animation::InterpolationTracks::playNameRewindIn(edk::uint32 trackPosition,edk::char8* name,edk::float32 second){
+    //get track in position
+    edk::animation::InterpolationTracks::AnimationAndPosition temp = this->tracks->get(trackPosition);edkEnd();
+    if(temp.animation){
+        return temp.animation->playNameRewindIn(name,second);edkEnd();
     }
     this->time.start();edkEnd();
     return false;

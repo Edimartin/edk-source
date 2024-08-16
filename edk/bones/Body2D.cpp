@@ -857,6 +857,40 @@ bool edk::bones::Body2D::addBoneToSelected(edk::char8* name){
     return false;
 }
 
+bool edk::bones::Body2D::removeBoneFromSelected(edk::bones::Bone2D* bone){
+    if(this->selected){
+        edk::bones::Bone2D* temp = /*(edk::bones::Bone2D*)*/this->bones.getElement(bone);edkEnd();
+        //test if have the bone on the tree
+        if(temp){
+            //then remove the bone from the selected
+            return this->selected->removeNext(temp);edkEnd();
+        }
+    }
+    return false;
+}
+bool edk::bones::Body2D::removeBoneFromSelected(const edk::char8* name){
+    return this->removeBoneFromSelected((edk::char8*) name);
+}
+bool edk::bones::Body2D::removeBoneFromSelected(edk::char8* name){
+    if(this->selected && name){
+        edk::bones::Bone2D* temp = /*(edk::bones::Bone2D*)*/this->bones.getElementByName(name);edkEnd();
+        //test if have the bone on the tree
+        if(temp){
+            //then remove the bone from the selected
+            return this->selected->removeNext(temp);edkEnd();
+        }
+    }
+    return false;
+}
+
+bool edk::bones::Body2D::removeBonesFromSelected(){
+    if(this->selected){
+        this->selected->removeAllNexts();
+        return true;
+    }
+    return false;
+}
+
 //Add the bone world position to the selected
 bool edk::bones::Body2D::addBoneWorldPositionToSelected(edk::bones::Bone2D* bone){
     if(bone){
@@ -889,6 +923,9 @@ bool edk::bones::Body2D::addBoneWorldPositionToSelected(edk::char8* name){
 }
 
 //Select the bone
+void edk::bones::Body2D::selectBoneRoot(){
+    this->selected=&this->root;edkEnd();
+}
 bool edk::bones::Body2D::selectBone(edk::bones::Bone2D* bone){
     //test if have the bone in the body
     if(bone){
@@ -899,7 +936,7 @@ bool edk::bones::Body2D::selectBone(edk::bones::Bone2D* bone){
         }
         else{
             //test if the bone is the root
-            if(bone==&root){
+            if(bone==&this->root){
                 //select the root
                 this->cleanSelected();edkEnd();
                 return true;
