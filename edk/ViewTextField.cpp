@@ -90,7 +90,7 @@ void edk::ViewTextField::TextField::Constructor(bool runFather){
 //Set the entryPosition
 bool edk::ViewTextField::TextField::setEntryPosition(edk::float32 x){
     //convert the X and Y to the camera
-    edk::rectf32 cameraRect = this->camera.getRect();edkEnd();
+    edk::rectf32 cameraRect = this->camera.getRectPositionAndSize();edkEnd();
     edk::float32 worldPositionX = cameraRect.origin.x + ((x/this->frame.size.width) * cameraRect.size.width)
             -((this->borderSize/this->frame.size.width)* cameraRect.size.width);edkEnd();
 
@@ -818,7 +818,7 @@ void edk::ViewTextField::TextField::setWritePosition(edk::uint32 position){
     this->anim.setAnimationEndSecond(0.49f);edkEnd();
     this->anim.playForward();edkEnd();
 
-    edk::rectf32 camRect = this->camera.getRect();edkEnd();
+    edk::rectf32 camRect = this->camera.getRectPositionAndSize();edkEnd();
     if(this->writePosition<camRect.origin.x){
         camRect.origin.x = this->writePosition;edkEnd();
         this->camera.setRect(camRect);edkEnd();

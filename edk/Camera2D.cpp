@@ -198,10 +198,15 @@ edk::size2f32 edk::Camera2D::getSize(){
     return edk::size2f32(this->size*2);edkEnd();
 }
 //return the camera rect
-edk::rectf32 edk::Camera2D::getRect(){
+edk::rectf32 edk::Camera2D::getRectPositionAndSize(){
+    return edk::rectf32(this->position.x,this->position.y,
+                        this->size.width*2.f,this->size.height*2.f
+                        );
+}
+edk::rectf32 edk::Camera2D::getRectPoints(){
     return edk::rectf32(this->position.x - (this->size.width),this->position.y - (this->size.height),
                         this->position.x + this->size.width,this->position.y + this->size.height
-                        );edkEnd();
+                        );
 }
 
 //get the distance beetween the position and save distance

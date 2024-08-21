@@ -219,9 +219,9 @@ public:
     //return the world vector of the bone
     edk::vec2f32 getBoneWorldVector(edk::bones::Bone2D* bone, bool* found = NULL);
     edk::vec2f32 getBoneWorldPosition(edk::bones::Bone2D* bone, bool* found = NULL);
-    void calculateInverseKinematic(const edk::char8* name,edk::vec2f32 worldPoint,edk::uint32 tail,edk::uint32 times);
-    void calculateInverseKinematic(edk::char8* name,edk::vec2f32 worldPoint,edk::uint32 tail,edk::uint32 times);
-    void calculateInverseKinematic(edk::bones::Bone2D* bone,edk::vec2f32 worldPoint,edk::uint32 tail,edk::uint32 times);
+    bool calculateInverseKinematic(const edk::char8* name,edk::vec2f32 worldPoint,edk::uint32 tail,edk::uint32 times);
+    bool calculateInverseKinematic(edk::char8* name,edk::vec2f32 worldPoint,edk::uint32 tail,edk::uint32 times);
+    bool calculateInverseKinematic(edk::bones::Bone2D* bone,edk::vec2f32 worldPoint,edk::uint32 tail,edk::uint32 times);
 
     //calculate the bones lenght
     edk::float32 calculateLenght(edk::bones::Bone2D* bone,edk::uint32 tail);

@@ -79,7 +79,8 @@ public:
     //get the size
     edk::size2f32 getSize();
     //return the camera rect
-    edk::rectf32 getRect();
+    edk::rectf32 getRectPositionAndSize();
+    edk::rectf32 getRectPoints();
 
     //get the distance beetween the position and save distance
     edk::float32 getDistanceFromSave();

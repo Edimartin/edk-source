@@ -1529,13 +1529,14 @@ edk::vec2f32  edk::bones::Body2D::getBoneWorldPosition(edk::bones::Bone2D* bone,
     }
     return edk::vec2f32(0,0);
 }
-void edk::bones::Body2D::calculateInverseKinematic(const edk::char8* name,edk::vec2f32 worldPoint,edk::uint32 tail,edk::uint32 times){
+bool edk::bones::Body2D::calculateInverseKinematic(const edk::char8* name,edk::vec2f32 worldPoint,edk::uint32 tail,edk::uint32 times){
     return this->calculateInverseKinematic((edk::char8*) name,worldPoint,tail,times);edkEnd();
 }
-void edk::bones::Body2D::calculateInverseKinematic(edk::char8* name,edk::vec2f32 worldPoint,edk::uint32 tail,edk::uint32 times){
+bool edk::bones::Body2D::calculateInverseKinematic(edk::char8* name,edk::vec2f32 worldPoint,edk::uint32 tail,edk::uint32 times){
     return this->calculateInverseKinematic(this->getBoneByName(name),worldPoint,tail,times);edkEnd();
 }
-void edk::bones::Body2D::calculateInverseKinematic(edk::bones::Bone2D* bone,edk::vec2f32 worldPoint,edk::uint32 tail,edk::uint32 times){
+bool edk::bones::Body2D::calculateInverseKinematic(edk::bones::Bone2D* bone,edk::vec2f32 worldPoint,edk::uint32 tail,edk::uint32 times){
+    bool ret = false;
     if(bone){
         edk::uint32 count;edkEnd();
         edk::uint32 counterAngles=0u;
@@ -1562,6 +1563,7 @@ void edk::bones::Body2D::calculateInverseKinematic(edk::bones::Bone2D* bone,edk:
             this->root.calculateInverseKinematic(bone,&found,worldPoint,tail,&count,&counterAngles,&this->matrixTransform);edkEnd();
             if(counterAngles==tail){
                 if(counterEnd>2u){
+                    ret=true;
                     break;
                 }
                 else{
