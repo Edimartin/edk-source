@@ -56,105 +56,289 @@ public:
     //BOUNDING BOX
     static bool boundingContact3D(edk::vec3f32 point,edk::vec3f32 vec1,edk::vec3f32 vec2);
     static bool boundingContact2D(edk::vec2f32 point,edk::vec2f32 vec1,edk::vec2f32 vec2);
-
     //AABB 2D
     static bool aabb(edk::float32 x1,edk::float32 y1,edk::float32 width1,edk::float32 height1,
                      edk::float32 x2,edk::float32 y2,edk::float32 width2,edk::float32 height2
                      );
     static bool aabb(edk::vec2f32 position1,edk::size2f32 size1,edk::vec2f32 position2,edk::size2f32 size2);
     static bool aabb(edk::rectf32 rect1,edk::rectf32 rect2);
-    static bool aabbPoints(edk::float32 x1_1,edk::float32 y1_1,edk::float32 x1_2,edk::float32 y1_2,
-                           edk::float32 x2_1,edk::float32 y2_1,edk::float32 x2_2,edk::float32 y2_2
+    //aabb where the first is inside the secon
+    static bool aabbInside(edk::float32 insideX,edk::float32 insideY,
+                                edk::float32 insideWidth,edk::float32 insideHeight,
+                                edk::float32 outsideX,edk::float32 outsideY,
+                                edk::float32 outsideWidth,edk::float32 outsideHeight
+                                );
+    static bool aabbInside(edk::vec2f32 insidePosition,
+                                edk::size2f32 insideSize,
+                                edk::vec2f32 outsidePosition,
+                                edk::size2f32 outsideSize
+                                );
+    static bool aabbInside(edk::rectf32 insideRect,edk::rectf32 outsideRect);
+    //aabb points
+    static bool aabbPoints(edk::float32 x1_1,edk::float32 y1_1,
+                           edk::float32 x1_2,edk::float32 y1_2,
+                           edk::float32 x2_1,edk::float32 y2_1,
+                           edk::float32 x2_2,edk::float32 y2_2
                            );
     static bool aabbPoints(edk::vec2f32 position1_1,edk::vec2f32 position1_2,edk::vec2f32 position2_1,edk::vec2f32 position2_2);
     static bool aabbPoints(edk::rectf32 rect1,edk::rectf32 rect2);
+    //abb points where the first is inside the second
+    static bool aabbPointsInside(edk::float32 insideX1,edk::float32 insideY1,edk::float32 insideX2,edk::float32 insideY2,
+                                      edk::float32 outsidexX1,edk::float32 outsideyY1,edk::float32 outsidexX2,edk::float32 outsideY2
+                                      );
+    static bool aabbPointsInside(edk::vec2f32 insidePosition1,
+                                      edk::vec2f32 insidePosition2,
+                                      edk::vec2f32 outsidePosition1,
+                                      edk::vec2f32 outsidePosition2
+                                      );
+    static bool aabbPointsInside(edk::rectf32 insideRect,edk::rectf32 outsideRect);
     //X
     static bool aabbX(edk::float32 x1,edk::float32 width1,
                       edk::float32 x2,edk::float32 width2
                       );
     static bool aabbX(edk::vec2f32 position1,edk::size2f32 size1,edk::vec2f32 position2,edk::size2f32 size2);
     static bool aabbX(edk::rectf32 rect1,edk::rectf32 rect2);
+    //aabb X inside
+    static bool aabbXInside(edk::float32 insideX,edk::float32 insideWidth,
+                            edk::float32 outsideX,edk::float32 outsideWidth
+                            );
+    static bool aabbXInside(edk::vec2f32 insidePosition,edk::size2f32 insideSize,
+                            edk::vec2f32 outsidePosition,edk::size2f32 outsideSize
+                            );
+    static bool aabbXInside(edk::rectf32 insideRect,edk::rectf32 outsideRect);
+    //aabb X points
     static bool aabbPointsX(edk::float32 x1_1,edk::float32 x1_2,
                             edk::float32 x2_1,edk::float32 x2_2
                             );
     static bool aabbPointsX(edk::vec2f32 position1_1,edk::vec2f32 position1_2,edk::vec2f32 position2_1,edk::vec2f32 position2_2);
     static bool aabbPointsX(edk::rectf32 rect1,edk::rectf32 rect2);
-    //Y
+    //aabb X points inside
+    static bool aabbPointsXInside(edk::float32 insideX1,edk::float32 insideX2,
+                                  edk::float32 outsideX1,edk::float32 outsideX2
+                                  );
+    static bool aabbPointsXInside(edk::vec2f32 insidePosition1,edk::vec2f32 insidePosition2,
+                                  edk::vec2f32 outsidePosition1,edk::vec2f32 outsidePosition2
+                                  );
+    static bool aabbPointsXInside(edk::rectf32 insideRect,edk::rectf32 outsideRect);
+    //aabb Y
     static bool aabbY(edk::float32 y1,edk::float32 height1,
                       edk::float32 y2,edk::float32 height2
                       );
     static bool aabbY(edk::vec2f32 position1,edk::size2f32 size1,edk::vec2f32 position2,edk::size2f32 size2);
     static bool aabbY(edk::rectf32 rect1,edk::rectf32 rect2);
+    //aabb Y inside
+    static bool aabbYInside(edk::float32 insideY,edk::float32 insideHeight,
+                            edk::float32 outsideY,edk::float32 outsideHeight
+                            );
+    static bool aabbYInside(edk::vec2f32 insidePosition,edk::size2f32 insideSize,
+                            edk::vec2f32 outsidePosition,edk::size2f32 outsideSize
+                            );
+    static bool aabbYInside(edk::rectf32 insideRect,edk::rectf32 outsideRect);
+    //aabb Y points
     static bool aabbPointsY(edk::float32 y1_1,edk::float32 y1_2,
                             edk::float32 y2_1,edk::float32 y2_2
                             );
     static bool aabbPointsY(edk::vec2f32 position1_1,edk::vec2f32 position1_2,edk::vec2f32 position2_1,edk::vec2f32 position2_2);
     static bool aabbPointsY(edk::rectf32 rect1,edk::rectf32 rect2);
+    //aabb Y points inside
+    static bool aabbPointsYInside(edk::float32 insideY1,edk::float32 insideY2,
+                                  edk::float32 outsideY1,edk::float32 outsideY2
+                                  );
+    static bool aabbPointsYInside(edk::vec2f32 insidePosition1,edk::vec2f32 insidePosition2,
+                                  edk::vec2f32 outsidePosition1,edk::vec2f32 outsidePosition2
+                                  );
+    static bool aabbPointsYInside(edk::rectf32 insideRect,edk::rectf32 outsideRect);
     //AABB 3D
     static bool aabb(edk::float32 x1,edk::float32 y1,edk::float32 z1,edk::float32 width1,edk::float32 height1,edk::float32 length1,
                      edk::float32 x2,edk::float32 y2,edk::float32 z2,edk::float32 width2,edk::float32 height2,edk::float32 length2
                      );
     static bool aabb(edk::vec3f32 position1,edk::size3f32 size1,edk::vec3f32 position2,edk::size3f32 size2);
     static bool aabb(edk::cubef32 cube1,edk::cubef32 cube2);
+    //AABB 3D INSIDE
+    static bool aabbInside(edk::float32 insideX,edk::float32 insideY,edk::float32 insideZ,
+                           edk::float32 insideWidth,edk::float32 insideHeight,edk::float32 insideLength,
+                           edk::float32 outsideX,edk::float32 outsideY,edk::float32 outsideZ,
+                           edk::float32 outsideWidth,edk::float32 outsideHeight,edk::float32 outsideLength
+                           );
+    static bool aabbInside(edk::vec3f32 insidePosition1,edk::size3f32 insideSize1,
+                           edk::vec3f32 outsidePosition2,edk::size3f32 outsideSize2
+                           );
+    static bool aabbInside(edk::cubef32 insideCube,edk::cubef32 outsideCube);
+    //AABB 3D POINTS
     static bool aabbPoints(edk::float32 x1_1,edk::float32 y1_1,edk::float32 z1_1,edk::float32 x1_2,edk::float32 y1_2,edk::float32 z1_2,
                            edk::float32 x2_1,edk::float32 y2_1,edk::float32 z2_1,edk::float32 x2_2,edk::float32 y2_2,edk::float32 z2_2
                            );
     static bool aabbPoints(edk::vec3f32 position1_1,edk::vec3f32 position1_2,edk::vec3f32 position2_1,edk::vec3f32 position2_2);
     static bool aabbPoints(edk::cubef32 cube1,edk::cubef32 cube2);
+    //AABB 3D POINTS
+    static bool aabbPointsInside(edk::float32 insideX1,edk::float32 insideY1,edk::float32 insideZ1,
+                                 edk::float32 insideX2,edk::float32 insideY2,edk::float32 insideZ2,
+                                 edk::float32 outsideX1,edk::float32 outsideY1,edk::float32 outsideZ1,
+                                 edk::float32 outsideX2,edk::float32 outsideY2,edk::float32 outsideZ2
+                                 );
+    static bool aabbPointsInside(edk::vec3f32 insidePosition1,edk::vec3f32 insidePosition2,
+                                 edk::vec3f32 outsidePosition1,edk::vec3f32 outsidePosition2
+                                 );
+    static bool aabbPointsInside(edk::cubef32 insideCube,edk::cubef32 outsideCube);
     //X
     static bool aabbX(edk::vec3f32 position1,edk::size3f32 size1,edk::vec3f32 position2,edk::size3f32 size2);
     static bool aabbX(edk::cubef32 cube1,edk::cubef32 cube2);
-    static bool aabbPointsX(edk::vec3f32 position1_1,edk::vec3f32 position1_2,edk::vec3f32 position2_1,edk::vec3f32 position2_2);
+    //X INSIDE
+    static bool aabbXInside(edk::vec3f32 insidePosition,edk::size3f32 insideSize,
+                            edk::vec3f32 outsidePosition,edk::size3f32 outsideSize
+                            );
+    static bool aabbXInside(edk::cubef32 insideCube,edk::cubef32 outsideCube);
+    //AABB 3D X POINTS INSIDE
+    static bool aabbPointsX(edk::vec3f32 position1_1,edk::vec3f32 position1_2,
+                            edk::vec3f32 position2_1,edk::vec3f32 position2_2
+                            );
     static bool aabbPointsX(edk::cubef32 cube1,edk::cubef32 cube2);
+    //AABB 3D X POINTS
+    static bool aabbPointsXInside(edk::vec3f32 insidePosition1,edk::vec3f32 insidePosition2,
+                                  edk::vec3f32 outsidePosition1,edk::vec3f32 outsidePosition2
+                                  );
+    static bool aabbPointsXInside(edk::cubef32 insideCube,edk::cubef32 outsideCube);
     //Y
     static bool aabbY(edk::vec3f32 position1,edk::size3f32 size1,edk::vec3f32 position2,edk::size3f32 size2);
     static bool aabbY(edk::cubef32 cube1,edk::cubef32 cube2);
+    //Y INSIDE
+    static bool aabbYInside(edk::vec3f32 insidePosition,edk::size3f32 insideSize,
+                            edk::vec3f32 outsidePosition,edk::size3f32 outsideSize
+                            );
+    static bool aabbYInside(edk::cubef32 insideCube,edk::cubef32 outsideCube);
+    //AABB 3D Y POINTS
     static bool aabbPointsY(edk::vec3f32 position1_1,edk::vec3f32 position1_2,edk::vec3f32 position2_1,edk::vec3f32 position2_2);
     static bool aabbPointsY(edk::cubef32 cube1,edk::cubef32 cube2);
+    //AABB 3D Y POINTS INSIDE
+    static bool aabbPointsYInside(edk::vec3f32 insidePosition1,edk::vec3f32 insidePosition2,
+                                  edk::vec3f32 outsidePosition1,edk::vec3f32 outsidePosition2
+                                  );
+    static bool aabbPointsYInside(edk::cubef32 insideCube,edk::cubef32 outsideCube);
     //Z
     static bool aabbZ(edk::float32 z1,edk::float32 length1,
                       edk::float32 z2,edk::float32 length2
                       );
     static bool aabbZ(edk::vec3f32 position1,edk::size3f32 size1,edk::vec3f32 position2,edk::size3f32 size2);
     static bool aabbZ(edk::cubef32 cube1,edk::cubef32 cube2);
+    //Z INSIDE
+    static bool aabbZInside(edk::float32 insideZ,edk::float32 insideLength,
+                            edk::float32 outsideZ,edk::float32 outsideLength
+                            );
+    static bool aabbZInside(edk::vec3f32 insidePosition,edk::size3f32 insideSize,
+                            edk::vec3f32 outsidePosition,edk::size3f32 outsideSize
+                            );
+    static bool aabbZInside(edk::cubef32 insideCube,edk::cubef32 outsideCube);
+    //AABB 3D Z POINTS
     static bool aabbPointsZ(edk::float32 z1_1,edk::float32 z1_2,
                             edk::float32 z2_1,edk::float32 z2_2
                             );
     static bool aabbPointsZ(edk::vec3f32 position1_1,edk::vec3f32 position1_2,edk::vec3f32 position2_1,edk::vec3f32 position2_2);
     static bool aabbPointsZ(edk::cubef32 cube1,edk::cubef32 cube2);
-    //XY
+    //AABB 3D Z POINTS INSIDE
+    static bool aabbPointsZInside(edk::float32 insideZ1,edk::float32 insideZ2,
+                                  edk::float32 outsideZ1,edk::float32 outsideZ2
+                                  );
+    static bool aabbPointsZInside(edk::vec3f32 insidePosition1,edk::vec3f32 insidePosition2,
+                                  edk::vec3f32 outsidePosition1,edk::vec3f32 outsidePosition2
+                                  );
+    static bool aabbPointsZInside(edk::cubef32 insideCube,edk::cubef32 outsideCube);
+    //AABB XY
     static bool aabbXY(edk::float32 x1,edk::float32 y1,edk::float32 width1,edk::float32 height1,
                        edk::float32 x2,edk::float32 y2,edk::float32 width2,edk::float32 height2
                        );
+
     static bool aabbXY(edk::vec3f32 position1,edk::size3f32 size1,edk::vec3f32 position2,edk::size3f32 size2);
     static bool aabbXY(edk::cubef32 cube1,edk::cubef32 cube2);
+    //AABB XY INSIDE
+    static bool aabbXYInside(edk::float32 insideX,edk::float32 insideY,
+                             edk::float32 insideWidth,edk::float32 insideHeight,
+                             edk::float32 outsideX,edk::float32 outsideY,
+                             edk::float32 outsideWidth,edk::float32 outsideHeight
+                             );
+    static bool aabbXYInside(edk::vec3f32 insidePosition,edk::size3f32 insideSize,
+                             edk::vec3f32 outsidePosition,edk::size3f32 outsideSize
+                             );
+    static bool aabbXYInside(edk::cubef32 insideCube,edk::cubef32 outsideCube);
+    //AABB XY POINTS
     static bool aabbPointsXY(edk::float32 x1_1,edk::float32 y1_1,edk::float32 x1_2,edk::float32 y1_2,
                              edk::float32 x2_1,edk::float32 y2_1,edk::float32 x2_2,edk::float32 y2_2
                              );
     static bool aabbPointsXY(edk::vec3f32 position1_1,edk::vec3f32 position1_2,edk::vec3f32 position2_1,edk::vec3f32 position2_2);
     static bool aabbPointsXY(edk::cubef32 cube1,edk::cubef32 cube2);
-    //XZ
+    //AABB XY POINTS INSIDE
+    static bool aabbPointsXYInside(edk::float32 insideX1,edk::float32 insideY1,
+                                   edk::float32 insideX2,edk::float32 insideY2,
+                                   edk::float32 outsideX1,edk::float32 outsideY1,
+                                   edk::float32 outsideX2,edk::float32 outsideY2
+                                   );
+    static bool aabbPointsXYInside(edk::vec3f32 insidePosition1,edk::vec3f32 insidePosition2,
+                                   edk::vec3f32 outsidePosition1,edk::vec3f32 outsidePosition2
+                                   );
+    static bool aabbPointsXYInside(edk::cubef32 insideCube,edk::cubef32 outsideCube);
+    //AABB XZ
     static bool aabbXZ(edk::float32 x1,edk::float32 z1,edk::float32 width1,edk::float32 length1,
                        edk::float32 x2,edk::float32 z2,edk::float32 width2,edk::float32 length2
                        );
     static bool aabbXZ(edk::vec3f32 position1,edk::size3f32 size1,edk::vec3f32 position2,edk::size3f32 size2);
     static bool aabbXZ(edk::cubef32 cube1,edk::cubef32 cube2);
+    //AABB XZ INSIDE
+    static bool aabbXZInside(edk::float32 insideX,edk::float32 insideZ,
+                             edk::float32 insideWidth,edk::float32 insideLength,
+                             edk::float32 outsideX,edk::float32 outsideZ,
+                             edk::float32 outsideWidth,edk::float32 outsideLength
+                             );
+    static bool aabbXZInside(edk::vec3f32 insidePosition,edk::size3f32 insideSize,
+                             edk::vec3f32 outsidePosition,edk::size3f32 outsideSize
+                             );
+    static bool aabbXZInside(edk::cubef32 insideCube,edk::cubef32 outsideCube);
+    //AABB XZ POINTS
     static bool aabbPointsXZ(edk::float32 x1_1,edk::float32 z1_1,edk::float32 x1_2,edk::float32 z1_2,
                              edk::float32 x2_1,edk::float32 z2_1,edk::float32 x2_2,edk::float32 z2_2
                              );
     static bool aabbPointsXZ(edk::vec3f32 position1_1,edk::vec3f32 position1_2,edk::vec3f32 position2_1,edk::vec3f32 position2_2);
     static bool aabbPointsXZ(edk::cubef32 cube1,edk::cubef32 cube2);
-    //YZ
+    //AABB XZ POINTS INSIDE
+    static bool aabbPointsXZInside(edk::float32 insideX1,edk::float32 insideZ1,
+                                   edk::float32 insideX2,edk::float32 insideZ2,
+                                   edk::float32 outsideX1,edk::float32 outsideZ1,
+                                   edk::float32 outsideX2,edk::float32 outsideZ2
+                                   );
+    static bool aabbPointsXZInside(edk::vec3f32 insidePosition1,edk::vec3f32 insidePosition2,
+                                   edk::vec3f32 outsidePosition1,edk::vec3f32 outsidePosition2
+                                   );
+    static bool aabbPointsXZInside(edk::cubef32 insideCube,edk::cubef32 outsideCube);
+    //AABB YZ
     static bool aabbYZ(edk::float32 y1,edk::float32 z1,edk::float32 height1,edk::float32 length1,
                        edk::float32 y2,edk::float32 z2,edk::float32 height2,edk::float32 length2
                        );
     static bool aabbYZ(edk::vec3f32 position1,edk::size3f32 size1,edk::vec3f32 position2,edk::size3f32 size2);
     static bool aabbYZ(edk::cubef32 cube1,edk::cubef32 cube2);
+    //AABB YZ INSIDE
+    static bool aabbYZInside(edk::float32 insideY,edk::float32 insideZ,
+                             edk::float32 insideHeight,edk::float32 insideLength,
+                             edk::float32 outsideY,edk::float32 outsideZ,
+                             edk::float32 outsideHeight,edk::float32 outsideLength
+                             );
+    static bool aabbYZInside(edk::vec3f32 insidePosition,edk::size3f32 insideSize,
+                             edk::vec3f32 outsidePosition,edk::size3f32 outsideSize
+                             );
+    static bool aabbYZInside(edk::cubef32 insideCube,edk::cubef32 outsideCube);
+    //AABB YZ POINTS
     static bool aabbPointsYZ(edk::float32 y1_1,edk::float32 z1_1,edk::float32 y1_2,edk::float32 z1_2,
                              edk::float32 y2_1,edk::float32 z2_1,edk::float32 y2_2,edk::float32 z2_2
                              );
     static bool aabbPointsYZ(edk::vec3f32 position1_1,edk::vec3f32 position1_2,edk::vec3f32 position2_1,edk::vec3f32 position2_2);
     static bool aabbPointsYZ(edk::cubef32 cube1,edk::cubef32 cube2);
+    //AABB YZ POINTS INSIDE
+    static bool aabbPointsYZInside(edk::float32 insideY1,edk::float32 insideZ1,
+                                   edk::float32 insideY2,edk::float32 insideZ2,
+                                   edk::float32 outsideY1,edk::float32 outsideZ1,
+                                   edk::float32 outsideY2,edk::float32 outsideZ2
+                                   );
+    static bool aabbPointsYZInside(edk::vec3f32 insidePosition1,edk::vec3f32 insidePosition2,
+                                   edk::vec3f32 outsidePosition1,edk::vec3f32 outsidePosition2
+                                   );
+    static bool aabbPointsYZInside(edk::cubef32 insideCube,edk::cubef32 outsideCube);
 
     //test if a bounsingBox2D is inside other boundingBox2D
     static bool boundingBox2DFirstInsideSecond(edk::float32 x1,edk::float32 y1,edk::float32 width1,edk::float32 height1,

@@ -122,7 +122,6 @@ bool edk::collision::MathCollision::boundingContact2D(edk::vec2f32 point,edk::ve
     }
     return false;
 }
-
 //2D
 bool edk::collision::MathCollision::aabb(edk::float32 x1,edk::float32 y1,edk::float32 width1,edk::float32 height1,
                                          edk::float32 x2,edk::float32 y2,edk::float32 width2,edk::float32 height2
@@ -146,6 +145,33 @@ bool edk::collision::MathCollision::aabb(edk::rectf32 rect1,edk::rectf32 rect2){
         return true;
     return false;
 }
+//aabb where the first is inside the secons
+bool edk::collision::MathCollision::aabbInside(edk::float32 insideX,edk::float32 insideY,
+                                               edk::float32 insideWidth,edk::float32 insideHeight,
+                                               edk::float32 outsideX,edk::float32 outsideY,
+                                               edk::float32 outsideWidth,edk::float32 outsideHeight
+                                               ){
+    return edk::collision::MathCollision::aabbInside(edk::vec2f32(insideX,insideY),
+                                                     edk::size2f32(insideWidth,insideHeight),
+                                                     edk::vec2f32(outsideX,outsideY),
+                                                     edk::size2f32(outsideWidth,outsideHeight)
+                                                     );
+}
+bool edk::collision::MathCollision::aabbInside(edk::vec2f32 insidePosition,
+                                               edk::size2f32 insideSize,
+                                               edk::vec2f32 outsidePosition,
+                                               edk::size2f32 outsideSize
+                                               ){
+    return edk::collision::MathCollision::aabbInside(edk::rectf32(insidePosition,insideSize),
+                                                     edk::rectf32(outsidePosition,outsideSize)
+                                                     );
+}
+bool edk::collision::MathCollision::aabbInside(edk::rectf32 insideRect,edk::rectf32 outsideRect){
+    insideRect.convertIntoPoints();
+    outsideRect.convertIntoPoints();
+    return edk::collision::MathCollision::aabbPointsInside(insideRect,outsideRect);
+}
+//aabb points
 bool edk::collision::MathCollision::aabbPoints(edk::float32 x1_1,edk::float32 y1_1,edk::float32 x1_2,edk::float32 y1_2,
                                                edk::float32 x2_1,edk::float32 y2_1,edk::float32 x2_2,edk::float32 y2_2
                                                ){
@@ -164,6 +190,51 @@ bool edk::collision::MathCollision::aabbPoints(edk::rectf32 rect1,edk::rectf32 r
             rect2.origin.y <= rect1.size.height
             &&
             rect2.size.height >= rect1.origin.y
+            )
+        return true;
+    return false;
+}
+//abb points where the first is inside the second
+bool edk::collision::MathCollision::aabbPointsInside(edk::float32 insideX1,edk::float32 insideY1,
+                                                     edk::float32 insideX2,edk::float32 insideY2,
+                                                     edk::float32 outsidexX1,edk::float32 outsideyY1,
+                                                     edk::float32 outsidexX2,edk::float32 outsideY2
+                                                     ){
+    return edk::collision::MathCollision::aabbPointsInside(edk::vec2f32(insideX1,insideY1),
+                                                           edk::vec2f32(insideX2,insideY2),
+                                                           edk::vec2f32(outsidexX1,outsideyY1),
+                                                           edk::vec2f32(outsidexX2,outsideY2)
+                                                           );
+}
+bool edk::collision::MathCollision::aabbPointsInside(edk::vec2f32 insidePosition1,
+                                                     edk::vec2f32 insidePosition2,
+                                                     edk::vec2f32 outsidePosition1,
+                                                     edk::vec2f32 outsidePosition2
+                                                     ){
+    return edk::collision::MathCollision::aabbPointsInside(edk::rectf32(insidePosition1.x,insidePosition1.y,
+                                                                        insidePosition2.x,insidePosition2.y
+                                                                        ),
+                                                           edk::rectf32(outsidePosition1.x,outsidePosition1.y,
+                                                                        outsidePosition2.x,outsidePosition2.y
+                                                                        )
+                                                           );
+}
+bool edk::collision::MathCollision::aabbPointsInside(edk::rectf32 insideRect,edk::rectf32 outsideRect){
+    if(insideRect.origin.x >= outsideRect.origin.x
+            &&
+            insideRect.origin.y >= outsideRect.origin.y
+            &&
+            insideRect.origin.x >= outsideRect.size.width
+            &&
+            insideRect.origin.y <= outsideRect.size.height
+            &&
+            insideRect.size.width <= outsideRect.origin.x
+            &&
+            insideRect.size.height >= outsideRect.origin.y
+            &&
+            insideRect.size.width <= outsideRect.size.width
+            &&
+            insideRect.size.height <= outsideRect.size.height
             )
         return true;
     return false;
@@ -187,6 +258,25 @@ bool edk::collision::MathCollision::aabbX(edk::rectf32 rect1,edk::rectf32 rect2)
         return true;
     return false;
 }
+//aabb X inside
+bool edk::collision::MathCollision::aabbXInside(edk::float32 insideX,edk::float32 insideWidth,
+                                                edk::float32 outsideX,edk::float32 outsideWidth
+                                                ){
+    return edk::collision::MathCollision::aabbXInside(edk::vec2f32 (insideX,0.f),edk::size2f32 (insideWidth,0.f),
+                                                      edk::vec2f32 (outsideX,0.f),edk::size2f32 (outsideWidth,0.f)
+                                                      );
+}
+bool edk::collision::MathCollision::aabbXInside(edk::vec2f32 insidePosition,edk::size2f32 insideSize,
+                                                edk::vec2f32 outsidePosition,edk::size2f32 outsideSize
+                                                ){
+    return edk::collision::MathCollision::aabbXInside(edk::rectf32(insidePosition,insideSize),
+                                                      edk::rectf32(outsidePosition,outsideSize)
+                                                      );
+}
+bool edk::collision::MathCollision::aabbXInside(edk::rectf32 insideRect,edk::rectf32 outsideRect){
+    return edk::collision::MathCollision::aabbPointsXInside(insideRect,outsideRect);
+}
+//aabb X points
 bool edk::collision::MathCollision::aabbPointsX(edk::float32 x1_1,edk::float32 x1_2,
                                                 edk::float32 x2_1,edk::float32 x2_2
                                                 ){
@@ -205,7 +295,46 @@ bool edk::collision::MathCollision::aabbPointsX(edk::rectf32 rect1,edk::rectf32 
         return true;
     return false;
 }
-//Y
+//aabb X points inside
+bool edk::collision::MathCollision::aabbPointsXInside(edk::float32 insideX1,edk::float32 insideX2,
+                                                      edk::float32 outsideX1,edk::float32 outsideX2
+                                                      ){
+    return edk::collision::MathCollision::aabbPointsXInside(edk::vec2f32(insideX1,0.f),edk::vec2f32(insideX2,0.f),
+                                                            edk::vec2f32(outsideX1,0.f),edk::vec2f32(outsideX2,0.f)
+                                                            );
+}
+bool edk::collision::MathCollision::aabbPointsXInside(edk::vec2f32 insidePosition1,edk::vec2f32 insidePosition2,
+                                                      edk::vec2f32 outsidePosition1,edk::vec2f32 outsidePosition2
+                                                      ){
+    return edk::collision::MathCollision::aabbPointsXInside(edk::rectf32(insidePosition1.x,insidePosition1.y,
+                                                                         insidePosition2.x,insidePosition2.y
+                                                                         ),
+                                                            edk::rectf32(outsidePosition1.x,outsidePosition1.y,
+                                                                         outsidePosition2.x,outsidePosition2.y
+                                                                         )
+                                                            );
+}
+bool edk::collision::MathCollision::aabbPointsXInside(edk::rectf32 insideRect,edk::rectf32 outsideRect){
+    if(insideRect.origin.x >= outsideRect.origin.x
+            //&&
+            //insideRect.origin.y >= outsideRect.origin.y
+            &&
+            insideRect.origin.x >= outsideRect.size.width
+            //&&
+            //insideRect.origin.y <= outsideRect.size.height
+            &&
+            insideRect.size.width <= outsideRect.origin.x
+            //&&
+            //insideRect.size.height >= outsideRect.origin.y
+            &&
+            insideRect.size.width <= outsideRect.size.width
+            //&&
+            //insideRect.size.height <= outsideRect.size.height
+            )
+        return true;
+    return false;
+}
+//aabb Y
 bool edk::collision::MathCollision::aabbY(edk::float32 y1,edk::float32 height1,
                                           edk::float32 y2,edk::float32 height2
                                           ){
@@ -224,6 +353,27 @@ bool edk::collision::MathCollision::aabbY(edk::rectf32 rect1,edk::rectf32 rect2)
         return true;
     return false;
 }
+//aabb Y inside
+bool edk::collision::MathCollision::aabbYInside(edk::float32 insideY,edk::float32 insideHeight,
+                                                edk::float32 outsideY,edk::float32 outsideHeight
+                                                ){
+    return edk::collision::MathCollision::aabbYInside(edk::vec2f32(0.f,insideY),edk::size2f32(0.f,insideHeight),
+                                                      edk::vec2f32(0.f,outsideY),edk::size2f32(0.f,outsideHeight)
+                                                      );
+}
+bool edk::collision::MathCollision::aabbYInside(edk::vec2f32 insidePosition,edk::size2f32 insideSize,
+                                                edk::vec2f32 outsidePosition,edk::size2f32 outsideSize
+                                                ){
+    return edk::collision::MathCollision::aabbYInside(edk::rectf32(insidePosition,insideSize),
+                                                      edk::rectf32(outsidePosition,outsideSize)
+                                                      );
+}
+bool edk::collision::MathCollision::aabbYInside(edk::rectf32 insideRect,edk::rectf32 outsideRect){
+    insideRect.convertIntoPoints();
+    outsideRect.convertIntoPoints();
+    return edk::collision::MathCollision::aabbPointsYInside(insideRect,outsideRect);
+}
+//aabb Y points
 bool edk::collision::MathCollision::aabbPointsY(edk::float32 y1_1,edk::float32 y1_2,
                                                 edk::float32 y2_1,edk::float32 y2_2
                                                 ){
@@ -242,7 +392,46 @@ bool edk::collision::MathCollision::aabbPointsY(edk::rectf32 rect1,edk::rectf32 
         return true;
     return false;
 }
-//3D
+//aabb Y points inside
+bool edk::collision::MathCollision::aabbPointsYInside(edk::float32 insideY1,edk::float32 insideY2,
+                                                      edk::float32 outsideY1,edk::float32 outsideY2
+                                                      ){
+    return edk::collision::MathCollision::aabbPointsYInside(edk::vec2f32(0.f,insideY1),edk::vec2f32(0.f,insideY2),
+                                                            edk::vec2f32(0.f,outsideY1),edk::vec2f32(0.f,outsideY2)
+                                                            );
+}
+bool edk::collision::MathCollision::aabbPointsYInside(edk::vec2f32 insidePosition1,edk::vec2f32 insidePosition2,
+                                                      edk::vec2f32 outsidePosition1,edk::vec2f32 outsidePosition2
+                                                      ){
+    return edk::collision::MathCollision::aabbPointsYInside(edk::rectf32(insidePosition1.x,insidePosition1.y,
+                                                                         insidePosition2.x,insidePosition2.y
+                                                                         ),
+                                                            edk::rectf32(outsidePosition1.x,outsidePosition1.y,
+                                                                         outsidePosition2.x,outsidePosition2.y
+                                                                         )
+                                                            );
+}
+bool edk::collision::MathCollision::aabbPointsYInside(edk::rectf32 insideRect,edk::rectf32 outsideRect){
+    if(//insideRect.origin.x >= outsideRect.origin.x
+            //&&
+            insideRect.origin.y >= outsideRect.origin.y
+            //&&
+            //insideRect.origin.x >= outsideRect.size.width
+            &&
+            insideRect.origin.y <= outsideRect.size.height
+            //&&
+            //insideRect.size.width <= outsideRect.origin.x
+            &&
+            insideRect.size.height >= outsideRect.origin.y
+            //&&
+            //insideRect.size.width <= outsideRect.size.width
+            &&
+            insideRect.size.height <= outsideRect.size.height
+            )
+        return true;
+    return false;
+}
+//AABB 3D
 bool edk::collision::MathCollision::aabb(edk::float32 x1,edk::float32 y1,edk::float32 z1,edk::float32 width1,edk::float32 height1,edk::float32 length1,
                                          edk::float32 x2,edk::float32 y2,edk::float32 z2,edk::float32 width2,edk::float32 height2,edk::float32 length2
                                          ){
@@ -271,6 +460,31 @@ bool edk::collision::MathCollision::aabb(edk::cubef32 cube1,edk::cubef32 cube2){
         return true;
     return false;
 }
+//AABB 3D INSIDE
+bool edk::collision::MathCollision::aabbInside(edk::float32 insideX,edk::float32 insideY,edk::float32 insideZ,
+                                               edk::float32 insideWidth,edk::float32 insideHeight,edk::float32 insideLength,
+                                               edk::float32 outsideX,edk::float32 outsideY,edk::float32 outsideZ,
+                                               edk::float32 outsideWidth,edk::float32 outsideHeight,edk::float32 outsideLength
+                                               ){
+    return edk::collision::MathCollision::aabbInside(edk::vec3f32(insideX,insideY,insideZ),
+                                                     edk::size3f32(insideWidth,insideHeight,insideLength),
+                                                     edk::vec3f32(outsideX,outsideY,outsideZ),
+                                                     edk::size3f32(outsideWidth,outsideHeight,outsideLength)
+                                                     );
+}
+bool edk::collision::MathCollision::aabbInside(edk::vec3f32 insidePosition1,edk::size3f32 insideSize1,
+                                               edk::vec3f32 outsidePosition2,edk::size3f32 outsideSize2
+                                               ){
+    return edk::collision::MathCollision::aabbInside(edk::cubef32(insidePosition1,insideSize1),
+                                                     edk::cubef32(outsidePosition2,outsideSize2)
+                                                     );
+}
+bool edk::collision::MathCollision::aabbInside(edk::cubef32 insideCube,edk::cubef32 outsideCube){
+    insideCube.convertIntoPoints();
+    outsideCube.convertIntoPoints();
+    return edk::collision::MathCollision::aabbPointsInside(insideCube,outsideCube);
+}
+//AABB 3D POINTS
 bool edk::collision::MathCollision::aabbPoints(edk::float32 x1_1,edk::float32 y1_1,edk::float32 z1_1,edk::float32 x1_2,edk::float32 y1_2,edk::float32 z1_2,
                                                edk::float32 x2_1,edk::float32 y2_1,edk::float32 z2_1,edk::float32 x2_2,edk::float32 y2_2,edk::float32 z2_2
                                                ){
@@ -299,6 +513,57 @@ bool edk::collision::MathCollision::aabbPoints(edk::cubef32 cube1,edk::cubef32 c
         return true;
     return false;
 }
+//AABB 3D POINTS
+bool edk::collision::MathCollision::aabbPointsInside(edk::float32 insideX1,edk::float32 insideY1,edk::float32 insideZ1,
+                                                     edk::float32 insideX2,edk::float32 insideY2,edk::float32 insideZ2,
+                                                     edk::float32 outsideX1,edk::float32 outsideY1,edk::float32 outsideZ1,
+                                                     edk::float32 outsideX2,edk::float32 outsideY2,edk::float32 outsideZ2
+                                                     ){
+    return edk::collision::MathCollision::aabbPointsInside(edk::vec3f32(insideX1,insideY1,insideZ1),
+                                                           edk::vec3f32(insideX2,insideY2,insideZ2),
+                                                           edk::vec3f32(outsideX1,outsideY1,outsideZ1),
+                                                           edk::vec3f32(outsideX2,outsideY2,outsideZ2)
+                                                           );
+}
+bool edk::collision::MathCollision::aabbPointsInside(edk::vec3f32 insidePosition1,edk::vec3f32 insidePosition2,
+                                                     edk::vec3f32 outsidePosition1,edk::vec3f32 outsidePosition2
+                                                     ){
+    return edk::collision::MathCollision::aabbPointsInside(edk::cubef32(insidePosition1.x,insidePosition1.y,insidePosition1.z,
+                                                                        insidePosition2.x,insidePosition2.y,insidePosition2.z
+                                                                        ),
+                                                           edk::cubef32(outsidePosition1.y,outsidePosition1.y,outsidePosition1.z,
+                                                                        outsidePosition2.y,outsidePosition2.y,outsidePosition2.z
+                                                                        )
+                                                           );
+}
+bool edk::collision::MathCollision::aabbPointsInside(edk::cubef32 insideCube,edk::cubef32 outsideCube){
+    if(insideCube.origin.x >= outsideCube.origin.x
+            &&
+            insideCube.origin.y >= outsideCube.origin.y
+            &&
+            insideCube.origin.z >= outsideCube.origin.z
+            &&
+            insideCube.origin.x >= outsideCube.size.width
+            &&
+            insideCube.origin.y <= outsideCube.size.height
+            &&
+            insideCube.origin.z <= outsideCube.size.length
+            &&
+            insideCube.size.width <= outsideCube.origin.x
+            &&
+            insideCube.size.height >= outsideCube.origin.y
+            &&
+            insideCube.size.length >= outsideCube.origin.z
+            &&
+            insideCube.size.width <= outsideCube.size.width
+            &&
+            insideCube.size.height <= outsideCube.size.height
+            &&
+            insideCube.size.length <= outsideCube.size.length
+            )
+        return true;
+    return false;
+}
 //X
 bool edk::collision::MathCollision::aabbX(edk::vec3f32 position1,edk::size3f32 size1,edk::vec3f32 position2,edk::size3f32 size2){
     return edk::collision::MathCollision::aabbX(edk::cubef32(position1.x,position1.y,position1.z,size1.width,size1.height,size1.length),
@@ -313,7 +578,23 @@ bool edk::collision::MathCollision::aabbX(edk::cubef32 cube1,edk::cubef32 cube2)
         return true;
     return false;
 }
-bool edk::collision::MathCollision::aabbPointsX(edk::vec3f32 position1_1,edk::vec3f32 position1_2,edk::vec3f32 position2_1,edk::vec3f32 position2_2){
+//X inside
+bool edk::collision::MathCollision::aabbXInside(edk::vec3f32 insidePosition,edk::size3f32 insideSize,
+                                                edk::vec3f32 outsidePosition,edk::size3f32 outsideSize
+                                                ){
+    return edk::collision::MathCollision::aabbXInside(edk::cubef32(insidePosition,insideSize),
+                                                      edk::cubef32(outsidePosition,outsideSize)
+                                                      );
+}
+bool edk::collision::MathCollision::aabbXInside(edk::cubef32 insideCube,edk::cubef32 outsideCube){
+    insideCube.convertIntoPoints();
+    outsideCube.convertIntoPoints();
+    return edk::collision::MathCollision::aabbPointsXInside(insideCube,outsideCube);
+}
+//AABB 3D X POINTS
+bool edk::collision::MathCollision::aabbPointsX(edk::vec3f32 position1_1,edk::vec3f32 position1_2,
+                                                edk::vec3f32 position2_1,edk::vec3f32 position2_2
+                                                ){
     return edk::collision::MathCollision::aabbX(edk::cubef32(position1_1.x,position1_1.y,position1_1.z,position1_2.x,position1_2.y,position1_2.z),
                                                 edk::cubef32(position2_1.x,position2_1.y,position2_1.z,position2_2.x,position2_2.y,position2_2.z)
                                                 );edkEnd();
@@ -322,6 +603,46 @@ bool edk::collision::MathCollision::aabbPointsX(edk::cubef32 cube1,edk::cubef32 
     if(cube2.origin.x <= cube1.size.width
             &&
             cube2.size.width >= cube1.origin.x
+            )
+        return true;
+    return false;
+}
+//AABB 3D X POINTS INSIDE
+bool edk::collision::MathCollision::aabbPointsXInside(edk::vec3f32 insidePosition1,edk::vec3f32 insidePosition2,
+                                                      edk::vec3f32 outsidePosition1,edk::vec3f32 outsidePosition2
+                                                      ){
+    return edk::collision::MathCollision::aabbPointsXInside(edk::cubef32(insidePosition1.x,insidePosition1.y,insidePosition1.z,
+                                                                         insidePosition2.x,insidePosition2.y,insidePosition2.z
+                                                                         ),
+                                                            edk::cubef32(outsidePosition1.x,outsidePosition1.y,outsidePosition1.z,
+                                                                         outsidePosition2.x,outsidePosition2.y,outsidePosition2.z
+                                                                         )
+                                                            );
+}
+bool edk::collision::MathCollision::aabbPointsXInside(edk::cubef32 insideCube,edk::cubef32 outsideCube){
+    if(insideCube.origin.x >= outsideCube.origin.x
+            //&&
+            //insideCube.origin.y >= outsideCube.origin.y
+            //&&
+            //insideCube.origin.z >= outsideCube.origin.z
+            &&
+            insideCube.origin.x >= outsideCube.size.width
+            //&&
+            //insideCube.origin.y <= outsideCube.size.height
+            //&&
+            //insideCube.origin.z <= outsideCube.size.length
+            &&
+            insideCube.size.width <= outsideCube.origin.x
+            //&&
+            //insideCube.size.height >= outsideCube.origin.y
+            //&&
+            //insideCube.size.length >= outsideCube.origin.z
+            &&
+            insideCube.size.width <= outsideCube.size.width
+            //&&
+            //insideCube.size.height <= outsideCube.size.height
+            //&&
+            //insideCube.size.length <= outsideCube.size.length
             )
         return true;
     return false;
@@ -340,6 +661,20 @@ bool edk::collision::MathCollision::aabbY(edk::cubef32 cube1,edk::cubef32 cube2)
         return true;
     return false;
 }
+//Y INSIDE
+bool edk::collision::MathCollision::aabbYInside(edk::vec3f32 insidePosition,edk::size3f32 insideSize,
+                                                edk::vec3f32 outsidePosition,edk::size3f32 outsideSize
+                                                ){
+    return edk::collision::MathCollision::aabbYInside(edk::cubef32(insidePosition,insideSize),
+                                                      edk::cubef32(outsidePosition,outsideSize)
+                                                      );
+}
+bool edk::collision::MathCollision::aabbYInside(edk::cubef32 insideCube,edk::cubef32 outsideCube){
+    insideCube.convertIntoPoints();
+    outsideCube.convertIntoPoints();
+    return edk::collision::MathCollision::aabbPointsYInside(insideCube,outsideCube);
+}
+//AABB 3D Y POINTS
 bool edk::collision::MathCollision::aabbPointsY(edk::vec3f32 position1_1,edk::vec3f32 position1_2,edk::vec3f32 position2_1,edk::vec3f32 position2_2){
     return edk::collision::MathCollision::aabb(edk::cubef32(position1_1.x,position1_1.y,position1_1.z,position1_2.x,position1_2.y,position1_2.z),
                                                edk::cubef32(position2_1.x,position2_1.y,position2_1.z,position2_2.x,position2_2.y,position2_2.z)
@@ -357,6 +692,47 @@ bool edk::collision::MathCollision::aabbPointsY(edk::cubef32 cube1,edk::cubef32 
             cube2.origin.z <= cube1.size.length
             &&
             cube2.size.length >= cube1.origin.z
+            )
+        return true;
+    return false;
+}
+//AABB 3D Y POINTS INSIDE
+bool edk::collision::MathCollision::aabbPointsYInside(edk::vec3f32 insidePosition1,edk::vec3f32 insidePosition2,
+                                                      edk::vec3f32 outsidePosition1,edk::vec3f32 outsidePosition2
+                                                      ){
+    return edk::collision::MathCollision::aabbPointsYInside(edk::cubef32(insidePosition1.x,insidePosition1.y,insidePosition1.z,
+                                                                         insidePosition2.x,insidePosition2.y,insidePosition2.z
+                                                                         ),
+                                                            edk::cubef32(outsidePosition1.x,outsidePosition1.y,outsidePosition1.z,
+                                                                         outsidePosition2.x,outsidePosition2.y,outsidePosition2.z
+                                                                         )
+                                                            );
+}
+bool edk::collision::MathCollision::aabbPointsYInside(edk::cubef32 insideCube,edk::cubef32 outsideCube){
+
+    if(//insideCube.origin.x >= outsideCube.origin.x
+            //&&
+            insideCube.origin.y >= outsideCube.origin.y
+            //&&
+            //insideCube.origin.z >= outsideCube.origin.z
+            //&&
+            //insideCube.origin.x >= outsideCube.size.width
+            &&
+            insideCube.origin.y <= outsideCube.size.height
+            //&&
+            //insideCube.origin.z <= outsideCube.size.length
+            //&&
+            //insideCube.size.width <= outsideCube.origin.x
+            &&
+            insideCube.size.height >= outsideCube.origin.y
+            //&&
+            //insideCube.size.length >= outsideCube.origin.z
+            //&&
+            //insideCube.size.width <= outsideCube.size.width
+            &&
+            insideCube.size.height <= outsideCube.size.height
+            //&&
+            //insideCube.size.length <= outsideCube.size.length
             )
         return true;
     return false;
@@ -382,6 +758,27 @@ bool edk::collision::MathCollision::aabbZ(edk::cubef32 cube1,edk::cubef32 cube2)
         return true;
     return false;
 }
+//Z INSIDE
+bool edk::collision::MathCollision::aabbZInside(edk::float32 insideZ,edk::float32 insideLength,
+                                                edk::float32 outsideZ,edk::float32 outsideLength
+                                                ){
+    return edk::collision::MathCollision::aabbZInside(edk::vec3f32(0.f,0.f,insideZ),edk::size3f32(0.f,0.f,insideLength),
+                                                      edk::vec3f32(0.f,0.f,outsideZ),edk::size3f32(0.f,0.f,outsideLength)
+                                                      );
+}
+bool edk::collision::MathCollision::aabbZInside(edk::vec3f32 insidePosition,edk::size3f32 insideSize,
+                                                edk::vec3f32 outsidePosition,edk::size3f32 outsideSize
+                                                ){
+    return edk::collision::MathCollision::aabbZInside(edk::cubef32(insidePosition,insideSize),
+                                                      edk::cubef32(outsidePosition,outsideSize)
+                                                      );
+}
+bool edk::collision::MathCollision::aabbZInside(edk::cubef32 insideCube,edk::cubef32 outsideCube){
+    insideCube.convertIntoPoints();
+    outsideCube.convertIntoPoints();
+    return edk::collision::MathCollision::aabbPointsZInside(insideCube,outsideCube);
+}
+//AABB 3D Z POINTS
 bool edk::collision::MathCollision::aabbPointsZ(edk::float32 z1_1,edk::float32 z1_2,
                                                 edk::float32 z2_1,edk::float32 z2_2
                                                 ){
@@ -402,7 +799,54 @@ bool edk::collision::MathCollision::aabbPointsZ(edk::cubef32 cube1,edk::cubef32 
         return true;
     return false;
 }
-//XY
+//AABB 3D Z POINTS INSIDE
+bool edk::collision::MathCollision::aabbPointsZInside(edk::float32 insideZ1,edk::float32 insideZ2,
+                                                      edk::float32 outsideZ1,edk::float32 outsideZ2
+                                                      ){
+    return edk::collision::MathCollision::aabbPointsZInside(edk::vec3f32(0.f,0.f,insideZ1),edk::vec3f32(0.f,0.f,insideZ2),
+                                                            edk::vec3f32(0.f,0.f,outsideZ1),edk::vec3f32(0.f,0.f,outsideZ2)
+                                                            );
+}
+bool edk::collision::MathCollision::aabbPointsZInside(edk::vec3f32 insidePosition1,edk::vec3f32 insidePosition2,
+                                                      edk::vec3f32 outsidePosition1,edk::vec3f32 outsidePosition2
+                                                      ){
+    return edk::collision::MathCollision::aabbPointsZInside(edk::cubef32(insidePosition1.x,insidePosition1.y,insidePosition1.z,
+                                                                         insidePosition2.x,insidePosition2.y,insidePosition2.z
+                                                                         ),
+                                                            edk::cubef32(outsidePosition1.x,outsidePosition1.y,outsidePosition1.z,
+                                                                         outsidePosition2.x,outsidePosition2.y,outsidePosition2.z
+                                                                         )
+                                                            );
+}
+bool edk::collision::MathCollision::aabbPointsZInside(edk::cubef32 insideCube,edk::cubef32 outsideCube){
+    if(//insideCube.origin.x >= outsideCube.origin.x
+            //&&
+            //insideCube.origin.y >= outsideCube.origin.y
+            //&&
+            insideCube.origin.z >= outsideCube.origin.z
+            //&&
+            //insideCube.origin.x >= outsideCube.size.width
+            //&&
+            //insideCube.origin.y <= outsideCube.size.height
+            &&
+            insideCube.origin.z <= outsideCube.size.length
+            //&&
+            //insideCube.size.width <= outsideCube.origin.x
+            //&&
+            //insideCube.size.height >= outsideCube.origin.y
+            &&
+            insideCube.size.length >= outsideCube.origin.z
+            //&&
+            //insideCube.size.width <= outsideCube.size.width
+            //&&
+            //insideCube.size.height <= outsideCube.size.height
+            &&
+            insideCube.size.length <= outsideCube.size.length
+            )
+        return true;
+    return false;
+}
+//AABB XY
 bool edk::collision::MathCollision::aabbXY(edk::float32 x1,edk::float32 y1,edk::float32 width1,edk::float32 height1,
                                            edk::float32 x2,edk::float32 y2,edk::float32 width2,edk::float32 height2
                                            ){
@@ -427,6 +871,31 @@ bool edk::collision::MathCollision::aabbXY(edk::cubef32 cube1,edk::cubef32 cube2
         return true;
     return false;
 }
+//AABB XY INSIDE
+bool edk::collision::MathCollision::aabbXYInside(edk::float32 insideX,edk::float32 insideY,
+                                                 edk::float32 insideWidth,edk::float32 insideHeight,
+                                                 edk::float32 outsideX,edk::float32 outsideY,
+                                                 edk::float32 outsideWidth,edk::float32 outsideHeight
+                                                 ){
+    return edk::collision::MathCollision::aabbXYInside(edk::vec3f32(insideX,insideY,0.f),
+                                                       edk::size3f32(insideWidth,insideHeight,0.f),
+                                                       edk::vec3f32(outsideX,outsideY,0.f),
+                                                       edk::size3f32(outsideWidth,outsideHeight,0.f)
+                                                       );
+}
+bool edk::collision::MathCollision::aabbXYInside(edk::vec3f32 insidePosition,edk::size3f32 insideSize,
+                                                 edk::vec3f32 outsidePosition,edk::size3f32 outsideSize
+                                                 ){
+    return edk::collision::MathCollision::aabbXYInside(edk::cubef32(insidePosition,insideSize),
+                                                       edk::cubef32(outsidePosition,outsideSize)
+                                                       );
+}
+bool edk::collision::MathCollision::aabbXYInside(edk::cubef32 insideCube,edk::cubef32 outsideCube){
+    insideCube.convertIntoPoints();
+    outsideCube.convertIntoPoints();
+    return edk::collision::MathCollision::aabbPointsXYInside(insideCube,outsideCube);
+}
+//AABB XY POINTS
 bool edk::collision::MathCollision::aabbPointsXY(edk::float32 x1_1,edk::float32 y1_1,edk::float32 x1_2,edk::float32 y1_2,
                                                  edk::float32 x2_1,edk::float32 y2_1,edk::float32 x2_2,edk::float32 y2_2
                                                  ){
@@ -451,7 +920,58 @@ bool edk::collision::MathCollision::aabbPointsXY(edk::cubef32 cube1,edk::cubef32
         return true;
     return false;
 }
-//XZ
+//AABB XY POINTS INSIDE
+bool edk::collision::MathCollision::aabbPointsXYInside(edk::float32 insideX1,edk::float32 insideY1,
+                                                       edk::float32 insideX2,edk::float32 insideY2,
+                                                       edk::float32 outsideX1,edk::float32 outsideY1,
+                                                       edk::float32 outsideX2,edk::float32 outsideY2
+                                                       ){
+    return edk::collision::MathCollision::aabbPointsXYInside(edk::vec3f32(insideX1,insideY1,0.f),
+                                                             edk::vec3f32(insideX2,insideY2,0.f),
+                                                             edk::vec3f32(outsideX1,outsideY1,0.f),
+                                                             edk::vec3f32(outsideX2,outsideY2,0.f)
+                                                             );
+}
+bool edk::collision::MathCollision::aabbPointsXYInside(edk::vec3f32 insidePosition1,edk::vec3f32 insidePosition2,
+                                                       edk::vec3f32 outsidePosition1,edk::vec3f32 outsidePosition2
+                                                       ){
+    return edk::collision::MathCollision::aabbPointsXYInside(edk::cubef32(insidePosition1.x,insidePosition1.y,insidePosition1.z,
+                                                                          insidePosition2.x,insidePosition2.y,insidePosition2.z
+                                                                          ),
+                                                             edk::cubef32(outsidePosition1.x,outsidePosition1.y,outsidePosition1.z,
+                                                                          outsidePosition2.x,outsidePosition2.y,outsidePosition2.z
+                                                                          )
+                                                             );
+}
+bool edk::collision::MathCollision::aabbPointsXYInside(edk::cubef32 insideCube,edk::cubef32 outsideCube){
+    if(insideCube.origin.x >= outsideCube.origin.x
+            &&
+            insideCube.origin.y >= outsideCube.origin.y
+            //&&
+            //insideCube.origin.z >= outsideCube.origin.z
+            &&
+            insideCube.origin.x >= outsideCube.size.width
+            &&
+            insideCube.origin.y <= outsideCube.size.height
+            //&&
+            //insideCube.origin.z <= outsideCube.size.length
+            &&
+            insideCube.size.width <= outsideCube.origin.x
+            &&
+            insideCube.size.height >= outsideCube.origin.y
+            //&&
+            //insideCube.size.length >= outsideCube.origin.z
+            &&
+            insideCube.size.width <= outsideCube.size.width
+            &&
+            insideCube.size.height <= outsideCube.size.height
+            //&&
+            //insideCube.size.length <= outsideCube.size.length
+            )
+        return true;
+    return false;
+}
+//AABB XZ
 bool edk::collision::MathCollision::aabbXZ(edk::float32 x1,edk::float32 z1,edk::float32 width1,edk::float32 length1,
                                            edk::float32 x2,edk::float32 z2,edk::float32 width2,edk::float32 length2
                                            ){
@@ -476,6 +996,31 @@ bool edk::collision::MathCollision::aabbXZ(edk::cubef32 cube1,edk::cubef32 cube2
         return true;
     return false;
 }
+//AABB XZ INSIDE
+bool edk::collision::MathCollision::aabbXZInside(edk::float32 insideX,edk::float32 insideZ,
+                                                 edk::float32 insideWidth,edk::float32 insideLength,
+                                                 edk::float32 outsideX,edk::float32 outsideZ,
+                                                 edk::float32 outsideWidth,edk::float32 outsideLength
+                                                 ){
+    return edk::collision::MathCollision::aabbXZInside(edk::vec3f32(insideX,0.f,insideZ),
+                                                       edk::size3f32(insideWidth,0.f,insideLength),
+                                                       edk::vec3f32(outsideX,0.f,outsideZ),
+                                                       edk::size3f32(outsideWidth,0.f,outsideLength)
+                                                       );
+}
+bool edk::collision::MathCollision::aabbXZInside(edk::vec3f32 insidePosition,edk::size3f32 insideSize,
+                                                 edk::vec3f32 outsidePosition,edk::size3f32 outsideSize
+                                                 ){
+    return edk::collision::MathCollision::aabbXZInside(edk::cubef32(insidePosition,insideSize),
+                                                       edk::cubef32(outsidePosition,outsideSize)
+                                                       );
+}
+bool edk::collision::MathCollision::aabbXZInside(edk::cubef32 insideCube,edk::cubef32 outsideCube){
+    insideCube.convertIntoPoints();
+    outsideCube.convertIntoPoints();
+    return edk::collision::MathCollision::aabbPointsXZInside(insideCube,outsideCube);
+}
+//AABB XZ POINTS
 bool edk::collision::MathCollision::aabbPointsXZ(edk::float32 x1_1,edk::float32 z1_1,edk::float32 x1_2,edk::float32 z1_2,
                                                  edk::float32 x2_1,edk::float32 z2_1,edk::float32 x2_2,edk::float32 z2_2
                                                  ){
@@ -500,7 +1045,58 @@ bool edk::collision::MathCollision::aabbPointsXZ(edk::cubef32 cube1,edk::cubef32
         return true;
     return false;
 }
-//YZ
+//AABB XZ POINTS INSIDE
+bool edk::collision::MathCollision::aabbPointsXZInside(edk::float32 insideX1,edk::float32 insideZ1,
+                                                       edk::float32 insideX2,edk::float32 insideZ2,
+                                                       edk::float32 outsideX1,edk::float32 outsideZ1,
+                                                       edk::float32 outsideX2,edk::float32 outsideZ2
+                                                       ){
+    return edk::collision::MathCollision::aabbPointsXZInside(edk::vec3f32(insideX1,0.f,insideZ1),
+                                                             edk::vec3f32(insideX2,0.f,insideZ2),
+                                                             edk::vec3f32(outsideX1,0.f,outsideZ1),
+                                                             edk::vec3f32(outsideX2,0.f,outsideZ2)
+                                                             );
+}
+bool edk::collision::MathCollision::aabbPointsXZInside(edk::vec3f32 insidePosition1,edk::vec3f32 insidePosition2,
+                                                       edk::vec3f32 outsidePosition1,edk::vec3f32 outsidePosition2
+                                                       ){
+    return edk::collision::MathCollision::aabbPointsXZInside(edk::cubef32(insidePosition1.x,insidePosition1.y,insidePosition1.z,
+                                                                          insidePosition2.x,insidePosition2.y,insidePosition2.z
+                                                                          ),
+                                                             edk::cubef32(outsidePosition1.x,outsidePosition1.y,outsidePosition1.z,
+                                                                          outsidePosition2.x,outsidePosition2.y,outsidePosition2.z
+                                                                          )
+                                                             );
+}
+bool edk::collision::MathCollision::aabbPointsXZInside(edk::cubef32 insideCube,edk::cubef32 outsideCube){
+    if(insideCube.origin.x >= outsideCube.origin.x
+            //&&
+            //insideCube.origin.y >= outsideCube.origin.y
+            &&
+            insideCube.origin.z >= outsideCube.origin.z
+            &&
+            insideCube.origin.x >= outsideCube.size.width
+            //&&
+            //insideCube.origin.y <= outsideCube.size.height
+            &&
+            insideCube.origin.z <= outsideCube.size.length
+            &&
+            insideCube.size.width <= outsideCube.origin.x
+            //&&
+            //insideCube.size.height >= outsideCube.origin.y
+            &&
+            insideCube.size.length >= outsideCube.origin.z
+            &&
+            insideCube.size.width <= outsideCube.size.width
+            //&&
+            //insideCube.size.height <= outsideCube.size.height
+            &&
+            insideCube.size.length <= outsideCube.size.length
+            )
+        return true;
+    return false;
+}
+//AABB YZ
 bool edk::collision::MathCollision::aabbYZ(edk::float32 y1,edk::float32 z1,edk::float32 height1,edk::float32 length1,
                                            edk::float32 y2,edk::float32 z2,edk::float32 height2,edk::float32 length2
                                            ){
@@ -525,6 +1121,31 @@ bool edk::collision::MathCollision::aabbYZ(edk::cubef32 cube1,edk::cubef32 cube2
         return true;
     return false;
 }
+//AABB YZ INSIDE
+bool edk::collision::MathCollision::aabbYZInside(edk::float32 insideY,edk::float32 insideZ,
+                                                 edk::float32 insideHeight,edk::float32 insideLength,
+                                                 edk::float32 outsideY,edk::float32 outsideZ,
+                                                 edk::float32 outsideHeight,edk::float32 outsideLength
+                                                 ){
+    return edk::collision::MathCollision::aabbYZInside(edk::vec3f32(0.f,insideY,insideZ),
+                                                       edk::size3f32(0.f,insideHeight,insideLength),
+                                                       edk::vec3f32(0.f,outsideY,outsideZ),
+                                                       edk::size3f32(0.f,outsideHeight,outsideLength)
+                                                       );
+}
+bool edk::collision::MathCollision::aabbYZInside(edk::vec3f32 insidePosition,edk::size3f32 insideSize,
+                                                 edk::vec3f32 outsidePosition,edk::size3f32 outsideSize
+                                                 ){
+    return edk::collision::MathCollision::aabbYZInside(edk::cubef32(insidePosition,insideSize),
+                                                       edk::cubef32(outsidePosition,outsideSize)
+                                                       );
+}
+bool edk::collision::MathCollision::aabbYZInside(edk::cubef32 insideCube,edk::cubef32 outsideCube){
+    insideCube.convertIntoPoints();
+    outsideCube.convertIntoPoints();
+    return edk::collision::MathCollision::aabbPointsYZInside(insideCube,outsideCube);
+}
+//AABB YZ POINTS
 bool edk::collision::MathCollision::aabbPointsYZ(edk::float32 y1_1,edk::float32 z1_1,edk::float32 y1_2,edk::float32 z1_2,
                                                  edk::float32 y2_1,edk::float32 z2_1,edk::float32 y2_2,edk::float32 z2_2
                                                  ){
@@ -545,6 +1166,57 @@ bool edk::collision::MathCollision::aabbPointsYZ(edk::cubef32 cube1,edk::cubef32
             cube2.origin.z <= cube1.size.length
             &&
             cube2.size.length >= cube1.origin.z
+            )
+        return true;
+    return false;
+}
+//AABB YZ POINTS INSIDE
+bool edk::collision::MathCollision::aabbPointsYZInside(edk::float32 insideY1,edk::float32 insideZ1,
+                                                       edk::float32 insideY2,edk::float32 insideZ2,
+                                                       edk::float32 outsideY1,edk::float32 outsideZ1,
+                                                       edk::float32 outsideY2,edk::float32 outsideZ2
+                                                       ){
+    return edk::collision::MathCollision::aabbPointsYZInside(edk::vec3f32(0.f,insideY1,insideZ1),
+                                                             edk::vec3f32(0.f,insideY2,insideZ2),
+                                                             edk::vec3f32(0.f,outsideY1,outsideZ1),
+                                                             edk::vec3f32(0.f,outsideY2,outsideZ2)
+                                                             );
+}
+bool edk::collision::MathCollision::aabbPointsYZInside(edk::vec3f32 insidePosition1,edk::vec3f32 insidePosition2,
+                                                       edk::vec3f32 outsidePosition1,edk::vec3f32 outsidePosition2
+                                                       ){
+    return edk::collision::MathCollision::aabbPointsYZInside(edk::cubef32(insidePosition1.x,insidePosition1.y,insidePosition1.z,
+                                                                          insidePosition2.x,insidePosition2.y,insidePosition2.z
+                                                                          ),
+                                                             edk::cubef32(outsidePosition1.x,outsidePosition1.y,outsidePosition1.z,
+                                                                          outsidePosition2.x,outsidePosition2.y,outsidePosition2.z
+                                                                          )
+                                                             );
+}
+bool edk::collision::MathCollision::aabbPointsYZInside(edk::cubef32 insideCube,edk::cubef32 outsideCube){
+    if(//insideCube.origin.x >= outsideCube.origin.x
+            //&&
+            insideCube.origin.y >= outsideCube.origin.y
+            &&
+            insideCube.origin.z >= outsideCube.origin.z
+            //&&
+            //insideCube.origin.x >= outsideCube.size.width
+            &&
+            insideCube.origin.y <= outsideCube.size.height
+            &&
+            insideCube.origin.z <= outsideCube.size.length
+            //&&
+            //insideCube.size.width <= outsideCube.origin.x
+            &&
+            insideCube.size.height >= outsideCube.origin.y
+            &&
+            insideCube.size.length >= outsideCube.origin.z
+            &&
+            //insideCube.size.width <= outsideCube.size.width
+            //&&
+            insideCube.size.height <= outsideCube.size.height
+            &&
+            insideCube.size.length <= outsideCube.size.length
             )
         return true;
     return false;
@@ -879,9 +1551,6 @@ edk::collision::Vecs3f32 edk::collision::MathCollision::straightSphere3D(edk::ve
 bool edk::collision::MathCollision::straightTriangle3D(edk::vec3f32 lineStart,edk::vec3f32 lineEnd,
                                                        edk::vec3f32 triangle1,edk::vec3f32 triangle2,edk::vec3f32 triangle3,
                                                        edk::vec3f32* result){
-    //stark to be returned
-    edk::collision::Vecs3f32 ret(1u);edkEnd();
-
     edk::vec3f32 e1,e2,h,s,q;edkEnd();
     edk::float32 a,f,u,v;edkEnd();
     edk::float32 t;edkEnd();

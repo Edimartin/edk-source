@@ -983,6 +983,41 @@ public:
         if(this->size.height < rect.size.height)this->size.height = rect.size.height;
         if(this->size.length < rect.size.length)this->size.length = rect.size.length;
     }
+    //function to merge the rect with another point
+    inline void merge(edk::vec3i8 point){
+        if(this->origin.x > point.x)this->origin.x = point.x;
+        if(this->origin.y > point.y)this->origin.y = point.y;
+        if(this->origin.z > point.z)this->origin.z = point.z;
+        if(this->size.width < point.x)this->size.width = point.x;
+        if(this->size.height < point.y)this->size.height = point.y;
+        if(this->size.length < point.z)this->size.length = point.z;
+    }
+    //function to merge the rect with another size
+    inline void merge(edk::size3i8 point){
+        if(this->origin.x > point.width)this->origin.x = point.width;
+        if(this->origin.y > point.height)this->origin.y = point.height;
+        if(this->origin.z > point.length)this->origin.z = point.length;
+        if(this->size.width < point.width)this->size.width = point.width;
+        if(this->size.height < point.height)this->size.height = point.height;
+        if(this->size.length < point.length)this->size.length = point.length;
+    }
+    //convert the rect values
+    inline void convertIntoPoints(){
+        this->origin.x-=this->size.width*0.5f;
+        this->origin.y-=this->size.height*0.5f;
+        this->origin.z-=this->size.length*0.5f;
+        this->size.width+=this->origin.x;
+        this->size.height+=this->origin.y;
+        this->size.length+=this->origin.z;
+    }
+    inline void convertIntoPositionAndSize(){
+        this->size.width-=this->origin.x;
+        this->size.height-=this->origin.y;
+        this->size.length-=this->origin.z;
+        this->origin.x+=this->size.width*0.5f;
+        this->origin.y+=this->size.height*0.5f;
+        this->origin.z+=this->size.length*0.5f;
+    }
 };
 
 class cubei16{
@@ -1935,6 +1970,57 @@ public:
         if(this->size.width < rect.size.width)this->size.width = rect.size.width;
         if(this->size.height < rect.size.height)this->size.height = rect.size.height;
         if(this->size.length < rect.size.length)this->size.length = rect.size.length;
+    }
+    //function to merge the rect with another point
+    inline void merge(edk::vec3i8 point){
+        if(this->origin.x > (edk::int16)point.x)this->origin.x = (edk::int16)point.x;
+        if(this->origin.y > (edk::int16)point.y)this->origin.y = (edk::int16)point.y;
+        if(this->origin.z > (edk::int16)point.z)this->origin.z = (edk::int16)point.z;
+        if(this->size.width < (edk::int16)point.x)this->size.width = (edk::int16)point.x;
+        if(this->size.height < (edk::int16)point.y)this->size.height = (edk::int16)point.y;
+        if(this->size.length < (edk::int16)point.z)this->size.length = (edk::int16)point.z;
+    }
+    inline void merge(edk::vec3i16 point){
+        if(this->origin.x > point.x)this->origin.x = point.x;
+        if(this->origin.y > point.y)this->origin.y = point.y;
+        if(this->origin.z > point.z)this->origin.z = point.z;
+        if(this->size.width < point.x)this->size.width = point.x;
+        if(this->size.height < point.y)this->size.height = point.y;
+        if(this->size.length < point.z)this->size.length = point.z;
+    }
+    //function to merge the rect with another size
+    inline void merge(edk::size3i8 point){
+        if(this->origin.x > (edk::int16)point.width)this->origin.x = (edk::int16)point.width;
+        if(this->origin.y > (edk::int16)point.height)this->origin.y = (edk::int16)point.height;
+        if(this->origin.z > (edk::int16)point.length)this->origin.z = (edk::int16)point.length;
+        if(this->size.width < (edk::int16)point.width)this->size.width = (edk::int16)point.width;
+        if(this->size.height < (edk::int16)point.height)this->size.height = (edk::int16)point.height;
+        if(this->size.length < (edk::int16)point.length)this->size.length = (edk::int16)point.length;
+    }
+    inline void merge(edk::size3i16 point){
+        if(this->origin.x > point.width)this->origin.x = point.width;
+        if(this->origin.y > point.height)this->origin.y = point.height;
+        if(this->origin.z > point.length)this->origin.z = point.length;
+        if(this->size.width < point.width)this->size.width = point.width;
+        if(this->size.height < point.height)this->size.height = point.height;
+        if(this->size.length < point.length)this->size.length = point.length;
+    }
+    //convert the rect values
+    inline void convertIntoPoints(){
+        this->origin.x-=this->size.width*0.5f;
+        this->origin.y-=this->size.height*0.5f;
+        this->origin.z-=this->size.length*0.5f;
+        this->size.width+=this->origin.x;
+        this->size.height+=this->origin.y;
+        this->size.length+=this->origin.z;
+    }
+    inline void convertIntoPositionAndSize(){
+        this->size.width-=this->origin.x;
+        this->size.height-=this->origin.y;
+        this->size.length-=this->origin.z;
+        this->origin.x+=this->size.width*0.5f;
+        this->origin.y+=this->size.height*0.5f;
+        this->origin.z+=this->size.length*0.5f;
     }
 };
 
@@ -2896,6 +2982,73 @@ public:
         if(this->size.width < rect.size.width)this->size.width = rect.size.width;
         if(this->size.height < rect.size.height)this->size.height = rect.size.height;
         if(this->size.length < rect.size.length)this->size.length = rect.size.length;
+    }
+    //function to merge the rect with another point
+    inline void merge(edk::vec3i8 point){
+        if(this->origin.x > (edk::int32)point.x)this->origin.x = (edk::int32)point.x;
+        if(this->origin.y > (edk::int32)point.y)this->origin.y = (edk::int32)point.y;
+        if(this->origin.z > (edk::int32)point.z)this->origin.z = (edk::int32)point.z;
+        if(this->size.width < (edk::int32)point.x)this->size.width = (edk::int32)point.x;
+        if(this->size.height < (edk::int32)point.y)this->size.height = (edk::int32)point.y;
+        if(this->size.length < (edk::int32)point.z)this->size.length = (edk::int32)point.z;
+    }
+    inline void merge(edk::vec3i16 point){
+        if(this->origin.x > (edk::int32)point.x)this->origin.x = (edk::int32)point.x;
+        if(this->origin.y > (edk::int32)point.y)this->origin.y = (edk::int32)point.y;
+        if(this->origin.z > (edk::int32)point.z)this->origin.z = (edk::int32)point.z;
+        if(this->size.width < (edk::int32)point.x)this->size.width = (edk::int32)point.x;
+        if(this->size.height < (edk::int32)point.y)this->size.height = (edk::int32)point.y;
+        if(this->size.length < (edk::int32)point.z)this->size.length = (edk::int32)point.z;
+    }
+    inline void merge(edk::vec3i32 point){
+        if(this->origin.x > point.x)this->origin.x = point.x;
+        if(this->origin.y > point.y)this->origin.y = point.y;
+        if(this->origin.z > point.z)this->origin.z = point.z;
+        if(this->size.width < point.x)this->size.width = point.x;
+        if(this->size.height < point.y)this->size.height = point.y;
+        if(this->size.length < point.z)this->size.length = point.z;
+    }
+    //function to merge the rect with another size
+    inline void merge(edk::size3i8 point){
+        if(this->origin.x > (edk::int32)point.width)this->origin.x = (edk::int32)point.width;
+        if(this->origin.y > (edk::int32)point.height)this->origin.y = (edk::int32)point.height;
+        if(this->origin.z > (edk::int32)point.length)this->origin.z = (edk::int32)point.length;
+        if(this->size.width < (edk::int32)point.width)this->size.width = (edk::int32)point.width;
+        if(this->size.height < (edk::int32)point.height)this->size.height = (edk::int32)point.height;
+        if(this->size.length < (edk::int32)point.length)this->size.length = (edk::int32)point.length;
+    }
+    inline void merge(edk::size3i16 point){
+        if(this->origin.x > (edk::int32)point.width)this->origin.x = (edk::int32)point.width;
+        if(this->origin.y > (edk::int32)point.height)this->origin.y = (edk::int32)point.height;
+        if(this->origin.z > (edk::int32)point.length)this->origin.z = (edk::int32)point.length;
+        if(this->size.width < (edk::int32)point.width)this->size.width = (edk::int32)point.width;
+        if(this->size.height < (edk::int32)point.height)this->size.height = (edk::int32)point.height;
+        if(this->size.length < (edk::int32)point.length)this->size.length = (edk::int32)point.length;
+    }
+    inline void merge(edk::size3i32 point){
+        if(this->origin.x > point.width)this->origin.x = point.width;
+        if(this->origin.y > point.height)this->origin.y = point.height;
+        if(this->origin.z > point.length)this->origin.z = point.length;
+        if(this->size.width < point.width)this->size.width = point.width;
+        if(this->size.height < point.height)this->size.height = point.height;
+        if(this->size.length < point.length)this->size.length = point.length;
+    }
+    //convert the rect values
+    inline void convertIntoPoints(){
+        this->origin.x-=this->size.width*0.5f;
+        this->origin.y-=this->size.height*0.5f;
+        this->origin.z-=this->size.length*0.5f;
+        this->size.width+=this->origin.x;
+        this->size.height+=this->origin.y;
+        this->size.length+=this->origin.z;
+    }
+    inline void convertIntoPositionAndSize(){
+        this->size.width-=this->origin.x;
+        this->size.height-=this->origin.y;
+        this->size.length-=this->origin.z;
+        this->origin.x+=this->size.width*0.5f;
+        this->origin.y+=this->size.height*0.5f;
+        this->origin.z+=this->size.length*0.5f;
     }
 };
 
@@ -3866,6 +4019,89 @@ public:
         if(this->size.height < rect.size.height)this->size.height = rect.size.height;
         if(this->size.length < rect.size.length)this->size.length = rect.size.length;
     }
+    //function to merge the rect with another point
+    inline void merge(edk::vec3i8 point){
+        if(this->origin.x > (edk::int64)point.x)this->origin.x = (edk::int64)point.x;
+        if(this->origin.y > (edk::int64)point.y)this->origin.y = (edk::int64)point.y;
+        if(this->origin.z > (edk::int64)point.z)this->origin.z = (edk::int64)point.z;
+        if(this->size.width < (edk::int64)point.x)this->size.width = (edk::int64)point.x;
+        if(this->size.height < (edk::int64)point.y)this->size.height = (edk::int64)point.y;
+        if(this->size.length < (edk::int64)point.z)this->size.length = (edk::int64)point.z;
+    }
+    inline void merge(edk::vec3i16 point){
+        if(this->origin.x > (edk::int64)point.x)this->origin.x = (edk::int64)point.x;
+        if(this->origin.y > (edk::int64)point.y)this->origin.y = (edk::int64)point.y;
+        if(this->origin.z > (edk::int64)point.z)this->origin.z = (edk::int64)point.z;
+        if(this->size.width < (edk::int64)point.x)this->size.width = (edk::int64)point.x;
+        if(this->size.height < (edk::int64)point.y)this->size.height = (edk::int64)point.y;
+        if(this->size.length < (edk::int64)point.z)this->size.length = (edk::int64)point.z;
+    }
+    inline void merge(edk::vec3i32 point){
+        if(this->origin.x > (edk::int64)point.x)this->origin.x = (edk::int64)point.x;
+        if(this->origin.y > (edk::int64)point.y)this->origin.y = (edk::int64)point.y;
+        if(this->origin.z > (edk::int64)point.z)this->origin.z = (edk::int64)point.z;
+        if(this->size.width < (edk::int64)point.x)this->size.width = (edk::int64)point.x;
+        if(this->size.height < (edk::int64)point.y)this->size.height = (edk::int64)point.y;
+        if(this->size.length < (edk::int64)point.z)this->size.length = (edk::int64)point.z;
+    }
+    inline void merge(edk::vec3i64 point){
+        if(this->origin.x > point.x)this->origin.x = point.x;
+        if(this->origin.y > point.y)this->origin.y = point.y;
+        if(this->origin.z > point.z)this->origin.z = point.z;
+        if(this->size.width < point.x)this->size.width = point.x;
+        if(this->size.height < point.y)this->size.height = point.y;
+        if(this->size.length < point.z)this->size.length = point.z;
+    }
+    //function to merge the rect with another size
+    inline void merge(edk::size3i8 point){
+        if(this->origin.x > (edk::int64)point.width)this->origin.x = (edk::int64)point.width;
+        if(this->origin.y > (edk::int64)point.height)this->origin.y = (edk::int64)point.height;
+        if(this->origin.z > (edk::int64)point.length)this->origin.z = (edk::int64)point.length;
+        if(this->size.width < (edk::int64)point.width)this->size.width = (edk::int64)point.width;
+        if(this->size.height < (edk::int64)point.height)this->size.height = (edk::int64)point.height;
+        if(this->size.length < (edk::int64)point.length)this->size.length = (edk::int64)point.length;
+    }
+    inline void merge(edk::size3i16 point){
+        if(this->origin.x > (edk::int64)point.width)this->origin.x = (edk::int64)point.width;
+        if(this->origin.y > (edk::int64)point.height)this->origin.y = (edk::int64)point.height;
+        if(this->origin.z > (edk::int64)point.length)this->origin.z = (edk::int64)point.length;
+        if(this->size.width < (edk::int64)point.width)this->size.width = (edk::int64)point.width;
+        if(this->size.height < (edk::int64)point.height)this->size.height = (edk::int64)point.height;
+        if(this->size.length < (edk::int64)point.length)this->size.length = (edk::int64)point.length;
+    }
+    inline void merge(edk::size3i32 point){
+        if(this->origin.x > (edk::int64)point.width)this->origin.x = (edk::int64)point.width;
+        if(this->origin.y > (edk::int64)point.height)this->origin.y = (edk::int64)point.height;
+        if(this->origin.z > (edk::int64)point.length)this->origin.z = (edk::int64)point.length;
+        if(this->size.width < (edk::int64)point.width)this->size.width = (edk::int64)point.width;
+        if(this->size.height < (edk::int64)point.height)this->size.height = (edk::int64)point.height;
+        if(this->size.length < (edk::int64)point.length)this->size.length = (edk::int64)point.length;
+    }
+    inline void merge(edk::size3i64 point){
+        if(this->origin.x > point.width)this->origin.x = point.width;
+        if(this->origin.y > point.height)this->origin.y = point.height;
+        if(this->origin.z > point.length)this->origin.z = point.length;
+        if(this->size.width < point.width)this->size.width = point.width;
+        if(this->size.height < point.height)this->size.height = point.height;
+        if(this->size.length < point.length)this->size.length = point.length;
+    }
+    //convert the rect values
+    inline void convertIntoPoints(){
+        this->origin.x-=this->size.width*0.5f;
+        this->origin.y-=this->size.height*0.5f;
+        this->origin.z-=this->size.length*0.5f;
+        this->size.width+=this->origin.x;
+        this->size.height+=this->origin.y;
+        this->size.length+=this->origin.z;
+    }
+    inline void convertIntoPositionAndSize(){
+        this->size.width-=this->origin.x;
+        this->size.height-=this->origin.y;
+        this->size.length-=this->origin.z;
+        this->origin.x+=this->size.width*0.5f;
+        this->origin.y+=this->size.height*0.5f;
+        this->origin.z+=this->size.length*0.5f;
+    }
 };
 
 class cubeui8{
@@ -4418,6 +4654,41 @@ public:
         if(this->size.width < rect.size.width)this->size.width = rect.size.width;
         if(this->size.height < rect.size.height)this->size.height = rect.size.height;
         if(this->size.length < rect.size.length)this->size.length = rect.size.length;
+    }
+    //function to merge the rect with another point
+    inline void merge(edk::vec3ui8 point){
+        if(this->origin.x > point.x)this->origin.x = point.x;
+        if(this->origin.y > point.y)this->origin.y = point.y;
+        if(this->origin.z > point.z)this->origin.z = point.z;
+        if(this->size.width < point.x)this->size.width = point.x;
+        if(this->size.height < point.y)this->size.height = point.y;
+        if(this->size.length < point.z)this->size.length = point.z;
+    }
+    //function to merge the rect with another size
+    inline void merge(edk::size3ui8 point){
+        if(this->origin.x > point.width)this->origin.x = point.width;
+        if(this->origin.y > point.height)this->origin.y = point.height;
+        if(this->origin.z > point.length)this->origin.z = point.length;
+        if(this->size.width < point.width)this->size.width = point.width;
+        if(this->size.height < point.height)this->size.height = point.height;
+        if(this->size.length < point.length)this->size.length = point.length;
+    }
+    //convert the rect values
+    inline void convertIntoPoints(){
+        this->origin.x-=this->size.width*0.5f;
+        this->origin.y-=this->size.height*0.5f;
+        this->origin.z-=this->size.length*0.5f;
+        this->size.width+=this->origin.x;
+        this->size.height+=this->origin.y;
+        this->size.length+=this->origin.z;
+    }
+    inline void convertIntoPositionAndSize(){
+        this->size.width-=this->origin.x;
+        this->size.height-=this->origin.y;
+        this->size.length-=this->origin.z;
+        this->origin.x+=this->size.width*0.5f;
+        this->origin.y+=this->size.height*0.5f;
+        this->origin.z+=this->size.length*0.5f;
     }
 };
 
@@ -4979,6 +5250,57 @@ public:
         if(this->size.width < rect.size.width)this->size.width = rect.size.width;
         if(this->size.height < rect.size.height)this->size.height = rect.size.height;
         if(this->size.length < rect.size.length)this->size.length = rect.size.length;
+    }
+    //function to merge the rect with another point
+    inline void merge(edk::vec3ui8 point){
+        if(this->origin.x > (edk::uint16)point.x)this->origin.x = (edk::uint16)point.x;
+        if(this->origin.y > (edk::uint16)point.y)this->origin.y = (edk::uint16)point.y;
+        if(this->origin.z > (edk::uint16)point.z)this->origin.z = (edk::uint16)point.z;
+        if(this->size.width < (edk::uint16)point.x)this->size.width = (edk::uint16)point.x;
+        if(this->size.height < (edk::uint16)point.y)this->size.height = (edk::uint16)point.y;
+        if(this->size.length < (edk::uint16)point.z)this->size.length = (edk::uint16)point.z;
+    }
+    inline void merge(edk::vec3ui16 point){
+        if(this->origin.x > point.x)this->origin.x = point.x;
+        if(this->origin.y > point.y)this->origin.y = point.y;
+        if(this->origin.z > point.z)this->origin.z = point.z;
+        if(this->size.width < point.x)this->size.width = point.x;
+        if(this->size.height < point.y)this->size.height = point.y;
+        if(this->size.length < point.z)this->size.length = point.z;
+    }
+    //function to merge the rect with another size
+    inline void merge(edk::size3ui8 point){
+        if(this->origin.x > (edk::uint16)point.width)this->origin.x = (edk::uint16)point.width;
+        if(this->origin.y > (edk::uint16)point.height)this->origin.y = (edk::uint16)point.height;
+        if(this->origin.z > (edk::uint16)point.length)this->origin.z = (edk::uint16)point.length;
+        if(this->size.width < (edk::uint16)point.width)this->size.width = (edk::uint16)point.width;
+        if(this->size.height < (edk::uint16)point.height)this->size.height = (edk::uint16)point.height;
+        if(this->size.length < (edk::uint16)point.length)this->size.length = (edk::uint16)point.length;
+    }
+    inline void merge(edk::size3ui16 point){
+        if(this->origin.x > point.width)this->origin.x = point.width;
+        if(this->origin.y > point.height)this->origin.y = point.height;
+        if(this->origin.z > point.length)this->origin.z = point.length;
+        if(this->size.width < point.width)this->size.width = point.width;
+        if(this->size.height < point.height)this->size.height = point.height;
+        if(this->size.length < point.length)this->size.length = point.length;
+    }
+    //convert the rect values
+    inline void convertIntoPoints(){
+        this->origin.x-=this->size.width*0.5f;
+        this->origin.y-=this->size.height*0.5f;
+        this->origin.z-=this->size.length*0.5f;
+        this->size.width+=this->origin.x;
+        this->size.height+=this->origin.y;
+        this->size.length+=this->origin.z;
+    }
+    inline void convertIntoPositionAndSize(){
+        this->size.width-=this->origin.x;
+        this->size.height-=this->origin.y;
+        this->size.length-=this->origin.z;
+        this->origin.x+=this->size.width*0.5f;
+        this->origin.y+=this->size.height*0.5f;
+        this->origin.z+=this->size.length*0.5f;
     }
 };
 
@@ -5548,6 +5870,73 @@ public:
         if(this->size.width < rect.size.width)this->size.width = rect.size.width;
         if(this->size.height < rect.size.height)this->size.height = rect.size.height;
         if(this->size.length < rect.size.length)this->size.length = rect.size.length;
+    }
+    //function to merge the rect with another point
+    inline void merge(edk::vec3ui8 point){
+        if(this->origin.x > (edk::uint32)point.x)this->origin.x = (edk::uint32)point.x;
+        if(this->origin.y > (edk::uint32)point.y)this->origin.y = (edk::uint32)point.y;
+        if(this->origin.z > (edk::uint32)point.z)this->origin.z = (edk::uint32)point.z;
+        if(this->size.width < (edk::uint32)point.x)this->size.width = (edk::uint32)point.x;
+        if(this->size.height < (edk::uint32)point.y)this->size.height = (edk::uint32)point.y;
+        if(this->size.length < (edk::uint32)point.z)this->size.length = (edk::uint32)point.z;
+    }
+    inline void merge(edk::vec3ui16 point){
+        if(this->origin.x > (edk::uint32)point.x)this->origin.x = (edk::uint32)point.x;
+        if(this->origin.y > (edk::uint32)point.y)this->origin.y = (edk::uint32)point.y;
+        if(this->origin.z > (edk::uint32)point.z)this->origin.z = (edk::uint32)point.z;
+        if(this->size.width < (edk::uint32)point.x)this->size.width = (edk::uint32)point.x;
+        if(this->size.height < (edk::uint32)point.y)this->size.height = (edk::uint32)point.y;
+        if(this->size.length < (edk::uint32)point.z)this->size.length = (edk::uint32)point.z;
+    }
+    inline void merge(edk::vec3ui32 point){
+        if(this->origin.x > point.x)this->origin.x = point.x;
+        if(this->origin.y > point.y)this->origin.y = point.y;
+        if(this->origin.z > point.z)this->origin.z = point.z;
+        if(this->size.width < point.x)this->size.width = point.x;
+        if(this->size.height < point.y)this->size.height = point.y;
+        if(this->size.length < point.z)this->size.length = point.z;
+    }
+    //function to merge the rect with another size
+    inline void merge(edk::size3ui8 point){
+        if(this->origin.x > (edk::uint32)point.width)this->origin.x = (edk::uint32)point.width;
+        if(this->origin.y > (edk::uint32)point.height)this->origin.y = (edk::uint32)point.height;
+        if(this->origin.z > (edk::uint32)point.length)this->origin.z = (edk::uint32)point.length;
+        if(this->size.width < (edk::uint32)point.width)this->size.width = (edk::uint32)point.width;
+        if(this->size.height < (edk::uint32)point.height)this->size.height = (edk::uint32)point.height;
+        if(this->size.length < (edk::uint32)point.length)this->size.length = (edk::uint32)point.length;
+    }
+    inline void merge(edk::size3ui16 point){
+        if(this->origin.x > (edk::uint32)point.width)this->origin.x = (edk::uint32)point.width;
+        if(this->origin.y > (edk::uint32)point.height)this->origin.y = (edk::uint32)point.height;
+        if(this->origin.z > (edk::uint32)point.length)this->origin.z = (edk::uint32)point.length;
+        if(this->size.width < (edk::uint32)point.width)this->size.width = (edk::uint32)point.width;
+        if(this->size.height < (edk::uint32)point.height)this->size.height = (edk::uint32)point.height;
+        if(this->size.length < (edk::uint32)point.length)this->size.length = (edk::uint32)point.length;
+    }
+    inline void merge(edk::size3ui32 point){
+        if(this->origin.x > point.width)this->origin.x = point.width;
+        if(this->origin.y > point.height)this->origin.y = point.height;
+        if(this->origin.z > point.length)this->origin.z = point.length;
+        if(this->size.width < point.width)this->size.width = point.width;
+        if(this->size.height < point.height)this->size.height = point.height;
+        if(this->size.length < point.length)this->size.length = point.length;
+    }
+    //convert the rect values
+    inline void convertIntoPoints(){
+        this->origin.x-=this->size.width*0.5f;
+        this->origin.y-=this->size.height*0.5f;
+        this->origin.z-=this->size.length*0.5f;
+        this->size.width+=this->origin.x;
+        this->size.height+=this->origin.y;
+        this->size.length+=this->origin.z;
+    }
+    inline void convertIntoPositionAndSize(){
+        this->size.width-=this->origin.x;
+        this->size.height-=this->origin.y;
+        this->size.length-=this->origin.z;
+        this->origin.x+=this->size.width*0.5f;
+        this->origin.y+=this->size.height*0.5f;
+        this->origin.z+=this->size.length*0.5f;
     }
 };
 
@@ -6125,6 +6514,89 @@ public:
         if(this->size.width < rect.size.width)this->size.width = rect.size.width;
         if(this->size.height < rect.size.height)this->size.height = rect.size.height;
         if(this->size.length < rect.size.length)this->size.length = rect.size.length;
+    }
+    //function to merge the rect with another point
+    inline void merge(edk::vec3ui8 point){
+        if(this->origin.x > (edk::uint64)point.x)this->origin.x = (edk::uint64)point.x;
+        if(this->origin.y > (edk::uint64)point.y)this->origin.y = (edk::uint64)point.y;
+        if(this->origin.z > (edk::uint64)point.z)this->origin.z = (edk::uint64)point.z;
+        if(this->size.width < (edk::uint64)point.x)this->size.width = (edk::uint64)point.x;
+        if(this->size.height < (edk::uint64)point.y)this->size.height = (edk::uint64)point.y;
+        if(this->size.length < (edk::uint64)point.z)this->size.length = (edk::uint64)point.z;
+    }
+    inline void merge(edk::vec3ui16 point){
+        if(this->origin.x > (edk::uint64)point.x)this->origin.x = (edk::uint64)point.x;
+        if(this->origin.y > (edk::uint64)point.y)this->origin.y = (edk::uint64)point.y;
+        if(this->origin.z > (edk::uint64)point.z)this->origin.z = (edk::uint64)point.z;
+        if(this->size.width < (edk::uint64)point.x)this->size.width = (edk::uint64)point.x;
+        if(this->size.height < (edk::uint64)point.y)this->size.height = (edk::uint64)point.y;
+        if(this->size.length < (edk::uint64)point.z)this->size.length = (edk::uint64)point.z;
+    }
+    inline void merge(edk::vec3ui32 point){
+        if(this->origin.x > (edk::uint64)point.x)this->origin.x = (edk::uint64)point.x;
+        if(this->origin.y > (edk::uint64)point.y)this->origin.y = (edk::uint64)point.y;
+        if(this->origin.z > (edk::uint64)point.z)this->origin.z = (edk::uint64)point.z;
+        if(this->size.width < (edk::uint64)point.x)this->size.width = (edk::uint64)point.x;
+        if(this->size.height < (edk::uint64)point.y)this->size.height = (edk::uint64)point.y;
+        if(this->size.length < (edk::uint64)point.z)this->size.length = (edk::uint64)point.z;
+    }
+    inline void merge(edk::vec3ui64 point){
+        if(this->origin.x > point.x)this->origin.x = point.x;
+        if(this->origin.y > point.y)this->origin.y = point.y;
+        if(this->origin.z > point.z)this->origin.z = point.z;
+        if(this->size.width < point.x)this->size.width = point.x;
+        if(this->size.height < point.y)this->size.height = point.y;
+        if(this->size.length < point.z)this->size.length = point.z;
+    }
+    //function to merge the rect with another size
+    inline void merge(edk::size3ui8 point){
+        if(this->origin.x > (edk::uint64)point.width)this->origin.x = (edk::uint64)point.width;
+        if(this->origin.y > (edk::uint64)point.height)this->origin.y = (edk::uint64)point.height;
+        if(this->origin.z > (edk::uint64)point.length)this->origin.z = (edk::uint64)point.length;
+        if(this->size.width < (edk::uint64)point.width)this->size.width = (edk::uint64)point.width;
+        if(this->size.height < (edk::uint64)point.height)this->size.height = (edk::uint64)point.height;
+        if(this->size.length < (edk::uint64)point.length)this->size.length = (edk::uint64)point.length;
+    }
+    inline void merge(edk::size3ui16 point){
+        if(this->origin.x > (edk::uint64)point.width)this->origin.x = (edk::uint64)point.width;
+        if(this->origin.y > (edk::uint64)point.height)this->origin.y = (edk::uint64)point.height;
+        if(this->origin.z > (edk::uint64)point.length)this->origin.z = (edk::uint64)point.length;
+        if(this->size.width < (edk::uint64)point.width)this->size.width = (edk::uint64)point.width;
+        if(this->size.height < (edk::uint64)point.height)this->size.height = (edk::uint64)point.height;
+        if(this->size.length < (edk::uint64)point.length)this->size.length = (edk::uint64)point.length;
+    }
+    inline void merge(edk::size3ui32 point){
+        if(this->origin.x > (edk::uint64)point.width)this->origin.x = (edk::uint64)point.width;
+        if(this->origin.y > (edk::uint64)point.height)this->origin.y = (edk::uint64)point.height;
+        if(this->origin.z > (edk::uint64)point.length)this->origin.z = (edk::uint64)point.length;
+        if(this->size.width < (edk::uint64)point.width)this->size.width = (edk::uint64)point.width;
+        if(this->size.height < (edk::uint64)point.height)this->size.height = (edk::uint64)point.height;
+        if(this->size.length < (edk::uint64)point.length)this->size.length = (edk::uint64)point.length;
+    }
+    inline void merge(edk::size3ui64 point){
+        if(this->origin.x > point.width)this->origin.x = point.width;
+        if(this->origin.y > point.height)this->origin.y = point.height;
+        if(this->origin.z > point.length)this->origin.z = point.length;
+        if(this->size.width < point.width)this->size.width = point.width;
+        if(this->size.height < point.height)this->size.height = point.height;
+        if(this->size.length < point.length)this->size.length = point.length;
+    }
+    //convert the rect values
+    inline void convertIntoPoints(){
+        this->origin.x-=this->size.width*0.5f;
+        this->origin.y-=this->size.height*0.5f;
+        this->origin.z-=this->size.length*0.5f;
+        this->size.width+=this->origin.x;
+        this->size.height+=this->origin.y;
+        this->size.length+=this->origin.z;
+    }
+    inline void convertIntoPositionAndSize(){
+        this->size.width-=this->origin.x;
+        this->size.height-=this->origin.y;
+        this->size.length-=this->origin.z;
+        this->origin.x+=this->size.width*0.5f;
+        this->origin.y+=this->size.height*0.5f;
+        this->origin.z+=this->size.length*0.5f;
     }
 };
 
@@ -7264,6 +7736,41 @@ public:
         if(this->size.width < rect.size.width)this->size.width = rect.size.width;
         if(this->size.height < rect.size.height)this->size.height = rect.size.height;
         if(this->size.length < rect.size.length)this->size.length = rect.size.length;
+    }
+    //function to merge the rect with another point
+    inline void merge(edk::vec3f32 point){
+        if(this->origin.x > point.x)this->origin.x = point.x;
+        if(this->origin.y > point.y)this->origin.y = point.y;
+        if(this->origin.z > point.z)this->origin.z = point.z;
+        if(this->size.width < point.x)this->size.width = point.x;
+        if(this->size.height < point.y)this->size.height = point.y;
+        if(this->size.length < point.z)this->size.length = point.z;
+    }
+    //function to merge the rect with another size
+    inline void merge(edk::size3f32 point){
+        if(this->origin.x > point.width)this->origin.x = point.width;
+        if(this->origin.y > point.height)this->origin.y = point.height;
+        if(this->origin.z > point.length)this->origin.z = point.length;
+        if(this->size.width < point.width)this->size.width = point.width;
+        if(this->size.height < point.height)this->size.height = point.height;
+        if(this->size.length < point.length)this->size.length = point.length;
+    }
+    //convert the rect values
+    inline void convertIntoPoints(){
+        this->origin.x-=this->size.width*0.5f;
+        this->origin.y-=this->size.height*0.5f;
+        this->origin.z-=this->size.length*0.5f;
+        this->size.width+=this->origin.x;
+        this->size.height+=this->origin.y;
+        this->size.length+=this->origin.z;
+    }
+    inline void convertIntoPositionAndSize(){
+        this->size.width-=this->origin.x;
+        this->size.height-=this->origin.y;
+        this->size.length-=this->origin.z;
+        this->origin.x+=this->size.width*0.5f;
+        this->origin.y+=this->size.height*0.5f;
+        this->origin.z+=this->size.length*0.5f;
     }
 };
 
@@ -8411,6 +8918,58 @@ public:
         if(this->size.width < rect.size.width)this->size.width = rect.size.width;
         if(this->size.height < rect.size.height)this->size.height = rect.size.height;
         if(this->size.length < rect.size.length)this->size.length = rect.size.length;
+    }
+
+    //function to merge the rect with another point
+    inline void merge(edk::vec3f32 point){
+        if(this->origin.x > (edk::float64)point.x)this->origin.x = (edk::float64)point.x;
+        if(this->origin.y > (edk::float64)point.y)this->origin.y = (edk::float64)point.y;
+        if(this->origin.z > (edk::float64)point.z)this->origin.z = (edk::float64)point.z;
+        if(this->size.width < (edk::float64)point.x)this->size.width = (edk::float64)point.x;
+        if(this->size.height < (edk::float64)point.y)this->size.height = (edk::float64)point.y;
+        if(this->size.length < (edk::float64)point.z)this->size.length = (edk::float64)point.z;
+    }
+    inline void merge(edk::vec3f64 point){
+        if(this->origin.x > point.x)this->origin.x = point.x;
+        if(this->origin.y > point.y)this->origin.y = point.y;
+        if(this->origin.z > point.z)this->origin.z = point.z;
+        if(this->size.width < point.x)this->size.width = point.x;
+        if(this->size.height < point.y)this->size.height = point.y;
+        if(this->size.length < point.z)this->size.length = point.z;
+    }
+    //function to merge the rect with another size
+    inline void merge(edk::size3f32 point){
+        if(this->origin.x > (edk::float64)point.width)this->origin.x = (edk::float64)point.width;
+        if(this->origin.y > (edk::float64)point.height)this->origin.y = (edk::float64)point.height;
+        if(this->origin.z > (edk::float64)point.length)this->origin.z = (edk::float64)point.length;
+        if(this->size.width < (edk::float64)point.width)this->size.width = (edk::float64)point.width;
+        if(this->size.height < (edk::float64)point.height)this->size.height = (edk::float64)point.height;
+        if(this->size.length < (edk::float64)point.length)this->size.length = (edk::float64)point.length;
+    }
+    inline void merge(edk::size3f64 point){
+        if(this->origin.x > point.width)this->origin.x = point.width;
+        if(this->origin.y > point.height)this->origin.y = point.height;
+        if(this->origin.z > point.length)this->origin.z = point.length;
+        if(this->size.width < point.width)this->size.width = point.width;
+        if(this->size.height < point.height)this->size.height = point.height;
+        if(this->size.length < point.length)this->size.length = point.length;
+    }
+    //convert the rect values
+    inline void convertIntoPoints(){
+        this->origin.x-=this->size.width*0.5f;
+        this->origin.y-=this->size.height*0.5f;
+        this->origin.z-=this->size.length*0.5f;
+        this->size.width+=this->origin.x;
+        this->size.height+=this->origin.y;
+        this->size.length+=this->origin.z;
+    }
+    inline void convertIntoPositionAndSize(){
+        this->size.width-=this->origin.x;
+        this->size.height-=this->origin.y;
+        this->size.length-=this->origin.z;
+        this->origin.x+=this->size.width*0.5f;
+        this->origin.y+=this->size.height*0.5f;
+        this->origin.z+=this->size.length*0.5f;
     }
 };
 
