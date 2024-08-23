@@ -224,11 +224,11 @@ bool edk::collision::MathCollision::aabbPointsInside(edk::rectf32 insideRect,edk
             &&
             insideRect.origin.y >= outsideRect.origin.y
             &&
-            insideRect.origin.x >= outsideRect.size.width
+            insideRect.origin.x <= outsideRect.size.width
             &&
             insideRect.origin.y <= outsideRect.size.height
             &&
-            insideRect.size.width <= outsideRect.origin.x
+            insideRect.size.width >= outsideRect.origin.x
             &&
             insideRect.size.height >= outsideRect.origin.y
             &&
@@ -319,11 +319,11 @@ bool edk::collision::MathCollision::aabbPointsXInside(edk::rectf32 insideRect,ed
             //&&
             //insideRect.origin.y >= outsideRect.origin.y
             &&
-            insideRect.origin.x >= outsideRect.size.width
+            insideRect.origin.x <= outsideRect.size.width
             //&&
             //insideRect.origin.y <= outsideRect.size.height
             &&
-            insideRect.size.width <= outsideRect.origin.x
+            insideRect.size.width >= outsideRect.origin.x
             //&&
             //insideRect.size.height >= outsideRect.origin.y
             &&
@@ -416,11 +416,11 @@ bool edk::collision::MathCollision::aabbPointsYInside(edk::rectf32 insideRect,ed
             //&&
             insideRect.origin.y >= outsideRect.origin.y
             //&&
-            //insideRect.origin.x >= outsideRect.size.width
+            //insideRect.origin.x <= outsideRect.size.width
             &&
             insideRect.origin.y <= outsideRect.size.height
             //&&
-            //insideRect.size.width <= outsideRect.origin.x
+            //insideRect.size.width >= outsideRect.origin.x
             &&
             insideRect.size.height >= outsideRect.origin.y
             //&&
@@ -543,13 +543,13 @@ bool edk::collision::MathCollision::aabbPointsInside(edk::cubef32 insideCube,edk
             &&
             insideCube.origin.z >= outsideCube.origin.z
             &&
-            insideCube.origin.x >= outsideCube.size.width
+            insideCube.origin.x <= outsideCube.size.width
             &&
             insideCube.origin.y <= outsideCube.size.height
             &&
             insideCube.origin.z <= outsideCube.size.length
             &&
-            insideCube.size.width <= outsideCube.origin.x
+            insideCube.size.width >= outsideCube.origin.x
             &&
             insideCube.size.height >= outsideCube.origin.y
             &&
@@ -626,13 +626,13 @@ bool edk::collision::MathCollision::aabbPointsXInside(edk::cubef32 insideCube,ed
             //&&
             //insideCube.origin.z >= outsideCube.origin.z
             &&
-            insideCube.origin.x >= outsideCube.size.width
+            insideCube.origin.x <= outsideCube.size.width
             //&&
             //insideCube.origin.y <= outsideCube.size.height
             //&&
             //insideCube.origin.z <= outsideCube.size.length
             &&
-            insideCube.size.width <= outsideCube.origin.x
+            insideCube.size.width >= outsideCube.origin.x
             //&&
             //insideCube.size.height >= outsideCube.origin.y
             //&&
@@ -716,13 +716,13 @@ bool edk::collision::MathCollision::aabbPointsYInside(edk::cubef32 insideCube,ed
             //&&
             //insideCube.origin.z >= outsideCube.origin.z
             //&&
-            //insideCube.origin.x >= outsideCube.size.width
+            //insideCube.origin.x <= outsideCube.size.width
             &&
             insideCube.origin.y <= outsideCube.size.height
             //&&
             //insideCube.origin.z <= outsideCube.size.length
             //&&
-            //insideCube.size.width <= outsideCube.origin.x
+            //insideCube.size.width >= outsideCube.origin.x
             &&
             insideCube.size.height >= outsideCube.origin.y
             //&&
@@ -825,13 +825,13 @@ bool edk::collision::MathCollision::aabbPointsZInside(edk::cubef32 insideCube,ed
             //&&
             insideCube.origin.z >= outsideCube.origin.z
             //&&
-            //insideCube.origin.x >= outsideCube.size.width
+            //insideCube.origin.x <= outsideCube.size.width
             //&&
             //insideCube.origin.y <= outsideCube.size.height
             &&
             insideCube.origin.z <= outsideCube.size.length
             //&&
-            //insideCube.size.width <= outsideCube.origin.x
+            //insideCube.size.width >= outsideCube.origin.x
             //&&
             //insideCube.size.height >= outsideCube.origin.y
             &&
@@ -950,13 +950,13 @@ bool edk::collision::MathCollision::aabbPointsXYInside(edk::cubef32 insideCube,e
             //&&
             //insideCube.origin.z >= outsideCube.origin.z
             &&
-            insideCube.origin.x >= outsideCube.size.width
+            insideCube.origin.x <= outsideCube.size.width
             &&
             insideCube.origin.y <= outsideCube.size.height
             //&&
             //insideCube.origin.z <= outsideCube.size.length
             &&
-            insideCube.size.width <= outsideCube.origin.x
+            insideCube.size.width >= outsideCube.origin.x
             &&
             insideCube.size.height >= outsideCube.origin.y
             //&&
@@ -1075,13 +1075,13 @@ bool edk::collision::MathCollision::aabbPointsXZInside(edk::cubef32 insideCube,e
             &&
             insideCube.origin.z >= outsideCube.origin.z
             &&
-            insideCube.origin.x >= outsideCube.size.width
+            insideCube.origin.x <= outsideCube.size.width
             //&&
             //insideCube.origin.y <= outsideCube.size.height
             &&
             insideCube.origin.z <= outsideCube.size.length
             &&
-            insideCube.size.width <= outsideCube.origin.x
+            insideCube.size.width >= outsideCube.origin.x
             //&&
             //insideCube.size.height >= outsideCube.origin.y
             &&
@@ -1200,13 +1200,13 @@ bool edk::collision::MathCollision::aabbPointsYZInside(edk::cubef32 insideCube,e
             &&
             insideCube.origin.z >= outsideCube.origin.z
             //&&
-            //insideCube.origin.x >= outsideCube.size.width
+            //insideCube.origin.x <= outsideCube.size.width
             &&
             insideCube.origin.y <= outsideCube.size.height
             &&
             insideCube.origin.z <= outsideCube.size.length
             //&&
-            //insideCube.size.width <= outsideCube.origin.x
+            //insideCube.size.width >= outsideCube.origin.x
             &&
             insideCube.size.height >= outsideCube.origin.y
             &&
