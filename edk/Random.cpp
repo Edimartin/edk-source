@@ -29,6 +29,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endif
 
 #define edkRandom(n){((n * 1109518245) + 12345)}
+#define edkEven(n) ((n<<((sizeof(n)*8u)-1u))==0u)
 
 edk::uint32 edk::Random::seedStatic = 1u;
 
@@ -100,6 +101,14 @@ edk::uint32 edk::Random::getStaticRandNumber(edk::uint32 limit){
 edk::float32 edk::Random::getStaticRandPercent(){
     return ((edk::float32)edk::Random::getStaticRandNumber() / 0xFFFFFFFF);edkEnd();
 }
+//get the boolean rand
+bool edk::Random::getStaticRandBoolean(){
+    edk::uint32 value = edk::Random::getStaticRandNumber();
+    if(edkEven(value)){
+        return true;
+    }
+    return false;
+}
 
 //object functions
 //set the seed
@@ -132,4 +141,12 @@ edk::uint32 edk::Random::getRandNumber(edk::uint32 limit){
 //4294967295
 edk::float32 edk::Random::getRandPercent(){
     return ((edk::float32)this->getRandNumber() / 0xFFFFFFFF);edkEnd();
+}
+//get the boolean rand
+bool edk::Random::getRandBoolean(){
+    edk::uint32 value = this->getRandNumber();
+    if(edkEven(value)){
+        return true;
+    }
+    return false;
 }

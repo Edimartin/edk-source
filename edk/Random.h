@@ -59,6 +59,8 @@ public:
     static edk::uint32 getStaticRandNumber();
     static edk::uint32 getStaticRandNumber(edk::uint32 div);
     static edk::float32 getStaticRandPercent();
+    //get the boolean rand
+    static bool getStaticRandBoolean();
 
     //object functions
     //set the seed
@@ -71,6 +73,8 @@ public:
     edk::uint32 getRandNumber();
     edk::uint32 getRandNumber(edk::uint32 div);
     edk::float32 getRandPercent();
+    //get the boolean rand
+    bool getRandBoolean();
 
 private:
     //save the seed

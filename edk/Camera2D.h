@@ -145,6 +145,7 @@ public:
     bool stopShakeAngle(edk::float32 secondsEnd=0.5f);
     bool stopShakeAngle();
     bool isShakingAngle();
+    bool isShakingAnglePause();
     bool startShakePosition(edk::vec2f32 position,
                             edk::float32 randomPercent,
                             edk::float32 secondsInit=0.5f,
@@ -153,6 +154,7 @@ public:
     bool stopShakePosition(edk::float32 secondsEnd);
     bool stopShakePosition();
     bool isShakingPosition();
+    bool isShakingPositionPause();
 
     //operator to copy the cameras
     bool cloneFrom(edk::Camera2D* cam);
@@ -182,7 +184,9 @@ private:
     edk::float32 shakeAngle;
     edk::float32 shakeDistance;
     bool runningShakePosition;
+    bool pauseShakePosition;
     bool runningShakeAngle;
+    bool pauseShakeAngle;
     edk::float32 shakeSecondsInit;
     edk::float32 shakeRandomPercent;
     edk::float32 shakeInterpolationDistance;

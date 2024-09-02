@@ -1575,6 +1575,7 @@ bool edk::bones::Body2D::calculateInverseKinematic(edk::bones::Bone2D* bone,edk:
             }
         }
     }
+    return ret;
 }
 
 //calculate the bones lenght

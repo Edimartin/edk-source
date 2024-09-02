@@ -53,14 +53,12 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #C_FLAGS
 #QMAKE_CFLAGS +=  -nostdlib
-#QMAKE_CFLAGS +=  -O3
 #QMAKE_CFLAGS +=  -nostdinc
 QMAKE_CFLAGS += -Wno-deprecated-declarations
 QMAKE_CFLAGS += -Wno-deprecated-copy
 
 #C++_FLAGS
 #QMAKE_CXXFLAGS +=  -nostdlib
-#QMAKE_CXXFLAGS +=  -O3
 #QMAKE_CXXFLAGS +=  -nostdinc
 QMAKE_CXXFLAGS += -Wno-deprecated-declarations
 QMAKE_CXXFLAGS += -Wno-deprecated-copy
