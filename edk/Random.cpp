@@ -103,9 +103,35 @@ edk::float32 edk::Random::getStaticRandPercent(){
 }
 //get the boolean rand
 bool edk::Random::getStaticRandBoolean(){
-    edk::uint32 value = edk::Random::getStaticRandNumber();
-    if(edkEven(value)){
+    edk::uint8 value = edk::Random::getStaticRandNumber(8u);
+    switch(value){
+    case 0u:
         return true;
+        break;
+    case 1u:
+        return false;
+        break;
+    case 2u:
+        return true;
+        break;
+    case 3u:
+        return true;
+        break;
+    case 4u:
+        return false;
+        break;
+    case 5u:
+        return false;
+        break;
+    case 6u:
+        return false;
+        break;
+    case 7u:
+        return true;
+        break;
+    default:
+        return false;
+        break;
     }
     return false;
 }
@@ -144,9 +170,35 @@ edk::float32 edk::Random::getRandPercent(){
 }
 //get the boolean rand
 bool edk::Random::getRandBoolean(){
-    edk::uint32 value = this->getRandNumber();
-    if(edkEven(value)){
+    edk::uint8 value = this->getRandNumber(8u);
+    switch(value){
+    case 0u:
         return true;
+        break;
+    case 1u:
+        return false;
+        break;
+    case 2u:
+        return true;
+        break;
+    case 3u:
+        return true;
+        break;
+    case 4u:
+        return false;
+        break;
+    case 5u:
+        return false;
+        break;
+    case 6u:
+        return false;
+        break;
+    case 7u:
+        return true;
+        break;
+    default:
+        return false;
+        break;
     }
     return false;
 }
