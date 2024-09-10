@@ -488,19 +488,19 @@ void edk::gui2d::ViewMenu2d::updateCamera(){
         if(this->xOrder){
             //
             //this->frame.size;edkEnd();
-            this->camera.setRect(0,0
+            this->camera.setRectPoints(0,0
                                  ,this->positions.y * (edk::float32)this->frame.size.width / (edk::float32)this->frame.size.height
                                  ,this->positions.y
                                  );edkEnd();
         }
         else{
             //
-            this->camera.setRect(0
+            this->camera.setRectPoints(0
                                  ,0
                                  ,this->positions.x
                                  ,(this->positions.x * (edk::float32)this->frame.size.height / (edk::float32)this->frame.size.width)
                                  );edkEnd();
-            //this->camera.setRect(0,0,this->positions.x,this->positions.y);edkEnd();
+            //this->camera.setRectPoints(0,0,this->positions.x,this->positions.y);edkEnd();
             //update the objects be on top
             this->camera.position.y = 0.f + this->positions.y - this->camera.getSize().height*0.5f;edkEnd();
         }

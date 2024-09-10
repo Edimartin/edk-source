@@ -350,4 +350,25 @@ private:
     memcmp(dest,vec,size)
 #endif
 
+//CPP 98
+#if __cplusplus == 209803L
+#define edkCPPversion98
+#endif
+//CPP 03
+#if __cplusplus == 200303L
+#define edkCPPversion03
+#endif
+//CPP 11
+#if __cplusplus == 201103L
+#define edkCPPversion11
+#endif
+//CPP 17
+#if __cplusplus == 201703L
+#define edkCPPversion17
+#endif
+//CPP 20
+#if __cplusplus == 202003L
+#define edkCPPversion20
+#endif
+
 #endif // DEBUGFILE_H

@@ -1105,7 +1105,11 @@ bool edk::shape::Polygon2DList::cloneFrom(edk::shape::Polygon2DList* list){
     this->cleanPolygons();edkEnd();
     if(list){
         //read the polygons
+#if defined(edkCPPversion17)
+        edk::uint32 size = list->polygons.size();edkEnd();
+#else
         register edk::uint32 size = list->polygons.size();edkEnd();
+#endif
         edk::uint32 select=0u;
         edk::shape::Polygon2D* temp = NULL;edkEnd();
         for(edk::uint32 i=0u;i<size;i++){

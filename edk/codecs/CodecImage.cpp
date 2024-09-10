@@ -850,8 +850,13 @@ bool edk::codecs::CodecImage::rgbToi420(edk::uint8* rgb,edk::size2ui32 size,edk:
                 //even
 
                 //run the algorith for the fully size
+#if defined(edkCPPversion17)
+                edk::uint32 i=0u;
+                edk::uint32 j=0u;
+#else
                 register edk::uint32 i=0u;
                 register edk::uint32 j=0u;
+#endif
                 for(i=0u;i<size.height;i+=2u){
                     //process the line even
                     for(j=0u;j<size.width;j+=2u){
@@ -882,8 +887,13 @@ bool edk::codecs::CodecImage::rgbToi420(edk::uint8* rgb,edk::size2ui32 size,edk:
 
                 //run the algorith for height-2 because the counter go twice
                 size.height-=2u;edkEnd();
+#if defined(edkCPPversion17)
+                edk::uint32 i=0u;
+                edk::uint32 j=0u;
+#else
                 register edk::uint32 i=0u;
                 register edk::uint32 j=0u;
+#endif
                 for(i=0u;i<size.height;i+=2u){
                     //process the line even
                     for(j=0u;j<size.width;j+=2u){
@@ -930,8 +940,13 @@ bool edk::codecs::CodecImage::rgbToi420(edk::uint8* rgb,edk::size2ui32 size,edk:
 
                 //run the algorith for width-2 because the counter go twice
                 size.width-=2u;edkEnd();
+#if defined(edkCPPversion17)
+                edk::uint32 i=0u;
+                edk::uint32 j=0u;
+#else
                 register edk::uint32 i=0u;
                 register edk::uint32 j=0u;
+#endif
                 for(i=0u;i<size.height;i+=2u){
                     //start the line even
                     for(j=0u;j<size.width;j+=2u){
@@ -971,8 +986,13 @@ bool edk::codecs::CodecImage::rgbToi420(edk::uint8* rgb,edk::size2ui32 size,edk:
                 //run the algorith for width-2 and heigth-2 because the counter go twice
                 size.height-=2u;edkEnd();
                 size.width-=2u;edkEnd();
+#if defined(edkCPPversion17)
+                edk::uint32 i=0u;
+                edk::uint32 j=0u;
+#else
                 register edk::uint32 i=0u;
                 register edk::uint32 j=0u;
+#endif
                 for(i=0u;i<size.height;i+=2u){
                     //process the line even
                     for(j=0u;j<size.width;j+=2u){
@@ -1037,8 +1057,13 @@ bool edk::codecs::CodecImage::grayToi420(edk::uint8* gray,edk::size2ui32 size,ed
                 //even
 
                 //run the algorith for the fully size
+#if defined(edkCPPversion17)
+                edk::uint32 i=0u;
+                edk::uint32 j=0u;
+#else
                 register edk::uint32 i=0u;
                 register edk::uint32 j=0u;
+#endif
                 for(i=0u;i<size.height;i+=2u){
                     //process the line even
                     for(j=0u;j<size.width;j+=2u){
@@ -1069,8 +1094,13 @@ bool edk::codecs::CodecImage::grayToi420(edk::uint8* gray,edk::size2ui32 size,ed
 
                 //run the algorith for height-2 because the counter go twice
                 size.height-=2u;edkEnd();
+#if defined(edkCPPversion17)
+                edk::uint32 i=0u;
+                edk::uint32 j=0u;
+#else
                 register edk::uint32 i=0u;
                 register edk::uint32 j=0u;
+#endif
                 for(i=0u;i<size.height;i+=2u){
                     //process the line even
                     for(j=0u;j<size.width;j+=2u){
@@ -1117,8 +1147,13 @@ bool edk::codecs::CodecImage::grayToi420(edk::uint8* gray,edk::size2ui32 size,ed
 
                 //run the algorith for width-2 because the counter go twice
                 size.width-=2u;edkEnd();
+#if defined(edkCPPversion17)
+                edk::uint32 i=0u;
+                edk::uint32 j=0u;
+#else
                 register edk::uint32 i=0u;
                 register edk::uint32 j=0u;
+#endif
                 for(i=0u;i<size.height;i+=2u){
                     //start the line even
                     for(j=0u;j<size.width;j+=2u){
@@ -1158,8 +1193,13 @@ bool edk::codecs::CodecImage::grayToi420(edk::uint8* gray,edk::size2ui32 size,ed
                 //run the algorith for width-2 and heigth-2 because the counter go twice
                 size.height-=2u;edkEnd();
                 size.width-=2u;edkEnd();
+#if defined(edkCPPversion17)
+                edk::uint32 i=0u;
+                edk::uint32 j=0u;
+#else
                 register edk::uint32 i=0u;
                 register edk::uint32 j=0u;
+#endif
                 for(i=0u;i<size.height;i+=2u){
                     //process the line even
                     for(j=0u;j<size.width;j+=2u){
@@ -1256,8 +1296,13 @@ bool edk::codecs::CodecImage::i420Torgb(edk::uint8* y,edk::uint8* u,edk::uint8* 
             if(!(size.height<<((sizeof(size.height)*8u)-1u))){
                 //even
 
+#if defined(edkCPPversion17)
+                edk::uint32 i=0u;
+                edk::uint32 j=0u;
+#else
                 register edk::uint32 i=0u;
                 register edk::uint32 j=0u;
+#endif
                 for(i=0u;i<size.height;i+=2u){
                     for(j=0u;j<size.width;j+=2u){
                         r = *y + 1.4075 *                        (*v - 128) ;edkEnd();
@@ -1395,8 +1440,13 @@ bool edk::codecs::CodecImage::i420Torgb(edk::uint8* y,edk::uint8* u,edk::uint8* 
             else{
                 //odd
                 size.height-=2u;edkEnd();
+#if defined(edkCPPversion17)
+                edk::uint32 i=0u;
+                edk::uint32 j=0u;
+#else
                 register edk::uint32 i=0u;
                 register edk::uint32 j=0u;
+#endif
                 for(i=0u;i<size.height;i+=2u){
                     for(j=0u;j<size.width;j+=2u){
                         r = *y + 1.4075 *                        (*v - 128) ;edkEnd();
@@ -1603,8 +1653,13 @@ bool edk::codecs::CodecImage::i420Torgb(edk::uint8* y,edk::uint8* u,edk::uint8* 
                 //even
 
                 size.width-=2u;edkEnd();
+#if defined(edkCPPversion17)
+                edk::uint32 i=0u;
+                edk::uint32 j=0u;
+#else
                 register edk::uint32 i=0u;
                 register edk::uint32 j=0u;
+#endif
                 for(i=0u;i<size.height;i+=2u){
                     for(j=0u;j<size.width;j+=2u){
                         r = *y + 1.4075 *                        (*v - 128) ;edkEnd();
@@ -1805,8 +1860,13 @@ bool edk::codecs::CodecImage::i420Torgb(edk::uint8* y,edk::uint8* u,edk::uint8* 
 
                 size.width-=2u;edkEnd();
                 size.height-=2u;edkEnd();
+#if defined(edkCPPversion17)
+                edk::uint32 i=0u;
+                edk::uint32 j=0u;
+#else
                 register edk::uint32 i=0u;
                 register edk::uint32 j=0u;
+#endif
                 for(i=0u;i<size.height;i+=2u){
                     for(j=0u;j<size.width;j+=2u){
                         r = *y + 1.4075 *                        (*v - 128) ;edkEnd();

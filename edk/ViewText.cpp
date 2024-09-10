@@ -70,7 +70,7 @@ void edk::ViewText::drawScene(edk::rectf32){
 
         if(this->textLine){
             //resize the camera
-            this->camera.setRect(0.f,
+            this->camera.setRectPoints(0.f,
                                  0.f - (this->textLine - 1u),
                                  this->rectSave.size.width / (this->rectSave.size.height / this->textLine),
                                  1 + (this->textLine - 1u)
@@ -78,7 +78,7 @@ void edk::ViewText::drawScene(edk::rectf32){
         }
         else if(this->frame.size.height){
             //update the camera size
-            this->camera.setRect(0,
+            this->camera.setRectPoints(0,
                                  0,
                                  this->frame.size.width/this->frame.size.height,
                                  1
@@ -86,7 +86,7 @@ void edk::ViewText::drawScene(edk::rectf32){
         }
         else{
             //update the camera size
-            this->camera.setRect(0,
+            this->camera.setRectPoints(0,
                                  0,
                                  1,
                                  1
@@ -104,6 +104,9 @@ void edk::ViewText::unload(){
 }
 void edk::ViewText::update(edk::WindowEvents*){
     this->text.updateAnimations();edkEnd();
+}
+void edk::ViewText::update(edk::WindowEvents*,edk::float32 seconds){
+    this->text.updateAnimations(seconds);edkEnd();
 }
 
 //createString

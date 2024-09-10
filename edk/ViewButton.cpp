@@ -1973,7 +1973,7 @@ void edk::ViewButton::drawPolygon(rectf32 outsideViewOrigin){
         this->rectButtonSave = this->frame;edkEnd();
 
         //set the camera rect
-        this->cam.setRect(0,0,this->frame.size.width,this->frame.size.height);edkEnd();
+        this->cam.setRectPoints(0,0,this->frame.size.width,this->frame.size.height);edkEnd();
         //test the smaller size
         if(sizeTemp.width < sizeTemp.height){
             //width
@@ -2173,7 +2173,7 @@ void edk::ViewButton::drawPolygon(rectf32 outsideViewOrigin){
 
     if(symbolCodeTemp){
         //
-        this->camTemp.setRect(-1.1f,-1.1f,2.1f,2.1f);edkEnd();
+        this->camTemp.setRectPoints(-1.1f,-1.1f,2.1f,2.1f);edkEnd();
         this->camTemp.draw();edkEnd();
         //draw the polygon with UV Map
         edk::GU::guUseMatrix(GU_MODELVIEW);edkEnd();
@@ -2228,7 +2228,7 @@ void edk::ViewButton::drawPolygon(rectf32 outsideViewOrigin){
         //load the size of the text
 
         edk::size2f32 textSize = edk::size2f32(this->text.getMapSize().width,this->text.getMapSize().height);edkEnd();
-        this->camTemp.setRect(-0.5f,
+        this->camTemp.setRectPoints(-0.5f,
                               -0.5f,
                               textSize.width,
                               textSize.height
@@ -2239,7 +2239,7 @@ void edk::ViewButton::drawPolygon(rectf32 outsideViewOrigin){
         proportionSymbol = textSize.width/textSize.height;edkEnd();
         if(proportionInside > proportionSymbol){
             //
-            this->camTemp.setRect(-0.5f,
+            this->camTemp.setRectPoints(-0.5f,
                                   -0.5f,
                                   insideSize.width / insideSize.height,
                                   textSize.height
@@ -2248,7 +2248,7 @@ void edk::ViewButton::drawPolygon(rectf32 outsideViewOrigin){
         }
         else{
             //
-            this->camTemp.setRect(-0.5f,
+            this->camTemp.setRectPoints(-0.5f,
                                   0.0f,
                                   textSize.width,
                                   insideSize.height / ((textSize.height / textSize.width) * insideSize.width)

@@ -323,7 +323,11 @@ private:
         //delete the polygons
         this->cleanPolygons();edkEnd();
         //read the polygons
+#if defined(edkCPPversion17)
+        edk::uint32 size = mesh.polygons.size();edkEnd();
+#else
         register edk::uint32 size = mesh.polygons.size();edkEnd();
+#endif
         edk::uint32 select=0u;edkEnd();
         edk::shape::Polygon2D* temp = NULL;edkEnd();
         edk::uint32 id;edkEnd();

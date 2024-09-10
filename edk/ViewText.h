@@ -76,6 +76,7 @@ public:
     void cleanString();
 protected:
     virtual void update(edk::WindowEvents* events);
+    virtual void update(edk::WindowEvents* events,edk::float32 seconds);
     //draw the GU scene
     virtual void drawScene(edk::rectf32 outsideViewOrigin);
 private:

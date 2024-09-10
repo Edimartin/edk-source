@@ -1792,8 +1792,16 @@ bool edk::physics2D::World2D::addObject(edk::physics2D::PhysicObject2D* object){
                 b2Vec2 vertexs[b2_maxPolygonVertices];edkEnd();
                 ret=false;edkEnd();
 #if _WIN64 || __x86_64__ || __ppc64__
-                for(register edk::uint64 i=0u;i<size;i++){
+#if defined(edkCPPversion17)
+                for(edk::uint64 i=0u;i<size;i++){
 #else
+                for(register edk::uint64 i=0u;i<size;i++){
+#endif
+#else
+#if defined(edkCPPversion17)
+#else
+                for(edk::uint32 i=0u;i<size;i++){
+#endif
                 for(register edk::uint32 i=0u;i<size;i++){
 #endif
                     //select the polygon

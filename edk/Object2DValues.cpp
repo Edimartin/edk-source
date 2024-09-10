@@ -112,8 +112,8 @@ bool edk::Object2DValues::updateAnimations(){
     if(this->animationPosition.isPlaying()){
         //
         edk::vec2f32 posTemp;edkEnd();
-        posTemp.x = this->animationPosition.getClockX();edkEnd();
-        posTemp.y = this->animationPosition.getClockY();edkEnd();
+        posTemp.x = this->animationPosition.getClockX(this->position.x);edkEnd();
+        posTemp.y = this->animationPosition.getClockY(this->position.y);edkEnd();
         //set the value
         this->position = posTemp;edkEnd();
         ret=true;edkEnd();
@@ -145,8 +145,8 @@ bool edk::Object2DValues::updateAnimations(edk::float32 seconds){
     if(this->animationPosition.isPlaying()){
         //
         edk::vec2f32 posTemp;edkEnd();
-        posTemp.x = this->animationPosition.getClockX();edkEnd();
-        posTemp.y = this->animationPosition.getClockY();edkEnd();
+        posTemp.x = this->animationPosition.getClockX(this->position.x);edkEnd();
+        posTemp.y = this->animationPosition.getClockY(this->position.y);edkEnd();
         //set the value
         this->position = posTemp;edkEnd();
         ret=true;edkEnd();

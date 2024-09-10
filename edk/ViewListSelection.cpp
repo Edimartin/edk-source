@@ -302,7 +302,7 @@ void edk::ViewListSelection::update(edk::WindowEvents* events){
                                           this->frame.size.height
                                           );edkEnd();
     }
-    this->camera.setRect(-0.5f,-0.5f,this->cameraWidth,this->cameraHeight);edkEnd();
+    this->camera.setRectPoints(-0.5f,-0.5f,this->cameraWidth,this->cameraHeight);edkEnd();
     this->camera.position.y-=(this->camera.getSize().height-1.f);edkEnd();
     //move the percent
     this->camera.position.y-= (this->cells.size() - this->camera.getSize().height) * this->scroll.getPercentY();edkEnd();

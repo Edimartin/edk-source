@@ -818,14 +818,22 @@ void edk::ViewTextField::TextField::setWritePosition(edk::uint32 position){
     this->anim.setAnimationEndSecond(0.49f);edkEnd();
     this->anim.playForward();edkEnd();
 
-    edk::rectf32 camRect = this->camera.getRectPositionAndSize();edkEnd();
+    edk::rectf32 camRect = this->camera.getRectPoints();edkEnd();
     if(this->writePosition<camRect.origin.x){
-        camRect.origin.x = this->writePosition;edkEnd();
-        this->camera.setRect(camRect);edkEnd();
+        edk::float32 move = camRect.origin.x-(edk::float32)this->writePosition;
+        camRect.size.width -= move;
+        camRect.origin.x -= move;
+        camRect.size.width-=camRect.origin.x;
+        camRect.size.height-=camRect.origin.y;
+        this->camera.setRectPoints(camRect);edkEnd();
     }
-    if(this->writePosition>camRect.origin.x + camRect.size.width){
-        camRect.origin.x = this->writePosition - camRect.size.width;edkEnd();
-        this->camera.setRect(camRect);edkEnd();
+    else if(this->writePosition>camRect.size.width){
+        edk::float32 move = (edk::float32)this->writePosition-camRect.size.width;
+        camRect.origin.x += move;
+        camRect.size.width += move;
+        camRect.size.width-=camRect.origin.x;
+        camRect.size.height-=camRect.origin.y;
+        this->camera.setRectPoints(camRect);edkEnd();
     }
 }
 //delete the string

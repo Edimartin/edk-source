@@ -131,7 +131,7 @@ void edk::ViewScrollBar::ForegroundButton::updateFrame(){
     edk::size2f32 sizeTemp = edk::size2f32(this->polygonRect.size * 0.5f);edkEnd();
 
     //set the camera rect
-    this->camera.setRect(0,0,this->frame.size.width,this->frame.size.height);edkEnd();
+    this->camera.setRectPoints(0,0,this->frame.size.width,this->frame.size.height);edkEnd();
     //test the smaller size
     if(sizeTemp.width < sizeTemp.height){
         //width

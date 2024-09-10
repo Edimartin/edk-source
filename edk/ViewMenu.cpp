@@ -102,7 +102,7 @@ void edk::ViewMenu::drawPolygon(rectf32){
         this->rectMenuSave = this->frame;edkEnd();
 
         //set the camera rect
-        this->cam.setRect(0,0,this->frame.size.width,this->frame.size.height);edkEnd();
+        this->cam.setRectPoints(0,0,this->frame.size.width,this->frame.size.height);edkEnd();
         //test the smaller size
         if(sizeTemp.width < sizeTemp.height){
             //width

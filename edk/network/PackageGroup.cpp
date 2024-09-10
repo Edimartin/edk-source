@@ -407,7 +407,11 @@ edk::uint32 edk::network::PackageGroup::getPackageID(edk::uint32 position){
 void edk::network::PackageGroup::cleanGroup(){
     //delete all packages in the tree
     edk::network::Package* temp=NULL;edkEnd();
+#if defined(edkCPPversion17)
+    for(edk::uint32 i=0u;i<this->tree.size();i++){
+#else
     for(register edk::uint32 i=0u;i<this->tree.size();i++){
+#endif
         temp = this->tree.getElementInPosition(i);edkEnd();
         if(temp){
             delete temp;edkEnd();

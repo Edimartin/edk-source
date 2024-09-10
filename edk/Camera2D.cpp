@@ -148,7 +148,7 @@ void edk::Camera2D::setSizeH(edk::float32 height){
     this->size.height = height*0.5f;edkEnd();
 }
 //Set a rectangle to the camera
-bool edk::Camera2D::setRect(edk::rectf32 rect){
+bool edk::Camera2D::setRectPoints(edk::rectf32 rect){
     //test the size
     if(rect.size.width && rect.size.height){
         //set the position of the camera
@@ -163,13 +163,25 @@ bool edk::Camera2D::setRect(edk::rectf32 rect){
     //else return false
     return false;
 }
-bool edk::Camera2D::setRect(edk::vec2f32 origin,size2f32 size){
+bool edk::Camera2D::setRectPoints(edk::vec2f32 origin,size2f32 size){
     //else return false
-    return this->setRect(edk::rectf32(origin.x,origin.y,size.width,size.height));edkEnd();
+    return this->setRectPoints(edk::rectf32(origin.x,origin.y,size.width,size.height));edkEnd();
 }
-bool edk::Camera2D::setRect(edk::float32 originX,edk::float32 originY,edk::float32 width,edk::float32 height){
+bool edk::Camera2D::setRectPoints(edk::float32 originX,edk::float32 originY,edk::float32 width,edk::float32 height){
     //else return false
-    return this->setRect(edk::vec2f32(originX,originY),size2f32(width,height));edkEnd();
+    return this->setRectPoints(edk::vec2f32(originX,originY),size2f32(width,height));edkEnd();
+}
+bool edk::Camera2D::setRectPositionAndSize(edk::rectf32 rect){
+    rect.convertIntoPoints();
+    return this->setRectPoints(rect);
+}
+bool edk::Camera2D::setRectPositionAndSize(edk::vec2f32 origin,size2f32 size){
+    //else return false
+    return this->setRectPositionAndSize(edk::rectf32(origin.x,origin.y,size.width,size.height));edkEnd();
+}
+bool edk::Camera2D::setRectPositionAndSize(edk::float32 originX,edk::float32 originY,edk::float32 width,edk::float32 height){
+    //else return false
+    return this->setRectPositionAndSize(edk::vec2f32(originX,originY),size2f32(width,height));edkEnd();
 }
 //Set the points of the camera in the world
 bool edk::Camera2D::setPoints(edk::vec2f32 p1, edk::vec2f32 p2){

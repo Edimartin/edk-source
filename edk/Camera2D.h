@@ -65,9 +65,12 @@ public:
     void setSizeW(edk::float32 width);
     void setSizeH(edk::float32 height);
     //Set a rectangle to the camera
-    bool setRect(edk::rectf32 rect);
-    bool setRect(edk::vec2f32 origin,size2f32 size);
-    bool setRect(edk::float32 originX,edk::float32 originY,edk::float32 width,edk::float32 height);
+    bool setRectPoints(edk::rectf32 rect);
+    bool setRectPoints(edk::vec2f32 origin,size2f32 size);
+    bool setRectPoints(edk::float32 originX,edk::float32 originY,edk::float32 width,edk::float32 height);
+    bool setRectPositionAndSize(edk::rectf32 rect);
+    bool setRectPositionAndSize(edk::vec2f32 origin,size2f32 size);
+    bool setRectPositionAndSize(edk::float32 originX,edk::float32 originY,edk::float32 width,edk::float32 height);
     //Set the points of the camera in the world
     bool setPoints(edk::vec2f32 p1, edk::vec2f32 p2);
     bool setPoints(edk::float32 p1X,edk::float32 p1Y,edk::float32 p2X,edk::float32 p2Y);

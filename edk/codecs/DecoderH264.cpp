@@ -58,8 +58,13 @@ void edk::codecs::DecoderH264::Constructor(bool runFather){
 bool edk::codecs::DecoderH264::i420TorgbWithBorder(edk::uint8* y,edk::uint8* u,edk::uint8* v,edk::size2ui32 size,edk::uint8* rgb,edk::uint32 border){
     if(rgb && size.width && size.height && y && u && v){
         edk::float32 r,g,b;edkEnd();
+#if defined(edkCPPversion17)
+        edk::uint32 i=0u;
+        edk::uint32 j=0u;
+#else
         register edk::uint32 i=0u;
         register edk::uint32 j=0u;
+#endif
         edk::uint32 borderFour = border>>1u;edkEnd();
         //the image is aways width and height even
         for(i=0u;i<size.height;i+=2u){

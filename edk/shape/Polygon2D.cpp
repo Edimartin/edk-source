@@ -8267,7 +8267,11 @@ bool edk::shape::Polygon2D::isCounterclockwise(){
         edk::float32 angle1 = edk::Math::getAngle(this->vertexs.getNoIF(1u)->position - this->vertexs.getNoIF(0u)->position);edkEnd();
         edk::float32 angle2;edkEnd();
         edk::float32 angleTemp;edkEnd();
+#if defined(edkCPPversion17)
+        for(edk::uint32 i=2u;i<this->vertexs.size();i++){
+#else
         for(register edk::uint32 i=2u;i<this->vertexs.size();i++){
+#endif
             //get the next angle
             angle2 = edk::Math::getAngle(this->vertexs.getNoIF(i)->position - this->vertexs.getNoIF(0u)->position);edkEnd();
             angleTemp = angle2 - angle1;edkEnd();
