@@ -52,6 +52,10 @@ public:
     void setP2Local(edk::float32 px,edk::float32 py);
     void setPointsLocal(edk::vec2f32 p1,edk::vec2f32 p2);
     void setPointsLocal(edk::float32 p1x,edk::float32 p1y,edk::float32 p2x,edk::float32 p2y);
+    void setP1World(edk::vec2f32 point);
+    void setP1World(edk::float32 px,edk::float32 py);
+    void setP2World(edk::vec2f32 point);
+    void setP2World(edk::float32 px,edk::float32 py);
     void setPointsWorld(edk::vec2f32 p1,edk::vec2f32 p2);
     void setPointsWorld(edk::float32 p1x,edk::float32 p1y,edk::float32 p2x,edk::float32 p2y);
 

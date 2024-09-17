@@ -31,7 +31,6 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #pragma once
 #include "../TypeVars.h"
-#include "../Random.h"
 #include "../Object2DValues.h"
 #include "../Object2D.h"
 #include "InterpolationLine3D.h"
@@ -53,7 +52,11 @@ public:
     void Constructor(bool runFather=true);
 
     //add objects into the tree
+    bool addObject(edk::Object2D* obj,edk::float32 angleObject,edk::size2f32 sizeObject);
+    bool addObject(edk::Object2D* obj);
+    //add a new object to be cloned
     bool addNewObject(edk::Object2D* obj,edk::float32 angleObject,edk::size2f32 sizeObject);
+    bool addNewObject(edk::Object2D* obj);
     //remove an object from the tree
     bool removeObject(edk::Object2D* obj);
     bool deleteObject(edk::Object2D* obj);
@@ -69,6 +72,7 @@ public:
     void setAngleNear(edk::float32 _near);
     void setAngleFar(edk::float32 _far);
     void setAngleNearAndFar(edk::float32 _near,edk::float32 _far);
+    void setAngleNearAndFar(edk::float32 angle);
     //TimeLimit
     void setTimeNear(edk::float32 _near);
     void setTimeFar(edk::float32 _far);
@@ -77,10 +81,12 @@ public:
     void setLifeNear(edk::float32 near);
     void setLifeFar(edk::float32 far);
     void setLifeNearAndFar(edk::float32 _near,edk::float32 _far);
+    void setLifeNearAndFar(edk::float32 seconds);
     //speed
     void setSpeedNear(edk::float32 _near);
     void setSpeedFar(edk::float32 _far);
     void setSpeedNearAndFar(edk::float32 _near,edk::float32 _far);
+    void setSpeedNearAndFar(edk::float32 speed);
     //frame
     void setFrameStart(edk::float32 start);
     void setFrameEnd(edk::float32 end);
@@ -152,6 +158,8 @@ private:
     //particles count to blow
     edk::uint32 blowNear,blowFar;
 
+    edk::Random rand;
+
     //clock
     edk::watch::Time time;
     //time limit to create a new particle
@@ -173,7 +181,7 @@ private:
         void Constructor(bool runFather=true);
 
         //set the object pointer
-        void setObject(edk::Object2D *obj);
+        bool setObject(edk::Object2D *obj);
         void setGravity(edk::vec2f32* gravity);
         void setAngleObject(edk::float32* angleObj);
         void setSizeObject(edk::size2f32* sizeObj);
@@ -293,22 +301,51 @@ private:
             this->classThis=NULL;
             this->Constructor(obj,angleObject,sizeObject,false);edkEnd();
         }
-        virtual ~ParticleObject2D(){}
+        virtual ~ParticleObject2D(){
+            this->deleteObject();
+        }
 
         void Constructor(edk::Object2D* obj,edk::float32 angleObject,edk::size2f32 sizeObject,bool runFather=true){
             if(runFather){edkEnd();}
             if(this->classThis!=this){
                 this->classThis=this;edkEnd();
-                this->obj=obj;
-                this->angleObject=angleObject;
-                this->sizeObject=sizeObject;
+                this->obj=obj;edkEnd();
+                this->creator=false;edkEnd();
+                this->angleObject=angleObject;edkEnd();
+                this->sizeObject=sizeObject;edkEnd();
             }
+        }
+        bool cloneObject(edk::Object2D* obj){
+            this->deleteObject();
+            if(obj){
+                this->obj=new edk::Object2D;edkEnd();
+                if(this->obj){
+                    this->creator=true;edkEnd();
+                    if(this->obj->cloneFrom(obj)){
+                        return true;
+                    }
+                }
+            }
+            return false;
         }
 
         //Object to draw
         edk::Object2D* obj;
         edk::float32 angleObject;
         edk::size2f32 sizeObject;
+    private:
+        bool creator;
+        bool deleteObject(){
+            if(this->creator && this->obj){
+                delete this->obj;edkEnd();
+                this->creator=false;edkEnd();
+                this->obj=NULL;edkEnd();
+                return true;
+            }
+            this->creator=false;edkEnd();
+            this->obj=NULL;edkEnd();
+            return false;
+        }
     private:
         edk::classID classThis;
     };
@@ -383,6 +420,26 @@ private:
                 if(temp){
                     if(this->add(temp)){
                         return true;
+                    }
+                    delete temp;
+                }
+            }
+            else{
+                //else just update the object
+                temp->angleObject=angleObject;
+                temp->sizeObject=sizeObject;
+            }
+            return false;
+        }
+        bool addCloneObject(edk::Object2D* obj,edk::float32 angleObject,edk::size2f32 sizeObject){
+            edk::animation::ParticlesPoint2D::ParticleObject2D* temp=this->getObject2DByObject(obj);
+            if(!temp){
+                temp = new edk::animation::ParticlesPoint2D::ParticleObject2D(obj,angleObject,sizeObject);
+                if(temp){
+                    if(temp->cloneObject(obj)){
+                        if(this->add(temp)){
+                            return true;
+                        }
                     }
                     delete temp;
                 }

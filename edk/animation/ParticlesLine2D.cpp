@@ -76,6 +76,24 @@ void edk::animation::ParticlesLine2D::setPointsLocal(edk::float32 p1x,edk::float
     this->setP1Local(edk::vec2f32(p1x,p1y));edkEnd();
     this->setP2Local(edk::vec2f32(p2x,p2y));edkEnd();
 }
+void edk::animation::ParticlesLine2D::setP1World(edk::vec2f32 point){
+    //calculate the middle point to be the position
+    this->position = ((this->point2-point)*0.5f)+point;edkEnd();
+    //set the points local
+    this->setP1Local(point-this->position);edkEnd();
+}
+void edk::animation::ParticlesLine2D::setP1World(edk::float32 px,edk::float32 py){
+    this->setP1World(edk::vec2f32(px,py));edkEnd();
+}
+void edk::animation::ParticlesLine2D::setP2World(edk::vec2f32 point){
+    //calculate the middle point to be the position
+    this->position = ((point-this->point1)*0.5f)+this->point1;edkEnd();
+    //set the points local
+    this->setP2Local(point-this->position);edkEnd();
+}
+void edk::animation::ParticlesLine2D::setP2World(edk::float32 px,edk::float32 py){
+    this->setP2World(edk::vec2f32(px,py));edkEnd();
+}
 void edk::animation::ParticlesLine2D::setPointsWorld(edk::vec2f32 p1,edk::vec2f32 p2){
     //calculate the middle point to be the position
     this->position = ((p2-p1)*0.5f)+p1;edkEnd();
