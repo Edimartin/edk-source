@@ -750,12 +750,12 @@ edk::rectui32 edk::tiles::TileMap2D::calculateDrawPositionFromRectPoints(edk::re
     ret.size.height=temp;
 
     //test if the begin is smaller then the end
-    if(ret.size.width>ret.origin.x){
-        ret.size.width-=ret.origin.x;
-    }
-    if(ret.size.height>ret.origin.y){
-        ret.size.height-=ret.origin.y;
-    }
+    //if(ret.size.width>ret.origin.x){
+    //    ret.size.width-=ret.origin.x;
+    //}
+    //if(ret.size.height>ret.origin.y){
+    //    ret.size.height-=ret.origin.y;
+    //}
 
     return ret;
 }
