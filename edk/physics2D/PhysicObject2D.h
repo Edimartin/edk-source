@@ -118,6 +118,19 @@ public:
     void drawWirePhysics();
     void drawPolygonPhysics(edk::uint32 position);
     void drawPolygonWirePhysics(edk::uint32 position);
+    void drawLinearVelocity(edk::color3f32 color,edk::vec2f32 position,edk::float32 scale=1.f);
+    void drawLinearVelocity(edk::color3f32 color,edk::float32 scale=1.f);
+    void drawLinearVelocity(edk::float32 r,
+                            edk::float32 g,
+                            edk::float32 b,
+                            edk::vec2f32 position,
+                            edk::float32 scale=1.f
+            );
+    void drawLinearVelocity(edk::float32 r,
+                            edk::float32 g,
+                            edk::float32 b,
+                            edk::float32 scale=1.f
+            );
 
     //update all animations
     virtual bool updateAnimations();

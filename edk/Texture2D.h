@@ -73,13 +73,20 @@ public:
     void Constructor(bool runFather=true);
 
     //alloc the textureObject
+    //MODE
     //        GU_RGB
     //        GU_RGBA
     //        GU_LUMINANCE
     //        GU_LUMINANCE_ALPHA
+    //FILTER
+    //        GU_NEAREST
+    //        GU_LINEAR
     bool createTexture(edk::uint32 width, edk::uint32 height, edk::uint32 mode, const edk::classID  data = NULL, edk::uint32 filter = GU_NEAREST);
     //draw to the texture
     bool drawToTexture(const edk::classID  data);
+    //FILTER
+    //        GU_NEAREST
+    //        GU_LINEAR
     bool drawToTexture(const edk::classID  data, edk::uint32 filter = GU_NEAREST);
     //read the texture
 

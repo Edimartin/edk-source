@@ -164,6 +164,7 @@ public:
     bool unsleepObject(edk::physics2D::PhysicObject2D* object);
     //Add a force to the object
     bool setLinearVelocity(edk::physics2D::PhysicObject2D* object,edk::vec2f32 vector);
+    bool setLinearVelocity(edk::physics2D::PhysicObject2D* object,edk::float32 x, edk::float32 y);
     bool setAngularVelocity(edk::physics2D::PhysicObject2D* object,edk::float32 angle);
     //Apply forces
     bool applyForce(edk::physics2D::PhysicObject2D* object,edk::vec2f32 force, edk::vec2f32 position,bool wake);

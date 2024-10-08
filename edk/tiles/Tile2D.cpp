@@ -24,6 +24,10 @@ OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
+
+
+#define edkTileSizeIncrement (1.01f)
+
 edk::tiles::Tile2D::Tile2D(){
     this->classThis=NULL;edkEnd();
     this->Constructor(false);edkEnd();
@@ -698,7 +702,7 @@ bool edk::tiles::Tile2D::readFromXMLFromPack(edk::pack::FilePackage* pack,edk::X
 void edk::tiles::Tile2D::draw(edk::float32 angle,edk::size2f32 size){
     this->obj.angle = angle;edkEnd();
     this->tileSize = this->obj.size;edkEnd();
-    this->obj.size = size;edkEnd();
+    this->obj.size = size*edkTileSizeIncrement;edkEnd();
     this->obj.draw();edkEnd();
     this->obj.angle = 0.f;edkEnd();
     this->obj.size = this->tileSize;edkEnd();
@@ -706,7 +710,7 @@ void edk::tiles::Tile2D::draw(edk::float32 angle,edk::size2f32 size){
 void edk::tiles::Tile2D::drawWithoutMaterial(edk::float32 angle,edk::size2f32 size){
     this->obj.angle = angle;edkEnd();
     this->tileSize = this->obj.size;edkEnd();
-    this->obj.size = size;edkEnd();
+    this->obj.size = size*edkTileSizeIncrement;edkEnd();
     this->obj.drawWithoutMaterial();edkEnd();
     this->obj.angle = 0.f;edkEnd();
     this->obj.size = this->tileSize;edkEnd();
@@ -732,7 +736,7 @@ void edk::tiles::Tile2D::drawPhysic(edk::float32 angle,edk::size2f32 size){
     if(this->objPhys){
         this->objPhys->angle = angle;edkEnd();
         this->tileSize = this->obj.size;edkEnd();
-        this->objPhys->size = size;edkEnd();
+        this->objPhys->size = size*edkTileSizeIncrement;edkEnd();
         this->objPhys->drawWirePhysics();edkEnd();
         this->objPhys->angle = 0.f;edkEnd();
         this->objPhys->size = this->tileSize;edkEnd();

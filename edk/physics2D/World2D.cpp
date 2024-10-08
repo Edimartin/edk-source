@@ -3157,6 +3157,9 @@ bool edk::physics2D::World2D::setLinearVelocity(edk::physics2D::PhysicObject2D* 
     }
     return false;
 }
+bool edk::physics2D::World2D::setLinearVelocity(edk::physics2D::PhysicObject2D* object,edk::float32 x, edk::float32 y){
+    return this->setLinearVelocity(object,edk::vec2f32(x,y));
+}
 bool edk::physics2D::World2D::setAngularVelocity(edk::physics2D::PhysicObject2D* object,
                                                  edk::float32
                                                  #if defined(EDK_USE_BOX2D)

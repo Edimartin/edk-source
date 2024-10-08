@@ -82,9 +82,9 @@ bool edk::Texture2DRender::loadFrameBuffer(){
 }
 
 //Load the renderTexture
-bool edk::Texture2DRender::createRender(edk::size2ui32 size){
+bool edk::Texture2DRender::createRender(edk::size2ui32 size,edk::uint32 filter){
     //first load make the texture
-    if(this->createTexture(size.width, size.height, EDK_RGB, NULL)){
+    if(this->createTexture(size.width, size.height, EDK_RGB, NULL,filter)){
         //create the buffer
         if(this->loadFrameBuffer()){
             this->useThisBuffer();edkEnd();
@@ -123,13 +123,13 @@ void edk::Texture2DRender::dontUseThisFrameBuffer(){
     edk::Texture2DRender::dontUseFrameBuffer();
 }
 
-bool edk::Texture2DRender::createRender(edk::uint32 width,edk::uint32 height){
+bool edk::Texture2DRender::createRender(edk::uint32 width,edk::uint32 height,edk::uint32 filter){
     //
-    return this->createRender(edk::size2ui32(width,height));edkEnd();
+    return this->createRender(edk::size2ui32(width,height),filter);edkEnd();
 }
-bool edk::Texture2DRender::createRender(edk::int32 width,edk::int32 height){
+bool edk::Texture2DRender::createRender(edk::int32 width,edk::int32 height,edk::uint32 filter){
     //
-    return this->createRender(edk::size2ui32((edk::uint32)width,(edk::uint32)height));edkEnd();
+    return this->createRender(edk::size2ui32((edk::uint32)width,(edk::uint32)height),filter);edkEnd();
 }
 //delete render
 void edk::Texture2DRender::deleteRender(){

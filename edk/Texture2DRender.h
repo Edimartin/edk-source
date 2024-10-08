@@ -46,9 +46,9 @@ public:
     void Constructor(bool runFather=true);
 
     //Load the renderTexture
-    bool createRender(edk::size2ui32 size);
-    bool createRender(edk::uint32 width,edk::uint32 height);
-    bool createRender(edk::int32 width,edk::int32 height);
+    bool createRender(edk::size2ui32 size,edk::uint32 filter = GU_NEAREST);
+    bool createRender(edk::uint32 width,edk::uint32 height,edk::uint32 filter = GU_NEAREST);
+    bool createRender(edk::int32 width,edk::int32 height,edk::uint32 filter = GU_NEAREST);
     //delete render
     void deleteRender();
 

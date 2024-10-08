@@ -440,6 +440,31 @@ void edk::physics2D::PhysicObject2D::drawPolygonWirePhysics(edk::uint32 position
 
     edk::GU::guPopMatrix();edkEnd();
 }
+void edk::physics2D::PhysicObject2D::drawLinearVelocity(edk::color3f32 color,edk::vec2f32 position,edk::float32 scale){
+    edk::GU::guColor3f32(color);
+    edk::GU::guBegin(GU_LINES);
+    edk::GU::guVertex2f32(position);
+    edk::GU::guVertex2f32(position + (this->linearVelocity * scale));
+    edk::GU::guEnd();
+}
+void edk::physics2D::PhysicObject2D::drawLinearVelocity(edk::color3f32 color,edk::float32 scale){
+    this->drawLinearVelocity(color,this->position,scale);
+}
+void edk::physics2D::PhysicObject2D::drawLinearVelocity(edk::float32 r,
+                                                        edk::float32 g,
+                                                        edk::float32 b,
+                                                        edk::vec2f32 position,
+                                                        edk::float32 scale
+                                                        ){
+    return this->drawLinearVelocity(edk::color3f32(r,g,b),position,scale);
+}
+void edk::physics2D::PhysicObject2D::drawLinearVelocity(edk::float32 r,
+                                                        edk::float32 g,
+                                                        edk::float32 b,
+                                                        edk::float32 scale
+                                                        ){
+    return this->drawLinearVelocity(edk::color3f32(r,g,b),this->position,scale);
+}
 
 //update all animations
 bool edk::physics2D::PhysicObject2D::updateAnimations(){
