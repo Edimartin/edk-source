@@ -114,7 +114,7 @@ public:
     virtual void draw(edk::rectf32 outsideViewOrigin);
 
     //process contact in the view
-    bool contact(edk::vec2f32 point,edk::uint8 state,edk::vector::Stack<edk::uint32>* buttons);
+    bool contact(edk::vec2f32 point,edk::vec2f32 moved,edk::uint8 state,edk::vector::Stack<edk::uint32>* buttons);
     void contactRelease(edk::vec2f32 point,edk::uint8 state,edk::vector::Stack<edk::uint32>* buttons);
 
     //return false to isLeaf

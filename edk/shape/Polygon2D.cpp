@@ -146,6 +146,7 @@ void edk::shape::Polygon2D::Constructor(edk::uint32 vertexCount,bool /*runFather
         this->createAnimationFrames=false;edkEnd();
 
         this->frameUsing=edk::vec2ui32(0u,0u);edkEnd();
+        this->matrixPosition.createMatrix(1u,3u);edkEnd();
         this->testTransform();edkEnd();
     }
 }

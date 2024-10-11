@@ -53,9 +53,11 @@ void edk::Camera3D::Constructor(bool /*runFather*/){
         this->matrixRotateZ.Constructor();
         this->matrixScale.Constructor();
         this->projection.Constructor();
+        this->matrixPosition.Constructor();
         this->start();edkEnd();
         this->perspective = true;edkEnd();
         this->firstPerson=false;edkEnd();
+        this->matrixPosition.createMatrix(1u,4u);edkEnd();
     }
 }
 void edk::Camera3D::Constructor(edk::vec3f32 position,edk::vec3f32 lookAt,bool /*runFather*/){
@@ -67,11 +69,13 @@ void edk::Camera3D::Constructor(edk::vec3f32 position,edk::vec3f32 lookAt,bool /
         this->matrixRotateZ.Constructor();
         this->matrixScale.Constructor();
         this->projection.Constructor();
+        this->matrixPosition.Constructor();
         this->start();edkEnd();
         this->position = position;edkEnd();
         this->lookAt = lookAt;edkEnd();
         this->perspective = true;edkEnd();
         this->firstPerson=false;edkEnd();
+        this->matrixPosition.createMatrix(1u,4u);edkEnd();
     }
 }
 void edk::Camera3D::Constructor(edk::float32 pX,edk::float32 pY,edk::float32 pZ,edk::float32 lookX,edk::float32 lookY,edk::float32 lookZ,bool /*runFather*/){
@@ -83,11 +87,13 @@ void edk::Camera3D::Constructor(edk::float32 pX,edk::float32 pY,edk::float32 pZ,
         this->matrixRotateZ.Constructor();
         this->matrixScale.Constructor();
         this->projection.Constructor();
+        this->matrixPosition.Constructor();
         this->start();edkEnd();
         this->position = edk::vec3f32(pX,pY,pZ);edkEnd();
         this->lookAt = edk::vec3f32(lookX,lookY,lookZ);edkEnd();
         this->perspective = true;edkEnd();
         this->firstPerson=false;edkEnd();
+        this->matrixPosition.createMatrix(1u,3u);edkEnd();
     }
 }
 
@@ -101,24 +107,46 @@ void edk::Camera3D::start(){
     this->sizePercent = this->size.width/this->size.height;edkEnd();
     this->_near = 0.0001f;edkEnd();
     this->_far = 1.f;edkEnd();
+
+    this->updateProjection();
 }
 //generate the camera matrix
 void edk::Camera3D::calculateProjectionMatrix(){
-    this->projection.setIdentity(1.f,0.f);
-    //generate the translate matrix
-    edk::Math::generateTranslateMatrix(this->position-1.f,&this->matrixTranslate);edkEnd();
-    //generate the rotate matrix
-    edk::Math::generateRotateMatrixX(this->getAngleX()*-1.f,&this->matrixRotateX);edkEnd();
-    edk::Math::generateRotateMatrixY(this->getAngleY()*-1.f,&this->matrixRotateY);edkEnd();
-    edk::Math::generateRotateMatrixZ(this->getAngleUp()*-1.f,&this->matrixRotateZ);edkEnd();
+    this->projection.setIdentity(1.f,0.f);edkEnd();
+    edk::Math::generateLookAtMatrix(this->position.x,this->position.y,this->position.z,
+                                    this->lookAt.x,this->lookAt.y,this->lookAt.z,
+                                    this->up.x,this->up.y,0.f,
+                                    &this->projection
+                                    );edkEnd();
+}
+//update the camera vectors
+void edk::Camera3D::updateVectors(){
+    //multiply the vectors
+    //for some reazon it must be a giant lenght to work
+    this->vecLeft=  edk::Math::normalise(this->multiplyPointWithMatrix(edk::vec3f32(-10000.f, 0.f, 0.f)));edkEnd();
+    this->vecRight= edk::Math::normalise(this->multiplyPointWithMatrix(edk::vec3f32( 10000.f, 0.f, 0.f)));edkEnd();
+    this->vecUp=    edk::Math::normalise(this->multiplyPointWithMatrix(edk::vec3f32( 0.f, 10000.f, 0.f)));edkEnd();
+    this->vecDown=  edk::Math::normalise(this->multiplyPointWithMatrix(edk::vec3f32( 0.f,-10000.f, 0.f)));edkEnd();
+    this->vecFront= edk::Math::normalise(this->multiplyPointWithMatrix(edk::vec3f32( 0.f, 0.f, 10000.f)));edkEnd();
+    this->vecBack=  edk::Math::normalise(this->multiplyPointWithMatrix(edk::vec3f32( 0.f, 0.f,-10000.f)));edkEnd();
+}
+//multiply a point to the matrix
+edk::vec3f32 edk::Camera3D::multiplyPointWithMatrix(edk::vec3f32 point){
+    if(this->matrixPosition.haveMatrix()){
+        //
+        this->matrixPosition.set(0u,0u,point.x);edkEnd();
+        this->matrixPosition.set(0u,1u,point.y);edkEnd();
+        this->matrixPosition.set(0u,2u,point.z);edkEnd();
+        this->matrixPosition.set(0u,3u,1.f);edkEnd();
 
-    //multiply the matrix
-    //translate
-    this->projection.multiplyThisWithMatrix(&this->matrixTranslate);edkEnd();
-    //angle
-    this->projection.multiplyThisWithMatrix(&this->matrixRotateX);edkEnd();
-    this->projection.multiplyThisWithMatrix(&this->matrixRotateY);edkEnd();
-    this->projection.multiplyThisWithMatrix(&this->matrixRotateZ);edkEnd();
+        //multiply the matrix
+        this->matrixPosition.multiplyMatrixWithThis((edk::vector::MatrixDynamic<edk::float32>*)&this->projection);edkEnd();
+
+        point.x = this->matrixPosition.getNoIF(0u,0u);edkEnd();
+        point.y = this->matrixPosition.getNoIF(0u,1u);edkEnd();
+        point.z = this->matrixPosition.getNoIF(0u,2u);edkEnd();
+    }
+    return point;
 }
 
 //Sset witch camera type its using
@@ -339,6 +367,7 @@ void edk::Camera3D::rotateAngleUp(edk::float32 angle){
 //get the projection matrix
 void edk::Camera3D::updateProjection(){
     this->calculateProjectionMatrix();
+    this->updateVectors();
 }
 edk::vector::Matrixf32<4u,4u>* edk::Camera3D::getProjection(){
     return &this->projection;
@@ -377,6 +406,257 @@ void edk::Camera3D::drawAxisOnly(){
 }
 void edk::Camera3D::drawAxisOnly(edk::float32 /*seconds*/){
     //
+}
+
+//draw a wire camera in the world
+void edk::Camera3D::drawPivo(edk::float32 size,
+                             edk::color3f32 positionColor,
+                             edk::color3f32 lookAtColor,
+                             edk::color3f32 distanceColor
+                             ){
+    //draw the two pivo
+    edk::GU::guBegin(GU_LINES);
+    edk::GU::guColor3f32(positionColor);
+    //position
+    edk::GU::guVertex3f32(this->position.x+(this->vecLeft.x*size),
+                          this->position.y+(this->vecLeft.y*size),
+                          this->position.z+(this->vecLeft.z*size)
+                          );
+    edk::GU::guVertex3f32(this->position.x+(this->vecRight.x*size),
+                          this->position.y+(this->vecRight.y*size),
+                          this->position.z+(this->vecRight.z*size)
+                          );
+    edk::GU::guVertex3f32(this->position.x+(this->vecUp.x*size),
+                          this->position.y+(this->vecUp.y*size),
+                          this->position.z+(this->vecUp.z*size)
+                          );
+    edk::GU::guVertex3f32(this->position.x+(this->vecDown.x*size),
+                          this->position.y+(this->vecDown.y*size),
+                          this->position.z+(this->vecDown.z*size)
+                          );
+    edk::GU::guVertex3f32(this->position.x,
+                          this->position.y,
+                          this->position.z
+                          );
+    edk::GU::guVertex3f32(this->position.x+(this->vecBack.x*size),
+                          this->position.y+(this->vecBack.y*size),
+                          this->position.z+(this->vecBack.z*size)
+                          );
+    edk::GU::guColor3f32(lookAtColor);
+    //lookAt
+    edk::GU::guVertex3f32(this->lookAt.x+(this->vecLeft.x*size),
+                          this->lookAt.y+(this->vecLeft.y*size),
+                          this->lookAt.z+(this->vecLeft.z*size)
+                          );
+    edk::GU::guVertex3f32(this->lookAt.x+(this->vecRight.x*size),
+                          this->lookAt.y+(this->vecRight.y*size),
+                          this->lookAt.z+(this->vecRight.z*size)
+                          );
+    edk::GU::guVertex3f32(this->lookAt.x+(this->vecUp.x*size),
+                          this->lookAt.y+(this->vecUp.y*size),
+                          this->lookAt.z+(this->vecUp.z*size)
+                          );
+    edk::GU::guVertex3f32(this->lookAt.x+(this->vecDown.x*size),
+                          this->lookAt.y+(this->vecDown.y*size),
+                          this->lookAt.z+(this->vecDown.z*size)
+                          );
+    edk::GU::guVertex3f32(this->lookAt.x,
+                          this->lookAt.y,
+                          this->lookAt.z
+                          );
+    edk::GU::guVertex3f32(this->lookAt.x+(this->vecBack.x*size),
+                          this->lookAt.y+(this->vecBack.y*size),
+                          this->lookAt.z+(this->vecBack.z*size)
+                          );
+    edk::GU::guColor3f32(distanceColor);
+    //Line
+    edk::GU::guVertex3f32(this->position.x,
+                          this->position.y,
+                          this->position.z
+                          );
+    edk::GU::guVertex3f32(this->lookAt.x,
+                          this->lookAt.y,
+                          this->lookAt.z
+                          );
+    edk::GU::guEnd();
+}
+void edk::Camera3D::drawPivo(edk::float32 size,
+                             edk::float32 positionR,
+                             edk::float32 positionG,
+                             edk::float32 positionB,
+                             edk::float32 lookAtR,
+                             edk::float32 lookAtG,
+                             edk::float32 lookAtB,
+                             edk::float32 distanceR,
+                             edk::float32 distanceG,
+                             edk::float32 distanceB
+                             ){
+    this->drawPivo(size,
+                   edk::color3f32(positionR,positionG,positionB),
+                   edk::color3f32(lookAtR,lookAtG,lookAtB),
+                   edk::color3f32(distanceR,distanceG,distanceB)
+                   );
+}
+void edk::Camera3D::drawPivo(edk::float32 size,
+                             edk::color3f32 positionColor,
+                             edk::color3f32 lookAtColor
+                             ){
+    //draw the two pivo
+    edk::GU::guBegin(GU_LINES);
+    edk::GU::guColor3f32(positionColor);
+    //position
+    edk::GU::guVertex3f32(this->position.x+(this->vecLeft.x*size),
+                          this->position.y+(this->vecLeft.y*size),
+                          this->position.z+(this->vecLeft.z*size)
+                          );
+    edk::GU::guVertex3f32(this->position.x+(this->vecRight.x*size),
+                          this->position.y+(this->vecRight.y*size),
+                          this->position.z+(this->vecRight.z*size)
+                          );
+    edk::GU::guVertex3f32(this->position.x+(this->vecUp.x*size),
+                          this->position.y+(this->vecUp.y*size),
+                          this->position.z+(this->vecUp.z*size)
+                          );
+    edk::GU::guVertex3f32(this->position.x+(this->vecDown.x*size),
+                          this->position.y+(this->vecDown.y*size),
+                          this->position.z+(this->vecDown.z*size)
+                          );
+    edk::GU::guVertex3f32(this->position.x,
+                          this->position.y,
+                          this->position.z
+                          );
+    edk::GU::guVertex3f32(this->position.x+(this->vecBack.x*size),
+                          this->position.y+(this->vecBack.y*size),
+                          this->position.z+(this->vecBack.z*size)
+                          );
+    edk::GU::guColor3f32(lookAtColor);
+    //lookAt
+    edk::GU::guVertex3f32(this->lookAt.x+(this->vecLeft.x*size),
+                          this->lookAt.y+(this->vecLeft.y*size),
+                          this->lookAt.z+(this->vecLeft.z*size)
+                          );
+    edk::GU::guVertex3f32(this->lookAt.x+(this->vecRight.x*size),
+                          this->lookAt.y+(this->vecRight.y*size),
+                          this->lookAt.z+(this->vecRight.z*size)
+                          );
+    edk::GU::guVertex3f32(this->lookAt.x+(this->vecUp.x*size),
+                          this->lookAt.y+(this->vecUp.y*size),
+                          this->lookAt.z+(this->vecUp.z*size)
+                          );
+    edk::GU::guVertex3f32(this->lookAt.x+(this->vecDown.x*size),
+                          this->lookAt.y+(this->vecDown.y*size),
+                          this->lookAt.z+(this->vecDown.z*size)
+                          );
+    edk::GU::guVertex3f32(this->lookAt.x+(this->vecFront.x*size),
+                          this->lookAt.y+(this->vecFront.y*size),
+                          this->lookAt.z+(this->vecFront.z*size)
+                          );
+    edk::GU::guVertex3f32(this->lookAt.x,
+                          this->lookAt.y,
+                          this->lookAt.z
+                          );
+    //Line
+    edk::GU::guColor3f32(positionColor);
+    edk::GU::guVertex3f32(this->position.x,
+                          this->position.y,
+                          this->position.z
+                          );
+    edk::GU::guColor3f32(lookAtColor);
+    edk::GU::guVertex3f32(this->lookAt.x,
+                          this->lookAt.y,
+                          this->lookAt.z
+                          );
+    edk::GU::guEnd();
+}
+void edk::Camera3D::drawPivo(edk::float32 size,
+                             edk::float32 positionR,
+                             edk::float32 positionG,
+                             edk::float32 positionB,
+                             edk::float32 lookAtR,
+                             edk::float32 lookAtG,
+                             edk::float32 lookAtB
+                             ){
+    this->drawPivo(size,
+                   edk::color3f32(positionR,positionG,positionB),
+                   edk::color3f32(lookAtR,lookAtG,lookAtB)
+                   );
+}
+void edk::Camera3D::drawPivo(edk::float32 size,edk::color3f32 color){
+    this->drawPivo(size,
+                   color,
+                   color,
+                   color
+                   );
+}
+void edk::Camera3D::drawPivo(edk::float32 size,edk::float32 r,edk::float32 g,edk::float32 b){
+    this->drawPivo(size,
+                   edk::color3f32(r,g,b),
+                   edk::color3f32(r,g,b),
+                   edk::color3f32(r,g,b)
+                   );
+}
+void edk::Camera3D::drawVectors(edk::float32 size,edk::color3f32 color){
+    //draw the two pivo
+    edk::GU::guBegin(GU_LINES);
+    edk::GU::guColor3f32(color);
+    //LEFT
+    edk::GU::guVertex3f32(this->lookAt.x,
+                          this->lookAt.y,
+                          this->lookAt.z
+                          );
+    edk::GU::guVertex3f32(this->lookAt.x+(this->vecLeft.x*size),
+                          this->lookAt.y+(this->vecLeft.y*size),
+                          this->lookAt.z+(this->vecLeft.z*size)
+                          );
+    //RIGHT
+    edk::GU::guVertex3f32(this->lookAt.x,
+                          this->lookAt.y,
+                          this->lookAt.z
+                          );
+    edk::GU::guVertex3f32(this->lookAt.x+(this->vecRight.x*size),
+                          this->lookAt.y+(this->vecRight.y*size),
+                          this->lookAt.z+(this->vecRight.z*size)
+                          );
+    //UP
+    edk::GU::guVertex3f32(this->lookAt.x,
+                          this->lookAt.y,
+                          this->lookAt.z
+                          );
+    edk::GU::guVertex3f32(this->lookAt.x+(this->vecUp.x*size),
+                          this->lookAt.y+(this->vecUp.y*size),
+                          this->lookAt.z+(this->vecUp.z*size)
+                          );
+    //DOWN
+    edk::GU::guVertex3f32(this->lookAt.x,
+                          this->lookAt.y,
+                          this->lookAt.z
+                          );
+    edk::GU::guVertex3f32(this->lookAt.x+(this->vecDown.x*size),
+                          this->lookAt.y+(this->vecDown.y*size),
+                          this->lookAt.z+(this->vecDown.z*size)
+                          );
+    //FRONT
+    edk::GU::guVertex3f32(this->lookAt.x,
+                          this->lookAt.y,
+                          this->lookAt.z
+                          );
+    edk::GU::guVertex3f32(this->lookAt.x+(this->vecFront.x*size),
+                          this->lookAt.y+(this->vecFront.y*size),
+                          this->lookAt.z+(this->vecFront.z*size)
+                          );
+    //BACK
+    edk::GU::guVertex3f32(this->lookAt.x,
+                          this->lookAt.y,
+                          this->lookAt.z
+                          );
+    edk::GU::guVertex3f32(this->lookAt.x+(this->vecBack.x*size),
+                          this->lookAt.y+(this->vecBack.y*size),
+                          this->lookAt.z+(this->vecBack.z*size)
+                          );
+    edk::GU::guEnd();
+}
+void edk::Camera3D::drawVectors(edk::float32 size,edk::float32 r,edk::float32 g,edk::float32 b){
+    return this->drawVectors(size,edk::color3f32(r,g,b));
 }
 
 //operator to copy the cameras

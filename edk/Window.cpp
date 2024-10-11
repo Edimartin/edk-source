@@ -461,19 +461,31 @@ void edk::Window::updateViews(){
     //test if have a mousePress ou Release
     if(this->eventMousePressed()){
         //test pressed with views
-        this->viewWindow.contact(edk::vec2f32(this->getMousePos().x,this->getMousePos().y),edk::mouse::state::pressed,&this->events.mousePressed);edkEnd();
+        this->viewWindow.contact(edk::vec2f32(this->getMousePos().x,this->getMousePos().y),
+                                 edk::vec2f32(this->eventGetMouseMoved().x,this->eventGetMouseMoved().y),
+                                 edk::mouse::state::pressed,
+                                 &this->events.mousePressed);edkEnd();
     }
     if(this->eventMouseMoved()){
         //
-        this->viewWindow.contact(edk::vec2f32(this->getMousePos().x,this->getMousePos().y),edk::mouse::state::moved,&this->events.mouseHolded);edkEnd();
+        this->viewWindow.contact(edk::vec2f32(this->getMousePos().x,this->getMousePos().y),
+                                 edk::vec2f32(this->eventGetMouseMoved().x,this->eventGetMouseMoved().y),
+                                 edk::mouse::state::moved,
+                                 &this->events.mouseHolded);edkEnd();
     }
     if(this->eventMouseRelease()){
         //test released with views
-        this->viewWindow.contact(edk::vec2f32(this->getMousePos().x,this->getMousePos().y),edk::mouse::state::released,&this->events.mouseRelease);edkEnd();
+        this->viewWindow.contact(edk::vec2f32(this->getMousePos().x,this->getMousePos().y),
+                                 edk::vec2f32(this->eventGetMouseMoved().x,this->eventGetMouseMoved().y),
+                                 edk::mouse::state::released,
+                                 &this->events.mouseRelease);edkEnd();
     }
     if(this->eventMouseDoubleClick()){
         //test released with views
-        this->viewWindow.contact(edk::vec2f32(this->getMousePos().x,this->getMousePos().y),edk::mouse::state::doubleClicked,&this->events.mouseRelease);edkEnd();
+        this->viewWindow.contact(edk::vec2f32(this->getMousePos().x,this->getMousePos().y),
+                                 edk::vec2f32(this->eventGetMouseMoved().x,this->eventGetMouseMoved().y),
+                                 edk::mouse::state::doubleClicked,
+                                 &this->events.mouseRelease);edkEnd();
     }
 
     //update the view

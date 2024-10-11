@@ -282,7 +282,7 @@ void edk::View::updateAnimations(edk::float32 seconds){
     }
 }
 
-bool edk::View::contact(edk::vec2f32 point,edk::uint8 state,edk::vector::Stack<edk::uint32>* buttons){
+bool edk::View::contact(edk::vec2f32 point,edk::vec2f32 moved,edk::uint8 state,edk::vector::Stack<edk::uint32>* buttons){
     if(this->pointInside(edk::vec2f32(point.x,point.y))){
         //
         this->mousePos = point - this->animatedFrame.origin;edkEnd();
@@ -304,19 +304,19 @@ bool edk::View::contact(edk::vec2f32 point,edk::uint8 state,edk::vector::Stack<e
             switch(state){
             case edk::mouse::state::pressed:
                 for(edk::uint8 i=0u;i<buttons->size();i++){
-                    this->eventMousePressed(mousePos,buttons->get(i));edkEnd();
+                    this->eventMousePressed(this->mousePos,buttons->get(i));edkEnd();
                 }
                 break;
             case edk::mouse::state::released:
                 //
                 for(edk::uint8 i=0u;i<buttons->size();i++){
-                    this->eventMouseReleased(mousePos,buttons->get(i));edkEnd();
+                    this->eventMouseReleased(this->mousePos,buttons->get(i));edkEnd();
                 }
                 break;
             case edk::mouse::state::doubleClicked:
                 //
                 for(edk::uint8 i=0u;i<buttons->size();i++){
-                    this->eventMouseDoubleClicked(mousePos,buttons->get(i));edkEnd();
+                    this->eventMouseDoubleClicked(this->mousePos,buttons->get(i));edkEnd();
                 }
                 break;
             case edk::mouse::state::moved:
@@ -324,12 +324,12 @@ bool edk::View::contact(edk::vec2f32 point,edk::uint8 state,edk::vector::Stack<e
                 if(buttons->size()){
                     //then move with the buttons
                     for(edk::uint8 i=0u;i<buttons->size();i++){
-                        this->eventMouseMoved(mousePos,buttons->get(i));edkEnd();
+                        this->eventMouseMoved(this->mousePos,moved,buttons->get(i));edkEnd();
                     }
                 }
                 else{
                     //else run with no button
-                    this->eventMouseMoved(mousePos,0u);edkEnd();
+                    this->eventMouseMoved(this->mousePos,moved,0u);edkEnd();
                 }
                 break;
                 //
@@ -431,7 +431,7 @@ void edk::View::eventMousePressed(edk::vec2f32 point,edk::uint32 button){
         //
     }
 }
-void edk::View::eventMouseMoved(edk::vec2f32 point,edk::uint32 button){
+void edk::View::eventMouseMoved(edk::vec2f32 point,edk::vec2f32 moved,edk::uint32 button){
     if(point.x){
         //remove the warning
     }
@@ -448,7 +448,9 @@ void edk::View::eventMouseMoved(edk::vec2f32 point,edk::uint32 button){
     case edk::mouse::left:
         //
         /*
-            printf("\nMouse Left Moved in pos (%.2f %.2f)"
+            printf("\nMouse Left Moved (%.2f %.2f) in pos (%.2f %.2f)"
+                   ,moved.x
+                   ,moved.y
                    ,point.x
                    ,point.y
                    );edkEnd();
@@ -457,7 +459,9 @@ void edk::View::eventMouseMoved(edk::vec2f32 point,edk::uint32 button){
     case edk::mouse::right:
         //
         /*
-            printf("\nMouse right Moved in pos (%.2f %.2f)"
+            printf("\nMouse right Moved (%.2f %.2f) in pos (%.2f %.2f)"
+                   ,moved.x
+                   ,moved.y
                    ,point.x
                    ,point.y
                    );edkEnd();
@@ -466,7 +470,9 @@ void edk::View::eventMouseMoved(edk::vec2f32 point,edk::uint32 button){
     case edk::mouse::middle:
         //
         /*
-            printf("\nMouse middle Moved in pos (%.2f %.2f)"
+            printf("\nMouse middle Moved (%.2f %.2f) in pos (%.2f %.2f)"
+                   ,moved.x
+                   ,moved.y
                    ,point.x
                    ,point.y
                    );edkEnd();
@@ -475,7 +481,9 @@ void edk::View::eventMouseMoved(edk::vec2f32 point,edk::uint32 button){
     case edk::mouse::xButton1:
         //
         /*
-            printf("\nMouse xButton1 Moved in pos (%.2f %.2f)"
+            printf("\nMouse xButton1 Moved (%.2f %.2f) in pos (%.2f %.2f)"
+                   ,moved.x
+                   ,moved.y
                    ,point.x
                    ,point.y
                    );edkEnd();
@@ -484,7 +492,9 @@ void edk::View::eventMouseMoved(edk::vec2f32 point,edk::uint32 button){
     case edk::mouse::xButton2:
         //
         /*
-            printf("\nMouse xButton2 Moved in pos (%.2f %.2f)"
+            printf("\nMouse xButton2 Moved (%.2f %.2f) in pos (%.2f %.2f)"
+                   ,moved.x
+                   ,moved.y
                    ,point.x
                    ,point.y
                    );edkEnd();
@@ -493,7 +503,9 @@ void edk::View::eventMouseMoved(edk::vec2f32 point,edk::uint32 button){
     default:
         //Mouse is moving without a Button pressed
         /*
-            printf("\nMouse Moved in pos (%.2f %.2f)"
+            printf("\nMouse Moved (%.2f %.2f) in pos (%.2f %.2f)"
+                   ,moved.x
+                   ,moved.y
                    ,point.x
                    ,point.y
                    );edkEnd();

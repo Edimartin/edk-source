@@ -109,6 +109,40 @@ public:
     void drawAxisOnly();
     void drawAxisOnly(edk::float32 seconds);
 
+    //draw a wire camera in the world
+    void drawPivo(edk::float32 size,
+                  edk::color3f32 positionColor,
+                  edk::color3f32 lookAtColor,
+                  edk::color3f32 distanceColor
+                  );
+    void drawPivo(edk::float32 size,
+                  edk::float32 positionR,
+                  edk::float32 positionG,
+                  edk::float32 positionB,
+                  edk::float32 lookAtR,
+                  edk::float32 lookAtG,
+                  edk::float32 lookAtB,
+                  edk::float32 distanceR,
+                  edk::float32 distanceG,
+                  edk::float32 distanceB
+                  );
+    void drawPivo(edk::float32 size,
+                  edk::color3f32 positionColor,
+                  edk::color3f32 lookAtColor
+                  );
+    void drawPivo(edk::float32 size,
+                  edk::float32 positionR,
+                  edk::float32 positionG,
+                  edk::float32 positionB,
+                  edk::float32 lookAtR,
+                  edk::float32 lookAtG,
+                  edk::float32 lookAtB
+                  );
+    void drawPivo(edk::float32 size,edk::color3f32 color);
+    void drawPivo(edk::float32 size,edk::float32 r,edk::float32 g,edk::float32 b);
+    void drawVectors(edk::float32 size,edk::color3f32 color);
+    void drawVectors(edk::float32 size,edk::float32 r,edk::float32 g,edk::float32 b);
+
     //operator to copy the cameras
     bool cloneFrom(edk::Camera3D* cam);
 
@@ -123,6 +157,13 @@ private:
     edk::float32 _near;
     edk::float32 _far;
     bool firstPerson;
+    //calculate translate vectors
+    edk::vec3f32 vecLeft;
+    edk::vec3f32 vecRight;
+    edk::vec3f32 vecUp;
+    edk::vec3f32 vecDown;
+    edk::vec3f32 vecFront;
+    edk::vec3f32 vecBack;
 
     //camera 3D projection matrix
     edk::vector::Matrixf32<4u,4u> matrixTranslate;
@@ -131,10 +172,15 @@ private:
     edk::vector::Matrixf32<4u,4u> matrixRotateZ;
     edk::vector::Matrixf32<4u,4u> matrixScale;
     edk::vector::Matrixf32<4u,4u> projection;
+    edk::vector::MatrixDynamic<edk::float32> matrixPosition;
 
     void start();
     //generate the camera matrix
     void calculateProjectionMatrix();
+    //update the camera vectors
+    void updateVectors();
+    //multiply a point to the matrix
+    edk::vec3f32 multiplyPointWithMatrix(edk::vec3f32 point);
 private:
     edk::classID classThis;
 };

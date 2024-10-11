@@ -337,7 +337,7 @@ void edk::ViewController::draw(edk::rectf32 outsideViewOrigin){
 }
 
 //contact in the view
-bool edk::ViewController::contact(edk::vec2f32 point,edk::uint8 state,edk::vector::Stack<edk::uint32>* buttons){
+bool edk::ViewController::contact(edk::vec2f32 point,edk::vec2f32 moved,edk::uint8 state,edk::vector::Stack<edk::uint32>* buttons){
     //return
     bool ret=false;edkEnd();
     if(this->pointInside(point)){
@@ -350,7 +350,7 @@ bool edk::ViewController::contact(edk::vec2f32 point,edk::uint8 state,edk::vecto
                         this->nexts.get(i-1u)->contactRelease(point - this->animatedFrame.origin,state,buttons);edkEnd();
                     }
                     else{
-                        if(this->nexts.get(i-1u)->contact(point - this->animatedFrame.origin,state,buttons)){
+                        if(this->nexts.get(i-1u)->contact(point - this->animatedFrame.origin,moved,state,buttons)){
                             //
                             ret=true;edkEnd();
                         }
@@ -365,7 +365,7 @@ bool edk::ViewController::contact(edk::vec2f32 point,edk::uint8 state,edk::vecto
             this->edk::View::contactRelease(point,state,buttons);edkEnd();
         }
         else{
-            ret = this->edk::View::contact(point,state,buttons);edkEnd();
+            ret = this->edk::View::contact(point,moved,state,buttons);edkEnd();
         }
     }
     else{
