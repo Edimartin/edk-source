@@ -84,8 +84,8 @@ void edk::ViewButtonMove::eventMousePressed(edk::vec2f32 point,edk::uint32 butto
         this->savePosition = this->frame.origin;edkEnd();
     }
 }
-void edk::ViewButtonMove::eventMouseMoved(edk::vec2f32 point,edk::uint32 button){
-    edk::ViewButton::eventMouseMoved(point,button);edkEnd();
+void edk::ViewButtonMove::eventMouseMoved(edk::vec2f32 point,edk::vec2f32 moved,edk::uint32 button){
+    edk::ViewButton::eventMouseMoved(point,moved,button);edkEnd();
 }
 void edk::ViewButtonMove::eventMouseReleased(edk::vec2f32 position,edk::uint32 button){
     edk::ViewButton::eventMouseReleased(position,button);edkEnd();

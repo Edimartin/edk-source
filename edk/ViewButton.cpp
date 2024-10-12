@@ -1883,7 +1883,7 @@ void edk::ViewButton::eventMousePressed(edk::vec2f32 ,edk::uint32 button){
         }
     }
 }
-void edk::ViewButton::eventMouseMoved(edk::vec2f32,edk::uint32){
+void edk::ViewButton::eventMouseMoved(edk::vec2f32,edk::vec2f32,edk::uint32){
     if(this->buttonOn){
         //test if mouse is pressed
         if(this->holdButton.size()){

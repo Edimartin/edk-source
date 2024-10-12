@@ -217,7 +217,7 @@ protected:
     void drawPolygon(rectf32 outsideViewOrigin);
     //mouse events
     virtual void eventMousePressed(edk::vec2f32 point,edk::uint32 button);
-    virtual void eventMouseMoved(edk::vec2f32 point,edk::uint32 button);
+    virtual void eventMouseMoved(edk::vec2f32 point,edk::vec2f32 moved,edk::uint32 button);
     virtual void eventMouseReleased(edk::vec2f32 point,edk::uint32 button);
     virtual void eventMouseDoubleClicked(edk::vec2f32 point,edk::uint32 button);
     //Mouse go Inside Outside

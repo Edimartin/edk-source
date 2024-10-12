@@ -117,7 +117,7 @@ void edk::ViewTextField::TextField::eventMousePressed(edk::vec2f32 point ,edk::u
         this->anim.playForward();edkEnd();
     }
 }
-void edk::ViewTextField::TextField::eventMouseMoved(edk::vec2f32 point,edk::uint32 button){
+void edk::ViewTextField::TextField::eventMouseMoved(edk::vec2f32 point,edk::vec2f32 moved,edk::uint32 button){
     if(button == edk::mouse::left){
         //set the entry position
         this->setEntryPosition(point.x);edkEnd();
