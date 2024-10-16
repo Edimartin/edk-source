@@ -257,19 +257,24 @@ public:
     virtual bool haveConnectedObjectBack(edk::Object2D* obj);
     virtual bool disconnectObjectBack(edk::Object2D* obj);
     virtual void cleanConnectedObjectsBack();
+    virtual inline void removeConnectedObjectsBack(){this->cleanConnectedObjectsBack();}
     virtual bool connectObjectFront(edk::Object2D* obj);
     virtual bool updateConnectedObjectFrontValues(edk::Object2D* obj);
     virtual edk::vec2f32 getConnectedObjectFrontWorldPosition(edk::Object2D* obj);
     virtual bool haveConnectedObjectFront(edk::Object2D* obj);
     virtual bool disconnectObjectFront(edk::Object2D* obj);
     virtual void cleanConnectedObjectsFront();
+    virtual void inline removeConnectedObjectsFront(){this->cleanConnectedObjectsFront();}
     virtual bool updateConnectedObjectValues(edk::Object2D* obj);
     virtual edk::vec2f32 getConnectedObjectWorldPosition(edk::Object2D* obj);
     virtual bool haveConnectedObject(edk::Object2D* obj);
     virtual bool disconnectObject(edk::Object2D* obj);
     virtual void cleanConnectedObjects();
+    virtual void inline removeConnectedObjects(){this->cleanConnectedObjects();}
 
     virtual bool cloneFrom(edk::Object2D* obj);
+    virtual bool addMeshFrom(edk::Object2D* obj);
+    virtual bool addMeshFrom(edk::shape::Mesh2D* mesh);
 
     //PolygonList selected
     edk::shape::Mesh2D *selected;
@@ -431,6 +436,11 @@ protected:
     private:
         edk::classID classThis;
     }meshes;
+    //update animations
+    void updateChildremsAnimations();
+    void updateChildremsAnimations(edk::float32 seconds);
+    //update the values from father
+    bool updateValuesFromFather(edk::vector::Matrixf32<3u,3u>* matrixTransform);
 
 private:
     //Tree Static Vector
@@ -527,11 +537,6 @@ private:
     void drawChildFrontPivo(edk::float32 size,edk::float32 r,edk::float32 g,edk::float32 b);
     void drawChildremsPivo(edk::float32 size,edk::float32 r,edk::float32 g,edk::float32 b);
     void drawChildPivo(edk::float32 size,edk::float32 r,edk::float32 g,edk::float32 b);
-    //update animations
-    void updateChildremsAnimations();
-    void updateChildremsAnimations(edk::float32 seconds);
-    //update the values from father
-    bool updateValuesFromFather(edk::vector::Matrixf32<3u,3u>* matrixTransform);
 
     //load sve identity
     inline void loadSaveIdentityValues(){

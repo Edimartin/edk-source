@@ -430,6 +430,84 @@ bool edk::Object2D::drawUnhidePolygonWire(edk::uint32 meshPosition,edk::uint32 p
     }
     return ret;
 }
+//update animations
+void edk::Object2D::updateChildremsAnimations(){
+    edk::uint32 size = this->childremsBack.size();
+    edk::Object2D* obj;
+    for(edk::uint32 i=0u;i<size;i++){
+        obj = this->childremsBack.getElementInPosition(i);
+        obj->updateAnimations();
+    }
+    size = this->childremsFront.size();
+    for(edk::uint32 i=0u;i<size;i++){
+        obj = this->childremsFront.getElementInPosition(i);
+        obj->updateAnimations();
+    }
+}
+void edk::Object2D::updateChildremsAnimations(edk::float32 seconds){
+    edk::uint32 size = this->childremsBack.size();
+    edk::Object2D* obj;
+    for(edk::uint32 i=0u;i<size;i++){
+        obj = this->childremsBack.getElementInPosition(i);
+        obj->updateAnimations(seconds);
+    }
+    size = this->childremsFront.size();
+    for(edk::uint32 i=0u;i<size;i++){
+        obj = this->childremsFront.getElementInPosition(i);
+        obj->updateAnimations(seconds);
+    }
+}
+//update the values from father
+bool edk::Object2D::updateValuesFromFather(edk::vector::Matrixf32<3u,3u>* matrixTransform){
+    if(matrixTransform){
+        if(this->father){
+            //calculate the boundingBox from the father
+            this->father->updateValuesFromFather(matrixTransform);
+
+            edk::Math::generateScaleMatrix(this->connectedSize,&this->matrixSize);edkEnd();
+            edk::Math::generateRotateMatrixZ(this->connectedAngle,&this->matrixAngle);edkEnd();
+            edk::Math::generateTranslateMatrix(this->connectedPosition,&this->matrixPosition);edkEnd();
+            edk::Math::generateTranslateMatrix(this->connectedPivo*-1.0f,&this->matrixPivo);edkEnd();
+            matrixTransform->multiplyThisWithMatrix(&this->matrixSize);edkEnd();
+            matrixTransform->multiplyThisWithMatrix(&this->matrixAngle);edkEnd();
+            matrixTransform->multiplyThisWithMatrix(&this->matrixPosition);edkEnd();
+            matrixTransform->multiplyThisWithMatrix(&this->matrixPivo);edkEnd();
+
+            //first copy the matrix
+            //generate transform matrices
+            edk::Math::generateTranslateMatrix(this->position,&this->matrixPosition);edkEnd();
+            edk::Math::generateRotateMatrixZ(this->angle,&this->matrixAngle);edkEnd();
+            edk::Math::generateScaleMatrix(this->size,&this->matrixSize);edkEnd();
+            edk::Math::generateTranslateMatrix(this->pivo*-1.0f,&this->matrixPivo);edkEnd();
+            //translate
+            matrixTransform->multiplyThisWithMatrix(&this->matrixPosition);edkEnd();
+            //angle
+            matrixTransform->multiplyThisWithMatrix(&this->matrixAngle);edkEnd();
+            //scale
+            matrixTransform->multiplyThisWithMatrix(&this->matrixSize);edkEnd();
+            //Pivo
+            matrixTransform->multiplyThisWithMatrix(&this->matrixPivo);edkEnd();
+        }
+        else{
+            //first copy the matrix
+            //generate transform matrices
+            edk::Math::generateTranslateMatrix(this->position,&this->matrixPosition);edkEnd();
+            edk::Math::generateRotateMatrixZ(this->angle,&this->matrixAngle);edkEnd();
+            edk::Math::generateScaleMatrix(this->size,&this->matrixSize);edkEnd();
+            edk::Math::generateTranslateMatrix(this->pivo*-1.0f,&this->matrixPivo);edkEnd();
+            //translate
+            matrixTransform->multiplyThisWithMatrix(&this->matrixPosition);edkEnd();
+            //angle
+            matrixTransform->multiplyThisWithMatrix(&this->matrixAngle);edkEnd();
+            //scale
+            matrixTransform->multiplyThisWithMatrix(&this->matrixSize);edkEnd();
+            //Pivo
+            matrixTransform->multiplyThisWithMatrix(&this->matrixPivo);edkEnd();
+        }
+        return true;
+    }
+    return false;
+}
 
 void edk::Object2D::Constructor(bool runFather){
     if(runFather){
@@ -1032,6 +1110,8 @@ void edk::Object2D::drawChildBack(bool haveLight){
     this->drawChildremsBack(haveLight);
 
     (this->*functionDraw)(haveLight);
+
+    this->drawChildremsFront(haveLight);
 
     //glEnable(GL_RESCALE_NORMAL);edkEnd();
     edk::GU::guPopMatrix();edkEnd();
@@ -1867,84 +1947,6 @@ void edk::Object2D::drawChildPivo(edk::float32 size,edk::float32 r,edk::float32 
         this->drawChildremsFrontPivo(size,r,g,b);
         edk::GU::guPopMatrix();edkEnd();
     }
-}
-//update animations
-void edk::Object2D::updateChildremsAnimations(){
-    edk::uint32 size = this->childremsBack.size();
-    edk::Object2D* obj;
-    for(edk::uint32 i=0u;i<size;i++){
-        obj = this->childremsBack.getElementInPosition(i);
-        obj->updateAnimations();
-    }
-    size = this->childremsFront.size();
-    for(edk::uint32 i=0u;i<size;i++){
-        obj = this->childremsFront.getElementInPosition(i);
-        obj->updateAnimations();
-    }
-}
-void edk::Object2D::updateChildremsAnimations(edk::float32 seconds){
-    edk::uint32 size = this->childremsBack.size();
-    edk::Object2D* obj;
-    for(edk::uint32 i=0u;i<size;i++){
-        obj = this->childremsBack.getElementInPosition(i);
-        obj->updateAnimations(seconds);
-    }
-    size = this->childremsFront.size();
-    for(edk::uint32 i=0u;i<size;i++){
-        obj = this->childremsFront.getElementInPosition(i);
-        obj->updateAnimations(seconds);
-    }
-}
-//update the values from father
-bool edk::Object2D::updateValuesFromFather(edk::vector::Matrixf32<3u,3u>* matrixTransform){
-    if(matrixTransform){
-        if(this->father){
-            //calculate the boundingBox from the father
-            this->father->updateValuesFromFather(matrixTransform);
-
-            edk::Math::generateScaleMatrix(this->connectedSize,&this->matrixSize);edkEnd();
-            edk::Math::generateRotateMatrixZ(this->connectedAngle,&this->matrixAngle);edkEnd();
-            edk::Math::generateTranslateMatrix(this->connectedPosition,&this->matrixPosition);edkEnd();
-            edk::Math::generateTranslateMatrix(this->connectedPivo*-1.0f,&this->matrixPivo);edkEnd();
-            matrixTransform->multiplyThisWithMatrix(&this->matrixSize);edkEnd();
-            matrixTransform->multiplyThisWithMatrix(&this->matrixAngle);edkEnd();
-            matrixTransform->multiplyThisWithMatrix(&this->matrixPosition);edkEnd();
-            matrixTransform->multiplyThisWithMatrix(&this->matrixPivo);edkEnd();
-
-            //first copy the matrix
-            //generate transform matrices
-            edk::Math::generateTranslateMatrix(this->position,&this->matrixPosition);edkEnd();
-            edk::Math::generateRotateMatrixZ(this->angle,&this->matrixAngle);edkEnd();
-            edk::Math::generateScaleMatrix(this->size,&this->matrixSize);edkEnd();
-            edk::Math::generateTranslateMatrix(this->pivo*-1.0f,&this->matrixPivo);edkEnd();
-            //translate
-            matrixTransform->multiplyThisWithMatrix(&this->matrixPosition);edkEnd();
-            //angle
-            matrixTransform->multiplyThisWithMatrix(&this->matrixAngle);edkEnd();
-            //scale
-            matrixTransform->multiplyThisWithMatrix(&this->matrixSize);edkEnd();
-            //Pivo
-            matrixTransform->multiplyThisWithMatrix(&this->matrixPivo);edkEnd();
-        }
-        else{
-            //first copy the matrix
-            //generate transform matrices
-            edk::Math::generateTranslateMatrix(this->position,&this->matrixPosition);edkEnd();
-            edk::Math::generateRotateMatrixZ(this->angle,&this->matrixAngle);edkEnd();
-            edk::Math::generateScaleMatrix(this->size,&this->matrixSize);edkEnd();
-            edk::Math::generateTranslateMatrix(this->pivo*-1.0f,&this->matrixPivo);edkEnd();
-            //translate
-            matrixTransform->multiplyThisWithMatrix(&this->matrixPosition);edkEnd();
-            //angle
-            matrixTransform->multiplyThisWithMatrix(&this->matrixAngle);edkEnd();
-            //scale
-            matrixTransform->multiplyThisWithMatrix(&this->matrixSize);edkEnd();
-            //Pivo
-            matrixTransform->multiplyThisWithMatrix(&this->matrixPivo);edkEnd();
-        }
-        return true;
-    }
-    return false;
 }
 
 //Actions
@@ -4622,6 +4624,37 @@ bool edk::Object2D::cloneFrom(edk::Object2D* obj){
         }
         */
         return true;
+    }
+    return false;
+}
+bool edk::Object2D::addMeshFrom(edk::Object2D* obj){
+    if(obj){
+        //copy the meshs
+        edk::uint32 size = obj->meshes.size();edkEnd();
+        edk::shape::Mesh2D* temp = NULL;edkEnd();
+        edk::shape::Mesh2D* mesh = NULL;edkEnd();
+        for(edk::uint32 i=0u;i<size;i++){
+            temp = obj->meshes.getMesh(i);edkEnd();
+            if(temp){
+                mesh = this->newMesh();edkEnd();
+                if(mesh){
+                    //*mesh = *temp;edkEnd();
+                    mesh->cloneFrom(temp);edkEnd();
+                }
+            }
+        }
+        return true;
+    }
+    return false;
+}
+bool edk::Object2D::addMeshFrom(edk::shape::Mesh2D* mesh){
+    if(mesh){
+        edk::shape::Mesh2D* temp = this->newMesh();edkEnd();
+        if(temp){
+            //*mesh = *temp;edkEnd();
+            temp->cloneFrom(mesh);edkEnd();
+            return true;
+        }
     }
     return false;
 }

@@ -485,6 +485,7 @@ bool edk::physics2D::PhysicObject2D::updateAnimations(){
         ret=true;edkEnd();
     }
     this->updateMeshAnimations();edkEnd();
+    this->updateChildremsAnimations();
     return ret;
 }
 bool edk::physics2D::PhysicObject2D::updateAnimations(edk::float32 seconds){
@@ -513,6 +514,7 @@ bool edk::physics2D::PhysicObject2D::updateAnimations(edk::float32 seconds){
         ret=true;edkEnd();
     }
     this->updateMeshAnimations(seconds);edkEnd();
+    this->updateChildremsAnimations(seconds);
     return ret;
 }
 
