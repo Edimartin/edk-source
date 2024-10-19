@@ -298,11 +298,31 @@ bool edk::shape::Polygon2DList::getWorldPolygon(edk::shape::Polygon2D* dest,edk:
         if(transformMat){
             //copy the first rectangle
             if(this->polygons.havePos(polygonPosition)){
-                ret = this->polygons.get(polygonPosition)->getWorldPolygon(dest,transformMat);edkEnd();
+                ret = this->polygons.get(polygonPosition)->getWorldPolygonClone(dest,transformMat);edkEnd();
             }
         }
     }
     return ret;
+}
+
+//generate world polygons from list into another list
+bool edk::shape::Polygon2DList::generateWorldPolygons(edk::shape::Polygon2DList* dest,
+                                                      edk::vector::Matrixf32<3u,3u>* transformMat
+                                                      ){
+    if(dest){
+        if(transformMat){
+            edk::uint32 size = this->getPolygonSize();
+            if(size == dest->getPolygonSize()){
+                for(edk::uint32 i=0u;i<size;i++){
+                    if(!this->polygons.get(i)->getWorldPolygonCopy(dest->polygons.get(i),transformMat)){
+                        return false;
+                    }
+                }
+                return true;
+            }
+        }
+    }
+    return false;
 }
 
 //ADD
@@ -1207,6 +1227,45 @@ bool edk::shape::Polygon2DList::drawPolygonVertexs(edk::uint32 polygon,edk::colo
         if(this->polygons.havePos(polygon)){
             edk::GU::guColor3f32(color);edkEnd();
             this->polygons.get(polygon)->drawPolygonVertexs(edk::color4f32(color.r,color.g,color.b,1.f));edkEnd();
+            return true;
+        }
+    }
+    return false;
+}
+//draw the polygons in wireframe in world points
+void edk::shape::Polygon2DList::drawWirePolygonsWorld(){
+    //draw the polygons
+    for(edk::uint32 i=0u;i<this->polygons.size();i++){
+        if(this->polygons.havePos(i)){
+            this->polygons.get(i)->drawWireWorld();edkEnd();
+        }
+    }
+}
+bool edk::shape::Polygon2DList::drawWirePolygonWorld(edk::uint32 polygon){
+    //draw the polygons
+    if(polygon<this->polygons.size()){
+        if(this->polygons.havePos(polygon)){
+            this->polygons.get(polygon)->drawWireWorld();edkEnd();
+            return true;
+        }
+    }
+    return false;
+}
+void edk::shape::Polygon2DList::drawVertexsWorld(edk::color3f32 color){
+    edk::GU::guColor3f32(color);edkEnd();
+    //draw the polygons
+    for(edk::uint32 i=0u;i<this->polygons.size();i++){
+        if(this->polygons.havePos(i)){
+            this->polygons.get(i)->drawPolygonVertexsWorld(edk::color4f32(color.r,color.g,color.b,1.f));edkEnd();
+        }
+    }
+}
+bool edk::shape::Polygon2DList::drawPolygonVertexsWorld(edk::uint32 polygon,edk::color3f32 color){
+    //draw the polygons
+    if(polygon<this->polygons.size()){
+        if(this->polygons.havePos(polygon)){
+            edk::GU::guColor3f32(color);edkEnd();
+            this->polygons.get(polygon)->drawPolygonVertexsWorld(edk::color4f32(color.r,color.g,color.b,1.f));edkEnd();
             return true;
         }
     }

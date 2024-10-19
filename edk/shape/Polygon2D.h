@@ -167,7 +167,8 @@ public:
     edk::rectf32 generateBoundingBox(edk::vector::Matrixf32<3u,3u>* transformMat);
     bool calculateBoundingPoint(edk::vec2f32* point,edk::vector::Matrixf32<3u,3u>* transformMat);
     edk::vec2f32 generateBoundingPoint(edk::vector::Matrixf32<3u,3u>* transformMat);
-    bool getWorldPolygon(edk::shape::Polygon2D* dest,edk::vector::Matrixf32<3u,3u>* transformMat);
+    bool getWorldPolygonClone(edk::shape::Polygon2D* dest,edk::vector::Matrixf32<3u,3u>* transformMat);
+    bool getWorldPolygonCopy(edk::shape::Polygon2D* dest,edk::vector::Matrixf32<3u,3u>* transformMat);
 
     //delete the polygonVertex
     virtual void deletePolygon();
@@ -309,10 +310,13 @@ public:
     virtual void print();
     //Draw the polygon
     virtual void draw();
-    //Draw the polygon with lines
+    //Draw the polygons with lines
     virtual void drawWire();
+    //Draw the polygons with lines without using matrices
+    virtual void drawWireWorld();
     //draw vertexs
     virtual void drawPolygonVertexs(edk::color4f32 color=edk::color4f32(1,1,1,1));
+    virtual void drawPolygonVertexsWorld(edk::color4f32 color=edk::color4f32(1,1,1,1));
 
     //Write to XML
     bool writeToXML(edk::XML* xml,edk::uint32 polygonID);

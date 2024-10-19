@@ -46,9 +46,7 @@ edk::Object2D::~Object2D(){
 
 //Draw function
 //HIDE
-void edk::Object2D::drawHideBoundingBox(){
-    //
-}
+void edk::Object2D::drawHideBoundingBox(){}
 void edk::Object2D::drawHide(bool ){}
 void edk::Object2D::drawHideOneTexture(){}
 void edk::Object2D::drawHideOneTextureWithLight(bool ){}
@@ -906,6 +904,53 @@ bool edk::Object2D::writeChildremBoundingBox(edk::rectf32* rect,edk::vector::Mat
     return true;
 }
 
+void edk::Object2D::loadFatherMatrix(edk::vector::Matrixf32<3u,3u>* transformMat){
+    if(this->father){
+        //calculate the boundingBox from the father
+        this->father->loadFatherMatrix(transformMat);
+
+        edk::Math::generateScaleMatrix(this->connectedSize,&this->matrixSize);edkEnd();
+        edk::Math::generateRotateMatrixZ(this->connectedAngle,&this->matrixAngle);edkEnd();
+        edk::Math::generateTranslateMatrix(this->connectedPosition,&this->matrixPosition);edkEnd();
+        edk::Math::generateTranslateMatrix(this->connectedPivo*-1.0f,&this->matrixPivo);edkEnd();
+        transformMat->multiplyThisWithMatrix(&this->matrixSize);edkEnd();
+        transformMat->multiplyThisWithMatrix(&this->matrixAngle);edkEnd();
+        transformMat->multiplyThisWithMatrix(&this->matrixPosition);edkEnd();
+        transformMat->multiplyThisWithMatrix(&this->matrixPivo);edkEnd();
+
+        //first copy the matrix
+        //generate transform matrices
+        edk::Math::generateTranslateMatrix(this->position,&this->matrixPosition);edkEnd();
+        edk::Math::generateRotateMatrixZ(this->angle,&this->matrixAngle);edkEnd();
+        edk::Math::generateScaleMatrix(this->size,&this->matrixSize);edkEnd();
+        edk::Math::generateTranslateMatrix(this->pivo*-1.0f,&this->matrixPivo);edkEnd();
+        //translate
+        transformMat->multiplyThisWithMatrix(&this->matrixPosition);edkEnd();
+        //angle
+        transformMat->multiplyThisWithMatrix(&this->matrixAngle);edkEnd();
+        //scale
+        transformMat->multiplyThisWithMatrix(&this->matrixSize);edkEnd();
+        //Pivo
+        transformMat->multiplyThisWithMatrix(&this->matrixPivo);edkEnd();
+    }
+    else{
+        //first copy the matrix
+        //generate transform matrices
+        edk::Math::generateTranslateMatrix(this->position,&this->matrixPosition);edkEnd();
+        edk::Math::generateRotateMatrixZ(this->angle,&this->matrixAngle);edkEnd();
+        edk::Math::generateScaleMatrix(this->size,&this->matrixSize);edkEnd();
+        edk::Math::generateTranslateMatrix(this->pivo*-1.0f,&this->matrixPivo);edkEnd();
+        //translate
+        transformMat->multiplyThisWithMatrix(&this->matrixPosition);edkEnd();
+        //angle
+        transformMat->multiplyThisWithMatrix(&this->matrixAngle);edkEnd();
+        //scale
+        transformMat->multiplyThisWithMatrix(&this->matrixSize);edkEnd();
+        //Pivo
+        transformMat->multiplyThisWithMatrix(&this->matrixPivo);edkEnd();
+    }
+}
+
 //Function to read the actions
 edk::Action* edk::Object2D::readXMLAction(edk::classID /*thisPointer*/,edk::uint32 /*actionCode*/){
     /*
@@ -969,7 +1014,7 @@ void edk::Object2D::drawChildremsBackBoundingBox(){
     edk::Object2D* obj;
     for(edk::uint32 i=0u;i<size;i++){
         obj = this->childremsBack.getElementInPosition(i);
-        obj->drawChildBackBoundingBox();
+        obj->drawChildBoundingBox();
     }
 }
 void edk::Object2D::drawChildBackBoundingBox(){
@@ -1007,7 +1052,7 @@ void edk::Object2D::drawChildremsFrontBoundingBox(){
     edk::Object2D* obj;
     for(edk::uint32 i=0u;i<size;i++){
         obj = this->childremsFront.getElementInPosition(i);
-        obj->drawChildFrontBoundingBox();
+        obj->drawChildBoundingBox();
     }
 }
 void edk::Object2D::drawChildFrontBoundingBox(){
@@ -1034,6 +1079,7 @@ void edk::Object2D::drawChildFrontBoundingBox(){
     (this->*functionDrawBoundingBox)();
 
     this->drawChildremsFrontBoundingBox();
+
     edk::GU::guPopMatrix();edkEnd();
     //}
 }
@@ -1042,12 +1088,12 @@ void edk::Object2D::drawChildremsBoundingBox(){
     edk::Object2D* obj;
     for(edk::uint32 i=0u;i<size;i++){
         obj = this->childremsBack.getElementInPosition(i);
-        obj->drawChildBackBoundingBox();
+        obj->drawChildBoundingBox();
     }
     size = this->childremsFront.size();
     for(edk::uint32 i=0u;i<size;i++){
         obj = this->childremsFront.getElementInPosition(i);
-        obj->drawChildFrontBoundingBox();
+        obj->drawChildBoundingBox();
     }
 }
 void edk::Object2D::drawChildBoundingBox(){
@@ -1086,7 +1132,7 @@ void edk::Object2D::drawChildremsBack(bool haveLight){
     edk::Object2D* obj;
     for(edk::uint32 i=0u;i<size;i++){
         obj = this->childremsBack.getElementInPosition(i);
-        obj->drawChildBack(haveLight);
+        obj->drawChild(haveLight);
     }
 }
 void edk::Object2D::drawChildBack(bool haveLight){
@@ -1111,8 +1157,6 @@ void edk::Object2D::drawChildBack(bool haveLight){
 
     (this->*functionDraw)(haveLight);
 
-    this->drawChildremsFront(haveLight);
-
     //glEnable(GL_RESCALE_NORMAL);edkEnd();
     edk::GU::guPopMatrix();edkEnd();
 }
@@ -1121,7 +1165,7 @@ void edk::Object2D::drawChildremsFront(bool haveLight){
     edk::Object2D* obj;
     for(edk::uint32 i=0u;i<size;i++){
         obj = this->childremsFront.getElementInPosition(i);
-        obj->drawChildFront(haveLight);
+        obj->drawChild(haveLight);
     }
 }
 void edk::Object2D::drawChildFront(bool haveLight){
@@ -1153,12 +1197,12 @@ void edk::Object2D::drawChildrems(bool haveLight){
     edk::Object2D* obj;
     for(edk::uint32 i=0u;i<size;i++){
         obj = this->childremsBack.getElementInPosition(i);
-        obj->drawChildBack(haveLight);
+        obj->drawChild(haveLight);
     }
     size = this->childremsFront.size();
     for(edk::uint32 i=0u;i<size;i++){
         obj = this->childremsFront.getElementInPosition(i);
-        obj->drawChildFront(haveLight);
+        obj->drawChild(haveLight);
     }
 }
 void edk::Object2D::drawChild(bool haveLight){
@@ -1192,7 +1236,7 @@ void edk::Object2D::drawChildremsBackOneTexture(){
     edk::Object2D* obj;
     for(edk::uint32 i=0u;i<size;i++){
         obj = this->childremsBack.getElementInPosition(i);
-        obj->drawChildBackOneTexture();
+        obj->drawChildOneTexture();
     }
 }
 void edk::Object2D::drawChildBackOneTexture(){
@@ -1224,7 +1268,7 @@ void edk::Object2D::drawChildremsFrontOneTexture(){
     edk::Object2D* obj;
     for(edk::uint32 i=0u;i<size;i++){
         obj = this->childremsFront.getElementInPosition(i);
-        obj->drawChildFrontOneTexture();
+        obj->drawChildOneTexture();
     }
 }
 void edk::Object2D::drawChildFrontOneTexture(){
@@ -1255,12 +1299,12 @@ void edk::Object2D::drawChildremsOneTexture(){
     edk::Object2D* obj;
     for(edk::uint32 i=0u;i<size;i++){
         obj = this->childremsBack.getElementInPosition(i);
-        obj->drawChildBackOneTexture();
+        obj->drawChildOneTexture();
     }
     size = this->childremsFront.size();
     for(edk::uint32 i=0u;i<size;i++){
         obj = this->childremsFront.getElementInPosition(i);
-        obj->drawChildFrontOneTexture();
+        obj->drawChildOneTexture();
     }
 }
 void edk::Object2D::drawChildOneTexture(){
@@ -1286,6 +1330,7 @@ void edk::Object2D::drawChildOneTexture(){
     (this->*functionDrawOneTexture)();
 
     this->drawChildremsFrontOneTexture();
+
     edk::GU::guPopMatrix();edkEnd();
 }
 void edk::Object2D::drawChildremsBackOneTextureWithLight(bool haveLight){
@@ -1293,7 +1338,7 @@ void edk::Object2D::drawChildremsBackOneTextureWithLight(bool haveLight){
     edk::Object2D* obj;
     for(edk::uint32 i=0u;i<size;i++){
         obj = this->childremsBack.getElementInPosition(i);
-        obj->drawChildBackOneTextureWithLight(haveLight);
+        obj->drawChildOneTextureWithLight(haveLight);
     }
 }
 void edk::Object2D::drawChildBackOneTextureWithLight(bool haveLight){
@@ -1325,7 +1370,7 @@ void edk::Object2D::drawChildremsFrontOneTextureWithLight(bool haveLight){
     edk::Object2D* obj;
     for(edk::uint32 i=0u;i<size;i++){
         obj = this->childremsFront.getElementInPosition(i);
-        obj->drawChildFrontOneTextureWithLight(haveLight);
+        obj->drawChildOneTextureWithLight(haveLight);
     }
 }
 void edk::Object2D::drawChildFrontOneTextureWithLight(bool haveLight){
@@ -1349,6 +1394,7 @@ void edk::Object2D::drawChildFrontOneTextureWithLight(bool haveLight){
     (this->*functionDrawOneTextureWithLight)(haveLight);
 
     this->drawChildremsFrontOneTextureWithLight(haveLight);
+
     edk::GU::guPopMatrix();edkEnd();
 }
 void edk::Object2D::drawChildremsOneTextureWithLight(bool haveLight){
@@ -1356,12 +1402,12 @@ void edk::Object2D::drawChildremsOneTextureWithLight(bool haveLight){
     edk::Object2D* obj;
     for(edk::uint32 i=0u;i<size;i++){
         obj = this->childremsBack.getElementInPosition(i);
-        obj->drawChildBackOneTextureWithLight(haveLight);
+        obj->drawChildOneTextureWithLight(haveLight);
     }
     size = this->childremsFront.size();
     for(edk::uint32 i=0u;i<size;i++){
         obj = this->childremsFront.getElementInPosition(i);
-        obj->drawChildFrontOneTextureWithLight(haveLight);
+        obj->drawChildOneTextureWithLight(haveLight);
     }
 }
 void edk::Object2D::drawChildOneTextureWithLight(bool haveLight){
@@ -1387,6 +1433,7 @@ void edk::Object2D::drawChildOneTextureWithLight(bool haveLight){
     (this->*functionDrawOneTextureWithLight)(haveLight);
 
     this->drawChildremsFrontOneTextureWithLight(haveLight);
+
     edk::GU::guPopMatrix();edkEnd();
 }
 void edk::Object2D::drawChildremsBackWithoutMaterial(){
@@ -1394,7 +1441,7 @@ void edk::Object2D::drawChildremsBackWithoutMaterial(){
     edk::Object2D* obj;
     for(edk::uint32 i=0u;i<size;i++){
         obj = this->childremsBack.getElementInPosition(i);
-        obj->drawChildBackWithoutMaterial();
+        obj->drawChildWithoutMaterial();
     }
 }
 void edk::Object2D::drawChildBackWithoutMaterial(){
@@ -1426,7 +1473,7 @@ void edk::Object2D::drawChildremsFrontWithoutMaterial(){
     edk::Object2D* obj;
     for(edk::uint32 i=0u;i<size;i++){
         obj = this->childremsFront.getElementInPosition(i);
-        obj->drawChildFrontWithoutMaterial();
+        obj->drawChildWithoutMaterial();
     }
 }
 void edk::Object2D::drawChildFrontWithoutMaterial(){
@@ -1457,7 +1504,9 @@ void edk::Object2D::drawChildFrontWithoutMaterial(){
             mesh->drawWithoutMaterial();edkEnd();
         }
     }
+
     this->drawChildremsFrontWithoutMaterial();
+
     edk::GU::guPopMatrix();edkEnd();
 }
 void edk::Object2D::drawChildremsWithoutMaterial(){
@@ -1465,12 +1514,12 @@ void edk::Object2D::drawChildremsWithoutMaterial(){
     edk::Object2D* obj;
     for(edk::uint32 i=0u;i<size;i++){
         obj = this->childremsBack.getElementInPosition(i);
-        obj->drawChildBackWithoutMaterial();
+        obj->drawChildWithoutMaterial();
     }
     size = this->childremsFront.size();
     for(edk::uint32 i=0u;i<size;i++){
         obj = this->childremsFront.getElementInPosition(i);
-        obj->drawChildFrontWithoutMaterial();
+        obj->drawChildWithoutMaterial();
     }
 }
 void edk::Object2D::drawChildWithoutMaterial(){
@@ -1503,7 +1552,9 @@ void edk::Object2D::drawChildWithoutMaterial(){
             mesh->drawWithoutMaterial();edkEnd();
         }
     }
+
     this->drawChildremsFrontWithoutMaterial();
+
     edk::GU::guPopMatrix();edkEnd();
 }
 void edk::Object2D::drawChildremsBackWithoutMaterialWithLight(bool haveLight){
@@ -1511,7 +1562,7 @@ void edk::Object2D::drawChildremsBackWithoutMaterialWithLight(bool haveLight){
     edk::Object2D* obj;
     for(edk::uint32 i=0u;i<size;i++){
         obj = this->childremsBack.getElementInPosition(i);
-        obj->drawChildBackWithoutMaterialWithLight(haveLight);
+        obj->drawChildWithoutMaterialWithLight(haveLight);
     }
 }
 void edk::Object2D::drawChildBackWithoutMaterialWithLight(bool haveLight){
@@ -1543,7 +1594,7 @@ void edk::Object2D::drawChildremsFrontWithoutMaterialWithLight(bool haveLight){
     edk::Object2D* obj;
     for(edk::uint32 i=0u;i<size;i++){
         obj = this->childremsFront.getElementInPosition(i);
-        obj->drawChildFrontWithoutMaterialWithLight(haveLight);
+        obj->drawChildWithoutMaterialWithLight(haveLight);
     }
 }
 void edk::Object2D::drawChildFrontWithoutMaterialWithLight(bool haveLight){
@@ -1567,6 +1618,7 @@ void edk::Object2D::drawChildFrontWithoutMaterialWithLight(bool haveLight){
     (this->*functionDrawWithoutMaterialWithLight)(haveLight);
 
     this->drawChildremsFrontWithoutMaterialWithLight(haveLight);
+
     edk::GU::guPopMatrix();edkEnd();
 }
 void edk::Object2D::drawChildremsWithoutMaterialWithLight(bool haveLight){
@@ -1574,12 +1626,12 @@ void edk::Object2D::drawChildremsWithoutMaterialWithLight(bool haveLight){
     edk::Object2D* obj;
     for(edk::uint32 i=0u;i<size;i++){
         obj = this->childremsBack.getElementInPosition(i);
-        obj->drawChildBackWithoutMaterialWithLight(haveLight);
+        obj->drawChildWithoutMaterialWithLight(haveLight);
     }
     size = this->childremsFront.size();
     for(edk::uint32 i=0u;i<size;i++){
         obj = this->childremsFront.getElementInPosition(i);
-        obj->drawChildFrontWithoutMaterialWithLight(haveLight);
+        obj->drawChildWithoutMaterialWithLight(haveLight);
     }
 }
 void edk::Object2D::drawChildWithoutMaterialWithLight(bool haveLight){
@@ -1605,6 +1657,7 @@ void edk::Object2D::drawChildWithoutMaterialWithLight(bool haveLight){
     (this->*functionDrawWithoutMaterialWithLight)(haveLight);
 
     this->drawChildremsFrontWithoutMaterialWithLight(haveLight);
+
     edk::GU::guPopMatrix();edkEnd();
 }
 void edk::Object2D::drawChildremsBackWire(){
@@ -1612,7 +1665,7 @@ void edk::Object2D::drawChildremsBackWire(){
     edk::Object2D* obj;
     for(edk::uint32 i=0u;i<size;i++){
         obj = this->childremsBack.getElementInPosition(i);
-        obj->drawChildBackWire();
+        obj->drawChildWire();
     }
 }
 void edk::Object2D::drawChildBackWire(){
@@ -1644,7 +1697,7 @@ void edk::Object2D::drawChildremsFrontWire(){
     edk::Object2D* obj;
     for(edk::uint32 i=0u;i<size;i++){
         obj = this->childremsFront.getElementInPosition(i);
-        obj->drawChildFrontWire();
+        obj->drawChildWire();
     }
 }
 void edk::Object2D::drawChildFrontWire(){
@@ -1668,6 +1721,7 @@ void edk::Object2D::drawChildFrontWire(){
     (this->*functionDrawWire)();
 
     this->drawChildremsFrontWire();
+
     edk::GU::guPopMatrix();edkEnd();
 }
 void edk::Object2D::drawChildremsWire(){
@@ -1675,12 +1729,12 @@ void edk::Object2D::drawChildremsWire(){
     edk::Object2D* obj;
     for(edk::uint32 i=0u;i<size;i++){
         obj = this->childremsBack.getElementInPosition(i);
-        obj->drawChildBackWire();
+        obj->drawChildWire();
     }
     size = this->childremsFront.size();
     for(edk::uint32 i=0u;i<size;i++){
         obj = this->childremsFront.getElementInPosition(i);
-        obj->drawChildFrontWire();
+        obj->drawChildWire();
     }
 }
 void edk::Object2D::drawChildWire(){
@@ -1706,6 +1760,7 @@ void edk::Object2D::drawChildWire(){
     (this->*functionDrawWire)();
 
     this->drawChildremsFrontWire();
+
     edk::GU::guPopMatrix();edkEnd();
 }
 //draw the pivo
@@ -1714,7 +1769,7 @@ void edk::Object2D::drawChildremsBackPivo(edk::float32 size,edk::color3f32 color
     edk::Object2D* obj;
     for(edk::uint32 i=0u;i<cSize;i++){
         obj = this->childremsBack.getElementInPosition(i);
-        obj->drawChildBackPivo(size,color);
+        obj->drawChildPivo(size,color);
     }
 }
 void edk::Object2D::drawChildBackPivo(edk::float32 size,edk::color3f32 color){
@@ -1738,7 +1793,7 @@ void edk::Object2D::drawChildremsFrontPivo(edk::float32 size,edk::color3f32 colo
     edk::Object2D* obj;
     for(edk::uint32 i=0u;i<cSize;i++){
         obj = this->childremsFront.getElementInPosition(i);
-        obj->drawChildFrontPivo(size,color);
+        obj->drawChildPivo(size,color);
     }
 }
 void edk::Object2D::drawChildFrontPivo(edk::float32 size,edk::color3f32 color){
@@ -1762,12 +1817,12 @@ void edk::Object2D::drawChildremsPivo(edk::float32 size,edk::color3f32 color){
     edk::Object2D* obj;
     for(edk::uint32 i=0u;i<cSize;i++){
         obj = this->childremsBack.getElementInPosition(i);
-        obj->drawChildBackPivo(size,color);
+        obj->drawChildPivo(size,color);
     }
     cSize = this->childremsFront.size();
     for(edk::uint32 i=0u;i<cSize;i++){
         obj = this->childremsFront.getElementInPosition(i);
-        obj->drawChildFrontPivo(size,color);
+        obj->drawChildPivo(size,color);
     }
 }
 void edk::Object2D::drawChildPivo(edk::float32 size,edk::color3f32 color){
@@ -1804,7 +1859,7 @@ void edk::Object2D::drawChildremsBackPivo(edk::float32 size,edk::float32 r,edk::
     edk::Object2D* obj;
     for(edk::uint32 i=0u;i<cSize;i++){
         obj = this->childremsBack.getElementInPosition(i);
-        obj->drawChildBackPivo(size,r,g,b);
+        obj->drawChildPivo(size,r,g,b);
     }
 }
 void edk::Object2D::drawChildBackPivo(edk::float32 size,edk::float32 r,edk::float32 g,edk::float32 b){
@@ -1856,7 +1911,7 @@ void edk::Object2D::drawChildremsFrontPivo(edk::float32 size,edk::float32 r,edk:
     edk::Object2D* obj;
     for(edk::uint32 i=0u;i<cSize;i++){
         obj = this->childremsFront.getElementInPosition(i);
-        obj->drawChildFrontPivo(size,r,g,b);
+        obj->drawChildPivo(size,r,g,b);
     }
 }
 void edk::Object2D::drawChildFrontPivo(edk::float32 size,edk::float32 r,edk::float32 g,edk::float32 b){
@@ -1909,12 +1964,12 @@ void edk::Object2D::drawChildremsPivo(edk::float32 size,edk::float32 r,edk::floa
     edk::Object2D* obj;
     for(edk::uint32 i=0u;i<cSize;i++){
         obj = this->childremsBack.getElementInPosition(i);
-        obj->drawChildBackPivo(size,r,g,b);
+        obj->drawChildPivo(size,r,g,b);
     }
     cSize = this->childremsFront.size();
     for(edk::uint32 i=0u;i<cSize;i++){
         obj = this->childremsFront.getElementInPosition(i);
-        obj->drawChildFrontPivo(size,r,g,b);
+        obj->drawChildPivo(size,r,g,b);
     }
 }
 void edk::Object2D::drawChildPivo(edk::float32 size,edk::float32 r,edk::float32 g,edk::float32 b){
@@ -3362,6 +3417,7 @@ void edk::Object2D::drawBoundingBox(){
     (this->*functionDrawBoundingBox)();
 
     this->drawChildremsFrontBoundingBox();
+
     edk::GU::guPopMatrix();edkEnd();
     //}
 }
@@ -3399,6 +3455,7 @@ void edk::Object2D::draw(){
     (this->*functionDraw)(haveLight);
 
     this->drawChildremsFront(haveLight);
+
     //glEnable(GL_RESCALE_NORMAL);edkEnd();
     edk::GU::guDisable(GU_LIGHTING);edkEnd();
     edk::GU::guPopMatrix();edkEnd();
@@ -3421,6 +3478,7 @@ void edk::Object2D::drawOneTexture(){
     (this->*functionDrawOneTexture)();
 
     this->drawChildremsFrontOneTexture();
+
     edk::GU::guPopMatrix();edkEnd();
 }
 void edk::Object2D::drawOneTextureWithLight(){
@@ -3458,6 +3516,7 @@ void edk::Object2D::drawOneTextureWithLight(){
     (this->*functionDrawOneTextureWithLight)(haveLight);
 
     this->drawChildremsFrontOneTextureWithLight(haveLight);
+
     edk::GU::guDisable(GU_LIGHTING);edkEnd();
     edk::GU::guPopMatrix();edkEnd();
 }
@@ -3478,6 +3537,7 @@ void edk::Object2D::drawWithoutMaterial(){
     (this->*functionDrawWithoutMaterial)();
 
     this->drawChildremsFrontWithoutMaterial();
+
     edk::GU::guPopMatrix();edkEnd();
 }
 void edk::Object2D::drawWithoutMaterialWithLight(){
@@ -3515,6 +3575,7 @@ void edk::Object2D::drawWithoutMaterialWithLight(){
     (this->*functionDrawWithoutMaterialWithLight)(haveLight);
 
     this->drawChildremsFrontWithoutMaterialWithLight(haveLight);
+
     edk::GU::guDisable(GU_LIGHTING);edkEnd();
     edk::GU::guPopMatrix();edkEnd();
 }
@@ -3535,6 +3596,7 @@ void edk::Object2D::drawWire(){
     (this->*functionDrawWire)();
 
     this->drawChildremsFrontWire();
+
     edk::GU::guPopMatrix();edkEnd();
 }
 void edk::Object2D::drawWirePolygon(edk::uint32 meshPosition,edk::uint32 polygon){

@@ -135,9 +135,9 @@ public:
     bool lightOff(edk::uint32 position);
 
     //HIDE
-    bool hide();
+    virtual bool hide();
     //UNHIDE
-    bool unhide();
+    virtual bool unhide();
 
     bool getHided();
     bool isHided();
@@ -442,6 +442,10 @@ protected:
     //update the values from father
     bool updateValuesFromFather(edk::vector::Matrixf32<3u,3u>* matrixTransform);
 
+protected:
+
+    edk::Object2D* father;
+
 private:
     //Tree Static Vector
     edk::light::Light lights[EDK_LIGHT_LIMIT];
@@ -463,20 +467,29 @@ private:
     edk::vec2f32  savePivo;
     edk::size2f32 newSize;
 
+protected:
+
     //connected objects tree
     edk::vector::BinaryTree<edk::Object2D*> childremsFront;
     edk::vector::BinaryTree<edk::Object2D*> childremsBack;
-    edk::Object2D* father;
+
+private:
 
 
     //object boundingBox
     edk::rectf32 boundingBox;
+
+protected:
 
     void writeFatherBoundingBox(edk::rectf32* rect,edk::vector::Matrixf32<3u,3u>* transformMat);
     bool writeBoundingBox(edk::rectf32* rect);
     bool writeBoundingBox(edk::rectf32* rect,edk::vector::Matrixf32<3u,3u>* transformMat);
     bool writeChildremBoundingBox(edk::rectf32* rect);
     bool writeChildremBoundingBox(edk::rectf32* rect,edk::vector::Matrixf32<3u,3u>* transformMat);
+
+    void loadFatherMatrix(edk::vector::Matrixf32<3u,3u>* transformMat);
+
+private:
 
     //Function to read the actions
     static edk::Action* readXMLAction(edk::classID thisPointer,edk::uint32 actionCode);

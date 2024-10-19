@@ -8971,8 +8971,8 @@ edk::vec2f32 edk::shape::Polygon2D::generateBoundingPoint(edk::vector::Matrixf32
     }
     return ret;
 }
-bool edk::shape::Polygon2D::getWorldPolygon(edk::shape::Polygon2D* dest,edk::vector::Matrixf32<3u,3u>* transformMat){
-    bool ret=false;edkEnd();
+bool edk::shape::Polygon2D::getWorldPolygonClone(edk::shape::Polygon2D* dest,edk::vector::Matrixf32<3u,3u>* transformMat){
+    bool ret = false;edkEnd();
     if(dest){
         edk::uint32 size = this->getVertexCount();edkEnd();
         if(size){
@@ -9006,6 +9006,52 @@ bool edk::shape::Polygon2D::getWorldPolygon(edk::shape::Polygon2D* dest,edk::vec
                                 this->matrixPosition.multiplyMatrixWithThis((edk::vector::MatrixDynamic<edk::float32>*)&this->matrixTransform);edkEnd();
 
                                 dest->setVertexPosition(i,this->matrixPosition.getNoIF(0u,0u),this->matrixPosition.getNoIF(0u,1u));edkEnd();
+                                ret = true;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return ret;
+}
+bool edk::shape::Polygon2D::getWorldPolygonCopy(edk::shape::Polygon2D* dest,edk::vector::Matrixf32<3u,3u>* transformMat){
+    bool ret=false;edkEnd();
+    if(dest){
+        edk::uint32 size = this->getVertexCount();edkEnd();
+        if(size){
+            //first copy the matrix
+            if(this->matrixTransform.cloneFrom(transformMat)){
+                //generate transform matrices
+                edk::Math::generateTranslateMatrix(this->translate,&this->matrixTranslate);edkEnd();
+                edk::Math::generateRotateMatrixZ(this->angle,&this->matrixRotate);edkEnd();
+                edk::Math::generateScaleMatrix(this->scale,&this->matrixScale);edkEnd();
+
+                //multiply the matrix by
+                //translate
+                this->matrixTransform.multiplyThisWithMatrix(&this->matrixTranslate);edkEnd();
+                //angle
+                this->matrixTransform.multiplyThisWithMatrix(&this->matrixRotate);edkEnd();
+                //scale
+                this->matrixTransform.multiplyThisWithMatrix(&this->matrixScale);edkEnd();
+
+                //transform all the vertices
+                if(this->matrixPosition.haveMatrix()){
+                    //clone the polygon
+                    if(dest->getVertexCount() == size){
+                        //move the vertexes
+                        for(edk::uint32 i=0u;i<size;i++){
+                            if(vertexs.get(i)){
+                                this->matrixPosition.set(0u,0u,vertexs.getNoIF(i)->position.x);edkEnd();
+                                this->matrixPosition.set(0u,1u,vertexs.getNoIF(i)->position.y);edkEnd();
+                                this->matrixPosition.set(0u,2u,1.f);edkEnd();
+
+                                //multiply the matrix
+                                this->matrixPosition.multiplyMatrixWithThis((edk::vector::MatrixDynamic<edk::float32>*)&this->matrixTransform);edkEnd();
+
+                                dest->setVertexPosition(i,this->matrixPosition.getNoIF(0u,0u),this->matrixPosition.getNoIF(0u,1u));edkEnd();
+                                ret=true;
                             }
                         }
                     }
@@ -9716,7 +9762,7 @@ void edk::shape::Polygon2D::draw(){
 
     edk::GU::guPopMatrix();edkEnd();
 }
-//Draw the polygon with lines
+//Draw the polygons with lines
 void edk::shape::Polygon2D::drawWire(){
     edk::GU::guPushMatrix();edkEnd();
     edk::GU::guTranslate2f32(this->translate);edkEnd();
@@ -9732,8 +9778,21 @@ void edk::shape::Polygon2D::drawWire(){
 
     edk::GU::guPopMatrix();edkEnd();
 }
+//Draw the polygons with lines without using matrices
+void edk::shape::Polygon2D::drawWireWorld(){
+    //drawVBO
+    (this->*vboDraw)(GU_LINE_LOOP);
+}
 //draw vertexs
 void edk::shape::Polygon2D::drawPolygonVertexs(edk::color4f32 color){
+    edk::GU::guBegin(GL_POINTS);edkEnd();
+    //edk::GU::guBegin(GU_LINE_LOOP);edkEnd();
+    this->drawVertexsWithColor(color);edkEnd();
+    edk::GU::guEnd();edkEnd();
+    //drawVBO
+    //(this->*vboDrawPolygonVertexes)(color);
+}
+void edk::shape::Polygon2D::drawPolygonVertexsWorld(edk::color4f32 color){
     edk::GU::guBegin(GL_POINTS);edkEnd();
     //edk::GU::guBegin(GU_LINE_LOOP);edkEnd();
     this->drawVertexsWithColor(color);edkEnd();

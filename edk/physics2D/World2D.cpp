@@ -2943,12 +2943,12 @@ bool edk::physics2D::World2D::updateObjectPositionAndAngle(edk::physics2D::Physi
 #if defined(EDK_USE_BOX2D)
         if(temp){
             temp->ApplyUpdatePosition(b2Vec2(object->position.x,object->position.y));edkEnd();
-            temp->SetLinearVelocity(b2Vec2(object->position.x - temp->GetPosition().x
-                                           ,object->position.y - temp->GetPosition().y
+            temp->SetLinearVelocity(b2Vec2(0.f//object->position.x - temp->GetPosition().x
+                                           ,0.f//object->position.y - temp->GetPosition().y
                                            )
                                     );edkEnd();
             temp->ApplyUpdateAngle(object->angle);edkEnd();
-            temp->SetAngularVelocity(object->angle - temp->GetAngle());edkEnd();
+            temp->SetAngularVelocity(0.f/*object->angle - temp->GetAngle()*/);edkEnd();
             temp->SetAwake(true);edkEnd();
             return true;
         }

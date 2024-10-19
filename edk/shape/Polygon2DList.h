@@ -82,6 +82,9 @@ public:
     edk::vec2f32 generateBoundingPoint(edk::vec2f32 point,edk::vector::Matrixf32<3u,3u>* transformMat);
     bool getWorldPolygon(edk::shape::Polygon2D* dest,edk::uint32 polygonPosition,edk::vector::Matrixf32<3u,3u>* transformMat);
 
+    //generate world polygons from list into another list
+    bool generateWorldPolygons(edk::shape::Polygon2DList* dest,edk::vector::Matrixf32<3u,3u>* transformMat);
+
     //ADD
     //add a polygon to the mesh
     virtual edk::uint32 addPolygon(edk::shape::Polygon2D polygon);
@@ -215,6 +218,11 @@ public:
     virtual bool drawWirePolygon(edk::uint32 polygon);
     virtual void drawVertexs(edk::color3f32 color = edk::color3f32(1,1,1));
     virtual bool drawPolygonVertexs(edk::uint32 polygon,edk::color3f32 color = edk::color3f32(1,1,1));
+    //draw the polygons in wireframe in world points
+    virtual void drawWirePolygonsWorld();
+    virtual bool drawWirePolygonWorld(edk::uint32 polygon);
+    virtual void drawVertexsWorld(edk::color3f32 color = edk::color3f32(1,1,1));
+    virtual bool drawPolygonVertexsWorld(edk::uint32 polygon,edk::color3f32 color = edk::color3f32(1,1,1));
 
 protected:
     //list of polygons

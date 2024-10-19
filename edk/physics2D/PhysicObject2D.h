@@ -51,9 +51,15 @@ public:
 
     //physics meshs
     edk::physics2D::PhysicsMesh2D physicMesh;
+    edk::physics2D::PhysicsMesh2D physicMeshWorld;
 
     //clean the obect
     virtual void clean();
+
+    //HIDE
+    virtual bool hide();
+    //UNHIDE
+    virtual bool unhide();
 
     //set the lonearVelocity
     void setLinearVelocity(edk::vec2f32 velocity);
@@ -76,7 +82,7 @@ public:
     //return if set angular velocoty
     bool haveSettedAngularVelocity();
 
-    //function to calculate physicBoundingBox
+    //function to calculate boundingBoxPhysic
     bool calculateBoundingBoxPhysic();
     bool calculateBoundingBoxPhysic(edk::vector::Matrixf32<3u,3u>* transformMat);
     bool generateBoundingBoxPhysic();
@@ -86,8 +92,24 @@ public:
     edk::rectf32 calculateNewBoundingBoxPhysic(edk::vector::Matrixf32<3u,3u>* transformMat);
     edk::rectf32 generateNewBoundingBoxPhysic();
     edk::rectf32 generateNewBoundingBoxPhysic(edk::vector::Matrixf32<3u,3u>* transformMat);
+
+    //function to calculate boundingBoxPhysic
+    bool calculateBoundingBoxPhysicNoChildrem();
+    bool calculateBoundingBoxPhysicNoChildrem(edk::vector::Matrixf32<3u,3u>* transformMat);
+    bool generateBoundingBoxPhysicNoChildrem();
+    bool generateBoundingBoxPhysicNoChildrem(edk::vector::Matrixf32<3u,3u>* transformMat);
+    //functions to calculate a new boundingBoxPhysic
+    edk::rectf32 calculateNewBoundingBoxPhysicNoChildrem();
+    edk::rectf32 calculateNewBoundingBoxPhysicNoChildrem(edk::vector::Matrixf32<3u,3u>* transformMat);
+    edk::rectf32 generateNewBoundingBoxPhysicNoChildrem();
+    edk::rectf32 generateNewBoundingBoxPhysicNoChildrem(edk::vector::Matrixf32<3u,3u>* transformMat);
     //return a copy of the physicBoundingBox
     edk::rectf32 getBoundingBoxPhysic();
+
+    //generate the physic mesh in the world with world vertexes
+    bool copyAndGenerateWorldPhysicMesh();
+    bool generateWorldPhysicMesh();
+    bool inline calculateWorldPhysicMesh(){return this->generateWorldPhysicMesh();}
 
     void removeAllMesh();
 
@@ -116,6 +138,7 @@ public:
 
     void drawPhysics();
     void drawWirePhysics();
+    void drawWirePhysicsWorld();
     void drawPolygonPhysics(edk::uint32 position);
     void drawPolygonWirePhysics(edk::uint32 position);
     void drawLinearVelocity(edk::color3f32 color,edk::vec2f32 position,edk::float32 scale=1.f);
@@ -153,16 +176,53 @@ public:
     //set if the body canSleep
     bool canSleep;
 private:
-    edk::rectf32 boundingBoxPhysic;
-
-    bool writeBoundingBoxPhysic(edk::rectf32* rect);
-    bool writeBoundingBoxPhysic(edk::rectf32* rect,edk::vector::Matrixf32<3u,3u>* transformMat);
+    edk::rectf32 boundingBoxPhysics;
     //transform matrices
     edk::vector::Matrixf32<3u,3u> physicMatrixPosition;
     edk::vector::Matrixf32<3u,3u> physicMatrixPivo;
     edk::vector::Matrixf32<3u,3u> physicMatrixAngle;
     edk::vector::Matrixf32<3u,3u> physicMatrixSize;
     edk::vector::Matrixf32<3u,3u> physicMatrixTransform;
+
+    void writeFatherBoundingBoxPhysic(edk::rectf32* rect,edk::vector::Matrixf32<3u,3u>* transformMat);
+    bool writeBoundingBoxPhysic(edk::rectf32* rect);
+    bool writeBoundingBoxPhysic(edk::rectf32* rect,edk::vector::Matrixf32<3u,3u>* transformMat);
+    bool writeChildremBoundingBoxPhysic(edk::rectf32* rect);
+    bool writeChildremBoundingBoxPhysic(edk::rectf32* rect,edk::vector::Matrixf32<3u,3u>* transformMat);
+
+    //draw the mesh
+    void drawChildremsBackBoundingBoxPhysics();
+    void drawChildBackBoundingBoxPhysics();
+    void drawChildremsFrontBoundingBoxPhysics();
+    void drawChildFrontBoundingBoxPhysics();
+    void drawChildremsBoundingBoxPhysics();
+    void drawChildBoundingBoxPhysics();
+    void drawChildremsBackWirePhysics();
+    void drawChildBackWirePhysics();
+    void drawChildremsFrontWirePhysics();
+    void drawChildFrontWirePhysics();
+    void drawChildremsWirePhysics();
+    void drawChildWirePhysics();
+    void drawChildremsBackWirePhysicsWorld();
+    void drawChildBackWirePhysicsWorld();
+    void drawChildremsFrontWirePhysicsWorld();
+    void drawChildFrontWirePhysicsWorld();
+    void drawChildremsWirePhysicsWorld();
+    void drawChildWirePhysicsWorld();
+
+    //Draw function
+    //HIDE
+    void drawHideBoundingBoxPhysics();
+    void drawHideWirePhysics();
+    void drawHideWirePhysicsWorld();
+    //UNHIDE
+    void drawUnhideBoundingBoxPhysics();
+    void drawUnhideWirePhysics();
+    void drawUnhideWirePhysicsWorld();
+    //FUNCTIONS DRAW
+    void (edk::physics2D::PhysicObject2D::*functionDrawBoundingBoxPhysics)();
+    void (edk::physics2D::PhysicObject2D::*functionDrawWirePhysics)();
+    void (edk::physics2D::PhysicObject2D::*functionDrawWirePhysicsWorld)();
 
     virtual edk::physics2D::PhysicObject2D operator=(edk::physics2D::PhysicObject2D obj){
         //copy the object
