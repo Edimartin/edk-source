@@ -80,6 +80,18 @@ public:
     edk::rectf32 generateBoundingBox(edk::vector::Matrixf32<3u,3u>* transformMat);
     bool calculateBoundingPoint(edk::vec2f32 point,edk::vec2f32* dest,edk::vector::Matrixf32<3u,3u>* transformMat);
     edk::vec2f32 generateBoundingPoint(edk::vec2f32 point,edk::vector::Matrixf32<3u,3u>* transformMat);
+    //function to calculate boundingBox from polygon positions
+    bool calculateBoundingBoxFromPolygons(edk::rectf32* rectangle,
+                                          edk::vector::Matrixf32<3u,3u>* transformMat,
+                                          edk::uint32 lenght,
+                                          edk::uint32* positions
+                                          );
+    edk::rectf32 generateBoundingBoxFromPolygons(edk::vector::Matrixf32<3u,3u>* transformMat,
+                                                 edk::uint32 lenght,
+                                                 edk::uint32* positions
+                                                 );
+    bool calculateBoundingPointFromPolygons(edk::vec2f32 point,edk::vec2f32* dest,edk::vector::Matrixf32<3u,3u>* transformMat);
+    edk::vec2f32 generateBoundingPointFromPolygons(edk::vec2f32 point,edk::vector::Matrixf32<3u,3u>* transformMat);
     bool getWorldPolygon(edk::shape::Polygon2D* dest,edk::uint32 polygonPosition,edk::vector::Matrixf32<3u,3u>* transformMat);
 
     //generate world polygons from list into another list

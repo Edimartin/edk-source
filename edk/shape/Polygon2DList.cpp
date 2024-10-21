@@ -292,6 +292,62 @@ edk::vec2f32 edk::shape::Polygon2DList::generateBoundingPoint(edk::vec2f32 point
     }
     return ret;
 }
+//function to calculate boundingBox from polygon positions
+bool edk::shape::Polygon2DList::calculateBoundingBoxFromPolygons(edk::rectf32* rectangle,
+                                                                 edk::vector::Matrixf32<3u,3u>* transformMat,
+                                                                 edk::uint32 lenght,
+                                                                 edk::uint32* positions
+                                                                 ){
+    if(rectangle && transformMat){
+        edk::uint32 size = this->polygons.size();edkEnd();
+        if(size){
+            edk::uint32 value;
+                for(edk::uint32 i=0u;i<lenght;i++){
+                    value = positions[i];
+                    if(this->polygons.havePos(value)){
+                        this->polygons.get(i)->calculateBoundingBox(rectangle,transformMat);edkEnd();
+                    }
+                }
+            return true;
+        }
+    }
+    return false;
+}
+edk::rectf32 edk::shape::Polygon2DList::generateBoundingBoxFromPolygons(edk::vector::Matrixf32<3u,3u>* transformMat,
+                                                                        edk::uint32 lenght,
+                                                                        edk::uint32* positions
+                                                                        ){
+    edk::rectf32 ret;edkEnd();
+    if(transformMat){
+        edk::uint32 size = this->polygons.size();edkEnd();
+        if(size){
+            edk::uint32 value;
+            //draw the polygons
+            for(edk::uint32 i=0u;i<lenght;i++){
+                value = positions[i];
+                if(this->polygons.havePos(value)){
+                    this->polygons.get(i)->calculateBoundingBox(&ret,transformMat);edkEnd();
+                }
+            }
+        }
+    }
+    return ret;
+}
+bool edk::shape::Polygon2DList::calculateBoundingPointFromPolygons(edk::vec2f32 point,edk::vec2f32* dest,edk::vector::Matrixf32<3u,3u>* transformMat){
+    if(dest && transformMat){
+        this->tempP.setVertexPosition(0u,point);
+        return this->tempP.calculateBoundingPoint(dest,transformMat);
+    }
+    return false;
+}
+edk::vec2f32 edk::shape::Polygon2DList::generateBoundingPointFromPolygons(edk::vec2f32 point,edk::vector::Matrixf32<3u,3u>* transformMat){
+    edk::vec2f32 ret;edkEnd();
+    if(transformMat){
+        this->tempP.setVertexPosition(0u,point);
+        ret = this->tempP.generateBoundingPoint(transformMat);
+    }
+    return ret;
+}
 bool edk::shape::Polygon2DList::getWorldPolygon(edk::shape::Polygon2D* dest,edk::uint32 polygonPosition,edk::vector::Matrixf32<3u,3u>* transformMat){
     bool ret=false;edkEnd();
     if(dest){

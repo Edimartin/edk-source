@@ -268,8 +268,6 @@ bool edk::physics2D::PhysicObject2D::writeBoundingBoxPhysic(edk::rectf32* rect,e
             this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixPivo);edkEnd();
         }
 
-
-
         if(this->physicMesh.getPolygonSize()){
             if(this->father){
                 *rect = this->physicMesh.generateBoundingBox(&this->physicMatrixTransform);edkEnd();
@@ -425,6 +423,173 @@ bool edk::physics2D::PhysicObject2D::writeChildremBoundingBoxPhysic(edk::rectf32
             }
             else{
                 this->physicMesh.calculateBoundingBox(rect,&this->physicMatrixTransform);edkEnd();
+            }
+        }
+        else{
+            //generate a small boundingBox
+            rect->origin = this->position - 0.1f;
+            rect->size = edk::size2f32(this->position.x + 0.1f,this->position.y + 0.1f);
+        }
+    }
+    return true;
+}
+//from polygons
+bool edk::physics2D::PhysicObject2D::writeBoundingBoxPhysicFromPolygons(edk::rectf32* rect,
+                                                                        edk::uint32 lenght,
+                                                                        edk::uint32* positions
+                                                                        ){
+    //multiply the matrix by
+    this->physicMatrixTransform.setIdentity();edkEnd();
+    if(this->father){
+        //calculate the boundingBox from the father
+        edk::physics2D::PhysicObject2D* temp = (edk::physics2D::PhysicObject2D*)this->father;
+        if(this->father->getType()>= edk::TypeObject2DPhysic
+                &&
+                this->father->getType()<= edk::TypeObject2DKinematic
+                ){
+            temp->writeFatherBoundingBoxPhysic(rect,&this->physicMatrixTransform);
+        }
+        else if(this->father->getType()== edk::TypeObject2D){
+            temp->writeFatherBoundingBox(rect,&this->physicMatrixTransform);
+        }
+
+        edk::Math::generateScaleMatrix(this->connectedSize,&this->physicMatrixSize);edkEnd();
+        edk::Math::generateRotateMatrixZ(this->connectedAngle,&this->physicMatrixAngle);edkEnd();
+        edk::Math::generateTranslateMatrix(this->connectedPosition,&this->physicMatrixPosition);edkEnd();
+        edk::Math::generateTranslateMatrix(this->connectedPivo*-1.0f,&this->physicMatrixPivo);edkEnd();
+        this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixSize);edkEnd();
+        this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixAngle);edkEnd();
+        this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixPosition);edkEnd();
+        this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixPivo);edkEnd();
+
+        //first copy the matrix
+        //generate transform matrices
+        edk::Math::generateTranslateMatrix(this->position,&this->physicMatrixPosition);edkEnd();
+        edk::Math::generateRotateMatrixZ(this->angle,&this->physicMatrixAngle);edkEnd();
+        edk::Math::generateScaleMatrix(this->size,&this->physicMatrixSize);edkEnd();
+        edk::Math::generateTranslateMatrix(this->pivo*-1.0f,&this->physicMatrixPivo);edkEnd();
+        //translate
+        this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixPosition);edkEnd();
+        //angle
+        this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixAngle);edkEnd();
+        //scale
+        this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixSize);edkEnd();
+        //Pivo
+        this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixPivo);edkEnd();
+    }
+    else{
+        //first copy the matrix
+        //generate transform matrices
+        edk::Math::generateTranslateMatrix(this->position,&this->physicMatrixPosition);edkEnd();
+        edk::Math::generateRotateMatrixZ(this->angle,&this->physicMatrixAngle);edkEnd();
+        edk::Math::generateScaleMatrix(this->size,&this->physicMatrixSize);edkEnd();
+        edk::Math::generateTranslateMatrix(this->pivo*-1.0f,&this->physicMatrixPivo);edkEnd();
+        //translate
+        this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixPosition);edkEnd();
+        //angle
+        this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixAngle);edkEnd();
+        //scale
+        this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixSize);edkEnd();
+        //Pivo
+        this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixPivo);edkEnd();
+    }
+
+    if(this->physicMesh.getPolygonSize()){
+        if(this->father){
+            this->physicMesh.calculateBoundingBoxFromPolygons(rect,
+                                                              &this->physicMatrixTransform,
+                                                              lenght,
+                                                              positions
+                                                              );edkEnd();
+        }
+        else{
+            *rect = this->physicMesh.generateBoundingBoxFromPolygons(&this->physicMatrixTransform,
+                                                                     lenght,
+                                                                     positions
+                                                                     );edkEnd();
+        }
+    }
+    else{
+        //generate a small boundingBox
+        rect->origin = this->position - 0.1f;
+        rect->size = edk::size2f32(this->position.x + 0.1f,this->position.y + 0.1f);
+    }
+    return false;
+}
+bool edk::physics2D::PhysicObject2D::writeBoundingBoxPhysicFromPolygons(edk::rectf32* rect,
+                                                                        edk::vector::Matrixf32<3u,3u>* transformMat,
+                                                                        edk::uint32 lenght,
+                                                                        edk::uint32* positions
+                                                                        ){
+    //first copy the matrix
+    if(this->physicMatrixTransform.cloneFrom(transformMat)){
+        if(this->father){
+            //calculate the boundingBox from the father
+            edk::physics2D::PhysicObject2D* temp = (edk::physics2D::PhysicObject2D*)this->father;
+            if(this->father->getType()>= edk::TypeObject2DPhysic
+                    &&
+                    this->father->getType()<= edk::TypeObject2DKinematic
+                    ){
+                temp->writeFatherBoundingBoxPhysic(rect,&this->physicMatrixTransform);
+            }
+            else if(this->father->getType()== edk::TypeObject2D){
+                temp->writeFatherBoundingBox(rect,&this->physicMatrixTransform);
+            }
+
+            edk::Math::generateScaleMatrix(this->connectedSize,&this->physicMatrixSize);edkEnd();
+            edk::Math::generateRotateMatrixZ(this->connectedAngle,&this->physicMatrixAngle);edkEnd();
+            edk::Math::generateTranslateMatrix(this->connectedPosition,&this->physicMatrixPosition);edkEnd();
+            edk::Math::generateTranslateMatrix(this->connectedPivo*-1.0f,&this->physicMatrixPivo);edkEnd();
+            this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixSize);edkEnd();
+            this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixAngle);edkEnd();
+            this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixPosition);edkEnd();
+            this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixPivo);edkEnd();
+
+            //generate transform matrices
+            edk::Math::generateTranslateMatrix(this->position,&this->physicMatrixPosition);edkEnd();
+            edk::Math::generateRotateMatrixZ(this->angle,&this->physicMatrixAngle);edkEnd();
+            edk::Math::generateScaleMatrix(this->size,&this->physicMatrixSize);edkEnd();
+            edk::Math::generateTranslateMatrix(this->pivo*-1.0f,&this->physicMatrixPivo);edkEnd();
+            //multiply the matrix by
+            //translate
+            this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixPosition);edkEnd();
+            //angle
+            this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixAngle);edkEnd();
+            //scale
+            this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixSize);edkEnd();
+            //Pivo
+            this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixPivo);edkEnd();
+        }
+        else{
+            //generate transform matrices
+            edk::Math::generateTranslateMatrix(this->position,&this->physicMatrixPosition);edkEnd();
+            edk::Math::generateRotateMatrixZ(this->angle,&this->physicMatrixAngle);edkEnd();
+            edk::Math::generateScaleMatrix(this->size,&this->physicMatrixSize);edkEnd();
+            edk::Math::generateTranslateMatrix(this->pivo*-1.0f,&this->physicMatrixPivo);edkEnd();
+            //multiply the matrix by
+            //translate
+            this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixPosition);edkEnd();
+            //angle
+            this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixAngle);edkEnd();
+            //scale
+            this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixSize);edkEnd();
+            //Pivo
+            this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixPivo);edkEnd();
+        }
+
+        if(this->physicMesh.getPolygonSize()){
+            if(this->father){
+                *rect = this->physicMesh.generateBoundingBoxFromPolygons(&this->physicMatrixTransform,
+                                                                         lenght,
+                                                                         positions
+                                                                         );edkEnd();
+            }
+            else{
+                this->physicMesh.calculateBoundingBoxFromPolygons(rect,
+                                                                  &this->physicMatrixTransform,
+                                                                  lenght,
+                                                                  positions
+                                                                  );edkEnd();
             }
         }
         else{
@@ -861,6 +1026,36 @@ bool edk::physics2D::PhysicObject2D::generateBoundingBoxPhysic(){
 bool edk::physics2D::PhysicObject2D::generateBoundingBoxPhysic(edk::vector::Matrixf32<3u,3u>* transformMat){
     return this->writeChildremBoundingBoxPhysic(&this->boundingBoxPhysics,transformMat);
 }
+//function to calculate boundingBoxPhysic from polygons
+bool edk::physics2D::PhysicObject2D::calculateBoundingBoxPhysicFromPolygons(edk::uint32 lenght,edk::uint32* positions){
+    return this->generateBoundingBoxPhysicFromPolygons(lenght,positions);
+}
+bool edk::physics2D::PhysicObject2D::calculateBoundingBoxPhysicFromPolygons(edk::vector::Matrixf32<3u,3u>* transformMat,
+                                                                            edk::uint32 lenght,
+                                                                            edk::uint32* positions
+                                                                            ){
+    return this->generateBoundingBoxPhysicFromPolygons(transformMat,
+                                                       lenght,
+                                                       positions
+                                                       );
+}
+bool edk::physics2D::PhysicObject2D::generateBoundingBoxPhysicFromPolygons(edk::uint32 lenght,edk::uint32* positions){
+    this->physicMatrixTransform.setIdentity(1.f,0.f);
+    return this->generateBoundingBoxPhysicFromPolygons(&this->physicMatrixTransform,
+                                                       lenght,
+                                                       positions
+                                                       );
+}
+bool edk::physics2D::PhysicObject2D::generateBoundingBoxPhysicFromPolygons(edk::vector::Matrixf32<3u,3u>* transformMat,
+                                                                           edk::uint32 lenght,
+                                                                           edk::uint32* positions
+                                                                           ){
+    if(lenght && transformMat){
+        this->physicMeshWorld.calculateBoundingBoxFromPolygons(&this->boundingBoxPhysics,transformMat,lenght,positions);
+        return true;
+    }
+    return false;
+}
 //functions to calculate a new boundingBoxPhysic
 edk::rectf32 edk::physics2D::PhysicObject2D::calculateNewBoundingBoxPhysic(){
     edk::rectf32 ret;
@@ -880,6 +1075,41 @@ edk::rectf32 edk::physics2D::PhysicObject2D::generateNewBoundingBoxPhysic(){
 edk::rectf32 edk::physics2D::PhysicObject2D::generateNewBoundingBoxPhysic(edk::vector::Matrixf32<3u,3u>* transformMat){
     edk::rectf32 ret;
     this->writeChildremBoundingBoxPhysic(&ret,transformMat);
+    return ret;
+}
+//functions to calculate a new boundingBoxPhysic from polygons
+edk::rectf32 edk::physics2D::PhysicObject2D::calculateNewBoundingBoxPhysicFromPolygons(edk::uint32 lenght,
+                                                                                       edk::uint32* positions
+                                                                                       ){
+    return this->generateNewBoundingBoxPhysicFromPolygons(lenght,
+                                                          positions
+                                                          );
+}
+edk::rectf32 edk::physics2D::PhysicObject2D::calculateNewBoundingBoxPhysicFromPolygons(edk::vector::Matrixf32<3u,3u>* transformMat,
+                                                                                       edk::uint32 lenght,
+                                                                                       edk::uint32* positions
+                                                                                       ){
+    return this->edk::physics2D::PhysicObject2D::generateNewBoundingBoxPhysicFromPolygons(transformMat,
+                                                                                          lenght,
+                                                                                          positions
+                                                                                          );
+}
+edk::rectf32 edk::physics2D::PhysicObject2D::generateNewBoundingBoxPhysicFromPolygons(edk::uint32 lenght,
+                                                                                      edk::uint32* positions
+                                                                                      ){
+    return this->generateNewBoundingBoxPhysicFromPolygons(&this->physicMatrixTransform,
+                                                          lenght,
+                                                          positions
+                                                          );
+}
+edk::rectf32 edk::physics2D::PhysicObject2D::generateNewBoundingBoxPhysicFromPolygons(edk::vector::Matrixf32<3u,3u>* transformMat,
+                                                                                      edk::uint32 lenght,
+                                                                                      edk::uint32* positions
+                                                                                      ){
+    edk::rectf32 ret;
+    if(lenght && transformMat){
+        this->physicMeshWorld.calculateBoundingBoxFromPolygons(&ret,transformMat,lenght,positions);
+    }
     return ret;
 }
 
