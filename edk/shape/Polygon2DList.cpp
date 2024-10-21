@@ -243,7 +243,7 @@ bool edk::shape::Polygon2DList::calculateBoundingBox(edk::rectf32* rectangle,edk
     if(rectangle && transformMat){
         edk::uint32 size = this->polygons.size();edkEnd();
         if(size){
-            //copy the first rectangle
+            //copy the first polygon
             if(this->polygons.havePos(0u)){
                 *rectangle = this->polygons.get(0u)->generateBoundingBox(transformMat);edkEnd();
                 //draw the polygons
@@ -263,7 +263,7 @@ edk::rectf32 edk::shape::Polygon2DList::generateBoundingBox(edk::vector::Matrixf
     if(transformMat){
         edk::uint32 size = this->polygons.size();edkEnd();
         if(size){
-            //copy the first rectangle
+            //copy the first polygon
             if(this->polygons.havePos(0u)){
                 ret = this->polygons.get(0u)->generateBoundingBox(transformMat);edkEnd();
                 //draw the polygons
@@ -298,17 +298,21 @@ bool edk::shape::Polygon2DList::calculateBoundingBoxFromPolygons(edk::rectf32* r
                                                                  edk::uint32 lenght,
                                                                  edk::uint32* positions
                                                                  ){
-    if(rectangle && transformMat){
+    if(rectangle && transformMat && positions){
         edk::uint32 size = this->polygons.size();edkEnd();
-        if(size){
-            edk::uint32 value;
-                for(edk::uint32 i=0u;i<lenght;i++){
+        if(size && lenght){
+            edk::uint32 value = positions[0u];
+            //copy the first polygon
+            if(this->polygons.havePos(value)){
+                *rectangle = this->polygons.get(value)->generateBoundingBox(transformMat);edkEnd();
+                for(edk::uint32 i=1u;i<lenght;i++){
                     value = positions[i];
                     if(this->polygons.havePos(value)){
-                        this->polygons.get(i)->calculateBoundingBox(rectangle,transformMat);edkEnd();
+                        this->polygons.get(value)->calculateBoundingBox(rectangle,transformMat);edkEnd();
                     }
                 }
-            return true;
+                return true;
+            }
         }
     }
     return false;
@@ -318,33 +322,21 @@ edk::rectf32 edk::shape::Polygon2DList::generateBoundingBoxFromPolygons(edk::vec
                                                                         edk::uint32* positions
                                                                         ){
     edk::rectf32 ret;edkEnd();
-    if(transformMat){
+    if(transformMat && positions){
         edk::uint32 size = this->polygons.size();edkEnd();
-        if(size){
-            edk::uint32 value;
-            //draw the polygons
-            for(edk::uint32 i=0u;i<lenght;i++){
-                value = positions[i];
-                if(this->polygons.havePos(value)){
-                    this->polygons.get(i)->calculateBoundingBox(&ret,transformMat);edkEnd();
+        if(size && lenght){
+            edk::uint32 value = positions[0u];
+            //copy the first polygon
+            if(this->polygons.havePos(value)){
+                ret = this->polygons.get(value)->generateBoundingBox(transformMat);edkEnd();
+                for(edk::uint32 i=1u;i<lenght;i++){
+                    value = positions[i];
+                    if(this->polygons.havePos(value)){
+                        this->polygons.get(value)->calculateBoundingBox(&ret,transformMat);edkEnd();
+                    }
                 }
             }
         }
-    }
-    return ret;
-}
-bool edk::shape::Polygon2DList::calculateBoundingPointFromPolygons(edk::vec2f32 point,edk::vec2f32* dest,edk::vector::Matrixf32<3u,3u>* transformMat){
-    if(dest && transformMat){
-        this->tempP.setVertexPosition(0u,point);
-        return this->tempP.calculateBoundingPoint(dest,transformMat);
-    }
-    return false;
-}
-edk::vec2f32 edk::shape::Polygon2DList::generateBoundingPointFromPolygons(edk::vec2f32 point,edk::vector::Matrixf32<3u,3u>* transformMat){
-    edk::vec2f32 ret;edkEnd();
-    if(transformMat){
-        this->tempP.setVertexPosition(0u,point);
-        ret = this->tempP.generateBoundingPoint(transformMat);
     }
     return ret;
 }
@@ -371,6 +363,29 @@ bool edk::shape::Polygon2DList::generateWorldPolygons(edk::shape::Polygon2DList*
             if(size == dest->getPolygonSize()){
                 for(edk::uint32 i=0u;i<size;i++){
                     if(!this->polygons.get(i)->getWorldPolygonCopy(dest->polygons.get(i),transformMat)){
+                        return false;
+                    }
+                }
+                return true;
+            }
+        }
+    }
+    return false;
+}
+bool edk::shape::Polygon2DList::generateWorldPolygons(edk::shape::Polygon2DList* dest,
+                                                      edk::vector::Matrixf32<3u,3u>* transformMat,
+                                                      edk::uint32 lenght,
+                                                      edk::uint32* positions
+
+                                                      ){
+    if(dest){
+        if(transformMat && positions){
+            edk::uint32 size = this->getPolygonSize();
+            if(size == dest->getPolygonSize()){
+                edk::uint32 value=0u;
+                for(edk::uint32 i=0u;i<lenght;i++){
+                    value = positions[i];
+                    if(!this->polygons.get(value)->getWorldPolygonCopy(dest->polygons.get(value),transformMat)){
                         return false;
                     }
                 }

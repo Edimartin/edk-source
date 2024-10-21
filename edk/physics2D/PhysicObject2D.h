@@ -88,12 +88,16 @@ public:
     bool generateBoundingBoxPhysic();
     bool generateBoundingBoxPhysic(edk::vector::Matrixf32<3u,3u>* transformMat);
     //function to calculate boundingBoxPhysic from polygons
-    bool calculateBoundingBoxPhysicFromPolygons(edk::uint32 lenght,edk::uint32* positions);
+    bool calculateBoundingBoxPhysicFromPolygons(edk::uint32 lenght,
+                                                edk::uint32* positions
+                                                );
     bool calculateBoundingBoxPhysicFromPolygons(edk::vector::Matrixf32<3u,3u>* transformMat,
                                                 edk::uint32 lenght,
                                                 edk::uint32* positions
                                                 );
-    bool generateBoundingBoxPhysicFromPolygons(edk::uint32 lenght,edk::uint32* positions);
+    bool generateBoundingBoxPhysicFromPolygons(edk::uint32 lenght,
+                                               edk::uint32* positions
+                                               );
     bool generateBoundingBoxPhysicFromPolygons(edk::vector::Matrixf32<3u,3u>* transformMat,
                                                edk::uint32 lenght,
                                                edk::uint32* positions
@@ -118,17 +122,46 @@ public:
                                                           edk::uint32 lenght,
                                                           edk::uint32* positions
                                                           );
-
     //function to calculate boundingBoxPhysic
     bool calculateBoundingBoxPhysicNoChildrem();
     bool calculateBoundingBoxPhysicNoChildrem(edk::vector::Matrixf32<3u,3u>* transformMat);
     bool generateBoundingBoxPhysicNoChildrem();
     bool generateBoundingBoxPhysicNoChildrem(edk::vector::Matrixf32<3u,3u>* transformMat);
+    //function to calculate boundingBoxPhysic from polygons
+    bool calculateBoundingBoxPhysicNoChildremFromPolygons(edk::uint32 lenght,
+                                                          edk::uint32* positions
+                                                          );
+    bool calculateBoundingBoxPhysicNoChildremFromPolygons(edk::vector::Matrixf32<3u,3u>* transformMat,
+                                                          edk::uint32 lenght,
+                                                          edk::uint32* positions
+                                                          );
+    bool generateBoundingBoxPhysicNoChildremFromPolygons(edk::uint32 lenght,
+                                                         edk::uint32* positions
+                                                         );
+    bool generateBoundingBoxPhysicNoChildremFromPolygons(edk::vector::Matrixf32<3u,3u>* transformMat,
+                                                         edk::uint32 lenght,
+                                                         edk::uint32* positions
+                                                         );
     //functions to calculate a new boundingBoxPhysic
     edk::rectf32 calculateNewBoundingBoxPhysicNoChildrem();
     edk::rectf32 calculateNewBoundingBoxPhysicNoChildrem(edk::vector::Matrixf32<3u,3u>* transformMat);
     edk::rectf32 generateNewBoundingBoxPhysicNoChildrem();
     edk::rectf32 generateNewBoundingBoxPhysicNoChildrem(edk::vector::Matrixf32<3u,3u>* transformMat);
+    //functions to calculate a new boundingBoxPhysic from polygons
+    edk::rectf32 calculateNewBoundingBoxPhysicNoChildremFromPolygons(edk::uint32 lenght,
+                                                                     edk::uint32* positions
+                                                                     );
+    edk::rectf32 calculateNewBoundingBoxPhysicNoChildremFromPolygons(edk::vector::Matrixf32<3u,3u>* transformMat,
+                                                                     edk::uint32 lenght,
+                                                                     edk::uint32* positions
+                                                                     );
+    edk::rectf32 generateNewBoundingBoxPhysicNoChildremFromPolygons(edk::uint32 lenght,
+                                                                    edk::uint32* positions
+                                                                    );
+    edk::rectf32 generateNewBoundingBoxPhysicNoChildremFromPolygons(edk::vector::Matrixf32<3u,3u>* transformMat,
+                                                                    edk::uint32 lenght,
+                                                                    edk::uint32* positions
+                                                                    );
     //return a copy of the physicBoundingBox
     edk::rectf32 getBoundingBoxPhysic();
 
@@ -136,6 +169,16 @@ public:
     bool copyAndGenerateWorldPhysicMesh();
     bool generateWorldPhysicMesh();
     bool inline calculateWorldPhysicMesh(){return this->generateWorldPhysicMesh();}
+    //generate the physic mesh in the world with world vertexes from polygons
+    bool copyAndGenerateWorldPhysicMeshFromPolygons(edk::uint32 lenght,
+                                                    edk::uint32* positions
+                                                    );
+    bool generateWorldPhysicMeshFromPolygons(edk::uint32 lenght,
+                                             edk::uint32* positions
+                                             );
+    bool inline calculateWorldPhysicMeshFromPolygons(edk::uint32 lenght,
+                                                     edk::uint32* positions
+                                                     ){return this->generateWorldPhysicMeshFromPolygons(lenght,positions);}
 
     void removeAllMesh();
 
@@ -225,6 +268,15 @@ private:
                                             edk::uint32 lenght,
                                             edk::uint32* positions
                                             );
+    bool writeChildremBoundingBoxPhysicFromPolygons(edk::rectf32* rect,
+                                                    edk::uint32 lenght,
+                                                    edk::uint32* positions
+                                                    );
+    bool writeChildremBoundingBoxPhysicFromPolygons(edk::rectf32* rect,
+                                                    edk::vector::Matrixf32<3u,3u>* transformMat,
+                                                    edk::uint32 lenght,
+                                                    edk::uint32* positions
+                                                    );
 
     //draw the mesh
     void drawChildremsBackBoundingBoxPhysics();
