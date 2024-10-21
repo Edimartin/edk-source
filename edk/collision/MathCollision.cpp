@@ -1355,36 +1355,36 @@ bool edk::collision::MathCollision::straightStraight2D(vec2f32 line1Start,vec2f3
     bool ret = false;edkEnd();
     //create the vectors to the contact
     if(vecs){
-
         //the temp vec
         edk::vec2f32 temp;edkEnd();
         edk::float64 det;edkEnd();
-
-        //( Ponto k,           Ponto l,         Ponto m,           Ponto n)
-        //vec2f32 line1Start,vec2f32 line1End,vec2f32 line2Start,vec2f32 line2End
-        //det = (line2End.x - line2Start.x) * (line1End.y - line1Start.y)  -  (line2End.y - line2Start.y) * (line1End.x - line1Start.x);edkEnd();
         det = (line2End.x - line2Start.x) * (line1End.y - line1Start.y)  -  (line2End.y - line2Start.y) * (line1End.x - line1Start.x);edkEnd();
-
         if(!det){
             det=0.0001f;edkEnd();
         }
-
-
         //
-        //s =  ((line2End.x - line2Start.x) * (line2Start.y - line1Start.y) - (line2End.y - line2Start.y) * (line2Start.x - line1Start.x))/ det ;edkEnd();
         temp.x=((line2End.x - line2Start.x) * (line2Start.y - line1Start.y) - (line2End.y - line2Start.y) * (line2Start.x - line1Start.x))/(edk::float32)det;edkEnd();
-        //t =  ((line1End.x - line1Start.x) * (line2Start.y - line1Start.y) - (line1End.y - line1Start.y) * (line2Start.x - line1Start.x))/ det ;edkEnd();
         temp.y=((line1End.x - line1Start.x) * (line2Start.y - line1Start.y) - (line1End.y - line1Start.y) * (line2Start.x - line1Start.x))/(edk::float32)det;edkEnd();
         if( temp.x>=0.f && temp.x<=1.f && temp.y>=0.f && temp.y<=1.f){
-            //
-            //ret.createVectors(1u);edkEnd();
-            //Pi.x = k.x + (l.x-k.x)*s;edkEnd();
-            //Pi.y = k.y + (l.y-k.y)*s;edkEnd();
-
             vecs->pushBack(edk::vec2f32(line1Start.x+(temp.x*(line1End.x-line1Start.x)),
                                         line1Start.y+(temp.x*(line1End.y-line1Start.y))
                                         )
                            );edkEnd();
+            ret=true;edkEnd();
+        }
+    }
+    else{
+        //the temp vec
+        edk::vec2f32 temp;edkEnd();
+        edk::float64 det;edkEnd();
+        det = (line2End.x - line2Start.x) * (line1End.y - line1Start.y)  -  (line2End.y - line2Start.y) * (line1End.x - line1Start.x);edkEnd();
+        if(!det){
+            det=0.0001f;edkEnd();
+        }
+        //
+        temp.x=((line2End.x - line2Start.x) * (line2Start.y - line1Start.y) - (line2End.y - line2Start.y) * (line2Start.x - line1Start.x))/(edk::float32)det;edkEnd();
+        temp.y=((line1End.x - line1Start.x) * (line2Start.y - line1Start.y) - (line1End.y - line1Start.y) * (line2Start.x - line1Start.x))/(edk::float32)det;edkEnd();
+        if( temp.x>=0.f && temp.x<=1.f && temp.y>=0.f && temp.y<=1.f){
             ret=true;edkEnd();
         }
     }
@@ -1603,7 +1603,7 @@ bool edk::collision::MathCollision::straightTriangle3D(edk::vec3f32 lineStart,ed
     return false;
 }
 
-//POLYGON POINT
+//POLYGON
 bool edk::collision::MathCollision::polygonPoint(edk::shape::Polygon2D polygon, edk::vec2f32 point){
     //create the second point to check the line
     if(polygon.getVertexCount()>=3u){
@@ -1673,6 +1673,227 @@ bool edk::collision::MathCollision::polygonPoint(edk::shape::Polygon2D polygon, 
         }
     }
     //else return false
+    return false;
+}
+
+//POLYGON WITH POLYGON
+bool edk::collision::MathCollision::polygonPolygon2D(edk::shape::Polygon2D polygon1,edk::shape::Polygon2D polygon2){
+    //test if the polygons have vertexes
+    if(polygon1.getVertexCount()>2u && polygon2.getVertexCount()>2u){
+        edk::uint32 size1 = polygon1.getVertexCount();
+        edk::uint32 size2 = polygon2.getVertexCount();
+        edk::rectf32 rect;
+        edk::vec2f32 middle;
+        edk::vec2f32 vert,v1,v2,v4;
+        //calculate the middle point inside the polygon
+        middle = polygon2.getVertexPosition(0u);
+        rect.origin.x = middle.x;
+        rect.origin.y = middle.y;
+        rect.size.width = middle.x;
+        rect.size.height = middle.y;
+        for(edk::uint32 i=1u;i<size2;i++){
+            middle = polygon1.getVertexPosition(i);
+            if(rect.size.width<middle.x){
+                rect.size.width=middle.x;
+            }
+            if(rect.size.height<middle.y){
+                rect.size.height=middle.y;
+            }
+            if(rect.origin.x>middle.x){
+                rect.origin.x=middle.x;
+            }
+            if(rect.origin.y>middle.y){
+                rect.origin.y=middle.y;
+            }
+        }
+        middle.x = ((rect.size.width - rect.origin.x)*0.5f) + rect.origin.x;
+        middle.y = ((rect.size.height - rect.origin.y)*0.5f) + rect.origin.y;
+
+        //test if a vertex is inside the polygon
+        for(edk::uint32 i=1u;i<size1;i++){
+            vert = polygon1.getVertexPosition(i);
+            v1 = polygon2.getVertexPosition(size2-1u);
+            v2 = polygon2.getVertexPosition(0u);
+            //test the collision of two lines
+            if(edk::collision::MathCollision::straightStraight2D(middle.x,middle.y,vert.x,vert.y,
+                                                                 v1.x,v2.y,v2.x,v2.y,
+                                                                 NULL
+                                                                 )){
+                continue;
+            }
+            for(edk::uint32 j=0u;j<size2;j++){
+                v1 = polygon2.getVertexPosition(j-1u);
+                v2 = polygon2.getVertexPosition(j);
+                //test the collision of two lines
+                if(edk::collision::MathCollision::straightStraight2D(middle.x,middle.y,vert.x,vert.y,
+                                                                     v1.x,v2.y,v2.x,v2.y,
+                                                                     NULL
+                                                                     )){
+                    continue;
+                }
+            }
+            return true;
+        }
+
+        vert = polygon1.getVertexPosition(size1-1u);
+        v4 = polygon1.getVertexPosition(0u);
+        v1 = polygon2.getVertexPosition(size2-1u);
+        v2 = polygon2.getVertexPosition(0u);
+        //test the collision of two lines
+        if(edk::collision::MathCollision::straightStraight2D(vert.x,vert.y,v4.x,v4.y,
+                                                             v1.x,v2.y,v2.x,v2.y,
+                                                             NULL
+                                                             )){
+            return true;
+        }
+        for(edk::uint32 j=1u;j<size2;j++){
+            v1 = polygon2.getVertexPosition(j-1u);
+            v2 = polygon2.getVertexPosition(j);
+            //test the collision of two lines
+            if(edk::collision::MathCollision::straightStraight2D(vert.x,vert.y,v4.x,v4.y,
+                                                                 v1.x,v2.y,v2.x,v2.y,
+                                                                 NULL
+                                                                 )){
+                return true;
+            }
+        }
+        for(edk::uint32 i=1u;i<size1;i++){
+            vert = polygon1.getVertexPosition(i-1u);
+            v4 = polygon1.getVertexPosition(i);
+            v1 = polygon2.getVertexPosition(size2-1u);
+            v2 = polygon2.getVertexPosition(0u);
+            //test the collision of two lines
+            if(edk::collision::MathCollision::straightStraight2D(vert.x,vert.y,v4.x,v4.y,
+                                                                 v1.x,v2.y,v2.x,v2.y,
+                                                                 NULL
+                                                                 )){
+                return true;
+            }
+            for(edk::uint32 j=1u;j<size2;j++){
+                v1 = polygon2.getVertexPosition(j-1u);
+                v2 = polygon2.getVertexPosition(j);
+                //test the collision of two lines
+                if(edk::collision::MathCollision::straightStraight2D(vert.x,vert.y,v4.x,v4.y,
+                                                                     v1.x,v2.y,v2.x,v2.y,
+                                                                     NULL
+                                                                     )){
+                    return true;
+                }
+            }
+        }
+    }
+    return false;
+}
+bool edk::collision::MathCollision::polygon2DRectPoints(edk::shape::Polygon2D polygon,edk::rectf32 rect){
+    //test if the polygons have vertexes
+    if(polygon.getVertexCount()){
+        edk::uint32 size = polygon.getVertexCount();
+        edk::vec2f32 middle;
+        edk::vec2f32 vert,vert2;
+        middle.x = ((rect.size.width - rect.origin.x)*0.5f) + rect.origin.x;
+        middle.y = ((rect.size.height - rect.origin.y)*0.5f) + rect.origin.y;
+
+        //test if a vertex is inside the polygon
+        for(edk::uint32 i=0u;i<size;i++){
+            vert = polygon.getVertexPosition(i);
+            //test the collision of two lines
+            if(edk::collision::MathCollision::straightStraight2D(middle.x,middle.y,vert.x,vert.y,
+                                                                 rect.origin.x,rect.origin.y,
+                                                                 rect.origin.x,rect.size.height,
+                                                                 NULL
+                                                                 )){
+                continue;
+            }
+            if(edk::collision::MathCollision::straightStraight2D(middle.x,middle.y,vert.x,vert.y,
+                                                                 rect.origin.x,rect.size.height,
+                                                                 rect.size.width,rect.size.height,
+                                                                 NULL
+                                                                 )){
+                continue;
+            }
+            if(edk::collision::MathCollision::straightStraight2D(middle.x,middle.y,vert.x,vert.y,
+                                                                 rect.size.width,rect.size.height,
+                                                                 rect.size.width,rect.origin.y,
+                                                                 NULL
+                                                                 )){
+                continue;
+            }
+            if(edk::collision::MathCollision::straightStraight2D(middle.x,middle.y,vert.x,vert.y,
+                                                                 rect.size.width,rect.origin.y,
+                                                                 rect.origin.x,rect.origin.y,
+                                                                 NULL
+                                                                 )){
+                continue;
+            }
+            return true;
+        }
+
+        //test the collision beetween the straights
+        vert = polygon.getVertexPosition(size-1u);
+        vert2 = polygon.getVertexPosition(0u);
+        //test the collision of two lines
+        if(edk::collision::MathCollision::straightStraight2D(vert.x,vert.y,vert2.x,vert2.y,
+                                                             rect.origin.x,rect.origin.y,
+                                                             rect.origin.x,rect.size.height,
+                                                             NULL
+                                                             )){
+            return true;
+        }
+        if(edk::collision::MathCollision::straightStraight2D(vert.x,vert.y,vert2.x,vert2.y,
+                                                             rect.origin.x,rect.size.height,
+                                                             rect.size.width,rect.size.height,
+                                                             NULL
+                                                             )){
+            return true;
+        }
+        if(edk::collision::MathCollision::straightStraight2D(vert.x,vert.y,vert2.x,vert2.y,
+                                                             rect.size.width,rect.size.height,
+                                                             rect.size.width,rect.origin.y,
+                                                             NULL
+                                                             )){
+            return true;
+        }
+        if(edk::collision::MathCollision::straightStraight2D(vert.x,vert.y,vert2.x,vert2.y,
+                                                             rect.size.width,rect.origin.y,
+                                                             rect.origin.x,rect.origin.y,
+                                                             NULL
+                                                             )){
+            return true;
+        }
+        for(edk::uint32 i=1u;i<size;i++){
+            vert = polygon.getVertexPosition(i);
+            vert2 = polygon.getVertexPosition(i-1u);
+            //test the collision of two lines
+            if(edk::collision::MathCollision::straightStraight2D(vert.x,vert.y,vert2.x,vert2.y,
+                                                                 rect.origin.x,rect.origin.y,
+                                                                 rect.origin.x,rect.size.height,
+                                                                 NULL
+                                                                 )){
+                return true;
+            }
+            if(edk::collision::MathCollision::straightStraight2D(vert.x,vert.y,vert2.x,vert2.y,
+                                                                 rect.origin.x,rect.size.height,
+                                                                 rect.size.width,rect.size.height,
+                                                                 NULL
+                                                                 )){
+                return true;
+            }
+            if(edk::collision::MathCollision::straightStraight2D(vert.x,vert.y,vert2.x,vert2.y,
+                                                                 rect.size.width,rect.size.height,
+                                                                 rect.size.width,rect.origin.y,
+                                                                 NULL
+                                                                 )){
+                return true;
+            }
+            if(edk::collision::MathCollision::straightStraight2D(vert.x,vert.y,vert2.x,vert2.y,
+                                                                 rect.size.width,rect.origin.y,
+                                                                 rect.origin.x,rect.origin.y,
+                                                                 NULL
+                                                                 )){
+                return true;
+            }
+        }
+    }
     return false;
 }
 

@@ -391,8 +391,10 @@ public:
                                    );
 
 
-    //POLYGON POINT
+    //POLYGON
     static bool polygonPoint(edk::shape::Polygon2D polygon, edk::vec2f32 point);
+    static bool polygonPolygon2D(edk::shape::Polygon2D polygon1,edk::shape::Polygon2D polygon2);
+    static bool polygon2DRectPoints(edk::shape::Polygon2D polygon,edk::rectf32 rect);
 
     //RECTS
     static bool rectRectPoints(edk::rectf32 r1,edk::rectf32 r2,

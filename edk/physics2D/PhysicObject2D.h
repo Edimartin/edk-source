@@ -178,7 +178,10 @@ public:
                                              );
     bool inline calculateWorldPhysicMeshFromPolygons(edk::uint32 lenght,
                                                      edk::uint32* positions
-                                                     ){return this->generateWorldPhysicMeshFromPolygons(lenght,positions);}
+                                                     ){
+        return this->generateWorldPhysicMeshFromPolygons(lenght,positions);
+    }
+
 
     void removeAllMesh();
 
