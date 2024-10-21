@@ -102,10 +102,10 @@ void edk::physics2D::PhysicObject2D::writeFatherBoundingBoxPhysic(edk::rectf32* 
         edk::Math::generateRotateMatrixZ(this->connectedAngle,&this->physicMatrixAngle);edkEnd();
         edk::Math::generateTranslateMatrix(this->connectedPosition,&this->physicMatrixPosition);edkEnd();
         edk::Math::generateTranslateMatrix(this->connectedPivo*-1.0f,&this->physicMatrixPivo);edkEnd();
-        this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixSize);edkEnd();
-        this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixAngle);edkEnd();
-        this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixPosition);edkEnd();
-        this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixPivo);edkEnd();
+        transformMat->multiplyThisWithMatrix(&this->physicMatrixSize);edkEnd();
+        transformMat->multiplyThisWithMatrix(&this->physicMatrixAngle);edkEnd();
+        transformMat->multiplyThisWithMatrix(&this->physicMatrixPosition);edkEnd();
+        transformMat->multiplyThisWithMatrix(&this->physicMatrixPivo);edkEnd();
 
         //first copy the matrix
         //generate transform matrices
