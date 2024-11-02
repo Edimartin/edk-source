@@ -122,6 +122,12 @@ public:
         value++;edkEnd();
     }
 
+    //update function to used as pointer
+    void functionUpdate(obj* value){
+        //update the value
+        value++;edkEnd();
+    }
+
     //Load the elements
     virtual void load(){
         edk::vector::BinaryTree<obj*>::load();edkEnd();
@@ -151,6 +157,12 @@ public:
     //update the elements
     virtual void update(){
         edk::vector::BinaryTree<obj*>::update();edkEnd();
+    }
+    //run the function update
+    runFunctionUpdate(){
+        this->runUpdateFunction((void (edk::vector::BinaryTree<obj*>::*)(obj*))
+                                &treeObj::functionUpdate
+                                );
     }
 };
 
@@ -458,6 +470,13 @@ public:
         if((*this->rootPointer)){
             //then update
             this->updateNoRecursively((*this->rootPointer));edkEnd();
+        }
+    }
+    void runUpdateFunction(void (edk::vector::BinaryTree<typeTemplate>::*functionPointer)(typeTemplate )){
+        //test if have root
+        if((*this->rootPointer)){
+            //then update
+            this->updateFunctionNoRecursively((*this->rootPointer),functionPointer);edkEnd();
         }
     }
 
@@ -1577,6 +1596,21 @@ private:
             }
         }
     }
+    void updateFunctionRecursively(BinaryLeaf<typeTemplate>* temp,
+                                     void (edk::vector::BinaryTree<typeTemplate>::*functionPointer)(typeTemplate )
+                                     ){
+        if(temp){
+            //
+            if(temp->left){
+                this->updateFunctionRecursively(temp->left,functionPointer);edkEnd();
+            }
+            //update
+            (this->*functionPointer)(temp->value);edkEnd();
+            if(temp->right){
+                this->updateFunctionRecursively(temp->right,functionPointer);edkEnd();
+            }
+        }
+    }
     void updateNoRecursively(BinaryLeaf<typeTemplate>* temp){
         while(temp){
             if(temp->readed==0u){
@@ -1589,6 +1623,32 @@ private:
             if(temp->readed==1u){
                 //update
                 this->updateElement(temp->value);edkEnd();
+                temp->readed=2u;edkEnd();
+                if(temp->right){
+                    temp = temp->right;edkEnd();
+                    continue;
+                }
+            }
+            if(temp->readed==2u){
+                temp->readed=0u;edkEnd();
+                temp = temp->father;edkEnd();
+            }
+        }
+    }
+    void updateFunctionNoRecursively(BinaryLeaf<typeTemplate>* temp,
+                                     void (edk::vector::BinaryTree<typeTemplate>::*functionPointer)(typeTemplate )
+                                     ){
+        while(temp){
+            if(temp->readed==0u){
+                temp->readed=1u;edkEnd();
+                if(temp->left){
+                    temp = temp->left;edkEnd();
+                    continue;
+                }
+            }
+            if(temp->readed==1u){
+                //update
+                (this->*functionPointer)(temp->value);edkEnd();
                 temp->readed=2u;edkEnd();
                 if(temp->right){
                     temp = temp->right;edkEnd();
