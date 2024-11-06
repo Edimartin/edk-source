@@ -596,10 +596,12 @@ private:
     }treeStatic,treeKinematic,treeDynamic;
 
     //deletedTree
-    class DeletedTree: public edk::vector::BinaryTree<b2Body*>{
+    class DeletedTree: public edk::vector::BinaryTree<edk::physics2D::PhysicObject2D*>{
     public:
-        DeletedTree(b2World* world){this->classThis=NULL;edkEnd();
-                                    this->Constructor(world,false);edkEnd();}
+        DeletedTree(b2World* world,edk::physics2D::World2D* worldEDK){
+            this->classThis=NULL;edkEnd();
+            this->Constructor(world,worldEDK,false);edkEnd();
+        }
         virtual ~DeletedTree(){
             if(this->classThis==this){
                 this->classThis=NULL;edkEnd();
@@ -607,23 +609,27 @@ private:
             }
         }
 
-        void Constructor(b2World* world,bool runFather=true){
+        void Constructor(b2World* world,edk::physics2D::World2D* worldEDK,bool runFather=true){
             if(runFather){
-                edk::vector::BinaryTree<b2Body*>::Constructor();edkEnd();
+                edk::vector::BinaryTree<edk::physics2D::PhysicObject2D*>::Constructor();edkEnd();
             }
             if(this->classThis!=this){
                 this->classThis=this;
                 this->world = world;edkEnd();
+                this->worldEDK=worldEDK;edkEnd();
             }
         }
-        void updateElement(b2Body* value){
+        void updateElement(edk::physics2D::PhysicObject2D* value){
             //update the value
             if(value){
-                this->world->DestroyBody(value);edkEnd();
+                //this->world->DestroyBody(value);edkEnd();
+                this->worldEDK->removeObject(value);
             }
         }
         //Box2D
         b2World* world;
+    private:
+        edk::physics2D::World2D* worldEDK;
     private:
         edk::classID classThis;
     }treeDeleted;
