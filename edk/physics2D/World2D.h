@@ -721,8 +721,14 @@ private:
                                                      edk::classID pointerBodyA,
                                                      edk::classID pointerBodyB
                                                      ){
+            edk::physics2D::Contact2D* ret=NULL;
             edk::physics2D::Contact2D find(pointer,pointerBodyA,pointerBodyB);edkEnd();
-            return this->getElement(&find);
+            ret=this->getElement(&find);
+            if(ret){
+                return ret;
+            }
+            edk::physics2D::Contact2D find2(pointer,pointerBodyB,pointerBodyA);edkEnd();
+            return this->getElement(&find2);
         }
     }treeConcacts,treeSensorConcacts;
 

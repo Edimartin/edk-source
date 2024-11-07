@@ -377,9 +377,21 @@ void edk::physics2D::World2D::MyContactListener::EndContact(b2Contact* contact){
             ||
             this->world->treeDeleted.haveElement((edk::physics2D::PhysicObject2D*)bodyB->GetUserData().pointer)
             ){
-        //disable the contact
-        contact->SetEnabled(false);edkEnd();
-        contact->SetReallyEnabled(false);edkEnd();
+        //remove from sensors tree
+        edk::physics2D::Contact2D* contactTemp = this->world->treeConcacts.getContact(contact,bodyA,bodyB);edkEnd();
+        if(!contactTemp){
+            contactTemp = this->world->treeSensorConcacts.getContact(contact,bodyA,bodyB);edkEnd();
+        }
+        if(contactTemp){
+            //disable the contact
+            contact->SetEnabled(false);edkEnd();
+            contact->SetReallyEnabled(false);edkEnd();
+            //remove contactTemp from the tree
+            this->world->treeConcacts.remove(contactTemp);edkEnd();
+            this->world->treeSensorConcacts.remove(contactTemp);edkEnd();
+            //delete contactTemp
+            delete contactTemp;edkEnd();
+        }
         return;edkEnd();
     }
 
@@ -657,9 +669,21 @@ void edk::physics2D::World2D::MyContactListener::PostSolve(b2Contact* contact, c
             ||
             this->world->treeDeleted.haveElement((edk::physics2D::PhysicObject2D*)bodyB->GetUserData().pointer)
             ){
-        //disable the contact
-        contact->SetEnabled(false);edkEnd();
-        contact->SetReallyEnabled(false);edkEnd();
+        //remove from sensors tree
+        edk::physics2D::Contact2D* contactTemp = this->world->treeConcacts.getContact(contact,bodyA,bodyB);edkEnd();
+        if(!contactTemp){
+            contactTemp = this->world->treeSensorConcacts.getContact(contact,bodyA,bodyB);edkEnd();
+        }
+        if(contactTemp){
+            //disable the contact
+            contact->SetEnabled(false);edkEnd();
+            contact->SetReallyEnabled(false);edkEnd();
+            //remove contactTemp from the tree
+            this->world->treeConcacts.remove(contactTemp);edkEnd();
+            this->world->treeSensorConcacts.remove(contactTemp);edkEnd();
+            //delete contactTemp
+            delete contactTemp;edkEnd();
+        }
         return;edkEnd();
     }
 
@@ -2207,6 +2231,34 @@ bool edk::physics2D::World2D::removeObject(edk::physics2D::PhysicObject2D* objec
             }
 #endif
         }
+        else{
+            //;else test if aready have the object inside the treeDelete
+            if(!this->runNextStep){
+                b2Body* temp=NULL;edkEnd();
+                temp = this->treeStatic.getBody(object);edkEnd();
+                if(temp){
+                    this->treeStatic.removeBody(temp);edkEnd();
+                    this->world.DestroyBody(temp);edkEnd();
+                    return true;
+                }
+                else{
+                    temp = this->treeDynamic.getBody(object);edkEnd();
+                    if(temp){
+                        this->treeDynamic.removeBody(temp);edkEnd();
+                        this->world.DestroyBody(temp);edkEnd();
+                        return true;
+                    }
+                    else{
+                        temp = this->treeKinematic.getBody(object);edkEnd();
+                        if(temp){
+                            this->treeKinematic.removeBody(temp);edkEnd();
+                            this->world.DestroyBody(temp);edkEnd();
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
     }
     return false;
 }
@@ -2308,10 +2360,8 @@ void edk::physics2D::World2D::removeAllObjects(){
 //test if have the object
 bool edk::physics2D::World2D::haveObject(edk::physics2D::PhysicObject2D* object){
     if(object){
-        if(this->runNextStep){
-            if(this->treeDeleted.haveElement(object)){
-                return false;
-            }
+        if(this->treeDeleted.haveElement(object)){
+            return false;
         }
         //test the objectType
         switch(object->getType()){
@@ -2408,6 +2458,9 @@ edk::physics2D::PhysicObject2D* edk::physics2D::World2D::getKinematicObjectInPos
 bool edk::physics2D::World2D::updateObjectVelocity(edk::physics2D::PhysicObject2D* object){
     //test the object
     if(object){
+        if(this->treeDeleted.haveElement(object)){
+            return false;
+        }
         //load the box2D object
 #if defined(EDK_USE_BOX2D)
         b2Body* temp=NULL;edkEnd();
@@ -2448,13 +2501,15 @@ bool edk::physics2D::World2D::updateObjectVelocity(edk::physics2D::PhysicObject2
 bool edk::physics2D::World2D::updateObjectLinearVelocity(edk::physics2D::PhysicObject2D* object){
     //test the object
     if(object){
+        if(this->treeDeleted.haveElement(object)){
+            return false;
+        }
         //test if is running the simulation
         if(this->runNextStep){
             //then add the object in to a tree to be added after the nextStep
             this->treeLinearVelocity.add(object);edkEnd();
             return true;
         }
-
 #if defined(EDK_USE_BOX2D)
         //load the box2D object
         b2Body* temp=NULL;edkEnd();
@@ -2492,6 +2547,9 @@ bool edk::physics2D::World2D::updateObjectLinearVelocity(edk::physics2D::PhysicO
 bool edk::physics2D::World2D::updateObjectAngularVelocity(edk::physics2D::PhysicObject2D* object){
     //test the object
     if(object){
+        if(this->treeDeleted.haveElement(object)){
+            return false;
+        }
         //test if is running the simulation
         if(this->runNextStep){
             //then add the object in to a tree to be added after the nextStep
@@ -2535,6 +2593,9 @@ bool edk::physics2D::World2D::updateObjectAngularVelocity(edk::physics2D::Physic
 bool edk::physics2D::World2D::cleanObjectVelocity(edk::physics2D::PhysicObject2D* object){
     //test the object
     if(object){
+        if(this->treeDeleted.haveElement(object)){
+            return false;
+        }
 #if defined(EDK_USE_BOX2D)
         //load the box2D object
         b2Body* temp=NULL;edkEnd();
@@ -2571,6 +2632,9 @@ bool edk::physics2D::World2D::cleanObjectVelocity(edk::physics2D::PhysicObject2D
 bool edk::physics2D::World2D::updateObjectStatus(edk::physics2D::PhysicObject2D* object){
     //test the object
     if(object){
+        if(this->treeDeleted.haveElement(object)){
+            return false;
+        }
 #if defined(EDK_USE_BOX2D)
         //load the box2D object
         b2Body* temp=NULL;edkEnd();
@@ -2611,6 +2675,9 @@ bool edk::physics2D::World2D::updateObjectStatus(edk::physics2D::PhysicObject2D*
 bool edk::physics2D::World2D::updateObjectPosition(edk::physics2D::PhysicObject2D* object){
     //test the object
     if(object){
+        if(this->treeDeleted.haveElement(object)){
+            return false;
+        }
 #if defined(EDK_USE_BOX2D)
         //load the box2D object
         b2Body* temp=NULL;edkEnd();
@@ -2651,6 +2718,9 @@ bool edk::physics2D::World2D::updateObjectPosition(edk::physics2D::PhysicObject2
 bool edk::physics2D::World2D::updateObjectPositionX(edk::physics2D::PhysicObject2D* object){
     //test the object
     if(object){
+        if(this->treeDeleted.haveElement(object)){
+            return false;
+        }
 #if defined(EDK_USE_BOX2D)
         //load the box2D object
         b2Body* temp=NULL;edkEnd();
@@ -2691,6 +2761,9 @@ bool edk::physics2D::World2D::updateObjectPositionX(edk::physics2D::PhysicObject
 bool edk::physics2D::World2D::updateObjectPositionY(edk::physics2D::PhysicObject2D* object){
     //test the object
     if(object){
+        if(this->treeDeleted.haveElement(object)){
+            return false;
+        }
 #if defined(EDK_USE_BOX2D)
         //load the box2D object
         b2Body* temp=NULL;edkEnd();
@@ -2733,6 +2806,9 @@ bool edk::physics2D::World2D::updateObjectPositionY(edk::physics2D::PhysicObject
 bool edk::physics2D::World2D::updateObjectSyncronizePosition(edk::physics2D::PhysicObject2D* object){
     //test the object
     if(object){
+        if(this->treeDeleted.haveElement(object)){
+            return false;
+        }
 #if defined(EDK_USE_BOX2D)
         //load the box2D object
         b2Body* temp=NULL;edkEnd();
@@ -2769,6 +2845,9 @@ bool edk::physics2D::World2D::updateObjectSyncronizePosition(edk::physics2D::Phy
 bool edk::physics2D::World2D::updateObjectSyncronizePositionX(edk::physics2D::PhysicObject2D* object){
     //test the object
     if(object){
+        if(this->treeDeleted.haveElement(object)){
+            return false;
+        }
 #if defined(EDK_USE_BOX2D)
         //load the box2D object
         b2Body* temp=NULL;edkEnd();
@@ -2805,6 +2884,9 @@ bool edk::physics2D::World2D::updateObjectSyncronizePositionX(edk::physics2D::Ph
 bool edk::physics2D::World2D::updateObjectSyncronizePositionY(edk::physics2D::PhysicObject2D* object){
     //test the object
     if(object){
+        if(this->treeDeleted.haveElement(object)){
+            return false;
+        }
 #if defined(EDK_USE_BOX2D)
         //load the box2D object
         b2Body* temp=NULL;edkEnd();
@@ -2841,6 +2923,9 @@ bool edk::physics2D::World2D::updateObjectSyncronizePositionY(edk::physics2D::Ph
 bool edk::physics2D::World2D::updateObjectAngle(edk::physics2D::PhysicObject2D* object){
     //test the object
     if(object){
+        if(this->treeDeleted.haveElement(object)){
+            return false;
+        }
 #if defined(EDK_USE_BOX2D)
         //load the box2D object
         b2Body* temp=NULL;edkEnd();
@@ -2878,6 +2963,9 @@ bool edk::physics2D::World2D::updateObjectAngle(edk::physics2D::PhysicObject2D* 
 bool edk::physics2D::World2D::updateObjectPositionAndAngle(edk::physics2D::PhysicObject2D* object){
     //test the object
     if(object){
+        if(this->treeDeleted.haveElement(object)){
+            return false;
+        }
         //load the box2D object
 #if defined(EDK_USE_BOX2D)
         b2Body* temp=NULL;edkEnd();
@@ -2920,6 +3008,9 @@ bool edk::physics2D::World2D::updateObjectPositionAndAngle(edk::physics2D::Physi
 bool edk::physics2D::World2D::updateObjectPositionXAndAngle(edk::physics2D::PhysicObject2D* object){
     //test the object
     if(object){
+        if(this->treeDeleted.haveElement(object)){
+            return false;
+        }
         //load the box2D object
 #if defined(EDK_USE_BOX2D)
         b2Body* temp=NULL;edkEnd();
@@ -2962,6 +3053,9 @@ bool edk::physics2D::World2D::updateObjectPositionXAndAngle(edk::physics2D::Phys
 bool edk::physics2D::World2D::updateObjectPositionYAndAngle(edk::physics2D::PhysicObject2D* object){
     //test the object
     if(object){
+        if(this->treeDeleted.haveElement(object)){
+            return false;
+        }
 #if defined(EDK_USE_BOX2D)
         //load the box2D object
         b2Body* temp=NULL;edkEnd();
@@ -3424,14 +3518,14 @@ void edk::physics2D::World2D::nextStep(edk::float32
         this->treeAngularVelocity.clean();edkEnd();
 
 #if defined(EDK_USE_BOX2D)
+        //remove the bodys
+        this->treeDeleted.update();edkEnd();
+        this->treeDeleted.clean();edkEnd();
+
         //update the kinematic objects
         this->treeKinematic.update();edkEnd();
         this->treeDynamic.update();edkEnd();
         this->treeJoint.update();edkEnd();
-
-        //remove the bodys
-        this->treeDeleted.update();edkEnd();
-        this->treeDeleted.clean();edkEnd();
 #endif
     }
 }
