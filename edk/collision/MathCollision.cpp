@@ -145,6 +145,86 @@ bool edk::collision::MathCollision::aabb(edk::rectf32 rect1,edk::rectf32 rect2){
         return true;
     return false;
 }
+bool edk::collision::MathCollision::aabbLeft(edk::float32 x1,edk::float32 width1,
+                                             edk::float32 x2,edk::float32 width2
+                                             ){
+    return edk::collision::MathCollision::aabbLeft(edk::vec2f32(x1,0.f),edk::size2f32(width1,0.f),
+                                                   edk::vec2f32(x2,0.f),edk::size2f32(width2,0.f)
+                                                   );
+}
+bool edk::collision::MathCollision::aabbLeft(edk::vec2f32 position1,edk::size2f32 size1,edk::vec2f32 position2,edk::size2f32 size2){
+    return edk::collision::MathCollision::aabbLeft(edk::rectf32(position1.x,position1.y,size1.width,size1.height),
+                                                   edk::rectf32(position2.x,position2.y,size2.width,size2.height)
+                                                   );
+}
+bool edk::collision::MathCollision::aabbLeft(edk::rectf32 rect1,edk::rectf32 rect2){
+    if(rect1.origin.x <= rect2.origin.x + rect2.size.width
+            ||
+            rect1.origin.x + rect1.size.width <= rect2.origin.x + rect2.size.width
+            )
+        return true;
+    return false;
+}
+bool edk::collision::MathCollision::aabbRight(edk::float32 x1,edk::float32 width1,
+                                              edk::float32 x2,edk::float32 width2
+                                              ){
+    return edk::collision::MathCollision::aabbRight(edk::vec2f32(x1,0.f),edk::size2f32(width1,0.f),
+                                                    edk::vec2f32(x2,0.f),edk::size2f32(width2,0.f)
+                                                    );
+}
+bool edk::collision::MathCollision::aabbRight(edk::vec2f32 position1,edk::size2f32 size1,edk::vec2f32 position2,edk::size2f32 size2){
+    return edk::collision::MathCollision::aabbRight(edk::rectf32(position1.x,position1.y,size1.width,size1.height),
+                                                    edk::rectf32(position2.x,position2.y,size2.width,size2.height)
+                                                    );
+}
+bool edk::collision::MathCollision::aabbRight(edk::rectf32 rect1,edk::rectf32 rect2){
+    if(rect1.origin.x >= rect2.origin.x
+            ||
+            rect1.origin.x + rect1.size.width >= rect2.origin.x
+            )
+        return true;
+    return false;
+}
+bool edk::collision::MathCollision::aabbUp(edk::float32 y1,edk::float32 height1,
+                                           edk::float32 y2,edk::float32 height2
+                                           ){
+    return edk::collision::MathCollision::aabbUp(edk::vec2f32 (0.f,y1),edk::size2f32 (0.f,height1),
+                                                 edk::vec2f32 (0.f,y2),edk::size2f32 (0.f,height2)
+                                                 );
+}
+bool edk::collision::MathCollision::aabbUp(edk::vec2f32 position1,edk::size2f32 size1,edk::vec2f32 position2,edk::size2f32 size2){
+    return edk::collision::MathCollision::aabbUp(edk::rectf32(position1.x,position1.y,size1.width,size1.height),
+                                                 edk::rectf32(position2.x,position2.y,size2.width,size2.height)
+                                                 );
+}
+bool edk::collision::MathCollision::aabbUp(edk::rectf32 rect1,edk::rectf32 rect2){
+    if(rect1.origin.y >= rect2.origin.y
+            ||
+            rect1.origin.y + rect1.size.height >= rect2.origin.y
+            )
+        return true;
+    return false;
+}
+bool edk::collision::MathCollision::aabbDown(edk::float32 y1,edk::float32 height1,
+                                             edk::float32 y2,edk::float32 height2
+                                             ){
+    return edk::collision::MathCollision::aabbDown(edk::vec2f32 (0.f,y1),edk::size2f32 (0.f,height1),
+                                                   edk::vec2f32 (0.f,y2),edk::size2f32 (0.f,height2)
+                                                   );
+}
+bool edk::collision::MathCollision::aabbDown(edk::vec2f32 position1,edk::size2f32 size1,edk::vec2f32 position2,edk::size2f32 size2){
+    return edk::collision::MathCollision::aabbDown(edk::rectf32(position1.x,position1.y,size1.width,size1.height),
+                                                   edk::rectf32(position2.x,position2.y,size2.width,size2.height)
+                                                   );
+}
+bool edk::collision::MathCollision::aabbDown(edk::rectf32 rect1,edk::rectf32 rect2){
+    if(rect1.origin.y <= rect2.origin.y + rect2.size.height
+            ||
+            rect1.origin.y + rect1.size.height <= rect2.origin.y + rect2.size.height
+            )
+        return true;
+    return false;
+}
 //aabb where the first is inside the secons
 bool edk::collision::MathCollision::aabbInside(edk::float32 insideX,edk::float32 insideY,
                                                edk::float32 insideWidth,edk::float32 insideHeight,
@@ -175,7 +255,9 @@ bool edk::collision::MathCollision::aabbInside(edk::rectf32 insideRect,edk::rect
 bool edk::collision::MathCollision::aabbPoints(edk::float32 x1_1,edk::float32 y1_1,edk::float32 x1_2,edk::float32 y1_2,
                                                edk::float32 x2_1,edk::float32 y2_1,edk::float32 x2_2,edk::float32 y2_2
                                                ){
-    return edk::collision::MathCollision::aabbPoints(edk::vec2f32(x1_1,y1_1),edk::vec2f32(x1_2,y1_2),edk::vec2f32(x2_1,y2_1),edk::vec2f32(x2_2,y2_2));edkEnd();
+    return edk::collision::MathCollision::aabbPoints(edk::vec2f32(x1_1,y1_1),edk::vec2f32(x1_2,y1_2),
+                                                     edk::vec2f32(x2_1,y2_1),edk::vec2f32(x2_2,y2_2)
+                                                     );
 }
 bool edk::collision::MathCollision::aabbPoints(edk::vec2f32 position1_1,edk::vec2f32 position1_2,edk::vec2f32 position2_1,edk::vec2f32 position2_2){
     return edk::collision::MathCollision::aabbPoints(edk::rectf32(position1_1.x,position1_1.y,position1_2.x,position1_2.y),
@@ -190,6 +272,102 @@ bool edk::collision::MathCollision::aabbPoints(edk::rectf32 rect1,edk::rectf32 r
             rect2.origin.y <= rect1.size.height
             &&
             rect2.size.height >= rect1.origin.y
+            )
+        return true;
+    return false;
+}
+bool edk::collision::MathCollision::aabbPointsLeft(edk::float32 x1_1,
+                                                   edk::float32 x1_2,
+                                                   edk::float32 x2_1,
+                                                   edk::float32 x2_2
+                                                   ){
+    return edk::collision::MathCollision::aabbPointsLeft(edk::vec2f32(x1_1,0.f),edk::vec2f32(x1_2,0.f),
+                                                         edk::vec2f32(x2_1,0.f),edk::vec2f32(x2_2,0.f)
+                                                         );
+}
+bool edk::collision::MathCollision::aabbPointsLeft(edk::vec2f32 position1_1,edk::vec2f32 position1_2,
+                                                   edk::vec2f32 position2_1,edk::vec2f32 position2_2
+                                                   ){
+    return edk::collision::MathCollision::aabbPointsLeft(edk::rectf32(position1_1.x,position1_1.y,position1_2.x,position1_2.y),
+                                                         edk::rectf32(position2_1.x,position2_1.y,position2_2.x,position2_2.y)
+                                                         );edkEnd();
+}
+bool edk::collision::MathCollision::aabbPointsLeft(edk::rectf32 rect1,edk::rectf32 rect2){
+    if(rect1.origin.x <= rect2.size.width
+            ||
+            rect1.size.width <= rect2.size.width
+            )
+        return true;
+    return false;
+}
+bool edk::collision::MathCollision::aabbPointsRight(edk::float32 x1_1,
+                                                    edk::float32 x1_2,
+                                                    edk::float32 x2_1,
+                                                    edk::float32 x2_2
+                                                    ){
+    return edk::collision::MathCollision::aabbPointsRight(edk::vec2f32(x1_1,0.f),edk::vec2f32(x1_2,0.f),
+                                                          edk::vec2f32(x2_1,0.f),edk::vec2f32(x2_2,0.f)
+                                                          );
+}
+bool edk::collision::MathCollision::aabbPointsRight(edk::vec2f32 position1_1,edk::vec2f32 position1_2,
+                                                    edk::vec2f32 position2_1,edk::vec2f32 position2_2
+                                                    ){
+    return edk::collision::MathCollision::aabbPointsRight(edk::rectf32(position1_1.x,position1_1.y,position1_2.x,position1_2.y),
+                                                          edk::rectf32(position2_1.x,position2_1.y,position2_2.x,position2_2.y)
+                                                          );edkEnd();
+}
+bool edk::collision::MathCollision::aabbPointsRight(edk::rectf32 rect1,edk::rectf32 rect2){
+    if(rect1.origin.x >= rect2.origin.x
+            ||
+            rect1.size.width >= rect2.origin.x
+            )
+        return true;
+    return false;
+}
+bool edk::collision::MathCollision::aabbPointsUp(edk::float32 y1_1,
+                                                 edk::float32 y1_2,
+                                                 edk::float32 y2_1,
+                                                 edk::float32 y2_2
+                                                 ){
+    return edk::collision::MathCollision::aabbPointsUp(edk::vec2f32(0.f,y1_1),edk::vec2f32(0.f,y1_2),
+                                                       edk::vec2f32(0.f,y2_1),edk::vec2f32(0.f,y2_2)
+                                                       );
+}
+bool edk::collision::MathCollision::aabbPointsUp(edk::vec2f32 position1_1,edk::vec2f32 position1_2,
+                                                 edk::vec2f32 position2_1,edk::vec2f32 position2_2
+                                                 ){
+    return edk::collision::MathCollision::aabbPointsUp(edk::rectf32(position1_1.x,position1_1.y,position1_2.x,position1_2.y),
+                                                       edk::rectf32(position2_1.x,position2_1.y,position2_2.x,position2_2.y)
+                                                       );edkEnd();
+}
+bool edk::collision::MathCollision::aabbPointsUp(edk::rectf32 rect1,edk::rectf32 rect2){
+    if(rect1.origin.y >= rect2.origin.y
+            ||
+            rect1.size.height >= rect2.origin.y
+            )
+        return true;
+    return false;
+}
+bool edk::collision::MathCollision::aabbPointsDown(edk::float32 y1_1,
+                                                   edk::float32 y1_2,
+                                                   edk::float32 y2_1,
+                                                   edk::float32 y2_2
+                                                   ){
+    return edk::collision::MathCollision::aabbPointsDown(edk::vec2f32(0.f,y1_1),edk::vec2f32(0.f,y1_2),
+                                                         edk::vec2f32(0.f,y2_1),edk::vec2f32(0.f,y2_2)
+                                                         );
+}
+bool edk::collision::MathCollision::aabbPointsDown(edk::vec2f32 position1_1,edk::vec2f32 position1_2,
+                                                   edk::vec2f32 position2_1,edk::vec2f32 position2_2
+                                                   ){
+    return edk::collision::MathCollision::aabbPointsDown(edk::rectf32(position1_1.x,position1_1.y,position1_2.x,position1_2.y),
+                                                         edk::rectf32(position2_1.x,position2_1.y,position2_2.x,position2_2.y)
+                                                         );edkEnd();
+}
+bool edk::collision::MathCollision::aabbPointsDown(edk::rectf32 rect1,edk::rectf32 rect2){
+    if(rect1.origin.y <= rect2.size.height
+            ||
+            rect1.size.height <= rect2.size.height
             )
         return true;
     return false;
