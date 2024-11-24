@@ -185,6 +185,10 @@ public:
 
     void removeAllMesh();
 
+    void setSensorBool(bool sensor);
+    void setIsSensor();
+    void setIsNotSensor();
+
     //return if it's a sensor
     virtual bool isSensor();
 

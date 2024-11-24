@@ -1442,6 +1442,16 @@ void edk::physics2D::PhysicObject2D::removeAllMesh(){
     this->cleanMesh();edkEnd();
 }
 
+void edk::physics2D::PhysicObject2D::setSensorBool(bool sensor){
+    this->isObjectSensor=sensor;
+}
+void edk::physics2D::PhysicObject2D::setIsSensor(){
+    this->isObjectSensor=true;
+}
+void edk::physics2D::PhysicObject2D::setIsNotSensor(){
+    this->isObjectSensor=false;
+}
+
 //return if it's a sensor
 bool edk::physics2D::PhysicObject2D::isSensor(){
     return this->isObjectSensor;
