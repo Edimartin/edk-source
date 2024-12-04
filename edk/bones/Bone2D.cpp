@@ -1363,19 +1363,12 @@ edk::vec2f32 edk::bones::Bone2D::calculateInverseKinematic(edk::bones::Bone2D* b
                 this->matrixPosition.set(0u,2u,1.f);edkEnd();
 
                 //multiply the matrix
-                this->matrixPosition.multiplyMatrixWithThis((edk::vector::MatrixDynamic<edk::float32>*)&this->matrixTransform);edkEnd();
+                this->matrixPosition.multiplyMatrixWithThis((edk::vector::MatrixDynamic<edk::float32>*)&matrixVector);edkEnd();
 
                 positionWorld.x = this->matrixPosition.getNoIF(0u,0u);edkEnd();
                 positionWorld.y = this->matrixPosition.getNoIF(0u,1u);edkEnd();
 
                 rotateAngle = edk::Math::getAngle(worldPoint-positionWorld)-edk::Math::getAngle(ret-positionWorld);edkEnd();
-                /*
-                printf("\n%u ret[%.2f] worldPoint[%.2f] rotateAngle[%.2f]",__LINE__
-                       ,edk::Math::getAngle(ret-positionWorld)
-                       ,edk::Math::getAngle(worldPoint-positionWorld)
-                       ,rotateAngle
-                       );fflush(stdout);
-*/
 
                 if(rotateAngle>edkIKAngleLimit || rotateAngle<-edkIKAngleLimit){
                     this->angle+=rotateAngle;edkEnd();

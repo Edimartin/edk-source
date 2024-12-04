@@ -99,6 +99,8 @@ public:
     edk::rectf32 generateNewBoundingBoxNoChildrem();
     edk::rectf32 generateNewBoundingBoxNoChildrem(edk::vector::Matrixf32<3u,3u>* transformMat);
 
+    edk::vec2f32 getConnectedWorldPosition();
+
     //return a copy of the boundingBox
     edk::rectf32 getBoundingBox();
 

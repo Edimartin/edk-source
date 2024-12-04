@@ -2739,6 +2739,60 @@ edk::rectf32 edk::Object2D::generateNewBoundingBoxNoChildrem(edk::vector::Matrix
     return ret;
 }
 
+edk::vec2f32 edk::Object2D::getConnectedWorldPosition(){
+    edk::vec2f32 ret;
+    //multiply the matrix by
+    this->matrixTransform.setIdentity();edkEnd();
+    if(this->father){
+        //calculate the boundingBox from the father
+        this->father->loadFatherMatrix(&this->matrixTransform);
+
+        edk::Math::generateScaleMatrix(this->connectedSize,&this->matrixSize);edkEnd();
+        edk::Math::generateRotateMatrixZ(this->connectedAngle,&this->matrixAngle);edkEnd();
+        edk::Math::generateTranslateMatrix(this->connectedPosition,&this->matrixPosition);edkEnd();
+        edk::Math::generateTranslateMatrix(this->connectedPivo*-1.0f,&this->matrixPivo);edkEnd();
+        this->matrixTransform.multiplyThisWithMatrix(&this->matrixSize);edkEnd();
+        this->matrixTransform.multiplyThisWithMatrix(&this->matrixAngle);edkEnd();
+        this->matrixTransform.multiplyThisWithMatrix(&this->matrixPosition);edkEnd();
+        this->matrixTransform.multiplyThisWithMatrix(&this->matrixPivo);edkEnd();
+
+        //first copy the matrix
+        //generate transform matrices
+        edk::Math::generateTranslateMatrix(this->position,&this->matrixPosition);edkEnd();
+        edk::Math::generateRotateMatrixZ(this->angle,&this->matrixAngle);edkEnd();
+        edk::Math::generateScaleMatrix(this->size,&this->matrixSize);edkEnd();
+        edk::Math::generateTranslateMatrix(this->pivo*-1.0f,&this->matrixPivo);edkEnd();
+
+        //translate
+        this->matrixTransform.multiplyThisWithMatrix(&this->matrixPosition);edkEnd();
+        //angle
+        this->matrixTransform.multiplyThisWithMatrix(&this->matrixAngle);edkEnd();
+        //scale
+        this->matrixTransform.multiplyThisWithMatrix(&this->matrixSize);edkEnd();
+        //Pivo
+        this->matrixTransform.multiplyThisWithMatrix(&this->matrixPivo);edkEnd();
+
+        //transform all the vertices
+        if(this->matrixPosition.haveMatrix()){
+            //transform the point
+            //
+            this->matrixPosition.set(0u,0u,0.f);edkEnd();
+            this->matrixPosition.set(0u,1u,0.f);edkEnd();
+            this->matrixPosition.set(0u,2u,1.f);edkEnd();
+
+            //multiply the matrix
+            this->matrixPosition.multiplyMatrixWithThis(&this->matrixTransform);edkEnd();
+
+            ret.x = this->matrixPosition.getNoIF(0u,0u);edkEnd();
+            ret.y = this->matrixPosition.getNoIF(0u,1u);edkEnd();
+        }
+    }
+    else{
+        ret = this->position;
+    }
+    return ret;
+}
+
 //return a copy of the boundingBox
 edk::rectf32 edk::Object2D::getBoundingBox(){
     return this->boundingBox;
@@ -4333,6 +4387,23 @@ edk::vec2f32 edk::Object2D::getConnectedObjectBackWorldPosition(edk::Object2D* o
                 //update the values
                 obj->matrixTransform.setIdentity();
                 obj->updateValuesFromFather(&obj->matrixTransform);
+
+                //transform all the vertices
+                if(this->matrixPosition.haveMatrix()){
+                    //transform the point
+                    //
+                    this->matrixPosition.set(0u,0u,0.f);edkEnd();
+                    this->matrixPosition.set(0u,1u,0.f);edkEnd();
+                    this->matrixPosition.set(0u,2u,1.f);edkEnd();
+
+                    //multiply the matrix
+                    this->matrixPosition.multiplyMatrixWithThis(&this->matrixTransform);edkEnd();
+
+                    ret.x = this->matrixPosition.getNoIF(0u,0u);edkEnd();
+                    ret.y = this->matrixPosition.getNoIF(0u,1u);edkEnd();
+                }
+
+                return ret;
 
                 if(obj->meshes.size()){
                     mesh = obj->meshes.getMesh(0u);edkEnd();
