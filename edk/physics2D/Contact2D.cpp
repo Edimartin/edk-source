@@ -37,6 +37,8 @@ edk::physics2D::Contact2D::Contact2D(edk::classID pointer,edk::classID pointerBo
     this->velocityB=0.f;edkEnd();
     this->objectAWorldPosition=0.f;edkEnd();
     this->objectBWorldPosition=0.f;edkEnd();
+    this->objectAWorldAngle=0.f;edkEnd();
+    this->objectBWorldAngle=0.f;edkEnd();
     this->points = 0u;edkEnd();
     this->areadyContacted=false;edkEnd();
     this->enableContact();

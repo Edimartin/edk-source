@@ -86,6 +86,10 @@ public:
     edk::vec2f32 objectAWorldPosition;
     //objectB physic position
     edk::vec2f32 objectBWorldPosition;
+    //objectA physic position
+    edk::float32 objectAWorldAngle;
+    //objectB physic position
+    edk::float32 objectBWorldAngle;
 
     //poinst contact
     edk::uint8 points;
