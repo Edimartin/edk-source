@@ -368,7 +368,7 @@ private:
             //Set the ID of the animation selected
             this->selectAnimationFramesFromPolygon(mesh.getAnimationFramesSelectedID());edkEnd();
         }
-        this->material = mesh.material;edkEnd();
+        this->material.cloneFrom(&mesh.material);edkEnd();
         return mesh;edkEnd();
     }
 private:

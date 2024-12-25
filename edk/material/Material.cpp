@@ -867,12 +867,38 @@ void edk::material::Material::printTexture(edk::uint8 position){
         printf("%u",this->textures[position]);edkEnd();
     }
 }
-void edk::material::Material::printAmbient(){
+void edk::material::Material::printTextures(){
+    for(edk::uint32 i = 0u;i<materialTextureCount;i++){
+        if(this->textures[i]){
+            printf("%u == %u",i,this->textures[i]);edkEnd();
+        }
+    }
+}
+void edk::material::Material::printMaterial(){
     printf("\nAmbient");edkEnd();
     for(edk::uint8 i= 0u;i<4u;i++){
         printf(" %.2f"
                ,this->ambient[i]
                );edkEnd();
     }
+    printf("\nDiffuse");edkEnd();
+    for(edk::uint8 i= 0u;i<4u;i++){
+        printf(" %.2f"
+               ,this->diffuse[i]
+               );edkEnd();
+    }
+    printf("\nSpecular");edkEnd();
+    for(edk::uint8 i= 0u;i<4u;i++){
+        printf(" %.2f"
+               ,this->specular[i]
+               );edkEnd();
+    }
+    printf("\nEmission");edkEnd();
+    for(edk::uint8 i= 0u;i<4u;i++){
+        printf(" %.2f"
+               ,this->emission[i]
+               );edkEnd();
+    }
+    printf("\nShininess %.2f",this->shininess);edkEnd();
     fflush(stdout);edkEnd();
 }

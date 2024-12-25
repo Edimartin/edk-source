@@ -1303,8 +1303,8 @@ bool edk::collision::MathCollision::aabbPointsXY(edk::float32 x1_1,edk::float32 
 }
 bool edk::collision::MathCollision::aabbPointsXY(edk::vec3f32 position1_1,edk::vec3f32 position1_2,edk::vec3f32 position2_1,edk::vec3f32 position2_2){
     return edk::collision::MathCollision::aabbPointsXY(edk::cubef32(position1_1.x,position1_1.y,position1_1.z,position1_2.x,position1_2.y,position1_2.z),
-                                                 edk::cubef32(position2_1.x,position2_1.y,position2_1.z,position2_2.x,position2_2.y,position2_2.z)
-                                                 );edkEnd();
+                                                       edk::cubef32(position2_1.x,position2_1.y,position2_1.z,position2_2.x,position2_2.y,position2_2.z)
+                                                       );edkEnd();
 }
 bool edk::collision::MathCollision::aabbPointsXY(edk::cubef32 cube1,edk::cubef32 cube2){
     if(cube2.origin.x <= cube1.size.width
@@ -1553,8 +1553,8 @@ bool edk::collision::MathCollision::aabbPointsYZ(edk::float32 y1_1,edk::float32 
 }
 bool edk::collision::MathCollision::aabbPointsYZ(edk::vec3f32 position1_1,edk::vec3f32 position1_2,edk::vec3f32 position2_1,edk::vec3f32 position2_2){
     return edk::collision::MathCollision::aabbPointsYZ(edk::cubef32(position1_1.x,position1_1.y,position1_1.z,position1_2.x,position1_2.y,position1_2.z),
-                                                 edk::cubef32(position2_1.x,position2_1.y,position2_1.z,position2_2.x,position2_2.y,position2_2.z)
-                                                 );edkEnd();
+                                                       edk::cubef32(position2_1.x,position2_1.y,position2_1.z,position2_2.x,position2_2.y,position2_2.z)
+                                                       );edkEnd();
 }
 bool edk::collision::MathCollision::aabbPointsYZ(edk::cubef32 cube1,edk::cubef32 cube2){
     if(cube2.origin.y <= cube1.size.height
@@ -1719,7 +1719,7 @@ bool edk::collision::MathCollision::boundingBox3DPointsFirstInsideSecond(edk::cu
     return false;
 }
 
-//POINT STRAIGHT
+//POINT STRAIGHT 2D
 bool edk::collision::MathCollision::pointStraigh2D(edk::float32 pointX,edk::float32 pointY,float32 lineX1,float32 lineY1,float32 lineX2,float32 lineY2, edk::float32 radius){
     return edk::collision::MathCollision::pointStraigh2D(edk::vec2f32(pointX,pointY),vec2f32(lineX1,lineY1),vec2f32(lineX2,lineY2), radius);edkEnd();
 }
@@ -1798,6 +1798,128 @@ bool edk::collision::MathCollision::straightStraight2DtoBool(float32 line1StartX
 }
 bool edk::collision::MathCollision::straightStraight2DtoBool(vec2f32 line1Start,vec2f32 line1End,
                                                              vec2f32 line2Start,vec2f32 line2End
+                                                             ){
+    //create the vectors to the contact
+
+    //the temp vec
+    edk::vec2f32 temp;edkEnd();
+    edk::float64 det;edkEnd();
+
+    //( Ponto k,           Ponto l,         Ponto m,           Ponto n)
+    //vec2f32 line1Start,vec2f32 line1End,vec2f32 line2Start,vec2f32 line2End
+    //det = (line2End.x - line2Start.x) * (line1End.y - line1Start.y)  -  (line2End.y - line2Start.y) * (line1End.x - line1Start.x);edkEnd();
+    det = (line2End.x - line2Start.x) * (line1End.y - line1Start.y)  -  (line2End.y - line2Start.y) * (line1End.x - line1Start.x);edkEnd();
+
+    if(!det){
+        det=0.0001f;edkEnd();
+    }
+
+    //
+    //s =  ((line2End.x - line2Start.x) * (line2Start.y - line1Start.y) - (line2End.y - line2Start.y) * (line2Start.x - line1Start.x))/ det ;edkEnd();
+    temp.x=((line2End.x - line2Start.x) * (line2Start.y - line1Start.y) - (line2End.y - line2Start.y) * (line2Start.x - line1Start.x))/(edk::float32)det;edkEnd();
+    //t =  ((line1End.x - line1Start.x) * (line2Start.y - line1Start.y) - (line1End.y - line1Start.y) * (line2Start.x - line1Start.x))/ det ;edkEnd();
+    temp.y=((line1End.x - line1Start.x) * (line2Start.y - line1Start.y) - (line1End.y - line1Start.y) * (line2Start.x - line1Start.x))/(edk::float32)det;edkEnd();
+    if( temp.x>=0.f && temp.y<=1.f && temp.y>=0.f && temp.y<=1.f){
+        //
+        return true;
+    }
+    return false;
+}
+//POINT STRAIGHT 3D
+bool edk::collision::MathCollision::pointStraigh3D(edk::float32 pointX,edk::float32 pointY,edk::float32 pointZ,
+                                                   float32 lineX1,float32 lineY1,float32 lineZ1,
+                                                   float32 lineX2,float32 lineY2,float32 lineZ2,
+                                                   edk::float32 radius
+        ){
+    return edk::collision::MathCollision::pointStraigh3D(edk::vec3f32(pointX,pointY,pointZ),
+                                                         vec3f32(lineX1,lineY1,lineZ1),
+                                                         vec3f32(lineX2,lineY2,lineZ2),
+                                                         radius);
+}
+bool edk::collision::MathCollision::pointStraigh3D(edk::vec3f32 point,vec3f32 lineStart,vec3f32 lineEnd, edk::float32 radius){
+    edk::float32 value = (point.x*lineStart.y)+
+            (point.y*lineEnd.x)+
+            (lineStart.x*lineEnd.y)-
+            (lineEnd.x*lineStart.y)-
+            (lineEnd.y*point.x)-
+            (lineStart.x*point.y);edkEnd();
+    if(value<radius && value>-radius){
+        //Entao ele retorna true
+        return true;
+    }
+    //else return zero
+    return false;
+}
+bool edk::collision::MathCollision::straightStraight3D(float32 line1StartX,float32 line1StartY,float32 line1StartZ,
+                                                       float32 line1EndX,float32 line1EndY,float32 line1EndZ,
+                                                       float32 line2StartX,float32 line2StartY,float32 line2StartZ,
+                                                       float32 line2EndX,float32 line2EndY,float32 line2EndZ,
+                                                       edk::collision::Vecs3f32* vecs
+                                                       ){
+    return edk::collision::MathCollision::straightStraight3D(vec3f32(line1StartX,line1StartY,line1StartZ),
+                                                             vec3f32(line1EndX,line1EndY,line1EndZ),
+                                                             vec3f32(line2StartX,line2StartY,line2StartZ),
+                                                             vec3f32(line2EndX,line2EndY,line2EndZ),
+                                                             vecs
+                                                             );edkEnd();
+}
+bool edk::collision::MathCollision::straightStraight3D(vec3f32 line1Start,vec3f32 line1End,
+                                                       vec3f32 line2Start,vec3f32 line2End,
+                                                       edk::collision::Vecs3f32* vecs
+                                                       ){
+    bool ret = false;edkEnd();
+    //create the vectors to the contact
+    if(vecs){
+        //the temp vec
+        edk::vec3f32 temp;edkEnd();
+        edk::float64 det;edkEnd();
+        det = (line2End.x - line2Start.x) * (line1End.y - line1Start.y)  -  (line2End.y - line2Start.y) * (line1End.x - line1Start.x);edkEnd();
+        if(!det){
+            det=0.0001f;edkEnd();
+        }
+        //
+        temp.x=((line2End.x - line2Start.x) * (line2Start.y - line1Start.y) - (line2End.y - line2Start.y) * (line2Start.x - line1Start.x))/(edk::float32)det;edkEnd();
+        temp.y=((line1End.x - line1Start.x) * (line2Start.y - line1Start.y) - (line1End.y - line1Start.y) * (line2Start.x - line1Start.x))/(edk::float32)det;edkEnd();
+        if( temp.x>=0.f && temp.x<=1.f && temp.y>=0.f && temp.y<=1.f){
+            vecs->pushBack(edk::vec3f32(line1Start.x+(temp.x*(line1End.x-line1Start.x)),
+                                        line1Start.y+(temp.x*(line1End.y-line1Start.y)),
+                                        line1Start.z+(temp.z*(line1End.z-line1Start.z))
+                                        )
+                           );edkEnd();
+            ret=true;edkEnd();
+        }
+    }
+    else{
+        //the temp vec
+        edk::vec2f32 temp;edkEnd();
+        edk::float64 det;edkEnd();
+        det = (line2End.x - line2Start.x) * (line1End.y - line1Start.y)  -  (line2End.y - line2Start.y) * (line1End.x - line1Start.x);edkEnd();
+        if(!det){
+            det=0.0001f;edkEnd();
+        }
+        //
+        temp.x=((line2End.x - line2Start.x) * (line2Start.y - line1Start.y) - (line2End.y - line2Start.y) * (line2Start.x - line1Start.x))/(edk::float32)det;edkEnd();
+        temp.y=((line1End.x - line1Start.x) * (line2Start.y - line1Start.y) - (line1End.y - line1Start.y) * (line2Start.x - line1Start.x))/(edk::float32)det;edkEnd();
+        if( temp.x>=0.f && temp.x<=1.f && temp.y>=0.f && temp.y<=1.f){
+            ret=true;edkEnd();
+        }
+    }
+    //else return a zero vector
+    return ret;
+}
+bool edk::collision::MathCollision::straightStraight3DtoBool(float32 line1StartX,float32 line1StartY,float32 line1StartZ,
+                                                             float32 line1EndX,float32 line1EndY,float32 line1EndZ,
+                                                             float32 line2StartX,float32 line2StartY,float32 line2StartZ,
+                                                             float32 line2EndX,float32 line2EndY,float32 line2EndZ
+                                                             ){
+    return edk::collision::MathCollision::straightStraight3DtoBool(vec3f32(line1StartX,line1StartY,line1StartZ),
+                                                                   vec3f32(line1EndX,line1EndY,line1EndZ),
+                                                                   vec3f32(line2StartX,line2StartY,line2StartZ),
+                                                                   vec3f32(line2EndX,line2EndY,line2EndZ)
+                                                                   );edkEnd();
+}
+bool edk::collision::MathCollision::straightStraight3DtoBool(vec3f32 line1Start,vec3f32 line1End,
+                                                             vec3f32 line2Start,vec3f32 line2End
                                                              ){
     //create the vectors to the contact
 

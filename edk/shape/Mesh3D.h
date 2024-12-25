@@ -33,529 +33,367 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "../vector/Stack.h"
 #include "../vector/BinaryTree.h"
 #include "Polygon3D.h"
+#include "Triangle3D.h"
+//list of polygons
+#include "AnimatedPolygon3DList.h"
 #include "../Texture2DList.h"
 #include "../material/Material.h"
-//#include "../collision/MathCollision.h"
+#include "../collision/MathCollision.h"
 #include "../pack/FilePackage.h"
 
 #ifdef printMessages
 #pragma message "    Compiling Mesh3D"
 #endif
 
+//Mesh3D have the polygons and one texture
+
 namespace edk{
 namespace shape{
-class Mesh3D{
+class Mesh3D: public edk::shape::AnimatedPolygon3DList{
+    //number of textures
+#define texturesCount 7u
+    //distance definition to not have two vertexes in the same position
+#define vertexDistanceIncrement 0.0001f
 public:
     Mesh3D();
     virtual ~Mesh3D();
 
     void Constructor(bool runFather=true);
-
-    void cleanVertexes();
-    void cleanNormals();
-    void cleanUVs();
-    void cleanPolygons();
-    void cleanMesh();
-
-    edk::uint32 getVertexSize();
-    edk::uint32 getUVSize();
-    edk::uint32 getNormalSize();
-    edk::uint32 getPolygonSize();
-
-    //Set polygons color
-    bool setPolygonsColor(edk::color4f32 color);
-    bool setPolygonsColor(edk::color3f32 color);
-    bool setPolygonsColor(edk::float32 r,edk::float32 g,edk::float32 b);
-    bool setPolygonsColor(edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a);
-    //set polygons smooth
-    bool setPolygonsSmooth(bool smooth);
-    bool setPolygonsSmoothOn();
-    bool setPolygonsSmoothOff();
-    //update polygons normals
-    bool updatePolygonsNormals();
-
-    //VERTEXES
-    edk::uint32 newVertex(edk::float32 x,edk::float32 y,edk::float32 z,edk::float32 r,edk::float32 g,edk::float32 b);
-    edk::uint32 newVertex(edk::float32 x,edk::float32 y,edk::float32 z,edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a);
-    edk::uint32 newVertex(edk::vec3f32 position,edk::color4f32 color);
-    edk::uint32 newVertex(edk::shape::Vertex3D vert);
-    //NORMALS
-    edk::uint32 newNormal(edk::float32 x,edk::float32 y,edk::float32 z);
-    edk::uint32 newNormal(edk::vec3f32 vector);
-    edk::uint32 newNormal(edk::shape::Vector3D vector);
-    //UVS
-    edk::uint32 newUV(edk::float32 x,edk::float32 y);
-    edk::uint32 newUV(edk::vec2f32 vector);
-    edk::uint32 newUV(edk::shape::UV2D uv);
-
-    //get a vertex in a position
-    edk::shape::Vertex3D getVertex(edk::uint32 position);
-    //get a vertex position
-    edk::vec3f32 getVertexPosition(edk::uint32 position);
-    edk::color4f32 getVertexColor(edk::uint32 position);
-    //remove a vertex in a position
-    bool removeVertex(edk::uint32 position);
-
-    //get a normal in a position
-    edk::shape::Vector3D getNormal(edk::uint32 position);
-    //get a normal vector
-    edk::vec3f32 getNormalPosition(edk::uint32 position);
-    //remove a normal in a position
-    bool removeNormal(edk::uint32 position);
-
-    //get the UV in a position
-    edk::shape::UV2D getUV(edk::uint32 position);
-    //get a UV position
-    edk::vec2f32 getUVPosition(edk::uint32 position);
-    //remove a UV in a position
-    bool removeIV(edk::uint32 position);
-
-    //POLYGONS
-    edk::uint32 newPolygon(edk::uint32 vertexes);
-    //select the polygon
-    bool selectPolygon(edk::uint32 position);
-    //set polygon vertexes normals and UV
-    bool selectedPolygonSetVertex(edk::uint32 position,edk::uint32 vertex);
-    bool selectedPolygonSetNormal(edk::uint32 position,edk::uint32 normal);
-    bool selectedPolygonSetUV(edk::uint32 position,edk::uint32 uv);
-    bool selectedPolygonSetNormalFlat(edk::shape::Vector3D normal);
-    bool selectedPolygonSetSmooth(bool smooth);
-    bool selectedPolygonSmoothOn();
-    bool selectedPolygonSmoothOff();
-    bool selectedPolygonUpdateNormal();
+    //DELETE
+    //clean Mesh
+    void clean();
+    //remove the rextures
+    void cleanTextures();
+    //remove the texture
+    bool removeTexture(edk::uint32 position);
 
     //DRAW
     //print the mesh
-    virtual void printPolygons();
+    virtual void print();
     //draw the mesh
-    virtual void drawPolygons();
-    virtual void drawPolygonsWithMatrix(edk::vector::Matrixf32<4u,4u>* matrix,edk::vector::Matrixf32<4u,4u>* matrixTemp);
-    //draw the polygons in wireframe
-    virtual void drawWirePolygons();
-    virtual void drawWirePolygonsWithMatrix(edk::vector::Matrixf32<4u,4u>* matrix,edk::vector::Matrixf32<4u,4u>* matrixTemp);
-    virtual void drawWirePolygonsWithColor(edk::color4f32 color=edk::color4f32(1,1,1,1));
-    virtual void drawWirePolygonsWithMatrixWithColor(edk::vector::Matrixf32<4u,4u>* matrix,edk::vector::Matrixf32<4u,4u>* matrixTemp,edk::color4f32 color=edk::color4f32(1,1,1,1));
-    virtual void drawVertexs(edk::color3f32 color = edk::color3f32(1,1,1));
-    virtual void drawVertexsWithMatrix(edk::vector::Matrixf32<4u,4u>* matrix,edk::vector::Matrixf32<4u,4u>* matrixTemp,edk::color3f32 color = edk::color3f32(1,1,1));
-    virtual void drawPolygonsNormals();
-    virtual void drawPolygonsNormalsWithMatrix(edk::vector::Matrixf32<4u,4u>* matrix,edk::vector::Matrixf32<4u,4u>* matrixTemp);
-    virtual void drawPolygonsNormalsWithColor(edk::color3f32 color = edk::color3f32(1,1,1));
-    virtual void drawPolygonsNormalsWithMatrixWithColor(edk::vector::Matrixf32<4u,4u>* matrix,edk::vector::Matrixf32<4u,4u>* matrixTemp,edk::color3f32 color = edk::color3f32(1,1,1));
-
-
-    //draw the mesh
+    //edk::uint32 position
+    virtual void drawWithoutMaterial();
+    virtual void drawNoTexture();
     virtual void drawOneTexture();
-    virtual void drawOneTextureWithMatrix(edk::vector::Matrixf32<4u,4u>* matrix,edk::vector::Matrixf32<4u,4u>* matrixTemp);
     virtual void drawOneTexture(edk::uint32 position);
-    virtual void drawOneTextureWithMatrix(edk::vector::Matrixf32<4u,4u>* matrix,edk::vector::Matrixf32<4u,4u>* matrixTemp,edk::uint32 position);
     virtual bool selectedDrawOneTexture();
-    virtual bool selectedDrawOneTextureWithMatrix(edk::vector::Matrixf32<4u,4u>* matrix,edk::vector::Matrixf32<4u,4u>* matrixTemp);
     virtual bool selectedDrawOneTexture(edk::uint32 position);
-    virtual bool selectedDrawOneTextureWithMatrix(edk::vector::Matrixf32<4u,4u>* matrix,edk::vector::Matrixf32<4u,4u>* matrixTemp,edk::uint32 position);
     virtual void drawMultiTexture();
-    virtual void drawMultiTextureWithMatrix(edk::vector::Matrixf32<4u,4u>* matrix,edk::vector::Matrixf32<4u,4u>* matrixTemp);
     virtual bool selectedDrawMultiTexture();
-    virtual bool selectedDrawMultiTextureWithMatrix(edk::vector::Matrixf32<4u,4u>* matrix,edk::vector::Matrixf32<4u,4u>* matrixTemp);
     virtual void drawWire();
+    virtual void drawWireWithColor(edk::color4f32 color=edk::color4f32(1,1,1,1));
+    virtual void drawWireWithColor(edk::color3f32 color=edk::color3f32(1,1,1));
+    virtual bool drawPolygonWithoutMaterial(edk::uint32 polygon);
+    virtual bool drawPolygonNoTexture(edk::uint32 polygon);
+    virtual bool drawPolygonOneTexture(edk::uint32 polygon);
+    virtual bool drawPolygonOneTexture(edk::uint32 polygon, edk::uint32 position);
+    virtual bool drawPolygonMultiTexture(edk::uint32 polygon);
+    virtual bool drawPolygonWire(edk::uint32 polygon);
+    virtual bool drawPolygonWireWithColor(edk::uint32 polygon,edk::color4f32 color=edk::color4f32(1,1,1,1));
+    virtual bool drawPolygonWireWithColor(edk::uint32 polygon,edk::color3f32 color=edk::color3f32(1,1,1));
+    //draw with matrix
+    virtual void drawWithoutMaterialWithMatrix(edk::vector::Matrixf32<4u,4u>* matrix,edk::vector::Matrixf32<4u,4u>* matrixTemp);
+    virtual void drawNoTextureWithMatrix(edk::vector::Matrixf32<4u,4u>* matrix,edk::vector::Matrixf32<4u,4u>* matrixTemp);
+    virtual void drawOneTextureWithMatrix(edk::vector::Matrixf32<4u,4u>* matrix,edk::vector::Matrixf32<4u,4u>* matrixTemp);
+    virtual void drawOneTextureWithMatrix(edk::vector::Matrixf32<4u,4u>* matrix,edk::vector::Matrixf32<4u,4u>* matrixTemp,edk::uint32 position);
+    virtual bool selectedDrawOneTextureWithMatrix(edk::vector::Matrixf32<4u,4u>* matrix,edk::vector::Matrixf32<4u,4u>* matrixTemp);
+    virtual bool selectedDrawOneTextureWithMatrix(edk::vector::Matrixf32<4u,4u>* matrix,edk::vector::Matrixf32<4u,4u>* matrixTemp,edk::uint32 position);
+    virtual void drawMultiTextureWithMatrix(edk::vector::Matrixf32<4u,4u>* matrix,edk::vector::Matrixf32<4u,4u>* matrixTemp);
+    virtual bool selectedDrawMultiTextureWithMatrix(edk::vector::Matrixf32<4u,4u>* matrix,edk::vector::Matrixf32<4u,4u>* matrixTemp);
     virtual void drawWireWithMatrix(edk::vector::Matrixf32<4u,4u>* matrix,edk::vector::Matrixf32<4u,4u>* matrixTemp);
+    virtual void drawWireWithColorWithMatrix(edk::vector::Matrixf32<4u,4u>* matrix,edk::vector::Matrixf32<4u,4u>* matrixTemp,edk::color4f32 color=edk::color4f32(1,1,1,1));
+    virtual void drawWireWithColorWithMatrix(edk::vector::Matrixf32<4u,4u>* matrix,edk::vector::Matrixf32<4u,4u>* matrixTemp,edk::color3f32 color=edk::color3f32(1,1,1));
+    virtual bool drawPolygonWithoutMaterialWithMatrix(edk::vector::Matrixf32<4u,4u>* matrix,edk::vector::Matrixf32<4u,4u>* matrixTemp,edk::uint32 polygon);
+    virtual bool drawPolygonNoTextureWithMatrix(edk::vector::Matrixf32<4u,4u>* matrix,edk::vector::Matrixf32<4u,4u>* matrixTemp,edk::uint32 polygon);
+    virtual bool drawPolygonOneTextureWithMatrix(edk::vector::Matrixf32<4u,4u>* matrix,edk::vector::Matrixf32<4u,4u>* matrixTemp,edk::uint32 polygon);
+    virtual bool drawPolygonOneTextureWithMatrix(edk::vector::Matrixf32<4u,4u>* matrix,edk::vector::Matrixf32<4u,4u>* matrixTemp,edk::uint32 polygon, edk::uint32 position);
+    virtual bool drawPolygonMultiTextureWithMatrix(edk::vector::Matrixf32<4u,4u>* matrix,edk::vector::Matrixf32<4u,4u>* matrixTemp,edk::uint32 polygon);
+    virtual bool drawPolygonWireWithMatrix(edk::vector::Matrixf32<4u,4u>* matrix,edk::vector::Matrixf32<4u,4u>* matrixTemp,edk::uint32 polygon);
+    virtual bool drawPolygonWireWithColorWithMatrix(edk::vector::Matrixf32<4u,4u>* matrix,edk::vector::Matrixf32<4u,4u>* matrixTemp,edk::uint32 polygon,edk::color4f32 color=edk::color4f32(1,1,1,1));
+    virtual bool drawPolygonWireWithColorWithMatrix(edk::vector::Matrixf32<4u,4u>* matrix,edk::vector::Matrixf32<4u,4u>* matrixTemp,edk::uint32 polygon,edk::color3f32 color=edk::color3f32(1,1,1));
+
+    bool triangularizateFromVertex(edk::vector::Stack<edk::vec3f32>* vertexes);
+    bool triangularizateFromPolygon(edk::shape::Polygon3D polygon);
+    bool putHoleInPolygon(edk::shape::Polygon3D outside,edk::shape::Polygon3D inside);
+    bool putHoleInRectangle(edk::cubef32 rect,edk::shape::Polygon3D inside);
+
+    //vertexTriangularization the mesh with the triangles
+    static bool vertexTriangularization(edk::vector::Stack<edk::vec3f32>* vertexes,edk::shape::Mesh3D *mesh);
+    static bool polygonTriangularization(edk::shape::Polygon3D polygon,edk::shape::Mesh3D *mesh);
+
+    //XML
+    virtual bool writeToXML(edk::XML* xml,edk::uint32 id);
+    virtual bool readFromXML(edk::XML* xml,edk::uint32 id);
+    virtual bool readFromXMLFromPack(edk::pack::FilePackage* pack,edk::XML* xml,edk::uint32 id);
+
+    virtual bool cloneFrom(edk::shape::Mesh3D* mesh);
 
     //Material used for the mesh
     edk::material::Material material;
-
-    //mesh angles
-    edk::vec3f32 angles;
-    //mesh size
-    edk::size3f32 size;
-    //mesh position inside the object
-    edk::vec3f32 position;
 private:
-    edk::vector::Matrixf32<4u,4u> matrixTranslate;
-    edk::vector::Matrixf32<4u,4u> matrixRotateX;
-    edk::vector::Matrixf32<4u,4u> matrixRotateY;
-    edk::vector::Matrixf32<4u,4u> matrixRotateZ;
-    edk::vector::Matrixf32<4u,4u> matrixScale;
     edk::vector::Matrixf32<4u,4u> matrixTransform;
-
-    void calculateMatrices();
-
-    //Class to save all the vertexes from the polygon
-    class MeshVertex{
+    class AnimationDouble{
     public:
-        MeshVertex(){
-            this->use = 0u;edkEnd();
-            this->pointer = &this->vertex;edkEnd();
+        AnimationDouble(edk::animation::Interpolation1DGroup* first,edk::uint32 id){
+            this->classThis=NULL;edkEnd();
+            this->Constructor(first,id,false);edkEnd();
         }
-        void incrementUse(){
-            this->use++;edkEnd();
-        }
-        bool decrementUse(){
-            if(this->use){
-                this->use--;edkEnd();
+        virtual ~AnimationDouble(){
+            if(this->classThis==this){
+                this->classThis=NULL;edkEnd();
+                //can destruct the class
             }
-            if(this->use){
-                return true;
-            }
-            return false;
         }
-        edk::shape::Vertex3D vertex;
-        edk::shape::Vertex3D* pointer;
-        edk::uint32 use;
-    };
 
-    class StackVertex{
-    public:
-        StackVertex();
-        virtual ~StackVertex();
-
-        void Constructor(bool runFather=true);
-
-        //clean all vertexes
-        void cleanVertexes();
-        //get the size of the vertexes
-        edk::uint32 size();
-        edk::uint32 getSize();
-
-        //create a new vertex in to the stack
-        edk::uint32 newVertex(edk::float32 x,edk::float32 y,edk::float32 z);
-        edk::uint32 newVertex(edk::float32 x,edk::float32 y,edk::float32 z,edk::float32 r,edk::float32 g,edk::float32 b);
-        edk::uint32 newVertex(edk::float32 x,edk::float32 y,edk::float32 z,edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a);
-        edk::uint32 newVertex(edk::vec3f32 position,edk::color4f32 color);
-        edk::uint32 newVertex(edk::shape::Vertex3D vert);
-
-        edk::shape::Vertex3D* getVertex(edk::uint32 position);
-        bool haveVertex(edk::uint32 position);
-        bool deleteVertex(edk::uint32 position);
-        bool incrementVertex(edk::uint32 position);
-        bool decrementVertex(edk::uint32 position);
-    private:
-        edk::vector::Stack<edk::shape::Mesh3D::MeshVertex*> stack;
+        void Constructor(edk::animation::Interpolation1DGroup* first,edk::uint32 id,bool runFather=true){
+            if(this->classThis!=this){
+                this->classThis=this;
+                if(runFather){edkEnd();}
+                this->first = first;edkEnd();
+                this->id=id;edkEnd();
+            }
+        }
+        edk::animation::Interpolation1DGroup* first;
+        edk::uint32 id;
     private:
         edk::classID classThis;
-    }vertexes;
+    };
 
-    //Class to save all the normals from the polygon
-    class MeshNormal{
+    //class to save animations pointer
+    class TreeAnimations: public edk::vector::BinaryTree<edk::shape::Mesh3D::AnimationDouble*>{
     public:
-        MeshNormal(){
+        TreeAnimations(){
             this->classThis=NULL;edkEnd();
             this->Constructor(false);edkEnd();
         }
-        virtual ~MeshNormal(){
+        virtual ~TreeAnimations(){
+            if(this->classThis==this){
+                this->classThis=NULL;edkEnd();
+                //can destruct the class
+                this->cleanAllAnimations();edkEnd();
+            }
+        }
+
+        void Constructor(bool runFather=true){
+            if(runFather){
+                edk::vector::BinaryTree<edk::shape::Mesh3D::AnimationDouble*>::Constructor();edkEnd();
+            }
+            if(this->classThis!=this){
+                this->classThis=this;
+            }
+        }
+
+        //compare if the value is bigger
+        virtual bool firstBiggerSecond(edk::shape::Mesh3D::AnimationDouble* first,edk::shape::Mesh3D::AnimationDouble* second){
+            if(first->first>second->first){
+                return true;
+            }
+            return false;
+        }
+        virtual bool firstEqualSecond(edk::shape::Mesh3D::AnimationDouble* first,edk::shape::Mesh3D::AnimationDouble* second){
+            if(first->first==second->first){
+                return true;
+            }
+            return false;
+        }
+
+        //add the animations
+        bool addAnimations(edk::animation::Interpolation1DGroup* first,edk::uint32 id){
+            if(first){
+                //test if have the first
+                if(!this->haveAnimation(first)){
+                    //create the new double
+                    edk::shape::Mesh3D::AnimationDouble* temp = new edk::shape::Mesh3D::AnimationDouble(first,id);edkEnd();
+                    if(temp){
+                        //add the temp
+                        if(this->add(temp)){
+                            return true;
+                        }
+                        delete temp;edkEnd();
+                    }
+                }
+            }
+            return false;
+        }
+        //test if have the animation
+        bool haveAnimation(edk::animation::Interpolation1DGroup* first){
+            edk::shape::Mesh3D::AnimationDouble find(first,0u);edkEnd();
+            return this->haveElement(&find);
+        }
+        //return the second animation
+        edk::uint32 getAnimationID(edk::animation::Interpolation1DGroup* first){
+            edk::shape::Mesh3D::AnimationDouble* temp = this->getDouble(first);edkEnd();
+            if(temp){
+                return temp->id;edkEnd();
+            }
+            return 0u;edkEnd();
+        }
+        //clean all animations
+        void cleanAllAnimations(){
+            edk::shape::Mesh3D::AnimationDouble* temp = NULL;edkEnd();
+            edk::uint32 size = 0u;edkEnd();
+            edk::uint32 position = 0u;edkEnd();
+            for(edk::uint32 i=0u;i<size;i++){
+                temp = this->getElementInPosition(position);edkEnd();
+                if(temp){
+                    this->remove(temp);edkEnd();
+                    delete temp;edkEnd();
+                }
+                else{
+                    position++;edkEnd();
+                }
+            }
+        }
+
+    private:
+        //return the double
+        edk::shape::Mesh3D::AnimationDouble* getDouble(edk::animation::Interpolation1DGroup* first){
+            edk::shape::Mesh3D::AnimationDouble find(first,0u);edkEnd();
+            return this->getElement(&find);
+        }
+    private:
+        edk::classID classThis;
+    };
+private:
+    //functions to vertex triangularization
+    class TriangleValues{
+    public:
+        TriangleValues(edk::uint32 i,edk::uint32 j,edk::uint32 w){this->classThis=NULL;this->Constructor(i,j,w,false);edkEnd();}
+        virtual ~TriangleValues(){
             if(this->classThis==this){
                 this->classThis=NULL;edkEnd();
                 //can destruct the class
             }
         }
 
-        void Constructor(bool runFather=true){
+        void Constructor(edk::uint32 i,edk::uint32 j,edk::uint32 w,bool runFather=true){
             if(runFather){edkEnd();}
             if(this->classThis!=this){
                 this->classThis=this;
-
-                this->normal.Constructor();edkEnd();
-
-                this->use = 0u;edkEnd();
-                this->pointer = &this->normal;edkEnd();
+                this->i=i;edkEnd();
+                this->j=j;edkEnd();
+                this->k=w;edkEnd();
             }
         }
-
-        void incrementUse(){
-            this->use++;edkEnd();
-        }
-        bool decrementUse(){
-            if(this->use){
-                this->use--;edkEnd();
-            }
-            if(this->use){
-                return true;
+        edk::uint32 i,j,k;
+    private:
+        edk::classID classThis;
+    };
+    //binary tree with the triangle vertex positions in stack
+    class treeTriangles:public edk::vector::BinaryTree<TriangleValues*>{
+    public:
+        //compare if the value is bigger
+        bool firstBiggerSecond(TriangleValues* first,TriangleValues* second){
+            if(first  &&  second){
+                if(first->i>second->i){
+                    return true;
+                }
+                else if(first->j>second->j){
+                    return true;
+                }
+                else if(first->k>second->k){
+                    return true;
+                }
             }
             return false;
         }
-        edk::shape::Vector3D normal;
-        edk::shape::Vector3D* pointer;
-        edk::uint32 use;
-    private:
-        edk::classID classThis;
-    };
-
-    class StackNormal{
-    public:
-        StackNormal();
-        virtual ~StackNormal();
-
-        void Constructor(bool runFather=true);
-
-        //clean all normals
-        void cleanNormals();
-        //get the size of the normals
-        edk::uint32 size();
-        edk::uint32 getSize();
-
-        //create a new normal in to the stack
-        edk::uint32 newNormal(edk::float32 x,edk::float32 y,edk::float32 z);
-        edk::uint32 newNormal(edk::vec3f32 position);
-        edk::uint32 newNormal(edk::shape::Vector3D vert);
-
-        edk::shape::Vector3D* getNormal(edk::uint32 position);
-        bool haveNormal(edk::uint32 position);
-        bool deleteNormal(edk::uint32 position);
-        bool incrementNormal(edk::uint32 position);
-        bool decrementNormal(edk::uint32 position);
-    private:
-        edk::vector::Stack<edk::shape::Mesh3D::MeshNormal*> stack;
-    private:
-        edk::classID classThis;
-    }normals;
-
-    //Class to save all the normals from the polygon
-    class MeshUV{
-    public:
-        MeshUV(){
-            this->use = 0u;edkEnd();
-            this->pointer = &this->uv;edkEnd();
-        }
-        void incrementUse(){
-            this->use++;edkEnd();
-        }
-        bool decrementUse(){
-            if(this->use){
-                this->use--;edkEnd();
-            }
-            if(this->use){
-                return true;
+        //compare if the value is equal
+        bool firstEqualSecond(TriangleValues* first,TriangleValues* second){
+            if(first&&second){
+                if((first->i==second->i || first->i==second->j || first->i==second->k)
+                        &&
+                        (first->j==second->i || first->j==second->j || first->j==second->k)
+                        &&
+                        (first->k==second->i || first->k==second->j || first->k==second->k)
+                        ){
+                    return true;
+                }
             }
             return false;
         }
-        edk::shape::UV2D uv;
-        edk::shape::UV2D* pointer;
-        edk::uint32 use;
+        bool haveTriangle(edk::uint32 i,edk::uint32 j,edk::uint32 k){
+            if(i != j && i != k && j != k){
+                TriangleValues triangle(i,j,k);edkEnd();
+                return this->haveElement(&triangle);edkEnd();
+            }
+            return false;
+        }
+        //add a new triangle
+        bool newTriangle(edk::uint32 i,edk::uint32 j,edk::uint32 k){
+            if(i != j && i != k && j != k){
+                if(!this->haveTriangle(i,j,k)){
+                    //create a new triangle
+                    TriangleValues* temp = new TriangleValues(i,j,k);edkEnd();
+                    if(temp){
+                        if(this->add(temp)){
+                            return true;
+                        }
+                        delete temp;edkEnd();
+                    }
+                }
+            }
+            return false;
+        }
     };
 
-    class StackUV{
-    public:
-        StackUV();
-        virtual ~StackUV();
+    static inline bool floatDifferent(edk::float32 f1,edk::float32 f2);
+    static bool pointInsideLine(edk::vec3f32 point,edk::vec3f32 lineStart,edk::vec3f32 lineEnd);
 
-        void Constructor(bool runFather=true);
+    edk::shape::Mesh3D operator=(edk::shape::Mesh3D mesh){
+        //
+        edk::shape::Mesh3D::TreeAnimations tree;edkEnd();
 
-        //clean all uvs
-        void cleanUVS();
-        //get the size of the uvs
-        edk::uint32 size();
-        edk::uint32 getSize();
+        //delete the polygons
+        this->cleanPolygons();edkEnd();
+        //read the polygons
+#if defined(edkCPPversion17)
+        edk::uint32 size = mesh.polygons.size();edkEnd();
+#else
+        register edk::uint32 size = mesh.polygons.size();edkEnd();
+#endif
+        edk::uint32 select=0u;edkEnd();
+        edk::shape::Polygon3D* temp = NULL;edkEnd();
+        edk::uint32 id;edkEnd();
+        edk::animation::Interpolation1DGroup* animTemp=NULL;edkEnd();
+        for(edk::uint32 i=0u;i<size;i++){
+            //
+            temp=mesh.polygons.get(i);edkEnd();
+            if(temp){
+                if(temp==mesh.selected){
+                    select=i;edkEnd();
+                }
+                id=this->addPolygon(*temp);edkEnd();
 
-        //create a new uv in to the stack
-        edk::uint32 newUV(edk::float32 u,edk::float32 x);
-        edk::uint32 newUV(edk::vec2f32 position);
-        edk::uint32 newUV(edk::shape::UV2D vert);
-
-        edk::shape::UV2D* getUV(edk::uint32 position);
-        bool haveUV(edk::uint32 position);
-        bool deleteUV(edk::uint32 position);
-        bool incrementUV(edk::uint32 position);
-        bool decrementUV(edk::uint32 position);
-    private:
-        edk::vector::Stack<edk::shape::Mesh3D::MeshUV*> stack;
-    private:
-        edk::classID classThis;
-    }uvs;
-
-
-protected:
-    class PolygonList: public edk::vector::Stack<edk::shape::Polygon3D*>{
-    public:
-        PolygonList(){this->classThis=NULL;edkEnd();
-                      this->Constructor(false);edkEnd();}
-        virtual ~PolygonList(){
-            if(this->classThis==this){
-                this->classThis=NULL;edkEnd();
-                //can destruct the class
+                //test the animation
+                animTemp = temp->framesGetAnimation();edkEnd();
+                if(animTemp){
+                    //test if already have the animation on the tree
+                    if(tree.haveAnimation(animTemp)){
+                        //set the animation to the polygon in the mesh
+                        this->copyAnimationFramesToPolygon(tree.getAnimationID(animTemp),id);edkEnd();
+                    }
+                    else{
+                        //add the animation on the tree
+                        if(tree.addAnimations(animTemp,id)){
+                            //create a new animation in the polygon
+                            if(this->setAnimationFramesToPolygon(id)){
+                                //copy the animation
+                                this->copyThisAnimationFramesToPolygon(animTemp,id);edkEnd();
+                            }
+                        }
+                    }
+                }
             }
         }
-
-        void Constructor(bool runFather=true){
-            if(runFather){edkEnd();}
-            if(this->classThis!=this){
-                this->classThis=this;
-            }
+        this->selectPolygon(select);edkEnd();
+        //test if have animation selected
+        if(mesh.haveSelectedAnimation()){
+            //Set the ID of the animation selected
+            this->selectAnimationFramesFromPolygon(mesh.getAnimationFramesSelectedID());edkEnd();
         }
-        void updateElement(edk::shape::Polygon3D* value){
-            this->func(this,value);edkEnd();
-        }
-        void loadElement(edk::shape::Polygon3D* value){
-            this->funcWithMatrix(this->matrixPointer,this->matrixPointer2,this,value);edkEnd();
-        }
-        void printElement(edk::shape::Polygon3D* value){
-            value->print();edkEnd();
-        }
-        void renderElement(edk::shape::Polygon3D* value){
-            value->draw();edkEnd();
-        }
-
-        //Draw the polygon with lines
-        //WithMatrix(edk::vector::Matrixf32<4u,4u>* matrix)
-        void drawWire(){
-            this->func = edk::shape::Mesh3D::PolygonList::runDrawWire;edkEnd();
-            this->update();edkEnd();
-        }
-        void drawWireWithMatrix(edk::vector::Matrixf32<4u,4u>* matrix,edk::vector::Matrixf32<4u,4u>* matrixTemp){
-            if(matrix){
-                this->matrixPointer = matrix;
-                this->matrixPointer2 = matrixTemp;
-                this->funcWithMatrix = edk::shape::Mesh3D::PolygonList::runDrawWireWithMatrix;edkEnd();
-                this->load();edkEnd();
-            }
-        }
-        static void runDrawWire(edk::shape::Mesh3D::PolygonList*,edk::shape::Polygon3D* value){
-            value->drawWire();edkEnd();
-        }
-        static void runDrawWireWithMatrix(edk::vector::Matrixf32<4u,4u>* matrix,edk::vector::Matrixf32<4u,4u>* matrixTemp,edk::shape::Mesh3D::PolygonList*,edk::shape::Polygon3D* value){
-            value->drawWireWithMatrix(matrix,matrixTemp);edkEnd();
-        }
-        /*
-        void drawWireWithColor(edk::color4f32 color=edk::color4f32(1,1,1,1));edkEnd();
-        */
-        //Draw the polygon with lines
-        void drawWireWithColor(edk::color4f32 color=edk::color4f32(1,1,1,1)){
-            this->func = edk::shape::Mesh3D::PolygonList::runDrawWireWithColor;edkEnd();
-            this->color = color;edkEnd();
-            this->update();edkEnd();
-        }
-        void drawWireWithMatrixWithColor(edk::vector::Matrixf32<4u,4u>* matrix,edk::vector::Matrixf32<4u,4u>* matrixTemp,edk::color4f32 color=edk::color4f32(1,1,1,1)){
-            if(matrix){
-                this->matrixPointer = matrix;
-                this->matrixPointer2 = matrixTemp;
-                this->funcWithMatrix = edk::shape::Mesh3D::PolygonList::runDrawWireWithMatrixWithColor;edkEnd();
-                this->color = color;edkEnd();
-                this->load();edkEnd();
-            }
-        }
-        static void runDrawWireWithColor(edk::shape::Mesh3D::PolygonList* list,edk::shape::Polygon3D* value){
-            value->drawWireWithColor(list->color);edkEnd();
-        }
-        static void runDrawWireWithMatrixWithColor(edk::vector::Matrixf32<4u,4u>* matrix,edk::vector::Matrixf32<4u,4u>* matrixTemp,edk::shape::Mesh3D::PolygonList* list,edk::shape::Polygon3D* value){
-            value->drawWithWireWithMatrixWithColor(matrix,matrixTemp,list->color);edkEnd();
-        }
-        //Draw the polygon with lines
-        void drawPolygonVertexs(edk::color4f32 color=edk::color4f32(1,1,1,1)){
-            this->func = edk::shape::Mesh3D::PolygonList::runDrawPolygonVertexs;edkEnd();
-            this->color = color;edkEnd();
-            this->update();edkEnd();
-        }
-        void drawPolygonVertexsWithMatrix(edk::vector::Matrixf32<4u,4u>* matrix,edk::vector::Matrixf32<4u,4u>* matrixTemp,edk::color4f32 color=edk::color4f32(1,1,1,1)){
-            if(matrix){
-                this->matrixPointer = matrix;
-                this->matrixPointer2 = matrixTemp;
-                this->funcWithMatrix = edk::shape::Mesh3D::PolygonList::runDrawPolygonVertexsWithMatrix;edkEnd();
-                this->color = color;edkEnd();
-                this->load();edkEnd();
-            }
-        }
-        static void runDrawPolygonVertexs(edk::shape::Mesh3D::PolygonList* list,edk::shape::Polygon3D* value){
-            value->drawPolygonVertexs(list->color);edkEnd();
-        }
-        static void runDrawPolygonVertexsWithMatrix(edk::vector::Matrixf32<4u,4u>* matrix,edk::vector::Matrixf32<4u,4u>* matrixTemp,edk::shape::Mesh3D::PolygonList* list,edk::shape::Polygon3D* value){
-            value->drawPolygonVertexsWithMatrix(matrix,matrixTemp,list->color);edkEnd();
-        }
-
-        //Draw the polygon normals
-        void drawPolygonNormals(){
-            this->func = edk::shape::Mesh3D::PolygonList::runDrawPolygonNormals;edkEnd();
-            this->update();edkEnd();
-        }
-        void drawPolygonNormalsWithMatrix(edk::vector::Matrixf32<4u,4u>* matrix,edk::vector::Matrixf32<4u,4u>* matrixTemp){
-            if(matrix){
-                this->matrixPointer = matrix;
-                this->matrixPointer2 = matrixTemp;
-                this->funcWithMatrix = edk::shape::Mesh3D::PolygonList::runDrawPolygonNormalsWithMatrix;edkEnd();
-                this->load();edkEnd();
-            }
-        }
-        static void runDrawPolygonNormals(edk::shape::Mesh3D::PolygonList*,edk::shape::Polygon3D* value){
-            value->drawPolygonNormals();edkEnd();
-        }
-        static void runDrawPolygonNormalsWithMatrix(edk::vector::Matrixf32<4u,4u>* matrix,edk::vector::Matrixf32<4u,4u>* matrixTemp,edk::shape::Mesh3D::PolygonList*,edk::shape::Polygon3D* value){
-            value->drawPolygonNormalsWithMatrix(matrix,matrixTemp);edkEnd();
-        }
-        //Draw the polygon with lines
-        void drawPolygonNormalsWithColor(edk::color3f32 color=edk::color3f32(1,1,1)){
-            this->func = edk::shape::Mesh3D::PolygonList::runDrawPolygonNormalsWithColor;edkEnd();
-            this->color = color;edkEnd();
-            this->update();edkEnd();
-        }
-        void drawPolygonNormalsWithMatrixWithColor(edk::vector::Matrixf32<4u,4u>* matrix,edk::vector::Matrixf32<4u,4u>* matrixTemp,edk::color3f32 color=edk::color3f32(1,1,1)){
-            if(matrix){
-                this->matrixPointer = matrix;
-                this->matrixPointer2 = matrixTemp;
-                this->funcWithMatrix = edk::shape::Mesh3D::PolygonList::runDrawPolygonNormalsWithMatrixWithColor;edkEnd();
-                this->color = color;edkEnd();
-                this->load();edkEnd();
-            }
-        }
-        static void runDrawPolygonNormalsWithColor(edk::shape::Mesh3D::PolygonList* list,edk::shape::Polygon3D* value){
-            value->drawPolygonNormalsWithColor(list->color);edkEnd();
-        }
-        static void runDrawPolygonNormalsWithMatrixWithColor(edk::vector::Matrixf32<4u,4u>* matrix,edk::vector::Matrixf32<4u,4u>* matrixTemp,edk::shape::Mesh3D::PolygonList* list,edk::shape::Polygon3D* value){
-            value->drawPolygonNormalsWithMatrixWithColor(matrix,matrixTemp,list->color);edkEnd();
-        }
-
-        void (*func)(edk::shape::Mesh3D::PolygonList* list,edk::shape::Polygon3D* value);
-        void (*funcWithMatrix)(edk::vector::Matrixf32<4u,4u>* matrix,edk::vector::Matrixf32<4u,4u>* matrixTemp,edk::shape::Mesh3D::PolygonList* list,edk::shape::Polygon3D* value);
-        edk::color4f32 color;
-        edk::float32 lightPositions[EDK_LIGHT_LIMIT][4u];
-        edk::float32 lightDirections[EDK_LIGHT_LIMIT][4u];
-        bool lightIsOn[EDK_LIGHT_LIMIT];
-        edk::vector::Matrixf32<4u,4u>* matrixPointer;
-        edk::vector::Matrixf32<4u,4u>* matrixPointer2;
-    private:
-        edk::classID classThis;
-    };
-    //Polygon List
-    class StackPolygon{
-    public:
-        StackPolygon();
-        virtual ~StackPolygon();
-
-        void Constructor(bool runFather=true);
-
-        edk::uint32 size();
-        edk::uint32 getSize();
-
-        //clean the polygon list
-        void cleanPolygons();
-        //create a new polygon
-        edk::uint32 newPolygon(edk::uint32 vertexes);
-        //return the polygon in a position
-        edk::shape::Polygon3D* getPolygon(edk::uint32 position);
-
-        //print the polygons
-        void printPolygons();
-        //draw the polygons
-        void drawPolygons();
-        void drawPolygonsWithMatrix(edk::vector::Matrixf32<4u,4u>* matrix,edk::vector::Matrixf32<4u,4u>* matrixTemp);
-        //Draw the polygon with lines
-        void drawWire();
-        void drawWireWithMatrix(edk::vector::Matrixf32<4u,4u>* matrix,edk::vector::Matrixf32<4u,4u>* matrixTemp);
-        //Draw the polygon with lines
-        void drawWireWithColor(edk::color4f32 color=edk::color4f32(1,1,1,1));
-        void drawWireWithMatrixWithColor(edk::vector::Matrixf32<4u,4u>* matrix,edk::vector::Matrixf32<4u,4u>* matrixTemp,edk::color4f32 color=edk::color4f32(1,1,1,1));
-        //Draw the polygon with lines
-        void drawPolygonVertexs(edk::color4f32 color=edk::color4f32(1,1,1,1));
-        void drawPolygonVertexsWithMatrix(edk::vector::Matrixf32<4u,4u>* matrix,edk::vector::Matrixf32<4u,4u>* matrixTemp,edk::color4f32 color=edk::color4f32(1,1,1,1));
-        //Draw the polygon normals lines
-        void drawPolygonNormals();
-        void drawPolygonNormalsWithMatrix(edk::vector::Matrixf32<4u,4u>* matrix,edk::vector::Matrixf32<4u,4u>* matrixTemp);
-        //Draw the polygon normals lines
-        void drawPolygonNormalsWithColor(edk::color3f32 color=edk::color3f32(1,1,1));
-        void drawPolygonNormalsWithMatrixWithColor(edk::vector::Matrixf32<4u,4u>* matrix,edk::vector::Matrixf32<4u,4u>* matrixTemp,edk::color3f32 color=edk::color3f32(1,1,1));
-    private:
-        //list of polygons
-        edk::shape::Mesh3D::PolygonList list;
-    private:
-        edk::classID classThis;
-    }polygons;
-    //mesh selected
-    edk::shape::Polygon3D* selected;
+        this->material.cloneFrom(&mesh.material);edkEnd();
+        return mesh;edkEnd();
+    }
 private:
     edk::classID classThis;
 };

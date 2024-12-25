@@ -39,6 +39,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "Vecs3f32.h"
 #include "Vecs4f32.h"
 #include "../shape/Polygon2D.h"
+#include "../shape/Polygon3D.h"
 
 #ifdef printMessages
 #pragma message "    Compiling MathCollision"
@@ -435,7 +436,7 @@ public:
     static bool boundingBox3DPointsFirstInsideSecond(edk::vec3f32 position1_1,edk::vec3f32 position1_2,edk::vec3f32 position2_1,edk::vec3f32 position2_2);
     static bool boundingBox3DPointsFirstInsideSecond(edk::cubef32 cube1,edk::cubef32 cube2);
 
-    //POINT STRAIGHT
+    //POINT STRAIGHT 2D
     static bool pointStraigh2D(edk::float32 pointX,edk::float32 pointY,float32 lineX1,float32 lineY1,float32 lineX2,float32 lineY2, edk::float32 radius=0.01f);
     static bool pointStraigh2D(edk::vec2f32 point,vec2f32 lineStart,vec2f32 lineEnd, edk::float32 radius=0.01f);
     static bool straightStraight2D(float32 line1StartX,float32 line1StartY,float32 line1EndX,float32 line1EndY,
@@ -451,6 +452,31 @@ public:
                                          );
     static bool straightStraight2DtoBool(vec2f32 line1Start,vec2f32 line1End,
                                          vec2f32 line2Start,vec2f32 line2End
+                                         );
+    //POINT STRAIGHT 3D
+    static bool pointStraigh3D(edk::float32 pointX,edk::float32 pointY,edk::float32 pointZ,
+                               float32 lineX1,float32 lineY1,float32 lineZ1,
+                               float32 lineX2,float32 lineY2,float32 lineZ2,
+                               edk::float32 radius=0.01f
+            );
+    static bool pointStraigh3D(edk::vec3f32 point,vec3f32 lineStart,vec3f32 lineEnd, edk::float32 radius=0.01f);
+    static bool straightStraight3D(float32 line1StartX,float32 line1StartY,float32 line1StartZ,
+                                   float32 line1EndX,float32 line1EndY,float32 line1EndZ,
+                                   float32 line2StartX,float32 line2StartY,float32 line2StartZ,
+                                   float32 line2EndX,float32 line2EndY,float32 line2EndZ,
+                                   edk::collision::Vecs3f32* vecs
+                                   );
+    static bool straightStraight3D(vec3f32 line1Start,vec3f32 line1End,
+                                   vec3f32 line2Start,vec3f32 line2End,
+                                   edk::collision::Vecs3f32* vecs
+                                   );
+    static bool straightStraight3DtoBool(float32 line1StartX,float32 line1StartY,float32 line1StartZ,
+                                         float32 line1EndX,float32 line1EndY,float32 line1EndZ,
+                                         float32 line2StartX,float32 line2StartY,float32 line2StartZ,
+                                         float32 line2EndX,float32 line2EndY,float32 line2EndZ
+                                         );
+    static bool straightStraight3DtoBool(vec3f32 line1Start,vec3f32 line1End,
+                                         vec3f32 line2Start,vec3f32 line2End
                                          );
 
     static edk::collision::Vecs2f32 straightCircle2D(edk::vec2f32 lineStart,edk::vec2f32 lineEnd,edk::vec2f32 circlePosition,edk::float32 circleRadius);

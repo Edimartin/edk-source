@@ -1571,7 +1571,7 @@ bool edk::shape::Mesh2D::cloneFrom(edk::shape::Mesh2D* mesh){
             this->selectAnimationFramesFromPolygon(mesh->getAnimationFramesSelectedID());edkEnd();
         }
 
-        this->material = mesh->material;edkEnd();
+        this->material.cloneFrom(&mesh->material);edkEnd();
         return true;
     }
     return false;

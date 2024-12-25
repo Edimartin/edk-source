@@ -31,19 +31,17 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #pragma once
 #include <stdio.h>
-#include "Vertex2D.h"
-#include "../vector/Matrix.h"
+#include "../TypeVec2.h"
 #include "../TypeVec3.h"
 #include "../TypeColor.h"
 #include "../TypeDefines.h"
+#include "../vector/Matrix.h"
 #include "../GU/GU.h"
 #include "../xml/XML.h"
 
 #ifdef printMessages
 #pragma message "    Compiling Vertex3D"
 #endif
-
-
 
 namespace edk{
 namespace shape{
@@ -173,39 +171,103 @@ private:
     edk::classID classThis;
 };
 
-class Vertex3D : public edk::shape::Vector3D{
+class UV3D{
+public:
+    UV3D(){
+        this->classThis=NULL;edkEnd();
+        this->Constructor(false);edkEnd();
+    }
+    UV3D(edk::vec2f32 uv){
+        this->classThis=NULL;edkEnd();
+        this->Constructor(uv,false);edkEnd();
+    }
+    UV3D(edk::float32 uv){
+        this->classThis=NULL;edkEnd();
+        this->Constructor(uv,false);edkEnd();
+    }
+    UV3D(edk::float32 u,edk::float32 v){
+        this->classThis=NULL;edkEnd();
+        this->Constructor(u,v,false);edkEnd();
+    }
+    virtual ~UV3D(){
+        if(this->classThis==this){
+            this->classThis=NULL;edkEnd();
+            //can destruct the class
+        }
+    }
+
+    void Constructor(bool runFather=true){
+        if(runFather){edkEnd();}
+        if(this->classThis!=this){
+            this->classThis=this;
+            this->u=this->v=0.f;edkEnd();
+        }
+    }
+    void Constructor(edk::vec2f32 uv,bool runFather=true){
+        if(runFather){edkEnd();}
+        if(this->classThis!=this){
+            this->classThis=this;
+            this->u=uv.x;edkEnd();
+            this->v=uv.y;edkEnd();
+        }
+    }
+    void Constructor(edk::float32 uv,bool runFather=true){
+        if(runFather){edkEnd();}
+        if(this->classThis!=this){
+            this->classThis=this;
+            this->u=uv;edkEnd();
+            this->v=uv;edkEnd();
+        }
+    }
+    void Constructor(edk::float32 u,edk::float32 v,bool runFather=true){
+        if(runFather){edkEnd();}
+        if(this->classThis!=this){
+            this->classThis=this;
+            this->u=u;edkEnd();
+            this->v=v;edkEnd();
+        }
+    }
+    edk::shape::UV3D operator=(edk::shape::UV3D uv){
+        this->u=uv.u;edkEnd();
+        this->v=uv.v;edkEnd();
+        return uv;edkEnd();
+    }
+    edk::shape::UV3D* operator=(edk::shape::UV3D* uv){
+        this->u=uv->u;edkEnd();
+        this->v=uv->v;edkEnd();
+        return uv;edkEnd();
+    }
+    inline bool operator==(edk::shape::UV3D uv){
+        if(this->u==uv.u && this->v==uv.v){
+            return true;
+        }
+        return false;
+    }
+    inline bool operator!=(edk::shape::UV3D uv){
+        if(this->u!=uv.u || this->v!=uv.v){
+            return true;
+        }
+        return false;
+    }
+    void drawUV(){
+        //draw the UV
+        edk::GU::guVertexTex2f32(this->u,this->v);edkEnd();
+    }
+    void printUV(){
+        printf("\nUV %.2f %.2f"
+               ,this->u
+               ,this->v
+               );fflush(stdout);edkEnd();
+    }
+    edk::float32 u,v;
+private:
+    edk::classID classThis;
+};
+class Vertex3D{
 public:
     Vertex3D(){
         this->classThis=NULL;edkEnd();
         this->Constructor(false);edkEnd();
-    }
-    Vertex3D(edk::vec3f32 position){
-        this->classThis=NULL;edkEnd();
-        this->Constructor(position,false);edkEnd();
-    }
-    Vertex3D(edk::vec3f32 position,edk::color3f32 color){
-        this->classThis=NULL;edkEnd();
-        this->Constructor(position,color,false);edkEnd();
-    }
-    Vertex3D(edk::vec3f32 position,edk::color4f32 color){
-        this->classThis=NULL;edkEnd();
-        this->Constructor(position,color,false);edkEnd();
-    }
-    Vertex3D(edk::float32 x,edk::float32 y,edk::float32 z){
-        this->classThis=NULL;edkEnd();
-        this->Constructor(x,y,z,false);edkEnd();
-    }
-    Vertex3D(edk::float32 x,edk::float32 y,edk::float32 z,
-             edk::float32 r,edk::float32 g,edk::float32 b
-             ){
-        this->classThis=NULL;edkEnd();
-        this->Constructor(x,y,z,r,g,b,false);edkEnd();
-    }
-    Vertex3D(edk::float32 x,edk::float32 y,edk::float32 z,
-             edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a
-             ){
-        this->classThis=NULL;edkEnd();
-        this->Constructor(x,y,z,r,g,b,a,false);edkEnd();
     }
     virtual ~Vertex3D(){
         if(this->classThis==this){
@@ -214,254 +276,22 @@ public:
         }
     }
 
-
     void Constructor(bool runFather=true){
-        if(runFather){
-            edk::shape::Vector3D::Constructor();edkEnd();
-        }
+        if(runFather){edkEnd();}
         if(this->classThis!=this){
             this->classThis=this;
-            this->x=this->y=this->z=0.f;edkEnd();
-            this->r=this->g=this->b=this->a=1.f;edkEnd();
+            this->color.a=1u;
+            this->normal = edk::vec3f32(0.f,0.f,1.f);
+            this->type = EDK_SHAPE_NOUV;
         }
     }
-    void Constructor(edk::vec3f32 position,bool runFather=true){
-        if(runFather){
-            edk::shape::Vector3D::Constructor();edkEnd();
-        }
-        if(this->classThis!=this){
-            this->classThis=this;
-            this->x=position.x;edkEnd();
-            this->y=position.y;edkEnd();
-            this->z=position.z;edkEnd();
-            this->r=this->g=this->b=this->a=1.f;edkEnd();
-        }
-    }
-    void Constructor(edk::vec3f32 position,edk::color3f32 color,bool runFather=true){
-        if(runFather){
-            edk::shape::Vector3D::Constructor();edkEnd();
-        }
-        if(this->classThis!=this){
-            this->classThis=this;
-            this->x=position.x;edkEnd();
-            this->y=position.y;edkEnd();
-            this->z=position.z;edkEnd();
-            this->r=color.r;edkEnd();
-            this->g=color.g;edkEnd();
-            this->b=color.b;edkEnd();
-            this->a=1.f;edkEnd();
-        }
-    }
-    void Constructor(edk::vec3f32 position,edk::color4f32 color,bool runFather=true){
-        if(runFather){
-            edk::shape::Vector3D::Constructor();edkEnd();
-        }
-        if(this->classThis!=this){
-            this->classThis=this;
-            this->x=position.x;edkEnd();
-            this->y=position.y;edkEnd();
-            this->z=position.z;edkEnd();
-            this->r=color.r;edkEnd();
-            this->g=color.g;edkEnd();
-            this->b=color.b;edkEnd();
-            this->a=color.a;edkEnd();
-        }
-    }
-    void Constructor(edk::float32 x,edk::float32 y,edk::float32 z,bool runFather=true){
-        if(runFather){
-            edk::shape::Vector3D::Constructor();edkEnd();
-        }
-        if(this->classThis!=this){
-            this->classThis=this;
-            this->x=x;edkEnd();
-            this->y=y;edkEnd();
-            this->z=z;edkEnd();
-            this->r=this->g=this->b=this->a=1.f;edkEnd();
-        }
-    }
-    void Constructor(edk::float32 x,edk::float32 y,edk::float32 z,
-                     edk::float32 r,edk::float32 g,edk::float32 b,
-                     bool runFather=true
-            ){
-        if(runFather){
-            edk::shape::Vector3D::Constructor();edkEnd();
-        }
-        if(this->classThis!=this){
-            this->classThis=this;
-            this->x=x;edkEnd();
-            this->y=y;edkEnd();
-            this->z=z;edkEnd();
-            this->r=r;edkEnd();
-            this->g=g;edkEnd();
-            this->b=b;edkEnd();
-            this->a=1.f;edkEnd();
-        }
-    }
-    void Constructor(edk::float32 x,edk::float32 y,edk::float32 z,
-                     edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a,
-                     bool runFather=true
-            ){
-        if(runFather){
-            edk::shape::Vector3D::Constructor();edkEnd();
-        }
-        if(this->classThis!=this){
-            this->classThis=this;
-            this->x=x;edkEnd();
-            this->y=y;edkEnd();
-            this->z=z;edkEnd();
-            this->r=r;edkEnd();
-            this->g=g;edkEnd();
-            this->b=b;edkEnd();
-            this->a=a;edkEnd();
-        }
-    }
-
-    //OPERATORS
-    edk::shape::Vertex3D operator=(edk::shape::Vertex3D vertex){
-        this->x=vertex.x;edkEnd();
-        this->y=vertex.y;edkEnd();
-        this->z=vertex.z;edkEnd();
-        this->r = vertex.r;edkEnd();
-        this->g = vertex.g;edkEnd();
-        this->b = vertex.b;edkEnd();
-        this->a = vertex.a;edkEnd();
-        return vertex;edkEnd();
-    }
-    inline bool operator==(edk::shape::Vertex3D vertex){
-        if(this->x==vertex.x && this->y==vertex.y && this->z==vertex.z
-                &&
-                this->r==vertex.r && this->g==vertex.g && this->b==vertex.b && this->a==vertex.a
-                ){
-            return true;
-        }
-        return false;
-    }
-    inline bool operator!=(edk::shape::Vertex3D vertex){
-        if(this->x!=vertex.x || this->y!=vertex.y || this->z!=vertex.z
-                ||
-                this->r!=vertex.r || this->g!=vertex.g || this->b!=vertex.b || this->a!=vertex.a
-                ){
-            return true;
-        }
-        return false;
-    }
-    //VERTEX
-    //WithMatrix(edk::vector::Matrixf32<4u,4u>* matrix)
-    void drawVertex(){
-        //set the color of the vertex
-        edk::GU::guColor4f32(this->r,
-                             this->g,
-                             this->b,
-                             this->a
-                             );edkEnd();
-        //draw the vertex
-        edk::shape::Vector3D::drawVertex();edkEnd();
-    }
-    void drawVertexWithMatrix(edk::vector::Matrixf32<4u,4u>* matrix,edk::vector::Matrixf32<4u,4u>* matrixTemp){
-        //set the color of the vertex
-        edk::GU::guColor4f32(this->r,
-                             this->g,
-                             this->b,
-                             this->a
-                             );edkEnd();
-        //draw the vertex
-        edk::shape::Vector3D::drawVertexWithMatrix(matrix,matrixTemp);edkEnd();
-    }
-    void drawVertexPosition(edk::vec3f32 position){
-        //set the color of the vertex
-        edk::GU::guColor4f32(this->r,
-                             this->g,
-                             this->b,
-                             this->a
-                             );edkEnd();
-        //draw the vertex
-        edk::shape::Vector3D::drawVertexPosition(position);edkEnd();
-    }
-    void drawVertexPositionWithMatrix(edk::vector::Matrixf32<4u,4u>* matrix,edk::vector::Matrixf32<4u,4u>* matrixTemp,edk::vec3f32 position){
-        //set the color of the vertex
-        edk::GU::guColor4f32(this->r,
-                             this->g,
-                             this->b,
-                             this->a
-                             );edkEnd();
-        //draw the vertex
-        edk::shape::Vector3D::drawVertexPositionWithMatrix(matrix,matrixTemp,position);edkEnd();
-    }
-    void drawVertexWithColor(edk::color4f32 color){
-        //set the color of the vertex
-        edk::GU::guColor4f32(color.r,
-                             color.g,
-                             color.b,
-                             color.a
-                             );edkEnd();
-        //draw the vertex
-        edk::shape::Vector3D::drawVertex();edkEnd();
-    }
-    void drawVertexWithMatrixWithColor(edk::vector::Matrixf32<4u,4u>* matrix,edk::vector::Matrixf32<4u,4u>* matrixTemp,edk::color4f32 color){
-        //set the color of the vertex
-        edk::GU::guColor4f32(color.r,
-                             color.g,
-                             color.b,
-                             color.a
-                             );edkEnd();
-        //draw the vertex
-        edk::shape::Vector3D::drawVertexWithMatrix(matrix,matrixTemp);edkEnd();
-    }
-    void drawVertexPositionWithColor(edk::vec3f32 position,edk::color4f32 color){
-        //set the color of the vertex
-        edk::GU::guColor4f32(color.r,
-                             color.g,
-                             color.b,
-                             color.a
-                             );edkEnd();
-        //draw the vertex
-        edk::shape::Vector3D::drawVertexPosition(position);edkEnd();
-    }
-    void drawVertexPositionWithMatrixWithColor(edk::vector::Matrixf32<4u,4u>* matrix,edk::vector::Matrixf32<4u,4u>* matrixTemp,edk::vec3f32 position,edk::color4f32 color){
-        //set the color of the vertex
-        edk::GU::guColor4f32(color.r,
-                             color.g,
-                             color.b,
-                             color.a
-                             );edkEnd();
-        //draw the vertex
-        edk::shape::Vector3D::drawVertexPositionWithMatrix(matrix,matrixTemp,position);edkEnd();
-    }
-
-    void printVertex(){
-        printf("\nColor %.2f %.2f %.2f %.2f",
-               this->r,this->g,this->b,this->a
-               );edkEnd();
-        //print the vertex
-        edk::shape::Vector3D::printVertex();edkEnd();
-    }
-    edk::float32 r,g,b,a;
-private:
-    edk::classID classThis;
-};
-
-/*
-class Vertex3D{
-public:
-    Vertex3D(){
-        //
-        this->color.a=1u;edkEnd();
-        this->type = EDK_SHAPE_NOUV;edkEnd();
-        this->position = 0.f;edkEnd();
-        this->normal = 0.f;edkEnd();
-    }
-    virtual ~Vertex3D(){
-        //
-    }
-
-    void Constructor(bool runFather=true){}
 
     //position
-    edk::vec3f32 position;edkEnd();
-    //position
-    edk::vec3f32 normal;edkEnd();
+    edk::vec3f32 position;
     //color
-    edk::color4f32 color;edkEnd();
+    edk::color4f32 color;
+    //normal
+    edk::vec3f32 normal;
 
     //draw function
     virtual void drawWithColor(edk::color4f32 color = edk::color4f32(1,1,1,1)){
@@ -475,7 +305,29 @@ public:
                              );edkEnd();
 
         //draw the normal
-        edk::GU::guVertexNormal3f32(this->position.x, this->position.y,1.f);edkEnd();
+        edk::GU::guVertexNormal3f32(this->normal.x+this->position.z,
+                                    this->normal.y+this->position.y,
+                                    this->normal.z+this->position.z
+                                    );edkEnd();
+
+        //draw the vertex
+        edk::GU::guVertex3f32( this->position.x, this->position.y, this->position.z);edkEnd();
+    }
+    virtual void drawNormalWithColor(edk::color4f32 color = edk::color4f32(1,1,1,1)){
+        //Draw
+
+        //set the color of the vertex
+        edk::GU::guColor4f32(color.r,
+                             color.g,
+                             color.b,
+                             color.a
+                             );edkEnd();
+
+        //draw the normal
+        edk::GU::guVertex3f32(this->normal.x+this->position.x,
+                              this->normal.y+this->position.y,
+                              this->normal.z+this->position.z
+                              );edkEnd();
 
         //draw the vertex
         edk::GU::guVertex3f32( this->position.x, this->position.y, this->position.z);edkEnd();
@@ -493,7 +345,29 @@ public:
                              );edkEnd();
 
         //draw the normal
-        edk::GU::guVertexNormal3f32(this->position.x, this->position.y,1.f);edkEnd();
+        edk::GU::guVertexNormal3f32(this->normal.x,
+                                    this->normal.y,
+                                    this->normal.z
+                                    );edkEnd();
+
+        //draw the vertex
+        edk::GU::guVertex3f32( this->position.x, this->position.y, this->position.z);edkEnd();
+    }
+    virtual void drawNormal(){
+        //Draw
+
+        //set the color of the vertex
+        edk::GU::guColor4f32(this->color.r,
+                             this->color.g,
+                             this->color.b,
+                             this->color.a
+                             );edkEnd();
+
+        //draw the normal
+        edk::GU::guVertex3f32(this->normal.x,
+                              this->normal.y,
+                              this->normal.z
+                              );edkEnd();
 
         //draw the vertex
         edk::GU::guVertex3f32( this->position.x, this->position.y, this->position.z);edkEnd();
@@ -501,7 +375,7 @@ public:
     //print function
     virtual void print(){
         //
-        printf("\nVector position(%.2f %.2f %.2f) Color (%.2f %.2f %.2f %.2f)"
+        printf("\nVector position(%.2f %.2f %.2f) Color (%.2f %.2f %.2f %.2f) Normal(%.2f %.2f %.2f)"
                ,this->position.x
                ,this->position.y
                ,this->position.z
@@ -510,11 +384,15 @@ public:
                ,this->color.g
                ,this->color.b
                ,this->color.a
-               );edkEnd();
+
+               ,this->normal.x
+               ,this->normal.y
+               ,this->normal.z
+               );fflush(stdout);edkEnd();
     }
     virtual void print(edk::uint32 vertex){
         //
-        printf("\nVector [%u] position(%.2f %.2f %.2f) Color (%.2f %.2f %.2f %.2f)"
+        printf("\nVector [%u] position(%.2f %.2f %.2f) Color (%.2f %.2f %.2f %.2f) normal(%.2f %.2f %.2f)"
                ,vertex
                ,this->position.x
                ,this->position.y
@@ -524,7 +402,11 @@ public:
                ,this->color.g
                ,this->color.b
                ,this->color.a
-               );edkEnd();
+
+               ,this->normal.x
+               ,this->normal.z
+               ,this->normal.y
+               );fflush(stdout);edkEnd();
     }
     virtual bool writeToXML(edk::uint32 vertex,edk::XML* xml){
         if(xml){
@@ -576,6 +458,21 @@ public:
                                 xml->addSelectedNextAttribute((edk::char8*)"a",temp);edkEnd();
                                 free(temp);edkEnd();
                             }
+                            temp = edk::String::float32ToStr(this->normal.x);edkEnd();
+                            if(temp){
+                                xml->addSelectedNextAttribute((edk::char8*)"nx",temp);edkEnd();
+                                free(temp);edkEnd();
+                            }
+                            temp = edk::String::float32ToStr(this->normal.y);edkEnd();
+                            if(temp){
+                                xml->addSelectedNextAttribute((edk::char8*)"ny",temp);edkEnd();
+                                free(temp);edkEnd();
+                            }
+                            temp = edk::String::float32ToStr(this->normal.z);edkEnd();
+                            if(temp){
+                                xml->addSelectedNextAttribute((edk::char8*)"nz",temp);edkEnd();
+                                free(temp);edkEnd();
+                            }
                             //
                             xml->selectFather();edkEnd();
                         }
@@ -604,42 +501,57 @@ public:
                             //free(temp);edkEnd();
                             //test if the type is the same
                             //if(typeTemp==this->getType()){
-                                if((temp = xml->getSelectedAttributeValueByName("x"))){
-                                    //read the value
-                                    this->position.x = edk::String::strToFloat32(temp);edkEnd();
-                                    //free(temp);edkEnd();
-                                }
-                                if((temp = xml->getSelectedAttributeValueByName("y"))){
-                                    //read the value
-                                    this->position.y = edk::String::strToFloat32(temp);edkEnd();
-                                    //free(temp);edkEnd();
-                                }
-                                if((temp = xml->getSelectedAttributeValueByName("z"))){
-                                    //read the value
-                                    this->position.z = edk::String::strToFloat32(temp);edkEnd();
-                                    //free(temp);edkEnd();
-                                }
-                                if((temp = xml->getSelectedAttributeValueByName("r"))){
-                                    //read the value
-                                    this->color.r = edk::String::strToFloat32(temp);edkEnd();
-                                    //free(temp);edkEnd();
-                                }
-                                if((temp = xml->getSelectedAttributeValueByName("g"))){
-                                    //read the value
-                                    this->color.g = edk::String::strToFloat32(temp);edkEnd();
-                                    //free(temp);edkEnd();
-                                }
-                                if((temp = xml->getSelectedAttributeValueByName("b"))){
-                                    //read the value
-                                    this->color.b = edk::String::strToFloat32(temp);edkEnd();
-                                    //free(temp);edkEnd();
-                                }
-                                if((temp = xml->getSelectedAttributeValueByName("a"))){
-                                    //read the value
-                                    this->color.a = edk::String::strToFloat32(temp);edkEnd();
-                                    //free(temp);edkEnd();
-                                }
-                                ret=true;edkEnd();
+                            if((temp = xml->getSelectedAttributeValueByName("x"))){
+                                //read the value
+                                this->position.x = edk::String::strToFloat32(temp);edkEnd();
+                                //free(temp);edkEnd();
+                            }
+                            if((temp = xml->getSelectedAttributeValueByName("y"))){
+                                //read the value
+                                this->position.y = edk::String::strToFloat32(temp);edkEnd();
+                                //free(temp);edkEnd();
+                            }
+                            if((temp = xml->getSelectedAttributeValueByName("z"))){
+                                //read the value
+                                this->position.z = edk::String::strToFloat32(temp);edkEnd();
+                                //free(temp);edkEnd();
+                            }
+                            if((temp = xml->getSelectedAttributeValueByName("r"))){
+                                //read the value
+                                this->color.r = edk::String::strToFloat32(temp);edkEnd();
+                                //free(temp);edkEnd();
+                            }
+                            if((temp = xml->getSelectedAttributeValueByName("g"))){
+                                //read the value
+                                this->color.g = edk::String::strToFloat32(temp);edkEnd();
+                                //free(temp);edkEnd();
+                            }
+                            if((temp = xml->getSelectedAttributeValueByName("b"))){
+                                //read the value
+                                this->color.b = edk::String::strToFloat32(temp);edkEnd();
+                                //free(temp);edkEnd();
+                            }
+                            if((temp = xml->getSelectedAttributeValueByName("a"))){
+                                //read the value
+                                this->color.a = edk::String::strToFloat32(temp);edkEnd();
+                                //free(temp);edkEnd();
+                            }
+                            if((temp = xml->getSelectedAttributeValueByName("nx"))){
+                                //read the value
+                                this->normal.x = edk::String::strToFloat32(temp);edkEnd();
+                                //free(temp);edkEnd();
+                            }
+                            if((temp = xml->getSelectedAttributeValueByName("ny"))){
+                                //read the value
+                                this->normal.y = edk::String::strToFloat32(temp);edkEnd();
+                                //free(temp);edkEnd();
+                            }
+                            if((temp = xml->getSelectedAttributeValueByName("nz"))){
+                                //read the value
+                                this->normal.z = edk::String::strToFloat32(temp);edkEnd();
+                                //free(temp);edkEnd();
+                            }
+                            ret=true;edkEnd();
                             //}
                         }
                         xml->selectFather();edkEnd();
@@ -691,22 +603,34 @@ public:
         return vertex;edkEnd();
     }
 protected:
-    edk::uint8 type;edkEnd();
+    edk::uint8 type;
 private:
+    edk::classID classThis;
 };
 
 //Add the UV to the vertex
 class Vertex3DWithUV: public edk::shape::Vertex3D{
 public:
     Vertex3DWithUV(){
-        //
-        this->type = EDK_SHAPE_UV;edkEnd();
+        this->classThis=NULL;edkEnd();
+        this->Constructor(false);edkEnd();
     }
     virtual ~Vertex3DWithUV(){
-        //
+        if(this->classThis==this){
+            this->classThis=NULL;edkEnd();
+            //can destruct the class
+        }
     }
 
-    void Constructor(bool runFather=true){}
+    void Constructor(bool runFather=true){
+        if(runFather){
+            edk::shape::Vertex3D::Constructor();edkEnd();
+        }
+        if(this->classThis!=this){
+            this->classThis=this;
+            this->type = EDK_SHAPE_UV;edkEnd();
+        }
+    }
 
 
 
@@ -748,7 +672,7 @@ public:
         //Add the UV
         edk::GU::guVertexTex2f32(this->uv.x,this->uv.y);edkEnd();
         //glMultiTexCoord2f(GL_TEXTURE0,this->uv.x,this->uv.y);edkEnd();
-        //draw the vector2D
+        //draw the vector3D
         edk::shape::Vertex3D::drawWithColor(color);edkEnd();
     }
     //draw function
@@ -756,7 +680,7 @@ public:
         //Add the UV
         edk::GU::guVertexTex2f32(this->uv.x,this->uv.y);edkEnd();
         //glMultiTexCoord2f(GL_TEXTURE0,this->uv.x,this->uv.y);edkEnd();
-        //draw the vector2D
+        //draw the vector3D
         edk::shape::Vertex3D::draw();edkEnd();
     }
     //print function
@@ -853,23 +777,34 @@ public:
 protected:
 private:
     //uvMap is private because the Vertex3DUVAnimated modify the setUV
-    edk::vec2f32 uv;edkEnd();
+    edk::vec2f32 uv;
+private:
+    edk::classID classThis;
 };
 
 class Vertex3DAnimatedUV: public edk::shape::Vertex3DWithUV{
     //
 public:
     Vertex3DAnimatedUV(){
-        //
-        this->type = EDK_SHAPE_ANIMATED_UV;edkEnd();
+        this->classThis=NULL;edkEnd();
+        this->Constructor(false);edkEnd();
     }
     virtual ~Vertex3DAnimatedUV(){
-        //
+        if(this->classThis==this){
+            this->classThis=NULL;edkEnd();
+            //can destruct the class
+        }
     }
 
-    void Constructor(bool runFather=true){}
-
-
+    void Constructor(bool runFather=true){
+        if(runFather){
+            edk::shape::Vertex3DWithUV::Constructor();edkEnd();
+        }
+        if(this->classThis!=this){
+            this->classThis=this;
+            this->type = EDK_SHAPE_ANIMATED_UV;edkEnd();
+        }
+    }
 
     //SETERS
     //Set the UV and the uvSaved
@@ -886,17 +821,20 @@ public:
 
     //GETTERS
     edk::vec2f32 getMultiply(){
-        //
-        return this->uvMultiply;edkEnd();
+        return this->uvMultiply;
+    }
+    //get the uvFrames
+    edk::vec2ui32 getUVFrames(){
+        return edk::vec2ui32((edk::uint32)(1.f/this->uvMultiply.x),
+                             (edk::uint32)(1.f/this->uvMultiply.y)
+                             );
     }
     edk::vec2f32 getSaved(){
-        //
-        return this->uvSaved;edkEnd();
+        return this->uvSaved;
     }
 
     //Animation
     void cleanUVAnimation(){
-        //
         //this->uv=this->uvSaved;edkEnd();
         this->setUV(this->uvSaved);edkEnd();
     }
@@ -905,8 +843,8 @@ public:
         //test if the frames are true
         if(frames.x && frames.y){
             //set the frames for the UV position
-            this->uvMultiply.x = 1.f/(edk::float32)frames.x;edkEnd();
-            this->uvMultiply.y = 1.f/(edk::float32)frames.y;edkEnd();
+            this->uvMultiply.x = /*this->uvSaved.x*/1.f/(edk::float32)frames.x;edkEnd();
+            this->uvMultiply.y = /*this->uvSaved.y*/1.f/(edk::float32)frames.y;edkEnd();
             //set the frame
             this->useUVFrame(edk::vec2ui32(0u,0u));edkEnd();
             //return true
@@ -944,28 +882,28 @@ public:
 
     //draw function
     virtual void drawWithColor(edk::color4f32 color = edk::color4f32(1,1,1,1)){
-        //draw the vector2D
+        //draw the vector3D
         edk::shape::Vertex3DWithUV::drawWithColor(color);edkEnd();
     }
     //draw function
     virtual void draw(){
-        //draw the vector2D
+        //draw the vector3D
         edk::shape::Vertex3DWithUV::draw();edkEnd();
     }
     //print function
     virtual void print(){
         //
         edk::shape::Vertex3DWithUV::print();edkEnd(); printf(" multiply(%.2f %.2f)"
-                                                    ,this->uvMultiply.x
-                                                    ,this->uvMultiply.y
-                                                    );edkEnd();
+                                                             ,this->uvMultiply.x
+                                                             ,this->uvMultiply.y
+                                                             );fflush(stdout);edkEnd();
     }
     virtual void print(edk::uint32 vertex){
         //
         edk::shape::Vertex3DWithUV::print(vertex);edkEnd();printf(" multiply(%.2f %.2f)"
-                                                         ,this->uvMultiply.x
-                                                         ,this->uvMultiply.y
-                                                         );edkEnd();
+                                                                  ,this->uvMultiply.x
+                                                                  ,this->uvMultiply.y
+                                                                  );fflush(stdout);edkEnd();
     }
     virtual bool writeToXML(edk::uint32 vertex,edk::XML* xml){
         if(edk::shape::Vertex3DWithUV::writeToXML(vertex,xml)){
@@ -1075,12 +1013,14 @@ public:
 protected:
 private:
     //multiply vector save the position of the vector in the first frame.
-    edk::vec2f32 uvMultiply;edkEnd();
+    edk::vec2f32 uvMultiply;
 
     //save que UVMap to clean the animation
-    edk::vec2f32 uvSaved;edkEnd();
+    edk::vec2f32 uvSaved;
+private:
+    edk::classID classThis;
 };
-*/
+
 }//end namespace shape
 }//end namespace edk
 

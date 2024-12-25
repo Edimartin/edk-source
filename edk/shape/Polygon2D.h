@@ -1,5 +1,5 @@
-#ifndef EDK_SHAPE_POLYGON_H
-#define EDK_SHAPE_POLYGON_H
+#ifndef EDK_SHAPE_POLYGON2D_H
+#define EDK_SHAPE_POLYGON2D_H
 
 /*
 Library Polygon2D - Draw a 2D Polygon in EDK Game Engine
