@@ -111,6 +111,10 @@ public:
     virtual bool drawPolygonWireWithMatrix(edk::vector::Matrixf32<4u,4u>* matrix,edk::vector::Matrixf32<4u,4u>* matrixTemp,edk::uint32 polygon);
     virtual bool drawPolygonWireWithColorWithMatrix(edk::vector::Matrixf32<4u,4u>* matrix,edk::vector::Matrixf32<4u,4u>* matrixTemp,edk::uint32 polygon,edk::color4f32 color=edk::color4f32(1,1,1,1));
     virtual bool drawPolygonWireWithColorWithMatrix(edk::vector::Matrixf32<4u,4u>* matrix,edk::vector::Matrixf32<4u,4u>* matrixTemp,edk::uint32 polygon,edk::color3f32 color=edk::color3f32(1,1,1));
+    //VBO
+    virtual void drawVBOOneTexture();
+    virtual void drawVBOOneTexture(edk::uint32 position);
+    virtual void drawVBOMultiTexture();
 
     bool triangularizateFromVertex(edk::vector::Stack<edk::vec3f32>* vertexes);
     bool triangularizateFromPolygon(edk::shape::Polygon3D polygon);

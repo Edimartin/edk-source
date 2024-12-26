@@ -30,7 +30,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 bool edk::shape::Polygon2D::successTemplate=false;
 
-edk::uint8 vboSizeofPolygon2D[edk::shape::vbo_Size] = {
+edk::uint8 vboSizeofPolygon2D[edk::GU::vbo_Size] = {
     0u,                       //vbo_NULL = 0u,
     /*sizeof(edk::float32)* */2u , //vbo_XY,
     /*sizeof(edk::float32)* */3u , //vbo_XYZ,
@@ -82,7 +82,7 @@ void edk::shape::Polygon2D::Constructor(bool /*runFather*/){
         this->matrixTransform.Constructor();edkEnd();
         this->matrixPosition.Constructor();edkEnd();
 
-        this->vboType = edk::shape::vbo_NULL;edkEnd();
+        this->vboType = edk::GU::vbo_NULL;edkEnd();
         this->vbo=0u;edkEnd();
         this->vboCount=0u;edkEnd();
         this->vertexBuffer.clean();edkEnd();
@@ -128,7 +128,7 @@ void edk::shape::Polygon2D::Constructor(edk::uint32 vertexCount,bool /*runFather
         this->matrixTransform.Constructor();edkEnd();
         this->matrixPosition.Constructor();edkEnd();
 
-        this->vboType = edk::shape::vbo_NULL;edkEnd();
+        this->vboType = edk::GU::vbo_NULL;edkEnd();
         this->vbo=0u;edkEnd();
         this->vboCount=0u;edkEnd();
         this->vertexBuffer.clean();edkEnd();
@@ -213,26 +213,26 @@ bool edk::shape::Polygon2D::setVertexUVFrames(edk::uint32 vertex,edk::vec2ui32 f
 }
 
 //function to create the VBO
-bool edk::shape::Polygon2D::createVBO(edk::uint32 vertexCount,edk::shape::EDKVBOType type){
+bool edk::shape::Polygon2D::createVBO(edk::uint32 vertexCount,edk::GU::VBOType type){
     //delete the last VBO
     this->deleteVBO();edkEnd();
     //
     if(this->canUseVBO && vertexCount){
         //create the new VBO
-        if(type && type<edk::shape::vbo_Size){
+        if(type && type<edk::GU::vbo_Size){
             //create the vertexBuffer
             if(this->vertexBuffer.createArray(vertexCount * vboSizeofPolygon2D[type])){
                 edk::uint32 increment = vboSizeofPolygon2D[type];
                 edk::uint32 size = vertexCount * increment;
                 //clean the vertexBuffer
                 switch(type){
-                case edk::shape::vbo_XY:
+                case edk::GU::vbo_XY:
                     for(edk::uint32 i=0u;i<size;i+=increment){
                         this->vertexBuffer.set(i,0.f);
                         this->vertexBuffer.set(i+1u,0.f);
                     }
                     break;
-                case edk::shape::vbo_XY_NxNyNz:
+                case edk::GU::vbo_XY_NxNyNz:
                     for(edk::uint32 i=0u;i<size;i+=increment){
                         this->vertexBuffer.set(i,0.f);
                         this->vertexBuffer.set(i+1u,0.f);
@@ -242,7 +242,7 @@ bool edk::shape::Polygon2D::createVBO(edk::uint32 vertexCount,edk::shape::EDKVBO
                         this->vertexBuffer.set(i+4u,1.f);
                     }
                     break;
-                case edk::shape::vbo_XY_RGB:
+                case edk::GU::vbo_XY_RGB:
                     for(edk::uint32 i=0u;i<size;i+=increment){
                         this->vertexBuffer.set(i,0.f);
                         this->vertexBuffer.set(i+1u,0.f);
@@ -252,7 +252,7 @@ bool edk::shape::Polygon2D::createVBO(edk::uint32 vertexCount,edk::shape::EDKVBO
                         this->vertexBuffer.set(i+4u,1.f);
                     }
                     break;
-                case edk::shape::vbo_XY_RGBA:
+                case edk::GU::vbo_XY_RGBA:
                     for(edk::uint32 i=0u;i<size;i+=increment){
                         this->vertexBuffer.set(i,0.f);
                         this->vertexBuffer.set(i+1u,0.f);
@@ -263,7 +263,7 @@ bool edk::shape::Polygon2D::createVBO(edk::uint32 vertexCount,edk::shape::EDKVBO
                         this->vertexBuffer.set(i+5u,1.f);
                     }
                     break;
-                case edk::shape::vbo_XY_RGB_NxNyNz:
+                case edk::GU::vbo_XY_RGB_NxNyNz:
                     for(edk::uint32 i=0u;i<size;i+=increment){
                         this->vertexBuffer.set(i,0.f);
                         this->vertexBuffer.set(i+1u,0.f);
@@ -277,7 +277,7 @@ bool edk::shape::Polygon2D::createVBO(edk::uint32 vertexCount,edk::shape::EDKVBO
                         this->vertexBuffer.set(i+7u,1.f);
                     }
                     break;
-                case edk::shape::vbo_XY_RGBA_NxNyNz:
+                case edk::GU::vbo_XY_RGBA_NxNyNz:
                     for(edk::uint32 i=0u;i<size;i+=increment){
                         this->vertexBuffer.set(i,0.f);
                         this->vertexBuffer.set(i+1u,0.f);
@@ -292,7 +292,7 @@ bool edk::shape::Polygon2D::createVBO(edk::uint32 vertexCount,edk::shape::EDKVBO
                         this->vertexBuffer.set(i+8u,1.f);
                     }
                     break;
-                case edk::shape::vbo_XY_RGB_NxNyNz_UVxUVy:
+                case edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy:
                     for(edk::uint32 i=0u;i<size;i+=increment){
                         this->vertexBuffer.set(i,0.f);
                         this->vertexBuffer.set(i+1u,0.f);
@@ -309,7 +309,7 @@ bool edk::shape::Polygon2D::createVBO(edk::uint32 vertexCount,edk::shape::EDKVBO
                         this->vertexBuffer.set(i+9u,0.f);
                     }
                     break;
-                case edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy:
+                case edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy:
                     for(edk::uint32 i=0u;i<size;i+=increment){
                         this->vertexBuffer.set(i,0.f);
                         this->vertexBuffer.set(i+1u,0.f);
@@ -327,14 +327,14 @@ bool edk::shape::Polygon2D::createVBO(edk::uint32 vertexCount,edk::shape::EDKVBO
                         this->vertexBuffer.set(i+10u,0.f);
                     }
                     break;
-                case edk::shape::vbo_XYZ:
+                case edk::GU::vbo_XYZ:
                     for(edk::uint32 i=0u;i<size;i+=increment){
                         this->vertexBuffer.set(i,0.f);
                         this->vertexBuffer.set(i+1u,0.f);
                         this->vertexBuffer.set(i+2u,0.f);
                     }
                     break;
-                case edk::shape::vbo_XYZ_NxNyNz:
+                case edk::GU::vbo_XYZ_NxNyNz:
                     for(edk::uint32 i=0u;i<size;i+=increment){
                         this->vertexBuffer.set(i,0.f);
                         this->vertexBuffer.set(i+1u,0.f);
@@ -345,7 +345,7 @@ bool edk::shape::Polygon2D::createVBO(edk::uint32 vertexCount,edk::shape::EDKVBO
                         this->vertexBuffer.set(i+5u,1.f);
                     }
                     break;
-                case edk::shape::vbo_XYZ_RGB:
+                case edk::GU::vbo_XYZ_RGB:
                     for(edk::uint32 i=0u;i<size;i+=increment){
                         this->vertexBuffer.set(i,0.f);
                         this->vertexBuffer.set(i+1u,0.f);
@@ -356,7 +356,7 @@ bool edk::shape::Polygon2D::createVBO(edk::uint32 vertexCount,edk::shape::EDKVBO
                         this->vertexBuffer.set(i+5u,1.f);
                     }
                     break;
-                case edk::shape::vbo_XYZ_RGBA:
+                case edk::GU::vbo_XYZ_RGBA:
                     for(edk::uint32 i=0u;i<size;i+=increment){
                         this->vertexBuffer.set(i,0.f);
                         this->vertexBuffer.set(i+1u,0.f);
@@ -368,7 +368,7 @@ bool edk::shape::Polygon2D::createVBO(edk::uint32 vertexCount,edk::shape::EDKVBO
                         this->vertexBuffer.set(i+6u,1.f);
                     }
                     break;
-                case edk::shape::vbo_XYZ_RGB_NxNyNz:
+                case edk::GU::vbo_XYZ_RGB_NxNyNz:
                     for(edk::uint32 i=0u;i<size;i+=increment){
                         this->vertexBuffer.set(i,0.f);
                         this->vertexBuffer.set(i+1u,0.f);
@@ -383,7 +383,7 @@ bool edk::shape::Polygon2D::createVBO(edk::uint32 vertexCount,edk::shape::EDKVBO
                         this->vertexBuffer.set(i+8u,1.f);
                     }
                     break;
-                case edk::shape::vbo_XYZ_RGBA_NxNyNz:
+                case edk::GU::vbo_XYZ_RGBA_NxNyNz:
                     for(edk::uint32 i=0u;i<size;i+=increment){
                         this->vertexBuffer.set(i,0.f);
                         this->vertexBuffer.set(i+1u,0.f);
@@ -399,7 +399,7 @@ bool edk::shape::Polygon2D::createVBO(edk::uint32 vertexCount,edk::shape::EDKVBO
                         this->vertexBuffer.set(i+9u,1.f);
                     }
                     break;
-                case edk::shape::vbo_XYZ_RGB_NxNyNz_UVxUVy:
+                case edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy:
                     for(edk::uint32 i=0u;i<size;i+=increment){
                         this->vertexBuffer.set(i,0.f);
                         this->vertexBuffer.set(i+1u,0.f);
@@ -417,7 +417,7 @@ bool edk::shape::Polygon2D::createVBO(edk::uint32 vertexCount,edk::shape::EDKVBO
                         this->vertexBuffer.set(i+10u,0.f);
                     }
                     break;
-                case edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
+                case edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
                     for(edk::uint32 i=0u;i<size;i+=increment){
                         this->vertexBuffer.set(i,0.f);
                         this->vertexBuffer.set(i+1u,0.f);
@@ -480,21 +480,21 @@ bool edk::shape::Polygon2D::updateVBO(){
     }
     return false;
 }
-bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
-    if(this->canUseVBO && type != this->vboType && type!=edk::shape::vbo_NULL && type<edk::shape::vbo_Size){
+bool edk::shape::Polygon2D::changeVBO(edk::GU::VBOType type){
+    if(this->canUseVBO && type != this->vboType && type!=edk::GU::vbo_NULL && type<edk::GU::vbo_Size){
         edk::vector::Array<edk::float32> buffer;
         if(buffer.createArray(this->vboCount * vboSizeofPolygon2D[type])){
             edk::uint32 increment = vboSizeofPolygon2D[type];
             edk::uint32 size = this->vboCount*increment;
             //clean the vertexBuffer
             switch(type){
-            case edk::shape::vbo_XY:
+            case edk::GU::vbo_XY:
                 for(edk::uint32 i=0u;i<size;i+=increment){
                     buffer.set(i,0.f);
                     buffer.set(i+1u,0.f);
                 }
                 break;
-            case edk::shape::vbo_XY_NxNyNz:
+            case edk::GU::vbo_XY_NxNyNz:
                 for(edk::uint32 i=0u;i<size;i+=increment){
                     buffer.set(i,0.f);
                     buffer.set(i+1u,0.f);
@@ -504,7 +504,7 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     buffer.set(i+4u,1.f);
                 }
                 break;
-            case edk::shape::vbo_XY_RGB:
+            case edk::GU::vbo_XY_RGB:
                 for(edk::uint32 i=0u;i<size;i+=increment){
                     buffer.set(i,0.f);
                     buffer.set(i+1u,0.f);
@@ -514,7 +514,7 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     buffer.set(i+4u,1.f);
                 }
                 break;
-            case edk::shape::vbo_XY_RGBA:
+            case edk::GU::vbo_XY_RGBA:
                 for(edk::uint32 i=0u;i<size;i+=increment){
                     buffer.set(i,0.f);
                     buffer.set(i+1u,0.f);
@@ -525,7 +525,7 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     buffer.set(i+5u,1.f);
                 }
                 break;
-            case edk::shape::vbo_XY_RGB_NxNyNz:
+            case edk::GU::vbo_XY_RGB_NxNyNz:
                 for(edk::uint32 i=0u;i<size;i+=increment){
                     buffer.set(i,0.f);
                     buffer.set(i+1u,0.f);
@@ -539,7 +539,7 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     buffer.set(i+7u,1.f);
                 }
                 break;
-            case edk::shape::vbo_XY_RGBA_NxNyNz:
+            case edk::GU::vbo_XY_RGBA_NxNyNz:
                 for(edk::uint32 i=0u;i<size;i+=increment){
                     buffer.set(i,0.f);
                     buffer.set(i+1u,0.f);
@@ -554,7 +554,7 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     buffer.set(i+8u,1.f);
                 }
                 break;
-            case edk::shape::vbo_XY_RGB_NxNyNz_UVxUVy:
+            case edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy:
                 for(edk::uint32 i=0u;i<size;i+=increment){
                     buffer.set(i,0.f);
                     buffer.set(i+1u,0.f);
@@ -571,7 +571,7 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     buffer.set(i+9u,0.f);
                 }
                 break;
-            case edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy:
+            case edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy:
                 for(edk::uint32 i=0u;i<size;i+=increment){
                     buffer.set(i,0.f);
                     buffer.set(i+1u,0.f);
@@ -589,14 +589,14 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     buffer.set(i+10u,0.f);
                 }
                 break;
-            case edk::shape::vbo_XYZ:
+            case edk::GU::vbo_XYZ:
                 for(edk::uint32 i=0u;i<size;i+=increment){
                     buffer.set(i,0.f);
                     buffer.set(i+1u,0.f);
                     buffer.set(i+2u,0.f);
                 }
                 break;
-            case edk::shape::vbo_XYZ_NxNyNz:
+            case edk::GU::vbo_XYZ_NxNyNz:
                 for(edk::uint32 i=0u;i<size;i+=increment){
                     buffer.set(i,0.f);
                     buffer.set(i+1u,0.f);
@@ -607,7 +607,7 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     buffer.set(i+5u,1.f);
                 }
                 break;
-            case edk::shape::vbo_XYZ_RGB:
+            case edk::GU::vbo_XYZ_RGB:
                 for(edk::uint32 i=0u;i<size;i+=increment){
                     buffer.set(i,0.f);
                     buffer.set(i+1u,0.f);
@@ -618,7 +618,7 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     buffer.set(i+5u,1.f);
                 }
                 break;
-            case edk::shape::vbo_XYZ_RGBA:
+            case edk::GU::vbo_XYZ_RGBA:
                 for(edk::uint32 i=0u;i<size;i+=increment){
                     buffer.set(i,0.f);
                     buffer.set(i+1u,0.f);
@@ -630,7 +630,7 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     buffer.set(i+6u,1.f);
                 }
                 break;
-            case edk::shape::vbo_XYZ_RGB_NxNyNz:
+            case edk::GU::vbo_XYZ_RGB_NxNyNz:
                 for(edk::uint32 i=0u;i<size;i+=increment){
                     buffer.set(i,0.f);
                     buffer.set(i+1u,0.f);
@@ -645,7 +645,7 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     buffer.set(i+8u,1.f);
                 }
                 break;
-            case edk::shape::vbo_XYZ_RGBA_NxNyNz:
+            case edk::GU::vbo_XYZ_RGBA_NxNyNz:
                 for(edk::uint32 i=0u;i<size;i+=increment){
                     buffer.set(i,0.f);
                     buffer.set(i+1u,0.f);
@@ -661,7 +661,7 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     buffer.set(i+9u,1.f);
                 }
                 break;
-            case edk::shape::vbo_XYZ_RGB_NxNyNz_UVxUVy:
+            case edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy:
                 for(edk::uint32 i=0u;i<size;i+=increment){
                     buffer.set(i,0.f);
                     buffer.set(i+1u,0.f);
@@ -679,7 +679,7 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     buffer.set(i+10u,0.f);
                 }
                 break;
-            case edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
+            case edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
                 for(edk::uint32 i=0u;i<size;i+=increment){
                     buffer.set(i,0.f);
                     buffer.set(i+1u,0.f);
@@ -705,7 +705,7 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
             edk::uint32 source=0u,dest=0u;
             //
             switch(this->vboType){
-            case edk::shape::vbo_XY:
+            case edk::GU::vbo_XY:
             {
                 for(edk::uint32 i=0u;i<this->vboCount;i++){
                     buffer.set(dest,this->vertexBuffer.get(source));
@@ -716,12 +716,12 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                 }
             }
                 break;
-            case edk::shape::vbo_XY_NxNyNz:
+            case edk::GU::vbo_XY_NxNyNz:
             {
                 switch(type){
-                case edk::shape::vbo_XY:
+                case edk::GU::vbo_XY:
                 {
-                    //vbo_XY_NxNyNz -> edk::shape::vbo_XY
+                    //vbo_XY_NxNyNz -> edk::GU::vbo_XY
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -731,9 +731,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XY_RGB:
+                case edk::GU::vbo_XY_RGB:
                 {
-                    //vbo_XY_NxNyNz -> edk::shape::vbo_XY_RGB
+                    //vbo_XY_NxNyNz -> edk::GU::vbo_XY_RGB
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -743,9 +743,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XY_RGBA:
+                case edk::GU::vbo_XY_RGBA:
                 {
-                    //vbo_XY_NxNyNz -> edk::shape::vbo_XY_RGBA
+                    //vbo_XY_NxNyNz -> edk::GU::vbo_XY_RGBA
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -755,41 +755,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XY_RGB_NxNyNz:
+                case edk::GU::vbo_XY_RGB_NxNyNz:
                 {
-                    //vbo_XY_NxNyNz -> edk::shape::vbo_XY_RGB_NxNyNz
-                    for(edk::uint32 i=0u;i<this->vboCount;i++){
-                        buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
-
-                        buffer.set(dest+5u,this->vertexBuffer.get(source+2u));
-                        buffer.set(dest+6u,this->vertexBuffer.get(source+3u));
-                        buffer.set(dest+7u,this->vertexBuffer.get(source+4u));
-
-                        source+=vboSizeofPolygon2D[this->vboType];
-                        dest+=vboSizeofPolygon2D[type];
-                    }
-                }
-                    break;
-                case edk::shape::vbo_XY_RGBA_NxNyNz:
-                {
-                    //vbo_XY_NxNyNz -> edk::shape::vbo_XY_RGBA_NxNyNz
-                    for(edk::uint32 i=0u;i<this->vboCount;i++){
-                        buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
-
-                        buffer.set(dest+6u,this->vertexBuffer.get(source+2u));
-                        buffer.set(dest+7u,this->vertexBuffer.get(source+3u));
-                        buffer.set(dest+8u,this->vertexBuffer.get(source+4u));
-
-                        source+=vboSizeofPolygon2D[this->vboType];
-                        dest+=vboSizeofPolygon2D[type];
-                    }
-                }
-                    break;
-                case edk::shape::vbo_XY_RGB_NxNyNz_UVxUVy:
-                {
-                    //vbo_XY_NxNyNz -> edk::shape::vbo_XY_RGB_NxNyNz_UVxUVy
+                    //vbo_XY_NxNyNz -> edk::GU::vbo_XY_RGB_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -803,9 +771,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy:
+                case edk::GU::vbo_XY_RGBA_NxNyNz:
                 {
-                    //vbo_XY_NxNyNz -> edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy
+                    //vbo_XY_NxNyNz -> edk::GU::vbo_XY_RGBA_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -819,9 +787,41 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XYZ:
+                case edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy:
                 {
-                    //vbo_XY_NxNyNz -> edk::shape::vbo_XYZ
+                    //vbo_XY_NxNyNz -> edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+2u));
+                        buffer.set(dest+6u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+7u,this->vertexBuffer.get(source+4u));
+
+                        source+=vboSizeofPolygon2D[this->vboType];
+                        dest+=vboSizeofPolygon2D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy:
+                {
+                    //vbo_XY_NxNyNz -> edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        buffer.set(dest+6u,this->vertexBuffer.get(source+2u));
+                        buffer.set(dest+7u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+8u,this->vertexBuffer.get(source+4u));
+
+                        source+=vboSizeofPolygon2D[this->vboType];
+                        dest+=vboSizeofPolygon2D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ:
+                {
+                    //vbo_XY_NxNyNz -> edk::GU::vbo_XYZ
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -831,9 +831,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XYZ_NxNyNz:
+                case edk::GU::vbo_XYZ_NxNyNz:
                 {
-                    //vbo_XY_NxNyNz -> edk::shape::vbo_XYZ_NxNyNz
+                    //vbo_XY_NxNyNz -> edk::GU::vbo_XYZ_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -847,9 +847,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XYZ_RGB:
+                case edk::GU::vbo_XYZ_RGB:
                 {
-                    //vbo_XY_NxNyNz -> edk::shape::vbo_XYZ_RGB
+                    //vbo_XY_NxNyNz -> edk::GU::vbo_XYZ_RGB
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -859,9 +859,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XYZ_RGBA:
+                case edk::GU::vbo_XYZ_RGBA:
                 {
-                    //vbo_XY_NxNyNz -> edk::shape::vbo_XYZ_RGBA
+                    //vbo_XY_NxNyNz -> edk::GU::vbo_XYZ_RGBA
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -871,9 +871,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XYZ_RGB_NxNyNz:
+                case edk::GU::vbo_XYZ_RGB_NxNyNz:
                 {
-                    //vbo_XY_NxNyNz -> edk::shape::vbo_XYZ_RGB_NxNyNz
+                    //vbo_XY_NxNyNz -> edk::GU::vbo_XYZ_RGB_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -887,9 +887,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XYZ_RGBA_NxNyNz:
+                case edk::GU::vbo_XYZ_RGBA_NxNyNz:
                 {
-                    //vbo_XY_NxNyNz -> edk::shape::vbo_XYZ_RGBA_NxNyNz
+                    //vbo_XY_NxNyNz -> edk::GU::vbo_XYZ_RGBA_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -903,9 +903,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XYZ_RGB_NxNyNz_UVxUVy:
+                case edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy:
                 {
-                    //vbo_XY_NxNyNz -> edk::shape::vbo_XYZ_RGB_NxNyNz_UVxUVy
+                    //vbo_XY_NxNyNz -> edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -919,9 +919,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
+                case edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
                 {
-                    //vbo_XY_NxNyNz -> edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy
+                    //vbo_XY_NxNyNz -> edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -940,12 +940,12 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                 }
             }
                 break;
-            case edk::shape::vbo_XY_RGB:
+            case edk::GU::vbo_XY_RGB:
             {
                 switch(type){
-                case edk::shape::vbo_XY:
+                case edk::GU::vbo_XY:
                 {
-                    //edk::shape::vbo_XY_RGB -> edk::shape::vbo_XY
+                    //edk::GU::vbo_XY_RGB -> edk::GU::vbo_XY
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -955,9 +955,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XY_NxNyNz:
+                case edk::GU::vbo_XY_NxNyNz:
                 {
-                    //edk::shape::vbo_XY_RGB -> edk::shape::vbo_XY_NxNyNz
+                    //edk::GU::vbo_XY_RGB -> edk::GU::vbo_XY_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -967,9 +967,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XY_RGBA:
+                case edk::GU::vbo_XY_RGBA:
                 {
-                    //edk::shape::vbo_XY_RGB -> edk::shape::vbo_XY_RGBA
+                    //edk::GU::vbo_XY_RGB -> edk::GU::vbo_XY_RGBA
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -983,9 +983,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XY_RGB_NxNyNz:
+                case edk::GU::vbo_XY_RGB_NxNyNz:
                 {
-                    //edk::shape::vbo_XY_RGB -> edk::shape::vbo_XY_RGB_NxNyNz
+                    //edk::GU::vbo_XY_RGB -> edk::GU::vbo_XY_RGB_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -999,9 +999,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XY_RGBA_NxNyNz:
+                case edk::GU::vbo_XY_RGBA_NxNyNz:
                 {
-                    //edk::shape::vbo_XY_RGB -> edk::shape::vbo_XY_RGBA_NxNyNz
+                    //edk::GU::vbo_XY_RGB -> edk::GU::vbo_XY_RGBA_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -1015,9 +1015,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XY_RGB_NxNyNz_UVxUVy:
+                case edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy:
                 {
-                    //edk::shape::vbo_XY_RGB -> edk::shape::vbo_XY_RGB_NxNyNz_UVxUVy
+                    //edk::GU::vbo_XY_RGB -> edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -1031,9 +1031,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy:
+                case edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy:
                 {
-                    //edk::shape::vbo_XY_RGB -> edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy
+                    //edk::GU::vbo_XY_RGB -> edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -1047,9 +1047,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XYZ:
+                case edk::GU::vbo_XYZ:
                 {
-                    //edk::shape::vbo_XY_RGB -> edk::shape::vbo_XYZ
+                    //edk::GU::vbo_XY_RGB -> edk::GU::vbo_XYZ
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -1059,9 +1059,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XYZ_NxNyNz:
+                case edk::GU::vbo_XYZ_NxNyNz:
                 {
-                    //edk::shape::vbo_XY_RGB -> edk::shape::vbo_XYZ_NxNyNz
+                    //edk::GU::vbo_XY_RGB -> edk::GU::vbo_XYZ_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -1071,25 +1071,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XYZ_RGB:
+                case edk::GU::vbo_XYZ_RGB:
                 {
-                    //edk::shape::vbo_XY_RGB -> edk::shape::vbo_XYZ_RGB
-                    for(edk::uint32 i=0u;i<this->vboCount;i++){
-                        buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
-
-                        buffer.set(dest+3u,this->vertexBuffer.get(source+2u));
-                        buffer.set(dest+4u,this->vertexBuffer.get(source+3u));
-                        buffer.set(dest+5u,this->vertexBuffer.get(source+4u));
-
-                        source+=vboSizeofPolygon2D[this->vboType];
-                        dest+=vboSizeofPolygon2D[type];
-                    }
-                }
-                    break;
-                case edk::shape::vbo_XYZ_RGBA:
-                {
-                    //edk::shape::vbo_XY_RGB -> edk::shape::vbo_XYZ_RGBA
+                    //edk::GU::vbo_XY_RGB -> edk::GU::vbo_XYZ_RGB
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -1103,9 +1087,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XYZ_RGB_NxNyNz:
+                case edk::GU::vbo_XYZ_RGBA:
                 {
-                    //edk::shape::vbo_XY_RGB -> edk::shape::vbo_XYZ_RGB_NxNyNz
+                    //edk::GU::vbo_XY_RGB -> edk::GU::vbo_XYZ_RGBA
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -1119,9 +1103,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XYZ_RGBA_NxNyNz:
+                case edk::GU::vbo_XYZ_RGB_NxNyNz:
                 {
-                    //edk::shape::vbo_XY_RGB -> edk::shape::vbo_XYZ_RGBA_NxNyNz
+                    //edk::GU::vbo_XY_RGB -> edk::GU::vbo_XYZ_RGB_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -1135,9 +1119,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XYZ_RGB_NxNyNz_UVxUVy:
+                case edk::GU::vbo_XYZ_RGBA_NxNyNz:
                 {
-                    //edk::shape::vbo_XY_RGB -> edk::shape::vbo_XYZ_RGB_NxNyNz_UVxUVy
+                    //edk::GU::vbo_XY_RGB -> edk::GU::vbo_XYZ_RGBA_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -1151,9 +1135,25 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
+                case edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy:
                 {
-                    //edk::shape::vbo_XY_RGB -> edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy
+                    //edk::GU::vbo_XY_RGB -> edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+2u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+4u));
+
+                        source+=vboSizeofPolygon2D[this->vboType];
+                        dest+=vboSizeofPolygon2D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
+                {
+                    //edk::GU::vbo_XY_RGB -> edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -1172,12 +1172,12 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                 }
             }
                 break;
-            case edk::shape::vbo_XY_RGBA:
+            case edk::GU::vbo_XY_RGBA:
             {
                 switch(type){
-                case edk::shape::vbo_XY:
+                case edk::GU::vbo_XY:
                 {
-                    //edk::shape::vbo_XY_RGBA -> edk::shape::vbo_XY
+                    //edk::GU::vbo_XY_RGBA -> edk::GU::vbo_XY
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -1187,9 +1187,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XY_NxNyNz:
+                case edk::GU::vbo_XY_NxNyNz:
                 {
-                    //edk::shape::vbo_XY_RGBA -> edk::shape::vbo_XY_NxNyNz
+                    //edk::GU::vbo_XY_RGBA -> edk::GU::vbo_XY_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -1199,9 +1199,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XY_RGB:
+                case edk::GU::vbo_XY_RGB:
                 {
-                    //edk::shape::vbo_XY_RGBA -> edk::shape::vbo_XY_RGB
+                    //edk::GU::vbo_XY_RGBA -> edk::GU::vbo_XY_RGB
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -1211,9 +1211,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XY_RGB_NxNyNz:
+                case edk::GU::vbo_XY_RGB_NxNyNz:
                 {
-                    //edk::shape::vbo_XY_RGBA -> edk::shape::vbo_XY_RGB_NxNyNz
+                    //edk::GU::vbo_XY_RGBA -> edk::GU::vbo_XY_RGB_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -1223,9 +1223,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XY_RGBA_NxNyNz:
+                case edk::GU::vbo_XY_RGBA_NxNyNz:
                 {
-                    //edk::shape::vbo_XY_RGBA -> edk::shape::vbo_XY_RGBA_NxNyNz
+                    //edk::GU::vbo_XY_RGBA -> edk::GU::vbo_XY_RGBA_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -1240,9 +1240,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XY_RGB_NxNyNz_UVxUVy:
+                case edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy:
                 {
-                    //edk::shape::vbo_XY_RGBA -> edk::shape::vbo_XY_RGB_NxNyNz_UVxUVy
+                    //edk::GU::vbo_XY_RGBA -> edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -1256,9 +1256,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy:
+                case edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy:
                 {
-                    //edk::shape::vbo_XY_RGBA -> edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy
+                    //edk::GU::vbo_XY_RGBA -> edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -1273,9 +1273,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XYZ:
+                case edk::GU::vbo_XYZ:
                 {
-                    //edk::shape::vbo_XY_RGBA -> edk::shape::vbo_XYZ
+                    //edk::GU::vbo_XY_RGBA -> edk::GU::vbo_XYZ
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -1285,9 +1285,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XYZ_NxNyNz:
+                case edk::GU::vbo_XYZ_NxNyNz:
                 {
-                    //edk::shape::vbo_XY_RGBA -> edk::shape::vbo_XYZ_NxNyNz
+                    //edk::GU::vbo_XY_RGBA -> edk::GU::vbo_XYZ_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -1297,9 +1297,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XYZ_RGB:
+                case edk::GU::vbo_XYZ_RGB:
                 {
-                    //edk::shape::vbo_XY_RGBA -> edk::shape::vbo_XYZ_RGB
+                    //edk::GU::vbo_XY_RGBA -> edk::GU::vbo_XYZ_RGB
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -1309,42 +1309,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XYZ_RGBA:
+                case edk::GU::vbo_XYZ_RGBA:
                 {
-                    //edk::shape::vbo_XY_RGBA -> edk::shape::vbo_XYZ_RGBA
-                    for(edk::uint32 i=0u;i<this->vboCount;i++){
-                        buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
-
-                        buffer.set(dest+3u,this->vertexBuffer.get(source+2u));
-                        buffer.set(dest+4u,this->vertexBuffer.get(source+3u));
-                        buffer.set(dest+5u,this->vertexBuffer.get(source+4u));
-                        buffer.set(dest+6u,this->vertexBuffer.get(source+5u));
-
-                        source+=vboSizeofPolygon2D[this->vboType];
-                        dest+=vboSizeofPolygon2D[type];
-                    }
-                }
-                    break;
-                case edk::shape::vbo_XYZ_RGB_NxNyNz:
-                {
-                    //edk::shape::vbo_XY_RGBA -> edk::shape::vbo_XYZ_RGB_NxNyNz
-                    for(edk::uint32 i=0u;i<this->vboCount;i++){
-                        buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
-
-                        buffer.set(dest+3u,this->vertexBuffer.get(source+2u));
-                        buffer.set(dest+4u,this->vertexBuffer.get(source+3u));
-                        buffer.set(dest+5u,this->vertexBuffer.get(source+4u));
-
-                        source+=vboSizeofPolygon2D[this->vboType];
-                        dest+=vboSizeofPolygon2D[type];
-                    }
-                }
-                    break;
-                case edk::shape::vbo_XYZ_RGBA_NxNyNz:
-                {
-                    //edk::shape::vbo_XY_RGBA -> edk::shape::vbo_XYZ_RGBA_NxNyNz
+                    //edk::GU::vbo_XY_RGBA -> edk::GU::vbo_XYZ_RGBA
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -1359,9 +1326,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XYZ_RGB_NxNyNz_UVxUVy:
+                case edk::GU::vbo_XYZ_RGB_NxNyNz:
                 {
-                    //edk::shape::vbo_XY_RGBA -> edk::shape::vbo_XYZ_RGB_NxNyNz_UVxUVy
+                    //edk::GU::vbo_XY_RGBA -> edk::GU::vbo_XYZ_RGB_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -1375,9 +1342,42 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
+                case edk::GU::vbo_XYZ_RGBA_NxNyNz:
                 {
-                    //edk::shape::vbo_XY_RGBA -> edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy
+                    //edk::GU::vbo_XY_RGBA -> edk::GU::vbo_XYZ_RGBA_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+2u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+6u,this->vertexBuffer.get(source+5u));
+
+                        source+=vboSizeofPolygon2D[this->vboType];
+                        dest+=vboSizeofPolygon2D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy:
+                {
+                    //edk::GU::vbo_XY_RGBA -> edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+2u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+4u));
+
+                        source+=vboSizeofPolygon2D[this->vboType];
+                        dest+=vboSizeofPolygon2D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
+                {
+                    //edk::GU::vbo_XY_RGBA -> edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -1397,12 +1397,12 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                 }
             }
                 break;
-            case edk::shape::vbo_XY_RGB_NxNyNz:
+            case edk::GU::vbo_XY_RGB_NxNyNz:
             {
                 switch(type){
-                case edk::shape::vbo_XY:
+                case edk::GU::vbo_XY:
                 {
-                    //edk::shape::vbo_XY_RGB_NxNyNz -> edk::shape::vbo_XY
+                    //edk::GU::vbo_XY_RGB_NxNyNz -> edk::GU::vbo_XY
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -1412,9 +1412,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XY_NxNyNz:
+                case edk::GU::vbo_XY_NxNyNz:
                 {
-                    //edk::shape::vbo_XY_RGB_NxNyNz -> edk::shape::vbo_XY_NxNyNz
+                    //edk::GU::vbo_XY_RGB_NxNyNz -> edk::GU::vbo_XY_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -1428,9 +1428,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XY_RGB:
+                case edk::GU::vbo_XY_RGB:
                 {
-                    //edk::shape::vbo_XY_RGB_NxNyNz -> edk::shape::vbo_XY_RGB
+                    //edk::GU::vbo_XY_RGB_NxNyNz -> edk::GU::vbo_XY_RGB
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -1444,9 +1444,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XY_RGBA:
+                case edk::GU::vbo_XY_RGBA:
                 {
-                    //edk::shape::vbo_XY_RGB_NxNyNz -> edk::shape::vbo_XY_RGBA
+                    //edk::GU::vbo_XY_RGB_NxNyNz -> edk::GU::vbo_XY_RGBA
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -1460,9 +1460,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XY_RGBA_NxNyNz:
+                case edk::GU::vbo_XY_RGBA_NxNyNz:
                 {
-                    //edk::shape::vbo_XY_RGB_NxNyNz -> edk::shape::vbo_XY_RGBA_NxNyNz
+                    //edk::GU::vbo_XY_RGB_NxNyNz -> edk::GU::vbo_XY_RGBA_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -1480,9 +1480,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XY_RGB_NxNyNz_UVxUVy:
+                case edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy:
                 {
-                    //edk::shape::vbo_XY_RGB_NxNyNz -> edk::shape::vbo_XY_RGB_NxNyNz_UVxUVy
+                    //edk::GU::vbo_XY_RGB_NxNyNz -> edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -1500,9 +1500,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy:
+                case edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy:
                 {
-                    //edk::shape::vbo_XY_RGB_NxNyNz -> edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy
+                    //edk::GU::vbo_XY_RGB_NxNyNz -> edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -1520,9 +1520,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XYZ:
+                case edk::GU::vbo_XYZ:
                 {
-                    //edk::shape::vbo_XY_RGB_NxNyNz -> edk::shape::vbo_XYZ
+                    //edk::GU::vbo_XY_RGB_NxNyNz -> edk::GU::vbo_XYZ
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -1532,9 +1532,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XYZ_NxNyNz:
+                case edk::GU::vbo_XYZ_NxNyNz:
                 {
-                    //edk::shape::vbo_XY_RGB_NxNyNz -> edk::shape::vbo_XYZ_NxNyNz
+                    //edk::GU::vbo_XY_RGB_NxNyNz -> edk::GU::vbo_XYZ_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -1548,9 +1548,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XYZ_RGB:
+                case edk::GU::vbo_XYZ_RGB:
                 {
-                    //edk::shape::vbo_XY_RGB_NxNyNz -> edk::shape::vbo_XYZ_RGB
+                    //edk::GU::vbo_XY_RGB_NxNyNz -> edk::GU::vbo_XYZ_RGB
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -1564,9 +1564,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XYZ_RGBA:
+                case edk::GU::vbo_XYZ_RGBA:
                 {
-                    //edk::shape::vbo_XY_RGB_NxNyNz -> edk::shape::vbo_XYZ_RGBA
+                    //edk::GU::vbo_XY_RGB_NxNyNz -> edk::GU::vbo_XYZ_RGBA
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -1580,9 +1580,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XYZ_RGB_NxNyNz:
+                case edk::GU::vbo_XYZ_RGB_NxNyNz:
                 {
-                    //edk::shape::vbo_XY_RGB_NxNyNz -> edk::shape::vbo_XYZ_RGB_NxNyNz
+                    //edk::GU::vbo_XY_RGB_NxNyNz -> edk::GU::vbo_XYZ_RGB_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -1600,9 +1600,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XYZ_RGBA_NxNyNz:
+                case edk::GU::vbo_XYZ_RGBA_NxNyNz:
                 {
-                    //edk::shape::vbo_XY_RGB_NxNyNz -> edk::shape::vbo_XYZ_RGBA_NxNyNz
+                    //edk::GU::vbo_XY_RGB_NxNyNz -> edk::GU::vbo_XYZ_RGBA_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -1620,9 +1620,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XYZ_RGB_NxNyNz_UVxUVy:
+                case edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy:
                 {
-                    //edk::shape::vbo_XY_RGB_NxNyNz -> edk::shape::vbo_XYZ_RGB_NxNyNz_UVxUVy
+                    //edk::GU::vbo_XY_RGB_NxNyNz -> edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -1640,9 +1640,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
+                case edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
                 {
-                    //edk::shape::vbo_XY_RGB_NxNyNz -> edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy
+                    //edk::GU::vbo_XY_RGB_NxNyNz -> edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -1665,12 +1665,12 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                 }
             }
                 break;
-            case edk::shape::vbo_XY_RGBA_NxNyNz:
+            case edk::GU::vbo_XY_RGBA_NxNyNz:
             {
                 switch(type){
-                case edk::shape::vbo_XY:
+                case edk::GU::vbo_XY:
                 {
-                    //edk::shape::vbo_XY_RGBA_NxNyNz -> edk::shape::vbo_XY
+                    //edk::GU::vbo_XY_RGBA_NxNyNz -> edk::GU::vbo_XY
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -1680,9 +1680,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XY_NxNyNz:
+                case edk::GU::vbo_XY_NxNyNz:
                 {
-                    //edk::shape::vbo_XY_RGBA_NxNyNz -> edk::shape::vbo_XY_NxNyNz
+                    //edk::GU::vbo_XY_RGBA_NxNyNz -> edk::GU::vbo_XY_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -1696,9 +1696,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XY_RGB:
+                case edk::GU::vbo_XY_RGB:
                 {
-                    //edk::shape::vbo_XY_RGBA_NxNyNz -> edk::shape::vbo_XY_RGB
+                    //edk::GU::vbo_XY_RGBA_NxNyNz -> edk::GU::vbo_XY_RGB
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -1712,9 +1712,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XY_RGBA:
+                case edk::GU::vbo_XY_RGBA:
                 {
-                    //edk::shape::vbo_XY_RGBA_NxNyNz -> edk::shape::vbo_XY_RGBA
+                    //edk::GU::vbo_XY_RGBA_NxNyNz -> edk::GU::vbo_XY_RGBA
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -1729,9 +1729,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XY_RGB_NxNyNz:
+                case edk::GU::vbo_XY_RGB_NxNyNz:
                 {
-                    //edk::shape::vbo_XY_RGBA_NxNyNz -> edk::shape::vbo_XY_RGB_NxNyNz
+                    //edk::GU::vbo_XY_RGBA_NxNyNz -> edk::GU::vbo_XY_RGB_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -1749,9 +1749,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XY_RGB_NxNyNz_UVxUVy:
+                case edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy:
                 {
-                    //edk::shape::vbo_XY_RGBA_NxNyNz -> edk::shape::vbo_XY_RGB_NxNyNz_UVxUVy
+                    //edk::GU::vbo_XY_RGBA_NxNyNz -> edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -1769,9 +1769,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy:
+                case edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy:
                 {
-                    //edk::shape::vbo_XY_RGBA_NxNyNz -> edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy
+                    //edk::GU::vbo_XY_RGBA_NxNyNz -> edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -1790,9 +1790,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XYZ:
+                case edk::GU::vbo_XYZ:
                 {
-                    //edk::shape::vbo_XY_RGBA_NxNyNz -> edk::shape::vbo_XYZ
+                    //edk::GU::vbo_XY_RGBA_NxNyNz -> edk::GU::vbo_XYZ
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -1802,9 +1802,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XYZ_NxNyNz:
+                case edk::GU::vbo_XYZ_NxNyNz:
                 {
-                    //edk::shape::vbo_XY_RGBA_NxNyNz -> edk::shape::vbo_XYZ_NxNyNz
+                    //edk::GU::vbo_XY_RGBA_NxNyNz -> edk::GU::vbo_XYZ_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -1818,9 +1818,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XYZ_RGB:
+                case edk::GU::vbo_XYZ_RGB:
                 {
-                    //edk::shape::vbo_XY_RGBA_NxNyNz -> edk::shape::vbo_XYZ_RGB
+                    //edk::GU::vbo_XY_RGBA_NxNyNz -> edk::GU::vbo_XYZ_RGB
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -1834,9 +1834,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XYZ_RGBA:
+                case edk::GU::vbo_XYZ_RGBA:
                 {
-                    //edk::shape::vbo_XY_RGBA_NxNyNz -> edk::shape::vbo_XYZ_RGBA
+                    //edk::GU::vbo_XY_RGBA_NxNyNz -> edk::GU::vbo_XYZ_RGBA
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -1851,9 +1851,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XYZ_RGB_NxNyNz:
+                case edk::GU::vbo_XYZ_RGB_NxNyNz:
                 {
-                    //edk::shape::vbo_XY_RGBA_NxNyNz -> edk::shape::vbo_XYZ_RGB_NxNyNz
+                    //edk::GU::vbo_XY_RGBA_NxNyNz -> edk::GU::vbo_XYZ_RGB_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -1871,9 +1871,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XYZ_RGBA_NxNyNz:
+                case edk::GU::vbo_XYZ_RGBA_NxNyNz:
                 {
-                    //edk::shape::vbo_XY_RGBA_NxNyNz -> edk::shape::vbo_XYZ_RGBA_NxNyNz
+                    //edk::GU::vbo_XY_RGBA_NxNyNz -> edk::GU::vbo_XYZ_RGBA_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -1892,9 +1892,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XYZ_RGB_NxNyNz_UVxUVy:
+                case edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy:
                 {
-                    //edk::shape::vbo_XY_RGBA_NxNyNz -> edk::shape::vbo_XYZ_RGB_NxNyNz_UVxUVy
+                    //edk::GU::vbo_XY_RGBA_NxNyNz -> edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -1912,9 +1912,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
+                case edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
                 {
-                    //edk::shape::vbo_XY_RGBA_NxNyNz -> edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy
+                    //edk::GU::vbo_XY_RGBA_NxNyNz -> edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -1938,12 +1938,12 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                 }
             }
                 break;
-            case edk::shape::vbo_XY_RGB_NxNyNz_UVxUVy:
+            case edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy:
             {
                 switch(type){
-                case edk::shape::vbo_XY:
+                case edk::GU::vbo_XY:
                 {
-                    //edk::shape::vbo_XY_RGB_NxNyNz_UVxUVy -> edk::shape::vbo_XY
+                    //edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy -> edk::GU::vbo_XY
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -1953,9 +1953,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XY_NxNyNz:
+                case edk::GU::vbo_XY_NxNyNz:
                 {
-                    //edk::shape::vbo_XY_RGB_NxNyNz_UVxUVy -> edk::shape::vbo_XY_NxNyNz
+                    //edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy -> edk::GU::vbo_XY_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -1969,9 +1969,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XY_RGB:
+                case edk::GU::vbo_XY_RGB:
                 {
-                    //edk::shape::vbo_XY_RGB_NxNyNz_UVxUVy -> edk::shape::vbo_XY_RGB
+                    //edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy -> edk::GU::vbo_XY_RGB
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -1985,9 +1985,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XY_RGBA:
+                case edk::GU::vbo_XY_RGBA:
                 {
-                    //edk::shape::vbo_XY_RGB_NxNyNz_UVxUVy -> edk::shape::vbo_XY_RGBA
+                    //edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy -> edk::GU::vbo_XY_RGBA
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -2001,9 +2001,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XY_RGB_NxNyNz:
+                case edk::GU::vbo_XY_RGB_NxNyNz:
                 {
-                    //edk::shape::vbo_XY_RGB_NxNyNz_UVxUVy -> edk::shape::vbo_XY_RGB_NxNyNz
+                    //edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy -> edk::GU::vbo_XY_RGB_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -2021,9 +2021,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XY_RGBA_NxNyNz:
+                case edk::GU::vbo_XY_RGBA_NxNyNz:
                 {
-                    //edk::shape::vbo_XY_RGB_NxNyNz_UVxUVy -> edk::shape::vbo_XY_RGBA_NxNyNz
+                    //edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy -> edk::GU::vbo_XY_RGBA_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -2041,9 +2041,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy:
+                case edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy:
                 {
-                    //edk::shape::vbo_XY_RGB_NxNyNz_UVxUVy -> edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy
+                    //edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy -> edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -2064,9 +2064,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XYZ:
+                case edk::GU::vbo_XYZ:
                 {
-                    //edk::shape::vbo_XY_RGB_NxNyNz_UVxUVy -> edk::shape::vbo_XYZ
+                    //edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy -> edk::GU::vbo_XYZ
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -2076,9 +2076,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XYZ_NxNyNz:
+                case edk::GU::vbo_XYZ_NxNyNz:
                 {
-                    //edk::shape::vbo_XY_RGB_NxNyNz_UVxUVy -> edk::shape::vbo_XYZ_NxNyNz
+                    //edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy -> edk::GU::vbo_XYZ_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -2092,9 +2092,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XYZ_RGB:
+                case edk::GU::vbo_XYZ_RGB:
                 {
-                    //edk::shape::vbo_XY_RGB_NxNyNz_UVxUVy -> edk::shape::vbo_XYZ_RGB
+                    //edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy -> edk::GU::vbo_XYZ_RGB
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -2108,9 +2108,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XYZ_RGBA:
+                case edk::GU::vbo_XYZ_RGBA:
                 {
-                    //edk::shape::vbo_XY_RGB_NxNyNz_UVxUVy -> edk::shape::vbo_XYZ_RGBA
+                    //edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy -> edk::GU::vbo_XYZ_RGBA
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -2124,9 +2124,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XYZ_RGB_NxNyNz:
+                case edk::GU::vbo_XYZ_RGB_NxNyNz:
                 {
-                    //edk::shape::vbo_XY_RGB_NxNyNz_UVxUVy -> edk::shape::vbo_XYZ_RGB_NxNyNz
+                    //edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy -> edk::GU::vbo_XYZ_RGB_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -2144,9 +2144,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XYZ_RGBA_NxNyNz:
+                case edk::GU::vbo_XYZ_RGBA_NxNyNz:
                 {
-                    //edk::shape::vbo_XY_RGB_NxNyNz_UVxUVy -> edk::shape::vbo_XYZ_RGBA_NxNyNz
+                    //edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy -> edk::GU::vbo_XYZ_RGBA_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -2164,9 +2164,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XYZ_RGB_NxNyNz_UVxUVy:
+                case edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy:
                 {
-                    //edk::shape::vbo_XY_RGB_NxNyNz_UVxUVy -> edk::shape::vbo_XYZ_RGB_NxNyNz_UVxUVy
+                    //edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy -> edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -2187,9 +2187,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
+                case edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
                 {
-                    //edk::shape::vbo_XY_RGB_NxNyNz_UVxUVy -> edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy
+                    //edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy -> edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -2215,12 +2215,12 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                 }
             }
                 break;
-            case edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy:
+            case edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy:
             {
                 switch(type){
-                case edk::shape::vbo_XY:
+                case edk::GU::vbo_XY:
                 {
-                    //edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy -> edk::shape::vbo_XY
+                    //edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy -> edk::GU::vbo_XY
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -2230,9 +2230,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XY_NxNyNz:
+                case edk::GU::vbo_XY_NxNyNz:
                 {
-                    //edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy -> edk::shape::vbo_XY_NxNyNz
+                    //edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy -> edk::GU::vbo_XY_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -2246,9 +2246,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XY_RGB:
+                case edk::GU::vbo_XY_RGB:
                 {
-                    //edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy -> edk::shape::vbo_XY_RGB
+                    //edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy -> edk::GU::vbo_XY_RGB
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -2262,9 +2262,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XY_RGBA:
+                case edk::GU::vbo_XY_RGBA:
                 {
-                    //edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy -> edk::shape::vbo_XY_RGBA
+                    //edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy -> edk::GU::vbo_XY_RGBA
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -2279,9 +2279,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XY_RGB_NxNyNz:
+                case edk::GU::vbo_XY_RGB_NxNyNz:
                 {
-                    //edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy -> edk::shape::vbo_XY_RGB_NxNyNz
+                    //edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy -> edk::GU::vbo_XY_RGB_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -2299,9 +2299,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XY_RGBA_NxNyNz:
+                case edk::GU::vbo_XY_RGBA_NxNyNz:
                 {
-                    //edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy -> edk::shape::vbo_XY_RGBA_NxNyNz
+                    //edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy -> edk::GU::vbo_XY_RGBA_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -2320,9 +2320,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XY_RGB_NxNyNz_UVxUVy:
+                case edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy:
                 {
-                    //edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy -> edk::shape::vbo_XY_RGB_NxNyNz_UVxUVy
+                    //edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy -> edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -2343,9 +2343,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XYZ:
+                case edk::GU::vbo_XYZ:
                 {
-                    //edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy -> edk::shape::vbo_XYZ
+                    //edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy -> edk::GU::vbo_XYZ
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -2355,9 +2355,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XYZ_NxNyNz:
+                case edk::GU::vbo_XYZ_NxNyNz:
                 {
-                    //edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy -> edk::shape::vbo_XYZ_NxNyNz
+                    //edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy -> edk::GU::vbo_XYZ_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -2371,9 +2371,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XYZ_RGB:
+                case edk::GU::vbo_XYZ_RGB:
                 {
-                    //edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy -> edk::shape::vbo_XYZ_RGB
+                    //edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy -> edk::GU::vbo_XYZ_RGB
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -2387,9 +2387,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XYZ_RGBA:
+                case edk::GU::vbo_XYZ_RGBA:
                 {
-                    //edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy -> edk::shape::vbo_XYZ_RGBA
+                    //edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy -> edk::GU::vbo_XYZ_RGBA
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -2404,9 +2404,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XYZ_RGB_NxNyNz:
+                case edk::GU::vbo_XYZ_RGB_NxNyNz:
                 {
-                    //edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy -> edk::shape::vbo_XYZ_RGB_NxNyNz
+                    //edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy -> edk::GU::vbo_XYZ_RGB_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -2424,9 +2424,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XYZ_RGBA_NxNyNz:
+                case edk::GU::vbo_XYZ_RGBA_NxNyNz:
                 {
-                    //edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy -> edk::shape::vbo_XYZ_RGBA_NxNyNz
+                    //edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy -> edk::GU::vbo_XYZ_RGBA_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -2445,9 +2445,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XYZ_RGB_NxNyNz_UVxUVy:
+                case edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy:
                 {
-                    //edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy -> edk::shape::vbo_XYZ_RGB_NxNyNz_UVxUVy
+                    //edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy -> edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -2468,9 +2468,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
+                case edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
                 {
-                    //edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy -> edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy
+                    //edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy -> edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -2497,12 +2497,12 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                 }
             }
                 break;
-            case edk::shape::vbo_XYZ:
+            case edk::GU::vbo_XYZ:
             {
                 switch(type){
-                case edk::shape::vbo_XY:
+                case edk::GU::vbo_XY:
                 {
-                    //edk::shape::vbo_XYZ -> edk::shape::vbo_XY
+                    //edk::GU::vbo_XYZ -> edk::GU::vbo_XY
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -2512,9 +2512,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XY_NxNyNz:
+                case edk::GU::vbo_XY_NxNyNz:
                 {
-                    //edk::shape::vbo_XYZ -> edk::shape::vbo_XY_NxNyNz
+                    //edk::GU::vbo_XYZ -> edk::GU::vbo_XY_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -2524,9 +2524,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XY_RGB:
+                case edk::GU::vbo_XY_RGB:
                 {
-                    //edk::shape::vbo_XYZ -> edk::shape::vbo_XY_RGB
+                    //edk::GU::vbo_XYZ -> edk::GU::vbo_XY_RGB
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -2536,9 +2536,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XY_RGBA:
+                case edk::GU::vbo_XY_RGBA:
                 {
-                    //edk::shape::vbo_XYZ -> edk::shape::vbo_XY_RGBA
+                    //edk::GU::vbo_XYZ -> edk::GU::vbo_XY_RGBA
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -2548,9 +2548,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XY_RGB_NxNyNz:
+                case edk::GU::vbo_XY_RGB_NxNyNz:
                 {
-                    //edk::shape::vbo_XYZ -> edk::shape::vbo_XY_RGB_NxNyNz
+                    //edk::GU::vbo_XYZ -> edk::GU::vbo_XY_RGB_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -2560,9 +2560,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XY_RGBA_NxNyNz:
+                case edk::GU::vbo_XY_RGBA_NxNyNz:
                 {
-                    //edk::shape::vbo_XYZ -> edk::shape::vbo_XY_RGBA_NxNyNz
+                    //edk::GU::vbo_XYZ -> edk::GU::vbo_XY_RGBA_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -2573,9 +2573,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XY_RGB_NxNyNz_UVxUVy:
+                case edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy:
                 {
-                    //edk::shape::vbo_XYZ -> edk::shape::vbo_XY_RGB_NxNyNz_UVxUVy
+                    //edk::GU::vbo_XYZ -> edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -2585,9 +2585,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy:
+                case edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy:
                 {
-                    //edk::shape::vbo_XYZ -> edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy
+                    //edk::GU::vbo_XYZ -> edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -2597,22 +2597,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XYZ_NxNyNz:
+                case edk::GU::vbo_XYZ_NxNyNz:
                 {
-                    //edk::shape::vbo_XYZ -> edk::shape::vbo_XYZ_NxNyNz
-                    for(edk::uint32 i=0u;i<this->vboCount;i++){
-                        buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
-                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
-
-                        source+=vboSizeofPolygon2D[this->vboType];
-                        dest+=vboSizeofPolygon2D[type];
-                    }
-                }
-                    break;
-                case edk::shape::vbo_XYZ_RGB:
-                {
-                    //edk::shape::vbo_XYZ -> edk::shape::vbo_XYZ_RGB
+                    //edk::GU::vbo_XYZ -> edk::GU::vbo_XYZ_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -2623,9 +2610,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XYZ_RGBA:
+                case edk::GU::vbo_XYZ_RGB:
                 {
-                    //edk::shape::vbo_XYZ -> edk::shape::vbo_XYZ_RGBA
+                    //edk::GU::vbo_XYZ -> edk::GU::vbo_XYZ_RGB
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -2636,9 +2623,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XYZ_RGB_NxNyNz:
+                case edk::GU::vbo_XYZ_RGBA:
                 {
-                    //edk::shape::vbo_XYZ -> edk::shape::vbo_XYZ_RGB_NxNyNz
+                    //edk::GU::vbo_XYZ -> edk::GU::vbo_XYZ_RGBA
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -2649,9 +2636,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XYZ_RGBA_NxNyNz:
+                case edk::GU::vbo_XYZ_RGB_NxNyNz:
                 {
-                    //edk::shape::vbo_XYZ -> edk::shape::vbo_XYZ_RGBA_NxNyNz
+                    //edk::GU::vbo_XYZ -> edk::GU::vbo_XYZ_RGB_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -2662,9 +2649,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XYZ_RGB_NxNyNz_UVxUVy:
+                case edk::GU::vbo_XYZ_RGBA_NxNyNz:
                 {
-                    //edk::shape::vbo_XYZ -> edk::shape::vbo_XYZ_RGB_NxNyNz_UVxUVy
+                    //edk::GU::vbo_XYZ -> edk::GU::vbo_XYZ_RGBA_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -2675,9 +2662,22 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
+                case edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy:
                 {
-                    //edk::shape::vbo_XYZ -> edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy
+                    //edk::GU::vbo_XYZ -> edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
+
+                        source+=vboSizeofPolygon2D[this->vboType];
+                        dest+=vboSizeofPolygon2D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
+                {
+                    //edk::GU::vbo_XYZ -> edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -2693,12 +2693,12 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                 }
             }
                 break;
-            case edk::shape::vbo_XYZ_NxNyNz:
+            case edk::GU::vbo_XYZ_NxNyNz:
             {
                 switch(type){
-                case edk::shape::vbo_XY:
+                case edk::GU::vbo_XY:
                 {
-                    //edk::shape::vbo_XYZ_NxNyNz -> edk::shape::vbo_XY
+                    //edk::GU::vbo_XYZ_NxNyNz -> edk::GU::vbo_XY
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -2708,9 +2708,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XY_NxNyNz:
+                case edk::GU::vbo_XY_NxNyNz:
                 {
-                    //edk::shape::vbo_XYZ_NxNyNz -> edk::shape::vbo_XY_NxNyNz
+                    //edk::GU::vbo_XYZ_NxNyNz -> edk::GU::vbo_XY_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -2724,9 +2724,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XY_RGB:
+                case edk::GU::vbo_XY_RGB:
                 {
-                    //edk::shape::vbo_XYZ_NxNyNz -> edk::shape::vbo_XY_RGB
+                    //edk::GU::vbo_XYZ_NxNyNz -> edk::GU::vbo_XY_RGB
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -2736,9 +2736,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XY_RGBA:
+                case edk::GU::vbo_XY_RGBA:
                 {
-                    //edk::shape::vbo_XYZ_NxNyNz -> edk::shape::vbo_XY_RGBA
+                    //edk::GU::vbo_XYZ_NxNyNz -> edk::GU::vbo_XY_RGBA
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -2748,41 +2748,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XY_RGB_NxNyNz:
+                case edk::GU::vbo_XY_RGB_NxNyNz:
                 {
-                    //edk::shape::vbo_XYZ_NxNyNz -> edk::shape::vbo_XY_RGB_NxNyNz
-                    for(edk::uint32 i=0u;i<this->vboCount;i++){
-                        buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
-
-                        buffer.set(dest+5u,this->vertexBuffer.get(source+3u));
-                        buffer.set(dest+6u,this->vertexBuffer.get(source+4u));
-                        buffer.set(dest+7u,this->vertexBuffer.get(source+5u));
-
-                        source+=vboSizeofPolygon2D[this->vboType];
-                        dest+=vboSizeofPolygon2D[type];
-                    }
-                }
-                    break;
-                case edk::shape::vbo_XY_RGBA_NxNyNz:
-                {
-                    //edk::shape::vbo_XYZ_NxNyNz -> edk::shape::vbo_XY_RGBA_NxNyNz
-                    for(edk::uint32 i=0u;i<this->vboCount;i++){
-                        buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
-
-                        buffer.set(dest+6u,this->vertexBuffer.get(source+3u));
-                        buffer.set(dest+7u,this->vertexBuffer.get(source+4u));
-                        buffer.set(dest+8u,this->vertexBuffer.get(source+5u));
-
-                        source+=vboSizeofPolygon2D[this->vboType];
-                        dest+=vboSizeofPolygon2D[type];
-                    }
-                }
-                    break;
-                case edk::shape::vbo_XY_RGB_NxNyNz_UVxUVy:
-                {
-                    //edk::shape::vbo_XYZ_NxNyNz -> edk::shape::vbo_XY_RGB_NxNyNz_UVxUVy
+                    //edk::GU::vbo_XYZ_NxNyNz -> edk::GU::vbo_XY_RGB_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -2796,9 +2764,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy:
+                case edk::GU::vbo_XY_RGBA_NxNyNz:
                 {
-                    //edk::shape::vbo_XYZ_NxNyNz -> edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy
+                    //edk::GU::vbo_XYZ_NxNyNz -> edk::GU::vbo_XY_RGBA_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -2812,9 +2780,41 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XYZ:
+                case edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy:
                 {
-                    //edk::shape::vbo_XYZ_NxNyNz -> edk::shape::vbo_XYZ
+                    //edk::GU::vbo_XYZ_NxNyNz -> edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+6u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+7u,this->vertexBuffer.get(source+5u));
+
+                        source+=vboSizeofPolygon2D[this->vboType];
+                        dest+=vboSizeofPolygon2D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy:
+                {
+                    //edk::GU::vbo_XYZ_NxNyNz -> edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        buffer.set(dest+6u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+7u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+8u,this->vertexBuffer.get(source+5u));
+
+                        source+=vboSizeofPolygon2D[this->vboType];
+                        dest+=vboSizeofPolygon2D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ:
+                {
+                    //edk::GU::vbo_XYZ_NxNyNz -> edk::GU::vbo_XYZ
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -2825,9 +2825,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XYZ_RGB:
+                case edk::GU::vbo_XYZ_RGB:
                 {
-                    //edk::shape::vbo_XYZ_NxNyNz -> edk::shape::vbo_XYZ_RGB
+                    //edk::GU::vbo_XYZ_NxNyNz -> edk::GU::vbo_XYZ_RGB
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -2838,9 +2838,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XYZ_RGBA:
+                case edk::GU::vbo_XYZ_RGBA:
                 {
-                    //edk::shape::vbo_XYZ_NxNyNz -> edk::shape::vbo_XYZ_RGBA
+                    //edk::GU::vbo_XYZ_NxNyNz -> edk::GU::vbo_XYZ_RGBA
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -2851,9 +2851,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XYZ_RGB_NxNyNz:
+                case edk::GU::vbo_XYZ_RGB_NxNyNz:
                 {
-                    //edk::shape::vbo_XYZ_NxNyNz -> edk::shape::vbo_XYZ_RGB_NxNyNz
+                    //edk::GU::vbo_XYZ_NxNyNz -> edk::GU::vbo_XYZ_RGB_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -2868,9 +2868,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XYZ_RGBA_NxNyNz:
+                case edk::GU::vbo_XYZ_RGBA_NxNyNz:
                 {
-                    //edk::shape::vbo_XYZ_NxNyNz -> edk::shape::vbo_XYZ_RGBA_NxNyNz
+                    //edk::GU::vbo_XYZ_NxNyNz -> edk::GU::vbo_XYZ_RGBA_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -2885,9 +2885,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XYZ_RGB_NxNyNz_UVxUVy:
+                case edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy:
                 {
-                    //edk::shape::vbo_XYZ_NxNyNz -> edk::shape::vbo_XYZ_RGB_NxNyNz_UVxUVy
+                    //edk::GU::vbo_XYZ_NxNyNz -> edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -2902,9 +2902,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
+                case edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
                 {
-                    //edk::shape::vbo_XYZ_NxNyNz -> edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy
+                    //edk::GU::vbo_XYZ_NxNyNz -> edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -2924,12 +2924,12 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                 }
             }
                 break;
-            case edk::shape::vbo_XYZ_RGB:
+            case edk::GU::vbo_XYZ_RGB:
             {
                 switch(type){
-                case edk::shape::vbo_XY:
+                case edk::GU::vbo_XY:
                 {
-                    //edk::shape::vbo_XYZ_RGB -> edk::shape::vbo_XY
+                    //edk::GU::vbo_XYZ_RGB -> edk::GU::vbo_XY
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -2939,9 +2939,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XY_NxNyNz:
+                case edk::GU::vbo_XY_NxNyNz:
                 {
-                    //edk::shape::vbo_XYZ_RGB -> edk::shape::vbo_XY_NxNyNz
+                    //edk::GU::vbo_XYZ_RGB -> edk::GU::vbo_XY_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -2951,25 +2951,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XY_RGB:
+                case edk::GU::vbo_XY_RGB:
                 {
-                    //edk::shape::vbo_XYZ_RGB -> edk::shape::vbo_XY_RGB
-                    for(edk::uint32 i=0u;i<this->vboCount;i++){
-                        buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
-
-                        buffer.set(dest+2u,this->vertexBuffer.get(source+3u));
-                        buffer.set(dest+3u,this->vertexBuffer.get(source+4u));
-                        buffer.set(dest+4u,this->vertexBuffer.get(source+5u));
-
-                        source+=vboSizeofPolygon2D[this->vboType];
-                        dest+=vboSizeofPolygon2D[type];
-                    }
-                }
-                    break;
-                case edk::shape::vbo_XY_RGBA:
-                {
-                    //edk::shape::vbo_XYZ_RGB -> edk::shape::vbo_XY_RGBA
+                    //edk::GU::vbo_XYZ_RGB -> edk::GU::vbo_XY_RGB
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -2983,9 +2967,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XY_RGB_NxNyNz:
+                case edk::GU::vbo_XY_RGBA:
                 {
-                    //edk::shape::vbo_XYZ_RGB -> edk::shape::vbo_XY_RGB_NxNyNz
+                    //edk::GU::vbo_XYZ_RGB -> edk::GU::vbo_XY_RGBA
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -2999,9 +2983,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XY_RGBA_NxNyNz:
+                case edk::GU::vbo_XY_RGB_NxNyNz:
                 {
-                    //edk::shape::vbo_XYZ_RGB -> edk::shape::vbo_XY_RGBA_NxNyNz
+                    //edk::GU::vbo_XYZ_RGB -> edk::GU::vbo_XY_RGB_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -3015,9 +2999,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XY_RGB_NxNyNz_UVxUVy:
+                case edk::GU::vbo_XY_RGBA_NxNyNz:
                 {
-                    //edk::shape::vbo_XYZ_RGB -> edk::shape::vbo_XY_RGB_NxNyNz_UVxUVy
+                    //edk::GU::vbo_XYZ_RGB -> edk::GU::vbo_XY_RGBA_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -3031,9 +3015,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy:
+                case edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy:
                 {
-                    //edk::shape::vbo_XYZ_RGB -> edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy
+                    //edk::GU::vbo_XYZ_RGB -> edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -3047,9 +3031,25 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XYZ:
+                case edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy:
                 {
-                    //edk::shape::vbo_XYZ_RGB -> edk::shape::vbo_XYZ
+                    //edk::GU::vbo_XYZ_RGB -> edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+5u));
+
+                        source+=vboSizeofPolygon2D[this->vboType];
+                        dest+=vboSizeofPolygon2D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ:
+                {
+                    //edk::GU::vbo_XYZ_RGB -> edk::GU::vbo_XYZ
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -3060,9 +3060,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XYZ_NxNyNz:
+                case edk::GU::vbo_XYZ_NxNyNz:
                 {
-                    //edk::shape::vbo_XYZ_RGB -> edk::shape::vbo_XYZ_NxNyNz
+                    //edk::GU::vbo_XYZ_RGB -> edk::GU::vbo_XYZ_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -3073,26 +3073,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XYZ_RGBA:
+                case edk::GU::vbo_XYZ_RGBA:
                 {
-                    //edk::shape::vbo_XYZ_RGB -> edk::shape::vbo_XYZ_RGBA
-                    for(edk::uint32 i=0u;i<this->vboCount;i++){
-                        buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
-                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
-
-                        buffer.set(dest+3u,this->vertexBuffer.get(source+3u));
-                        buffer.set(dest+4u,this->vertexBuffer.get(source+4u));
-                        buffer.set(dest+5u,this->vertexBuffer.get(source+5u));
-
-                        source+=vboSizeofPolygon2D[this->vboType];
-                        dest+=vboSizeofPolygon2D[type];
-                    }
-                }
-                    break;
-                case edk::shape::vbo_XYZ_RGB_NxNyNz:
-                {
-                    //edk::shape::vbo_XYZ_RGB -> edk::shape::vbo_XYZ_RGB_NxNyNz
+                    //edk::GU::vbo_XYZ_RGB -> edk::GU::vbo_XYZ_RGBA
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -3107,9 +3090,26 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XYZ_RGBA_NxNyNz:
+                case edk::GU::vbo_XYZ_RGB_NxNyNz:
                 {
-                    //edk::shape::vbo_XYZ_RGB -> edk::shape::vbo_XYZ_RGBA_NxNyNz
+                    //edk::GU::vbo_XYZ_RGB -> edk::GU::vbo_XYZ_RGB_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
+
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+5u));
+
+                        source+=vboSizeofPolygon2D[this->vboType];
+                        dest+=vboSizeofPolygon2D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGBA_NxNyNz:
+                {
+                    //edk::GU::vbo_XYZ_RGB -> edk::GU::vbo_XYZ_RGBA_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -3125,9 +3125,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XYZ_RGB_NxNyNz_UVxUVy:
+                case edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy:
                 {
-                    //edk::shape::vbo_XYZ_RGB -> edk::shape::vbo_XYZ_RGB_NxNyNz_UVxUVy
+                    //edk::GU::vbo_XYZ_RGB -> edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -3142,9 +3142,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
+                case edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
                 {
-                    //edk::shape::vbo_XYZ_RGB -> edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy
+                    //edk::GU::vbo_XYZ_RGB -> edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -3164,12 +3164,12 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                 }
             }
                 break;
-            case edk::shape::vbo_XYZ_RGBA:
+            case edk::GU::vbo_XYZ_RGBA:
             {
                 switch(type){
-                case edk::shape::vbo_XY:
+                case edk::GU::vbo_XY:
                 {
-                    //edk::shape::vbo_XYZ_RGBA -> edk::shape::vbo_XY
+                    //edk::GU::vbo_XYZ_RGBA -> edk::GU::vbo_XY
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -3179,9 +3179,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XY_NxNyNz:
+                case edk::GU::vbo_XY_NxNyNz:
                 {
-                    //edk::shape::vbo_XYZ_RGBA -> edk::shape::vbo_XY_NxNyNz
+                    //edk::GU::vbo_XYZ_RGBA -> edk::GU::vbo_XY_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -3191,42 +3191,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XY_RGB:
+                case edk::GU::vbo_XY_RGB:
                 {
-                    //edk::shape::vbo_XYZ_RGBA -> edk::shape::vbo_XY_RGB
-                    for(edk::uint32 i=0u;i<this->vboCount;i++){
-                        buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
-
-                        buffer.set(dest+2u,this->vertexBuffer.get(source+3u));
-                        buffer.set(dest+3u,this->vertexBuffer.get(source+4u));
-                        buffer.set(dest+4u,this->vertexBuffer.get(source+5u));
-
-                        source+=vboSizeofPolygon2D[this->vboType];
-                        dest+=vboSizeofPolygon2D[type];
-                    }
-                }
-                    break;
-                case edk::shape::vbo_XY_RGBA:
-                {
-                    //edk::shape::vbo_XYZ_RGBA -> edk::shape::vbo_XY_RGBA
-                    for(edk::uint32 i=0u;i<this->vboCount;i++){
-                        buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
-
-                        buffer.set(dest+2u,this->vertexBuffer.get(source+3u));
-                        buffer.set(dest+3u,this->vertexBuffer.get(source+4u));
-                        buffer.set(dest+4u,this->vertexBuffer.get(source+5u));
-                        buffer.set(dest+5u,this->vertexBuffer.get(source+6u));
-
-                        source+=vboSizeofPolygon2D[this->vboType];
-                        dest+=vboSizeofPolygon2D[type];
-                    }
-                }
-                    break;
-                case edk::shape::vbo_XY_RGB_NxNyNz:
-                {
-                    //edk::shape::vbo_XYZ_RGBA -> edk::shape::vbo_XY_RGB_NxNyNz
+                    //edk::GU::vbo_XYZ_RGBA -> edk::GU::vbo_XY_RGB
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -3240,9 +3207,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XY_RGBA_NxNyNz:
+                case edk::GU::vbo_XY_RGBA:
                 {
-                    //edk::shape::vbo_XYZ_RGBA -> edk::shape::vbo_XY_RGBA_NxNyNz
+                    //edk::GU::vbo_XYZ_RGBA -> edk::GU::vbo_XY_RGBA
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -3257,9 +3224,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XY_RGB_NxNyNz_UVxUVy:
+                case edk::GU::vbo_XY_RGB_NxNyNz:
                 {
-                    //edk::shape::vbo_XYZ_RGBA -> edk::shape::vbo_XY_RGB_NxNyNz_UVxUVy
+                    //edk::GU::vbo_XYZ_RGBA -> edk::GU::vbo_XY_RGB_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -3273,9 +3240,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy:
+                case edk::GU::vbo_XY_RGBA_NxNyNz:
                 {
-                    //edk::shape::vbo_XYZ_RGBA -> edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy
+                    //edk::GU::vbo_XYZ_RGBA -> edk::GU::vbo_XY_RGBA_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -3290,9 +3257,42 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XYZ:
+                case edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy:
                 {
-                    //edk::shape::vbo_XYZ_RGBA -> edk::shape::vbo_XYZ
+                    //edk::GU::vbo_XYZ_RGBA -> edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+5u));
+
+                        source+=vboSizeofPolygon2D[this->vboType];
+                        dest+=vboSizeofPolygon2D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy:
+                {
+                    //edk::GU::vbo_XYZ_RGBA -> edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+5u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+6u));
+
+                        source+=vboSizeofPolygon2D[this->vboType];
+                        dest+=vboSizeofPolygon2D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ:
+                {
+                    //edk::GU::vbo_XYZ_RGBA -> edk::GU::vbo_XYZ
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -3303,9 +3303,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XYZ_NxNyNz:
+                case edk::GU::vbo_XYZ_NxNyNz:
                 {
-                    //edk::shape::vbo_XYZ_RGBA -> edk::shape::vbo_XYZ_NxNyNz
+                    //edk::GU::vbo_XYZ_RGBA -> edk::GU::vbo_XYZ_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -3316,9 +3316,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XYZ_RGB:
+                case edk::GU::vbo_XYZ_RGB:
                 {
-                    //edk::shape::vbo_XYZ_RGBA -> edk::shape::vbo_XYZ_RGB
+                    //edk::GU::vbo_XYZ_RGBA -> edk::GU::vbo_XYZ_RGB
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -3333,9 +3333,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XYZ_RGB_NxNyNz:
+                case edk::GU::vbo_XYZ_RGB_NxNyNz:
                 {
-                    //edk::shape::vbo_XYZ_RGBA -> edk::shape::vbo_XYZ_RGB_NxNyNz
+                    //edk::GU::vbo_XYZ_RGBA -> edk::GU::vbo_XYZ_RGB_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -3350,9 +3350,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XYZ_RGBA_NxNyNz:
+                case edk::GU::vbo_XYZ_RGBA_NxNyNz:
                 {
-                    //edk::shape::vbo_XYZ_RGBA -> edk::shape::vbo_XYZ_RGBA_NxNyNz
+                    //edk::GU::vbo_XYZ_RGBA -> edk::GU::vbo_XYZ_RGBA_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -3368,9 +3368,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XYZ_RGB_NxNyNz_UVxUVy:
+                case edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy:
                 {
-                    //edk::shape::vbo_XYZ_RGBA -> edk::shape::vbo_XYZ_RGB_NxNyNz_UVxUVy
+                    //edk::GU::vbo_XYZ_RGBA -> edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -3385,9 +3385,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
+                case edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
                 {
-                    //edk::shape::vbo_XYZ_RGBA -> edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy
+                    //edk::GU::vbo_XYZ_RGBA -> edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -3408,12 +3408,12 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                 }
             }
                 break;
-            case edk::shape::vbo_XYZ_RGB_NxNyNz:
+            case edk::GU::vbo_XYZ_RGB_NxNyNz:
             {
                 switch(type){
-                case edk::shape::vbo_XY:
+                case edk::GU::vbo_XY:
                 {
-                    //edk::shape::vbo_XYZ_RGB_NxNyNz -> edk::shape::vbo_XY
+                    //edk::GU::vbo_XYZ_RGB_NxNyNz -> edk::GU::vbo_XY
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -3423,9 +3423,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XY_NxNyNz:
+                case edk::GU::vbo_XY_NxNyNz:
                 {
-                    //edk::shape::vbo_XYZ_RGB_NxNyNz -> edk::shape::vbo_XY_NxNyNz
+                    //edk::GU::vbo_XYZ_RGB_NxNyNz -> edk::GU::vbo_XY_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -3439,9 +3439,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XY_RGB:
+                case edk::GU::vbo_XY_RGB:
                 {
-                    //edk::shape::vbo_XYZ_RGB_NxNyNz -> edk::shape::vbo_XY_RGB
+                    //edk::GU::vbo_XYZ_RGB_NxNyNz -> edk::GU::vbo_XY_RGB
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -3455,9 +3455,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XY_RGBA:
+                case edk::GU::vbo_XY_RGBA:
                 {
-                    //edk::shape::vbo_XYZ_RGB_NxNyNz -> edk::shape::vbo_XY_RGBA
+                    //edk::GU::vbo_XYZ_RGB_NxNyNz -> edk::GU::vbo_XY_RGBA
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -3471,49 +3471,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XY_RGB_NxNyNz:
+                case edk::GU::vbo_XY_RGB_NxNyNz:
                 {
-                    //edk::shape::vbo_XYZ_RGB_NxNyNz -> edk::shape::vbo_XY_RGB_NxNyNz
-                    for(edk::uint32 i=0u;i<this->vboCount;i++){
-                        buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
-
-                        buffer.set(dest+2u,this->vertexBuffer.get(source+3u));
-                        buffer.set(dest+3u,this->vertexBuffer.get(source+4u));
-                        buffer.set(dest+4u,this->vertexBuffer.get(source+5u));
-
-                        buffer.set(dest+5u,this->vertexBuffer.get(source+6u));
-                        buffer.set(dest+6u,this->vertexBuffer.get(source+7u));
-                        buffer.set(dest+7u,this->vertexBuffer.get(source+8u));
-
-                        source+=vboSizeofPolygon2D[this->vboType];
-                        dest+=vboSizeofPolygon2D[type];
-                    }
-                }
-                    break;
-                case edk::shape::vbo_XY_RGBA_NxNyNz:
-                {
-                    //edk::shape::vbo_XYZ_RGB_NxNyNz -> edk::shape::vbo_XY_RGBA_NxNyNz
-                    for(edk::uint32 i=0u;i<this->vboCount;i++){
-                        buffer.set(dest,this->vertexBuffer.get(source));
-                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
-
-                        buffer.set(dest+2u,this->vertexBuffer.get(source+3u));
-                        buffer.set(dest+3u,this->vertexBuffer.get(source+4u));
-                        buffer.set(dest+4u,this->vertexBuffer.get(source+5u));
-
-                        buffer.set(dest+6u,this->vertexBuffer.get(source+6u));
-                        buffer.set(dest+7u,this->vertexBuffer.get(source+7u));
-                        buffer.set(dest+8u,this->vertexBuffer.get(source+8u));
-
-                        source+=vboSizeofPolygon2D[this->vboType];
-                        dest+=vboSizeofPolygon2D[type];
-                    }
-                }
-                    break;
-                case edk::shape::vbo_XY_RGB_NxNyNz_UVxUVy:
-                {
-                    //edk::shape::vbo_XYZ_RGB_NxNyNz -> edk::shape::vbo_XY_RGB_NxNyNz_UVxUVy
+                    //edk::GU::vbo_XYZ_RGB_NxNyNz -> edk::GU::vbo_XY_RGB_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -3531,9 +3491,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy:
+                case edk::GU::vbo_XY_RGBA_NxNyNz:
                 {
-                    //edk::shape::vbo_XYZ_RGB_NxNyNz -> edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy
+                    //edk::GU::vbo_XYZ_RGB_NxNyNz -> edk::GU::vbo_XY_RGBA_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -3551,9 +3511,49 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XYZ:
+                case edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy:
                 {
-                    //edk::shape::vbo_XYZ_RGB_NxNyNz -> edk::shape::vbo_XYZ
+                    //edk::GU::vbo_XYZ_RGB_NxNyNz -> edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+5u));
+
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+6u));
+                        buffer.set(dest+6u,this->vertexBuffer.get(source+7u));
+                        buffer.set(dest+7u,this->vertexBuffer.get(source+8u));
+
+                        source+=vboSizeofPolygon2D[this->vboType];
+                        dest+=vboSizeofPolygon2D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy:
+                {
+                    //edk::GU::vbo_XYZ_RGB_NxNyNz -> edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+5u));
+
+                        buffer.set(dest+6u,this->vertexBuffer.get(source+6u));
+                        buffer.set(dest+7u,this->vertexBuffer.get(source+7u));
+                        buffer.set(dest+8u,this->vertexBuffer.get(source+8u));
+
+                        source+=vboSizeofPolygon2D[this->vboType];
+                        dest+=vboSizeofPolygon2D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ:
+                {
+                    //edk::GU::vbo_XYZ_RGB_NxNyNz -> edk::GU::vbo_XYZ
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -3564,9 +3564,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XYZ_NxNyNz:
+                case edk::GU::vbo_XYZ_NxNyNz:
                 {
-                    //edk::shape::vbo_XYZ_RGB_NxNyNz -> edk::shape::vbo_XYZ_NxNyNz
+                    //edk::GU::vbo_XYZ_RGB_NxNyNz -> edk::GU::vbo_XYZ_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -3581,9 +3581,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XYZ_RGB:
+                case edk::GU::vbo_XYZ_RGB:
                 {
-                    //edk::shape::vbo_XYZ_RGB_NxNyNz -> edk::shape::vbo_XYZ_RGB
+                    //edk::GU::vbo_XYZ_RGB_NxNyNz -> edk::GU::vbo_XYZ_RGB
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -3598,9 +3598,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XYZ_RGBA:
+                case edk::GU::vbo_XYZ_RGBA:
                 {
-                    //edk::shape::vbo_XYZ_RGB_NxNyNz -> edk::shape::vbo_XYZ_RGBA
+                    //edk::GU::vbo_XYZ_RGB_NxNyNz -> edk::GU::vbo_XYZ_RGBA
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -3615,9 +3615,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XYZ_RGBA_NxNyNz:
+                case edk::GU::vbo_XYZ_RGBA_NxNyNz:
                 {
-                    //edk::shape::vbo_XYZ_RGB_NxNyNz -> edk::shape::vbo_XYZ_RGBA_NxNyNz
+                    //edk::GU::vbo_XYZ_RGB_NxNyNz -> edk::GU::vbo_XYZ_RGBA_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -3636,9 +3636,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XYZ_RGB_NxNyNz_UVxUVy:
+                case edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy:
                 {
-                    //edk::shape::vbo_XYZ_RGB_NxNyNz -> edk::shape::vbo_XYZ_RGB_NxNyNz_UVxUVy
+                    //edk::GU::vbo_XYZ_RGB_NxNyNz -> edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -3657,9 +3657,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
+                case edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
                 {
-                    //edk::shape::vbo_XYZ_RGB_NxNyNz -> edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy
+                    //edk::GU::vbo_XYZ_RGB_NxNyNz -> edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -3683,12 +3683,12 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                 }
             }
                 break;
-            case edk::shape::vbo_XYZ_RGBA_NxNyNz:
+            case edk::GU::vbo_XYZ_RGBA_NxNyNz:
             {
                 switch(type){
-                case edk::shape::vbo_XY:
+                case edk::GU::vbo_XY:
                 {
-                    //edk::shape::vbo_XYZ_RGBA_NxNyNz -> edk::shape::vbo_XY
+                    //edk::GU::vbo_XYZ_RGBA_NxNyNz -> edk::GU::vbo_XY
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -3698,9 +3698,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XY_NxNyNz:
+                case edk::GU::vbo_XY_NxNyNz:
                 {
-                    //edk::shape::vbo_XYZ_RGBA_NxNyNz -> edk::shape::vbo_XY_NxNyNz
+                    //edk::GU::vbo_XYZ_RGBA_NxNyNz -> edk::GU::vbo_XY_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -3714,9 +3714,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XY_RGB:
+                case edk::GU::vbo_XY_RGB:
                 {
-                    //edk::shape::vbo_XYZ_RGBA_NxNyNz -> edk::shape::vbo_XY_RGB
+                    //edk::GU::vbo_XYZ_RGBA_NxNyNz -> edk::GU::vbo_XY_RGB
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -3730,9 +3730,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XY_RGBA:
+                case edk::GU::vbo_XY_RGBA:
                 {
-                    //edk::shape::vbo_XYZ_RGBA_NxNyNz -> edk::shape::vbo_XY_RGBA
+                    //edk::GU::vbo_XYZ_RGBA_NxNyNz -> edk::GU::vbo_XY_RGBA
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -3747,9 +3747,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XY_RGB_NxNyNz:
+                case edk::GU::vbo_XY_RGB_NxNyNz:
                 {
-                    //edk::shape::vbo_XYZ_RGBA_NxNyNz -> edk::shape::vbo_XY_RGB_NxNyNz
+                    //edk::GU::vbo_XYZ_RGBA_NxNyNz -> edk::GU::vbo_XY_RGB_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -3767,9 +3767,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XY_RGBA_NxNyNz:
+                case edk::GU::vbo_XY_RGBA_NxNyNz:
                 {
-                    //edk::shape::vbo_XYZ_RGBA_NxNyNz -> edk::shape::vbo_XY_RGBA_NxNyNz
+                    //edk::GU::vbo_XYZ_RGBA_NxNyNz -> edk::GU::vbo_XY_RGBA_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -3788,9 +3788,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XY_RGB_NxNyNz_UVxUVy:
+                case edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy:
                 {
-                    //edk::shape::vbo_XYZ_RGBA_NxNyNz -> edk::shape::vbo_XY_RGB_NxNyNz_UVxUVy
+                    //edk::GU::vbo_XYZ_RGBA_NxNyNz -> edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -3808,9 +3808,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy:
+                case edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy:
                 {
-                    //edk::shape::vbo_XYZ_RGBA_NxNyNz -> edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy
+                    //edk::GU::vbo_XYZ_RGBA_NxNyNz -> edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -3829,9 +3829,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XYZ:
+                case edk::GU::vbo_XYZ:
                 {
-                    //edk::shape::vbo_XYZ_RGBA_NxNyNz -> edk::shape::vbo_XYZ
+                    //edk::GU::vbo_XYZ_RGBA_NxNyNz -> edk::GU::vbo_XYZ
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -3842,9 +3842,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XYZ_NxNyNz:
+                case edk::GU::vbo_XYZ_NxNyNz:
                 {
-                    //edk::shape::vbo_XYZ_RGBA_NxNyNz -> edk::shape::vbo_XYZ_NxNyNz
+                    //edk::GU::vbo_XYZ_RGBA_NxNyNz -> edk::GU::vbo_XYZ_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -3859,9 +3859,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XYZ_RGB:
+                case edk::GU::vbo_XYZ_RGB:
                 {
-                    //edk::shape::vbo_XYZ_RGBA_NxNyNz -> edk::shape::vbo_XYZ_RGB
+                    //edk::GU::vbo_XYZ_RGBA_NxNyNz -> edk::GU::vbo_XYZ_RGB
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -3876,9 +3876,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XYZ_RGBA:
+                case edk::GU::vbo_XYZ_RGBA:
                 {
-                    //edk::shape::vbo_XYZ_RGBA_NxNyNz -> edk::shape::vbo_XYZ_RGBA
+                    //edk::GU::vbo_XYZ_RGBA_NxNyNz -> edk::GU::vbo_XYZ_RGBA
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -3894,9 +3894,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XYZ_RGB_NxNyNz:
+                case edk::GU::vbo_XYZ_RGB_NxNyNz:
                 {
-                    //edk::shape::vbo_XYZ_RGBA_NxNyNz -> edk::shape::vbo_XYZ_RGB_NxNyNz
+                    //edk::GU::vbo_XYZ_RGBA_NxNyNz -> edk::GU::vbo_XYZ_RGB_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -3915,9 +3915,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XYZ_RGB_NxNyNz_UVxUVy:
+                case edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy:
                 {
-                    //edk::shape::vbo_XYZ_RGBA_NxNyNz -> edk::shape::vbo_XYZ_RGB_NxNyNz_UVxUVy
+                    //edk::GU::vbo_XYZ_RGBA_NxNyNz -> edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -3936,9 +3936,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
+                case edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
                 {
-                    //edk::shape::vbo_XYZ_RGBA_NxNyNz -> edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy
+                    //edk::GU::vbo_XYZ_RGBA_NxNyNz -> edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -3963,12 +3963,12 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                 }
             }
                 break;
-            case edk::shape::vbo_XYZ_RGB_NxNyNz_UVxUVy:
+            case edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy:
             {
                 switch(type){
-                case edk::shape::vbo_XY:
+                case edk::GU::vbo_XY:
                 {
-                    //edk::shape::vbo_XYZ_RGB_NxNyNz_UVxUVy -> edk::shape::vbo_XY
+                    //edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy -> edk::GU::vbo_XY
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -3978,9 +3978,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XY_NxNyNz:
+                case edk::GU::vbo_XY_NxNyNz:
                 {
-                    //edk::shape::vbo_XYZ_RGB_NxNyNz_UVxUVy -> edk::shape::vbo_XY_NxNyNz
+                    //edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy -> edk::GU::vbo_XY_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -3994,9 +3994,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XY_RGB:
+                case edk::GU::vbo_XY_RGB:
                 {
-                    //edk::shape::vbo_XYZ_RGB_NxNyNz_UVxUVy -> edk::shape::vbo_XY_RGB
+                    //edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy -> edk::GU::vbo_XY_RGB
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -4010,9 +4010,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XY_RGBA:
+                case edk::GU::vbo_XY_RGBA:
                 {
-                    //edk::shape::vbo_XYZ_RGB_NxNyNz_UVxUVy -> edk::shape::vbo_XY_RGBA
+                    //edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy -> edk::GU::vbo_XY_RGBA
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -4026,9 +4026,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XY_RGB_NxNyNz:
+                case edk::GU::vbo_XY_RGB_NxNyNz:
                 {
-                    //edk::shape::vbo_XYZ_RGB_NxNyNz_UVxUVy -> edk::shape::vbo_XY_RGB_NxNyNz
+                    //edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy -> edk::GU::vbo_XY_RGB_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -4046,9 +4046,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XY_RGBA_NxNyNz:
+                case edk::GU::vbo_XY_RGBA_NxNyNz:
                 {
-                    //edk::shape::vbo_XYZ_RGB_NxNyNz_UVxUVy -> edk::shape::vbo_XY_RGBA_NxNyNz
+                    //edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy -> edk::GU::vbo_XY_RGBA_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -4066,9 +4066,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XY_RGB_NxNyNz_UVxUVy:
+                case edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy:
                 {
-                    //edk::shape::vbo_XYZ_RGB_NxNyNz_UVxUVy -> edk::shape::vbo_XY_RGB_NxNyNz_UVxUVy
+                    //edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy -> edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -4088,9 +4088,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy:
+                case edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy:
                 {
-                    //edk::shape::vbo_XYZ_RGB_NxNyNz_UVxUVy -> edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy
+                    //edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy -> edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -4111,9 +4111,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XYZ:
+                case edk::GU::vbo_XYZ:
                 {
-                    //edk::shape::vbo_XYZ_RGB_NxNyNz_UVxUVy -> edk::shape::vbo_XYZ
+                    //edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy -> edk::GU::vbo_XYZ
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -4124,9 +4124,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XYZ_NxNyNz:
+                case edk::GU::vbo_XYZ_NxNyNz:
                 {
-                    //edk::shape::vbo_XYZ_RGB_NxNyNz_UVxUVy -> edk::shape::vbo_XYZ_NxNyNz
+                    //edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy -> edk::GU::vbo_XYZ_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -4141,9 +4141,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XYZ_RGB:
+                case edk::GU::vbo_XYZ_RGB:
                 {
-                    //edk::shape::vbo_XYZ_RGB_NxNyNz_UVxUVy -> edk::shape::vbo_XYZ_RGB
+                    //edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy -> edk::GU::vbo_XYZ_RGB
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -4158,9 +4158,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XYZ_RGBA:
+                case edk::GU::vbo_XYZ_RGBA:
                 {
-                    //edk::shape::vbo_XYZ_RGB_NxNyNz_UVxUVy -> edk::shape::vbo_XYZ_RGBA
+                    //edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy -> edk::GU::vbo_XYZ_RGBA
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -4175,9 +4175,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XYZ_RGB_NxNyNz:
+                case edk::GU::vbo_XYZ_RGB_NxNyNz:
                 {
-                    //edk::shape::vbo_XYZ_RGB_NxNyNz_UVxUVy -> edk::shape::vbo_XYZ_RGB_NxNyNz
+                    //edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy -> edk::GU::vbo_XYZ_RGB_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -4196,9 +4196,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XYZ_RGBA_NxNyNz:
+                case edk::GU::vbo_XYZ_RGBA_NxNyNz:
                 {
-                    //edk::shape::vbo_XYZ_RGB_NxNyNz_UVxUVy -> edk::shape::vbo_XYZ_RGBA_NxNyNz
+                    //edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy -> edk::GU::vbo_XYZ_RGBA_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -4217,9 +4217,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
+                case edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
                 {
-                    //edk::shape::vbo_XYZ_RGB_NxNyNz_UVxUVy -> edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy
+                    //edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy -> edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -4246,12 +4246,12 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                 }
             }
                 break;
-            case edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
+            case edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
             {
                 switch(type){
-                case edk::shape::vbo_XY:
+                case edk::GU::vbo_XY:
                 {
-                    //edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy -> edk::shape::vbo_XY
+                    //edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy -> edk::GU::vbo_XY
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -4261,9 +4261,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XY_NxNyNz:
+                case edk::GU::vbo_XY_NxNyNz:
                 {
-                    //edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy -> edk::shape::vbo_XY_NxNyNz
+                    //edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy -> edk::GU::vbo_XY_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -4277,9 +4277,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XY_RGB:
+                case edk::GU::vbo_XY_RGB:
                 {
-                    //edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy -> edk::shape::vbo_XY_RGB
+                    //edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy -> edk::GU::vbo_XY_RGB
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -4293,9 +4293,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XY_RGBA:
+                case edk::GU::vbo_XY_RGBA:
                 {
-                    //edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy -> edk::shape::vbo_XY_RGBA
+                    //edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy -> edk::GU::vbo_XY_RGBA
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -4310,9 +4310,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XY_RGB_NxNyNz:
+                case edk::GU::vbo_XY_RGB_NxNyNz:
                 {
-                    //edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy -> edk::shape::vbo_XY_RGB_NxNyNz
+                    //edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy -> edk::GU::vbo_XY_RGB_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -4330,9 +4330,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XY_RGBA_NxNyNz:
+                case edk::GU::vbo_XY_RGBA_NxNyNz:
                 {
-                    //edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy -> edk::shape::vbo_XY_RGBA_NxNyNz
+                    //edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy -> edk::GU::vbo_XY_RGBA_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -4351,9 +4351,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XY_RGB_NxNyNz_UVxUVy:
+                case edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy:
                 {
-                    //edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy -> edk::shape::vbo_XY_RGB_NxNyNz_UVxUVy
+                    //edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy -> edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -4374,9 +4374,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy:
+                case edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy:
                 {
-                    //edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy -> edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy
+                    //edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy -> edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -4398,9 +4398,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XYZ:
+                case edk::GU::vbo_XYZ:
                 {
-                    //edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy -> edk::shape::vbo_XYZ
+                    //edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy -> edk::GU::vbo_XYZ
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -4411,9 +4411,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XYZ_NxNyNz:
+                case edk::GU::vbo_XYZ_NxNyNz:
                 {
-                    //edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy -> edk::shape::vbo_XYZ_NxNyNz
+                    //edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy -> edk::GU::vbo_XYZ_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -4428,9 +4428,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XYZ_RGB:
+                case edk::GU::vbo_XYZ_RGB:
                 {
-                    //edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy -> edk::shape::vbo_XYZ_RGB
+                    //edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy -> edk::GU::vbo_XYZ_RGB
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -4445,9 +4445,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XYZ_RGBA:
+                case edk::GU::vbo_XYZ_RGBA:
                 {
-                    //edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy -> edk::shape::vbo_XYZ_RGBA
+                    //edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy -> edk::GU::vbo_XYZ_RGBA
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -4463,9 +4463,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XYZ_RGB_NxNyNz:
+                case edk::GU::vbo_XYZ_RGB_NxNyNz:
                 {
-                    //edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy -> edk::shape::vbo_XYZ_RGB_NxNyNz
+                    //edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy -> edk::GU::vbo_XYZ_RGB_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -4484,9 +4484,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XYZ_RGBA_NxNyNz:
+                case edk::GU::vbo_XYZ_RGBA_NxNyNz:
                 {
-                    //edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy -> edk::shape::vbo_XYZ_RGBA_NxNyNz
+                    //edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy -> edk::GU::vbo_XYZ_RGBA_NxNyNz
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -4506,9 +4506,9 @@ bool edk::shape::Polygon2D::changeVBO(edk::shape::EDKVBOType type){
                     }
                 }
                     break;
-                case edk::shape::vbo_XYZ_RGB_NxNyNz_UVxUVy:
+                case edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy:
                 {
-                    //edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy -> edk::shape::vbo_XYZ_RGB_NxNyNz_UVxUVy
+                    //edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy -> edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy
                     for(edk::uint32 i=0u;i<this->vboCount;i++){
                         buffer.set(dest,this->vertexBuffer.get(source));
                         buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
@@ -4556,7 +4556,7 @@ void edk::shape::Polygon2D::deleteVBO(){
     if(this->vertexBuffer.size()){
         this->vertexBuffer.deleteArray();edkEnd();
     }
-    this->vboType = edk::shape::vbo_NULL;edkEnd();
+    this->vboType = edk::GU::vbo_NULL;edkEnd();
     this->vboCount=0u;edkEnd();
 }
 bool edk::shape::Polygon2D::haveVBO(){
@@ -4566,67 +4566,67 @@ bool edk::shape::Polygon2D::haveVBO(){
 bool edk::shape::Polygon2D::updateVBOFunctions(){
     if(this->haveVBO()){
         switch(this->vboType){
-        case edk::shape::vbo_XY:
+        case edk::GU::vbo_XY:
             this->vboPrint = &edk::shape::Polygon2D::print_XY;
             this->vboDraw = &edk::shape::Polygon2D::drawUpdate_XY;
             break;
-        case edk::shape::vbo_XY_NxNyNz:
+        case edk::GU::vbo_XY_NxNyNz:
             this->vboPrint = &edk::shape::Polygon2D::print_XY_NxNyNz;
             this->vboDraw = &edk::shape::Polygon2D::drawUpdate_XY_NxNyNz;
             break;
-        case edk::shape::vbo_XY_RGB:
+        case edk::GU::vbo_XY_RGB:
             this->vboPrint = &edk::shape::Polygon2D::print_XY_RGB;
             this->vboDraw = &edk::shape::Polygon2D::drawUpdate_XY_RGB;
             break;
-        case edk::shape::vbo_XY_RGBA:
+        case edk::GU::vbo_XY_RGBA:
             this->vboPrint = &edk::shape::Polygon2D::print_XY_RGBA;
             this->vboDraw = &edk::shape::Polygon2D::drawUpdate_XY_RGBA;
             break;
-        case edk::shape::vbo_XY_RGB_NxNyNz:
+        case edk::GU::vbo_XY_RGB_NxNyNz:
             this->vboPrint = &edk::shape::Polygon2D::print_XY_RGB_NxNyNz;
             this->vboDraw = &edk::shape::Polygon2D::drawUpdate_XY_RGB_NxNyNz;
             break;
-        case edk::shape::vbo_XY_RGBA_NxNyNz:
+        case edk::GU::vbo_XY_RGBA_NxNyNz:
             this->vboPrint = &edk::shape::Polygon2D::print_XY_RGBA_NxNyNz;
             this->vboDraw = &edk::shape::Polygon2D::drawUpdate_XY_RGBA_NxNyNz;
             break;
-        case edk::shape::vbo_XY_RGB_NxNyNz_UVxUVy:
+        case edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy:
             this->vboPrint = &edk::shape::Polygon2D::print_XY_RGB_NxNyNz_UVxUVy;
             this->vboDraw = &edk::shape::Polygon2D::drawUpdate_XY_RGB_NxNyNz_UVxUVy;
             break;
-        case edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy:
+        case edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy:
             this->vboPrint = &edk::shape::Polygon2D::print_XY_RGBA_NxNyNz_UVxUVy;
             this->vboDraw = &edk::shape::Polygon2D::drawUpdate_XY_RGBA_NxNyNz_UVxUVy;
             break;
-        case edk::shape::vbo_XYZ:
+        case edk::GU::vbo_XYZ:
             this->vboPrint = &edk::shape::Polygon2D::print_XYZ;
             this->vboDraw = &edk::shape::Polygon2D::drawUpdate_XYZ;
             break;
-        case edk::shape::vbo_XYZ_NxNyNz:
+        case edk::GU::vbo_XYZ_NxNyNz:
             this->vboPrint = &edk::shape::Polygon2D::print_XYZ_NxNyNz;
             this->vboDraw = &edk::shape::Polygon2D::drawUpdate_XYZ_NxNyNz;
             break;
-        case edk::shape::vbo_XYZ_RGB:
+        case edk::GU::vbo_XYZ_RGB:
             this->vboPrint = &edk::shape::Polygon2D::print_XYZ_RGB;
             this->vboDraw = &edk::shape::Polygon2D::drawUpdate_XYZ_RGB;
             break;
-        case edk::shape::vbo_XYZ_RGBA:
+        case edk::GU::vbo_XYZ_RGBA:
             this->vboPrint = &edk::shape::Polygon2D::print_XYZ_RGBA;
             this->vboDraw = &edk::shape::Polygon2D::drawUpdate_XYZ_RGBA;
             break;
-        case edk::shape::vbo_XYZ_RGB_NxNyNz:
+        case edk::GU::vbo_XYZ_RGB_NxNyNz:
             this->vboPrint = &edk::shape::Polygon2D::print_XYZ_RGB_NxNyNz;
             this->vboDraw = &edk::shape::Polygon2D::drawUpdate_XYZ_RGB_NxNyNz;
             break;
-        case edk::shape::vbo_XYZ_RGBA_NxNyNz:
+        case edk::GU::vbo_XYZ_RGBA_NxNyNz:
             this->vboPrint = &edk::shape::Polygon2D::print_XYZ_RGBA_NxNyNz;
             this->vboDraw = &edk::shape::Polygon2D::drawUpdate_XYZ_RGBA_NxNyNz;
             break;
-        case edk::shape::vbo_XYZ_RGB_NxNyNz_UVxUVy:
+        case edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy:
             this->vboPrint = &edk::shape::Polygon2D::print_XYZ_RGB_NxNyNz_UVxUVy;
             this->vboDraw = &edk::shape::Polygon2D::drawUpdate_XYZ_RGB_NxNyNz_UVxUVy;
             break;
-        case edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
+        case edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
             this->vboPrint = &edk::shape::Polygon2D::print_XYZ_RGBA_NxNyNz_UVxUVy;
             this->vboDraw = &edk::shape::Polygon2D::drawUpdate_XYZ_RGBA_NxNyNz_UVxUVy;
             break;
@@ -4643,67 +4643,67 @@ bool edk::shape::Polygon2D::updateVBOFunctions(){
 bool edk::shape::Polygon2D::setAutomaticallyVBOFunctions(){
     if(this->haveVBO()){
         switch(this->vboType){
-        case edk::shape::vbo_XY:
+        case edk::GU::vbo_XY:
             this->vboPrint = &edk::shape::Polygon2D::print_XY;
             this->vboDraw = &edk::shape::Polygon2D::draw_XY;
             break;
-        case edk::shape::vbo_XY_NxNyNz:
+        case edk::GU::vbo_XY_NxNyNz:
             this->vboPrint = &edk::shape::Polygon2D::print_XY_NxNyNz;
             this->vboDraw = &edk::shape::Polygon2D::draw_XY_NxNyNz;
             break;
-        case edk::shape::vbo_XY_RGB:
+        case edk::GU::vbo_XY_RGB:
             this->vboPrint = &edk::shape::Polygon2D::print_XY_RGB;
             this->vboDraw = &edk::shape::Polygon2D::draw_XY_RGB;
             break;
-        case edk::shape::vbo_XY_RGBA:
+        case edk::GU::vbo_XY_RGBA:
             this->vboPrint = &edk::shape::Polygon2D::print_XY_RGBA;
             this->vboDraw = &edk::shape::Polygon2D::draw_XY_RGBA;
             break;
-        case edk::shape::vbo_XY_RGB_NxNyNz:
+        case edk::GU::vbo_XY_RGB_NxNyNz:
             this->vboPrint = &edk::shape::Polygon2D::print_XY_RGB_NxNyNz;
             this->vboDraw = &edk::shape::Polygon2D::draw_XY_RGB_NxNyNz;
             break;
-        case edk::shape::vbo_XY_RGBA_NxNyNz:
+        case edk::GU::vbo_XY_RGBA_NxNyNz:
             this->vboPrint = &edk::shape::Polygon2D::print_XY_RGBA_NxNyNz;
             this->vboDraw = &edk::shape::Polygon2D::draw_XY_RGBA_NxNyNz;
             break;
-        case edk::shape::vbo_XY_RGB_NxNyNz_UVxUVy:
+        case edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy:
             this->vboPrint = &edk::shape::Polygon2D::print_XY_RGB_NxNyNz_UVxUVy;
             this->vboDraw = &edk::shape::Polygon2D::draw_XY_RGB_NxNyNz_UVxUVy;
             break;
-        case edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy:
+        case edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy:
             this->vboPrint = &edk::shape::Polygon2D::print_XY_RGBA_NxNyNz_UVxUVy;
             this->vboDraw = &edk::shape::Polygon2D::draw_XY_RGBA_NxNyNz_UVxUVy;
             break;
-        case edk::shape::vbo_XYZ:
+        case edk::GU::vbo_XYZ:
             this->vboPrint = &edk::shape::Polygon2D::print_XYZ;
             this->vboDraw = &edk::shape::Polygon2D::draw_XYZ;
             break;
-        case edk::shape::vbo_XYZ_NxNyNz:
+        case edk::GU::vbo_XYZ_NxNyNz:
             this->vboPrint = &edk::shape::Polygon2D::print_XYZ_NxNyNz;
             this->vboDraw = &edk::shape::Polygon2D::draw_XYZ_NxNyNz;
             break;
-        case edk::shape::vbo_XYZ_RGB:
+        case edk::GU::vbo_XYZ_RGB:
             this->vboPrint = &edk::shape::Polygon2D::print_XYZ_RGB;
             this->vboDraw = &edk::shape::Polygon2D::draw_XYZ_RGB;
             break;
-        case edk::shape::vbo_XYZ_RGBA:
+        case edk::GU::vbo_XYZ_RGBA:
             this->vboPrint = &edk::shape::Polygon2D::print_XYZ_RGBA;
             this->vboDraw = &edk::shape::Polygon2D::draw_XYZ_RGBA;
             break;
-        case edk::shape::vbo_XYZ_RGB_NxNyNz:
+        case edk::GU::vbo_XYZ_RGB_NxNyNz:
             this->vboPrint = &edk::shape::Polygon2D::print_XYZ_RGB_NxNyNz;
             this->vboDraw = &edk::shape::Polygon2D::draw_XYZ_RGB_NxNyNz;
             break;
-        case edk::shape::vbo_XYZ_RGBA_NxNyNz:
+        case edk::GU::vbo_XYZ_RGBA_NxNyNz:
             this->vboPrint = &edk::shape::Polygon2D::print_XYZ_RGBA_NxNyNz;
             this->vboDraw = &edk::shape::Polygon2D::draw_XYZ_RGBA_NxNyNz;
             break;
-        case edk::shape::vbo_XYZ_RGB_NxNyNz_UVxUVy:
+        case edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy:
             this->vboPrint = &edk::shape::Polygon2D::print_XYZ_RGB_NxNyNz_UVxUVy;
             this->vboDraw = &edk::shape::Polygon2D::draw_XYZ_RGB_NxNyNz_UVxUVy;
             break;
-        case edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
+        case edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
             this->vboPrint = &edk::shape::Polygon2D::print_XYZ_RGBA_NxNyNz_UVxUVy;
             this->vboDraw = &edk::shape::Polygon2D::draw_XYZ_RGBA_NxNyNz_UVxUVy;
             break;
@@ -4732,37 +4732,37 @@ bool edk::shape::Polygon2D::setVBOVertexPosition(edk::uint32 vertex,edk::vec2f32
         //calculate the vertex position
         vertex *= vboSizeofPolygon2D[this->vboType];
         //switch(this->vboType){
-        //case edk::shape::vbo_XY:
+        //case edk::GU::vbo_XY:
         //    break;
-        //case edk::shape::vbo_XY_NxNyNz:
+        //case edk::GU::vbo_XY_NxNyNz:
         //    break;
-        //case edk::shape::vbo_XY_RGB:
+        //case edk::GU::vbo_XY_RGB:
         //    break;
-        //case edk::shape::vbo_XY_RGBA:
+        //case edk::GU::vbo_XY_RGBA:
         //    break;
-        //case edk::shape::vbo_XY_RGB_NxNyNz:
+        //case edk::GU::vbo_XY_RGB_NxNyNz:
         //    break;
-        //case edk::shape::vbo_XY_RGBA_NxNyNz:
+        //case edk::GU::vbo_XY_RGBA_NxNyNz:
         //    break;
-        //case edk::shape::vbo_XY_RGB_NxNyNz_UVxUVy:
+        //case edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy:
         //    break;
-        //case edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy:
+        //case edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy:
         //    break;
-        //case edk::shape::vbo_XYZ:
+        //case edk::GU::vbo_XYZ:
         //    break;
-        //case edk::shape::vbo_XYZ_NxNyNz:
+        //case edk::GU::vbo_XYZ_NxNyNz:
         //    break;
-        //case edk::shape::vbo_XYZ_RGB:
+        //case edk::GU::vbo_XYZ_RGB:
         //    break;
-        //case edk::shape::vbo_XYZ_RGBA:
+        //case edk::GU::vbo_XYZ_RGBA:
         //    break;
-        //case edk::shape::vbo_XYZ_RGB_NxNy:
+        //case edk::GU::vbo_XYZ_RGB_NxNy:
         //    break;
-        //case edk::shape::vbo_XYZ_RGBA_NxNy:
+        //case edk::GU::vbo_XYZ_RGBA_NxNy:
         //    break;
-        //case edk::shape::vbo_XYZ_RGB_NxNyNz_UVxUVy:
+        //case edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy:
         //    break;
-        //case edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
+        //case edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
         //    break;
         //default:
         //    break;
@@ -4785,37 +4785,37 @@ bool edk::shape::Polygon2D::setVBOVertexPositionX(edk::uint32 vertex,edk::float3
         //calculate the vertex position
         vertex *= vboSizeofPolygon2D[this->vboType];
         //switch(this->vboType){
-        //case edk::shape::vbo_XY:
+        //case edk::GU::vbo_XY:
         //    break;
-        //case edk::shape::vbo_XY_NxNyNz:
+        //case edk::GU::vbo_XY_NxNyNz:
         //    break;
-        //case edk::shape::vbo_XY_RGB:
+        //case edk::GU::vbo_XY_RGB:
         //    break;
-        //case edk::shape::vbo_XY_RGBA:
+        //case edk::GU::vbo_XY_RGBA:
         //    break;
-        //case edk::shape::vbo_XY_RGB_NxNyNz:
+        //case edk::GU::vbo_XY_RGB_NxNyNz:
         //    break;
-        //case edk::shape::vbo_XY_RGBA_NxNyNz:
+        //case edk::GU::vbo_XY_RGBA_NxNyNz:
         //    break;
-        //case edk::shape::vbo_XY_RGB_NxNyNz_UVxUVy:
+        //case edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy:
         //    break;
-        //case edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy:
+        //case edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy:
         //    break;
-        //case edk::shape::vbo_XYZ:
+        //case edk::GU::vbo_XYZ:
         //    break;
-        //case edk::shape::vbo_XYZ_NxNyNz:
+        //case edk::GU::vbo_XYZ_NxNyNz:
         //    break;
-        //case edk::shape::vbo_XYZ_RGB:
+        //case edk::GU::vbo_XYZ_RGB:
         //    break;
-        //case edk::shape::vbo_XYZ_RGBA:
+        //case edk::GU::vbo_XYZ_RGBA:
         //    break;
-        //case edk::shape::vbo_XYZ_RGB_NxNy:
+        //case edk::GU::vbo_XYZ_RGB_NxNy:
         //    break;
-        //case edk::shape::vbo_XYZ_RGBA_NxNy:
+        //case edk::GU::vbo_XYZ_RGBA_NxNy:
         //    break;
-        //case edk::shape::vbo_XYZ_RGB_NxNyNz_UVxUVy:
+        //case edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy:
         //    break;
-        //case edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
+        //case edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
         //    break;
         //default:
         //    break;
@@ -4836,37 +4836,37 @@ bool edk::shape::Polygon2D::setVBOVertexPositionY(edk::uint32 vertex,edk::float3
         //calculate the vertex position
         vertex *= vboSizeofPolygon2D[this->vboType];
         //switch(this->vboType){
-        //case edk::shape::vbo_XY:
+        //case edk::GU::vbo_XY:
         //    break;
-        //case edk::shape::vbo_XY_NxNyNz:
+        //case edk::GU::vbo_XY_NxNyNz:
         //    break;
-        //case edk::shape::vbo_XY_RGB:
+        //case edk::GU::vbo_XY_RGB:
         //    break;
-        //case edk::shape::vbo_XY_RGBA:
+        //case edk::GU::vbo_XY_RGBA:
         //    break;
-        //case edk::shape::vbo_XY_RGB_NxNyNz:
+        //case edk::GU::vbo_XY_RGB_NxNyNz:
         //    break;
-        //case edk::shape::vbo_XY_RGBA_NxNyNz:
+        //case edk::GU::vbo_XY_RGBA_NxNyNz:
         //    break;
-        //case edk::shape::vbo_XY_RGB_NxNyNz_UVxUVy:
+        //case edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy:
         //    break;
-        //case edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy:
+        //case edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy:
         //    break;
-        //case edk::shape::vbo_XYZ:
+        //case edk::GU::vbo_XYZ:
         //    break;
-        //case edk::shape::vbo_XYZ_NxNyNz:
+        //case edk::GU::vbo_XYZ_NxNyNz:
         //    break;
-        //case edk::shape::vbo_XYZ_RGB:
+        //case edk::GU::vbo_XYZ_RGB:
         //    break;
-        //case edk::shape::vbo_XYZ_RGBA:
+        //case edk::GU::vbo_XYZ_RGBA:
         //    break;
-        //case edk::shape::vbo_XYZ_RGB_NxNy:
+        //case edk::GU::vbo_XYZ_RGB_NxNy:
         //    break;
-        //case edk::shape::vbo_XYZ_RGBA_NxNy:
+        //case edk::GU::vbo_XYZ_RGBA_NxNy:
         //    break;
-        //case edk::shape::vbo_XYZ_RGB_NxNyNz_UVxUVy:
+        //case edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy:
         //    break;
-        //case edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
+        //case edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
         //    break;
         //default:
         //    break;
@@ -4887,95 +4887,95 @@ bool edk::shape::Polygon2D::setVBOVertexNormal(edk::uint32 vertex,edk::vec3f32 n
     if(this->haveVBO() && this->vertexBuffer.haveArray()){
         //test if need change the buffer
         switch(this->vboType){
-        case edk::shape::vbo_XY:
+        case edk::GU::vbo_XY:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
             vertex = (vertex * vboSizeofPolygon2D[this->vboType]) + 7u;
             break;
-        case edk::shape::vbo_XY_NxNyNz:
+        case edk::GU::vbo_XY_NxNyNz:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
             vertex = (vertex * vboSizeofPolygon2D[this->vboType]) + 7u;
             break;
-        case edk::shape::vbo_XY_RGB:
+        case edk::GU::vbo_XY_RGB:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
             vertex = (vertex * vboSizeofPolygon2D[this->vboType]) + 7u;
             break;
-        case edk::shape::vbo_XY_RGBA:
+        case edk::GU::vbo_XY_RGBA:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
             vertex = (vertex * vboSizeofPolygon2D[this->vboType]) + 7u;
             break;
-        case edk::shape::vbo_XY_RGB_NxNyNz:
+        case edk::GU::vbo_XY_RGB_NxNyNz:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
             vertex = (vertex * vboSizeofPolygon2D[this->vboType]) + 7u;
             break;
-        case edk::shape::vbo_XY_RGBA_NxNyNz:
+        case edk::GU::vbo_XY_RGBA_NxNyNz:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
             vertex = (vertex * vboSizeofPolygon2D[this->vboType]) + 7u;
             break;
-        case edk::shape::vbo_XY_RGB_NxNyNz_UVxUVy:
+        case edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
             //calculate the vertex position
             vertex = (vertex * vboSizeofPolygon2D[this->vboType]) + 7u;
             break;
-        case edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy:
+        case edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
             //calculate the vertex position
             vertex = (vertex * vboSizeofPolygon2D[this->vboType]) + 7u;
             break;
-        case edk::shape::vbo_XYZ:
+        case edk::GU::vbo_XYZ:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
             vertex = (vertex * vboSizeofPolygon2D[this->vboType]) + 7u;
             break;
-        case edk::shape::vbo_XYZ_NxNyNz:
+        case edk::GU::vbo_XYZ_NxNyNz:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
             vertex = (vertex * vboSizeofPolygon2D[this->vboType]) + 7u;
             break;
-        case edk::shape::vbo_XYZ_RGB:
+        case edk::GU::vbo_XYZ_RGB:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
             vertex = (vertex * vboSizeofPolygon2D[this->vboType]) + 7u;
             break;
-        case edk::shape::vbo_XYZ_RGBA:
+        case edk::GU::vbo_XYZ_RGBA:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
             vertex = (vertex * vboSizeofPolygon2D[this->vboType]) + 7u;
             break;
-        case edk::shape::vbo_XYZ_RGB_NxNyNz:
+        case edk::GU::vbo_XYZ_RGB_NxNyNz:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
             vertex = (vertex * vboSizeofPolygon2D[this->vboType]) + 7u;
             break;
-        case edk::shape::vbo_XYZ_RGBA_NxNyNz:
+        case edk::GU::vbo_XYZ_RGBA_NxNyNz:
             //calculate the vertex position
             vertex = (vertex * vboSizeofPolygon2D[this->vboType]) + 7u;
             break;
-        case edk::shape::vbo_XYZ_RGB_NxNyNz_UVxUVy:
+        case edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
             //calculate the vertex position
             vertex = (vertex * vboSizeofPolygon2D[this->vboType]) + 7u;
             break;
-        case edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
+        case edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
             //calculate the vertex position
             vertex = (vertex * vboSizeofPolygon2D[this->vboType]) + 7u;
             break;
@@ -5002,95 +5002,95 @@ bool edk::shape::Polygon2D::setVBOVertexNormalX(edk::uint32 vertex,edk::float32 
     if(this->haveVBO() && this->vertexBuffer.haveArray()){
         //test if need change the buffer
         switch(this->vboType){
-        case edk::shape::vbo_XY:
+        case edk::GU::vbo_XY:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
             vertex = (vertex * vboSizeofPolygon2D[this->vboType]) + 7u;
             break;
-        case edk::shape::vbo_XY_NxNyNz:
+        case edk::GU::vbo_XY_NxNyNz:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
             vertex = (vertex * vboSizeofPolygon2D[this->vboType]) + 7u;
             break;
-        case edk::shape::vbo_XY_RGB:
+        case edk::GU::vbo_XY_RGB:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
             vertex = (vertex * vboSizeofPolygon2D[this->vboType]) + 7u;
             break;
-        case edk::shape::vbo_XY_RGBA:
+        case edk::GU::vbo_XY_RGBA:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
             vertex = (vertex * vboSizeofPolygon2D[this->vboType]) + 7u;
             break;
-        case edk::shape::vbo_XY_RGB_NxNyNz:
+        case edk::GU::vbo_XY_RGB_NxNyNz:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
             vertex = (vertex * vboSizeofPolygon2D[this->vboType]) + 7u;
             break;
-        case edk::shape::vbo_XY_RGBA_NxNyNz:
+        case edk::GU::vbo_XY_RGBA_NxNyNz:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
             vertex = (vertex * vboSizeofPolygon2D[this->vboType]) + 7u;
             break;
-        case edk::shape::vbo_XY_RGB_NxNyNz_UVxUVy:
+        case edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
             //calculate the vertex position
             vertex = (vertex * vboSizeofPolygon2D[this->vboType]) + 7u;
             break;
-        case edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy:
+        case edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
             //calculate the vertex position
             vertex = (vertex * vboSizeofPolygon2D[this->vboType]) + 7u;
             break;
-        case edk::shape::vbo_XYZ:
+        case edk::GU::vbo_XYZ:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
             vertex = (vertex * vboSizeofPolygon2D[this->vboType]) + 7u;
             break;
-        case edk::shape::vbo_XYZ_NxNyNz:
+        case edk::GU::vbo_XYZ_NxNyNz:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
             vertex = (vertex * vboSizeofPolygon2D[this->vboType]) + 7u;
             break;
-        case edk::shape::vbo_XYZ_RGB:
+        case edk::GU::vbo_XYZ_RGB:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
             vertex = (vertex * vboSizeofPolygon2D[this->vboType]) + 7u;
             break;
-        case edk::shape::vbo_XYZ_RGBA:
+        case edk::GU::vbo_XYZ_RGBA:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
             vertex = (vertex * vboSizeofPolygon2D[this->vboType]) + 7u;
             break;
-        case edk::shape::vbo_XYZ_RGB_NxNyNz:
+        case edk::GU::vbo_XYZ_RGB_NxNyNz:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
             vertex = (vertex * vboSizeofPolygon2D[this->vboType]) + 7u;
             break;
-        case edk::shape::vbo_XYZ_RGBA_NxNyNz:
+        case edk::GU::vbo_XYZ_RGBA_NxNyNz:
             //calculate the vertex position
             vertex = (vertex * vboSizeofPolygon2D[this->vboType]) + 7u;
             break;
-        case edk::shape::vbo_XYZ_RGB_NxNyNz_UVxUVy:
+        case edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
             //calculate the vertex position
             vertex = (vertex * vboSizeofPolygon2D[this->vboType]) + 7u;
             break;
-        case edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
+        case edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
             //calculate the vertex position
             vertex = (vertex * vboSizeofPolygon2D[this->vboType]) + 7u;
             break;
@@ -5113,95 +5113,95 @@ bool edk::shape::Polygon2D::setVBOVertexNormalY(edk::uint32 vertex,edk::float32 
     if(this->haveVBO() && this->vertexBuffer.haveArray()){
         //test if need change the buffer
         switch(this->vboType){
-        case edk::shape::vbo_XY:
+        case edk::GU::vbo_XY:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
             vertex = (vertex * vboSizeofPolygon2D[this->vboType]) + 7u;
             break;
-        case edk::shape::vbo_XY_NxNyNz:
+        case edk::GU::vbo_XY_NxNyNz:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
             vertex = (vertex * vboSizeofPolygon2D[this->vboType]) + 7u;
             break;
-        case edk::shape::vbo_XY_RGB:
+        case edk::GU::vbo_XY_RGB:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
             vertex = (vertex * vboSizeofPolygon2D[this->vboType]) + 7u;
             break;
-        case edk::shape::vbo_XY_RGBA:
+        case edk::GU::vbo_XY_RGBA:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
             vertex = (vertex * vboSizeofPolygon2D[this->vboType]) + 7u;
             break;
-        case edk::shape::vbo_XY_RGB_NxNyNz:
+        case edk::GU::vbo_XY_RGB_NxNyNz:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
             vertex = (vertex * vboSizeofPolygon2D[this->vboType]) + 7u;
             break;
-        case edk::shape::vbo_XY_RGBA_NxNyNz:
+        case edk::GU::vbo_XY_RGBA_NxNyNz:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
             vertex = (vertex * vboSizeofPolygon2D[this->vboType]) + 7u;
             break;
-        case edk::shape::vbo_XY_RGB_NxNyNz_UVxUVy:
+        case edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
             //calculate the vertex position
             vertex = (vertex * vboSizeofPolygon2D[this->vboType]) + 7u;
             break;
-        case edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy:
+        case edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
             //calculate the vertex position
             vertex = (vertex * vboSizeofPolygon2D[this->vboType]) + 7u;
             break;
-        case edk::shape::vbo_XYZ:
+        case edk::GU::vbo_XYZ:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
             vertex = (vertex * vboSizeofPolygon2D[this->vboType]) + 7u;
             break;
-        case edk::shape::vbo_XYZ_NxNyNz:
+        case edk::GU::vbo_XYZ_NxNyNz:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
             vertex = (vertex * vboSizeofPolygon2D[this->vboType]) + 7u;
             break;
-        case edk::shape::vbo_XYZ_RGB:
+        case edk::GU::vbo_XYZ_RGB:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
             vertex = (vertex * vboSizeofPolygon2D[this->vboType]) + 7u;
             break;
-        case edk::shape::vbo_XYZ_RGBA:
+        case edk::GU::vbo_XYZ_RGBA:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
             vertex = (vertex * vboSizeofPolygon2D[this->vboType]) + 7u;
             break;
-        case edk::shape::vbo_XYZ_RGB_NxNyNz:
+        case edk::GU::vbo_XYZ_RGB_NxNyNz:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
             vertex = (vertex * vboSizeofPolygon2D[this->vboType]) + 7u;
             break;
-        case edk::shape::vbo_XYZ_RGBA_NxNyNz:
+        case edk::GU::vbo_XYZ_RGBA_NxNyNz:
             //calculate the vertex position
             vertex = (vertex * vboSizeofPolygon2D[this->vboType]) + 7u;
             break;
-        case edk::shape::vbo_XYZ_RGB_NxNyNz_UVxUVy:
+        case edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
             //calculate the vertex position
             vertex = (vertex * vboSizeofPolygon2D[this->vboType]) + 7u;
             break;
-        case edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
+        case edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
             //calculate the vertex position
             vertex = (vertex * vboSizeofPolygon2D[this->vboType]) + 7u;
             break;
@@ -5225,95 +5225,95 @@ bool edk::shape::Polygon2D::setVBOVertexNormalZ(edk::uint32 vertex,edk::float32 
     if(this->haveVBO() && this->vertexBuffer.haveArray()){
         //test if need change the buffer
         switch(this->vboType){
-        case edk::shape::vbo_XY:
+        case edk::GU::vbo_XY:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
             vertex = (vertex * vboSizeofPolygon2D[this->vboType]) + 7u;
             break;
-        case edk::shape::vbo_XY_NxNyNz:
+        case edk::GU::vbo_XY_NxNyNz:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
             vertex = (vertex * vboSizeofPolygon2D[this->vboType]) + 7u;
             break;
-        case edk::shape::vbo_XY_RGB:
+        case edk::GU::vbo_XY_RGB:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
             vertex = (vertex * vboSizeofPolygon2D[this->vboType]) + 7u;
             break;
-        case edk::shape::vbo_XY_RGBA:
+        case edk::GU::vbo_XY_RGBA:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
             vertex = (vertex * vboSizeofPolygon2D[this->vboType]) + 7u;
             break;
-        case edk::shape::vbo_XY_RGB_NxNyNz:
+        case edk::GU::vbo_XY_RGB_NxNyNz:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
             vertex = (vertex * vboSizeofPolygon2D[this->vboType]) + 7u;
             break;
-        case edk::shape::vbo_XY_RGBA_NxNyNz:
+        case edk::GU::vbo_XY_RGBA_NxNyNz:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
             vertex = (vertex * vboSizeofPolygon2D[this->vboType]) + 7u;
             break;
-        case edk::shape::vbo_XY_RGB_NxNyNz_UVxUVy:
+        case edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
             //calculate the vertex position
             vertex = (vertex * vboSizeofPolygon2D[this->vboType]) + 7u;
             break;
-        case edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy:
+        case edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
             //calculate the vertex position
             vertex = (vertex * vboSizeofPolygon2D[this->vboType]) + 7u;
             break;
-        case edk::shape::vbo_XYZ:
+        case edk::GU::vbo_XYZ:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
             vertex = (vertex * vboSizeofPolygon2D[this->vboType]) + 7u;
             break;
-        case edk::shape::vbo_XYZ_NxNyNz:
+        case edk::GU::vbo_XYZ_NxNyNz:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
             vertex = (vertex * vboSizeofPolygon2D[this->vboType]) + 7u;
             break;
-        case edk::shape::vbo_XYZ_RGB:
+        case edk::GU::vbo_XYZ_RGB:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
             vertex = (vertex * vboSizeofPolygon2D[this->vboType]) + 7u;
             break;
-        case edk::shape::vbo_XYZ_RGBA:
+        case edk::GU::vbo_XYZ_RGBA:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
             vertex = (vertex * vboSizeofPolygon2D[this->vboType]) + 7u;
             break;
-        case edk::shape::vbo_XYZ_RGB_NxNyNz:
+        case edk::GU::vbo_XYZ_RGB_NxNyNz:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
             vertex = (vertex * vboSizeofPolygon2D[this->vboType]) + 7u;
             break;
-        case edk::shape::vbo_XYZ_RGBA_NxNyNz:
+        case edk::GU::vbo_XYZ_RGBA_NxNyNz:
             //calculate the vertex position
             vertex = (vertex * vboSizeofPolygon2D[this->vboType]) + 7u;
             break;
-        case edk::shape::vbo_XYZ_RGB_NxNyNz_UVxUVy:
+        case edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
             //calculate the vertex position
             vertex = (vertex * vboSizeofPolygon2D[this->vboType]) + 7u;
             break;
-        case edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
+        case edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
             //calculate the vertex position
             vertex = (vertex * vboSizeofPolygon2D[this->vboType]) + 7u;
             break;
@@ -5338,95 +5338,95 @@ bool edk::shape::Polygon2D::setVBOVertexColor(edk::uint32 vertex,edk::color4f32 
     if(this->haveVBO() && this->vertexBuffer.haveArray()){
         //test if need change the buffer
         switch(this->vboType){
-        case edk::shape::vbo_XY:
+        case edk::GU::vbo_XY:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
             vertex = (vertex * vboSizeofPolygon2D[this->vboType]) + 3u;
             break;
-        case edk::shape::vbo_XY_NxNyNz:
+        case edk::GU::vbo_XY_NxNyNz:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
             vertex = (vertex * vboSizeofPolygon2D[this->vboType]) + 3u;
             break;
-        case edk::shape::vbo_XY_RGB:
+        case edk::GU::vbo_XY_RGB:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
             vertex = (vertex * vboSizeofPolygon2D[this->vboType]) + 3u;
             break;
-        case edk::shape::vbo_XY_RGBA:
+        case edk::GU::vbo_XY_RGBA:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
             vertex = (vertex * vboSizeofPolygon2D[this->vboType]) + 3u;
             break;
-        case edk::shape::vbo_XY_RGB_NxNyNz:
+        case edk::GU::vbo_XY_RGB_NxNyNz:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
             vertex = (vertex * vboSizeofPolygon2D[this->vboType]) + 3u;
             break;
-        case edk::shape::vbo_XY_RGBA_NxNyNz:
+        case edk::GU::vbo_XY_RGBA_NxNyNz:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
             vertex = (vertex * vboSizeofPolygon2D[this->vboType]) + 3u;
             break;
-        case edk::shape::vbo_XY_RGB_NxNyNz_UVxUVy:
+        case edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
             //calculate the vertex position
             vertex = (vertex * vboSizeofPolygon2D[this->vboType]) + 3u;
             break;
-        case edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy:
+        case edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
             //calculate the vertex position
             vertex = (vertex * vboSizeofPolygon2D[this->vboType]) + 3u;
             break;
-        case edk::shape::vbo_XYZ:
+        case edk::GU::vbo_XYZ:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
             vertex = (vertex * vboSizeofPolygon2D[this->vboType]) + 3u;
             break;
-        case edk::shape::vbo_XYZ_NxNyNz:
+        case edk::GU::vbo_XYZ_NxNyNz:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
             vertex = (vertex * vboSizeofPolygon2D[this->vboType]) + 3u;
             break;
-        case edk::shape::vbo_XYZ_RGB:
+        case edk::GU::vbo_XYZ_RGB:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
             vertex = (vertex * vboSizeofPolygon2D[this->vboType]) + 3u;
             break;
-        case edk::shape::vbo_XYZ_RGBA:
+        case edk::GU::vbo_XYZ_RGBA:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
             vertex = (vertex * vboSizeofPolygon2D[this->vboType]) + 3u;
             break;
-        case edk::shape::vbo_XYZ_RGB_NxNyNz:
+        case edk::GU::vbo_XYZ_RGB_NxNyNz:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
             vertex = (vertex * vboSizeofPolygon2D[this->vboType]) + 3u;
             break;
-        case edk::shape::vbo_XYZ_RGBA_NxNyNz:
+        case edk::GU::vbo_XYZ_RGBA_NxNyNz:
             //calculate the vertex position
             vertex = (vertex * vboSizeofPolygon2D[this->vboType]) + 3u;
             break;
-        case edk::shape::vbo_XYZ_RGB_NxNyNz_UVxUVy:
+        case edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
             //calculate the vertex position
             vertex = (vertex * vboSizeofPolygon2D[this->vboType]) + 3u;
             break;
-        case edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
+        case edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
             //calculate the vertex position
             vertex = (vertex * vboSizeofPolygon2D[this->vboType]) + 3u;
             break;
@@ -5457,95 +5457,95 @@ bool edk::shape::Polygon2D::setVBOPolygonColor(edk::color4f32 color){
         edk::uint8 position;
         //test if need change the buffer
         switch(this->vboType){
-        case edk::shape::vbo_XY:
+        case edk::GU::vbo_XY:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
             position = 3u;
             break;
-        case edk::shape::vbo_XY_NxNyNz:
+        case edk::GU::vbo_XY_NxNyNz:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
             position = 3u;
             break;
-        case edk::shape::vbo_XY_RGB:
+        case edk::GU::vbo_XY_RGB:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
             position = 3u;
             break;
-        case edk::shape::vbo_XY_RGBA:
+        case edk::GU::vbo_XY_RGBA:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
             position = 3u;
             break;
-        case edk::shape::vbo_XY_RGB_NxNyNz:
+        case edk::GU::vbo_XY_RGB_NxNyNz:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
             position = 3u;
             break;
-        case edk::shape::vbo_XY_RGBA_NxNyNz:
+        case edk::GU::vbo_XY_RGBA_NxNyNz:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
             position = 3u;
             break;
-        case edk::shape::vbo_XY_RGB_NxNyNz_UVxUVy:
+        case edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
             //calculate the vertex position
             position = 3u;
             break;
-        case edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy:
+        case edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
             //calculate the vertex position
             position = 3u;
             break;
-        case edk::shape::vbo_XYZ:
+        case edk::GU::vbo_XYZ:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
             position = 3u;
             break;
-        case edk::shape::vbo_XYZ_NxNyNz:
+        case edk::GU::vbo_XYZ_NxNyNz:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
             position = 3u;
             break;
-        case edk::shape::vbo_XYZ_RGB:
+        case edk::GU::vbo_XYZ_RGB:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
             position = 3u;
             break;
-        case edk::shape::vbo_XYZ_RGBA:
+        case edk::GU::vbo_XYZ_RGBA:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
             position = 3u;
             break;
-        case edk::shape::vbo_XYZ_RGB_NxNyNz:
+        case edk::GU::vbo_XYZ_RGB_NxNyNz:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
             position = 3u;
             break;
-        case edk::shape::vbo_XYZ_RGBA_NxNyNz:
+        case edk::GU::vbo_XYZ_RGBA_NxNyNz:
             //calculate the vertex position
             position = 3u;
             break;
-        case edk::shape::vbo_XYZ_RGB_NxNyNz_UVxUVy:
+        case edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
             //calculate the vertex position
             position = 3u;
             break;
-        case edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
+        case edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
             //calculate the vertex position
             position = 3u;
             break;
@@ -5577,95 +5577,95 @@ bool edk::shape::Polygon2D::setVBOPolygonNormal(edk::vec3f32 normal){
         edk::uint8 position;
         //test if need change the buffer
         switch(this->vboType){
-        case edk::shape::vbo_XY:
+        case edk::GU::vbo_XY:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
             position = 7u;
             break;
-        case edk::shape::vbo_XY_NxNyNz:
+        case edk::GU::vbo_XY_NxNyNz:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
             position = 7u;
             break;
-        case edk::shape::vbo_XY_RGB:
+        case edk::GU::vbo_XY_RGB:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
             position = 7u;
             break;
-        case edk::shape::vbo_XY_RGBA:
+        case edk::GU::vbo_XY_RGBA:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
             position = 7u;
             break;
-        case edk::shape::vbo_XY_RGB_NxNyNz:
+        case edk::GU::vbo_XY_RGB_NxNyNz:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
             position = 7u;
             break;
-        case edk::shape::vbo_XY_RGBA_NxNyNz:
+        case edk::GU::vbo_XY_RGBA_NxNyNz:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
             position = 7u;
             break;
-        case edk::shape::vbo_XY_RGB_NxNyNz_UVxUVy:
+        case edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
             //calculate the vertex position
             position = 7u;
             break;
-        case edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy:
+        case edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
             //calculate the vertex position
             position = 7u;
             break;
-        case edk::shape::vbo_XYZ:
+        case edk::GU::vbo_XYZ:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
             position = 7u;
             break;
-        case edk::shape::vbo_XYZ_NxNyNz:
+        case edk::GU::vbo_XYZ_NxNyNz:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
             position = 7u;
             break;
-        case edk::shape::vbo_XYZ_RGB:
+        case edk::GU::vbo_XYZ_RGB:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
             position = 7u;
             break;
-        case edk::shape::vbo_XYZ_RGBA:
+        case edk::GU::vbo_XYZ_RGBA:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
             position = 7u;
             break;
-        case edk::shape::vbo_XYZ_RGB_NxNyNz:
+        case edk::GU::vbo_XYZ_RGB_NxNyNz:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
             position = 7u;
             break;
-        case edk::shape::vbo_XYZ_RGBA_NxNyNz:
+        case edk::GU::vbo_XYZ_RGBA_NxNyNz:
             //calculate the vertex position
             position = 7u;
             break;
-        case edk::shape::vbo_XYZ_RGB_NxNyNz_UVxUVy:
+        case edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
             //calculate the vertex position
             position = 7u;
             break;
-        case edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
+        case edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
             //calculate the vertex position
             position = 7u;
             break;
@@ -5695,95 +5695,95 @@ bool edk::shape::Polygon2D::setVBOPolygonColorR(edk::float32 r){
         edk::uint8 position;
         //test if need change the buffer
         switch(this->vboType){
-        case edk::shape::vbo_XY:
+        case edk::GU::vbo_XY:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
             position = 3u;
             break;
-        case edk::shape::vbo_XY_NxNyNz:
+        case edk::GU::vbo_XY_NxNyNz:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
             position = 3u;
             break;
-        case edk::shape::vbo_XY_RGB:
+        case edk::GU::vbo_XY_RGB:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
             position = 3u;
             break;
-        case edk::shape::vbo_XY_RGBA:
+        case edk::GU::vbo_XY_RGBA:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
             position = 3u;
             break;
-        case edk::shape::vbo_XY_RGB_NxNyNz:
+        case edk::GU::vbo_XY_RGB_NxNyNz:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
             position = 3u;
             break;
-        case edk::shape::vbo_XY_RGBA_NxNyNz:
+        case edk::GU::vbo_XY_RGBA_NxNyNz:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
             position = 3u;
             break;
-        case edk::shape::vbo_XY_RGB_NxNyNz_UVxUVy:
+        case edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
             //calculate the vertex position
             position = 3u;
             break;
-        case edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy:
+        case edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
             //calculate the vertex position
             position = 3u;
             break;
-        case edk::shape::vbo_XYZ:
+        case edk::GU::vbo_XYZ:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
             position = 3u;
             break;
-        case edk::shape::vbo_XYZ_NxNyNz:
+        case edk::GU::vbo_XYZ_NxNyNz:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
             position = 3u;
             break;
-        case edk::shape::vbo_XYZ_RGB:
+        case edk::GU::vbo_XYZ_RGB:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
             position = 3u;
             break;
-        case edk::shape::vbo_XYZ_RGBA:
+        case edk::GU::vbo_XYZ_RGBA:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
             position = 3u;
             break;
-        case edk::shape::vbo_XYZ_RGB_NxNyNz:
+        case edk::GU::vbo_XYZ_RGB_NxNyNz:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
             position = 3u;
             break;
-        case edk::shape::vbo_XYZ_RGBA_NxNyNz:
+        case edk::GU::vbo_XYZ_RGBA_NxNyNz:
             //calculate the vertex position
             position = 3u;
             break;
-        case edk::shape::vbo_XYZ_RGB_NxNyNz_UVxUVy:
+        case edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
             //calculate the vertex position
             position = 3u;
             break;
-        case edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
+        case edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
             //calculate the vertex position
             position = 3u;
             break;
@@ -5811,95 +5811,95 @@ bool edk::shape::Polygon2D::setVBOPolygonColorG(edk::float32 g){
         edk::uint8 position;
         //test if need change the buffer
         switch(this->vboType){
-        case edk::shape::vbo_XY:
+        case edk::GU::vbo_XY:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
             position = 3u;
             break;
-        case edk::shape::vbo_XY_NxNyNz:
+        case edk::GU::vbo_XY_NxNyNz:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
             position = 3u;
             break;
-        case edk::shape::vbo_XY_RGB:
+        case edk::GU::vbo_XY_RGB:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
             position = 3u;
             break;
-        case edk::shape::vbo_XY_RGBA:
+        case edk::GU::vbo_XY_RGBA:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
             position = 3u;
             break;
-        case edk::shape::vbo_XY_RGB_NxNyNz:
+        case edk::GU::vbo_XY_RGB_NxNyNz:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
             position = 3u;
             break;
-        case edk::shape::vbo_XY_RGBA_NxNyNz:
+        case edk::GU::vbo_XY_RGBA_NxNyNz:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
             position = 3u;
             break;
-        case edk::shape::vbo_XY_RGB_NxNyNz_UVxUVy:
+        case edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
             //calculate the vertex position
             position = 3u;
             break;
-        case edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy:
+        case edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
             //calculate the vertex position
             position = 3u;
             break;
-        case edk::shape::vbo_XYZ:
+        case edk::GU::vbo_XYZ:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
             position = 3u;
             break;
-        case edk::shape::vbo_XYZ_NxNyNz:
+        case edk::GU::vbo_XYZ_NxNyNz:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
             position = 3u;
             break;
-        case edk::shape::vbo_XYZ_RGB:
+        case edk::GU::vbo_XYZ_RGB:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
             position = 3u;
             break;
-        case edk::shape::vbo_XYZ_RGBA:
+        case edk::GU::vbo_XYZ_RGBA:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
             position = 3u;
             break;
-        case edk::shape::vbo_XYZ_RGB_NxNyNz:
+        case edk::GU::vbo_XYZ_RGB_NxNyNz:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
             position = 3u;
             break;
-        case edk::shape::vbo_XYZ_RGBA_NxNyNz:
+        case edk::GU::vbo_XYZ_RGBA_NxNyNz:
             //calculate the vertex position
             position = 3u;
             break;
-        case edk::shape::vbo_XYZ_RGB_NxNyNz_UVxUVy:
+        case edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
             //calculate the vertex position
             position = 3u;
             break;
-        case edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
+        case edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
             //calculate the vertex position
             position = 3u;
             break;
@@ -5928,95 +5928,95 @@ bool edk::shape::Polygon2D::setVBOPolygonColorB(edk::float32 b){
         edk::uint8 position;
         //test if need change the buffer
         switch(this->vboType){
-        case edk::shape::vbo_XY:
+        case edk::GU::vbo_XY:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
             position = 3u;
             break;
-        case edk::shape::vbo_XY_NxNyNz:
+        case edk::GU::vbo_XY_NxNyNz:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
             position = 3u;
             break;
-        case edk::shape::vbo_XY_RGB:
+        case edk::GU::vbo_XY_RGB:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
             position = 3u;
             break;
-        case edk::shape::vbo_XY_RGBA:
+        case edk::GU::vbo_XY_RGBA:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
             position = 3u;
             break;
-        case edk::shape::vbo_XY_RGB_NxNyNz:
+        case edk::GU::vbo_XY_RGB_NxNyNz:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
             position = 3u;
             break;
-        case edk::shape::vbo_XY_RGBA_NxNyNz:
+        case edk::GU::vbo_XY_RGBA_NxNyNz:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
             position = 3u;
             break;
-        case edk::shape::vbo_XY_RGB_NxNyNz_UVxUVy:
+        case edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
             //calculate the vertex position
             position = 3u;
             break;
-        case edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy:
+        case edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
             //calculate the vertex position
             position = 3u;
             break;
-        case edk::shape::vbo_XYZ:
+        case edk::GU::vbo_XYZ:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
             position = 3u;
             break;
-        case edk::shape::vbo_XYZ_NxNyNz:
+        case edk::GU::vbo_XYZ_NxNyNz:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
             position = 3u;
             break;
-        case edk::shape::vbo_XYZ_RGB:
+        case edk::GU::vbo_XYZ_RGB:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
             position = 3u;
             break;
-        case edk::shape::vbo_XYZ_RGBA:
+        case edk::GU::vbo_XYZ_RGBA:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
             position = 3u;
             break;
-        case edk::shape::vbo_XYZ_RGB_NxNyNz:
+        case edk::GU::vbo_XYZ_RGB_NxNyNz:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
             position = 3u;
             break;
-        case edk::shape::vbo_XYZ_RGBA_NxNyNz:
+        case edk::GU::vbo_XYZ_RGBA_NxNyNz:
             //calculate the vertex position
             position = 3u;
             break;
-        case edk::shape::vbo_XYZ_RGB_NxNyNz_UVxUVy:
+        case edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
             //calculate the vertex position
             position = 3u;
             break;
-        case edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
+        case edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
             //calculate the vertex position
             position = 3u;
             break;
@@ -6045,95 +6045,95 @@ bool edk::shape::Polygon2D::setVBOPolygonColorA(edk::float32 a){
         edk::uint8 position;
         //test if need change the buffer
         switch(this->vboType){
-        case edk::shape::vbo_XY:
+        case edk::GU::vbo_XY:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
             position = 3u;
             break;
-        case edk::shape::vbo_XY_NxNyNz:
+        case edk::GU::vbo_XY_NxNyNz:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
             position = 3u;
             break;
-        case edk::shape::vbo_XY_RGB:
+        case edk::GU::vbo_XY_RGB:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
             position = 3u;
             break;
-        case edk::shape::vbo_XY_RGBA:
+        case edk::GU::vbo_XY_RGBA:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
             position = 3u;
             break;
-        case edk::shape::vbo_XY_RGB_NxNyNz:
+        case edk::GU::vbo_XY_RGB_NxNyNz:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
             position = 3u;
             break;
-        case edk::shape::vbo_XY_RGBA_NxNyNz:
+        case edk::GU::vbo_XY_RGBA_NxNyNz:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
             position = 3u;
             break;
-        case edk::shape::vbo_XY_RGB_NxNyNz_UVxUVy:
+        case edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
             //calculate the vertex position
             position = 3u;
             break;
-        case edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy:
+        case edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
             //calculate the vertex position
             position = 3u;
             break;
-        case edk::shape::vbo_XYZ:
+        case edk::GU::vbo_XYZ:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
             position = 3u;
             break;
-        case edk::shape::vbo_XYZ_NxNyNz:
+        case edk::GU::vbo_XYZ_NxNyNz:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
             position = 3u;
             break;
-        case edk::shape::vbo_XYZ_RGB:
+        case edk::GU::vbo_XYZ_RGB:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
             position = 3u;
             break;
-        case edk::shape::vbo_XYZ_RGBA:
+        case edk::GU::vbo_XYZ_RGBA:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
             position = 3u;
             break;
-        case edk::shape::vbo_XYZ_RGB_NxNyNz:
+        case edk::GU::vbo_XYZ_RGB_NxNyNz:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
             //calculate the vertex position
             position = 3u;
             break;
-        case edk::shape::vbo_XYZ_RGBA_NxNyNz:
+        case edk::GU::vbo_XYZ_RGBA_NxNyNz:
             //calculate the vertex position
             position = 3u;
             break;
-        case edk::shape::vbo_XYZ_RGB_NxNyNz_UVxUVy:
+        case edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
             //calculate the vertex position
             position = 3u;
             break;
-        case edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
+        case edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
             //calculate the vertex position
             position = 3u;
             break;
@@ -6161,95 +6161,95 @@ bool edk::shape::Polygon2D::setVBOVertexUV(edk::uint32 vertex,edk::vec2f32 uv){
     if(this->haveVBO() && this->vertexBuffer.haveArray()){
         //test if need change the buffer
         switch(this->vboType){
-        case edk::shape::vbo_XY:
+        case edk::GU::vbo_XY:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy);
+            this->changeVBO(edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy);
             //calculate the vertex position
             vertex = (vertex * vboSizeofPolygon2D[this->vboType]) + 9u;
             break;
-        case edk::shape::vbo_XY_NxNyNz:
+        case edk::GU::vbo_XY_NxNyNz:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy);
+            this->changeVBO(edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy);
             //calculate the vertex position
             vertex = (vertex * vboSizeofPolygon2D[this->vboType]) + 9u;
             break;
-        case edk::shape::vbo_XY_RGB:
+        case edk::GU::vbo_XY_RGB:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy);
+            this->changeVBO(edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy);
             //calculate the vertex position
             vertex = (vertex * vboSizeofPolygon2D[this->vboType]) + 9u;
             break;
-        case edk::shape::vbo_XY_RGBA:
+        case edk::GU::vbo_XY_RGBA:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy);
+            this->changeVBO(edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy);
             //calculate the vertex position
             vertex = (vertex * vboSizeofPolygon2D[this->vboType]) + 9u;
             break;
-        case edk::shape::vbo_XY_RGB_NxNyNz:
+        case edk::GU::vbo_XY_RGB_NxNyNz:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy);
+            this->changeVBO(edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy);
             //calculate the vertex position
             vertex = (vertex * vboSizeofPolygon2D[this->vboType]) + 9u;
             break;
-        case edk::shape::vbo_XY_RGBA_NxNyNz:
+        case edk::GU::vbo_XY_RGBA_NxNyNz:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy);
+            this->changeVBO(edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy);
             //calculate the vertex position
             vertex = (vertex * vboSizeofPolygon2D[this->vboType]) + 9u;
             break;
-        case edk::shape::vbo_XY_RGB_NxNyNz_UVxUVy:
+        case edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy);
+            this->changeVBO(edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy);
             //calculate the vertex position
             vertex = (vertex * vboSizeofPolygon2D[this->vboType]) + 9u;
             break;
-        case edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy:
+        case edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy:
             //calculate the vertex position
             vertex = (vertex * vboSizeofPolygon2D[this->vboType]) + 9u;
             break;
-        case edk::shape::vbo_XYZ:
+        case edk::GU::vbo_XYZ:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
             //calculate the vertex position
             vertex = (vertex * vboSizeofPolygon2D[this->vboType]) + 10u;
             break;
-        case edk::shape::vbo_XYZ_NxNyNz:
+        case edk::GU::vbo_XYZ_NxNyNz:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
             //calculate the vertex position
             vertex = (vertex * vboSizeofPolygon2D[this->vboType]) + 10u;
             break;
-        case edk::shape::vbo_XYZ_RGB:
+        case edk::GU::vbo_XYZ_RGB:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
             //calculate the vertex position
             vertex = (vertex * vboSizeofPolygon2D[this->vboType]) + 10u;
             break;
-        case edk::shape::vbo_XYZ_RGBA:
+        case edk::GU::vbo_XYZ_RGBA:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
             //calculate the vertex position
             vertex = (vertex * vboSizeofPolygon2D[this->vboType]) + 10u;
             break;
-        case edk::shape::vbo_XYZ_RGB_NxNyNz:
+        case edk::GU::vbo_XYZ_RGB_NxNyNz:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
             //calculate the vertex position
             vertex = (vertex * vboSizeofPolygon2D[this->vboType]) + 10u;
             break;
-        case edk::shape::vbo_XYZ_RGBA_NxNyNz:
+        case edk::GU::vbo_XYZ_RGBA_NxNyNz:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
             //calculate the vertex position
             vertex = (vertex * vboSizeofPolygon2D[this->vboType]) + 10u;
             break;
-        case edk::shape::vbo_XYZ_RGB_NxNyNz_UVxUVy:
+        case edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
             //calculate the vertex position
             vertex = (vertex * vboSizeofPolygon2D[this->vboType]) + 10u;
             break;
-        case edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
+        case edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
             //calculate the vertex position
             vertex = (vertex * vboSizeofPolygon2D[this->vboType]) + 10u;
             break;
@@ -6274,95 +6274,95 @@ bool edk::shape::Polygon2D::setVBOVertexU(edk::uint32 vertex,edk::float32 u){
     if(this->haveVBO() && this->vertexBuffer.haveArray()){
         //test if need change the buffer
         switch(this->vboType){
-        case edk::shape::vbo_XY:
+        case edk::GU::vbo_XY:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy);
+            this->changeVBO(edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy);
             //calculate the vertex position
             vertex = (vertex * vboSizeofPolygon2D[this->vboType]) + 9u;
             break;
-        case edk::shape::vbo_XY_NxNyNz:
+        case edk::GU::vbo_XY_NxNyNz:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy);
+            this->changeVBO(edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy);
             //calculate the vertex position
             vertex = (vertex * vboSizeofPolygon2D[this->vboType]) + 9u;
             break;
-        case edk::shape::vbo_XY_RGB:
+        case edk::GU::vbo_XY_RGB:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy);
+            this->changeVBO(edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy);
             //calculate the vertex position
             vertex = (vertex * vboSizeofPolygon2D[this->vboType]) + 9u;
             break;
-        case edk::shape::vbo_XY_RGBA:
+        case edk::GU::vbo_XY_RGBA:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy);
+            this->changeVBO(edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy);
             //calculate the vertex position
             vertex = (vertex * vboSizeofPolygon2D[this->vboType]) + 9u;
             break;
-        case edk::shape::vbo_XY_RGB_NxNyNz:
+        case edk::GU::vbo_XY_RGB_NxNyNz:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy);
+            this->changeVBO(edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy);
             //calculate the vertex position
             vertex = (vertex * vboSizeofPolygon2D[this->vboType]) + 9u;
             break;
-        case edk::shape::vbo_XY_RGBA_NxNyNz:
+        case edk::GU::vbo_XY_RGBA_NxNyNz:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy);
+            this->changeVBO(edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy);
             //calculate the vertex position
             vertex = (vertex * vboSizeofPolygon2D[this->vboType]) + 9u;
             break;
-        case edk::shape::vbo_XY_RGB_NxNyNz_UVxUVy:
+        case edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy);
+            this->changeVBO(edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy);
             //calculate the vertex position
             vertex = (vertex * vboSizeofPolygon2D[this->vboType]) + 9u;
             break;
-        case edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy:
+        case edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy:
             //calculate the vertex position
             vertex = (vertex * vboSizeofPolygon2D[this->vboType]) + 9u;
             break;
-        case edk::shape::vbo_XYZ:
+        case edk::GU::vbo_XYZ:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
             //calculate the vertex position
             vertex = (vertex * vboSizeofPolygon2D[this->vboType]) + 10u;
             break;
-        case edk::shape::vbo_XYZ_NxNyNz:
+        case edk::GU::vbo_XYZ_NxNyNz:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
             //calculate the vertex position
             vertex = (vertex * vboSizeofPolygon2D[this->vboType]) + 10u;
             break;
-        case edk::shape::vbo_XYZ_RGB:
+        case edk::GU::vbo_XYZ_RGB:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
             //calculate the vertex position
             vertex = (vertex * vboSizeofPolygon2D[this->vboType]) + 10u;
             break;
-        case edk::shape::vbo_XYZ_RGBA:
+        case edk::GU::vbo_XYZ_RGBA:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
             //calculate the vertex position
             vertex = (vertex * vboSizeofPolygon2D[this->vboType]) + 10u;
             break;
-        case edk::shape::vbo_XYZ_RGB_NxNyNz:
+        case edk::GU::vbo_XYZ_RGB_NxNyNz:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
             //calculate the vertex position
             vertex = (vertex * vboSizeofPolygon2D[this->vboType]) + 10u;
             break;
-        case edk::shape::vbo_XYZ_RGBA_NxNyNz:
+        case edk::GU::vbo_XYZ_RGBA_NxNyNz:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
             //calculate the vertex position
             vertex = (vertex * vboSizeofPolygon2D[this->vboType]) + 10u;
             break;
-        case edk::shape::vbo_XYZ_RGB_NxNyNz_UVxUVy:
+        case edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
             //calculate the vertex position
             vertex = (vertex * vboSizeofPolygon2D[this->vboType]) + 10u;
             break;
-        case edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
+        case edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
             //calculate the vertex position
             vertex = (vertex * vboSizeofPolygon2D[this->vboType]) + 10u;
             break;
@@ -6384,95 +6384,95 @@ bool edk::shape::Polygon2D::setVBOVertexV(edk::uint32 vertex,edk::float32 v){
     if(this->haveVBO() && this->vertexBuffer.haveArray()){
         //test if need change the buffer
         switch(this->vboType){
-        case edk::shape::vbo_XY:
+        case edk::GU::vbo_XY:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy);
+            this->changeVBO(edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy);
             //calculate the vertex position
             vertex = (vertex * vboSizeofPolygon2D[this->vboType]) + 9u;
             break;
-        case edk::shape::vbo_XY_NxNyNz:
+        case edk::GU::vbo_XY_NxNyNz:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy);
+            this->changeVBO(edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy);
             //calculate the vertex position
             vertex = (vertex * vboSizeofPolygon2D[this->vboType]) + 9u;
             break;
-        case edk::shape::vbo_XY_RGB:
+        case edk::GU::vbo_XY_RGB:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy);
+            this->changeVBO(edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy);
             //calculate the vertex position
             vertex = (vertex * vboSizeofPolygon2D[this->vboType]) + 9u;
             break;
-        case edk::shape::vbo_XY_RGBA:
+        case edk::GU::vbo_XY_RGBA:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy);
+            this->changeVBO(edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy);
             //calculate the vertex position
             vertex = (vertex * vboSizeofPolygon2D[this->vboType]) + 9u;
             break;
-        case edk::shape::vbo_XY_RGB_NxNyNz:
+        case edk::GU::vbo_XY_RGB_NxNyNz:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy);
+            this->changeVBO(edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy);
             //calculate the vertex position
             vertex = (vertex * vboSizeofPolygon2D[this->vboType]) + 9u;
             break;
-        case edk::shape::vbo_XY_RGBA_NxNyNz:
+        case edk::GU::vbo_XY_RGBA_NxNyNz:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy);
+            this->changeVBO(edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy);
             //calculate the vertex position
             vertex = (vertex * vboSizeofPolygon2D[this->vboType]) + 9u;
             break;
-        case edk::shape::vbo_XY_RGB_NxNyNz_UVxUVy:
+        case edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy);
+            this->changeVBO(edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy);
             //calculate the vertex position
             vertex = (vertex * vboSizeofPolygon2D[this->vboType]) + 9u;
             break;
-        case edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy:
+        case edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy:
             //calculate the vertex position
             vertex = (vertex * vboSizeofPolygon2D[this->vboType]) + 9u;
             break;
-        case edk::shape::vbo_XYZ:
+        case edk::GU::vbo_XYZ:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
             //calculate the vertex position
             vertex = (vertex * vboSizeofPolygon2D[this->vboType]) + 10u;
             break;
-        case edk::shape::vbo_XYZ_NxNyNz:
+        case edk::GU::vbo_XYZ_NxNyNz:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
             //calculate the vertex position
             vertex = (vertex * vboSizeofPolygon2D[this->vboType]) + 10u;
             break;
-        case edk::shape::vbo_XYZ_RGB:
+        case edk::GU::vbo_XYZ_RGB:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
             //calculate the vertex position
             vertex = (vertex * vboSizeofPolygon2D[this->vboType]) + 10u;
             break;
-        case edk::shape::vbo_XYZ_RGBA:
+        case edk::GU::vbo_XYZ_RGBA:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
             //calculate the vertex position
             vertex = (vertex * vboSizeofPolygon2D[this->vboType]) + 10u;
             break;
-        case edk::shape::vbo_XYZ_RGB_NxNyNz:
+        case edk::GU::vbo_XYZ_RGB_NxNyNz:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
             //calculate the vertex position
             vertex = (vertex * vboSizeofPolygon2D[this->vboType]) + 10u;
             break;
-        case edk::shape::vbo_XYZ_RGBA_NxNyNz:
+        case edk::GU::vbo_XYZ_RGBA_NxNyNz:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
             //calculate the vertex position
             vertex = (vertex * vboSizeofPolygon2D[this->vboType]) + 10u;
             break;
-        case edk::shape::vbo_XYZ_RGB_NxNyNz_UVxUVy:
+        case edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy:
             //change the vertexBuffer
-            this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
             //calculate the vertex position
             vertex = (vertex * vboSizeofPolygon2D[this->vboType]) + 10u;
             break;
-        case edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
+        case edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
             //calculate the vertex position
             vertex = (vertex * vboSizeofPolygon2D[this->vboType]) + 10u;
             break;
@@ -6506,95 +6506,95 @@ bool edk::shape::Polygon2D::updateVBOUV(){
             //set the vertex position in vertexBuffer
             //test if need change the buffer
             switch(this->vboType){
-            case edk::shape::vbo_XY:
+            case edk::GU::vbo_XY:
                 //change the vertexBuffer
-                this->changeVBO(edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy);
+                this->changeVBO(edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy);
                 //calculate the vertex position
                 vertexUV = (vertexUV * vboSizeofPolygon2D[this->vboType]) + 9u;
                 break;
-            case edk::shape::vbo_XY_NxNyNz:
+            case edk::GU::vbo_XY_NxNyNz:
                 //change the vertexBuffer
-                this->changeVBO(edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy);
+                this->changeVBO(edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy);
                 //calculate the vertex position
                 vertexUV = (vertexUV * vboSizeofPolygon2D[this->vboType]) + 9u;
                 break;
-            case edk::shape::vbo_XY_RGB:
+            case edk::GU::vbo_XY_RGB:
                 //change the vertexBuffer
-                this->changeVBO(edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy);
+                this->changeVBO(edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy);
                 //calculate the vertex position
                 vertexUV = (vertexUV * vboSizeofPolygon2D[this->vboType]) + 9u;
                 break;
-            case edk::shape::vbo_XY_RGBA:
+            case edk::GU::vbo_XY_RGBA:
                 //change the vertexBuffer
-                this->changeVBO(edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy);
+                this->changeVBO(edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy);
                 //calculate the vertex position
                 vertexUV = (vertexUV * vboSizeofPolygon2D[this->vboType]) + 9u;
                 break;
-            case edk::shape::vbo_XY_RGB_NxNyNz:
+            case edk::GU::vbo_XY_RGB_NxNyNz:
                 //change the vertexBuffer
-                this->changeVBO(edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy);
+                this->changeVBO(edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy);
                 //calculate the vertex position
                 vertexUV = (vertexUV * vboSizeofPolygon2D[this->vboType]) + 9u;
                 break;
-            case edk::shape::vbo_XY_RGBA_NxNyNz:
+            case edk::GU::vbo_XY_RGBA_NxNyNz:
                 //change the vertexBuffer
-                this->changeVBO(edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy);
+                this->changeVBO(edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy);
                 //calculate the vertex position
                 vertexUV = (vertexUV * vboSizeofPolygon2D[this->vboType]) + 9u;
                 break;
-            case edk::shape::vbo_XY_RGB_NxNyNz_UVxUVy:
+            case edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy:
                 //change the vertexBuffer
-                this->changeVBO(edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy);
+                this->changeVBO(edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy);
                 //calculate the vertex position
                 vertexUV = (vertexUV * vboSizeofPolygon2D[this->vboType]) + 9u;
                 break;
-            case edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy:
+            case edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy:
                 //calculate the vertex position
                 vertexUV = (vertexUV * vboSizeofPolygon2D[this->vboType]) + 9u;
                 break;
-            case edk::shape::vbo_XYZ:
+            case edk::GU::vbo_XYZ:
                 //change the vertexBuffer
-                this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+                this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
                 //calculate the vertex position
                 vertexUV = (vertexUV * vboSizeofPolygon2D[this->vboType]) + 10u;
                 break;
-            case edk::shape::vbo_XYZ_NxNyNz:
+            case edk::GU::vbo_XYZ_NxNyNz:
                 //change the vertexBuffer
-                this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+                this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
                 //calculate the vertex position
                 vertexUV = (vertexUV * vboSizeofPolygon2D[this->vboType]) + 10u;
                 break;
-            case edk::shape::vbo_XYZ_RGB:
+            case edk::GU::vbo_XYZ_RGB:
                 //change the vertexBuffer
-                this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+                this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
                 //calculate the vertex position
                 vertexUV = (vertexUV * vboSizeofPolygon2D[this->vboType]) + 10u;
                 break;
-            case edk::shape::vbo_XYZ_RGBA:
+            case edk::GU::vbo_XYZ_RGBA:
                 //change the vertexBuffer
-                this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+                this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
                 //calculate the vertex position
                 vertexUV = (vertexUV * vboSizeofPolygon2D[this->vboType]) + 10u;
                 break;
-            case edk::shape::vbo_XYZ_RGB_NxNyNz:
+            case edk::GU::vbo_XYZ_RGB_NxNyNz:
                 //change the vertexBuffer
-                this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+                this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
                 //calculate the vertex position
                 vertexUV = (vertexUV * vboSizeofPolygon2D[this->vboType]) + 10u;
                 break;
-            case edk::shape::vbo_XYZ_RGBA_NxNyNz:
+            case edk::GU::vbo_XYZ_RGBA_NxNyNz:
                 //change the vertexBuffer
-                this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+                this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
                 //calculate the vertex position
                 vertexUV = (vertexUV * vboSizeofPolygon2D[this->vboType]) + 10u;
                 break;
-            case edk::shape::vbo_XYZ_RGB_NxNyNz_UVxUVy:
+            case edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy:
                 //change the vertexBuffer
-                this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+                this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
                 //calculate the vertex position
                 vertexUV = (vertexUV * vboSizeofPolygon2D[this->vboType]) + 10u;
                 break;
-            case edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
+            case edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
                 //calculate the vertex position
                 vertexUV = (vertexUV * vboSizeofPolygon2D[this->vboType]) + 10u;
                 break;
@@ -6639,125 +6639,125 @@ bool edk::shape::Polygon2D::updateVBOValues(){
             vertexPosition = vertexColor = vertexUV = i;
 
             switch(this->vboType){
-            case edk::shape::vbo_XY:
+            case edk::GU::vbo_XY:
                 //change the vertexBuffer
-                this->changeVBO(edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy);
+                this->changeVBO(edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy);
                 //calculate the vertex position
                 vertexPosition = (vertexPosition * vboSizeofPolygon2D[this->vboType]) + 0u;
                 vertexColor = (vertexColor * vboSizeofPolygon2D[this->vboType]) + 2u;
                 vertexUV = (vertexUV * vboSizeofPolygon2D[this->vboType]) + 9u;
                 break;
-            case edk::shape::vbo_XY_NxNyNz:
+            case edk::GU::vbo_XY_NxNyNz:
                 //change the vertexBuffer
-                this->changeVBO(edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy);
+                this->changeVBO(edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy);
                 //calculate the vertex position
                 vertexPosition = (vertexPosition * vboSizeofPolygon2D[this->vboType]) + 0u;
                 vertexColor = (vertexColor * vboSizeofPolygon2D[this->vboType]) + 2u;
                 vertexUV = (vertexUV * vboSizeofPolygon2D[this->vboType]) + 9u;
                 break;
-            case edk::shape::vbo_XY_RGB:
+            case edk::GU::vbo_XY_RGB:
                 //change the vertexBuffer
-                this->changeVBO(edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy);
+                this->changeVBO(edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy);
                 //calculate the vertex position
                 vertexPosition = (vertexPosition * vboSizeofPolygon2D[this->vboType]) + 0u;
                 vertexColor = (vertexColor * vboSizeofPolygon2D[this->vboType]) + 2u;
                 vertexUV = (vertexUV * vboSizeofPolygon2D[this->vboType]) + 9u;
                 break;
-            case edk::shape::vbo_XY_RGBA:
+            case edk::GU::vbo_XY_RGBA:
                 //change the vertexBuffer
-                this->changeVBO(edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy);
+                this->changeVBO(edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy);
                 //calculate the vertex position
                 vertexPosition = (vertexPosition * vboSizeofPolygon2D[this->vboType]) + 0u;
                 vertexColor = (vertexColor * vboSizeofPolygon2D[this->vboType]) + 2u;
                 vertexUV = (vertexUV * vboSizeofPolygon2D[this->vboType]) + 9u;
                 break;
-            case edk::shape::vbo_XY_RGB_NxNyNz:
+            case edk::GU::vbo_XY_RGB_NxNyNz:
                 //change the vertexBuffer
-                this->changeVBO(edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy);
+                this->changeVBO(edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy);
                 //calculate the vertex position
                 vertexPosition = (vertexPosition * vboSizeofPolygon2D[this->vboType]) + 0u;
                 vertexColor = (vertexColor * vboSizeofPolygon2D[this->vboType]) + 2u;
                 vertexUV = (vertexUV * vboSizeofPolygon2D[this->vboType]) + 9u;
                 break;
-            case edk::shape::vbo_XY_RGBA_NxNyNz:
+            case edk::GU::vbo_XY_RGBA_NxNyNz:
                 //change the vertexBuffer
-                this->changeVBO(edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy);
+                this->changeVBO(edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy);
                 //calculate the vertex position
                 vertexPosition = (vertexPosition * vboSizeofPolygon2D[this->vboType]) + 0u;
                 vertexColor = (vertexColor * vboSizeofPolygon2D[this->vboType]) + 2u;
                 vertexUV = (vertexUV * vboSizeofPolygon2D[this->vboType]) + 9u;
                 break;
-            case edk::shape::vbo_XY_RGB_NxNyNz_UVxUVy:
+            case edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy:
                 //change the vertexBuffer
-                this->changeVBO(edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy);
+                this->changeVBO(edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy);
                 //calculate the vertex position
                 vertexPosition = (vertexPosition * vboSizeofPolygon2D[this->vboType]) + 0u;
                 vertexColor = (vertexColor * vboSizeofPolygon2D[this->vboType]) + 2u;
                 vertexUV = (vertexUV * vboSizeofPolygon2D[this->vboType]) + 9u;
                 break;
-            case edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy:
+            case edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy:
                 //calculate the vertex position
                 vertexPosition = (vertexPosition * vboSizeofPolygon2D[this->vboType]) + 0u;
                 vertexColor = (vertexColor * vboSizeofPolygon2D[this->vboType]) + 2u;
                 vertexUV = (vertexUV * vboSizeofPolygon2D[this->vboType]) + 9u;
                 break;
-            case edk::shape::vbo_XYZ:
+            case edk::GU::vbo_XYZ:
                 //change the vertexBuffer
-                this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+                this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
                 //calculate the vertex position
                 vertexPosition = (vertexPosition * vboSizeofPolygon2D[this->vboType]) + 0u;
                 vertexColor = (vertexColor * vboSizeofPolygon2D[this->vboType]) + 3u;
                 vertexUV = (vertexUV * vboSizeofPolygon2D[this->vboType]) + 10u;
                 break;
-            case edk::shape::vbo_XYZ_NxNyNz:
+            case edk::GU::vbo_XYZ_NxNyNz:
                 //change the vertexBuffer
-                this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+                this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
                 //calculate the vertex position
                 vertexPosition = (vertexPosition * vboSizeofPolygon2D[this->vboType]) + 0u;
                 vertexColor = (vertexColor * vboSizeofPolygon2D[this->vboType]) + 3u;
                 vertexUV = (vertexUV * vboSizeofPolygon2D[this->vboType]) + 10u;
                 break;
-            case edk::shape::vbo_XYZ_RGB:
+            case edk::GU::vbo_XYZ_RGB:
                 //change the vertexBuffer
-                this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+                this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
                 //calculate the vertex position
                 vertexPosition = (vertexPosition * vboSizeofPolygon2D[this->vboType]) + 0u;
                 vertexColor = (vertexColor * vboSizeofPolygon2D[this->vboType]) + 3u;
                 vertexUV = (vertexUV * vboSizeofPolygon2D[this->vboType]) + 10u;
                 break;
-            case edk::shape::vbo_XYZ_RGBA:
+            case edk::GU::vbo_XYZ_RGBA:
                 //change the vertexBuffer
-                this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+                this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
                 //calculate the vertex position
                 vertexPosition = (vertexPosition * vboSizeofPolygon2D[this->vboType]) + 0u;
                 vertexColor = (vertexColor * vboSizeofPolygon2D[this->vboType]) + 3u;
                 vertexUV = (vertexUV * vboSizeofPolygon2D[this->vboType]) + 10u;
                 break;
-            case edk::shape::vbo_XYZ_RGB_NxNyNz:
+            case edk::GU::vbo_XYZ_RGB_NxNyNz:
                 //change the vertexBuffer
-                this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+                this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
                 //calculate the vertex position
                 vertexPosition = (vertexPosition * vboSizeofPolygon2D[this->vboType]) + 0u;
                 vertexColor = (vertexColor * vboSizeofPolygon2D[this->vboType]) + 3u;
                 vertexUV = (vertexUV * vboSizeofPolygon2D[this->vboType]) + 10u;
                 break;
-            case edk::shape::vbo_XYZ_RGBA_NxNyNz:
+            case edk::GU::vbo_XYZ_RGBA_NxNyNz:
                 //change the vertexBuffer
-                this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+                this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
                 //calculate the vertex position
                 vertexPosition = (vertexPosition * vboSizeofPolygon2D[this->vboType]) + 0u;
                 vertexColor = (vertexColor * vboSizeofPolygon2D[this->vboType]) + 3u;
                 vertexUV = (vertexUV * vboSizeofPolygon2D[this->vboType]) + 10u;
                 break;
-            case edk::shape::vbo_XYZ_RGB_NxNyNz_UVxUVy:
+            case edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy:
                 //change the vertexBuffer
-                this->changeVBO(edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+                this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
                 //calculate the vertex position
                 vertexPosition = (vertexPosition * vboSizeofPolygon2D[this->vboType]) + 0u;
                 vertexColor = (vertexColor * vboSizeofPolygon2D[this->vboType]) + 3u;
                 vertexUV = (vertexUV * vboSizeofPolygon2D[this->vboType]) + 10u;
                 break;
-            case edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
+            case edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
                 //calculate the vertex position
                 vertexPosition = (vertexPosition * vboSizeofPolygon2D[this->vboType]) + 0u;
                 vertexColor = (vertexColor * vboSizeofPolygon2D[this->vboType]) + 3u;
@@ -6810,52 +6810,52 @@ bool edk::shape::Polygon2D::printVBO(){
         edk::uint32 increment=vboSizeofPolygon2D[this->vboType];
         //test if need change the buffer
         switch(this->vboType){
-        case edk::shape::vbo_XY:
+        case edk::GU::vbo_XY:
             printf("\nvbo_XY");
             break;
-        case edk::shape::vbo_XY_NxNyNz:
+        case edk::GU::vbo_XY_NxNyNz:
             printf("\nvbo_XY_NxNyNz");
             break;
-        case edk::shape::vbo_XY_RGB:
+        case edk::GU::vbo_XY_RGB:
             printf("\nvbo_XY_RGB");
             break;
-        case edk::shape::vbo_XY_RGBA:
+        case edk::GU::vbo_XY_RGBA:
             printf("\nvbo_XY_RGBA");
             break;
-        case edk::shape::vbo_XY_RGB_NxNyNz:
+        case edk::GU::vbo_XY_RGB_NxNyNz:
             printf("\nvbo_XY_RGB_NxNyNz");
             break;
-        case edk::shape::vbo_XY_RGBA_NxNyNz:
+        case edk::GU::vbo_XY_RGBA_NxNyNz:
             printf("\nvbo_XY_RGBA_NxNyNz");
             break;
-        case edk::shape::vbo_XY_RGB_NxNyNz_UVxUVy:
+        case edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy:
             printf("\nvbo_XY_RGB_NxNyNz_UVxUVy");
             break;
-        case edk::shape::vbo_XY_RGBA_NxNyNz_UVxUVy:
+        case edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy:
             printf("\nvbo_XY_RGBA_NxNyNz_UVxUVy");
             break;
-        case edk::shape::vbo_XYZ:
+        case edk::GU::vbo_XYZ:
             printf("\nvbo_XYZ");
             break;
-        case edk::shape::vbo_XYZ_NxNyNz:
+        case edk::GU::vbo_XYZ_NxNyNz:
             printf("\nvbo_XYZ_NxNyNz");
             break;
-        case edk::shape::vbo_XYZ_RGB:
+        case edk::GU::vbo_XYZ_RGB:
             printf("\nvbo_XYZ_RGB");
             break;
-        case edk::shape::vbo_XYZ_RGBA:
+        case edk::GU::vbo_XYZ_RGBA:
             printf("\nvbo_XYZ_RGBA");
             break;
-        case edk::shape::vbo_XYZ_RGB_NxNyNz:
+        case edk::GU::vbo_XYZ_RGB_NxNyNz:
             printf("\nvbo_XYZ_RGB_NxNyNz");
             break;
-        case edk::shape::vbo_XYZ_RGBA_NxNyNz:
+        case edk::GU::vbo_XYZ_RGBA_NxNyNz:
             printf("\nvbo_XYZ_RGBA_NxNyNz");
             break;
-        case edk::shape::vbo_XYZ_RGB_NxNyNz_UVxUVy:
+        case edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy:
             printf("\nvbo_XYZ_RGB_NxNyNz_UVxUVy");
             break;
-        case edk::shape::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
+        case edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
             printf("\nvbo_XYZ_RGBA_NxNyNz_UVxUVy");
             break;
         default:
@@ -8254,7 +8254,7 @@ bool edk::shape::Polygon2D::createPolygon(edk::uint32 vertexCount){
 
         //create the VBO.
         if(ret){
-            this->createVBO(vertexCount,edk::shape::vbo_XYZ_RGBA);
+            this->createVBO(vertexCount,edk::GU::vbo_XYZ_RGBA);
         }
     }
     return ret;

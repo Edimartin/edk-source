@@ -238,6 +238,7 @@ public:
     //draw the mesh
     virtual void drawBoundingBox();
     virtual void draw();
+    virtual void drawVBO();
     virtual void drawOneTexture();
     virtual void drawOneTextureWithLight();
     virtual void drawWithoutMaterial();
@@ -549,10 +550,13 @@ private:
     void drawChildBoundingBox();
     void drawChildremsBack(bool haveLight);
     void drawChildBack(bool haveLight);
+    void drawVBOChildBack(bool haveLight);
     void drawChildremsFront(bool haveLight);
     void drawChildFront(bool haveLight);
+    void drawVBOChildFront(bool haveLight);
     void drawChildrems(bool haveLight);
     void drawChild(bool haveLight);
+    void drawChildVBO(bool haveLight);
     void drawChildremsBackOneTexture();
     void drawChildBackOneTexture();
     void drawChildremsFrontOneTexture();
@@ -950,6 +954,7 @@ private:
     //HIDE
     void drawHideBoundingBox();
     void drawHide(bool haveLight);
+    void drawVBOHide(bool haveLight);
     void drawHideOneTexture();
     void drawHideOneTextureWithLight(bool haveLight);
     void drawHideWithoutMaterial();
@@ -973,6 +978,7 @@ private:
     //UNHIDE
     void drawUnhideBoundingBox();
     void drawUnhide(bool haveLight);
+    void drawVBOUnhide(bool haveLight);
     void drawUnhideOneTexture();
     void drawUnhideOneTextureWithLight(bool haveLight);
     void drawUnhideWithoutMaterial();
@@ -1016,6 +1022,8 @@ private:
     bool (edk::Object3D::*functionDrawPolygonWithoutMaterialWithLight)(bool ,edk::uint32 ,edk::uint32 );
     bool (edk::Object3D::*functionDrawMeshWire)(edk::uint32 );
     bool (edk::Object3D::*functionDrawPolygonWire)(edk::uint32 ,edk::uint32 );
+    //VBO
+    void (edk::Object3D::*functionDrawVBO)(bool );
 
     bool hided;
 private:

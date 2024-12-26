@@ -503,7 +503,7 @@ void edk::shape::Mesh3D::drawWireWithColorWithMatrix(edk::vector::Matrixf32<4u,4
 void edk::shape::Mesh3D::drawWireWithColorWithMatrix(edk::vector::Matrixf32<4u,4u>* matrix,
                                                      edk::vector::Matrixf32<4u,4u>* matrixTemp,
                                                      edk::color3f32 color
-        ){
+                                                     ){
     edk::GU::guColor3f32(color);
     //else just draw the mesh
     this->drawWirePolygonsWithMatrix(matrix,matrixTemp);edkEnd();
@@ -607,6 +607,52 @@ bool edk::shape::Mesh3D::drawPolygonWireWithColorWithMatrix(edk::vector::Matrixf
     edk::GU::guColor3f32(color);
     //else just draw the mesh
     return this->drawWirePolygonWithMatrix(matrix,matrixTemp,polygon);edkEnd();
+}
+//VBO
+void edk::shape::Mesh3D::drawVBOOneTexture(){
+    //set the texture if have one
+    if(this->material.haveTexture()){
+        this->material.drawStartWithOneTexture();edkEnd();
+        //Draw the mesh
+        this->drawVBOPolygons();edkEnd();
+
+        this->material.drawEndWithTexture();edkEnd();
+    }
+    else{
+        this->material.drawNoTexture();edkEnd();
+        //else just draw the mesh
+        this->drawVBOPolygons();edkEnd();
+    }
+}
+void edk::shape::Mesh3D::drawVBOOneTexture(edk::uint32 position){
+    //set the texture if have one
+    if(this->material.haveTexture()){
+        this->material.drawStartWithOneTexture(position);edkEnd();
+        //Draw the mesh
+        this->drawVBOPolygons();edkEnd();
+
+        this->material.drawEndWithTexture();edkEnd();
+    }
+    else{
+        this->material.drawNoTexture();edkEnd();
+        //else just draw the mesh
+        this->drawVBOPolygons();edkEnd();
+    }
+}
+void edk::shape::Mesh3D::drawVBOMultiTexture(){
+    //set the texture if have one
+    if(this->material.haveTexture()){
+        this->material.drawStartWithMultiTexture();edkEnd();
+        //Draw the mesh
+        this->drawVBOPolygons();edkEnd();
+
+        this->material.drawEndWithTexture();edkEnd();
+    }
+    else{
+        this->material.drawNoTexture();edkEnd();
+        //else just draw the mesh
+        this->drawVBOPolygons();edkEnd();
+    }
 }
 
 bool edk::shape::Mesh3D::triangularizateFromVertex(edk::vector::Stack<edk::vec3f32>* vertexes){
@@ -1491,378 +1537,395 @@ bool edk::shape::Mesh3D::polygonTriangularization(edk::shape::Polygon3D polygon,
     edk::uint32 size = sizeVertexes;edkEnd();
     edk::float32 angle = 0.f;edkEnd();
     if(size>=3u && mesh){
-        //search for the concave vertexes
-        size-=2u;edkEnd();
-        //calculate if the point is inside the triangle
-        angle = edk::Math::getAngle(polygon.getVertexPosition(0u).x-polygon.getVertexPosition(size+1u).x,
-                                    polygon.getVertexPosition(0u).y-polygon.getVertexPosition(size+1u).y
-                                    ) -
-                edk::Math::getAngle(polygon.getVertexPosition(1u).x-polygon.getVertexPosition(size+1u).x,
-                                    polygon.getVertexPosition(1u).y-polygon.getVertexPosition(size+1u).y
-                                    );edkEnd();
-        if(angle<0.f){
-            angle+=360.f;edkEnd();
+        if(size==4u){
+            //
+            tri.cloneVertexFrom(0u,polygon.getVertexPointerInPosition(0u));
+            tri.cloneVertexFrom(1u,polygon.getVertexPointerInPosition(1u));
+            tri.cloneVertexFrom(2u,polygon.getVertexPointerInPosition(2u));
+            mesh->addPolygon(tri);
+            tri.cloneVertexFrom(0u,polygon.getVertexPointerInPosition(2u));
+            tri.cloneVertexFrom(1u,polygon.getVertexPointerInPosition(3u));
+            tri.cloneVertexFrom(2u,polygon.getVertexPointerInPosition(0u));
+            mesh->addPolygon(tri);
+            ret = true;
         }
-        /*
-        printf("\nvertex 0u Angle == %.2f"
-               ,angle
-               );edkEnd();
-*/
-        if(angle<=180.f){
-            /*
-            printf(" concave");edkEnd();
-*/
-            if(!pConcaves.size()){
-                concaveFirst = 0u;edkEnd();
-            }
-            pConcaves.pushBack(polygon.getVertexPosition(0u));edkEnd();
-            concaveActual = 0u;edkEnd();
+        else if(size==3u){
+            mesh->addPolygon(polygon);
         }
-        /*
         else{
-            printf(" convex");edkEnd();
-        }
-*/
-        bool goBreak=false;edkEnd();
-        for(edk::uint32 i=0u;i<size;i++){
-            //test the two lines
+            //search for the concave vertexes
+            size-=2u;edkEnd();
             //calculate if the point is inside the triangle
-            angle = edk::Math::getAngle(polygon.getVertexPosition(i+1u).x-polygon.getVertexPosition(i).x,
-                                        polygon.getVertexPosition(i+1u).y-polygon.getVertexPosition(i).y
+            angle = edk::Math::getAngle(polygon.getVertexPosition(0u).x-polygon.getVertexPosition(size+1u).x,
+                                        polygon.getVertexPosition(0u).y-polygon.getVertexPosition(size+1u).y
                                         ) -
-                    edk::Math::getAngle(polygon.getVertexPosition(i+2u).x-polygon.getVertexPosition(i).x,
-                                        polygon.getVertexPosition(i+2u).y-polygon.getVertexPosition(i).y
+                    edk::Math::getAngle(polygon.getVertexPosition(1u).x-polygon.getVertexPosition(size+1u).x,
+                                        polygon.getVertexPosition(1u).y-polygon.getVertexPosition(size+1u).y
                                         );edkEnd();
             if(angle<0.f){
                 angle+=360.f;edkEnd();
             }
             /*
+        printf("\nvertex 0u Angle == %.2f"
+               ,angle
+               );edkEnd();
+*/
+            if(angle<=180.f){
+                /*
+            printf(" concave");edkEnd();
+*/
+                if(!pConcaves.size()){
+                    concaveFirst = 0u;edkEnd();
+                }
+                pConcaves.pushBack(polygon.getVertexPosition(0u));edkEnd();
+                concaveActual = 0u;edkEnd();
+            }
+            /*
+        else{
+            printf(" convex");edkEnd();
+        }
+*/
+            bool goBreak=false;edkEnd();
+            for(edk::uint32 i=0u;i<size;i++){
+                //test the two lines
+                //calculate if the point is inside the triangle
+                angle = edk::Math::getAngle(polygon.getVertexPosition(i+1u).x-polygon.getVertexPosition(i).x,
+                                            polygon.getVertexPosition(i+1u).y-polygon.getVertexPosition(i).y
+                                            ) -
+                        edk::Math::getAngle(polygon.getVertexPosition(i+2u).x-polygon.getVertexPosition(i).x,
+                                            polygon.getVertexPosition(i+2u).y-polygon.getVertexPosition(i).y
+                                            );edkEnd();
+                if(angle<0.f){
+                    angle+=360.f;edkEnd();
+                }
+                /*
             printf("\nvertex %uu Angle == %.2f"
                    ,i+1u
                    ,angle
                    );edkEnd();
 */
-            if(angle<=180.f){
-                /*
+                if(angle<=180.f){
+                    /*
                 printf(" concave");edkEnd();
 */
-                if(!pConcaves.size()){
-                    concaveFirst = i+1u;edkEnd();
+                    if(!pConcaves.size()){
+                        concaveFirst = i+1u;edkEnd();
+                    }
+                    pConcaves.pushBack(polygon.getVertexPosition(i+1u));edkEnd();
+                    concaveActual = i+1u;edkEnd();
                 }
-                pConcaves.pushBack(polygon.getVertexPosition(i+1u));edkEnd();
-                concaveActual = i+1u;edkEnd();
-            }
-            else{
-                /*
+                else{
+                    /*
                 printf(" convex");edkEnd();
 */
-                //then create the triangle
-                if(pConcaves.size()){
-                    //join the concave, the convex and the next vertex to create a triangle
-                    /*
+                    //then create the triangle
+                    if(pConcaves.size()){
+                        //join the concave, the convex and the next vertex to create a triangle
+                        /*
                     printf("\n%u Create triangle %u %u %u",__LINE__
                            ,concaveActual
                            ,i+1u
                            ,i+2u
                            );edkEnd();
 */
-                    tri.setVertexPosition(0u,polygon.getVertexPosition(concaveActual).x,
-                                          polygon.getVertexPosition(concaveActual).y,
-                                          polygon.getVertexPosition(concaveActual).z
-                                          );edkEnd();
-                    tri.setVertexPosition(1u,polygon.getVertexPosition(i+1u).x,
-                                          polygon.getVertexPosition(i+1u).y,
-                                          polygon.getVertexPosition(i+1u).z
-                                          );edkEnd();
-                    tri.setVertexPosition(2u,polygon.getVertexPosition(i+2u
-                                                                       ).x,
-                                          polygon.getVertexPosition(i+2u).y,
-                                          polygon.getVertexPosition(i+2u).z
-                                          );edkEnd();
-                    if(tri.isCounterclockwise()){
-                        /*
+                        tri.setVertexPosition(0u,polygon.getVertexPosition(concaveActual).x,
+                                              polygon.getVertexPosition(concaveActual).y,
+                                              polygon.getVertexPosition(concaveActual).z
+                                              );edkEnd();
+                        tri.setVertexPosition(1u,polygon.getVertexPosition(i+1u).x,
+                                              polygon.getVertexPosition(i+1u).y,
+                                              polygon.getVertexPosition(i+1u).z
+                                              );edkEnd();
+                        tri.setVertexPosition(2u,polygon.getVertexPosition(i+2u
+                                                                           ).x,
+                                              polygon.getVertexPosition(i+2u).y,
+                                              polygon.getVertexPosition(i+2u).z
+                                              );edkEnd();
+                        if(tri.isCounterclockwise()){
+                            /*
                         printf(" isCounterClockwise");edkEnd();
 */
-                        //test if the triangle have a vertex inside
-                        bool goContinue = true;edkEnd();
-                        for(edk::uint32 l=0u;l<sizeVertexes;l++){
-                            if(l!=concaveActual && l!= i+1u && l!=i+2u){
+                            //test if the triangle have a vertex inside
+                            bool goContinue = true;edkEnd();
+                            for(edk::uint32 l=0u;l<sizeVertexes;l++){
+                                if(l!=concaveActual && l!= i+1u && l!=i+2u){
 
-                                triPoint.setVertexPosition(0u,tri.getVertexPosition(0u));edkEnd();
-                                triPoint.setVertexPosition(1u,tri.getVertexPosition(1u));edkEnd();
-                                triPoint.setVertexPosition(2u,polygon.getVertexPosition(l));edkEnd();
-                                if(triPoint.isCounterclockwise()){
-                                    //
-                                    triPoint.setVertexPosition(0u,tri.getVertexPosition(1u));edkEnd();
-                                    triPoint.setVertexPosition(1u,tri.getVertexPosition(2u));edkEnd();
+                                    triPoint.setVertexPosition(0u,tri.getVertexPosition(0u));edkEnd();
+                                    triPoint.setVertexPosition(1u,tri.getVertexPosition(1u));edkEnd();
                                     triPoint.setVertexPosition(2u,polygon.getVertexPosition(l));edkEnd();
                                     if(triPoint.isCounterclockwise()){
                                         //
-                                        triPoint.setVertexPosition(0u,tri.getVertexPosition(2u));edkEnd();
-                                        triPoint.setVertexPosition(1u,tri.getVertexPosition(0u));edkEnd();
+                                        triPoint.setVertexPosition(0u,tri.getVertexPosition(1u));edkEnd();
+                                        triPoint.setVertexPosition(1u,tri.getVertexPosition(2u));edkEnd();
                                         triPoint.setVertexPosition(2u,polygon.getVertexPosition(l));edkEnd();
                                         if(triPoint.isCounterclockwise()){
                                             //
-                                            goContinue=false;edkEnd();
-                                            break;
+                                            triPoint.setVertexPosition(0u,tri.getVertexPosition(2u));edkEnd();
+                                            triPoint.setVertexPosition(1u,tri.getVertexPosition(0u));edkEnd();
+                                            triPoint.setVertexPosition(2u,polygon.getVertexPosition(l));edkEnd();
+                                            if(triPoint.isCounterclockwise()){
+                                                //
+                                                goContinue=false;edkEnd();
+                                                break;
+                                            }
                                         }
                                     }
                                 }
                             }
-                        }
-                        if(goContinue){
-                            mesh->addPolygon(tri);edkEnd();
-                            /*
+                            if(goContinue){
+                                mesh->addPolygon(tri);edkEnd();
+                                /*
                             printf(" addPolygon");edkEnd();
 */
+                            }
+                            else{
+                                /*
+                            printf(" notAddPolygon");edkEnd();
+*/
+                                //add the vertex as a concave
+                                if(!pConcaves.size()){
+                                    concaveFirst = i+1u;edkEnd();
+                                }
+                                pConcaves.pushBack(polygon.getVertexPosition(i+1u));edkEnd();
+                                concaveActual = i+1u;edkEnd();
+                            }
                         }
                         else{
                             /*
-                            printf(" notAddPolygon");edkEnd();
-*/
-                            //add the vertex as a concave
-                            if(!pConcaves.size()){
-                                concaveFirst = i+1u;edkEnd();
-                            }
-                            pConcaves.pushBack(polygon.getVertexPosition(i+1u));edkEnd();
-                            concaveActual = i+1u;edkEnd();
-                        }
-                    }
-                    else{
-                        /*
                         printf(" isNOTCounterClockwise");edkEnd();
 */
-                        goBreak=true;edkEnd();
-                        break;
+                            goBreak=true;edkEnd();
+                            break;
+                        }
                     }
+
+
                 }
-
-
             }
-        }
 
-        if(!goBreak){
-            //calculate if the point is inside the triangle
-            angle = edk::Math::getAngle(polygon.getVertexPosition(size+1u).x-polygon.getVertexPosition(size).x,
-                                        polygon.getVertexPosition(size+1u).y-polygon.getVertexPosition(size).y
-                                        ) -
-                    edk::Math::getAngle(polygon.getVertexPosition(0u).x-polygon.getVertexPosition(size).x,
-                                        polygon.getVertexPosition(0u).y-polygon.getVertexPosition(size).y
-                                        );edkEnd();
-            if(angle<0.f){
-                angle+=360.f;edkEnd();
-            }
-            /*
+            if(!goBreak){
+                //calculate if the point is inside the triangle
+                angle = edk::Math::getAngle(polygon.getVertexPosition(size+1u).x-polygon.getVertexPosition(size).x,
+                                            polygon.getVertexPosition(size+1u).y-polygon.getVertexPosition(size).y
+                                            ) -
+                        edk::Math::getAngle(polygon.getVertexPosition(0u).x-polygon.getVertexPosition(size).x,
+                                            polygon.getVertexPosition(0u).y-polygon.getVertexPosition(size).y
+                                            );edkEnd();
+                if(angle<0.f){
+                    angle+=360.f;edkEnd();
+                }
+                /*
             printf("\nvertex %uu Angle == %.2f"
                    ,size+1u
                    ,angle
                    );edkEnd();
 */
-            if(angle<=180.f){
-                /*
+                if(angle<=180.f){
+                    /*
                 printf(" concave");edkEnd();
 */
-                if(!pConcaves.size()){
-                    concaveFirst = size+1u;edkEnd();
+                    if(!pConcaves.size()){
+                        concaveFirst = size+1u;edkEnd();
+                    }
+                    pConcaves.pushBack(polygon.getVertexPosition(size+1u));edkEnd();
+                    concaveActual = size+1u;edkEnd();
                 }
-                pConcaves.pushBack(polygon.getVertexPosition(size+1u));edkEnd();
-                concaveActual = size+1u;edkEnd();
-            }
-            else{
-                /*
+                else{
+                    /*
                 printf(" convex");edkEnd();
 */
 
-                //then create the triangle
-                if(pConcaves.size()){
-                    //join the concave, the convex and the next vertex to create a triangle
-                    /*
+                    //then create the triangle
+                    if(pConcaves.size()){
+                        //join the concave, the convex and the next vertex to create a triangle
+                        /*
                     printf("\n%u Create triangle %u %u %u",__LINE__
                            ,concaveActual
                            ,size+1u
                            ,0u
                            );edkEnd();
 */
-                    tri.setVertexPosition(0u,polygon.getVertexPosition(concaveActual).x,
-                                          polygon.getVertexPosition(concaveActual).y,
-                                          polygon.getVertexPosition(concaveActual).z
-                                          );edkEnd();
-                    tri.setVertexPosition(1u,polygon.getVertexPosition(size+1u).x,
-                                          polygon.getVertexPosition(size+1u).y,
-                                          polygon.getVertexPosition(size+1u).z
-                                          );edkEnd();
-                    tri.setVertexPosition(2u,polygon.getVertexPosition(0u).x,
-                                          polygon.getVertexPosition(0u).y,
-                                          polygon.getVertexPosition(0u).z
-                                          );edkEnd();
-                    if(tri.isCounterclockwise()){
-                        /*
+                        tri.setVertexPosition(0u,polygon.getVertexPosition(concaveActual).x,
+                                              polygon.getVertexPosition(concaveActual).y,
+                                              polygon.getVertexPosition(concaveActual).z
+                                              );edkEnd();
+                        tri.setVertexPosition(1u,polygon.getVertexPosition(size+1u).x,
+                                              polygon.getVertexPosition(size+1u).y,
+                                              polygon.getVertexPosition(size+1u).z
+                                              );edkEnd();
+                        tri.setVertexPosition(2u,polygon.getVertexPosition(0u).x,
+                                              polygon.getVertexPosition(0u).y,
+                                              polygon.getVertexPosition(0u).z
+                                              );edkEnd();
+                        if(tri.isCounterclockwise()){
+                            /*
                         printf(" isCounterClockwise");edkEnd();
 */
-                        //test if the triangle have a vertex inside
-                        bool goContinue = true;edkEnd();
-                        for(edk::uint32 l=0u;l<sizeVertexes;l++){
-                            if(l!=concaveActual && l!= size+1u && l!=0u){
+                            //test if the triangle have a vertex inside
+                            bool goContinue = true;edkEnd();
+                            for(edk::uint32 l=0u;l<sizeVertexes;l++){
+                                if(l!=concaveActual && l!= size+1u && l!=0u){
 
-                                triPoint.setVertexPosition(0u,tri.getVertexPosition(0u));edkEnd();
-                                triPoint.setVertexPosition(1u,tri.getVertexPosition(1u));edkEnd();
-                                triPoint.setVertexPosition(2u,polygon.getVertexPosition(l));edkEnd();
-                                if(triPoint.isCounterclockwise()){
-                                    //
-                                    triPoint.setVertexPosition(0u,tri.getVertexPosition(1u));edkEnd();
-                                    triPoint.setVertexPosition(1u,tri.getVertexPosition(2u));edkEnd();
+                                    triPoint.setVertexPosition(0u,tri.getVertexPosition(0u));edkEnd();
+                                    triPoint.setVertexPosition(1u,tri.getVertexPosition(1u));edkEnd();
                                     triPoint.setVertexPosition(2u,polygon.getVertexPosition(l));edkEnd();
                                     if(triPoint.isCounterclockwise()){
                                         //
-                                        triPoint.setVertexPosition(0u,tri.getVertexPosition(2u));edkEnd();
-                                        triPoint.setVertexPosition(1u,tri.getVertexPosition(0u));edkEnd();
+                                        triPoint.setVertexPosition(0u,tri.getVertexPosition(1u));edkEnd();
+                                        triPoint.setVertexPosition(1u,tri.getVertexPosition(2u));edkEnd();
                                         triPoint.setVertexPosition(2u,polygon.getVertexPosition(l));edkEnd();
                                         if(triPoint.isCounterclockwise()){
                                             //
-                                            goContinue=false;edkEnd();
-                                            break;
+                                            triPoint.setVertexPosition(0u,tri.getVertexPosition(2u));edkEnd();
+                                            triPoint.setVertexPosition(1u,tri.getVertexPosition(0u));edkEnd();
+                                            triPoint.setVertexPosition(2u,polygon.getVertexPosition(l));edkEnd();
+                                            if(triPoint.isCounterclockwise()){
+                                                //
+                                                goContinue=false;edkEnd();
+                                                break;
+                                            }
                                         }
                                     }
                                 }
                             }
-                        }
-                        if(goContinue){
-                            mesh->addPolygon(tri);edkEnd();
-                            /*
+                            if(goContinue){
+                                mesh->addPolygon(tri);edkEnd();
+                                /*
                             printf(" addPolygon");edkEnd();
 */
+                            }
+                            else{
+                                /*
+                            printf(" notAddPolygon");edkEnd();
+*/
+                                //add the vertex as a concave
+                                if(!pConcaves.size()){
+                                    concaveFirst = size+1u;edkEnd();
+                                }
+                                pConcaves.pushBack(polygon.getVertexPosition(size+1u));edkEnd();
+                                concaveActual = size+1u;edkEnd();
+                            }
                         }
                         else{
                             /*
-                            printf(" notAddPolygon");edkEnd();
-*/
-                            //add the vertex as a concave
-                            if(!pConcaves.size()){
-                                concaveFirst = size+1u;edkEnd();
-                            }
-                            pConcaves.pushBack(polygon.getVertexPosition(size+1u));edkEnd();
-                            concaveActual = size+1u;edkEnd();
-                        }
-                    }
-                    else{
-                        /*
                         printf(" isNOTCounterClockwise");edkEnd();
 */
-                        goBreak=true;edkEnd();
+                            goBreak=true;edkEnd();
+                        }
                     }
                 }
             }
-        }
 
 
 
 
-        if(!goBreak){
-            //test if have vertexes before the first concave
-            if(concaveFirst){
-                //test the vertexes
-                for(edk::uint32 i=0u;i<concaveFirst;i++){
-                    //
-                    /*
+            if(!goBreak){
+                //test if have vertexes before the first concave
+                if(concaveFirst){
+                    //test the vertexes
+                    for(edk::uint32 i=0u;i<concaveFirst;i++){
+                        //
+                        /*
                     printf("\n%u Create triangle %u %u %u",__LINE__
                            ,concaveActual
                            ,i
                            ,i+1u
                            );edkEnd();
 */
-                    tri.setVertexPosition(0u,polygon.getVertexPosition(concaveActual).x,
-                                          polygon.getVertexPosition(concaveActual).y,
-                                          polygon.getVertexPosition(concaveActual).z
-                                          );edkEnd();
-                    tri.setVertexPosition(1u,polygon.getVertexPosition(i).x,
-                                          polygon.getVertexPosition(i).y,
-                                          polygon.getVertexPosition(i).z
-                                          );edkEnd();
-                    tri.setVertexPosition(2u,polygon.getVertexPosition(i+1u).x,
-                                          polygon.getVertexPosition(i+1u).y,
-                                          polygon.getVertexPosition(i+1u).z
-                                          );edkEnd();
-                    if(tri.isCounterclockwise()){
+                        tri.setVertexPosition(0u,polygon.getVertexPosition(concaveActual).x,
+                                              polygon.getVertexPosition(concaveActual).y,
+                                              polygon.getVertexPosition(concaveActual).z
+                                              );edkEnd();
+                        tri.setVertexPosition(1u,polygon.getVertexPosition(i).x,
+                                              polygon.getVertexPosition(i).y,
+                                              polygon.getVertexPosition(i).z
+                                              );edkEnd();
+                        tri.setVertexPosition(2u,polygon.getVertexPosition(i+1u).x,
+                                              polygon.getVertexPosition(i+1u).y,
+                                              polygon.getVertexPosition(i+1u).z
+                                              );edkEnd();
+                        if(tri.isCounterclockwise()){
 
-                        /*
+                            /*
                         printf(" isCounterClockwise");edkEnd();
 */
-                        //test if the triangle have a vertex inside
-                        bool goContinue = true;edkEnd();
-                        for(edk::uint32 l=0u;l<sizeVertexes;l++){
-                            if(l!=concaveActual && l!= i && l!=i+1u){
+                            //test if the triangle have a vertex inside
+                            bool goContinue = true;edkEnd();
+                            for(edk::uint32 l=0u;l<sizeVertexes;l++){
+                                if(l!=concaveActual && l!= i && l!=i+1u){
 
-                                triPoint.setVertexPosition(0u,tri.getVertexPosition(0u));edkEnd();
-                                triPoint.setVertexPosition(1u,tri.getVertexPosition(1u));edkEnd();
-                                triPoint.setVertexPosition(2u,polygon.getVertexPosition(l));edkEnd();
-                                if(triPoint.isCounterclockwise()){
-                                    //
-                                    triPoint.setVertexPosition(0u,tri.getVertexPosition(1u));edkEnd();
-                                    triPoint.setVertexPosition(1u,tri.getVertexPosition(2u));edkEnd();
+                                    triPoint.setVertexPosition(0u,tri.getVertexPosition(0u));edkEnd();
+                                    triPoint.setVertexPosition(1u,tri.getVertexPosition(1u));edkEnd();
                                     triPoint.setVertexPosition(2u,polygon.getVertexPosition(l));edkEnd();
                                     if(triPoint.isCounterclockwise()){
                                         //
-                                        triPoint.setVertexPosition(0u,tri.getVertexPosition(2u));edkEnd();
-                                        triPoint.setVertexPosition(1u,tri.getVertexPosition(0u));edkEnd();
+                                        triPoint.setVertexPosition(0u,tri.getVertexPosition(1u));edkEnd();
+                                        triPoint.setVertexPosition(1u,tri.getVertexPosition(2u));edkEnd();
                                         triPoint.setVertexPosition(2u,polygon.getVertexPosition(l));edkEnd();
                                         if(triPoint.isCounterclockwise()){
                                             //
-                                            goContinue=false;edkEnd();
-                                            break;
+                                            triPoint.setVertexPosition(0u,tri.getVertexPosition(2u));edkEnd();
+                                            triPoint.setVertexPosition(1u,tri.getVertexPosition(0u));edkEnd();
+                                            triPoint.setVertexPosition(2u,polygon.getVertexPosition(l));edkEnd();
+                                            if(triPoint.isCounterclockwise()){
+                                                //
+                                                goContinue=false;edkEnd();
+                                                break;
+                                            }
                                         }
                                     }
                                 }
                             }
-                        }
-                        if(goContinue){
-                            mesh->addPolygon(tri);edkEnd();
-                            /*
+                            if(goContinue){
+                                mesh->addPolygon(tri);edkEnd();
+                                /*
                             printf(" addPolygon");edkEnd();
 */
+                            }
+                            else{
+                                /*
+                            printf(" notAddPolygon");edkEnd();
+*/
+                                //add the vertex as a concave
+                                if(!pConcaves.size()){
+                                    concaveFirst = i;edkEnd();
+                                }
+                                pConcaves.pushBack(polygon.getVertexPosition(i));edkEnd();
+                                concaveActual = i;edkEnd();
+                            }
                         }
                         else{
                             /*
-                            printf(" notAddPolygon");edkEnd();
-*/
-                            //add the vertex as a concave
-                            if(!pConcaves.size()){
-                                concaveFirst = i;edkEnd();
-                            }
-                            pConcaves.pushBack(polygon.getVertexPosition(i));edkEnd();
-                            concaveActual = i;edkEnd();
-                        }
-                    }
-                    else{
-                        /*
                         printf(" isNOTCounterClockwise");edkEnd();
 */
-                        goBreak=true;edkEnd();
+                            goBreak=true;edkEnd();
+                        }
                     }
                 }
             }
-        }
 
-        if(!goBreak){
-            ret = true;edkEnd();
-            size = pConcaves.size();edkEnd();
-            //test if have concaves
-            if(size){
-                //draw a polyTemp with the concaves
-                polyTemp.createPolygon(size);edkEnd();
-                for(edk::uint32 i=0u;i<size;i++){
-                    polyTemp.setVertexPosition(i,pConcaves.get(i).x,pConcaves.get(i).y,pConcaves.get(i).z);edkEnd();
+            if(!goBreak){
+                ret = true;edkEnd();
+                size = pConcaves.size();edkEnd();
+                //test if have concaves
+                if(size){
+                    //draw a polyTemp with the concaves
+                    polyTemp.createPolygon(size);edkEnd();
+                    for(edk::uint32 i=0u;i<size;i++){
+                        polyTemp.setVertexPosition(i,pConcaves.get(i).x,pConcaves.get(i).y,pConcaves.get(i).z);edkEnd();
+                    }
+                    //run the same function with the polyTemp
+                    edk::shape::Mesh3D::polygonTriangularization(polyTemp,mesh);edkEnd();
                 }
-                //run the same function with the polyTemp
-                edk::shape::Mesh3D::polygonTriangularization(polyTemp,mesh);edkEnd();
-            }
-            else{
-                //run the simple vertex triangularization
-                edk::vector::Stack<edk::vec3f32> vertexes;edkEnd();
-                edk::uint32 size = polygon.getVertexCount();edkEnd();
-                for(edk::uint32 i=0u;i<size;i++){
-                    vertexes.pushBack(edk::vec3f32(polygon.getVertexPosition(i)));edkEnd();
+                else{
+                    //run the simple vertex triangularization
+                    edk::vector::Stack<edk::vec3f32> vertexes;edkEnd();
+                    edk::uint32 size = polygon.getVertexCount();edkEnd();
+                    for(edk::uint32 i=0u;i<size;i++){
+                        vertexes.pushBack(edk::vec3f32(polygon.getVertexPosition(i)));edkEnd();
+                    }
+                    edk::shape::Mesh3D::vertexTriangularization(&vertexes,mesh);edkEnd();
                 }
-                edk::shape::Mesh3D::vertexTriangularization(&vertexes,mesh);edkEnd();
             }
         }
     }

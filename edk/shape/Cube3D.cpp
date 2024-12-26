@@ -112,7 +112,7 @@ bool edk::shape::Cube3D::createPolygon(){
 
     //create the VBO.
     if(ret){
-        if(this->createVBO(2u,edk::shape::vbo_XYZ_RGBA)){
+        if(this->createVBO(2u,edk::GU::vbo_XYZ_RGBA)){
             //set the VBO position, color and UV
             edk::vec3f32 position;edkEnd();
             edk::color4f32 color;edkEnd();
@@ -149,7 +149,7 @@ bool edk::shape::Cube3D::createPolygon(){
 }
 
 //function to create the VBO
-bool edk::shape::Cube3D::createVBO(edk::uint32 vertexCount,edk::shape::EDKVBOType type){
+bool edk::shape::Cube3D::createVBO(edk::uint32 vertexCount,edk::GU::VBOType type){
     return edk::shape::Polygon3D::createVBO(vertexCount*2u,type);
 }
 //setters to VBO

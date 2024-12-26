@@ -1035,6 +1035,12 @@ bool edk::shape::FileOBJ::objAddFile(edk::char8* fileName){
                             //printf("\nNEW OBJECT NAME == '%s'",str);fflush(stdout);edkEnd();
                             free(str);edkEnd();
 
+                            //generate the VBO
+                            if(mesh){
+                                mesh->useVBO();
+                                mesh->generateVBO();
+                            }
+
                             mesh=this->allocMeshForOBJ();edkEnd();
                             if(mesh){
                                 countMeshes++;
@@ -1400,7 +1406,8 @@ bool edk::shape::FileOBJ::objAddFile(edk::char8* fileName){
                                 }
 
                                 //add the polygon into the mesh
-                                mesh->addPolygon(poly);
+                                mesh->triangularizateFromPolygon(poly);
+                                //mesh->addPolygon(poly);
                             }
 
                             sv.clean();edkEnd();
@@ -1442,6 +1449,10 @@ bool edk::shape::FileOBJ::objAddFile(edk::char8* fileName){
                     }
                     break;
                 }
+            }
+            if(mesh){
+                mesh->useVBO();
+                mesh->generateVBO();
             }
             if(folder){
                 free(folder);

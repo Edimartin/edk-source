@@ -68,28 +68,6 @@ enum EDKpolygon2DType{
 
     typePolygon2DSize
 };
-//VBO type
-enum EDKVBOType{
-    vbo_NULL = 0u,
-    vbo_XY,
-    vbo_XYZ,
-    vbo_XY_NxNyNz,
-    vbo_XYZ_NxNyNz,
-    vbo_XY_RGB,
-    vbo_XYZ_RGB,
-    vbo_XY_RGBA,
-    vbo_XYZ_RGBA,
-    vbo_XY_RGB_NxNyNz,
-    vbo_XYZ_RGB_NxNyNz,
-    vbo_XY_RGBA_NxNyNz,
-    vbo_XYZ_RGBA_NxNyNz,
-    vbo_XY_RGB_NxNyNz_UVxUVy,
-    vbo_XYZ_RGB_NxNyNz_UVxUVy,
-    vbo_XY_RGBA_NxNyNz_UVxUVy,
-    vbo_XYZ_RGBA_NxNyNz_UVxUVy,
-
-    vbo_Size
-};
 
 class Polygon2D{
 public:
@@ -330,7 +308,7 @@ protected:
 
     //Polygon VBO
     edk::uint32 vbo;
-    edk::shape::EDKVBOType vboType;
+    edk::GU::VBOType vboType;
     //array for the vbo
     edk::vector::Array<edk::float32> vertexBuffer;
     //vbo vertexes size
@@ -339,11 +317,11 @@ protected:
     bool canUseVBO;
 
     //function to create the VBO
-    virtual bool createVBO(edk::uint32 vertexCount,edk::shape::EDKVBOType type);
+    virtual bool createVBO(edk::uint32 vertexCount,edk::GU::VBOType type);
     //run the GU function to update the VBO
     bool updateVBO();
     //change the type of the VBO
-    bool changeVBO(edk::shape::EDKVBOType type);
+    bool changeVBO(edk::GU::VBOType type);
     void deleteVBO();
     bool haveVBO();
     //set the vboFunction pointers

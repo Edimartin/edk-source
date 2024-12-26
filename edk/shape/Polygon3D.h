@@ -95,6 +95,7 @@ public:
     void dontUseVBO();
 
     //SETTERS
+    bool cloneVertexFrom(edk::uint32 vertex,edk::shape::Vertex3D* vert);
     //set the position of a vertex
     bool setVertexPosition(edk::uint32 vertex,edk::vec3f32 position);
     bool setVertexPosition(edk::uint32 vertex,edk::float32 x,edk::float32 y,edk::float32 z);
@@ -199,6 +200,8 @@ public:
     //return if the vertex have UV
     edk::uint8 getVertexType(edk::uint32 pos);
     //return the vertex
+    edk::shape::Vertex3D* getVertexPointerInPosition(edk::uint32 pos);
+    //return the vertex position
     edk::vec3f32 getVertexPosition(edk::uint32 pos);
     //return the vertex with all transformations
     edk::vec3f32 getVertexPositionTransformed(edk::uint32 pos);
@@ -339,7 +342,7 @@ protected:
     //Polygon VBO
     edk::uint32 vbo;
     edk::uint32 vboWithMatrix;
-    edk::shape::EDKVBOType vboType;
+    edk::GU::VBOType vboType;
     //array for the vbo
     edk::vector::Array<edk::float32> vertexBuffer;
     edk::vector::Array<edk::float32> vertexBufferWithMatrix;
@@ -349,15 +352,15 @@ protected:
     bool canUseVBO;
 
     //function to create the VBO
-    virtual bool createVBO(edk::uint32 vertexCount,edk::shape::EDKVBOType type);
-    virtual bool createVBOWithMatrix(edk::uint32 vertexCount,edk::shape::EDKVBOType type);
+    virtual bool createVBO(edk::uint32 vertexCount,edk::GU::VBOType type);
+    virtual bool createVBOWithMatrix(edk::uint32 vertexCount,edk::GU::VBOType type);
     //run the GU function to update the VBO
     bool updateVBO();
     bool updateVBOWithMatrix();
     bool updateVBOValuesWithMatrices(edk::vector::Matrixf32<4u,4u>* matrix,edk::vector::Matrixf32<4u,4u>* matrixTemp);
     //change the type of the VBO
-    bool changeVBO(edk::shape::EDKVBOType type);
-    bool changeVBOWithMatrix(edk::shape::EDKVBOType type);
+    bool changeVBO(edk::GU::VBOType type);
+    bool changeVBOWithMatrix(edk::GU::VBOType type);
     void deleteVBO();
     void deleteVBOWithMatrix();
     bool haveVBO();

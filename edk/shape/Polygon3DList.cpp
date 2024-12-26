@@ -28,6 +28,27 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #pragma message "            Inside Polygon3DList.cpp"
 #endif
 
+
+edk::uint8 vboSizeofMesh3D[edk::GU::vbo_Size] = {
+    0u,                       //vbo_NULL = 0u,
+    /*sizeof(edk::float32)* */2u , //vbo_XY,
+    /*sizeof(edk::float32)* */3u , //vbo_XYZ,
+    /*sizeof(edk::float32)* */5u , //vbo_XY_NxNyNz,
+    /*sizeof(edk::float32)* */6u , //vbo_XYZ_NxNyNz,
+    /*sizeof(edk::float32)* */5u , //vbo_XY_RGB,
+    /*sizeof(edk::float32)* */6u , //vbo_XYZ_RGB,
+    /*sizeof(edk::float32)* */6u , //vbo_XY_RGBA,
+    /*sizeof(edk::float32)* */7u , //vbo_XYZ_RGBA,
+    /*sizeof(edk::float32)* */8u , //vbo_XY_RGB_NxNyNz,
+    /*sizeof(edk::float32)* */9u , //vbo_XYZ_RGB_NxNyNz,
+    /*sizeof(edk::float32)* */9u , //vbo_XY_RGBA_NxNyNz,
+    /*sizeof(edk::float32)* */10u, //vbo_XYZ_RGBA_NxNyNz,
+    /*sizeof(edk::float32)* */10u, //vbo_XY_RGB_NxNyNz_UVxUVy,
+    /*sizeof(edk::float32)* */11u, //vbo_XYZ_RGB_NxNyNz_UVxUVy,
+    /*sizeof(edk::float32)* */11u, //vbo_XY_RGBA_NxNyNz_UVxUVy,
+    /*sizeof(edk::float32)* */12u  //vbo_XYZ_RGBA_NxNyNz_UVxUVy,
+};
+
 edk::shape::Polygon3DList::Polygon3DList(){
     this->classThis=NULL;edkEnd();
     this->Constructor(false);edkEnd();
@@ -57,7 +78,15702 @@ void edk::shape::Polygon3DList::Constructor(bool /*runFather*/){
         this->tempP.setAngle(0.f);
         this->tempP.setVertexPosition(0u,0.f,0.f,0.f);
         this->tempP.setVertexPosition(1u,1.f,1.f,1.f);
+
+        this->vertexs.Constructor();
     }
+}
+
+
+
+//return the vertexCount
+edk::uint32 edk::shape::Polygon3DList::getVertexCount(){
+    return this->vertexs.size();edkEnd();
+}
+void edk::shape::Polygon3DList::cleanVertexes(){
+    edk::uint32 size = this->vertexs.size();
+    edk::shape::Vertex3D* temp;
+    for(edk::uint32 i=0u;i<size;i++){
+        temp = this->vertexs.getNoIF(i);
+        if(temp){
+            delete temp;
+        }
+    }
+    this->vertexs.clean();
+}
+//function to create the VBO
+bool edk::shape::Polygon3DList::createVBO(edk::uint32 vertexCount,edk::GU::VBOType type){
+    //delete the last VBO
+    this->deleteVBO();edkEnd();
+    //
+    if(this->canUseVBO && vertexCount){
+        //create the new VBO
+        if(type && type<edk::GU::vbo_Size){
+            //create the vertexBuffer
+            if(this->vertexBuffer.createArray(vertexCount * vboSizeofMesh3D[type])){
+                edk::uint32 increment = vboSizeofMesh3D[type];
+                edk::uint32 size = vertexCount * increment;
+                //clean the vertexBuffer
+                switch(type){
+                case edk::GU::vbo_XY:
+                    for(edk::uint32 i=0u;i<size;i+=increment){
+                        this->vertexBuffer.set(i,0.f);
+                        this->vertexBuffer.set(i+1u,0.f);
+                    }
+                    break;
+                case edk::GU::vbo_XY_NxNyNz:
+                    for(edk::uint32 i=0u;i<size;i+=increment){
+                        this->vertexBuffer.set(i,0.f);
+                        this->vertexBuffer.set(i+1u,0.f);
+
+                        this->vertexBuffer.set(i+2u,0.f);
+                        this->vertexBuffer.set(i+3u,0.f);
+                        this->vertexBuffer.set(i+4u,1.f);
+                    }
+                    break;
+                case edk::GU::vbo_XY_RGB:
+                    for(edk::uint32 i=0u;i<size;i+=increment){
+                        this->vertexBuffer.set(i,0.f);
+                        this->vertexBuffer.set(i+1u,0.f);
+
+                        this->vertexBuffer.set(i+2u,1.f);
+                        this->vertexBuffer.set(i+3u,1.f);
+                        this->vertexBuffer.set(i+4u,1.f);
+                    }
+                    break;
+                case edk::GU::vbo_XY_RGBA:
+                    for(edk::uint32 i=0u;i<size;i+=increment){
+                        this->vertexBuffer.set(i,0.f);
+                        this->vertexBuffer.set(i+1u,0.f);
+
+                        this->vertexBuffer.set(i+2u,1.f);
+                        this->vertexBuffer.set(i+3u,1.f);
+                        this->vertexBuffer.set(i+4u,1.f);
+                        this->vertexBuffer.set(i+5u,1.f);
+                    }
+                    break;
+                case edk::GU::vbo_XY_RGB_NxNyNz:
+                    for(edk::uint32 i=0u;i<size;i+=increment){
+                        this->vertexBuffer.set(i,0.f);
+                        this->vertexBuffer.set(i+1u,0.f);
+
+                        this->vertexBuffer.set(i+2u,1.f);
+                        this->vertexBuffer.set(i+3u,1.f);
+                        this->vertexBuffer.set(i+4u,1.f);
+
+                        this->vertexBuffer.set(i+5u,0.f);
+                        this->vertexBuffer.set(i+6u,0.f);
+                        this->vertexBuffer.set(i+7u,1.f);
+                    }
+                    break;
+                case edk::GU::vbo_XY_RGBA_NxNyNz:
+                    for(edk::uint32 i=0u;i<size;i+=increment){
+                        this->vertexBuffer.set(i,0.f);
+                        this->vertexBuffer.set(i+1u,0.f);
+
+                        this->vertexBuffer.set(i+2u,1.f);
+                        this->vertexBuffer.set(i+3u,1.f);
+                        this->vertexBuffer.set(i+4u,1.f);
+                        this->vertexBuffer.set(i+5u,1.f);
+
+                        this->vertexBuffer.set(i+6u,0.f);
+                        this->vertexBuffer.set(i+7u,0.f);
+                        this->vertexBuffer.set(i+8u,1.f);
+                    }
+                    break;
+                case edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy:
+                    for(edk::uint32 i=0u;i<size;i+=increment){
+                        this->vertexBuffer.set(i,0.f);
+                        this->vertexBuffer.set(i+1u,0.f);
+
+                        this->vertexBuffer.set(i+2u,1.f);
+                        this->vertexBuffer.set(i+3u,1.f);
+                        this->vertexBuffer.set(i+4u,1.f);
+
+                        this->vertexBuffer.set(i+5u,0.f);
+                        this->vertexBuffer.set(i+6u,0.f);
+                        this->vertexBuffer.set(i+7u,1.f);
+
+                        this->vertexBuffer.set(i+8u,0.f);
+                        this->vertexBuffer.set(i+9u,0.f);
+                    }
+                    break;
+                case edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy:
+                    for(edk::uint32 i=0u;i<size;i+=increment){
+                        this->vertexBuffer.set(i,0.f);
+                        this->vertexBuffer.set(i+1u,0.f);
+
+                        this->vertexBuffer.set(i+2u,1.f);
+                        this->vertexBuffer.set(i+3u,1.f);
+                        this->vertexBuffer.set(i+4u,1.f);
+                        this->vertexBuffer.set(i+5u,1.f);
+
+                        this->vertexBuffer.set(i+6u,0.f);
+                        this->vertexBuffer.set(i+7u,0.f);
+                        this->vertexBuffer.set(i+8u,1.f);
+
+                        this->vertexBuffer.set(i+9u,0.f);
+                        this->vertexBuffer.set(i+10u,0.f);
+                    }
+                    break;
+                case edk::GU::vbo_XYZ:
+                    for(edk::uint32 i=0u;i<size;i+=increment){
+                        this->vertexBuffer.set(i,0.f);
+                        this->vertexBuffer.set(i+1u,0.f);
+                        this->vertexBuffer.set(i+2u,0.f);
+                    }
+                    break;
+                case edk::GU::vbo_XYZ_NxNyNz:
+                    for(edk::uint32 i=0u;i<size;i+=increment){
+                        this->vertexBuffer.set(i,0.f);
+                        this->vertexBuffer.set(i+1u,0.f);
+                        this->vertexBuffer.set(i+2u,0.f);
+
+                        this->vertexBuffer.set(i+3u,0.f);
+                        this->vertexBuffer.set(i+4u,0.f);
+                        this->vertexBuffer.set(i+5u,1.f);
+                    }
+                    break;
+                case edk::GU::vbo_XYZ_RGB:
+                    for(edk::uint32 i=0u;i<size;i+=increment){
+                        this->vertexBuffer.set(i,0.f);
+                        this->vertexBuffer.set(i+1u,0.f);
+                        this->vertexBuffer.set(i+2u,0.f);
+
+                        this->vertexBuffer.set(i+3u,1.f);
+                        this->vertexBuffer.set(i+4u,1.f);
+                        this->vertexBuffer.set(i+5u,1.f);
+                    }
+                    break;
+                case edk::GU::vbo_XYZ_RGBA:
+                    for(edk::uint32 i=0u;i<size;i+=increment){
+                        this->vertexBuffer.set(i,0.f);
+                        this->vertexBuffer.set(i+1u,0.f);
+                        this->vertexBuffer.set(i+2u,0.f);
+
+                        this->vertexBuffer.set(i+3u,1.f);
+                        this->vertexBuffer.set(i+4u,1.f);
+                        this->vertexBuffer.set(i+5u,1.f);
+                        this->vertexBuffer.set(i+6u,1.f);
+                    }
+                    break;
+                case edk::GU::vbo_XYZ_RGB_NxNyNz:
+                    for(edk::uint32 i=0u;i<size;i+=increment){
+                        this->vertexBuffer.set(i,0.f);
+                        this->vertexBuffer.set(i+1u,0.f);
+                        this->vertexBuffer.set(i+2u,0.f);
+
+                        this->vertexBuffer.set(i+3u,1.f);
+                        this->vertexBuffer.set(i+4u,1.f);
+                        this->vertexBuffer.set(i+5u,1.f);
+
+                        this->vertexBuffer.set(i+6u,0.f);
+                        this->vertexBuffer.set(i+7u,0.f);
+                        this->vertexBuffer.set(i+8u,1.f);
+                    }
+                    break;
+                case edk::GU::vbo_XYZ_RGBA_NxNyNz:
+                    for(edk::uint32 i=0u;i<size;i+=increment){
+                        this->vertexBuffer.set(i,0.f);
+                        this->vertexBuffer.set(i+1u,0.f);
+                        this->vertexBuffer.set(i+2u,0.f);
+
+                        this->vertexBuffer.set(i+3u,1.f);
+                        this->vertexBuffer.set(i+4u,1.f);
+                        this->vertexBuffer.set(i+5u,1.f);
+                        this->vertexBuffer.set(i+6u,1.f);
+
+                        this->vertexBuffer.set(i+7u,0.f);
+                        this->vertexBuffer.set(i+8u,0.f);
+                        this->vertexBuffer.set(i+9u,1.f);
+                    }
+                    break;
+                case edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy:
+                    for(edk::uint32 i=0u;i<size;i+=increment){
+                        this->vertexBuffer.set(i,0.f);
+                        this->vertexBuffer.set(i+1u,0.f);
+                        this->vertexBuffer.set(i+2u,0.f);
+
+                        this->vertexBuffer.set(i+3u,1.f);
+                        this->vertexBuffer.set(i+4u,1.f);
+                        this->vertexBuffer.set(i+5u,1.f);
+
+                        this->vertexBuffer.set(i+6u,0.f);
+                        this->vertexBuffer.set(i+7u,0.f);
+                        this->vertexBuffer.set(i+8u,1.f);
+
+                        this->vertexBuffer.set(i+9u,0.f);
+                        this->vertexBuffer.set(i+10u,0.f);
+                    }
+                    break;
+                case edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
+                    for(edk::uint32 i=0u;i<size;i+=increment){
+                        this->vertexBuffer.set(i,0.f);
+                        this->vertexBuffer.set(i+1u,0.f);
+                        this->vertexBuffer.set(i+2u,0.f);
+
+                        this->vertexBuffer.set(i+3u,1.f);
+                        this->vertexBuffer.set(i+4u,1.f);
+                        this->vertexBuffer.set(i+5u,1.f);
+                        this->vertexBuffer.set(i+6u,1.f);
+
+                        this->vertexBuffer.set(i+7u,0.f);
+                        this->vertexBuffer.set(i+8u,0.f);
+                        this->vertexBuffer.set(i+9u,1.f);
+
+                        this->vertexBuffer.set(i+10u,0.f);
+                        this->vertexBuffer.set(i+11u,0.f);
+                    }
+                    break;
+                default:
+                    break;
+                }
+
+
+                //alloc the vertexBuffer in GU
+                this->vbo = edk::GU_GLSL::guAllocBuffer(GU_ARRAY_BUFFER);edkEnd();
+                if(this->vbo){
+                    if(edk::GU_GLSL::guBufferData(GU_ARRAY_BUFFER, this->vertexBuffer.getSize() * sizeof(edk::float32), this->vertexBuffer.getPointer(), GU_STATIC_DRAW)){
+                        edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);edkEnd();
+                        //save the type
+                        this->vboType = type;edkEnd();
+                        this->vboCount=vertexCount;edkEnd();
+
+                        //update the VBO functions
+                        this->setAutomaticallyVBOFunctions();
+
+                        return true;
+                    }
+                    edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);edkEnd();
+
+                    //else delete the bugger
+                    edk::GU_GLSL::guDeleteBuffer(this->vbo);edkEnd();
+                    this->vbo=0u;edkEnd();
+                }
+                //else delete the vertexBuffer
+                this->vertexBuffer.clean();edkEnd();
+            }
+        }
+    }
+    return false;
+}
+bool edk::shape::Polygon3DList::createVBOWithMatrix(edk::uint32 vertexCount,edk::GU::VBOType type){
+    //delete the last VBO
+    this->deleteVBO();edkEnd();
+    //
+    if(this->canUseVBO && vertexCount){
+        //create the new VBO
+        if(type && type<edk::GU::vbo_Size){
+            //create the vertexBufferWithMatrix
+            if(this->vertexBufferWithMatrix.createArray(vertexCount * vboSizeofMesh3D[type])){
+                edk::uint32 increment = vboSizeofMesh3D[type];
+                edk::uint32 size = vertexCount * increment;
+                //clean the vertexBufferWithMatrix
+                switch(type){
+                case edk::GU::vbo_XY:
+                    for(edk::uint32 i=0u;i<size;i+=increment){
+                        this->vertexBufferWithMatrix.set(i,0.f);
+                        this->vertexBufferWithMatrix.set(i+1u,0.f);
+                    }
+                    break;
+                case edk::GU::vbo_XY_NxNyNz:
+                    for(edk::uint32 i=0u;i<size;i+=increment){
+                        this->vertexBufferWithMatrix.set(i,0.f);
+                        this->vertexBufferWithMatrix.set(i+1u,0.f);
+
+                        this->vertexBufferWithMatrix.set(i+2u,0.f);
+                        this->vertexBufferWithMatrix.set(i+3u,0.f);
+                        this->vertexBufferWithMatrix.set(i+4u,1.f);
+                    }
+                    break;
+                case edk::GU::vbo_XY_RGB:
+                    for(edk::uint32 i=0u;i<size;i+=increment){
+                        this->vertexBufferWithMatrix.set(i,0.f);
+                        this->vertexBufferWithMatrix.set(i+1u,0.f);
+
+                        this->vertexBufferWithMatrix.set(i+2u,1.f);
+                        this->vertexBufferWithMatrix.set(i+3u,1.f);
+                        this->vertexBufferWithMatrix.set(i+4u,1.f);
+                    }
+                    break;
+                case edk::GU::vbo_XY_RGBA:
+                    for(edk::uint32 i=0u;i<size;i+=increment){
+                        this->vertexBufferWithMatrix.set(i,0.f);
+                        this->vertexBufferWithMatrix.set(i+1u,0.f);
+
+                        this->vertexBufferWithMatrix.set(i+2u,1.f);
+                        this->vertexBufferWithMatrix.set(i+3u,1.f);
+                        this->vertexBufferWithMatrix.set(i+4u,1.f);
+                        this->vertexBufferWithMatrix.set(i+5u,1.f);
+                    }
+                    break;
+                case edk::GU::vbo_XY_RGB_NxNyNz:
+                    for(edk::uint32 i=0u;i<size;i+=increment){
+                        this->vertexBufferWithMatrix.set(i,0.f);
+                        this->vertexBufferWithMatrix.set(i+1u,0.f);
+
+                        this->vertexBufferWithMatrix.set(i+2u,1.f);
+                        this->vertexBufferWithMatrix.set(i+3u,1.f);
+                        this->vertexBufferWithMatrix.set(i+4u,1.f);
+
+                        this->vertexBufferWithMatrix.set(i+5u,0.f);
+                        this->vertexBufferWithMatrix.set(i+6u,0.f);
+                        this->vertexBufferWithMatrix.set(i+7u,1.f);
+                    }
+                    break;
+                case edk::GU::vbo_XY_RGBA_NxNyNz:
+                    for(edk::uint32 i=0u;i<size;i+=increment){
+                        this->vertexBufferWithMatrix.set(i,0.f);
+                        this->vertexBufferWithMatrix.set(i+1u,0.f);
+
+                        this->vertexBufferWithMatrix.set(i+2u,1.f);
+                        this->vertexBufferWithMatrix.set(i+3u,1.f);
+                        this->vertexBufferWithMatrix.set(i+4u,1.f);
+                        this->vertexBufferWithMatrix.set(i+5u,1.f);
+
+                        this->vertexBufferWithMatrix.set(i+6u,0.f);
+                        this->vertexBufferWithMatrix.set(i+7u,0.f);
+                        this->vertexBufferWithMatrix.set(i+8u,1.f);
+                    }
+                    break;
+                case edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy:
+                    for(edk::uint32 i=0u;i<size;i+=increment){
+                        this->vertexBufferWithMatrix.set(i,0.f);
+                        this->vertexBufferWithMatrix.set(i+1u,0.f);
+
+                        this->vertexBufferWithMatrix.set(i+2u,1.f);
+                        this->vertexBufferWithMatrix.set(i+3u,1.f);
+                        this->vertexBufferWithMatrix.set(i+4u,1.f);
+
+                        this->vertexBufferWithMatrix.set(i+5u,0.f);
+                        this->vertexBufferWithMatrix.set(i+6u,0.f);
+                        this->vertexBufferWithMatrix.set(i+7u,1.f);
+
+                        this->vertexBufferWithMatrix.set(i+8u,0.f);
+                        this->vertexBufferWithMatrix.set(i+9u,0.f);
+                    }
+                    break;
+                case edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy:
+                    for(edk::uint32 i=0u;i<size;i+=increment){
+                        this->vertexBufferWithMatrix.set(i,0.f);
+                        this->vertexBufferWithMatrix.set(i+1u,0.f);
+
+                        this->vertexBufferWithMatrix.set(i+2u,1.f);
+                        this->vertexBufferWithMatrix.set(i+3u,1.f);
+                        this->vertexBufferWithMatrix.set(i+4u,1.f);
+                        this->vertexBufferWithMatrix.set(i+5u,1.f);
+
+                        this->vertexBufferWithMatrix.set(i+6u,0.f);
+                        this->vertexBufferWithMatrix.set(i+7u,0.f);
+                        this->vertexBufferWithMatrix.set(i+8u,1.f);
+
+                        this->vertexBufferWithMatrix.set(i+9u,0.f);
+                        this->vertexBufferWithMatrix.set(i+10u,0.f);
+                    }
+                    break;
+                case edk::GU::vbo_XYZ:
+                    for(edk::uint32 i=0u;i<size;i+=increment){
+                        this->vertexBufferWithMatrix.set(i,0.f);
+                        this->vertexBufferWithMatrix.set(i+1u,0.f);
+                        this->vertexBufferWithMatrix.set(i+2u,0.f);
+                    }
+                    break;
+                case edk::GU::vbo_XYZ_NxNyNz:
+                    for(edk::uint32 i=0u;i<size;i+=increment){
+                        this->vertexBufferWithMatrix.set(i,0.f);
+                        this->vertexBufferWithMatrix.set(i+1u,0.f);
+                        this->vertexBufferWithMatrix.set(i+2u,0.f);
+
+                        this->vertexBufferWithMatrix.set(i+3u,0.f);
+                        this->vertexBufferWithMatrix.set(i+4u,0.f);
+                        this->vertexBufferWithMatrix.set(i+5u,1.f);
+                    }
+                    break;
+                case edk::GU::vbo_XYZ_RGB:
+                    for(edk::uint32 i=0u;i<size;i+=increment){
+                        this->vertexBufferWithMatrix.set(i,0.f);
+                        this->vertexBufferWithMatrix.set(i+1u,0.f);
+                        this->vertexBufferWithMatrix.set(i+2u,0.f);
+
+                        this->vertexBufferWithMatrix.set(i+3u,1.f);
+                        this->vertexBufferWithMatrix.set(i+4u,1.f);
+                        this->vertexBufferWithMatrix.set(i+5u,1.f);
+                    }
+                    break;
+                case edk::GU::vbo_XYZ_RGBA:
+                    for(edk::uint32 i=0u;i<size;i+=increment){
+                        this->vertexBufferWithMatrix.set(i,0.f);
+                        this->vertexBufferWithMatrix.set(i+1u,0.f);
+                        this->vertexBufferWithMatrix.set(i+2u,0.f);
+
+                        this->vertexBufferWithMatrix.set(i+3u,1.f);
+                        this->vertexBufferWithMatrix.set(i+4u,1.f);
+                        this->vertexBufferWithMatrix.set(i+5u,1.f);
+                        this->vertexBufferWithMatrix.set(i+6u,1.f);
+                    }
+                    break;
+                case edk::GU::vbo_XYZ_RGB_NxNyNz:
+                    for(edk::uint32 i=0u;i<size;i+=increment){
+                        this->vertexBufferWithMatrix.set(i,0.f);
+                        this->vertexBufferWithMatrix.set(i+1u,0.f);
+                        this->vertexBufferWithMatrix.set(i+2u,0.f);
+
+                        this->vertexBufferWithMatrix.set(i+3u,1.f);
+                        this->vertexBufferWithMatrix.set(i+4u,1.f);
+                        this->vertexBufferWithMatrix.set(i+5u,1.f);
+
+                        this->vertexBufferWithMatrix.set(i+6u,0.f);
+                        this->vertexBufferWithMatrix.set(i+7u,0.f);
+                        this->vertexBufferWithMatrix.set(i+8u,1.f);
+                    }
+                    break;
+                case edk::GU::vbo_XYZ_RGBA_NxNyNz:
+                    for(edk::uint32 i=0u;i<size;i+=increment){
+                        this->vertexBufferWithMatrix.set(i,0.f);
+                        this->vertexBufferWithMatrix.set(i+1u,0.f);
+                        this->vertexBufferWithMatrix.set(i+2u,0.f);
+
+                        this->vertexBufferWithMatrix.set(i+3u,1.f);
+                        this->vertexBufferWithMatrix.set(i+4u,1.f);
+                        this->vertexBufferWithMatrix.set(i+5u,1.f);
+                        this->vertexBufferWithMatrix.set(i+6u,1.f);
+
+                        this->vertexBufferWithMatrix.set(i+7u,0.f);
+                        this->vertexBufferWithMatrix.set(i+8u,0.f);
+                        this->vertexBufferWithMatrix.set(i+9u,1.f);
+                    }
+                    break;
+                case edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy:
+                    for(edk::uint32 i=0u;i<size;i+=increment){
+                        this->vertexBufferWithMatrix.set(i,0.f);
+                        this->vertexBufferWithMatrix.set(i+1u,0.f);
+                        this->vertexBufferWithMatrix.set(i+2u,0.f);
+
+                        this->vertexBufferWithMatrix.set(i+3u,1.f);
+                        this->vertexBufferWithMatrix.set(i+4u,1.f);
+                        this->vertexBufferWithMatrix.set(i+5u,1.f);
+
+                        this->vertexBufferWithMatrix.set(i+6u,0.f);
+                        this->vertexBufferWithMatrix.set(i+7u,0.f);
+                        this->vertexBufferWithMatrix.set(i+8u,1.f);
+
+                        this->vertexBufferWithMatrix.set(i+9u,0.f);
+                        this->vertexBufferWithMatrix.set(i+10u,0.f);
+                    }
+                    break;
+                case edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
+                    for(edk::uint32 i=0u;i<size;i+=increment){
+                        this->vertexBufferWithMatrix.set(i,0.f);
+                        this->vertexBufferWithMatrix.set(i+1u,0.f);
+                        this->vertexBufferWithMatrix.set(i+2u,0.f);
+
+                        this->vertexBufferWithMatrix.set(i+3u,1.f);
+                        this->vertexBufferWithMatrix.set(i+4u,1.f);
+                        this->vertexBufferWithMatrix.set(i+5u,1.f);
+                        this->vertexBufferWithMatrix.set(i+6u,1.f);
+
+                        this->vertexBufferWithMatrix.set(i+7u,0.f);
+                        this->vertexBufferWithMatrix.set(i+8u,0.f);
+                        this->vertexBufferWithMatrix.set(i+9u,1.f);
+
+                        this->vertexBufferWithMatrix.set(i+10u,0.f);
+                        this->vertexBufferWithMatrix.set(i+11u,0.f);
+                    }
+                    break;
+                default:
+                    break;
+                }
+
+
+                //alloc the vertexBufferWithMatrix in GU
+                this->vboWithMatrix = edk::GU_GLSL::guAllocBuffer(GU_ARRAY_BUFFER);edkEnd();
+                if(this->vboWithMatrix){
+                    if(edk::GU_GLSL::guBufferData(GU_ARRAY_BUFFER, this->vertexBufferWithMatrix.getSize() * sizeof(edk::float32), this->vertexBufferWithMatrix.getPointer(), GU_STATIC_DRAW)){
+                        edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);edkEnd();
+                        //save the type
+                        this->vboType = type;edkEnd();
+                        this->vboCount=vertexCount;edkEnd();
+
+                        //update the VBO functions
+                        this->setAutomaticallyVBOFunctions();
+
+                        return true;
+                    }
+                    edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);edkEnd();
+
+                    //else delete the bugger
+                    edk::GU_GLSL::guDeleteBuffer(this->vboWithMatrix);edkEnd();
+                    this->vboWithMatrix=0u;edkEnd();
+                }
+                //else delete the vertexBufferWithMatrix
+                this->vertexBufferWithMatrix.clean();edkEnd();
+            }
+        }
+    }
+    return false;
+}
+//run the GU function to update the VBO
+bool edk::shape::Polygon3DList::updateVBO(){
+    if(this->haveVBO() && this->vertexBuffer.getSize()){
+        edk::GU_GLSL::guUseBuffer(GU_ARRAY_BUFFER,this->vbo);edkEnd();
+        if(edk::GU_GLSL::guBufferData(GU_ARRAY_BUFFER, this->vertexBuffer.getSize() * sizeof(edk::float32), this->vertexBuffer.getPointer(), GU_STATIC_DRAW)){
+            edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);edkEnd();
+            return true;
+        }
+        edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);edkEnd();
+    }
+    return false;
+}
+bool edk::shape::Polygon3DList::updateVBOWithMatrix(){
+    if(this->haveVBO() && this->vertexBufferWithMatrix.getSize()){
+        edk::GU_GLSL::guUseBuffer(GU_ARRAY_BUFFER,this->vboWithMatrix);edkEnd();
+        if(edk::GU_GLSL::guBufferData(GU_ARRAY_BUFFER, this->vertexBufferWithMatrix.getSize() * sizeof(edk::float32), this->vertexBufferWithMatrix.getPointer(), GU_STATIC_DRAW)){
+            edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);edkEnd();
+            return true;
+        }
+        edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);edkEnd();
+    }
+    return false;
+}
+bool edk::shape::Polygon3DList::updateVBOValuesWithMatrices(edk::vector::Matrixf32<4u,4u>* matrix,
+                                                            edk::vector::Matrixf32<4u,4u>* matrixTemp
+                                                            ){
+    if(matrix && matrixTemp){
+        //set the vertex position in vertexBuffer
+        if(this->haveVBO() && this->vertexBufferWithMatrix.haveArray()){
+            edk::uint32 vertex=0u;
+            for(edk::uint32 i=0u;i<this->vboCount;i++){
+                matrixTemp->setIdentity(1.f,0.f);
+                //read the position
+                vertex = i*vboSizeofMesh3D[this->vboType];
+                matrixTemp->set(0u,0u,this->vertexBufferWithMatrix.get(vertex));edkEnd();
+                vertex++;edkEnd();
+                matrixTemp->set(0u,1u,this->vertexBufferWithMatrix.get(vertex));edkEnd();
+                vertex++;edkEnd();
+                matrixTemp->set(0u,2u,this->vertexBufferWithMatrix.get(vertex));edkEnd();
+                //multiply the matrix
+                matrixTemp->multiplyMatrixWithThis(matrix);edkEnd();
+                //set the position
+                vertex = i*vboSizeofMesh3D[this->vboType];edkEnd();
+                this->vertexBufferWithMatrix.set(vertex,matrixTemp->get(0u,0u));edkEnd();
+                vertex++;edkEnd();
+                this->vertexBufferWithMatrix.set(vertex,matrixTemp->get(0u,1u));edkEnd();
+                vertex++;edkEnd();
+                this->vertexBufferWithMatrix.set(vertex,matrixTemp->get(0u,2u));edkEnd();
+            }
+            //update the VBO
+            this->updateVBOFunctionsWithMatrix();
+            return true;
+        }
+    }
+    return false;
+}
+bool edk::shape::Polygon3DList::changeVBO(edk::GU::VBOType type){
+    if(this->canUseVBO && type != this->vboType && type!=edk::GU::vbo_NULL && type<edk::GU::vbo_Size){
+        edk::vector::Array<edk::float32> buffer;
+        if(buffer.createArray(this->vboCount * vboSizeofMesh3D[type])){
+            edk::uint32 increment = vboSizeofMesh3D[type];
+            edk::uint32 size = this->vboCount*increment;
+            //clean the vertexBuffer
+            switch(type){
+            case edk::GU::vbo_XY:
+                for(edk::uint32 i=0u;i<size;i+=increment){
+                    buffer.set(i,0.f);
+                    buffer.set(i+1u,0.f);
+                }
+                break;
+            case edk::GU::vbo_XY_NxNyNz:
+                for(edk::uint32 i=0u;i<size;i+=increment){
+                    buffer.set(i,0.f);
+                    buffer.set(i+1u,0.f);
+
+                    buffer.set(i+2u,0.f);
+                    buffer.set(i+3u,0.f);
+                    buffer.set(i+4u,1.f);
+                }
+                break;
+            case edk::GU::vbo_XY_RGB:
+                for(edk::uint32 i=0u;i<size;i+=increment){
+                    buffer.set(i,0.f);
+                    buffer.set(i+1u,0.f);
+
+                    buffer.set(i+2u,1.f);
+                    buffer.set(i+3u,1.f);
+                    buffer.set(i+4u,1.f);
+                }
+                break;
+            case edk::GU::vbo_XY_RGBA:
+                for(edk::uint32 i=0u;i<size;i+=increment){
+                    buffer.set(i,0.f);
+                    buffer.set(i+1u,0.f);
+
+                    buffer.set(i+2u,1.f);
+                    buffer.set(i+3u,1.f);
+                    buffer.set(i+4u,1.f);
+                    buffer.set(i+5u,1.f);
+                }
+                break;
+            case edk::GU::vbo_XY_RGB_NxNyNz:
+                for(edk::uint32 i=0u;i<size;i+=increment){
+                    buffer.set(i,0.f);
+                    buffer.set(i+1u,0.f);
+
+                    buffer.set(i+2u,1.f);
+                    buffer.set(i+3u,1.f);
+                    buffer.set(i+4u,1.f);
+
+                    buffer.set(i+5u,0.f);
+                    buffer.set(i+6u,0.f);
+                    buffer.set(i+7u,1.f);
+                }
+                break;
+            case edk::GU::vbo_XY_RGBA_NxNyNz:
+                for(edk::uint32 i=0u;i<size;i+=increment){
+                    buffer.set(i,0.f);
+                    buffer.set(i+1u,0.f);
+
+                    buffer.set(i+2u,1.f);
+                    buffer.set(i+3u,1.f);
+                    buffer.set(i+4u,1.f);
+                    buffer.set(i+5u,1.f);
+
+                    buffer.set(i+6u,0.f);
+                    buffer.set(i+7u,0.f);
+                    buffer.set(i+8u,1.f);
+                }
+                break;
+            case edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy:
+                for(edk::uint32 i=0u;i<size;i+=increment){
+                    buffer.set(i,0.f);
+                    buffer.set(i+1u,0.f);
+
+                    buffer.set(i+2u,1.f);
+                    buffer.set(i+3u,1.f);
+                    buffer.set(i+4u,1.f);
+
+                    buffer.set(i+5u,0.f);
+                    buffer.set(i+6u,0.f);
+                    buffer.set(i+7u,1.f);
+
+                    buffer.set(i+8u,0.f);
+                    buffer.set(i+9u,0.f);
+                }
+                break;
+            case edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy:
+                for(edk::uint32 i=0u;i<size;i+=increment){
+                    buffer.set(i,0.f);
+                    buffer.set(i+1u,0.f);
+
+                    buffer.set(i+2u,1.f);
+                    buffer.set(i+3u,1.f);
+                    buffer.set(i+4u,1.f);
+                    buffer.set(i+5u,1.f);
+
+                    buffer.set(i+6u,0.f);
+                    buffer.set(i+7u,0.f);
+                    buffer.set(i+8u,1.f);
+
+                    buffer.set(i+9u,0.f);
+                    buffer.set(i+10u,0.f);
+                }
+                break;
+            case edk::GU::vbo_XYZ:
+                for(edk::uint32 i=0u;i<size;i+=increment){
+                    buffer.set(i,0.f);
+                    buffer.set(i+1u,0.f);
+                    buffer.set(i+2u,0.f);
+                }
+                break;
+            case edk::GU::vbo_XYZ_NxNyNz:
+                for(edk::uint32 i=0u;i<size;i+=increment){
+                    buffer.set(i,0.f);
+                    buffer.set(i+1u,0.f);
+                    buffer.set(i+2u,0.f);
+
+                    buffer.set(i+3u,0.f);
+                    buffer.set(i+4u,0.f);
+                    buffer.set(i+5u,1.f);
+                }
+                break;
+            case edk::GU::vbo_XYZ_RGB:
+                for(edk::uint32 i=0u;i<size;i+=increment){
+                    buffer.set(i,0.f);
+                    buffer.set(i+1u,0.f);
+                    buffer.set(i+2u,0.f);
+
+                    buffer.set(i+3u,1.f);
+                    buffer.set(i+4u,1.f);
+                    buffer.set(i+5u,1.f);
+                }
+                break;
+            case edk::GU::vbo_XYZ_RGBA:
+                for(edk::uint32 i=0u;i<size;i+=increment){
+                    buffer.set(i,0.f);
+                    buffer.set(i+1u,0.f);
+                    buffer.set(i+2u,0.f);
+
+                    buffer.set(i+3u,1.f);
+                    buffer.set(i+4u,1.f);
+                    buffer.set(i+5u,1.f);
+                    buffer.set(i+6u,1.f);
+                }
+                break;
+            case edk::GU::vbo_XYZ_RGB_NxNyNz:
+                for(edk::uint32 i=0u;i<size;i+=increment){
+                    buffer.set(i,0.f);
+                    buffer.set(i+1u,0.f);
+                    buffer.set(i+2u,0.f);
+
+                    buffer.set(i+3u,1.f);
+                    buffer.set(i+4u,1.f);
+                    buffer.set(i+5u,1.f);
+
+                    buffer.set(i+6u,0.f);
+                    buffer.set(i+7u,0.f);
+                    buffer.set(i+8u,1.f);
+                }
+                break;
+            case edk::GU::vbo_XYZ_RGBA_NxNyNz:
+                for(edk::uint32 i=0u;i<size;i+=increment){
+                    buffer.set(i,0.f);
+                    buffer.set(i+1u,0.f);
+                    buffer.set(i+2u,0.f);
+
+                    buffer.set(i+3u,1.f);
+                    buffer.set(i+4u,1.f);
+                    buffer.set(i+5u,1.f);
+                    buffer.set(i+6u,1.f);
+
+                    buffer.set(i+7u,0.f);
+                    buffer.set(i+8u,0.f);
+                    buffer.set(i+9u,1.f);
+                }
+                break;
+            case edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy:
+                for(edk::uint32 i=0u;i<size;i+=increment){
+                    buffer.set(i,0.f);
+                    buffer.set(i+1u,0.f);
+                    buffer.set(i+2u,0.f);
+
+                    buffer.set(i+3u,1.f);
+                    buffer.set(i+4u,1.f);
+                    buffer.set(i+5u,1.f);
+
+                    buffer.set(i+6u,0.f);
+                    buffer.set(i+7u,0.f);
+                    buffer.set(i+8u,1.f);
+
+                    buffer.set(i+9u,0.f);
+                    buffer.set(i+10u,0.f);
+                }
+                break;
+            case edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
+                for(edk::uint32 i=0u;i<size;i+=increment){
+                    buffer.set(i,0.f);
+                    buffer.set(i+1u,0.f);
+                    buffer.set(i+2u,0.f);
+
+                    buffer.set(i+3u,1.f);
+                    buffer.set(i+4u,1.f);
+                    buffer.set(i+5u,1.f);
+                    buffer.set(i+6u,1.f);
+
+                    buffer.set(i+7u,0.f);
+                    buffer.set(i+8u,0.f);
+                    buffer.set(i+9u,1.f);
+
+                    buffer.set(i+10u,0.f);
+                    buffer.set(i+11u,0.f);
+                }
+                break;
+            default:
+                break;
+            }
+
+            edk::uint32 source=0u,dest=0u;
+            //
+            switch(this->vboType){
+            case edk::GU::vbo_XY:
+            {
+                for(edk::uint32 i=0u;i<this->vboCount;i++){
+                    buffer.set(dest,this->vertexBuffer.get(source));
+                    buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                    source+=vboSizeofMesh3D[this->vboType];
+                    dest+=vboSizeofMesh3D[type];
+                }
+            }
+                break;
+            case edk::GU::vbo_XY_NxNyNz:
+            {
+                switch(type){
+                case edk::GU::vbo_XY:
+                {
+                    //vbo_XY_NxNyNz -> edk::GU::vbo_XY
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGB:
+                {
+                    //vbo_XY_NxNyNz -> edk::GU::vbo_XY_RGB
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGBA:
+                {
+                    //vbo_XY_NxNyNz -> edk::GU::vbo_XY_RGBA
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGB_NxNyNz:
+                {
+                    //vbo_XY_NxNyNz -> edk::GU::vbo_XY_RGB_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+2u));
+                        buffer.set(dest+6u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+7u,this->vertexBuffer.get(source+4u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGBA_NxNyNz:
+                {
+                    //vbo_XY_NxNyNz -> edk::GU::vbo_XY_RGBA_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        buffer.set(dest+6u,this->vertexBuffer.get(source+2u));
+                        buffer.set(dest+7u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+8u,this->vertexBuffer.get(source+4u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy:
+                {
+                    //vbo_XY_NxNyNz -> edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+2u));
+                        buffer.set(dest+6u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+7u,this->vertexBuffer.get(source+4u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy:
+                {
+                    //vbo_XY_NxNyNz -> edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        buffer.set(dest+6u,this->vertexBuffer.get(source+2u));
+                        buffer.set(dest+7u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+8u,this->vertexBuffer.get(source+4u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ:
+                {
+                    //vbo_XY_NxNyNz -> edk::GU::vbo_XYZ
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_NxNyNz:
+                {
+                    //vbo_XY_NxNyNz -> edk::GU::vbo_XYZ_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+2u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+4u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGB:
+                {
+                    //vbo_XY_NxNyNz -> edk::GU::vbo_XYZ_RGB
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGBA:
+                {
+                    //vbo_XY_NxNyNz -> edk::GU::vbo_XYZ_RGBA
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGB_NxNyNz:
+                {
+                    //vbo_XY_NxNyNz -> edk::GU::vbo_XYZ_RGB_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        buffer.set(dest+6u,this->vertexBuffer.get(source+2u));
+                        buffer.set(dest+7u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+8u,this->vertexBuffer.get(source+4u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGBA_NxNyNz:
+                {
+                    //vbo_XY_NxNyNz -> edk::GU::vbo_XYZ_RGBA_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        buffer.set(dest+7u,this->vertexBuffer.get(source+2u));
+                        buffer.set(dest+8u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+9u,this->vertexBuffer.get(source+4u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy:
+                {
+                    //vbo_XY_NxNyNz -> edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        buffer.set(dest+6u,this->vertexBuffer.get(source+2u));
+                        buffer.set(dest+7u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+8u,this->vertexBuffer.get(source+4u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
+                {
+                    //vbo_XY_NxNyNz -> edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        buffer.set(dest+7u,this->vertexBuffer.get(source+2u));
+                        buffer.set(dest+8u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+9u,this->vertexBuffer.get(source+4u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                default:
+                    break;
+                }
+            }
+                break;
+            case edk::GU::vbo_XY_RGB:
+            {
+                switch(type){
+                case edk::GU::vbo_XY:
+                {
+                    //edk::GU::vbo_XY_RGB -> edk::GU::vbo_XY
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_NxNyNz:
+                {
+                    //edk::GU::vbo_XY_RGB -> edk::GU::vbo_XY_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGBA:
+                {
+                    //edk::GU::vbo_XY_RGB -> edk::GU::vbo_XY_RGBA
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+2u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+4u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGB_NxNyNz:
+                {
+                    //edk::GU::vbo_XY_RGB -> edk::GU::vbo_XY_RGB_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+4u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGBA_NxNyNz:
+                {
+                    //edk::GU::vbo_XY_RGB -> edk::GU::vbo_XY_RGBA_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+4u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy:
+                {
+                    //edk::GU::vbo_XY_RGB -> edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+4u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy:
+                {
+                    //edk::GU::vbo_XY_RGB -> edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+4u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ:
+                {
+                    //edk::GU::vbo_XY_RGB -> edk::GU::vbo_XYZ
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_NxNyNz:
+                {
+                    //edk::GU::vbo_XY_RGB -> edk::GU::vbo_XYZ_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGB:
+                {
+                    //edk::GU::vbo_XY_RGB -> edk::GU::vbo_XYZ_RGB
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+2u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+4u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGBA:
+                {
+                    //edk::GU::vbo_XY_RGB -> edk::GU::vbo_XYZ_RGBA
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+2u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+4u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGB_NxNyNz:
+                {
+                    //edk::GU::vbo_XY_RGB -> edk::GU::vbo_XYZ_RGB_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+2u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+4u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGBA_NxNyNz:
+                {
+                    //edk::GU::vbo_XY_RGB -> edk::GU::vbo_XYZ_RGBA_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+2u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+4u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy:
+                {
+                    //edk::GU::vbo_XY_RGB -> edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+2u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+4u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
+                {
+                    //edk::GU::vbo_XY_RGB -> edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+2u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+4u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                default:
+                    break;
+                }
+            }
+                break;
+            case edk::GU::vbo_XY_RGBA:
+            {
+                switch(type){
+                case edk::GU::vbo_XY:
+                {
+                    //edk::GU::vbo_XY_RGBA -> edk::GU::vbo_XY
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_NxNyNz:
+                {
+                    //edk::GU::vbo_XY_RGBA -> edk::GU::vbo_XY_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGB:
+                {
+                    //edk::GU::vbo_XY_RGBA -> edk::GU::vbo_XY_RGB
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGB_NxNyNz:
+                {
+                    //edk::GU::vbo_XY_RGBA -> edk::GU::vbo_XY_RGB_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGBA_NxNyNz:
+                {
+                    //edk::GU::vbo_XY_RGBA -> edk::GU::vbo_XY_RGBA_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+5u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy:
+                {
+                    //edk::GU::vbo_XY_RGBA -> edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+4u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy:
+                {
+                    //edk::GU::vbo_XY_RGBA -> edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+5u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ:
+                {
+                    //edk::GU::vbo_XY_RGBA -> edk::GU::vbo_XYZ
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_NxNyNz:
+                {
+                    //edk::GU::vbo_XY_RGBA -> edk::GU::vbo_XYZ_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGB:
+                {
+                    //edk::GU::vbo_XY_RGBA -> edk::GU::vbo_XYZ_RGB
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGBA:
+                {
+                    //edk::GU::vbo_XY_RGBA -> edk::GU::vbo_XYZ_RGBA
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+2u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+6u,this->vertexBuffer.get(source+5u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGB_NxNyNz:
+                {
+                    //edk::GU::vbo_XY_RGBA -> edk::GU::vbo_XYZ_RGB_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+2u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+4u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGBA_NxNyNz:
+                {
+                    //edk::GU::vbo_XY_RGBA -> edk::GU::vbo_XYZ_RGBA_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+2u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+6u,this->vertexBuffer.get(source+5u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy:
+                {
+                    //edk::GU::vbo_XY_RGBA -> edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+2u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+4u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
+                {
+                    //edk::GU::vbo_XY_RGBA -> edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+2u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+6u,this->vertexBuffer.get(source+5u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                default:
+                    break;
+                }
+            }
+                break;
+            case edk::GU::vbo_XY_RGB_NxNyNz:
+            {
+                switch(type){
+                case edk::GU::vbo_XY:
+                {
+                    //edk::GU::vbo_XY_RGB_NxNyNz -> edk::GU::vbo_XY
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_NxNyNz:
+                {
+                    //edk::GU::vbo_XY_RGB_NxNyNz -> edk::GU::vbo_XY_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+5u));
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+6u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+7u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGB:
+                {
+                    //edk::GU::vbo_XY_RGB_NxNyNz -> edk::GU::vbo_XY_RGB
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+4u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGBA:
+                {
+                    //edk::GU::vbo_XY_RGB_NxNyNz -> edk::GU::vbo_XY_RGBA
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+4u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGBA_NxNyNz:
+                {
+                    //edk::GU::vbo_XY_RGB_NxNyNz -> edk::GU::vbo_XY_RGBA_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+4u));
+
+                        buffer.set(dest+6u,this->vertexBuffer.get(source+5u));
+                        buffer.set(dest+7u,this->vertexBuffer.get(source+6u));
+                        buffer.set(dest+8u,this->vertexBuffer.get(source+7u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy:
+                {
+                    //edk::GU::vbo_XY_RGB_NxNyNz -> edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+4u));
+
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+5u));
+                        buffer.set(dest+6u,this->vertexBuffer.get(source+6u));
+                        buffer.set(dest+7u,this->vertexBuffer.get(source+7u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy:
+                {
+                    //edk::GU::vbo_XY_RGB_NxNyNz -> edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+4u));
+
+                        buffer.set(dest+6u,this->vertexBuffer.get(source+5u));
+                        buffer.set(dest+7u,this->vertexBuffer.get(source+6u));
+                        buffer.set(dest+8u,this->vertexBuffer.get(source+7u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ:
+                {
+                    //edk::GU::vbo_XY_RGB_NxNyNz -> edk::GU::vbo_XYZ
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_NxNyNz:
+                {
+                    //edk::GU::vbo_XY_RGB_NxNyNz -> edk::GU::vbo_XYZ_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+5u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+6u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+7u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGB:
+                {
+                    //edk::GU::vbo_XY_RGB_NxNyNz -> edk::GU::vbo_XYZ_RGB
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+2u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+4u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGBA:
+                {
+                    //edk::GU::vbo_XY_RGB_NxNyNz -> edk::GU::vbo_XYZ_RGBA
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+2u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+4u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGB_NxNyNz:
+                {
+                    //edk::GU::vbo_XY_RGB_NxNyNz -> edk::GU::vbo_XYZ_RGB_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+2u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+4u));
+
+                        buffer.set(dest+6u,this->vertexBuffer.get(source+5u));
+                        buffer.set(dest+7u,this->vertexBuffer.get(source+6u));
+                        buffer.set(dest+8u,this->vertexBuffer.get(source+7u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGBA_NxNyNz:
+                {
+                    //edk::GU::vbo_XY_RGB_NxNyNz -> edk::GU::vbo_XYZ_RGBA_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+2u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+4u));
+
+                        buffer.set(dest+7u,this->vertexBuffer.get(source+5u));
+                        buffer.set(dest+8u,this->vertexBuffer.get(source+6u));
+                        buffer.set(dest+9u,this->vertexBuffer.get(source+7u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy:
+                {
+                    //edk::GU::vbo_XY_RGB_NxNyNz -> edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+2u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+4u));
+
+                        buffer.set(dest+6u,this->vertexBuffer.get(source+5u));
+                        buffer.set(dest+7u,this->vertexBuffer.get(source+6u));
+                        buffer.set(dest+8u,this->vertexBuffer.get(source+7u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
+                {
+                    //edk::GU::vbo_XY_RGB_NxNyNz -> edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+2u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+4u));
+
+                        buffer.set(dest+7u,this->vertexBuffer.get(source+5u));
+                        buffer.set(dest+8u,this->vertexBuffer.get(source+6u));
+                        buffer.set(dest+9u,this->vertexBuffer.get(source+7u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                default:
+                    break;
+                }
+            }
+                break;
+            case edk::GU::vbo_XY_RGBA_NxNyNz:
+            {
+                switch(type){
+                case edk::GU::vbo_XY:
+                {
+                    //edk::GU::vbo_XY_RGBA_NxNyNz -> edk::GU::vbo_XY
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_NxNyNz:
+                {
+                    //edk::GU::vbo_XY_RGBA_NxNyNz -> edk::GU::vbo_XY_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+6u));
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+7u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+8u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGB:
+                {
+                    //edk::GU::vbo_XY_RGBA_NxNyNz -> edk::GU::vbo_XY_RGB
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+4u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGBA:
+                {
+                    //edk::GU::vbo_XY_RGBA_NxNyNz -> edk::GU::vbo_XY_RGBA
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+5u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGB_NxNyNz:
+                {
+                    //edk::GU::vbo_XY_RGBA_NxNyNz -> edk::GU::vbo_XY_RGB_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+4u));
+
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+6u));
+                        buffer.set(dest+6u,this->vertexBuffer.get(source+7u));
+                        buffer.set(dest+7u,this->vertexBuffer.get(source+8u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy:
+                {
+                    //edk::GU::vbo_XY_RGBA_NxNyNz -> edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+4u));
+
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+6u));
+                        buffer.set(dest+6u,this->vertexBuffer.get(source+7u));
+                        buffer.set(dest+7u,this->vertexBuffer.get(source+8u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy:
+                {
+                    //edk::GU::vbo_XY_RGBA_NxNyNz -> edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+5u));
+
+                        buffer.set(dest+6u,this->vertexBuffer.get(source+6u));
+                        buffer.set(dest+7u,this->vertexBuffer.get(source+7u));
+                        buffer.set(dest+8u,this->vertexBuffer.get(source+8u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ:
+                {
+                    //edk::GU::vbo_XY_RGBA_NxNyNz -> edk::GU::vbo_XYZ
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_NxNyNz:
+                {
+                    //edk::GU::vbo_XY_RGBA_NxNyNz -> edk::GU::vbo_XYZ_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+6u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+7u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+8u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGB:
+                {
+                    //edk::GU::vbo_XY_RGBA_NxNyNz -> edk::GU::vbo_XYZ_RGB
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+2u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+4u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGBA:
+                {
+                    //edk::GU::vbo_XY_RGBA_NxNyNz -> edk::GU::vbo_XYZ_RGBA
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+2u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+6u,this->vertexBuffer.get(source+5u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGB_NxNyNz:
+                {
+                    //edk::GU::vbo_XY_RGBA_NxNyNz -> edk::GU::vbo_XYZ_RGB_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+2u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+4u));
+
+                        buffer.set(dest+6u,this->vertexBuffer.get(source+6u));
+                        buffer.set(dest+7u,this->vertexBuffer.get(source+7u));
+                        buffer.set(dest+8u,this->vertexBuffer.get(source+8u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGBA_NxNyNz:
+                {
+                    //edk::GU::vbo_XY_RGBA_NxNyNz -> edk::GU::vbo_XYZ_RGBA_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+2u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+6u,this->vertexBuffer.get(source+5u));
+
+                        buffer.set(dest+7u,this->vertexBuffer.get(source+6u));
+                        buffer.set(dest+8u,this->vertexBuffer.get(source+7u));
+                        buffer.set(dest+9u,this->vertexBuffer.get(source+8u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy:
+                {
+                    //edk::GU::vbo_XY_RGBA_NxNyNz -> edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+2u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+4u));
+
+                        buffer.set(dest+6u,this->vertexBuffer.get(source+6u));
+                        buffer.set(dest+7u,this->vertexBuffer.get(source+7u));
+                        buffer.set(dest+8u,this->vertexBuffer.get(source+8u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
+                {
+                    //edk::GU::vbo_XY_RGBA_NxNyNz -> edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+2u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+6u,this->vertexBuffer.get(source+5u));
+
+                        buffer.set(dest+7u,this->vertexBuffer.get(source+6u));
+                        buffer.set(dest+8u,this->vertexBuffer.get(source+7u));
+                        buffer.set(dest+9u,this->vertexBuffer.get(source+8u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                default:
+                    break;
+                }
+            }
+                break;
+            case edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy:
+            {
+                switch(type){
+                case edk::GU::vbo_XY:
+                {
+                    //edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy -> edk::GU::vbo_XY
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_NxNyNz:
+                {
+                    //edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy -> edk::GU::vbo_XY_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+5u));
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+6u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+7u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGB:
+                {
+                    //edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy -> edk::GU::vbo_XY_RGB
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+4u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGBA:
+                {
+                    //edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy -> edk::GU::vbo_XY_RGBA
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+4u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGB_NxNyNz:
+                {
+                    //edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy -> edk::GU::vbo_XY_RGB_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+4u));
+
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+5u));
+                        buffer.set(dest+6u,this->vertexBuffer.get(source+6u));
+                        buffer.set(dest+7u,this->vertexBuffer.get(source+7u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGBA_NxNyNz:
+                {
+                    //edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy -> edk::GU::vbo_XY_RGBA_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+4u));
+
+                        buffer.set(dest+6u,this->vertexBuffer.get(source+5u));
+                        buffer.set(dest+7u,this->vertexBuffer.get(source+6u));
+                        buffer.set(dest+8u,this->vertexBuffer.get(source+7u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy:
+                {
+                    //edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy -> edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+4u));
+
+                        buffer.set(dest+6u,this->vertexBuffer.get(source+5u));
+                        buffer.set(dest+7u,this->vertexBuffer.get(source+6u));
+                        buffer.set(dest+8u,this->vertexBuffer.get(source+7u));
+
+                        buffer.set(dest+9u,this->vertexBuffer.get(source+8u));
+                        buffer.set(dest+10u,this->vertexBuffer.get(source+9u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ:
+                {
+                    //edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy -> edk::GU::vbo_XYZ
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_NxNyNz:
+                {
+                    //edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy -> edk::GU::vbo_XYZ_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+5u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+6u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+7u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGB:
+                {
+                    //edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy -> edk::GU::vbo_XYZ_RGB
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+2u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+4u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGBA:
+                {
+                    //edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy -> edk::GU::vbo_XYZ_RGBA
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+2u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+4u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGB_NxNyNz:
+                {
+                    //edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy -> edk::GU::vbo_XYZ_RGB_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+2u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+4u));
+
+                        buffer.set(dest+6u,this->vertexBuffer.get(source+5u));
+                        buffer.set(dest+7u,this->vertexBuffer.get(source+6u));
+                        buffer.set(dest+8u,this->vertexBuffer.get(source+7u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGBA_NxNyNz:
+                {
+                    //edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy -> edk::GU::vbo_XYZ_RGBA_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+2u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+4u));
+
+                        buffer.set(dest+7u,this->vertexBuffer.get(source+5u));
+                        buffer.set(dest+8u,this->vertexBuffer.get(source+6u));
+                        buffer.set(dest+9u,this->vertexBuffer.get(source+7u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy:
+                {
+                    //edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy -> edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+2u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+4u));
+
+                        buffer.set(dest+6u,this->vertexBuffer.get(source+5u));
+                        buffer.set(dest+7u,this->vertexBuffer.get(source+6u));
+                        buffer.set(dest+8u,this->vertexBuffer.get(source+7u));
+
+                        buffer.set(dest+9u,this->vertexBuffer.get(source+8u));
+                        buffer.set(dest+10u,this->vertexBuffer.get(source+9u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
+                {
+                    //edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy -> edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+2u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+4u));
+
+                        buffer.set(dest+7u,this->vertexBuffer.get(source+5u));
+                        buffer.set(dest+8u,this->vertexBuffer.get(source+6u));
+                        buffer.set(dest+9u,this->vertexBuffer.get(source+7u));
+
+                        buffer.set(dest+10u,this->vertexBuffer.get(source+8u));
+                        buffer.set(dest+11u,this->vertexBuffer.get(source+9u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                default:
+                    break;
+                }
+            }
+                break;
+            case edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy:
+            {
+                switch(type){
+                case edk::GU::vbo_XY:
+                {
+                    //edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy -> edk::GU::vbo_XY
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_NxNyNz:
+                {
+                    //edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy -> edk::GU::vbo_XY_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+6u));
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+7u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+8u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGB:
+                {
+                    //edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy -> edk::GU::vbo_XY_RGB
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+4u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGBA:
+                {
+                    //edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy -> edk::GU::vbo_XY_RGBA
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+5u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGB_NxNyNz:
+                {
+                    //edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy -> edk::GU::vbo_XY_RGB_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+4u));
+
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+6u));
+                        buffer.set(dest+6u,this->vertexBuffer.get(source+7u));
+                        buffer.set(dest+7u,this->vertexBuffer.get(source+8u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGBA_NxNyNz:
+                {
+                    //edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy -> edk::GU::vbo_XY_RGBA_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+5u));
+
+                        buffer.set(dest+6u,this->vertexBuffer.get(source+6u));
+                        buffer.set(dest+7u,this->vertexBuffer.get(source+7u));
+                        buffer.set(dest+8u,this->vertexBuffer.get(source+8u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy:
+                {
+                    //edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy -> edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+4u));
+
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+6u));
+                        buffer.set(dest+6u,this->vertexBuffer.get(source+7u));
+                        buffer.set(dest+7u,this->vertexBuffer.get(source+8u));
+
+                        buffer.set(dest+8u,this->vertexBuffer.get(source+9u));
+                        buffer.set(dest+9u,this->vertexBuffer.get(source+10u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ:
+                {
+                    //edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy -> edk::GU::vbo_XYZ
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_NxNyNz:
+                {
+                    //edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy -> edk::GU::vbo_XYZ_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+6u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+7u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+8u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGB:
+                {
+                    //edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy -> edk::GU::vbo_XYZ_RGB
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+2u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+4u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGBA:
+                {
+                    //edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy -> edk::GU::vbo_XYZ_RGBA
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+2u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+6u,this->vertexBuffer.get(source+5u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGB_NxNyNz:
+                {
+                    //edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy -> edk::GU::vbo_XYZ_RGB_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+2u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+4u));
+
+                        buffer.set(dest+6u,this->vertexBuffer.get(source+6u));
+                        buffer.set(dest+7u,this->vertexBuffer.get(source+7u));
+                        buffer.set(dest+8u,this->vertexBuffer.get(source+8u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGBA_NxNyNz:
+                {
+                    //edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy -> edk::GU::vbo_XYZ_RGBA_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+2u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+6u,this->vertexBuffer.get(source+5u));
+
+                        buffer.set(dest+7u,this->vertexBuffer.get(source+6u));
+                        buffer.set(dest+8u,this->vertexBuffer.get(source+7u));
+                        buffer.set(dest+9u,this->vertexBuffer.get(source+8u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy:
+                {
+                    //edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy -> edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+2u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+4u));
+
+                        buffer.set(dest+6u,this->vertexBuffer.get(source+6u));
+                        buffer.set(dest+7u,this->vertexBuffer.get(source+7u));
+                        buffer.set(dest+8u,this->vertexBuffer.get(source+8u));
+
+                        buffer.set(dest+9u,this->vertexBuffer.get(source+9u));
+                        buffer.set(dest+10u,this->vertexBuffer.get(source+10u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
+                {
+                    //edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy -> edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+2u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+6u,this->vertexBuffer.get(source+5u));
+
+                        buffer.set(dest+7u,this->vertexBuffer.get(source+6u));
+                        buffer.set(dest+8u,this->vertexBuffer.get(source+7u));
+                        buffer.set(dest+9u,this->vertexBuffer.get(source+8u));
+
+                        buffer.set(dest+10u,this->vertexBuffer.get(source+9u));
+                        buffer.set(dest+11u,this->vertexBuffer.get(source+10u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                default:
+                    break;
+                }
+            }
+                break;
+            case edk::GU::vbo_XYZ:
+            {
+                switch(type){
+                case edk::GU::vbo_XY:
+                {
+                    //edk::GU::vbo_XYZ -> edk::GU::vbo_XY
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_NxNyNz:
+                {
+                    //edk::GU::vbo_XYZ -> edk::GU::vbo_XY_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGB:
+                {
+                    //edk::GU::vbo_XYZ -> edk::GU::vbo_XY_RGB
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGBA:
+                {
+                    //edk::GU::vbo_XYZ -> edk::GU::vbo_XY_RGBA
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGB_NxNyNz:
+                {
+                    //edk::GU::vbo_XYZ -> edk::GU::vbo_XY_RGB_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGBA_NxNyNz:
+                {
+                    //edk::GU::vbo_XYZ -> edk::GU::vbo_XY_RGBA_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy:
+                {
+                    //edk::GU::vbo_XYZ -> edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy:
+                {
+                    //edk::GU::vbo_XYZ -> edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_NxNyNz:
+                {
+                    //edk::GU::vbo_XYZ -> edk::GU::vbo_XYZ_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGB:
+                {
+                    //edk::GU::vbo_XYZ -> edk::GU::vbo_XYZ_RGB
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGBA:
+                {
+                    //edk::GU::vbo_XYZ -> edk::GU::vbo_XYZ_RGBA
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGB_NxNyNz:
+                {
+                    //edk::GU::vbo_XYZ -> edk::GU::vbo_XYZ_RGB_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGBA_NxNyNz:
+                {
+                    //edk::GU::vbo_XYZ -> edk::GU::vbo_XYZ_RGBA_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy:
+                {
+                    //edk::GU::vbo_XYZ -> edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
+                {
+                    //edk::GU::vbo_XYZ -> edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                default:
+                    break;
+                }
+            }
+                break;
+            case edk::GU::vbo_XYZ_NxNyNz:
+            {
+                switch(type){
+                case edk::GU::vbo_XY:
+                {
+                    //edk::GU::vbo_XYZ_NxNyNz -> edk::GU::vbo_XY
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_NxNyNz:
+                {
+                    //edk::GU::vbo_XYZ_NxNyNz -> edk::GU::vbo_XY_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+5u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGB:
+                {
+                    //edk::GU::vbo_XYZ_NxNyNz -> edk::GU::vbo_XY_RGB
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGBA:
+                {
+                    //edk::GU::vbo_XYZ_NxNyNz -> edk::GU::vbo_XY_RGBA
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGB_NxNyNz:
+                {
+                    //edk::GU::vbo_XYZ_NxNyNz -> edk::GU::vbo_XY_RGB_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+6u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+7u,this->vertexBuffer.get(source+5u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGBA_NxNyNz:
+                {
+                    //edk::GU::vbo_XYZ_NxNyNz -> edk::GU::vbo_XY_RGBA_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        buffer.set(dest+6u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+7u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+8u,this->vertexBuffer.get(source+5u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy:
+                {
+                    //edk::GU::vbo_XYZ_NxNyNz -> edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+6u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+7u,this->vertexBuffer.get(source+5u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy:
+                {
+                    //edk::GU::vbo_XYZ_NxNyNz -> edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        buffer.set(dest+6u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+7u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+8u,this->vertexBuffer.get(source+5u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ:
+                {
+                    //edk::GU::vbo_XYZ_NxNyNz -> edk::GU::vbo_XYZ
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGB:
+                {
+                    //edk::GU::vbo_XYZ_NxNyNz -> edk::GU::vbo_XYZ_RGB
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGBA:
+                {
+                    //edk::GU::vbo_XYZ_NxNyNz -> edk::GU::vbo_XYZ_RGBA
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGB_NxNyNz:
+                {
+                    //edk::GU::vbo_XYZ_NxNyNz -> edk::GU::vbo_XYZ_RGB_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
+
+                        buffer.set(dest+6u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+7u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+8u,this->vertexBuffer.get(source+5u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGBA_NxNyNz:
+                {
+                    //edk::GU::vbo_XYZ_NxNyNz -> edk::GU::vbo_XYZ_RGBA_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
+
+                        buffer.set(dest+7u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+8u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+9u,this->vertexBuffer.get(source+5u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy:
+                {
+                    //edk::GU::vbo_XYZ_NxNyNz -> edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
+
+                        buffer.set(dest+6u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+7u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+8u,this->vertexBuffer.get(source+5u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
+                {
+                    //edk::GU::vbo_XYZ_NxNyNz -> edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
+
+                        buffer.set(dest+7u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+8u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+9u,this->vertexBuffer.get(source+5u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                default:
+                    break;
+                }
+            }
+                break;
+            case edk::GU::vbo_XYZ_RGB:
+            {
+                switch(type){
+                case edk::GU::vbo_XY:
+                {
+                    //edk::GU::vbo_XYZ_RGB -> edk::GU::vbo_XY
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_NxNyNz:
+                {
+                    //edk::GU::vbo_XYZ_RGB -> edk::GU::vbo_XY_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGB:
+                {
+                    //edk::GU::vbo_XYZ_RGB -> edk::GU::vbo_XY_RGB
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+5u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGBA:
+                {
+                    //edk::GU::vbo_XYZ_RGB -> edk::GU::vbo_XY_RGBA
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+5u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGB_NxNyNz:
+                {
+                    //edk::GU::vbo_XYZ_RGB -> edk::GU::vbo_XY_RGB_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+5u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGBA_NxNyNz:
+                {
+                    //edk::GU::vbo_XYZ_RGB -> edk::GU::vbo_XY_RGBA_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+5u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy:
+                {
+                    //edk::GU::vbo_XYZ_RGB -> edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+5u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy:
+                {
+                    //edk::GU::vbo_XYZ_RGB -> edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+5u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ:
+                {
+                    //edk::GU::vbo_XYZ_RGB -> edk::GU::vbo_XYZ
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_NxNyNz:
+                {
+                    //edk::GU::vbo_XYZ_RGB -> edk::GU::vbo_XYZ_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGBA:
+                {
+                    //edk::GU::vbo_XYZ_RGB -> edk::GU::vbo_XYZ_RGBA
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
+
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+5u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGB_NxNyNz:
+                {
+                    //edk::GU::vbo_XYZ_RGB -> edk::GU::vbo_XYZ_RGB_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
+
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+5u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGBA_NxNyNz:
+                {
+                    //edk::GU::vbo_XYZ_RGB -> edk::GU::vbo_XYZ_RGBA_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
+
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+5u));
+
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy:
+                {
+                    //edk::GU::vbo_XYZ_RGB -> edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
+
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+5u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
+                {
+                    //edk::GU::vbo_XYZ_RGB -> edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
+
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+5u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                default:
+                    break;
+                }
+            }
+                break;
+            case edk::GU::vbo_XYZ_RGBA:
+            {
+                switch(type){
+                case edk::GU::vbo_XY:
+                {
+                    //edk::GU::vbo_XYZ_RGBA -> edk::GU::vbo_XY
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_NxNyNz:
+                {
+                    //edk::GU::vbo_XYZ_RGBA -> edk::GU::vbo_XY_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGB:
+                {
+                    //edk::GU::vbo_XYZ_RGBA -> edk::GU::vbo_XY_RGB
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+5u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGBA:
+                {
+                    //edk::GU::vbo_XYZ_RGBA -> edk::GU::vbo_XY_RGBA
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+5u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+6u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGB_NxNyNz:
+                {
+                    //edk::GU::vbo_XYZ_RGBA -> edk::GU::vbo_XY_RGB_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+5u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGBA_NxNyNz:
+                {
+                    //edk::GU::vbo_XYZ_RGBA -> edk::GU::vbo_XY_RGBA_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+5u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+6u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy:
+                {
+                    //edk::GU::vbo_XYZ_RGBA -> edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+5u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy:
+                {
+                    //edk::GU::vbo_XYZ_RGBA -> edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+5u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+6u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ:
+                {
+                    //edk::GU::vbo_XYZ_RGBA -> edk::GU::vbo_XYZ
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_NxNyNz:
+                {
+                    //edk::GU::vbo_XYZ_RGBA -> edk::GU::vbo_XYZ_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGB:
+                {
+                    //edk::GU::vbo_XYZ_RGBA -> edk::GU::vbo_XYZ_RGB
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
+
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+5u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGB_NxNyNz:
+                {
+                    //edk::GU::vbo_XYZ_RGBA -> edk::GU::vbo_XYZ_RGB_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
+
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+5u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGBA_NxNyNz:
+                {
+                    //edk::GU::vbo_XYZ_RGBA -> edk::GU::vbo_XYZ_RGBA_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
+
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+5u));
+                        buffer.set(dest+6u,this->vertexBuffer.get(source+6u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy:
+                {
+                    //edk::GU::vbo_XYZ_RGBA -> edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
+
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+5u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
+                {
+                    //edk::GU::vbo_XYZ_RGBA -> edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
+
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+5u));
+                        buffer.set(dest+6u,this->vertexBuffer.get(source+6u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                default:
+                    break;
+                }
+            }
+                break;
+            case edk::GU::vbo_XYZ_RGB_NxNyNz:
+            {
+                switch(type){
+                case edk::GU::vbo_XY:
+                {
+                    //edk::GU::vbo_XYZ_RGB_NxNyNz -> edk::GU::vbo_XY
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_NxNyNz:
+                {
+                    //edk::GU::vbo_XYZ_RGB_NxNyNz -> edk::GU::vbo_XY_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+6u));
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+7u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+8u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGB:
+                {
+                    //edk::GU::vbo_XYZ_RGB_NxNyNz -> edk::GU::vbo_XY_RGB
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+5u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGBA:
+                {
+                    //edk::GU::vbo_XYZ_RGB_NxNyNz -> edk::GU::vbo_XY_RGBA
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+5u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGB_NxNyNz:
+                {
+                    //edk::GU::vbo_XYZ_RGB_NxNyNz -> edk::GU::vbo_XY_RGB_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+5u));
+
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+6u));
+                        buffer.set(dest+6u,this->vertexBuffer.get(source+7u));
+                        buffer.set(dest+7u,this->vertexBuffer.get(source+8u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGBA_NxNyNz:
+                {
+                    //edk::GU::vbo_XYZ_RGB_NxNyNz -> edk::GU::vbo_XY_RGBA_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+5u));
+
+                        buffer.set(dest+6u,this->vertexBuffer.get(source+6u));
+                        buffer.set(dest+7u,this->vertexBuffer.get(source+7u));
+                        buffer.set(dest+8u,this->vertexBuffer.get(source+8u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy:
+                {
+                    //edk::GU::vbo_XYZ_RGB_NxNyNz -> edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+5u));
+
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+6u));
+                        buffer.set(dest+6u,this->vertexBuffer.get(source+7u));
+                        buffer.set(dest+7u,this->vertexBuffer.get(source+8u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy:
+                {
+                    //edk::GU::vbo_XYZ_RGB_NxNyNz -> edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+5u));
+
+                        buffer.set(dest+6u,this->vertexBuffer.get(source+6u));
+                        buffer.set(dest+7u,this->vertexBuffer.get(source+7u));
+                        buffer.set(dest+8u,this->vertexBuffer.get(source+8u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ:
+                {
+                    //edk::GU::vbo_XYZ_RGB_NxNyNz -> edk::GU::vbo_XYZ
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_NxNyNz:
+                {
+                    //edk::GU::vbo_XYZ_RGB_NxNyNz -> edk::GU::vbo_XYZ_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
+
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+6u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+7u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+8u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGB:
+                {
+                    //edk::GU::vbo_XYZ_RGB_NxNyNz -> edk::GU::vbo_XYZ_RGB
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
+
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+5u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGBA:
+                {
+                    //edk::GU::vbo_XYZ_RGB_NxNyNz -> edk::GU::vbo_XYZ_RGBA
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
+
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+5u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGBA_NxNyNz:
+                {
+                    //edk::GU::vbo_XYZ_RGB_NxNyNz -> edk::GU::vbo_XYZ_RGBA_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
+
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+5u));
+
+                        buffer.set(dest+7u,this->vertexBuffer.get(source+6u));
+                        buffer.set(dest+8u,this->vertexBuffer.get(source+7u));
+                        buffer.set(dest+9u,this->vertexBuffer.get(source+8u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy:
+                {
+                    //edk::GU::vbo_XYZ_RGB_NxNyNz -> edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
+
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+5u));
+
+                        buffer.set(dest+6u,this->vertexBuffer.get(source+6u));
+                        buffer.set(dest+7u,this->vertexBuffer.get(source+7u));
+                        buffer.set(dest+8u,this->vertexBuffer.get(source+8u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
+                {
+                    //edk::GU::vbo_XYZ_RGB_NxNyNz -> edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
+
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+5u));
+
+                        buffer.set(dest+8u,this->vertexBuffer.get(source+6u));
+                        buffer.set(dest+9u,this->vertexBuffer.get(source+7u));
+                        buffer.set(dest+10u,this->vertexBuffer.get(source+8u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                default:
+                    break;
+                }
+            }
+                break;
+            case edk::GU::vbo_XYZ_RGBA_NxNyNz:
+            {
+                switch(type){
+                case edk::GU::vbo_XY:
+                {
+                    //edk::GU::vbo_XYZ_RGBA_NxNyNz -> edk::GU::vbo_XY
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_NxNyNz:
+                {
+                    //edk::GU::vbo_XYZ_RGBA_NxNyNz -> edk::GU::vbo_XY_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+7u));
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+8u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+9u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGB:
+                {
+                    //edk::GU::vbo_XYZ_RGBA_NxNyNz -> edk::GU::vbo_XY_RGB
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+5u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGBA:
+                {
+                    //edk::GU::vbo_XYZ_RGBA_NxNyNz -> edk::GU::vbo_XY_RGBA
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+5u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+6u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGB_NxNyNz:
+                {
+                    //edk::GU::vbo_XYZ_RGBA_NxNyNz -> edk::GU::vbo_XY_RGB_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+5u));
+
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+7u));
+                        buffer.set(dest+6u,this->vertexBuffer.get(source+8u));
+                        buffer.set(dest+7u,this->vertexBuffer.get(source+9u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGBA_NxNyNz:
+                {
+                    //edk::GU::vbo_XYZ_RGBA_NxNyNz -> edk::GU::vbo_XY_RGBA_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+5u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+6u));
+
+                        buffer.set(dest+6u,this->vertexBuffer.get(source+7u));
+                        buffer.set(dest+7u,this->vertexBuffer.get(source+8u));
+                        buffer.set(dest+8u,this->vertexBuffer.get(source+9u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy:
+                {
+                    //edk::GU::vbo_XYZ_RGBA_NxNyNz -> edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+5u));
+
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+7u));
+                        buffer.set(dest+6u,this->vertexBuffer.get(source+8u));
+                        buffer.set(dest+7u,this->vertexBuffer.get(source+9u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy:
+                {
+                    //edk::GU::vbo_XYZ_RGBA_NxNyNz -> edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+5u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+6u));
+
+                        buffer.set(dest+6u,this->vertexBuffer.get(source+7u));
+                        buffer.set(dest+7u,this->vertexBuffer.get(source+8u));
+                        buffer.set(dest+8u,this->vertexBuffer.get(source+9u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ:
+                {
+                    //edk::GU::vbo_XYZ_RGBA_NxNyNz -> edk::GU::vbo_XYZ
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_NxNyNz:
+                {
+                    //edk::GU::vbo_XYZ_RGBA_NxNyNz -> edk::GU::vbo_XYZ_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
+
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+7u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+8u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+9u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGB:
+                {
+                    //edk::GU::vbo_XYZ_RGBA_NxNyNz -> edk::GU::vbo_XYZ_RGB
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
+
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+5u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGBA:
+                {
+                    //edk::GU::vbo_XYZ_RGBA_NxNyNz -> edk::GU::vbo_XYZ_RGBA
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
+
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+5u));
+                        buffer.set(dest+6u,this->vertexBuffer.get(source+6u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGB_NxNyNz:
+                {
+                    //edk::GU::vbo_XYZ_RGBA_NxNyNz -> edk::GU::vbo_XYZ_RGB_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
+
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+5u));
+
+                        buffer.set(dest+6u,this->vertexBuffer.get(source+7u));
+                        buffer.set(dest+7u,this->vertexBuffer.get(source+8u));
+                        buffer.set(dest+8u,this->vertexBuffer.get(source+9u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy:
+                {
+                    //edk::GU::vbo_XYZ_RGBA_NxNyNz -> edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
+
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+5u));
+
+                        buffer.set(dest+6u,this->vertexBuffer.get(source+7u));
+                        buffer.set(dest+7u,this->vertexBuffer.get(source+8u));
+                        buffer.set(dest+8u,this->vertexBuffer.get(source+8u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
+                {
+                    //edk::GU::vbo_XYZ_RGBA_NxNyNz -> edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
+
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+5u));
+                        buffer.set(dest+6u,this->vertexBuffer.get(source+6u));
+
+                        buffer.set(dest+7u,this->vertexBuffer.get(source+7u));
+                        buffer.set(dest+8u,this->vertexBuffer.get(source+8u));
+                        buffer.set(dest+9u,this->vertexBuffer.get(source+9u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                default:
+                    break;
+                }
+            }
+                break;
+            case edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy:
+            {
+                switch(type){
+                case edk::GU::vbo_XY:
+                {
+                    //edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy -> edk::GU::vbo_XY
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_NxNyNz:
+                {
+                    //edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy -> edk::GU::vbo_XY_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+6u));
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+7u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+8u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGB:
+                {
+                    //edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy -> edk::GU::vbo_XY_RGB
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+5u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGBA:
+                {
+                    //edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy -> edk::GU::vbo_XY_RGBA
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+5u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGB_NxNyNz:
+                {
+                    //edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy -> edk::GU::vbo_XY_RGB_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+5u));
+
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+6u));
+                        buffer.set(dest+6u,this->vertexBuffer.get(source+7u));
+                        buffer.set(dest+7u,this->vertexBuffer.get(source+8u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGBA_NxNyNz:
+                {
+                    //edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy -> edk::GU::vbo_XY_RGBA_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+5u));
+
+                        buffer.set(dest+6u,this->vertexBuffer.get(source+6u));
+                        buffer.set(dest+7u,this->vertexBuffer.get(source+7u));
+                        buffer.set(dest+8u,this->vertexBuffer.get(source+8u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy:
+                {
+                    //edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy -> edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+5u));
+
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+6u));
+                        buffer.set(dest+6u,this->vertexBuffer.get(source+7u));
+                        buffer.set(dest+7u,this->vertexBuffer.get(source+8u));
+
+                        buffer.set(dest+8u,this->vertexBuffer.get(source+9u));
+                        buffer.set(dest+9u,this->vertexBuffer.get(source+10u));
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy:
+                {
+                    //edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy -> edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+5u));
+
+                        buffer.set(dest+6u,this->vertexBuffer.get(source+6u));
+                        buffer.set(dest+7u,this->vertexBuffer.get(source+7u));
+                        buffer.set(dest+8u,this->vertexBuffer.get(source+8u));
+
+                        buffer.set(dest+9u,this->vertexBuffer.get(source+9u));
+                        buffer.set(dest+10u,this->vertexBuffer.get(source+10u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ:
+                {
+                    //edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy -> edk::GU::vbo_XYZ
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_NxNyNz:
+                {
+                    //edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy -> edk::GU::vbo_XYZ_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
+
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+6u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+7u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+8u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGB:
+                {
+                    //edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy -> edk::GU::vbo_XYZ_RGB
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
+
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+5u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGBA:
+                {
+                    //edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy -> edk::GU::vbo_XYZ_RGBA
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
+
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+5u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGB_NxNyNz:
+                {
+                    //edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy -> edk::GU::vbo_XYZ_RGB_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
+
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+5u));
+
+                        buffer.set(dest+6u,this->vertexBuffer.get(source+6u));
+                        buffer.set(dest+7u,this->vertexBuffer.get(source+7u));
+                        buffer.set(dest+8u,this->vertexBuffer.get(source+8u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGBA_NxNyNz:
+                {
+                    //edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy -> edk::GU::vbo_XYZ_RGBA_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
+
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+5u));
+
+                        buffer.set(dest+7u,this->vertexBuffer.get(source+6u));
+                        buffer.set(dest+8u,this->vertexBuffer.get(source+7u));
+                        buffer.set(dest+9u,this->vertexBuffer.get(source+8u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
+                {
+                    //edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy -> edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
+
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+5u));
+
+                        buffer.set(dest+7u,this->vertexBuffer.get(source+6u));
+                        buffer.set(dest+8u,this->vertexBuffer.get(source+7u));
+                        buffer.set(dest+9u,this->vertexBuffer.get(source+8u));
+
+                        buffer.set(dest+10u,this->vertexBuffer.get(source+9u));
+                        buffer.set(dest+11u,this->vertexBuffer.get(source+10u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                default:
+                    break;
+                }
+            }
+                break;
+            case edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
+            {
+                switch(type){
+                case edk::GU::vbo_XY:
+                {
+                    //edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy -> edk::GU::vbo_XY
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_NxNyNz:
+                {
+                    //edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy -> edk::GU::vbo_XY_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+7u));
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+8u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+9u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGB:
+                {
+                    //edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy -> edk::GU::vbo_XY_RGB
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+5u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGBA:
+                {
+                    //edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy -> edk::GU::vbo_XY_RGBA
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+5u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+6u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGB_NxNyNz:
+                {
+                    //edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy -> edk::GU::vbo_XY_RGB_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+5u));
+
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+7u));
+                        buffer.set(dest+6u,this->vertexBuffer.get(source+8u));
+                        buffer.set(dest+7u,this->vertexBuffer.get(source+9u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGBA_NxNyNz:
+                {
+                    //edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy -> edk::GU::vbo_XY_RGBA_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+5u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+6u));
+
+                        buffer.set(dest+6u,this->vertexBuffer.get(source+7u));
+                        buffer.set(dest+7u,this->vertexBuffer.get(source+8u));
+                        buffer.set(dest+8u,this->vertexBuffer.get(source+9u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy:
+                {
+                    //edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy -> edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+5u));
+
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+7u));
+                        buffer.set(dest+6u,this->vertexBuffer.get(source+8u));
+                        buffer.set(dest+7u,this->vertexBuffer.get(source+9u));
+
+                        buffer.set(dest+8u,this->vertexBuffer.get(source+10u));
+                        buffer.set(dest+9u,this->vertexBuffer.get(source+11u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy:
+                {
+                    //edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy -> edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+5u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+6u));
+
+                        buffer.set(dest+6u,this->vertexBuffer.get(source+7u));
+                        buffer.set(dest+7u,this->vertexBuffer.get(source+8u));
+                        buffer.set(dest+8u,this->vertexBuffer.get(source+9u));
+
+                        buffer.set(dest+9u,this->vertexBuffer.get(source+10u));
+                        buffer.set(dest+10u,this->vertexBuffer.get(source+11u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ:
+                {
+                    //edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy -> edk::GU::vbo_XYZ
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_NxNyNz:
+                {
+                    //edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy -> edk::GU::vbo_XYZ_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
+
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+7u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+8u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+9u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGB:
+                {
+                    //edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy -> edk::GU::vbo_XYZ_RGB
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
+
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+5u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGBA:
+                {
+                    //edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy -> edk::GU::vbo_XYZ_RGBA
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
+
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+5u));
+                        buffer.set(dest+6u,this->vertexBuffer.get(source+6u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGB_NxNyNz:
+                {
+                    //edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy -> edk::GU::vbo_XYZ_RGB_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
+
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+5u));
+
+                        buffer.set(dest+6u,this->vertexBuffer.get(source+7u));
+                        buffer.set(dest+7u,this->vertexBuffer.get(source+8u));
+                        buffer.set(dest+8u,this->vertexBuffer.get(source+9u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGBA_NxNyNz:
+                {
+                    //edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy -> edk::GU::vbo_XYZ_RGBA_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
+
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+5u));
+                        buffer.set(dest+6u,this->vertexBuffer.get(source+6u));
+
+                        buffer.set(dest+7u,this->vertexBuffer.get(source+7u));
+                        buffer.set(dest+8u,this->vertexBuffer.get(source+8u));
+                        buffer.set(dest+9u,this->vertexBuffer.get(source+9u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy:
+                {
+                    //edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy -> edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBuffer.get(source));
+                        buffer.set(dest+1u,this->vertexBuffer.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBuffer.get(source+2u));
+
+                        buffer.set(dest+3u,this->vertexBuffer.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBuffer.get(source+4u));
+                        buffer.set(dest+5u,this->vertexBuffer.get(source+5u));
+
+                        buffer.set(dest+6u,this->vertexBuffer.get(source+7u));
+                        buffer.set(dest+7u,this->vertexBuffer.get(source+8u));
+                        buffer.set(dest+8u,this->vertexBuffer.get(source+9u));
+
+                        buffer.set(dest+9u,this->vertexBuffer.get(source+10u));
+                        buffer.set(dest+10u,this->vertexBuffer.get(source+11u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                default:
+                    break;
+                }
+            }
+                break;
+            default:
+                break;
+            }
+            //clone the buffer
+            this->vertexBuffer.cloneFrom(&buffer);
+            this->vboType = type;
+            //set the update funtions
+            this->updateVBOFunctions();
+            return true;
+        }
+    }
+    return false;
+}
+bool edk::shape::Polygon3DList::changeVBOWithMatrix(edk::GU::VBOType type){
+    if(this->canUseVBO && type != this->vboType && type!=edk::GU::vbo_NULL && type<edk::GU::vbo_Size){
+        edk::vector::Array<edk::float32> buffer;
+        if(buffer.createArray(this->vboCount * vboSizeofMesh3D[type])){
+            edk::uint32 increment = vboSizeofMesh3D[type];
+            edk::uint32 size = this->vboCount*increment;
+            //clean the vertexBuffer
+            switch(type){
+            case edk::GU::vbo_XY:
+                for(edk::uint32 i=0u;i<size;i+=increment){
+                    buffer.set(i,0.f);
+                    buffer.set(i+1u,0.f);
+                }
+                break;
+            case edk::GU::vbo_XY_NxNyNz:
+                for(edk::uint32 i=0u;i<size;i+=increment){
+                    buffer.set(i,0.f);
+                    buffer.set(i+1u,0.f);
+
+                    buffer.set(i+2u,0.f);
+                    buffer.set(i+3u,0.f);
+                    buffer.set(i+4u,1.f);
+                }
+                break;
+            case edk::GU::vbo_XY_RGB:
+                for(edk::uint32 i=0u;i<size;i+=increment){
+                    buffer.set(i,0.f);
+                    buffer.set(i+1u,0.f);
+
+                    buffer.set(i+2u,1.f);
+                    buffer.set(i+3u,1.f);
+                    buffer.set(i+4u,1.f);
+                }
+                break;
+            case edk::GU::vbo_XY_RGBA:
+                for(edk::uint32 i=0u;i<size;i+=increment){
+                    buffer.set(i,0.f);
+                    buffer.set(i+1u,0.f);
+
+                    buffer.set(i+2u,1.f);
+                    buffer.set(i+3u,1.f);
+                    buffer.set(i+4u,1.f);
+                    buffer.set(i+5u,1.f);
+                }
+                break;
+            case edk::GU::vbo_XY_RGB_NxNyNz:
+                for(edk::uint32 i=0u;i<size;i+=increment){
+                    buffer.set(i,0.f);
+                    buffer.set(i+1u,0.f);
+
+                    buffer.set(i+2u,1.f);
+                    buffer.set(i+3u,1.f);
+                    buffer.set(i+4u,1.f);
+
+                    buffer.set(i+5u,0.f);
+                    buffer.set(i+6u,0.f);
+                    buffer.set(i+7u,1.f);
+                }
+                break;
+            case edk::GU::vbo_XY_RGBA_NxNyNz:
+                for(edk::uint32 i=0u;i<size;i+=increment){
+                    buffer.set(i,0.f);
+                    buffer.set(i+1u,0.f);
+
+                    buffer.set(i+2u,1.f);
+                    buffer.set(i+3u,1.f);
+                    buffer.set(i+4u,1.f);
+                    buffer.set(i+5u,1.f);
+
+                    buffer.set(i+6u,0.f);
+                    buffer.set(i+7u,0.f);
+                    buffer.set(i+8u,1.f);
+                }
+                break;
+            case edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy:
+                for(edk::uint32 i=0u;i<size;i+=increment){
+                    buffer.set(i,0.f);
+                    buffer.set(i+1u,0.f);
+
+                    buffer.set(i+2u,1.f);
+                    buffer.set(i+3u,1.f);
+                    buffer.set(i+4u,1.f);
+
+                    buffer.set(i+5u,0.f);
+                    buffer.set(i+6u,0.f);
+                    buffer.set(i+7u,1.f);
+
+                    buffer.set(i+8u,0.f);
+                    buffer.set(i+9u,0.f);
+                }
+                break;
+            case edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy:
+                for(edk::uint32 i=0u;i<size;i+=increment){
+                    buffer.set(i,0.f);
+                    buffer.set(i+1u,0.f);
+
+                    buffer.set(i+2u,1.f);
+                    buffer.set(i+3u,1.f);
+                    buffer.set(i+4u,1.f);
+                    buffer.set(i+5u,1.f);
+
+                    buffer.set(i+6u,0.f);
+                    buffer.set(i+7u,0.f);
+                    buffer.set(i+8u,1.f);
+
+                    buffer.set(i+9u,0.f);
+                    buffer.set(i+10u,0.f);
+                }
+                break;
+            case edk::GU::vbo_XYZ:
+                for(edk::uint32 i=0u;i<size;i+=increment){
+                    buffer.set(i,0.f);
+                    buffer.set(i+1u,0.f);
+                    buffer.set(i+2u,0.f);
+                }
+                break;
+            case edk::GU::vbo_XYZ_NxNyNz:
+                for(edk::uint32 i=0u;i<size;i+=increment){
+                    buffer.set(i,0.f);
+                    buffer.set(i+1u,0.f);
+                    buffer.set(i+2u,0.f);
+
+                    buffer.set(i+3u,0.f);
+                    buffer.set(i+4u,0.f);
+                    buffer.set(i+5u,1.f);
+                }
+                break;
+            case edk::GU::vbo_XYZ_RGB:
+                for(edk::uint32 i=0u;i<size;i+=increment){
+                    buffer.set(i,0.f);
+                    buffer.set(i+1u,0.f);
+                    buffer.set(i+2u,0.f);
+
+                    buffer.set(i+3u,1.f);
+                    buffer.set(i+4u,1.f);
+                    buffer.set(i+5u,1.f);
+                }
+                break;
+            case edk::GU::vbo_XYZ_RGBA:
+                for(edk::uint32 i=0u;i<size;i+=increment){
+                    buffer.set(i,0.f);
+                    buffer.set(i+1u,0.f);
+                    buffer.set(i+2u,0.f);
+
+                    buffer.set(i+3u,1.f);
+                    buffer.set(i+4u,1.f);
+                    buffer.set(i+5u,1.f);
+                    buffer.set(i+6u,1.f);
+                }
+                break;
+            case edk::GU::vbo_XYZ_RGB_NxNyNz:
+                for(edk::uint32 i=0u;i<size;i+=increment){
+                    buffer.set(i,0.f);
+                    buffer.set(i+1u,0.f);
+                    buffer.set(i+2u,0.f);
+
+                    buffer.set(i+3u,1.f);
+                    buffer.set(i+4u,1.f);
+                    buffer.set(i+5u,1.f);
+
+                    buffer.set(i+6u,0.f);
+                    buffer.set(i+7u,0.f);
+                    buffer.set(i+8u,1.f);
+                }
+                break;
+            case edk::GU::vbo_XYZ_RGBA_NxNyNz:
+                for(edk::uint32 i=0u;i<size;i+=increment){
+                    buffer.set(i,0.f);
+                    buffer.set(i+1u,0.f);
+                    buffer.set(i+2u,0.f);
+
+                    buffer.set(i+3u,1.f);
+                    buffer.set(i+4u,1.f);
+                    buffer.set(i+5u,1.f);
+                    buffer.set(i+6u,1.f);
+
+                    buffer.set(i+7u,0.f);
+                    buffer.set(i+8u,0.f);
+                    buffer.set(i+9u,1.f);
+                }
+                break;
+            case edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy:
+                for(edk::uint32 i=0u;i<size;i+=increment){
+                    buffer.set(i,0.f);
+                    buffer.set(i+1u,0.f);
+                    buffer.set(i+2u,0.f);
+
+                    buffer.set(i+3u,1.f);
+                    buffer.set(i+4u,1.f);
+                    buffer.set(i+5u,1.f);
+
+                    buffer.set(i+6u,0.f);
+                    buffer.set(i+7u,0.f);
+                    buffer.set(i+8u,1.f);
+
+                    buffer.set(i+9u,0.f);
+                    buffer.set(i+10u,0.f);
+                }
+                break;
+            case edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
+                for(edk::uint32 i=0u;i<size;i+=increment){
+                    buffer.set(i,0.f);
+                    buffer.set(i+1u,0.f);
+                    buffer.set(i+2u,0.f);
+
+                    buffer.set(i+3u,1.f);
+                    buffer.set(i+4u,1.f);
+                    buffer.set(i+5u,1.f);
+                    buffer.set(i+6u,1.f);
+
+                    buffer.set(i+7u,0.f);
+                    buffer.set(i+8u,0.f);
+                    buffer.set(i+9u,1.f);
+
+                    buffer.set(i+10u,0.f);
+                    buffer.set(i+11u,0.f);
+                }
+                break;
+            default:
+                break;
+            }
+
+            edk::uint32 source=0u,dest=0u;
+            //
+            switch(this->vboType){
+            case edk::GU::vbo_XY:
+            {
+                for(edk::uint32 i=0u;i<this->vboCount;i++){
+                    buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                    buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                    source+=vboSizeofMesh3D[this->vboType];
+                    dest+=vboSizeofMesh3D[type];
+                }
+            }
+                break;
+            case edk::GU::vbo_XY_NxNyNz:
+            {
+                switch(type){
+                case edk::GU::vbo_XY:
+                {
+                    //vbo_XY_NxNyNz -> edk::GU::vbo_XY
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGB:
+                {
+                    //vbo_XY_NxNyNz -> edk::GU::vbo_XY_RGB
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGBA:
+                {
+                    //vbo_XY_NxNyNz -> edk::GU::vbo_XY_RGBA
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGB_NxNyNz:
+                {
+                    //vbo_XY_NxNyNz -> edk::GU::vbo_XY_RGB_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        buffer.set(dest+5u,this->vertexBufferWithMatrix.get(source+2u));
+                        buffer.set(dest+6u,this->vertexBufferWithMatrix.get(source+3u));
+                        buffer.set(dest+7u,this->vertexBufferWithMatrix.get(source+4u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGBA_NxNyNz:
+                {
+                    //vbo_XY_NxNyNz -> edk::GU::vbo_XY_RGBA_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        buffer.set(dest+6u,this->vertexBufferWithMatrix.get(source+2u));
+                        buffer.set(dest+7u,this->vertexBufferWithMatrix.get(source+3u));
+                        buffer.set(dest+8u,this->vertexBufferWithMatrix.get(source+4u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy:
+                {
+                    //vbo_XY_NxNyNz -> edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        buffer.set(dest+5u,this->vertexBufferWithMatrix.get(source+2u));
+                        buffer.set(dest+6u,this->vertexBufferWithMatrix.get(source+3u));
+                        buffer.set(dest+7u,this->vertexBufferWithMatrix.get(source+4u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy:
+                {
+                    //vbo_XY_NxNyNz -> edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        buffer.set(dest+6u,this->vertexBufferWithMatrix.get(source+2u));
+                        buffer.set(dest+7u,this->vertexBufferWithMatrix.get(source+3u));
+                        buffer.set(dest+8u,this->vertexBufferWithMatrix.get(source+4u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ:
+                {
+                    //vbo_XY_NxNyNz -> edk::GU::vbo_XYZ
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_NxNyNz:
+                {
+                    //vbo_XY_NxNyNz -> edk::GU::vbo_XYZ_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        buffer.set(dest+3u,this->vertexBufferWithMatrix.get(source+2u));
+                        buffer.set(dest+4u,this->vertexBufferWithMatrix.get(source+3u));
+                        buffer.set(dest+5u,this->vertexBufferWithMatrix.get(source+4u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGB:
+                {
+                    //vbo_XY_NxNyNz -> edk::GU::vbo_XYZ_RGB
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGBA:
+                {
+                    //vbo_XY_NxNyNz -> edk::GU::vbo_XYZ_RGBA
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGB_NxNyNz:
+                {
+                    //vbo_XY_NxNyNz -> edk::GU::vbo_XYZ_RGB_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        buffer.set(dest+6u,this->vertexBufferWithMatrix.get(source+2u));
+                        buffer.set(dest+7u,this->vertexBufferWithMatrix.get(source+3u));
+                        buffer.set(dest+8u,this->vertexBufferWithMatrix.get(source+4u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGBA_NxNyNz:
+                {
+                    //vbo_XY_NxNyNz -> edk::GU::vbo_XYZ_RGBA_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        buffer.set(dest+7u,this->vertexBufferWithMatrix.get(source+2u));
+                        buffer.set(dest+8u,this->vertexBufferWithMatrix.get(source+3u));
+                        buffer.set(dest+9u,this->vertexBufferWithMatrix.get(source+4u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy:
+                {
+                    //vbo_XY_NxNyNz -> edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        buffer.set(dest+6u,this->vertexBufferWithMatrix.get(source+2u));
+                        buffer.set(dest+7u,this->vertexBufferWithMatrix.get(source+3u));
+                        buffer.set(dest+8u,this->vertexBufferWithMatrix.get(source+4u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
+                {
+                    //vbo_XY_NxNyNz -> edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        buffer.set(dest+7u,this->vertexBufferWithMatrix.get(source+2u));
+                        buffer.set(dest+8u,this->vertexBufferWithMatrix.get(source+3u));
+                        buffer.set(dest+9u,this->vertexBufferWithMatrix.get(source+4u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                default:
+                    break;
+                }
+            }
+                break;
+            case edk::GU::vbo_XY_RGB:
+            {
+                switch(type){
+                case edk::GU::vbo_XY:
+                {
+                    //edk::GU::vbo_XY_RGB -> edk::GU::vbo_XY
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_NxNyNz:
+                {
+                    //edk::GU::vbo_XY_RGB -> edk::GU::vbo_XY_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGBA:
+                {
+                    //edk::GU::vbo_XY_RGB -> edk::GU::vbo_XY_RGBA
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        buffer.set(dest+3u,this->vertexBufferWithMatrix.get(source+2u));
+                        buffer.set(dest+4u,this->vertexBufferWithMatrix.get(source+3u));
+                        buffer.set(dest+5u,this->vertexBufferWithMatrix.get(source+4u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGB_NxNyNz:
+                {
+                    //edk::GU::vbo_XY_RGB -> edk::GU::vbo_XY_RGB_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        buffer.set(dest+2u,this->vertexBufferWithMatrix.get(source+2u));
+                        buffer.set(dest+3u,this->vertexBufferWithMatrix.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBufferWithMatrix.get(source+4u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGBA_NxNyNz:
+                {
+                    //edk::GU::vbo_XY_RGB -> edk::GU::vbo_XY_RGBA_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        buffer.set(dest+2u,this->vertexBufferWithMatrix.get(source+2u));
+                        buffer.set(dest+3u,this->vertexBufferWithMatrix.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBufferWithMatrix.get(source+4u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy:
+                {
+                    //edk::GU::vbo_XY_RGB -> edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        buffer.set(dest+2u,this->vertexBufferWithMatrix.get(source+2u));
+                        buffer.set(dest+3u,this->vertexBufferWithMatrix.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBufferWithMatrix.get(source+4u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy:
+                {
+                    //edk::GU::vbo_XY_RGB -> edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        buffer.set(dest+2u,this->vertexBufferWithMatrix.get(source+2u));
+                        buffer.set(dest+3u,this->vertexBufferWithMatrix.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBufferWithMatrix.get(source+4u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ:
+                {
+                    //edk::GU::vbo_XY_RGB -> edk::GU::vbo_XYZ
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_NxNyNz:
+                {
+                    //edk::GU::vbo_XY_RGB -> edk::GU::vbo_XYZ_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGB:
+                {
+                    //edk::GU::vbo_XY_RGB -> edk::GU::vbo_XYZ_RGB
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        buffer.set(dest+3u,this->vertexBufferWithMatrix.get(source+2u));
+                        buffer.set(dest+4u,this->vertexBufferWithMatrix.get(source+3u));
+                        buffer.set(dest+5u,this->vertexBufferWithMatrix.get(source+4u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGBA:
+                {
+                    //edk::GU::vbo_XY_RGB -> edk::GU::vbo_XYZ_RGBA
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        buffer.set(dest+3u,this->vertexBufferWithMatrix.get(source+2u));
+                        buffer.set(dest+4u,this->vertexBufferWithMatrix.get(source+3u));
+                        buffer.set(dest+5u,this->vertexBufferWithMatrix.get(source+4u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGB_NxNyNz:
+                {
+                    //edk::GU::vbo_XY_RGB -> edk::GU::vbo_XYZ_RGB_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        buffer.set(dest+3u,this->vertexBufferWithMatrix.get(source+2u));
+                        buffer.set(dest+4u,this->vertexBufferWithMatrix.get(source+3u));
+                        buffer.set(dest+5u,this->vertexBufferWithMatrix.get(source+4u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGBA_NxNyNz:
+                {
+                    //edk::GU::vbo_XY_RGB -> edk::GU::vbo_XYZ_RGBA_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        buffer.set(dest+3u,this->vertexBufferWithMatrix.get(source+2u));
+                        buffer.set(dest+4u,this->vertexBufferWithMatrix.get(source+3u));
+                        buffer.set(dest+5u,this->vertexBufferWithMatrix.get(source+4u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy:
+                {
+                    //edk::GU::vbo_XY_RGB -> edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        buffer.set(dest+3u,this->vertexBufferWithMatrix.get(source+2u));
+                        buffer.set(dest+4u,this->vertexBufferWithMatrix.get(source+3u));
+                        buffer.set(dest+5u,this->vertexBufferWithMatrix.get(source+4u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
+                {
+                    //edk::GU::vbo_XY_RGB -> edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        buffer.set(dest+3u,this->vertexBufferWithMatrix.get(source+2u));
+                        buffer.set(dest+4u,this->vertexBufferWithMatrix.get(source+3u));
+                        buffer.set(dest+5u,this->vertexBufferWithMatrix.get(source+4u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                default:
+                    break;
+                }
+            }
+                break;
+            case edk::GU::vbo_XY_RGBA:
+            {
+                switch(type){
+                case edk::GU::vbo_XY:
+                {
+                    //edk::GU::vbo_XY_RGBA -> edk::GU::vbo_XY
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_NxNyNz:
+                {
+                    //edk::GU::vbo_XY_RGBA -> edk::GU::vbo_XY_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGB:
+                {
+                    //edk::GU::vbo_XY_RGBA -> edk::GU::vbo_XY_RGB
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGB_NxNyNz:
+                {
+                    //edk::GU::vbo_XY_RGBA -> edk::GU::vbo_XY_RGB_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGBA_NxNyNz:
+                {
+                    //edk::GU::vbo_XY_RGBA -> edk::GU::vbo_XY_RGBA_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        buffer.set(dest+2u,this->vertexBufferWithMatrix.get(source+2u));
+                        buffer.set(dest+3u,this->vertexBufferWithMatrix.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBufferWithMatrix.get(source+4u));
+                        buffer.set(dest+5u,this->vertexBufferWithMatrix.get(source+5u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy:
+                {
+                    //edk::GU::vbo_XY_RGBA -> edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        buffer.set(dest+2u,this->vertexBufferWithMatrix.get(source+2u));
+                        buffer.set(dest+3u,this->vertexBufferWithMatrix.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBufferWithMatrix.get(source+4u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy:
+                {
+                    //edk::GU::vbo_XY_RGBA -> edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        buffer.set(dest+2u,this->vertexBufferWithMatrix.get(source+2u));
+                        buffer.set(dest+3u,this->vertexBufferWithMatrix.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBufferWithMatrix.get(source+4u));
+                        buffer.set(dest+5u,this->vertexBufferWithMatrix.get(source+5u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ:
+                {
+                    //edk::GU::vbo_XY_RGBA -> edk::GU::vbo_XYZ
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_NxNyNz:
+                {
+                    //edk::GU::vbo_XY_RGBA -> edk::GU::vbo_XYZ_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGB:
+                {
+                    //edk::GU::vbo_XY_RGBA -> edk::GU::vbo_XYZ_RGB
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGBA:
+                {
+                    //edk::GU::vbo_XY_RGBA -> edk::GU::vbo_XYZ_RGBA
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        buffer.set(dest+3u,this->vertexBufferWithMatrix.get(source+2u));
+                        buffer.set(dest+4u,this->vertexBufferWithMatrix.get(source+3u));
+                        buffer.set(dest+5u,this->vertexBufferWithMatrix.get(source+4u));
+                        buffer.set(dest+6u,this->vertexBufferWithMatrix.get(source+5u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGB_NxNyNz:
+                {
+                    //edk::GU::vbo_XY_RGBA -> edk::GU::vbo_XYZ_RGB_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        buffer.set(dest+3u,this->vertexBufferWithMatrix.get(source+2u));
+                        buffer.set(dest+4u,this->vertexBufferWithMatrix.get(source+3u));
+                        buffer.set(dest+5u,this->vertexBufferWithMatrix.get(source+4u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGBA_NxNyNz:
+                {
+                    //edk::GU::vbo_XY_RGBA -> edk::GU::vbo_XYZ_RGBA_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        buffer.set(dest+3u,this->vertexBufferWithMatrix.get(source+2u));
+                        buffer.set(dest+4u,this->vertexBufferWithMatrix.get(source+3u));
+                        buffer.set(dest+5u,this->vertexBufferWithMatrix.get(source+4u));
+                        buffer.set(dest+6u,this->vertexBufferWithMatrix.get(source+5u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy:
+                {
+                    //edk::GU::vbo_XY_RGBA -> edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        buffer.set(dest+3u,this->vertexBufferWithMatrix.get(source+2u));
+                        buffer.set(dest+4u,this->vertexBufferWithMatrix.get(source+3u));
+                        buffer.set(dest+5u,this->vertexBufferWithMatrix.get(source+4u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
+                {
+                    //edk::GU::vbo_XY_RGBA -> edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        buffer.set(dest+3u,this->vertexBufferWithMatrix.get(source+2u));
+                        buffer.set(dest+4u,this->vertexBufferWithMatrix.get(source+3u));
+                        buffer.set(dest+5u,this->vertexBufferWithMatrix.get(source+4u));
+                        buffer.set(dest+6u,this->vertexBufferWithMatrix.get(source+5u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                default:
+                    break;
+                }
+            }
+                break;
+            case edk::GU::vbo_XY_RGB_NxNyNz:
+            {
+                switch(type){
+                case edk::GU::vbo_XY:
+                {
+                    //edk::GU::vbo_XY_RGB_NxNyNz -> edk::GU::vbo_XY
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_NxNyNz:
+                {
+                    //edk::GU::vbo_XY_RGB_NxNyNz -> edk::GU::vbo_XY_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        buffer.set(dest+2u,this->vertexBufferWithMatrix.get(source+5u));
+                        buffer.set(dest+3u,this->vertexBufferWithMatrix.get(source+6u));
+                        buffer.set(dest+4u,this->vertexBufferWithMatrix.get(source+7u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGB:
+                {
+                    //edk::GU::vbo_XY_RGB_NxNyNz -> edk::GU::vbo_XY_RGB
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        buffer.set(dest+2u,this->vertexBufferWithMatrix.get(source+2u));
+                        buffer.set(dest+3u,this->vertexBufferWithMatrix.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBufferWithMatrix.get(source+4u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGBA:
+                {
+                    //edk::GU::vbo_XY_RGB_NxNyNz -> edk::GU::vbo_XY_RGBA
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        buffer.set(dest+2u,this->vertexBufferWithMatrix.get(source+2u));
+                        buffer.set(dest+3u,this->vertexBufferWithMatrix.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBufferWithMatrix.get(source+4u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGBA_NxNyNz:
+                {
+                    //edk::GU::vbo_XY_RGB_NxNyNz -> edk::GU::vbo_XY_RGBA_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        buffer.set(dest+2u,this->vertexBufferWithMatrix.get(source+2u));
+                        buffer.set(dest+3u,this->vertexBufferWithMatrix.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBufferWithMatrix.get(source+4u));
+
+                        buffer.set(dest+6u,this->vertexBufferWithMatrix.get(source+5u));
+                        buffer.set(dest+7u,this->vertexBufferWithMatrix.get(source+6u));
+                        buffer.set(dest+8u,this->vertexBufferWithMatrix.get(source+7u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy:
+                {
+                    //edk::GU::vbo_XY_RGB_NxNyNz -> edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        buffer.set(dest+2u,this->vertexBufferWithMatrix.get(source+2u));
+                        buffer.set(dest+3u,this->vertexBufferWithMatrix.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBufferWithMatrix.get(source+4u));
+
+                        buffer.set(dest+5u,this->vertexBufferWithMatrix.get(source+5u));
+                        buffer.set(dest+6u,this->vertexBufferWithMatrix.get(source+6u));
+                        buffer.set(dest+7u,this->vertexBufferWithMatrix.get(source+7u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy:
+                {
+                    //edk::GU::vbo_XY_RGB_NxNyNz -> edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        buffer.set(dest+2u,this->vertexBufferWithMatrix.get(source+2u));
+                        buffer.set(dest+3u,this->vertexBufferWithMatrix.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBufferWithMatrix.get(source+4u));
+
+                        buffer.set(dest+6u,this->vertexBufferWithMatrix.get(source+5u));
+                        buffer.set(dest+7u,this->vertexBufferWithMatrix.get(source+6u));
+                        buffer.set(dest+8u,this->vertexBufferWithMatrix.get(source+7u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ:
+                {
+                    //edk::GU::vbo_XY_RGB_NxNyNz -> edk::GU::vbo_XYZ
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_NxNyNz:
+                {
+                    //edk::GU::vbo_XY_RGB_NxNyNz -> edk::GU::vbo_XYZ_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        buffer.set(dest+3u,this->vertexBufferWithMatrix.get(source+5u));
+                        buffer.set(dest+4u,this->vertexBufferWithMatrix.get(source+6u));
+                        buffer.set(dest+5u,this->vertexBufferWithMatrix.get(source+7u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGB:
+                {
+                    //edk::GU::vbo_XY_RGB_NxNyNz -> edk::GU::vbo_XYZ_RGB
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        buffer.set(dest+3u,this->vertexBufferWithMatrix.get(source+2u));
+                        buffer.set(dest+4u,this->vertexBufferWithMatrix.get(source+3u));
+                        buffer.set(dest+5u,this->vertexBufferWithMatrix.get(source+4u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGBA:
+                {
+                    //edk::GU::vbo_XY_RGB_NxNyNz -> edk::GU::vbo_XYZ_RGBA
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        buffer.set(dest+3u,this->vertexBufferWithMatrix.get(source+2u));
+                        buffer.set(dest+4u,this->vertexBufferWithMatrix.get(source+3u));
+                        buffer.set(dest+5u,this->vertexBufferWithMatrix.get(source+4u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGB_NxNyNz:
+                {
+                    //edk::GU::vbo_XY_RGB_NxNyNz -> edk::GU::vbo_XYZ_RGB_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        buffer.set(dest+3u,this->vertexBufferWithMatrix.get(source+2u));
+                        buffer.set(dest+4u,this->vertexBufferWithMatrix.get(source+3u));
+                        buffer.set(dest+5u,this->vertexBufferWithMatrix.get(source+4u));
+
+                        buffer.set(dest+6u,this->vertexBufferWithMatrix.get(source+5u));
+                        buffer.set(dest+7u,this->vertexBufferWithMatrix.get(source+6u));
+                        buffer.set(dest+8u,this->vertexBufferWithMatrix.get(source+7u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGBA_NxNyNz:
+                {
+                    //edk::GU::vbo_XY_RGB_NxNyNz -> edk::GU::vbo_XYZ_RGBA_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        buffer.set(dest+3u,this->vertexBufferWithMatrix.get(source+2u));
+                        buffer.set(dest+4u,this->vertexBufferWithMatrix.get(source+3u));
+                        buffer.set(dest+5u,this->vertexBufferWithMatrix.get(source+4u));
+
+                        buffer.set(dest+7u,this->vertexBufferWithMatrix.get(source+5u));
+                        buffer.set(dest+8u,this->vertexBufferWithMatrix.get(source+6u));
+                        buffer.set(dest+9u,this->vertexBufferWithMatrix.get(source+7u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy:
+                {
+                    //edk::GU::vbo_XY_RGB_NxNyNz -> edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        buffer.set(dest+3u,this->vertexBufferWithMatrix.get(source+2u));
+                        buffer.set(dest+4u,this->vertexBufferWithMatrix.get(source+3u));
+                        buffer.set(dest+5u,this->vertexBufferWithMatrix.get(source+4u));
+
+                        buffer.set(dest+6u,this->vertexBufferWithMatrix.get(source+5u));
+                        buffer.set(dest+7u,this->vertexBufferWithMatrix.get(source+6u));
+                        buffer.set(dest+8u,this->vertexBufferWithMatrix.get(source+7u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
+                {
+                    //edk::GU::vbo_XY_RGB_NxNyNz -> edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        buffer.set(dest+3u,this->vertexBufferWithMatrix.get(source+2u));
+                        buffer.set(dest+4u,this->vertexBufferWithMatrix.get(source+3u));
+                        buffer.set(dest+5u,this->vertexBufferWithMatrix.get(source+4u));
+
+                        buffer.set(dest+7u,this->vertexBufferWithMatrix.get(source+5u));
+                        buffer.set(dest+8u,this->vertexBufferWithMatrix.get(source+6u));
+                        buffer.set(dest+9u,this->vertexBufferWithMatrix.get(source+7u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                default:
+                    break;
+                }
+            }
+                break;
+            case edk::GU::vbo_XY_RGBA_NxNyNz:
+            {
+                switch(type){
+                case edk::GU::vbo_XY:
+                {
+                    //edk::GU::vbo_XY_RGBA_NxNyNz -> edk::GU::vbo_XY
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_NxNyNz:
+                {
+                    //edk::GU::vbo_XY_RGBA_NxNyNz -> edk::GU::vbo_XY_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        buffer.set(dest+2u,this->vertexBufferWithMatrix.get(source+6u));
+                        buffer.set(dest+3u,this->vertexBufferWithMatrix.get(source+7u));
+                        buffer.set(dest+4u,this->vertexBufferWithMatrix.get(source+8u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGB:
+                {
+                    //edk::GU::vbo_XY_RGBA_NxNyNz -> edk::GU::vbo_XY_RGB
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        buffer.set(dest+2u,this->vertexBufferWithMatrix.get(source+2u));
+                        buffer.set(dest+3u,this->vertexBufferWithMatrix.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBufferWithMatrix.get(source+4u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGBA:
+                {
+                    //edk::GU::vbo_XY_RGBA_NxNyNz -> edk::GU::vbo_XY_RGBA
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        buffer.set(dest+2u,this->vertexBufferWithMatrix.get(source+2u));
+                        buffer.set(dest+3u,this->vertexBufferWithMatrix.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBufferWithMatrix.get(source+4u));
+                        buffer.set(dest+5u,this->vertexBufferWithMatrix.get(source+5u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGB_NxNyNz:
+                {
+                    //edk::GU::vbo_XY_RGBA_NxNyNz -> edk::GU::vbo_XY_RGB_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        buffer.set(dest+2u,this->vertexBufferWithMatrix.get(source+2u));
+                        buffer.set(dest+3u,this->vertexBufferWithMatrix.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBufferWithMatrix.get(source+4u));
+
+                        buffer.set(dest+5u,this->vertexBufferWithMatrix.get(source+6u));
+                        buffer.set(dest+6u,this->vertexBufferWithMatrix.get(source+7u));
+                        buffer.set(dest+7u,this->vertexBufferWithMatrix.get(source+8u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy:
+                {
+                    //edk::GU::vbo_XY_RGBA_NxNyNz -> edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        buffer.set(dest+2u,this->vertexBufferWithMatrix.get(source+2u));
+                        buffer.set(dest+3u,this->vertexBufferWithMatrix.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBufferWithMatrix.get(source+4u));
+
+                        buffer.set(dest+5u,this->vertexBufferWithMatrix.get(source+6u));
+                        buffer.set(dest+6u,this->vertexBufferWithMatrix.get(source+7u));
+                        buffer.set(dest+7u,this->vertexBufferWithMatrix.get(source+8u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy:
+                {
+                    //edk::GU::vbo_XY_RGBA_NxNyNz -> edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        buffer.set(dest+2u,this->vertexBufferWithMatrix.get(source+2u));
+                        buffer.set(dest+3u,this->vertexBufferWithMatrix.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBufferWithMatrix.get(source+4u));
+                        buffer.set(dest+5u,this->vertexBufferWithMatrix.get(source+5u));
+
+                        buffer.set(dest+6u,this->vertexBufferWithMatrix.get(source+6u));
+                        buffer.set(dest+7u,this->vertexBufferWithMatrix.get(source+7u));
+                        buffer.set(dest+8u,this->vertexBufferWithMatrix.get(source+8u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ:
+                {
+                    //edk::GU::vbo_XY_RGBA_NxNyNz -> edk::GU::vbo_XYZ
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_NxNyNz:
+                {
+                    //edk::GU::vbo_XY_RGBA_NxNyNz -> edk::GU::vbo_XYZ_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        buffer.set(dest+3u,this->vertexBufferWithMatrix.get(source+6u));
+                        buffer.set(dest+4u,this->vertexBufferWithMatrix.get(source+7u));
+                        buffer.set(dest+5u,this->vertexBufferWithMatrix.get(source+8u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGB:
+                {
+                    //edk::GU::vbo_XY_RGBA_NxNyNz -> edk::GU::vbo_XYZ_RGB
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        buffer.set(dest+3u,this->vertexBufferWithMatrix.get(source+2u));
+                        buffer.set(dest+4u,this->vertexBufferWithMatrix.get(source+3u));
+                        buffer.set(dest+5u,this->vertexBufferWithMatrix.get(source+4u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGBA:
+                {
+                    //edk::GU::vbo_XY_RGBA_NxNyNz -> edk::GU::vbo_XYZ_RGBA
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        buffer.set(dest+3u,this->vertexBufferWithMatrix.get(source+2u));
+                        buffer.set(dest+4u,this->vertexBufferWithMatrix.get(source+3u));
+                        buffer.set(dest+5u,this->vertexBufferWithMatrix.get(source+4u));
+                        buffer.set(dest+6u,this->vertexBufferWithMatrix.get(source+5u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGB_NxNyNz:
+                {
+                    //edk::GU::vbo_XY_RGBA_NxNyNz -> edk::GU::vbo_XYZ_RGB_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        buffer.set(dest+3u,this->vertexBufferWithMatrix.get(source+2u));
+                        buffer.set(dest+4u,this->vertexBufferWithMatrix.get(source+3u));
+                        buffer.set(dest+5u,this->vertexBufferWithMatrix.get(source+4u));
+
+                        buffer.set(dest+6u,this->vertexBufferWithMatrix.get(source+6u));
+                        buffer.set(dest+7u,this->vertexBufferWithMatrix.get(source+7u));
+                        buffer.set(dest+8u,this->vertexBufferWithMatrix.get(source+8u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGBA_NxNyNz:
+                {
+                    //edk::GU::vbo_XY_RGBA_NxNyNz -> edk::GU::vbo_XYZ_RGBA_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        buffer.set(dest+3u,this->vertexBufferWithMatrix.get(source+2u));
+                        buffer.set(dest+4u,this->vertexBufferWithMatrix.get(source+3u));
+                        buffer.set(dest+5u,this->vertexBufferWithMatrix.get(source+4u));
+                        buffer.set(dest+6u,this->vertexBufferWithMatrix.get(source+5u));
+
+                        buffer.set(dest+7u,this->vertexBufferWithMatrix.get(source+6u));
+                        buffer.set(dest+8u,this->vertexBufferWithMatrix.get(source+7u));
+                        buffer.set(dest+9u,this->vertexBufferWithMatrix.get(source+8u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy:
+                {
+                    //edk::GU::vbo_XY_RGBA_NxNyNz -> edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        buffer.set(dest+3u,this->vertexBufferWithMatrix.get(source+2u));
+                        buffer.set(dest+4u,this->vertexBufferWithMatrix.get(source+3u));
+                        buffer.set(dest+5u,this->vertexBufferWithMatrix.get(source+4u));
+
+                        buffer.set(dest+6u,this->vertexBufferWithMatrix.get(source+6u));
+                        buffer.set(dest+7u,this->vertexBufferWithMatrix.get(source+7u));
+                        buffer.set(dest+8u,this->vertexBufferWithMatrix.get(source+8u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
+                {
+                    //edk::GU::vbo_XY_RGBA_NxNyNz -> edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        buffer.set(dest+3u,this->vertexBufferWithMatrix.get(source+2u));
+                        buffer.set(dest+4u,this->vertexBufferWithMatrix.get(source+3u));
+                        buffer.set(dest+5u,this->vertexBufferWithMatrix.get(source+4u));
+                        buffer.set(dest+6u,this->vertexBufferWithMatrix.get(source+5u));
+
+                        buffer.set(dest+7u,this->vertexBufferWithMatrix.get(source+6u));
+                        buffer.set(dest+8u,this->vertexBufferWithMatrix.get(source+7u));
+                        buffer.set(dest+9u,this->vertexBufferWithMatrix.get(source+8u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                default:
+                    break;
+                }
+            }
+                break;
+            case edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy:
+            {
+                switch(type){
+                case edk::GU::vbo_XY:
+                {
+                    //edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy -> edk::GU::vbo_XY
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_NxNyNz:
+                {
+                    //edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy -> edk::GU::vbo_XY_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        buffer.set(dest+2u,this->vertexBufferWithMatrix.get(source+5u));
+                        buffer.set(dest+3u,this->vertexBufferWithMatrix.get(source+6u));
+                        buffer.set(dest+4u,this->vertexBufferWithMatrix.get(source+7u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGB:
+                {
+                    //edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy -> edk::GU::vbo_XY_RGB
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        buffer.set(dest+2u,this->vertexBufferWithMatrix.get(source+2u));
+                        buffer.set(dest+3u,this->vertexBufferWithMatrix.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBufferWithMatrix.get(source+4u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGBA:
+                {
+                    //edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy -> edk::GU::vbo_XY_RGBA
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        buffer.set(dest+2u,this->vertexBufferWithMatrix.get(source+2u));
+                        buffer.set(dest+3u,this->vertexBufferWithMatrix.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBufferWithMatrix.get(source+4u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGB_NxNyNz:
+                {
+                    //edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy -> edk::GU::vbo_XY_RGB_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        buffer.set(dest+2u,this->vertexBufferWithMatrix.get(source+2u));
+                        buffer.set(dest+3u,this->vertexBufferWithMatrix.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBufferWithMatrix.get(source+4u));
+
+                        buffer.set(dest+5u,this->vertexBufferWithMatrix.get(source+5u));
+                        buffer.set(dest+6u,this->vertexBufferWithMatrix.get(source+6u));
+                        buffer.set(dest+7u,this->vertexBufferWithMatrix.get(source+7u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGBA_NxNyNz:
+                {
+                    //edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy -> edk::GU::vbo_XY_RGBA_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        buffer.set(dest+2u,this->vertexBufferWithMatrix.get(source+2u));
+                        buffer.set(dest+3u,this->vertexBufferWithMatrix.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBufferWithMatrix.get(source+4u));
+
+                        buffer.set(dest+6u,this->vertexBufferWithMatrix.get(source+5u));
+                        buffer.set(dest+7u,this->vertexBufferWithMatrix.get(source+6u));
+                        buffer.set(dest+8u,this->vertexBufferWithMatrix.get(source+7u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy:
+                {
+                    //edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy -> edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        buffer.set(dest+2u,this->vertexBufferWithMatrix.get(source+2u));
+                        buffer.set(dest+3u,this->vertexBufferWithMatrix.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBufferWithMatrix.get(source+4u));
+
+                        buffer.set(dest+6u,this->vertexBufferWithMatrix.get(source+5u));
+                        buffer.set(dest+7u,this->vertexBufferWithMatrix.get(source+6u));
+                        buffer.set(dest+8u,this->vertexBufferWithMatrix.get(source+7u));
+
+                        buffer.set(dest+9u,this->vertexBufferWithMatrix.get(source+8u));
+                        buffer.set(dest+10u,this->vertexBufferWithMatrix.get(source+9u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ:
+                {
+                    //edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy -> edk::GU::vbo_XYZ
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_NxNyNz:
+                {
+                    //edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy -> edk::GU::vbo_XYZ_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        buffer.set(dest+3u,this->vertexBufferWithMatrix.get(source+5u));
+                        buffer.set(dest+4u,this->vertexBufferWithMatrix.get(source+6u));
+                        buffer.set(dest+5u,this->vertexBufferWithMatrix.get(source+7u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGB:
+                {
+                    //edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy -> edk::GU::vbo_XYZ_RGB
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        buffer.set(dest+3u,this->vertexBufferWithMatrix.get(source+2u));
+                        buffer.set(dest+4u,this->vertexBufferWithMatrix.get(source+3u));
+                        buffer.set(dest+5u,this->vertexBufferWithMatrix.get(source+4u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGBA:
+                {
+                    //edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy -> edk::GU::vbo_XYZ_RGBA
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        buffer.set(dest+3u,this->vertexBufferWithMatrix.get(source+2u));
+                        buffer.set(dest+4u,this->vertexBufferWithMatrix.get(source+3u));
+                        buffer.set(dest+5u,this->vertexBufferWithMatrix.get(source+4u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGB_NxNyNz:
+                {
+                    //edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy -> edk::GU::vbo_XYZ_RGB_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        buffer.set(dest+3u,this->vertexBufferWithMatrix.get(source+2u));
+                        buffer.set(dest+4u,this->vertexBufferWithMatrix.get(source+3u));
+                        buffer.set(dest+5u,this->vertexBufferWithMatrix.get(source+4u));
+
+                        buffer.set(dest+6u,this->vertexBufferWithMatrix.get(source+5u));
+                        buffer.set(dest+7u,this->vertexBufferWithMatrix.get(source+6u));
+                        buffer.set(dest+8u,this->vertexBufferWithMatrix.get(source+7u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGBA_NxNyNz:
+                {
+                    //edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy -> edk::GU::vbo_XYZ_RGBA_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        buffer.set(dest+3u,this->vertexBufferWithMatrix.get(source+2u));
+                        buffer.set(dest+4u,this->vertexBufferWithMatrix.get(source+3u));
+                        buffer.set(dest+5u,this->vertexBufferWithMatrix.get(source+4u));
+
+                        buffer.set(dest+7u,this->vertexBufferWithMatrix.get(source+5u));
+                        buffer.set(dest+8u,this->vertexBufferWithMatrix.get(source+6u));
+                        buffer.set(dest+9u,this->vertexBufferWithMatrix.get(source+7u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy:
+                {
+                    //edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy -> edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        buffer.set(dest+3u,this->vertexBufferWithMatrix.get(source+2u));
+                        buffer.set(dest+4u,this->vertexBufferWithMatrix.get(source+3u));
+                        buffer.set(dest+5u,this->vertexBufferWithMatrix.get(source+4u));
+
+                        buffer.set(dest+6u,this->vertexBufferWithMatrix.get(source+5u));
+                        buffer.set(dest+7u,this->vertexBufferWithMatrix.get(source+6u));
+                        buffer.set(dest+8u,this->vertexBufferWithMatrix.get(source+7u));
+
+                        buffer.set(dest+9u,this->vertexBufferWithMatrix.get(source+8u));
+                        buffer.set(dest+10u,this->vertexBufferWithMatrix.get(source+9u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
+                {
+                    //edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy -> edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        buffer.set(dest+3u,this->vertexBufferWithMatrix.get(source+2u));
+                        buffer.set(dest+4u,this->vertexBufferWithMatrix.get(source+3u));
+                        buffer.set(dest+5u,this->vertexBufferWithMatrix.get(source+4u));
+
+                        buffer.set(dest+7u,this->vertexBufferWithMatrix.get(source+5u));
+                        buffer.set(dest+8u,this->vertexBufferWithMatrix.get(source+6u));
+                        buffer.set(dest+9u,this->vertexBufferWithMatrix.get(source+7u));
+
+                        buffer.set(dest+10u,this->vertexBufferWithMatrix.get(source+8u));
+                        buffer.set(dest+11u,this->vertexBufferWithMatrix.get(source+9u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                default:
+                    break;
+                }
+            }
+                break;
+            case edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy:
+            {
+                switch(type){
+                case edk::GU::vbo_XY:
+                {
+                    //edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy -> edk::GU::vbo_XY
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_NxNyNz:
+                {
+                    //edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy -> edk::GU::vbo_XY_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        buffer.set(dest+2u,this->vertexBufferWithMatrix.get(source+6u));
+                        buffer.set(dest+3u,this->vertexBufferWithMatrix.get(source+7u));
+                        buffer.set(dest+4u,this->vertexBufferWithMatrix.get(source+8u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGB:
+                {
+                    //edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy -> edk::GU::vbo_XY_RGB
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        buffer.set(dest+2u,this->vertexBufferWithMatrix.get(source+2u));
+                        buffer.set(dest+3u,this->vertexBufferWithMatrix.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBufferWithMatrix.get(source+4u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGBA:
+                {
+                    //edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy -> edk::GU::vbo_XY_RGBA
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        buffer.set(dest+2u,this->vertexBufferWithMatrix.get(source+2u));
+                        buffer.set(dest+3u,this->vertexBufferWithMatrix.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBufferWithMatrix.get(source+4u));
+                        buffer.set(dest+5u,this->vertexBufferWithMatrix.get(source+5u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGB_NxNyNz:
+                {
+                    //edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy -> edk::GU::vbo_XY_RGB_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        buffer.set(dest+2u,this->vertexBufferWithMatrix.get(source+2u));
+                        buffer.set(dest+3u,this->vertexBufferWithMatrix.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBufferWithMatrix.get(source+4u));
+
+                        buffer.set(dest+5u,this->vertexBufferWithMatrix.get(source+6u));
+                        buffer.set(dest+6u,this->vertexBufferWithMatrix.get(source+7u));
+                        buffer.set(dest+7u,this->vertexBufferWithMatrix.get(source+8u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGBA_NxNyNz:
+                {
+                    //edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy -> edk::GU::vbo_XY_RGBA_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        buffer.set(dest+2u,this->vertexBufferWithMatrix.get(source+2u));
+                        buffer.set(dest+3u,this->vertexBufferWithMatrix.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBufferWithMatrix.get(source+4u));
+                        buffer.set(dest+5u,this->vertexBufferWithMatrix.get(source+5u));
+
+                        buffer.set(dest+6u,this->vertexBufferWithMatrix.get(source+6u));
+                        buffer.set(dest+7u,this->vertexBufferWithMatrix.get(source+7u));
+                        buffer.set(dest+8u,this->vertexBufferWithMatrix.get(source+8u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy:
+                {
+                    //edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy -> edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        buffer.set(dest+2u,this->vertexBufferWithMatrix.get(source+2u));
+                        buffer.set(dest+3u,this->vertexBufferWithMatrix.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBufferWithMatrix.get(source+4u));
+
+                        buffer.set(dest+5u,this->vertexBufferWithMatrix.get(source+6u));
+                        buffer.set(dest+6u,this->vertexBufferWithMatrix.get(source+7u));
+                        buffer.set(dest+7u,this->vertexBufferWithMatrix.get(source+8u));
+
+                        buffer.set(dest+8u,this->vertexBufferWithMatrix.get(source+9u));
+                        buffer.set(dest+9u,this->vertexBufferWithMatrix.get(source+10u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ:
+                {
+                    //edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy -> edk::GU::vbo_XYZ
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_NxNyNz:
+                {
+                    //edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy -> edk::GU::vbo_XYZ_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        buffer.set(dest+3u,this->vertexBufferWithMatrix.get(source+6u));
+                        buffer.set(dest+4u,this->vertexBufferWithMatrix.get(source+7u));
+                        buffer.set(dest+5u,this->vertexBufferWithMatrix.get(source+8u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGB:
+                {
+                    //edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy -> edk::GU::vbo_XYZ_RGB
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        buffer.set(dest+3u,this->vertexBufferWithMatrix.get(source+2u));
+                        buffer.set(dest+4u,this->vertexBufferWithMatrix.get(source+3u));
+                        buffer.set(dest+5u,this->vertexBufferWithMatrix.get(source+4u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGBA:
+                {
+                    //edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy -> edk::GU::vbo_XYZ_RGBA
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        buffer.set(dest+3u,this->vertexBufferWithMatrix.get(source+2u));
+                        buffer.set(dest+4u,this->vertexBufferWithMatrix.get(source+3u));
+                        buffer.set(dest+5u,this->vertexBufferWithMatrix.get(source+4u));
+                        buffer.set(dest+6u,this->vertexBufferWithMatrix.get(source+5u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGB_NxNyNz:
+                {
+                    //edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy -> edk::GU::vbo_XYZ_RGB_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        buffer.set(dest+3u,this->vertexBufferWithMatrix.get(source+2u));
+                        buffer.set(dest+4u,this->vertexBufferWithMatrix.get(source+3u));
+                        buffer.set(dest+5u,this->vertexBufferWithMatrix.get(source+4u));
+
+                        buffer.set(dest+6u,this->vertexBufferWithMatrix.get(source+6u));
+                        buffer.set(dest+7u,this->vertexBufferWithMatrix.get(source+7u));
+                        buffer.set(dest+8u,this->vertexBufferWithMatrix.get(source+8u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGBA_NxNyNz:
+                {
+                    //edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy -> edk::GU::vbo_XYZ_RGBA_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        buffer.set(dest+3u,this->vertexBufferWithMatrix.get(source+2u));
+                        buffer.set(dest+4u,this->vertexBufferWithMatrix.get(source+3u));
+                        buffer.set(dest+5u,this->vertexBufferWithMatrix.get(source+4u));
+                        buffer.set(dest+6u,this->vertexBufferWithMatrix.get(source+5u));
+
+                        buffer.set(dest+7u,this->vertexBufferWithMatrix.get(source+6u));
+                        buffer.set(dest+8u,this->vertexBufferWithMatrix.get(source+7u));
+                        buffer.set(dest+9u,this->vertexBufferWithMatrix.get(source+8u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy:
+                {
+                    //edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy -> edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        buffer.set(dest+3u,this->vertexBufferWithMatrix.get(source+2u));
+                        buffer.set(dest+4u,this->vertexBufferWithMatrix.get(source+3u));
+                        buffer.set(dest+5u,this->vertexBufferWithMatrix.get(source+4u));
+
+                        buffer.set(dest+6u,this->vertexBufferWithMatrix.get(source+6u));
+                        buffer.set(dest+7u,this->vertexBufferWithMatrix.get(source+7u));
+                        buffer.set(dest+8u,this->vertexBufferWithMatrix.get(source+8u));
+
+                        buffer.set(dest+9u,this->vertexBufferWithMatrix.get(source+9u));
+                        buffer.set(dest+10u,this->vertexBufferWithMatrix.get(source+10u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
+                {
+                    //edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy -> edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        buffer.set(dest+3u,this->vertexBufferWithMatrix.get(source+2u));
+                        buffer.set(dest+4u,this->vertexBufferWithMatrix.get(source+3u));
+                        buffer.set(dest+5u,this->vertexBufferWithMatrix.get(source+4u));
+                        buffer.set(dest+6u,this->vertexBufferWithMatrix.get(source+5u));
+
+                        buffer.set(dest+7u,this->vertexBufferWithMatrix.get(source+6u));
+                        buffer.set(dest+8u,this->vertexBufferWithMatrix.get(source+7u));
+                        buffer.set(dest+9u,this->vertexBufferWithMatrix.get(source+8u));
+
+                        buffer.set(dest+10u,this->vertexBufferWithMatrix.get(source+9u));
+                        buffer.set(dest+11u,this->vertexBufferWithMatrix.get(source+10u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                default:
+                    break;
+                }
+            }
+                break;
+            case edk::GU::vbo_XYZ:
+            {
+                switch(type){
+                case edk::GU::vbo_XY:
+                {
+                    //edk::GU::vbo_XYZ -> edk::GU::vbo_XY
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_NxNyNz:
+                {
+                    //edk::GU::vbo_XYZ -> edk::GU::vbo_XY_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGB:
+                {
+                    //edk::GU::vbo_XYZ -> edk::GU::vbo_XY_RGB
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGBA:
+                {
+                    //edk::GU::vbo_XYZ -> edk::GU::vbo_XY_RGBA
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGB_NxNyNz:
+                {
+                    //edk::GU::vbo_XYZ -> edk::GU::vbo_XY_RGB_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGBA_NxNyNz:
+                {
+                    //edk::GU::vbo_XYZ -> edk::GU::vbo_XY_RGBA_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy:
+                {
+                    //edk::GU::vbo_XYZ -> edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy:
+                {
+                    //edk::GU::vbo_XYZ -> edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_NxNyNz:
+                {
+                    //edk::GU::vbo_XYZ -> edk::GU::vbo_XYZ_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBufferWithMatrix.get(source+2u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGB:
+                {
+                    //edk::GU::vbo_XYZ -> edk::GU::vbo_XYZ_RGB
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBufferWithMatrix.get(source+2u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGBA:
+                {
+                    //edk::GU::vbo_XYZ -> edk::GU::vbo_XYZ_RGBA
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBufferWithMatrix.get(source+2u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGB_NxNyNz:
+                {
+                    //edk::GU::vbo_XYZ -> edk::GU::vbo_XYZ_RGB_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBufferWithMatrix.get(source+2u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGBA_NxNyNz:
+                {
+                    //edk::GU::vbo_XYZ -> edk::GU::vbo_XYZ_RGBA_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBufferWithMatrix.get(source+2u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy:
+                {
+                    //edk::GU::vbo_XYZ -> edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBufferWithMatrix.get(source+2u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
+                {
+                    //edk::GU::vbo_XYZ -> edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBufferWithMatrix.get(source+2u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                default:
+                    break;
+                }
+            }
+                break;
+            case edk::GU::vbo_XYZ_NxNyNz:
+            {
+                switch(type){
+                case edk::GU::vbo_XY:
+                {
+                    //edk::GU::vbo_XYZ_NxNyNz -> edk::GU::vbo_XY
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_NxNyNz:
+                {
+                    //edk::GU::vbo_XYZ_NxNyNz -> edk::GU::vbo_XY_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        buffer.set(dest+2u,this->vertexBufferWithMatrix.get(source+3u));
+                        buffer.set(dest+3u,this->vertexBufferWithMatrix.get(source+4u));
+                        buffer.set(dest+4u,this->vertexBufferWithMatrix.get(source+5u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGB:
+                {
+                    //edk::GU::vbo_XYZ_NxNyNz -> edk::GU::vbo_XY_RGB
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGBA:
+                {
+                    //edk::GU::vbo_XYZ_NxNyNz -> edk::GU::vbo_XY_RGBA
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGB_NxNyNz:
+                {
+                    //edk::GU::vbo_XYZ_NxNyNz -> edk::GU::vbo_XY_RGB_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        buffer.set(dest+5u,this->vertexBufferWithMatrix.get(source+3u));
+                        buffer.set(dest+6u,this->vertexBufferWithMatrix.get(source+4u));
+                        buffer.set(dest+7u,this->vertexBufferWithMatrix.get(source+5u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGBA_NxNyNz:
+                {
+                    //edk::GU::vbo_XYZ_NxNyNz -> edk::GU::vbo_XY_RGBA_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        buffer.set(dest+6u,this->vertexBufferWithMatrix.get(source+3u));
+                        buffer.set(dest+7u,this->vertexBufferWithMatrix.get(source+4u));
+                        buffer.set(dest+8u,this->vertexBufferWithMatrix.get(source+5u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy:
+                {
+                    //edk::GU::vbo_XYZ_NxNyNz -> edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        buffer.set(dest+5u,this->vertexBufferWithMatrix.get(source+3u));
+                        buffer.set(dest+6u,this->vertexBufferWithMatrix.get(source+4u));
+                        buffer.set(dest+7u,this->vertexBufferWithMatrix.get(source+5u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy:
+                {
+                    //edk::GU::vbo_XYZ_NxNyNz -> edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        buffer.set(dest+6u,this->vertexBufferWithMatrix.get(source+3u));
+                        buffer.set(dest+7u,this->vertexBufferWithMatrix.get(source+4u));
+                        buffer.set(dest+8u,this->vertexBufferWithMatrix.get(source+5u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ:
+                {
+                    //edk::GU::vbo_XYZ_NxNyNz -> edk::GU::vbo_XYZ
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBufferWithMatrix.get(source+2u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGB:
+                {
+                    //edk::GU::vbo_XYZ_NxNyNz -> edk::GU::vbo_XYZ_RGB
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBufferWithMatrix.get(source+2u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGBA:
+                {
+                    //edk::GU::vbo_XYZ_NxNyNz -> edk::GU::vbo_XYZ_RGBA
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBufferWithMatrix.get(source+2u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGB_NxNyNz:
+                {
+                    //edk::GU::vbo_XYZ_NxNyNz -> edk::GU::vbo_XYZ_RGB_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBufferWithMatrix.get(source+2u));
+
+                        buffer.set(dest+6u,this->vertexBufferWithMatrix.get(source+3u));
+                        buffer.set(dest+7u,this->vertexBufferWithMatrix.get(source+4u));
+                        buffer.set(dest+8u,this->vertexBufferWithMatrix.get(source+5u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGBA_NxNyNz:
+                {
+                    //edk::GU::vbo_XYZ_NxNyNz -> edk::GU::vbo_XYZ_RGBA_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBufferWithMatrix.get(source+2u));
+
+                        buffer.set(dest+7u,this->vertexBufferWithMatrix.get(source+3u));
+                        buffer.set(dest+8u,this->vertexBufferWithMatrix.get(source+4u));
+                        buffer.set(dest+9u,this->vertexBufferWithMatrix.get(source+5u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy:
+                {
+                    //edk::GU::vbo_XYZ_NxNyNz -> edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBufferWithMatrix.get(source+2u));
+
+                        buffer.set(dest+6u,this->vertexBufferWithMatrix.get(source+3u));
+                        buffer.set(dest+7u,this->vertexBufferWithMatrix.get(source+4u));
+                        buffer.set(dest+8u,this->vertexBufferWithMatrix.get(source+5u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
+                {
+                    //edk::GU::vbo_XYZ_NxNyNz -> edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBufferWithMatrix.get(source+2u));
+
+                        buffer.set(dest+7u,this->vertexBufferWithMatrix.get(source+3u));
+                        buffer.set(dest+8u,this->vertexBufferWithMatrix.get(source+4u));
+                        buffer.set(dest+9u,this->vertexBufferWithMatrix.get(source+5u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                default:
+                    break;
+                }
+            }
+                break;
+            case edk::GU::vbo_XYZ_RGB:
+            {
+                switch(type){
+                case edk::GU::vbo_XY:
+                {
+                    //edk::GU::vbo_XYZ_RGB -> edk::GU::vbo_XY
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_NxNyNz:
+                {
+                    //edk::GU::vbo_XYZ_RGB -> edk::GU::vbo_XY_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGB:
+                {
+                    //edk::GU::vbo_XYZ_RGB -> edk::GU::vbo_XY_RGB
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        buffer.set(dest+2u,this->vertexBufferWithMatrix.get(source+3u));
+                        buffer.set(dest+3u,this->vertexBufferWithMatrix.get(source+4u));
+                        buffer.set(dest+4u,this->vertexBufferWithMatrix.get(source+5u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGBA:
+                {
+                    //edk::GU::vbo_XYZ_RGB -> edk::GU::vbo_XY_RGBA
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        buffer.set(dest+2u,this->vertexBufferWithMatrix.get(source+3u));
+                        buffer.set(dest+3u,this->vertexBufferWithMatrix.get(source+4u));
+                        buffer.set(dest+4u,this->vertexBufferWithMatrix.get(source+5u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGB_NxNyNz:
+                {
+                    //edk::GU::vbo_XYZ_RGB -> edk::GU::vbo_XY_RGB_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        buffer.set(dest+2u,this->vertexBufferWithMatrix.get(source+3u));
+                        buffer.set(dest+3u,this->vertexBufferWithMatrix.get(source+4u));
+                        buffer.set(dest+4u,this->vertexBufferWithMatrix.get(source+5u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGBA_NxNyNz:
+                {
+                    //edk::GU::vbo_XYZ_RGB -> edk::GU::vbo_XY_RGBA_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        buffer.set(dest+2u,this->vertexBufferWithMatrix.get(source+3u));
+                        buffer.set(dest+3u,this->vertexBufferWithMatrix.get(source+4u));
+                        buffer.set(dest+4u,this->vertexBufferWithMatrix.get(source+5u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy:
+                {
+                    //edk::GU::vbo_XYZ_RGB -> edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        buffer.set(dest+2u,this->vertexBufferWithMatrix.get(source+3u));
+                        buffer.set(dest+3u,this->vertexBufferWithMatrix.get(source+4u));
+                        buffer.set(dest+4u,this->vertexBufferWithMatrix.get(source+5u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy:
+                {
+                    //edk::GU::vbo_XYZ_RGB -> edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        buffer.set(dest+2u,this->vertexBufferWithMatrix.get(source+3u));
+                        buffer.set(dest+3u,this->vertexBufferWithMatrix.get(source+4u));
+                        buffer.set(dest+4u,this->vertexBufferWithMatrix.get(source+5u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ:
+                {
+                    //edk::GU::vbo_XYZ_RGB -> edk::GU::vbo_XYZ
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBufferWithMatrix.get(source+2u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_NxNyNz:
+                {
+                    //edk::GU::vbo_XYZ_RGB -> edk::GU::vbo_XYZ_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBufferWithMatrix.get(source+2u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGBA:
+                {
+                    //edk::GU::vbo_XYZ_RGB -> edk::GU::vbo_XYZ_RGBA
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBufferWithMatrix.get(source+2u));
+
+                        buffer.set(dest+3u,this->vertexBufferWithMatrix.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBufferWithMatrix.get(source+4u));
+                        buffer.set(dest+5u,this->vertexBufferWithMatrix.get(source+5u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGB_NxNyNz:
+                {
+                    //edk::GU::vbo_XYZ_RGB -> edk::GU::vbo_XYZ_RGB_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBufferWithMatrix.get(source+2u));
+
+                        buffer.set(dest+3u,this->vertexBufferWithMatrix.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBufferWithMatrix.get(source+4u));
+                        buffer.set(dest+5u,this->vertexBufferWithMatrix.get(source+5u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGBA_NxNyNz:
+                {
+                    //edk::GU::vbo_XYZ_RGB -> edk::GU::vbo_XYZ_RGBA_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBufferWithMatrix.get(source+2u));
+
+                        buffer.set(dest+3u,this->vertexBufferWithMatrix.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBufferWithMatrix.get(source+4u));
+                        buffer.set(dest+5u,this->vertexBufferWithMatrix.get(source+5u));
+
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy:
+                {
+                    //edk::GU::vbo_XYZ_RGB -> edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBufferWithMatrix.get(source+2u));
+
+                        buffer.set(dest+3u,this->vertexBufferWithMatrix.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBufferWithMatrix.get(source+4u));
+                        buffer.set(dest+5u,this->vertexBufferWithMatrix.get(source+5u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
+                {
+                    //edk::GU::vbo_XYZ_RGB -> edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBufferWithMatrix.get(source+2u));
+
+                        buffer.set(dest+3u,this->vertexBufferWithMatrix.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBufferWithMatrix.get(source+4u));
+                        buffer.set(dest+5u,this->vertexBufferWithMatrix.get(source+5u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                default:
+                    break;
+                }
+            }
+                break;
+            case edk::GU::vbo_XYZ_RGBA:
+            {
+                switch(type){
+                case edk::GU::vbo_XY:
+                {
+                    //edk::GU::vbo_XYZ_RGBA -> edk::GU::vbo_XY
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_NxNyNz:
+                {
+                    //edk::GU::vbo_XYZ_RGBA -> edk::GU::vbo_XY_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGB:
+                {
+                    //edk::GU::vbo_XYZ_RGBA -> edk::GU::vbo_XY_RGB
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        buffer.set(dest+2u,this->vertexBufferWithMatrix.get(source+3u));
+                        buffer.set(dest+3u,this->vertexBufferWithMatrix.get(source+4u));
+                        buffer.set(dest+4u,this->vertexBufferWithMatrix.get(source+5u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGBA:
+                {
+                    //edk::GU::vbo_XYZ_RGBA -> edk::GU::vbo_XY_RGBA
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        buffer.set(dest+2u,this->vertexBufferWithMatrix.get(source+3u));
+                        buffer.set(dest+3u,this->vertexBufferWithMatrix.get(source+4u));
+                        buffer.set(dest+4u,this->vertexBufferWithMatrix.get(source+5u));
+                        buffer.set(dest+5u,this->vertexBufferWithMatrix.get(source+6u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGB_NxNyNz:
+                {
+                    //edk::GU::vbo_XYZ_RGBA -> edk::GU::vbo_XY_RGB_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        buffer.set(dest+2u,this->vertexBufferWithMatrix.get(source+3u));
+                        buffer.set(dest+3u,this->vertexBufferWithMatrix.get(source+4u));
+                        buffer.set(dest+4u,this->vertexBufferWithMatrix.get(source+5u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGBA_NxNyNz:
+                {
+                    //edk::GU::vbo_XYZ_RGBA -> edk::GU::vbo_XY_RGBA_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        buffer.set(dest+2u,this->vertexBufferWithMatrix.get(source+3u));
+                        buffer.set(dest+3u,this->vertexBufferWithMatrix.get(source+4u));
+                        buffer.set(dest+4u,this->vertexBufferWithMatrix.get(source+5u));
+                        buffer.set(dest+5u,this->vertexBufferWithMatrix.get(source+6u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy:
+                {
+                    //edk::GU::vbo_XYZ_RGBA -> edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        buffer.set(dest+2u,this->vertexBufferWithMatrix.get(source+3u));
+                        buffer.set(dest+3u,this->vertexBufferWithMatrix.get(source+4u));
+                        buffer.set(dest+4u,this->vertexBufferWithMatrix.get(source+5u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy:
+                {
+                    //edk::GU::vbo_XYZ_RGBA -> edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        buffer.set(dest+2u,this->vertexBufferWithMatrix.get(source+3u));
+                        buffer.set(dest+3u,this->vertexBufferWithMatrix.get(source+4u));
+                        buffer.set(dest+4u,this->vertexBufferWithMatrix.get(source+5u));
+                        buffer.set(dest+5u,this->vertexBufferWithMatrix.get(source+6u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ:
+                {
+                    //edk::GU::vbo_XYZ_RGBA -> edk::GU::vbo_XYZ
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBufferWithMatrix.get(source+2u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_NxNyNz:
+                {
+                    //edk::GU::vbo_XYZ_RGBA -> edk::GU::vbo_XYZ_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBufferWithMatrix.get(source+2u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGB:
+                {
+                    //edk::GU::vbo_XYZ_RGBA -> edk::GU::vbo_XYZ_RGB
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBufferWithMatrix.get(source+2u));
+
+                        buffer.set(dest+3u,this->vertexBufferWithMatrix.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBufferWithMatrix.get(source+4u));
+                        buffer.set(dest+5u,this->vertexBufferWithMatrix.get(source+5u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGB_NxNyNz:
+                {
+                    //edk::GU::vbo_XYZ_RGBA -> edk::GU::vbo_XYZ_RGB_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBufferWithMatrix.get(source+2u));
+
+                        buffer.set(dest+3u,this->vertexBufferWithMatrix.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBufferWithMatrix.get(source+4u));
+                        buffer.set(dest+5u,this->vertexBufferWithMatrix.get(source+5u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGBA_NxNyNz:
+                {
+                    //edk::GU::vbo_XYZ_RGBA -> edk::GU::vbo_XYZ_RGBA_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBufferWithMatrix.get(source+2u));
+
+                        buffer.set(dest+3u,this->vertexBufferWithMatrix.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBufferWithMatrix.get(source+4u));
+                        buffer.set(dest+5u,this->vertexBufferWithMatrix.get(source+5u));
+                        buffer.set(dest+6u,this->vertexBufferWithMatrix.get(source+6u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy:
+                {
+                    //edk::GU::vbo_XYZ_RGBA -> edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBufferWithMatrix.get(source+2u));
+
+                        buffer.set(dest+3u,this->vertexBufferWithMatrix.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBufferWithMatrix.get(source+4u));
+                        buffer.set(dest+5u,this->vertexBufferWithMatrix.get(source+5u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
+                {
+                    //edk::GU::vbo_XYZ_RGBA -> edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBufferWithMatrix.get(source+2u));
+
+                        buffer.set(dest+3u,this->vertexBufferWithMatrix.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBufferWithMatrix.get(source+4u));
+                        buffer.set(dest+5u,this->vertexBufferWithMatrix.get(source+5u));
+                        buffer.set(dest+6u,this->vertexBufferWithMatrix.get(source+6u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                default:
+                    break;
+                }
+            }
+                break;
+            case edk::GU::vbo_XYZ_RGB_NxNyNz:
+            {
+                switch(type){
+                case edk::GU::vbo_XY:
+                {
+                    //edk::GU::vbo_XYZ_RGB_NxNyNz -> edk::GU::vbo_XY
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_NxNyNz:
+                {
+                    //edk::GU::vbo_XYZ_RGB_NxNyNz -> edk::GU::vbo_XY_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        buffer.set(dest+2u,this->vertexBufferWithMatrix.get(source+6u));
+                        buffer.set(dest+3u,this->vertexBufferWithMatrix.get(source+7u));
+                        buffer.set(dest+4u,this->vertexBufferWithMatrix.get(source+8u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGB:
+                {
+                    //edk::GU::vbo_XYZ_RGB_NxNyNz -> edk::GU::vbo_XY_RGB
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        buffer.set(dest+2u,this->vertexBufferWithMatrix.get(source+3u));
+                        buffer.set(dest+3u,this->vertexBufferWithMatrix.get(source+4u));
+                        buffer.set(dest+4u,this->vertexBufferWithMatrix.get(source+5u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGBA:
+                {
+                    //edk::GU::vbo_XYZ_RGB_NxNyNz -> edk::GU::vbo_XY_RGBA
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        buffer.set(dest+2u,this->vertexBufferWithMatrix.get(source+3u));
+                        buffer.set(dest+3u,this->vertexBufferWithMatrix.get(source+4u));
+                        buffer.set(dest+4u,this->vertexBufferWithMatrix.get(source+5u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGB_NxNyNz:
+                {
+                    //edk::GU::vbo_XYZ_RGB_NxNyNz -> edk::GU::vbo_XY_RGB_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        buffer.set(dest+2u,this->vertexBufferWithMatrix.get(source+3u));
+                        buffer.set(dest+3u,this->vertexBufferWithMatrix.get(source+4u));
+                        buffer.set(dest+4u,this->vertexBufferWithMatrix.get(source+5u));
+
+                        buffer.set(dest+5u,this->vertexBufferWithMatrix.get(source+6u));
+                        buffer.set(dest+6u,this->vertexBufferWithMatrix.get(source+7u));
+                        buffer.set(dest+7u,this->vertexBufferWithMatrix.get(source+8u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGBA_NxNyNz:
+                {
+                    //edk::GU::vbo_XYZ_RGB_NxNyNz -> edk::GU::vbo_XY_RGBA_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        buffer.set(dest+2u,this->vertexBufferWithMatrix.get(source+3u));
+                        buffer.set(dest+3u,this->vertexBufferWithMatrix.get(source+4u));
+                        buffer.set(dest+4u,this->vertexBufferWithMatrix.get(source+5u));
+
+                        buffer.set(dest+6u,this->vertexBufferWithMatrix.get(source+6u));
+                        buffer.set(dest+7u,this->vertexBufferWithMatrix.get(source+7u));
+                        buffer.set(dest+8u,this->vertexBufferWithMatrix.get(source+8u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy:
+                {
+                    //edk::GU::vbo_XYZ_RGB_NxNyNz -> edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        buffer.set(dest+2u,this->vertexBufferWithMatrix.get(source+3u));
+                        buffer.set(dest+3u,this->vertexBufferWithMatrix.get(source+4u));
+                        buffer.set(dest+4u,this->vertexBufferWithMatrix.get(source+5u));
+
+                        buffer.set(dest+5u,this->vertexBufferWithMatrix.get(source+6u));
+                        buffer.set(dest+6u,this->vertexBufferWithMatrix.get(source+7u));
+                        buffer.set(dest+7u,this->vertexBufferWithMatrix.get(source+8u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy:
+                {
+                    //edk::GU::vbo_XYZ_RGB_NxNyNz -> edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        buffer.set(dest+2u,this->vertexBufferWithMatrix.get(source+3u));
+                        buffer.set(dest+3u,this->vertexBufferWithMatrix.get(source+4u));
+                        buffer.set(dest+4u,this->vertexBufferWithMatrix.get(source+5u));
+
+                        buffer.set(dest+6u,this->vertexBufferWithMatrix.get(source+6u));
+                        buffer.set(dest+7u,this->vertexBufferWithMatrix.get(source+7u));
+                        buffer.set(dest+8u,this->vertexBufferWithMatrix.get(source+8u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ:
+                {
+                    //edk::GU::vbo_XYZ_RGB_NxNyNz -> edk::GU::vbo_XYZ
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBufferWithMatrix.get(source+2u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_NxNyNz:
+                {
+                    //edk::GU::vbo_XYZ_RGB_NxNyNz -> edk::GU::vbo_XYZ_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBufferWithMatrix.get(source+2u));
+
+                        buffer.set(dest+3u,this->vertexBufferWithMatrix.get(source+6u));
+                        buffer.set(dest+4u,this->vertexBufferWithMatrix.get(source+7u));
+                        buffer.set(dest+5u,this->vertexBufferWithMatrix.get(source+8u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGB:
+                {
+                    //edk::GU::vbo_XYZ_RGB_NxNyNz -> edk::GU::vbo_XYZ_RGB
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBufferWithMatrix.get(source+2u));
+
+                        buffer.set(dest+3u,this->vertexBufferWithMatrix.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBufferWithMatrix.get(source+4u));
+                        buffer.set(dest+5u,this->vertexBufferWithMatrix.get(source+5u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGBA:
+                {
+                    //edk::GU::vbo_XYZ_RGB_NxNyNz -> edk::GU::vbo_XYZ_RGBA
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBufferWithMatrix.get(source+2u));
+
+                        buffer.set(dest+3u,this->vertexBufferWithMatrix.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBufferWithMatrix.get(source+4u));
+                        buffer.set(dest+5u,this->vertexBufferWithMatrix.get(source+5u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGBA_NxNyNz:
+                {
+                    //edk::GU::vbo_XYZ_RGB_NxNyNz -> edk::GU::vbo_XYZ_RGBA_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBufferWithMatrix.get(source+2u));
+
+                        buffer.set(dest+3u,this->vertexBufferWithMatrix.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBufferWithMatrix.get(source+4u));
+                        buffer.set(dest+5u,this->vertexBufferWithMatrix.get(source+5u));
+
+                        buffer.set(dest+7u,this->vertexBufferWithMatrix.get(source+6u));
+                        buffer.set(dest+8u,this->vertexBufferWithMatrix.get(source+7u));
+                        buffer.set(dest+9u,this->vertexBufferWithMatrix.get(source+8u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy:
+                {
+                    //edk::GU::vbo_XYZ_RGB_NxNyNz -> edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBufferWithMatrix.get(source+2u));
+
+                        buffer.set(dest+3u,this->vertexBufferWithMatrix.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBufferWithMatrix.get(source+4u));
+                        buffer.set(dest+5u,this->vertexBufferWithMatrix.get(source+5u));
+
+                        buffer.set(dest+6u,this->vertexBufferWithMatrix.get(source+6u));
+                        buffer.set(dest+7u,this->vertexBufferWithMatrix.get(source+7u));
+                        buffer.set(dest+8u,this->vertexBufferWithMatrix.get(source+8u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
+                {
+                    //edk::GU::vbo_XYZ_RGB_NxNyNz -> edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBufferWithMatrix.get(source+2u));
+
+                        buffer.set(dest+3u,this->vertexBufferWithMatrix.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBufferWithMatrix.get(source+4u));
+                        buffer.set(dest+5u,this->vertexBufferWithMatrix.get(source+5u));
+
+                        buffer.set(dest+8u,this->vertexBufferWithMatrix.get(source+6u));
+                        buffer.set(dest+9u,this->vertexBufferWithMatrix.get(source+7u));
+                        buffer.set(dest+10u,this->vertexBufferWithMatrix.get(source+8u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                default:
+                    break;
+                }
+            }
+                break;
+            case edk::GU::vbo_XYZ_RGBA_NxNyNz:
+            {
+                switch(type){
+                case edk::GU::vbo_XY:
+                {
+                    //edk::GU::vbo_XYZ_RGBA_NxNyNz -> edk::GU::vbo_XY
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_NxNyNz:
+                {
+                    //edk::GU::vbo_XYZ_RGBA_NxNyNz -> edk::GU::vbo_XY_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        buffer.set(dest+2u,this->vertexBufferWithMatrix.get(source+7u));
+                        buffer.set(dest+3u,this->vertexBufferWithMatrix.get(source+8u));
+                        buffer.set(dest+4u,this->vertexBufferWithMatrix.get(source+9u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGB:
+                {
+                    //edk::GU::vbo_XYZ_RGBA_NxNyNz -> edk::GU::vbo_XY_RGB
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        buffer.set(dest+2u,this->vertexBufferWithMatrix.get(source+3u));
+                        buffer.set(dest+3u,this->vertexBufferWithMatrix.get(source+4u));
+                        buffer.set(dest+4u,this->vertexBufferWithMatrix.get(source+5u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGBA:
+                {
+                    //edk::GU::vbo_XYZ_RGBA_NxNyNz -> edk::GU::vbo_XY_RGBA
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        buffer.set(dest+2u,this->vertexBufferWithMatrix.get(source+3u));
+                        buffer.set(dest+3u,this->vertexBufferWithMatrix.get(source+4u));
+                        buffer.set(dest+4u,this->vertexBufferWithMatrix.get(source+5u));
+                        buffer.set(dest+5u,this->vertexBufferWithMatrix.get(source+6u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGB_NxNyNz:
+                {
+                    //edk::GU::vbo_XYZ_RGBA_NxNyNz -> edk::GU::vbo_XY_RGB_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        buffer.set(dest+2u,this->vertexBufferWithMatrix.get(source+3u));
+                        buffer.set(dest+3u,this->vertexBufferWithMatrix.get(source+4u));
+                        buffer.set(dest+4u,this->vertexBufferWithMatrix.get(source+5u));
+
+                        buffer.set(dest+5u,this->vertexBufferWithMatrix.get(source+7u));
+                        buffer.set(dest+6u,this->vertexBufferWithMatrix.get(source+8u));
+                        buffer.set(dest+7u,this->vertexBufferWithMatrix.get(source+9u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGBA_NxNyNz:
+                {
+                    //edk::GU::vbo_XYZ_RGBA_NxNyNz -> edk::GU::vbo_XY_RGBA_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        buffer.set(dest+2u,this->vertexBufferWithMatrix.get(source+3u));
+                        buffer.set(dest+3u,this->vertexBufferWithMatrix.get(source+4u));
+                        buffer.set(dest+4u,this->vertexBufferWithMatrix.get(source+5u));
+                        buffer.set(dest+5u,this->vertexBufferWithMatrix.get(source+6u));
+
+                        buffer.set(dest+6u,this->vertexBufferWithMatrix.get(source+7u));
+                        buffer.set(dest+7u,this->vertexBufferWithMatrix.get(source+8u));
+                        buffer.set(dest+8u,this->vertexBufferWithMatrix.get(source+9u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy:
+                {
+                    //edk::GU::vbo_XYZ_RGBA_NxNyNz -> edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        buffer.set(dest+2u,this->vertexBufferWithMatrix.get(source+3u));
+                        buffer.set(dest+3u,this->vertexBufferWithMatrix.get(source+4u));
+                        buffer.set(dest+4u,this->vertexBufferWithMatrix.get(source+5u));
+
+                        buffer.set(dest+5u,this->vertexBufferWithMatrix.get(source+7u));
+                        buffer.set(dest+6u,this->vertexBufferWithMatrix.get(source+8u));
+                        buffer.set(dest+7u,this->vertexBufferWithMatrix.get(source+9u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy:
+                {
+                    //edk::GU::vbo_XYZ_RGBA_NxNyNz -> edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        buffer.set(dest+2u,this->vertexBufferWithMatrix.get(source+3u));
+                        buffer.set(dest+3u,this->vertexBufferWithMatrix.get(source+4u));
+                        buffer.set(dest+4u,this->vertexBufferWithMatrix.get(source+5u));
+                        buffer.set(dest+5u,this->vertexBufferWithMatrix.get(source+6u));
+
+                        buffer.set(dest+6u,this->vertexBufferWithMatrix.get(source+7u));
+                        buffer.set(dest+7u,this->vertexBufferWithMatrix.get(source+8u));
+                        buffer.set(dest+8u,this->vertexBufferWithMatrix.get(source+9u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ:
+                {
+                    //edk::GU::vbo_XYZ_RGBA_NxNyNz -> edk::GU::vbo_XYZ
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBufferWithMatrix.get(source+2u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_NxNyNz:
+                {
+                    //edk::GU::vbo_XYZ_RGBA_NxNyNz -> edk::GU::vbo_XYZ_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBufferWithMatrix.get(source+2u));
+
+                        buffer.set(dest+3u,this->vertexBufferWithMatrix.get(source+7u));
+                        buffer.set(dest+4u,this->vertexBufferWithMatrix.get(source+8u));
+                        buffer.set(dest+5u,this->vertexBufferWithMatrix.get(source+9u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGB:
+                {
+                    //edk::GU::vbo_XYZ_RGBA_NxNyNz -> edk::GU::vbo_XYZ_RGB
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBufferWithMatrix.get(source+2u));
+
+                        buffer.set(dest+3u,this->vertexBufferWithMatrix.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBufferWithMatrix.get(source+4u));
+                        buffer.set(dest+5u,this->vertexBufferWithMatrix.get(source+5u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGBA:
+                {
+                    //edk::GU::vbo_XYZ_RGBA_NxNyNz -> edk::GU::vbo_XYZ_RGBA
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBufferWithMatrix.get(source+2u));
+
+                        buffer.set(dest+3u,this->vertexBufferWithMatrix.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBufferWithMatrix.get(source+4u));
+                        buffer.set(dest+5u,this->vertexBufferWithMatrix.get(source+5u));
+                        buffer.set(dest+6u,this->vertexBufferWithMatrix.get(source+6u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGB_NxNyNz:
+                {
+                    //edk::GU::vbo_XYZ_RGBA_NxNyNz -> edk::GU::vbo_XYZ_RGB_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBufferWithMatrix.get(source+2u));
+
+                        buffer.set(dest+3u,this->vertexBufferWithMatrix.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBufferWithMatrix.get(source+4u));
+                        buffer.set(dest+5u,this->vertexBufferWithMatrix.get(source+5u));
+
+                        buffer.set(dest+6u,this->vertexBufferWithMatrix.get(source+7u));
+                        buffer.set(dest+7u,this->vertexBufferWithMatrix.get(source+8u));
+                        buffer.set(dest+8u,this->vertexBufferWithMatrix.get(source+9u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy:
+                {
+                    //edk::GU::vbo_XYZ_RGBA_NxNyNz -> edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBufferWithMatrix.get(source+2u));
+
+                        buffer.set(dest+3u,this->vertexBufferWithMatrix.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBufferWithMatrix.get(source+4u));
+                        buffer.set(dest+5u,this->vertexBufferWithMatrix.get(source+5u));
+
+                        buffer.set(dest+6u,this->vertexBufferWithMatrix.get(source+7u));
+                        buffer.set(dest+7u,this->vertexBufferWithMatrix.get(source+8u));
+                        buffer.set(dest+8u,this->vertexBufferWithMatrix.get(source+8u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
+                {
+                    //edk::GU::vbo_XYZ_RGBA_NxNyNz -> edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBufferWithMatrix.get(source+2u));
+
+                        buffer.set(dest+3u,this->vertexBufferWithMatrix.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBufferWithMatrix.get(source+4u));
+                        buffer.set(dest+5u,this->vertexBufferWithMatrix.get(source+5u));
+                        buffer.set(dest+6u,this->vertexBufferWithMatrix.get(source+6u));
+
+                        buffer.set(dest+7u,this->vertexBufferWithMatrix.get(source+7u));
+                        buffer.set(dest+8u,this->vertexBufferWithMatrix.get(source+8u));
+                        buffer.set(dest+9u,this->vertexBufferWithMatrix.get(source+9u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                default:
+                    break;
+                }
+            }
+                break;
+            case edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy:
+            {
+                switch(type){
+                case edk::GU::vbo_XY:
+                {
+                    //edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy -> edk::GU::vbo_XY
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_NxNyNz:
+                {
+                    //edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy -> edk::GU::vbo_XY_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        buffer.set(dest+2u,this->vertexBufferWithMatrix.get(source+6u));
+                        buffer.set(dest+3u,this->vertexBufferWithMatrix.get(source+7u));
+                        buffer.set(dest+4u,this->vertexBufferWithMatrix.get(source+8u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGB:
+                {
+                    //edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy -> edk::GU::vbo_XY_RGB
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        buffer.set(dest+2u,this->vertexBufferWithMatrix.get(source+3u));
+                        buffer.set(dest+3u,this->vertexBufferWithMatrix.get(source+4u));
+                        buffer.set(dest+4u,this->vertexBufferWithMatrix.get(source+5u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGBA:
+                {
+                    //edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy -> edk::GU::vbo_XY_RGBA
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        buffer.set(dest+2u,this->vertexBufferWithMatrix.get(source+3u));
+                        buffer.set(dest+3u,this->vertexBufferWithMatrix.get(source+4u));
+                        buffer.set(dest+4u,this->vertexBufferWithMatrix.get(source+5u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGB_NxNyNz:
+                {
+                    //edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy -> edk::GU::vbo_XY_RGB_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        buffer.set(dest+2u,this->vertexBufferWithMatrix.get(source+3u));
+                        buffer.set(dest+3u,this->vertexBufferWithMatrix.get(source+4u));
+                        buffer.set(dest+4u,this->vertexBufferWithMatrix.get(source+5u));
+
+                        buffer.set(dest+5u,this->vertexBufferWithMatrix.get(source+6u));
+                        buffer.set(dest+6u,this->vertexBufferWithMatrix.get(source+7u));
+                        buffer.set(dest+7u,this->vertexBufferWithMatrix.get(source+8u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGBA_NxNyNz:
+                {
+                    //edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy -> edk::GU::vbo_XY_RGBA_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        buffer.set(dest+2u,this->vertexBufferWithMatrix.get(source+3u));
+                        buffer.set(dest+3u,this->vertexBufferWithMatrix.get(source+4u));
+                        buffer.set(dest+4u,this->vertexBufferWithMatrix.get(source+5u));
+
+                        buffer.set(dest+6u,this->vertexBufferWithMatrix.get(source+6u));
+                        buffer.set(dest+7u,this->vertexBufferWithMatrix.get(source+7u));
+                        buffer.set(dest+8u,this->vertexBufferWithMatrix.get(source+8u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy:
+                {
+                    //edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy -> edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        buffer.set(dest+2u,this->vertexBufferWithMatrix.get(source+3u));
+                        buffer.set(dest+3u,this->vertexBufferWithMatrix.get(source+4u));
+                        buffer.set(dest+4u,this->vertexBufferWithMatrix.get(source+5u));
+
+                        buffer.set(dest+5u,this->vertexBufferWithMatrix.get(source+6u));
+                        buffer.set(dest+6u,this->vertexBufferWithMatrix.get(source+7u));
+                        buffer.set(dest+7u,this->vertexBufferWithMatrix.get(source+8u));
+
+                        buffer.set(dest+8u,this->vertexBufferWithMatrix.get(source+9u));
+                        buffer.set(dest+9u,this->vertexBufferWithMatrix.get(source+10u));
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy:
+                {
+                    //edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy -> edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        buffer.set(dest+2u,this->vertexBufferWithMatrix.get(source+3u));
+                        buffer.set(dest+3u,this->vertexBufferWithMatrix.get(source+4u));
+                        buffer.set(dest+4u,this->vertexBufferWithMatrix.get(source+5u));
+
+                        buffer.set(dest+6u,this->vertexBufferWithMatrix.get(source+6u));
+                        buffer.set(dest+7u,this->vertexBufferWithMatrix.get(source+7u));
+                        buffer.set(dest+8u,this->vertexBufferWithMatrix.get(source+8u));
+
+                        buffer.set(dest+9u,this->vertexBufferWithMatrix.get(source+9u));
+                        buffer.set(dest+10u,this->vertexBufferWithMatrix.get(source+10u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ:
+                {
+                    //edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy -> edk::GU::vbo_XYZ
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBufferWithMatrix.get(source+2u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_NxNyNz:
+                {
+                    //edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy -> edk::GU::vbo_XYZ_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBufferWithMatrix.get(source+2u));
+
+                        buffer.set(dest+3u,this->vertexBufferWithMatrix.get(source+6u));
+                        buffer.set(dest+4u,this->vertexBufferWithMatrix.get(source+7u));
+                        buffer.set(dest+5u,this->vertexBufferWithMatrix.get(source+8u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGB:
+                {
+                    //edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy -> edk::GU::vbo_XYZ_RGB
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBufferWithMatrix.get(source+2u));
+
+                        buffer.set(dest+3u,this->vertexBufferWithMatrix.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBufferWithMatrix.get(source+4u));
+                        buffer.set(dest+5u,this->vertexBufferWithMatrix.get(source+5u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGBA:
+                {
+                    //edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy -> edk::GU::vbo_XYZ_RGBA
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBufferWithMatrix.get(source+2u));
+
+                        buffer.set(dest+3u,this->vertexBufferWithMatrix.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBufferWithMatrix.get(source+4u));
+                        buffer.set(dest+5u,this->vertexBufferWithMatrix.get(source+5u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGB_NxNyNz:
+                {
+                    //edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy -> edk::GU::vbo_XYZ_RGB_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBufferWithMatrix.get(source+2u));
+
+                        buffer.set(dest+3u,this->vertexBufferWithMatrix.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBufferWithMatrix.get(source+4u));
+                        buffer.set(dest+5u,this->vertexBufferWithMatrix.get(source+5u));
+
+                        buffer.set(dest+6u,this->vertexBufferWithMatrix.get(source+6u));
+                        buffer.set(dest+7u,this->vertexBufferWithMatrix.get(source+7u));
+                        buffer.set(dest+8u,this->vertexBufferWithMatrix.get(source+8u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGBA_NxNyNz:
+                {
+                    //edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy -> edk::GU::vbo_XYZ_RGBA_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBufferWithMatrix.get(source+2u));
+
+                        buffer.set(dest+3u,this->vertexBufferWithMatrix.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBufferWithMatrix.get(source+4u));
+                        buffer.set(dest+5u,this->vertexBufferWithMatrix.get(source+5u));
+
+                        buffer.set(dest+7u,this->vertexBufferWithMatrix.get(source+6u));
+                        buffer.set(dest+8u,this->vertexBufferWithMatrix.get(source+7u));
+                        buffer.set(dest+9u,this->vertexBufferWithMatrix.get(source+8u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
+                {
+                    //edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy -> edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBufferWithMatrix.get(source+2u));
+
+                        buffer.set(dest+3u,this->vertexBufferWithMatrix.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBufferWithMatrix.get(source+4u));
+                        buffer.set(dest+5u,this->vertexBufferWithMatrix.get(source+5u));
+
+                        buffer.set(dest+7u,this->vertexBufferWithMatrix.get(source+6u));
+                        buffer.set(dest+8u,this->vertexBufferWithMatrix.get(source+7u));
+                        buffer.set(dest+9u,this->vertexBufferWithMatrix.get(source+8u));
+
+                        buffer.set(dest+10u,this->vertexBufferWithMatrix.get(source+9u));
+                        buffer.set(dest+11u,this->vertexBufferWithMatrix.get(source+10u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                default:
+                    break;
+                }
+            }
+                break;
+            case edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
+            {
+                switch(type){
+                case edk::GU::vbo_XY:
+                {
+                    //edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy -> edk::GU::vbo_XY
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_NxNyNz:
+                {
+                    //edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy -> edk::GU::vbo_XY_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        buffer.set(dest+2u,this->vertexBufferWithMatrix.get(source+7u));
+                        buffer.set(dest+3u,this->vertexBufferWithMatrix.get(source+8u));
+                        buffer.set(dest+4u,this->vertexBufferWithMatrix.get(source+9u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGB:
+                {
+                    //edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy -> edk::GU::vbo_XY_RGB
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        buffer.set(dest+2u,this->vertexBufferWithMatrix.get(source+3u));
+                        buffer.set(dest+3u,this->vertexBufferWithMatrix.get(source+4u));
+                        buffer.set(dest+4u,this->vertexBufferWithMatrix.get(source+5u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGBA:
+                {
+                    //edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy -> edk::GU::vbo_XY_RGBA
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        buffer.set(dest+2u,this->vertexBufferWithMatrix.get(source+3u));
+                        buffer.set(dest+3u,this->vertexBufferWithMatrix.get(source+4u));
+                        buffer.set(dest+4u,this->vertexBufferWithMatrix.get(source+5u));
+                        buffer.set(dest+5u,this->vertexBufferWithMatrix.get(source+6u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGB_NxNyNz:
+                {
+                    //edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy -> edk::GU::vbo_XY_RGB_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        buffer.set(dest+2u,this->vertexBufferWithMatrix.get(source+3u));
+                        buffer.set(dest+3u,this->vertexBufferWithMatrix.get(source+4u));
+                        buffer.set(dest+4u,this->vertexBufferWithMatrix.get(source+5u));
+
+                        buffer.set(dest+5u,this->vertexBufferWithMatrix.get(source+7u));
+                        buffer.set(dest+6u,this->vertexBufferWithMatrix.get(source+8u));
+                        buffer.set(dest+7u,this->vertexBufferWithMatrix.get(source+9u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGBA_NxNyNz:
+                {
+                    //edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy -> edk::GU::vbo_XY_RGBA_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        buffer.set(dest+2u,this->vertexBufferWithMatrix.get(source+3u));
+                        buffer.set(dest+3u,this->vertexBufferWithMatrix.get(source+4u));
+                        buffer.set(dest+4u,this->vertexBufferWithMatrix.get(source+5u));
+                        buffer.set(dest+5u,this->vertexBufferWithMatrix.get(source+6u));
+
+                        buffer.set(dest+6u,this->vertexBufferWithMatrix.get(source+7u));
+                        buffer.set(dest+7u,this->vertexBufferWithMatrix.get(source+8u));
+                        buffer.set(dest+8u,this->vertexBufferWithMatrix.get(source+9u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy:
+                {
+                    //edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy -> edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        buffer.set(dest+2u,this->vertexBufferWithMatrix.get(source+3u));
+                        buffer.set(dest+3u,this->vertexBufferWithMatrix.get(source+4u));
+                        buffer.set(dest+4u,this->vertexBufferWithMatrix.get(source+5u));
+
+                        buffer.set(dest+5u,this->vertexBufferWithMatrix.get(source+7u));
+                        buffer.set(dest+6u,this->vertexBufferWithMatrix.get(source+8u));
+                        buffer.set(dest+7u,this->vertexBufferWithMatrix.get(source+9u));
+
+                        buffer.set(dest+8u,this->vertexBufferWithMatrix.get(source+10u));
+                        buffer.set(dest+9u,this->vertexBufferWithMatrix.get(source+11u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy:
+                {
+                    //edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy -> edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+
+                        buffer.set(dest+2u,this->vertexBufferWithMatrix.get(source+3u));
+                        buffer.set(dest+3u,this->vertexBufferWithMatrix.get(source+4u));
+                        buffer.set(dest+4u,this->vertexBufferWithMatrix.get(source+5u));
+                        buffer.set(dest+5u,this->vertexBufferWithMatrix.get(source+6u));
+
+                        buffer.set(dest+6u,this->vertexBufferWithMatrix.get(source+7u));
+                        buffer.set(dest+7u,this->vertexBufferWithMatrix.get(source+8u));
+                        buffer.set(dest+8u,this->vertexBufferWithMatrix.get(source+9u));
+
+                        buffer.set(dest+9u,this->vertexBufferWithMatrix.get(source+10u));
+                        buffer.set(dest+10u,this->vertexBufferWithMatrix.get(source+11u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ:
+                {
+                    //edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy -> edk::GU::vbo_XYZ
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBufferWithMatrix.get(source+2u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_NxNyNz:
+                {
+                    //edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy -> edk::GU::vbo_XYZ_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBufferWithMatrix.get(source+2u));
+
+                        buffer.set(dest+3u,this->vertexBufferWithMatrix.get(source+7u));
+                        buffer.set(dest+4u,this->vertexBufferWithMatrix.get(source+8u));
+                        buffer.set(dest+5u,this->vertexBufferWithMatrix.get(source+9u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGB:
+                {
+                    //edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy -> edk::GU::vbo_XYZ_RGB
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBufferWithMatrix.get(source+2u));
+
+                        buffer.set(dest+3u,this->vertexBufferWithMatrix.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBufferWithMatrix.get(source+4u));
+                        buffer.set(dest+5u,this->vertexBufferWithMatrix.get(source+5u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGBA:
+                {
+                    //edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy -> edk::GU::vbo_XYZ_RGBA
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBufferWithMatrix.get(source+2u));
+
+                        buffer.set(dest+3u,this->vertexBufferWithMatrix.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBufferWithMatrix.get(source+4u));
+                        buffer.set(dest+5u,this->vertexBufferWithMatrix.get(source+5u));
+                        buffer.set(dest+6u,this->vertexBufferWithMatrix.get(source+6u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGB_NxNyNz:
+                {
+                    //edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy -> edk::GU::vbo_XYZ_RGB_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBufferWithMatrix.get(source+2u));
+
+                        buffer.set(dest+3u,this->vertexBufferWithMatrix.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBufferWithMatrix.get(source+4u));
+                        buffer.set(dest+5u,this->vertexBufferWithMatrix.get(source+5u));
+
+                        buffer.set(dest+6u,this->vertexBufferWithMatrix.get(source+7u));
+                        buffer.set(dest+7u,this->vertexBufferWithMatrix.get(source+8u));
+                        buffer.set(dest+8u,this->vertexBufferWithMatrix.get(source+9u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGBA_NxNyNz:
+                {
+                    //edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy -> edk::GU::vbo_XYZ_RGBA_NxNyNz
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBufferWithMatrix.get(source+2u));
+
+                        buffer.set(dest+3u,this->vertexBufferWithMatrix.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBufferWithMatrix.get(source+4u));
+                        buffer.set(dest+5u,this->vertexBufferWithMatrix.get(source+5u));
+                        buffer.set(dest+6u,this->vertexBufferWithMatrix.get(source+6u));
+
+                        buffer.set(dest+7u,this->vertexBufferWithMatrix.get(source+7u));
+                        buffer.set(dest+8u,this->vertexBufferWithMatrix.get(source+8u));
+                        buffer.set(dest+9u,this->vertexBufferWithMatrix.get(source+9u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                case edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy:
+                {
+                    //edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy -> edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy
+                    for(edk::uint32 i=0u;i<this->vboCount;i++){
+                        buffer.set(dest,this->vertexBufferWithMatrix.get(source));
+                        buffer.set(dest+1u,this->vertexBufferWithMatrix.get(source+1u));
+                        buffer.set(dest+2u,this->vertexBufferWithMatrix.get(source+2u));
+
+                        buffer.set(dest+3u,this->vertexBufferWithMatrix.get(source+3u));
+                        buffer.set(dest+4u,this->vertexBufferWithMatrix.get(source+4u));
+                        buffer.set(dest+5u,this->vertexBufferWithMatrix.get(source+5u));
+
+                        buffer.set(dest+6u,this->vertexBufferWithMatrix.get(source+7u));
+                        buffer.set(dest+7u,this->vertexBufferWithMatrix.get(source+8u));
+                        buffer.set(dest+8u,this->vertexBufferWithMatrix.get(source+9u));
+
+                        buffer.set(dest+9u,this->vertexBufferWithMatrix.get(source+10u));
+                        buffer.set(dest+10u,this->vertexBufferWithMatrix.get(source+11u));
+
+                        source+=vboSizeofMesh3D[this->vboType];
+                        dest+=vboSizeofMesh3D[type];
+                    }
+                }
+                    break;
+                default:
+                    break;
+                }
+            }
+                break;
+            default:
+                break;
+            }
+            //clone the buffer
+            this->vertexBufferWithMatrix.cloneFrom(&buffer);
+            this->vboType = type;
+            //set the update funtions
+            this->updateVBOFunctions();
+            return true;
+        }
+    }
+    return false;
+}
+void edk::shape::Polygon3DList::deleteVBO(){
+    if(this->vbo){
+        edk::GU_GLSL::guDeleteBuffer(this->vbo);edkEnd();
+        this->vbo=0u;edkEnd();
+    }
+    if(this->vertexBuffer.size()){
+        this->vertexBuffer.deleteArray();edkEnd();
+    }
+    this->vboType = edk::GU::vbo_NULL;edkEnd();
+    this->vboCount=0u;edkEnd();
+}
+void edk::shape::Polygon3DList::deleteVBOWithMatrix(){
+    if(this->vboWithMatrix){
+        edk::GU_GLSL::guDeleteBuffer(this->vboWithMatrix);edkEnd();
+        this->vboWithMatrix=0u;edkEnd();
+    }
+    if(this->vertexBufferWithMatrix.size()){
+        this->vertexBufferWithMatrix.deleteArray();edkEnd();
+    }
+    this->vboType = edk::GU::vbo_NULL;edkEnd();
+    this->vboCount=0u;edkEnd();
+}
+bool edk::shape::Polygon3DList::haveVBO(){
+    return (bool)(this->canUseVBO && this->vbo);
+}
+bool edk::shape::Polygon3DList::haveVBOWithMatrix(){
+    return (bool)(this->canUseVBO && this->vboWithMatrix);
+}
+//set the vboFunction pointers
+bool edk::shape::Polygon3DList::updateVBOFunctions(){
+    if(this->haveVBO()){
+        switch(this->vboType){
+        case edk::GU::vbo_XY:
+            this->vboPrint = &edk::shape::Polygon3DList::print_XY;
+            this->vboDraw = &edk::shape::Polygon3DList::drawUpdate_XY;
+            break;
+        case edk::GU::vbo_XY_NxNyNz:
+            this->vboPrint = &edk::shape::Polygon3DList::print_XY_NxNyNz;
+            this->vboDraw = &edk::shape::Polygon3DList::drawUpdate_XY_NxNyNz;
+            break;
+        case edk::GU::vbo_XY_RGB:
+            this->vboPrint = &edk::shape::Polygon3DList::print_XY_RGB;
+            this->vboDraw = &edk::shape::Polygon3DList::drawUpdate_XY_RGB;
+            break;
+        case edk::GU::vbo_XY_RGBA:
+            this->vboPrint = &edk::shape::Polygon3DList::print_XY_RGBA;
+            this->vboDraw = &edk::shape::Polygon3DList::drawUpdate_XY_RGBA;
+            break;
+        case edk::GU::vbo_XY_RGB_NxNyNz:
+            this->vboPrint = &edk::shape::Polygon3DList::print_XY_RGB_NxNyNz;
+            this->vboDraw = &edk::shape::Polygon3DList::drawUpdate_XY_RGB_NxNyNz;
+            break;
+        case edk::GU::vbo_XY_RGBA_NxNyNz:
+            this->vboPrint = &edk::shape::Polygon3DList::print_XY_RGBA_NxNyNz;
+            this->vboDraw = &edk::shape::Polygon3DList::drawUpdate_XY_RGBA_NxNyNz;
+            break;
+        case edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy:
+            this->vboPrint = &edk::shape::Polygon3DList::print_XY_RGB_NxNyNz_UVxUVy;
+            this->vboDraw = &edk::shape::Polygon3DList::drawUpdate_XY_RGB_NxNyNz_UVxUVy;
+            break;
+        case edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy:
+            this->vboPrint = &edk::shape::Polygon3DList::print_XY_RGBA_NxNyNz_UVxUVy;
+            this->vboDraw = &edk::shape::Polygon3DList::drawUpdate_XY_RGBA_NxNyNz_UVxUVy;
+            break;
+        case edk::GU::vbo_XYZ:
+            this->vboPrint = &edk::shape::Polygon3DList::print_XYZ;
+            this->vboDraw = &edk::shape::Polygon3DList::drawUpdate_XYZ;
+            break;
+        case edk::GU::vbo_XYZ_NxNyNz:
+            this->vboPrint = &edk::shape::Polygon3DList::print_XYZ_NxNyNz;
+            this->vboDraw = &edk::shape::Polygon3DList::drawUpdate_XYZ_NxNyNz;
+            break;
+        case edk::GU::vbo_XYZ_RGB:
+            this->vboPrint = &edk::shape::Polygon3DList::print_XYZ_RGB;
+            this->vboDraw = &edk::shape::Polygon3DList::drawUpdate_XYZ_RGB;
+            break;
+        case edk::GU::vbo_XYZ_RGBA:
+            this->vboPrint = &edk::shape::Polygon3DList::print_XYZ_RGBA;
+            this->vboDraw = &edk::shape::Polygon3DList::drawUpdate_XYZ_RGBA;
+            break;
+        case edk::GU::vbo_XYZ_RGB_NxNyNz:
+            this->vboPrint = &edk::shape::Polygon3DList::print_XYZ_RGB_NxNyNz;
+            this->vboDraw = &edk::shape::Polygon3DList::drawUpdate_XYZ_RGB_NxNyNz;
+            break;
+        case edk::GU::vbo_XYZ_RGBA_NxNyNz:
+            this->vboPrint = &edk::shape::Polygon3DList::print_XYZ_RGBA_NxNyNz;
+            this->vboDraw = &edk::shape::Polygon3DList::drawUpdate_XYZ_RGBA_NxNyNz;
+            break;
+        case edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy:
+            this->vboPrint = &edk::shape::Polygon3DList::print_XYZ_RGB_NxNyNz_UVxUVy;
+            this->vboDraw = &edk::shape::Polygon3DList::drawUpdate_XYZ_RGB_NxNyNz_UVxUVy;
+            break;
+        case edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
+            this->vboPrint = &edk::shape::Polygon3DList::print_XYZ_RGBA_NxNyNz_UVxUVy;
+            this->vboDraw = &edk::shape::Polygon3DList::drawUpdate_XYZ_RGBA_NxNyNz_UVxUVy;
+            break;
+        default:
+            this->vboPrint = &edk::shape::Polygon3DList::print_NULL;
+            this->vboDraw = &edk::shape::Polygon3DList::drawUpdate_NULL;
+            break;
+        }
+        return true;
+    }
+    this->setVBOFunctionUpdateNULL();
+    return false;
+}
+bool edk::shape::Polygon3DList::updateVBOFunctionsWithMatrix(){
+    if(this->haveVBO()){
+        switch(this->vboType){
+        case edk::GU::vbo_XY:
+            this->vboPrint = &edk::shape::Polygon3DList::print_XY;
+            this->vboDrawWithMatrix = &edk::shape::Polygon3DList::drawUpdateWithMatrix_XY;
+            break;
+        case edk::GU::vbo_XY_NxNyNz:
+            this->vboPrint = &edk::shape::Polygon3DList::print_XY_NxNyNz;
+            this->vboDrawWithMatrix = &edk::shape::Polygon3DList::drawUpdateWithMatrix_XY_NxNyNz;
+            break;
+        case edk::GU::vbo_XY_RGB:
+            this->vboPrint = &edk::shape::Polygon3DList::print_XY_RGB;
+            this->vboDrawWithMatrix = &edk::shape::Polygon3DList::drawUpdateWithMatrix_XY_RGB;
+            break;
+        case edk::GU::vbo_XY_RGBA:
+            this->vboPrint = &edk::shape::Polygon3DList::print_XY_RGBA;
+            this->vboDrawWithMatrix = &edk::shape::Polygon3DList::drawUpdateWithMatrix_XY_RGBA;
+            break;
+        case edk::GU::vbo_XY_RGB_NxNyNz:
+            this->vboPrint = &edk::shape::Polygon3DList::print_XY_RGB_NxNyNz;
+            this->vboDrawWithMatrix = &edk::shape::Polygon3DList::drawUpdateWithMatrix_XY_RGB_NxNyNz;
+            break;
+        case edk::GU::vbo_XY_RGBA_NxNyNz:
+            this->vboPrint = &edk::shape::Polygon3DList::print_XY_RGBA_NxNyNz;
+            this->vboDrawWithMatrix = &edk::shape::Polygon3DList::drawUpdateWithMatrix_XY_RGBA_NxNyNz;
+            break;
+        case edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy:
+            this->vboPrint = &edk::shape::Polygon3DList::print_XY_RGB_NxNyNz_UVxUVy;
+            this->vboDrawWithMatrix = &edk::shape::Polygon3DList::drawUpdateWithMatrix_XY_RGB_NxNyNz_UVxUVy;
+            break;
+        case edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy:
+            this->vboPrint = &edk::shape::Polygon3DList::print_XY_RGBA_NxNyNz_UVxUVy;
+            this->vboDrawWithMatrix = &edk::shape::Polygon3DList::drawUpdateWithMatrix_XY_RGBA_NxNyNz_UVxUVy;
+            break;
+        case edk::GU::vbo_XYZ:
+            this->vboPrint = &edk::shape::Polygon3DList::print_XYZ;
+            this->vboDrawWithMatrix = &edk::shape::Polygon3DList::drawUpdateWithMatrix_XYZ;
+            break;
+        case edk::GU::vbo_XYZ_NxNyNz:
+            this->vboPrint = &edk::shape::Polygon3DList::print_XYZ_NxNyNz;
+            this->vboDrawWithMatrix = &edk::shape::Polygon3DList::drawUpdateWithMatrix_XYZ_NxNyNz;
+            break;
+        case edk::GU::vbo_XYZ_RGB:
+            this->vboPrint = &edk::shape::Polygon3DList::print_XYZ_RGB;
+            this->vboDrawWithMatrix = &edk::shape::Polygon3DList::drawUpdateWithMatrix_XYZ_RGB;
+            break;
+        case edk::GU::vbo_XYZ_RGBA:
+            this->vboPrint = &edk::shape::Polygon3DList::print_XYZ_RGBA;
+            this->vboDrawWithMatrix = &edk::shape::Polygon3DList::drawUpdateWithMatrix_XYZ_RGBA;
+            break;
+        case edk::GU::vbo_XYZ_RGB_NxNyNz:
+            this->vboPrint = &edk::shape::Polygon3DList::print_XYZ_RGB_NxNyNz;
+            this->vboDrawWithMatrix = &edk::shape::Polygon3DList::drawUpdateWithMatrix_XYZ_RGB_NxNyNz;
+            break;
+        case edk::GU::vbo_XYZ_RGBA_NxNyNz:
+            this->vboPrint = &edk::shape::Polygon3DList::print_XYZ_RGBA_NxNyNz;
+            this->vboDrawWithMatrix = &edk::shape::Polygon3DList::drawUpdateWithMatrix_XYZ_RGBA_NxNyNz;
+            break;
+        case edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy:
+            this->vboPrint = &edk::shape::Polygon3DList::print_XYZ_RGB_NxNyNz_UVxUVy;
+            this->vboDrawWithMatrix = &edk::shape::Polygon3DList::drawUpdateWithMatrix_XYZ_RGB_NxNyNz_UVxUVy;
+            break;
+        case edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
+            this->vboPrint = &edk::shape::Polygon3DList::print_XYZ_RGBA_NxNyNz_UVxUVy;
+            this->vboDrawWithMatrix = &edk::shape::Polygon3DList::drawUpdateWithMatrix_XYZ_RGBA_NxNyNz_UVxUVy;
+            break;
+        default:
+            this->vboPrint = &edk::shape::Polygon3DList::print_NULL;
+            this->vboDrawWithMatrix = &edk::shape::Polygon3DList::drawUpdateWithMatrix_NULL;
+            break;
+        }
+        return true;
+    }
+    this->setVBOFunctionUpdateNULL();
+    return false;
+}
+bool edk::shape::Polygon3DList::setAutomaticallyVBOFunctions(){
+    if(this->haveVBO()){
+        switch(this->vboType){
+        case edk::GU::vbo_XY:
+            this->vboPrint = &edk::shape::Polygon3DList::print_XY;
+            this->vboDraw = &edk::shape::Polygon3DList::draw_XY;
+            break;
+        case edk::GU::vbo_XY_NxNyNz:
+            this->vboPrint = &edk::shape::Polygon3DList::print_XY_NxNyNz;
+            this->vboDraw = &edk::shape::Polygon3DList::draw_XY_NxNyNz;
+            break;
+        case edk::GU::vbo_XY_RGB:
+            this->vboPrint = &edk::shape::Polygon3DList::print_XY_RGB;
+            this->vboDraw = &edk::shape::Polygon3DList::draw_XY_RGB;
+            break;
+        case edk::GU::vbo_XY_RGBA:
+            this->vboPrint = &edk::shape::Polygon3DList::print_XY_RGBA;
+            this->vboDraw = &edk::shape::Polygon3DList::draw_XY_RGBA;
+            break;
+        case edk::GU::vbo_XY_RGB_NxNyNz:
+            this->vboPrint = &edk::shape::Polygon3DList::print_XY_RGB_NxNyNz;
+            this->vboDraw = &edk::shape::Polygon3DList::draw_XY_RGB_NxNyNz;
+            break;
+        case edk::GU::vbo_XY_RGBA_NxNyNz:
+            this->vboPrint = &edk::shape::Polygon3DList::print_XY_RGBA_NxNyNz;
+            this->vboDraw = &edk::shape::Polygon3DList::draw_XY_RGBA_NxNyNz;
+            break;
+        case edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy:
+            this->vboPrint = &edk::shape::Polygon3DList::print_XY_RGB_NxNyNz_UVxUVy;
+            this->vboDraw = &edk::shape::Polygon3DList::draw_XY_RGB_NxNyNz_UVxUVy;
+            break;
+        case edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy:
+            this->vboPrint = &edk::shape::Polygon3DList::print_XY_RGBA_NxNyNz_UVxUVy;
+            this->vboDraw = &edk::shape::Polygon3DList::draw_XY_RGBA_NxNyNz_UVxUVy;
+            break;
+        case edk::GU::vbo_XYZ:
+            this->vboPrint = &edk::shape::Polygon3DList::print_XYZ;
+            this->vboDraw = &edk::shape::Polygon3DList::draw_XYZ;
+            break;
+        case edk::GU::vbo_XYZ_NxNyNz:
+            this->vboPrint = &edk::shape::Polygon3DList::print_XYZ_NxNyNz;
+            this->vboDraw = &edk::shape::Polygon3DList::draw_XYZ_NxNyNz;
+            break;
+        case edk::GU::vbo_XYZ_RGB:
+            this->vboPrint = &edk::shape::Polygon3DList::print_XYZ_RGB;
+            this->vboDraw = &edk::shape::Polygon3DList::draw_XYZ_RGB;
+            break;
+        case edk::GU::vbo_XYZ_RGBA:
+            this->vboPrint = &edk::shape::Polygon3DList::print_XYZ_RGBA;
+            this->vboDraw = &edk::shape::Polygon3DList::draw_XYZ_RGBA;
+            break;
+        case edk::GU::vbo_XYZ_RGB_NxNyNz:
+            this->vboPrint = &edk::shape::Polygon3DList::print_XYZ_RGB_NxNyNz;
+            this->vboDraw = &edk::shape::Polygon3DList::draw_XYZ_RGB_NxNyNz;
+            break;
+        case edk::GU::vbo_XYZ_RGBA_NxNyNz:
+            this->vboPrint = &edk::shape::Polygon3DList::print_XYZ_RGBA_NxNyNz;
+            this->vboDraw = &edk::shape::Polygon3DList::draw_XYZ_RGBA_NxNyNz;
+            break;
+        case edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy:
+            this->vboPrint = &edk::shape::Polygon3DList::print_XYZ_RGB_NxNyNz_UVxUVy;
+            this->vboDraw = &edk::shape::Polygon3DList::draw_XYZ_RGB_NxNyNz_UVxUVy;
+            break;
+        case edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
+            this->vboPrint = &edk::shape::Polygon3DList::print_XYZ_RGBA_NxNyNz_UVxUVy;
+            this->vboDraw = &edk::shape::Polygon3DList::draw_XYZ_RGBA_NxNyNz_UVxUVy;
+            break;
+        default:
+            this->vboPrint = &edk::shape::Polygon3DList::print_NULL;
+            this->vboDraw = &edk::shape::Polygon3DList::draw_NULL;
+            break;
+        }
+        return true;
+    }
+    this->setVBOFunctionUpdateNULL();
+    return false;
+}
+bool edk::shape::Polygon3DList::setAutomaticallyVBOFunctionsWithMatrix(){
+    if(this->haveVBO()){
+        switch(this->vboType){
+        case edk::GU::vbo_XY:
+            this->vboPrint = &edk::shape::Polygon3DList::print_XY;
+            this->vboDrawWithMatrix = &edk::shape::Polygon3DList::drawWithMatrix_XY;
+            break;
+        case edk::GU::vbo_XY_NxNyNz:
+            this->vboPrint = &edk::shape::Polygon3DList::print_XY_NxNyNz;
+            this->vboDrawWithMatrix = &edk::shape::Polygon3DList::drawWithMatrix_XY_NxNyNz;
+            break;
+        case edk::GU::vbo_XY_RGB:
+            this->vboPrint = &edk::shape::Polygon3DList::print_XY_RGB;
+            this->vboDrawWithMatrix = &edk::shape::Polygon3DList::drawWithMatrix_XY_RGB;
+            break;
+        case edk::GU::vbo_XY_RGBA:
+            this->vboPrint = &edk::shape::Polygon3DList::print_XY_RGBA;
+            this->vboDrawWithMatrix = &edk::shape::Polygon3DList::drawWithMatrix_XY_RGBA;
+            break;
+        case edk::GU::vbo_XY_RGB_NxNyNz:
+            this->vboPrint = &edk::shape::Polygon3DList::print_XY_RGB_NxNyNz;
+            this->vboDrawWithMatrix = &edk::shape::Polygon3DList::drawWithMatrix_XY_RGB_NxNyNz;
+            break;
+        case edk::GU::vbo_XY_RGBA_NxNyNz:
+            this->vboPrint = &edk::shape::Polygon3DList::print_XY_RGBA_NxNyNz;
+            this->vboDrawWithMatrix = &edk::shape::Polygon3DList::drawWithMatrix_XY_RGBA_NxNyNz;
+            break;
+        case edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy:
+            this->vboPrint = &edk::shape::Polygon3DList::print_XY_RGB_NxNyNz_UVxUVy;
+            this->vboDrawWithMatrix = &edk::shape::Polygon3DList::drawWithMatrix_XY_RGB_NxNyNz_UVxUVy;
+            break;
+        case edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy:
+            this->vboPrint = &edk::shape::Polygon3DList::print_XY_RGBA_NxNyNz_UVxUVy;
+            this->vboDrawWithMatrix = &edk::shape::Polygon3DList::drawWithMatrix_XY_RGBA_NxNyNz_UVxUVy;
+            break;
+        case edk::GU::vbo_XYZ:
+            this->vboPrint = &edk::shape::Polygon3DList::print_XYZ;
+            this->vboDrawWithMatrix = &edk::shape::Polygon3DList::drawWithMatrix_XYZ;
+            break;
+        case edk::GU::vbo_XYZ_NxNyNz:
+            this->vboPrint = &edk::shape::Polygon3DList::print_XYZ_NxNyNz;
+            this->vboDrawWithMatrix = &edk::shape::Polygon3DList::drawWithMatrix_XYZ_NxNyNz;
+            break;
+        case edk::GU::vbo_XYZ_RGB:
+            this->vboPrint = &edk::shape::Polygon3DList::print_XYZ_RGB;
+            this->vboDrawWithMatrix = &edk::shape::Polygon3DList::drawWithMatrix_XYZ_RGB;
+            break;
+        case edk::GU::vbo_XYZ_RGBA:
+            this->vboPrint = &edk::shape::Polygon3DList::print_XYZ_RGBA;
+            this->vboDrawWithMatrix = &edk::shape::Polygon3DList::drawWithMatrix_XYZ_RGBA;
+            break;
+        case edk::GU::vbo_XYZ_RGB_NxNyNz:
+            this->vboPrint = &edk::shape::Polygon3DList::print_XYZ_RGB_NxNyNz;
+            this->vboDrawWithMatrix = &edk::shape::Polygon3DList::drawWithMatrix_XYZ_RGB_NxNyNz;
+            break;
+        case edk::GU::vbo_XYZ_RGBA_NxNyNz:
+            this->vboPrint = &edk::shape::Polygon3DList::print_XYZ_RGBA_NxNyNz;
+            this->vboDrawWithMatrix = &edk::shape::Polygon3DList::drawWithMatrix_XYZ_RGBA_NxNyNz;
+            break;
+        case edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy:
+            this->vboPrint = &edk::shape::Polygon3DList::print_XYZ_RGB_NxNyNz_UVxUVy;
+            this->vboDrawWithMatrix = &edk::shape::Polygon3DList::drawWithMatrix_XYZ_RGB_NxNyNz_UVxUVy;
+            break;
+        case edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
+            this->vboPrint = &edk::shape::Polygon3DList::print_XYZ_RGBA_NxNyNz_UVxUVy;
+            this->vboDrawWithMatrix = &edk::shape::Polygon3DList::drawWithMatrix_XYZ_RGBA_NxNyNz_UVxUVy;
+            break;
+        default:
+            this->vboPrint = &edk::shape::Polygon3DList::print_NULL;
+            this->vboDrawWithMatrix = &edk::shape::Polygon3DList::drawWithMatrix_NULL;
+            break;
+        }
+        return true;
+    }
+    this->setVBOFunctionUpdateNULL();
+    return false;
+}
+void edk::shape::Polygon3DList::setVBOFunctionUpdateNULL(){
+    this->vboPrint = &edk::shape::Polygon3DList::print_NULL;
+    this->vboDraw = &edk::shape::Polygon3DList::drawUpdate_NULL;
+    this->vboDrawWithMatrix = &edk::shape::Polygon3DList::drawUpdateWithMatrix_NULL;
+}
+void edk::shape::Polygon3DList::setVBOFunctionNULL(){
+    this->vboPrint = &edk::shape::Polygon3DList::print_NULL;
+    this->vboDraw = &edk::shape::Polygon3DList::draw_NULL;
+    this->vboDrawWithMatrix = &edk::shape::Polygon3DList::drawWithMatrix_NULL;
+}
+//setters to VBO
+bool edk::shape::Polygon3DList::setVBOVertexPosition(edk::uint32 vertex,edk::vec3f32 position){
+    //set the vertex position in vertexBuffer
+    if(this->haveVBO() && this->vertexBuffer.haveArray()){
+        //calculate the vertex position
+        vertex *= vboSizeofMesh3D[this->vboType];
+        //switch(this->vboType){
+        //case edk::GU::vbo_XY:
+        //    break;
+        //case edk::GU::vbo_XY_NxNyNz:
+        //    break;
+        //case edk::GU::vbo_XY_RGB:
+        //    break;
+        //case edk::GU::vbo_XY_RGBA:
+        //    break;
+        //case edk::GU::vbo_XY_RGB_NxNyNz:
+        //    break;
+        //case edk::GU::vbo_XY_RGBA_NxNyNz:
+        //    break;
+        //case edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy:
+        //    break;
+        //case edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy:
+        //    break;
+        //case edk::GU::vbo_XYZ:
+        //    break;
+        //case edk::GU::vbo_XYZ_NxNyNz:
+        //    break;
+        //case edk::GU::vbo_XYZ_RGB:
+        //    break;
+        //case edk::GU::vbo_XYZ_RGBA:
+        //    break;
+        //case edk::GU::vbo_XYZ_RGB_NxNy:
+        //    break;
+        //case edk::GU::vbo_XYZ_RGBA_NxNy:
+        //    break;
+        //case edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy:
+        //    break;
+        //case edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
+        //    break;
+        //default:
+        //    break;
+        //}
+        //set the position
+        this->vertexBuffer.set(vertex,position.x);
+        vertex++;
+        this->vertexBuffer.set(vertex,position.y);
+        vertex++;
+        this->vertexBuffer.set(vertex,position.z);
+
+        //update the VBO
+        this->updateVBOFunctions();
+
+        return true;
+    }
+    return false;
+}
+bool edk::shape::Polygon3DList::setVBOVertexPositionX(edk::uint32 vertex,edk::float32 x){
+    //set the vertex position in vertexBuffer
+    if(this->haveVBO() && this->vertexBuffer.haveArray()){
+        //calculate the vertex position
+        vertex *= vboSizeofMesh3D[this->vboType];
+        //switch(this->vboType){
+        //case edk::GU::vbo_XY:
+        //    break;
+        //case edk::GU::vbo_XY_NxNyNz:
+        //    break;
+        //case edk::GU::vbo_XY_RGB:
+        //    break;
+        //case edk::GU::vbo_XY_RGBA:
+        //    break;
+        //case edk::GU::vbo_XY_RGB_NxNyNz:
+        //    break;
+        //case edk::GU::vbo_XY_RGBA_NxNyNz:
+        //    break;
+        //case edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy:
+        //    break;
+        //case edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy:
+        //    break;
+        //case edk::GU::vbo_XYZ:
+        //    break;
+        //case edk::GU::vbo_XYZ_NxNyNz:
+        //    break;
+        //case edk::GU::vbo_XYZ_RGB:
+        //    break;
+        //case edk::GU::vbo_XYZ_RGBA:
+        //    break;
+        //case edk::GU::vbo_XYZ_RGB_NxNy:
+        //    break;
+        //case edk::GU::vbo_XYZ_RGBA_NxNy:
+        //    break;
+        //case edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy:
+        //    break;
+        //case edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
+        //    break;
+        //default:
+        //    break;
+        //}
+        //set the position
+        this->vertexBuffer.set(vertex,x);
+
+        //update the VBO
+        this->updateVBOFunctions();
+
+        return true;
+    }
+    return false;
+}
+bool edk::shape::Polygon3DList::setVBOVertexPositionY(edk::uint32 vertex,edk::float32 y){
+    //set the vertex position in vertexBuffer
+    if(this->haveVBO() && this->vertexBuffer.haveArray()){
+        //calculate the vertex position
+        vertex *= vboSizeofMesh3D[this->vboType];
+        //switch(this->vboType){
+        //case edk::GU::vbo_XY:
+        //    break;
+        //case edk::GU::vbo_XY_NxNyNz:
+        //    break;
+        //case edk::GU::vbo_XY_RGB:
+        //    break;
+        //case edk::GU::vbo_XY_RGBA:
+        //    break;
+        //case edk::GU::vbo_XY_RGB_NxNyNz:
+        //    break;
+        //case edk::GU::vbo_XY_RGBA_NxNyNz:
+        //    break;
+        //case edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy:
+        //    break;
+        //case edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy:
+        //    break;
+        //case edk::GU::vbo_XYZ:
+        //    break;
+        //case edk::GU::vbo_XYZ_NxNyNz:
+        //    break;
+        //case edk::GU::vbo_XYZ_RGB:
+        //    break;
+        //case edk::GU::vbo_XYZ_RGBA:
+        //    break;
+        //case edk::GU::vbo_XYZ_RGB_NxNy:
+        //    break;
+        //case edk::GU::vbo_XYZ_RGBA_NxNy:
+        //    break;
+        //case edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy:
+        //    break;
+        //case edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
+        //    break;
+        //default:
+        //    break;
+        //}
+        //set the position
+        vertex++;
+        this->vertexBuffer.set(vertex,y);
+
+        //update the VBO
+        this->updateVBOFunctions();
+
+        return true;
+    }
+    return false;
+}
+bool edk::shape::Polygon3DList::setVBOVertexPositionZ(edk::uint32 vertex,edk::float32 z){
+    //set the vertex position in vertexBuffer
+    if(this->haveVBO() && this->vertexBuffer.haveArray()){
+        //calculate the vertex position
+        vertex *= vboSizeofMesh3D[this->vboType];
+        //switch(this->vboType){
+        //case edk::GU::vbo_XY:
+        //    break;
+        //case edk::GU::vbo_XY_NxNyNz:
+        //    break;
+        //case edk::GU::vbo_XY_RGB:
+        //    break;
+        //case edk::GU::vbo_XY_RGBA:
+        //    break;
+        //case edk::GU::vbo_XY_RGB_NxNyNz:
+        //    break;
+        //case edk::GU::vbo_XY_RGBA_NxNyNz:
+        //    break;
+        //case edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy:
+        //    break;
+        //case edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy:
+        //    break;
+        //case edk::GU::vbo_XYZ:
+        //    break;
+        //case edk::GU::vbo_XYZ_NxNyNz:
+        //    break;
+        //case edk::GU::vbo_XYZ_RGB:
+        //    break;
+        //case edk::GU::vbo_XYZ_RGBA:
+        //    break;
+        //case edk::GU::vbo_XYZ_RGB_NxNy:
+        //    break;
+        //case edk::GU::vbo_XYZ_RGBA_NxNy:
+        //    break;
+        //case edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy:
+        //    break;
+        //case edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
+        //    break;
+        //default:
+        //    break;
+        //}
+        //set the position
+        vertex++;
+        vertex++;
+        this->vertexBuffer.set(vertex,z);
+
+        //update the VBO
+        this->updateVBOFunctions();
+
+        return true;
+    }
+    return false;
+}
+bool edk::shape::Polygon3DList::setVBOVertexNormal(edk::uint32 vertex,edk::vec3f32 normal){
+    //set the vertex position in vertexBuffer
+    if(this->haveVBO() && this->vertexBuffer.haveArray()){
+        //test if need change the buffer
+        switch(this->vboType){
+        case edk::GU::vbo_XY:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 7u;
+            break;
+        case edk::GU::vbo_XY_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 7u;
+            break;
+        case edk::GU::vbo_XY_RGB:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 7u;
+            break;
+        case edk::GU::vbo_XY_RGBA:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 7u;
+            break;
+        case edk::GU::vbo_XY_RGB_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 7u;
+            break;
+        case edk::GU::vbo_XY_RGBA_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 7u;
+            break;
+        case edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 7u;
+            break;
+        case edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 7u;
+            break;
+        case edk::GU::vbo_XYZ:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 7u;
+            break;
+        case edk::GU::vbo_XYZ_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 7u;
+            break;
+        case edk::GU::vbo_XYZ_RGB:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 7u;
+            break;
+        case edk::GU::vbo_XYZ_RGBA:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 7u;
+            break;
+        case edk::GU::vbo_XYZ_RGB_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 7u;
+            break;
+        case edk::GU::vbo_XYZ_RGBA_NxNyNz:
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 7u;
+            break;
+        case edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 7u;
+            break;
+        case edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 7u;
+            break;
+        default:
+            break;
+        }
+
+        //set the position
+        this->vertexBuffer.set(vertex,normal.x);
+        vertex++;
+        this->vertexBuffer.set(vertex,normal.y);
+        vertex++;
+        this->vertexBuffer.set(vertex,normal.z);
+
+        //update the VBO
+        this->updateVBOFunctions();
+
+        return true;
+    }
+    return false;
+}
+bool edk::shape::Polygon3DList::setVBOVertexNormalX(edk::uint32 vertex,edk::float32 x){
+    //set the vertex position in vertexBuffer
+    if(this->haveVBO() && this->vertexBuffer.haveArray()){
+        //test if need change the buffer
+        switch(this->vboType){
+        case edk::GU::vbo_XY:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 7u;
+            break;
+        case edk::GU::vbo_XY_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 7u;
+            break;
+        case edk::GU::vbo_XY_RGB:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 7u;
+            break;
+        case edk::GU::vbo_XY_RGBA:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 7u;
+            break;
+        case edk::GU::vbo_XY_RGB_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 7u;
+            break;
+        case edk::GU::vbo_XY_RGBA_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 7u;
+            break;
+        case edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 7u;
+            break;
+        case edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 7u;
+            break;
+        case edk::GU::vbo_XYZ:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 7u;
+            break;
+        case edk::GU::vbo_XYZ_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 7u;
+            break;
+        case edk::GU::vbo_XYZ_RGB:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 7u;
+            break;
+        case edk::GU::vbo_XYZ_RGBA:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 7u;
+            break;
+        case edk::GU::vbo_XYZ_RGB_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 7u;
+            break;
+        case edk::GU::vbo_XYZ_RGBA_NxNyNz:
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 7u;
+            break;
+        case edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 7u;
+            break;
+        case edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 7u;
+            break;
+        default:
+            break;
+        }
+
+        //set the position
+        this->vertexBuffer.set(vertex,x);
+
+        //update the VBO
+        this->updateVBOFunctions();
+
+        return true;
+    }
+    return false;
+}
+bool edk::shape::Polygon3DList::setVBOVertexNormalY(edk::uint32 vertex,edk::float32 y){
+    //set the vertex position in vertexBuffer
+    if(this->haveVBO() && this->vertexBuffer.haveArray()){
+        //test if need change the buffer
+        switch(this->vboType){
+        case edk::GU::vbo_XY:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 7u;
+            break;
+        case edk::GU::vbo_XY_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 7u;
+            break;
+        case edk::GU::vbo_XY_RGB:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 7u;
+            break;
+        case edk::GU::vbo_XY_RGBA:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 7u;
+            break;
+        case edk::GU::vbo_XY_RGB_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 7u;
+            break;
+        case edk::GU::vbo_XY_RGBA_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 7u;
+            break;
+        case edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 7u;
+            break;
+        case edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 7u;
+            break;
+        case edk::GU::vbo_XYZ:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 7u;
+            break;
+        case edk::GU::vbo_XYZ_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 7u;
+            break;
+        case edk::GU::vbo_XYZ_RGB:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 7u;
+            break;
+        case edk::GU::vbo_XYZ_RGBA:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 7u;
+            break;
+        case edk::GU::vbo_XYZ_RGB_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 7u;
+            break;
+        case edk::GU::vbo_XYZ_RGBA_NxNyNz:
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 7u;
+            break;
+        case edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 7u;
+            break;
+        case edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 7u;
+            break;
+        default:
+            break;
+        }
+
+        //set the position
+        vertex++;
+        this->vertexBuffer.set(vertex,y);
+
+        //update the VBO
+        this->updateVBOFunctions();
+
+        return true;
+    }
+    return false;
+}
+bool edk::shape::Polygon3DList::setVBOVertexNormalZ(edk::uint32 vertex,edk::float32 z){
+    //set the vertex position in vertexBuffer
+    if(this->haveVBO() && this->vertexBuffer.haveArray()){
+        //test if need change the buffer
+        switch(this->vboType){
+        case edk::GU::vbo_XY:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 7u;
+            break;
+        case edk::GU::vbo_XY_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 7u;
+            break;
+        case edk::GU::vbo_XY_RGB:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 7u;
+            break;
+        case edk::GU::vbo_XY_RGBA:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 7u;
+            break;
+        case edk::GU::vbo_XY_RGB_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 7u;
+            break;
+        case edk::GU::vbo_XY_RGBA_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 7u;
+            break;
+        case edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 7u;
+            break;
+        case edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 7u;
+            break;
+        case edk::GU::vbo_XYZ:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 7u;
+            break;
+        case edk::GU::vbo_XYZ_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 7u;
+            break;
+        case edk::GU::vbo_XYZ_RGB:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 7u;
+            break;
+        case edk::GU::vbo_XYZ_RGBA:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 7u;
+            break;
+        case edk::GU::vbo_XYZ_RGB_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 7u;
+            break;
+        case edk::GU::vbo_XYZ_RGBA_NxNyNz:
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 7u;
+            break;
+        case edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 7u;
+            break;
+        case edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 7u;
+            break;
+        default:
+            break;
+        }
+
+        //set the position
+        vertex++;
+        vertex++;
+        this->vertexBuffer.set(vertex,z);
+
+        //update the VBO
+        this->updateVBOFunctions();
+
+        return true;
+    }
+    return false;
+}
+bool edk::shape::Polygon3DList::setVBOVertexColor(edk::uint32 vertex,edk::color4f32 color){
+    //set the vertex position in vertexBuffer
+    if(this->haveVBO() && this->vertexBuffer.haveArray()){
+        //test if need change the buffer
+        switch(this->vboType){
+        case edk::GU::vbo_XY:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 3u;
+            break;
+        case edk::GU::vbo_XY_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 3u;
+            break;
+        case edk::GU::vbo_XY_RGB:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 3u;
+            break;
+        case edk::GU::vbo_XY_RGBA:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 3u;
+            break;
+        case edk::GU::vbo_XY_RGB_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 3u;
+            break;
+        case edk::GU::vbo_XY_RGBA_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 3u;
+            break;
+        case edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 3u;
+            break;
+        case edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 3u;
+            break;
+        case edk::GU::vbo_XYZ:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 3u;
+            break;
+        case edk::GU::vbo_XYZ_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 3u;
+            break;
+        case edk::GU::vbo_XYZ_RGB:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 3u;
+            break;
+        case edk::GU::vbo_XYZ_RGBA:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 3u;
+            break;
+        case edk::GU::vbo_XYZ_RGB_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 3u;
+            break;
+        case edk::GU::vbo_XYZ_RGBA_NxNyNz:
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 3u;
+            break;
+        case edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 3u;
+            break;
+        case edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 3u;
+            break;
+        default:
+            break;
+        }
+
+        //set the position
+        this->vertexBuffer.set(vertex,color.r);
+        vertex++;
+        this->vertexBuffer.set(vertex,color.g);
+        vertex++;
+        this->vertexBuffer.set(vertex,color.b);
+        vertex++;
+        this->vertexBuffer.set(vertex,color.a);
+
+        //update the VBO
+        this->updateVBOFunctions();
+
+        return true;
+    }
+    return false;
+}
+bool edk::shape::Polygon3DList::setVBOPolygonColor(edk::color4f32 color){
+    //update the VBO
+    if(this->haveVBO() && this->vertexBuffer.haveArray()){
+        //test if need change the buffer
+        edk::uint8 position;
+        //test if need change the buffer
+        switch(this->vboType){
+        case edk::GU::vbo_XY:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            position = 3u;
+            break;
+        case edk::GU::vbo_XY_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            position = 3u;
+            break;
+        case edk::GU::vbo_XY_RGB:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            position = 3u;
+            break;
+        case edk::GU::vbo_XY_RGBA:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            position = 3u;
+            break;
+        case edk::GU::vbo_XY_RGB_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            position = 3u;
+            break;
+        case edk::GU::vbo_XY_RGBA_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            position = 3u;
+            break;
+        case edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            //calculate the vertex position
+            position = 3u;
+            break;
+        case edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            //calculate the vertex position
+            position = 3u;
+            break;
+        case edk::GU::vbo_XYZ:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            position = 3u;
+            break;
+        case edk::GU::vbo_XYZ_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            position = 3u;
+            break;
+        case edk::GU::vbo_XYZ_RGB:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            position = 3u;
+            break;
+        case edk::GU::vbo_XYZ_RGBA:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            position = 3u;
+            break;
+        case edk::GU::vbo_XYZ_RGB_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            position = 3u;
+            break;
+        case edk::GU::vbo_XYZ_RGBA_NxNyNz:
+            //calculate the vertex position
+            position = 3u;
+            break;
+        case edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            //calculate the vertex position
+            position = 3u;
+            break;
+        case edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
+            //calculate the vertex position
+            position = 3u;
+            break;
+        default:
+            break;
+        }
+        edk::uint8 increment = vboSizeofMesh3D[this->vboType];
+        //set the color of the vertexPolygons
+        for(edk::uint32 i=0u;i<this->vboCount;i++){
+            //set the color
+            this->vertexBuffer.setNoIF(position,color.r);
+            this->vertexBuffer.setNoIF(position+1u,color.g);
+            this->vertexBuffer.setNoIF(position+2u,color.b);
+            this->vertexBuffer.setNoIF(position+3u,color.a);
+            position+=increment;
+        }
+
+        //update the VBO
+        this->updateVBOFunctions();
+
+        return true;
+    }
+    return false;
+}
+bool edk::shape::Polygon3DList::setVBOPolygonNormal(edk::vec3f32 normal){
+    //update the VBO
+    if(this->haveVBO() && this->vertexBuffer.haveArray()){
+        //test if need change the buffer
+        edk::uint8 position;
+        //test if need change the buffer
+        switch(this->vboType){
+        case edk::GU::vbo_XY:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            position = 7u;
+            break;
+        case edk::GU::vbo_XY_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            position = 7u;
+            break;
+        case edk::GU::vbo_XY_RGB:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            position = 7u;
+            break;
+        case edk::GU::vbo_XY_RGBA:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            position = 7u;
+            break;
+        case edk::GU::vbo_XY_RGB_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            position = 7u;
+            break;
+        case edk::GU::vbo_XY_RGBA_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            position = 7u;
+            break;
+        case edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            //calculate the vertex position
+            position = 7u;
+            break;
+        case edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            //calculate the vertex position
+            position = 7u;
+            break;
+        case edk::GU::vbo_XYZ:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            position = 7u;
+            break;
+        case edk::GU::vbo_XYZ_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            position = 7u;
+            break;
+        case edk::GU::vbo_XYZ_RGB:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            position = 7u;
+            break;
+        case edk::GU::vbo_XYZ_RGBA:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            position = 7u;
+            break;
+        case edk::GU::vbo_XYZ_RGB_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            position = 7u;
+            break;
+        case edk::GU::vbo_XYZ_RGBA_NxNyNz:
+            //calculate the vertex position
+            position = 7u;
+            break;
+        case edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            //calculate the vertex position
+            position = 7u;
+            break;
+        case edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
+            //calculate the vertex position
+            position = 7u;
+            break;
+        default:
+            break;
+        }
+        edk::uint8 increment = vboSizeofMesh3D[this->vboType];
+        //set the color of the vertexPolygons
+        for(edk::uint32 i=0u;i<this->vboCount;i++){
+            //set the color
+            this->vertexBuffer.setNoIF(position,normal.x);
+            this->vertexBuffer.setNoIF(position+1u,normal.y);
+            this->vertexBuffer.setNoIF(position+2u,normal.z);
+            position+=increment;
+        }
+
+        //update the VBO
+        this->updateVBOFunctions();
+
+        return true;
+    }
+    return false;
+}
+bool edk::shape::Polygon3DList::setVBOPolygonColorR(edk::float32 r){
+    if(this->haveVBO() && this->vertexBuffer.haveArray()){
+        //test if need change the buffer
+        edk::uint8 position;
+        //test if need change the buffer
+        switch(this->vboType){
+        case edk::GU::vbo_XY:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            position = 3u;
+            break;
+        case edk::GU::vbo_XY_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            position = 3u;
+            break;
+        case edk::GU::vbo_XY_RGB:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            position = 3u;
+            break;
+        case edk::GU::vbo_XY_RGBA:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            position = 3u;
+            break;
+        case edk::GU::vbo_XY_RGB_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            position = 3u;
+            break;
+        case edk::GU::vbo_XY_RGBA_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            position = 3u;
+            break;
+        case edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            //calculate the vertex position
+            position = 3u;
+            break;
+        case edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            //calculate the vertex position
+            position = 3u;
+            break;
+        case edk::GU::vbo_XYZ:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            position = 3u;
+            break;
+        case edk::GU::vbo_XYZ_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            position = 3u;
+            break;
+        case edk::GU::vbo_XYZ_RGB:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            position = 3u;
+            break;
+        case edk::GU::vbo_XYZ_RGBA:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            position = 3u;
+            break;
+        case edk::GU::vbo_XYZ_RGB_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            position = 3u;
+            break;
+        case edk::GU::vbo_XYZ_RGBA_NxNyNz:
+            //calculate the vertex position
+            position = 3u;
+            break;
+        case edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            //calculate the vertex position
+            position = 3u;
+            break;
+        case edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
+            //calculate the vertex position
+            position = 3u;
+            break;
+        default:
+            break;
+        }
+        edk::uint8 increment = vboSizeofMesh3D[this->vboType];
+        //set the color of the vertexPolygons
+        for(edk::uint32 i=0u;i<this->vboCount;i++){
+            //set the color
+            this->vertexBuffer.setNoIF(position,r);
+            position+=increment;
+        }
+
+        //update the VBO
+        this->updateVBOFunctions();
+
+        return true;
+    }
+    return false;
+}
+bool edk::shape::Polygon3DList::setVBOPolygonColorG(edk::float32 g){
+    if(this->haveVBO() && this->vertexBuffer.haveArray()){
+        //test if need change the buffer
+        edk::uint8 position;
+        //test if need change the buffer
+        switch(this->vboType){
+        case edk::GU::vbo_XY:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            position = 3u;
+            break;
+        case edk::GU::vbo_XY_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            position = 3u;
+            break;
+        case edk::GU::vbo_XY_RGB:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            position = 3u;
+            break;
+        case edk::GU::vbo_XY_RGBA:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            position = 3u;
+            break;
+        case edk::GU::vbo_XY_RGB_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            position = 3u;
+            break;
+        case edk::GU::vbo_XY_RGBA_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            position = 3u;
+            break;
+        case edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            //calculate the vertex position
+            position = 3u;
+            break;
+        case edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            //calculate the vertex position
+            position = 3u;
+            break;
+        case edk::GU::vbo_XYZ:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            position = 3u;
+            break;
+        case edk::GU::vbo_XYZ_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            position = 3u;
+            break;
+        case edk::GU::vbo_XYZ_RGB:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            position = 3u;
+            break;
+        case edk::GU::vbo_XYZ_RGBA:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            position = 3u;
+            break;
+        case edk::GU::vbo_XYZ_RGB_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            position = 3u;
+            break;
+        case edk::GU::vbo_XYZ_RGBA_NxNyNz:
+            //calculate the vertex position
+            position = 3u;
+            break;
+        case edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            //calculate the vertex position
+            position = 3u;
+            break;
+        case edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
+            //calculate the vertex position
+            position = 3u;
+            break;
+        default:
+            break;
+        }
+        edk::uint8 increment = vboSizeofMesh3D[this->vboType];
+        position++;
+        //set the color of the vertexPolygons
+        for(edk::uint32 i=0u;i<this->vboCount;i++){
+            //set the color
+            this->vertexBuffer.setNoIF(position,g);
+            position+=increment;
+        }
+
+        //update the VBO
+        this->updateVBOFunctions();
+
+        return true;
+    }
+    return false;
+}
+bool edk::shape::Polygon3DList::setVBOPolygonColorB(edk::float32 b){
+    if(this->haveVBO() && this->vertexBuffer.haveArray()){
+        //test if need change the buffer
+        edk::uint8 position;
+        //test if need change the buffer
+        switch(this->vboType){
+        case edk::GU::vbo_XY:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            position = 3u;
+            break;
+        case edk::GU::vbo_XY_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            position = 3u;
+            break;
+        case edk::GU::vbo_XY_RGB:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            position = 3u;
+            break;
+        case edk::GU::vbo_XY_RGBA:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            position = 3u;
+            break;
+        case edk::GU::vbo_XY_RGB_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            position = 3u;
+            break;
+        case edk::GU::vbo_XY_RGBA_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            position = 3u;
+            break;
+        case edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            //calculate the vertex position
+            position = 3u;
+            break;
+        case edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            //calculate the vertex position
+            position = 3u;
+            break;
+        case edk::GU::vbo_XYZ:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            position = 3u;
+            break;
+        case edk::GU::vbo_XYZ_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            position = 3u;
+            break;
+        case edk::GU::vbo_XYZ_RGB:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            position = 3u;
+            break;
+        case edk::GU::vbo_XYZ_RGBA:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            position = 3u;
+            break;
+        case edk::GU::vbo_XYZ_RGB_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            position = 3u;
+            break;
+        case edk::GU::vbo_XYZ_RGBA_NxNyNz:
+            //calculate the vertex position
+            position = 3u;
+            break;
+        case edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            //calculate the vertex position
+            position = 3u;
+            break;
+        case edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
+            //calculate the vertex position
+            position = 3u;
+            break;
+        default:
+            break;
+        }
+        edk::uint8 increment = vboSizeofMesh3D[this->vboType];
+        position+=2u;
+        //set the color of the vertexPolygons
+        for(edk::uint32 i=0u;i<this->vboCount;i++){
+            //set the color
+            this->vertexBuffer.setNoIF(position,b);
+            position+=increment;
+        }
+
+        //update the VBO
+        this->updateVBOFunctions();
+
+        return true;
+    }
+    return false;
+}
+bool edk::shape::Polygon3DList::setVBOPolygonColorA(edk::float32 a){
+    if(this->haveVBO() && this->vertexBuffer.haveArray()){
+        //test if need change the buffer
+        edk::uint8 position;
+        //test if need change the buffer
+        switch(this->vboType){
+        case edk::GU::vbo_XY:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            position = 3u;
+            break;
+        case edk::GU::vbo_XY_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            position = 3u;
+            break;
+        case edk::GU::vbo_XY_RGB:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            position = 3u;
+            break;
+        case edk::GU::vbo_XY_RGBA:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            position = 3u;
+            break;
+        case edk::GU::vbo_XY_RGB_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            position = 3u;
+            break;
+        case edk::GU::vbo_XY_RGBA_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            position = 3u;
+            break;
+        case edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            //calculate the vertex position
+            position = 3u;
+            break;
+        case edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            //calculate the vertex position
+            position = 3u;
+            break;
+        case edk::GU::vbo_XYZ:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            position = 3u;
+            break;
+        case edk::GU::vbo_XYZ_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            position = 3u;
+            break;
+        case edk::GU::vbo_XYZ_RGB:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            position = 3u;
+            break;
+        case edk::GU::vbo_XYZ_RGBA:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            position = 3u;
+            break;
+        case edk::GU::vbo_XYZ_RGB_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            position = 3u;
+            break;
+        case edk::GU::vbo_XYZ_RGBA_NxNyNz:
+            //calculate the vertex position
+            position = 3u;
+            break;
+        case edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            //calculate the vertex position
+            position = 3u;
+            break;
+        case edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
+            //calculate the vertex position
+            position = 3u;
+            break;
+        default:
+            break;
+        }
+        edk::uint8 increment = vboSizeofMesh3D[this->vboType];
+        position+=3u;
+        //set the color of the vertexPolygons
+        for(edk::uint32 i=0u;i<this->vboCount;i++){
+            //set the color
+            this->vertexBuffer.setNoIF(position,a);
+            position+=increment;
+        }
+
+        //update the VBO
+        this->updateVBOFunctions();
+
+        return true;
+    }
+    return false;
+}
+bool edk::shape::Polygon3DList::setVBOVertexUV(edk::uint32 vertex,edk::vec2f32 uv){
+    //set the vertex position in vertexBuffer
+    if(this->haveVBO() && this->vertexBuffer.haveArray()){
+        //test if need change the buffer
+        switch(this->vboType){
+        case edk::GU::vbo_XY:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 9u;
+            break;
+        case edk::GU::vbo_XY_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 9u;
+            break;
+        case edk::GU::vbo_XY_RGB:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 9u;
+            break;
+        case edk::GU::vbo_XY_RGBA:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 9u;
+            break;
+        case edk::GU::vbo_XY_RGB_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 9u;
+            break;
+        case edk::GU::vbo_XY_RGBA_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 9u;
+            break;
+        case edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 9u;
+            break;
+        case edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy:
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 9u;
+            break;
+        case edk::GU::vbo_XYZ:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 10u;
+            break;
+        case edk::GU::vbo_XYZ_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 10u;
+            break;
+        case edk::GU::vbo_XYZ_RGB:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 10u;
+            break;
+        case edk::GU::vbo_XYZ_RGBA:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 10u;
+            break;
+        case edk::GU::vbo_XYZ_RGB_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 10u;
+            break;
+        case edk::GU::vbo_XYZ_RGBA_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 10u;
+            break;
+        case edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 10u;
+            break;
+        case edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 10u;
+            break;
+        default:
+            break;
+        }
+
+        //set the position
+        this->vertexBuffer.set(vertex,uv.x);
+        vertex++;
+        this->vertexBuffer.set(vertex,uv.y);
+
+        //update the VBO
+        this->updateVBOFunctions();
+
+        return true;
+    }
+    return false;
+}
+bool edk::shape::Polygon3DList::setVBOVertexU(edk::uint32 vertex,edk::float32 u){
+    //set the vertex position in vertexBuffer
+    if(this->haveVBO() && this->vertexBuffer.haveArray()){
+        //test if need change the buffer
+        switch(this->vboType){
+        case edk::GU::vbo_XY:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 9u;
+            break;
+        case edk::GU::vbo_XY_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 9u;
+            break;
+        case edk::GU::vbo_XY_RGB:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 9u;
+            break;
+        case edk::GU::vbo_XY_RGBA:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 9u;
+            break;
+        case edk::GU::vbo_XY_RGB_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 9u;
+            break;
+        case edk::GU::vbo_XY_RGBA_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 9u;
+            break;
+        case edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 9u;
+            break;
+        case edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy:
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 9u;
+            break;
+        case edk::GU::vbo_XYZ:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 10u;
+            break;
+        case edk::GU::vbo_XYZ_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 10u;
+            break;
+        case edk::GU::vbo_XYZ_RGB:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 10u;
+            break;
+        case edk::GU::vbo_XYZ_RGBA:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 10u;
+            break;
+        case edk::GU::vbo_XYZ_RGB_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 10u;
+            break;
+        case edk::GU::vbo_XYZ_RGBA_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 10u;
+            break;
+        case edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 10u;
+            break;
+        case edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 10u;
+            break;
+        default:
+            break;
+        }
+
+        //set the position
+        this->vertexBuffer.set(vertex,u);
+        //update the VBO
+        this->updateVBOFunctions();
+
+        return true;
+    }
+    return false;
+}
+bool edk::shape::Polygon3DList::setVBOVertexV(edk::uint32 vertex,edk::float32 v){
+    //set the vertex position in vertexBuffer
+    if(this->haveVBO() && this->vertexBuffer.haveArray()){
+        //test if need change the buffer
+        switch(this->vboType){
+        case edk::GU::vbo_XY:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 9u;
+            break;
+        case edk::GU::vbo_XY_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 9u;
+            break;
+        case edk::GU::vbo_XY_RGB:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 9u;
+            break;
+        case edk::GU::vbo_XY_RGBA:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 9u;
+            break;
+        case edk::GU::vbo_XY_RGB_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 9u;
+            break;
+        case edk::GU::vbo_XY_RGBA_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 9u;
+            break;
+        case edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 9u;
+            break;
+        case edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy:
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 9u;
+            break;
+        case edk::GU::vbo_XYZ:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 10u;
+            break;
+        case edk::GU::vbo_XYZ_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 10u;
+            break;
+        case edk::GU::vbo_XYZ_RGB:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 10u;
+            break;
+        case edk::GU::vbo_XYZ_RGBA:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 10u;
+            break;
+        case edk::GU::vbo_XYZ_RGB_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 10u;
+            break;
+        case edk::GU::vbo_XYZ_RGBA_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 10u;
+            break;
+        case edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 10u;
+            break;
+        case edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 10u;
+            break;
+        default:
+            break;
+        }
+
+        //set the position
+        vertex++;
+        this->vertexBuffer.set(vertex,v);
+
+        //update the VBO
+        this->updateVBOFunctions();
+
+        return true;
+    }
+    return false;
+}
+bool edk::shape::Polygon3DList::setVBOVertexPositionWithMatrix(edk::uint32 vertex,edk::vec3f32 position){
+    //set the vertex position in vertexBuffer
+    if(this->haveVBO() && this->vertexBufferWithMatrix.haveArray()){
+        //calculate the vertex position
+        vertex *= vboSizeofMesh3D[this->vboType];
+        //switch(this->vboType){
+        //case edk::GU::vbo_XY:
+        //    break;
+        //case edk::GU::vbo_XY_NxNyNz:
+        //    break;
+        //case edk::GU::vbo_XY_RGB:
+        //    break;
+        //case edk::GU::vbo_XY_RGBA:
+        //    break;
+        //case edk::GU::vbo_XY_RGB_NxNyNz:
+        //    break;
+        //case edk::GU::vbo_XY_RGBA_NxNyNz:
+        //    break;
+        //case edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy:
+        //    break;
+        //case edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy:
+        //    break;
+        //case edk::GU::vbo_XYZ:
+        //    break;
+        //case edk::GU::vbo_XYZ_NxNyNz:
+        //    break;
+        //case edk::GU::vbo_XYZ_RGB:
+        //    break;
+        //case edk::GU::vbo_XYZ_RGBA:
+        //    break;
+        //case edk::GU::vbo_XYZ_RGB_NxNy:
+        //    break;
+        //case edk::GU::vbo_XYZ_RGBA_NxNy:
+        //    break;
+        //case edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy:
+        //    break;
+        //case edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
+        //    break;
+        //default:
+        //    break;
+        //}
+        //set the position
+        this->vertexBufferWithMatrix.set(vertex,position.x);
+        vertex++;
+        this->vertexBufferWithMatrix.set(vertex,position.y);
+        vertex++;
+        this->vertexBufferWithMatrix.set(vertex,position.z);
+
+        //update the VBO
+        this->updateVBOFunctionsWithMatrix();
+
+        return true;
+    }
+    return false;
+}
+bool edk::shape::Polygon3DList::setVBOVertexPositionXWithMatrix(edk::uint32 vertex,edk::float32 x){
+    //set the vertex position in vertexBuffer
+    if(this->haveVBO() && this->vertexBufferWithMatrix.haveArray()){
+        //calculate the vertex position
+        vertex *= vboSizeofMesh3D[this->vboType];
+        //switch(this->vboType){
+        //case edk::GU::vbo_XY:
+        //    break;
+        //case edk::GU::vbo_XY_NxNyNz:
+        //    break;
+        //case edk::GU::vbo_XY_RGB:
+        //    break;
+        //case edk::GU::vbo_XY_RGBA:
+        //    break;
+        //case edk::GU::vbo_XY_RGB_NxNyNz:
+        //    break;
+        //case edk::GU::vbo_XY_RGBA_NxNyNz:
+        //    break;
+        //case edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy:
+        //    break;
+        //case edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy:
+        //    break;
+        //case edk::GU::vbo_XYZ:
+        //    break;
+        //case edk::GU::vbo_XYZ_NxNyNz:
+        //    break;
+        //case edk::GU::vbo_XYZ_RGB:
+        //    break;
+        //case edk::GU::vbo_XYZ_RGBA:
+        //    break;
+        //case edk::GU::vbo_XYZ_RGB_NxNy:
+        //    break;
+        //case edk::GU::vbo_XYZ_RGBA_NxNy:
+        //    break;
+        //case edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy:
+        //    break;
+        //case edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
+        //    break;
+        //default:
+        //    break;
+        //}
+        //set the position
+        this->vertexBufferWithMatrix.set(vertex,x);
+
+        //update the VBO
+        this->updateVBOFunctionsWithMatrix();
+
+        return true;
+    }
+    return false;
+}
+bool edk::shape::Polygon3DList::setVBOVertexPositionYWithMatrix(edk::uint32 vertex,edk::float32 y){
+    //set the vertex position in vertexBuffer
+    if(this->haveVBO() && this->vertexBufferWithMatrix.haveArray()){
+        //calculate the vertex position
+        vertex *= vboSizeofMesh3D[this->vboType];
+        //switch(this->vboType){
+        //case edk::GU::vbo_XY:
+        //    break;
+        //case edk::GU::vbo_XY_NxNyNz:
+        //    break;
+        //case edk::GU::vbo_XY_RGB:
+        //    break;
+        //case edk::GU::vbo_XY_RGBA:
+        //    break;
+        //case edk::GU::vbo_XY_RGB_NxNyNz:
+        //    break;
+        //case edk::GU::vbo_XY_RGBA_NxNyNz:
+        //    break;
+        //case edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy:
+        //    break;
+        //case edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy:
+        //    break;
+        //case edk::GU::vbo_XYZ:
+        //    break;
+        //case edk::GU::vbo_XYZ_NxNyNz:
+        //    break;
+        //case edk::GU::vbo_XYZ_RGB:
+        //    break;
+        //case edk::GU::vbo_XYZ_RGBA:
+        //    break;
+        //case edk::GU::vbo_XYZ_RGB_NxNy:
+        //    break;
+        //case edk::GU::vbo_XYZ_RGBA_NxNy:
+        //    break;
+        //case edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy:
+        //    break;
+        //case edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
+        //    break;
+        //default:
+        //    break;
+        //}
+        //set the position
+        vertex++;
+        this->vertexBufferWithMatrix.set(vertex,y);
+
+        //update the VBO
+        this->updateVBOFunctionsWithMatrix();
+
+        return true;
+    }
+    return false;
+}
+bool edk::shape::Polygon3DList::setVBOVertexPositionZWithMatrix(edk::uint32 vertex,edk::float32 z){
+    //set the vertex position in vertexBuffer
+    if(this->haveVBO() && this->vertexBufferWithMatrix.haveArray()){
+        //calculate the vertex position
+        vertex *= vboSizeofMesh3D[this->vboType];
+        //switch(this->vboType){
+        //case edk::GU::vbo_XY:
+        //    break;
+        //case edk::GU::vbo_XY_NxNyNz:
+        //    break;
+        //case edk::GU::vbo_XY_RGB:
+        //    break;
+        //case edk::GU::vbo_XY_RGBA:
+        //    break;
+        //case edk::GU::vbo_XY_RGB_NxNyNz:
+        //    break;
+        //case edk::GU::vbo_XY_RGBA_NxNyNz:
+        //    break;
+        //case edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy:
+        //    break;
+        //case edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy:
+        //    break;
+        //case edk::GU::vbo_XYZ:
+        //    break;
+        //case edk::GU::vbo_XYZ_NxNyNz:
+        //    break;
+        //case edk::GU::vbo_XYZ_RGB:
+        //    break;
+        //case edk::GU::vbo_XYZ_RGBA:
+        //    break;
+        //case edk::GU::vbo_XYZ_RGB_NxNy:
+        //    break;
+        //case edk::GU::vbo_XYZ_RGBA_NxNy:
+        //    break;
+        //case edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy:
+        //    break;
+        //case edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
+        //    break;
+        //default:
+        //    break;
+        //}
+        //set the position
+        vertex++;
+        vertex++;
+        this->vertexBufferWithMatrix.set(vertex,z);
+
+        //update the VBO
+        this->updateVBOFunctionsWithMatrix();
+
+        return true;
+    }
+    return false;
+}
+bool edk::shape::Polygon3DList::setVBOVertexNormalWithMatrix(edk::uint32 vertex,edk::vec3f32 normal){
+    //set the vertex position in vertexBuffer
+    if(this->haveVBO() && this->vertexBufferWithMatrix.haveArray()){
+        //test if need change the buffer
+        switch(this->vboType){
+        case edk::GU::vbo_XY:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 7u;
+            break;
+        case edk::GU::vbo_XY_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 7u;
+            break;
+        case edk::GU::vbo_XY_RGB:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 7u;
+            break;
+        case edk::GU::vbo_XY_RGBA:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 7u;
+            break;
+        case edk::GU::vbo_XY_RGB_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 7u;
+            break;
+        case edk::GU::vbo_XY_RGBA_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 7u;
+            break;
+        case edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 7u;
+            break;
+        case edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 7u;
+            break;
+        case edk::GU::vbo_XYZ:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 7u;
+            break;
+        case edk::GU::vbo_XYZ_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 7u;
+            break;
+        case edk::GU::vbo_XYZ_RGB:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 7u;
+            break;
+        case edk::GU::vbo_XYZ_RGBA:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 7u;
+            break;
+        case edk::GU::vbo_XYZ_RGB_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 7u;
+            break;
+        case edk::GU::vbo_XYZ_RGBA_NxNyNz:
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 7u;
+            break;
+        case edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 7u;
+            break;
+        case edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 7u;
+            break;
+        default:
+            break;
+        }
+
+        //set the position
+        this->vertexBufferWithMatrix.set(vertex,normal.x);
+        vertex++;
+        this->vertexBufferWithMatrix.set(vertex,normal.y);
+        vertex++;
+        this->vertexBufferWithMatrix.set(vertex,normal.z);
+
+        //update the VBO
+        this->updateVBOFunctionsWithMatrix();
+
+        return true;
+    }
+    return false;
+}
+bool edk::shape::Polygon3DList::setVBOVertexNormalXWithMatrix(edk::uint32 vertex,edk::float32 x){
+    //set the vertex position in vertexBuffer
+    if(this->haveVBO() && this->vertexBufferWithMatrix.haveArray()){
+        //test if need change the buffer
+        switch(this->vboType){
+        case edk::GU::vbo_XY:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 7u;
+            break;
+        case edk::GU::vbo_XY_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 7u;
+            break;
+        case edk::GU::vbo_XY_RGB:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 7u;
+            break;
+        case edk::GU::vbo_XY_RGBA:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 7u;
+            break;
+        case edk::GU::vbo_XY_RGB_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 7u;
+            break;
+        case edk::GU::vbo_XY_RGBA_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 7u;
+            break;
+        case edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 7u;
+            break;
+        case edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 7u;
+            break;
+        case edk::GU::vbo_XYZ:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 7u;
+            break;
+        case edk::GU::vbo_XYZ_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 7u;
+            break;
+        case edk::GU::vbo_XYZ_RGB:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 7u;
+            break;
+        case edk::GU::vbo_XYZ_RGBA:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 7u;
+            break;
+        case edk::GU::vbo_XYZ_RGB_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 7u;
+            break;
+        case edk::GU::vbo_XYZ_RGBA_NxNyNz:
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 7u;
+            break;
+        case edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 7u;
+            break;
+        case edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 7u;
+            break;
+        default:
+            break;
+        }
+
+        //set the position
+        this->vertexBufferWithMatrix.set(vertex,x);
+
+        //update the VBO
+        this->updateVBOFunctionsWithMatrix();
+
+        return true;
+    }
+    return false;
+}
+bool edk::shape::Polygon3DList::setVBOVertexNormalYWithMatrix(edk::uint32 vertex,edk::float32 y){
+    //set the vertex position in vertexBuffer
+    if(this->haveVBO() && this->vertexBufferWithMatrix.haveArray()){
+        //test if need change the buffer
+        switch(this->vboType){
+        case edk::GU::vbo_XY:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 7u;
+            break;
+        case edk::GU::vbo_XY_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 7u;
+            break;
+        case edk::GU::vbo_XY_RGB:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 7u;
+            break;
+        case edk::GU::vbo_XY_RGBA:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 7u;
+            break;
+        case edk::GU::vbo_XY_RGB_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 7u;
+            break;
+        case edk::GU::vbo_XY_RGBA_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 7u;
+            break;
+        case edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 7u;
+            break;
+        case edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 7u;
+            break;
+        case edk::GU::vbo_XYZ:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 7u;
+            break;
+        case edk::GU::vbo_XYZ_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 7u;
+            break;
+        case edk::GU::vbo_XYZ_RGB:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 7u;
+            break;
+        case edk::GU::vbo_XYZ_RGBA:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 7u;
+            break;
+        case edk::GU::vbo_XYZ_RGB_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 7u;
+            break;
+        case edk::GU::vbo_XYZ_RGBA_NxNyNz:
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 7u;
+            break;
+        case edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 7u;
+            break;
+        case edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 7u;
+            break;
+        default:
+            break;
+        }
+
+        //set the position
+        vertex++;
+        this->vertexBufferWithMatrix.set(vertex,y);
+
+        //update the VBO
+        this->updateVBOFunctionsWithMatrix();
+
+        return true;
+    }
+    return false;
+}
+bool edk::shape::Polygon3DList::setVBOVertexNormalZWithMatrix(edk::uint32 vertex,edk::float32 z){
+    //set the vertex position in vertexBuffer
+    if(this->haveVBO() && this->vertexBufferWithMatrix.haveArray()){
+        //test if need change the buffer
+        switch(this->vboType){
+        case edk::GU::vbo_XY:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 7u;
+            break;
+        case edk::GU::vbo_XY_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 7u;
+            break;
+        case edk::GU::vbo_XY_RGB:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 7u;
+            break;
+        case edk::GU::vbo_XY_RGBA:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 7u;
+            break;
+        case edk::GU::vbo_XY_RGB_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 7u;
+            break;
+        case edk::GU::vbo_XY_RGBA_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 7u;
+            break;
+        case edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 7u;
+            break;
+        case edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 7u;
+            break;
+        case edk::GU::vbo_XYZ:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 7u;
+            break;
+        case edk::GU::vbo_XYZ_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 7u;
+            break;
+        case edk::GU::vbo_XYZ_RGB:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 7u;
+            break;
+        case edk::GU::vbo_XYZ_RGBA:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 7u;
+            break;
+        case edk::GU::vbo_XYZ_RGB_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 7u;
+            break;
+        case edk::GU::vbo_XYZ_RGBA_NxNyNz:
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 7u;
+            break;
+        case edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 7u;
+            break;
+        case edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 7u;
+            break;
+        default:
+            break;
+        }
+
+        //set the position
+        vertex++;
+        vertex++;
+        this->vertexBufferWithMatrix.set(vertex,z);
+
+        //update the VBO
+        this->updateVBOFunctionsWithMatrix();
+
+        return true;
+    }
+    return false;
+}
+bool edk::shape::Polygon3DList::setVBOVertexColorWithMatrix(edk::uint32 vertex,edk::color4f32 color){
+    //set the vertex position in vertexBuffer
+    if(this->haveVBO() && this->vertexBufferWithMatrix.haveArray()){
+        //test if need change the buffer
+        switch(this->vboType){
+        case edk::GU::vbo_XY:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 3u;
+            break;
+        case edk::GU::vbo_XY_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 3u;
+            break;
+        case edk::GU::vbo_XY_RGB:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 3u;
+            break;
+        case edk::GU::vbo_XY_RGBA:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 3u;
+            break;
+        case edk::GU::vbo_XY_RGB_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 3u;
+            break;
+        case edk::GU::vbo_XY_RGBA_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 3u;
+            break;
+        case edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 3u;
+            break;
+        case edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 3u;
+            break;
+        case edk::GU::vbo_XYZ:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 3u;
+            break;
+        case edk::GU::vbo_XYZ_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 3u;
+            break;
+        case edk::GU::vbo_XYZ_RGB:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 3u;
+            break;
+        case edk::GU::vbo_XYZ_RGBA:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 3u;
+            break;
+        case edk::GU::vbo_XYZ_RGB_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 3u;
+            break;
+        case edk::GU::vbo_XYZ_RGBA_NxNyNz:
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 3u;
+            break;
+        case edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 3u;
+            break;
+        case edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 3u;
+            break;
+        default:
+            break;
+        }
+
+        //set the position
+        this->vertexBufferWithMatrix.set(vertex,color.r);
+        vertex++;
+        this->vertexBufferWithMatrix.set(vertex,color.g);
+        vertex++;
+        this->vertexBufferWithMatrix.set(vertex,color.b);
+        vertex++;
+        this->vertexBufferWithMatrix.set(vertex,color.a);
+
+        //update the VBO
+        this->updateVBOFunctionsWithMatrix();
+
+        return true;
+    }
+    return false;
+}
+bool edk::shape::Polygon3DList::setVBOPolygonColorWithMatrix(edk::color4f32 color){
+    //update the VBO
+    if(this->haveVBO() && this->vertexBufferWithMatrix.haveArray()){
+        //test if need change the buffer
+        edk::uint8 position;
+        //test if need change the buffer
+        switch(this->vboType){
+        case edk::GU::vbo_XY:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            position = 3u;
+            break;
+        case edk::GU::vbo_XY_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            position = 3u;
+            break;
+        case edk::GU::vbo_XY_RGB:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            position = 3u;
+            break;
+        case edk::GU::vbo_XY_RGBA:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            position = 3u;
+            break;
+        case edk::GU::vbo_XY_RGB_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            position = 3u;
+            break;
+        case edk::GU::vbo_XY_RGBA_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            position = 3u;
+            break;
+        case edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            //calculate the vertex position
+            position = 3u;
+            break;
+        case edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            //calculate the vertex position
+            position = 3u;
+            break;
+        case edk::GU::vbo_XYZ:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            position = 3u;
+            break;
+        case edk::GU::vbo_XYZ_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            position = 3u;
+            break;
+        case edk::GU::vbo_XYZ_RGB:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            position = 3u;
+            break;
+        case edk::GU::vbo_XYZ_RGBA:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            position = 3u;
+            break;
+        case edk::GU::vbo_XYZ_RGB_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            position = 3u;
+            break;
+        case edk::GU::vbo_XYZ_RGBA_NxNyNz:
+            //calculate the vertex position
+            position = 3u;
+            break;
+        case edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            //calculate the vertex position
+            position = 3u;
+            break;
+        case edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
+            //calculate the vertex position
+            position = 3u;
+            break;
+        default:
+            break;
+        }
+        edk::uint8 increment = vboSizeofMesh3D[this->vboType];
+        //set the color of the vertexPolygons
+        for(edk::uint32 i=0u;i<this->vboCount;i++){
+            //set the color
+            this->vertexBufferWithMatrix.setNoIF(position,color.r);
+            this->vertexBufferWithMatrix.setNoIF(position+1u,color.g);
+            this->vertexBufferWithMatrix.setNoIF(position+2u,color.b);
+            this->vertexBufferWithMatrix.setNoIF(position+3u,color.a);
+            position+=increment;
+        }
+
+        //update the VBO
+        this->updateVBOFunctionsWithMatrix();
+
+        return true;
+    }
+    return false;
+}
+bool edk::shape::Polygon3DList::setVBOPolygonNormalWithMatrix(edk::vec3f32 normal){
+    //update the VBO
+    if(this->haveVBO() && this->vertexBufferWithMatrix.haveArray()){
+        //test if need change the buffer
+        edk::uint8 position;
+        //test if need change the buffer
+        switch(this->vboType){
+        case edk::GU::vbo_XY:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            position = 7u;
+            break;
+        case edk::GU::vbo_XY_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            position = 7u;
+            break;
+        case edk::GU::vbo_XY_RGB:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            position = 7u;
+            break;
+        case edk::GU::vbo_XY_RGBA:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            position = 7u;
+            break;
+        case edk::GU::vbo_XY_RGB_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            position = 7u;
+            break;
+        case edk::GU::vbo_XY_RGBA_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            position = 7u;
+            break;
+        case edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            //calculate the vertex position
+            position = 7u;
+            break;
+        case edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            //calculate the vertex position
+            position = 7u;
+            break;
+        case edk::GU::vbo_XYZ:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            position = 7u;
+            break;
+        case edk::GU::vbo_XYZ_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            position = 7u;
+            break;
+        case edk::GU::vbo_XYZ_RGB:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            position = 7u;
+            break;
+        case edk::GU::vbo_XYZ_RGBA:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            position = 7u;
+            break;
+        case edk::GU::vbo_XYZ_RGB_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            position = 7u;
+            break;
+        case edk::GU::vbo_XYZ_RGBA_NxNyNz:
+            //calculate the vertex position
+            position = 7u;
+            break;
+        case edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            //calculate the vertex position
+            position = 7u;
+            break;
+        case edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
+            //calculate the vertex position
+            position = 7u;
+            break;
+        default:
+            break;
+        }
+        edk::uint8 increment = vboSizeofMesh3D[this->vboType];
+        //set the color of the vertexPolygons
+        for(edk::uint32 i=0u;i<this->vboCount;i++){
+            //set the color
+            this->vertexBufferWithMatrix.setNoIF(position,normal.x);
+            this->vertexBufferWithMatrix.setNoIF(position+1u,normal.y);
+            this->vertexBufferWithMatrix.setNoIF(position+2u,normal.z);
+            position+=increment;
+        }
+
+        //update the VBO
+        this->updateVBOFunctionsWithMatrix();
+
+        return true;
+    }
+    return false;
+}
+bool edk::shape::Polygon3DList::setVBOPolygonColorRWithMatrix(edk::float32 r){
+    if(this->haveVBO() && this->vertexBufferWithMatrix.haveArray()){
+        //test if need change the buffer
+        edk::uint8 position;
+        //test if need change the buffer
+        switch(this->vboType){
+        case edk::GU::vbo_XY:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            position = 3u;
+            break;
+        case edk::GU::vbo_XY_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            position = 3u;
+            break;
+        case edk::GU::vbo_XY_RGB:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            position = 3u;
+            break;
+        case edk::GU::vbo_XY_RGBA:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            position = 3u;
+            break;
+        case edk::GU::vbo_XY_RGB_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            position = 3u;
+            break;
+        case edk::GU::vbo_XY_RGBA_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            position = 3u;
+            break;
+        case edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            //calculate the vertex position
+            position = 3u;
+            break;
+        case edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            //calculate the vertex position
+            position = 3u;
+            break;
+        case edk::GU::vbo_XYZ:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            position = 3u;
+            break;
+        case edk::GU::vbo_XYZ_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            position = 3u;
+            break;
+        case edk::GU::vbo_XYZ_RGB:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            position = 3u;
+            break;
+        case edk::GU::vbo_XYZ_RGBA:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            position = 3u;
+            break;
+        case edk::GU::vbo_XYZ_RGB_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            position = 3u;
+            break;
+        case edk::GU::vbo_XYZ_RGBA_NxNyNz:
+            //calculate the vertex position
+            position = 3u;
+            break;
+        case edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            //calculate the vertex position
+            position = 3u;
+            break;
+        case edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
+            //calculate the vertex position
+            position = 3u;
+            break;
+        default:
+            break;
+        }
+        edk::uint8 increment = vboSizeofMesh3D[this->vboType];
+        //set the color of the vertexPolygons
+        for(edk::uint32 i=0u;i<this->vboCount;i++){
+            //set the color
+            this->vertexBufferWithMatrix.setNoIF(position,r);
+            position+=increment;
+        }
+
+        //update the VBO
+        this->updateVBOFunctionsWithMatrix();
+
+        return true;
+    }
+    return false;
+}
+bool edk::shape::Polygon3DList::setVBOPolygonColorGWithMatrix(edk::float32 g){
+    if(this->haveVBO() && this->vertexBufferWithMatrix.haveArray()){
+        //test if need change the buffer
+        edk::uint8 position;
+        //test if need change the buffer
+        switch(this->vboType){
+        case edk::GU::vbo_XY:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            position = 3u;
+            break;
+        case edk::GU::vbo_XY_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            position = 3u;
+            break;
+        case edk::GU::vbo_XY_RGB:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            position = 3u;
+            break;
+        case edk::GU::vbo_XY_RGBA:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            position = 3u;
+            break;
+        case edk::GU::vbo_XY_RGB_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            position = 3u;
+            break;
+        case edk::GU::vbo_XY_RGBA_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            position = 3u;
+            break;
+        case edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            //calculate the vertex position
+            position = 3u;
+            break;
+        case edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            //calculate the vertex position
+            position = 3u;
+            break;
+        case edk::GU::vbo_XYZ:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            position = 3u;
+            break;
+        case edk::GU::vbo_XYZ_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            position = 3u;
+            break;
+        case edk::GU::vbo_XYZ_RGB:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            position = 3u;
+            break;
+        case edk::GU::vbo_XYZ_RGBA:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            position = 3u;
+            break;
+        case edk::GU::vbo_XYZ_RGB_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            position = 3u;
+            break;
+        case edk::GU::vbo_XYZ_RGBA_NxNyNz:
+            //calculate the vertex position
+            position = 3u;
+            break;
+        case edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            //calculate the vertex position
+            position = 3u;
+            break;
+        case edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
+            //calculate the vertex position
+            position = 3u;
+            break;
+        default:
+            break;
+        }
+        edk::uint8 increment = vboSizeofMesh3D[this->vboType];
+        position++;
+        //set the color of the vertexPolygons
+        for(edk::uint32 i=0u;i<this->vboCount;i++){
+            //set the color
+            this->vertexBufferWithMatrix.setNoIF(position,g);
+            position+=increment;
+        }
+
+        //update the VBO
+        this->updateVBOFunctionsWithMatrix();
+
+        return true;
+    }
+    return false;
+}
+bool edk::shape::Polygon3DList::setVBOPolygonColorBWithMatrix(edk::float32 b){
+    if(this->haveVBO() && this->vertexBufferWithMatrix.haveArray()){
+        //test if need change the buffer
+        edk::uint8 position;
+        //test if need change the buffer
+        switch(this->vboType){
+        case edk::GU::vbo_XY:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            position = 3u;
+            break;
+        case edk::GU::vbo_XY_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            position = 3u;
+            break;
+        case edk::GU::vbo_XY_RGB:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            position = 3u;
+            break;
+        case edk::GU::vbo_XY_RGBA:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            position = 3u;
+            break;
+        case edk::GU::vbo_XY_RGB_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            position = 3u;
+            break;
+        case edk::GU::vbo_XY_RGBA_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            position = 3u;
+            break;
+        case edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            //calculate the vertex position
+            position = 3u;
+            break;
+        case edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            //calculate the vertex position
+            position = 3u;
+            break;
+        case edk::GU::vbo_XYZ:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            position = 3u;
+            break;
+        case edk::GU::vbo_XYZ_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            position = 3u;
+            break;
+        case edk::GU::vbo_XYZ_RGB:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            position = 3u;
+            break;
+        case edk::GU::vbo_XYZ_RGBA:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            position = 3u;
+            break;
+        case edk::GU::vbo_XYZ_RGB_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            position = 3u;
+            break;
+        case edk::GU::vbo_XYZ_RGBA_NxNyNz:
+            //calculate the vertex position
+            position = 3u;
+            break;
+        case edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            //calculate the vertex position
+            position = 3u;
+            break;
+        case edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
+            //calculate the vertex position
+            position = 3u;
+            break;
+        default:
+            break;
+        }
+        edk::uint8 increment = vboSizeofMesh3D[this->vboType];
+        position+=2u;
+        //set the color of the vertexPolygons
+        for(edk::uint32 i=0u;i<this->vboCount;i++){
+            //set the color
+            this->vertexBufferWithMatrix.setNoIF(position,b);
+            position+=increment;
+        }
+
+        //update the VBO
+        this->updateVBOFunctionsWithMatrix();
+
+        return true;
+    }
+    return false;
+}
+bool edk::shape::Polygon3DList::setVBOPolygonColorAWithMatrix(edk::float32 a){
+    if(this->haveVBO() && this->vertexBufferWithMatrix.haveArray()){
+        //test if need change the buffer
+        edk::uint8 position;
+        //test if need change the buffer
+        switch(this->vboType){
+        case edk::GU::vbo_XY:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            position = 3u;
+            break;
+        case edk::GU::vbo_XY_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            position = 3u;
+            break;
+        case edk::GU::vbo_XY_RGB:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            position = 3u;
+            break;
+        case edk::GU::vbo_XY_RGBA:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            position = 3u;
+            break;
+        case edk::GU::vbo_XY_RGB_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            position = 3u;
+            break;
+        case edk::GU::vbo_XY_RGBA_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            position = 3u;
+            break;
+        case edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            //calculate the vertex position
+            position = 3u;
+            break;
+        case edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            //calculate the vertex position
+            position = 3u;
+            break;
+        case edk::GU::vbo_XYZ:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            position = 3u;
+            break;
+        case edk::GU::vbo_XYZ_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            position = 3u;
+            break;
+        case edk::GU::vbo_XYZ_RGB:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            position = 3u;
+            break;
+        case edk::GU::vbo_XYZ_RGBA:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            position = 3u;
+            break;
+        case edk::GU::vbo_XYZ_RGB_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz);
+            //calculate the vertex position
+            position = 3u;
+            break;
+        case edk::GU::vbo_XYZ_RGBA_NxNyNz:
+            //calculate the vertex position
+            position = 3u;
+            break;
+        case edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            //calculate the vertex position
+            position = 3u;
+            break;
+        case edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
+            //calculate the vertex position
+            position = 3u;
+            break;
+        default:
+            break;
+        }
+        edk::uint8 increment = vboSizeofMesh3D[this->vboType];
+        position+=3u;
+        //set the color of the vertexPolygons
+        for(edk::uint32 i=0u;i<this->vboCount;i++){
+            //set the color
+            this->vertexBufferWithMatrix.setNoIF(position,a);
+            position+=increment;
+        }
+
+        //update the VBO
+        this->updateVBOFunctionsWithMatrix();
+
+        return true;
+    }
+    return false;
+}
+bool edk::shape::Polygon3DList::setVBOVertexUVWithMatrix(edk::uint32 vertex,edk::vec2f32 uv){
+    //set the vertex position in vertexBuffer
+    if(this->haveVBO() && this->vertexBufferWithMatrix.haveArray()){
+        //test if need change the buffer
+        switch(this->vboType){
+        case edk::GU::vbo_XY:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 9u;
+            break;
+        case edk::GU::vbo_XY_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 9u;
+            break;
+        case edk::GU::vbo_XY_RGB:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 9u;
+            break;
+        case edk::GU::vbo_XY_RGBA:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 9u;
+            break;
+        case edk::GU::vbo_XY_RGB_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 9u;
+            break;
+        case edk::GU::vbo_XY_RGBA_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 9u;
+            break;
+        case edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 9u;
+            break;
+        case edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy:
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 9u;
+            break;
+        case edk::GU::vbo_XYZ:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 10u;
+            break;
+        case edk::GU::vbo_XYZ_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 10u;
+            break;
+        case edk::GU::vbo_XYZ_RGB:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 10u;
+            break;
+        case edk::GU::vbo_XYZ_RGBA:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 10u;
+            break;
+        case edk::GU::vbo_XYZ_RGB_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 10u;
+            break;
+        case edk::GU::vbo_XYZ_RGBA_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 10u;
+            break;
+        case edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 10u;
+            break;
+        case edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 10u;
+            break;
+        default:
+            break;
+        }
+
+        //set the position
+        this->vertexBufferWithMatrix.set(vertex,uv.x);
+        vertex++;
+        this->vertexBufferWithMatrix.set(vertex,uv.y);
+
+        //update the VBO
+        this->updateVBOFunctionsWithMatrix();
+
+        return true;
+    }
+    return false;
+}
+bool edk::shape::Polygon3DList::setVBOVertexUWithMatrix(edk::uint32 vertex,edk::float32 u){
+    //set the vertex position in vertexBuffer
+    if(this->haveVBO() && this->vertexBufferWithMatrix.haveArray()){
+        //test if need change the buffer
+        switch(this->vboType){
+        case edk::GU::vbo_XY:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 9u;
+            break;
+        case edk::GU::vbo_XY_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 9u;
+            break;
+        case edk::GU::vbo_XY_RGB:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 9u;
+            break;
+        case edk::GU::vbo_XY_RGBA:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 9u;
+            break;
+        case edk::GU::vbo_XY_RGB_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 9u;
+            break;
+        case edk::GU::vbo_XY_RGBA_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 9u;
+            break;
+        case edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 9u;
+            break;
+        case edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy:
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 9u;
+            break;
+        case edk::GU::vbo_XYZ:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 10u;
+            break;
+        case edk::GU::vbo_XYZ_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 10u;
+            break;
+        case edk::GU::vbo_XYZ_RGB:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 10u;
+            break;
+        case edk::GU::vbo_XYZ_RGBA:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 10u;
+            break;
+        case edk::GU::vbo_XYZ_RGB_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 10u;
+            break;
+        case edk::GU::vbo_XYZ_RGBA_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 10u;
+            break;
+        case edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 10u;
+            break;
+        case edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 10u;
+            break;
+        default:
+            break;
+        }
+
+        //set the position
+        this->vertexBufferWithMatrix.set(vertex,u);
+        //update the VBO
+        this->updateVBOFunctionsWithMatrix();
+
+        return true;
+    }
+    return false;
+}
+bool edk::shape::Polygon3DList::setVBOVertexVWithMatrix(edk::uint32 vertex,edk::float32 v){
+    //set the vertex position in vertexBuffer
+    if(this->haveVBO() && this->vertexBufferWithMatrix.haveArray()){
+        //test if need change the buffer
+        switch(this->vboType){
+        case edk::GU::vbo_XY:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 9u;
+            break;
+        case edk::GU::vbo_XY_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 9u;
+            break;
+        case edk::GU::vbo_XY_RGB:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 9u;
+            break;
+        case edk::GU::vbo_XY_RGBA:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 9u;
+            break;
+        case edk::GU::vbo_XY_RGB_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 9u;
+            break;
+        case edk::GU::vbo_XY_RGBA_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 9u;
+            break;
+        case edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 9u;
+            break;
+        case edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy:
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 9u;
+            break;
+        case edk::GU::vbo_XYZ:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 10u;
+            break;
+        case edk::GU::vbo_XYZ_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 10u;
+            break;
+        case edk::GU::vbo_XYZ_RGB:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 10u;
+            break;
+        case edk::GU::vbo_XYZ_RGBA:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 10u;
+            break;
+        case edk::GU::vbo_XYZ_RGB_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 10u;
+            break;
+        case edk::GU::vbo_XYZ_RGBA_NxNyNz:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 10u;
+            break;
+        case edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy:
+            //change the vertexBuffer
+            this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 10u;
+            break;
+        case edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
+            //calculate the vertex position
+            vertex = (vertex * vboSizeofMesh3D[this->vboType]) + 10u;
+            break;
+        default:
+            break;
+        }
+
+        //set the position
+        vertex++;
+        this->vertexBufferWithMatrix.set(vertex,v);
+
+        //update the VBO
+        this->updateVBOFunctionsWithMatrix();
+
+        return true;
+    }
+    return false;
+}
+//updafe the UV into the VBO
+bool edk::shape::Polygon3DList::updateVBOUV(){
+    bool ret=false;
+    if(this->haveVBO() && this->vertexBuffer.haveArray()){
+        edk::uint32 size = this->vertexs.size();
+        edk::shape::Vertex3DWithUV* vTemp;
+        edk::uint32 vertexUV;
+        edk::vec2f32 uv;
+        for(edk::uint32 i=0u;i<size;i++){
+            vertexUV = i;
+
+
+            //set the vertex position in vertexBuffer
+            //test if need change the buffer
+            switch(this->vboType){
+            case edk::GU::vbo_XY:
+                //change the vertexBuffer
+                this->changeVBOWithMatrix(edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy);
+                //calculate the vertex position
+                vertexUV = (vertexUV * vboSizeofMesh3D[this->vboType]) + 9u;
+                break;
+            case edk::GU::vbo_XY_NxNyNz:
+                //change the vertexBuffer
+                this->changeVBOWithMatrix(edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy);
+                //calculate the vertex position
+                vertexUV = (vertexUV * vboSizeofMesh3D[this->vboType]) + 9u;
+                break;
+            case edk::GU::vbo_XY_RGB:
+                //change the vertexBuffer
+                this->changeVBOWithMatrix(edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy);
+                //calculate the vertex position
+                vertexUV = (vertexUV * vboSizeofMesh3D[this->vboType]) + 9u;
+                break;
+            case edk::GU::vbo_XY_RGBA:
+                //change the vertexBuffer
+                this->changeVBOWithMatrix(edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy);
+                //calculate the vertex position
+                vertexUV = (vertexUV * vboSizeofMesh3D[this->vboType]) + 9u;
+                break;
+            case edk::GU::vbo_XY_RGB_NxNyNz:
+                //change the vertexBuffer
+                this->changeVBOWithMatrix(edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy);
+                //calculate the vertex position
+                vertexUV = (vertexUV * vboSizeofMesh3D[this->vboType]) + 9u;
+                break;
+            case edk::GU::vbo_XY_RGBA_NxNyNz:
+                //change the vertexBuffer
+                this->changeVBOWithMatrix(edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy);
+                //calculate the vertex position
+                vertexUV = (vertexUV * vboSizeofMesh3D[this->vboType]) + 9u;
+                break;
+            case edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy:
+                //change the vertexBuffer
+                this->changeVBOWithMatrix(edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy);
+                //calculate the vertex position
+                vertexUV = (vertexUV * vboSizeofMesh3D[this->vboType]) + 9u;
+                break;
+            case edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy:
+                //calculate the vertex position
+                vertexUV = (vertexUV * vboSizeofMesh3D[this->vboType]) + 9u;
+                break;
+            case edk::GU::vbo_XYZ:
+                //change the vertexBuffer
+                this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+                //calculate the vertex position
+                vertexUV = (vertexUV * vboSizeofMesh3D[this->vboType]) + 10u;
+                break;
+            case edk::GU::vbo_XYZ_NxNyNz:
+                //change the vertexBuffer
+                this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+                //calculate the vertex position
+                vertexUV = (vertexUV * vboSizeofMesh3D[this->vboType]) + 10u;
+                break;
+            case edk::GU::vbo_XYZ_RGB:
+                //change the vertexBuffer
+                this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+                //calculate the vertex position
+                vertexUV = (vertexUV * vboSizeofMesh3D[this->vboType]) + 10u;
+                break;
+            case edk::GU::vbo_XYZ_RGBA:
+                //change the vertexBuffer
+                this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+                //calculate the vertex position
+                vertexUV = (vertexUV * vboSizeofMesh3D[this->vboType]) + 10u;
+                break;
+            case edk::GU::vbo_XYZ_RGB_NxNyNz:
+                //change the vertexBuffer
+                this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+                //calculate the vertex position
+                vertexUV = (vertexUV * vboSizeofMesh3D[this->vboType]) + 10u;
+                break;
+            case edk::GU::vbo_XYZ_RGBA_NxNyNz:
+                //change the vertexBuffer
+                this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+                //calculate the vertex position
+                vertexUV = (vertexUV * vboSizeofMesh3D[this->vboType]) + 10u;
+                break;
+            case edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy:
+                //change the vertexBuffer
+                this->changeVBOWithMatrix(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+                //calculate the vertex position
+                vertexUV = (vertexUV * vboSizeofMesh3D[this->vboType]) + 10u;
+                break;
+            case edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
+                //calculate the vertex position
+                vertexUV = (vertexUV * vboSizeofMesh3D[this->vboType]) + 10u;
+                break;
+            default:
+                break;
+            }
+
+            vTemp = (edk::shape::Vertex3DWithUV*)this->vertexs.getNoIF(i);edkEnd();
+            if(vTemp->getType() != EDK_SHAPE_NOUV){
+                uv = vTemp->getUV();
+            }
+            else{
+                uv = edk::vec2f32(0.f,0.f);
+            }
+
+            //set the position
+            this->vertexBuffer.set(vertexUV,uv.x);
+            vertexUV++;
+            this->vertexBuffer.set(vertexUV,uv.y);
+
+            ret=true;
+        }
+    }
+    if(ret){
+        //update the VBO
+        this->updateVBOFunctionsWithMatrix();
+    }
+    return ret;
+}
+bool edk::shape::Polygon3DList::updateVBOUVWithMatrix(){
+    bool ret=false;
+    if(this->haveVBO() && this->vertexBufferWithMatrix.haveArray()){
+        edk::uint32 size = this->vertexs.size();
+        edk::shape::Vertex3DWithUV* vTemp;
+        edk::uint32 vertexUV;
+        edk::vec2f32 uv;
+        for(edk::uint32 i=0u;i<size;i++){
+            vertexUV = i;
+
+
+            //set the vertex position in vertexBuffer
+            //test if need change the buffer
+            switch(this->vboType){
+            case edk::GU::vbo_XY:
+                //change the vertexBuffer
+                this->changeVBO(edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy);
+                //calculate the vertex position
+                vertexUV = (vertexUV * vboSizeofMesh3D[this->vboType]) + 9u;
+                break;
+            case edk::GU::vbo_XY_NxNyNz:
+                //change the vertexBuffer
+                this->changeVBO(edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy);
+                //calculate the vertex position
+                vertexUV = (vertexUV * vboSizeofMesh3D[this->vboType]) + 9u;
+                break;
+            case edk::GU::vbo_XY_RGB:
+                //change the vertexBuffer
+                this->changeVBO(edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy);
+                //calculate the vertex position
+                vertexUV = (vertexUV * vboSizeofMesh3D[this->vboType]) + 9u;
+                break;
+            case edk::GU::vbo_XY_RGBA:
+                //change the vertexBuffer
+                this->changeVBO(edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy);
+                //calculate the vertex position
+                vertexUV = (vertexUV * vboSizeofMesh3D[this->vboType]) + 9u;
+                break;
+            case edk::GU::vbo_XY_RGB_NxNyNz:
+                //change the vertexBuffer
+                this->changeVBO(edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy);
+                //calculate the vertex position
+                vertexUV = (vertexUV * vboSizeofMesh3D[this->vboType]) + 9u;
+                break;
+            case edk::GU::vbo_XY_RGBA_NxNyNz:
+                //change the vertexBuffer
+                this->changeVBO(edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy);
+                //calculate the vertex position
+                vertexUV = (vertexUV * vboSizeofMesh3D[this->vboType]) + 9u;
+                break;
+            case edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy:
+                //change the vertexBuffer
+                this->changeVBO(edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy);
+                //calculate the vertex position
+                vertexUV = (vertexUV * vboSizeofMesh3D[this->vboType]) + 9u;
+                break;
+            case edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy:
+                //calculate the vertex position
+                vertexUV = (vertexUV * vboSizeofMesh3D[this->vboType]) + 9u;
+                break;
+            case edk::GU::vbo_XYZ:
+                //change the vertexBuffer
+                this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+                //calculate the vertex position
+                vertexUV = (vertexUV * vboSizeofMesh3D[this->vboType]) + 10u;
+                break;
+            case edk::GU::vbo_XYZ_NxNyNz:
+                //change the vertexBuffer
+                this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+                //calculate the vertex position
+                vertexUV = (vertexUV * vboSizeofMesh3D[this->vboType]) + 10u;
+                break;
+            case edk::GU::vbo_XYZ_RGB:
+                //change the vertexBuffer
+                this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+                //calculate the vertex position
+                vertexUV = (vertexUV * vboSizeofMesh3D[this->vboType]) + 10u;
+                break;
+            case edk::GU::vbo_XYZ_RGBA:
+                //change the vertexBuffer
+                this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+                //calculate the vertex position
+                vertexUV = (vertexUV * vboSizeofMesh3D[this->vboType]) + 10u;
+                break;
+            case edk::GU::vbo_XYZ_RGB_NxNyNz:
+                //change the vertexBuffer
+                this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+                //calculate the vertex position
+                vertexUV = (vertexUV * vboSizeofMesh3D[this->vboType]) + 10u;
+                break;
+            case edk::GU::vbo_XYZ_RGBA_NxNyNz:
+                //change the vertexBuffer
+                this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+                //calculate the vertex position
+                vertexUV = (vertexUV * vboSizeofMesh3D[this->vboType]) + 10u;
+                break;
+            case edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy:
+                //change the vertexBuffer
+                this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+                //calculate the vertex position
+                vertexUV = (vertexUV * vboSizeofMesh3D[this->vboType]) + 10u;
+                break;
+            case edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
+                //calculate the vertex position
+                vertexUV = (vertexUV * vboSizeofMesh3D[this->vboType]) + 10u;
+                break;
+            default:
+                break;
+            }
+
+            vTemp = (edk::shape::Vertex3DWithUV*)this->vertexs.getNoIF(i);edkEnd();
+            if(vTemp->getType() != EDK_SHAPE_NOUV){
+                uv = vTemp->getUV();
+            }
+            else{
+                uv = edk::vec2f32(0.f,0.f);
+            }
+
+            //set the position
+            this->vertexBufferWithMatrix.set(vertexUV,uv.x);
+            vertexUV++;
+            this->vertexBufferWithMatrix.set(vertexUV,uv.y);
+
+            ret=true;
+        }
+    }
+    if(ret){
+        //update the VBO
+        this->updateVBOFunctionsWithMatrix();
+    }
+    return ret;
+}
+bool edk::shape::Polygon3DList::updateVBOValues(){
+    bool ret=false;
+    if(this->haveVBO() && this->vertexBuffer.haveArray()){
+        edk::uint32 size = this->vertexs.size();
+        edk::shape::Vertex3DWithUV* vTemp;
+        edk::uint32 vertexUV;
+        edk::uint32 vertexPosition;
+        edk::uint32 vertexColor;
+        edk::uint32 vertexNormal;
+        edk::vec2f32 uv;
+        edk::vec3f32 position;
+        edk::color4f32 color;
+        edk::vec3f32 normal;
+        for(edk::uint32 i=0u;i<size;i++){
+            vertexPosition = vertexColor = vertexNormal = vertexUV = i;
+
+            switch(this->vboType){
+            case edk::GU::vbo_XY:
+                //change the vertexBuffer
+                this->changeVBO(edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy);
+                //calculate the vertex position
+                vertexPosition = (vertexPosition * vboSizeofMesh3D[this->vboType]) + 0u;
+                vertexColor = (vertexColor * vboSizeofMesh3D[this->vboType]) + 2u;
+                vertexNormal = (vertexNormal * vboSizeofMesh3D[this->vboType]) + 6u;
+                vertexUV = (vertexUV * vboSizeofMesh3D[this->vboType]) + 9u;
+                break;
+            case edk::GU::vbo_XY_NxNyNz:
+                //change the vertexBuffer
+                this->changeVBO(edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy);
+                //calculate the vertex position
+                vertexPosition = (vertexPosition * vboSizeofMesh3D[this->vboType]) + 0u;
+                vertexColor = (vertexColor * vboSizeofMesh3D[this->vboType]) + 2u;
+                vertexNormal = (vertexNormal * vboSizeofMesh3D[this->vboType]) + 6u;
+                vertexUV = (vertexUV * vboSizeofMesh3D[this->vboType]) + 9u;
+                break;
+            case edk::GU::vbo_XY_RGB:
+                //change the vertexBuffer
+                this->changeVBO(edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy);
+                //calculate the vertex position
+                vertexPosition = (vertexPosition * vboSizeofMesh3D[this->vboType]) + 0u;
+                vertexColor = (vertexColor * vboSizeofMesh3D[this->vboType]) + 2u;
+                vertexNormal = (vertexNormal * vboSizeofMesh3D[this->vboType]) + 6u;
+                vertexUV = (vertexUV * vboSizeofMesh3D[this->vboType]) + 9u;
+                break;
+            case edk::GU::vbo_XY_RGBA:
+                //change the vertexBuffer
+                this->changeVBO(edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy);
+                //calculate the vertex position
+                vertexPosition = (vertexPosition * vboSizeofMesh3D[this->vboType]) + 0u;
+                vertexColor = (vertexColor * vboSizeofMesh3D[this->vboType]) + 2u;
+                vertexNormal = (vertexNormal * vboSizeofMesh3D[this->vboType]) + 6u;
+                vertexUV = (vertexUV * vboSizeofMesh3D[this->vboType]) + 9u;
+                break;
+            case edk::GU::vbo_XY_RGB_NxNyNz:
+                //change the vertexBuffer
+                this->changeVBO(edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy);
+                //calculate the vertex position
+                vertexPosition = (vertexPosition * vboSizeofMesh3D[this->vboType]) + 0u;
+                vertexColor = (vertexColor * vboSizeofMesh3D[this->vboType]) + 2u;
+                vertexNormal = (vertexNormal * vboSizeofMesh3D[this->vboType]) + 6u;
+                vertexUV = (vertexUV * vboSizeofMesh3D[this->vboType]) + 9u;
+                break;
+            case edk::GU::vbo_XY_RGBA_NxNyNz:
+                //change the vertexBuffer
+                this->changeVBO(edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy);
+                //calculate the vertex position
+                vertexPosition = (vertexPosition * vboSizeofMesh3D[this->vboType]) + 0u;
+                vertexColor = (vertexColor * vboSizeofMesh3D[this->vboType]) + 2u;
+                vertexNormal = (vertexNormal * vboSizeofMesh3D[this->vboType]) + 6u;
+                vertexUV = (vertexUV * vboSizeofMesh3D[this->vboType]) + 9u;
+                break;
+            case edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy:
+                //change the vertexBuffer
+                this->changeVBO(edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy);
+                //calculate the vertex position
+                vertexPosition = (vertexPosition * vboSizeofMesh3D[this->vboType]) + 0u;
+                vertexColor = (vertexColor * vboSizeofMesh3D[this->vboType]) + 2u;
+                vertexNormal = (vertexNormal * vboSizeofMesh3D[this->vboType]) + 6u;
+                vertexUV = (vertexUV * vboSizeofMesh3D[this->vboType]) + 9u;
+                break;
+            case edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy:
+                //calculate the vertex position
+                vertexPosition = (vertexPosition * vboSizeofMesh3D[this->vboType]) + 0u;
+                vertexColor = (vertexColor * vboSizeofMesh3D[this->vboType]) + 2u;
+                vertexNormal = (vertexNormal * vboSizeofMesh3D[this->vboType]) + 6u;
+                vertexUV = (vertexUV * vboSizeofMesh3D[this->vboType]) + 9u;
+                break;
+            case edk::GU::vbo_XYZ:
+                //change the vertexBuffer
+                this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+                //calculate the vertex position
+                vertexPosition = (vertexPosition * vboSizeofMesh3D[this->vboType]) + 0u;
+                vertexColor = (vertexColor * vboSizeofMesh3D[this->vboType]) + 3u;
+                vertexNormal = (vertexNormal * vboSizeofMesh3D[this->vboType]) + 7u;
+                vertexUV = (vertexUV * vboSizeofMesh3D[this->vboType]) + 10u;
+                break;
+            case edk::GU::vbo_XYZ_NxNyNz:
+                //change the vertexBuffer
+                this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+                //calculate the vertex position
+                vertexPosition = (vertexPosition * vboSizeofMesh3D[this->vboType]) + 0u;
+                vertexColor = (vertexColor * vboSizeofMesh3D[this->vboType]) + 3u;
+                vertexNormal = (vertexNormal * vboSizeofMesh3D[this->vboType]) + 7u;
+                vertexUV = (vertexUV * vboSizeofMesh3D[this->vboType]) + 10u;
+                break;
+            case edk::GU::vbo_XYZ_RGB:
+                //change the vertexBuffer
+                this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+                //calculate the vertex position
+                vertexPosition = (vertexPosition * vboSizeofMesh3D[this->vboType]) + 0u;
+                vertexColor = (vertexColor * vboSizeofMesh3D[this->vboType]) + 3u;
+                vertexNormal = (vertexNormal * vboSizeofMesh3D[this->vboType]) + 7u;
+                vertexUV = (vertexUV * vboSizeofMesh3D[this->vboType]) + 10u;
+                break;
+            case edk::GU::vbo_XYZ_RGBA:
+                //change the vertexBuffer
+                this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+                //calculate the vertex position
+                vertexPosition = (vertexPosition * vboSizeofMesh3D[this->vboType]) + 0u;
+                vertexColor = (vertexColor * vboSizeofMesh3D[this->vboType]) + 3u;
+                vertexNormal = (vertexNormal * vboSizeofMesh3D[this->vboType]) + 7u;
+                vertexUV = (vertexUV * vboSizeofMesh3D[this->vboType]) + 10u;
+                break;
+            case edk::GU::vbo_XYZ_RGB_NxNyNz:
+                //change the vertexBuffer
+                this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+                //calculate the vertex position
+                vertexPosition = (vertexPosition * vboSizeofMesh3D[this->vboType]) + 0u;
+                vertexColor = (vertexColor * vboSizeofMesh3D[this->vboType]) + 3u;
+                vertexNormal = (vertexNormal * vboSizeofMesh3D[this->vboType]) + 7u;
+                vertexUV = (vertexUV * vboSizeofMesh3D[this->vboType]) + 10u;
+                break;
+            case edk::GU::vbo_XYZ_RGBA_NxNyNz:
+                //change the vertexBuffer
+                this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+                //calculate the vertex position
+                vertexPosition = (vertexPosition * vboSizeofMesh3D[this->vboType]) + 0u;
+                vertexColor = (vertexColor * vboSizeofMesh3D[this->vboType]) + 3u;
+                vertexNormal = (vertexNormal * vboSizeofMesh3D[this->vboType]) + 7u;
+                vertexUV = (vertexUV * vboSizeofMesh3D[this->vboType]) + 10u;
+                break;
+            case edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy:
+                //change the vertexBuffer
+                this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+                //calculate the vertex position
+                vertexPosition = (vertexPosition * vboSizeofMesh3D[this->vboType]) + 0u;
+                vertexColor = (vertexColor * vboSizeofMesh3D[this->vboType]) + 3u;
+                vertexNormal = (vertexNormal * vboSizeofMesh3D[this->vboType]) + 7u;
+                vertexUV = (vertexUV * vboSizeofMesh3D[this->vboType]) + 10u;
+                break;
+            case edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
+                //calculate the vertex position
+                vertexPosition = (vertexPosition * vboSizeofMesh3D[this->vboType]) + 0u;
+                vertexColor = (vertexColor * vboSizeofMesh3D[this->vboType]) + 3u;
+                vertexNormal = (vertexNormal * vboSizeofMesh3D[this->vboType]) + 7u;
+                vertexUV = (vertexUV * vboSizeofMesh3D[this->vboType]) + 10u;
+                break;
+            default:
+                break;
+            }
+            vTemp = (edk::shape::Vertex3DWithUV*)this->vertexs.getNoIF(i);edkEnd();
+            if(vTemp->getType() != EDK_SHAPE_NOUV){
+                uv = vTemp->getUV();
+                position = vTemp->position;
+                color = vTemp->color;
+                normal = vTemp->normal;
+            }
+            else{
+                position = vTemp->position;
+                color = vTemp->color;
+                normal = vTemp->normal;
+                uv = edk::vec2f32(0.f,0.f);
+            }
+            //set the position
+            this->vertexBuffer.set(vertexPosition,position.x);
+            vertexPosition++;
+            this->vertexBuffer.set(vertexPosition,position.y);
+            vertexPosition++;
+            this->vertexBuffer.set(vertexPosition,position.z);
+            //set the Color
+            this->vertexBuffer.set(vertexColor,color.r);
+            vertexColor++;
+            this->vertexBuffer.set(vertexColor,color.g);
+            vertexColor++;
+            this->vertexBuffer.set(vertexColor,color.b);
+            vertexColor++;
+            this->vertexBuffer.set(vertexColor,color.a);
+            //normal
+            this->vertexBuffer.set(vertexNormal,normal.x);
+            vertexNormal++;
+            this->vertexBuffer.set(vertexNormal,normal.y);
+            vertexNormal++;
+            this->vertexBuffer.set(vertexNormal,normal.z);
+            //set the UV
+            this->vertexBuffer.set(vertexUV,uv.x);
+            vertexUV++;
+            this->vertexBuffer.set(vertexUV,uv.y);
+
+            ret = true;
+        }
+    }
+    if(ret){
+        //update the VBO
+        this->updateVBOFunctions();
+    }
+    return ret;
+}
+bool edk::shape::Polygon3DList::updateVBOValuesWithMatrices(){
+    bool ret=false;
+    if(this->haveVBO() && this->vertexBufferWithMatrix.haveArray()){
+        edk::uint32 size = this->vertexs.size();
+        edk::shape::Vertex3DWithUV* vTemp;
+        edk::uint32 vertexUV;
+        edk::uint32 vertexPosition;
+        edk::uint32 vertexColor;
+        edk::uint32 vertexNormal;
+        edk::vec2f32 uv;
+        edk::vec3f32 position;
+        edk::color4f32 color;
+        edk::vec3f32 normal;
+        for(edk::uint32 i=0u;i<size;i++){
+            vertexPosition = vertexColor = vertexNormal = vertexUV = i;
+
+            switch(this->vboType){
+            case edk::GU::vbo_XY:
+                //change the vertexBuffer
+                this->changeVBO(edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy);
+                //calculate the vertex position
+                vertexPosition = (vertexPosition * vboSizeofMesh3D[this->vboType]) + 0u;
+                vertexColor = (vertexColor * vboSizeofMesh3D[this->vboType]) + 2u;
+                vertexNormal = (vertexNormal * vboSizeofMesh3D[this->vboType]) + 6u;
+                vertexUV = (vertexUV * vboSizeofMesh3D[this->vboType]) + 9u;
+                break;
+            case edk::GU::vbo_XY_NxNyNz:
+                //change the vertexBuffer
+                this->changeVBO(edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy);
+                //calculate the vertex position
+                vertexPosition = (vertexPosition * vboSizeofMesh3D[this->vboType]) + 0u;
+                vertexColor = (vertexColor * vboSizeofMesh3D[this->vboType]) + 2u;
+                vertexNormal = (vertexNormal * vboSizeofMesh3D[this->vboType]) + 6u;
+                vertexUV = (vertexUV * vboSizeofMesh3D[this->vboType]) + 9u;
+                break;
+            case edk::GU::vbo_XY_RGB:
+                //change the vertexBuffer
+                this->changeVBO(edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy);
+                //calculate the vertex position
+                vertexPosition = (vertexPosition * vboSizeofMesh3D[this->vboType]) + 0u;
+                vertexColor = (vertexColor * vboSizeofMesh3D[this->vboType]) + 2u;
+                vertexNormal = (vertexNormal * vboSizeofMesh3D[this->vboType]) + 6u;
+                vertexUV = (vertexUV * vboSizeofMesh3D[this->vboType]) + 9u;
+                break;
+            case edk::GU::vbo_XY_RGBA:
+                //change the vertexBuffer
+                this->changeVBO(edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy);
+                //calculate the vertex position
+                vertexPosition = (vertexPosition * vboSizeofMesh3D[this->vboType]) + 0u;
+                vertexColor = (vertexColor * vboSizeofMesh3D[this->vboType]) + 2u;
+                vertexNormal = (vertexNormal * vboSizeofMesh3D[this->vboType]) + 6u;
+                vertexUV = (vertexUV * vboSizeofMesh3D[this->vboType]) + 9u;
+                break;
+            case edk::GU::vbo_XY_RGB_NxNyNz:
+                //change the vertexBuffer
+                this->changeVBO(edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy);
+                //calculate the vertex position
+                vertexPosition = (vertexPosition * vboSizeofMesh3D[this->vboType]) + 0u;
+                vertexColor = (vertexColor * vboSizeofMesh3D[this->vboType]) + 2u;
+                vertexNormal = (vertexNormal * vboSizeofMesh3D[this->vboType]) + 6u;
+                vertexUV = (vertexUV * vboSizeofMesh3D[this->vboType]) + 9u;
+                break;
+            case edk::GU::vbo_XY_RGBA_NxNyNz:
+                //change the vertexBuffer
+                this->changeVBO(edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy);
+                //calculate the vertex position
+                vertexPosition = (vertexPosition * vboSizeofMesh3D[this->vboType]) + 0u;
+                vertexColor = (vertexColor * vboSizeofMesh3D[this->vboType]) + 2u;
+                vertexNormal = (vertexNormal * vboSizeofMesh3D[this->vboType]) + 6u;
+                vertexUV = (vertexUV * vboSizeofMesh3D[this->vboType]) + 9u;
+                break;
+            case edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy:
+                //change the vertexBuffer
+                this->changeVBO(edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy);
+                //calculate the vertex position
+                vertexPosition = (vertexPosition * vboSizeofMesh3D[this->vboType]) + 0u;
+                vertexColor = (vertexColor * vboSizeofMesh3D[this->vboType]) + 2u;
+                vertexNormal = (vertexNormal * vboSizeofMesh3D[this->vboType]) + 6u;
+                vertexUV = (vertexUV * vboSizeofMesh3D[this->vboType]) + 9u;
+                break;
+            case edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy:
+                //calculate the vertex position
+                vertexPosition = (vertexPosition * vboSizeofMesh3D[this->vboType]) + 0u;
+                vertexColor = (vertexColor * vboSizeofMesh3D[this->vboType]) + 2u;
+                vertexNormal = (vertexNormal * vboSizeofMesh3D[this->vboType]) + 6u;
+                vertexUV = (vertexUV * vboSizeofMesh3D[this->vboType]) + 9u;
+                break;
+            case edk::GU::vbo_XYZ:
+                //change the vertexBuffer
+                this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+                //calculate the vertex position
+                vertexPosition = (vertexPosition * vboSizeofMesh3D[this->vboType]) + 0u;
+                vertexColor = (vertexColor * vboSizeofMesh3D[this->vboType]) + 3u;
+                vertexNormal = (vertexNormal * vboSizeofMesh3D[this->vboType]) + 7u;
+                vertexUV = (vertexUV * vboSizeofMesh3D[this->vboType]) + 10u;
+                break;
+            case edk::GU::vbo_XYZ_NxNyNz:
+                //change the vertexBuffer
+                this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+                //calculate the vertex position
+                vertexPosition = (vertexPosition * vboSizeofMesh3D[this->vboType]) + 0u;
+                vertexColor = (vertexColor * vboSizeofMesh3D[this->vboType]) + 3u;
+                vertexNormal = (vertexNormal * vboSizeofMesh3D[this->vboType]) + 7u;
+                vertexUV = (vertexUV * vboSizeofMesh3D[this->vboType]) + 10u;
+                break;
+            case edk::GU::vbo_XYZ_RGB:
+                //change the vertexBuffer
+                this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+                //calculate the vertex position
+                vertexPosition = (vertexPosition * vboSizeofMesh3D[this->vboType]) + 0u;
+                vertexColor = (vertexColor * vboSizeofMesh3D[this->vboType]) + 3u;
+                vertexNormal = (vertexNormal * vboSizeofMesh3D[this->vboType]) + 7u;
+                vertexUV = (vertexUV * vboSizeofMesh3D[this->vboType]) + 10u;
+                break;
+            case edk::GU::vbo_XYZ_RGBA:
+                //change the vertexBuffer
+                this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+                //calculate the vertex position
+                vertexPosition = (vertexPosition * vboSizeofMesh3D[this->vboType]) + 0u;
+                vertexColor = (vertexColor * vboSizeofMesh3D[this->vboType]) + 3u;
+                vertexNormal = (vertexNormal * vboSizeofMesh3D[this->vboType]) + 7u;
+                vertexUV = (vertexUV * vboSizeofMesh3D[this->vboType]) + 10u;
+                break;
+            case edk::GU::vbo_XYZ_RGB_NxNyNz:
+                //change the vertexBuffer
+                this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+                //calculate the vertex position
+                vertexPosition = (vertexPosition * vboSizeofMesh3D[this->vboType]) + 0u;
+                vertexColor = (vertexColor * vboSizeofMesh3D[this->vboType]) + 3u;
+                vertexNormal = (vertexNormal * vboSizeofMesh3D[this->vboType]) + 7u;
+                vertexUV = (vertexUV * vboSizeofMesh3D[this->vboType]) + 10u;
+                break;
+            case edk::GU::vbo_XYZ_RGBA_NxNyNz:
+                //change the vertexBuffer
+                this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+                //calculate the vertex position
+                vertexPosition = (vertexPosition * vboSizeofMesh3D[this->vboType]) + 0u;
+                vertexColor = (vertexColor * vboSizeofMesh3D[this->vboType]) + 3u;
+                vertexNormal = (vertexNormal * vboSizeofMesh3D[this->vboType]) + 7u;
+                vertexUV = (vertexUV * vboSizeofMesh3D[this->vboType]) + 10u;
+                break;
+            case edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy:
+                //change the vertexBuffer
+                this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+                //calculate the vertex position
+                vertexPosition = (vertexPosition * vboSizeofMesh3D[this->vboType]) + 0u;
+                vertexColor = (vertexColor * vboSizeofMesh3D[this->vboType]) + 3u;
+                vertexNormal = (vertexNormal * vboSizeofMesh3D[this->vboType]) + 7u;
+                vertexUV = (vertexUV * vboSizeofMesh3D[this->vboType]) + 10u;
+                break;
+            case edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
+                //calculate the vertex position
+                vertexPosition = (vertexPosition * vboSizeofMesh3D[this->vboType]) + 0u;
+                vertexColor = (vertexColor * vboSizeofMesh3D[this->vboType]) + 3u;
+                vertexNormal = (vertexNormal * vboSizeofMesh3D[this->vboType]) + 7u;
+                vertexUV = (vertexUV * vboSizeofMesh3D[this->vboType]) + 10u;
+                break;
+            default:
+                break;
+            }
+            vTemp = (edk::shape::Vertex3DWithUV*)this->vertexs.getNoIF(i);edkEnd();
+            if(vTemp->getType() != EDK_SHAPE_NOUV){
+                uv = vTemp->getUV();
+                position = vTemp->position;
+                color = vTemp->color;
+                normal = vTemp->normal;
+            }
+            else{
+                position = vTemp->position;
+                color = vTemp->color;
+                normal = vTemp->normal;
+                uv = edk::vec2f32(0.f,0.f);
+            }
+            //set the position
+            this->vertexBufferWithMatrix.set(vertexPosition,position.x);
+            vertexPosition++;
+            this->vertexBufferWithMatrix.set(vertexPosition,position.y);
+            vertexPosition++;
+            this->vertexBufferWithMatrix.set(vertexPosition,position.z);
+            //set the Color
+            this->vertexBufferWithMatrix.set(vertexColor,color.r);
+            vertexColor++;
+            this->vertexBufferWithMatrix.set(vertexColor,color.g);
+            vertexColor++;
+            this->vertexBufferWithMatrix.set(vertexColor,color.b);
+            vertexColor++;
+            this->vertexBufferWithMatrix.set(vertexColor,color.a);
+            //normal
+            this->vertexBufferWithMatrix.set(vertexNormal,normal.x);
+            vertexNormal++;
+            this->vertexBufferWithMatrix.set(vertexNormal,normal.y);
+            vertexNormal++;
+            this->vertexBufferWithMatrix.set(vertexNormal,normal.z);
+            //set the UV
+            this->vertexBufferWithMatrix.set(vertexUV,uv.x);
+            vertexUV++;
+            this->vertexBufferWithMatrix.set(vertexUV,uv.y);
+
+            ret = true;
+        }
+    }
+    if(ret){
+        //update the VBO
+        this->updateVBOFunctions();
+    }
+    return ret;
+}
+//print the VBO
+bool edk::shape::Polygon3DList::printVBO(){
+    if(this->haveVBO() && this->vertexBuffer.haveArray()){
+        edk::uint32 position=0u;
+        edk::uint32 increment=vboSizeofMesh3D[this->vboType];
+        //test if need change the buffer
+        switch(this->vboType){
+        case edk::GU::vbo_XY:
+            printf("\nvbo_XY");
+            break;
+        case edk::GU::vbo_XY_NxNyNz:
+            printf("\nvbo_XY_NxNyNz");
+            break;
+        case edk::GU::vbo_XY_RGB:
+            printf("\nvbo_XY_RGB");
+            break;
+        case edk::GU::vbo_XY_RGBA:
+            printf("\nvbo_XY_RGBA");
+            break;
+        case edk::GU::vbo_XY_RGB_NxNyNz:
+            printf("\nvbo_XY_RGB_NxNyNz");
+            break;
+        case edk::GU::vbo_XY_RGBA_NxNyNz:
+            printf("\nvbo_XY_RGBA_NxNyNz");
+            break;
+        case edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy:
+            printf("\nvbo_XY_RGB_NxNyNz_UVxUVy");
+            break;
+        case edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy:
+            printf("\nvbo_XY_RGBA_NxNyNz_UVxUVy");
+            break;
+        case edk::GU::vbo_XYZ:
+            printf("\nvbo_XYZ");
+            break;
+        case edk::GU::vbo_XYZ_NxNyNz:
+            printf("\nvbo_XYZ_NxNyNz");
+            break;
+        case edk::GU::vbo_XYZ_RGB:
+            printf("\nvbo_XYZ_RGB");
+            break;
+        case edk::GU::vbo_XYZ_RGBA:
+            printf("\nvbo_XYZ_RGBA");
+            break;
+        case edk::GU::vbo_XYZ_RGB_NxNyNz:
+            printf("\nvbo_XYZ_RGB_NxNyNz");
+            break;
+        case edk::GU::vbo_XYZ_RGBA_NxNyNz:
+            printf("\nvbo_XYZ_RGBA_NxNyNz");
+            break;
+        case edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy:
+            printf("\nvbo_XYZ_RGB_NxNyNz_UVxUVy");
+            break;
+        case edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
+            printf("\nvbo_XYZ_RGBA_NxNyNz_UVxUVy");
+            break;
+        default:
+            break;
+        }
+        for(edk::uint32 i=0u;i<this->vboCount;i++){
+            printf("\n");
+            for(edk::uint32 j=0u;j<increment;j++){
+                printf("[%.2f]",this->vertexBuffer.get(position));
+                position++;
+            }
+        }fflush(stdout);
+        return true;
+    }
+    return false;
+}
+
+//draw functions
+//PRINT
+void edk::shape::Polygon3DList::print_NULL(){
+    //
+    for(edk::uint32 i=0u;i<this->getVertexCount();i++){
+        //
+        if(vertexs.getNoIF(i)){
+            vertexs.getNoIF(i)->print(i);edkEnd();
+        }
+    }
+}
+void edk::shape::Polygon3DList::print_XY(){
+    edk::uint8 increment = vboSizeofMesh3D[this->vboType];
+    edk::uint32 position = 0u;
+    for(edk::uint32 i=0u;i<this->vboCount;i++){
+        printf("\nVector [%u] position(%.2f %.2f)"
+               ,i
+               ,this->vertexBuffer.getNoIF(position)
+               ,this->vertexBuffer.getNoIF(position+1u)
+               );edkEnd();
+        position+=increment;
+    }fflush(stdout);
+}
+void edk::shape::Polygon3DList::print_XYZ(){
+    edk::uint8 increment = vboSizeofMesh3D[this->vboType];
+    edk::uint32 position = 0u;
+    for(edk::uint32 i=0u;i<this->vboCount;i++){
+        printf("\nVector [%u] position(%.2f %.2f %.2f)"
+               ,i
+               ,this->vertexBuffer.getNoIF(position)
+               ,this->vertexBuffer.getNoIF(position+1u)
+               ,this->vertexBuffer.getNoIF(position+2u)
+               );edkEnd();
+        position+=increment;
+    }fflush(stdout);
+}
+void edk::shape::Polygon3DList::print_XY_NxNyNz(){
+    edk::uint8 increment = vboSizeofMesh3D[this->vboType];
+    edk::uint32 position = 0u;
+    for(edk::uint32 i=0u;i<this->vboCount;i++){
+        printf("\nVector [%u] position(%.2f %.2f) normal(%.2f %.2f %.2f)"
+               ,i
+               ,this->vertexBuffer.getNoIF(position)
+               ,this->vertexBuffer.getNoIF(position+1u)
+
+               ,this->vertexBuffer.getNoIF(position+2u)
+               ,this->vertexBuffer.getNoIF(position+3u)
+               ,this->vertexBuffer.getNoIF(position+4u)
+               );edkEnd();
+        position+=increment;
+    }fflush(stdout);
+}
+void edk::shape::Polygon3DList::print_XYZ_NxNyNz(){
+    edk::uint8 increment = vboSizeofMesh3D[this->vboType];
+    edk::uint32 position = 0u;
+    for(edk::uint32 i=0u;i<this->vboCount;i++){
+        printf("\nVector [%u] position(%.2f %.2f %.2f) normal(%.2f %.2f %.2f)"
+               ,i
+               ,this->vertexBuffer.getNoIF(position)
+               ,this->vertexBuffer.getNoIF(position+1u)
+               ,this->vertexBuffer.getNoIF(position+2u)
+
+               ,this->vertexBuffer.getNoIF(position+3u)
+               ,this->vertexBuffer.getNoIF(position+4u)
+               ,this->vertexBuffer.getNoIF(position+5u)
+               );edkEnd();
+        position+=increment;
+    }fflush(stdout);
+}
+void edk::shape::Polygon3DList::print_XY_RGB(){
+    edk::uint8 increment = vboSizeofMesh3D[this->vboType];
+    edk::uint32 position = 0u;
+    for(edk::uint32 i=0u;i<this->vboCount;i++){
+        printf("\nVector [%u] position(%.2f %.2f) Color (%.2f %.2f %.2f)"
+               ,i
+               ,this->vertexBuffer.getNoIF(position)
+               ,this->vertexBuffer.getNoIF(position+1u)
+
+               ,this->vertexBuffer.getNoIF(position+2u)
+               ,this->vertexBuffer.getNoIF(position+3u)
+               ,this->vertexBuffer.getNoIF(position+4u)
+               );edkEnd();
+        position+=increment;
+    }fflush(stdout);
+}
+void edk::shape::Polygon3DList::print_XYZ_RGB(){
+    edk::uint8 increment = vboSizeofMesh3D[this->vboType];
+    edk::uint32 position = 0u;
+    for(edk::uint32 i=0u;i<this->vboCount;i++){
+        printf("\nVector [%u] position(%.2f %.2f %.2f) Color (%.2f %.2f %.2f)"
+               ,i
+               ,this->vertexBuffer.getNoIF(position)
+               ,this->vertexBuffer.getNoIF(position+1u)
+               ,this->vertexBuffer.getNoIF(position+2u)
+
+               ,this->vertexBuffer.getNoIF(position+3u)
+               ,this->vertexBuffer.getNoIF(position+4u)
+               ,this->vertexBuffer.getNoIF(position+5u)
+               );edkEnd();
+        position+=increment;
+    }fflush(stdout);
+}
+void edk::shape::Polygon3DList::print_XY_RGBA(){
+    edk::uint8 increment = vboSizeofMesh3D[this->vboType];
+    edk::uint32 position = 0u;
+    for(edk::uint32 i=0u;i<this->vboCount;i++){
+        printf("\nVector [%u] position(%.2f %.2f) Color (%.2f %.2f %.2f %.2f)"
+               ,i
+               ,this->vertexBuffer.getNoIF(position)
+               ,this->vertexBuffer.getNoIF(position+1u)
+
+               ,this->vertexBuffer.getNoIF(position+2u)
+               ,this->vertexBuffer.getNoIF(position+3u)
+               ,this->vertexBuffer.getNoIF(position+4u)
+               ,this->vertexBuffer.getNoIF(position+5u)
+               );edkEnd();
+        position+=increment;
+    }fflush(stdout);
+}
+void edk::shape::Polygon3DList::print_XYZ_RGBA(){
+    edk::uint8 increment = vboSizeofMesh3D[this->vboType];
+    edk::uint32 position = 0u;
+    for(edk::uint32 i=0u;i<this->vboCount;i++){
+        printf("\nVector [%u] position(%.2f %.2f %.2f) Color (%.2f %.2f %.2f %.2f)"
+               ,i
+               ,this->vertexBuffer.getNoIF(position)
+               ,this->vertexBuffer.getNoIF(position+1u)
+               ,this->vertexBuffer.getNoIF(position+2u)
+
+               ,this->vertexBuffer.getNoIF(position+3u)
+               ,this->vertexBuffer.getNoIF(position+4u)
+               ,this->vertexBuffer.getNoIF(position+5u)
+               ,this->vertexBuffer.getNoIF(position+6u)
+               );edkEnd();
+        position+=increment;
+    }fflush(stdout);
+}
+void edk::shape::Polygon3DList::print_XY_RGB_NxNyNz(){
+    edk::uint8 increment = vboSizeofMesh3D[this->vboType];
+    edk::uint32 position = 0u;
+    for(edk::uint32 i=0u;i<this->vboCount;i++){
+        printf("\nVector [%u] position(%.2f %.2f) Color (%.2f %.2f %.2f) normal(%.2f %.2f %.2f)"
+               ,i
+               ,this->vertexBuffer.getNoIF(position)
+               ,this->vertexBuffer.getNoIF(position+1u)
+
+               ,this->vertexBuffer.getNoIF(position+2u)
+               ,this->vertexBuffer.getNoIF(position+3u)
+               ,this->vertexBuffer.getNoIF(position+4u)
+
+               ,this->vertexBuffer.getNoIF(position+5u)
+               ,this->vertexBuffer.getNoIF(position+6u)
+               ,this->vertexBuffer.getNoIF(position+7u)
+               );edkEnd();
+        position+=increment;
+    }fflush(stdout);
+}
+void edk::shape::Polygon3DList::print_XYZ_RGB_NxNyNz(){
+    edk::uint8 increment = vboSizeofMesh3D[this->vboType];
+    edk::uint32 position = 0u;
+    for(edk::uint32 i=0u;i<this->vboCount;i++){
+        printf("\nVector [%u] position(%.2f %.2f %.2f) Color (%.2f %.2f %.2f) normal(%.2f %.2f %.2f)"
+               ,i
+               ,this->vertexBuffer.getNoIF(position)
+               ,this->vertexBuffer.getNoIF(position+1u)
+               ,this->vertexBuffer.getNoIF(position+2u)
+
+               ,this->vertexBuffer.getNoIF(position+3u)
+               ,this->vertexBuffer.getNoIF(position+4u)
+               ,this->vertexBuffer.getNoIF(position+5u)
+
+               ,this->vertexBuffer.getNoIF(position+6u)
+               ,this->vertexBuffer.getNoIF(position+7u)
+               ,this->vertexBuffer.getNoIF(position+8u)
+               );edkEnd();
+        position+=increment;
+    }fflush(stdout);
+}
+void edk::shape::Polygon3DList::print_XY_RGBA_NxNyNz(){
+    edk::uint8 increment = vboSizeofMesh3D[this->vboType];
+    edk::uint32 position = 0u;
+    for(edk::uint32 i=0u;i<this->vboCount;i++){
+        printf("\nVector [%u] position(%.2f %.2f) Color (%.2f %.2f %.2f %.2f) normal(%.2f %.2f %.2f)"
+               ,i
+               ,this->vertexBuffer.getNoIF(position)
+               ,this->vertexBuffer.getNoIF(position+1u)
+
+               ,this->vertexBuffer.getNoIF(position+2u)
+               ,this->vertexBuffer.getNoIF(position+3u)
+               ,this->vertexBuffer.getNoIF(position+4u)
+               ,this->vertexBuffer.getNoIF(position+5u)
+
+               ,this->vertexBuffer.getNoIF(position+6u)
+               ,this->vertexBuffer.getNoIF(position+7u)
+               ,this->vertexBuffer.getNoIF(position+8u)
+               );edkEnd();
+        position+=increment;
+    }fflush(stdout);
+}
+void edk::shape::Polygon3DList::print_XYZ_RGBA_NxNyNz(){
+    edk::uint8 increment = vboSizeofMesh3D[this->vboType];
+    edk::uint32 position = 0u;
+    for(edk::uint32 i=0u;i<this->vboCount;i++){
+        printf("\nVector [%u] position(%.2f %.2f %.2f) Color (%.2f %.2f %.2f %.2f) normal(%.2f %.2f %.2f)"
+               ,i
+               ,this->vertexBuffer.getNoIF(position)
+               ,this->vertexBuffer.getNoIF(position+1u)
+               ,this->vertexBuffer.getNoIF(position+2u)
+
+               ,this->vertexBuffer.getNoIF(position+3u)
+               ,this->vertexBuffer.getNoIF(position+4u)
+               ,this->vertexBuffer.getNoIF(position+5u)
+               ,this->vertexBuffer.getNoIF(position+6u)
+
+               ,this->vertexBuffer.getNoIF(position+7u)
+               ,this->vertexBuffer.getNoIF(position+8u)
+               ,this->vertexBuffer.getNoIF(position+9u)
+               );edkEnd();
+        position+=increment;
+    }fflush(stdout);
+}
+void edk::shape::Polygon3DList::print_XY_RGB_NxNyNz_UVxUVy(){
+    edk::uint8 increment = vboSizeofMesh3D[this->vboType];
+    edk::uint32 position = 0u;
+    for(edk::uint32 i=0u;i<this->vboCount;i++){
+        printf("\nVector [%u] position(%.2f %.2f) Color(%.2f %.2f %.2f) normal(%.2f %.2f %.2f) UV(%.2f %.2f)"
+               ,i
+               ,this->vertexBuffer.getNoIF(position)
+               ,this->vertexBuffer.getNoIF(position+1u)
+
+               ,this->vertexBuffer.getNoIF(position+2u)
+               ,this->vertexBuffer.getNoIF(position+3u)
+               ,this->vertexBuffer.getNoIF(position+4u)
+
+               ,this->vertexBuffer.getNoIF(position+5u)
+               ,this->vertexBuffer.getNoIF(position+6u)
+               ,this->vertexBuffer.getNoIF(position+7u)
+
+               ,this->vertexBuffer.getNoIF(position+8u)
+               ,this->vertexBuffer.getNoIF(position+9u)
+               );edkEnd();
+        position+=increment;
+    }fflush(stdout);
+}
+void edk::shape::Polygon3DList::print_XYZ_RGB_NxNyNz_UVxUVy(){
+    edk::uint8 increment = vboSizeofMesh3D[this->vboType];
+    edk::uint32 position = 0u;
+    for(edk::uint32 i=0u;i<this->vboCount;i++){
+        printf("\nVector [%u] position(%.2f %.2f %.2f) Color(%.2f %.2f %.2f) normal(%.2f %.2f %.2f) UV(%.2f %.2f)"
+               ,i
+               ,this->vertexBuffer.getNoIF(position)
+               ,this->vertexBuffer.getNoIF(position+1u)
+               ,this->vertexBuffer.getNoIF(position+2u)
+
+               ,this->vertexBuffer.getNoIF(position+3u)
+               ,this->vertexBuffer.getNoIF(position+4u)
+               ,this->vertexBuffer.getNoIF(position+5u)
+
+               ,this->vertexBuffer.getNoIF(position+6u)
+               ,this->vertexBuffer.getNoIF(position+7u)
+               ,this->vertexBuffer.getNoIF(position+8u)
+
+               ,this->vertexBuffer.getNoIF(position+9u)
+               ,this->vertexBuffer.getNoIF(position+10u)
+               );edkEnd();
+        position+=increment;
+    }fflush(stdout);
+}
+void edk::shape::Polygon3DList::print_XY_RGBA_NxNyNz_UVxUVy(){
+    edk::uint8 increment = vboSizeofMesh3D[this->vboType];
+    edk::uint32 position = 0u;
+    for(edk::uint32 i=0u;i<this->vboCount;i++){
+        printf("\nVector [%u] position(%.2f %.2f) Color(%.2f %.2f %.2f %.2f) normal(%.2f %.2f %.2f) UV(%.2f %.2f)"
+               ,i
+               ,this->vertexBuffer.getNoIF(position)
+               ,this->vertexBuffer.getNoIF(position+1u)
+
+               ,this->vertexBuffer.getNoIF(position+2u)
+               ,this->vertexBuffer.getNoIF(position+3u)
+               ,this->vertexBuffer.getNoIF(position+4u)
+               ,this->vertexBuffer.getNoIF(position+5u)
+
+               ,this->vertexBuffer.getNoIF(position+6u)
+               ,this->vertexBuffer.getNoIF(position+7u)
+               ,this->vertexBuffer.getNoIF(position+8u)
+
+               ,this->vertexBuffer.getNoIF(position+9u)
+               ,this->vertexBuffer.getNoIF(position+10u)
+               );edkEnd();
+        position+=increment;
+    }fflush(stdout);
+}
+void edk::shape::Polygon3DList::print_XYZ_RGBA_NxNyNz_UVxUVy(){
+    edk::uint8 increment = vboSizeofMesh3D[this->vboType];
+    edk::uint32 position = 0u;
+    for(edk::uint32 i=0u;i<this->vboCount;i++){
+        printf("\nVector [%u] position(%.2f %.2f %.2f) Color(%.2f %.2f %.2f %.2f) normal(%.2f %.2f %.2f) UV(%.2f %.2f)"
+               ,i
+               ,this->vertexBuffer.getNoIF(position)
+               ,this->vertexBuffer.getNoIF(position+1u)
+               ,this->vertexBuffer.getNoIF(position+2u)
+
+               ,this->vertexBuffer.getNoIF(position+3u)
+               ,this->vertexBuffer.getNoIF(position+4u)
+               ,this->vertexBuffer.getNoIF(position+5u)
+               ,this->vertexBuffer.getNoIF(position+6u)
+
+               ,this->vertexBuffer.getNoIF(position+7u)
+               ,this->vertexBuffer.getNoIF(position+8u)
+               ,this->vertexBuffer.getNoIF(position+9u)
+
+               ,this->vertexBuffer.getNoIF(position+10u)
+               ,this->vertexBuffer.getNoIF(position+11u)
+               );edkEnd();
+        position+=increment;
+    }fflush(stdout);
+}
+//DRAW
+void edk::shape::Polygon3DList::draw_NULL(edk::uint32 mode){
+    /*
+    edk::GU_GLSL::guUseBuffer(GU_ARRAY_BUFFER,this->vbo);
+
+    //enable texture coord in array
+    edk::GU_GLSL::guEnableClientState(GU_TEXTURE_COORD_ARRAY);
+    //set the texture coor position in array
+    edk::GU_GLSL::guTexCoordPointer2f32(0u);
+    //enable normal in array
+    edk::GU_GLSL::guEnableClientState(GU_NORMAL_ARRAY);
+    //set the normal position in array
+    edk::GU_GLSL::guNormalPointerF32(0u);
+    //enable color in array
+    edk::GU_GLSL::guEnableClientState(GU_COLOR_ARRAY);
+    //set the color position in array
+    edk::GU_GLSL::guColorPointer3f32(0);
+    edk::GU_GLSL::guColorPointer4f32(0);
+    //enable vertex in array
+    edk::GU_GLSL::guEnableClientState(GU_VERTEX_ARRAY);
+    //set the vertex position in array
+    edk::GU_GLSL::guVertexPointer2f32(0u);
+    edk::GU_GLSL::guVertexPointer3f32(0u);
+
+    //draw the array
+    edk::GU_GLSL::guDrawArrays(mode,0,this->vboCount);
+
+    //enable vertex in array
+    edk::GU_GLSL::guDisableClientState(GU_VERTEX_ARRAY);
+    //enable color in array
+    edk::GU_GLSL::guDisableClientState(GU_COLOR_ARRAY);
+    //enable normal in array
+    edk::GU_GLSL::guDisableClientState(GU_NORMAL_ARRAY);
+    //enable texture coord in array
+    edk::GU_GLSL::guDisableClientState(GU_TEXTURE_COORD_ARRAY);
+
+    edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);
+*/
+    edk::GU::guBegin(mode);edkEnd();
+    this->drawVertexs();edkEnd();
+    edk::GU::guEnd();edkEnd();
+}
+void edk::shape::Polygon3DList::draw_XY(edk::uint32 mode){
+    edk::GU_GLSL::guUseBuffer(GU_ARRAY_BUFFER,this->vbo);
+    //draw only the positions
+    //enable vertex in array
+    edk::GU_GLSL::guEnableClientState(GU_VERTEX_ARRAY);
+    //set the vertex position in array
+    edk::GU_GLSL::guVertexPointer2f32(0u,2u);
+
+    //draw the array
+    edk::GU_GLSL::guDrawArrays(mode,0,this->vboCount);
+
+    //enable vertex in array
+    edk::GU_GLSL::guDisableClientState(GU_VERTEX_ARRAY);
+
+    edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);
+}
+void edk::shape::Polygon3DList::draw_XYZ(edk::uint32 mode){
+    edk::GU_GLSL::guUseBuffer(GU_ARRAY_BUFFER,this->vbo);
+
+    //enable vertex in array
+    edk::GU_GLSL::guEnableClientState(GU_VERTEX_ARRAY);
+    //set the vertex position in array
+    edk::GU_GLSL::guVertexPointer3f32(0u,3u);
+
+    //draw the array
+    edk::GU_GLSL::guDrawArrays(mode,0,this->vboCount);
+
+    //enable vertex in array
+    edk::GU_GLSL::guDisableClientState(GU_VERTEX_ARRAY);
+
+    edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);
+}
+void edk::shape::Polygon3DList::draw_XY_NxNyNz(edk::uint32 mode){
+    edk::GU_GLSL::guUseBuffer(GU_ARRAY_BUFFER,this->vbo);
+
+    //enable normal in array
+    edk::GU_GLSL::guEnableClientState(GU_NORMAL_ARRAY);
+    //set the normal position in array
+    edk::GU_GLSL::guNormalPointerF32(2u,5u);
+    //enable vertex in array
+    edk::GU_GLSL::guEnableClientState(GU_VERTEX_ARRAY);
+    //set the vertex position in array
+    edk::GU_GLSL::guVertexPointer2f32(0u,5u);
+
+    //draw the array
+    edk::GU_GLSL::guDrawArrays(mode,0,this->vboCount);
+
+    //enable vertex in array
+    edk::GU_GLSL::guDisableClientState(GU_VERTEX_ARRAY);
+    //enable normal in array
+    edk::GU_GLSL::guDisableClientState(GU_NORMAL_ARRAY);
+
+    edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);
+}
+void edk::shape::Polygon3DList::draw_XYZ_NxNyNz(edk::uint32 mode){
+    edk::GU_GLSL::guUseBuffer(GU_ARRAY_BUFFER,this->vbo);
+
+    //enable normal in array
+    edk::GU_GLSL::guEnableClientState(GU_NORMAL_ARRAY);
+    //set the normal position in array
+    edk::GU_GLSL::guNormalPointerF32(3u,6u);
+    //enable vertex in array
+    edk::GU_GLSL::guEnableClientState(GU_VERTEX_ARRAY);
+    //set the vertex position in array
+    edk::GU_GLSL::guVertexPointer3f32(0u,6u);
+
+    //draw the array
+    edk::GU_GLSL::guDrawArrays(mode,0,this->vboCount);
+
+    //enable vertex in array
+    edk::GU_GLSL::guDisableClientState(GU_VERTEX_ARRAY);
+    //enable normal in array
+    edk::GU_GLSL::guDisableClientState(GU_NORMAL_ARRAY);
+
+    edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);
+}
+void edk::shape::Polygon3DList::draw_XY_RGB(edk::uint32 mode){
+    edk::GU_GLSL::guUseBuffer(GU_ARRAY_BUFFER,this->vbo);
+
+    //enable color in array
+    edk::GU_GLSL::guEnableClientState(GU_COLOR_ARRAY);
+    //set the color position in array
+    edk::GU_GLSL::guColorPointer3f32(2u,5u);
+    //enable vertex in array
+    edk::GU_GLSL::guEnableClientState(GU_VERTEX_ARRAY);
+    //set the vertex position in array
+    edk::GU_GLSL::guVertexPointer2f32(0u,5u);
+
+    //draw the array
+    edk::GU_GLSL::guDrawArrays(mode,0,this->vboCount);
+
+    //enable vertex in array
+    edk::GU_GLSL::guDisableClientState(GU_VERTEX_ARRAY);
+    //enable color in array
+    edk::GU_GLSL::guDisableClientState(GU_COLOR_ARRAY);
+
+    edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);
+}
+void edk::shape::Polygon3DList::draw_XYZ_RGB(edk::uint32 mode){
+    edk::GU_GLSL::guUseBuffer(GU_ARRAY_BUFFER,this->vbo);
+
+    //enable color in array
+    edk::GU_GLSL::guEnableClientState(GU_COLOR_ARRAY);
+    //set the color position in array
+    edk::GU_GLSL::guColorPointer3f32(3,6u);
+    //enable vertex in array
+    edk::GU_GLSL::guEnableClientState(GU_VERTEX_ARRAY);
+    //set the vertex position in array
+    edk::GU_GLSL::guVertexPointer3f32(0u,6u);
+
+    //draw the array
+    edk::GU_GLSL::guDrawArrays(mode,0,this->vboCount);
+
+    //enable vertex in array
+    edk::GU_GLSL::guDisableClientState(GU_VERTEX_ARRAY);
+    //enable color in array
+    edk::GU_GLSL::guDisableClientState(GU_COLOR_ARRAY);
+
+    edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);
+}
+void edk::shape::Polygon3DList::draw_XY_RGBA(edk::uint32 mode){
+    edk::GU_GLSL::guUseBuffer(GU_ARRAY_BUFFER,this->vbo);
+
+    //enable color in array
+    edk::GU_GLSL::guEnableClientState(GU_COLOR_ARRAY);
+    //set the color position in array
+    edk::GU_GLSL::guColorPointer4f32(2u,6u);
+    //enable vertex in array
+    edk::GU_GLSL::guEnableClientState(GU_VERTEX_ARRAY);
+    //set the vertex position in array
+    edk::GU_GLSL::guVertexPointer2f32(0u,6u);
+
+    //draw the array
+    edk::GU_GLSL::guDrawArrays(mode,0,this->vboCount);
+
+    //enable vertex in array
+    edk::GU_GLSL::guDisableClientState(GU_VERTEX_ARRAY);
+    //enable color in array
+    edk::GU_GLSL::guDisableClientState(GU_COLOR_ARRAY);
+
+    edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);
+}
+void edk::shape::Polygon3DList::draw_XYZ_RGBA(edk::uint32 mode){
+    edk::GU_GLSL::guUseBuffer(GU_ARRAY_BUFFER,this->vbo);
+
+    //enable color in array
+    edk::GU_GLSL::guEnableClientState(GU_COLOR_ARRAY);
+    //set the color position in array
+    edk::GU_GLSL::guColorPointer4f32(3u,7u);
+    //enable vertex in array
+    edk::GU_GLSL::guEnableClientState(GU_VERTEX_ARRAY);
+    //set the vertex position in array
+    edk::GU_GLSL::guVertexPointer3f32(0u,7u);
+
+    //draw the array
+    edk::GU_GLSL::guDrawArrays(mode,0,this->vboCount);
+
+    //enable vertex in array
+    edk::GU_GLSL::guDisableClientState(GU_VERTEX_ARRAY);
+    //enable color in array
+    edk::GU_GLSL::guDisableClientState(GU_COLOR_ARRAY);
+
+    edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);
+}
+void edk::shape::Polygon3DList::draw_XY_RGB_NxNyNz(edk::uint32 mode){
+    edk::GU_GLSL::guUseBuffer(GU_ARRAY_BUFFER,this->vbo);
+
+    //enable normal in array
+    edk::GU_GLSL::guEnableClientState(GU_NORMAL_ARRAY);
+    //set the normal position in array
+    edk::GU_GLSL::guNormalPointerF32(5u,8u);
+    //enable color in array
+    edk::GU_GLSL::guEnableClientState(GU_COLOR_ARRAY);
+    //set the color position in array
+    edk::GU_GLSL::guColorPointer3f32(2u,8u);
+    //enable vertex in array
+    edk::GU_GLSL::guEnableClientState(GU_VERTEX_ARRAY);
+    //set the vertex position in array
+    edk::GU_GLSL::guVertexPointer2f32(0u,8u);
+
+    //draw the array
+    edk::GU_GLSL::guDrawArrays(mode,0,this->vboCount);
+
+    //enable vertex in array
+    edk::GU_GLSL::guDisableClientState(GU_VERTEX_ARRAY);
+    //enable color in array
+    edk::GU_GLSL::guDisableClientState(GU_COLOR_ARRAY);
+    //enable normal in array
+    edk::GU_GLSL::guDisableClientState(GU_NORMAL_ARRAY);
+
+    edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);
+}
+void edk::shape::Polygon3DList::draw_XYZ_RGB_NxNyNz(edk::uint32 mode){
+    edk::GU_GLSL::guUseBuffer(GU_ARRAY_BUFFER,this->vbo);
+
+    //enable normal in array
+    edk::GU_GLSL::guEnableClientState(GU_NORMAL_ARRAY);
+    //set the normal position in array
+    edk::GU_GLSL::guNormalPointerF32(6u,9u);
+    //enable color in array
+    edk::GU_GLSL::guEnableClientState(GU_COLOR_ARRAY);
+    //set the color position in array
+    edk::GU_GLSL::guColorPointer3f32(3u,9u);
+    //enable vertex in array
+    edk::GU_GLSL::guEnableClientState(GU_VERTEX_ARRAY);
+    //set the vertex position in array
+    edk::GU_GLSL::guVertexPointer3f32(0u,9u);
+
+    //draw the array
+    edk::GU_GLSL::guDrawArrays(mode,0,this->vboCount);
+
+    //enable vertex in array
+    edk::GU_GLSL::guDisableClientState(GU_VERTEX_ARRAY);
+    //enable color in array
+    edk::GU_GLSL::guDisableClientState(GU_COLOR_ARRAY);
+    //enable normal in array
+    edk::GU_GLSL::guDisableClientState(GU_NORMAL_ARRAY);
+
+    edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);
+}
+void edk::shape::Polygon3DList::draw_XY_RGBA_NxNyNz(edk::uint32 mode){
+    edk::GU_GLSL::guUseBuffer(GU_ARRAY_BUFFER,this->vbo);
+
+    //enable normal in array
+    edk::GU_GLSL::guEnableClientState(GU_NORMAL_ARRAY);
+    //set the normal position in array
+    edk::GU_GLSL::guNormalPointerF32(6u,9u);
+    //enable color in array
+    edk::GU_GLSL::guEnableClientState(GU_COLOR_ARRAY);
+    //set the color position in array
+    edk::GU_GLSL::guColorPointer4f32(2u,9u);
+    //enable vertex in array
+    edk::GU_GLSL::guEnableClientState(GU_VERTEX_ARRAY);
+    //set the vertex position in array
+    edk::GU_GLSL::guVertexPointer2f32(0u,9u);
+
+    //draw the array
+    edk::GU_GLSL::guDrawArrays(mode,0,this->vboCount);
+
+    //enable vertex in array
+    edk::GU_GLSL::guDisableClientState(GU_VERTEX_ARRAY);
+    //enable color in array
+    edk::GU_GLSL::guDisableClientState(GU_COLOR_ARRAY);
+    //enable normal in array
+    edk::GU_GLSL::guDisableClientState(GU_NORMAL_ARRAY);
+
+    edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);
+}
+void edk::shape::Polygon3DList::draw_XYZ_RGBA_NxNyNz(edk::uint32 mode){
+    edk::GU_GLSL::guUseBuffer(GU_ARRAY_BUFFER,this->vbo);
+
+    //enable normal in array
+    edk::GU_GLSL::guEnableClientState(GU_NORMAL_ARRAY);
+    //set the normal position in array
+    edk::GU_GLSL::guNormalPointerF32(7u,10u);
+    //enable color in array
+    edk::GU_GLSL::guEnableClientState(GU_COLOR_ARRAY);
+    //set the color position in array
+    edk::GU_GLSL::guColorPointer4f32(3u,10u);
+    //enable vertex in array
+    edk::GU_GLSL::guEnableClientState(GU_VERTEX_ARRAY);
+    //set the vertex position in array
+    edk::GU_GLSL::guVertexPointer3f32(0u,10u);
+
+    //draw the array
+    edk::GU_GLSL::guDrawArrays(mode,0,this->vboCount);
+
+    //enable vertex in array
+    edk::GU_GLSL::guDisableClientState(GU_VERTEX_ARRAY);
+    //enable color in array
+    edk::GU_GLSL::guDisableClientState(GU_COLOR_ARRAY);
+    //enable normal in array
+    edk::GU_GLSL::guDisableClientState(GU_NORMAL_ARRAY);
+
+    edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);
+}
+void edk::shape::Polygon3DList::draw_XY_RGB_NxNyNz_UVxUVy(edk::uint32 mode){
+    edk::GU_GLSL::guUseBuffer(GU_ARRAY_BUFFER,this->vbo);
+
+    //enable texture coord in array
+    edk::GU_GLSL::guEnableClientState(GU_TEXTURE_COORD_ARRAY);
+    //set the texture coor position in array
+    edk::GU_GLSL::guTexCoordPointer2f32(8u,10u);
+    //enable normal in array
+    edk::GU_GLSL::guEnableClientState(GU_NORMAL_ARRAY);
+    //set the normal position in array
+    edk::GU_GLSL::guNormalPointerF32(5u,10u);
+    //enable color in array
+    edk::GU_GLSL::guEnableClientState(GU_COLOR_ARRAY);
+    //set the color position in array
+    edk::GU_GLSL::guColorPointer3f32(2u,10u);
+    //enable vertex in array
+    edk::GU_GLSL::guEnableClientState(GU_VERTEX_ARRAY);
+    //set the vertex position in array
+    edk::GU_GLSL::guVertexPointer2f32(0u,10u);
+
+    //draw the array
+    edk::GU_GLSL::guDrawArrays(mode,0,this->vboCount);
+
+    //enable vertex in array
+    edk::GU_GLSL::guDisableClientState(GU_VERTEX_ARRAY);
+    //enable color in array
+    edk::GU_GLSL::guDisableClientState(GU_COLOR_ARRAY);
+    //enable normal in array
+    edk::GU_GLSL::guDisableClientState(GU_NORMAL_ARRAY);
+    //enable texture coord in array
+    edk::GU_GLSL::guDisableClientState(GU_TEXTURE_COORD_ARRAY);
+
+    edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);
+}
+void edk::shape::Polygon3DList::draw_XYZ_RGB_NxNyNz_UVxUVy(edk::uint32 mode){
+    edk::GU_GLSL::guUseBuffer(GU_ARRAY_BUFFER,this->vbo);
+
+    //enable texture coord in array
+    edk::GU_GLSL::guEnableClientState(GU_TEXTURE_COORD_ARRAY);
+    //set the texture coor position in array
+    edk::GU_GLSL::guTexCoordPointer2f32(9u,11u);
+    //enable normal in array
+    edk::GU_GLSL::guEnableClientState(GU_NORMAL_ARRAY);
+    //set the normal position in array
+    edk::GU_GLSL::guNormalPointerF32(6u,11u);
+    //enable color in array
+    edk::GU_GLSL::guEnableClientState(GU_COLOR_ARRAY);
+    //set the color position in array
+    edk::GU_GLSL::guColorPointer3f32(3u,11u);
+    //enable vertex in array
+    edk::GU_GLSL::guEnableClientState(GU_VERTEX_ARRAY);
+    //set the vertex position in array
+    edk::GU_GLSL::guVertexPointer3f32(0u,11u);
+
+    //draw the array
+    edk::GU_GLSL::guDrawArrays(mode,0,this->vboCount);
+
+    //enable vertex in array
+    edk::GU_GLSL::guDisableClientState(GU_VERTEX_ARRAY);
+    //enable color in array
+    edk::GU_GLSL::guDisableClientState(GU_COLOR_ARRAY);
+    //enable normal in array
+    edk::GU_GLSL::guDisableClientState(GU_NORMAL_ARRAY);
+    //enable texture coord in array
+    edk::GU_GLSL::guDisableClientState(GU_TEXTURE_COORD_ARRAY);
+
+    edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);
+}
+void edk::shape::Polygon3DList::draw_XY_RGBA_NxNyNz_UVxUVy(edk::uint32 mode){
+    edk::GU_GLSL::guUseBuffer(GU_ARRAY_BUFFER,this->vbo);
+
+    //enable texture coord in array
+    edk::GU_GLSL::guEnableClientState(GU_TEXTURE_COORD_ARRAY);
+    //set the texture coor position in array
+    edk::GU_GLSL::guTexCoordPointer2f32(9u,11u);
+    //enable normal in array
+    edk::GU_GLSL::guEnableClientState(GU_NORMAL_ARRAY);
+    //set the normal position in array
+    edk::GU_GLSL::guNormalPointerF32(6u,11u);
+    //enable color in array
+    edk::GU_GLSL::guEnableClientState(GU_COLOR_ARRAY);
+    //set the color position in array
+    edk::GU_GLSL::guColorPointer4f32(2u,11u);
+    //enable vertex in array
+    edk::GU_GLSL::guEnableClientState(GU_VERTEX_ARRAY);
+    //set the vertex position in array
+    edk::GU_GLSL::guVertexPointer2f32(0u,11u);
+
+    //draw the array
+    edk::GU_GLSL::guDrawArrays(mode,0,this->vboCount);
+
+    //enable vertex in array
+    edk::GU_GLSL::guDisableClientState(GU_VERTEX_ARRAY);
+    //enable color in array
+    edk::GU_GLSL::guDisableClientState(GU_COLOR_ARRAY);
+    //enable normal in array
+    edk::GU_GLSL::guDisableClientState(GU_NORMAL_ARRAY);
+    //enable texture coord in array
+    edk::GU_GLSL::guDisableClientState(GU_TEXTURE_COORD_ARRAY);
+
+    edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);
+}
+void edk::shape::Polygon3DList::draw_XYZ_RGBA_NxNyNz_UVxUVy(edk::uint32 mode){
+    edk::GU_GLSL::guUseBuffer(GU_ARRAY_BUFFER,this->vbo);
+
+    //enable texture coord in array
+    edk::GU_GLSL::guEnableClientState(GU_TEXTURE_COORD_ARRAY);
+    //set the texture coor position in array
+    edk::GU_GLSL::guTexCoordPointer2f32(10u,12u);
+    //enable normal in array
+    edk::GU_GLSL::guEnableClientState(GU_NORMAL_ARRAY);
+    //set the normal position in array
+    edk::GU_GLSL::guNormalPointerF32(7u,12u);
+    //enable color in array
+    edk::GU_GLSL::guEnableClientState(GU_COLOR_ARRAY);
+    //set the color position in array
+    edk::GU_GLSL::guColorPointer4f32(3u,12u);
+    //enable vertex in array
+    edk::GU_GLSL::guEnableClientState(GU_VERTEX_ARRAY);
+    //set the vertex position in array
+    edk::GU_GLSL::guVertexPointer3f32(0u,12u);
+
+    //draw the array
+    edk::GU_GLSL::guDrawArrays(mode,0,this->vboCount);
+
+    //enable vertex in array
+    edk::GU_GLSL::guDisableClientState(GU_VERTEX_ARRAY);
+    //enable color in array
+    edk::GU_GLSL::guDisableClientState(GU_COLOR_ARRAY);
+    //enable normal in array
+    edk::GU_GLSL::guDisableClientState(GU_NORMAL_ARRAY);
+    //enable texture coord in array
+    edk::GU_GLSL::guDisableClientState(GU_TEXTURE_COORD_ARRAY);
+
+    edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);
+}
+//DRAW UPDATE
+void edk::shape::Polygon3DList::drawUpdate_NULL(edk::uint32 mode){
+    //this->updateVBO();
+    /*
+    edk::GU_GLSL::guUseBuffer(GU_ARRAY_BUFFER,this->vbo);
+
+    //enable texture coord in array
+    edk::GU_GLSL::guEnableClientState(GU_TEXTURE_COORD_ARRAY);
+    //set the texture coor position in array
+    edk::GU_GLSL::guTexCoordPointer2f32(0u);
+    //enable normal in array
+    edk::GU_GLSL::guEnableClientState(GU_NORMAL_ARRAY);
+    //set the normal position in array
+    edk::GU_GLSL::guNormalPointerF32(0u);
+    //enable color in array
+    edk::GU_GLSL::guEnableClientState(GU_COLOR_ARRAY);
+    //set the color position in array
+    edk::GU_GLSL::guColorPointer3f32(0);
+    edk::GU_GLSL::guColorPointer4f32(0);
+    //enable vertex in array
+    edk::GU_GLSL::guEnableClientState(GU_VERTEX_ARRAY);
+    //set the vertex position in array
+    edk::GU_GLSL::guVertexPointer2f32(0u);
+    edk::GU_GLSL::guVertexPointer3f32(0u);
+
+    //draw the array
+    edk::GU_GLSL::guDrawArrays(mode,0,this->vboCount);
+
+    //enable vertex in array
+    edk::GU_GLSL::guDisableClientState(GU_VERTEX_ARRAY);
+    //enable color in array
+    edk::GU_GLSL::guDisableClientState(GU_COLOR_ARRAY);
+    //enable normal in array
+    edk::GU_GLSL::guDisableClientState(GU_NORMAL_ARRAY);
+    //enable texture coord in array
+    edk::GU_GLSL::guDisableClientState(GU_TEXTURE_COORD_ARRAY);
+
+    edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);
+*/
+    edk::GU::guBegin(mode);edkEnd();
+    this->drawVertexs();edkEnd();
+    edk::GU::guEnd();edkEnd();
+    //change the drawFunction
+    this->setVBOFunctionNULL();
+}
+void edk::shape::Polygon3DList::drawUpdate_XY(edk::uint32 mode){
+    this->updateVBO();
+    edk::GU_GLSL::guUseBuffer(GU_ARRAY_BUFFER,this->vbo);
+    //draw only the positions
+    //enable vertex in array
+    edk::GU_GLSL::guEnableClientState(GU_VERTEX_ARRAY);
+    //set the vertex position in array
+    edk::GU_GLSL::guVertexPointer2f32(0u,2u);
+
+    //draw the array
+    edk::GU_GLSL::guDrawArrays(mode,0,this->vboCount);
+
+    //enable vertex in array
+    edk::GU_GLSL::guDisableClientState(GU_VERTEX_ARRAY);
+
+    edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);
+    //change the drawFunction
+    this->vboDraw = &edk::shape::Polygon3DList::draw_XY;
+}
+void edk::shape::Polygon3DList::drawUpdate_XYZ(edk::uint32 mode){
+    this->updateVBO();
+    edk::GU_GLSL::guUseBuffer(GU_ARRAY_BUFFER,this->vbo);
+
+    //enable vertex in array
+    edk::GU_GLSL::guEnableClientState(GU_VERTEX_ARRAY);
+    //set the vertex position in array
+    edk::GU_GLSL::guVertexPointer3f32(0u,3u);
+
+    //draw the array
+    edk::GU_GLSL::guDrawArrays(mode,0,this->vboCount);
+
+    //enable vertex in array
+    edk::GU_GLSL::guDisableClientState(GU_VERTEX_ARRAY);
+
+    edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);
+    //change the drawFunction
+    this->vboDraw = &edk::shape::Polygon3DList::draw_XYZ;
+}
+void edk::shape::Polygon3DList::drawUpdate_XY_NxNyNz(edk::uint32 mode){
+    this->updateVBO();
+    edk::GU_GLSL::guUseBuffer(GU_ARRAY_BUFFER,this->vbo);
+
+    //enable normal in array
+    edk::GU_GLSL::guEnableClientState(GU_NORMAL_ARRAY);
+    //set the normal position in array
+    edk::GU_GLSL::guNormalPointerF32(2u,5u);
+    //enable vertex in array
+    edk::GU_GLSL::guEnableClientState(GU_VERTEX_ARRAY);
+    //set the vertex position in array
+    edk::GU_GLSL::guVertexPointer2f32(0u,5u);
+
+    //draw the array
+    edk::GU_GLSL::guDrawArrays(mode,0,this->vboCount);
+
+    //enable vertex in array
+    edk::GU_GLSL::guDisableClientState(GU_VERTEX_ARRAY);
+    //enable normal in array
+    edk::GU_GLSL::guDisableClientState(GU_NORMAL_ARRAY);
+
+    edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);
+    //change the drawFunction
+    this->vboDraw = &edk::shape::Polygon3DList::draw_XY_NxNyNz;
+}
+void edk::shape::Polygon3DList::drawUpdate_XYZ_NxNyNz(edk::uint32 mode){
+    this->updateVBO();
+    edk::GU_GLSL::guUseBuffer(GU_ARRAY_BUFFER,this->vbo);
+
+    //enable normal in array
+    edk::GU_GLSL::guEnableClientState(GU_NORMAL_ARRAY);
+    //set the normal position in array
+    edk::GU_GLSL::guNormalPointerF32(3u,6u);
+    //enable vertex in array
+    edk::GU_GLSL::guEnableClientState(GU_VERTEX_ARRAY);
+    //set the vertex position in array
+    edk::GU_GLSL::guVertexPointer3f32(0u,6u);
+
+    //draw the array
+    edk::GU_GLSL::guDrawArrays(mode,0,this->vboCount);
+
+    //enable vertex in array
+    edk::GU_GLSL::guDisableClientState(GU_VERTEX_ARRAY);
+    //enable normal in array
+    edk::GU_GLSL::guDisableClientState(GU_NORMAL_ARRAY);
+
+    edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);
+    //change the drawFunction
+    this->vboDraw = &edk::shape::Polygon3DList::draw_XYZ_NxNyNz;
+}
+void edk::shape::Polygon3DList::drawUpdate_XY_RGB(edk::uint32 mode){
+    this->updateVBO();
+    edk::GU_GLSL::guUseBuffer(GU_ARRAY_BUFFER,this->vbo);
+
+    //enable color in array
+    edk::GU_GLSL::guEnableClientState(GU_COLOR_ARRAY);
+    //set the color position in array
+    edk::GU_GLSL::guColorPointer3f32(2u,5u);
+    //enable vertex in array
+    edk::GU_GLSL::guEnableClientState(GU_VERTEX_ARRAY);
+    //set the vertex position in array
+    edk::GU_GLSL::guVertexPointer2f32(0u,5u);
+
+    //draw the array
+    edk::GU_GLSL::guDrawArrays(mode,0,this->vboCount);
+
+    //enable vertex in array
+    edk::GU_GLSL::guDisableClientState(GU_VERTEX_ARRAY);
+    //enable color in array
+    edk::GU_GLSL::guDisableClientState(GU_COLOR_ARRAY);
+
+    edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);
+    //change the drawFunction
+    this->vboDraw = &edk::shape::Polygon3DList::draw_XY_RGB;
+}
+void edk::shape::Polygon3DList::drawUpdate_XYZ_RGB(edk::uint32 mode){
+    this->updateVBO();
+    edk::GU_GLSL::guUseBuffer(GU_ARRAY_BUFFER,this->vbo);
+
+    //enable color in array
+    edk::GU_GLSL::guEnableClientState(GU_COLOR_ARRAY);
+    //set the color position in array
+    edk::GU_GLSL::guColorPointer3f32(3,6u);
+    //enable vertex in array
+    edk::GU_GLSL::guEnableClientState(GU_VERTEX_ARRAY);
+    //set the vertex position in array
+    edk::GU_GLSL::guVertexPointer3f32(0u,6u);
+
+    //draw the array
+    edk::GU_GLSL::guDrawArrays(mode,0,this->vboCount);
+
+    //enable vertex in array
+    edk::GU_GLSL::guDisableClientState(GU_VERTEX_ARRAY);
+    //enable color in array
+    edk::GU_GLSL::guDisableClientState(GU_COLOR_ARRAY);
+
+    edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);
+    //change the drawFunction
+    this->vboDraw = &edk::shape::Polygon3DList::draw_XYZ_RGB;
+}
+void edk::shape::Polygon3DList::drawUpdate_XY_RGBA(edk::uint32 mode){
+    this->updateVBO();
+    edk::GU_GLSL::guUseBuffer(GU_ARRAY_BUFFER,this->vbo);
+
+    //enable color in array
+    edk::GU_GLSL::guEnableClientState(GU_COLOR_ARRAY);
+    //set the color position in array
+    edk::GU_GLSL::guColorPointer4f32(2u,6u);
+    //enable vertex in array
+    edk::GU_GLSL::guEnableClientState(GU_VERTEX_ARRAY);
+    //set the vertex position in array
+    edk::GU_GLSL::guVertexPointer2f32(0u,6u);
+
+    //draw the array
+    edk::GU_GLSL::guDrawArrays(mode,0,this->vboCount);
+
+    //enable vertex in array
+    edk::GU_GLSL::guDisableClientState(GU_VERTEX_ARRAY);
+    //enable color in array
+    edk::GU_GLSL::guDisableClientState(GU_COLOR_ARRAY);
+
+    edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);
+    //change the drawFunction
+    this->vboDraw = &edk::shape::Polygon3DList::draw_XY_RGBA;
+}
+void edk::shape::Polygon3DList::drawUpdate_XYZ_RGBA(edk::uint32 mode){
+    this->updateVBO();
+    edk::GU_GLSL::guUseBuffer(GU_ARRAY_BUFFER,this->vbo);
+
+    //enable color in array
+    edk::GU_GLSL::guEnableClientState(GU_COLOR_ARRAY);
+    //set the color position in array
+    edk::GU_GLSL::guColorPointer4f32(3u,7u);
+    //enable vertex in array
+    edk::GU_GLSL::guEnableClientState(GU_VERTEX_ARRAY);
+    //set the vertex position in array
+    edk::GU_GLSL::guVertexPointer3f32(0u,7u);
+
+    //draw the array
+    edk::GU_GLSL::guDrawArrays(mode,0,this->vboCount);
+
+    //enable vertex in array
+    edk::GU_GLSL::guDisableClientState(GU_VERTEX_ARRAY);
+    //enable color in array
+    edk::GU_GLSL::guDisableClientState(GU_COLOR_ARRAY);
+
+    edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);
+    //change the drawFunction
+    this->vboDraw = &edk::shape::Polygon3DList::draw_XYZ_RGBA;
+}
+void edk::shape::Polygon3DList::drawUpdate_XY_RGB_NxNyNz(edk::uint32 mode){
+    this->updateVBO();
+    edk::GU_GLSL::guUseBuffer(GU_ARRAY_BUFFER,this->vbo);
+
+    //enable normal in array
+    edk::GU_GLSL::guEnableClientState(GU_NORMAL_ARRAY);
+    //set the normal position in array
+    edk::GU_GLSL::guNormalPointerF32(5u,8u);
+    //enable color in array
+    edk::GU_GLSL::guEnableClientState(GU_COLOR_ARRAY);
+    //set the color position in array
+    edk::GU_GLSL::guColorPointer3f32(2u,8u);
+    //enable vertex in array
+    edk::GU_GLSL::guEnableClientState(GU_VERTEX_ARRAY);
+    //set the vertex position in array
+    edk::GU_GLSL::guVertexPointer2f32(0u,8u);
+
+    //draw the array
+    edk::GU_GLSL::guDrawArrays(mode,0,this->vboCount);
+
+    //enable vertex in array
+    edk::GU_GLSL::guDisableClientState(GU_VERTEX_ARRAY);
+    //enable color in array
+    edk::GU_GLSL::guDisableClientState(GU_COLOR_ARRAY);
+    //enable normal in array
+    edk::GU_GLSL::guDisableClientState(GU_NORMAL_ARRAY);
+
+    edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);
+    //change the drawFunction
+    this->vboDraw = &edk::shape::Polygon3DList::draw_XY_RGB_NxNyNz;
+}
+void edk::shape::Polygon3DList::drawUpdate_XYZ_RGB_NxNyNz(edk::uint32 mode){
+    this->updateVBO();
+    edk::GU_GLSL::guUseBuffer(GU_ARRAY_BUFFER,this->vbo);
+
+    //enable normal in array
+    edk::GU_GLSL::guEnableClientState(GU_NORMAL_ARRAY);
+    //set the normal position in array
+    edk::GU_GLSL::guNormalPointerF32(6u,9u);
+    //enable color in array
+    edk::GU_GLSL::guEnableClientState(GU_COLOR_ARRAY);
+    //set the color position in array
+    edk::GU_GLSL::guColorPointer3f32(3u,9u);
+    //enable vertex in array
+    edk::GU_GLSL::guEnableClientState(GU_VERTEX_ARRAY);
+    //set the vertex position in array
+    edk::GU_GLSL::guVertexPointer3f32(0u,9u);
+
+    //draw the array
+    edk::GU_GLSL::guDrawArrays(mode,0,this->vboCount);
+
+    //enable vertex in array
+    edk::GU_GLSL::guDisableClientState(GU_VERTEX_ARRAY);
+    //enable color in array
+    edk::GU_GLSL::guDisableClientState(GU_COLOR_ARRAY);
+    //enable normal in array
+    edk::GU_GLSL::guDisableClientState(GU_NORMAL_ARRAY);
+
+    edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);
+    //change the drawFunction
+    this->vboDraw = &edk::shape::Polygon3DList::draw_XYZ_RGB_NxNyNz;
+}
+void edk::shape::Polygon3DList::drawUpdate_XY_RGBA_NxNyNz(edk::uint32 mode){
+    this->updateVBO();
+    edk::GU_GLSL::guUseBuffer(GU_ARRAY_BUFFER,this->vbo);
+
+    //enable normal in array
+    edk::GU_GLSL::guEnableClientState(GU_NORMAL_ARRAY);
+    //set the normal position in array
+    edk::GU_GLSL::guNormalPointerF32(6u,9u);
+    //enable color in array
+    edk::GU_GLSL::guEnableClientState(GU_COLOR_ARRAY);
+    //set the color position in array
+    edk::GU_GLSL::guColorPointer4f32(2u,9u);
+    //enable vertex in array
+    edk::GU_GLSL::guEnableClientState(GU_VERTEX_ARRAY);
+    //set the vertex position in array
+    edk::GU_GLSL::guVertexPointer2f32(0u,9u);
+
+    //draw the array
+    edk::GU_GLSL::guDrawArrays(mode,0,this->vboCount);
+
+    //enable vertex in array
+    edk::GU_GLSL::guDisableClientState(GU_VERTEX_ARRAY);
+    //enable color in array
+    edk::GU_GLSL::guDisableClientState(GU_COLOR_ARRAY);
+    //enable normal in array
+    edk::GU_GLSL::guDisableClientState(GU_NORMAL_ARRAY);
+
+    edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);
+    //change the drawFunction
+    this->vboDraw = &edk::shape::Polygon3DList::draw_XY_RGBA_NxNyNz;
+}
+void edk::shape::Polygon3DList::drawUpdate_XYZ_RGBA_NxNyNz(edk::uint32 mode){
+    this->updateVBO();
+    edk::GU_GLSL::guUseBuffer(GU_ARRAY_BUFFER,this->vbo);
+
+    //enable normal in array
+    edk::GU_GLSL::guEnableClientState(GU_NORMAL_ARRAY);
+    //set the normal position in array
+    edk::GU_GLSL::guNormalPointerF32(7u,10u);
+    //enable color in array
+    edk::GU_GLSL::guEnableClientState(GU_COLOR_ARRAY);
+    //set the color position in array
+    edk::GU_GLSL::guColorPointer4f32(3u,10u);
+    //enable vertex in array
+    edk::GU_GLSL::guEnableClientState(GU_VERTEX_ARRAY);
+    //set the vertex position in array
+    edk::GU_GLSL::guVertexPointer3f32(0u,10u);
+
+    //draw the array
+    edk::GU_GLSL::guDrawArrays(mode,0,this->vboCount);
+
+    //enable vertex in array
+    edk::GU_GLSL::guDisableClientState(GU_VERTEX_ARRAY);
+    //enable color in array
+    edk::GU_GLSL::guDisableClientState(GU_COLOR_ARRAY);
+    //enable normal in array
+    edk::GU_GLSL::guDisableClientState(GU_NORMAL_ARRAY);
+
+    edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);
+    //change the drawFunction
+    this->vboDraw = &edk::shape::Polygon3DList::draw_XYZ_RGBA_NxNyNz;
+}
+void edk::shape::Polygon3DList::drawUpdate_XY_RGB_NxNyNz_UVxUVy(edk::uint32 mode){
+    this->updateVBO();
+    edk::GU_GLSL::guUseBuffer(GU_ARRAY_BUFFER,this->vbo);
+
+    //enable texture coord in array
+    edk::GU_GLSL::guEnableClientState(GU_TEXTURE_COORD_ARRAY);
+    //set the texture coor position in array
+    edk::GU_GLSL::guTexCoordPointer2f32(8u,10u);
+    //enable normal in array
+    edk::GU_GLSL::guEnableClientState(GU_NORMAL_ARRAY);
+    //set the normal position in array
+    edk::GU_GLSL::guNormalPointerF32(5u,10u);
+    //enable color in array
+    edk::GU_GLSL::guEnableClientState(GU_COLOR_ARRAY);
+    //set the color position in array
+    edk::GU_GLSL::guColorPointer3f32(2u,10u);
+    //enable vertex in array
+    edk::GU_GLSL::guEnableClientState(GU_VERTEX_ARRAY);
+    //set the vertex position in array
+    edk::GU_GLSL::guVertexPointer2f32(0u,10u);
+
+    //draw the array
+    edk::GU_GLSL::guDrawArrays(mode,0,this->vboCount);
+
+    //enable vertex in array
+    edk::GU_GLSL::guDisableClientState(GU_VERTEX_ARRAY);
+    //enable color in array
+    edk::GU_GLSL::guDisableClientState(GU_COLOR_ARRAY);
+    //enable normal in array
+    edk::GU_GLSL::guDisableClientState(GU_NORMAL_ARRAY);
+    //enable texture coord in array
+    edk::GU_GLSL::guDisableClientState(GU_TEXTURE_COORD_ARRAY);
+
+    edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);
+    //change the drawFunction
+    this->vboDraw = &edk::shape::Polygon3DList::draw_XY_RGB_NxNyNz_UVxUVy;
+}
+void edk::shape::Polygon3DList::drawUpdate_XYZ_RGB_NxNyNz_UVxUVy(edk::uint32 mode){
+    this->updateVBO();
+    edk::GU_GLSL::guUseBuffer(GU_ARRAY_BUFFER,this->vbo);
+
+    //enable texture coord in array
+    edk::GU_GLSL::guEnableClientState(GU_TEXTURE_COORD_ARRAY);
+    //set the texture coor position in array
+    edk::GU_GLSL::guTexCoordPointer2f32(9u,11u);
+    //enable normal in array
+    edk::GU_GLSL::guEnableClientState(GU_NORMAL_ARRAY);
+    //set the normal position in array
+    edk::GU_GLSL::guNormalPointerF32(6u,11u);
+    //enable color in array
+    edk::GU_GLSL::guEnableClientState(GU_COLOR_ARRAY);
+    //set the color position in array
+    edk::GU_GLSL::guColorPointer3f32(3u,11u);
+    //enable vertex in array
+    edk::GU_GLSL::guEnableClientState(GU_VERTEX_ARRAY);
+    //set the vertex position in array
+    edk::GU_GLSL::guVertexPointer3f32(0u,11u);
+
+    //draw the array
+    edk::GU_GLSL::guDrawArrays(mode,0,this->vboCount);
+
+    //enable vertex in array
+    edk::GU_GLSL::guDisableClientState(GU_VERTEX_ARRAY);
+    //enable color in array
+    edk::GU_GLSL::guDisableClientState(GU_COLOR_ARRAY);
+    //enable normal in array
+    edk::GU_GLSL::guDisableClientState(GU_NORMAL_ARRAY);
+    //enable texture coord in array
+    edk::GU_GLSL::guDisableClientState(GU_TEXTURE_COORD_ARRAY);
+
+    edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);
+    //change the drawFunction
+    this->vboDraw = &edk::shape::Polygon3DList::draw_XYZ_RGB_NxNyNz_UVxUVy;
+}
+void edk::shape::Polygon3DList::drawUpdate_XY_RGBA_NxNyNz_UVxUVy(edk::uint32 mode){
+    this->updateVBO();
+    edk::GU_GLSL::guUseBuffer(GU_ARRAY_BUFFER,this->vbo);
+
+    //enable texture coord in array
+    edk::GU_GLSL::guEnableClientState(GU_TEXTURE_COORD_ARRAY);
+    //set the texture coor position in array
+    edk::GU_GLSL::guTexCoordPointer2f32(9u,11u);
+    //enable normal in array
+    edk::GU_GLSL::guEnableClientState(GU_NORMAL_ARRAY);
+    //set the normal position in array
+    edk::GU_GLSL::guNormalPointerF32(6u,11u);
+    //enable color in array
+    edk::GU_GLSL::guEnableClientState(GU_COLOR_ARRAY);
+    //set the color position in array
+    edk::GU_GLSL::guColorPointer4f32(2u,11u);
+    //enable vertex in array
+    edk::GU_GLSL::guEnableClientState(GU_VERTEX_ARRAY);
+    //set the vertex position in array
+    edk::GU_GLSL::guVertexPointer2f32(0u,11u);
+
+    //draw the array
+    edk::GU_GLSL::guDrawArrays(mode,0,this->vboCount);
+
+    //enable vertex in array
+    edk::GU_GLSL::guDisableClientState(GU_VERTEX_ARRAY);
+    //enable color in array
+    edk::GU_GLSL::guDisableClientState(GU_COLOR_ARRAY);
+    //enable normal in array
+    edk::GU_GLSL::guDisableClientState(GU_NORMAL_ARRAY);
+    //enable texture coord in array
+    edk::GU_GLSL::guDisableClientState(GU_TEXTURE_COORD_ARRAY);
+
+    edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);
+    //change the drawFunction
+    this->vboDraw = &edk::shape::Polygon3DList::draw_XY_RGBA_NxNyNz_UVxUVy;
+}
+void edk::shape::Polygon3DList::drawUpdate_XYZ_RGBA_NxNyNz_UVxUVy(edk::uint32 mode){
+    this->updateVBO();
+    edk::GU_GLSL::guUseBuffer(GU_ARRAY_BUFFER,this->vbo);
+
+    //enable texture coord in array
+    edk::GU_GLSL::guEnableClientState(GU_TEXTURE_COORD_ARRAY);
+    //set the texture coor position in array
+    edk::GU_GLSL::guTexCoordPointer2f32(10u,12u);
+    //enable normal in array
+    edk::GU_GLSL::guEnableClientState(GU_NORMAL_ARRAY);
+    //set the normal position in array
+    edk::GU_GLSL::guNormalPointerF32(7u,12u);
+    //enable color in array
+    edk::GU_GLSL::guEnableClientState(GU_COLOR_ARRAY);
+    //set the color position in array
+    edk::GU_GLSL::guColorPointer4f32(3u,12u);
+    //enable vertex in array
+    edk::GU_GLSL::guEnableClientState(GU_VERTEX_ARRAY);
+    //set the vertex position in array
+    edk::GU_GLSL::guVertexPointer3f32(0u,12u);
+
+    //draw the array
+    edk::GU_GLSL::guDrawArrays(mode,0,this->vboCount);
+
+    //enable vertex in array
+    edk::GU_GLSL::guDisableClientState(GU_VERTEX_ARRAY);
+    //enable color in array
+    edk::GU_GLSL::guDisableClientState(GU_COLOR_ARRAY);
+    //enable normal in array
+    edk::GU_GLSL::guDisableClientState(GU_NORMAL_ARRAY);
+    //enable texture coord in array
+    edk::GU_GLSL::guDisableClientState(GU_TEXTURE_COORD_ARRAY);
+
+    edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);
+    //change the drawFunction
+    this->vboDraw = &edk::shape::Polygon3DList::draw_XYZ_RGBA_NxNyNz_UVxUVy;
+}
+//DRAW
+void edk::shape::Polygon3DList::drawWithMatrix_NULL(edk::uint32 mode){
+    /*
+    edk::GU_GLSL::guUseBuffer(GU_ARRAY_BUFFER,this->vboWithMatrix);
+
+    //enable texture coord in array
+    edk::GU_GLSL::guEnableClientState(GU_TEXTURE_COORD_ARRAY);
+    //set the texture coor position in array
+    edk::GU_GLSL::guTexCoordPointer2f32(0u);
+    //enable normal in array
+    edk::GU_GLSL::guEnableClientState(GU_NORMAL_ARRAY);
+    //set the normal position in array
+    edk::GU_GLSL::guNormalPointerF32(0u);
+    //enable color in array
+    edk::GU_GLSL::guEnableClientState(GU_COLOR_ARRAY);
+    //set the color position in array
+    edk::GU_GLSL::guColorPointer3f32(0);
+    edk::GU_GLSL::guColorPointer4f32(0);
+    //enable vertex in array
+    edk::GU_GLSL::guEnableClientState(GU_VERTEX_ARRAY);
+    //set the vertex position in array
+    edk::GU_GLSL::guVertexPointer2f32(0u);
+    edk::GU_GLSL::guVertexPointer3f32(0u);
+
+    //draw the array
+    edk::GU_GLSL::guDrawArrays(mode,0,this->vboCount);
+
+    //enable vertex in array
+    edk::GU_GLSL::guDisableClientState(GU_VERTEX_ARRAY);
+    //enable color in array
+    edk::GU_GLSL::guDisableClientState(GU_COLOR_ARRAY);
+    //enable normal in array
+    edk::GU_GLSL::guDisableClientState(GU_NORMAL_ARRAY);
+    //enable texture coord in array
+    edk::GU_GLSL::guDisableClientState(GU_TEXTURE_COORD_ARRAY);
+
+    edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);
+*/
+    edk::GU::guBegin(mode);edkEnd();
+    this->drawVertexs();edkEnd();
+    edk::GU::guEnd();edkEnd();
+}
+void edk::shape::Polygon3DList::drawWithMatrix_XY(edk::uint32 mode){
+    edk::GU_GLSL::guUseBuffer(GU_ARRAY_BUFFER,this->vboWithMatrix);
+    //draw only the positions
+    //enable vertex in array
+    edk::GU_GLSL::guEnableClientState(GU_VERTEX_ARRAY);
+    //set the vertex position in array
+    edk::GU_GLSL::guVertexPointer2f32(0u,2u);
+
+    //draw the array
+    edk::GU_GLSL::guDrawArrays(mode,0,this->vboCount);
+
+    //enable vertex in array
+    edk::GU_GLSL::guDisableClientState(GU_VERTEX_ARRAY);
+
+    edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);
+}
+void edk::shape::Polygon3DList::drawWithMatrix_XYZ(edk::uint32 mode){
+    edk::GU_GLSL::guUseBuffer(GU_ARRAY_BUFFER,this->vboWithMatrix);
+
+    //enable vertex in array
+    edk::GU_GLSL::guEnableClientState(GU_VERTEX_ARRAY);
+    //set the vertex position in array
+    edk::GU_GLSL::guVertexPointer3f32(0u,3u);
+
+    //draw the array
+    edk::GU_GLSL::guDrawArrays(mode,0,this->vboCount);
+
+    //enable vertex in array
+    edk::GU_GLSL::guDisableClientState(GU_VERTEX_ARRAY);
+
+    edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);
+}
+void edk::shape::Polygon3DList::drawWithMatrix_XY_NxNyNz(edk::uint32 mode){
+    edk::GU_GLSL::guUseBuffer(GU_ARRAY_BUFFER,this->vboWithMatrix);
+
+    //enable normal in array
+    edk::GU_GLSL::guEnableClientState(GU_NORMAL_ARRAY);
+    //set the normal position in array
+    edk::GU_GLSL::guNormalPointerF32(2u,5u);
+    //enable vertex in array
+    edk::GU_GLSL::guEnableClientState(GU_VERTEX_ARRAY);
+    //set the vertex position in array
+    edk::GU_GLSL::guVertexPointer2f32(0u,5u);
+
+    //draw the array
+    edk::GU_GLSL::guDrawArrays(mode,0,this->vboCount);
+
+    //enable vertex in array
+    edk::GU_GLSL::guDisableClientState(GU_VERTEX_ARRAY);
+    //enable normal in array
+    edk::GU_GLSL::guDisableClientState(GU_NORMAL_ARRAY);
+
+    edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);
+}
+void edk::shape::Polygon3DList::drawWithMatrix_XYZ_NxNyNz(edk::uint32 mode){
+    edk::GU_GLSL::guUseBuffer(GU_ARRAY_BUFFER,this->vboWithMatrix);
+
+    //enable normal in array
+    edk::GU_GLSL::guEnableClientState(GU_NORMAL_ARRAY);
+    //set the normal position in array
+    edk::GU_GLSL::guNormalPointerF32(3u,6u);
+    //enable vertex in array
+    edk::GU_GLSL::guEnableClientState(GU_VERTEX_ARRAY);
+    //set the vertex position in array
+    edk::GU_GLSL::guVertexPointer3f32(0u,6u);
+
+    //draw the array
+    edk::GU_GLSL::guDrawArrays(mode,0,this->vboCount);
+
+    //enable vertex in array
+    edk::GU_GLSL::guDisableClientState(GU_VERTEX_ARRAY);
+    //enable normal in array
+    edk::GU_GLSL::guDisableClientState(GU_NORMAL_ARRAY);
+
+    edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);
+}
+void edk::shape::Polygon3DList::drawWithMatrix_XY_RGB(edk::uint32 mode){
+    edk::GU_GLSL::guUseBuffer(GU_ARRAY_BUFFER,this->vboWithMatrix);
+
+    //enable color in array
+    edk::GU_GLSL::guEnableClientState(GU_COLOR_ARRAY);
+    //set the color position in array
+    edk::GU_GLSL::guColorPointer3f32(2u,5u);
+    //enable vertex in array
+    edk::GU_GLSL::guEnableClientState(GU_VERTEX_ARRAY);
+    //set the vertex position in array
+    edk::GU_GLSL::guVertexPointer2f32(0u,5u);
+
+    //draw the array
+    edk::GU_GLSL::guDrawArrays(mode,0,this->vboCount);
+
+    //enable vertex in array
+    edk::GU_GLSL::guDisableClientState(GU_VERTEX_ARRAY);
+    //enable color in array
+    edk::GU_GLSL::guDisableClientState(GU_COLOR_ARRAY);
+
+    edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);
+}
+void edk::shape::Polygon3DList::drawWithMatrix_XYZ_RGB(edk::uint32 mode){
+    edk::GU_GLSL::guUseBuffer(GU_ARRAY_BUFFER,this->vboWithMatrix);
+
+    //enable color in array
+    edk::GU_GLSL::guEnableClientState(GU_COLOR_ARRAY);
+    //set the color position in array
+    edk::GU_GLSL::guColorPointer3f32(3,6u);
+    //enable vertex in array
+    edk::GU_GLSL::guEnableClientState(GU_VERTEX_ARRAY);
+    //set the vertex position in array
+    edk::GU_GLSL::guVertexPointer3f32(0u,6u);
+
+    //draw the array
+    edk::GU_GLSL::guDrawArrays(mode,0,this->vboCount);
+
+    //enable vertex in array
+    edk::GU_GLSL::guDisableClientState(GU_VERTEX_ARRAY);
+    //enable color in array
+    edk::GU_GLSL::guDisableClientState(GU_COLOR_ARRAY);
+
+    edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);
+}
+void edk::shape::Polygon3DList::drawWithMatrix_XY_RGBA(edk::uint32 mode){
+    edk::GU_GLSL::guUseBuffer(GU_ARRAY_BUFFER,this->vboWithMatrix);
+
+    //enable color in array
+    edk::GU_GLSL::guEnableClientState(GU_COLOR_ARRAY);
+    //set the color position in array
+    edk::GU_GLSL::guColorPointer4f32(2u,6u);
+    //enable vertex in array
+    edk::GU_GLSL::guEnableClientState(GU_VERTEX_ARRAY);
+    //set the vertex position in array
+    edk::GU_GLSL::guVertexPointer2f32(0u,6u);
+
+    //draw the array
+    edk::GU_GLSL::guDrawArrays(mode,0,this->vboCount);
+
+    //enable vertex in array
+    edk::GU_GLSL::guDisableClientState(GU_VERTEX_ARRAY);
+    //enable color in array
+    edk::GU_GLSL::guDisableClientState(GU_COLOR_ARRAY);
+
+    edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);
+}
+void edk::shape::Polygon3DList::drawWithMatrix_XYZ_RGBA(edk::uint32 mode){
+    edk::GU_GLSL::guUseBuffer(GU_ARRAY_BUFFER,this->vboWithMatrix);
+
+    //enable color in array
+    edk::GU_GLSL::guEnableClientState(GU_COLOR_ARRAY);
+    //set the color position in array
+    edk::GU_GLSL::guColorPointer4f32(3u,7u);
+    //enable vertex in array
+    edk::GU_GLSL::guEnableClientState(GU_VERTEX_ARRAY);
+    //set the vertex position in array
+    edk::GU_GLSL::guVertexPointer3f32(0u,7u);
+
+    //draw the array
+    edk::GU_GLSL::guDrawArrays(mode,0,this->vboCount);
+
+    //enable vertex in array
+    edk::GU_GLSL::guDisableClientState(GU_VERTEX_ARRAY);
+    //enable color in array
+    edk::GU_GLSL::guDisableClientState(GU_COLOR_ARRAY);
+
+    edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);
+}
+void edk::shape::Polygon3DList::drawWithMatrix_XY_RGB_NxNyNz(edk::uint32 mode){
+    edk::GU_GLSL::guUseBuffer(GU_ARRAY_BUFFER,this->vboWithMatrix);
+
+    //enable normal in array
+    edk::GU_GLSL::guEnableClientState(GU_NORMAL_ARRAY);
+    //set the normal position in array
+    edk::GU_GLSL::guNormalPointerF32(5u,8u);
+    //enable color in array
+    edk::GU_GLSL::guEnableClientState(GU_COLOR_ARRAY);
+    //set the color position in array
+    edk::GU_GLSL::guColorPointer3f32(2u,8u);
+    //enable vertex in array
+    edk::GU_GLSL::guEnableClientState(GU_VERTEX_ARRAY);
+    //set the vertex position in array
+    edk::GU_GLSL::guVertexPointer2f32(0u,8u);
+
+    //draw the array
+    edk::GU_GLSL::guDrawArrays(mode,0,this->vboCount);
+
+    //enable vertex in array
+    edk::GU_GLSL::guDisableClientState(GU_VERTEX_ARRAY);
+    //enable color in array
+    edk::GU_GLSL::guDisableClientState(GU_COLOR_ARRAY);
+    //enable normal in array
+    edk::GU_GLSL::guDisableClientState(GU_NORMAL_ARRAY);
+
+    edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);
+}
+void edk::shape::Polygon3DList::drawWithMatrix_XYZ_RGB_NxNyNz(edk::uint32 mode){
+    edk::GU_GLSL::guUseBuffer(GU_ARRAY_BUFFER,this->vboWithMatrix);
+
+    //enable normal in array
+    edk::GU_GLSL::guEnableClientState(GU_NORMAL_ARRAY);
+    //set the normal position in array
+    edk::GU_GLSL::guNormalPointerF32(6u,9u);
+    //enable color in array
+    edk::GU_GLSL::guEnableClientState(GU_COLOR_ARRAY);
+    //set the color position in array
+    edk::GU_GLSL::guColorPointer3f32(3u,9u);
+    //enable vertex in array
+    edk::GU_GLSL::guEnableClientState(GU_VERTEX_ARRAY);
+    //set the vertex position in array
+    edk::GU_GLSL::guVertexPointer3f32(0u,9u);
+
+    //draw the array
+    edk::GU_GLSL::guDrawArrays(mode,0,this->vboCount);
+
+    //enable vertex in array
+    edk::GU_GLSL::guDisableClientState(GU_VERTEX_ARRAY);
+    //enable color in array
+    edk::GU_GLSL::guDisableClientState(GU_COLOR_ARRAY);
+    //enable normal in array
+    edk::GU_GLSL::guDisableClientState(GU_NORMAL_ARRAY);
+
+    edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);
+}
+void edk::shape::Polygon3DList::drawWithMatrix_XY_RGBA_NxNyNz(edk::uint32 mode){
+    edk::GU_GLSL::guUseBuffer(GU_ARRAY_BUFFER,this->vboWithMatrix);
+
+    //enable normal in array
+    edk::GU_GLSL::guEnableClientState(GU_NORMAL_ARRAY);
+    //set the normal position in array
+    edk::GU_GLSL::guNormalPointerF32(6u,9u);
+    //enable color in array
+    edk::GU_GLSL::guEnableClientState(GU_COLOR_ARRAY);
+    //set the color position in array
+    edk::GU_GLSL::guColorPointer4f32(2u,9u);
+    //enable vertex in array
+    edk::GU_GLSL::guEnableClientState(GU_VERTEX_ARRAY);
+    //set the vertex position in array
+    edk::GU_GLSL::guVertexPointer2f32(0u,9u);
+
+    //draw the array
+    edk::GU_GLSL::guDrawArrays(mode,0,this->vboCount);
+
+    //enable vertex in array
+    edk::GU_GLSL::guDisableClientState(GU_VERTEX_ARRAY);
+    //enable color in array
+    edk::GU_GLSL::guDisableClientState(GU_COLOR_ARRAY);
+    //enable normal in array
+    edk::GU_GLSL::guDisableClientState(GU_NORMAL_ARRAY);
+
+    edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);
+}
+void edk::shape::Polygon3DList::drawWithMatrix_XYZ_RGBA_NxNyNz(edk::uint32 mode){
+    edk::GU_GLSL::guUseBuffer(GU_ARRAY_BUFFER,this->vboWithMatrix);
+
+    //enable normal in array
+    edk::GU_GLSL::guEnableClientState(GU_NORMAL_ARRAY);
+    //set the normal position in array
+    edk::GU_GLSL::guNormalPointerF32(7u,10u);
+    //enable color in array
+    edk::GU_GLSL::guEnableClientState(GU_COLOR_ARRAY);
+    //set the color position in array
+    edk::GU_GLSL::guColorPointer4f32(3u,10u);
+    //enable vertex in array
+    edk::GU_GLSL::guEnableClientState(GU_VERTEX_ARRAY);
+    //set the vertex position in array
+    edk::GU_GLSL::guVertexPointer3f32(0u,10u);
+
+    //draw the array
+    edk::GU_GLSL::guDrawArrays(mode,0,this->vboCount);
+
+    //enable vertex in array
+    edk::GU_GLSL::guDisableClientState(GU_VERTEX_ARRAY);
+    //enable color in array
+    edk::GU_GLSL::guDisableClientState(GU_COLOR_ARRAY);
+    //enable normal in array
+    edk::GU_GLSL::guDisableClientState(GU_NORMAL_ARRAY);
+
+    edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);
+}
+void edk::shape::Polygon3DList::drawWithMatrix_XY_RGB_NxNyNz_UVxUVy(edk::uint32 mode){
+    edk::GU_GLSL::guUseBuffer(GU_ARRAY_BUFFER,this->vboWithMatrix);
+
+    //enable texture coord in array
+    edk::GU_GLSL::guEnableClientState(GU_TEXTURE_COORD_ARRAY);
+    //set the texture coor position in array
+    edk::GU_GLSL::guTexCoordPointer2f32(8u,10u);
+    //enable normal in array
+    edk::GU_GLSL::guEnableClientState(GU_NORMAL_ARRAY);
+    //set the normal position in array
+    edk::GU_GLSL::guNormalPointerF32(5u,10u);
+    //enable color in array
+    edk::GU_GLSL::guEnableClientState(GU_COLOR_ARRAY);
+    //set the color position in array
+    edk::GU_GLSL::guColorPointer3f32(2u,10u);
+    //enable vertex in array
+    edk::GU_GLSL::guEnableClientState(GU_VERTEX_ARRAY);
+    //set the vertex position in array
+    edk::GU_GLSL::guVertexPointer2f32(0u,10u);
+
+    //draw the array
+    edk::GU_GLSL::guDrawArrays(mode,0,this->vboCount);
+
+    //enable vertex in array
+    edk::GU_GLSL::guDisableClientState(GU_VERTEX_ARRAY);
+    //enable color in array
+    edk::GU_GLSL::guDisableClientState(GU_COLOR_ARRAY);
+    //enable normal in array
+    edk::GU_GLSL::guDisableClientState(GU_NORMAL_ARRAY);
+    //enable texture coord in array
+    edk::GU_GLSL::guDisableClientState(GU_TEXTURE_COORD_ARRAY);
+
+    edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);
+}
+void edk::shape::Polygon3DList::drawWithMatrix_XYZ_RGB_NxNyNz_UVxUVy(edk::uint32 mode){
+    edk::GU_GLSL::guUseBuffer(GU_ARRAY_BUFFER,this->vboWithMatrix);
+
+    //enable texture coord in array
+    edk::GU_GLSL::guEnableClientState(GU_TEXTURE_COORD_ARRAY);
+    //set the texture coor position in array
+    edk::GU_GLSL::guTexCoordPointer2f32(9u,11u);
+    //enable normal in array
+    edk::GU_GLSL::guEnableClientState(GU_NORMAL_ARRAY);
+    //set the normal position in array
+    edk::GU_GLSL::guNormalPointerF32(6u,11u);
+    //enable color in array
+    edk::GU_GLSL::guEnableClientState(GU_COLOR_ARRAY);
+    //set the color position in array
+    edk::GU_GLSL::guColorPointer3f32(3u,11u);
+    //enable vertex in array
+    edk::GU_GLSL::guEnableClientState(GU_VERTEX_ARRAY);
+    //set the vertex position in array
+    edk::GU_GLSL::guVertexPointer3f32(0u,11u);
+
+    //draw the array
+    edk::GU_GLSL::guDrawArrays(mode,0,this->vboCount);
+
+    //enable vertex in array
+    edk::GU_GLSL::guDisableClientState(GU_VERTEX_ARRAY);
+    //enable color in array
+    edk::GU_GLSL::guDisableClientState(GU_COLOR_ARRAY);
+    //enable normal in array
+    edk::GU_GLSL::guDisableClientState(GU_NORMAL_ARRAY);
+    //enable texture coord in array
+    edk::GU_GLSL::guDisableClientState(GU_TEXTURE_COORD_ARRAY);
+
+    edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);
+}
+void edk::shape::Polygon3DList::drawWithMatrix_XY_RGBA_NxNyNz_UVxUVy(edk::uint32 mode){
+    edk::GU_GLSL::guUseBuffer(GU_ARRAY_BUFFER,this->vboWithMatrix);
+
+    //enable texture coord in array
+    edk::GU_GLSL::guEnableClientState(GU_TEXTURE_COORD_ARRAY);
+    //set the texture coor position in array
+    edk::GU_GLSL::guTexCoordPointer2f32(9u,11u);
+    //enable normal in array
+    edk::GU_GLSL::guEnableClientState(GU_NORMAL_ARRAY);
+    //set the normal position in array
+    edk::GU_GLSL::guNormalPointerF32(6u,11u);
+    //enable color in array
+    edk::GU_GLSL::guEnableClientState(GU_COLOR_ARRAY);
+    //set the color position in array
+    edk::GU_GLSL::guColorPointer4f32(2u,11u);
+    //enable vertex in array
+    edk::GU_GLSL::guEnableClientState(GU_VERTEX_ARRAY);
+    //set the vertex position in array
+    edk::GU_GLSL::guVertexPointer2f32(0u,11u);
+
+    //draw the array
+    edk::GU_GLSL::guDrawArrays(mode,0,this->vboCount);
+
+    //enable vertex in array
+    edk::GU_GLSL::guDisableClientState(GU_VERTEX_ARRAY);
+    //enable color in array
+    edk::GU_GLSL::guDisableClientState(GU_COLOR_ARRAY);
+    //enable normal in array
+    edk::GU_GLSL::guDisableClientState(GU_NORMAL_ARRAY);
+    //enable texture coord in array
+    edk::GU_GLSL::guDisableClientState(GU_TEXTURE_COORD_ARRAY);
+
+    edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);
+}
+void edk::shape::Polygon3DList::drawWithMatrix_XYZ_RGBA_NxNyNz_UVxUVy(edk::uint32 mode){
+    edk::GU_GLSL::guUseBuffer(GU_ARRAY_BUFFER,this->vboWithMatrix);
+
+    //enable texture coord in array
+    edk::GU_GLSL::guEnableClientState(GU_TEXTURE_COORD_ARRAY);
+    //set the texture coor position in array
+    edk::GU_GLSL::guTexCoordPointer2f32(10u,12u);
+    //enable normal in array
+    edk::GU_GLSL::guEnableClientState(GU_NORMAL_ARRAY);
+    //set the normal position in array
+    edk::GU_GLSL::guNormalPointerF32(7u,12u);
+    //enable color in array
+    edk::GU_GLSL::guEnableClientState(GU_COLOR_ARRAY);
+    //set the color position in array
+    edk::GU_GLSL::guColorPointer4f32(3u,12u);
+    //enable vertex in array
+    edk::GU_GLSL::guEnableClientState(GU_VERTEX_ARRAY);
+    //set the vertex position in array
+    edk::GU_GLSL::guVertexPointer3f32(0u,12u);
+
+    //draw the array
+    edk::GU_GLSL::guDrawArrays(mode,0,this->vboCount);
+
+    //enable vertex in array
+    edk::GU_GLSL::guDisableClientState(GU_VERTEX_ARRAY);
+    //enable color in array
+    edk::GU_GLSL::guDisableClientState(GU_COLOR_ARRAY);
+    //enable normal in array
+    edk::GU_GLSL::guDisableClientState(GU_NORMAL_ARRAY);
+    //enable texture coord in array
+    edk::GU_GLSL::guDisableClientState(GU_TEXTURE_COORD_ARRAY);
+
+    edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);
+}
+//DRAW UPDATE
+void edk::shape::Polygon3DList::drawUpdateWithMatrix_NULL(edk::uint32 mode){
+    //this->updateVBOWithMatrix();
+    /*
+    edk::GU_GLSL::guUseBuffer(GU_ARRAY_BUFFER,this->vboWithMatrix);
+
+    //enable texture coord in array
+    edk::GU_GLSL::guEnableClientState(GU_TEXTURE_COORD_ARRAY);
+    //set the texture coor position in array
+    edk::GU_GLSL::guTexCoordPointer2f32(0u);
+    //enable normal in array
+    edk::GU_GLSL::guEnableClientState(GU_NORMAL_ARRAY);
+    //set the normal position in array
+    edk::GU_GLSL::guNormalPointerF32(0u);
+    //enable color in array
+    edk::GU_GLSL::guEnableClientState(GU_COLOR_ARRAY);
+    //set the color position in array
+    edk::GU_GLSL::guColorPointer3f32(0);
+    edk::GU_GLSL::guColorPointer4f32(0);
+    //enable vertex in array
+    edk::GU_GLSL::guEnableClientState(GU_VERTEX_ARRAY);
+    //set the vertex position in array
+    edk::GU_GLSL::guVertexPointer2f32(0u);
+    edk::GU_GLSL::guVertexPointer3f32(0u);
+
+    //draw the array
+    edk::GU_GLSL::guDrawArrays(mode,0,this->vboCount);
+
+    //enable vertex in array
+    edk::GU_GLSL::guDisableClientState(GU_VERTEX_ARRAY);
+    //enable color in array
+    edk::GU_GLSL::guDisableClientState(GU_COLOR_ARRAY);
+    //enable normal in array
+    edk::GU_GLSL::guDisableClientState(GU_NORMAL_ARRAY);
+    //enable texture coord in array
+    edk::GU_GLSL::guDisableClientState(GU_TEXTURE_COORD_ARRAY);
+
+    edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);
+*/
+    edk::GU::guBegin(mode);edkEnd();
+    this->drawVertexs();edkEnd();
+    edk::GU::guEnd();edkEnd();
+    //change the drawFunction
+    this->setVBOFunctionNULL();
+}
+void edk::shape::Polygon3DList::drawUpdateWithMatrix_XY(edk::uint32 mode){
+    this->updateVBOWithMatrix();
+    edk::GU_GLSL::guUseBuffer(GU_ARRAY_BUFFER,this->vboWithMatrix);
+    //draw only the positions
+    //enable vertex in array
+    edk::GU_GLSL::guEnableClientState(GU_VERTEX_ARRAY);
+    //set the vertex position in array
+    edk::GU_GLSL::guVertexPointer2f32(0u,2u);
+
+    //draw the array
+    edk::GU_GLSL::guDrawArrays(mode,0,this->vboCount);
+
+    //enable vertex in array
+    edk::GU_GLSL::guDisableClientState(GU_VERTEX_ARRAY);
+
+    edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);
+    //change the drawFunction
+    this->vboDrawWithMatrix = &edk::shape::Polygon3DList::drawWithMatrix_XY;
+}
+void edk::shape::Polygon3DList::drawUpdateWithMatrix_XYZ(edk::uint32 mode){
+    this->updateVBOWithMatrix();
+    edk::GU_GLSL::guUseBuffer(GU_ARRAY_BUFFER,this->vboWithMatrix);
+
+    //enable vertex in array
+    edk::GU_GLSL::guEnableClientState(GU_VERTEX_ARRAY);
+    //set the vertex position in array
+    edk::GU_GLSL::guVertexPointer3f32(0u,3u);
+
+    //draw the array
+    edk::GU_GLSL::guDrawArrays(mode,0,this->vboCount);
+
+    //enable vertex in array
+    edk::GU_GLSL::guDisableClientState(GU_VERTEX_ARRAY);
+
+    edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);
+    //change the drawFunction
+    this->vboDrawWithMatrix = &edk::shape::Polygon3DList::drawWithMatrix_XYZ;
+}
+void edk::shape::Polygon3DList::drawUpdateWithMatrix_XY_NxNyNz(edk::uint32 mode){
+    this->updateVBOWithMatrix();
+    edk::GU_GLSL::guUseBuffer(GU_ARRAY_BUFFER,this->vboWithMatrix);
+
+    //enable normal in array
+    edk::GU_GLSL::guEnableClientState(GU_NORMAL_ARRAY);
+    //set the normal position in array
+    edk::GU_GLSL::guNormalPointerF32(2u,5u);
+    //enable vertex in array
+    edk::GU_GLSL::guEnableClientState(GU_VERTEX_ARRAY);
+    //set the vertex position in array
+    edk::GU_GLSL::guVertexPointer2f32(0u,5u);
+
+    //draw the array
+    edk::GU_GLSL::guDrawArrays(mode,0,this->vboCount);
+
+    //enable vertex in array
+    edk::GU_GLSL::guDisableClientState(GU_VERTEX_ARRAY);
+    //enable normal in array
+    edk::GU_GLSL::guDisableClientState(GU_NORMAL_ARRAY);
+
+    edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);
+    //change the drawFunction
+    this->vboDrawWithMatrix = &edk::shape::Polygon3DList::drawWithMatrix_XY_NxNyNz;
+}
+void edk::shape::Polygon3DList::drawUpdateWithMatrix_XYZ_NxNyNz(edk::uint32 mode){
+    this->updateVBOWithMatrix();
+    edk::GU_GLSL::guUseBuffer(GU_ARRAY_BUFFER,this->vboWithMatrix);
+
+    //enable normal in array
+    edk::GU_GLSL::guEnableClientState(GU_NORMAL_ARRAY);
+    //set the normal position in array
+    edk::GU_GLSL::guNormalPointerF32(3u,6u);
+    //enable vertex in array
+    edk::GU_GLSL::guEnableClientState(GU_VERTEX_ARRAY);
+    //set the vertex position in array
+    edk::GU_GLSL::guVertexPointer3f32(0u,6u);
+
+    //draw the array
+    edk::GU_GLSL::guDrawArrays(mode,0,this->vboCount);
+
+    //enable vertex in array
+    edk::GU_GLSL::guDisableClientState(GU_VERTEX_ARRAY);
+    //enable normal in array
+    edk::GU_GLSL::guDisableClientState(GU_NORMAL_ARRAY);
+
+    edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);
+    //change the drawFunction
+    this->vboDrawWithMatrix = &edk::shape::Polygon3DList::drawWithMatrix_XYZ_NxNyNz;
+}
+void edk::shape::Polygon3DList::drawUpdateWithMatrix_XY_RGB(edk::uint32 mode){
+    this->updateVBOWithMatrix();
+    edk::GU_GLSL::guUseBuffer(GU_ARRAY_BUFFER,this->vboWithMatrix);
+
+    //enable color in array
+    edk::GU_GLSL::guEnableClientState(GU_COLOR_ARRAY);
+    //set the color position in array
+    edk::GU_GLSL::guColorPointer3f32(2u,5u);
+    //enable vertex in array
+    edk::GU_GLSL::guEnableClientState(GU_VERTEX_ARRAY);
+    //set the vertex position in array
+    edk::GU_GLSL::guVertexPointer2f32(0u,5u);
+
+    //draw the array
+    edk::GU_GLSL::guDrawArrays(mode,0,this->vboCount);
+
+    //enable vertex in array
+    edk::GU_GLSL::guDisableClientState(GU_VERTEX_ARRAY);
+    //enable color in array
+    edk::GU_GLSL::guDisableClientState(GU_COLOR_ARRAY);
+
+    edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);
+    //change the drawFunction
+    this->vboDrawWithMatrix = &edk::shape::Polygon3DList::drawWithMatrix_XY_RGB;
+}
+void edk::shape::Polygon3DList::drawUpdateWithMatrix_XYZ_RGB(edk::uint32 mode){
+    this->updateVBOWithMatrix();
+    edk::GU_GLSL::guUseBuffer(GU_ARRAY_BUFFER,this->vboWithMatrix);
+
+    //enable color in array
+    edk::GU_GLSL::guEnableClientState(GU_COLOR_ARRAY);
+    //set the color position in array
+    edk::GU_GLSL::guColorPointer3f32(3,6u);
+    //enable vertex in array
+    edk::GU_GLSL::guEnableClientState(GU_VERTEX_ARRAY);
+    //set the vertex position in array
+    edk::GU_GLSL::guVertexPointer3f32(0u,6u);
+
+    //draw the array
+    edk::GU_GLSL::guDrawArrays(mode,0,this->vboCount);
+
+    //enable vertex in array
+    edk::GU_GLSL::guDisableClientState(GU_VERTEX_ARRAY);
+    //enable color in array
+    edk::GU_GLSL::guDisableClientState(GU_COLOR_ARRAY);
+
+    edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);
+    //change the drawFunction
+    this->vboDrawWithMatrix = &edk::shape::Polygon3DList::drawWithMatrix_XYZ_RGB;
+}
+void edk::shape::Polygon3DList::drawUpdateWithMatrix_XY_RGBA(edk::uint32 mode){
+    this->updateVBOWithMatrix();
+    edk::GU_GLSL::guUseBuffer(GU_ARRAY_BUFFER,this->vboWithMatrix);
+
+    //enable color in array
+    edk::GU_GLSL::guEnableClientState(GU_COLOR_ARRAY);
+    //set the color position in array
+    edk::GU_GLSL::guColorPointer4f32(2u,6u);
+    //enable vertex in array
+    edk::GU_GLSL::guEnableClientState(GU_VERTEX_ARRAY);
+    //set the vertex position in array
+    edk::GU_GLSL::guVertexPointer2f32(0u,6u);
+
+    //draw the array
+    edk::GU_GLSL::guDrawArrays(mode,0,this->vboCount);
+
+    //enable vertex in array
+    edk::GU_GLSL::guDisableClientState(GU_VERTEX_ARRAY);
+    //enable color in array
+    edk::GU_GLSL::guDisableClientState(GU_COLOR_ARRAY);
+
+    edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);
+    //change the drawFunction
+    this->vboDrawWithMatrix = &edk::shape::Polygon3DList::drawWithMatrix_XY_RGBA;
+}
+void edk::shape::Polygon3DList::drawUpdateWithMatrix_XYZ_RGBA(edk::uint32 mode){
+    this->updateVBOWithMatrix();
+    edk::GU_GLSL::guUseBuffer(GU_ARRAY_BUFFER,this->vboWithMatrix);
+
+    //enable color in array
+    edk::GU_GLSL::guEnableClientState(GU_COLOR_ARRAY);
+    //set the color position in array
+    edk::GU_GLSL::guColorPointer4f32(3u,7u);
+    //enable vertex in array
+    edk::GU_GLSL::guEnableClientState(GU_VERTEX_ARRAY);
+    //set the vertex position in array
+    edk::GU_GLSL::guVertexPointer3f32(0u,7u);
+
+    //draw the array
+    edk::GU_GLSL::guDrawArrays(mode,0,this->vboCount);
+
+    //enable vertex in array
+    edk::GU_GLSL::guDisableClientState(GU_VERTEX_ARRAY);
+    //enable color in array
+    edk::GU_GLSL::guDisableClientState(GU_COLOR_ARRAY);
+
+    edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);
+    //change the drawFunction
+    this->vboDrawWithMatrix = &edk::shape::Polygon3DList::drawWithMatrix_XYZ_RGBA;
+}
+void edk::shape::Polygon3DList::drawUpdateWithMatrix_XY_RGB_NxNyNz(edk::uint32 mode){
+    this->updateVBOWithMatrix();
+    edk::GU_GLSL::guUseBuffer(GU_ARRAY_BUFFER,this->vboWithMatrix);
+
+    //enable normal in array
+    edk::GU_GLSL::guEnableClientState(GU_NORMAL_ARRAY);
+    //set the normal position in array
+    edk::GU_GLSL::guNormalPointerF32(5u,8u);
+    //enable color in array
+    edk::GU_GLSL::guEnableClientState(GU_COLOR_ARRAY);
+    //set the color position in array
+    edk::GU_GLSL::guColorPointer3f32(2u,8u);
+    //enable vertex in array
+    edk::GU_GLSL::guEnableClientState(GU_VERTEX_ARRAY);
+    //set the vertex position in array
+    edk::GU_GLSL::guVertexPointer2f32(0u,8u);
+
+    //draw the array
+    edk::GU_GLSL::guDrawArrays(mode,0,this->vboCount);
+
+    //enable vertex in array
+    edk::GU_GLSL::guDisableClientState(GU_VERTEX_ARRAY);
+    //enable color in array
+    edk::GU_GLSL::guDisableClientState(GU_COLOR_ARRAY);
+    //enable normal in array
+    edk::GU_GLSL::guDisableClientState(GU_NORMAL_ARRAY);
+
+    edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);
+    //change the drawFunction
+    this->vboDrawWithMatrix = &edk::shape::Polygon3DList::drawWithMatrix_XY_RGB_NxNyNz;
+}
+void edk::shape::Polygon3DList::drawUpdateWithMatrix_XYZ_RGB_NxNyNz(edk::uint32 mode){
+    this->updateVBOWithMatrix();
+    edk::GU_GLSL::guUseBuffer(GU_ARRAY_BUFFER,this->vboWithMatrix);
+
+    //enable normal in array
+    edk::GU_GLSL::guEnableClientState(GU_NORMAL_ARRAY);
+    //set the normal position in array
+    edk::GU_GLSL::guNormalPointerF32(6u,9u);
+    //enable color in array
+    edk::GU_GLSL::guEnableClientState(GU_COLOR_ARRAY);
+    //set the color position in array
+    edk::GU_GLSL::guColorPointer3f32(3u,9u);
+    //enable vertex in array
+    edk::GU_GLSL::guEnableClientState(GU_VERTEX_ARRAY);
+    //set the vertex position in array
+    edk::GU_GLSL::guVertexPointer3f32(0u,9u);
+
+    //draw the array
+    edk::GU_GLSL::guDrawArrays(mode,0,this->vboCount);
+
+    //enable vertex in array
+    edk::GU_GLSL::guDisableClientState(GU_VERTEX_ARRAY);
+    //enable color in array
+    edk::GU_GLSL::guDisableClientState(GU_COLOR_ARRAY);
+    //enable normal in array
+    edk::GU_GLSL::guDisableClientState(GU_NORMAL_ARRAY);
+
+    edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);
+    //change the drawFunction
+    this->vboDrawWithMatrix = &edk::shape::Polygon3DList::drawWithMatrix_XYZ_RGB_NxNyNz;
+}
+void edk::shape::Polygon3DList::drawUpdateWithMatrix_XY_RGBA_NxNyNz(edk::uint32 mode){
+    this->updateVBOWithMatrix();
+    edk::GU_GLSL::guUseBuffer(GU_ARRAY_BUFFER,this->vboWithMatrix);
+
+    //enable normal in array
+    edk::GU_GLSL::guEnableClientState(GU_NORMAL_ARRAY);
+    //set the normal position in array
+    edk::GU_GLSL::guNormalPointerF32(6u,9u);
+    //enable color in array
+    edk::GU_GLSL::guEnableClientState(GU_COLOR_ARRAY);
+    //set the color position in array
+    edk::GU_GLSL::guColorPointer4f32(2u,9u);
+    //enable vertex in array
+    edk::GU_GLSL::guEnableClientState(GU_VERTEX_ARRAY);
+    //set the vertex position in array
+    edk::GU_GLSL::guVertexPointer2f32(0u,9u);
+
+    //draw the array
+    edk::GU_GLSL::guDrawArrays(mode,0,this->vboCount);
+
+    //enable vertex in array
+    edk::GU_GLSL::guDisableClientState(GU_VERTEX_ARRAY);
+    //enable color in array
+    edk::GU_GLSL::guDisableClientState(GU_COLOR_ARRAY);
+    //enable normal in array
+    edk::GU_GLSL::guDisableClientState(GU_NORMAL_ARRAY);
+
+    edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);
+    //change the drawFunction
+    this->vboDrawWithMatrix = &edk::shape::Polygon3DList::drawWithMatrix_XY_RGBA_NxNyNz;
+}
+void edk::shape::Polygon3DList::drawUpdateWithMatrix_XYZ_RGBA_NxNyNz(edk::uint32 mode){
+    this->updateVBOWithMatrix();
+    edk::GU_GLSL::guUseBuffer(GU_ARRAY_BUFFER,this->vboWithMatrix);
+
+    //enable normal in array
+    edk::GU_GLSL::guEnableClientState(GU_NORMAL_ARRAY);
+    //set the normal position in array
+    edk::GU_GLSL::guNormalPointerF32(7u,10u);
+    //enable color in array
+    edk::GU_GLSL::guEnableClientState(GU_COLOR_ARRAY);
+    //set the color position in array
+    edk::GU_GLSL::guColorPointer4f32(3u,10u);
+    //enable vertex in array
+    edk::GU_GLSL::guEnableClientState(GU_VERTEX_ARRAY);
+    //set the vertex position in array
+    edk::GU_GLSL::guVertexPointer3f32(0u,10u);
+
+    //draw the array
+    edk::GU_GLSL::guDrawArrays(mode,0,this->vboCount);
+
+    //enable vertex in array
+    edk::GU_GLSL::guDisableClientState(GU_VERTEX_ARRAY);
+    //enable color in array
+    edk::GU_GLSL::guDisableClientState(GU_COLOR_ARRAY);
+    //enable normal in array
+    edk::GU_GLSL::guDisableClientState(GU_NORMAL_ARRAY);
+
+    edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);
+    //change the drawFunction
+    this->vboDrawWithMatrix = &edk::shape::Polygon3DList::drawWithMatrix_XYZ_RGBA_NxNyNz;
+}
+void edk::shape::Polygon3DList::drawUpdateWithMatrix_XY_RGB_NxNyNz_UVxUVy(edk::uint32 mode){
+    this->updateVBOWithMatrix();
+    edk::GU_GLSL::guUseBuffer(GU_ARRAY_BUFFER,this->vboWithMatrix);
+
+    //enable texture coord in array
+    edk::GU_GLSL::guEnableClientState(GU_TEXTURE_COORD_ARRAY);
+    //set the texture coor position in array
+    edk::GU_GLSL::guTexCoordPointer2f32(8u,10u);
+    //enable normal in array
+    edk::GU_GLSL::guEnableClientState(GU_NORMAL_ARRAY);
+    //set the normal position in array
+    edk::GU_GLSL::guNormalPointerF32(5u,10u);
+    //enable color in array
+    edk::GU_GLSL::guEnableClientState(GU_COLOR_ARRAY);
+    //set the color position in array
+    edk::GU_GLSL::guColorPointer3f32(2u,10u);
+    //enable vertex in array
+    edk::GU_GLSL::guEnableClientState(GU_VERTEX_ARRAY);
+    //set the vertex position in array
+    edk::GU_GLSL::guVertexPointer2f32(0u,10u);
+
+    //draw the array
+    edk::GU_GLSL::guDrawArrays(mode,0,this->vboCount);
+
+    //enable vertex in array
+    edk::GU_GLSL::guDisableClientState(GU_VERTEX_ARRAY);
+    //enable color in array
+    edk::GU_GLSL::guDisableClientState(GU_COLOR_ARRAY);
+    //enable normal in array
+    edk::GU_GLSL::guDisableClientState(GU_NORMAL_ARRAY);
+    //enable texture coord in array
+    edk::GU_GLSL::guDisableClientState(GU_TEXTURE_COORD_ARRAY);
+
+    edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);
+    //change the drawFunction
+    this->vboDrawWithMatrix = &edk::shape::Polygon3DList::drawWithMatrix_XY_RGB_NxNyNz_UVxUVy;
+}
+void edk::shape::Polygon3DList::drawUpdateWithMatrix_XYZ_RGB_NxNyNz_UVxUVy(edk::uint32 mode){
+    this->updateVBOWithMatrix();
+    edk::GU_GLSL::guUseBuffer(GU_ARRAY_BUFFER,this->vboWithMatrix);
+
+    //enable texture coord in array
+    edk::GU_GLSL::guEnableClientState(GU_TEXTURE_COORD_ARRAY);
+    //set the texture coor position in array
+    edk::GU_GLSL::guTexCoordPointer2f32(9u,11u);
+    //enable normal in array
+    edk::GU_GLSL::guEnableClientState(GU_NORMAL_ARRAY);
+    //set the normal position in array
+    edk::GU_GLSL::guNormalPointerF32(6u,11u);
+    //enable color in array
+    edk::GU_GLSL::guEnableClientState(GU_COLOR_ARRAY);
+    //set the color position in array
+    edk::GU_GLSL::guColorPointer3f32(3u,11u);
+    //enable vertex in array
+    edk::GU_GLSL::guEnableClientState(GU_VERTEX_ARRAY);
+    //set the vertex position in array
+    edk::GU_GLSL::guVertexPointer3f32(0u,11u);
+
+    //draw the array
+    edk::GU_GLSL::guDrawArrays(mode,0,this->vboCount);
+
+    //enable vertex in array
+    edk::GU_GLSL::guDisableClientState(GU_VERTEX_ARRAY);
+    //enable color in array
+    edk::GU_GLSL::guDisableClientState(GU_COLOR_ARRAY);
+    //enable normal in array
+    edk::GU_GLSL::guDisableClientState(GU_NORMAL_ARRAY);
+    //enable texture coord in array
+    edk::GU_GLSL::guDisableClientState(GU_TEXTURE_COORD_ARRAY);
+
+    edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);
+    //change the drawFunction
+    this->vboDrawWithMatrix = &edk::shape::Polygon3DList::drawWithMatrix_XYZ_RGB_NxNyNz_UVxUVy;
+}
+void edk::shape::Polygon3DList::drawUpdateWithMatrix_XY_RGBA_NxNyNz_UVxUVy(edk::uint32 mode){
+    this->updateVBOWithMatrix();
+    edk::GU_GLSL::guUseBuffer(GU_ARRAY_BUFFER,this->vboWithMatrix);
+
+    //enable texture coord in array
+    edk::GU_GLSL::guEnableClientState(GU_TEXTURE_COORD_ARRAY);
+    //set the texture coor position in array
+    edk::GU_GLSL::guTexCoordPointer2f32(9u,11u);
+    //enable normal in array
+    edk::GU_GLSL::guEnableClientState(GU_NORMAL_ARRAY);
+    //set the normal position in array
+    edk::GU_GLSL::guNormalPointerF32(6u,11u);
+    //enable color in array
+    edk::GU_GLSL::guEnableClientState(GU_COLOR_ARRAY);
+    //set the color position in array
+    edk::GU_GLSL::guColorPointer4f32(2u,11u);
+    //enable vertex in array
+    edk::GU_GLSL::guEnableClientState(GU_VERTEX_ARRAY);
+    //set the vertex position in array
+    edk::GU_GLSL::guVertexPointer2f32(0u,11u);
+
+    //draw the array
+    edk::GU_GLSL::guDrawArrays(mode,0,this->vboCount);
+
+    //enable vertex in array
+    edk::GU_GLSL::guDisableClientState(GU_VERTEX_ARRAY);
+    //enable color in array
+    edk::GU_GLSL::guDisableClientState(GU_COLOR_ARRAY);
+    //enable normal in array
+    edk::GU_GLSL::guDisableClientState(GU_NORMAL_ARRAY);
+    //enable texture coord in array
+    edk::GU_GLSL::guDisableClientState(GU_TEXTURE_COORD_ARRAY);
+
+    edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);
+    //change the drawFunction
+    this->vboDrawWithMatrix = &edk::shape::Polygon3DList::drawWithMatrix_XY_RGBA_NxNyNz_UVxUVy;
+}
+void edk::shape::Polygon3DList::drawUpdateWithMatrix_XYZ_RGBA_NxNyNz_UVxUVy(edk::uint32 mode){
+    this->updateVBOWithMatrix();
+    edk::GU_GLSL::guUseBuffer(GU_ARRAY_BUFFER,this->vboWithMatrix);
+
+    //enable texture coord in array
+    edk::GU_GLSL::guEnableClientState(GU_TEXTURE_COORD_ARRAY);
+    //set the texture coor position in array
+    edk::GU_GLSL::guTexCoordPointer2f32(10u,12u);
+    //enable normal in array
+    edk::GU_GLSL::guEnableClientState(GU_NORMAL_ARRAY);
+    //set the normal position in array
+    edk::GU_GLSL::guNormalPointerF32(7u,12u);
+    //enable color in array
+    edk::GU_GLSL::guEnableClientState(GU_COLOR_ARRAY);
+    //set the color position in array
+    edk::GU_GLSL::guColorPointer4f32(3u,12u);
+    //enable vertex in array
+    edk::GU_GLSL::guEnableClientState(GU_VERTEX_ARRAY);
+    //set the vertex position in array
+    edk::GU_GLSL::guVertexPointer3f32(0u,12u);
+
+    //draw the array
+    edk::GU_GLSL::guDrawArrays(mode,0,this->vboCount);
+
+    //enable vertex in array
+    edk::GU_GLSL::guDisableClientState(GU_VERTEX_ARRAY);
+    //enable color in array
+    edk::GU_GLSL::guDisableClientState(GU_COLOR_ARRAY);
+    //enable normal in array
+    edk::GU_GLSL::guDisableClientState(GU_NORMAL_ARRAY);
+    //enable texture coord in array
+    edk::GU_GLSL::guDisableClientState(GU_TEXTURE_COORD_ARRAY);
+
+    edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);
+    //change the drawFunction
+    this->vboDrawWithMatrix = &edk::shape::Polygon3DList::drawWithMatrix_XYZ_RGBA_NxNyNz_UVxUVy;
 }
 
 //Set polygons color
@@ -576,6 +16292,10 @@ void edk::shape::Polygon3DList::cleanPolygons(){
         this->removePolygon(i-1u);edkEnd();
     }
     this->polygons.clean();edkEnd();
+
+    this->cleanVertexes();
+    this->deleteVBO();
+    this->deleteVBOWithMatrix();
 }
 //delete the polygon
 bool edk::shape::Polygon3DList::removePolygon(edk::uint32 position){
@@ -1181,6 +16901,114 @@ bool edk::shape::Polygon3DList::selectedDrawVertexs(edk::color3f32 color){
     return false;
 }
 
+//VBO
+void edk::shape::Polygon3DList::setUseVBO(bool use){
+    this->canUseVBO=use;
+}
+void edk::shape::Polygon3DList::useVBO(){
+    this->setUseVBO(true);
+}
+void edk::shape::Polygon3DList::dontUseVBO(){
+    this->setUseVBO(false);
+}
+//convert the mesh to the VBO
+bool edk::shape::Polygon3DList::generateVBO(){
+    //draw the polygons
+    edk::uint32 size = this->polygons.size();
+    edk::shape::Polygon3D* temp;
+    this->cleanVertexes();
+    edk::shape::Vertex3DAnimatedUV *vert0,*vert1,*vert2;
+    edk::shape::Vertex3DAnimatedUV *vertT0,*vertT1,*vertT2;
+    if(size){
+        if(this->vertexs.createArray(size*3u)){
+            bool ret = true;
+            for(edk::uint32 i=0u;i<size;i++){
+                vert0 = new edk::shape::Vertex3DAnimatedUV;
+                vert1 = new edk::shape::Vertex3DAnimatedUV;
+                vert2 = new edk::shape::Vertex3DAnimatedUV;
+                if(vert0
+                        && vert1
+                        && vert2
+                        ){
+                    this->vertexs.set((i*3u)+0u,(edk::shape::Vertex3D*)vert0);
+                    this->vertexs.set((i*3u)+1u,(edk::shape::Vertex3D*)vert1);
+                    this->vertexs.set((i*3u)+2u,(edk::shape::Vertex3D*)vert2);
+                    //create the new vertex
+                    if(this->polygons.havePos(i)){
+                        temp = this->polygons.get(i);edkEnd();
+                        if(temp){
+                            if(temp->getVertexCount()>=3u){
+                                //add the vertexes
+                                vertT0 = (edk::shape::Vertex3DAnimatedUV*)temp->getVertexPointerInPosition(0u);
+                                vertT1 = (edk::shape::Vertex3DAnimatedUV*)temp->getVertexPointerInPosition(1u);
+                                vertT2 = (edk::shape::Vertex3DAnimatedUV*)temp->getVertexPointerInPosition(2u);
+                                if(vertT0
+                                        && vertT1
+                                        && vertT2){
+                                    //vert0
+                                    vert0->position = vertT0->position;
+                                    vert0->normal = vertT0->normal;
+                                    vert0->color = vertT0->color;
+                                    //set the values
+                                    if(vertT0->getType()==EDK_SHAPE_UV){
+                                        vert0->setUV(vertT0->getUV());
+                                    }
+                                    else if(vertT0->getType()==EDK_SHAPE_ANIMATED_UV){
+                                        vert0->setUV(vertT0->getUV());
+                                        vert0->setUVFrames(vertT0->getUVFrames());
+                                    }
+                                    //vert1
+                                    vert1->position = vertT1->position;
+                                    vert1->normal = vertT1->normal;
+                                    vert1->color = vertT1->color;
+                                    //set the values
+                                    if(vertT1->getType()==EDK_SHAPE_UV){
+                                        vert1->setUV(vertT1->getUV());
+                                    }
+                                    else if(vertT1->getType()==EDK_SHAPE_ANIMATED_UV){
+                                        vert1->setUV(vertT1->getUV());
+                                        vert1->setUVFrames(vertT1->getUVFrames());
+                                    }
+                                    //vert2
+                                    vert2->position = vertT2->position;
+                                    vert2->normal = vertT2->normal;
+                                    vert2->color = vertT2->color;
+                                    //set the values
+                                    if(vertT2->getType()==EDK_SHAPE_UV){
+                                        vert2->setUV(vertT2->getUV());
+                                    }
+                                    else if(vertT2->getType()==EDK_SHAPE_ANIMATED_UV){
+                                        vert2->setUV(vertT2->getUV());
+                                        vert2->setUVFrames(vertT2->getUVFrames());
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                else{
+                    if(vert0){delete vert0;}
+                    if(vert1){delete vert1;}
+                    if(vert2){delete vert2;}
+                    ret = false;
+                    break;
+                }
+            }
+            if(!ret){
+                this->cleanVertexes();
+                return false;
+            }
+
+            //create and update the VBO
+            this->createVBO(this->vertexs.size(),edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy);
+            this->updateVBOValues();
+
+            return true;
+        }
+    }
+    return false;
+}
+
 //XML
 bool edk::shape::Polygon3DList::writeToXML(edk::XML* xml,edk::uint32 id){
     if(xml){
@@ -1557,4 +17385,9 @@ bool edk::shape::Polygon3DList::drawPolygonVertexsWorldWithMatrix(edk::vector::M
         }
     }
     return false;
+}
+
+//VBO
+void edk::shape::Polygon3DList::drawVBOPolygons(){
+    (this->*vboDraw)(GU_TRIANGLES);
 }

@@ -656,6 +656,29 @@ public:
     static bool guUpdateLoadTextures();
     static bool guUpdateDeleteTextures();
 
+    //VBO type
+    enum VBOType{
+        vbo_NULL = 0u,
+        vbo_XY,
+        vbo_XYZ,
+        vbo_XY_NxNyNz,
+        vbo_XYZ_NxNyNz,
+        vbo_XY_RGB,
+        vbo_XYZ_RGB,
+        vbo_XY_RGBA,
+        vbo_XYZ_RGBA,
+        vbo_XY_RGB_NxNyNz,
+        vbo_XYZ_RGB_NxNyNz,
+        vbo_XY_RGBA_NxNyNz,
+        vbo_XYZ_RGBA_NxNyNz,
+        vbo_XY_RGB_NxNyNz_UVxUVy,
+        vbo_XYZ_RGB_NxNyNz_UVxUVy,
+        vbo_XY_RGBA_NxNyNz_UVxUVy,
+        vbo_XYZ_RGBA_NxNyNz_UVxUVy,
+
+        vbo_Size
+    };
+
 private:
     static edk::uint32 initiate;
     static edk::uint32 ID;

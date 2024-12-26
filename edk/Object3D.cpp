@@ -48,6 +48,7 @@ edk::Object3D::~Object3D(){
 //HIDE
 void edk::Object3D::drawHideBoundingBox(){}
 void edk::Object3D::drawHide(bool ){}
+void edk::Object3D::drawVBOHide(bool ){}
 void edk::Object3D::drawHideOneTexture(){}
 void edk::Object3D::drawHideOneTextureWithLight(bool ){}
 void edk::Object3D::drawHideWithoutMaterial(){}
@@ -105,6 +106,39 @@ void edk::Object3D::drawUnhide(bool haveLight){
                 }
                 else{
                     mesh->drawMultiTexture();edkEnd();
+                }
+            }
+        }
+    }
+}
+void edk::Object3D::drawVBOUnhide(bool haveLight){
+    edk::shape::Mesh3D* mesh;edkEnd();
+    if(haveLight){
+        edk::uint32 size = this->meshes.size();edkEnd();
+        for(edk::uint32 i=0u;i<size;i++){
+            //
+            mesh = this->meshes.getMesh(i);edkEnd();
+            if(mesh){
+                if(mesh->material.haveOneTexture()){
+                    mesh->drawVBOOneTexture();edkEnd();
+                }
+                else{
+                    mesh->drawVBOMultiTexture();edkEnd();
+                }
+            }
+        }
+    }
+    else{
+        edk::uint32 size = this->meshes.size();edkEnd();
+        for(edk::uint32 i=0u;i<size;i++){
+            //
+            mesh = this->meshes.getMesh(i);edkEnd();
+            if(mesh){
+                if(mesh->material.haveOneTexture()){
+                    mesh->drawVBOOneTexture();edkEnd();
+                }
+                else{
+                    mesh->drawVBOMultiTexture();edkEnd();
                 }
             }
         }
@@ -1216,6 +1250,31 @@ void edk::Object3D::drawChildBack(bool haveLight){
     //glEnable(GL_RESCALE_NORMAL);edkEnd();
     edk::GU::guPopMatrix();edkEnd();
 }
+void edk::Object3D::drawVBOChildBack(bool haveLight){
+    //put the transformation on a stack
+    edk::GU::guPushMatrix();edkEnd();
+
+    edk::GU::guScale3f32(this->connectedSize);edkEnd();
+    edk::GU::guRotateZf32(this->connectedAngle.x);edkEnd();
+    edk::GU::guTranslate3f32(this->connectedPosition);edkEnd();
+    edk::GU::guTranslate3f32(this->connectedPivo*-1.0f);edkEnd();
+
+    //add translate
+    edk::GU::guTranslate3f32(this->position);edkEnd();
+    //add scale
+    edk::GU::guScale3f32(this->size);edkEnd();
+    //add rotation
+    edk::GU::guRotateZf32(this->angle.x);edkEnd();
+    //set the pivo
+    edk::GU::guTranslate3f32(this->pivo*-1.0f);edkEnd();
+
+    this->drawChildremsBack(haveLight);
+
+    (this->*functionDrawVBO)(haveLight);
+
+    //glEnable(GL_RESCALE_NORMAL);edkEnd();
+    edk::GU::guPopMatrix();edkEnd();
+}
 void edk::Object3D::drawChildremsFront(bool haveLight){
     edk::uint32 size = this->childremsFront.size();
     edk::Object3D* obj;
@@ -1243,6 +1302,30 @@ void edk::Object3D::drawChildFront(bool haveLight){
     edk::GU::guTranslate3f32(this->pivo*-1.0f);edkEnd();
 
     (this->*functionDraw)(haveLight);
+
+    this->drawChildremsFront(haveLight);
+    //glEnable(GL_RESCALE_NORMAL);edkEnd();
+    edk::GU::guPopMatrix();edkEnd();
+}
+void edk::Object3D::drawVBOChildFront(bool haveLight){
+    //put the transformation on a stack
+    edk::GU::guPushMatrix();edkEnd();
+
+    edk::GU::guScale3f32(this->connectedSize);edkEnd();
+    edk::GU::guRotateZf32(this->connectedAngle.x);edkEnd();
+    edk::GU::guTranslate3f32(this->connectedPosition);edkEnd();
+    edk::GU::guTranslate3f32(this->connectedPivo*-1.0f);edkEnd();
+
+    //add translate
+    edk::GU::guTranslate3f32(this->position);edkEnd();
+    //add scale
+    edk::GU::guScale3f32(this->size);edkEnd();
+    //add rotation
+    edk::GU::guRotateZf32(this->angle.x);edkEnd();
+    //set the pivo
+    edk::GU::guTranslate3f32(this->pivo*-1.0f);edkEnd();
+
+    (this->*functionDrawVBO)(haveLight);
 
     this->drawChildremsFront(haveLight);
     //glEnable(GL_RESCALE_NORMAL);edkEnd();
@@ -1282,6 +1365,32 @@ void edk::Object3D::drawChild(bool haveLight){
     this->drawChildremsBack(haveLight);
 
     (this->*functionDraw)(haveLight);
+
+    this->drawChildremsFront(haveLight);
+    //glEnable(GL_RESCALE_NORMAL);edkEnd();
+    edk::GU::guPopMatrix();edkEnd();
+}
+void edk::Object3D::drawChildVBO(bool haveLight){
+    //put the transformation on a stack
+    edk::GU::guPushMatrix();edkEnd();
+
+    edk::GU::guScale3f32(this->connectedSize);edkEnd();
+    edk::GU::guRotateZf32(this->connectedAngle.x);edkEnd();
+    edk::GU::guTranslate3f32(this->connectedPosition);edkEnd();
+    edk::GU::guTranslate3f32(this->connectedPivo*-1.0f);edkEnd();
+
+    //add translate
+    edk::GU::guTranslate3f32(this->position);edkEnd();
+    //add scale
+    edk::GU::guScale3f32(this->size);edkEnd();
+    //add rotation
+    edk::GU::guRotateZf32(this->angle.x);edkEnd();
+    //set the pivo
+    edk::GU::guTranslate3f32(this->pivo*-1.0f);edkEnd();
+
+    this->drawChildremsBack(haveLight);
+
+    (this->*functionDrawVBO)(haveLight);
 
     this->drawChildremsFront(haveLight);
     //glEnable(GL_RESCALE_NORMAL);edkEnd();
@@ -3325,6 +3434,7 @@ bool edk::Object3D::hide(){
         //
         this->functionDrawBoundingBox = &edk::Object3D::drawHideBoundingBox;
         this->functionDraw = &edk::Object3D::drawHide;
+        this->functionDrawVBO = &edk::Object3D::drawVBOHide;
         this->functionDrawOneTexture = &edk::Object3D::drawHideOneTexture;
         this->functionDrawOneTextureWithLight = &edk::Object3D::drawHideOneTextureWithLight;
         this->functionDrawWithoutMaterial = &edk::Object3D::drawHideWithoutMaterial;
@@ -3358,6 +3468,7 @@ bool edk::Object3D::unhide(){
         //
         this->functionDrawBoundingBox = &edk::Object3D::drawUnhideBoundingBox;
         this->functionDraw = &edk::Object3D::drawUnhide;
+        this->functionDrawVBO = &edk::Object3D::drawVBOUnhide;
         this->functionDrawOneTexture = &edk::Object3D::drawUnhideOneTexture;
         this->functionDrawOneTextureWithLight = &edk::Object3D::drawUnhideOneTextureWithLight;
         this->functionDrawWithoutMaterial = &edk::Object3D::drawUnhideWithoutMaterial;
@@ -3859,6 +3970,45 @@ void edk::Object3D::draw(){
     this->drawChildremsBack(haveLight);
 
     (this->*functionDraw)(haveLight);
+
+    this->drawChildremsFront(haveLight);
+
+    //glEnable(GL_RESCALE_NORMAL);edkEnd();
+    edk::GU::guDisable(GU_LIGHTING);edkEnd();
+    edk::GU::guPopMatrix();edkEnd();
+}
+void edk::Object3D::drawVBO(){
+    //put the transformation on a stack
+    edk::GU::guPushMatrix();edkEnd();
+
+    bool haveLight=false;edkEnd();
+    edk::GU::guEnable(GU_LIGHTING);edkEnd();
+    //glEnable(GL_RESCALE_NORMAL);edkEnd();
+    {
+        for(edk::uint32 i=0u;i<EDK_LIGHT_LIMIT;i++){
+            if(this->lights[i].on){
+                edk::GU::guEnable(GU_LIGHT0+i);edkEnd();
+                this->lights[i].draw(i);edkEnd();
+                haveLight=true;edkEnd();
+
+            }
+            else{
+                edk::GU::guDisable(GU_LIGHT0+i);edkEnd();
+            }
+        }
+    }
+    //add translate
+    edk::GU::guTranslate3f32(this->position);edkEnd();
+    //add rotation
+    edk::GU::guRotateZf32(this->angle.x);edkEnd();
+    //add scale
+    edk::GU::guScale3f32(this->size);edkEnd();
+    //set the pivo
+    edk::GU::guTranslate3f32(this->pivo*-1.0f);edkEnd();
+
+    this->drawChildremsBack(haveLight);
+
+    (this->*functionDrawVBO)(haveLight);
 
     this->drawChildremsFront(haveLight);
 
