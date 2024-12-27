@@ -940,6 +940,10 @@ bool edk::shape::FileOBJ::objAddFile(const edk::char8* fileName){
     return this->objAddFile((edk::char8*) fileName);edkEnd();
 }
 bool edk::shape::FileOBJ::objAddFile(edk::char8* fileName){
+    this->vertexes.cleanVertexes();
+    this->uvs.cleanUVS();
+    this->normals.cleanNormals();
+    this->materials.cleanMaterials();
     if(fileName){
         //open the file
         edk::File file;edkEnd();
@@ -1447,6 +1451,12 @@ bool edk::shape::FileOBJ::objAddFile(edk::char8* fileName){
             }
 
             file.closeFile();edkEnd();
+
+            this->vertexes.cleanVertexes();
+            this->uvs.cleanUVS();
+            this->normals.cleanNormals();
+            this->materials.cleanMaterials();
+
             return ret;
         }
     }
