@@ -4228,13 +4228,15 @@ edk::char8* edk::String::strInsideEnd(edk::char8 *str, edk::char8 *compare){
         if(size>1u && sizeCompare>1u){
             if(size>=sizeCompare){
                 //test the str with the compare
-                edk::char8* temp = &str[size-1u];
-                edk::char8* tempCompare = &str[sizeCompare-1u];
+                edk::char8* temp = &str[size-sizeCompare];
+                edk::char8* tempCompare = temp;
                 for(edk::uint32 i=0u;i<sizeCompare;i++){
                     //compare if are different
-                    if(*temp != *tempCompare){
+                    if(*compare != *tempCompare){
                         return NULL;
                     }
+                    compare++;
+                    tempCompare++;
                 }
                 //return the temp
                 return temp;

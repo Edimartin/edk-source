@@ -947,7 +947,21 @@ bool edk::shape::FileOBJ::objAddFile(edk::char8* fileName){
     if(fileName){
         //open the file
         edk::File file;edkEnd();
-        if(file.openTextFile(fileName)){
+
+        edk::char8* newFileName = NULL;
+
+        //test if the fileName have the .obj in the end
+        //printf("\nFilename == '%s'",fileName);fflush(stdout);
+        if(edk::String::strHaveInsideEnd(fileName,".obj")){
+            //just copy the name
+            newFileName = edk::String::strCopy(fileName);
+        }
+        else{
+            //concat the name
+            newFileName = edk::String::strCatMulti(fileName,".obj",NULL);
+        }
+
+        if(file.openTextFile(newFileName)){
             bool ret = true;edkEnd();
             edk::char8 c;edkEnd();
             edk::char8* str;edkEnd();
@@ -968,7 +982,7 @@ bool edk::shape::FileOBJ::objAddFile(edk::char8* fileName){
             bool smooth = false;edkEnd();
             edk::uint32 countMeshes = 0u;
 
-            edk::char8* folder = edk::String::strFolderName(fileName);
+            edk::char8* folder = edk::String::strFolderName(newFileName);
 
             while(!file.endOfFile()){
                 c = file.readTextChar();edkEnd();
@@ -1457,6 +1471,9 @@ bool edk::shape::FileOBJ::objAddFile(edk::char8* fileName){
             this->normals.cleanNormals();
             this->materials.cleanMaterials();
 
+            if(newFileName){
+                free(newFileName);
+            }
             return ret;
         }
     }
