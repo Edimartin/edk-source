@@ -2265,7 +2265,7 @@ void edk::Object3D::drawChildremsBackPivo(edk::float32 size,edk::color3f32 color
     }
 }
 void edk::Object3D::drawChildBackPivo(edk::float32 size,edk::color3f32 color){
-    edk::Object3D::drawPivoInPosition(this->position,size,color);
+    edk::Object3D::drawPivoInPosition(this->position,0.f,size,color);
     if(this->childremsBack.size()){
         edk::GU::guPushMatrix();edkEnd();
         //add translate
@@ -2289,7 +2289,7 @@ void edk::Object3D::drawChildremsFrontPivo(edk::float32 size,edk::color3f32 colo
     }
 }
 void edk::Object3D::drawChildFrontPivo(edk::float32 size,edk::color3f32 color){
-    edk::Object3D::drawPivoInPosition(this->position,size,color);
+    edk::Object3D::drawPivoInPosition(this->position,0.f,size,color);
     if(this->childremsFront.size()){
         edk::GU::guPushMatrix();edkEnd();
         //add translate
@@ -2331,7 +2331,7 @@ void edk::Object3D::drawChildPivo(edk::float32 size,edk::color3f32 color){
         this->drawChildremsBackPivo(size,color);
         edk::GU::guPopMatrix();edkEnd();
     }
-    edk::Object3D::drawPivoInPosition(this->position,size,color);
+    edk::Object3D::drawPivoInPosition(this->position,0.f,size,color);
     if(this->childremsFront.size()){
         edk::GU::guPushMatrix();edkEnd();
         //add translate
@@ -2380,7 +2380,7 @@ void edk::Object3D::drawChildBackPivo(edk::float32 size,edk::float32 r,edk::floa
     //add translate
     //edk::GU::guTranslate3f32(this->position);edkEnd();
 
-    edk::Object3D::drawPivoInPosition(this->position,size,edk::color3f32(r,g,b));
+    edk::Object3D::drawPivoInPosition(this->position,0.f,size,edk::color3f32(r,g,b));
 
     edk::GU::guPopMatrix();edkEnd();
 
@@ -2433,7 +2433,7 @@ void edk::Object3D::drawChildFrontPivo(edk::float32 size,edk::float32 r,edk::flo
     //add translate
     //edk::GU::guTranslate3f32(this->position);edkEnd();
 
-    edk::Object3D::drawPivoInPosition(this->position,size,edk::color3f32(r,g,b));
+    edk::Object3D::drawPivoInPosition(this->position,0.f,size,edk::color3f32(r,g,b));
 
     edk::GU::guPopMatrix();edkEnd();
 
@@ -2466,7 +2466,7 @@ void edk::Object3D::drawChildremsPivo(edk::float32 size,edk::float32 r,edk::floa
 }
 void edk::Object3D::drawChildPivo(edk::float32 size,edk::float32 r,edk::float32 g,edk::float32 b){
     if(this->childremsBack.size()){
-        edk::Object3D::drawPivoInPosition(this->position,size,edk::color3f32(r,g,b));
+        edk::Object3D::drawPivoInPosition(this->position,0.f,size,edk::color3f32(r,g,b));
         edk::GU::guPushMatrix();edkEnd();
         //add translate
         edk::GU::guTranslate3f32(this->position);edkEnd();
@@ -2479,9 +2479,9 @@ void edk::Object3D::drawChildPivo(edk::float32 size,edk::float32 r,edk::float32 
         this->drawChildremsBackPivo(size,r,g,b);
         edk::GU::guPopMatrix();edkEnd();
     }
-    edk::Object3D::drawPivoInPosition(this->position,size,edk::color3f32(r,g,b));
+    edk::Object3D::drawPivoInPosition(this->position,0.f,size,edk::color3f32(r,g,b));
     if(this->childremsFront.size()){
-        edk::Object3D::drawPivoInPosition(this->position,size,edk::color3f32(r,g,b));
+        edk::Object3D::drawPivoInPosition(this->position,0.f,size,edk::color3f32(r,g,b));
         edk::GU::guPushMatrix();edkEnd();
         //add translate
         edk::GU::guTranslate3f32(this->position);edkEnd();
@@ -3532,10 +3532,10 @@ bool edk::Object3D::lightOff(edk::uint32 position){
 }
 
 //OBJ
-bool edk::Object3D::addObj(const edk::char8* fileName){
-    return this->addObj((edk::char8*) fileName);edkEnd();
+bool edk::Object3D::addOBJ(const edk::char8* fileName){
+    return this->addOBJ((edk::char8*) fileName);edkEnd();
 }
-bool edk::Object3D::addObj(edk::char8* fileName){
+bool edk::Object3D::addOBJ(edk::char8* fileName){
     if(fileName){
         return this->objAddFile(fileName);
     }
@@ -3546,7 +3546,7 @@ bool edk::Object3D::loadOBJ(const edk::char8* fileName){
 }
 bool edk::Object3D::loadOBJ(edk::char8* fileName){
     this->cleanMeshes();edkEnd();
-    return this->addObj(fileName);edkEnd();
+    return this->addOBJ(fileName);edkEnd();
 }
 
 //VBO
@@ -4960,7 +4960,7 @@ void edk::Object3D::drawPivo(edk::float32 size,edk::color3f32 color){
         this->drawChildremsBackPivo(size,color);
         edk::GU::guPopMatrix();edkEnd();
     }
-    edk::Object3D::drawPivoInPosition(this->position,size,color);
+    edk::Object3D::drawPivoInPosition(this->position,0.f,size,color);
     if(this->childremsFront.size()){
         edk::GU::guPushMatrix();edkEnd();
         //add translate
@@ -4980,7 +4980,7 @@ void edk::Object3D::drawPivo(edk::float32 size,edk::float32 r,edk::float32 g,edk
     //add translate
     edk::GU::guTranslate3f32(this->position);edkEnd();
     //add rotation
-    edk::GU::guRotateZf32(this->angle.x);edkEnd();
+    edk::GU::guRotateZf32(this->angle.z);edkEnd();
     //add scale
     edk::GU::guScale3f32(this->size);edkEnd();
     //set the pivo
@@ -4995,7 +4995,7 @@ void edk::Object3D::drawPivo(edk::float32 size,edk::float32 r,edk::float32 g,edk
     //add translate
     //edk::GU::guTranslate3f32(this->position);edkEnd();
 
-    edk::Object3D::drawPivoInPosition(this->position,size,edk::color3f32(r,g,b));
+    edk::Object3D::drawPivoInPosition(this->position,this->angle.z,size,edk::color3f32(r,g,b));
 
     edk::GU::guPopMatrix();edkEnd();
 
@@ -5003,7 +5003,7 @@ void edk::Object3D::drawPivo(edk::float32 size,edk::float32 r,edk::float32 g,edk
     //add translate
     edk::GU::guTranslate3f32(this->position);edkEnd();
     //add rotation
-    edk::GU::guRotateZf32(this->angle.x);edkEnd();
+    edk::GU::guRotateZf32(this->angle.z);edkEnd();
     //add scale
     edk::GU::guScale3f32(this->size);edkEnd();
     //set the pivo
@@ -5013,11 +5013,13 @@ void edk::Object3D::drawPivo(edk::float32 size,edk::float32 r,edk::float32 g,edk
     }
     edk::GU::guPopMatrix();edkEnd();
 }
-void edk::Object3D::drawPivoInPosition(edk::vec3f32 position,edk::float32 size,edk::color3f32 color){
+void edk::Object3D::drawPivoInPosition(edk::vec3f32 position,edk::float32 angle,edk::float32 size,edk::color3f32 color){
     //
     edk::GU::guPushMatrix();edkEnd();
     //add translate
     edk::GU::guTranslate3f32(position);edkEnd();
+    //add rotation
+    edk::GU::guRotateYf32(angle);edkEnd();
     //add scale
     edk::GU::guScale3f32(edk::size3f32(size,size,size));edkEnd();
 
@@ -5029,11 +5031,17 @@ void edk::Object3D::drawPivoInPosition(edk::vec3f32 position,edk::float32 size,e
     //draw the lines
     edk::GU::guBegin(GU_LINES);edkEnd();
     //LINE 1
-    edk::GU::guVertex3f32(-0.5f,-0.5f,-0.5f);edkEnd();
-    edk::GU::guVertex3f32( 0.5f, 0.5f, 0.5f);edkEnd();
+    edk::GU::guVertex3f32(-0.5f,-0.5f,0.f);edkEnd();
+    edk::GU::guVertex3f32( 0.5f, 0.5f,0.f);edkEnd();
     //LINE 2
-    edk::GU::guVertex3f32(-0.5f, 0.5f, 0.5f);edkEnd();
-    edk::GU::guVertex3f32( 0.5f,-0.5f,-0.5f);edkEnd();
+    edk::GU::guVertex3f32(-0.5f, 0.5f,0.f);edkEnd();
+    edk::GU::guVertex3f32( 0.5f,-0.5f,0.f);edkEnd();
+    //LINE 3
+    edk::GU::guVertex3f32(0.0f, 0.5f,-0.5f);edkEnd();
+    edk::GU::guVertex3f32(0.0f,-0.5f, 0.5f);edkEnd();
+    //LINE 4
+    edk::GU::guVertex3f32(0.0f, 0.5f, 0.5f);edkEnd();
+    edk::GU::guVertex3f32(0.0f,-0.5f,-0.5f);edkEnd();
     edk::GU::guEnd();edkEnd();
 
     //lineSize
@@ -5043,16 +5051,18 @@ void edk::Object3D::drawPivoInPosition(edk::vec3f32 position,edk::float32 size,e
     edk::GU::guPopMatrix();edkEnd();
 }
 void edk::Object3D::drawPivoInPosition(edk::float32 x,edk::float32 y,edk::float32 z,
+                                       edk::float32 angle,
                                        edk::float32 size,
                                        edk::color3f32 color
                                        ){
-    edk::Object3D::drawPivoInPosition(edk::vec3f32(x,y,z),size,color);
+    edk::Object3D::drawPivoInPosition(edk::vec3f32(x,y,z),angle,size,color);
 }
 void edk::Object3D::drawPivoInPosition(edk::float32 x,edk::float32 y,edk::float32 z,
+                                       edk::float32 angle,
                                        edk::float32 size,
                                        edk::float32 r,edk::float32 g,edk::float32 b
                                        ){
-    edk::Object3D::drawPivoInPosition(edk::vec3f32(x,y,z),size,edk::color3f32(r,g,b));
+    edk::Object3D::drawPivoInPosition(edk::vec3f32(x,y,z),angle,size,edk::color3f32(r,g,b));
 }
 
 //XML

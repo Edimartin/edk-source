@@ -147,8 +147,8 @@ public:
     bool lightOff(edk::uint32 position);
 
     //OBJ
-    bool addObj(const edk::char8* fileName);
-    bool addObj(edk::char8* fileName);
+    bool addOBJ(const edk::char8* fileName);
+    bool addOBJ(edk::char8* fileName);
     bool loadOBJ(const edk::char8* fileName);
     bool loadOBJ(edk::char8* fileName);
 
@@ -285,12 +285,14 @@ public:
     //draw the pivo
     void drawPivo(edk::float32 size,edk::color3f32 color);
     void drawPivo(edk::float32 size,edk::float32 r,edk::float32 g,edk::float32 b);
-    static void drawPivoInPosition(edk::vec3f32 position,edk::float32 size,edk::color3f32 color);
+    static void drawPivoInPosition(edk::vec3f32 position,edk::float32 angle,edk::float32 size,edk::color3f32 color);
     static void drawPivoInPosition(edk::float32 x,edk::float32 y,edk::float32 z,
+                                   edk::float32 angle,
                                    edk::float32 size,
                                    edk::color3f32 color
                                    );
     static void drawPivoInPosition(edk::float32 x,edk::float32 y,edk::float32 z,
+                                   edk::float32 angle,
                                    edk::float32 size,
                                    edk::float32 r,edk::float32 g,edk::float32 b
                                    );

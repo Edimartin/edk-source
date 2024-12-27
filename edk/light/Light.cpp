@@ -298,7 +298,6 @@ void edk::light::Light::draw(edk::uint32 lightNumber){
 }
 //draw the pivo
 void edk::light::Light::drawPivo(edk::float32 size,edk::color3f32 color){
-
     edk::GU::guPushMatrix();edkEnd();
     //add translate
     edk::GU::guTranslate3f32(this->position[0u],this->position[1u],this->position[2u]);edkEnd();
