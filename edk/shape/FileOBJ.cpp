@@ -635,7 +635,7 @@ bool edk::shape::FileOBJ::loadMTL(edk::char8* fileName,edk::shape::FileOBJ::Tree
                                         str = file.readTextString("\n",false);edkEnd();
                                         if(str){
                                             illum = edk::String::strToInt32(str);
-                                            printf("\nIllum == '%s' [%d]",str,illum);fflush(stdout);edkEnd();
+                                            //printf("\nIllum == '%s' [%d]",str,illum);fflush(stdout);edkEnd();
                                             free(str);edkEnd();
                                         }
                                     }
@@ -663,7 +663,7 @@ bool edk::shape::FileOBJ::loadMTL(edk::char8* fileName,edk::shape::FileOBJ::Tree
                             str = file.readTextString("\n",false);edkEnd();
                             if(str){
                                 Ni = edk::String::strToFloat32(str);
-                                printf("\nNi == '%s' [%.2f]",str,Ni);fflush(stdout);edkEnd();
+                                //printf("\nNi == '%s' [%.2f]",str,Ni);fflush(stdout);edkEnd();
                                 free(str);edkEnd();
                             }
                         }
@@ -675,7 +675,7 @@ bool edk::shape::FileOBJ::loadMTL(edk::char8* fileName,edk::shape::FileOBJ::Tree
                         str = file.readTextString("\n",false);edkEnd();
                         if(str){
                             dValue = edk::String::strToFloat32(str);
-                            printf("\nd == '%s' [%.2f]",str,dValue);fflush(stdout);edkEnd();
+                            //printf("\nd == '%s' [%.2f]",str,dValue);fflush(stdout);edkEnd();
                             free(str);edkEnd();
                         }
                     }
@@ -953,7 +953,6 @@ bool edk::shape::FileOBJ::objAddFile(edk::char8* fileName){
             edk::uint32 v,n,p;edkEnd();
             edk::float32 x,y,z;edkEnd();
             edk::shape::Polygon3D poly;
-            poly.useVBO();
 
             edk::shape::Vertex3D* vert=NULL;
             edk::shape::Vector3D* norm=NULL;
@@ -1034,12 +1033,6 @@ bool edk::shape::FileOBJ::objAddFile(edk::char8* fileName){
                         if(str){
                             //printf("\nNEW OBJECT NAME == '%s'",str);fflush(stdout);edkEnd();
                             free(str);edkEnd();
-
-                            //generate the VBO
-                            if(mesh){
-                                mesh->useVBO();
-                                mesh->generateVBO();
-                            }
 
                             mesh=this->allocMeshForOBJ();edkEnd();
                             if(mesh){
@@ -1354,7 +1347,6 @@ bool edk::shape::FileOBJ::objAddFile(edk::char8* fileName){
 
                                 //create a new polygon
                                 poly.clean();
-                                poly.useVBO();
                                 if(poly.createPolygon(size)){
                                     //
                                     /*
@@ -1434,7 +1426,7 @@ bool edk::shape::FileOBJ::objAddFile(edk::char8* fileName){
                                             //readthe mtlFile
                                             str = file.readTextString("\n",false);edkEnd();
                                             if(str){
-                                                printf("\nUSE MTL == '%s'",str);edkEnd();
+                                                //printf("\nUSE MTL == '%s'",str);edkEnd();
                                                 if(mesh){
                                                     //set the material
                                                     mesh->material.cloneFrom(this->materials.getMaterialByName(str));
@@ -1449,10 +1441,6 @@ bool edk::shape::FileOBJ::objAddFile(edk::char8* fileName){
                     }
                     break;
                 }
-            }
-            if(mesh){
-                mesh->useVBO();
-                mesh->generateVBO();
             }
             if(folder){
                 free(folder);

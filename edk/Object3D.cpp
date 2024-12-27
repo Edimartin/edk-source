@@ -54,6 +54,7 @@ void edk::Object3D::drawHideOneTextureWithLight(bool ){}
 void edk::Object3D::drawHideWithoutMaterial(){}
 void edk::Object3D::drawHideWithoutMaterialWithLight(bool ){}
 void edk::Object3D::drawHideWire(){}
+void edk::Object3D::drawVBOHideWire(){}
 void edk::Object3D::drawHideWirePolygon(edk::uint32 ,edk::uint32 ){}
 void edk::Object3D::drawHideNormals(){}
 void edk::Object3D::drawHideNormalsWithColor(edk::color3f32){}
@@ -223,6 +224,18 @@ void edk::Object3D::drawUnhideWire(){
         mesh = this->meshes.getMesh(i);edkEnd();
         if(mesh){
             mesh->drawWirePolygons();edkEnd();
+        }
+    }
+}
+void edk::Object3D::drawVBOUnhideWire(){
+    edk::shape::Mesh3D* mesh;edkEnd();
+    //print all polygonList
+    edk::uint32 size = this->meshes.size();edkEnd();
+    for(edk::uint32 i=0u;i<size;i++){
+        //
+        mesh = this->meshes.getMesh(i);edkEnd();
+        if(mesh){
+            mesh->drawVBOWirePolygons();edkEnd();
         }
     }
 }
@@ -1225,6 +1238,14 @@ void edk::Object3D::drawChildremsBack(bool haveLight){
         obj->drawChild(haveLight);
     }
 }
+void edk::Object3D::drawVBOChildremsBack(bool haveLight){
+    edk::uint32 size = this->childremsBack.size();
+    edk::Object3D* obj;
+    for(edk::uint32 i=0u;i<size;i++){
+        obj = this->childremsBack.getElementInPosition(i);
+        obj->drawVBOChild(haveLight);
+    }
+}
 void edk::Object3D::drawChildBack(bool haveLight){
     //put the transformation on a stack
     edk::GU::guPushMatrix();edkEnd();
@@ -1268,7 +1289,7 @@ void edk::Object3D::drawVBOChildBack(bool haveLight){
     //set the pivo
     edk::GU::guTranslate3f32(this->pivo*-1.0f);edkEnd();
 
-    this->drawChildremsBack(haveLight);
+    this->drawVBOChildremsBack(haveLight);
 
     (this->*functionDrawVBO)(haveLight);
 
@@ -1281,6 +1302,14 @@ void edk::Object3D::drawChildremsFront(bool haveLight){
     for(edk::uint32 i=0u;i<size;i++){
         obj = this->childremsFront.getElementInPosition(i);
         obj->drawChild(haveLight);
+    }
+}
+void edk::Object3D::drawVBOChildremsFront(bool haveLight){
+    edk::uint32 size = this->childremsFront.size();
+    edk::Object3D* obj;
+    for(edk::uint32 i=0u;i<size;i++){
+        obj = this->childremsFront.getElementInPosition(i);
+        obj->drawVBOChild(haveLight);
     }
 }
 void edk::Object3D::drawChildFront(bool haveLight){
@@ -1327,7 +1356,7 @@ void edk::Object3D::drawVBOChildFront(bool haveLight){
 
     (this->*functionDrawVBO)(haveLight);
 
-    this->drawChildremsFront(haveLight);
+    this->drawVBOChildremsFront(haveLight);
     //glEnable(GL_RESCALE_NORMAL);edkEnd();
     edk::GU::guPopMatrix();edkEnd();
 }
@@ -1370,6 +1399,32 @@ void edk::Object3D::drawChild(bool haveLight){
     //glEnable(GL_RESCALE_NORMAL);edkEnd();
     edk::GU::guPopMatrix();edkEnd();
 }
+void edk::Object3D::drawVBOChild(bool haveLight){
+    //put the transformation on a stack
+    edk::GU::guPushMatrix();edkEnd();
+
+    edk::GU::guScale3f32(this->connectedSize);edkEnd();
+    edk::GU::guRotateZf32(this->connectedAngle.x);edkEnd();
+    edk::GU::guTranslate3f32(this->connectedPosition);edkEnd();
+    edk::GU::guTranslate3f32(this->connectedPivo*-1.0f);edkEnd();
+
+    //add translate
+    edk::GU::guTranslate3f32(this->position);edkEnd();
+    //add scale
+    edk::GU::guScale3f32(this->size);edkEnd();
+    //add rotation
+    edk::GU::guRotateZf32(this->angle.x);edkEnd();
+    //set the pivo
+    edk::GU::guTranslate3f32(this->pivo*-1.0f);edkEnd();
+
+    this->drawVBOChildremsBack(haveLight);
+
+    (this->*functionDrawVBO)(haveLight);
+
+    this->drawVBOChildremsFront(haveLight);
+    //glEnable(GL_RESCALE_NORMAL);edkEnd();
+    edk::GU::guPopMatrix();edkEnd();
+}
 void edk::Object3D::drawChildVBO(bool haveLight){
     //put the transformation on a stack
     edk::GU::guPushMatrix();edkEnd();
@@ -1388,11 +1443,11 @@ void edk::Object3D::drawChildVBO(bool haveLight){
     //set the pivo
     edk::GU::guTranslate3f32(this->pivo*-1.0f);edkEnd();
 
-    this->drawChildremsBack(haveLight);
+    this->drawVBOChildremsBack(haveLight);
 
     (this->*functionDrawVBO)(haveLight);
 
-    this->drawChildremsFront(haveLight);
+    this->drawVBOChildremsFront(haveLight);
     //glEnable(GL_RESCALE_NORMAL);edkEnd();
     edk::GU::guPopMatrix();edkEnd();
 }
@@ -1833,6 +1888,14 @@ void edk::Object3D::drawChildremsBackWire(){
         obj->drawChildWire();
     }
 }
+void edk::Object3D::drawVBOChildremsBackWire(){
+    edk::uint32 size = this->childremsBack.size();
+    edk::Object3D* obj;
+    for(edk::uint32 i=0u;i<size;i++){
+        obj = this->childremsBack.getElementInPosition(i);
+        obj->drawVBOChildWire();
+    }
+}
 void edk::Object3D::drawChildBackWire(){
     //put the transformation on a stack
     edk::GU::guPushMatrix();edkEnd();
@@ -1929,6 +1992,14 @@ void edk::Object3D::drawChildremsFrontWire(){
         obj->drawChildWire();
     }
 }
+void edk::Object3D::drawVBOChildremsFrontWire(){
+    edk::uint32 size = this->childremsFront.size();
+    edk::Object3D* obj;
+    for(edk::uint32 i=0u;i<size;i++){
+        obj = this->childremsFront.getElementInPosition(i);
+        obj->drawVBOChildWire();
+    }
+}
 void edk::Object3D::drawChildFrontWire(){
     //put the transformation on a stack
     edk::GU::guPushMatrix();edkEnd();
@@ -1950,6 +2021,30 @@ void edk::Object3D::drawChildFrontWire(){
     (this->*functionDrawWire)();
 
     this->drawChildremsFrontWire();
+
+    edk::GU::guPopMatrix();edkEnd();
+}
+void edk::Object3D::drawVBOChildFrontWire(){
+    //put the transformation on a stack
+    edk::GU::guPushMatrix();edkEnd();
+
+    edk::GU::guScale3f32(this->connectedSize);edkEnd();
+    edk::GU::guRotateZf32(this->connectedAngle.x);edkEnd();
+    edk::GU::guTranslate3f32(this->connectedPosition);edkEnd();
+    edk::GU::guTranslate3f32(this->connectedPivo*-1.0f);edkEnd();
+
+    //add translate
+    edk::GU::guTranslate3f32(this->position);edkEnd();
+    //add scale
+    edk::GU::guScale3f32(this->size);edkEnd();
+    //add rotation
+    edk::GU::guRotateZf32(this->angle.x);edkEnd();
+    //set the pivo
+    edk::GU::guTranslate3f32(this->pivo*-1.0f);edkEnd();
+
+    (this->*functionDrawVBOWire)();
+
+    this->drawVBOChildremsFrontWire();
 
     edk::GU::guPopMatrix();edkEnd();
 }
@@ -2053,6 +2148,32 @@ void edk::Object3D::drawChildWire(){
     (this->*functionDrawWire)();
 
     this->drawChildremsFrontWire();
+
+    edk::GU::guPopMatrix();edkEnd();
+}
+void edk::Object3D::drawVBOChildWire(){
+    //put the transformation on a stack
+    edk::GU::guPushMatrix();edkEnd();
+
+    edk::GU::guScale3f32(this->connectedSize);edkEnd();
+    edk::GU::guRotateZf32(this->connectedAngle.x);edkEnd();
+    edk::GU::guTranslate3f32(this->connectedPosition);edkEnd();
+    edk::GU::guTranslate3f32(this->connectedPivo*-1.0f);edkEnd();
+
+    //add translate
+    edk::GU::guTranslate3f32(this->position);edkEnd();
+    //add scale
+    edk::GU::guScale3f32(this->size);edkEnd();
+    //add rotation
+    edk::GU::guRotateZf32(this->angle.x);edkEnd();
+    //set the pivo
+    edk::GU::guTranslate3f32(this->pivo*-1.0f);edkEnd();
+
+    this->drawVBOChildremsBackWire();
+
+    (this->*functionDrawVBOWire)();
+
+    this->drawVBOChildremsFrontWire();
 
     edk::GU::guPopMatrix();edkEnd();
 }
@@ -3428,6 +3549,129 @@ bool edk::Object3D::loadOBJ(edk::char8* fileName){
     return this->addObj(fileName);edkEnd();
 }
 
+//VBO
+bool edk::Object3D::setUseVBO(edk::uint32 meshPosition,bool use){
+    edk::shape::Mesh3D* mesh = this->meshes.getMesh(meshPosition);edkEnd();
+    if(mesh){
+        mesh->setUseVBO(use);edkEnd();
+        return true;
+    }
+    return false;
+}
+bool edk::Object3D::useVBO(edk::uint32 meshPosition){
+    edk::shape::Mesh3D* mesh = this->meshes.getMesh(meshPosition);edkEnd();
+    if(mesh){
+        mesh->useVBO();edkEnd();
+        return true;
+    }
+    return false;
+}
+bool edk::Object3D::dontUseVBO(edk::uint32 meshPosition){
+    edk::shape::Mesh3D* mesh = this->meshes.getMesh(meshPosition);edkEnd();
+    if(mesh){
+        mesh->dontUseVBO();edkEnd();
+        return true;
+    }
+    return false;
+}
+bool edk::Object3D::setUseVBO(bool use){
+    edk::shape::Mesh3D* mesh;edkEnd();
+    //print all polygonList
+    edk::uint32 size = this->meshes.size();edkEnd();
+    if(size){
+        for(edk::uint32 i=0u;i<size;i++){
+            //
+            mesh = this->meshes.getMesh(i);edkEnd();
+            if(mesh){
+                mesh->setUseVBO(use);edkEnd();
+            }
+        }
+        return true;
+    }
+    return false;
+}
+bool edk::Object3D::useVBO(){
+    edk::shape::Mesh3D* mesh;edkEnd();
+    //print all polygonList
+    edk::uint32 size = this->meshes.size();edkEnd();
+    if(size){
+        for(edk::uint32 i=0u;i<size;i++){
+            //
+            mesh = this->meshes.getMesh(i);edkEnd();
+            if(mesh){
+                mesh->useVBO();edkEnd();
+            }
+        }
+        return true;
+    }
+    return false;
+}
+bool edk::Object3D::dontUseVBO(){
+    edk::shape::Mesh3D* mesh;edkEnd();
+    //print all polygonList
+    edk::uint32 size = this->meshes.size();edkEnd();
+    if(size){
+        for(edk::uint32 i=0u;i<size;i++){
+            //
+            mesh = this->meshes.getMesh(i);edkEnd();
+            if(mesh){
+                mesh->dontUseVBO();edkEnd();
+            }
+        }
+        return true;
+    }
+    return false;
+}
+//convert the mesh to the VBO
+bool edk::Object3D::generateVBO(edk::uint32 meshPosition){
+    edk::shape::Mesh3D* mesh = this->meshes.getMesh(meshPosition);edkEnd();
+    if(mesh){
+        mesh->generateVBO();edkEnd();
+        return true;
+    }
+    return false;
+}
+bool edk::Object3D::generateVBOWire(edk::uint32 meshPosition){
+    edk::shape::Mesh3D* mesh = this->meshes.getMesh(meshPosition);edkEnd();
+    if(mesh){
+        mesh->generateVBOWire();edkEnd();
+        return true;
+    }
+    return false;
+}
+bool edk::Object3D::generateVBO(){
+    edk::shape::Mesh3D* mesh;edkEnd();
+    //print all polygonList
+    edk::uint32 size = this->meshes.size();edkEnd();
+    if(size){
+        for(edk::uint32 i=0u;i<size;i++){
+            //
+            mesh = this->meshes.getMesh(i);edkEnd();
+            if(mesh){
+                mesh->generateVBO();edkEnd();
+            }
+        }
+        return true;
+    }
+    return false;
+}
+bool edk::Object3D::generateVBOWire(){
+    edk::shape::Mesh3D* mesh;edkEnd();
+    //print all polygonList
+    edk::uint32 size = this->meshes.size();edkEnd();
+    if(size){
+        for(edk::uint32 i=0u;i<size;i++){
+            //
+            mesh = this->meshes.getMesh(i);edkEnd();
+            if(mesh){
+                mesh->generateVBOWire();edkEnd();
+            }
+        }
+        return true;
+    }
+    return false;
+}
+
 //HIDE
 bool edk::Object3D::hide(){
     if(!this->hided){
@@ -3440,6 +3684,7 @@ bool edk::Object3D::hide(){
         this->functionDrawWithoutMaterial = &edk::Object3D::drawHideWithoutMaterial;
         this->functionDrawWithoutMaterialWithLight = &edk::Object3D::drawHideWithoutMaterialWithLight;
         this->functionDrawWire = &edk::Object3D::drawHideWire;
+        this->functionDrawVBOWire = &edk::Object3D::drawVBOHideWire;
         this->functionDrawWirePolygon = &edk::Object3D::drawHideWirePolygon;
         this->functionDrawNormals = &edk::Object3D::drawHideNormals;
         this->functionDrawNormalsWithColor = &edk::Object3D::drawHideNormalsWithColor;
@@ -3474,6 +3719,7 @@ bool edk::Object3D::unhide(){
         this->functionDrawWithoutMaterial = &edk::Object3D::drawUnhideWithoutMaterial;
         this->functionDrawWithoutMaterialWithLight = &edk::Object3D::drawUnhideWithoutMaterialWithLight;
         this->functionDrawWire = &edk::Object3D::drawUnhideWire;
+        this->functionDrawVBOWire = &edk::Object3D::drawVBOUnhideWire;
         this->functionDrawWirePolygon = &edk::Object3D::drawUnhideWirePolygon;
         this->functionDrawNormals = &edk::Object3D::drawUnhideNormals;
         this->functionDrawNormalsWithColor = &edk::Object3D::drawUnhideNormalsWithColor;
@@ -4006,11 +4252,11 @@ void edk::Object3D::drawVBO(){
     //set the pivo
     edk::GU::guTranslate3f32(this->pivo*-1.0f);edkEnd();
 
-    this->drawChildremsBack(haveLight);
+    this->drawVBOChildremsBack(haveLight);
 
     (this->*functionDrawVBO)(haveLight);
 
-    this->drawChildremsFront(haveLight);
+    this->drawVBOChildremsFront(haveLight);
 
     //glEnable(GL_RESCALE_NORMAL);edkEnd();
     edk::GU::guDisable(GU_LIGHTING);edkEnd();
@@ -4152,6 +4398,26 @@ void edk::Object3D::drawWire(){
     (this->*functionDrawWire)();
 
     this->drawChildremsFrontWire();
+
+    edk::GU::guPopMatrix();edkEnd();
+}
+void edk::Object3D::drawVBOWire(){
+    //put the transformation on a stack
+    edk::GU::guPushMatrix();edkEnd();
+    //add translate
+    edk::GU::guTranslate3f32(this->position);edkEnd();
+    //add rotation
+    edk::GU::guRotateZf32(this->angle.x);edkEnd();
+    //add scale
+    edk::GU::guScale3f32(this->size);edkEnd();
+    //set the pivo
+    edk::GU::guTranslate3f32(this->pivo*-1.0f);edkEnd();
+
+    this->drawVBOChildremsBackWire();
+
+    (this->*functionDrawVBOWire)();
+
+    this->drawVBOChildremsFrontWire();
 
     edk::GU::guPopMatrix();edkEnd();
 }

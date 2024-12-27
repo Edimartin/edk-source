@@ -227,6 +227,7 @@ public:
     void dontUseVBO();
     //convert the mesh to the VBO
     bool generateVBO();
+    bool generateVBOWire();
 
     //XML
     virtual bool writeToXML(edk::XML* xml,edk::uint32 id);
@@ -272,45 +273,69 @@ public:
 
     //VBO
     virtual void drawVBOPolygons();
+    virtual void drawVBOWirePolygons();
 
 protected:
     edk::vector::Array<edk::shape::Vertex3D*> vertexs;
+    edk::vector::Array<edk::shape::Vertex3D*> vertexsWire;
+    edk::vector::Array<edk::shape::Vertex3D*> vertexsWithMatrix;
     //VBO
     edk::uint32 vbo;
     edk::uint32 vboWithMatrix;
+    edk::uint32 vboWire;
     edk::GU::VBOType vboType;
+    edk::GU::VBOType vboWithMatrixType;
+    edk::GU::VBOType vboWireType;
     //array for the vbo
     edk::vector::Array<edk::float32> vertexBuffer;
     edk::vector::Array<edk::float32> vertexBufferWithMatrix;
+    edk::vector::Array<edk::float32> vertexBufferWire;
     //vbo vertexes size
     edk::uint32 vboCount;
+    edk::uint32 vboWireCount;
+    edk::uint32 vboWithMatrixCount;
     //save if can use VBO in the polygon
     bool canUseVBO;
 
     //return the vertexCount
     edk::uint32 getVertexCount();
     void cleanVertexes();
+    edk::uint32 getVertexCountWithMatrix();
+    void cleanVertexesWithMatrix();
+    edk::uint32 getVertexCountWire();
+    void cleanVertexesWire();
     //function to create the VBO
     virtual bool createVBO(edk::uint32 vertexCount,edk::GU::VBOType type);
     virtual bool createVBOWithMatrix(edk::uint32 vertexCount,edk::GU::VBOType type);
+    virtual bool createVBOWire(edk::uint32 vertexCount,edk::GU::VBOType type);
     //run the GU function to update the VBO
     bool updateVBO();
     bool updateVBOWithMatrix();
     bool updateVBOValuesWithMatrices(edk::vector::Matrixf32<4u,4u>* matrix,edk::vector::Matrixf32<4u,4u>* matrixTemp);
+    bool updateVBOWire();
     //change the type of the VBO
     bool changeVBO(edk::GU::VBOType type);
     bool changeVBOWithMatrix(edk::GU::VBOType type);
+    bool changeVBOWire(edk::GU::VBOType type);
     void deleteVBO();
     void deleteVBOWithMatrix();
+    void deleteVBOWire();
     bool haveVBO();
     bool haveVBOWithMatrix();
+    bool haveVBOWire();
     //set the vboFunction pointers
     bool updateVBOFunctions();
     bool updateVBOFunctionsWithMatrix();
+    bool updateVBOWireFunctions();
     bool setAutomaticallyVBOFunctions();
     bool setAutomaticallyVBOFunctionsWithMatrix();
+    bool setAutomaticallyVBOWireFunctions();
     void setVBOFunctionUpdateNULL();
+    void setVBOWithMatrixFunctionUpdateNULL();
+    void setVBOWireFunctionUpdateNULL();
     void setVBOFunctionNULL();
+    void setVBOWithMatrixFunctionNULL();
+    void setVBOWireFunctionNULL();
     //setters to VBO
     virtual bool setVBOVertexPosition(edk::uint32 vertex,edk::vec3f32 position);
     virtual bool setVBOVertexPositionX(edk::uint32 vertex,edk::float32 x);
@@ -330,6 +355,7 @@ protected:
     virtual bool setVBOVertexUV(edk::uint32 vertex,edk::vec2f32 uv);
     virtual bool setVBOVertexU(edk::uint32 vertex,edk::float32 u);
     virtual bool setVBOVertexV(edk::uint32 vertex,edk::float32 v);
+    //With Matrix
     virtual bool setVBOVertexPositionWithMatrix(edk::uint32 vertex,edk::vec3f32 position);
     virtual bool setVBOVertexPositionXWithMatrix(edk::uint32 vertex,edk::float32 x);
     virtual bool setVBOVertexPositionYWithMatrix(edk::uint32 vertex,edk::float32 y);
@@ -351,6 +377,7 @@ protected:
     //updafe the UV into the VBO
     virtual bool updateVBOUV();
     virtual bool updateVBOUVWithMatrix();
+    virtual bool updateVBOWireValues();
     virtual bool updateVBOValues();
     virtual bool updateVBOValuesWithMatrices();
     //print the VBO
@@ -362,6 +389,8 @@ protected:
     //DRAW
     void (edk::shape::Polygon3DList::*vboDraw)(edk::uint32);
     void (edk::shape::Polygon3DList::*vboDrawWithMatrix)(edk::uint32);
+    //DRAW WIRE
+    void (edk::shape::Polygon3DList::*vboDrawWire)(edk::uint32);
 
     //draw functions
     //PRINT
@@ -454,6 +483,42 @@ protected:
     void drawUpdateWithMatrix_XYZ_RGB_NxNyNz_UVxUVy(edk::uint32 mode);
     void drawUpdateWithMatrix_XY_RGBA_NxNyNz_UVxUVy(edk::uint32 mode);
     void drawUpdateWithMatrix_XYZ_RGBA_NxNyNz_UVxUVy(edk::uint32 mode);
+    //DRAWWire
+    virtual void drawWire_NULL(edk::uint32 mode);
+    void drawWire_XY(edk::uint32 mode);
+    void drawWire_XYZ(edk::uint32 mode);
+    void drawWire_XY_NxNyNz(edk::uint32 mode);
+    void drawWire_XYZ_NxNyNz(edk::uint32 mode);
+    void drawWire_XY_RGB(edk::uint32 mode);
+    void drawWire_XYZ_RGB(edk::uint32 mode);
+    void drawWire_XY_RGBA(edk::uint32 mode);
+    void drawWire_XYZ_RGBA(edk::uint32 mode);
+    void drawWire_XY_RGB_NxNyNz(edk::uint32 mode);
+    void drawWire_XYZ_RGB_NxNyNz(edk::uint32 mode);
+    void drawWire_XY_RGBA_NxNyNz(edk::uint32 mode);
+    void drawWire_XYZ_RGBA_NxNyNz(edk::uint32 mode);
+    void drawWire_XY_RGB_NxNyNz_UVxUVy(edk::uint32 mode);
+    void drawWire_XYZ_RGB_NxNyNz_UVxUVy(edk::uint32 mode);
+    void drawWire_XY_RGBA_NxNyNz_UVxUVy(edk::uint32 mode);
+    void drawWire_XYZ_RGBA_NxNyNz_UVxUVy(edk::uint32 mode);
+    //DRAWWire UPDATE
+    virtual void drawWireUpdate_NULL(edk::uint32 mode);
+    void drawWireUpdate_XY(edk::uint32 mode);
+    void drawWireUpdate_XYZ(edk::uint32 mode);
+    void drawWireUpdate_XY_NxNyNz(edk::uint32 mode);
+    void drawWireUpdate_XYZ_NxNyNz(edk::uint32 mode);
+    void drawWireUpdate_XY_RGB(edk::uint32 mode);
+    void drawWireUpdate_XYZ_RGB(edk::uint32 mode);
+    void drawWireUpdate_XY_RGBA(edk::uint32 mode);
+    void drawWireUpdate_XYZ_RGBA(edk::uint32 mode);
+    void drawWireUpdate_XY_RGB_NxNyNz(edk::uint32 mode);
+    void drawWireUpdate_XYZ_RGB_NxNyNz(edk::uint32 mode);
+    void drawWireUpdate_XY_RGBA_NxNyNz(edk::uint32 mode);
+    void drawWireUpdate_XYZ_RGBA_NxNyNz(edk::uint32 mode);
+    void drawWireUpdate_XY_RGB_NxNyNz_UVxUVy(edk::uint32 mode);
+    void drawWireUpdate_XYZ_RGB_NxNyNz_UVxUVy(edk::uint32 mode);
+    void drawWireUpdate_XY_RGBA_NxNyNz_UVxUVy(edk::uint32 mode);
+    void drawWireUpdate_XYZ_RGBA_NxNyNz_UVxUVy(edk::uint32 mode);
 
     //list of polygons
     class StackPolygons3D: public edk::vector::Stack<edk::shape::Polygon3D*> {

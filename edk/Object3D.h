@@ -152,6 +152,19 @@ public:
     bool loadOBJ(const edk::char8* fileName);
     bool loadOBJ(edk::char8* fileName);
 
+    //VBO
+    bool setUseVBO(edk::uint32 meshPosition,bool use);
+    bool useVBO(edk::uint32 meshPosition);
+    bool dontUseVBO(edk::uint32 meshPosition);
+    bool setUseVBO(bool use);
+    bool useVBO();
+    bool dontUseVBO();
+    //convert the mesh to the VBO
+    bool generateVBO(edk::uint32 meshPosition);
+    bool generateVBOWire(edk::uint32 meshPosition);
+    bool generateVBO();
+    bool generateVBOWire();
+
     //HIDE
     virtual bool hide();
     //UNHIDE
@@ -244,6 +257,7 @@ public:
     virtual void drawWithoutMaterial();
     virtual void drawWithoutMaterialWithLight();
     virtual void drawWire();
+    virtual void drawVBOWire();
     virtual void drawWirePolygon(edk::uint32 meshPosition,edk::uint32 polygon);
     virtual bool drawMesh(edk::uint32 meshPosition);
     virtual bool drawPolygon(edk::uint32 meshPosition,edk::uint32 polygon);
@@ -549,13 +563,16 @@ private:
     void drawChildremsBoundingBox();
     void drawChildBoundingBox();
     void drawChildremsBack(bool haveLight);
+    void drawVBOChildremsBack(bool haveLight);
     void drawChildBack(bool haveLight);
     void drawVBOChildBack(bool haveLight);
     void drawChildremsFront(bool haveLight);
+    void drawVBOChildremsFront(bool haveLight);
     void drawChildFront(bool haveLight);
     void drawVBOChildFront(bool haveLight);
     void drawChildrems(bool haveLight);
     void drawChild(bool haveLight);
+    void drawVBOChild(bool haveLight);
     void drawChildVBO(bool haveLight);
     void drawChildremsBackOneTexture();
     void drawChildBackOneTexture();
@@ -582,19 +599,23 @@ private:
     void drawChildremsWithoutMaterialWithLight(bool haveLight);
     void drawChildWithoutMaterialWithLight(bool haveLight);
     void drawChildremsBackWire();
+    void drawVBOChildremsBackWire();
     void drawChildBackWire();
     void drawChildremsBackNormals();
     void drawChildBackNormals();
     void drawChildremsBackNormalsWithColor(edk::color3f32 color);
     void drawChildBackNormalsWithColor(edk::color3f32 color);
     void drawChildremsFrontWire();
+    void drawVBOChildremsFrontWire();
     void drawChildFrontWire();
+    void drawVBOChildFrontWire();
     void drawChildremsFrontNormals();
     void drawChildFrontNormals();
     void drawChildremsFrontNormalsWithColor(edk::color3f32 color);
     void drawChildFrontNormalsWithColor(edk::color3f32 color);
     void drawChildremsWire();
     void drawChildWire();
+    void drawVBOChildWire();
     void drawChildremsNormals();
     void drawChildNormals();
     void drawChildremsNormalsWithColor(edk::color3f32 color);
@@ -960,6 +981,7 @@ private:
     void drawHideWithoutMaterial();
     void drawHideWithoutMaterialWithLight(bool haveLight);
     void drawHideWire();
+    void drawVBOHideWire();
     void drawHideWirePolygon(edk::uint32 meshPosition,edk::uint32 polygon);
     void drawHideNormals();
     void drawHideNormalsWithColor(edk::color3f32 color);
@@ -984,6 +1006,7 @@ private:
     void drawUnhideWithoutMaterial();
     void drawUnhideWithoutMaterialWithLight(bool haveLight);
     void drawUnhideWire();
+    void drawVBOUnhideWire();
     void drawUnhideWirePolygon(edk::uint32 meshPosition,edk::uint32 polygon);
     void drawUnhideNormals();
     void drawUnhideNormalsWithColor(edk::color3f32 color);
@@ -1007,6 +1030,7 @@ private:
     void (edk::Object3D::*functionDrawWithoutMaterial)();
     void (edk::Object3D::*functionDrawWithoutMaterialWithLight)(bool );
     void (edk::Object3D::*functionDrawWire)();
+    void (edk::Object3D::*functionDrawVBOWire)();
     void (edk::Object3D::*functionDrawWirePolygon)(edk::uint32 ,edk::uint32 );
     void (edk::Object3D::*functionDrawNormals)();
     void (edk::Object3D::*functionDrawNormalsWithColor)(edk::color3f32);
