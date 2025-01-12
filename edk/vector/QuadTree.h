@@ -931,12 +931,28 @@ public:
             this->selected3Pointer = &this->selected3;
             this->treeTempPointer = &this->treeTemp;
 
+            this->canObjectIn=true;
+
             //
 
             this->cleanWithRectPoints(edk::rectf32(0,0,1,1));edkEnd();
             this->minimumElementInQuads=1u;
             this->setMinimumElementInQuads(0u);
         }
+    }
+
+    //set if can add an object in the scene
+    void setCanAddObjectsInScene(bool canAdd){
+        this->canObjectIn=canAdd;
+    }
+    void canAddObjectInScene(){
+        this->setCanAddObjectsInScene(true);
+    }
+    void cantAddObjectInScene(){
+        this->setCanAddObjectsInScene(false);
+    }
+    bool getCanAddObjectsInScene(){
+        return this->canObjectIn;
     }
 
     //set the minimunQuadSize
@@ -2016,6 +2032,24 @@ public:
         this->setRectPointsFromTree(tree);
     }
 
+    void forceOutAll(){
+        edk::uint32 size;edkEnd();
+        typeTemplate temp;edkEnd();
+        size = (*this->treeGetsPointer).size();edkEnd();
+        for(edk::uint32 i=0u;i<size;i++){
+            temp = (*this->treeGetsPointer).getElementInPosition(0u);edkEnd();
+            if(temp){
+                if((*this->treeGetsPointer).remove(temp)){
+                    ///RUN GETOUT
+                    this->elementGetOut(temp);edkEnd();
+                    (*this->treeTempPointer)->remove(temp);edkEnd();
+                    (*this->treeOutsidePointer).add(temp);
+                }
+            }
+        }
+        (*this->treeTempPointer)->clean();
+    }
+
     //SELECTED FUNCTIONS
     bool haveSelected(){
         if((*this->selectedPointer)
@@ -2134,6 +2168,8 @@ private:
     edk::vector::QuadLeaf32<typeTemplate> treeNULL;
     edk::vector::QuadLeaf32<typeTemplate>* treeNULLPointer;
 
+    bool canObjectIn;
+
     //minimumQuadSize
     edk::float32 minimumQuadSize;
     edk::float32* minimumQuadSizePointer;
@@ -2233,12 +2269,14 @@ private:
                                             edk::vec2f32(rect.size.width,rect.size.height)
                                             )
                         ){
-                    //test if was in the treeOutside
-                    if((*this->treeOutsidePointer).haveElement(temp)){
-                        //remove the element from outside
-                        if((*this->treeOutsidePointer).remove(temp)){
-                            this->elementGetIn(temp);edkEnd();
-                            (*this->treeTempPointer)->add(temp);edkEnd();
+                    if(this->canObjectIn){
+                        //test if was in the treeOutside
+                        if((*this->treeOutsidePointer).haveElement(temp)){
+                            //remove the element from outside
+                            if((*this->treeOutsidePointer).remove(temp)){
+                                this->elementGetIn(temp);edkEnd();
+                                (*this->treeTempPointer)->add(temp);edkEnd();
+                            }
                         }
                     }
                 }
@@ -2286,11 +2324,13 @@ private:
                                                     edk::vec2f32(rect.origin.x,rect.origin.y),
                                                     edk::vec2f32(rect.size.width,rect.size.height)
                                                     )){
-                            if((*this->treeGetsPointer).add(temp)){
-                                ///RUN GETIN
-                                this->elementGetIn(temp);edkEnd();
-                                (*this->treeTempPointer)->add(temp);edkEnd();
-                                (*this->treeOutsidePointer).remove(temp);edkEnd();
+                            if(this->canObjectIn){
+                                if((*this->treeGetsPointer).add(temp)){
+                                    ///RUN GETIN
+                                    this->elementGetIn(temp);edkEnd();
+                                    (*this->treeTempPointer)->add(temp);edkEnd();
+                                    (*this->treeOutsidePointer).remove(temp);edkEnd();
+                                }
                             }
                         }
                         else{
@@ -2426,12 +2466,28 @@ public:
             this->selected3Pointer = &this->selected3;
             this->treeTempPointer = &this->treeTemp;
 
+            this->canObjectIn=true;
+
             //
 
             this->cleanWithRectPoints(edk::rectf64(0,0,1,1));edkEnd();
             this->minimumElementInQuads=1u;
             this->setMinimumElementInQuads(0u);
         }
+    }
+
+    //set if can add an object in the scene
+    void setCanAddObjectsInScene(bool canAdd){
+        this->canObjectIn=canAdd;
+    }
+    void canAddObjectInScene(){
+        this->setCanAddObjectsInScene(true);
+    }
+    void cantAddObjectInScene(){
+        this->setCanAddObjectsInScene(false);
+    }
+    bool getCanAddObjectsInScene(){
+        return this->canObjectIn;
     }
 
     //set the minimunQuadSize
@@ -3511,6 +3567,24 @@ public:
         this->setRectPointsFromTree(tree);
     }
 
+    void forceOutAll(){
+        edk::uint64 size;edkEnd();
+        typeTemplate temp;edkEnd();
+        size = (*this->treeGetsPointer).size();edkEnd();
+        for(edk::uint64 i=0u;i<size;i++){
+            temp = (*this->treeGetsPointer).getElementInPosition(0u);edkEnd();
+            if(temp){
+                if((*this->treeGetsPointer).remove(temp)){
+                    ///RUN GETOUT
+                    this->elementGetOut(temp);edkEnd();
+                    (*this->treeTempPointer)->remove(temp);edkEnd();
+                    (*this->treeOutsidePointer).add(temp);
+                }
+            }
+        }
+        (*this->treeTempPointer)->clean();
+    }
+
     //SELECTED FUNCTIONS
     bool haveSelected(){
         if((*this->selectedPointer)
@@ -3629,6 +3703,8 @@ private:
     edk::vector::QuadLeaf64<typeTemplate> treeNULL;
     edk::vector::QuadLeaf64<typeTemplate>* treeNULLPointer;
 
+    bool canObjectIn;
+
     //minimumQuadSize
     edk::float64 minimumQuadSize;
     edk::float64* minimumQuadSizePointer;
@@ -3728,12 +3804,14 @@ private:
                                             edk::vec2f64(rect.size.width,rect.size.height)
                                             )
                         ){
-                    //test if was in the treeOutside
-                    if((*this->treeOutsidePointer).haveElement(temp)){
-                        //remove the element from outside
-                        if((*this->treeOutsidePointer).remove(temp)){
-                            this->elementGetIn(temp);edkEnd();
-                            (*this->treeTempPointer)->add(temp);edkEnd();
+                    if(this->canObjectIn){
+                        //test if was in the treeOutside
+                        if((*this->treeOutsidePointer).haveElement(temp)){
+                            //remove the element from outside
+                            if((*this->treeOutsidePointer).remove(temp)){
+                                this->elementGetIn(temp);edkEnd();
+                                (*this->treeTempPointer)->add(temp);edkEnd();
+                            }
                         }
                     }
                 }
@@ -3781,11 +3859,13 @@ private:
                                                     edk::vec2f64(rect.origin.x,rect.origin.y),
                                                     edk::vec2f64(rect.size.width,rect.size.height)
                                                     )){
-                            if((*this->treeGetsPointer).add(temp)){
-                                ///RUN GETIN
-                                this->elementGetIn(temp);edkEnd();
-                                (*this->treeTempPointer)->add(temp);edkEnd();
-                                (*this->treeOutsidePointer).remove(temp);edkEnd();
+                            if(this->canObjectIn){
+                                if((*this->treeGetsPointer).add(temp)){
+                                    ///RUN GETIN
+                                    this->elementGetIn(temp);edkEnd();
+                                    (*this->treeTempPointer)->add(temp);edkEnd();
+                                    (*this->treeOutsidePointer).remove(temp);edkEnd();
+                                }
                             }
                         }
                         else{

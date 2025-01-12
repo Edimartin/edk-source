@@ -129,6 +129,8 @@ public:
     //test if have the animationName
     bool selectedAnimationHaveAnimationName(const edk::char8* name);
     bool selectedAnimationHaveAnimationName(edk::char8* name);
+    //return the x
+    edk::float32 selectedAnimationGetClockX();
     //return the animation seconds
     edk::float32 selectedAnimationGetAnimationStart();
     edk::float32 selectedAnimationGetAnimationEnd();

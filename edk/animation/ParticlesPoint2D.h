@@ -51,6 +51,8 @@ public:
 
     void Constructor(bool runFather=true);
 
+    void clean();
+
     //add objects into the tree
     bool addObject(edk::Object2D* obj,edk::float32 angleObject,edk::size2f32 sizeObject);
     bool addObject(edk::Object2D* obj);
@@ -110,6 +112,7 @@ public:
 
     //load particles
     bool loadParticles(edk::uint32 size);
+    inline bool createParticles(edk::uint32 size){return this->loadParticles(size);}
     //clean the particles
     void cleanParticles();
 
@@ -213,7 +216,7 @@ private:
         edk::float32 speed;
         //edk::animation::Interpolation2DGroup animSize;
         //edk::animation::Interpolation2DGroup animAngle;
-        bool autoRotate;
+        float autoRotate;
         //class pointer to update the function
         edk::animation::ParticlesPoint2D* function;
         edk::animation::Interpolation1DGroup animFrame;

@@ -140,7 +140,9 @@ void edk::animation::ParticlesPoint2D::ParticleObject::update(edk::float32 secon
     this->direction+=*this->gravity * percent;edkEnd();
 
     //rotate the object
-    this->angle = (edk::Math::getAngle(this->direction) * this->autoRotate) + *this->angleObj;edkEnd();
+    if(this->autoRotate){
+    this->angle = edk::Math::getAngle(this->direction) + *this->angleObj;edkEnd();
+    }
 
     //Run the function
     this->function->updateParticle(this);edkEnd();
@@ -358,6 +360,11 @@ void edk::animation::ParticlesPoint2D::Constructor(bool runFather){
 //get the position
 edk::vec2f32 edk::animation::ParticlesPoint2D::newPosition(){
     return this->position;edkEnd();
+}
+
+void edk::animation::ParticlesPoint2D::clean(){
+    this->stopAndCleanParticles();
+    this->cleanObjects();
 }
 
 //add objects into the tree

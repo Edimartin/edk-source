@@ -642,6 +642,16 @@ bool edk::shape::AnimatedPolygon2DList::selectedAnimationHaveAnimationName(edk::
     //else return false
     return false;
 }
+//return the x
+edk::float32 edk::shape::AnimatedPolygon2DList::selectedAnimationGetClockX(){
+    //test if have a animationSelected
+    if(this->selectedAnimation){
+        //add new interpolationLine
+        return this->selectedAnimation->getClockX();
+    }
+    //else return false
+    return 0.f;
+}
 //return the animation seconds
 edk::float32 edk::shape::AnimatedPolygon2DList::selectedAnimationGetAnimationStart(){
     //test if have a animationSelected

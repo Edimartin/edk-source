@@ -474,13 +474,15 @@ bool edk::Object2D::updateValuesFromFather(edk::vector::Matrixf32<3u,3u>* matrix
             //first copy the matrix
             //generate transform matrices
             edk::Math::generateTranslateMatrix(this->position,&this->matrixPosition);edkEnd();
-            edk::Math::generateRotateMatrixZ(this->angle,&this->matrixAngle);edkEnd();
             edk::Math::generateScaleMatrix(this->size,&this->matrixSize);edkEnd();
             edk::Math::generateTranslateMatrix(this->pivo*-1.0f,&this->matrixPivo);edkEnd();
             //translate
             matrixTransform->multiplyThisWithMatrix(&this->matrixPosition);edkEnd();
             //angle
-            matrixTransform->multiplyThisWithMatrix(&this->matrixAngle);edkEnd();
+            if(!this->fixedRotation){
+                edk::Math::generateRotateMatrixZ(this->angle,&this->matrixAngle);edkEnd();
+                matrixTransform->multiplyThisWithMatrix(&this->matrixAngle);edkEnd();
+            }
             //scale
             matrixTransform->multiplyThisWithMatrix(&this->matrixSize);edkEnd();
             //Pivo
@@ -490,13 +492,15 @@ bool edk::Object2D::updateValuesFromFather(edk::vector::Matrixf32<3u,3u>* matrix
             //first copy the matrix
             //generate transform matrices
             edk::Math::generateTranslateMatrix(this->position,&this->matrixPosition);edkEnd();
-            edk::Math::generateRotateMatrixZ(this->angle,&this->matrixAngle);edkEnd();
             edk::Math::generateScaleMatrix(this->size,&this->matrixSize);edkEnd();
             edk::Math::generateTranslateMatrix(this->pivo*-1.0f,&this->matrixPivo);edkEnd();
             //translate
             matrixTransform->multiplyThisWithMatrix(&this->matrixPosition);edkEnd();
             //angle
-            matrixTransform->multiplyThisWithMatrix(&this->matrixAngle);edkEnd();
+            if(!this->fixedRotation){
+                edk::Math::generateRotateMatrixZ(this->angle,&this->matrixAngle);edkEnd();
+                matrixTransform->multiplyThisWithMatrix(&this->matrixAngle);edkEnd();
+            }
             //scale
             matrixTransform->multiplyThisWithMatrix(&this->matrixSize);edkEnd();
             //Pivo
@@ -562,13 +566,15 @@ void edk::Object2D::writeFatherBoundingBox(edk::rectf32* rect,edk::vector::Matri
         //first copy the matrix
         //generate transform matrices
         edk::Math::generateTranslateMatrix(this->position,&this->matrixPosition);edkEnd();
-        edk::Math::generateRotateMatrixZ(this->angle,&this->matrixAngle);edkEnd();
         edk::Math::generateScaleMatrix(this->size,&this->matrixSize);edkEnd();
         edk::Math::generateTranslateMatrix(this->pivo*-1.0f,&this->matrixPivo);edkEnd();
         //translate
         transformMat->multiplyThisWithMatrix(&this->matrixPosition);edkEnd();
         //angle
-        transformMat->multiplyThisWithMatrix(&this->matrixAngle);edkEnd();
+        if(this->fixedRotation){
+            edk::Math::generateRotateMatrixZ(this->angle,&this->matrixAngle);edkEnd();
+            transformMat->multiplyThisWithMatrix(&this->matrixAngle);edkEnd();
+        }
         //scale
         transformMat->multiplyThisWithMatrix(&this->matrixSize);edkEnd();
         //Pivo
@@ -578,13 +584,15 @@ void edk::Object2D::writeFatherBoundingBox(edk::rectf32* rect,edk::vector::Matri
         //first copy the matrix
         //generate transform matrices
         edk::Math::generateTranslateMatrix(this->position,&this->matrixPosition);edkEnd();
-        edk::Math::generateRotateMatrixZ(this->angle,&this->matrixAngle);edkEnd();
         edk::Math::generateScaleMatrix(this->size,&this->matrixSize);edkEnd();
         edk::Math::generateTranslateMatrix(this->pivo*-1.0f,&this->matrixPivo);edkEnd();
         //translate
         transformMat->multiplyThisWithMatrix(&this->matrixPosition);edkEnd();
         //angle
-        transformMat->multiplyThisWithMatrix(&this->matrixAngle);edkEnd();
+        if(this->fixedRotation){
+            edk::Math::generateRotateMatrixZ(this->angle,&this->matrixAngle);edkEnd();
+            transformMat->multiplyThisWithMatrix(&this->matrixAngle);edkEnd();
+        }
         //scale
         transformMat->multiplyThisWithMatrix(&this->matrixSize);edkEnd();
         //Pivo
@@ -610,13 +618,15 @@ bool edk::Object2D::writeBoundingBox(edk::rectf32* rect){
         //first copy the matrix
         //generate transform matrices
         edk::Math::generateTranslateMatrix(this->position,&this->matrixPosition);edkEnd();
-        edk::Math::generateRotateMatrixZ(this->angle,&this->matrixAngle);edkEnd();
         edk::Math::generateScaleMatrix(this->size,&this->matrixSize);edkEnd();
         edk::Math::generateTranslateMatrix(this->pivo*-1.0f,&this->matrixPivo);edkEnd();
         //translate
         this->matrixTransform.multiplyThisWithMatrix(&this->matrixPosition);edkEnd();
         //angle
-        this->matrixTransform.multiplyThisWithMatrix(&this->matrixAngle);edkEnd();
+        if(this->fixedRotation){
+            edk::Math::generateRotateMatrixZ(this->angle,&this->matrixAngle);edkEnd();
+            this->matrixTransform.multiplyThisWithMatrix(&this->matrixAngle);edkEnd();
+        }
         //scale
         this->matrixTransform.multiplyThisWithMatrix(&this->matrixSize);edkEnd();
         //Pivo
@@ -626,13 +636,15 @@ bool edk::Object2D::writeBoundingBox(edk::rectf32* rect){
         //first copy the matrix
         //generate transform matrices
         edk::Math::generateTranslateMatrix(this->position,&this->matrixPosition);edkEnd();
-        edk::Math::generateRotateMatrixZ(this->angle,&this->matrixAngle);edkEnd();
         edk::Math::generateScaleMatrix(this->size,&this->matrixSize);edkEnd();
         edk::Math::generateTranslateMatrix(this->pivo*-1.0f,&this->matrixPivo);edkEnd();
         //translate
         this->matrixTransform.multiplyThisWithMatrix(&this->matrixPosition);edkEnd();
         //angle
-        this->matrixTransform.multiplyThisWithMatrix(&this->matrixAngle);edkEnd();
+        if(this->fixedRotation){
+            edk::Math::generateRotateMatrixZ(this->angle,&this->matrixAngle);edkEnd();
+            this->matrixTransform.multiplyThisWithMatrix(&this->matrixAngle);edkEnd();
+        }
         //scale
         this->matrixTransform.multiplyThisWithMatrix(&this->matrixSize);edkEnd();
         //Pivo
@@ -686,14 +698,16 @@ bool edk::Object2D::writeBoundingBox(edk::rectf32* rect,edk::vector::Matrixf32<3
 
             //generate transform matrices
             edk::Math::generateTranslateMatrix(this->position,&this->matrixPosition);edkEnd();
-            edk::Math::generateRotateMatrixZ(this->angle,&this->matrixAngle);edkEnd();
             edk::Math::generateScaleMatrix(this->size,&this->matrixSize);edkEnd();
             edk::Math::generateTranslateMatrix(this->pivo*-1.0f,&this->matrixPivo);edkEnd();
             //multiply the matrix by
             //translate
             this->matrixTransform.multiplyThisWithMatrix(&this->matrixPosition);edkEnd();
             //angle
-            this->matrixTransform.multiplyThisWithMatrix(&this->matrixAngle);edkEnd();
+            if(this->fixedRotation){
+                edk::Math::generateRotateMatrixZ(this->angle,&this->matrixAngle);edkEnd();
+                this->matrixTransform.multiplyThisWithMatrix(&this->matrixAngle);edkEnd();
+            }
             //scale
             this->matrixTransform.multiplyThisWithMatrix(&this->matrixSize);edkEnd();
             //Pivo
@@ -702,14 +716,16 @@ bool edk::Object2D::writeBoundingBox(edk::rectf32* rect,edk::vector::Matrixf32<3
         else{
             //generate transform matrices
             edk::Math::generateTranslateMatrix(this->position,&this->matrixPosition);edkEnd();
-            edk::Math::generateRotateMatrixZ(this->angle,&this->matrixAngle);edkEnd();
             edk::Math::generateScaleMatrix(this->size,&this->matrixSize);edkEnd();
             edk::Math::generateTranslateMatrix(this->pivo*-1.0f,&this->matrixPivo);edkEnd();
             //multiply the matrix by
             //translate
             this->matrixTransform.multiplyThisWithMatrix(&this->matrixPosition);edkEnd();
             //angle
-            this->matrixTransform.multiplyThisWithMatrix(&this->matrixAngle);edkEnd();
+            if(this->fixedRotation){
+                edk::Math::generateRotateMatrixZ(this->angle,&this->matrixAngle);edkEnd();
+                this->matrixTransform.multiplyThisWithMatrix(&this->matrixAngle);edkEnd();
+            }
             //scale
             this->matrixTransform.multiplyThisWithMatrix(&this->matrixSize);edkEnd();
             //Pivo
@@ -767,14 +783,16 @@ bool edk::Object2D::writeChildremBoundingBox(edk::rectf32* rect){
         //first copy the matrix
         //generate transform matrices
         edk::Math::generateTranslateMatrix(this->position,&this->matrixPosition);edkEnd();
-        edk::Math::generateRotateMatrixZ(this->angle,&this->matrixAngle);edkEnd();
         edk::Math::generateScaleMatrix(this->size,&this->matrixSize);edkEnd();
         edk::Math::generateTranslateMatrix(this->pivo*-1.0f,&this->matrixPivo);edkEnd();
 
         //translate
         this->matrixTransform.multiplyThisWithMatrix(&this->matrixPosition);edkEnd();
         //angle
-        this->matrixTransform.multiplyThisWithMatrix(&this->matrixAngle);edkEnd();
+        if(this->fixedRotation){
+            edk::Math::generateRotateMatrixZ(this->angle,&this->matrixAngle);edkEnd();
+            this->matrixTransform.multiplyThisWithMatrix(&this->matrixAngle);edkEnd();
+        }
         //scale
         this->matrixTransform.multiplyThisWithMatrix(&this->matrixSize);edkEnd();
         //Pivo
@@ -784,13 +802,15 @@ bool edk::Object2D::writeChildremBoundingBox(edk::rectf32* rect){
         //first copy the matrix
         //generate transform matrices
         edk::Math::generateTranslateMatrix(this->position,&this->matrixPosition);edkEnd();
-        edk::Math::generateRotateMatrixZ(this->angle,&this->matrixAngle);edkEnd();
         edk::Math::generateScaleMatrix(this->size,&this->matrixSize);edkEnd();
         edk::Math::generateTranslateMatrix(this->pivo*-1.0f,&this->matrixPivo);edkEnd();
         //translate
         this->matrixTransform.multiplyThisWithMatrix(&this->matrixPosition);edkEnd();
         //angle
-        this->matrixTransform.multiplyThisWithMatrix(&this->matrixAngle);edkEnd();
+        if(this->fixedRotation){
+            edk::Math::generateRotateMatrixZ(this->angle,&this->matrixAngle);edkEnd();
+            this->matrixTransform.multiplyThisWithMatrix(&this->matrixAngle);edkEnd();
+        }
         //scale
         this->matrixTransform.multiplyThisWithMatrix(&this->matrixSize);edkEnd();
         //Pivo
@@ -845,14 +865,16 @@ bool edk::Object2D::writeChildremBoundingBox(edk::rectf32* rect,edk::vector::Mat
 
             //generate transform matrices
             edk::Math::generateTranslateMatrix(this->position,&this->matrixPosition);edkEnd();
-            edk::Math::generateRotateMatrixZ(this->angle,&this->matrixAngle);edkEnd();
             edk::Math::generateScaleMatrix(this->size,&this->matrixSize);edkEnd();
             edk::Math::generateTranslateMatrix(this->pivo*-1.0f,&this->matrixPivo);edkEnd();
             //multiply the matrix by
             //translate
             this->matrixTransform.multiplyThisWithMatrix(&this->matrixPosition);edkEnd();
             //angle
-            this->matrixTransform.multiplyThisWithMatrix(&this->matrixAngle);edkEnd();
+            if(this->fixedRotation){
+                edk::Math::generateRotateMatrixZ(this->angle,&this->matrixAngle);edkEnd();
+                this->matrixTransform.multiplyThisWithMatrix(&this->matrixAngle);edkEnd();
+            }
             //scale
             this->matrixTransform.multiplyThisWithMatrix(&this->matrixSize);edkEnd();
             //Pivo
@@ -861,14 +883,16 @@ bool edk::Object2D::writeChildremBoundingBox(edk::rectf32* rect,edk::vector::Mat
         else{
             //generate transform matrices
             edk::Math::generateTranslateMatrix(this->position,&this->matrixPosition);edkEnd();
-            edk::Math::generateRotateMatrixZ(this->angle,&this->matrixAngle);edkEnd();
             edk::Math::generateScaleMatrix(this->size,&this->matrixSize);edkEnd();
             edk::Math::generateTranslateMatrix(this->pivo*-1.0f,&this->matrixPivo);edkEnd();
             //multiply the matrix by
             //translate
             this->matrixTransform.multiplyThisWithMatrix(&this->matrixPosition);edkEnd();
             //angle
-            this->matrixTransform.multiplyThisWithMatrix(&this->matrixAngle);edkEnd();
+            if(this->fixedRotation){
+                edk::Math::generateRotateMatrixZ(this->angle,&this->matrixAngle);edkEnd();
+                this->matrixTransform.multiplyThisWithMatrix(&this->matrixAngle);edkEnd();
+            }
             //scale
             this->matrixTransform.multiplyThisWithMatrix(&this->matrixSize);edkEnd();
             //Pivo
@@ -921,13 +945,15 @@ void edk::Object2D::loadFatherMatrix(edk::vector::Matrixf32<3u,3u>* transformMat
         //first copy the matrix
         //generate transform matrices
         edk::Math::generateTranslateMatrix(this->position,&this->matrixPosition);edkEnd();
-        edk::Math::generateRotateMatrixZ(this->angle,&this->matrixAngle);edkEnd();
         edk::Math::generateScaleMatrix(this->size,&this->matrixSize);edkEnd();
         edk::Math::generateTranslateMatrix(this->pivo*-1.0f,&this->matrixPivo);edkEnd();
         //translate
         transformMat->multiplyThisWithMatrix(&this->matrixPosition);edkEnd();
         //angle
-        transformMat->multiplyThisWithMatrix(&this->matrixAngle);edkEnd();
+        if(this->fixedRotation){
+            edk::Math::generateRotateMatrixZ(this->angle,&this->matrixAngle);edkEnd();
+            transformMat->multiplyThisWithMatrix(&this->matrixAngle);edkEnd();
+        }
         //scale
         transformMat->multiplyThisWithMatrix(&this->matrixSize);edkEnd();
         //Pivo
@@ -937,13 +963,15 @@ void edk::Object2D::loadFatherMatrix(edk::vector::Matrixf32<3u,3u>* transformMat
         //first copy the matrix
         //generate transform matrices
         edk::Math::generateTranslateMatrix(this->position,&this->matrixPosition);edkEnd();
-        edk::Math::generateRotateMatrixZ(this->angle,&this->matrixAngle);edkEnd();
         edk::Math::generateScaleMatrix(this->size,&this->matrixSize);edkEnd();
         edk::Math::generateTranslateMatrix(this->pivo*-1.0f,&this->matrixPivo);edkEnd();
         //translate
         transformMat->multiplyThisWithMatrix(&this->matrixPosition);edkEnd();
         //angle
-        transformMat->multiplyThisWithMatrix(&this->matrixAngle);edkEnd();
+        if(this->fixedRotation){
+            edk::Math::generateRotateMatrixZ(this->angle,&this->matrixAngle);edkEnd();
+            transformMat->multiplyThisWithMatrix(&this->matrixAngle);edkEnd();
+        }
         //scale
         transformMat->multiplyThisWithMatrix(&this->matrixSize);edkEnd();
         //Pivo
@@ -2759,14 +2787,16 @@ edk::vec2f32 edk::Object2D::getConnectedWorldPosition(){
         //first copy the matrix
         //generate transform matrices
         edk::Math::generateTranslateMatrix(this->position,&this->matrixPosition);edkEnd();
-        edk::Math::generateRotateMatrixZ(this->angle,&this->matrixAngle);edkEnd();
         edk::Math::generateScaleMatrix(this->size,&this->matrixSize);edkEnd();
         edk::Math::generateTranslateMatrix(this->pivo*-1.0f,&this->matrixPivo);edkEnd();
 
         //translate
         this->matrixTransform.multiplyThisWithMatrix(&this->matrixPosition);edkEnd();
         //angle
-        this->matrixTransform.multiplyThisWithMatrix(&this->matrixAngle);edkEnd();
+        if(this->fixedRotation){
+            edk::Math::generateRotateMatrixZ(this->angle,&this->matrixAngle);edkEnd();
+            this->matrixTransform.multiplyThisWithMatrix(&this->matrixAngle);edkEnd();
+        }
         //scale
         this->matrixTransform.multiplyThisWithMatrix(&this->matrixSize);edkEnd();
         //Pivo
@@ -2897,7 +2927,6 @@ bool edk::Object2D::getWorldPolygon(edk::shape::Polygon2D* dest,edk::uint32 mesh
         //first copy the matrix
         //generate transform matrices
         edk::Math::generateTranslateMatrix(this->position,&this->matrixPosition);edkEnd();
-        edk::Math::generateRotateMatrixZ(this->angle,&this->matrixAngle);edkEnd();
         edk::Math::generateScaleMatrix(this->size,&this->matrixSize);edkEnd();
         edk::Math::generateTranslateMatrix(this->pivo*-1.0f,&this->matrixPivo);edkEnd();
         //multiply the matrix by
@@ -2907,7 +2936,10 @@ bool edk::Object2D::getWorldPolygon(edk::shape::Polygon2D* dest,edk::uint32 mesh
         //translate
         this->matrixTransform.multiplyThisWithMatrix(&this->matrixPosition);edkEnd();
         //angle
-        this->matrixTransform.multiplyThisWithMatrix(&this->matrixAngle);edkEnd();
+        if(this->fixedRotation){
+            edk::Math::generateRotateMatrixZ(this->angle,&this->matrixAngle);edkEnd();
+            this->matrixTransform.multiplyThisWithMatrix(&this->matrixAngle);edkEnd();
+        }
         //scale
         this->matrixTransform.multiplyThisWithMatrix(&this->matrixSize);edkEnd();
         //Pivo
@@ -2927,7 +2959,6 @@ bool edk::Object2D::getWorldPolygon(edk::shape::Polygon2D* dest,edk::uint32 mesh
         if(this->matrixTransform.cloneFrom(transformMat)){
             //generate transform matrices
             edk::Math::generateTranslateMatrix(this->position,&this->matrixPosition);edkEnd();
-            edk::Math::generateRotateMatrixZ(this->angle,&this->matrixAngle);edkEnd();
             edk::Math::generateScaleMatrix(this->size,&this->matrixSize);edkEnd();
             edk::Math::generateTranslateMatrix(this->pivo*-1.0f,&this->matrixPivo);edkEnd();
 
@@ -2935,7 +2966,10 @@ bool edk::Object2D::getWorldPolygon(edk::shape::Polygon2D* dest,edk::uint32 mesh
             //translate
             this->matrixTransform.multiplyThisWithMatrix(&this->matrixPosition);edkEnd();
             //angle
-            this->matrixTransform.multiplyThisWithMatrix(&this->matrixAngle);edkEnd();
+            if(this->fixedRotation){
+                edk::Math::generateRotateMatrixZ(this->angle,&this->matrixAngle);edkEnd();
+                this->matrixTransform.multiplyThisWithMatrix(&this->matrixAngle);edkEnd();
+            }
             //scale
             this->matrixTransform.multiplyThisWithMatrix(&this->matrixSize);edkEnd();
             //Pivo

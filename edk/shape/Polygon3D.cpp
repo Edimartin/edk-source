@@ -17845,7 +17845,7 @@ void edk::shape::Polygon3D::drawWireWorldWithMatrix(edk::vector::Matrixf32<4u,4u
 //draw vertexs with matrix
 void edk::shape::Polygon3D::drawPolygonVertexsWithMatrix(edk::vector::Matrixf32<4u,4u>* matrix,
                                                          edk::vector::Matrixf32<4u,4u>* matrixTemp,
-                                                         edk::color4f32 color
+                                                         edk::color4f32 /*color*/
                                                          ){
     //update the vertexes positions with the matrices
     this->updateVBOValuesWithMatrices(matrix,matrixTemp);
@@ -17854,7 +17854,7 @@ void edk::shape::Polygon3D::drawPolygonVertexsWithMatrix(edk::vector::Matrixf32<
 }
 void edk::shape::Polygon3D::drawPolygonVertexsWorldWithMatrix(edk::vector::Matrixf32<4u,4u>* matrix,
                                                               edk::vector::Matrixf32<4u,4u>* matrixTemp,
-                                                              edk::color4f32 color
+                                                              edk::color4f32 /*color*/
                                                               ){
     //update the vertexes positions with the matrices
     this->updateVBOValuesWithMatrices(matrix,matrixTemp);
