@@ -58,6 +58,8 @@ public:
     //get the rand number
     static edk::uint32 getStaticRandNumber();
     static edk::uint32 getStaticRandNumber(edk::uint32 div);
+    static edk::uint32 getStaticRandNumberDifferent(edk::uint32 value);
+    static edk::uint32 getStaticRandNumberDifferent(edk::uint32 value,edk::uint32 div);
     static edk::float32 getStaticRandPercent();
     //get the boolean rand
     static bool getStaticRandBoolean();
@@ -72,6 +74,8 @@ public:
     //get the rand number
     edk::uint32 getRandNumber();
     edk::uint32 getRandNumber(edk::uint32 div);
+    edk::uint32 getRandNumberDifferent(edk::uint32 value);
+    edk::uint32 getRandNumberDifferent(edk::uint32 value,edk::uint32 div);
     edk::float32 getRandPercent();
     //get the boolean rand
     bool getRandBoolean();

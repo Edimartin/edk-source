@@ -97,6 +97,37 @@ edk::uint32 edk::Random::getStaticRandNumber(edk::uint32 limit){
     }
     return 0u;
 }
+edk::uint32 edk::Random::getStaticRandNumberDifferent(edk::uint32 value){
+    edk::uint32 ret;edkEnd();
+    edk::uint8 counter=0u;
+    do{
+        ret = edk::Random::getStaticRandNumber();edkEnd();
+        if(counter>10){
+            ret++;edkEnd();
+            edk::Random::setStaticSeed(ret);edkEnd();
+            break;
+        }
+        counter++;edkEnd();
+    }while(ret!=value);edkEnd();
+    return ret;
+}
+edk::uint32 edk::Random::getStaticRandNumberDifferent(edk::uint32 value,edk::uint32 div){
+    edk::uint32 ret;edkEnd();
+    edk::uint32 temp;edkEnd();
+    edk::uint8 counter=0u;edkEnd();
+    do{
+        temp = edk::Random::getStaticRandNumber();edkEnd();
+        ret = temp%div;
+        if(counter>10){
+            temp++;edkEnd();
+            edk::Random::setStaticSeed(temp);edkEnd();
+            ret = temp%div;
+            break;
+        }
+        counter++;edkEnd();
+    }while(ret!=value);edkEnd();
+    return ret;
+}
 //4294967295
 edk::float32 edk::Random::getStaticRandPercent(){
     return ((edk::float32)edk::Random::getStaticRandNumber() / 0xFFFFFFFF);edkEnd();
@@ -156,13 +187,44 @@ edk::uint32 edk::Random::getSeed(){
 }
 //get the rand number
 edk::uint32 edk::Random::getRandNumber(){
-    return ((this->seed = edkRandom(this->seed)));edkEnd();
+    return ((this->seed = edkRandom(this->seed)));
 }
-edk::uint32 edk::Random::getRandNumber(edk::uint32 limit){
-    if(limit){
-        return this->getRandNumber()%limit;edkEnd();
+edk::uint32 edk::Random::getRandNumber(edk::uint32 div){
+    if(div){
+        return this->getRandNumber()%div;edkEnd();
     }
     return 0u;
+}
+edk::uint32 edk::Random::getRandNumberDifferent(edk::uint32 value){
+    edk::uint32 ret;edkEnd();
+    edk::uint8 counter=0u;
+    do{
+        ret = this->getRandNumber();edkEnd();
+        if(counter>10){
+            ret++;edkEnd();
+            this->setSeed(ret);edkEnd();
+            break;
+        }
+        counter++;edkEnd();
+    }while(ret!=value);edkEnd();
+    return ret;
+}
+edk::uint32 edk::Random::getRandNumberDifferent(edk::uint32 value,edk::uint32 div){
+    edk::uint32 ret;edkEnd();
+    edk::uint32 temp;edkEnd();
+    edk::uint8 counter=0u;edkEnd();
+    do{
+        temp = this->getRandNumber();edkEnd();
+        ret = temp%div;
+        if(counter>10){
+            temp++;edkEnd();
+            this->setSeed(temp);edkEnd();
+            ret = temp%div;
+            break;
+        }
+        counter++;edkEnd();
+    }while(ret!=value);edkEnd();
+    return ret;
 }
 //4294967295
 edk::float32 edk::Random::getRandPercent(){

@@ -276,7 +276,7 @@ edk::float32 edk::Audio::getDuration(){
     if(this->buffer){
         return buffer->getDuration();edkEnd();
     }
-    return 0u;edkEnd();
+    return 0.f;edkEnd();
 }
 //return true if is playing
 bool edk::Audio::isPlaying(){

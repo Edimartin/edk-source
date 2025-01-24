@@ -212,7 +212,9 @@ public:
     void drawWirePhysics();
     void drawWirePhysicsWorld();
     void drawPolygonPhysics(edk::uint32 position);
+    inline void drawPhysicsPolygon(edk::uint32 position){return this->drawPolygonPhysics(position);}
     void drawPolygonWirePhysics(edk::uint32 position);
+    inline void drawWirePhysicsPolygon(edk::uint32 position){return this->drawPolygonWirePhysics(position);}
     void drawLinearVelocity(edk::color3f32 color,edk::vec2f32 position,edk::float32 scale=1.f);
     void drawLinearVelocity(edk::color3f32 color,edk::float32 scale=1.f);
     void drawLinearVelocity(edk::float32 r,
