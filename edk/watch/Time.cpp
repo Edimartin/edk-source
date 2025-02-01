@@ -124,7 +124,7 @@ bool edk::watch::Time::isBisext(edk::uint32 year){
 
 void edk::watch::Time::start(){
     //clean the clock
-    overflow=false;edkEnd();
+    this->overflow=false;edkEnd();
 
 #if defined(_WIN32) || defined(_WIN64)
     this->timeStart = edk::watch::Time::getMicrosecondsReal();edkEnd();
@@ -225,11 +225,25 @@ void edk::watch::Time::pasteDistance(){
     this->timeStart-=this->saveTimeDistance;edkEnd();
     this->saveTimeDistance=0u;
 }
+//////////////////////////////////////////////////////////
+#if defined(_WIN32) || defined(_WIN64)
+void uSleep(int waitTime) {
+    __int64 time1 = 0, time2 = 0, freq = 0;
 
+    QueryPerformanceCounter((LARGE_INTEGER *) &time1);
+    QueryPerformanceFrequency((LARGE_INTEGER *)&freq);
+
+    do {
+        QueryPerformanceCounter((LARGE_INTEGER *) &time2);
+    } while((time2-time1) < waitTime);
+}
+#endif
+//////////////////////////////////////////////////////////
 void edk::watch::Time::sleepProcessMiliseconds(edk::uint32 Milliseconds){
 #if defined(_WIN32) || defined(_WIN64)
-    //
-    Sleep(Milliseconds);edkEnd();
+    //Fix in the future
+    //usleep(Milliseconds*100u);
+    uSleep(Milliseconds*10000u);
 #elif defined(__linux__)//Linux
     //
     edk::int64 seconds=0;

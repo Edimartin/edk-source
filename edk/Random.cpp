@@ -108,7 +108,7 @@ edk::uint32 edk::Random::getStaticRandNumberDifferent(edk::uint32 value){
             break;
         }
         counter++;edkEnd();
-    }while(ret!=value);edkEnd();
+    }while(ret==value);edkEnd();
     return ret;
 }
 edk::uint32 edk::Random::getStaticRandNumberDifferent(edk::uint32 value,edk::uint32 div){
@@ -125,7 +125,7 @@ edk::uint32 edk::Random::getStaticRandNumberDifferent(edk::uint32 value,edk::uin
             break;
         }
         counter++;edkEnd();
-    }while(ret!=value);edkEnd();
+    }while(ret==value);edkEnd();
     return ret;
 }
 //4294967295
@@ -206,7 +206,7 @@ edk::uint32 edk::Random::getRandNumberDifferent(edk::uint32 value){
             break;
         }
         counter++;edkEnd();
-    }while(ret!=value);edkEnd();
+    }while(ret==value);edkEnd();
     return ret;
 }
 edk::uint32 edk::Random::getRandNumberDifferent(edk::uint32 value,edk::uint32 div){
@@ -214,6 +214,7 @@ edk::uint32 edk::Random::getRandNumberDifferent(edk::uint32 value,edk::uint32 di
     edk::uint32 temp;edkEnd();
     edk::uint8 counter=0u;edkEnd();
     do{
+        this->seed*=edk::watch::Time::getMicrosecondsReal();edkEnd();
         temp = this->getRandNumber();edkEnd();
         ret = temp%div;
         if(counter>10){
@@ -223,7 +224,7 @@ edk::uint32 edk::Random::getRandNumberDifferent(edk::uint32 value,edk::uint32 di
             break;
         }
         counter++;edkEnd();
-    }while(ret!=value);edkEnd();
+    }while(ret==value);edkEnd();
     return ret;
 }
 //4294967295

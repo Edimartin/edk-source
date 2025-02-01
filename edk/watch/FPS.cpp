@@ -49,7 +49,7 @@ edk::watch::FPS::FPS(uint32 fps){
 
 void edk::watch::FPS::start(){
     //clear the clock
-    clock.start();edkEnd();
+    this->clock.start();edkEnd();
 }
 
 void edk::watch::FPS::setFPS(uint32 fps){
@@ -68,7 +68,7 @@ bool edk::watch::FPS::waitForFPS(){
     bool ret=false;edkEnd();
     if(this->frames){
         //calculate the remainder microsecons to get one second
-        edk::uint32 microseconds = (edk::uint64)clock.getMicroseconds();
+        edk::uint32 microseconds = (edk::uint64)this->clock.getMicroseconds();
 #if defined(edkCPPversion17)
         edk::int64 wait=(edk::int64)(((1.0f/(edk::float32)frames))*edk::watch::second) - microseconds;edkEnd();
 #else
@@ -87,7 +87,7 @@ bool edk::watch::FPS::waitForFPS(){
         }
 
         //after this he can start a new time count
-        start();edkEnd();
+        this->start();edkEnd();
     }
     return ret;
 }
