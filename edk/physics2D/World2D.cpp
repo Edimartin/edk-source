@@ -2212,6 +2212,7 @@ bool edk::physics2D::World2D::removeObject(edk::physics2D::PhysicObject2D* objec
 #if defined(EDK_USE_BOX2D)
             //load the box2D object
             b2Body* temp=NULL;edkEnd();
+            /*
             switch(object->getType()){
             case edk::TypeObject2DStatic:
                 temp = this->treeStatic.getBody(object);edkEnd();
@@ -2233,6 +2234,23 @@ bool edk::physics2D::World2D::removeObject(edk::physics2D::PhysicObject2D* objec
                 break;
             default:
                 break;
+            }
+*/
+            temp = this->treeStatic.getBody(object);edkEnd();
+            if(temp){
+                this->treeStatic.removeBody(temp);edkEnd();
+            }
+            else{
+                temp = this->treeDynamic.getBody(object);edkEnd();
+                if(temp){
+                    this->treeDynamic.removeBody(temp);edkEnd();
+                }
+                else{
+                    temp = this->treeKinematic.getBody(object);edkEnd();
+                    if(temp){
+                        this->treeKinematic.removeBody(temp);edkEnd();
+                    }
+                }
             }
             if(temp){
                 this->world.DestroyBody(temp);edkEnd();
@@ -2376,6 +2394,7 @@ bool edk::physics2D::World2D::haveObject(edk::physics2D::PhysicObject2D* object)
             return false;
         }
 #endif
+        /*
         //test the objectType
         switch(object->getType()){
         case edk::TypeObject2DStatic:
@@ -2395,6 +2414,16 @@ bool edk::physics2D::World2D::haveObject(edk::physics2D::PhysicObject2D* object)
             break;
         default:
             break;
+        }
+*/
+        if(this->treeStatic.haveBody(object)){
+            return true;
+        }
+        else if(this->treeDynamic.haveBody(object)){
+            return true;
+        }
+        else if(this->treeKinematic.haveBody(object)){
+            return true;
         }
     }
     return false;
