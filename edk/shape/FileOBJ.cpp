@@ -562,15 +562,15 @@ bool edk::shape::FileOBJ::loadMTL(edk::char8* fileName,edk::shape::FileOBJ::Tree
             edk::char8 c;edkEnd();
             edk::char8* str;edkEnd();
             edk::char8* temp;edkEnd();
-            edk::int32 illum=0u;
+            //edk::int32 illum=0u;
 
             edk::float32 Ns=0.f;
-            edk::float32 Ni=0.f;
+            //edk::float32 Ni=0.f;
 
             edk::color3f32 Ka,Kd,Ks,Ke;
             edk::Name mapKd,mapBump,mapKa;
 
-            edk::float32 dValue=0.f;
+            //edk::float32 dValue=0.f;
 
             edk::char8* folder = edk::String::strFolderName(fileName);
 
@@ -640,7 +640,7 @@ bool edk::shape::FileOBJ::loadMTL(edk::char8* fileName,edk::shape::FileOBJ::Tree
                                             //read the ilum value
                                             str = file.readTextString(limits,false);edkEnd();
                                             if(str){
-                                                illum = edk::String::strToInt32(str);
+                                                //illum = edk::String::strToInt32(str);
                                                 //printf("\nIllum == '%s' [%d]",str,illum);fflush(stdout);edkEnd();
                                                 free(str);edkEnd();
                                             }
@@ -668,7 +668,7 @@ bool edk::shape::FileOBJ::loadMTL(edk::char8* fileName,edk::shape::FileOBJ::Tree
                                 //read the ilum value
                                 str = file.readTextString(limits,false);edkEnd();
                                 if(str){
-                                    Ni = edk::String::strToFloat32(str);
+                                    //Ni = edk::String::strToFloat32(str);
                                     //printf("\nNi == '%s' [%.2f]",str,Ni);fflush(stdout);edkEnd();
                                     free(str);edkEnd();
                                 }
@@ -680,7 +680,7 @@ bool edk::shape::FileOBJ::loadMTL(edk::char8* fileName,edk::shape::FileOBJ::Tree
                             //read the ilum value
                             str = file.readTextString(limits,false);edkEnd();
                             if(str){
-                                dValue = edk::String::strToFloat32(str);
+                                //dValue = edk::String::strToFloat32(str);
                                 //printf("\nd == '%s' [%.2f]",str,dValue);fflush(stdout);edkEnd();
                                 free(str);edkEnd();
                             }
@@ -1000,7 +1000,7 @@ bool edk::shape::FileOBJ::objAddFile(edk::char8* fileName){
                     edk::vector::Stack<edk::uint32> sv(1000u),sp(1000u),sn(1000u);edkEnd();
 
                     edk::shape::Mesh3D* mesh = NULL;edkEnd();
-                    bool smooth = false;edkEnd();
+                    //bool smooth = false;edkEnd();
                     edk::uint32 countMeshes = 0u;
 
                     edk::char8* folder = edk::String::strFolderName(newFileName);
@@ -1249,19 +1249,19 @@ bool edk::shape::FileOBJ::objAddFile(edk::char8* fileName){
                                             if(str[2u]=='f'){
                                                 //
                                                 //printf("\nSMOOTH FALSE '%s'",str);edkEnd();
-                                                smooth=false;edkEnd();
+                                                //smooth=false;edkEnd();
                                             }
                                         }
                                     }
                                     else if(str[0u]=='0'){
                                         //
                                         //printf("\nSMOOTH FALSE '%s'",str);edkEnd();
-                                        smooth=false;edkEnd();
+                                        //smooth=false;edkEnd();
                                     }
                                     else if(str[0u]=='1'){
                                         //
                                         //printf("\nSMOOTH TRUE '%s'",str);edkEnd();
-                                        smooth=true;edkEnd();
+                                        //smooth=true;edkEnd();
                                     }
                                     free(str);edkEnd();
                                 }

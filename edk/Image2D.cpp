@@ -915,11 +915,13 @@ bool edk::Image2D::saveToFile(edk::char8 *fileName){
                 nameType = EDK_CODEC_JPEG;edkEnd();
             }
             if(fileName){
-                switch(nameType){
-                case EDK_CODEC_NO:
+                if(nameType==EDK_CODEC_NO){
+                    nameType=EDK_CODEC_PNG;
                     //concatenate .png with the name
                     fileName = edk::String::strCat(fileName,(edk::char8*)".png");edkEnd();
                     deleteTempName = true;edkEnd();
+                }
+                switch(nameType){
                 case EDK_CODEC_PNG:
                 {
                     //save the encoder
@@ -950,11 +952,13 @@ bool edk::Image2D::saveToFile(edk::char8 *fileName){
                 nameType = EDK_CODEC_JPEG;edkEnd();
             }
             if(fileName){
-                switch(nameType){
-                case EDK_CODEC_NO:
+                if(nameType==EDK_CODEC_NO){
+                    nameType=EDK_CODEC_PNG;
                     //concatenate .jpg with the name
                     fileName = edk::String::strCat(fileName,(edk::char8*)".jpg");edkEnd();
                     deleteTempName = true;edkEnd();
+                }
+                switch(nameType){
                 case EDK_CODEC_JPEG:
                 {
                     //save the encoder
@@ -986,13 +990,13 @@ bool edk::Image2D::saveToFile(edk::char8 *fileName){
                 nameType = EDK_CODEC_PNG;edkEnd();
             }
             if(fileName){
-                switch(nameType){
-                case EDK_CODEC_NO:
-                {
+                if(nameType==EDK_CODEC_NO){
+                    nameType=EDK_CODEC_PNG;
                     //concatenate .jpg with the name
                     fileName = edk::String::strCat(fileName,(edk::char8*)".png");edkEnd();
                     deleteTempName = true;edkEnd();
                 }
+                switch(nameType){
                 case EDK_CODEC_PNG:
                 {
                     //save the encoder

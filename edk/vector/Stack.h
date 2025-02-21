@@ -866,6 +866,7 @@ public:
                         if(tempArray){
                             return tempArray->set(rest,obj);
                         }
+                        break;
                     }
                 }
                 else{
@@ -909,6 +910,7 @@ public:
                         if(tempArray){
                             return tempArray->get(rest);
                         }
+                        break;
                     }
                 }
                 else{

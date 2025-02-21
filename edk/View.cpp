@@ -431,7 +431,7 @@ void edk::View::eventMousePressed(edk::vec2f32 point,edk::uint32 button){
         //
     }
 }
-void edk::View::eventMouseMoved(edk::vec2f32 point,edk::vec2f32 moved,edk::uint32 button){
+void edk::View::eventMouseMoved(edk::vec2f32 point,edk::vec2f32 /*moved*/,edk::uint32 button){
     if(point.x){
         //remove the warning
     }

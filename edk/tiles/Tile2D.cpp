@@ -26,7 +26,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
 
-#define edkTileSizeIncrement (1.01f)
+#define edkTileSizeIncrement (1.001f)
 
 edk::tiles::Tile2D::Tile2D(){
     this->classThis=NULL;edkEnd();
@@ -145,7 +145,7 @@ void edk::tiles::Tile2D::setShininess(edk::float32 shininess){
 //set the rectangle of the tile
 void edk::tiles::Tile2D::setRect(edk::rectf32 rect){
     this->obj.position = rect.origin;edkEnd();
-    this->obj.size = rect.size/*+0.1f*/;edkEnd();
+    this->obj.size = rect.size;edkEnd();
 }
 void edk::tiles::Tile2D::setRect(edk::vec2f32 position, edk::size2f32 size){
     return this->setRect(edk::rectf32(position.x,position.y,size.width,size.height));edkEnd();
@@ -176,7 +176,7 @@ void edk::tiles::Tile2D::setRectUV(edk::float32 posX,edk::float32 posY,edk::floa
 
 //set the rectangle of the tile
 void edk::tiles::Tile2D::setFrame(edk::rectf32 frame){
-    this->obj.size = frame.size/*+0.1f*/;edkEnd();
+    this->obj.size = frame.size;edkEnd();
     this->obj.position.x = frame.origin.x - (frame.size.width*0.5);edkEnd();
     this->obj.position.y = frame.origin.y - (frame.size.height*0.5);edkEnd();
 }
@@ -624,7 +624,7 @@ bool edk::tiles::Tile2D::readFromXML(edk::XML* xml,edk::uint32 id){
                     //read the tileSize
                     this->tileSize = edk::size2f32(edk::String::strToFloat32(xml->getSelectedAttributeValueByName("tSizeW")),
                                                    edk::String::strToFloat32(xml->getSelectedAttributeValueByName("tSizeH"))
-                                                   )/*+0.1f*/;edkEnd();
+                                                   );edkEnd();
                     ret=true;edkEnd();
                     xml->selectFather();edkEnd();
                 }
@@ -685,7 +685,7 @@ bool edk::tiles::Tile2D::readFromXMLFromPack(edk::pack::FilePackage* pack,edk::X
                     //read the tileSize
                     this->tileSize = edk::size2f32(edk::String::strToFloat32(xml->getSelectedAttributeValueByName("tSizeW")),
                                                    edk::String::strToFloat32(xml->getSelectedAttributeValueByName("tSizeH"))
-                                                   )/*+0.1f*/;edkEnd();
+                                                   );edkEnd();
                     ret=true;edkEnd();
                     xml->selectFather();edkEnd();
                 }

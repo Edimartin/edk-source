@@ -56,22 +56,22 @@ void edk::Object3DValues::Constructor(bool /*runFather*/){
 void edk::Object3DValues::print(){
     printf("\nVALUES:"
            "\nposition          [%.2f][%.2f][%.2f]"
-           "\nangle             [%.2f]"
+           "\nangle             [%.2f][%.2f][%.2f]"
            "\nsize              [%.2f][%.2f][%.2f]"
            "\npivo              [%.2f][%.2f][%.2f]"
            "\nfixedRotation     '%s'"
            "\n"
            "\nconnectedPosition [%.2f][%.2f][%.2f]"
-           "\nconnectedAngle    [%.2f]"
+           "\nconnectedAngle    [%.2f][%.2f][%.2f]"
            "\nconnectedSize     [%.2f][%.2f][%.2f]"
            "\nconnectedPivo     [%.2f][%.2f][%.2f]"
            ,this->position.x,this->position.y,this->position.z
-           ,this->angle
+           ,this->angle.x,this->angle.y,this->angle.z
            ,this->size.width,this->size.height,this->size.length
            ,this->pivo.x,this->pivo.y,this->pivo.z
            ,this->fixedRotation?"true":"false"
                                 ,this->connectedPosition.x,this->connectedPivo.y,this->connectedPivo.z
-           ,this->connectedAngle
+           ,this->connectedAngle.x,this->connectedAngle.y,this->connectedAngle.z
            ,this->connectedSize.width,this->connectedSize.height,this->connectedSize.length
            ,this->connectedPivo.x,this->connectedPivo.y,this->connectedPivo.z
            );
