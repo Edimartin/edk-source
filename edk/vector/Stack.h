@@ -434,7 +434,9 @@ public:
                         positionRemove=(*this->stackSizePointer)-(pos + (*this->stackArraySizePointer)*temp->getLevel()*(temp->position-1u));
                         if(positionRemove){
                             //decrement the size
-                            (*this->stackSizePointer)--;
+                            if((*this->stackSizePointer)){
+                                (*this->stackSizePointer)--;
+                            }
                         }
                         else{
                             tempArray = (edk::vector::Array<typeTemplate>*)temp->get(temp->position-1u);
@@ -489,7 +491,9 @@ public:
                                     tempArray->set(positionRemove,ret);
                                     //
                                     memcpy((edk::classID)&ret,(edk::classID)&retTemp,sizeof(typeTemplate));
-                                    (*this->stackSizePointer)--;
+                                    if((*this->stackSizePointer)){
+                                        (*this->stackSizePointer)--;
+                                    }
                                     if(!(*this->stackSizePointer)){
                                         //delete the array inside the root
                                         edk::uint32 size = ((*this->rootPointer))->size();
@@ -524,7 +528,9 @@ public:
                                 tempArray->set(positionRemove,ret);
                                 //
                                 memcpy((edk::classID)&ret,(edk::classID)&retTemp,sizeof(typeTemplate));
-                                (*this->stackSizePointer)--;
+                                if((*this->stackSizePointer)){
+                                    (*this->stackSizePointer)--;
+                                }
                                 if(!((*this->stackSizePointer))){
                                     delete (*this->rootPointer);
                                     (*this->rootPointer)=NULL;

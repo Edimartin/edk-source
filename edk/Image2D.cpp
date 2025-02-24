@@ -512,10 +512,6 @@ bool edk::Image2D::loadFromMemoryToRGB(uint8 *image, edk::uint32 vecSize){
     if(image && vecSize){
         edk::uint8 type = this->getStreamType(image);edkEnd();
 
-#ifdef _WIN64
-        type = EDK_CODEC_PNG;edkEnd();
-#endif // WIN64_
-
         switch(type){
         case EDK_CODEC_JPEG:
         {
@@ -646,10 +642,6 @@ bool edk::Image2D::loadFromMemoryToRGBA(uint8 *image, edk::uint32 vecSize){
     //this->deleteName();edkEnd();
     if(image && vecSize){
         edk::uint8 type = this->getStreamType(image);edkEnd();
-
-#ifdef _WIN64
-        type = EDK_CODEC_PNG;edkEnd();
-#endif // WIN64_
 
         switch(type){
         case EDK_CODEC_JPEG:

@@ -437,7 +437,6 @@ private:
     edk::physics2D::TreeContactObjects sensorKeepContacs;
     edk::physics2D::TreeContactObjects sensorEndContacs;
 
-
 #if defined(EDK_USE_BOX2D)
     //return the body
     b2Body* getBody(edk::physics2D::PhysicObject2D* object);
@@ -749,6 +748,7 @@ private:
         edk::physics2D::World2D* world;
         edk::float32 percentIn;
         edk::float32 percentOut;
+        bool cleaningWorld;
     private:
         edk::classID classThis;
     }contacts;

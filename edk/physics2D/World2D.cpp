@@ -44,25 +44,31 @@ void edk::physics2D::World2D::MyContactListener::Constructor(bool runFather){
     if(runFather){edkEnd();}
     if(this->classThis!=this){
         this->classThis=this;
+        this->cleaningWorld=false;edkEnd();
         this->world = NULL;edkEnd();
     }
 }
 void edk::physics2D::World2D::MyContactListener::Constructor(edk::physics2D::World2D* world,bool runFather){
     if(runFather){edkEnd();}
     if(this->classThis!=this){
-        this->classThis=this;
+        this->classThis=this;edkEnd();
+        this->cleaningWorld=false;edkEnd();
         this->world = world;edkEnd();
     }
 }
 
 void edk::physics2D::World2D::MyContactListener::BeginContact(b2Contact* contact){
+    if(this->cleaningWorld){
+        edkEnd();
+        return;
+    }
 
     //printf("\nContact Begin %u"
     //       ,contact
     //       );edkEnd();
 
     //en begin the contact will really be enabled
-    contact->SetReallyEnabled(true);
+    contact->SetReallyEnabled(true);edkEnd();
     b2Body* bodyA = contact->GetFixtureA()->GetBody();edkEnd();
     b2Body* bodyB = contact->GetFixtureB()->GetBody();edkEnd();
 
@@ -365,6 +371,10 @@ void edk::physics2D::World2D::MyContactListener::BeginContact(b2Contact* contact
 
 #if defined(EDK_USE_BOX2D)
 void edk::physics2D::World2D::MyContactListener::EndContact(b2Contact* contact){
+    if(this->cleaningWorld){
+        edkEnd();
+        return;
+    }
 
     //printf("\nContact END %u"
     //       ,contact
@@ -514,6 +524,10 @@ void edk::physics2D::World2D::MyContactListener::EndContact(b2Contact* contact){
 #if defined(EDK_USE_BOX2D)
 
 void edk::physics2D::World2D::MyContactListener::PreSolve(b2Contact* contact, const b2Manifold*){
+    if(this->cleaningWorld){
+        edkEnd();
+        return;
+    }
 
     //printf("\nContact PreSolve %u"
     //       ,contact
@@ -659,6 +673,10 @@ void edk::physics2D::World2D::MyContactListener::PreSolve(b2Contact* contact, co
 
 #if defined(EDK_USE_BOX2D)
 void edk::physics2D::World2D::MyContactListener::PostSolve(b2Contact* contact, const b2ContactImpulse* impulse){
+    if(this->cleaningWorld){
+        edkEnd();
+        return;
+    }
 
     //printf("\nContact PostSolve impulses %u tangent %.2f normal %.2f"
     //       ,impulse->count
@@ -963,6 +981,7 @@ edk::physics2D::World2D::~World2D(){
 #if defined(EDK_USE_BOX2D)
     b2Body* body=NULL;edkEnd();
 #endif
+    this->contacts.cleaningWorld=true;
 
     this->beginContacs.cleanContacts();edkEnd();
     this->keepBeginContacs.cleanContacts();edkEnd();
@@ -2253,7 +2272,9 @@ bool edk::physics2D::World2D::removeObject(edk::physics2D::PhysicObject2D* objec
                 }
             }
             if(temp){
+                this->treeDeleted.add((edk::physics2D::PhysicObject2D*)object);edkEnd();
                 this->world.DestroyBody(temp);edkEnd();
+                this->treeDeleted.remove((edk::physics2D::PhysicObject2D*)object);edkEnd();
                 return true;
             }
 #endif
@@ -2266,21 +2287,27 @@ bool edk::physics2D::World2D::removeObject(edk::physics2D::PhysicObject2D* objec
                 temp = this->treeStatic.getBody(object);edkEnd();
                 if(temp){
                     this->treeStatic.removeBody(temp);edkEnd();
+                    this->treeDeleted.add((edk::physics2D::PhysicObject2D*)object);edkEnd();
                     this->world.DestroyBody(temp);edkEnd();
+                    this->treeDeleted.remove((edk::physics2D::PhysicObject2D*)object);edkEnd();
                     return true;
                 }
                 else{
                     temp = this->treeDynamic.getBody(object);edkEnd();
                     if(temp){
                         this->treeDynamic.removeBody(temp);edkEnd();
+                        this->treeDeleted.add((edk::physics2D::PhysicObject2D*)object);edkEnd();
                         this->world.DestroyBody(temp);edkEnd();
+                        this->treeDeleted.remove((edk::physics2D::PhysicObject2D*)object);edkEnd();
                         return true;
                     }
                     else{
                         temp = this->treeKinematic.getBody(object);edkEnd();
                         if(temp){
                             this->treeKinematic.removeBody(temp);edkEnd();
+                            this->treeDeleted.add((edk::physics2D::PhysicObject2D*)object);edkEnd();
                             this->world.DestroyBody(temp);edkEnd();
+                            this->treeDeleted.remove((edk::physics2D::PhysicObject2D*)object);edkEnd();
                             return true;
                         }
                     }
@@ -2319,7 +2346,9 @@ void edk::physics2D::World2D::removeAllObjects(){
                 if(!this->treeStatic.removeBody(temp)){
                     count++;edkEnd();
                 }
+                this->treeDeleted.add((edk::physics2D::PhysicObject2D*)temp);edkEnd();
                 this->world.DestroyBody(temp);edkEnd();
+                this->treeDeleted.remove((edk::physics2D::PhysicObject2D*)temp);edkEnd();
             }
         }
         else{
@@ -2347,7 +2376,9 @@ void edk::physics2D::World2D::removeAllObjects(){
                 if(!this->treeKinematic.removeBody(temp)){
                     count++;edkEnd();
                 }
+                this->treeDeleted.add((edk::physics2D::PhysicObject2D*)temp);edkEnd();
                 this->world.DestroyBody(temp);edkEnd();
+                this->treeDeleted.remove((edk::physics2D::PhysicObject2D*)temp);edkEnd();
             }
         }
         else{
@@ -2376,7 +2407,9 @@ void edk::physics2D::World2D::removeAllObjects(){
                 if(!this->treeDynamic.removeBody(temp)){
                     count++;edkEnd();
                 }
+                this->treeDeleted.add((edk::physics2D::PhysicObject2D*)temp);edkEnd();
                 this->world.DestroyBody(temp);edkEnd();
+                this->treeDeleted.remove((edk::physics2D::PhysicObject2D*)temp);edkEnd();
             }
         }
         else{

@@ -260,7 +260,9 @@ public:
                 ret = (*this->firstPointer)->get((*this->startPointer));edkEnd();
                 //increment the start
                 (*this->startPointer)++;edkEnd();
-                (*this->_sizePointer)--;edkEnd();
+                if((*this->_sizePointer)){
+                    (*this->_sizePointer)--;edkEnd();
+                }
 
                 //test if reach the end
                 if((*this->startPointer)>=(*this->arraySizePointer)){
