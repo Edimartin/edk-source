@@ -64,12 +64,18 @@ QMAKE_CXXFLAGS += -Wno-deprecated-declarations
 QMAKE_CXXFLAGS += -Wno-deprecated-copy
 
 #DEFINES DEBUGGER
-#This line will enable write the debugger file
+#This line will enable the usage of the debugger file
 #DEFINES += EDK_DEBUGGER
+#This line will enable debug file to ba saved in 'files' folder
+#DEFINES += EDK_DEBUG_FILE_NAME=\\\"./edkDebug.txt\\\"
+#This line will enable write the debugger file
+#DEFINES += EDK_DEBUG_LINE
 #This line will enable write debug message in memset function
 #DEFINES += EDK_DEBUG_MEMSET
 #This line will enable write debug message in memcpy function
 #DEFINES += EDK_DEBUG_MEMCPY
+#This line will enable write debug message in vector classes functions
+#DEFINES += EDK_DEBUG_VECTOR
 #This line will enable debug print in edk::InfiniteWallpaper
 #DEFINES += EDK_INFITINE_WALLPAPER_DEBUG_ON
 

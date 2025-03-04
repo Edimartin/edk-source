@@ -1296,6 +1296,9 @@ public:
             }
         }
         nexts.clean();
+#if defined(EDK_DEBUG_VECTOR)
+                edkWriteClassDebugNoPosition(this,this->generateDebugValue(&value),ret);
+#endif
         return ret;
     }
     //add objects from a tree
@@ -1636,6 +1639,9 @@ public:
                 //
             }
         }
+#if defined(EDK_DEBUG_VECTOR)
+                edkWriteClassDebugNoPosition(this,this->generateDebugValue(&value),ret);
+#endif
         return ret;
     }
 
@@ -2408,6 +2414,19 @@ private:
         (*this->treeTempPointer)->clean();edkEnd();
     }
 private:
+#if defined(EDK_DEBUG_VECTOR)
+    inline edk::uint64 generateDebugValue(typeTemplate* value){
+        edk::uint64 newValue=0uL;edkEnd();
+        if(sizeof(typeTemplate)>=sizeof(newValue)){
+            memcpy((void*)&newValue,(void*)value,sizeof(newValue));edkEnd();
+        }
+        else{
+            memcpy((void*)&newValue,(void*)value,sizeof(typeTemplate));edkEnd();
+        }
+        return newValue;
+    }
+#endif
+private:
     edk::classID classThis;
 };
 //QUADTREE64
@@ -2831,6 +2850,9 @@ public:
             }
         }
         nexts.clean();
+#if defined(EDK_DEBUG_VECTOR)
+                edkWriteClassDebugNoPosition(this,this->generateDebugValue(&value),ret);
+#endif
         return ret;
     }
     //add objects from a tree
@@ -3171,6 +3193,9 @@ public:
                 //
             }
         }
+#if defined(EDK_DEBUG_VECTOR)
+                edkWriteClassDebugNoPosition(this,this->generateDebugValue(&value),ret);
+#endif
         return ret;
     }
 
@@ -3942,6 +3967,19 @@ private:
         }
         (*this->treeTempPointer)->clean();edkEnd();
     }
+private:
+#if defined(EDK_DEBUG_VECTOR)
+    inline edk::uint64 generateDebugValue(typeTemplate* value){
+        edk::uint64 newValue=0uL;edkEnd();
+        if(sizeof(typeTemplate)>=sizeof(newValue)){
+            memcpy((void*)&newValue,(void*)value,sizeof(newValue));edkEnd();
+        }
+        else{
+            memcpy((void*)&newValue,(void*)value,sizeof(typeTemplate));edkEnd();
+        }
+        return newValue;
+    }
+#endif
 private:
     edk::classID classThis;
 };

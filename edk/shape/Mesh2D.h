@@ -209,17 +209,14 @@ private:
         void cleanAllAnimations(){
             edk::shape::Mesh2D::AnimationDouble* temp = NULL;edkEnd();
             edk::uint32 size = 0u;edkEnd();
-            edk::uint32 position = 0u;edkEnd();
             for(edk::uint32 i=0u;i<size;i++){
-                temp = this->getElementInPosition(position);edkEnd();
+                temp = this->getElementInPosition(i);edkEnd();
                 if(temp){
-                    this->remove(temp);edkEnd();
+                    //this->remove(temp);edkEnd();
                     delete temp;edkEnd();
                 }
-                else{
-                    position++;edkEnd();
-                }
             }
+            this->clean();
         }
 
     private:

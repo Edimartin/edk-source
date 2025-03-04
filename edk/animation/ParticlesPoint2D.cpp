@@ -56,6 +56,7 @@ void edk::animation::ParticlesPoint2D::ParticleObject::Constructor(edk::Object2D
         this->life.Constructor();edkEnd();
         this->animFrame.Constructor();edkEnd();
 
+        this->autoRotate=0.f;
         this->obj = obj;edkEnd();
         this->direction = edk::vec2f32(0,1);edkEnd();
         this->speed = 1.0f;edkEnd();
@@ -78,6 +79,7 @@ void edk::animation::ParticlesPoint2D::ParticleObject::Constructor(bool runFathe
         this->life.Constructor();edkEnd();
         this->animFrame.Constructor();edkEnd();
 
+        this->autoRotate=0.f;
         this->obj = NULL;edkEnd();
         this->direction = edk::vec2f32(0,1);edkEnd();
         this->speed = 1.0f;edkEnd();

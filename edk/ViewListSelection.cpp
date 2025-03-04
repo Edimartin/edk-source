@@ -638,6 +638,10 @@ bool edk::ViewListSelection::setScrollPercent(edk::float32 percent){
     return ret;
 }
 
+edk::float32 edk::ViewListSelection::size(){
+    return this->cells.size();
+}
+
 //draw the GU scene
 void edk::ViewListSelection::drawScene(edk::rectf32){
     //draw the cells

@@ -335,6 +335,9 @@ public:
                 //increment the sizeTree
                 this->incrementSize();edkEnd();
                 //then return true
+#if defined(EDK_DEBUG_VECTOR)
+                edkWriteClassDebugNoPosition(this,this->generateDebugValue(&value),true);
+#endif
                 return true;
             }
         }
@@ -356,6 +359,9 @@ public:
                         newValue=NULL;edkEnd();
                         //
                         (*this->errorCodePointer)=EDK_ERROR_HAVE_VALUE;edkEnd();
+#if defined(EDK_DEBUG_VECTOR)
+                edkWriteClassDebugNoPosition(this,this->generateDebugValue(&value),false);
+#endif
                         return false;
                     }
                     else{
@@ -375,7 +381,9 @@ public:
                                 //balance the tree
                                 ///TODO - Fix the balance function in the future
                                 //this->balance(temp->right);edkEnd();
-                                //return true
+#if defined(EDK_DEBUG_VECTOR)
+                edkWriteClassDebugNoPosition(this,this->generateDebugValue(&value),true);
+#endif
                                 return true;
                             }
                         }
@@ -395,7 +403,9 @@ public:
                                 //balance the tree
                                 ///TODO - Fix the balance function in the future
                                 //this->balance(temp->left);edkEnd();
-                                //return true
+#if defined(EDK_DEBUG_VECTOR)
+                edkWriteClassDebugNoPosition(this,this->generateDebugValue(&value),true);
+#endif
                                 return true;
                             }
                         }
@@ -406,6 +416,9 @@ public:
         }
         //else return false
         (*this->errorCodePointer)=EDK_ERROR_HAVE_VALUE;edkEnd();
+#if defined(EDK_DEBUG_VECTOR)
+                edkWriteClassDebugNoPosition(this,this->generateDebugValue(&value),false);
+#endif
         return false;
     }
 
@@ -536,6 +549,9 @@ public:
                         //decrement the sizeTree
                         this->decrementSize();edkEnd();
                         //return true
+#if defined(EDK_DEBUG_VECTOR)
+                edkWriteClassDebugNoPosition(this,this->generateDebugValue(&value),true);
+#endif
                         return true;
                     }
                     if(mother->left->left){
@@ -581,6 +597,9 @@ public:
                         //decrement the sizeTree
                         this->decrementSize();edkEnd();
                         //return true
+#if defined(EDK_DEBUG_VECTOR)
+                edkWriteClassDebugNoPosition(this,this->generateDebugValue(&value),true);
+#endif
                         return true;
                     }
                     //He dont have childrens
@@ -590,6 +609,9 @@ public:
                     mother->left=NULL;edkEnd();
                     //decrement the sizeTree
                     this->decrementSize();edkEnd();
+#if defined(EDK_DEBUG_VECTOR)
+                edkWriteClassDebugNoPosition(this,this->generateDebugValue(&value),true);
+#endif
                     return true;
                 }
             }
@@ -645,6 +667,9 @@ public:
                         //decrement the sizeTree
                         this->decrementSize();edkEnd();
                         //return true
+#if defined(EDK_DEBUG_VECTOR)
+                edkWriteClassDebugNoPosition(this,this->generateDebugValue(&value),true);
+#endif
                         return true;
                     }
                     if(mother->right->left){
@@ -690,6 +715,9 @@ public:
                         //decrement the sizeTree
                         this->decrementSize();edkEnd();
                         //return true
+#if defined(EDK_DEBUG_VECTOR)
+                edkWriteClassDebugNoPosition(this,this->generateDebugValue(&value),true);
+#endif
                         return true;
                     }
                     //He dont have childrens
@@ -699,6 +727,9 @@ public:
                     mother->right=NULL;edkEnd();
                     //decrement the sizeTree
                     this->decrementSize();edkEnd();
+#if defined(EDK_DEBUG_VECTOR)
+                edkWriteClassDebugNoPosition(this,this->generateDebugValue(&value),true);
+#endif
                     return true;
                 }
             }
@@ -753,6 +784,9 @@ public:
                     //decrement the sizeTree
                     this->decrementSize();edkEnd();
                     //return true
+#if defined(EDK_DEBUG_VECTOR)
+                edkWriteClassDebugNoPosition(this,this->generateDebugValue(&value),true);
+#endif
                     return true;
                 }
                 if((*this->rootPointer)->left){
@@ -798,6 +832,9 @@ public:
                     //decrement the sizeTree
                     this->decrementSize();edkEnd();
                     //return true
+#if defined(EDK_DEBUG_VECTOR)
+                edkWriteClassDebugNoPosition(this,this->generateDebugValue(&value),true);
+#endif
                     return true;
                 }
 
@@ -807,10 +844,16 @@ public:
                 //decrement the sizeTree
                 this->decrementSize();edkEnd();
                 //return true
+#if defined(EDK_DEBUG_VECTOR)
+                edkWriteClassDebugNoPosition(this,this->generateDebugValue(&value),true);
+#endif
                 return true;
             }
         }
         //else return false
+#if defined(EDK_DEBUG_VECTOR)
+                edkWriteClassDebugNoPosition(this,this->generateDebugValue(&value),false);
+#endif
         return false;
     }
 
@@ -851,8 +894,14 @@ public:
         //test if have the value
         if(this->find(value)){
             //return true
+#if defined(EDK_DEBUG_VECTOR)
+                edkWriteClassDebugNoPosition(this,this->generateDebugValue(&value),true);
+#endif
             return true;
         }
+#if defined(EDK_DEBUG_VECTOR)
+                edkWriteClassDebugNoPosition(this,this->generateDebugValue(&value),false);
+#endif
         //else return false
         return false;
     }
@@ -864,11 +913,17 @@ public:
         //test if the element is founded
         if(ret){
             //return the value
+#if defined(EDK_DEBUG_VECTOR)
+                edkWriteClassDebugNoPosition(this,this->generateDebugValue(&value),true);
+#endif
             return ret->value;edkEnd();
         }
         //else return zero
         typeTemplate retZero;edkEnd();
         memset((void*)&retZero,0u,sizeof(typeTemplate));edkEnd();
+#if defined(EDK_DEBUG_VECTOR)
+                edkWriteClassDebugNoPosition(this,this->generateDebugValue(&value),false);
+#endif
         return retZero;
     }
     typeTemplate getElementBefore(typeTemplate value){
@@ -877,11 +932,17 @@ public:
         //test if the element is founded
         if(ret){
             //return the value
+#if defined(EDK_DEBUG_VECTOR)
+                edkWriteClassDebugNoPosition(this,this->generateDebugValue(&value),true);
+#endif
             return ret->value;edkEnd();
         }
         //else return zero
         typeTemplate retZero;edkEnd();
         memset((void*)&retZero,0u,sizeof(typeTemplate));edkEnd();
+#if defined(EDK_DEBUG_VECTOR)
+                edkWriteClassDebugNoPosition(this,this->generateDebugValue(&value),false);
+#endif
         return retZero;
     }
     typeTemplate getElementAfter(typeTemplate value){
@@ -890,11 +951,17 @@ public:
         //test if the element is founded
         if(ret){
             //return the value
+#if defined(EDK_DEBUG_VECTOR)
+                edkWriteClassDebugNoPosition(this,this->generateDebugValue(&value),true);
+#endif
             return ret->value;edkEnd();
         }
         //else return zero
         typeTemplate retZero;edkEnd();
         memset((void*)&retZero,0u,sizeof(typeTemplate));edkEnd();
+#if defined(EDK_DEBUG_VECTOR)
+                edkWriteClassDebugNoPosition(this,this->generateDebugValue(&value),false);
+#endif
         return retZero;
     }
     //return the element position in the tree
@@ -909,9 +976,15 @@ public:
         //test if the element is founded
         if(ret){
             //return the value
+#if defined(EDK_DEBUG_VECTOR)
+                edkWriteClassDebugNoPosition(this,this->generateDebugValue(&value),true);
+#endif
             return ret->position;
         }
         //else return zero
+#if defined(EDK_DEBUG_VECTOR)
+                edkWriteClassDebugNoPosition(this,this->generateDebugValue(&value),false);
+#endif
         return 0u;
     }
     //return the element in the Position
@@ -929,6 +1002,9 @@ public:
                 //test if the element is founded
                 if(ret){
                     //return the value
+#if defined(EDK_DEBUG_VECTOR)
+                edkWriteClassDebugNoPosition(this,this->generateDebugValue(&ret->value),true);
+#endif
                     return ret->value;edkEnd();
                 }
             }
@@ -938,12 +1014,18 @@ public:
                 //test if the element is founded
                 if(ret){
                     //return the value
+#if defined(EDK_DEBUG_VECTOR)
+                edkWriteClassDebugNoPosition(this,this->generateDebugValue(&ret->value),true);
+#endif
                     return ret->value;edkEnd();
                 }
             }
         }
         typeTemplate ret;edkEnd(); memset((void*)&ret,0u,sizeof(typeTemplate));edkEnd();
         //else return zero
+#if defined(EDK_DEBUG_VECTOR)
+                edkWriteClassDebugNoPosition(this,(edk::uint64)position,false);
+#endif
         return ret;
     }
     //force update positions
@@ -1597,8 +1679,8 @@ private:
         }
     }
     void updateFunctionRecursively(BinaryLeaf<typeTemplate>* temp,
-                                     void (edk::vector::BinaryTree<typeTemplate>::*functionPointer)(typeTemplate )
-                                     ){
+                                   void (edk::vector::BinaryTree<typeTemplate>::*functionPointer)(typeTemplate )
+                                   ){
         if(temp){
             //
             if(temp->left){
@@ -2245,6 +2327,18 @@ private:
             }
         }
     }
+#if defined(EDK_DEBUG_VECTOR)
+    inline edk::uint64 generateDebugValue(typeTemplate* value){
+        edk::uint64 newValue=0uL;edkEnd();
+        if(sizeof(typeTemplate)>=sizeof(newValue)){
+            memcpy((void*)&newValue,(void*)value,sizeof(newValue));edkEnd();
+        }
+        else{
+            memcpy((void*)&newValue,(void*)value,sizeof(typeTemplate));edkEnd();
+        }
+        return newValue;
+    }
+#endif
 private:
     edk::classID classThis;
 };

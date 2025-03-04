@@ -314,6 +314,15 @@ private:
             if(this->classThis==this){
                 this->classThis=NULL;edkEnd();
                 //can destruct the class
+                edk::uint32 size = this->size();
+                edk::Texture2DList::TextureCode* temp;
+                for(edk::uint32 i=0u;i<size;i++){
+                    temp = this->getElementInPosition(i);
+                    if(temp){
+                        delete temp;
+                    }
+                }
+                this->clean();
             }
         }
 

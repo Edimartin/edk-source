@@ -511,6 +511,11 @@ edk::uint32 edk::Texture2DList::loadTextureFromPack(edk::pack::FilePackage* pack
                 temp->retainTexture();edkEnd();
                 break;
             }
+            else{
+                if(edk::multi::Thread::isThisThreadMain()){
+                    this->mutTexture.unlock();edkEnd();
+                }
+            }
         }
     }
     //else return false

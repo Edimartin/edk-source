@@ -491,6 +491,23 @@ private:
     //Physics TREE
     class treeObjects:public edk::vector::BinaryTree<ObjectTree*>{
     public:
+        treeObjects(){}
+        ~treeObjects(){
+            this->cleanAllBodys();
+        }
+
+        void cleanAllBodys(){
+            edk::uint32 size = this->size();
+            ObjectTree* temp;
+            for(edk::uint32 i=0u;i<size;i++){
+                temp = this->getElementInPosition(i);
+                if(temp){
+                    delete temp;
+                }
+            }
+            this->clean();
+        }
+
         //compare if the value is bigger
         bool firstBiggerSecond(ObjectTree* first,ObjectTree* second){
             //

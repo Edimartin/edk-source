@@ -239,8 +239,14 @@ public:
                 (*this->endPointer)=0u;edkEnd();
             }
             (*this->_sizePointer)++;edkEnd();
+#if defined(EDK_DEBUG_VECTOR)
+                edkWriteClassDebugNoPosition(this,this->generateDebugValue(&value),true);
+#endif
             return true;
         }
+#if defined(EDK_DEBUG_VECTOR)
+                edkWriteClassDebugNoPosition(this,this->generateDebugValue(&value),false);
+#endif
         return false;
     }
 
@@ -302,6 +308,9 @@ public:
                 }
             }
         }
+#if defined(EDK_DEBUG_VECTOR)
+                edkWriteClassDebugNoPosition(this,this->generateDebugValue(&ret),true);
+#endif
         return ret;
     }
 
@@ -353,6 +362,9 @@ public:
                 }
             }
         }
+#if defined(EDK_DEBUG_VECTOR)
+                edkWriteClassDebug(this,pos,this->generateDebugValue(&ret),true);
+#endif
         return ret;
     }
 
@@ -374,6 +386,19 @@ private:
     //save the queue size
     edk::uint32* _sizePointer;
     edk::uint32 _size;
+private:
+#if defined(EDK_DEBUG_VECTOR)
+    inline edk::uint64 generateDebugValue(typeTemplate* value){
+        edk::uint64 newValue=0uL;edkEnd();
+        if(sizeof(typeTemplate)>=sizeof(newValue)){
+            memcpy((void*)&newValue,(void*)value,sizeof(newValue));edkEnd();
+        }
+        else{
+            memcpy((void*)&newValue,(void*)value,sizeof(typeTemplate));edkEnd();
+        }
+        return newValue;
+    }
+#endif
 private:
     edk::classID classThis;
 };

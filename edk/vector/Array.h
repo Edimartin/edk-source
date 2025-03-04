@@ -108,6 +108,9 @@ public:
                 if((*this->vectorPointer)){
                     //save the size of the vector
                     (*this->vectorSizePointer)=size;edkEnd();
+#if defined(EDK_DEBUG_VECTOR)
+                edkWriteClassDebugNoPosition(this,size,true);
+#endif
                     return true;
                 }
             }
@@ -119,11 +122,17 @@ public:
                     //set with nulls
                     memset((void*)(*this->vectorPointer),0u,sizeof(typeTemplate)*size);edkEnd();
                     //return true
+#if defined(EDK_DEBUG_VECTOR)
+                edkWriteClassDebugNoPosition(this,size,true);
+#endif
                     return true;
                 }
             }
         }
         //else return false
+#if defined(EDK_DEBUG_VECTOR)
+                edkWriteClassDebugNoPosition(this,size,false);
+#endif
         return false;
     }
 
@@ -135,14 +144,23 @@ public:
             memcpy((void*)&(*this->vectorPointer)[pos],(void*)&obj,sizeof(typeTemplate));edkEnd();
             //(*this->vectorPointer)[pos]=obj;edkEnd();
             //return true
+#if defined(EDK_DEBUG_VECTOR)
+                edkWriteClassDebug(this,pos,this->generateDebugValue(&obj),true);
+#endif
             return true;
         }
         //else return false
+#if defined(EDK_DEBUG_VECTOR)
+                edkWriteClassDebug(this,pos,this->generateDebugValue(&obj),false);
+#endif
         return false;
     }
     //SETTERS WITHOUT IF
     void setNoIF(edk::uint32 pos,typeTemplate obj){
         //set the object
+#if defined(EDK_DEBUG_VECTOR)
+                edkWriteClassDebug(this,pos,this->generateDebugValue(&obj),true);
+#endif
         memcpy((void*)&(*this->vectorPointer)[pos],(void*)&obj,sizeof(typeTemplate));edkEnd();
     }
 
@@ -159,9 +177,15 @@ public:
     //test if have the object in the position
     bool have(edk::uint32 pos){
         if((*this->vectorPointer) && pos<this->getSize()){
+#if defined(EDK_DEBUG_VECTOR)
+                edkWriteClassDebug(this,pos,0uL,true);
+#endif
             //return the variable
             return true;
         }
+#if defined(EDK_DEBUG_VECTOR)
+                edkWriteClassDebug(this,pos,0uL,false);
+#endif
         return false;
     }
     //return true if have the array
@@ -174,11 +198,17 @@ public:
         if(this->have(pos)){
             //return the variable
             memcpy((void*)&ret,(void*)&vector[pos],sizeof(typeTemplate));edkEnd();
+#if defined(EDK_DEBUG_VECTOR)
+                edkWriteClassDebug(this,pos,this->generateDebugValue(&ret),true);
+#endif
             return ret;
         }
         memset((void*)&ret,0u,sizeof(typeTemplate));edkEnd();
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wmaybe-uninitialized"
+#if defined(EDK_DEBUG_VECTOR)
+                edkWriteClassDebug(this,pos,this->generateDebugValue(&ret),false);
+#endif
         return ret;
 #pragma GCC diagnostic pop
     }
@@ -189,6 +219,9 @@ public:
         memcpy((void*)&ret,(void*)&vector[pos],sizeof(typeTemplate));edkEnd();
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wmaybe-uninitialized"
+#if defined(EDK_DEBUG_VECTOR)
+                edkWriteClassDebug(this,pos,0uL,true);
+#endif
         return ret;
 #pragma GCC diagnostic pop
     }
@@ -253,8 +286,14 @@ public:
             if(this->createArray(vec->size())){
                 memcpy((void*)(*this->vectorPointer),vec->vector,sizeof(typeTemplate) * vec->size());edkEnd();
             }
+#if defined(EDK_DEBUG_VECTOR)
+                edkWriteClassDebug(this,0uL,0uL,true);
+#endif
             return true;
         }
+#if defined(EDK_DEBUG_VECTOR)
+                edkWriteClassDebug(this,0uL,0uL,true);
+#endif
         return false;
     }
 
@@ -282,6 +321,19 @@ private:
         vec.cantDeleteVector();edkEnd();
         return vec;edkEnd();
     }
+private:
+#if defined(EDK_DEBUG_VECTOR)
+    inline edk::uint64 generateDebugValue(typeTemplate* value){
+        edk::uint64 newValue=0uL;edkEnd();
+        if(sizeof(typeTemplate)>=sizeof(newValue)){
+            memcpy((void*)&newValue,(void*)value,sizeof(newValue));edkEnd();
+        }
+        else{
+            memcpy((void*)&newValue,(void*)value,sizeof(typeTemplate));edkEnd();
+        }
+        return newValue;
+    }
+#endif
 private:
     edk::classID classThis;
 };

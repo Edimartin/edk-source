@@ -130,6 +130,8 @@ public:
     edk::float32 getScrollPercent();
     bool setScrollPercent(edk::float32 percent);
 
+    edk::float32 size();
+
     //draw the GU scene
     void drawScene(edk::rectf32 outsideViewOrigin);
 

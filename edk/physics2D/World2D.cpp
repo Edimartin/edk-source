@@ -980,8 +980,8 @@ edk::physics2D::World2D::~World2D(){
     edk::uint32 size = 0u;edkEnd();
 #if defined(EDK_USE_BOX2D)
     b2Body* body=NULL;edkEnd();
-#endif
     this->contacts.cleaningWorld=true;
+#endif
 
     this->beginContacs.cleanContacts();edkEnd();
     this->keepBeginContacs.cleanContacts();edkEnd();
@@ -2449,6 +2449,8 @@ bool edk::physics2D::World2D::haveObject(edk::physics2D::PhysicObject2D* object)
             break;
         }
 */
+
+#if defined(EDK_USE_BOX2D)
         if(this->treeStatic.haveBody(object)){
             return true;
         }
@@ -2458,6 +2460,7 @@ bool edk::physics2D::World2D::haveObject(edk::physics2D::PhysicObject2D* object)
         else if(this->treeKinematic.haveBody(object)){
             return true;
         }
+#endif
     }
     return false;
 }

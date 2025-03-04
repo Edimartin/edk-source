@@ -942,6 +942,19 @@ public:
         (*this->matrixDestPointer) = matrixTemp;edkEnd();
     }
 private:
+#if defined(EDK_DEBUG_VECTOR)
+    inline edk::uint64 generateDebugValue(typeTemplate* value){
+        edk::uint64 newValue=0uL;edkEnd();
+        if(sizeof(typeTemplate)>=sizeof(newValue)){
+            memcpy((void*)&newValue,(void*)value,sizeof(newValue));edkEnd();
+        }
+        else{
+            memcpy((void*)&newValue,(void*)value,sizeof(typeTemplate));edkEnd();
+        }
+        return newValue;
+    }
+#endif
+private:
     edk::classID classThis;
 };
 //Use a template to alloc whatever

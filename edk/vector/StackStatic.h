@@ -429,6 +429,9 @@ public:
                 }
             }
         }
+#if defined(EDK_DEBUG_VECTOR)
+                edkWriteClassDebug(this,ret,this->generateDebugValue(&obj),true);
+#endif
         return ret;
     }
 
@@ -623,6 +626,9 @@ public:
             }
         }
 
+#if defined(EDK_DEBUG_VECTOR)
+                edkWriteClassDebugNoPosition(this,this->generateDebugValue(&ret),false);
+#endif
         return ret;
     }
     //delete all Stack
@@ -864,7 +870,12 @@ public:
             //tets if pos is the last
             if(pos==((*this->stackSizePointer))-1u){
                 //then popBack
-                return this->popBack();edkEnd();
+                ret = this->popBack();edkEnd();
+
+#if defined(EDK_DEBUG_VECTOR)
+                edkWriteClassDebug(this,pos,this->generateDebugValue(&ret),true);
+#endif
+                return ret;
             }
             //get the element value
             //memcpy((void*)&ret,(void*)&this->get(arrayPos),sizeof(typeTemplate));edkEnd();
@@ -876,12 +887,19 @@ public:
                 (*this->removedPointer).add(pos);edkEnd();
 
                 //return the ret
+
+#if defined(EDK_DEBUG_VECTOR)
+                edkWriteClassDebug(this,pos,this->generateDebugValue(&ret),true);
+#endif
                 return ret;
             }
             //else clean the ret
         }
         //else return false
         memset((void*)&ret,0u,sizeof(typeTemplate));edkEnd();
+#if defined(EDK_DEBUG_VECTOR)
+                edkWriteClassDebug(this,pos,this->generateDebugValue(&ret),false);
+#endif
         return ret;
     }
 
@@ -905,7 +923,10 @@ public:
                     if(posNew<temp->position){
                         tempArray = (edk::vector::ArrayStatic<typeTemplate>*)temp->get(posNew);
                         if(tempArray){
-                            return tempArray->set(rest,obj);
+                            bool ret = tempArray->set(rest,obj);
+#if defined(EDK_DEBUG_VECTOR)
+                edkWriteClassDebug(this,pos,this->generateDebugValue(&obj),ret);
+#endif
                         }
                     }
                 }
@@ -924,6 +945,9 @@ public:
             }
         }
         //else return NULL
+#if defined(EDK_DEBUG_VECTOR)
+                edkWriteClassDebug(this,pos,this->generateDebugValue(&obj),false);
+#endif
         return false;
     }
 
@@ -948,7 +972,11 @@ public:
                     if(posNew<temp->position){
                         tempArray = (edk::vector::ArrayStatic<typeTemplate>*)temp->get(posNew);
                         if(tempArray){
-                            return tempArray->get(rest);
+                            typeTemplate ret = tempArray->get(rest);
+#if defined(EDK_DEBUG_VECTOR)
+                edkWriteClassDebug(this,pos,this->generateDebugValue(&ret),true);
+#endif
+                            return ret;
                         }
                     }
                 }
@@ -968,6 +996,9 @@ public:
         }
         //else return false
         typeTemplate ret;edkEnd(); memset((void*)&ret,0u,sizeof(typeTemplate));edkEnd();
+#if defined(EDK_DEBUG_VECTOR)
+                edkWriteClassDebug(this,pos,this->generateDebugValue(&ret),false);
+#endif
         return ret;
     }
     //load the objects inside the stack
@@ -2264,6 +2295,19 @@ private:
     edk::vector::StackStatic<typeTemplate> operator=(edk::vector::StackStatic<typeTemplate> ret){
         return ret;
     }
+private:
+#if defined(EDK_DEBUG_VECTOR)
+    inline edk::uint64 generateDebugValue(typeTemplate* value){
+        edk::uint64 newValue=0uL;edkEnd();
+        if(sizeof(typeTemplate)>=sizeof(newValue)){
+            memcpy((void*)&newValue,(void*)value,sizeof(newValue));edkEnd();
+        }
+        else{
+            memcpy((void*)&newValue,(void*)value,sizeof(typeTemplate));edkEnd();
+        }
+        return newValue;
+    }
+#endif
 private:
     edk::classID classThis;
 };
