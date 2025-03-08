@@ -430,7 +430,7 @@ public:
             }
         }
 #if defined(EDK_DEBUG_VECTOR)
-                edkWriteClassDebug(this,ret,this->generateDebugValue(&obj),true);
+        edkWriteClassDebug(this,ret,this->generateDebugValue(&obj),true);
 #endif
         return ret;
     }
@@ -627,7 +627,7 @@ public:
         }
 
 #if defined(EDK_DEBUG_VECTOR)
-                edkWriteClassDebugNoPosition(this,this->generateDebugValue(&ret),false);
+        edkWriteClassDebugNoPosition(this,this->generateDebugValue(&ret),false);
 #endif
         return ret;
     }
@@ -898,7 +898,7 @@ public:
         //else return false
         memset((void*)&ret,0u,sizeof(typeTemplate));edkEnd();
 #if defined(EDK_DEBUG_VECTOR)
-                edkWriteClassDebug(this,pos,this->generateDebugValue(&ret),false);
+        edkWriteClassDebug(this,pos,this->generateDebugValue(&ret),false);
 #endif
         return ret;
     }
@@ -925,8 +925,9 @@ public:
                         if(tempArray){
                             bool ret = tempArray->set(rest,obj);
 #if defined(EDK_DEBUG_VECTOR)
-                edkWriteClassDebug(this,pos,this->generateDebugValue(&obj),ret);
+                            edkWriteClassDebug(this,pos,this->generateDebugValue(&obj),ret);
 #endif
+                            return ret;
                         }
                     }
                 }
@@ -946,7 +947,7 @@ public:
         }
         //else return NULL
 #if defined(EDK_DEBUG_VECTOR)
-                edkWriteClassDebug(this,pos,this->generateDebugValue(&obj),false);
+        edkWriteClassDebug(this,pos,this->generateDebugValue(&obj),false);
 #endif
         return false;
     }
@@ -974,7 +975,7 @@ public:
                         if(tempArray){
                             typeTemplate ret = tempArray->get(rest);
 #if defined(EDK_DEBUG_VECTOR)
-                edkWriteClassDebug(this,pos,this->generateDebugValue(&ret),true);
+                            edkWriteClassDebug(this,pos,this->generateDebugValue(&ret),true);
 #endif
                             return ret;
                         }
@@ -997,7 +998,7 @@ public:
         //else return false
         typeTemplate ret;edkEnd(); memset((void*)&ret,0u,sizeof(typeTemplate));edkEnd();
 #if defined(EDK_DEBUG_VECTOR)
-                edkWriteClassDebug(this,pos,this->generateDebugValue(&ret),false);
+        edkWriteClassDebug(this,pos,this->generateDebugValue(&ret),false);
 #endif
         return ret;
     }
