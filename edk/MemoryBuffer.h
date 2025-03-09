@@ -75,6 +75,14 @@ public:
             this->bufferWritedSize=0u;edkEnd();
         }
     }
+    //clean the write into the buffer
+    bool cleanWrite(){
+        if(this->buffer && this->bufferSize){
+            this->bufferWritedSize=0u;edkEnd();
+            return true;
+        }
+        return false;
+    }
 
     //save some bytes into the buffer
     bool writeToBuffer(typeTemplate c){

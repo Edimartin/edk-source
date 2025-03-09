@@ -107,6 +107,8 @@ QMAKE_CXXFLAGS += -Wno-deprecated-copy
 #DEFINES += EDK_USE_POSTGRE
 #This line will enable the use of mysql
 #DEFINES += EDK_USE_MYSQL
+#This line will enable the use of openH264
+#DEFINES += EDK_USE_OPENH264
 
 #with no pie it will not run in terminal
 win32: QMAKE_LFLAGS   += -mwindows

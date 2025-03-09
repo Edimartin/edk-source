@@ -42,7 +42,7 @@ edk::codecs::EncoderVideo::~EncoderVideo(){
 
 void edk::codecs::EncoderVideo::Constructor(bool runFather){
     if(runFather){
-        edk::codecs::EncoderVideo::Constructor();edkEnd();
+        edk::codecs::CodecVideo::Constructor();edkEnd();
     }
     if(this->classThis!=this){
         this->classThis=this;
@@ -71,8 +71,8 @@ void edk::codecs::EncoderVideo::deleteSpaceEncoded(){
 }
 
 //set next keyFrame
-void edk::codecs::EncoderVideo::setNextkeyframe(){
-    edk::codecs::CodecVideo::setNextkeyframe();edkEnd();
+void edk::codecs::EncoderVideo::setNextKeyframe(){
+    edk::codecs::CodecVideo::setNextKeyframe();edkEnd();
 }
 
 //process the encoder

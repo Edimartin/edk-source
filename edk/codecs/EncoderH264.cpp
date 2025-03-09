@@ -99,11 +99,11 @@ bool edk::codecs::EncoderH264::startEncoder(edk::size2ui32 size, edk::uint32 fps
 
                 this->param.iRCMode = RC_BITRATE_MODE;edkEnd();
                 //use the FPS
-                this->param.fMaxFrameRate = fps;edkEnd(); //!=0
+                this->param.fMaxFrameRate = (edk::float32)1/fps;edkEnd(); //!=0
 
                 //start the encoder
                 if(!encoder->Initialize(&param)){
-                    this->setNextkeyframe();edkEnd();
+                    this->setNextKeyframe();edkEnd();
                     return true;
                 }
             }
@@ -115,6 +115,9 @@ bool edk::codecs::EncoderH264::startEncoder(edk::size2ui32 size, edk::uint32 fps
         edk::codecs::EncoderVideo::finishEncoder();edkEnd();
     }
     return false;
+}
+bool edk::codecs::EncoderH264::startEncoder(edk::uint32 width, edk::uint32 height, edk::uint32 fps){
+    return this->startEncoder(edk::size2ui32(width,height),fps);
 }
 
 //process the encoder
@@ -149,10 +152,14 @@ bool edk::codecs::EncoderH264::encode(edk::uint8* frame,edk::uint8 channels){
                 memset (&this->sFbi, 0, sizeof (SFrameBSInfo));edkEnd();
 
                 if(this->isNextKeyframe()){
-                    encoder->ForceIntraFrame(true);edkEnd();
+                    this->encoder->ForceIntraFrame(true);edkEnd();
+                }
+                else{
+                    int32_t iTraceLevel = WELS_LOG_QUIET;
+                    this->encoder->SetOption(ENCODER_OPTION_IDR_INTERVAL, &iTraceLevel);
                 }
 
-                if(!encoder->EncodeFrame(&this->pic,&this->sFbi)){
+                if(!this->encoder->EncodeFrame(&this->pic,&this->sFbi)){
                     SLayerBSInfo* pLayerBsInfo = NULL;edkEnd();
                     //test if can copy the encoded
                     if((edk::int32)this->getSpaceEncodedSize() < this->sFbi.iFrameSizeInBytes){

@@ -47,7 +47,7 @@ public:
 
     //start the encoder
     virtual bool startEncoder(edk::size2ui32 size, edk::uint32 fps);
-    bool startEncoder(edk::uint32 width, edk::uint32 height, edk::uint32 fps);
+    virtual bool startEncoder(edk::uint32 width, edk::uint32 height, edk::uint32 fps);
 
     //alloc a new frameEncoded
     bool newSpaceEncoded(edk::uint32 size);
@@ -55,7 +55,7 @@ public:
     void deleteSpaceEncoded();
 
     //set next keyFrame
-    void setNextkeyframe();
+    void setNextKeyframe();
 
     //process the encoder
     virtual bool encode(edk::uint8* frame,edk::uint8 channels);

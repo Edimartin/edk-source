@@ -78,6 +78,8 @@ public:
 
     void Constructor(const char *imageFileName,bool runFather=true);
 
+    void clean();
+
     //create a new Image
     bool newImage(edk::char8 *imageName,edk::size2ui32 size,edk::uint8 channels);
     bool newImage(edk::char8 *imageName,edk::uint32 width,edk::uint32 height,edk::uint8 channels);

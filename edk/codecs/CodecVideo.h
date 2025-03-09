@@ -68,7 +68,7 @@ protected:
     //set the quality
     bool setQuality(edk::uint32 quality);
     //set the next is keyFrame
-    void setNextkeyframe();
+    void setNextKeyframe();
     //return true if the next is keyframe
     bool isNextKeyframe();
 

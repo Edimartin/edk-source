@@ -47,10 +47,7 @@ edk::Image2D::~Image2D(){
     if(this->classThis==this){
         this->classThis=NULL;edkEnd();
         //can destruct the class
-        //dtor
-        this->deleteImage();edkEnd();
-        //    this->deleteName();edkEnd();
-        //    this->deleteFileName();edkEnd();
+        this->clean();edkEnd();
     }
 }
 
@@ -62,25 +59,25 @@ void edk::Image2D::Constructor(bool /*runFather*/){
         this->imageFileName=NULL;edkEnd();
         this->vec = NULL;edkEnd();
         this->colors = NULL;edkEnd();
-        this->channelsValue=0u;
+        this->channelsValue=0u;edkEnd();
         this->palette=NULL;edkEnd();
-        this->paletteSize=0u;
-        this->bytesPerColors=0u;
+        this->paletteSize=0u;edkEnd();
+        this->bytesPerColors=0u;edkEnd();
     }
 }
 
 void edk::Image2D::Constructor(char8 *imageFileName,bool /*runFather*/){
     if(this->classThis!=this){
-        this->classThis=this;
+        this->classThis=this;edkEnd();
         //clean all
         this->imageName=NULL;edkEnd();
         this->imageFileName=NULL;edkEnd();
         this->vec = NULL;edkEnd();
         this->colors = NULL;edkEnd();
-        this->channelsValue=0u;
+        this->channelsValue=0u;edkEnd();
         this->palette=NULL;edkEnd();
-        this->paletteSize=0u;
-        this->bytesPerColors=0u;
+        this->paletteSize=0u;edkEnd();
+        this->bytesPerColors=0u;edkEnd();
         //load the image
         this->loadFromFile(imageFileName);edkEnd();
     }
@@ -88,19 +85,23 @@ void edk::Image2D::Constructor(char8 *imageFileName,bool /*runFather*/){
 
 void edk::Image2D::Constructor(const char *imageFileName,bool /*runFather*/){
     if(this->classThis!=this){
-        this->classThis=this;
+        this->classThis=this;edkEnd();
         //clean all
         this->imageName=NULL;edkEnd();
         this->imageFileName=NULL;edkEnd();
         this->vec = NULL;edkEnd();
         this->colors = NULL;edkEnd();
-        this->channelsValue=0u;
+        this->channelsValue=0u;edkEnd();
         this->palette=NULL;edkEnd();
-        this->paletteSize=0u;
-        this->bytesPerColors=0u;
+        this->paletteSize=0u;edkEnd();
+        this->bytesPerColors=0u;edkEnd();
         //load the image
         this->loadFromFile(imageFileName);edkEnd();
     }
+}
+
+void edk::Image2D::clean(){
+    this->deleteImage();edkEnd();
 }
 
 

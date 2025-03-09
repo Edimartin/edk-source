@@ -56,6 +56,7 @@ public:
 
     //start the encoder
     bool startEncoder(edk::size2ui32 size, edk::uint32 fps);
+    bool startEncoder(edk::uint32 width, edk::uint32 height, edk::uint32 fps);
 
     //process the encoder
     bool encode(edk::uint8* frame,edk::uint8 channels);

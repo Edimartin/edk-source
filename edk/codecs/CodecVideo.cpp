@@ -192,7 +192,7 @@ bool edk::codecs::CodecVideo::setQuality(edk::uint32 quality){
     return edk::codecs::CodecImage::setQuality(quality);edkEnd();
 }
 //set the next is keyFrame
-void edk::codecs::CodecVideo::setNextkeyframe(){
+void edk::codecs::CodecVideo::setNextKeyframe(){
     this->nexKeyframe=true;edkEnd();
 }
 //return true if the next is keyframe
