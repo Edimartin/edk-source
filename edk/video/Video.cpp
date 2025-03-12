@@ -70,34 +70,45 @@ void edk::Video::close(){
 }
 
 //create a file
-bool edk::Video::newFile(const edk::char8* name,edk::float32 seconds,edk::float32 fps){
-    return this->newFile((edk::char8*) name,seconds,fps);
-}
-bool edk::Video::newFile(edk::char8* name,edk::float32 seconds,edk::float32 fps){
+bool edk::Video::newFile(edk::char8* name,
+                         edk::float32 seconds,
+                         edk::float32 fps,
+                         edk::uint32 width,
+                         edk::uint32 height,
+                         edk::uint32 channels
+                         ){
     this->close();edkEnd();
-    if(name && fps){
+    if(name && fps>0.f && width && height && channels){
         if(this->file.createAndOpenBinFile(name)){
             //write the header
             this->buffer.clean();
             this->writeHeader(&this->file);edkEnd();
+            this->file.flush();
             //write the aditional values to the video file
             this->file.writeBin(fps);
             this->file.writeBin(seconds);
             this->seconds=seconds;
-            this->file.flush();
             //set writing
             this->writingFile=edk::edkVideoWriteTrue;edkEnd();
             this->timeIncrement=1.f/fps;edkEnd();
-            return true;
+
+            //start write the frames
+            this->size.width = width;
+            this->size.height = height;
+            this->channels = channels;
+            this->file.writeBin(this->size.width);
+            this->file.writeBin(this->size.height);
+            this->file.writeBin(this->channels);
+            this->file.flush();
+            if(this->startEncoder(this->size.width,this->size.height,this->channels,fps)){
+                return true;
+            }
         }
     }
     return false;
 }
 
 //open a file
-bool edk::Video::openFile(const edk::char8* name){
-    return this->openFile((edk::char8*) name);
-}
 bool edk::Video::openFile(edk::char8* name){
     this->close();edkEnd();
     if(name){
@@ -110,8 +121,11 @@ bool edk::Video::openFile(edk::char8* name){
                 edk::float32 fps=0.f;
                 this->file.readBin(&fps,sizeof(fps));
                 this->file.readBin(&this->seconds,sizeof(this->seconds));
+                this->file.readBin(&this->size.width,sizeof(this->size.width));
+                this->file.readBin(&this->size.height,sizeof(this->size.height));
+                this->file.readBin(&this->channels,sizeof(this->channels));
                 this->timeIncrement=1.f/fps;
-                return true;
+                return this->startDecoder();
             }
         }
     }
@@ -123,34 +137,14 @@ bool edk::Video::haveFile(){
     return this->file.isOpened();
 }
 edk::uint8* edk::Video::getFrameVector(){
-    if(this->writingFile==edk::edkVideoWriteTrue
+    if(this->writingFile==edk::edkVideoWriteFalse
             && this->file.isOpened()
             ){
-        //
+        return (edk::uint8*)this->buffer.getPointer();
     }
     return NULL;
 }
 
-bool edk::Video::startWriteFrames(edk::uint32 width,edk::uint32 height,edk::uint32 channels){
-    if(this->writingFile==edk::edkVideoWriteTrue
-            && this->file.isOpened()
-            ){
-        if(width && height && channels){
-            this->size.width = width;
-            this->size.height = height;
-            this->channels = channels;
-            edk::float32 fps = 24.f;
-            if(this->frames && this->seconds>0.f){
-                fps = this->seconds / this->frames;
-            }
-            return this->startEncoder(this->size.width,this->size.height,this->channels,fps);
-        }
-    }
-    return false;
-}
-bool edk::Video::startWriteFrames(edk::size2ui32 size,edk::uint32 channels){
-    return this->startWriteFrames(size.width,size.height,channels);
-}
 //function tu write an image into the file
 bool edk::Video::writeFrame(edk::uint8* vector,bool keyFrame){
     if(this->writingFile==edk::edkVideoWriteTrue
@@ -176,14 +170,6 @@ bool edk::Video::writeFrame(edk::uint8* vector,bool keyFrame){
     return false;
 }
 //read frames
-bool edk::Video::startReadFrames(){
-    if(this->writingFile==edk::edkVideoWriteFalse
-            && this->file.isOpened()
-            ){
-        return this->startDecoder();
-    }
-    return false;
-}
 bool edk::Video::readNextFrame(){
     if(this->writingFile==edk::edkVideoWriteFalse
             && this->file.isOpened()
@@ -195,9 +181,9 @@ bool edk::Video::readNextFrame(){
                 //read the next encoded frame
                 if(this->buffer.writeFileToBuffer(&this->file,lenght)){
                     if(this->decodeFrame(&this->buffer,
-                                             &this->size.width,
-                                             &this->size.height,
-                                             &this->channels
+                                         &this->size.width,
+                                         &this->size.height,
+                                         &this->channels
                                          )){
                         this->buffer.cleanWrite();
                         return this->copyDecodedFrame(&this->buffer);

@@ -82,6 +82,8 @@ public:
     //        GU_NEAREST
     //        GU_LINEAR
     bool createTexture(edk::uint32 width, edk::uint32 height, edk::uint32 mode, const edk::classID  data = NULL, edk::uint32 filter = GU_NEAREST);
+    bool createTextureWithPBODraw(edk::uint32 width, edk::uint32 height, edk::uint32 mode, const edk::classID  data = NULL, edk::uint32 filter = GU_NEAREST);
+    bool createTextureWithPBORead(edk::uint32 width, edk::uint32 height, edk::uint32 mode, const edk::classID  data = NULL, edk::uint32 filter = GU_NEAREST);
     //draw to the texture
     bool drawToTexture(const edk::classID  data);
     //FILTER
@@ -107,6 +109,8 @@ public:
     //GETTERS
     //return the textureID
     edk::uint32 getID();
+    //return the texturePBO
+    edk::uint32 getPBO();
     size2ui32 getSize();
     //EDK_LUMINANCE 1u
     //EDK_LUMINANCE_ALPHA 2u
@@ -144,6 +148,8 @@ protected:
 private:
     //Texture ID
     edk::uint32 textureId;
+    //Texture ID
+    edk::uint32 pbo;
     //tamanho do sprite
     edk::size2ui32 size;
     //save the mode

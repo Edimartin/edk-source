@@ -106,6 +106,29 @@ bool edk::material::Material::newTexture(edk::char8* name,edk::uint32 width,edk:
 bool edk::material::Material::newTexture(const edk::char8* name,edk::uint32 width,edk::uint32 height,edk::uint8 position,edk::uint32 mode,edk::uint32 filter){
     return newTexture((edk::char8*) name,edk::size2ui32(width,height),position,mode,filter);
 }
+bool edk::material::Material::newTextureWithPBODraw(edk::char8* name,edk::size2ui32 size,edk::uint8 position,edk::uint32 mode,edk::uint32 filter){
+    //test the position
+    if(position<materialTextureCount){
+        //remove the texture
+        this->removeTexture(position);edkEnd();
+        //then load the new texture
+        this->textures[position] = this->list.createTextureWithPBODraw(name,size,mode,filter);edkEnd();
+        if(this->textures[position]){
+            this->countTextures++;edkEnd();
+            return true;
+        }
+    }
+    return false;
+}
+bool edk::material::Material::newTextureWithPBODraw(const edk::char8* name,edk::size2ui32 size,edk::uint8 position,edk::uint32 mode,edk::uint32 filter){
+    return newTextureWithPBODraw((edk::char8*) name,size,position,mode,filter);
+}
+bool edk::material::Material::newTextureWithPBODraw(edk::char8* name,edk::uint32 width,edk::uint32 height,edk::uint8 position,edk::uint32 mode,edk::uint32 filter){
+    return newTextureWithPBODraw(name,edk::size2ui32(width,height),position,mode,filter);
+}
+bool edk::material::Material::newTextureWithPBODraw(const edk::char8* name,edk::uint32 width,edk::uint32 height,edk::uint8 position,edk::uint32 mode,edk::uint32 filter){
+    return newTextureWithPBODraw((edk::char8*) name,edk::size2ui32(width,height),position,mode,filter);
+}
 
 //load the texture
 bool edk::material::Material::loadTexture(edk::char8* name,edk::uint8 position,edk::uint32 filter){
@@ -180,6 +203,24 @@ bool edk::material::Material::setTextureFromMemory(const edk::char8* name,edk::u
 bool edk::material::Material::setTextureFromMemory(edk::Image2D* image,edk::uint8 position,edk::uint32 filter){
     if(image){
         return this->setTextureFromMemory(image->getName(),image->getPixels(),image->getSize().width,image->getSize().height,image->getChannels(),position,filter);edkEnd();
+    }
+    return false;
+}
+//draw into a texture
+bool edk::material::Material::drawToTexture(edk::char8* name,edk::uint8* image,edk::uint32 filter){
+    //test the position
+    //then load the new texture
+    if(this->list.drawTexture(name,image,filter)){
+        return true;
+    }
+    return false;
+}
+bool edk::material::Material::drawToTexture(const edk::char8* name,edk::uint8* image,edk::uint32 filter){
+    return this->drawToTexture((edk::char8*) name,image,filter);edkEnd();
+}
+bool edk::material::Material::drawToTexture(edk::Image2D* image,edk::uint32 filter){
+    if(image){
+        return this->drawToTexture(image->getName(),image->getPixels(),filter);edkEnd();
     }
     return false;
 }

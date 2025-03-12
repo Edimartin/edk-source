@@ -104,7 +104,6 @@ bool edk::codecs::DecoderJPEG::decode(edk::uint8* encoded,edk::uint32 size){
 
 
 
-
         //test if the encoded have the header
         if(stbi__jpeg_test(&s)){
             //decode the jpeg image

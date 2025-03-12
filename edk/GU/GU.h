@@ -355,6 +355,8 @@ public:
     //GU_LINEAR
     static bool guDrawToTexture2D(edk::uint32 ID,edk::uint32 width, edk::uint32 height, edk::uint32 mode, edk::uint32 filter, const edk::classID  data);
     static bool guDrawToTexture2DAndGenerateMipmap(edk::uint32 ID,edk::uint32 width, edk::uint32 height, edk::uint32 mode, edk::uint32 filter, const edk::classID  data);
+    static bool guDrawPBOToTexture2D(edk::uint32 pbo,edk::uint32 ID,edk::uint32 width, edk::uint32 height, edk::uint32 mode, edk::uint32 filter, const edk::classID  data);
+    static bool guDrawPBOToTexture2DAndGenerateMipmap(edk::uint32 pbo,edk::uint32 ID,edk::uint32 width, edk::uint32 height, edk::uint32 mode, edk::uint32 filter, const edk::classID  data);
     //mode
     //GU_RGB
     //GU_RGBA

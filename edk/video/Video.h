@@ -62,11 +62,62 @@ public:
     void close();
 
     //create a file
-    bool newFile(const edk::char8* name,edk::float32 seconds,edk::float32 fps);
-    bool newFile(edk::char8* name,edk::float32 seconds,edk::float32 fps);
+
+    inline bool newFile(const edk::char8* name,
+                        edk::float32 seconds,
+                        edk::float32 fps,
+                        edk::size2ui32 size,
+                        edk::uint32 channels
+                        ){
+        return this->newFile((edk::char8*) name,
+                             seconds,
+                             fps,
+                             size.width,
+                             size.height,
+                             channels
+                             );
+    }
+    inline bool newFile(edk::char8* name,
+                        edk::float32 seconds,
+                        edk::float32 fps,
+                        edk::size2ui32 size,
+                        edk::uint32 channels
+                        ){
+        return this->newFile(name,
+                             seconds,
+                             fps,
+                             size.width,
+                             size.height,
+                             channels
+                             );
+    }
+    inline bool newFile(const edk::char8* name,
+                        edk::float32 seconds,
+                        edk::float32 fps,
+                        edk::uint32 width,
+                        edk::uint32 height,
+                        edk::uint32 channels
+                        ){
+        return this->newFile((edk::char8*) name,
+                             seconds,
+                             fps,
+                             width,
+                             height,
+                             channels
+                             );
+    }
+    bool newFile(edk::char8* name,
+                 edk::float32 seconds,
+                 edk::float32 fps,
+                 edk::uint32 width,
+                 edk::uint32 height,
+                 edk::uint32 channels
+                 );
 
     //open a file
-    bool openFile(const edk::char8* name);
+    inline bool openFile(const edk::char8* name){
+        return this->openFile((edk::char8*) name);
+    }
     bool openFile(edk::char8* name);
 
     //return true if have the file opened
@@ -95,13 +146,9 @@ public:
     }
     edk::uint8* getFrameVector();
 
-    //
-    bool startWriteFrames(edk::uint32 width,edk::uint32 height,edk::uint32 channels);
-    bool startWriteFrames(edk::size2ui32 size,edk::uint32 channels);
     //function tu write an image into the file
     bool writeFrame(edk::uint8* vector,bool keyFrame=false);
     //read frames
-    bool startReadFrames();
     bool readNextFrame();
     //get the frame vector
     edk::uint8* getFramePixels();

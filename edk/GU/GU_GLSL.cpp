@@ -1110,6 +1110,20 @@ void edk::GU_GLSL::guDontUseAllBuffer(){
     glBindBuffer(GU_READ_FRAMEBUFFER,0u);
     edk::GU_GLSL::mut.unlock();
 }
+//map/unmap the buffer
+edk::classID edk::GU_GLSL::guMapBuffer(edk::uint32 type,edk::uint32 access){
+    edk::classID ret = NULL;
+    edk::GU_GLSL::mut.lock();
+    ret = glMapBuffer(type,access);
+    edk::GU_GLSL::mut.unlock();
+    return ret;
+}
+//unmap the buffer
+void edk::GU_GLSL::guUnmapBuffer(edk::uint32 type){
+    edk::GU_GLSL::mut.lock();
+    glUnmapBuffer(type);
+    edk::GU_GLSL::mut.unlock();
+}
 //delete the Buffer
 void edk::GU_GLSL::guDeleteBuffer(edk::uint32 ID){
     edk::GU_GLSL::mut.lock();
@@ -1118,7 +1132,7 @@ void edk::GU_GLSL::guDeleteBuffer(edk::uint32 ID){
 }
 //add the buffer in to the vbo
 bool edk::GU_GLSL::guBufferData(edk::uint32 type, edk::uint64 size, const edk::classID data, edk::uint32 usage){
-    if(data && size){
+    if(/*data && */size){
         edk::GU_GLSL::mut.lock();
         glBufferData(type, size, data,usage);
         edk::GU_GLSL::mut.unlock();

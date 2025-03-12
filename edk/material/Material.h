@@ -59,6 +59,10 @@ public:
     bool newTexture(const edk::char8* name,edk::size2ui32 size,edk::uint8 position=0u,edk::uint32 mode = GU_RGB,edk::uint32 filter = GU_NEAREST);
     bool newTexture(edk::char8* name,edk::uint32 width,edk::uint32 height,edk::uint8 position=0u,edk::uint32 mode = GU_RGB,edk::uint32 filter = GU_NEAREST);
     bool newTexture(const edk::char8* name,edk::uint32 width,edk::uint32 height,edk::uint8 position=0u,edk::uint32 mode = GU_RGB,edk::uint32 filter = GU_NEAREST);
+    bool newTextureWithPBODraw(edk::char8* name,edk::size2ui32 size,edk::uint8 position,edk::uint32 mode,edk::uint32 filter);
+    bool newTextureWithPBODraw(const edk::char8* name,edk::size2ui32 size,edk::uint8 position,edk::uint32 mode,edk::uint32 filter);
+    bool newTextureWithPBODraw(edk::char8* name,edk::uint32 width,edk::uint32 height,edk::uint8 position,edk::uint32 mode,edk::uint32 filter);
+    bool newTextureWithPBODraw(const edk::char8* name,edk::uint32 width,edk::uint32 height,edk::uint8 position,edk::uint32 mode,edk::uint32 filter);
 
     //load the texture
     //filter
@@ -78,6 +82,10 @@ public:
     bool setTextureFromMemory(edk::char8* name,edk::uint8* image,edk::uint32 width,edk::uint32 height,edk::uint32 channels,edk::uint8 position=0u,edk::uint32 filter = GU_NEAREST);
     bool setTextureFromMemory(const edk::char8* name,edk::uint8* image,edk::uint32 width,edk::uint32 height,edk::uint32 channels,edk::uint8 position=0u,edk::uint32 filter = GU_NEAREST);
     bool setTextureFromMemory(edk::Image2D* image,edk::uint8 position=0u,edk::uint32 filter = GU_NEAREST);
+    //draw into a texture
+    bool drawToTexture(edk::char8* name,edk::uint8* image,edk::uint32 filter = GU_NEAREST);
+    bool drawToTexture(const edk::char8* name,edk::uint8* image,edk::uint32 filter = GU_NEAREST);
+    bool drawToTexture(edk::Image2D* image,edk::uint32 filter = GU_NEAREST);
 
     //SETERS
     void setAmbient(edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a);

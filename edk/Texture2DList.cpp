@@ -158,6 +158,71 @@ edk::uint32 edk::Texture2DList::createTexture(edk::char8* name,edk::size2ui32 si
 edk::uint32 edk::Texture2DList::createTexture(const char8* name,edk::size2ui32 size,edk::uint32 mode,edk::uint32 filter){
     return this->createTexture((edk::char8*) name,size,mode,filter);edkEnd();
 }
+edk::uint32 edk::Texture2DList::createTextureWithPBODraw(edk::char8* name,edk::size2ui32 size,edk::uint32 mode,edk::uint32 filter){
+    edk::uint32 ret=0u;
+    //test the pointers and size
+    if(name && size.height && size.width){
+        edk::Texture2DList::TextureCode* temp;
+        for(edk::uint8 i=0u;i<EDK_TEXTURE_LOADER_TENTATIVES;i++){
+            //get the texture from the tree
+            temp = this->getTextureByName(name,filter);edkEnd();
+            //test if NOT hame the texture
+            if(!temp){
+                //load the new texture
+                temp = new edk::Texture2DList::TextureCode;edkEnd();
+                if(temp){
+                    //load the texture
+                    if(temp->createTextureWithPBODraw(name,size,mode,filter)){
+                        //add the texture to the tree's
+
+                        this->mutNameTree.lock();
+                        if(edk::Texture2DList::codeTree.add(temp)){
+                            if(edk::Texture2DList::nameTree.add(temp)){
+                                this->mutNameTree.unlock();
+                                ret = temp->code;edkEnd();
+                                temp->retainTexture();edkEnd();
+                                break;
+                            }
+                            else{
+                                edk::Texture2DList::codeTree.remove(temp);edkEnd();
+                                this->mutNameTree.unlock();
+                                //else delete temp
+                                delete temp;edkEnd();
+                                temp=NULL;edkEnd();
+                            }
+                        }
+                        else{
+                            this->mutNameTree.unlock();
+                            //else delete temp
+                            delete temp;edkEnd();
+                            temp=NULL;edkEnd();
+                        }
+                    }
+                    else{
+                        //else delete temp
+                        delete temp;edkEnd();
+                        temp=NULL;edkEnd();
+                    }
+                }
+                if(temp){
+                    //else delete temp
+                    delete temp;edkEnd();
+                    temp=NULL;edkEnd();
+                }
+            }
+            if(temp){
+                //retain the texture
+                ret=temp->code;edkEnd();
+                temp->retainTexture();edkEnd();
+                break;
+            }
+        }
+    }
+    return ret;
+}
+edk::uint32 edk::Texture2DList::createTextureWithPBODraw(const char8* name,edk::size2ui32 size,edk::uint32 mode,edk::uint32 filter){
+    return this->createTextureWithPBODraw((edk::char8*) name,size,mode,filter);edkEnd();
+}
 //draw on a texture
 bool edk::Texture2DList::drawTexture(edk::char8* name,edk::uint8* image,edk::uint32 filter){
     //test the name and retainTexture

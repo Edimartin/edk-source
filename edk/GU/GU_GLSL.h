@@ -165,6 +165,16 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #define GU_TEXTURE_BUFFER                            GL_TEXTURE_BUFFER
 #define GU_TRANSFORM_FEEDBACK_BUFFER                 GL_TRANSFORM_FEEDBACK_BUFFER
 #define GU_UNIFORM_BUFFER                            GL_UNIFORM_BUFFER
+#define GU_PIXEL_PACK_BUFFER_ARB                     GL_PIXEL_PACK_BUFFER_ARB
+#define GU_PIXEL_UNPACK_BUFFER_ARB                   GL_PIXEL_UNPACK_BUFFER_ARB
+#define GU_PIXEL_PACK_BUFFER_BINDING_ARB             GL_PIXEL_PACK_BUFFER_BINDING_ARB
+#define GU_PIXEL_UNPACK_BUFFER_BINDING_ARB           GL_PIXEL_UNPACK_BUFFER_BINDING_ARB
+#define GU_READ_ONLY_ARB                             GL_READ_ONLY_ARB
+#define GU_WRITE_ONLY_ARB                            GL_WRITE_ONLY_ARB
+#define GU_READ_WRITE_ARB                            GL_READ_WRITE_ARB
+#define GU_READ_ONLY                                 GL_READ_ONLY
+#define GU_WRITE_ONLY                                GL_WRITE_ONLY
+#define GU_READ_WRITE                                GL_READ_WRITE
 
 #define GU_STREAM_DRAW                               GL_STREAM_DRAW
 #define GU_STREAM_READ                               GL_STREAM_READ
@@ -175,6 +185,15 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #define GU_DYNAMIC_DRAW                              GL_DYNAMIC_DRAW
 #define GU_DYNAMIC_READ                              GL_DYNAMIC_READ
 #define GU_DYNAMIC_COPY                              GL_DYNAMIC_COPY
+#define GU_STREAM_DRAW_ARB                           GL_STREAM_DRAW_ARB
+#define GU_STREAM_READ_ARB                           GL_STREAM_READ_ARB
+#define GU_STREAM_COPY_ARB                           GL_STREAM_COPY_ARB
+#define GU_STATIC_DRAW_ARB                           GL_STATIC_DRAW_ARB
+#define GU_STATIC_READ_ARB                           GL_STATIC_READ_ARB
+#define GU_STATIC_COPY_ARB                           GL_STATIC_COPY_ARB
+#define GU_DYNAMIC_DRAW_ARB                          GL_DYNAMIC_DRAW_ARB
+#define GU_DYNAMIC_READ_ARB                          GL_DYNAMIC_READ_ARB
+#define GU_DYNAMIC_COPY_ARB                          GL_DYNAMIC_COPY_ARB
 
 #define GU_STENCIL_INDEX                             GL_STENCIL_INDEX
 #define GU_DEPTH_COMPONENT                           GL_DEPTH_COMPONENT
@@ -358,6 +377,30 @@ public:
     //do not use Buffer
     static void guDontUseBuffer(edk::uint32 type);
     static void guDontUseAllBuffer();
+    //map/unmap the buffer
+    /* type
+    GU_ARRAY_BUFFER
+    GU_ATOMIC_COUNTER_BUFFER
+    GU_COPY_READ_BUFFER
+    GU_COPY_WRITE_BUFFER
+    GU_DISPATCH_INDIRECT_BUFFER
+    GU_DRAW_INDIRECT_BUFFER
+    GU_ELEMENT_ARRAY_BUFFER
+    GU_PIXEL_PACK_BUFFER
+    GU_PIXEL_UNPACK_BUFFER
+    GU_QUERY_BUFFER
+    GU_SHADER_STORAGE_BUFFER
+    GU_TEXTURE_BUFFER
+    GU_TRANSFORM_FEEDBACK_BUFFER
+    GU_UNIFORM_BUFFER
+*/
+    /* access
+    GL_READ_ONLY
+    GL_WRITE_ONLY
+    GL_READ_WRITE
+*/
+    static edk::classID guMapBuffer(edk::uint32 type,edk::uint32 access);
+    static void guUnmapBuffer(edk::uint32 type);
     //delete the Buffer
     static void guDeleteBuffer(edk::uint32 ID);
     /* type

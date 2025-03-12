@@ -869,6 +869,126 @@ bool edk::GU::guDrawToTexture2DAndGenerateMipmap(edk::uint32 ID,edk::uint32 widt
     }
     return false;
 }
+bool edk::GU::guDrawPBOToTexture2D(edk::uint32 ID,edk::uint32 pbo,edk::uint32 width, edk::uint32 height, edk::uint32 mode, edk::uint32 filter, const edk::classID  data){
+    //test the mode
+    if(edk::GU::initiate&&(mode==GU_RGB || mode==GU_RGBA || mode==GU_LUMINANCE || mode==GU_LUMINANCE_ALPHA)){
+        //test the ID
+        if(ID){
+            edk::GU_GLSL::mutBeginEnd.lock();
+            edk::GU_GLSL::mut.lock();
+            //Set using texture
+            glBindTexture(GL_TEXTURE_2D,ID);
+
+            edk::uint32 channels = 3u;
+            switch (mode) {
+            case GU_LUMINANCE:
+                channels = 1u;
+                break;
+            case GU_LUMINANCE_ALPHA:
+                channels = 2u;
+                break;
+            case GU_RGB:
+                channels = 3u;
+                break;
+            case GU_RGBA:
+                channels = 4u;
+                break;
+            }
+            edk::GU_GLSL::guUseBuffer(GU_PIXEL_UNPACK_BUFFER,pbo);
+            edk::GU_GLSL::guBufferData(GU_PIXEL_UNPACK_BUFFER,width*height*channels,NULL,GU_STREAM_DRAW);
+            edk::classID ptr = edk::GU_GLSL::guMapBuffer(GU_PIXEL_UNPACK_BUFFER, GU_WRITE_ONLY);
+            if(ptr){
+                memcpy(ptr, data, width*height*channels);
+            }
+
+            edk::GU_GLSL::guUseBuffer(GU_PIXEL_UNPACK_BUFFER,pbo);
+            //clean map buffer
+            edk::GU_GLSL::guUnmapBuffer(GU_PIXEL_UNPACK_BUFFER);
+            //Copy the texture
+            glTexSubImage2D(GL_TEXTURE_2D,
+                            0,
+                            0,
+                            0,
+                            width,
+                            height,
+                            mode,
+                            GL_UNSIGNED_BYTE,
+                            NULL
+                            );
+            //clean use buffer
+            edk::GU_GLSL::guDontUseBuffer(GU_PIXEL_UNPACK_BUFFER);
+            //Clean use texture
+            glBindTexture(GL_TEXTURE_2D, 0u);
+            edk::GU_GLSL::mut.unlock();
+            edk::GU_GLSL::mutBeginEnd.unlock();
+
+            return true;
+        }
+    }
+    return false;
+}
+bool edk::GU::guDrawPBOToTexture2DAndGenerateMipmap(edk::uint32 pbo,edk::uint32 ID,edk::uint32 width, edk::uint32 height, edk::uint32 mode, edk::uint32 filter, const edk::classID  data){
+    //test the mode
+    if(edk::GU::initiate&&(mode==GU_RGB || mode==GU_RGBA || mode==GU_LUMINANCE || mode==GU_LUMINANCE_ALPHA)){
+        //test the ID
+        if(ID){
+            edk::GU_GLSL::mutBeginEnd.lock();
+            edk::GU_GLSL::mut.lock();
+            //Set using texture
+            glBindTexture(GL_TEXTURE_2D,ID);
+
+            edk::uint32 channels = 3u;
+            switch (mode) {
+            case GU_LUMINANCE:
+                channels = 1u;
+                break;
+            case GU_LUMINANCE_ALPHA:
+                channels = 2u;
+                break;
+            case GU_RGB:
+                channels = 3u;
+                break;
+            case GU_RGBA:
+                channels = 4u;
+                break;
+            }
+            edk::GU_GLSL::guUseBuffer(GU_PIXEL_UNPACK_BUFFER,pbo);
+            edk::GU_GLSL::guBufferData(GU_PIXEL_UNPACK_BUFFER,width*height*channels,NULL,GU_STREAM_DRAW);
+            edk::classID ptr = edk::GU_GLSL::guMapBuffer(GU_PIXEL_UNPACK_BUFFER, GU_WRITE_ONLY);
+            if(ptr){
+                memcpy(ptr, data, width*height*channels);
+            }
+
+            edk::GU_GLSL::guUseBuffer(GU_PIXEL_UNPACK_BUFFER,pbo);
+            //clean map buffer
+            edk::GU_GLSL::guUnmapBuffer(GU_PIXEL_UNPACK_BUFFER);
+            //Copy the texture
+            glTexSubImage2D(GL_TEXTURE_2D,
+                            0,
+                            0,
+                            0,
+                            width,
+                            height,
+                            mode,
+                            GL_UNSIGNED_BYTE,
+                            NULL
+                            );
+            //clean use buffer
+            edk::GU_GLSL::guDontUseBuffer(GU_PIXEL_UNPACK_BUFFER);
+
+            //generate mipmap
+            glGenerateMipmap(GL_TEXTURE_2D);
+
+            //Clean use texture
+            glBindTexture(GL_TEXTURE_2D, 0u);
+            edk::GU_GLSL::mut.unlock();
+            edk::GU_GLSL::mutBeginEnd.unlock();
+
+            return true;
+        }
+    }
+    return false;
+}
 //mode
 //GU_RGB
 //GU_RGBA

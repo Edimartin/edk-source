@@ -68,6 +68,8 @@ public:
     //create a new texture
     edk::uint32 createTexture(edk::char8* name,edk::size2ui32 size,edk::uint32 mode = GU_RGB,edk::uint32 filter = GU_NEAREST);
     edk::uint32 createTexture(const char8* name,edk::size2ui32 size,edk::uint32 mode = GU_RGB,edk::uint32 filter = GU_NEAREST);
+    edk::uint32 createTextureWithPBODraw(edk::char8* name,edk::size2ui32 size,edk::uint32 mode,edk::uint32 filter);
+    edk::uint32 createTextureWithPBODraw(const char8* name,edk::size2ui32 size,edk::uint32 mode,edk::uint32 filter);
     //draw on a texture
     bool drawTexture(edk::char8* name,edk::uint8* image,edk::uint32 filter = GU_NEAREST);
     bool drawTexture(const char8* name,edk::uint8* image,edk::uint32 filter = GU_NEAREST);
@@ -187,13 +189,32 @@ private:
             this->filter = 0u;edkEnd();
             this->deleteName();edkEnd();
         }
-        //create a new testure
+        //create a new texture
         bool createTexture(edk::char8* name,edk::size2ui32 size,edk::uint32 mode,edk::uint32 filter){
             this->deleteTexture();edkEnd();
             if(name){
                 this->file = new edk::Texture2DFile;edkEnd();
                 if(this->file){
                     if(this->file->createTexture(size.width,size.height,mode,NULL,filter)){
+                        //save the name
+                        if(this->setName(name)){
+                            //save the code
+                            this->code=this->file->getID();edkEnd();
+                            this->filter = filter;edkEnd();
+                            return true;
+                        }
+                    }
+                }
+            }
+            this->deleteTexture();edkEnd();
+            return false;
+        }
+        bool createTextureWithPBODraw(edk::char8* name,edk::size2ui32 size,edk::uint32 mode,edk::uint32 filter){
+            this->deleteTexture();edkEnd();
+            if(name){
+                this->file = new edk::Texture2DFile;edkEnd();
+                if(this->file){
+                    if(this->file->createTextureWithPBODraw(size.width,size.height,mode,NULL,filter)){
                         //save the name
                         if(this->setName(name)){
                             //save the code
