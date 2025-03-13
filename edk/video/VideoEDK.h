@@ -78,6 +78,8 @@ protected:
     //start the decoder
     virtual bool startDecoder();
     //decode a frame
+    virtual bool canDecodeFrame(edk::uint32 frameID);
+    //decode a frame
     virtual bool decodeFrame(edk::MemoryBuffer<edk::uint8>* bufferRead,
                              edk::uint32* width,
                              edk::uint32* height,
@@ -97,6 +99,7 @@ private:
     }headerEDK;
     //size
     edk::size2ui32 size;
+    edk::uint32 frameIDH264;
     //video codec
     edk::codecs::DecoderH264 decH264;
     edk::codecs::EncoderH264 encH264;
@@ -110,6 +113,9 @@ private:
     bool haveDecH264;
     bool haveEncRGB;
     bool haveDecRGB;
+
+    //decoder mutex
+    edk::multi::Mutex mutDecoder;
 
     edk::MemoryBuffer<edk::uint8> bufferRGB;
 
@@ -136,6 +142,7 @@ private:
                      edk::uint32* /*height*/,
                      edk::uint8* /*channels*/
                      ){return false;}
+    inline bool canDecodeFrameNOTHING(edk::uint32 /*frameID*/){return true;}
     inline bool copyDecodedFrameNOTHING(edk::MemoryBuffer<edk::uint8>* /*bufferDest*/){return false;}
     inline void finishDecoderNOTHING(){}
     //H264
@@ -152,6 +159,7 @@ private:
                      );
     void finishEncoderH264();
     bool startDecoderH264();
+    bool canDecodeFrameH264(edk::uint32 frameID);
     bool decodeFrameH264(edk::MemoryBuffer<edk::uint8>* /*bufferRead*/,
                      edk::uint32* /*width*/,
                      edk::uint32* /*height*/,
@@ -173,6 +181,7 @@ private:
                      );
     void finishEncoderJPEG();
     bool startDecoderJPEG();
+    bool canDecodeFrameJPEG(edk::uint32 frameID);
     bool decodeFrameJPEG(edk::MemoryBuffer<edk::uint8>* /*bufferRead*/,
                      edk::uint32* /*width*/,
                      edk::uint32* /*height*/,
@@ -194,6 +203,7 @@ private:
                      );
     void finishEncoderRGB();
     bool startDecoderRGB();
+    bool canDecodeFrameRGB(edk::uint32 frameID);
     bool decodeFrameRGB(edk::MemoryBuffer<edk::uint8>* /*bufferRead*/,
                      edk::uint32* /*width*/,
                      edk::uint32* /*height*/,
@@ -216,6 +226,7 @@ private:
                                                       );
     void (edk::video::VideoEDK::*functionFinishEncoder)();
     bool (edk::video::VideoEDK::*functionStartDecoder)();
+    bool (edk::video::VideoEDK::*functionCanDecodeFrame)(edk::uint32 frameID);
     bool (edk::video::VideoEDK::*functionDecodeFrame)(edk::MemoryBuffer<edk::uint8>* bufferRead,
                                                       edk::uint32* width,
                                                       edk::uint32* height,

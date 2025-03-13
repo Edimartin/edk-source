@@ -82,8 +82,16 @@ void edk::video::VideoEDK::finishEncoderH264(){
     this->encH264.finishEncoder();
 }
 bool edk::video::VideoEDK::startDecoderH264(){
+    this->frameIDH264=0u;
     this->haveDecH264 = this->decH264.startDecoder(1024u*1024u*3u);
     return this->haveDecH264;
+}
+bool edk::video::VideoEDK::canDecodeFrameH264(edk::uint32 frameID){
+    if(frameID <= this->frameIDH264){
+        this->frameIDH264++;
+        return true;
+    }
+    return false;
 }
 bool edk::video::VideoEDK::decodeFrameH264(edk::MemoryBuffer<edk::uint8>* bufferRead,
                                            edk::uint32* width,
@@ -91,6 +99,7 @@ bool edk::video::VideoEDK::decodeFrameH264(edk::MemoryBuffer<edk::uint8>* buffer
                                            edk::uint8* channels
                                            ){
     if(this->haveDecH264){
+        this->mutDecoder.lock();
         if(bufferRead && width && height && channels){
             //
             if(this->decH264.decode((edk::uint8*)bufferRead->getPointer(),bufferRead->size())){
@@ -98,10 +107,12 @@ bool edk::video::VideoEDK::decodeFrameH264(edk::MemoryBuffer<edk::uint8>* buffer
                 *height = this->decH264.getFrameHeight();
                 *channels = this->decH264.getFrameChannels();
                 if(*width && *height && *channels){
+                    this->mutDecoder.unlock();
                     return true;
                 }
             }
         }
+        this->mutDecoder.unlock();
     }
     return false;
 }
@@ -124,6 +135,7 @@ bool edk::video::VideoEDK::copyDecodedFrameH264(edk::MemoryBuffer<edk::uint8>* b
     return false;
 }
 void edk::video::VideoEDK::finishDecoderH264(){
+    this->frameIDH264=0u;
     this->haveDecH264=false;
     this->decH264.finishDecoder();
 }
@@ -146,6 +158,7 @@ bool edk::video::VideoEDK::encodeFrameJPEG(edk::uint8* vector,
                                            ){
     if(vector && lenght && channels && bufferWrite){
         //encode the frame
+        this->mutDecoder.lock();
         if(this->encJPEG.encode(vector,
                                 this->getWidth(),
                                 this->getHeight(),
@@ -154,8 +167,10 @@ bool edk::video::VideoEDK::encodeFrameJPEG(edk::uint8* vector,
                                 )
                 ){
             //read the encoded
+            this->mutDecoder.unlock();
             return bufferWrite->pushToBuffer(this->encJPEG.getEncoded(),this->encJPEG.getEncodedSize());
         }
+        this->mutDecoder.unlock();
     }
     return false;
 }
@@ -164,6 +179,9 @@ void edk::video::VideoEDK::finishEncoderJPEG(){
 }
 bool edk::video::VideoEDK::startDecoderJPEG(){
     return this->haveDecJPEG=true;
+}
+bool edk::video::VideoEDK::canDecodeFrameJPEG(edk::uint32 /*frameID*/){
+    return true;
 }
 bool edk::video::VideoEDK::decodeFrameJPEG(edk::MemoryBuffer<edk::uint8>* bufferRead,
                                            edk::uint32* width,
@@ -232,6 +250,9 @@ void edk::video::VideoEDK::finishEncoderRGB(){
 bool edk::video::VideoEDK::startDecoderRGB(){
     return this->haveDecRGB=true;
 }
+bool edk::video::VideoEDK::canDecodeFrameRGB(edk::uint32 /*frameID*/){
+    return true;
+}
 bool edk::video::VideoEDK::decodeFrameRGB(edk::MemoryBuffer<edk::uint8>* bufferRead,
                                           edk::uint32* width,
                                           edk::uint32* height,
@@ -276,10 +297,8 @@ bool edk::video::VideoEDK::readHeader(edk::File* file){
         edk::char8 headerName[sizeof(VIDEO_EDK_HEADER_NAME)+1u];
         edkMemSet(&headerName,0u,sizeof(headerName));
         file->readBin((edk::uint8*)&headerName,sizeof(VIDEO_EDK_HEADER_NAME));
-        //printf("\nheaderName == '%s'",headerName);fflush(stdout);
         if(edk::String::strCompare(headerName,VIDEO_EDK_HEADER_NAME)){
             if(file->readBin((edk::uint8*)&this->headerEDK,sizeof(this->headerEDK))){
-                //printf("\nFPS == %.2f TimeIncrement == %.2f",this->headerEDK.fps,this->headerEDK.timeIncrement);fflush(stdout);
                 //set the codec for the file
                 this->useCodec((edk::video::EDKcodecName)this->headerEDK.codec);
                 return true;
@@ -326,6 +345,10 @@ bool edk::video::VideoEDK::decodeFrame(edk::MemoryBuffer<edk::uint8>* bufferRead
                                         );
 }
 //decode a frame
+bool edk::video::VideoEDK::canDecodeFrame(edk::uint32 frameID){
+    return (this->*functionCanDecodeFrame)(frameID);
+}
+//decode a frame
 bool edk::video::VideoEDK::copyDecodedFrame(edk::MemoryBuffer<edk::uint8>* bufferDest){
     return (this->*functionCopyDecodedFrame)(bufferDest);
 }
@@ -344,6 +367,7 @@ void edk::video::VideoEDK::Constructor(edk::video::EDKcodecName codec,bool runFa
         this->headerEDK.fps = 0.f;
         this->headerEDK.timeIncrement = 0.f;
         this->size=0u;
+        this->frameIDH264=0u;
         this->encH264.Constructor();
         this->decH264.Constructor();
         this->encJPEG.Constructor();
@@ -370,6 +394,7 @@ bool edk::video::VideoEDK::useCodec(edk::video::EDKcodecName codec){
         this->functionEncodeFrame=&edk::video::VideoEDK::encodeFrameH264;
         this->functionFinishEncoder=&edk::video::VideoEDK::finishEncoderH264;
         this->functionStartDecoder=&edk::video::VideoEDK::startDecoderH264;
+        this->functionCanDecodeFrame=&edk::video::VideoEDK::canDecodeFrameH264;
         this->functionDecodeFrame=&edk::video::VideoEDK::decodeFrameH264;
         this->functionCopyDecodedFrame=&edk::video::VideoEDK::copyDecodedFrameH264;
         this->functionFinishDecoder=&edk::video::VideoEDK::finishDecoderH264;
@@ -383,6 +408,7 @@ bool edk::video::VideoEDK::useCodec(edk::video::EDKcodecName codec){
         this->functionEncodeFrame=&edk::video::VideoEDK::encodeFrameJPEG;
         this->functionFinishEncoder=&edk::video::VideoEDK::finishEncoderJPEG;
         this->functionStartDecoder=&edk::video::VideoEDK::startDecoderJPEG;
+        this->functionCanDecodeFrame=&edk::video::VideoEDK::canDecodeFrameJPEG;
         this->functionDecodeFrame=&edk::video::VideoEDK::decodeFrameJPEG;
         this->functionCopyDecodedFrame=&edk::video::VideoEDK::copyDecodedFrameJPEG;
         this->functionFinishDecoder=&edk::video::VideoEDK::finishDecoderJPEG;
@@ -396,6 +422,7 @@ bool edk::video::VideoEDK::useCodec(edk::video::EDKcodecName codec){
         this->functionEncodeFrame=&edk::video::VideoEDK::encodeFrameRGB;
         this->functionFinishEncoder=&edk::video::VideoEDK::finishEncoderRGB;
         this->functionStartDecoder=&edk::video::VideoEDK::startDecoderRGB;
+        this->functionCanDecodeFrame=&edk::video::VideoEDK::canDecodeFrameRGB;
         this->functionDecodeFrame=&edk::video::VideoEDK::decodeFrameRGB;
         this->functionCopyDecodedFrame=&edk::video::VideoEDK::copyDecodedFrameRGB;
         this->functionFinishDecoder=&edk::video::VideoEDK::finishDecoderRGB;
@@ -409,6 +436,7 @@ bool edk::video::VideoEDK::useCodec(edk::video::EDKcodecName codec){
         this->functionEncodeFrame=&edk::video::VideoEDK::encodeFrameNOTHING;
         this->functionFinishEncoder=&edk::video::VideoEDK::finishEncoderNOTHING;
         this->functionStartDecoder=&edk::video::VideoEDK::startDecoderNOTHING;
+        this->functionCanDecodeFrame=&edk::video::VideoEDK::canDecodeFrameNOTHING;
         this->functionDecodeFrame=&edk::video::VideoEDK::decodeFrameNOTHING;
         this->functionCopyDecodedFrame=&edk::video::VideoEDK::copyDecodedFrameNOTHING;
         this->functionFinishDecoder=&edk::video::VideoEDK::finishDecoder;

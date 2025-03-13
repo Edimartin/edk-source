@@ -38,6 +38,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "../Image2D.h"
 #include "../MemoryBuffer.h"
 #include "../pack/FilePackage.h"
+#include "../thread/Thread.h"
 
 #ifdef printMessages
 #pragma message "    Compiling VideoEDK"
@@ -51,10 +52,13 @@ enum EdkVideoWrite{
 
     edkVideoWriteSize
 };
+class ThreadVideo;
 class Video{
 public:
     Video();
     ~Video();
+
+    friend edk::ThreadVideo;
 
     void Constructor(bool runFather=true);
 
@@ -115,10 +119,16 @@ public:
                  );
 
     //open a file
-    inline bool openFile(const edk::char8* name){
-        return this->openFile((edk::char8*) name);
+    inline bool openFile(const edk::char8* name,
+                         edk::uint8 threads=1u
+            ){
+        return this->openFile((edk::char8*) name,
+                              threads
+                              );
     }
-    bool openFile(edk::char8* name);
+    bool openFile(edk::char8* name,
+                  edk::uint8 threads=1u
+            );
 
     //return true if have the file opened
     bool haveFile();
@@ -169,11 +179,13 @@ protected:
     //start the decoder
     virtual bool startDecoder()=0;
     //decode a frame
-    virtual bool decodeFrame(edk::MemoryBuffer<edk::uint8>* bufferWrite,
-                             edk::uint32* width,
-                             edk::uint32* height,
-                             edk::uint8* channels
-                             )=0;
+    virtual inline bool canDecodeFrame(edk::uint32 /*frameID*/){return true;}
+    //decode a frame
+    virtual inline bool decodeFrame(edk::MemoryBuffer<edk::uint8>* /*bufferWrite*/,
+                                    edk::uint32* /*width*/,
+                                    edk::uint32* /*height*/,
+                                    edk::uint8* /*channels*/
+                                    ){return false;}
     //decode a frame
     virtual bool copyDecodedFrame(edk::MemoryBuffer<edk::uint8>* bufferDest)=0;
     //finish the decoder
@@ -193,8 +205,62 @@ private:
     edk::uint8 channels;
     edk::uint32 frames;
     edk::float32 seconds;
+
+    edk::uint32 frameID;
+
+    //threads
+    edk::vector::Stack<edk::ThreadVideo*> threads;
+    edk::vector::Queue<edk::ThreadVideo*> queueEncode;
+    edk::vector::Queue<edk::ThreadVideo*> queueDecode;
+
 private:
     edk::classID classThis;
+};
+class ThreadVideo{
+public:
+    ThreadVideo(edk::uint32 id,edk::Video* thisVideo){
+        this->frameID=0xFFFFFFFF;
+        this->id=id;
+        this->haveEncoded=false;
+        this->haveDecoded=false;
+        this->needExit=false;
+        this->thisVideo=thisVideo;
+        this->canDelete=false;
+    }
+    ~ThreadVideo(){
+    }
+    bool canDecodeFrame(){
+        return this->thisVideo->canDecodeFrame(this->frameID);
+    }
+
+    bool decodeFrame(){
+        return this->thisVideo->decodeFrame(&this->buffer,
+                                            &this->thisVideo->size.width,
+                                            &this->thisVideo->size.height,
+                                            &this->thisVideo->channels
+                                            );
+    }
+    void copyDecodedFrame(){
+        this->thisVideo->copyDecodedFrame(&this->buffer);
+    }
+
+    edk::Video* thisVideo;
+
+    edk::uint32 frameID;
+    bool needExit;
+    bool canDelete;
+    //test if have the video
+    bool haveEncoded;
+    bool haveDecoded;
+    edk::multi::Thread thread;
+    //mutexes
+    edk::multi::Mutex mutVideo;
+    //buffer to copy the frame
+    edk::MemoryBuffer<edk::uint8> buffer;
+
+    edk::uint32 getID(){return this->id;}
+private:
+    edk::uint32 id;
 };
 }
 
