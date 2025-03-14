@@ -49,6 +49,7 @@ edk::classID functionThread(edk::classID values){
             edk::watch::Time::sleepProcessMicroseconds(1u);
         }
         thread->canDelete=true;
+        edk::watch::Time::sleepProcessMicroseconds(1u);
     }
     return NULL;
 }
@@ -60,6 +61,29 @@ edk::Video::Video(){
 edk::Video::~Video(){
     if(this->classThis==this){
         this->classThis=NULL;edkEnd();
+
+        //finish all threads
+        edk::ThreadVideo* thread = NULL;
+        edk::uint32 size = this->threads.size();
+        for(edk::uint8 i=0u;i<size;i++){
+            thread = this->threads.get(i);
+            if(thread){
+                thread->mutVideo.lock();
+                thread->needExit=true;
+                thread->mutVideo.unlock();
+                thread->mutVideo.lock();
+                while(thread->canDelete){
+                    thread->mutVideo.unlock();
+                    edk::watch::Time::sleepProcessMicroseconds(1u);
+                    thread->mutVideo.lock();
+                }
+                thread->mutVideo.unlock();
+                thread->thread.waitEnd();
+                delete thread;
+            }
+        }
+        this->threads.clean();
+
         //can destruct the class
         this->close();edkEnd();
         this->buffer.clean();edkEnd();
@@ -78,11 +102,15 @@ void edk::Video::Constructor(bool /*runFather*/){
         this->size=0u;edkEnd();
         this->channels=0u;edkEnd();
         this->frameID=0xFFFFFFFF;
+        this->secondPassed=0.f;
     }
 }
 
 //close the file
 void edk::Video::close(){
+    this->queueEncode.clean();
+    this->queueDecode.clean();
+    /*
     //finish all threads
     edk::ThreadVideo* thread = NULL;
     edk::uint32 size = this->threads.size();
@@ -99,10 +127,13 @@ void edk::Video::close(){
                 thread->mutVideo.lock();
             }
             thread->mutVideo.unlock();
+            thread->thread.waitEnd();
             delete thread;
         }
     }
     this->threads.clean();
+    */
+
     if(this->file.isOpened()){
         switch(this->writingFile){
         case edk::edkVideoWriteTrue:
@@ -117,6 +148,7 @@ void edk::Video::close(){
         this->file.closeFile();edkEnd();
     }
     this->writingFile=edk::edkVideoWriteNothing;edkEnd();
+    this->secondPassed=0.f;
 }
 
 //create a file
@@ -131,6 +163,11 @@ bool edk::Video::newFile(edk::char8* name,
     this->close();edkEnd();
     if(name && fps>0.f && width && height && channels){
         if(this->file.createAndOpenBinFile(name)){
+            this->seconds=seconds;
+            //set writing
+            this->writingFile=edk::edkVideoWriteTrue;edkEnd();
+            this->timeIncrement=1.f/fps;edkEnd();
+            this->frames=fps*seconds;
             //write the header
             this->buffer.clean();
             this->writeHeader(&this->file);edkEnd();
@@ -138,10 +175,6 @@ bool edk::Video::newFile(edk::char8* name,
             //write the aditional values to the video file
             this->file.writeBin(fps);
             this->file.writeBin(seconds);
-            this->seconds=seconds;
-            //set writing
-            this->writingFile=edk::edkVideoWriteTrue;edkEnd();
-            this->timeIncrement=1.f/fps;edkEnd();
 
             //start write the frames
             this->size.width = width;
@@ -178,15 +211,20 @@ bool edk::Video::openFile(edk::char8* name,
                 this->file.readBin(&this->size.width,sizeof(this->size.width));
                 this->file.readBin(&this->size.height,sizeof(this->size.height));
                 this->file.readBin(&this->channels,sizeof(this->channels));
-                this->timeIncrement=1.f/fps;
-
+                if(fps){
+                    this->timeIncrement=1.f/fps;
+                }
+                else{
+                    this->timeIncrement=1.f;
+                }
+                this->secondPassed=this->timeIncrement;
                 //ceate the threads
                 if(!threads){
                     threads=1u;
                 }
                 edk::ThreadVideo* thread = NULL;
                 edk::uint32 size = 0u;
-                for(edk::uint8 i=0u;i<threads;i++){
+                while(this->threads.size()<threads){
                     thread = new edk::ThreadVideo(this->threads.size(),this);
                     if(thread){
                         size = this->threads.size();
@@ -194,7 +232,7 @@ bool edk::Video::openFile(edk::char8* name,
                         if(size < this->threads.size()){
                             if(!thread->thread.start(&functionThread,thread)){
                                 if(this->threads.size()){
-                                    this->threads.remove(this->threads.size()-1u);
+                                    this->threads.remove(size);
                                 }
                                 delete thread;
                             }
@@ -250,6 +288,10 @@ bool edk::Video::writeFrame(edk::uint8* vector,bool keyFrame){
 }
 //read frames
 bool edk::Video::readNextFrame(){
+    return this->readNextFrame(this->clock.getSeconds());
+}
+bool edk::Video::readNextFrame(edk::float32 seconds){
+    this->secondPassed+=seconds;
     if(this->writingFile==edk::edkVideoWriteFalse
             && this->file.isOpened()
             ){
@@ -291,35 +333,45 @@ bool edk::Video::readNextFrame(){
                 thread->mutVideo.unlock();
             }
         }
-        if(this->queueDecode.size()){
-            edk::uint8 counter = 0u;
-            //wait to get the frame
-            thread=(edk::ThreadVideo*)this->queueDecode.popFront();
-            thread->mutVideo.lock();
-            while(!thread->haveDecoded){
-                thread->mutVideo.unlock();
-                edk::watch::Time::sleepProcessMicroseconds(1u);
-                counter++;
-                if(counter>100u){
-                    counter=0u;
-                }
+        if(this->secondPassed > this->timeIncrement){
+            //decrement the clock
+            this->secondPassed-=this->timeIncrement;
+            if(this->queueDecode.size()){
+                edk::uint8 counter = 0u;
+                //wait to get the frame
+                thread=(edk::ThreadVideo*)this->queueDecode.popFront();
                 thread->mutVideo.lock();
+                while(!thread->haveDecoded){
+                    thread->mutVideo.unlock();
+                    edk::watch::Time::sleepProcessMicroseconds(1u);
+                    counter++;
+                    if(counter>100u){
+                        counter=0u;
+                    }
+                    thread->mutVideo.lock();
+                }
+                if(thread->haveDecoded){
+                    //copy the decoded
+                    this->buffer.cleanWrite();
+                    this->buffer.pushToBuffer((edk::uint8*)thread->buffer.getPointer(),
+                                              thread->buffer.size()
+                                              );
+                    thread->haveDecoded=false;
+                    thread->haveEncoded=false;
+                    thread->frameID=0xFFFFFFFF;
+                }
+                thread->mutVideo.unlock();
+                this->clock.start();
+                return true;
             }
-            if(thread->haveDecoded){
-                //copy the decoded
-                this->buffer.cleanWrite();
-                this->buffer.pushToBuffer((edk::uint8*)thread->buffer.getPointer(),
-                                          thread->buffer.size()
-                                          );
-                thread->haveDecoded=false;
-                thread->haveEncoded=false;
-                thread->frameID=0xFFFFFFFF;
-            }
-            thread->mutVideo.unlock();
-            return true;
         }
     }
+    this->clock.start();
     return false;
+}
+//return true if reach the end of the file
+bool edk::Video::endOfFile(){
+    return this->file.endOfFile();
 }
 //get the frame vector
 edk::uint8* edk::Video::getFramePixels(){

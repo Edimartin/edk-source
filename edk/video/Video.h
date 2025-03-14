@@ -150,7 +150,7 @@ public:
     }
     inline edk::float32 getFPS(){
         if(this->frames>0.f){
-            return this->seconds / this->frames;
+            return this->frames / this->seconds;
         }
         return 0.f;
     }
@@ -160,6 +160,9 @@ public:
     bool writeFrame(edk::uint8* vector,bool keyFrame=false);
     //read frames
     bool readNextFrame();
+    bool readNextFrame(edk::float32 seconds);
+    //return true if reach the end of the file
+    bool endOfFile();
     //get the frame vector
     edk::uint8* getFramePixels();
 protected:
@@ -213,6 +216,9 @@ private:
     edk::vector::Queue<edk::ThreadVideo*> queueEncode;
     edk::vector::Queue<edk::ThreadVideo*> queueDecode;
 
+    //timer
+    edk::watch::Time clock;
+    edk::float32 secondPassed;
 private:
     edk::classID classThis;
 };
