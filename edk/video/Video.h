@@ -178,7 +178,7 @@ protected:
                              bool keyFrame
                              )=0;
     //finish the encoder
-    virtual void finishEncoder()=0;
+    virtual inline void finishEncoder(){}
     //start the decoder
     virtual bool startDecoder()=0;
     //decode a frame
@@ -192,7 +192,7 @@ protected:
     //decode a frame
     virtual bool copyDecodedFrame(edk::MemoryBuffer<edk::uint8>* bufferDest)=0;
     //finish the decoder
-    virtual void finishDecoder()=0;
+    virtual inline void finishDecoder(){}
     //
     inline edk::float32 getTimeIncrement(){
         return this->timeIncrement;
