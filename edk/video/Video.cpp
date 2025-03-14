@@ -196,6 +196,8 @@ bool edk::Video::newFile(edk::char8* name,
 bool edk::Video::openFile(edk::char8* name,
                           edk::uint8 threads
                           ){
+    this->clock.start();
+    this->secondPassed=0.f;
     this->frameID=0u;
     this->close();edkEnd();
     if(name){
@@ -371,7 +373,10 @@ bool edk::Video::readNextFrame(edk::float32 seconds){
 }
 //return true if reach the end of the file
 bool edk::Video::endOfFile(){
-    return this->file.endOfFile();
+    if(!this->queueDecode.size() && this->file.endOfFile()){
+        return true;
+    }
+    return false;
 }
 //get the frame vector
 edk::uint8* edk::Video::getFramePixels(){
