@@ -68,13 +68,11 @@ public:
     //create a file
 
     inline bool newFile(const edk::char8* name,
-                        edk::float32 seconds,
                         edk::float32 fps,
                         edk::size2ui32 size,
                         edk::uint32 channels
                         ){
         return this->newFile((edk::char8*) name,
-                             seconds,
                              fps,
                              size.width,
                              size.height,
@@ -82,13 +80,11 @@ public:
                              );
     }
     inline bool newFile(edk::char8* name,
-                        edk::float32 seconds,
                         edk::float32 fps,
                         edk::size2ui32 size,
                         edk::uint32 channels
                         ){
         return this->newFile(name,
-                             seconds,
                              fps,
                              size.width,
                              size.height,
@@ -96,14 +92,12 @@ public:
                              );
     }
     inline bool newFile(const edk::char8* name,
-                        edk::float32 seconds,
                         edk::float32 fps,
                         edk::uint32 width,
                         edk::uint32 height,
                         edk::uint32 channels
                         ){
         return this->newFile((edk::char8*) name,
-                             seconds,
                              fps,
                              width,
                              height,
@@ -111,7 +105,6 @@ public:
                              );
     }
     bool newFile(edk::char8* name,
-                 edk::float32 seconds,
                  edk::float32 fps,
                  edk::uint32 width,
                  edk::uint32 height,
@@ -133,9 +126,6 @@ public:
     //return true if have the file opened
     bool haveFile();
 
-    inline edk::float32 getSecondLenght(){
-        return this->seconds;
-    }
     inline edk::size2ui32 getSize(){
         return this->size;
     }
@@ -149,10 +139,7 @@ public:
         return this->channels;
     }
     inline edk::float32 getFPS(){
-        if(this->frames>0.f){
-            return this->frames / this->seconds;
-        }
-        return 0.f;
+        return this->fps;
     }
     edk::uint8* getFrameVector();
 
@@ -194,7 +181,7 @@ protected:
     //finish the decoder
     virtual inline void finishDecoder(){}
     //
-    inline edk::float32 getTimeIncrement(){
+    inline edk::float64 getTimeIncrement(){
         return this->timeIncrement;
     }
 private:
@@ -202,12 +189,13 @@ private:
     edk::File file;
     edk::MemoryBuffer<edk::uint8> buffer;
     edk::watch::Time timeCounter;
-    edk::float32 timeIncrement;
+    edk::float64 timeIncrement;
+    edk::float64 frameLenght;
+    edk::float64 saveFrameLenght;
     //save the frame size and channels
     edk::size2ui32 size;
     edk::uint8 channels;
-    edk::uint32 frames;
-    edk::float32 seconds;
+    edk::float32 fps;
 
     edk::uint32 frameID;
 
@@ -215,10 +203,8 @@ private:
     edk::vector::Stack<edk::ThreadVideo*> threads;
     edk::vector::Queue<edk::ThreadVideo*> queueEncode;
     edk::vector::Queue<edk::ThreadVideo*> queueDecode;
+    edk::watch::Time counterTime;
 
-    //timer
-    edk::watch::Time clock;
-    edk::float32 secondPassed;
 private:
     edk::classID classThis;
 };
@@ -253,6 +239,7 @@ public:
     edk::Video* thisVideo;
 
     edk::uint32 frameID;
+    edk::float64 frameLenght;
     bool needExit;
     bool canDelete;
     //test if have the video

@@ -35,6 +35,8 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
      *  @version 0.9
      */
 
+edk::multi::Thread::TreeThreads edk::multi::Thread::treeThreads;
+
 //load the number of cores
 #if defined(WIN32) || defined(WIN64)
 edk::uint32 getWindowsCores(){
@@ -146,6 +148,8 @@ void edk::multi::Thread::cleanThread(){
     //Clean Functions
     this->threadFunc=NULL;edkEnd();
     this->funcParameter=(void*)NULL;edkEnd();
+
+    edk::multi::Thread::treeThreads.remove(this);
 }
 
 bool edk::multi::Thread::templateConstructNeed=true;
@@ -250,6 +254,7 @@ bool edk::multi::Thread::start(edk::classID (threadFunction)(edk::classID), edk:
 #elif defined __APPLE__
         //APPLE
 #endif
+        edk::multi::Thread::treeThreads.add(this);
         //then return true;
         return true;
     }
@@ -325,6 +330,7 @@ bool edk::multi::Thread::startIn(edk::classID (threadFunction)(edk::classID), ed
         //APPLE
 #endif
         //then return true;
+        edk::multi::Thread::treeThreads.add(this);
         return true;
     }
 }
@@ -528,6 +534,7 @@ bool edk::multi::Thread::kill(){
         }
 */
         ret=true;edkEnd();
+        edk::multi::Thread::treeThreads.remove(this);
     }
     //clean ID
     this->threadID=(HANDLE)0u;edkEnd();
@@ -550,6 +557,7 @@ bool edk::multi::Thread::kill(){
         }
 */
         ret=true;edkEnd();
+        edk::multi::Thread::treeThreads.remove(this);
     }
 #elif defined __linux__
     //LINUX
@@ -560,6 +568,7 @@ bool edk::multi::Thread::kill(){
         //pthread_attr_destroy(&attr);edkEnd();
         //Finish the thread
         ret=true;edkEnd();
+        edk::multi::Thread::treeThreads.remove(this);
     }
 #endif
     //clean

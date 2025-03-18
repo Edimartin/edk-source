@@ -47,6 +47,8 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #include "../DebugFile.h"
 
+#include "../vector/BinaryTree.h"
+
 #ifdef printMessages
 #pragma message "    Compiling Thread"
 #endif
@@ -69,7 +71,7 @@ void* function(void* id){
 
 namespace edk {
 namespace multi{
-class Thread {
+class Thread{
 public:
 
     Thread();
@@ -169,6 +171,22 @@ private:
     static edk::uint32 mainID;
 #endif
     static bool templateConstructNeed;
+
+    class TreeThreads: public edk::vector::BinaryTree<edk::multi::Thread*>{
+    public:
+        TreeThreads(){}
+        ~TreeThreads(){
+            //kill all threads
+            edk::multi::Thread* temp;
+            while(this->size()){
+                temp = this->getElementInPosition(0u);
+                if(temp){
+                    temp->kill();
+                }
+            }
+        }
+    }
+    static treeThreads;
 
 protected:
     /**

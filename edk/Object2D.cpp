@@ -474,15 +474,13 @@ bool edk::Object2D::updateValuesFromFather(edk::vector::Matrixf32<3u,3u>* matrix
             //first copy the matrix
             //generate transform matrices
             edk::Math::generateTranslateMatrix(this->position,&this->matrixPosition);edkEnd();
+            edk::Math::generateRotateMatrixZ(this->angle,&this->matrixAngle);edkEnd();
             edk::Math::generateScaleMatrix(this->size,&this->matrixSize);edkEnd();
             edk::Math::generateTranslateMatrix(this->pivo*-1.0f,&this->matrixPivo);edkEnd();
             //translate
             matrixTransform->multiplyThisWithMatrix(&this->matrixPosition);edkEnd();
             //angle
-            if(!this->fixedRotation){
-                edk::Math::generateRotateMatrixZ(this->angle,&this->matrixAngle);edkEnd();
-                matrixTransform->multiplyThisWithMatrix(&this->matrixAngle);edkEnd();
-            }
+            matrixTransform->multiplyThisWithMatrix(&this->matrixAngle);edkEnd();
             //scale
             matrixTransform->multiplyThisWithMatrix(&this->matrixSize);edkEnd();
             //Pivo
@@ -492,15 +490,13 @@ bool edk::Object2D::updateValuesFromFather(edk::vector::Matrixf32<3u,3u>* matrix
             //first copy the matrix
             //generate transform matrices
             edk::Math::generateTranslateMatrix(this->position,&this->matrixPosition);edkEnd();
+            edk::Math::generateRotateMatrixZ(this->angle,&this->matrixAngle);edkEnd();
             edk::Math::generateScaleMatrix(this->size,&this->matrixSize);edkEnd();
             edk::Math::generateTranslateMatrix(this->pivo*-1.0f,&this->matrixPivo);edkEnd();
             //translate
             matrixTransform->multiplyThisWithMatrix(&this->matrixPosition);edkEnd();
             //angle
-            if(!this->fixedRotation){
-                edk::Math::generateRotateMatrixZ(this->angle,&this->matrixAngle);edkEnd();
-                matrixTransform->multiplyThisWithMatrix(&this->matrixAngle);edkEnd();
-            }
+            matrixTransform->multiplyThisWithMatrix(&this->matrixAngle);edkEnd();
             //scale
             matrixTransform->multiplyThisWithMatrix(&this->matrixSize);edkEnd();
             //Pivo
@@ -1522,16 +1518,7 @@ void edk::Object2D::drawChildFrontWithoutMaterial(){
     //set the pivo
     edk::GU::guTranslate2f32(this->pivo*-1.0f);edkEnd();
 
-    edk::shape::Mesh2D* mesh;edkEnd();
-    //print all polygonList
-    edk::uint32 size = this->meshes.size();edkEnd();
-    for(edk::uint32 i=0u;i<size;i++){
-        //
-        mesh = this->meshes.getMesh(i);edkEnd();
-        if(mesh){
-            mesh->drawWithoutMaterial();edkEnd();
-        }
-    }
+    (this->*functionDrawWithoutMaterial)();
 
     this->drawChildremsFrontWithoutMaterial();
 
@@ -1570,16 +1557,7 @@ void edk::Object2D::drawChildWithoutMaterial(){
 
     this->drawChildremsBackWithoutMaterial();
 
-    edk::shape::Mesh2D* mesh;edkEnd();
-    //print all polygonList
-    edk::uint32 size = this->meshes.size();edkEnd();
-    for(edk::uint32 i=0u;i<size;i++){
-        //
-        mesh = this->meshes.getMesh(i);edkEnd();
-        if(mesh){
-            mesh->drawWithoutMaterial();edkEnd();
-        }
-    }
+    (this->*functionDrawWithoutMaterial)();
 
     this->drawChildremsFrontWithoutMaterial();
 
@@ -2015,7 +1993,13 @@ void edk::Object2D::drawChildPivo(edk::float32 size,edk::float32 r,edk::float32 
         this->drawChildremsBackPivo(size,r,g,b);
         edk::GU::guPopMatrix();edkEnd();
     }
+    edk::GU::guPushMatrix();edkEnd();
+    edk::GU::guScale2f32(this->connectedSize);edkEnd();
+    edk::GU::guRotateZf32(this->connectedAngle);edkEnd();
+    edk::GU::guTranslate2f32(this->connectedPosition);edkEnd();
+    edk::GU::guTranslate2f32(this->connectedPivo*-1.0f);edkEnd();
     edk::Object2D::drawPivoInPosition(this->position,size,edk::color3f32(r,g,b));
+    edk::GU::guPopMatrix();edkEnd();
     if(this->childremsFront.size()){
         edk::Object2D::drawPivoInPosition(this->position,size,edk::color3f32(r,g,b));
         edk::GU::guPushMatrix();edkEnd();
