@@ -63,6 +63,17 @@ public:
     bool newTextureWithPBODraw(const edk::char8* name,edk::size2ui32 size,edk::uint8 position,edk::uint32 mode,edk::uint32 filter);
     bool newTextureWithPBODraw(edk::char8* name,edk::uint32 width,edk::uint32 height,edk::uint8 position,edk::uint32 mode,edk::uint32 filter);
     bool newTextureWithPBODraw(const edk::char8* name,edk::uint32 width,edk::uint32 height,edk::uint8 position,edk::uint32 mode,edk::uint32 filter);
+    //create a new texture passing the buffer
+    bool newTextureAndDraw(edk::char8* name,edk::size2ui32 size,edk::uint8* image,edk::uint8 position=0u,edk::uint32 mode = GU_RGB,edk::uint32 filter = GU_NEAREST);
+    bool newTextureAndDraw(const edk::char8* name,edk::size2ui32 size,edk::uint8* image,edk::uint8 position=0u,edk::uint32 mode = GU_RGB,edk::uint32 filter = GU_NEAREST);
+    bool newTextureAndDraw(edk::char8* name,edk::uint32 width,edk::uint32 height,edk::uint8* image,edk::uint8 position=0u,edk::uint32 mode = GU_RGB,edk::uint32 filter = GU_NEAREST);
+    bool newTextureAndDraw(const edk::char8* name,edk::uint32 width,edk::uint32 height,edk::uint8* image,edk::uint8 position=0u,edk::uint32 mode = GU_RGB,edk::uint32 filter = GU_NEAREST);
+    bool newTextureAndDraw(edk::Image2D* image,edk::uint8 position=0u,edk::uint32 mode = GU_RGB,edk::uint32 filter = GU_NEAREST);
+    bool newTextureAndDrawWithPBODraw(edk::char8* name,edk::size2ui32 size,edk::uint8* image,edk::uint8 position,edk::uint32 mode,edk::uint32 filter);
+    bool newTextureAndDrawWithPBODraw(const edk::char8* name,edk::size2ui32 size,edk::uint8* image,edk::uint8 position,edk::uint32 mode,edk::uint32 filter);
+    bool newTextureAndDrawWithPBODraw(edk::char8* name,edk::uint32 width,edk::uint32 height,edk::uint8* image,edk::uint8 position,edk::uint32 mode,edk::uint32 filter);
+    bool newTextureAndDrawWithPBODraw(const edk::char8* name,edk::uint32 width,edk::uint32 height,edk::uint8* image,edk::uint8 position,edk::uint32 mode,edk::uint32 filter);
+    bool newTextureAndDrawWithPBODraw(edk::Image2D* image,edk::uint8 position,edk::uint32 mode,edk::uint32 filter);
 
     //load the texture
     //filter
