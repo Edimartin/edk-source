@@ -164,15 +164,19 @@ void edk::View::runUpdate(edk::WindowEvents* events){
 }
 //run the pause function
 void edk::View::runPause(){
-    this->paused=true;edkEnd();
-    //
-    this->pause();edkEnd();
+    if(!this->paused){
+        this->paused=true;edkEnd();
+        //
+        this->pause();edkEnd();
+    }
 }
 //run the unpause functin
 void edk::View::runUnpause(){
-    this->paused=false;edkEnd();
-    //
-    this->unpause();edkEnd();
+    if(this->paused){
+        this->paused=false;edkEnd();
+        //
+        this->unpause();edkEnd();
+    }
 }
 //run the pauseSwitch
 void edk::View::runPauseSwitch(){

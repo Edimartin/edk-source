@@ -3565,39 +3565,64 @@ void edk::physics2D::World2D::nextStep(edk::float32
             for(edk::uint32 i=0u;i<size;i++){
                 contactTemp = this->treeSensorConcacts.getElementInPosition(i);
                 if(contactTemp->isEnabled()){
-                    //test if the objectA is a sensor
-                    if(contactTemp->objectA->isSensor()){
-                        //load the sensor
-                        sensor = (edk::physics2D::StaticSensor2D*)contactTemp->objectA;edkEnd();
-                        //test if the sensor have objects
-                        if(sensor->getActivateSize()){
-                            //test if have the object in the sensor tree
-                            if(sensor->haveActivateObject(contactTemp->objectB)){
+                    if(!this->treeDeleted.haveElement(contactTemp->objectA)){
+                        //test if the objectA is a sensor
+                        if(contactTemp->objectA->isSensor()){
+                            //load the sensor
+                            sensor = (edk::physics2D::StaticSensor2D*)contactTemp->objectA;edkEnd();
+                            //test if the sensor have objects
+                            if(sensor->getActivateSize()){
+                                //test if have the object in the sensor tree
+                                if(sensor->haveActivateObject(contactTemp->objectB)){
+                                    //this->world->sensorEnd(contactTemp);edkEnd();
+                                    this->physicsSensorKeeping(contactTemp);edkEnd();
+                                }
+                            }
+                            else{
+                                //test if the object is in the sensor
                                 //this->world->sensorEnd(contactTemp);edkEnd();
                                 this->physicsSensorKeeping(contactTemp);edkEnd();
                             }
                         }
                         else{
-                            //test if the object is in the sensor
-                            //this->world->sensorEnd(contactTemp);edkEnd();
-                            this->physicsSensorKeeping(contactTemp);edkEnd();
+                            if(!this->treeDeleted.haveElement(contactTemp->objectB)){
+                                if(contactTemp->objectB->isSensor()){
+                                    //load the sensor
+                                    sensor = (edk::physics2D::StaticSensor2D*)contactTemp->objectB;edkEnd();
+                                    //test if the sensor have objects
+                                    if(sensor->getActivateSize()){
+                                        //test if have the object in the sensor tree
+                                        if(sensor->haveActivateObject(contactTemp->objectA)){
+                                            //this->world->sensorEnd(contactTemp);edkEnd();
+                                            this->physicsSensorKeeping(contactTemp);edkEnd();
+                                        }
+                                    }
+                                    else{
+                                        //test if the object is in the sensor
+                                        //this->world->sensorEnd(contactTemp);edkEnd();
+                                        this->physicsSensorKeeping(contactTemp);edkEnd();
+                                    }
+                                }
+                            }
                         }
                     }
-                    else if(contactTemp->objectB->isSensor()){
-                        //load the sensor
-                        sensor = (edk::physics2D::StaticSensor2D*)contactTemp->objectB;edkEnd();
-                        //test if the sensor have objects
-                        if(sensor->getActivateSize()){
-                            //test if have the object in the sensor tree
-                            if(sensor->haveActivateObject(contactTemp->objectA)){
+                    else if(!this->treeDeleted.haveElement(contactTemp->objectB)){
+                        if(contactTemp->objectB->isSensor()){
+                            //load the sensor
+                            sensor = (edk::physics2D::StaticSensor2D*)contactTemp->objectB;edkEnd();
+                            //test if the sensor have objects
+                            if(sensor->getActivateSize()){
+                                //test if have the object in the sensor tree
+                                if(sensor->haveActivateObject(contactTemp->objectA)){
+                                    //this->world->sensorEnd(contactTemp);edkEnd();
+                                    this->physicsSensorKeeping(contactTemp);edkEnd();
+                                }
+                            }
+                            else{
+                                //test if the object is in the sensor
                                 //this->world->sensorEnd(contactTemp);edkEnd();
                                 this->physicsSensorKeeping(contactTemp);edkEnd();
                             }
-                        }
-                        else{
-                            //test if the object is in the sensor
-                            //this->world->sensorEnd(contactTemp);edkEnd();
-                            this->physicsSensorKeeping(contactTemp);edkEnd();
                         }
                     }
                 }
