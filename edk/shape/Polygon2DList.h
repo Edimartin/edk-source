@@ -117,6 +117,40 @@ public:
     edk::shape::Polygon2D getPolygon(edk::uint32 position);
     bool getPolygon(edk::uint32 position,edk::shape::Polygon2D* dest);
 
+    //SET POLYGONS UV
+    //Set the polygonFrames setting in the vertexs
+    bool setPolygonUVFrames(edk::uint32 polygonID,edk::vec2ui32 frames);
+    bool setPolygonUVFrames(edk::uint32 polygonID,edk::uint32 x,edk::uint32 y);
+    bool setPolygonUVFramesX(edk::uint32 polygonID,edk::uint32 x);
+    bool setPolygonUVFramesY(edk::uint32 polygonID,edk::uint32 y);
+    //Set the polygon frame
+    bool setPolygonUVFrame(edk::uint32 polygonID,edk::vec2ui32 frame);
+    bool setPolygonUVFrame(edk::uint32 polygonID,edk::uint32 x,edk::uint32 y);
+    bool setPolygonUVFramePosition(edk::uint32 polygonID,edk::uint32 position);
+    bool setPolygonUVFrameX(edk::uint32 polygonID,edk::uint32 x);
+    bool setPolygonUVFrameY(edk::uint32 polygonID,edk::uint32 y);
+    bool usePolygonUVFrame(edk::uint32 polygonID,edk::vec2ui32 frame);
+    bool usePolygonUVFrame(edk::uint32 polygonID,edk::uint32 x,edk::uint32 y);
+    bool usePolygonUVFramePosition(edk::uint32 polygonID,edk::uint32 position);
+    bool usePolygonUVFrameX(edk::uint32 polygonID,edk::uint32 x);
+    bool usePolygonUVFrameY(edk::uint32 polygonID,edk::uint32 y);
+    //Set the polygonsFrames setting in the vertexs
+    bool setPolygonsUVFrames(edk::vec2ui32 frames);
+    bool setPolygonsUVFrames(edk::uint32 x,edk::uint32 y);
+    bool setPolygonsUVFramesX(edk::uint32 x);
+    bool setPolygonsUVFramesY(edk::uint32 y);
+    //Set the polygons frame
+    bool setPolygonsUVFrame(edk::vec2ui32 frame);
+    bool setPolygonsUVFrame(edk::uint32 x,edk::uint32 y);
+    bool setPolygonsUVFramePosition(edk::uint32 position);
+    bool setPolygonsUVFrameX(edk::uint32 x);
+    bool setPolygonsUVFrameY(edk::uint32 y);
+    bool usePolygonsUVFrame(edk::vec2ui32 frame);
+    bool usePolygonsUVFrame(edk::uint32 x,edk::uint32 y);
+    bool usePolygonsUVFramePosition(edk::uint32 position);
+    bool usePolygonsUVFrameX(edk::uint32 x);
+    bool usePolygonsUVFrameY(edk::uint32 y);
+
     //DELETE
     //clean the polygons
     void cleanPolygons();

@@ -52,6 +52,10 @@ public:
     bool setAnimationFramesToPolygon(edk::uint32 position);
     bool newAnimationFramesToPolygon(edk::uint32 position);
     bool createAnimationFramesToPolygon(edk::uint32 position);
+    //create a new animation into all polygons
+    bool setAnimationFramesToAllPolygons();
+    bool newAnimationFramesToAllPolygons();
+    bool createAnimationFramesToAllPolygons();
     //copy an animation to another polygon
     bool copyAnimationFramesToPolygon(edk::uint32 position,edk::uint32 dest);
     bool copyThisAnimationFramesToPolygon(edk::animation::Interpolation1DGroup*,edk::uint32 dest);
@@ -69,6 +73,24 @@ public:
     void updateFramesAnimations();
     void updateFramesAnimations(edk::float32 seconds);
 
+    //controls
+    bool polygonsAnimationPlayForward();
+    bool polygonsAnimationPlayForwardIn(edk::float32 second);
+    bool polygonsAnimationRestartForward();
+    bool polygonsAnimationPlayRewind();
+    bool polygonsAnimationPlayRewindIn(edk::float32 second);
+    bool polygonsAnimationRestartRewind();
+    bool polygonsAnimationChangeToForward();
+    bool polygonsAnimationChangeToRewind();
+    bool polygonsAnimationChangeWay();
+    bool polygonsAnimationPause();
+    bool polygonsAnimationPauseOn();
+    bool polygonsAnimationPauseOff();
+    bool polygonsAnimationStop();
+    //set loop
+    bool polygonsAnimationSetLoop(bool loop);
+    bool polygonsAnimationLoopOn();
+    bool polygonsAnimationLoopOff();
 
     //AnimationSelected
     //set the abstract

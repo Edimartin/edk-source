@@ -502,6 +502,260 @@ bool edk::shape::Polygon2DList::getPolygon(edk::uint32 position,edk::shape::Poly
     return false;
 }
 
+//SET POLYGONS UV
+//Set the polygonFrames setting in the vertexs
+bool edk::shape::Polygon2DList::setPolygonUVFrames(edk::uint32 polygonID,edk::vec2ui32 frames){
+    if(this->havePolygon(polygonID)){
+        //get the polygon
+        edk::shape::Polygon2D* temp = this->polygons.get(polygonID);
+        if(temp){
+            //return true
+            return this->selected->setPolygonUVFrames(frames);edkEnd();
+        }
+    }
+    return false;
+}
+bool edk::shape::Polygon2DList::setPolygonUVFrames(edk::uint32 polygonID,edk::uint32 x,edk::uint32 y){
+    if(this->havePolygon(polygonID)){
+        //get the polygon
+        edk::shape::Polygon2D* temp = this->polygons.get(polygonID);
+        if(temp){
+            //return true
+            return this->selected->setPolygonUVFrames(x,y);edkEnd();
+        }
+    }
+    return false;
+}
+bool edk::shape::Polygon2DList::setPolygonUVFramesX(edk::uint32 polygonID,edk::uint32 x){
+    if(this->havePolygon(polygonID)){
+        //get the polygon
+        edk::shape::Polygon2D* temp = this->polygons.get(polygonID);
+        if(temp){
+            //return true
+            return this->selected->setPolygonUVFramesX(x);edkEnd();
+        }
+    }
+    return false;
+}
+bool edk::shape::Polygon2DList::setPolygonUVFramesY(edk::uint32 polygonID,edk::uint32 y){
+    if(this->havePolygon(polygonID)){
+        //get the polygon
+        edk::shape::Polygon2D* temp = this->polygons.get(polygonID);
+        if(temp){
+            //return true
+            return this->selected->setPolygonUVFramesY(y);edkEnd();
+        }
+    }
+    return false;
+}
+//Set the polygon frame
+bool edk::shape::Polygon2DList::setPolygonUVFrame(edk::uint32 polygonID,edk::vec2ui32 frame){
+    return this->usePolygonUVFrame(polygonID,frame);
+}
+bool edk::shape::Polygon2DList::setPolygonUVFrame(edk::uint32 polygonID,edk::uint32 x,edk::uint32 y){
+    return this->usePolygonUVFrame(polygonID,x,y);
+}
+bool edk::shape::Polygon2DList::setPolygonUVFramePosition(edk::uint32 polygonID,edk::uint32 position){
+    return this->usePolygonUVFramePosition(polygonID,position);
+}
+bool edk::shape::Polygon2DList::setPolygonUVFrameX(edk::uint32 polygonID,edk::uint32 x){
+    return this->usePolygonUVFrameX(polygonID,x);
+}
+bool edk::shape::Polygon2DList::setPolygonUVFrameY(edk::uint32 polygonID,edk::uint32 y){
+    return this->usePolygonUVFrameY(polygonID,y);
+}
+bool edk::shape::Polygon2DList::usePolygonUVFrame(edk::uint32 polygonID,edk::vec2ui32 frame){
+    if(this->havePolygon(polygonID)){
+        //get the polygon
+        edk::shape::Polygon2D* temp = this->polygons.get(polygonID);
+        if(temp){
+            //return true
+            temp->usePolygonUVFrame(frame);edkEnd();
+            return true;
+        }
+    }
+    return false;
+}
+bool edk::shape::Polygon2DList::usePolygonUVFrame(edk::uint32 polygonID,edk::uint32 x,edk::uint32 y){
+    return this->usePolygonUVFrame(polygonID,edk::vec2ui32 (x,y));edkEnd();
+}
+bool edk::shape::Polygon2DList::usePolygonUVFramePosition(edk::uint32 polygonID,edk::uint32 position){
+    if(this->havePolygon(polygonID)){
+        //get the polygon
+        edk::shape::Polygon2D* temp = this->polygons.get(polygonID);
+        if(temp){
+            //return true
+            temp->usePolygonUVFramePosition(position);edkEnd();
+            return true;
+        }
+    }
+    return false;
+}
+bool edk::shape::Polygon2DList::usePolygonUVFrameX(edk::uint32 polygonID,edk::uint32 x){
+    if(this->havePolygon(polygonID)){
+        //get the polygon
+        edk::shape::Polygon2D* temp = this->polygons.get(polygonID);
+        if(temp){
+            //return true
+            temp->usePolygonUVFrameX(x);edkEnd();
+            return true;
+        }
+    }
+    return false;
+}
+bool edk::shape::Polygon2DList::usePolygonUVFrameY(edk::uint32 polygonID,edk::uint32 y){
+    if(this->havePolygon(polygonID)){
+        //get the polygon
+        edk::shape::Polygon2D* temp = this->polygons.get(polygonID);
+        if(temp){
+            //return true
+            temp->usePolygonUVFrameY(y);edkEnd();
+            return true;
+        }
+    }
+    return false;
+}
+//Set the polygonsFrames setting in the vertexs
+bool edk::shape::Polygon2DList::setPolygonsUVFrames(edk::vec2ui32 frames){
+    //test if have polygons
+    if(this->polygons.size()){
+        edk::shape::Polygon2D* polygon=NULL;edkEnd();
+        //set the polygonColors
+        for(edk::uint32 i=0u;i<this->polygons.size();i++){
+            polygon = this->polygons.get(i);edkEnd();
+            if(polygon){
+                polygon->setPolygonUVFrames(frames);edkEnd();
+            }
+        }
+        return true;
+    }
+    return false;
+}
+bool edk::shape::Polygon2DList::setPolygonsUVFrames(edk::uint32 x,edk::uint32 y){
+    //test if have polygons
+    if(this->polygons.size()){
+        edk::shape::Polygon2D* polygon=NULL;edkEnd();
+        //set the polygonColors
+        for(edk::uint32 i=0u;i<this->polygons.size();i++){
+            polygon = this->polygons.get(i);edkEnd();
+            if(polygon){
+                polygon->setPolygonUVFrames(x,y);edkEnd();
+            }
+        }
+        return true;
+    }
+    return false;
+}
+bool edk::shape::Polygon2DList::setPolygonsUVFramesX(edk::uint32 x){
+    //test if have polygons
+    if(this->polygons.size()){
+        edk::shape::Polygon2D* polygon=NULL;edkEnd();
+        //set the polygonColors
+        for(edk::uint32 i=0u;i<this->polygons.size();i++){
+            polygon = this->polygons.get(i);edkEnd();
+            if(polygon){
+                polygon->setPolygonUVFramesX(x);edkEnd();
+            }
+        }
+        return true;
+    }
+    return false;
+}
+bool edk::shape::Polygon2DList::setPolygonsUVFramesY(edk::uint32 y){
+    //test if have polygons
+    if(this->polygons.size()){
+        edk::shape::Polygon2D* polygon=NULL;edkEnd();
+        //set the polygonColors
+        for(edk::uint32 i=0u;i<this->polygons.size();i++){
+            polygon = this->polygons.get(i);edkEnd();
+            if(polygon){
+                polygon->setPolygonUVFramesY(y);edkEnd();
+            }
+        }
+        return true;
+    }
+    return false;
+}
+//Set the polygons frame
+bool edk::shape::Polygon2DList::setPolygonsUVFrame(edk::vec2ui32 frame){
+    return this->usePolygonsUVFrame(frame);
+}
+bool edk::shape::Polygon2DList::setPolygonsUVFrame(edk::uint32 x,edk::uint32 y){
+    return this->usePolygonsUVFrame(x,y);
+}
+bool edk::shape::Polygon2DList::setPolygonsUVFramePosition(edk::uint32 position){
+    return this->usePolygonsUVFramePosition(position);
+}
+bool edk::shape::Polygon2DList::setPolygonsUVFrameX(edk::uint32 x){
+    return this->usePolygonsUVFrameX(x);
+}
+bool edk::shape::Polygon2DList::setPolygonsUVFrameY(edk::uint32 y){
+    return this->usePolygonsUVFrameY(y);
+}
+bool edk::shape::Polygon2DList::usePolygonsUVFrame(edk::vec2ui32 frame){
+    //test if have polygons
+    if(this->polygons.size()){
+        edk::shape::Polygon2D* polygon=NULL;edkEnd();
+        //set the polygonColors
+        for(edk::uint32 i=0u;i<this->polygons.size();i++){
+            polygon = this->polygons.get(i);edkEnd();
+            if(polygon){
+                polygon->usePolygonUVFrame(frame);edkEnd();
+            }
+        }
+        return true;
+    }
+    return false;
+}
+bool edk::shape::Polygon2DList::usePolygonsUVFrame(edk::uint32 x,edk::uint32 y){
+    return this->usePolygonsUVFrame(edk::vec2ui32 (x,y));edkEnd();
+}
+bool edk::shape::Polygon2DList::usePolygonsUVFramePosition(edk::uint32 position){
+    //test if have polygons
+    if(this->polygons.size()){
+        edk::shape::Polygon2D* polygon=NULL;edkEnd();
+        //set the polygonColors
+        for(edk::uint32 i=0u;i<this->polygons.size();i++){
+            polygon = this->polygons.get(i);edkEnd();
+            if(polygon){
+                polygon->usePolygonUVFramePosition(position);edkEnd();
+            }
+        }
+        return true;
+    }
+    return false;
+}
+bool edk::shape::Polygon2DList::usePolygonsUVFrameX(edk::uint32 x){
+    //test if have polygons
+    if(this->polygons.size()){
+        edk::shape::Polygon2D* polygon=NULL;edkEnd();
+        //set the polygonColors
+        for(edk::uint32 i=0u;i<this->polygons.size();i++){
+            polygon = this->polygons.get(i);edkEnd();
+            if(polygon){
+                polygon->usePolygonUVFrameX(x);edkEnd();
+            }
+        }
+        return true;
+    }
+    return false;
+}
+bool edk::shape::Polygon2DList::usePolygonsUVFrameY(edk::uint32 y){
+    //test if have polygons
+    if(this->polygons.size()){
+        edk::shape::Polygon2D* polygon=NULL;edkEnd();
+        //set the polygonColors
+        for(edk::uint32 i=0u;i<this->polygons.size();i++){
+            polygon = this->polygons.get(i);edkEnd();
+            if(polygon){
+                polygon->usePolygonUVFrameY(y);edkEnd();
+            }
+        }
+        return true;
+    }
+    return false;
+}
+
 //DELETE
 //clean the polygons
 void edk::shape::Polygon2DList::cleanPolygons(){

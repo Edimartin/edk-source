@@ -26,7 +26,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
 
-#define edkTileSizeIncrement (1.001f)
+#define edkTileSizeIncrement (1.000f)
 
 edk::tiles::Tile2D::Tile2D(){
     this->classThis=NULL;edkEnd();

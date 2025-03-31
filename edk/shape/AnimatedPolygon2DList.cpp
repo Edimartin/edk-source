@@ -43,6 +43,7 @@ void edk::shape::AnimatedPolygon2DList::Constructor(bool runFather){
         this->classThis=this;
         this->freeSelectedAnimation();edkEnd();
         this->selectedID=0u;
+        this->selectedAnimation=NULL;edkEnd();
     }
 }
 
@@ -67,6 +68,32 @@ bool edk::shape::AnimatedPolygon2DList::newAnimationFramesToPolygon(edk::uint32 
 }
 bool edk::shape::AnimatedPolygon2DList::createAnimationFramesToPolygon(edk::uint32 position){
     return this->setAnimationFramesToPolygon(position);edkEnd();
+}
+//create a new animation into all polygons
+bool edk::shape::AnimatedPolygon2DList::setAnimationFramesToAllPolygons(){
+    edk::shape::Polygon2D* temp;
+    edk::uint32 size = this->polygons.size();
+    if(size){
+        this->selectedAnimation=NULL;
+        for(edk::uint32 i=0u;i<size;i++){
+            temp = this->polygons.get(i);edkEnd();
+            //test if have selected some polygon
+            if(temp){
+                //then add a new animation
+                temp->framesCreateAnimation();edkEnd();
+            }
+        }
+        this->updateFramesAnimations(0.001f);
+        return true;
+    }
+    //else return false
+    return false;
+}
+bool edk::shape::AnimatedPolygon2DList::newAnimationFramesToAllPolygons(){
+    return this->setAnimationFramesToAllPolygons();
+}
+bool edk::shape::AnimatedPolygon2DList::createAnimationFramesToAllPolygons(){
+    return this->setAnimationFramesToAllPolygons();
 }
 //copy an animation to another polygon
 bool edk::shape::AnimatedPolygon2DList::copyAnimationFramesToPolygon(edk::uint32 position,edk::uint32 dest){
@@ -220,6 +247,408 @@ void edk::shape::AnimatedPolygon2DList::updateFramesAnimations(edk::float32 seco
     }
 }
 
+//controls
+bool edk::shape::AnimatedPolygon2DList::polygonsAnimationPlayForward(){
+    edk::shape::Polygon2D* temp;
+    edk::animation::Interpolation1DGroup* animation;
+    edk::uint32 size = this->polygons.size();
+    if(size){
+        for(edk::uint32 i=0u;i<size;i++){
+            temp = this->polygons.get(i);edkEnd();
+            //test if have selected some polygon
+            if(temp){
+                //test if have an animation
+                if(temp->framesHaveAnimation()){
+                    //then select the animation
+                    animation = temp->framesGetAnimation();edkEnd();
+                    if(animation){
+                        animation->playForward();edkEnd();
+                    }
+                }
+            }
+        }
+        this->updateFramesAnimations(0.001f);
+        return true;
+    }
+    //else return false
+    return false;
+}
+bool edk::shape::AnimatedPolygon2DList::polygonsAnimationPlayForwardIn(edk::float32 second){
+    edk::shape::Polygon2D* temp;
+    edk::animation::Interpolation1DGroup* animation;
+    edk::uint32 size = this->polygons.size();
+    if(size){
+        for(edk::uint32 i=0u;i<size;i++){
+            temp = this->polygons.get(i);edkEnd();
+            //test if have selected some polygon
+            if(temp){
+                //test if have an animation
+                if(temp->framesHaveAnimation()){
+                    //then select the animation
+                    animation = temp->framesGetAnimation();edkEnd();
+                    if(animation){
+                        animation->playForwardIn(second);edkEnd();
+                    }
+                }
+            }
+        }
+        this->updateFramesAnimations(0.001f);
+        return true;
+    }
+    //else return false
+    return false;
+}
+bool edk::shape::AnimatedPolygon2DList::polygonsAnimationRestartForward(){
+    edk::shape::Polygon2D* temp;
+    edk::animation::Interpolation1DGroup* animation;
+    edk::uint32 size = this->polygons.size();
+    if(size){
+        for(edk::uint32 i=0u;i<size;i++){
+            temp = this->polygons.get(i);edkEnd();
+            //test if have selected some polygon
+            if(temp){
+                //test if have an animation
+                if(temp->framesHaveAnimation()){
+                    //then select the animation
+                    animation = temp->framesGetAnimation();edkEnd();
+                    if(animation){
+                        animation->restartForward();edkEnd();
+                    }
+                }
+            }
+        }
+        this->updateFramesAnimations(0.001f);
+        return true;
+    }
+    //else return false
+    return false;
+}
+bool edk::shape::AnimatedPolygon2DList::polygonsAnimationPlayRewind(){
+    edk::shape::Polygon2D* temp;
+    edk::animation::Interpolation1DGroup* animation;
+    edk::uint32 size = this->polygons.size();
+    if(size){
+        for(edk::uint32 i=0u;i<size;i++){
+            temp = this->polygons.get(i);edkEnd();
+            //test if have selected some polygon
+            if(temp){
+                //test if have an animation
+                if(temp->framesHaveAnimation()){
+                    //then select the animation
+                    animation = temp->framesGetAnimation();edkEnd();
+                    if(animation){
+                        animation->playRewind();edkEnd();
+                    }
+                }
+            }
+        }
+        this->updateFramesAnimations(0.001f);
+        return true;
+    }
+    //else return false
+    return false;
+}
+bool edk::shape::AnimatedPolygon2DList::polygonsAnimationPlayRewindIn(edk::float32 second){
+    edk::shape::Polygon2D* temp;
+    edk::animation::Interpolation1DGroup* animation;
+    edk::uint32 size = this->polygons.size();
+    if(size){
+        for(edk::uint32 i=0u;i<size;i++){
+            temp = this->polygons.get(i);edkEnd();
+            //test if have selected some polygon
+            if(temp){
+                //test if have an animation
+                if(temp->framesHaveAnimation()){
+                    //then select the animation
+                    animation = temp->framesGetAnimation();edkEnd();
+                    if(animation){
+                        animation->playRewindIn(second);edkEnd();
+                    }
+                }
+            }
+        }
+        this->updateFramesAnimations(0.001f);
+        return true;
+    }
+    //else return false
+    return false;
+}
+bool edk::shape::AnimatedPolygon2DList::polygonsAnimationRestartRewind(){
+    edk::shape::Polygon2D* temp;
+    edk::animation::Interpolation1DGroup* animation;
+    edk::uint32 size = this->polygons.size();
+    if(size){
+        for(edk::uint32 i=0u;i<size;i++){
+            temp = this->polygons.get(i);edkEnd();
+            //test if have selected some polygon
+            if(temp){
+                //test if have an animation
+                if(temp->framesHaveAnimation()){
+                    //then select the animation
+                    animation = temp->framesGetAnimation();edkEnd();
+                    if(animation){
+                        animation->restartRewind();edkEnd();
+                    }
+                }
+            }
+        }
+        this->updateFramesAnimations(0.001f);
+        return true;
+    }
+    //else return false
+    return false;
+}
+bool edk::shape::AnimatedPolygon2DList::polygonsAnimationChangeToForward(){
+    edk::shape::Polygon2D* temp;
+    edk::animation::Interpolation1DGroup* animation;
+    edk::uint32 size = this->polygons.size();
+    if(size){
+        for(edk::uint32 i=0u;i<size;i++){
+            temp = this->polygons.get(i);edkEnd();
+            //test if have selected some polygon
+            if(temp){
+                //test if have an animation
+                if(temp->framesHaveAnimation()){
+                    //then select the animation
+                    animation = temp->framesGetAnimation();edkEnd();
+                    if(animation){
+                        animation->changeToForward();edkEnd();
+                    }
+                }
+            }
+        }
+        this->updateFramesAnimations(0.001f);
+        return true;
+    }
+    //else return false
+    return false;
+}
+bool edk::shape::AnimatedPolygon2DList::polygonsAnimationChangeToRewind(){
+    edk::shape::Polygon2D* temp;
+    edk::animation::Interpolation1DGroup* animation;
+    edk::uint32 size = this->polygons.size();
+    if(size){
+        for(edk::uint32 i=0u;i<size;i++){
+            temp = this->polygons.get(i);edkEnd();
+            //test if have selected some polygon
+            if(temp){
+                //test if have an animation
+                if(temp->framesHaveAnimation()){
+                    //then select the animation
+                    animation = temp->framesGetAnimation();edkEnd();
+                    if(animation){
+                        animation->changeToRewind();edkEnd();
+                    }
+                }
+            }
+        }
+        this->updateFramesAnimations(0.001f);
+        return true;
+    }
+    //else return false
+    return false;
+}
+bool edk::shape::AnimatedPolygon2DList::polygonsAnimationChangeWay(){
+    edk::shape::Polygon2D* temp;
+    edk::animation::Interpolation1DGroup* animation;
+    edk::uint32 size = this->polygons.size();
+    if(size){
+        for(edk::uint32 i=0u;i<size;i++){
+            temp = this->polygons.get(i);edkEnd();
+            //test if have selected some polygon
+            if(temp){
+                //test if have an animation
+                if(temp->framesHaveAnimation()){
+                    //then select the animation
+                    animation = temp->framesGetAnimation();edkEnd();
+                    if(animation){
+                        animation->changeWay();edkEnd();
+                    }
+                }
+            }
+        }
+        this->updateFramesAnimations(0.001f);
+        return true;
+    }
+    //else return false
+    return false;
+}
+bool edk::shape::AnimatedPolygon2DList::polygonsAnimationPause(){
+    edk::shape::Polygon2D* temp;
+    edk::animation::Interpolation1DGroup* animation;
+    edk::uint32 size = this->polygons.size();
+    if(size){
+        for(edk::uint32 i=0u;i<size;i++){
+            temp = this->polygons.get(i);edkEnd();
+            //test if have selected some polygon
+            if(temp){
+                //test if have an animation
+                if(temp->framesHaveAnimation()){
+                    //then select the animation
+                    animation = temp->framesGetAnimation();edkEnd();
+                    if(animation){
+                        animation->pause();edkEnd();
+                    }
+                }
+            }
+        }
+        this->updateFramesAnimations(0.001f);
+        return true;
+    }
+    //else return false
+    return false;
+}
+bool edk::shape::AnimatedPolygon2DList::polygonsAnimationPauseOn(){
+    edk::shape::Polygon2D* temp;
+    edk::animation::Interpolation1DGroup* animation;
+    edk::uint32 size = this->polygons.size();
+    if(size){
+        for(edk::uint32 i=0u;i<size;i++){
+            temp = this->polygons.get(i);edkEnd();
+            //test if have selected some polygon
+            if(temp){
+                //test if have an animation
+                if(temp->framesHaveAnimation()){
+                    //then select the animation
+                    animation = temp->framesGetAnimation();edkEnd();
+                    if(animation){
+                        animation->pauseOn();edkEnd();
+                    }
+                }
+            }
+        }
+        this->updateFramesAnimations(0.001f);
+        return true;
+    }
+    //else return false
+    return false;
+}
+bool edk::shape::AnimatedPolygon2DList::polygonsAnimationPauseOff(){
+    edk::shape::Polygon2D* temp;
+    edk::animation::Interpolation1DGroup* animation;
+    edk::uint32 size = this->polygons.size();
+    if(size){
+        for(edk::uint32 i=0u;i<size;i++){
+            temp = this->polygons.get(i);edkEnd();
+            //test if have selected some polygon
+            if(temp){
+                //test if have an animation
+                if(temp->framesHaveAnimation()){
+                    //then select the animation
+                    animation = temp->framesGetAnimation();edkEnd();
+                    if(animation){
+                        animation->pauseOff();edkEnd();
+                    }
+                }
+            }
+        }
+        this->updateFramesAnimations(0.001f);
+        return true;
+    }
+    //else return false
+    return false;
+}
+bool edk::shape::AnimatedPolygon2DList::polygonsAnimationStop(){
+    edk::shape::Polygon2D* temp;
+    edk::animation::Interpolation1DGroup* animation;
+    edk::uint32 size = this->polygons.size();
+    if(size){
+        for(edk::uint32 i=0u;i<size;i++){
+            temp = this->polygons.get(i);edkEnd();
+            //test if have selected some polygon
+            if(temp){
+                //test if have an animation
+                if(temp->framesHaveAnimation()){
+                    //then select the animation
+                    animation = temp->framesGetAnimation();edkEnd();
+                    if(animation){
+                        animation->stop();edkEnd();
+                    }
+                }
+            }
+        }
+        this->updateFramesAnimations(0.001f);
+        return true;
+    }
+    //else return false
+    return false;
+}
+//set loop
+bool edk::shape::AnimatedPolygon2DList::polygonsAnimationSetLoop(bool loop){
+    edk::shape::Polygon2D* temp;
+    edk::animation::Interpolation1DGroup* animation;
+    edk::uint32 size = this->polygons.size();
+    if(size){
+        for(edk::uint32 i=0u;i<size;i++){
+            temp = this->polygons.get(i);edkEnd();
+            //test if have selected some polygon
+            if(temp){
+                //test if have an animation
+                if(temp->framesHaveAnimation()){
+                    //then select the animation
+                    animation = temp->framesGetAnimation();edkEnd();
+                    if(animation){
+                        animation->setLoop(loop);edkEnd();
+                    }
+                }
+            }
+        }
+        this->updateFramesAnimations(0.001f);
+        return true;
+    }
+    //else return false
+    return false;
+}
+bool edk::shape::AnimatedPolygon2DList::polygonsAnimationLoopOn(){
+    edk::shape::Polygon2D* temp;
+    edk::animation::Interpolation1DGroup* animation;
+    edk::uint32 size = this->polygons.size();
+    if(size){
+        for(edk::uint32 i=0u;i<size;i++){
+            temp = this->polygons.get(i);edkEnd();
+            //test if have selected some polygon
+            if(temp){
+                //test if have an animation
+                if(temp->framesHaveAnimation()){
+                    //then select the animation
+                    animation = temp->framesGetAnimation();edkEnd();
+                    if(animation){
+                        animation->loopOn();edkEnd();
+                    }
+                }
+            }
+        }
+        this->updateFramesAnimations(0.001f);
+        return true;
+    }
+    //else return false
+    return false;
+}
+bool edk::shape::AnimatedPolygon2DList::polygonsAnimationLoopOff(){
+    edk::shape::Polygon2D* temp;
+    edk::animation::Interpolation1DGroup* animation;
+    edk::uint32 size = this->polygons.size();
+    if(size){
+        for(edk::uint32 i=0u;i<size;i++){
+            temp = this->polygons.get(i);edkEnd();
+            //test if have selected some polygon
+            if(temp){
+                //test if have an animation
+                if(temp->framesHaveAnimation()){
+                    //then select the animation
+                    animation = temp->framesGetAnimation();edkEnd();
+                    if(animation){
+                        animation->loopOff();edkEnd();
+                    }
+                }
+            }
+        }
+        this->updateFramesAnimations(0.001f);
+        return true;
+    }
+    //else return false
+    return false;
+}
 
 //AnimationSelected
 //set the abstract

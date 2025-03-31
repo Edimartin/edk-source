@@ -3556,7 +3556,6 @@ void edk::physics2D::World2D::nextStep(edk::float32
         this->runNextStep = true;edkEnd();
 #if defined(EDK_USE_BOX2D)
         this->world.Step(timeStep,velocityIterations,positionIterations);edkEnd();
-#endif
 
         {
             edk::uint32 size = this->treeSensorConcacts.size();
@@ -3628,6 +3627,7 @@ void edk::physics2D::World2D::nextStep(edk::float32
                 }
             }
         }
+#endif
 
         this->runNextStep = false;edkEnd();
 
