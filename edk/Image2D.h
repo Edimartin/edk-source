@@ -123,6 +123,14 @@ public:
 
     //draw on the image
     bool draw(edk::uint8* pixels);
+    //clean the image with an color
+    bool drawColorPointer(edk::uint8* color,edk::uint8 channels);
+    bool drawColor(edk::uint8 r);
+    bool drawColor(edk::uint8 r,edk::uint8 g);
+    bool drawColor(edk::uint8 r,edk::uint8 g,edk::uint8 b);
+    bool drawColor(edk::uint8 r,edk::uint8 g,edk::uint8 b,edk::uint8 a);
+    bool drawColorBlack();
+    bool drawColorWhite();
     //draw a color in the image vector
     bool drawPosition(edk::vec2ui32 position,edk::uint8* color);
     bool drawPosition(edk::vec2ui32 position,edk::uint8 g);

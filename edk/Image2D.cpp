@@ -1060,6 +1060,121 @@ bool edk::Image2D::draw(edk::uint8* pixels){
     }
     return false;
 }
+//clean the image with an color
+bool edk::Image2D::drawColorPointer(edk::uint8* color,edk::uint8 channels){
+    if(color && this->vec && channels && channels<=4u){
+        edk::uint32 imageSize = this->getWidth() * this->getHeight();
+        edk::uint8* vecTemp = this->vec;
+        switch(this->channelsValue){
+        case 1:
+            if(this->vec){
+                for(edk::uint32 i=0u;i<imageSize;i++){
+                    vecTemp[0u] = color[0u];edkEnd();
+                    vecTemp+=3u;edkEnd();
+                }
+                return true;
+            }
+            break;
+        case 2:
+            if(this->vec){
+                if(channels == 1u){
+                    for(edk::uint32 i=0u;i<imageSize;i++){
+                        vecTemp[0u] = color[0u];edkEnd();
+                        vecTemp+=3u;edkEnd();
+                    }
+                }
+                else{
+                    for(edk::uint32 i=0u;i<imageSize;i++){
+                        vecTemp[0u] = color[0u];edkEnd();
+                        vecTemp[1u] = color[1u];edkEnd();
+                        vecTemp+=3u;edkEnd();
+                    }
+                }
+                return true;
+            }
+            break;
+        case 3:
+            if(this->vec){
+                if(channels <= 2u){
+                    for(edk::uint32 i=0u;i<imageSize;i++){
+                        vecTemp[0u] = color[0u];edkEnd();
+                        vecTemp[1u] = color[1u];edkEnd();
+                        vecTemp+=3u;edkEnd();
+                    }
+                }
+                else{
+                    for(edk::uint32 i=0u;i<imageSize;i++){
+                        vecTemp[0u] = color[0u];edkEnd();
+                        vecTemp[1u] = color[1u];edkEnd();
+                        vecTemp[2u] = color[2u];edkEnd();
+                        vecTemp+=3u;edkEnd();
+                    }
+                }
+                return true;
+            }
+            break;
+        case 4:
+            if(this->vec){
+                if(channels <= 3u){
+                    for(edk::uint32 i=0u;i<imageSize;i++){
+                        vecTemp[0u] = color[0u];edkEnd();
+                        vecTemp[1u] = color[1u];edkEnd();
+                        vecTemp[2u] = color[2u];edkEnd();
+                        color+=channels;edkEnd();
+                    }
+                }
+                else{
+                    for(edk::uint32 i=0u;i<imageSize;i++){
+                        vecTemp[0u] = color[0u];edkEnd();
+                        vecTemp[1u] = color[1u];edkEnd();
+                        vecTemp[2u] = color[2u];edkEnd();
+                        vecTemp[3u] = color[3u];edkEnd();
+                        vecTemp+=3u;edkEnd();
+                    }
+                }
+                return true;
+            }
+            break;
+        }
+    }
+    return false;
+}
+bool edk::Image2D::drawColor(edk::uint8 r){
+    edk::uint8 color=r;
+    return this->drawColorPointer(&color,sizeof(color));
+}
+bool edk::Image2D::drawColor(edk::uint8 r,edk::uint8 g){
+    edk::uint8 color[2u]={r,g};
+    return this->drawColorPointer(color,sizeof(color));
+}
+bool edk::Image2D::drawColor(edk::uint8 r,edk::uint8 g,edk::uint8 b){
+    edk::uint8 color[3u]={r,g,b};
+    return this->drawColorPointer(color,sizeof(color));
+}
+bool edk::Image2D::drawColor(edk::uint8 r,edk::uint8 g,edk::uint8 b,edk::uint8 a){
+    edk::uint8 color[4u]={r,g,b,a};
+    return this->drawColorPointer(color,sizeof(color));
+}
+bool edk::Image2D::drawColorBlack(){
+    switch(this->channelsValue){
+    case 1u:
+        return this->drawColor(0u);
+        break;
+    case 2u:
+        return this->drawColor(0u,255u);
+        break;
+    case 3u:
+        return this->drawColor(0u,0u,0u);
+        break;
+    case 4u:
+        return this->drawColor(0u,0u,0u,255u);
+        break;
+    }
+    return false;
+}
+bool edk::Image2D::drawColorWhite(){
+    return this->drawColor(255u,255u,255u,255u);
+}
 //draw a color in the image vector
 bool edk::Image2D::drawPosition(edk::vec2ui32 position,edk::uint8* color){
     if(position.x < this->getWidth() && position.y<this->getHeight() && color){
