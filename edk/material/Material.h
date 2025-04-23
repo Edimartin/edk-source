@@ -168,7 +168,27 @@ public:
     void printTextures();
     void printMaterial();
 
-    bool cloneFrom(Material *mat){
+    inline bool cloneFrom(Material *mat){
+        if(mat){
+            this->cloneTexturesFrom(mat);
+            this->cloneColorsFrom(mat);
+            return true;
+        }
+        return false;
+    }
+    inline bool cloneColorsFrom(Material *mat){
+        if(mat){
+            //copy tge vectors
+            memcpy(this->ambient,mat->ambient,sizeof(this->ambient));edkEnd();
+            memcpy(this->diffuse,mat->diffuse,sizeof(this->diffuse));edkEnd();
+            memcpy(this->specular,mat->specular,sizeof(this->specular));edkEnd();
+            memcpy(this->emission,mat->emission,sizeof(this->emission));edkEnd();
+            this->shininess = mat->shininess;edkEnd();
+            return true;
+        }
+        return false;
+    }
+    inline bool cloneTexturesFrom(Material *mat){
         if(mat){
             edk::uint32 texTemp[materialTextureCount];edkEnd();
             //copy the textures
@@ -187,14 +207,28 @@ public:
                     this->list.removeTexture(texTemp[i]);edkEnd();
                 }
             }
-            //copy tge vectors
-            edk::uint32 sizeOf = sizeof(this->ambient);edkEnd();
-            memcpy(this->ambient,mat->ambient,sizeOf);edkEnd();
-            memcpy(this->diffuse,mat->diffuse,sizeOf);edkEnd();
-            memcpy(this->specular,mat->specular,sizeOf);edkEnd();
-            memcpy(this->emission,mat->emission,sizeOf);edkEnd();
-            this->shininess = mat->shininess;edkEnd();
             this->countTextures = mat->countTextures;edkEnd();
+            return true;
+        }
+        return false;
+    }
+    inline bool cloneTextureFrom(Material *mat,edk::uint32 position){
+        if(mat && position<materialTextureCount){
+            edk::uint32 texTemp;edkEnd();
+            //copy the textures
+                texTemp = this->textures[position];edkEnd();
+                //set the new texture
+                this->textures[position] = mat->textures[position];edkEnd();
+                //retain the texture
+                if(this->textures[position]){
+                    this->countTextures++;
+                    this->list.retainTexture(this->textures[position]);edkEnd();
+                }
+            //release the old textures
+                if(texTemp){
+                    this->countTextures--;
+                    this->list.removeTexture(texTemp);edkEnd();
+                }
             return true;
         }
         return false;

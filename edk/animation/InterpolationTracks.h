@@ -69,6 +69,7 @@ public:
 
     //clean all tracks
     void cleanTracks();
+    void clean();
 
     /* type
     EDK_TRACK_ADD

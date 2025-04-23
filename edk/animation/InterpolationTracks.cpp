@@ -109,6 +109,9 @@ void edk::animation::InterpolationTracks::cleanTracks(){
     this->tracks->clean();edkEnd();
     this->positions.clean();edkEnd();
 }
+void edk::animation::InterpolationTracks::clean(){
+    this->cleanTracks();
+}
 
 //create a new track and put it into the stack
 edk::uint32 edk::animation::InterpolationTracks::newTrack(edk::typeID type){
