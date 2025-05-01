@@ -46,7 +46,8 @@ public:
     EncoderJPEG();
     virtual ~EncoderJPEG();
 
-    void Constructor(bool runFather=true);
+    void Constructor();
+    void Destructor();
 
     static void jpg_write_func(void *context, void *data, int size);
 

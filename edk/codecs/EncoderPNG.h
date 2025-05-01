@@ -46,7 +46,8 @@ public:
     EncoderPNG();
     virtual ~EncoderPNG();
 
-    void Constructor(bool runFather=true);
+    void Constructor();
+    void Destructor();
 
     //process the encoder
     bool encode(edk::uint8* frame,edk::size2ui32 size,edk::uint8 channels,edk::uint32);

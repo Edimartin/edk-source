@@ -32,54 +32,60 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #define name_port "port"
 
 edk::sql::Postgre::Postgre(){
-    this->classThis=NULL;edkEnd();
-    this->Constructor(false);edkEnd();
+    this->classThis=NULL;
+    this->Constructor();
 }
 edk::sql::Postgre::~Postgre(){
     if(this->classThis==this){
-        this->classThis=NULL;edkEnd();
+        this->classThis=NULL;
         //can destruct the class
     }
 }
 
-void edk::sql::Postgre::Constructor(bool /*runFather*/){
+void edk::sql::Postgre::Constructor(){
     if(this->classThis!=this){
         this->classThis=this;
 
-        this->error.Constructor();edkEnd();
+        this->error.Constructor();
 
 #if defined(EDK_USE_POSTGRE)
-        this->C=NULL;edkEnd();
-        this->N=NULL;edkEnd();
+        this->C=NULL;
+        this->N=NULL;
 #endif
-        this->error.setName(" ");edkEnd();
+        this->error.setName(" ");
+    }
+}
+void edk::sql::Postgre::Destructor(){
+    if(this->classThis==this){
+        this->classThis=NULL;
+        //can destruct the class
     }
 }
 
 //open dataBase
 bool edk::sql::Postgre::openDataBase(const edk::char8* database,const edk::char8* user,const edk::char8* password){
-    return this->openDataBase((edk::char8*) database,(edk::char8*) user,(edk::char8*) password);edkEnd();
+    return this->openDataBase((edk::char8*) database,(edk::char8*) user,(edk::char8*) password);
 }
 bool edk::sql::Postgre::openDataBase(edk::char8* database,edk::char8* user,edk::char8* password){
-    return this->openDataBase(database,user,password,(edk::char8*)"127.0.0.1",5432u);edkEnd();
+    return this->openDataBase(database,user,password,(edk::char8*)"127.0.0.1",5432u);
 }
 bool edk::sql::Postgre::openDataBase(const edk::char8* database,const edk::char8* user,const edk::char8* password,const edk::char8* host){
-    return this->openDataBase((edk::char8*) database,(edk::char8*) user,(edk::char8*) password,(edk::char8*) host);edkEnd();
+    return this->openDataBase((edk::char8*) database,(edk::char8*) user,(edk::char8*) password,(edk::char8*) host);
 }
 bool edk::sql::Postgre::openDataBase(edk::char8* database,edk::char8* user,edk::char8* password,edk::char8* host){
-    return this->openDataBase(database,user,password,host,5432u);edkEnd();
+    return this->openDataBase(database,user,password,host,5432u);
 }
 bool edk::sql::Postgre::openDataBase(const edk::char8* database,const edk::char8* user,const edk::char8* password,const edk::char8* host,edk::uint32 port){
-    return this->openDataBase((edk::char8*) database,(edk::char8*) user,(edk::char8*) password,(edk::char8*) host,port);edkEnd();
+    return this->openDataBase((edk::char8*) database,(edk::char8*) user,(edk::char8*) password,(edk::char8*) host,port);
 }
 bool edk::sql::Postgre::openDataBase(edk::char8* database,edk::char8* user,edk::char8* password,edk::char8* host,edk::uint32 port){
-    this->closeDataBase();edkEnd();
+    this->closeDataBase();
 
 
     if(database && user && password && host && port){
 #if defined(EDK_USE_POSTGRE)
         //create the postgre connection string
-        edk::char8* str=NULL;edkEnd();
+        edk::char8* str=NULL;
         edk::uint32 size = sizeof(name_dbname) +
                 sizeof(" = ") +
                 edk::String::strSize(database) +
@@ -103,45 +109,45 @@ bool edk::sql::Postgre::openDataBase(edk::char8* database,edk::char8* user,edk::
                 sizeof(name_port) +
                 sizeof(" = ") +
                 sizeof("65535")
-                ;edkEnd();
+                ;
         if(size){
             //create the new string
-            str = (edk::char8*)malloc(sizeof(edk::char8) * (size+1u));edkEnd();
+            str = (edk::char8*)malloc(sizeof(edk::char8) * (size+1u));
             if(str){
-                memset(str,0u,size+1u);edkEnd();
-                str[size]='\0';edkEnd();
+                memset(str,0u,size+1u);
+                str[size]='\0';
                 sprintf(str,"dbname = %s user = %s password = %s hostaddr = %s port = %u"
                         ,database
                         ,user
                         ,password
                         ,host
                         ,port
-                        );edkEnd();
+                        );
                 try {
-                    this->C = new pqxx::connection(str);edkEnd();
+                    this->C = new pqxx::connection(str);
                     if(this->C){
                         //test if it's connected
                         if(this->C->is_open()){
-                            free(str);edkEnd();
+                            free(str);
 
                             //create the nonTransaction
-                            this->N = new pqxx::nontransaction(*this->C);edkEnd();
+                            this->N = new pqxx::nontransaction(*this->C);
                             if(N){
                                 //then return true
                                 return true;
                             }
                         }
-                        delete C;edkEnd();
+                        delete C;
                     }
                 } catch (const std::exception &e){
-                    this->error.setName(e.what());edkEnd();
+                    this->error.setName(e.what());
                 }
                 //create the new database
-                free(str);edkEnd();
+                free(str);
             }
         }
 #else
-        printf("\nYou must define EDK_USE_POSTGRE before use");edkEnd();
+        printf("\nYou must define EDK_USE_POSTGRE before use");
 #endif
     }
     return false;
@@ -149,7 +155,7 @@ bool edk::sql::Postgre::openDataBase(edk::char8* database,edk::char8* user,edk::
 
 //execute a command
 bool edk::sql::Postgre::execute(const edk::char8* command,edk::sql::SQLGroup* callback){
-    return this->execute((edk::char8*) command,callback);edkEnd();
+    return this->execute((edk::char8*) command,callback);
 }
 bool edk::sql::Postgre::execute(edk::char8* command,
                                 edk::sql::SQLGroup*
@@ -157,7 +163,7 @@ bool edk::sql::Postgre::execute(edk::char8* command,
                                 callback
                                 #endif
                                 ){
-    this->error.setName(" ");edkEnd();
+    this->error.setName(" ");
     if(this->haveOpenedDataBase()){
         //
         if(command){
@@ -165,37 +171,37 @@ bool edk::sql::Postgre::execute(edk::char8* command,
             try {
                 //execute
                 /* Execute SQL query */
-                pqxx::result R( this->N->exec( command ));edkEnd();
+                pqxx::result R( this->N->exec( command ));
                 if(callback){
 
-                    edk::sql::SQLNodes* group=NULL;edkEnd();
-                    //group = temp->getNewGroup();edkEnd();
+                    edk::sql::SQLNodes* group=NULL;
+                    //group = temp->getNewGroup();
 
-                    edk::uint32 size = 0u;edkEnd();
+                    edk::uint32 size = 0u;
                     /* List down all the records */
-                    for (pqxx::result::const_iterator c = R.begin();edkEnd(); c != R.end(); ++c){
-                        size = c.size();edkEnd();
+                    for (pqxx::result::const_iterator c = R.begin();  c != R.end(); ++c){
+                        size = c.size();
                         if(size){
-                            group = callback->getNewGroup();edkEnd();
+                            group = callback->getNewGroup();
                             if(group){
                                 for(edk::uint32 i=0u;i<size;i++){
                                     /*
                                     printf("\n'%s' == '%s'"
                                            ,R.column_name(i)
                                            ,c[i].c_str()
-                                           );edkEnd();
+                                           );
 */
-                                    group->addNode((edk::char8*)R.column_name(i),(edk::char8*)c[i].c_str());edkEnd();
+                                    group->addNode((edk::char8*)R.column_name(i),(edk::char8*)c[i].c_str());
                                 }
                             }
                         }
                     }
                 }
             } catch (const std::exception &e){
-                this->error.setName(e.what());edkEnd();
+                this->error.setName(e.what());
             }
 #else
-            printf("\nYou must define EDK_USE_POSTGRE before use");edkEnd();
+            printf("\nYou must define EDK_USE_POSTGRE before use");
 #endif
         }
     }
@@ -211,32 +217,32 @@ bool edk::sql::Postgre::haveOpenedDataBase(){
         }
     }
 #else
-    printf("\nYou must define EDK_USE_POSTGRE before use");edkEnd();
+    printf("\nYou must define EDK_USE_POSTGRE before use");
 #endif
     return false;
 }
 
 //close the dataBase
 void edk::sql::Postgre::closeDataBase(){
-    this->error.setName(" ");edkEnd();
+    this->error.setName(" ");
 #if defined(EDK_USE_POSTGRE)
     if(this->N){
-        delete this->N;edkEnd();
+        delete this->N;
     }
-    this->N=NULL;edkEnd();
+    this->N=NULL;
     if(this->C){
         //close the database
-        this->C->disconnect();edkEnd();
+        this->C->disconnect();
 
-        delete this->C;edkEnd();
+        delete this->C;
     }
-    this->C=NULL;edkEnd();
+    this->C=NULL;
 #else
-    printf("\nYou must define EDK_USE_POSTGRE before use");edkEnd();
+    printf("\nYou must define EDK_USE_POSTGRE before use");
 #endif
 }
 
 //return the error string
 edk::char8* edk::sql::Postgre::getError(){
-    return this->error.getName();edkEnd();
+    return this->error.getName();
 }

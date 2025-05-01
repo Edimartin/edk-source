@@ -29,77 +29,79 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endif
 
 edk::animation::ParticlesLine2D::ParticlesLine2D(){
-    this->classThis=NULL;edkEnd();
-    this->Constructor(false);edkEnd();
+    this->classThis=NULL;
+    this->Constructor();
 }
 edk::animation::ParticlesLine2D::~ParticlesLine2D(){
-    if(this->classThis==this){
-        this->classThis=NULL;edkEnd();
-        //can destruct the class
-    }
+    this->Destructor();
 }
 
-void edk::animation::ParticlesLine2D::Constructor(bool runFather){
-    if(runFather){
-        edk::animation::ParticlesPoint2D::Constructor();edkEnd();
-    }
+void edk::animation::ParticlesLine2D::Constructor(){
+    edk::animation::ParticlesPoint2D::Constructor();
     if(this->classThis!=this){
         this->classThis=this;
-        this->point1 = this->point2 = edk::vec2f32(0,0);edkEnd();
+        this->point1 = this->point2 = edk::vec2f32(0,0);
     }
+}
+void edk::animation::ParticlesLine2D::Destructor(){
+    if(this->classThis==this){
+        this->classThis=NULL;
+        //can destruct the class
+    }
+    edk::animation::ParticlesPoint2D::Destructor();
 }
 
 //get the position
 edk::vec2f32 edk::animation::ParticlesLine2D::newPosition(){
-    edk::float32 percent = edk::Random::getStaticRandPercent();edkEnd();
-    return this->position + edk::Math::rotatePlus((this->point1 + ((this->point2 - this->point1)*percent)),this->angle);edkEnd();
+    edk::float32 percent = edk::Random::getStaticRandPercent();
+    return this->position + edk::Math::rotatePlus((this->point1 + ((this->point2 - this->point1)*percent)),this->angle);
 }
 
 //set the points
 void edk::animation::ParticlesLine2D::setP1Local(edk::vec2f32 point){
-    this->point1 = point;edkEnd();
+    this->point1 = point;
 }
 void edk::animation::ParticlesLine2D::setP1Local(edk::float32 px,edk::float32 py){
-    this->setP1Local(edk::vec2f32(px,py));edkEnd();
+    this->setP1Local(edk::vec2f32(px,py));
 }
 void edk::animation::ParticlesLine2D::setP2Local(edk::vec2f32 point){
-    this->point2 = point;edkEnd();
+    this->point2 = point;
 }
 void edk::animation::ParticlesLine2D::setP2Local(edk::float32 px,edk::float32 py){
-    this->setP2Local(edk::vec2f32(px,py));edkEnd();
+    this->setP2Local(edk::vec2f32(px,py));
 }
 void edk::animation::ParticlesLine2D::setPointsLocal(edk::vec2f32 p1,edk::vec2f32 p2){
-    this->setP1Local(p1);edkEnd();
-    this->setP2Local(p2);edkEnd();
+    this->setP1Local(p1);
+    this->setP2Local(p2);
 }
 void edk::animation::ParticlesLine2D::setPointsLocal(edk::float32 p1x,edk::float32 p1y,edk::float32 p2x,edk::float32 p2y){
-    this->setP1Local(edk::vec2f32(p1x,p1y));edkEnd();
-    this->setP2Local(edk::vec2f32(p2x,p2y));edkEnd();
+    this->setP1Local(edk::vec2f32(p1x,p1y));
+    this->setP2Local(edk::vec2f32(p2x,p2y));
 }
 void edk::animation::ParticlesLine2D::setP1World(edk::vec2f32 point){
     //calculate the middle point to be the position
-    this->position = ((this->point2-point)*0.5f)+point;edkEnd();
+    this->position = ((this->point2-point)*0.5f)+point;
     //set the points local
-    this->setP1Local(point-this->position);edkEnd();
+    this->setP1Local(point-this->position);
 }
 void edk::animation::ParticlesLine2D::setP1World(edk::float32 px,edk::float32 py){
-    this->setP1World(edk::vec2f32(px,py));edkEnd();
+    this->setP1World(edk::vec2f32(px,py));
 }
 void edk::animation::ParticlesLine2D::setP2World(edk::vec2f32 point){
     //calculate the middle point to be the position
-    this->position = ((point-this->point1)*0.5f)+this->point1;edkEnd();
+    this->position = ((point-this->point1)*0.5f)+this->point1;
     //set the points local
-    this->setP2Local(point-this->position);edkEnd();
+    this->setP2Local(point-this->position);
 }
 void edk::animation::ParticlesLine2D::setP2World(edk::float32 px,edk::float32 py){
-    this->setP2World(edk::vec2f32(px,py));edkEnd();
+    this->setP2World(edk::vec2f32(px,py));
 }
 void edk::animation::ParticlesLine2D::setPointsWorld(edk::vec2f32 p1,edk::vec2f32 p2){
     //calculate the middle point to be the position
-    this->position = ((p2-p1)*0.5f)+p1;edkEnd();
+    this->position = ((p2-p1)*0.5f)+p1;
     //set the points local
-    this->setP1Local(p1-this->position);edkEnd();
-    this->setP2Local(p2-this->position);edkEnd();
+    this->setP1Local(p1-this->position);
+    this->setP2Local(p2-this->position);
 }
 void edk::animation::ParticlesLine2D::setPointsWorld(edk::float32 p1x,edk::float32 p1y,edk::float32 p2x,edk::float32 p2y){
     this->setPointsWorld(edk::vec2f32(p1x,p1y),edk::vec2f32(p2x,p2y));
@@ -108,38 +110,38 @@ void edk::animation::ParticlesLine2D::setPointsWorld(edk::float32 p1x,edk::float
 //draw the angles vector
 void edk::animation::ParticlesLine2D::drawAngles(edk::float32 size,edk::color3f32 color){
     //put the transformation on a stack
-    edk::GU::guPushMatrix();edkEnd();
+    edk::GU::guPushMatrix();
     //add translate
-    edk::GU::guTranslate2f32(this->position);edkEnd();
+    edk::GU::guTranslate2f32(this->position);
     //add rotation
-    edk::GU::guRotateZf32(this->angle);edkEnd();
+    edk::GU::guRotateZf32(this->angle);
     //add scale
-    edk::GU::guScale2f32(this->size);edkEnd();
+    edk::GU::guScale2f32(this->size);
 
 
     //lineSize
-    edk::GU::guLineWidth(3);edkEnd();
+    edk::GU::guLineWidth(3);
 
     //set the colors
-    edk::GU::guColor3f32(color);edkEnd();
+    edk::GU::guColor3f32(color);
     //draw the lines
-    edk::GU::guBegin(GU_LINES);edkEnd();
+    edk::GU::guBegin(GU_LINES);
     //LINE
-    edk::GU::guVertex2f32(this->point1);edkEnd();
-    edk::GU::guVertex2f32(this->point2);edkEnd();
+    edk::GU::guVertex2f32(this->point1);
+    edk::GU::guVertex2f32(this->point2);
     //LINE 1
-    edk::GU::guVertex2f32(this->point1);edkEnd();
-    edk::GU::guVertex2f32(this->point1 + edk::Math::rotate(edk::vec2f32(1,0),this->angleFar)*size);edkEnd();
+    edk::GU::guVertex2f32(this->point1);
+    edk::GU::guVertex2f32(this->point1 + edk::Math::rotate(edk::vec2f32(1,0),this->angleFar)*size);
     //LINE 2
-    edk::GU::guVertex2f32(this->point2);edkEnd();
-    edk::GU::guVertex2f32(this->point2 + edk::Math::rotate(edk::vec2f32(1,0),this->angleNear)*size);edkEnd();
+    edk::GU::guVertex2f32(this->point2);
+    edk::GU::guVertex2f32(this->point2 + edk::Math::rotate(edk::vec2f32(1,0),this->angleNear)*size);
     //
-    edk::GU::guEnd();edkEnd();
+    edk::GU::guEnd();
 
     //lineSize
-    edk::GU::guLineWidth(1);edkEnd();
+    edk::GU::guLineWidth(1);
 
-    edk::GU::guPopMatrix();edkEnd();
+    edk::GU::guPopMatrix();
 }
 void edk::animation::ParticlesLine2D::drawAngles(edk::float32 size,edk::float32 r,edk::float32 g,edk::float32 b){
     this->drawAngles(size,edk::color3f32(r,g,b));

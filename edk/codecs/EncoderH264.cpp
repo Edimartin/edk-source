@@ -47,29 +47,31 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endif
 
 edk::codecs::EncoderH264::EncoderH264(){
-    this->classThis=NULL;edkEnd();
-    this->Constructor(false);edkEnd();
+    this->classThis=NULL;
+    this->Constructor();
 }
 edk::codecs::EncoderH264::~EncoderH264(){
-    if(this->classThis==this){
-        this->classThis=NULL;edkEnd();
-        //can destruct the class
-    }
+    this->Destructor();
 }
 
-void edk::codecs::EncoderH264::Constructor(bool runFather){
-    if(runFather){
-        edk::codecs::EncoderVideo::Constructor();edkEnd();
-    }
+void edk::codecs::EncoderH264::Constructor(){
+    edk::codecs::EncoderVideo::Constructor();
     if(this->classThis!=this){
         this->classThis=this;
 #ifdef EDK_USE_OPENH264
-        this->encoder=NULL;edkEnd();
-        this->version = WelsGetCodecVersion();edkEnd();
+        this->encoder=NULL;
+        this->version = WelsGetCodecVersion();
 #else
-        edkPrintf("You must define EDK_USE_OPENH264 before use");edkEnd();
+        edkPrintf("You must define EDK_USE_OPENH264 before use");
 #endif
     }
+}
+void edk::codecs::EncoderH264::Destructor(){
+    if(this->classThis==this){
+        this->classThis=NULL;
+        //can destruct the class
+    }
+    edk::codecs::EncoderVideo::Destructor();
 }
 
 //start the encoder
@@ -81,38 +83,38 @@ bool edk::codecs::EncoderH264::startEncoder(edk::size2ui32 size, edk::uint32 fps
             if(this->encoder){
                 //
                 //start the parameters
-                this->param.iUsageType = CAMERA_VIDEO_REAL_TIME;edkEnd();
-                this->param.iPicWidth = size.width;edkEnd();
-                this->param.iPicHeight = size.height;edkEnd();
-                this->param.iTargetBitrate = rand() + 1;edkEnd(); // !=0
+                this->param.iUsageType = CAMERA_VIDEO_REAL_TIME;
+                this->param.iPicWidth = size.width;
+                this->param.iPicHeight = size.height;
+                this->param.iTargetBitrate = rand() + 1;  // !=0
                 // Force a bitrate of at least w*h/50, otherwise we will only get skipped frames
                 /*
                 this->param.iTargetBitrate = WELS_CLIP3 (this->param.iTargetBitrate,
-                                                         this->param.iPicWidth * this->param.iPicHeight / 50, 100000000);edkEnd();
-                int32_t iLevelMaxBitrate = WelsCommon::g_ksLevelLimits[LEVEL_5_0 - 1].uiMaxBR * CpbBrNalFactor;edkEnd();
+                                                         this->param.iPicWidth * this->param.iPicHeight / 50, 100000000);
+                int32_t iLevelMaxBitrate = WelsCommon::g_ksLevelLimits[LEVEL_5_0 - 1].uiMaxBR * CpbBrNalFactor;
                 if(this->param.iTargetBitrate > iLevelMaxBitrate){
-                    this->param.iTargetBitrate = iLevelMaxBitrate;edkEnd();
+                    this->param.iTargetBitrate = iLevelMaxBitrate;
                     }
                 */
 
                 this->param.iTargetBitrate = 50000;
 
-                this->param.iRCMode = RC_BITRATE_MODE;edkEnd();
+                this->param.iRCMode = RC_BITRATE_MODE;
                 //use the FPS
-                this->param.fMaxFrameRate = (edk::float32)1/fps;edkEnd(); //!=0
+                this->param.fMaxFrameRate = (edk::float32)1/fps;  //!=0
 
                 //start the encoder
                 if(!encoder->Initialize(&param)){
-                    this->setNextKeyframe();edkEnd();
+                    this->setNextKeyframe();
                     return true;
                 }
             }
         }
 #else
-        edkPrintf("You must define EDK_USE_OPENH264 before use");edkEnd();
+        edkPrintf("You must define EDK_USE_OPENH264 before use");
 #endif
         //finish encoder
-        edk::codecs::EncoderVideo::finishEncoder();edkEnd();
+        edk::codecs::EncoderVideo::finishEncoder();
     }
     return false;
 }
@@ -126,7 +128,7 @@ bool edk::codecs::EncoderH264::encode(edk::uint8* frame,edk::uint8 channels){
 #ifdef EDK_USE_OPENH264
         if(this->encoder){
             //clean the encoded
-            this->writeEncoded(NULL,0);edkEnd();
+            this->writeEncoded(NULL,0);
             edk::int32 iLayerSize = 0;
             edk::int32 iNalIdx = 0;
             //draw the frame
@@ -134,25 +136,25 @@ bool edk::codecs::EncoderH264::encode(edk::uint8* frame,edk::uint8 channels){
                 this->pic.iColorFormat = videoFormatI420;
 
                 this->pic.uiTimeStamp = 0;
-                this->pic.iPicWidth = this->getFrameSize().width;edkEnd();
-                this->pic.iPicHeight = this->getFrameSize().height;edkEnd();
-                this->pic.iPicWidth = VALID_SIZE (pic.iPicWidth);edkEnd();
-                this->pic.iPicHeight = VALID_SIZE (pic.iPicHeight);edkEnd();
+                this->pic.iPicWidth = this->getFrameSize().width;
+                this->pic.iPicHeight = this->getFrameSize().height;
+                this->pic.iPicWidth = VALID_SIZE (pic.iPicWidth);
+                this->pic.iPicHeight = VALID_SIZE (pic.iPicHeight);
                 //passa as proporcoes de cada canal pela largura
-                this->pic.iStride[3] = 0u;edkEnd();
-                this->pic.iStride[0] = this->getFrameSize().width;edkEnd();
-                this->pic.iStride[1] = pic.iStride[2] = pic.iStride[0] >> 1;edkEnd();
+                this->pic.iStride[3] = 0u;
+                this->pic.iStride[0] = this->getFrameSize().width;
+                this->pic.iStride[1] = pic.iStride[2] = pic.iStride[0] >> 1;
 
-                this->pic.pData[0u] = this->getFrameY();edkEnd();
-                this->pic.pData[1u] = this->getFrameU();edkEnd();
-                this->pic.pData[2u] = this->getFrameV();edkEnd();
-                this->pic.pData[3u] = NULL;edkEnd();
+                this->pic.pData[0u] = this->getFrameY();
+                this->pic.pData[1u] = this->getFrameU();
+                this->pic.pData[2u] = this->getFrameV();
+                this->pic.pData[3u] = NULL;
 
                 //clean the fbi
-                memset (&this->sFbi, 0, sizeof (SFrameBSInfo));edkEnd();
+                memset (&this->sFbi, 0, sizeof (SFrameBSInfo));
 
                 if(this->isNextKeyframe()){
-                    this->encoder->ForceIntraFrame(true);edkEnd();
+                    this->encoder->ForceIntraFrame(true);
                 }
                 else{
                     int32_t iTraceLevel = WELS_LOG_QUIET;
@@ -160,28 +162,28 @@ bool edk::codecs::EncoderH264::encode(edk::uint8* frame,edk::uint8 channels){
                 }
 
                 if(!this->encoder->EncodeFrame(&this->pic,&this->sFbi)){
-                    SLayerBSInfo* pLayerBsInfo = NULL;edkEnd();
+                    SLayerBSInfo* pLayerBsInfo = NULL;
                     //test if can copy the encoded
                     if((edk::int32)this->getSpaceEncodedSize() < this->sFbi.iFrameSizeInBytes){
                         //alloc the frame encoded
-                        this->newSpaceEncoded(this->sFbi.iFrameSizeInBytes+1u);edkEnd();
+                        this->newSpaceEncoded(this->sFbi.iFrameSizeInBytes+1u);
                     }
                     if((edk::int32)this->getSpaceEncodedSize() > this->sFbi.iFrameSizeInBytes){
                         for(edk::uint32 i=0u;i<(edk::uint32)this->sFbi.iLayerNum;i++){
                             //
-                            pLayerBsInfo = &sFbi.sLayerInfo[i];edkEnd();
+                            pLayerBsInfo = &sFbi.sLayerInfo[i];
                             if(pLayerBsInfo != NULL){
 
                                 iLayerSize = 0;
-                                iNalIdx = pLayerBsInfo->iNalCount - 1;edkEnd();
+                                iNalIdx = pLayerBsInfo->iNalCount - 1;
                                 //increment the layer size
                                 do{
-                                    iLayerSize += pLayerBsInfo->pNalLengthInByte[iNalIdx];edkEnd();
-                                    -- iNalIdx;edkEnd();
-                                }while (iNalIdx >= 0);edkEnd();
+                                    iLayerSize += pLayerBsInfo->pNalLengthInByte[iNalIdx];
+                                    -- iNalIdx;
+                                }while (iNalIdx >= 0);
 
                                 //copy the layer
-                                this->appendEncoded(pLayerBsInfo->pBsBuf,iLayerSize);edkEnd();
+                                this->appendEncoded(pLayerBsInfo->pBsBuf,iLayerSize);
                             }
                         }
                         return true;
@@ -190,7 +192,7 @@ bool edk::codecs::EncoderH264::encode(edk::uint8* frame,edk::uint8 channels){
             }
         }
 #else
-        edkPrintf("You must define EDK_USE_OPENH264 before use");edkEnd();
+        edkPrintf("You must define EDK_USE_OPENH264 before use");
 #endif
     }
     return false;
@@ -198,18 +200,18 @@ bool edk::codecs::EncoderH264::encode(edk::uint8* frame,edk::uint8 channels){
 
 //finish the encoder
 void edk::codecs::EncoderH264::finishEncoder(){
-    edk::codecs::EncoderVideo::finishEncoder();edkEnd();
+    edk::codecs::EncoderVideo::finishEncoder();
 
 #ifdef EDK_USE_OPENH264
     if(this->encoder){
         //unitialize
-        this->encoder->Uninitialize();edkEnd();
+        this->encoder->Uninitialize();
     }
 
-    WelsDestroySVCEncoder(this->encoder);edkEnd();
-    this->encoder=NULL;edkEnd();
+    WelsDestroySVCEncoder(this->encoder);
+    this->encoder=NULL;
 #else
-    edkPrintf("You must define EDK_USE_OPENH264 before use");edkEnd();
+    edkPrintf("You must define EDK_USE_OPENH264 before use");
 #endif
 }
 
@@ -221,7 +223,7 @@ bool edk::codecs::EncoderH264::haveInitialized(){
         return true;
     }
 #else
-    edkPrintf("You must define EDK_USE_OPENH264 before use");edkEnd();
+    edkPrintf("You must define EDK_USE_OPENH264 before use");
 #endif
     return false;
 }

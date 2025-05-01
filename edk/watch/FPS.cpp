@@ -25,38 +25,62 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef WIN32
-    //Windows 32
+//Windows 32
 #elif WIN64
-    //Windows 64
+//Windows 64
 #elif __linux__
-    //Linux
+//Linux
 #elif __APPLE__
-    //MacOS
+//MacOS
 #endif
 
 
 edk::watch::FPS::FPS(){
-    //clean the FPS
-    this->setFPS(0u);edkEnd();
-    this->start();edkEnd();
+    this->classThis=NULL;
+    this->Constructor();
 }
 
 edk::watch::FPS::FPS(uint32 fps){
-    //set the new FPS
-    this->setFPS(fps);edkEnd();
-    this->start();edkEnd();
+    this->classThis=NULL;
+    this->Constructor(fps);
+}
+
+edk::watch::FPS::~FPS(){
+    this->Destructor();
+}
+
+void edk::watch::FPS::Constructor(){
+    if(this->classThis!=this){
+        this->classThis=this;
+        //clean the FPS
+        this->setFPS(0u);
+        this->start();
+    }
+}
+void edk::watch::FPS::Constructor(uint32 fps){
+    if(this->classThis!=this){
+        this->classThis=this;
+        //set the new FPS
+        this->setFPS(fps);
+        this->start();
+    }
+}
+void edk::watch::FPS::Destructor(){
+    if(this->classThis==this){
+        this->classThis=NULL;
+    }
 }
 
 void edk::watch::FPS::start(){
     //clear the clock
-    this->clock.start();edkEnd();
+    this->clock.start();
 }
 
 void edk::watch::FPS::setFPS(uint32 fps){
     //test if the FPS is not zero
     if(fps){
         //then set the fps
-        this->frames = fps;edkEnd();
+        this->frames = fps;
     }
     else{
         //else set the fps with one
@@ -65,29 +89,29 @@ void edk::watch::FPS::setFPS(uint32 fps){
 }
 
 bool edk::watch::FPS::waitForFPS(){
-    bool ret=false;edkEnd();
+    bool ret=false;
     if(this->frames){
         //calculate the remainder microsecons to get one second
         edk::uint32 microseconds = (edk::uint64)this->clock.getMicroseconds();
 #if defined(edkCPPversion17)
-        edk::int64 wait=(edk::int64)(((1.0f/(edk::float32)frames))*edk::watch::second) - microseconds;edkEnd();
+        edk::int64 wait=(edk::int64)(((1.0f/(edk::float32)frames))*edk::watch::second) - microseconds;
 #else
-        register edk::int64 wait=(edk::int64)(((1.0f/(edk::float32)frames))*edk::watch::second) - microseconds;edkEnd();
+        register edk::int64 wait=(edk::int64)(((1.0f/(edk::float32)frames))*edk::watch::second) - microseconds;
 #endif
         if(wait>0){
             //If the distance bigger than zero. He need wait.
-        //Windows sleep millisecons
-        #if defined(_WIN32) || defined(_WIN64)
-            clock.sleepProcessMiliseconds(wait*0.001);edkEnd();
-        #else
-            clock.sleepProcessMicroseconds(wait);edkEnd();
-        #endif
+            //Windows sleep millisecons
+#if defined(_WIN32) || defined(_WIN64)
+            clock.sleepProcessMiliseconds(wait*0.001);
+#else
+            clock.sleepProcessMicroseconds(wait);
+#endif
 
-            ret=true;edkEnd();
+            ret=true;
         }
 
         //after this he can start a new time count
-        this->start();edkEnd();
+        this->start();
     }
     return ret;
 }

@@ -43,7 +43,8 @@ public:
     ViewGU2D();
     virtual ~ViewGU2D();
 
-    void Constructor(bool runFather=true);
+    void Constructor();
+    void Destructor();
 
     virtual void updateAnimations();
     virtual void updateAnimations(edk::float32 seconds);
@@ -71,27 +72,27 @@ private:
 /* EXAMPLE
 class example: edk::ViewGU2D{
     //construtor
-    example();edkEnd();
+    example(); 
     //destrutor
-    virtual ~example();edkEnd();
+    virtual ~example(); 
 
     //Load and Unload
-    void load(edk::rectf32 outsideViewOrigin);edkEnd();
-    void unload();edkEnd();
+    void load(edk::rectf32 outsideViewOrigin); 
+    void unload(); 
 
     //Mouse Events
-    void eventMousePressed(edk::vec2f32 point,edk::uint32 button);edkEnd();
-    void eventMouseMoved(edk::vec2f32 point,edk::vec2f32 moved,edk::uint32 button);edkEnd();
-    void eventMouseReleased(edk::vec2f32 point,edk::uint32 button);edkEnd();
-    void eventMouseDoubleClicked(edk::vec2f32 point,edk::uint32 button);edkEnd();
+    void eventMousePressed(edk::vec2f32 point,edk::uint32 button); 
+    void eventMouseMoved(edk::vec2f32 point,edk::vec2f32 moved,edk::uint32 button); 
+    void eventMouseReleased(edk::vec2f32 point,edk::uint32 button); 
+    void eventMouseDoubleClicked(edk::vec2f32 point,edk::uint32 button); 
     //Mouse go Inside Outside
-    void eventMouseEntryInsideView(edk::vec2f32 point);edkEnd();
-    void eventMouseLeftView(edk::vec2f32 point);edkEnd();
+    void eventMouseEntryInsideView(edk::vec2f32 point); 
+    void eventMouseLeftView(edk::vec2f32 point); 
 
     //Update the scene
-    void update(edk::WindowEvents* events);edkEnd();
+    void update(edk::WindowEvents* events); 
 
     //draw the GU scene
-    void drawScene(edk::rectf32 outsideViewOrigin);edkEnd();
+    void drawScene(edk::rectf32 outsideViewOrigin); 
 };
 */

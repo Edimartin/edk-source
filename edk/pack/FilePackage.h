@@ -51,7 +51,8 @@ public:
     FilePackage();
     virtual ~FilePackage();
 
-    void Constructor(bool runFather=true);
+    void Constructor();
+    void Destructor();
 
     //set the debugFile Name
     static bool createDebugFile(const edk::char8* name);
@@ -131,20 +132,24 @@ private:
     //node tree
     class treeInt:public edk::vector::BinaryTree<edk::pack::FileNode*>{
     public:
-        treeInt(){this->classThis=NULL;edkEnd();
-                  this->Constructor(false);edkEnd();}
+        treeInt(){
+            this->classThis=NULL;
+            this->Constructor();
+        }
         virtual ~treeInt(){
-            if(this->classThis==this){
-                this->classThis=NULL;edkEnd();
-                //can destruct the class
-                this->removeAllNodes();edkEnd();
-            }
+            this->Destructor();
         }
 
-        void Constructor(bool runFather=true){
-            if(runFather){edkEnd();}
+        void Constructor(){
             if(this->classThis!=this){
                 this->classThis=this;
+            }
+        }
+        void Destructor(){
+            if(this->classThis==this){
+                this->classThis=NULL;
+                //can destruct the class
+                this->removeAllNodes();
             }
         }
         //compare if the value is bigger
@@ -170,16 +175,16 @@ private:
         //Print
         virtual void printElement(edk::pack::FileNode* value){
             if(value){
-                value->print();edkEnd();
+                value->print();
             }
         }
         //create a new node
         bool newNode(edk::char8* fileName){
             if(fileName){
-                edk::pack::FileNode *node = this->getNode(fileName);edkEnd();
+                edk::pack::FileNode *node = this->getNode(fileName);
                 if(!node){
                     //creat a new node
-                    node = new edk::pack::FileNode;edkEnd();
+                    node = new edk::pack::FileNode;
                     if(node){
                         //set the fileName
                         if(node->setFileName(fileName)){
@@ -188,7 +193,7 @@ private:
                                 return true;
                             }
                         }
-                        delete node;edkEnd();
+                        delete node;
                     }
                 }
             }
@@ -196,21 +201,21 @@ private:
         }
         //return the node from the fileName
         edk::pack::FileNode* getNode(edk::char8* fileName){
-            edk::pack::FileNode node;edkEnd();
+            edk::pack::FileNode node;
             if(node.setFileName(fileName)){
-                return this->getElement(&node);edkEnd();
+                return this->getElement(&node);
             }
             return NULL;
         }
         //remove the node from the tree
         bool removeNode(edk::char8* fileName){
             if(fileName){
-                edk::pack::FileNode *node = this->getNode(fileName);edkEnd();
+                edk::pack::FileNode *node = this->getNode(fileName);
                 if(node){
                     //remove the node from the tree
                     if(this->remove(node)){
                         //delete the node
-                        delete node;edkEnd();
+                        delete node;
                         return true;
                     }
                 }
@@ -218,21 +223,21 @@ private:
             return false;
         }
         void removeAllNodes(){
-            edk::uint32 size = this->size();edkEnd();
-            edk::pack::FileNode *node;edkEnd();
+            edk::uint32 size = this->size();
+            edk::pack::FileNode *node;
             for(edk::uint32 i=0u;i<size;i++){
-                node = this->getElementInPosition(i);edkEnd();
+                node = this->getElementInPosition(i);
                 if(node){
-                    delete node;edkEnd();
+                    delete node;
                 }
             }
-            this->clean();edkEnd();
+            this->clean();
         }
         //return true if have the node
         bool haveNode(edk::char8* fileName){
-            edk::pack::FileNode node;edkEnd();
+            edk::pack::FileNode node;
             if(node.setFileName(fileName)){
-                return this->haveElement(&node);edkEnd();
+                return this->haveElement(&node);
             }
             return false;
         }

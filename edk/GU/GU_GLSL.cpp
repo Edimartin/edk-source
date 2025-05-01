@@ -70,18 +70,15 @@ edk::GU_GLSL::ShaderUse_Tree edk::GU_GLSL::treeUseNoShaders;
 
 //construtor
 edk::GU_GLSL::GU_GLSL(){
-    this->classThis=NULL;edkEnd();
-    this->Constructor(false);edkEnd();
+    this->classThis=NULL;
+    this->Constructor();
 }
 //destrutor
 edk::GU_GLSL::~GU_GLSL(){
-    if(this->classThis==this){
-        this->classThis=NULL;edkEnd();
-        //can destruct the class
-    }
+    this->Destructor();
 }
 
-void edk::GU_GLSL::Constructor(bool /*runFather*/){
+void edk::GU_GLSL::Constructor(){
     //
     if(this->classThis!=this){
         this->classThis=this;
@@ -120,6 +117,12 @@ void edk::GU_GLSL::Constructor(bool /*runFather*/){
             edk::GU_GLSL::treeUseNoShaders.Constructor();
             edk::GU_GLSL::templateConstructNeed=false;
         }
+    }
+}
+void edk::GU_GLSL::Destructor(){
+    if(this->classThis==this){
+        this->classThis=NULL;
+        //can destruct the class
     }
 }
 

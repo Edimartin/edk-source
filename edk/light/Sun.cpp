@@ -25,41 +25,43 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 edk::light::Sun::Sun(){
-    this->classThis=NULL;edkEnd();
-    this->Constructor(false);edkEnd();
+    this->classThis=NULL;
+    this->Constructor();
 }
 edk::light::Sun::~Sun(){
-    if(this->classThis==this){
-        this->classThis=NULL;edkEnd();
-        //can destruct the class
-    }
+    this->Destructor();
 }
 
-void edk::light::Sun::Constructor(bool runFather){
-    if(runFather){
-        edk::light::Light::Constructor();edkEnd();
-    }
+void edk::light::Sun::Constructor(){
+    edk::light::Light::Constructor();
     if(this->classThis!=this){
         this->classThis=this;
     }
 }
+void edk::light::Sun::Destructor(){
+    if(this->classThis==this){
+        this->classThis=NULL;
+        //can destruct the class
+    }
+    edk::light::Light::Destructor();
+}
 
 //DRAW THE LIGH USING THE LIGHT NUMBER
 void edk::light::Sun::draw(edk::uint32 lightNumber){
-    edk::GU::guLightfv32(GU_LIGHT0+lightNumber,GU_POSITION,this->direction);edkEnd();
-    edk::GU::guLightfv32(GU_LIGHT0+lightNumber,GU_DIFFUSE,this->diffuse);edkEnd();
-    edk::GU::guLightfv32(GU_LIGHT0+lightNumber,GU_AMBIENT,this->ambient);edkEnd();
-    edk::GU::guLightfv32(GU_LIGHT0+lightNumber,GU_SPECULAR,this->specular);edkEnd();
-    //edk::GU::guLightfv32(GU_LIGHT0+lightNumber,GU_SPOT_DIRECTION,this->direction);edkEnd();
-    //edk::GU::guLightf32(GU_LIGHT0+lightNumber,GU_SPOT_EXPONENT,this->exponent);edkEnd();
-    //edk::GU::guLightf32(GU_LIGHT0+lightNumber,GU_SPOT_CUTOFF,this->cutoff);edkEnd();
-    edk::GU::guLightf32(GU_LIGHT0+lightNumber,GU_CONSTANT_ATTENUATION,this->constantAttenuation);edkEnd();
-    edk::GU::guLightf32(GU_LIGHT0+lightNumber,GU_LINEAR_ATTENUATION,this->linearAttenuation);edkEnd();
-    edk::GU::guLightf32(GU_LIGHT0+lightNumber,GU_QUADRATIC_ATTENUATION,this->quadraticAttenuation);edkEnd();
+    edk::GU::guLightfv32(GU_LIGHT0+lightNumber,GU_POSITION,this->direction);
+    edk::GU::guLightfv32(GU_LIGHT0+lightNumber,GU_DIFFUSE,this->diffuse);
+    edk::GU::guLightfv32(GU_LIGHT0+lightNumber,GU_AMBIENT,this->ambient);
+    edk::GU::guLightfv32(GU_LIGHT0+lightNumber,GU_SPECULAR,this->specular);
+    //edk::GU::guLightfv32(GU_LIGHT0+lightNumber,GU_SPOT_DIRECTION,this->direction);
+    //edk::GU::guLightf32(GU_LIGHT0+lightNumber,GU_SPOT_EXPONENT,this->exponent);
+    //edk::GU::guLightf32(GU_LIGHT0+lightNumber,GU_SPOT_CUTOFF,this->cutoff);
+    edk::GU::guLightf32(GU_LIGHT0+lightNumber,GU_CONSTANT_ATTENUATION,this->constantAttenuation);
+    edk::GU::guLightf32(GU_LIGHT0+lightNumber,GU_LINEAR_ATTENUATION,this->linearAttenuation);
+    edk::GU::guLightf32(GU_LIGHT0+lightNumber,GU_QUADRATIC_ATTENUATION,this->quadraticAttenuation);
 }
 //draw the pivo
 void edk::light::Sun::drawPivo(edk::float32 size,edk::color3f32 color){
-    edk::light::Light::drawPivo(size,color);edkEnd();
+    edk::light::Light::drawPivo(size,color);
 }
 void edk::light::Sun::drawPivo(edk::float32 size,edk::float32 r,edk::float32 g,edk::float32 b){
     this->drawPivo(size,edk::color3f32(r,g,b));
@@ -67,61 +69,61 @@ void edk::light::Sun::drawPivo(edk::float32 size,edk::float32 r,edk::float32 g,e
 
 //Set the position of the light
 void edk::light::Sun::setPosition(edk::float32 x,edk::float32 y,edk::float32 z){
-    edk::light::Light::setPosition(x,y,z);edkEnd();
+    edk::light::Light::setPosition(x,y,z);
 }
 void edk::light::Sun::setPosition(edk::float32 x,edk::float32 y){
-    edk::light::Light::setPosition(x,y);edkEnd();
+    edk::light::Light::setPosition(x,y);
 }
 void edk::light::Sun::setPosition(edk::vec3f32 position){
-    edk::light::Light::setPosition(position);edkEnd();
+    edk::light::Light::setPosition(position);
 }
 void edk::light::Sun::setPosition(edk::vec2f32 position){
-    edk::light::Light::setPosition(position);edkEnd();
+    edk::light::Light::setPosition(position);
 }
 void edk::light::Sun::setDirection(edk::float32 x,edk::float32 y,edk::float32 z){
-    this->direction[0u]=x;edkEnd();
-    this->direction[1u]=y;edkEnd();
-    this->direction[2u]=z;edkEnd();
-    this->direction[3u]=0.f;edkEnd();
+    this->direction[0u]=x;
+    this->direction[1u]=y;
+    this->direction[2u]=z;
+    this->direction[3u]=0.f;
 }
 void edk::light::Sun::setDirection(edk::float32 x,edk::float32 y){
-    this->setDirection(x,y,this->getDirectionZ());edkEnd();
+    this->setDirection(x,y,this->getDirectionZ());
 }
 void edk::light::Sun::setDirection(edk::vec3f32 direction){
-    this->setDirection(direction.x,direction.y,direction.z);edkEnd();
+    this->setDirection(direction.x,direction.y,direction.z);
 }
 void edk::light::Sun::setDirection(edk::vec2f32 direction){
-    this->setDirection(direction.x,direction.y,this->getDirectionZ());edkEnd();
+    this->setDirection(direction.x,direction.y,this->getDirectionZ());
 }
 
 //get the position of the light
 edk::float32 edk::light::Sun::getPositionX(){
-    return edk::light::Light::getPositionX();edkEnd();
+    return edk::light::Light::getPositionX();
 }
 edk::float32 edk::light::Sun::getPositionY(){
-    return edk::light::Light::getPositionY();edkEnd();
+    return edk::light::Light::getPositionY();
 }
 edk::float32 edk::light::Sun::getPositionZ(){
-    return edk::light::Light::getPositionZ();edkEnd();
+    return edk::light::Light::getPositionZ();
 }
 edk::vec2f32 edk::light::Sun::getPosition2f(){
-    return edk::light::Light::getPosition2f();edkEnd();
+    return edk::light::Light::getPosition2f();
 }
 edk::vec3f32 edk::light::Sun::getPosition3f(){
-    return edk::light::Light::getPosition3f();edkEnd();
+    return edk::light::Light::getPosition3f();
 }
 edk::float32 edk::light::Sun::getDirectionX(){
-    return edk::light::Light::getDirectionX();edkEnd();
+    return edk::light::Light::getDirectionX();
 }
 edk::float32 edk::light::Sun::getDirectionY(){
-    return edk::light::Light::getDirectionY();edkEnd();
+    return edk::light::Light::getDirectionY();
 }
 edk::float32 edk::light::Sun::getDirectionZ(){
-    return edk::light::Light::getDirectionZ();edkEnd();
+    return edk::light::Light::getDirectionZ();
 }
 edk::vec2f32 edk::light::Sun::getDirection2f(){
-    return edk::light::Light::getDirection2f();edkEnd();
+    return edk::light::Light::getDirection2f();
 }
 edk::vec3f32 edk::light::Sun::getDirection3f(){
-    return edk::light::Light::getDirection3f();edkEnd();
+    return edk::light::Light::getDirection3f();
 }

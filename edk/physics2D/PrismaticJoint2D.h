@@ -42,6 +42,10 @@ namespace physics2D{
 class PrismaticJoint2D : public edk::physics2D::Joint2D{
 public:
     PrismaticJoint2D(bool collide=false);
+    ~PrismaticJoint2D();
+
+    void Constuctor(bool collide=false);
+    void Destuctor();
 
     //set motor
     void setForce(edk::float32 maxForce,edk::float32 speed);
@@ -64,6 +68,8 @@ private:
     edk::float32 maxForce;
     edk::float32 speed;
     edk::uint8 prismaticType;
+private:
+    edk::classID classThis;
 };
 }
 }

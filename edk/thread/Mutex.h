@@ -40,18 +40,23 @@ namespace edk {
 namespace multi{
 class MutexDisable{
 public:
-    MutexDisable(){this->classThis=NULL;this->Constructor(false);edkEnd();}
+    MutexDisable(){
+        this->classThis=NULL;
+        this->Constructor();
+    }
     virtual ~MutexDisable(){
-        if(this->classThis==this){
-            this->classThis=NULL;edkEnd();
-            //can destruct the class
-        }
+        this->Destructor();
     }
 
-    void Constructor(bool runFather=true){
-        if(runFather){edkEnd();}
+    void Constructor(){
         if(this->classThis!=this){
             this->classThis=this;
+        }
+    }
+    void Destructor(){
+        if(this->classThis==this){
+            this->classThis=NULL;
+            //can destruct the class
         }
     }
 
@@ -69,7 +74,8 @@ public:
     Mutex();
     virtual ~Mutex();
 
-    void Constructor(bool runFather=true);
+    void Constructor();
+    void Destructor();
 
     //set the debugFile Name
     static bool createDebugFile(const edk::char8* name);
@@ -124,17 +130,17 @@ private:
                         if(str){
                             //write this string into the file
 #if defined( WIN32) || defined( WIN64)
-                            WaitForSingleObject(edk::multi::Mutex::mutDebug,INFINITE);edkEnd();
+                            WaitForSingleObject(edk::multi::Mutex::mutDebug,INFINITE);
 #endif
 #if defined(__linux__)/*LINUX*/ || defined(__APPLE__)//MAC OS
-                            pthread_mutex_lock(&edk::multi::Mutex::mutDebug);edkEnd();
+                            pthread_mutex_lock(&edk::multi::Mutex::mutDebug);
 #endif
                             edk::multi::Mutex::debugFile.writeDebug(str);
 #if defined( WIN32) || defined( WIN64)
-                            ReleaseMutex(edk::multi::Mutex::mutDebug);edkEnd();
+                            ReleaseMutex(edk::multi::Mutex::mutDebug);
 #endif
 #if defined(__linux__)/*LINUX*/ || defined(__APPLE__)//MAC OS
-                            pthread_mutex_unlock(&edk::multi::Mutex::mutDebug);edkEnd();
+                            pthread_mutex_unlock(&edk::multi::Mutex::mutDebug);
 #endif
                             free(str);
                         }
@@ -157,20 +163,20 @@ private:
             edk::char8* str = edk::String::strCatMulti("\n",mutFunction," ",text,NULL);
             if(str){
 #if defined( WIN32) || defined( WIN64)
-                WaitForSingleObject(edk::multi::Mutex::mutDebug,INFINITE);edkEnd();
+                WaitForSingleObject(edk::multi::Mutex::mutDebug,INFINITE);
 #endif
 #if defined(__linux__)/*LINUX*/ || defined(__APPLE__)//MAC OS
-                pthread_mutex_lock(&edk::multi::Mutex::mutDebug);edkEnd();
+                pthread_mutex_lock(&edk::multi::Mutex::mutDebug);
 #endif
                 edk::multi::Mutex::debugFile.writeDebug("\n");
                 edk::multi::Mutex::debugFile.writeDebug(mutFunction);
                 edk::multi::Mutex::debugFile.writeDebug(" ");
                 edk::multi::Mutex::debugFile.writeDebug(text);
 #if defined( WIN32) || defined( WIN64)
-                ReleaseMutex(edk::multi::Mutex::mutDebug);edkEnd();
+                ReleaseMutex(edk::multi::Mutex::mutDebug);
 #endif
 #if defined(__linux__)/*LINUX*/ || defined(__APPLE__)//MAC OS
-                pthread_mutex_unlock(&edk::multi::Mutex::mutDebug);edkEnd();
+                pthread_mutex_unlock(&edk::multi::Mutex::mutDebug);
 #endif
             }
         }

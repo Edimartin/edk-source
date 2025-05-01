@@ -66,19 +66,19 @@ void renderElement(typeTemplate value){
 }
 
 bool load(){
-    return edk::vector::StackStatic<typeTemplate>::load();edkEnd();
+    return edk::vector::StackStatic<typeTemplate>::load();
 }
 bool unload(){
-    return edk::vector::StackStatic<typeTemplate>::unload();edkEnd();
+    return edk::vector::StackStatic<typeTemplate>::unload();
 }
 bool update(){
-    return edk::vector::StackStatic<typeTemplate>::update();edkEnd();
+    return edk::vector::StackStatic<typeTemplate>::update();
 }
 bool print(){
-    return edk::vector::StackStatic<typeTemplate>::print();edkEnd();
+    return edk::vector::StackStatic<typeTemplate>::print();
 }
 bool render(){
-    return edk::vector::StackStatic<typeTemplate>::render();edkEnd();
+    return edk::vector::StackStatic<typeTemplate>::render();
 }
 */
 
@@ -88,44 +88,41 @@ template <class typeTemplate>
 class StackStaticCellLeaf : public edk::vector::ArrayStatic<edk::vector::ArrayStatic<typeTemplate>*>{
 public:
     //construtor
-    StackStaticCellLeaf(){}
+    StackStaticCellLeaf(){
+        edk::vector::ArrayStatic<edk::vector::ArrayStatic<typeTemplate>*>::Constructor();
+        this->classThis=NULL;
+        this->Constructor();
+    }
+    StackStaticCellLeaf(edk::uint32 size){
+        edk::vector::ArrayStatic<edk::vector::ArrayStatic<typeTemplate>*>::Constructor();
+        this->classThis=NULL;
+        this->Constructor(size);
+    }
     //Destrutor
-    virtual ~StackStaticCellLeaf(){}
+    virtual ~StackStaticCellLeaf(){
+        this->Destructor();
+    }
 
-    //construtor
-    virtual void construct(){
-        edk::vector::ArrayStatic<edk::vector::ArrayStatic<typeTemplate>*>::construct();
-        this->classThis=NULL;this->Constructor(false);edkEnd();
+    void Constructor(){
+        edk::vector::ArrayStatic<edk::vector::ArrayStatic<typeTemplate>*>::Constructor();
+        if(this->classThis!=this){
+            this->classThis=this;
+        }
     }
-    virtual void construct(edk::uint32 size){
-        edk::vector::ArrayStatic<edk::vector::ArrayStatic<typeTemplate>*>::construct();
-        this->classThis=NULL;this->Constructor(size,false);edkEnd();
+    void Constructor(edk::uint32 size){
+        edk::vector::ArrayStatic<edk::vector::ArrayStatic<typeTemplate>*>::Constructor();
+        if(this->classThis!=this){
+            this->classThis=this;
+            this->createArray(size);
+        }
     }
-    //Destrutor
-    virtual void destruct(){
+    void Destructor(){
         if(this->classThis==this){
-            this->classThis=NULL;edkEnd();
+            this->classThis=NULL;
             //can destruct the class
-            edk::vector::ArrayStatic<edk::vector::ArrayStatic<typeTemplate>*>::destruct();
+            edk::vector::ArrayStatic<edk::vector::ArrayStatic<typeTemplate>*>::Destructor();
         }
-    }
-
-    void Constructor(bool runFather=true){
-        if(runFather){
-            edk::vector::ArrayStatic<edk::vector::ArrayStatic<typeTemplate>*>::Constructor();edkEnd();
-        }
-        if(this->classThis!=this){
-            this->classThis=this;
-        }
-    }
-    void Constructor(edk::uint32 size,bool runFather=true){
-        if(runFather){
-            edk::vector::ArrayStatic<edk::vector::ArrayStatic<typeTemplate>*>::Constructor();edkEnd();
-        }
-        if(this->classThis!=this){
-            this->classThis=this;
-            this->createArray(size);edkEnd();
-        }
+        edk::vector::ArrayStatic<edk::vector::ArrayStatic<typeTemplate>*>::Destructor();
     }
 private:
     edk::classID classThis;
@@ -134,90 +131,96 @@ private:
 class StackStaticCell : public edk::vector::ArrayStatic<edk::classID>{
 public:
     //construtor
-    StackStaticCell(){}
+    StackStaticCell(){
+        edk::vector::ArrayStatic<edk::classID>::Constructor();
+        this->classThis=NULL;
+        this->Constructor();
+    }
+    StackStaticCell(edk::uint32 level){
+        edk::vector::ArrayStatic<edk::classID>::Constructor();
+        this->classThis=NULL;
+        this->Constructor(level);
+    }
+    StackStaticCell(edk::vector::StackStaticCell* father,edk::uint32 level){
+        edk::vector::ArrayStatic<edk::classID>::Constructor();
+        this->classThis=NULL;
+        this->Constructor(father,level);
+    }
+    StackStaticCell(edk::uint32 size,edk::uint32 level){
+        edk::vector::ArrayStatic<edk::classID>::Constructor();
+        this->classThis=NULL;
+        this->Constructor(size,level);
+    }
+    StackStaticCell(edk::vector::StackStaticCell* father,edk::uint32 size,edk::uint32 level){
+        edk::vector::ArrayStatic<edk::classID>::Constructor();
+        this->classThis=NULL;
+        this->Constructor(father,size,level);
+    }
     //Destrutor
-    virtual ~StackStaticCell(){}
+    virtual ~StackStaticCell(){
+        this->Destructor();
+    }
 
-    //construtor
-    virtual void construct(edk::uint32 level){
-        edk::vector::ArrayStatic<edk::classID>::construct();
-        this->classThis=NULL;edkEnd();
-        this->Constructor(level,false);edkEnd();
+    void Constructor(){
+        edk::vector::ArrayStatic<edk::classID>::Constructor();
+        if(this->classThis!=this){
+            this->classThis=this;
+            this->level = 0u;
+            this->father=NULL;
+            this->position=0u;
+            this->readPosition=0u;
+        }
     }
-    virtual void construct(edk::vector::StackStaticCell* father,edk::uint32 level){
-        edk::vector::ArrayStatic<edk::classID>::construct();
-        this->classThis=NULL;edkEnd();
-        this->Constructor(father,level,false);edkEnd();
+    void Constructor(edk::uint32 level){
+        edk::vector::ArrayStatic<edk::classID>::Constructor();
+        if(this->classThis!=this){
+            this->classThis=this;
+            this->level = level;
+            this->father=NULL;
+            this->position=0u;
+            this->readPosition=0u;
+        }
     }
-    virtual void construct(edk::uint32 size,edk::uint32 level){
-        edk::vector::ArrayStatic<edk::classID>::construct();
-        this->classThis=NULL;edkEnd();
-        this->Constructor(size,level,false);edkEnd();
+    void Constructor(edk::vector::StackStaticCell* father,edk::uint32 level){
+        edk::vector::ArrayStatic<edk::classID>::Constructor();
+        if(this->classThis!=this){
+            this->classThis=this;
+            this->level = level;
+            this->father=father;
+            this->position=0u;
+            this->readPosition=0u;
+        }
     }
-    virtual void construct(edk::vector::StackStaticCell* father,edk::uint32 size,edk::uint32 level){
-        edk::vector::ArrayStatic<edk::classID>::construct();
-        this->classThis=NULL;edkEnd();
-        this->Constructor(father,size,level,false);edkEnd();
+    void Constructor(edk::uint32 size,edk::uint32 level){
+        edk::vector::ArrayStatic<edk::classID>::Constructor();
+        if(this->classThis!=this){
+            this->classThis=this;
+            this->father=NULL;
+            this->level = level;
+            this->position=0u;
+            this->readPosition=0u;
+            this->createArray(size);
+        }
     }
-    //Destrutor
-    virtual void destruct(){
+    void Constructor(edk::vector::StackStaticCell* father,edk::uint32 size,edk::uint32 level){
+        edk::vector::ArrayStatic<edk::classID>::Constructor();
+        if(this->classThis!=this){
+            this->classThis=this;
+            this->father=father;
+            this->level = level;
+            this->createArray(size);
+            this->position=0u;
+            this->readPosition=0u;
+        }
+    }
+    void Destructor(){
         if(this->classThis==this){
-            this->classThis=NULL;edkEnd();
+            this->classThis=NULL;
             //can destruct the class
             this->clean();
-            edk::vector::ArrayStatic<edk::classID>::destruct();
+            edk::vector::ArrayStatic<edk::classID>::Destructor();
         }
-    }
-
-    void Constructor(edk::uint32 level,bool runFather=true){
-        if(runFather){
-            edk::vector::ArrayStatic<edk::classID>::Constructor();edkEnd();
-        }
-        if(this->classThis!=this){
-            this->classThis=this;
-            this->level = level;
-            this->father=NULL;
-            this->position=0u;
-            this->readPosition=0u;
-        }
-    }
-    void Constructor(edk::vector::StackStaticCell* father,edk::uint32 level,bool runFather=true){
-        if(runFather){
-            edk::vector::ArrayStatic<edk::classID>::Constructor();edkEnd();
-        }
-        if(this->classThis!=this){
-            this->classThis=this;
-            this->level = level;
-            this->father=father;
-            this->position=0u;
-            this->readPosition=0u;
-        }
-    }
-    void Constructor(edk::uint32 size,edk::uint32 level,bool runFather=true){
-        if(runFather){
-            edk::vector::ArrayStatic<edk::classID>::Constructor();edkEnd();
-        }
-        if(this->classThis!=this){
-            this->classThis=this;
-            this->father=NULL;
-            this->level = level;
-            this->position=0u;
-            this->readPosition=0u;
-            this->createArray(size);edkEnd();
-        }
-    }
-    void Constructor(edk::vector::StackStaticCell* father,edk::uint32 size,edk::uint32 level,bool runFather=true){
-        if(runFather){
-            edk::vector::ArrayStatic<edk::classID>::Constructor();edkEnd();
-        }
-        if(this->classThis!=this){
-            this->classThis=this;
-            this->father=father;
-            this->level = level;
-            this->createArray(size);edkEnd();
-            this->position=0u;
-            this->readPosition=0u;
-        }
+        edk::vector::ArrayStatic<edk::classID>::Destructor();
     }
 
     bool isLeaf(){return this->level==1u;}
@@ -235,41 +238,28 @@ template <class typeTemplate>
 class StackStatic{
 public:
     //Construtor
-    StackStatic(){}
-    //Destrutor
-    virtual ~StackStatic(){}
-
-    //Construtor
-    virtual void construct(){
-        this->removed.construct();
-        this->classThis=NULL;edkEnd();
-        this->Constructor(false);edkEnd();
+    StackStatic(){
+        this->classThis=NULL;
+        this->Constructor();
     }
     //Construtor with arraySize
-    virtual void construct(edk::uint32 arraySize){
-        this->removed.construct();
-        this->classThis=NULL;edkEnd();
-        this->Constructor(arraySize,true);edkEnd();
+    StackStatic(edk::uint32 arraySize){
+        this->removed.Constructor();
+        this->classThis=NULL;
+        this->Constructor(arraySize);
     }
     //Destrutor
-    virtual void destruct(){
-        if(this->classThis==this){
-            this->classThis=NULL;edkEnd();
-            //can destruct the class
-            //delete the array
-            this->clean();edkEnd();
-            //this->removed.cantDestruct();edkEnd();
-            (*this->removedPointer).destruct();
-        }
+    virtual ~StackStatic(){
+        this->Destructor();
     }
 
     //Construtor
-    void Constructor(bool runFather=true){
-        if(runFather){edkEnd();}
+    void Constructor(){
+        this->removed.Constructor();
         if(this->classThis!=this){
             this->classThis=this;
             //clean the vectors
-            this->StackArraySize=PatternArraySize;edkEnd();
+            this->StackArraySize=PatternArraySize;
             this->stackSize=0u;
 
             this->root=NULL;
@@ -281,21 +271,19 @@ public:
         }
     }
     //Construtor with arraySize
-    void Constructor(edk::uint32 arraySize,bool runFather=true){
-        if(runFather){edkEnd();}
+    void Constructor(edk::uint32 arraySize){
+        this->removed.Constructor();
         if(this->classThis!=this){
             this->classThis=this;
-
-            this->removed.Constructor();edkEnd();
 
             //Test if the arraySize is bigger then zero
             if(arraySize){
                 //
-                this->StackArraySize=arraySize;edkEnd();
+                this->StackArraySize=arraySize;
             }
             else{
                 //else set the Pattern
-                this->StackArraySize=PatternArraySize;edkEnd();
+                this->StackArraySize=PatternArraySize;
             }
             this->stackSize=0u;
 
@@ -305,6 +293,16 @@ public:
             this->removedPointer=&this->removed;
             this->stackSizePointer=&this->stackSize;
             this->stackArraySizePointer=&this->StackArraySize;
+        }
+    }
+    void Destructor(){
+        if(this->classThis==this){
+            this->classThis=NULL;
+            //can destruct the class
+            //delete the array
+            this->clean();
+            //this->removed.cantDestructor();
+            (*this->removedPointer).Destructor();
         }
     }
 
@@ -317,16 +315,16 @@ public:
             //create a new root with the first array
             (*this->rootPointer)=new edk::vector::StackStaticCell();
             if(*this->rootPointer){
-                (*this->rootPointer)->construct((*this->stackArraySizePointer),1u);
+                (*this->rootPointer)->Constructor((*this->stackArraySizePointer),1u);
                 //create the first array
                 edk::vector::ArrayStatic<typeTemplate>* temp = new edk::vector::ArrayStatic<typeTemplate>();
                 if(temp){
-                    temp->construct((*this->stackArraySizePointer));
+                    temp->Constructor((*this->stackArraySizePointer));
                     (*this->rootPointer)->set((*this->rootPointer)->position++,(edk::classID)temp);
                 }
                 else{
                     //else delete the root because we have a problem
-                    (*this->rootPointer)->destruct();
+                    (*this->rootPointer)->Destructor();
                     delete (*this->rootPointer);
                     (*this->rootPointer)=NULL;
                 }
@@ -381,7 +379,7 @@ public:
                                             //else is root
                                             (*this->rootPointer)=new edk::vector::StackStaticCell();
                                             if(*this->rootPointer){
-                                                (*this->rootPointer)->construct((*this->stackArraySizePointer),temp->getLevel()*(*this->stackArraySizePointer));
+                                                (*this->rootPointer)->Constructor((*this->stackArraySizePointer),temp->getLevel()*(*this->stackArraySizePointer));
                                                 //
                                                 temp->father=(*this->rootPointer);
                                                 (*this->rootPointer)->set((*this->rootPointer)->position++,temp);
@@ -400,7 +398,7 @@ public:
                                             //create a new stack
                                             newStack = new edk::vector::ArrayStatic<typeTemplate>();
                                             if(newStack){
-                                                newStack->construct((*this->stackArraySizePointer));
+                                                newStack->Constructor((*this->stackArraySizePointer));
                                                 temp->set(temp->position++,(edk::classID)newStack);
                                             }
                                             break;
@@ -409,7 +407,7 @@ public:
                                             //
                                             newCell = new edk::vector::StackStaticCell();
                                             if(newCell){
-                                                newCell->construct((*this->stackArraySizePointer),temp->getLevel()/(*this->stackArraySizePointer));
+                                                newCell->Constructor((*this->stackArraySizePointer),temp->getLevel()/(*this->stackArraySizePointer));
                                                 temp->set(temp->position++,newCell);
                                                 newCell->father=temp;
                                                 temp=newCell;
@@ -463,14 +461,14 @@ public:
                         else{
                             tempArray = (edk::vector::ArrayStatic<typeTemplate>*)temp->get(temp->position-1u);
                             if(tempArray){
-                                tempArray->destruct();
+                                tempArray->Destructor();
                                 delete tempArray;
                                 temp->set(temp->position-1u,NULL);
                                 temp->position--;
                                 if(!temp->position){
                                     temp2 = temp;
                                     temp->father=temp;
-                                    temp2->destruct();
+                                    temp2->Destructor();
                                     delete temp2;
                                     temp->set(temp->position-1u,NULL);
                                     temp->position--;
@@ -490,7 +488,7 @@ public:
                         if(tempArray){
                             temp->position--;
                             temp->set(temp->position,NULL);
-                            tempArray->destruct();
+                            tempArray->Destructor();
                             delete tempArray;
                             pos -= increment;
 
@@ -501,7 +499,7 @@ public:
                                 pos -= (*this->stackArraySizePointer)*temp->getLevel()*(temp->position-1u);
                                 temp->set(temp->position-1u,NULL);
                                 temp->position--;
-                                temp2->destruct();
+                                temp2->Destructor();
                                 delete temp2;
                             }
                         }
@@ -527,12 +525,12 @@ public:
                                         for(edk::uint32 i=0u;i<size;i++){
                                             tempID = (edk::vector::ArrayStatic<typeTemplate>*)(*this->rootPointer)->get(i);
                                             if(tempID){
-                                                tempID->destruct();
+                                                tempID->Destructor();
                                                 delete tempID;
                                             }
                                         }
                                         (*this->rootPointer)->clean();
-                                        (*this->rootPointer)->destruct();
+                                        (*this->rootPointer)->Destructor();
                                         delete (*this->rootPointer);
                                         (*this->rootPointer)=NULL;
                                     }
@@ -560,7 +558,7 @@ public:
                                     (*this->stackSizePointer)--;
                                 }
                                 if(!((*this->stackSizePointer))){
-                                    (*this->rootPointer)->destruct();
+                                    (*this->rootPointer)->Destructor();
                                     delete (*this->rootPointer);
                                     (*this->rootPointer)=NULL;
                                 }
@@ -584,7 +582,7 @@ public:
                         if(tempArray){
                             temp->position--;
                             temp->set(temp->position,NULL);
-                            tempArray->destruct();
+                            tempArray->Destructor();
                             delete tempArray;
                             pos -= increment;
 
@@ -594,7 +592,7 @@ public:
                                 temp2 = temp;
                                 temp=temp->father;
                                 pos -= (*this->stackArraySizePointer)*temp->getLevel()*(temp->position-1u);
-                                temp2->destruct();
+                                temp2->Destructor();
                                 delete temp2;
                             }
                         }
@@ -604,7 +602,7 @@ public:
                     if(temp->position==1u && temp==(*this->rootPointer)){
                         //remove the root
                         (*this->rootPointer)=(edk::vector::StackStaticCell*)temp->get(temp->position-1u);
-                        temp->destruct();
+                        temp->Destructor();
                         delete temp;
                         temp=(*this->rootPointer);
                     }
@@ -621,7 +619,7 @@ public:
                 pos -= (*this->stackArraySizePointer)*temp->getLevel()*(temp->position-1u);
                 temp->set(temp->position-1u,NULL);
                 temp->position--;
-                temp2->destruct();
+                temp2->Destructor();
                 delete temp2;
             }
         }
@@ -634,7 +632,7 @@ public:
     //delete all Stack
     void deleteStack(){
         //clean
-        this->clean();edkEnd();
+        this->clean();
     }
     //Copy the values inside the stack to a vector
     bool copyToVector(typeTemplate* vector){
@@ -659,8 +657,8 @@ public:
                                         i=0u;
                                         while(position<size){
                                             if(!(*this->removedPointer).haveElement(position)){
-                                                vector[0u] = arrayTemp->get(i);edkEnd();
-                                                vector++;edkEnd();
+                                                vector[0u] = arrayTemp->get(i);
+                                                vector++;
                                             }
                                             position++;
                                             i++;
@@ -678,8 +676,8 @@ public:
                                     if(arrayTemp){
                                         for(i=0u;i<(*this->stackArraySizePointer);i++){
                                             if(!(*this->removedPointer).haveElement(position)){
-                                                vector[0u] = arrayTemp->get(i);edkEnd();
-                                                vector++;edkEnd();
+                                                vector[0u] = arrayTemp->get(i);
+                                                vector++;
                                             }
                                             position++;
                                         }
@@ -727,8 +725,8 @@ public:
                                         size = (*this->stackSizePointer);
                                         i=0u;
                                         while(position<size){
-                                            vector[0u] = arrayTemp->get(i);edkEnd();
-                                            vector++;edkEnd();
+                                            vector[0u] = arrayTemp->get(i);
+                                            vector++;
                                             position++;
                                             i++;
                                         }
@@ -744,8 +742,8 @@ public:
                                     arrayTemp=(edk::vector::ArrayStatic<typeTemplate>*)temp->get(temp->readPosition++);
                                     if(arrayTemp){
                                         for(i=0u;i<(*this->stackArraySizePointer);i++){
-                                            vector[0u] = arrayTemp->get(i);edkEnd();
-                                            vector++;edkEnd();
+                                            vector[0u] = arrayTemp->get(i);
+                                            vector++;
                                             position++;
                                         }
                                     }
@@ -795,7 +793,7 @@ public:
                 while(temp->position){
                     tempArray = (edk::vector::ArrayStatic<typeTemplate>*)temp->get(temp->position-1u);
                     if(tempArray){
-                        tempArray->destruct();
+                        tempArray->Destructor();
                         delete tempArray;
                         temp->position--;
                     }
@@ -803,14 +801,14 @@ public:
                 //delete the leaf
                 if(temp->father){
                     temp2=temp->father;
-                    temp->destruct();
+                    temp->Destructor();
                     delete temp;
                     temp2->set(temp2->position-1u,NULL);
                     temp2->position--;
                     temp=temp2;
                 }
                 else if((*this->rootPointer) == temp){
-                    (*this->rootPointer)->destruct();
+                    (*this->rootPointer)->Destructor();
                     delete (*this->rootPointer);
                     (*this->rootPointer)=NULL;
                     temp=NULL;
@@ -828,14 +826,14 @@ public:
                 //delete the leaf
                 if(temp->father){
                     temp2=temp->father;
-                    temp->destruct();
+                    temp->Destructor();
                     delete temp;
                     temp2->set(temp2->position-1u,NULL);
                     temp2->position--;
                     temp=temp2;
                 }
                 else if((*this->rootPointer) == temp){
-                    (*this->rootPointer)->destruct();
+                    (*this->rootPointer)->Destructor();
                     delete (*this->rootPointer);
                     (*this->rootPointer)=NULL;
                     temp=NULL;
@@ -851,26 +849,26 @@ public:
     //Clean changing the Stack ArraySize
     void clean(edk::uint32 arraySize){
         //
-        this->clean();edkEnd();
+        this->clean();
         if(arraySize){
             //
-            (*this->stackArraySizePointer)=arraySize;edkEnd();
+            (*this->stackArraySizePointer)=arraySize;
         }
         else{
             //else set the Pattern
-            (*this->stackArraySizePointer)=PatternArraySize;edkEnd();
+            (*this->stackArraySizePointer)=PatternArraySize;
         }
     }
 
     //remove the element
     typeTemplate remove(edk::uint32 pos){
-        typeTemplate ret;edkEnd();
+        typeTemplate ret;
         //Test if don't have the element
         if(this->havePos(pos)){
             //tets if pos is the last
             if(pos==((*this->stackSizePointer))-1u){
                 //then popBack
-                ret = this->popBack();edkEnd();
+                ret = this->popBack();
 
 #if defined(EDK_DEBUG_VECTOR)
                 edkWriteClassDebug(this,pos,this->generateDebugValue(&ret),true);
@@ -878,13 +876,13 @@ public:
                 return ret;
             }
             //get the element value
-            //memcpy((void*)&ret,(void*)&this->get(arrayPos),sizeof(typeTemplate));edkEnd();
-            ret = this->get(pos);edkEnd();
-            typeTemplate set;edkEnd(); memset((void*)&set,0u,sizeof(typeTemplate));edkEnd();
+            //memcpy((void*)&ret,(void*)&this->get(arrayPos),sizeof(typeTemplate));
+            ret = this->get(pos);
+            typeTemplate set;  memset((void*)&set,0u,sizeof(typeTemplate));
             //then clean the pos
             if(this->set(pos,set)){
                 //and add the pos in to removed
-                (*this->removedPointer).add(pos);edkEnd();
+                (*this->removedPointer).add(pos);
 
                 //return the ret
 
@@ -896,7 +894,7 @@ public:
             //else clean the ret
         }
         //else return false
-        memset((void*)&ret,0u,sizeof(typeTemplate));edkEnd();
+        memset((void*)&ret,0u,sizeof(typeTemplate));
 #if defined(EDK_DEBUG_VECTOR)
         edkWriteClassDebug(this,pos,this->generateDebugValue(&ret),false);
 #endif
@@ -996,7 +994,7 @@ public:
             }
         }
         //else return false
-        typeTemplate ret;edkEnd(); memset((void*)&ret,0u,sizeof(typeTemplate));edkEnd();
+        typeTemplate ret;  memset((void*)&ret,0u,sizeof(typeTemplate));
 #if defined(EDK_DEBUG_VECTOR)
         edkWriteClassDebug(this,pos,this->generateDebugValue(&ret),false);
 #endif
@@ -1024,7 +1022,7 @@ public:
                                     i=0u;
                                     while(position<size){
                                         if(!(*this->removedPointer).haveElement(position)){
-                                            this->loadElement(arrayTemp->get(i));edkEnd();
+                                            this->loadElement(arrayTemp->get(i));
                                         }
                                         position++;
                                         i++;
@@ -1042,7 +1040,7 @@ public:
                                 if(arrayTemp){
                                     for(i=0u;i<(*this->stackArraySizePointer);i++){
                                         if(!(*this->removedPointer).haveElement(position)){
-                                            this->loadElement(arrayTemp->get(i));edkEnd();
+                                            this->loadElement(arrayTemp->get(i));
                                         }
                                         position++;
                                     }
@@ -1090,7 +1088,7 @@ public:
                                     size = (*this->stackSizePointer);
                                     i=0u;
                                     while(position<size){
-                                        this->loadElement(arrayTemp->get(i));edkEnd();
+                                        this->loadElement(arrayTemp->get(i));
                                         position++;
                                         i++;
                                     }
@@ -1106,7 +1104,7 @@ public:
                                 arrayTemp=(edk::vector::ArrayStatic<typeTemplate>*)temp->get(temp->readPosition++);
                                 if(arrayTemp){
                                     for(i=0u;i<(*this->stackArraySizePointer);i++){
-                                        this->loadElement(arrayTemp->get(i));edkEnd();
+                                        this->loadElement(arrayTemp->get(i));
                                         position++;
                                     }
                                 }
@@ -1168,7 +1166,7 @@ public:
                                     i=0u;
                                     while(position<size){
                                         if(!(*this->removedPointer).haveElement(position)){
-                                            this->unloadElement(arrayTemp->get(i));edkEnd();
+                                            this->unloadElement(arrayTemp->get(i));
                                         }
                                         position++;
                                         i++;
@@ -1186,7 +1184,7 @@ public:
                                 if(arrayTemp){
                                     for(i=0u;i<(*this->stackArraySizePointer);i++){
                                         if(!(*this->removedPointer).haveElement(position)){
-                                            this->unloadElement(arrayTemp->get(i));edkEnd();
+                                            this->unloadElement(arrayTemp->get(i));
                                         }
                                         position++;
                                     }
@@ -1234,7 +1232,7 @@ public:
                                     size = (*this->stackSizePointer);
                                     i=0u;
                                     while(position<size){
-                                        this->unloadElement(arrayTemp->get(i));edkEnd();
+                                        this->unloadElement(arrayTemp->get(i));
                                         position++;
                                         i++;
                                     }
@@ -1250,7 +1248,7 @@ public:
                                 arrayTemp=(edk::vector::ArrayStatic<typeTemplate>*)temp->get(temp->readPosition++);
                                 if(arrayTemp){
                                     for(i=0u;i<(*this->stackArraySizePointer);i++){
-                                        this->unloadElement(arrayTemp->get(i));edkEnd();
+                                        this->unloadElement(arrayTemp->get(i));
                                         position++;
                                     }
                                 }
@@ -1312,7 +1310,7 @@ public:
                                     i=0u;
                                     while(position<size){
                                         if(!(*this->removedPointer).haveElement(position)){
-                                            this->updateElement(arrayTemp->get(i));edkEnd();
+                                            this->updateElement(arrayTemp->get(i));
                                         }
                                         position++;
                                         i++;
@@ -1330,7 +1328,7 @@ public:
                                 if(arrayTemp){
                                     for(i=0u;i<(*this->stackArraySizePointer);i++){
                                         if(!(*this->removedPointer).haveElement(position)){
-                                            this->updateElement(arrayTemp->get(i));edkEnd();
+                                            this->updateElement(arrayTemp->get(i));
                                         }
                                         position++;
                                     }
@@ -1378,7 +1376,7 @@ public:
                                     size = (*this->stackSizePointer);
                                     i=0u;
                                     while(position<size){
-                                        this->updateElement(arrayTemp->get(i));edkEnd();
+                                        this->updateElement(arrayTemp->get(i));
                                         position++;
                                         i++;
                                     }
@@ -1394,7 +1392,7 @@ public:
                                 arrayTemp=(edk::vector::ArrayStatic<typeTemplate>*)temp->get(temp->readPosition++);
                                 if(arrayTemp){
                                     for(i=0u;i<(*this->stackArraySizePointer);i++){
-                                        this->updateElement(arrayTemp->get(i));edkEnd();
+                                        this->updateElement(arrayTemp->get(i));
                                         position++;
                                     }
                                 }
@@ -1455,7 +1453,7 @@ public:
                                     i=0u;
                                     while(position<size){
                                         if(!(*this->removedPointer).haveElement(position)){
-                                            this->printElement(arrayTemp->get(i));edkEnd();
+                                            this->printElement(arrayTemp->get(i));
                                         }
                                         position++;
                                         i++;
@@ -1473,7 +1471,7 @@ public:
                                 if(arrayTemp){
                                     for(i=0u;i<(*this->stackArraySizePointer);i++){
                                         if(!(*this->removedPointer).haveElement(position)){
-                                            this->printElement(arrayTemp->get(i));edkEnd();
+                                            this->printElement(arrayTemp->get(i));
                                         }
                                         position++;
                                     }
@@ -1521,7 +1519,7 @@ public:
                                     size = (*this->stackSizePointer);
                                     i=0u;
                                     while(position<size){
-                                        this->printElement(arrayTemp->get(i));edkEnd();
+                                        this->printElement(arrayTemp->get(i));
                                         position++;
                                         i++;
                                     }
@@ -1537,7 +1535,7 @@ public:
                                 arrayTemp=(edk::vector::ArrayStatic<typeTemplate>*)temp->get(temp->readPosition++);
                                 if(arrayTemp){
                                     for(i=0u;i<(*this->stackArraySizePointer);i++){
-                                        this->printElement(arrayTemp->get(i));edkEnd();
+                                        this->printElement(arrayTemp->get(i));
                                         position++;
                                     }
                                 }
@@ -1598,7 +1596,7 @@ public:
                                     i=0u;
                                     while(position<size){
                                         if(!(*this->removedPointer).haveElement(position)){
-                                            this->renderElement(arrayTemp->get(i));edkEnd();
+                                            this->renderElement(arrayTemp->get(i));
                                         }
                                         position++;
                                         i++;
@@ -1616,7 +1614,7 @@ public:
                                 if(arrayTemp){
                                     for(i=0u;i<(*this->stackArraySizePointer);i++){
                                         if(!(*this->removedPointer).haveElement(position)){
-                                            this->renderElement(arrayTemp->get(i));edkEnd();
+                                            this->renderElement(arrayTemp->get(i));
                                         }
                                         position++;
                                     }
@@ -1664,7 +1662,7 @@ public:
                                     size = (*this->stackSizePointer);
                                     i=0u;
                                     while(position<size){
-                                        this->renderElement(arrayTemp->get(i));edkEnd();
+                                        this->renderElement(arrayTemp->get(i));
                                         position++;
                                         i++;
                                     }
@@ -1680,7 +1678,7 @@ public:
                                 arrayTemp=(edk::vector::ArrayStatic<typeTemplate>*)temp->get(temp->readPosition++);
                                 if(arrayTemp){
                                     for(i=0u;i<(*this->stackArraySizePointer);i++){
-                                        this->renderElement(arrayTemp->get(i));edkEnd();
+                                        this->renderElement(arrayTemp->get(i));
                                         position++;
                                     }
                                 }
@@ -1722,14 +1720,14 @@ public:
     //get the size
     edk::uint32 getSize(){
         //
-        return this->size();edkEnd();
+        return this->size();
     }
     //return the size
     inline edk::uint32 size(){
         return (*this->stackSizePointer);
     }
     edk::uint32 sizeRemoved(){
-        return (*this->removedPointer).size();edkEnd();
+        return (*this->removedPointer).size();
     }
 
     //test if have the pos
@@ -2086,7 +2084,7 @@ public:
         //test if have the position and if the position is plus zero
         if(this->havePos(position) && position<((*this->stackSizePointer)-1u)){
             //then swap one front
-            return this->swap(position,position+1u);edkEnd();
+            return this->swap(position,position+1u);
         }
         //else return false
         return false;
@@ -2095,7 +2093,7 @@ public:
         //test if have the position and if the position is plus zero
         if(this->havePos(position) && position>0u){
             //then swap one front
-            return this->swap(position,position-1u);edkEnd();
+            return this->swap(position,position-1u);
         }
         //else return false
         return false;
@@ -2107,7 +2105,7 @@ public:
             //swap all the positions on the way
             for(edk::uint32 i=position;i<position+times;i++){
                 //swap the positions
-                this->swap(i,i+1u);edkEnd();
+                this->swap(i,i+1u);
             }
             //return true
             return true;
@@ -2122,7 +2120,7 @@ public:
             //swap all the positions on the way
             for(edk::uint32 i=position;i>position-times;i--){
                 //swap the positions
-                this->swap(i,i-1u);edkEnd();
+                this->swap(i,i-1u);
             }
             //return true
             return true;
@@ -2134,11 +2132,11 @@ public:
         //test if the position is plus or minus
         if(position2>position){
             //position2 is plus
-            return this->bringPositionPlusTimes(position,position2-position);edkEnd();
+            return this->bringPositionPlusTimes(position,position2-position);
         }
         else{
             //position2 is minus
-            return this->bringPositionMinusTimes(position,position-position2);edkEnd();
+            return this->bringPositionMinusTimes(position,position-position2);
         }
         //else return false
         return false;
@@ -2149,17 +2147,17 @@ public:
     //[] //To return the object in the pos
     typeTemplate operator[](edk::uint32 pos){
         //
-        return this->get(pos);edkEnd();
+        return this->get(pos);
     }
     */
     virtual bool cloneFrom(edk::vector::StackStatic<typeTemplate>* ret){
         //clean the vector
-        this->clean();edkEnd();
+        this->clean();
         if(ret){
             //copy the types from the ret
             for(edk::uint32 i=0u;i<ret->size();i++){
                 //copy
-                this->pushBack(ret->get(i));edkEnd();
+                this->pushBack(ret->get(i));
             }
             return true;
         }
@@ -2299,12 +2297,12 @@ private:
 private:
 #if defined(EDK_DEBUG_VECTOR)
     inline edk::uint64 generateDebugValue(typeTemplate* value){
-        edk::uint64 newValue=0uL;edkEnd();
+        edk::uint64 newValue=0uL;
         if(sizeof(typeTemplate)>=sizeof(newValue)){
-            memcpy((void*)&newValue,(void*)value,sizeof(newValue));edkEnd();
+            memcpy((void*)&newValue,(void*)value,sizeof(newValue));
         }
         else{
-            memcpy((void*)&newValue,(void*)value,sizeof(typeTemplate));edkEnd();
+            memcpy((void*)&newValue,(void*)value,sizeof(typeTemplate));
         }
         return newValue;
     }
@@ -2315,76 +2313,75 @@ private:
 
 class StackStaticNames: private edk::vector::StackStatic<edk::Name*>{
 public:
-    StackStaticNames(){}
-    virtual ~StackStaticNames(){}
-
-    virtual void construct(){
-        this->classThis=NULL;edkEnd();
-        this->Constructor(false);edkEnd();
+    StackStaticNames(){
+        this->classThis=NULL;
+        this->Constructor();
     }
-    virtual void destruct(){
-        if(this->classThis==this){
-            this->classThis=NULL;edkEnd();
-            //can destruct the class
-            this->clean();edkEnd();
-        }
+    virtual ~StackStaticNames(){
+        this->Destructor();
     }
 
-    void Constructor(bool runFather=true){
-        if(runFather){
-            edk::vector::StackStatic<edk::Name*>::Constructor();edkEnd();
-        }
+    void Constructor(){
+        edk::vector::StackStatic<edk::Name*>::Constructor();
         if(this->classThis!=this){
             this->classThis=this;
 
-            this->tree.Constructor();edkEnd();
+            this->tree.Constructor();
 
             this->treePointer=&this->tree;
         }
+    }
+    void Destructor(){
+        if(this->classThis==this){
+            this->classThis=NULL;
+            //can destruct the class
+            this->clean();
+        }
+        edk::vector::StackStatic<edk::Name*>::Destructor();
     }
 
     //ADDS
     //pushBack the object
     edk::uint32 pushBack(const edk::char8* str){
-        return this->pushBack((edk::char8*) str);edkEnd();
+        return this->pushBack((edk::char8*) str);
     }
     edk::uint32 pushBack(edk::char8* str){
         //test the string
         if(str){
             //create a new Name
-            edk::Name* name = new edk::Name;edkEnd();
+            edk::Name* name = new edk::Name;
             if(name){
                 //set the name
                 if(name->setName(str)){
-                    edk::uint32 size = edk::vector::StackStatic<edk::Name*>::size();edkEnd();
-                    edk::uint32 pos= edk::vector::StackStatic<edk::Name*>::pushBack(name);edkEnd();
+                    edk::uint32 size = edk::vector::StackStatic<edk::Name*>::size();
+                    edk::uint32 pos= edk::vector::StackStatic<edk::Name*>::pushBack(name);
                     if(size<edk::vector::StackStatic<edk::Name*>::size()){
                         //push the position
-                        (*this->treePointer).add(pos);edkEnd();
-                        return pos;edkEnd();
+                        (*this->treePointer).add(pos);
+                        return pos;
                     }
                 }
-                delete name;edkEnd();
+                delete name;
             }
         }
         //else return false
-        return 0u;edkEnd();
+        return 0u;
     }
     edk::uint32 pushBack(edk::Name* name){
-        return edk::vector::StackStatic<edk::Name*>::pushBack(name);edkEnd();
+        return edk::vector::StackStatic<edk::Name*>::pushBack(name);
     }
 
     //DELETE
     //Remove the top
     bool popBack(){
         if(edk::vector::StackStatic<edk::Name*>::size()){
-            edk::Name* name = edk::vector::StackStatic<edk::Name*>::popBack();edkEnd();
+            edk::Name* name = edk::vector::StackStatic<edk::Name*>::popBack();
             if(name){
                 //test if need remove the name
                 if((*this->treePointer).haveElement(edk::vector::StackStatic<edk::Name*>::size())){
-                    (*this->treePointer).remove(edk::vector::StackStatic<edk::Name*>::size());edkEnd();
+                    (*this->treePointer).remove(edk::vector::StackStatic<edk::Name*>::size());
                     //delete the last name removed
-                    delete name;edkEnd();
+                    delete name;
                 }
                 return true;
             }
@@ -2395,35 +2392,35 @@ public:
     //delete all Stack
     void deleteStack(){
         //clean
-        this->clean();edkEnd();
+        this->clean();
     }
     //clean the Stack
     void clean(){
         //delete all the names
-        this->_deleteAllNames();edkEnd();
+        this->_deleteAllNames();
         //in the end it need clean the stack with deleted pointers
-        edk::vector::StackStatic<edk::Name*>::clean();edkEnd();
+        edk::vector::StackStatic<edk::Name*>::clean();
     }
     //Clean changing the Stack ArraySize
     void clean(edk::uint32 arraySize){
         //delete all the names
-        this->_deleteAllNames();edkEnd();
+        this->_deleteAllNames();
         //in the end it need clean the stack with deleted pointers
-        edk::vector::StackStatic<edk::Name*>::clean(arraySize);edkEnd();
+        edk::vector::StackStatic<edk::Name*>::clean(arraySize);
     }
 
     //remove the element
     bool remove(edk::uint32 pos){
         //get the name in the position
-        edk::Name* name = edk::vector::StackStatic<edk::Name*>::get(pos);edkEnd();
+        edk::Name* name = edk::vector::StackStatic<edk::Name*>::get(pos);
         if(name){
             //remove
             if(edk::vector::StackStatic<edk::Name*>::remove(pos)){
                 //test if have the name position to delete
                 if((*this->treePointer).haveElement(pos)){
-                    (*this->treePointer).remove(pos);edkEnd();
+                    (*this->treePointer).remove(pos);
                     //delete the name
-                    delete name;edkEnd();
+                    delete name;
                 }
                 return true;
             }
@@ -2439,12 +2436,12 @@ public:
     bool set(edk::uint32 pos,edk::char8* str){
         if(str){
             //get the name in the position
-            edk::Name* name = edk::vector::StackStatic<edk::Name*>::get(pos);edkEnd();
+            edk::Name* name = edk::vector::StackStatic<edk::Name*>::get(pos);
             if(name){
                 //test if have the position in the tree
                 if((*this->treePointer).haveElement(pos)){
                     //set the new string
-                    return name->setName(str);edkEnd();
+                    return name->setName(str);
                 }
             }
         }
@@ -2454,20 +2451,20 @@ public:
     bool set(edk::uint32 pos,edk::Name* nameObject){
         if(nameObject){
             //get the name in the position
-            edk::Name* name = edk::vector::StackStatic<edk::Name*>::get(pos);edkEnd();
+            edk::Name* name = edk::vector::StackStatic<edk::Name*>::get(pos);
             if(name){
                 //test if have the position in the tree
                 if((*this->treePointer).haveElement(pos)){
-                    (*this->treePointer).remove(pos);edkEnd();
+                    (*this->treePointer).remove(pos);
                     //set the new object
                     if(edk::vector::StackStatic<edk::Name*>::set(pos,nameObject)){
                         //delete the temp
-                        delete name;edkEnd();
+                        delete name;
                     }
                 }
                 else{
                     //else just set the object
-                    return edk::vector::StackStatic<edk::Name*>::set(pos,nameObject);edkEnd();
+                    return edk::vector::StackStatic<edk::Name*>::set(pos,nameObject);
                 }
             }
         }
@@ -2481,10 +2478,10 @@ public:
         //else return false
         if(this->havePos(pos)){
             //get the name in the position
-            edk::Name* name = edk::vector::StackStatic<edk::Name*>::get(pos);edkEnd();
+            edk::Name* name = edk::vector::StackStatic<edk::Name*>::get(pos);
             if(name){
                 //return the string
-                return name;edkEnd();
+                return name;
             }
         }
         //else return NULL
@@ -2493,13 +2490,13 @@ public:
     //get the object
     edk::char8* getName(edk::uint32 pos){
         //else return false
-        edk::char8* ret=NULL;edkEnd();
+        edk::char8* ret=NULL;
         if(this->havePos(pos)){
             //get the name in the position
-            edk::Name* name = edk::vector::StackStatic<edk::Name*>::get(pos);edkEnd();
+            edk::Name* name = edk::vector::StackStatic<edk::Name*>::get(pos);
             if(name){
                 //return the string
-                ret = name->getName();edkEnd();
+                ret = name->getName();
             }
         }
 #pragma GCC diagnostic push
@@ -2511,22 +2508,22 @@ public:
     //get the size
     edk::uint32 getSize(){
         //
-        return edk::vector::StackStatic<edk::Name*>::getSize();edkEnd();
+        return edk::vector::StackStatic<edk::Name*>::getSize();
     }
     //return the size
     edk::uint32 size(){
         //
-        return edk::vector::StackStatic<edk::Name*>::size();edkEnd();
+        return edk::vector::StackStatic<edk::Name*>::size();
     }
     edk::uint32 sizeRemoved(){
-        return edk::vector::StackStatic<edk::Name*>::sizeRemoved();edkEnd();
+        return edk::vector::StackStatic<edk::Name*>::sizeRemoved();
     }
 
     //test if have the pos
     bool havePos(edk::uint32 pos){
         if(pos<this->size()){
             //get the name in the position
-            edk::Name* name = edk::vector::StackStatic<edk::Name*>::get(pos);edkEnd();
+            edk::Name* name = edk::vector::StackStatic<edk::Name*>::get(pos);
             if(name){
                 if(name->size()){
                     return true;
@@ -2537,31 +2534,31 @@ public:
     }
     //find the position of the object
     edk::uint32 find(const edk::char8* str){
-        return this->find((edk::char8*) str);edkEnd();
+        return this->find((edk::char8*) str);
     }
     edk::uint32 find(edk::char8* str){
         //find the string in the stack
-        edk::Name* name=NULL;edkEnd();
-        edk::uint32 size = edk::vector::StackStatic<edk::Name*>::size();edkEnd();
+        edk::Name* name=NULL;
+        edk::uint32 size = edk::vector::StackStatic<edk::Name*>::size();
         for(edk::uint32 i=0u;i<size;i++){
-            name = edk::vector::StackStatic<edk::Name*>::get(i);edkEnd();
+            name = edk::vector::StackStatic<edk::Name*>::get(i);
             if(name){
                 if(edk::String::strCompare(name->getName(),str)){
-                    return i;edkEnd();
+                    return i;
                 }
             }
         }
-        return 0u;edkEnd();
+        return 0u;
     }
     bool haveString(const edk::char8* str){
-        return this->haveString((edk::char8*) str);edkEnd();
+        return this->haveString((edk::char8*) str);
     }
     bool haveString(edk::char8* str){
         //find the string in the stack
-        edk::Name* name=NULL;edkEnd();
-        edk::uint32 size = edk::vector::StackStatic<edk::Name*>::size();edkEnd();
+        edk::Name* name=NULL;
+        edk::uint32 size = edk::vector::StackStatic<edk::Name*>::size();
         for(edk::uint32 i=0u;i<size;i++){
-            name = edk::vector::StackStatic<edk::Name*>::get(i);edkEnd();
+            name = edk::vector::StackStatic<edk::Name*>::get(i);
             if(name){
                 if(edk::String::strCompare(name->getName(),str)){
                     return true;
@@ -2577,21 +2574,21 @@ public:
         if((*this->treePointer).haveElement(pos1) && !(*this->treePointer).haveElement(pos2)){
             if(edk::vector::StackStatic<edk::Name*>::swap(pos1,pos2)){
                 //swap the positions in the tree
-                (*this->treePointer).remove(pos1);edkEnd();
-                (*this->treePointer).add(pos2);edkEnd();
+                (*this->treePointer).remove(pos1);
+                (*this->treePointer).add(pos2);
                 return true;
             }
         }
         else if((*this->treePointer).haveElement(pos2)){
             if(edk::vector::StackStatic<edk::Name*>::swap(pos1,pos2)){
                 //swap the positions in the tree
-                (*this->treePointer).remove(pos2);edkEnd();
-                (*this->treePointer).add(pos1);edkEnd();
+                (*this->treePointer).remove(pos2);
+                (*this->treePointer).add(pos1);
                 return true;
             }
         }
         //else just swap
-        return edk::vector::StackStatic<edk::Name*>::swap(pos1,pos2);edkEnd();
+        return edk::vector::StackStatic<edk::Name*>::swap(pos1,pos2);
     }
 
     //Move position object
@@ -2601,22 +2598,22 @@ public:
             if((*this->treePointer).haveElement(position) && !(*this->treePointer).haveElement(position+1u)){
                 if(edk::vector::StackStatic<edk::Name*>::bringPositionPlusOne(position)){
                     //swap the positions in the tree
-                    (*this->treePointer).remove(position);edkEnd();
-                    (*this->treePointer).add(position+1u);edkEnd();
+                    (*this->treePointer).remove(position);
+                    (*this->treePointer).add(position+1u);
                     return true;
                 }
             }
             else if((*this->treePointer).haveElement(position+1u)){
                 if(edk::vector::StackStatic<edk::Name*>::bringPositionPlusOne(position)){
                     //swap the positions in the tree
-                    (*this->treePointer).remove(position+1u);edkEnd();
-                    (*this->treePointer).add(position);edkEnd();
+                    (*this->treePointer).remove(position+1u);
+                    (*this->treePointer).add(position);
                     return true;
                 }
             }
         }
         //else just swap
-        return edk::vector::StackStatic<edk::Name*>::bringPositionPlusOne(position);edkEnd();
+        return edk::vector::StackStatic<edk::Name*>::bringPositionPlusOne(position);
     }
     bool bringPositionMinusOne(edk::uint32 position){
         if(position && edk::vector::StackStatic<edk::Name*>::size()>position){
@@ -2624,29 +2621,29 @@ public:
             if((*this->treePointer).haveElement(position) && !(*this->treePointer).haveElement(position-1u)){
                 if(edk::vector::StackStatic<edk::Name*>::bringPositionMinusOne(position)){
                     //swap the positions in the tree
-                    (*this->treePointer).remove(position);edkEnd();
-                    (*this->treePointer).add(position-1u);edkEnd();
+                    (*this->treePointer).remove(position);
+                    (*this->treePointer).add(position-1u);
                     return true;
                 }
             }
             else if((*this->treePointer).haveElement(position-1u)){
                 if(edk::vector::StackStatic<edk::Name*>::bringPositionMinusOne(position)){
                     //swap the positions in the tree
-                    (*this->treePointer).remove(position-1u);edkEnd();
-                    (*this->treePointer).add(position);edkEnd();
+                    (*this->treePointer).remove(position-1u);
+                    (*this->treePointer).add(position);
                     return true;
                 }
             }
         }
         //else just swap
-        return edk::vector::StackStatic<edk::Name*>::bringPositionMinusOne(position);edkEnd();
+        return edk::vector::StackStatic<edk::Name*>::bringPositionMinusOne(position);
     }
     //Move a count
     bool bringPositionPlusTimes(edk::uint32 position,edk::uint32 times){
         if(edk::vector::StackStatic<edk::Name*>::size()>position+times){
-            edk::uint32 size = position+times;edkEnd();
+            edk::uint32 size = position+times;
             for(edk::uint32 i=position;i<size;i++){
-                this->bringPositionPlusOne(i);edkEnd();
+                this->bringPositionPlusOne(i);
             }
             return true;
         }
@@ -2654,9 +2651,9 @@ public:
     }
     bool bringPositionMinusTimes(edk::uint32 position,edk::uint32 times){
         if(position>times && edk::vector::StackStatic<edk::Name*>::size()>position){
-            edk::uint32 limit = position - times;edkEnd();
+            edk::uint32 limit = position - times;
             for(edk::uint32 i=position;i>limit;i--){
-                this->bringPositionMinusOne(i-1u);edkEnd();
+                this->bringPositionMinusOne(i-1u);
             }
             return true;
         }
@@ -2664,10 +2661,10 @@ public:
     }
     bool bringPositionTo(edk::uint32 position,edk::uint32 position2){
         if(position>position2){
-            return this->bringPositionMinusTimes(position2,position-position2);edkEnd();
+            return this->bringPositionMinusTimes(position2,position-position2);
         }
         else if(position<position2){
-            return this->bringPositionPlusTimes(position,position2-position);edkEnd();
+            return this->bringPositionPlusTimes(position,position2-position);
         }
         return false;
     }
@@ -2677,17 +2674,17 @@ public:
     //[] //To return the object in the pos
     edk::Name* operator[](edk::uint32 pos){
         //
-        return this->get(pos);edkEnd();
+        return this->get(pos);
     }
     */
     virtual bool cloneFrom(edk::vector::StackStaticNames* ret){
         //clean the vector
-        this->clean();edkEnd();
+        this->clean();
         if(ret){
             //copy the types from the ret
             for(edk::uint32 i=0u;i<ret->size();i++){
                 //copy
-                this->pushBack(ret->get(i));edkEnd();
+                this->pushBack(ret->get(i));
             }
             return true;
         }
@@ -2696,19 +2693,19 @@ public:
 private:
     void _deleteAllNames(){
         //remove all the names on the stack
-        edk::Name* name=NULL;edkEnd();
-        edk::uint32 size = edk::vector::StackStatic<edk::Name*>::size();edkEnd();
+        edk::Name* name=NULL;
+        edk::uint32 size = edk::vector::StackStatic<edk::Name*>::size();
         for(edk::uint32 i=0u;i<size;i++){
-            name = edk::vector::StackStatic<edk::Name*>::get(i);edkEnd();
+            name = edk::vector::StackStatic<edk::Name*>::get(i);
             if(name){
                 //test if need delete the name
                 if((*this->treePointer).haveElement(i)){
-                    delete name;edkEnd();
+                    delete name;
                 }
             }
         }
         //delete all positions
-        (*this->treePointer).clean();edkEnd();
+        (*this->treePointer).clean();
     }
     //tree with the positions created by the stack
     edk::vector::BinaryTreeStatic<edk::uint32>*treePointer;

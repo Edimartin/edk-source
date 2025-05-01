@@ -46,7 +46,8 @@ public:
     ImageToShadertoy();
     virtual ~ImageToShadertoy();
 
-    void Constructor(bool runFather=true);
+    void Constructor();
+    void Destructor();
     //
     static bool writeToFile(edk::char8* imageName,edk::uint32 lineSize);
     static bool writeToFile(const edk::char8* imageName,edk::uint32 lineSize);

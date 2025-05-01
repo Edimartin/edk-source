@@ -29,32 +29,35 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endif
 
 edk::shape::Line3D::Line3D(){
-    this->classThis=NULL;edkEnd();
-    this->Constructor(false);edkEnd();
+    this->classThis=NULL;
+    this->Constructor();
 }
 edk::shape::Line3D::Line3D(edk::vec3f32 start,edk::vec3f32 end){
-    this->classThis=NULL;edkEnd();
-    this->Constructor(start,end,false);edkEnd();
+    this->classThis=NULL;
+    this->Constructor(start,end);
 }
 
 edk::shape::Line3D::~Line3D(){
-    if(this->classThis==this){
-        this->classThis=NULL;edkEnd();
-        //can destruct the class
-    }
+    this->Destructor();
 }
 
-void edk::shape::Line3D::Constructor(bool /*runFather*/){
+void edk::shape::Line3D::Constructor(){
     //
     if(this->classThis!=this){
         this->classThis=this;
     }
 }
-void edk::shape::Line3D::Constructor(edk::vec3f32 start,edk::vec3f32 end,bool /*runFather*/){
+void edk::shape::Line3D::Constructor(edk::vec3f32 start,edk::vec3f32 end){
     if(this->classThis!=this){
         this->classThis=this;
-        this->start.position=start;edkEnd();
-        this->end.position=end;edkEnd();
+        this->start.position=start;
+        this->end.position=end;
+    }
+}
+void edk::shape::Line3D::Destructor(){
+    if(this->classThis==this){
+        this->classThis=NULL;
+        //can destruct the class
     }
 }
 
@@ -83,11 +86,11 @@ edk::vec3f32 edk::shape::Line3D::getPoint(edk::float32 percent){
 //print the line
 void edk::shape::Line3D::print(){
     //
-    printf("\nLine");edkEnd();
+    printf("\nLine");
 }
 //Draw the line
 void edk::shape::Line3D::draw(){
     //
-    this->start.draw();edkEnd();
-    this->end.draw();edkEnd();
+    this->start.draw();
+    this->end.draw();
 }

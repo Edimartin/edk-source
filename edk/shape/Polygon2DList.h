@@ -52,7 +52,8 @@ public:
     Polygon2DList();
     virtual ~Polygon2DList();
 
-    void Constructor(bool runFather=true);
+    void Constructor();
+    void Destructor();
 
     //Set polygons color
     bool setPolygonsColor(edk::color4f32 color);
@@ -285,26 +286,26 @@ private:
     //Operator
     edk::shape::Polygon2DList operator=(edk::shape::Polygon2DList list){
         //delete the polygons
-        this->cleanPolygons();edkEnd();
+        this->cleanPolygons();
         //read the polygons
 #if defined(edkCPPversion17)
-        edk::uint32 size = list.polygons.size();edkEnd();
+        edk::uint32 size = list.polygons.size();
 #else
-        register edk::uint32 size = list.polygons.size();edkEnd();
+        register edk::uint32 size = list.polygons.size();
 #endif
-        edk::uint32 select=0u;edkEnd();
-        edk::shape::Polygon2D* temp = NULL;edkEnd();
+        edk::uint32 select=0u;
+        edk::shape::Polygon2D* temp = NULL;
         for(edk::uint32 i=0u;i<size;i++){
-            temp=list.polygons.get(i);edkEnd();
+            temp=list.polygons.get(i);
             if(temp){
                 if(temp==list.selected){
-                    select=i;edkEnd();
+                    select=i;
                 }
-                this->addPolygon(*temp);edkEnd();
+                this->addPolygon(*temp);
             }
         }
-        this->selectPolygon(select);edkEnd();
-        return list;edkEnd();
+        this->selectPolygon(select);
+        return list;
     }
 private:
     edk::classID classThis;

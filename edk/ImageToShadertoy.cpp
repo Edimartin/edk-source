@@ -25,50 +25,52 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 edk::ImageToShadertoy::ImageToShadertoy(){
-    this->classThis=NULL;edkEnd();
-    this->Constructor(false);edkEnd();
+    this->classThis=NULL;
+    this->Constructor();
 }
 edk::ImageToShadertoy::~ImageToShadertoy(){
-    if(this->classThis==this){
-        this->classThis=NULL;edkEnd();
-        //can destruct the class
-    }
+    this->Destructor();
 }
 
-void edk::ImageToShadertoy::Constructor(bool /*runFather*/){
-    //
+void edk::ImageToShadertoy::Constructor(){
     if(this->classThis!=this){
         this->classThis=this;
     }
 }
+void edk::ImageToShadertoy::Destructor(){
+    if(this->classThis==this){
+        this->classThis=NULL;
+        //can destruct the class
+    }
+}
 //
 bool edk::ImageToShadertoy::writeToFile(edk::char8* imageName,edk::uint32 lineSize){
-    if(!lineSize){lineSize=10u;edkEnd();}
+    if(!lineSize){lineSize=10u; }
     //test the name
     if(imageName){
-        bool ret=false;edkEnd();
-        edk::Image2D image;edkEnd();
-        edk::char8* nameVec = edk::FileToH::readFileName(imageName);edkEnd();
+        bool ret=false;
+        edk::Image2D image;
+        edk::char8* nameVec = edk::FileToH::readFileName(imageName);
         if(nameVec){
-            edk::char8* className = nameVec;edkEnd();
+            edk::char8* className = nameVec;
             {
-                edk::char8* temp = className;edkEnd();
+                edk::char8* temp = className;
                 while(*temp){
                     if((*temp == '.' || *temp == '/' )&& temp[1u]){
-                        className = ++temp;edkEnd();
+                        className = ++temp;
                     }
                     else{
-                        temp++;edkEnd();
+                        temp++;
                     }
                 }
             }
-            edk::char8* fileNameFiltered = imageName;edkEnd();
+            edk::char8* fileNameFiltered = imageName;
             {
-                edk::uint32 nameSize = edk::String::strSize(fileNameFiltered);edkEnd();
+                edk::uint32 nameSize = edk::String::strSize(fileNameFiltered);
                 for(edk::uint32 i=nameSize;i>0u;i--){
                     if(i) if(imageName[i-1u] == '/'){
-                        fileNameFiltered = &imageName[i];edkEnd();
-                        break;edkEnd();
+                        fileNameFiltered = &imageName[i];
+                        break;
                     }
                 }
             }
@@ -77,128 +79,128 @@ bool edk::ImageToShadertoy::writeToFile(edk::char8* imageName,edk::uint32 lineSi
             if(image.loadFromFileToRGB(imageName)){
 
                 //get the image size
-                edk::size2ui32 sizeImage = image.getSize();edkEnd();
+                edk::size2ui32 sizeImage = image.getSize();
 
-                edk::uint8* buffer = image.getPixels();edkEnd();
+                edk::uint8* buffer = image.getPixels();
 
                 if(sizeImage.width && sizeImage.height && buffer && image.getChannels() == 3u){
                     //create the file
-                    //edk::char8* fileName = edk::String::strCat(nameVec,".frag");edkEnd();
-                    edk::char8* fileName = edk::String::strCat(nameVec,".txt");edkEnd();
+                    //edk::char8* fileName = edk::String::strCat(nameVec,".frag");
+                    edk::char8* fileName = edk::String::strCat(nameVec,".txt");
                     if(fileName){
                         //create the file
-                        edk::File file;edkEnd();
+                        edk::File file;
                         if(file.createAndOpenTextFile(fileName)){
                             //write the size
-                            file.writeText("const vec2 ");edkEnd();
-                            file.writeText(className);edkEnd();
-                            file.writeText("_size = vec2(");edkEnd();
-                            file.writeText(image.getWidth());edkEnd();
-                            file.writeText(",");edkEnd();
-                            file.writeText(image.getHeight());edkEnd();
-                            file.writeText(");");edkEnd();
-                            file.writeText("\n");edkEnd();
+                            file.writeText("const vec2 ");
+                            file.writeText(className);
+                            file.writeText("_size = vec2(");
+                            file.writeText(image.getWidth());
+                            file.writeText(",");
+                            file.writeText(image.getHeight());
+                            file.writeText(");");
+                            file.writeText("\n");
 
                             //write the vector
                             //const int[] bitmap = int[] (
-                            file.writeText("const float[] ");edkEnd();
-                            file.writeText(className);edkEnd();
-                            file.writeText(" = float[] (\n");edkEnd();
+                            file.writeText("const float[] ");
+                            file.writeText(className);
+                            file.writeText(" = float[] (\n");
 
-                            edk::uint64 size =sizeImage.width * sizeImage.height;edkEnd();
-                            edk::float32 pixelValue = 0.f;edkEnd();
+                            edk::uint64 size =sizeImage.width * sizeImage.height;
+                            edk::float32 pixelValue = 0.f;
                             for(edk::uint64 i=0u;i<size;i++){
                                 //write the pixelValue
-                                pixelValue = (edk::float32)buffer[0u]/255.f;edkEnd();
-                                file.writeText(pixelValue,3u);edkEnd();
-                                file.writeText(",");edkEnd();
+                                pixelValue = (edk::float32)buffer[0u]/255.f;
+                                file.writeText(pixelValue,3u);
+                                file.writeText(",");
                                 //write the pixelValue
-                                pixelValue = (edk::float32)buffer[1u]/255.f;edkEnd();
-                                file.writeText(pixelValue,3u);edkEnd();
-                                file.writeText(",");edkEnd();
+                                pixelValue = (edk::float32)buffer[1u]/255.f;
+                                file.writeText(pixelValue,3u);
+                                file.writeText(",");
                                 //write the pixelValue
-                                pixelValue = (edk::float32)buffer[2u]/255.f;edkEnd();
-                                file.writeText(pixelValue,3u);edkEnd();
+                                pixelValue = (edk::float32)buffer[2u]/255.f;
+                                file.writeText(pixelValue,3u);
                                 if(i<size-1u){
-                                    file.writeText(",");edkEnd();
+                                    file.writeText(",");
                                 }
-                                file.writeText("\n");edkEnd();
-                                buffer+=3u;edkEnd();
+                                file.writeText("\n");
+                                buffer+=3u;
                             }
-                            file.writeText(");");edkEnd();
-                            file.writeText("\n");edkEnd();
-                            file.writeText("\n");edkEnd();
+                            file.writeText(");");
+                            file.writeText("\n");
+                            file.writeText("\n");
 
                             //floatToInt
-                            file.writeText("int floatToInt(float value){");edkEnd();
-                            file.writeText("\n");edkEnd();
-                            file.writeText("    ");edkEnd();
-                            file.writeText("highp int ret = int(value);");edkEnd();
-                            file.writeText("\n");edkEnd();
-                            file.writeText("    ");edkEnd();
-                            file.writeText("return ret;");edkEnd();
-                            file.writeText("\n");edkEnd();
-                            file.writeText("}");edkEnd();
-                            file.writeText("\n");edkEnd();
-                            file.writeText("\n");edkEnd();
+                            file.writeText("int floatToInt(float value){");
+                            file.writeText("\n");
+                            file.writeText("    ");
+                            file.writeText("highp int ret = int(value);");
+                            file.writeText("\n");
+                            file.writeText("    ");
+                            file.writeText("return ret;");
+                            file.writeText("\n");
+                            file.writeText("}");
+                            file.writeText("\n");
+                            file.writeText("\n");
 
                             //function getIndex
-                            file.writeText("int get_");edkEnd();
-                            file.writeText(className);edkEnd();
-                            file.writeText("_index(in vec2 uv){");edkEnd();
-                            file.writeText("\n");edkEnd();
-                            file.writeText("    ");edkEnd();
-                            file.writeText("return ((floatToInt((uv.y * ");edkEnd();
-                            file.writeText(className);edkEnd();
-                            file.writeText("_size.y))) *");edkEnd();
-                            file.writeText("\n");edkEnd();
-                            file.writeText("    ");edkEnd();
-                            file.writeText("(floatToInt((");edkEnd();
-                            file.writeText(className);edkEnd();
-                            file.writeText("_size.x)))*3) +");edkEnd();
-                            file.writeText("\n");edkEnd();
-                            file.writeText("    ");edkEnd();
-                            file.writeText("(floatToInt((uv.x * ");edkEnd();
-                            file.writeText(className);edkEnd();
-                            file.writeText("_size.x))*3);");edkEnd();
-                            file.writeText("\n");edkEnd();
-                            file.writeText("}");edkEnd();
-                            file.writeText("\n");edkEnd();
-                            file.writeText("\n");edkEnd();
+                            file.writeText("int get_");
+                            file.writeText(className);
+                            file.writeText("_index(in vec2 uv){");
+                            file.writeText("\n");
+                            file.writeText("    ");
+                            file.writeText("return ((floatToInt((uv.y * ");
+                            file.writeText(className);
+                            file.writeText("_size.y))) *");
+                            file.writeText("\n");
+                            file.writeText("    ");
+                            file.writeText("(floatToInt((");
+                            file.writeText(className);
+                            file.writeText("_size.x)))*3) +");
+                            file.writeText("\n");
+                            file.writeText("    ");
+                            file.writeText("(floatToInt((uv.x * ");
+                            file.writeText(className);
+                            file.writeText("_size.x))*3);");
+                            file.writeText("\n");
+                            file.writeText("}");
+                            file.writeText("\n");
+                            file.writeText("\n");
 
                             //function get pixel
-                            file.writeText("vec4 get_");edkEnd();
-                            file.writeText(className);edkEnd();
-                            file.writeText("_pixel(in int index){");edkEnd();
-                            file.writeText("\n");edkEnd();
-                            file.writeText("    ");edkEnd();
-                            file.writeText("return vec4(");edkEnd();
-                            file.writeText(className);edkEnd();
-                            file.writeText("[index+0],");edkEnd();
-                            file.writeText(className);edkEnd();
-                            file.writeText("[index+1],");edkEnd();
-                            file.writeText(className);edkEnd();
-                            file.writeText("[index+2],1.0);");edkEnd();
-                            file.writeText("\n");edkEnd();
-                            file.writeText("}");edkEnd();
-                            file.writeText("\n");edkEnd();
-                            file.writeText("\n");edkEnd();
+                            file.writeText("vec4 get_");
+                            file.writeText(className);
+                            file.writeText("_pixel(in int index){");
+                            file.writeText("\n");
+                            file.writeText("    ");
+                            file.writeText("return vec4(");
+                            file.writeText(className);
+                            file.writeText("[index+0],");
+                            file.writeText(className);
+                            file.writeText("[index+1],");
+                            file.writeText(className);
+                            file.writeText("[index+2],1.0);");
+                            file.writeText("\n");
+                            file.writeText("}");
+                            file.writeText("\n");
+                            file.writeText("\n");
 
                             //function get color
-                            file.writeText("vec4 get_");edkEnd();
-                            file.writeText(className);edkEnd();
-                            file.writeText("_color(in vec2 uv){");edkEnd();
-                            file.writeText("\n");edkEnd();
-                            file.writeText("    ");edkEnd();
-                            file.writeText("return get_");edkEnd();
-                            file.writeText(className);edkEnd();
-                            file.writeText("_pixel(get_");edkEnd();
-                            file.writeText(className);edkEnd();
-                            file.writeText("_index(uv));");edkEnd();
-                            file.writeText("\n");edkEnd();
-                            file.writeText("}");edkEnd();
-                            file.writeText("\n");edkEnd();
-                            file.writeText("\n");edkEnd();
+                            file.writeText("vec4 get_");
+                            file.writeText(className);
+                            file.writeText("_color(in vec2 uv){");
+                            file.writeText("\n");
+                            file.writeText("    ");
+                            file.writeText("return get_");
+                            file.writeText(className);
+                            file.writeText("_pixel(get_");
+                            file.writeText(className);
+                            file.writeText("_index(uv));");
+                            file.writeText("\n");
+                            file.writeText("}");
+                            file.writeText("\n");
+                            file.writeText("\n");
 
 
 
@@ -206,75 +208,75 @@ bool edk::ImageToShadertoy::writeToFile(edk::char8* imageName,edk::uint32 lineSi
                             /*
 
 int floatToInt(float value){
-    highp int ret = int(value);edkEnd();
-    return ret;edkEnd();
+    highp int ret = int(value);
+    return ret;
 }
 
 int get_image_index(in vec2 uv){
     return ((floatToInt((uv.y * image_size.y))) *
     (floatToInt((image_size.x)))*3) +
-    (floatToInt((uv.x * image_size.x))*3);edkEnd();
+    (floatToInt((uv.x * image_size.x))*3);
 }
 
 vec4 get_image_pixel(in int index){
-    return vec4(image[index+0],image[index+1],image[index+2],1.0);edkEnd();
+    return vec4(image[index+0],image[index+1],image[index+2],1.0);
 }
 
 vec4 get_image_color(in vec2 uv){
-    return get_image_pixel(get_image_index(uv));edkEnd();
+    return get_image_pixel(get_image_index(uv));
 }
 */
 
 
                             //function main
-                            file.writeText("void mainImage(out vec4 fragColor,in vec2 fragCoord){");edkEnd();
-                            file.writeText("\n");edkEnd();
-                            file.writeText("    ");edkEnd();
-                            file.writeText("vec2 uv = vec2(fragCoord.x / iResolution.x,(fragCoord.y / iResolution.y*-1.0)+1.0);");edkEnd();
-                            file.writeText("\n");edkEnd();
-                            file.writeText("    ");edkEnd();
-                            file.writeText("fragColor = get_");edkEnd();
-                            file.writeText(className);edkEnd();
-                            file.writeText("_color(uv);");edkEnd();
-                            file.writeText("\n");edkEnd();
-                            file.writeText("}");edkEnd();
+                            file.writeText("void mainImage(out vec4 fragColor,in vec2 fragCoord){");
+                            file.writeText("\n");
+                            file.writeText("    ");
+                            file.writeText("vec2 uv = vec2(fragCoord.x / iResolution.x,(fragCoord.y / iResolution.y*-1.0)+1.0);");
+                            file.writeText("\n");
+                            file.writeText("    ");
+                            file.writeText("fragColor = get_");
+                            file.writeText(className);
+                            file.writeText("_color(uv);");
+                            file.writeText("\n");
+                            file.writeText("}");
                             /*
 void mainImage(out vec4 fragColor,in vec2 fragCoord){
-    vec2 uv = vec2(fragCoord.x / iResolution.x,(fragCoord.y / iResolution.y*-1.0)+1.0);edkEnd();
-    fragColor = get_image_color(uv);edkEnd();
+    vec2 uv = vec2(fragCoord.x / iResolution.x,(fragCoord.y / iResolution.y*-1.0)+1.0);
+    fragColor = get_image_color(uv);
 }
 */
                             //return true
-                            ret=true;edkEnd();
+                            ret=true;
 
-                            file.flush();edkEnd();
-                            file.closeFile();edkEnd();
+                            file.flush();
+                            file.closeFile();
                         }
-                        free(fileName);edkEnd();
+                        free(fileName);
                     }
                 }
 
-                image.deleteImage();edkEnd();
+                image.deleteImage();
             }
-            free(nameVec);edkEnd();
+            free(nameVec);
         }
-        return ret;edkEnd();
+        return ret;
     }
-    return false;edkEnd();
+    return false;
 }
 bool edk::ImageToShadertoy::writeToFile(const edk::char8* imageName,edk::uint32 lineSize){
-    return edk::ImageToShadertoy::writeToFile((edk::char8*) imageName,lineSize);edkEnd();
+    return edk::ImageToShadertoy::writeToFile((edk::char8*) imageName,lineSize);
 }
 bool edk::ImageToShadertoy::writeToEDKFile(edk::char8* imageName,edk::uint32 lineSize){
-    if(!lineSize){ lineSize=10u;edkEnd();}
+    if(!lineSize){ lineSize=10u; }
     //test the name
     if(imageName){
-        bool ret=false;edkEnd();
+        bool ret=false;
         //
-        return ret;edkEnd();
+        return ret;
     }
-    return false;edkEnd();
+    return false;
 }
 bool edk::ImageToShadertoy::writeToEDKFile(const edk::char8* imageName,edk::uint32 lineSize){
-    return edk::ImageToShadertoy::writeToEDKFile((edk::char8*) imageName,lineSize);edkEnd();
+    return edk::ImageToShadertoy::writeToEDKFile((edk::char8*) imageName,lineSize);
 }

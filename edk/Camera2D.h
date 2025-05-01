@@ -51,9 +51,10 @@ public:
     Camera2D(edk::float32 posX,edk::float32 posY);
     virtual ~Camera2D();
 
-    void Constructor(bool runFather=true);
-    void Constructor(edk::vec2f32 position,bool runFather=true);
-    void Constructor(edk::float32 posX,edk::float32 posY,bool runFather=true);
+    void Constructor();
+    void Constructor(edk::vec2f32 position);
+    void Constructor(edk::float32 posX,edk::float32 posY);
+    void Destructor();
 
     //Position of the camera 2D
     edk::vec2f32 position;

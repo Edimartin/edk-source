@@ -44,7 +44,8 @@ public:
     Path1DGroup();
     virtual ~Path1DGroup();
 
-    void Constructor(bool runFather=true);
+    void Constructor();
+    void Destructor();
 
     //add a new frame
     bool addNewFrame(edk::float32 seconds,edk::float32 x);
@@ -87,28 +88,28 @@ private:
 public:
     virtual bool cloneFrom(edk::animation::Path1DGroup* group){
         //clean frames
-        this->deleteFrames();edkEnd();
+        this->deleteFrames();
         if(group){
             //first copy the frames
-            edk::uint32 size = group->animations.size();edkEnd();
+            edk::uint32 size = group->animations.size();
             for(edk::uint32 i=0u;i<size;i++){
                 //
-                edk::animation::Frame1D* temp = (edk::animation::Frame1D*)group->animations.get(i);edkEnd();
+                edk::animation::Frame1D* temp = (edk::animation::Frame1D*)group->animations.get(i);
                 if(temp){
-                    this->addNewFrame(temp->second,temp->x);edkEnd();
+                    this->addNewFrame(temp->second,temp->x);
                 }
             }
 
             //set if it is loop
-            this->setLoop(group->getLoop());edkEnd();
-            this->setIncrement(group->getIncrement());edkEnd();
+            this->setLoop(group->getLoop());
+            this->setIncrement(group->getIncrement());
 
             //now copy the animation names
-            size = group->animationNames.size();edkEnd();
+            size = group->animationNames.size();
             for(edk::uint32 i=0u;i<size;i++){
-                edk::animation::PathGroup::AnimationPathNames* temp = (edk::animation::PathGroup::AnimationPathNames*)group->animationNames.getElementInPosition(i);edkEnd();
+                edk::animation::PathGroup::AnimationPathNames* temp = (edk::animation::PathGroup::AnimationPathNames*)group->animationNames.getElementInPosition(i);
                 if(temp){
-                    this->addNewAnimationName(temp->name(),temp->start,temp->end);edkEnd();
+                    this->addNewAnimationName(temp->name(),temp->start,temp->end);
                 }
             }
             return true;

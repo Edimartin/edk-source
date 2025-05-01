@@ -31,25 +31,20 @@ edk::multi::Mutex edk::pack::FilePackage::debugMut;
 #endif
 
 edk::pack::FilePackage::FilePackage(){
-    this->classThis=NULL;edkEnd();
-    this->Constructor(false);edkEnd();
+    this->classThis=NULL;
+    this->Constructor();
 }
 edk::pack::FilePackage::~FilePackage(){
-    if(this->classThis==this){
-        this->classThis=NULL;edkEnd();
-        //can destruct the class
-        this->deleteBuffer();edkEnd();
-        this->removeAllNames();edkEnd();
-    }
+    this->Destructor();
 }
 
-void edk::pack::FilePackage::Constructor(bool /*runFather*/){
+void edk::pack::FilePackage::Constructor(){
     if(this->classThis!=this){
         this->classThis=this;
 
-        this->tree.Constructor();edkEnd();
-        this->mutex.Constructor();edkEnd();
-        this->file.Constructor();edkEnd();
+        this->tree.Constructor();
+        this->mutex.Constructor();
+        this->file.Constructor();
 
 #if defined(EDK_FILEPACK_PRINT_DEBUG)
         if(edk::pack::FilePackage::templateConstructNeed){
@@ -58,10 +53,18 @@ void edk::pack::FilePackage::Constructor(bool /*runFather*/){
             edk::pack::FilePackage::templateConstructNeed=false;
         }
 #endif
-        this->selected = NULL;edkEnd();
-        this->buffer = NULL;edkEnd();
-        this->bufferSize = 0u;edkEnd();
-        this->bufferReadSize = 0u;edkEnd();
+        this->selected = NULL;
+        this->buffer = NULL;
+        this->bufferSize = 0u;
+        this->bufferReadSize = 0u;
+    }
+}
+void edk::pack::FilePackage::Destructor(){
+    if(this->classThis==this){
+        this->classThis=NULL;
+        //can destruct the class
+        this->deleteBuffer();
+        this->removeAllNames();
     }
 }
 
@@ -101,29 +104,29 @@ bool edk::pack::FilePackage::readNodeToBuffer(edk::pack::FileNode* node){
     //test if have selected file
     if(node){
         //get the selected size
-        edk::uint64 size = node->getFileSize();edkEnd();
+        edk::uint64 size = node->getFileSize();
         if(size){
             //test if the size is bigger then the buffer size
             if(size>this->bufferSize){
                 //create a new buffer
-                this->deleteBuffer();edkEnd();
-                this->buffer = (edk::uint8*)malloc(sizeof(edk::uint8) * (size));edkEnd();
+                this->deleteBuffer();
+                this->buffer = (edk::uint8*)malloc(sizeof(edk::uint8) * (size));
                 if(buffer){
-                    this->bufferSize = size;edkEnd();
+                    this->bufferSize = size;
                 }
             }
             //test if have the buffer
             if(this->buffer && this->bufferSize){
                 //save the seek
-                edk::uint64 seek = this->file.getSeek64();edkEnd();
+                edk::uint64 seek = this->file.getSeek64();
                 //seek to the file position to read
-                this->file.seekStart(node->getPosition());edkEnd();
-                bool ret = this->readNodeFile(node,this->buffer,size);edkEnd();
+                this->file.seekStart(node->getPosition());
+                bool ret = this->readNodeFile(node,this->buffer,size);
                 if(ret){
-                    this->bufferReadSize=size;edkEnd();
+                    this->bufferReadSize=size;
                 }
                 //return the seek
-                this->file.seekStart(seek);edkEnd();
+                this->file.seekStart(seek);
 #if defined(EDK_FILEPACK_PRINT_DEBUG)
                 this->debugFile.writeDebug(ret?"    OK":"    NOTOK",__LINE__,__FILE__,__func__);
 #endif
@@ -158,7 +161,7 @@ bool edk::pack::FilePackage::readNodeFile(edk::pack::FileNode* node,classID vec,
         //test if have the size to be readed
         if(size<=((node->getFileSize()+ node->getPosition()) - this->file.getSeek64() )){
             //read the file
-            bool ret = this->file.readBin(vec,size);edkEnd();
+            bool ret = this->file.readBin(vec,size);
 #if defined(EDK_FILEPACK_PRINT_DEBUG)
             this->debugFile.writeDebug(ret?"    OK":"    NOTOK",__LINE__,__FILE__,__func__);
 #endif
@@ -177,10 +180,10 @@ bool edk::pack::FilePackage::isBufferValid(edk::pack::FileNode* node){
 #endif
     if(node){
         //generate the buffer hash
-        edk::uint8 md5[16u];edkEnd();
+        edk::uint8 md5[16u];
         if(edk::encrypt::MD5::convertTo((edk::char8*)this->buffer,this->bufferReadSize,md5)){
             //test if the md5 is equal to node md5
-            bool ret = node->compareMD5(md5);edkEnd();
+            bool ret = node->compareMD5(md5);
 #if defined(EDK_FILEPACK_PRINT_DEBUG)
             this->debugFile.writeDebug(ret?"    OK":"    NOTOK",__LINE__,__FILE__,__func__);
 #endif
@@ -204,7 +207,7 @@ bool edk::pack::FilePackage::addFileName(edk::char8* fileName){
         //test if have the file
         if(edk::File::fileExist(fileName)){
             //create a new node
-            bool ret = this->tree.newNode(fileName);edkEnd();
+            bool ret = this->tree.newNode(fileName);
 #if defined(EDK_FILEPACK_PRINT_DEBUG)
             this->debugFile.writeDebug(ret?"    OK":"    NOTOK",__LINE__,__FILE__,__func__);
 #endif
@@ -217,17 +220,17 @@ bool edk::pack::FilePackage::addFileName(edk::char8* fileName){
     return false;
 }
 bool edk::pack::FilePackage::addFileName(const edk::char8* fileName){
-    return this->addFileName((edk::char8*) fileName);edkEnd();
+    return this->addFileName((edk::char8*) fileName);
 }
 //remove the file from the tree
 bool edk::pack::FilePackage::removeFileName(edk::char8* fileName){
 #if defined(EDK_FILEPACK_PRINT_DEBUG)
     this->debugFile.writeDebug(fileName?fileName:"fileName NULL",__LINE__,__FILE__,__func__);
 #endif
-    this->selected = NULL;edkEnd();
+    this->selected = NULL;
     if(fileName){
         //remove the node from the tree
-        bool ret = this->tree.removeNode(fileName);edkEnd();
+        bool ret = this->tree.removeNode(fileName);
 #if defined(EDK_FILEPACK_PRINT_DEBUG)
         this->debugFile.writeDebug(ret?"    OK":"    NOTOK",__LINE__,__FILE__,__func__);
 #endif
@@ -239,7 +242,7 @@ bool edk::pack::FilePackage::removeFileName(edk::char8* fileName){
     return false;
 }
 bool edk::pack::FilePackage::removeFileName(const edk::char8* fileName){
-    return this->removeFileName((edk::char8*) fileName);edkEnd();
+    return this->removeFileName((edk::char8*) fileName);
 }
 //get the fileName in position
 edk::char8* edk::pack::FilePackage::getFileName(edk::uint32 position){
@@ -255,9 +258,9 @@ edk::char8* edk::pack::FilePackage::getFileName(edk::uint32 position){
     }
 #endif
     //get the node in position
-    edk::pack::FileNode* node = this->tree.getElementInPosition(position);edkEnd();
+    edk::pack::FileNode* node = this->tree.getElementInPosition(position);
     if(node){
-        return node->getFileName();edkEnd();
+        return node->getFileName();
     }
 #if defined(EDK_FILEPACK_PRINT_DEBUG)
     this->debugFile.writeDebug("Return NULL;",__LINE__,__FILE__,__func__);
@@ -277,8 +280,8 @@ void edk::pack::FilePackage::removeAllNames(){
         free(strSize);
     }
 #endif
-    this->selected = NULL;edkEnd();
-    this->tree.removeAllNodes();edkEnd();
+    this->selected = NULL;
+    this->tree.removeAllNodes();
 #if defined(EDK_FILEPACK_PRINT_DEBUG)
     this->debugFile.writeDebug("END",__LINE__,__FILE__,__func__);
 #endif
@@ -296,124 +299,124 @@ edk::uint32 edk::pack::FilePackage::getFilesSize(){
         free(strSize);
     }
 #endif
-    return this->tree.size();edkEnd();
+    return this->tree.size();
 }
 //save all files in one package file
 bool edk::pack::FilePackage::savePackFile(edk::char8* fileName){
 #if defined(EDK_FILEPACK_PRINT_DEBUG)
     this->debugFile.writeDebug(fileName?fileName:"fileName NULL",__LINE__,__FILE__,__func__);
 #endif
-    this->selected = NULL;edkEnd();
+    this->selected = NULL;
     //test the fileName
     if(fileName){
         //create the file
         if(this->file.createAndOpenBinFile(fileName)){
             //read the node list
-            edk::uint32 size = this->tree.size();edkEnd();
-            edk::pack::FileNode* node;edkEnd();
-            edk::uint8 md5[16u];edkEnd();
-            edk::uint32 md5Size = 0u;edkEnd();
-            edk::uint32 divide = (255u/15u);edkEnd();
-            edk::uint8 buffer[packBufferSize];edkEnd();
-            edk::uint64 bufferRead = 0u;edkEnd();
-            bool success = true;edkEnd();
+            edk::uint32 size = this->tree.size();
+            edk::pack::FileNode* node;
+            edk::uint8 md5[16u];
+            edk::uint32 md5Size = 0u;
+            edk::uint32 divide = (255u/15u);
+            edk::uint8 buffer[packBufferSize];
+            edk::uint64 bufferRead = 0u;
+            bool success = true;
             for(edk::uint32 i=0u;i<size;i++){
-                node = this->tree.getElementInPosition(i);edkEnd();
+                node = this->tree.getElementInPosition(i);
                 if(node){
                     if(node->getFileName() && node->getStrName()){
-                        memset(md5,0u,sizeof(md5));edkEnd();
+                        memset(md5,0u,sizeof(md5));
                         //generate the md5 from the fileName
-                        edk::encrypt::MD5::convertTo(node->getFileName(),md5);edkEnd();
-                        md5Size = *md5 % divide;edkEnd();
+                        edk::encrypt::MD5::convertTo(node->getFileName(),md5);
+                        md5Size = *md5 % divide;
                         if(md5Size>sizeof(md5)){
-                            md5Size = 15u;edkEnd();
+                            md5Size = 15u;
                         }
 
                         //write the md5
                         for(edk::uint32 j = 0u;j<md5Size;j++){
-                            this->file.writeBin(md5[j]);edkEnd();
+                            this->file.writeBin(md5[j]);
                         }
 
                         //set the node md5
-                        edk::encrypt::MD5::convertFileTo(node->getStrName(),node->md5);edkEnd();
+                        edk::encrypt::MD5::convertFileTo(node->getStrName(),node->md5);
 
                         //open and write the file
-                        edk::File copy;edkEnd();
+                        edk::File copy;
                         if(copy.openBinFile(node->getStrName())){
                             //set the values to the node
-                            node->setPosition(this->file.getSeek64());edkEnd();
-                            node->setFileSize(copy.getFileSize());edkEnd();
+                            node->setPosition(this->file.getSeek64());
+                            node->setFileSize(copy.getFileSize());
                             while((bufferRead = copy.getFileSize() - copy.getSeek64())){
                                 //test if the buffer read is bigger then packBufferSize
                                 if(bufferRead>packBufferSize){
                                     //read from the file
-                                    copy.readBin(buffer,packBufferSize);edkEnd();
+                                    copy.readBin(buffer,packBufferSize);
                                     //write the buffer
-                                    this->file.writeBin(buffer,packBufferSize);edkEnd();
+                                    this->file.writeBin(buffer,packBufferSize);
                                 }
                                 else{
                                     //read from the file
-                                    copy.readBin(buffer,bufferRead);edkEnd();
+                                    copy.readBin(buffer,bufferRead);
                                     //write the buffer
-                                    this->file.writeBin(buffer,bufferRead);edkEnd();
+                                    this->file.writeBin(buffer,bufferRead);
                                 }
                             }
-                            copy.closeFile();edkEnd();
+                            copy.closeFile();
                         }
                         else{
-                            this->file.writeBin(0xFFFFFFFFFFFFFFFF);edkEnd();
-                            success = false;edkEnd();
+                            this->file.writeBin(0xFFFFFFFFFFFFFFFF);
+                            success = false;
                             break;
                         }
                     }
                     else{
-                        this->file.writeBin(0xFFFFFFFFFFFFFFFF);edkEnd();
-                        success = false;edkEnd();
+                        this->file.writeBin(0xFFFFFFFFFFFFFFFF);
+                        success = false;
                         break;
                     }
                 }
                 else{
-                    this->file.writeBin(0xFFFFFFFFFFFFFFFF);edkEnd();
-                    success = false;edkEnd();
+                    this->file.writeBin(0xFFFFFFFFFFFFFFFF);
+                    success = false;
                     break;
                 }
             }
             if(success){
                 //get the nodes position
-                edk::uint64 nodesPosition = this->file.getSeek64();edkEnd();
+                edk::uint64 nodesPosition = this->file.getSeek64();
                 //write the nodes
                 for(edk::uint32 i=0u;i<size;i++){
-                    node = this->tree.getElementInPosition(i);edkEnd();
+                    node = this->tree.getElementInPosition(i);
                     if(node){
                         if(node->getFileName() && node->getStrName()){
                             if(!node->writeFile(&this->file)){
-                                this->file.writeBin(0xFFFFFFFFFFFFFFFF);edkEnd();
-                                success = false;edkEnd();
+                                this->file.writeBin(0xFFFFFFFFFFFFFFFF);
+                                success = false;
                             }
                         }
                         else{
-                            this->file.writeBin(0xFFFFFFFFFFFFFFFF);edkEnd();
-                            success = false;edkEnd();
+                            this->file.writeBin(0xFFFFFFFFFFFFFFFF);
+                            success = false;
                             break;
                         }
                     }
                     else{
-                        this->file.writeBin(0xFFFFFFFFFFFFFFFF);edkEnd();
-                        success = false;edkEnd();
+                        this->file.writeBin(0xFFFFFFFFFFFFFFFF);
+                        success = false;
                         break;
                     }
                 }
                 if(success){
                     //write the nodes position
-                    this->file.writeBin(nodesPosition);edkEnd();
+                    this->file.writeBin(nodesPosition);
                 }
             }
-            this->file.closeFile();edkEnd();
+            this->file.closeFile();
 
 #if defined(EDK_FILEPACK_PRINT_DEBUG)
             this->debugFile.writeDebug(success?"return success TRUE;":"return success FALSE;",__LINE__,__FILE__,__func__);
 #endif
-            return success;edkEnd();
+            return success;
         }
     }
 #if defined(EDK_FILEPACK_PRINT_DEBUG)
@@ -422,84 +425,84 @@ bool edk::pack::FilePackage::savePackFile(edk::char8* fileName){
     return false;
 }
 bool edk::pack::FilePackage::savePackFile(const edk::char8* fileName){
-    return this->savePackFile((edk::char8*) fileName);edkEnd();
+    return this->savePackFile((edk::char8*) fileName);
 }
 bool edk::pack::FilePackage::openPackFile(edk::char8* fileName){
 #if defined(EDK_FILEPACK_PRINT_DEBUG)
     this->debugFile.writeDebug(fileName?fileName:"fileName NULL",__LINE__,__FILE__,__func__);
 #endif
-    this->selected = NULL;edkEnd();
-    bool success = false;edkEnd();
+    this->selected = NULL;
+    bool success = false;
     if(fileName){
         //
         //create the file
         if(this->file.openBinFile(fileName)){
-            edk::pack::FileNode* node;edkEnd();
-            edk::uint64 nodesPosition = 0u;edkEnd();
-            success = true;edkEnd();
+            edk::pack::FileNode* node;
+            edk::uint64 nodesPosition = 0u;
+            success = true;
             if(this->file.getFileSize()>sizeof(nodesPosition)){
                 //go to the end of the file to read 8 bytes
-                edk::uint64 positionRead = this->file.getFileSize() - sizeof(nodesPosition);edkEnd();
-                this->file.seek(positionRead);edkEnd();
+                edk::uint64 positionRead = this->file.getFileSize() - sizeof(nodesPosition);
+                this->file.seek(positionRead);
                 //read the position of the nodes in the file
-                this->file.readBin(&nodesPosition,sizeof(nodesPosition));edkEnd();
+                this->file.readBin(&nodesPosition,sizeof(nodesPosition));
                 //test if the nodes is smaller then the file size
                 if(nodesPosition < this->file.getFileSize()){
                     //go to the position of the first node
-                    this->file.seekStart(nodesPosition);edkEnd();
+                    this->file.seekStart(nodesPosition);
 
                     //read the nodes
                     while(this->file.getSeek64() < positionRead){
                         //create a new node
-                        node = new edk::pack::FileNode;edkEnd();
+                        node = new edk::pack::FileNode;
                         if(node){
                             //ead the node
                             if(node->readFile(&this->file)){
                                 //add the node in the tree
                                 if(!this->tree.add(node)){
-                                    delete node;edkEnd();
-                                    success=false;edkEnd();
+                                    delete node;
+                                    success=false;
                                     break;
                                 }
                             }
                             else{
-                                delete node;edkEnd();
-                                success=false;edkEnd();
+                                delete node;
+                                success=false;
                                 break;
                             }
                         }
                     }
                 }
                 else{
-                    success=false;edkEnd();
+                    success=false;
                 }
 
             }
             else{
-                success=false;edkEnd();
+                success=false;
             }
             if(success){
-                file.seekStart64();edkEnd();
+                file.seekStart64();
             }
             else{
-                file.closeFile();edkEnd();
+                file.closeFile();
             }
         }
     }
 #if defined(EDK_FILEPACK_PRINT_DEBUG)
     this->debugFile.writeDebug(success?"return success TRUE;":"return success FALSE;",__LINE__,__FILE__,__func__);
 #endif
-    return success;edkEnd();
+    return success;
 }
 bool edk::pack::FilePackage::openPackFile(const edk::char8* fileName){
-    return this->openPackFile((edk::char8*) fileName);edkEnd();
+    return this->openPackFile((edk::char8*) fileName);
 }
 void edk::pack::FilePackage::closePackFile(){
 #if defined(EDK_FILEPACK_PRINT_DEBUG)
     this->debugFile.writeDebug(this->file.getName()?this->file.getName():"fileName NULL",__LINE__,__FILE__,__func__);
 #endif
-    this->selected = NULL;edkEnd();
-    this->file.closeFile();edkEnd();
+    this->selected = NULL;
+    this->file.closeFile();
 #if defined(EDK_FILEPACK_PRINT_DEBUG)
     this->debugFile.writeDebug("END",__LINE__,__FILE__,__func__);
 #endif
@@ -512,13 +515,13 @@ bool edk::pack::FilePackage::goToFile(edk::char8* fileName){
     //test if the string and if the file is opened
     if(fileName && this->file.isOpened()){
         //get the node
-        edk::pack::FileNode* node = this->tree.getNode(fileName);edkEnd();
+        edk::pack::FileNode* node = this->tree.getNode(fileName);
         if(node){
             if(node->getPosition() < file.getFileSize()){
                 //seek to the file position to read
-                this->file.seekStart(node->getPosition());edkEnd();
+                this->file.seekStart(node->getPosition());
 
-                this->selected = node;edkEnd();
+                this->selected = node;
 #if defined(EDK_FILEPACK_PRINT_DEBUG)
                 this->debugFile.writeDebug("    OK",__LINE__,__FILE__,__func__);
 #endif
@@ -532,7 +535,7 @@ bool edk::pack::FilePackage::goToFile(edk::char8* fileName){
     return false;
 }
 bool edk::pack::FilePackage::goToFile(const edk::char8* fileName){
-    return this->goToFile((edk::char8*) fileName);edkEnd();
+    return this->goToFile((edk::char8*) fileName);
 }
 //read the file bytes
 bool edk::pack::FilePackage::readFile(classID vec,uint64 size){
@@ -562,7 +565,7 @@ bool edk::pack::FilePackage::readFile(classID vec,uint64 size){
         //test if have the size to be readed
         if(size<=((this->selected->getFileSize()+ this->selected->getPosition()) - this->file.getSeek64() )){
             //read the file
-            bool ret = this->file.readBin(vec,size);edkEnd();
+            bool ret = this->file.readBin(vec,size);
 #if defined(EDK_FILEPACK_PRINT_DEBUG)
             this->debugFile.writeDebug(ret?"    OK":"    NOTOK",__LINE__,__FILE__,__func__);
 #endif
@@ -579,7 +582,7 @@ bool edk::pack::FilePackage::readFile(classID vec,uint64 size){
 bool edk::pack::FilePackage::readFileToBuffer(){
     //test if have selected file
     if(this->selected){
-        bool ret = this->readNodeToBuffer(this->selected);edkEnd();
+        bool ret = this->readNodeToBuffer(this->selected);
 #if defined(EDK_FILEPACK_PRINT_DEBUG)
         this->debugFile.writeDebug(ret?"    OK":"    NOTOK",__LINE__,__FILE__,__func__);
 #endif
@@ -594,7 +597,7 @@ bool edk::pack::FilePackage::readFileToBuffer(edk::char8* fileName){
 #if defined(EDK_FILEPACK_PRINT_DEBUG)
     this->debugFile.writeDebug(fileName?fileName:"NULL",__LINE__,__FILE__,__func__);
 #endif
-    bool ret = this->readNodeToBuffer(this->tree.getNode(fileName));edkEnd();
+    bool ret = this->readNodeToBuffer(this->tree.getNode(fileName));
 #if defined(EDK_FILEPACK_PRINT_DEBUG)
     this->debugFile.writeDebug(ret?"    OK":"    NOTOK",__LINE__,__FILE__,__func__);
 #endif
@@ -607,8 +610,8 @@ bool edk::pack::FilePackage::isBufferValid(edk::char8* fileName){
 #endif
     if(fileName && this->buffer && this->bufferReadSize){
         //get the node
-        edk::pack::FileNode* node = this->tree.getNode(fileName);edkEnd();
-        bool ret = this->isBufferValid(node);edkEnd();
+        edk::pack::FileNode* node = this->tree.getNode(fileName);
+        bool ret = this->isBufferValid(node);
 #if defined(EDK_FILEPACK_PRINT_DEBUG)
         this->debugFile.writeDebug(ret?"    OK":"    NOTOK",__LINE__,__FILE__,__func__);
 #endif
@@ -620,7 +623,7 @@ bool edk::pack::FilePackage::isBufferValid(edk::char8* fileName){
     return false;
 }
 bool edk::pack::FilePackage::isBufferValid(const edk::char8* fileName){
-    return this->isBufferValid((edk::char8*) fileName);edkEnd();
+    return this->isBufferValid((edk::char8*) fileName);
 }
 
 //test if all the files are valid
@@ -637,10 +640,10 @@ bool edk::pack::FilePackage::isFilesValid(){
     }
 #endif
     //test the files
-    edk::uint32 size = this->tree.size();edkEnd();
-    edk::pack::FileNode *node;edkEnd();
+    edk::uint32 size = this->tree.size();
+    edk::pack::FileNode *node;
     for(edk::uint32 i=0u;i<size;i++){
-        node = this->tree.getElementInPosition(i);edkEnd();
+        node = this->tree.getElementInPosition(i);
         if(node){
             //load the node to the buffer
             if(this->readNodeToBuffer(node)){
@@ -672,9 +675,9 @@ void edk::pack::FilePackage::deleteBuffer(){
     this->debugFile.writeDebug(this->buffer?"Buffer TRUE":"Buffer NULL",__LINE__,__FILE__,__func__);
 #endif
     if(this->buffer){
-        free(this->buffer);edkEnd();
-        this->buffer = NULL;edkEnd();
-        this->bufferSize = 0u;edkEnd();
+        free(this->buffer);
+        this->buffer = NULL;
+        this->bufferSize = 0u;
         this->bufferReadSize=0u;
 #if defined(EDK_FILEPACK_PRINT_DEBUG)
         this->debugFile.writeDebug("    OK",__LINE__,__FILE__,__func__);
@@ -692,7 +695,7 @@ edk::uint8* edk::pack::FilePackage::getBuffer(){
 #if defined(EDK_FILEPACK_PRINT_DEBUG)
     this->debugFile.writeDebug(this->buffer?"Buffer TRUE":"Buffer NULL",__LINE__,__FILE__,__func__);
 #endif
-    return this->buffer;edkEnd();
+    return this->buffer;
 }
 edk::uint64 edk::pack::FilePackage::getBufferSize(){
 #if defined(EDK_FILEPACK_PRINT_DEBUG)
@@ -706,7 +709,7 @@ edk::uint64 edk::pack::FilePackage::getBufferSize(){
         free(strSize);
     }
 #endif
-    return this->bufferReadSize;edkEnd();
+    return this->bufferReadSize;
 }
 
 //get the size of the file inside the file pack
@@ -716,7 +719,7 @@ edk::uint64 edk::pack::FilePackage::getFileSize(edk::char8* fileName){
 #endif
     if(fileName){
         //get the node
-        edk::pack::FileNode* node = this->tree.getNode(fileName);edkEnd();
+        edk::pack::FileNode* node = this->tree.getNode(fileName);
         if(node){
 #if defined(EDK_FILEPACK_PRINT_DEBUG)
             edk::char8* strSize = edk::String::uint64ToStr(node->getFileSize());
@@ -728,7 +731,7 @@ edk::uint64 edk::pack::FilePackage::getFileSize(edk::char8* fileName){
                 }
             }
 #endif
-            return node->getFileSize();edkEnd();
+            return node->getFileSize();
         }
     }
 #if defined(EDK_FILEPACK_PRINT_DEBUG)
@@ -737,7 +740,7 @@ edk::uint64 edk::pack::FilePackage::getFileSize(edk::char8* fileName){
     return 0L;
 }
 edk::uint64 edk::pack::FilePackage::getFileSize(const edk::char8* fileName){
-    return this->getFileSize((edk::char8*) fileName);edkEnd();
+    return this->getFileSize((edk::char8*) fileName);
 }
 
 //return true if have the file
@@ -748,7 +751,7 @@ bool edk::pack::FilePackage::haveFile(edk::char8* fileName){
     //test the name
     if(fileName){
         //test if have the node
-        edk::pack::FileNode* node = this->tree.getNode(fileName);edkEnd();
+        edk::pack::FileNode* node = this->tree.getNode(fileName);
         if(node){
 #if defined(EDK_FILEPACK_PRINT_DEBUG)
             this->debugFile.writeDebug("    OK",__LINE__,__FILE__,__func__);
@@ -762,9 +765,9 @@ bool edk::pack::FilePackage::haveFile(edk::char8* fileName){
     return false;
 }
 bool edk::pack::FilePackage::haveFile(const edk::char8* fileName){
-    return this->haveFile((edk::char8*) fileName);edkEnd();
+    return this->haveFile((edk::char8*) fileName);
 }
 //print the names
 void edk::pack::FilePackage::printNames(){
-    this->tree.print();edkEnd();
+    this->tree.print();
 }

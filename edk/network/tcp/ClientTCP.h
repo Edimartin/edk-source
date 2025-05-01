@@ -42,6 +42,10 @@ namespace tcp{
 class ClientTCP : public edk::network::Socket{
 public:
     ClientTCP();
+    ~ClientTCP();
+
+    void Constructor();
+    void Destructor();
 
     //connect the socket with a server
     edk::network::networkCodes connectSocket(edk::network::Adress host);
@@ -80,6 +84,8 @@ private:
     edk::network::Adress serverHost;
     //save if is connected
     bool connected;
+private:
+    edk::classID classThis;
 };
 }
 }

@@ -29,46 +29,48 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endif
 
 edk::animation::Path3DGroup::Path3DGroup(){
-    this->classThis=NULL;edkEnd();
-    this->Constructor(false);edkEnd();
+    this->classThis=NULL;
+    this->Constructor();
 }
 edk::animation::Path3DGroup::~Path3DGroup(){
-    if(this->classThis==this){
-        this->classThis=NULL;edkEnd();
-        //can destruct the class
-    }
+    this->Destructor();
 }
 
-void edk::animation::Path3DGroup::Constructor(bool runFather){
-    if(runFather){
-        edk::animation::Path2DGroup::Constructor();edkEnd();
-    }
+void edk::animation::Path3DGroup::Constructor(){
+    edk::animation::Path2DGroup::Constructor();
     if(this->classThis!=this){
         this->classThis=this;
-        this->z=0.f;edkEnd();
-        this->incrementZ=0.f;edkEnd();
-        this->incrementZValue=0.f;edkEnd();
+        this->z=0.f;
+        this->incrementZ=0.f;
+        this->incrementZValue=0.f;
     }
+}
+void edk::animation::Path3DGroup::Destructor(){
+    if(this->classThis==this){
+        this->classThis=NULL;
+        //can destruct the class
+    }
+    edk::animation::Path2DGroup::Destructor();
 }
 
 //create the frame
 edk::animation::Frame* edk::animation::Path3DGroup::newFrame(){
-    return (edk::animation::Frame*)new edk::animation::Frame3D;edkEnd();
+    return (edk::animation::Frame*)new edk::animation::Frame3D;
 }
 //return true if the value reach the frame position
 bool edk::animation::Path3DGroup::reachFrame(edk::animation::Frame* frame){
-    bool ret=false;edkEnd();
-    edk::animation::Frame3D* temp = (edk::animation::Frame3D*)frame;edkEnd();
+    bool ret=false;
+    edk::animation::Frame3D* temp = (edk::animation::Frame3D*)frame;
     //calculate the distance between the temp and the last
     edk::float32 distance = edk::Math::pythagoras(edk::vec3f32(this->getXNoIncrement() - temp->x,
                                                                this->getYNoIncrement() - temp->y,
                                                                this->getZNoIncrement() - temp->z
                                                                )
-                                                  );edkEnd();
+                                                  );
     if(distance<this->closerDistance
             ){
         if(this->saveStep>=1.f){
-            ret=true;edkEnd();
+            ret=true;
         }
     }
     if(this->changeFrame){
@@ -87,7 +89,7 @@ bool edk::animation::Path3DGroup::reachFrame(edk::animation::Frame* frame){
                 ){
             //
             if(this->saveStep>=1.f){
-                ret = true;edkEnd();
+                ret = true;
             }
         }
     }
@@ -96,121 +98,121 @@ bool edk::animation::Path3DGroup::reachFrame(edk::animation::Frame* frame){
         if(distance > this->lastDist){
             //
             if(this->saveStep>=1.f){
-                ret=true;edkEnd();
+                ret=true;
             }
         }
     }
     //save distance
-    this->lastDist = distance;edkEnd();
+    this->lastDist = distance;
 
-    this->changeFrame=false;edkEnd();
+    this->changeFrame=false;
     return ret;
 }
 
 //increment functions to run the increment for the values
 void edk::animation::Path3DGroup::runIncrementForward(){
-    edk::animation::Path2DGroup::runIncrementForward();edkEnd();
+    edk::animation::Path2DGroup::runIncrementForward();
     //run the increment value
-    this->incrementZ+=this->incrementZValue;edkEnd();
+    this->incrementZ+=this->incrementZValue;
 }
 void edk::animation::Path3DGroup::runIncrementRewind(){
-    edk::animation::Path2DGroup::runIncrementRewind();edkEnd();
+    edk::animation::Path2DGroup::runIncrementRewind();
     //run the increment value
-    this->incrementZ-=this->incrementZValue;edkEnd();
+    this->incrementZ-=this->incrementZValue;
 }
 void edk::animation::Path3DGroup::cleanIncrement(){
-    edk::animation::Path2DGroup::cleanIncrement();edkEnd();
+    edk::animation::Path2DGroup::cleanIncrement();
     //clean the increment value
-    this->incrementZ = this->incrementZValue = 0.f;edkEnd();
+    this->incrementZ = this->incrementZValue = 0.f;
 }
 void edk::animation::Path3DGroup::startIncrement(){
-    edk::animation::Path2DGroup::startIncrement();edkEnd();
-    this->incrementZ = 0.f;edkEnd();
+    edk::animation::Path2DGroup::startIncrement();
+    this->incrementZ = 0.f;
     //get the last Interpolation Line
-    edk::uint32 size = this->animations.size();edkEnd();
+    edk::uint32 size = this->animations.size();
     if(size){
         edk::animation::Frame3D* temp =
-                (edk::animation::Frame3D*)this->animations.get(size-1u);edkEnd();
+                (edk::animation::Frame3D*)this->animations.get(size-1u);
         if(temp){
-            this->incrementZValue = temp->y;edkEnd();
+            this->incrementZValue = temp->y;
         }
     }
 }
 
 void edk::animation::Path3DGroup::setZNoDecrement(edk::float32 z){
-    this->z=z;edkEnd();
+    this->z=z;
 }
 edk::float32 edk::animation::Path3DGroup::getZNoIncrement(){
-    return this->z;edkEnd();
+    return this->z;
 }
 
 //add a new frame
 bool edk::animation::Path3DGroup::addNewFrame(edk::float32 seconds,edk::float32 x,edk::float32 y,edk::float32 z){
     //create a new frame
-    edk::animation::Frame3D* frame = (edk::animation::Frame3D*)this->newFrame();edkEnd();
+    edk::animation::Frame3D* frame = (edk::animation::Frame3D*)this->newFrame();
     if(frame){
         //add to the animation
         if(edk::animation::PathGroup::addNewFrame(frame)){
             //set the frame values
-            frame->second = seconds;edkEnd();
-            frame->x=x;edkEnd();
-            frame->y=y;edkEnd();
-            frame->z=z;edkEnd();
+            frame->second = seconds;
+            frame->x=x;
+            frame->y=y;
+            frame->z=z;
             return true;
         }
         //else delete the frame
-        delete frame;edkEnd();
+        delete frame;
     }
     return false;
 }
 //add a new frame to the position
 bool edk::animation::Path3DGroup::addNewFrameToPosition(edk::uint32 position,edk::float32 seconds,edk::float32 x,edk::float32 y,edk::float32 z){
     //create a new frame
-    edk::animation::Frame3D* frame = (edk::animation::Frame3D*)this->newFrame();edkEnd();
+    edk::animation::Frame3D* frame = (edk::animation::Frame3D*)this->newFrame();
     if(frame){
         //add to the animation
         if(edk::animation::PathGroup::addNewFrameToPosition(position,frame)){
             //set the frame values
-            frame->second = seconds;edkEnd();
-            frame->x=x;edkEnd();
-            frame->y=y;edkEnd();
-            frame->z=z;edkEnd();
+            frame->second = seconds;
+            frame->x=x;
+            frame->y=y;
+            frame->z=z;
             return true;
         }
         //else delete the frame
-        delete frame;edkEnd();
+        delete frame;
     }
     return false;
 }
 
 //set the Z
 void edk::animation::Path3DGroup::setZ(edk::float32 z){
-    this->z=z - this->incrementZ;edkEnd();
+    this->z=z - this->incrementZ;
 }
 //get the Z
 edk::float32 edk::animation::Path3DGroup::getZ(){
-    return this->z + this->incrementZ;edkEnd();
+    return this->z + this->incrementZ;
 }
 
 //update the clock animation
 edk::float32 edk::animation::Path3DGroup::updateClockAnimation(){
     //calculate the step
-    edk::float32 step = edk::animation::PathGroup::updateClockAnimation();edkEnd();
+    edk::float32 step = edk::animation::PathGroup::updateClockAnimation();
     //load the frame
-    edk::animation::Frame3D* temp = (edk::animation::Frame3D*)this->animations.get(this->animationPosition);edkEnd();
-    edk::animation::Frame3D* last = (edk::animation::Frame3D*)this->getLastFrame();edkEnd();
+    edk::animation::Frame3D* temp = (edk::animation::Frame3D*)this->animations.get(this->animationPosition);
+    edk::animation::Frame3D* last = (edk::animation::Frame3D*)this->getLastFrame();
     if(last){
         //calculate the new position
         if(temp->second==0.f){
-            this->saveStep = 1.f;edkEnd();
+            this->saveStep = 1.f;
         }
         else{
-            this->saveStep = (step - last->second)/(temp->second-last->second);edkEnd();
+            this->saveStep = (step - last->second)/(temp->second-last->second);
         }
-        this->setXNoDecrement(last->x + ((temp->x - last->x) * this->saveStep));edkEnd();
-        this->setYNoDecrement( last->y + ((temp->y - last->y) * this->saveStep));edkEnd();
-        this->setZNoDecrement( last->z + ((temp->z - last->z) * this->saveStep));edkEnd();
-        return step;edkEnd();
+        this->setXNoDecrement(last->x + ((temp->x - last->x) * this->saveStep));
+        this->setYNoDecrement( last->y + ((temp->y - last->y) * this->saveStep));
+        this->setZNoDecrement( last->z + ((temp->z - last->z) * this->saveStep));
+        return step;
     }
     else{
         return 0.f;
@@ -218,22 +220,22 @@ edk::float32 edk::animation::Path3DGroup::updateClockAnimation(){
 }
 edk::float32 edk::animation::Path3DGroup::updateClockAnimation(edk::float32 distance){
     //calculate the step
-    edk::float32 step = edk::animation::PathGroup::updateClockAnimation(distance);edkEnd();
+    edk::float32 step = edk::animation::PathGroup::updateClockAnimation(distance);
     //load the frame
-    edk::animation::Frame3D* temp = (edk::animation::Frame3D*)this->animations.get(this->animationPosition);edkEnd();
-    edk::animation::Frame3D* last = (edk::animation::Frame3D*)this->getLastFrame();edkEnd();
+    edk::animation::Frame3D* temp = (edk::animation::Frame3D*)this->animations.get(this->animationPosition);
+    edk::animation::Frame3D* last = (edk::animation::Frame3D*)this->getLastFrame();
     if(last){
         //calculate the new position
         if(temp->second==0.f){
-            this->saveStep = 1.f;edkEnd();
+            this->saveStep = 1.f;
         }
         else{
-            this->saveStep = (step - last->second)/(temp->second-last->second);edkEnd();
+            this->saveStep = (step - last->second)/(temp->second-last->second);
         }
-        this->setXNoDecrement(last->x + ((temp->x - last->x) * this->saveStep));edkEnd();
-        this->setYNoDecrement( last->y + ((temp->y - last->y) * this->saveStep));edkEnd();
-        this->setZNoDecrement( last->z + ((temp->z - last->z) * this->saveStep));edkEnd();
-        return step;edkEnd();
+        this->setXNoDecrement(last->x + ((temp->x - last->x) * this->saveStep));
+        this->setYNoDecrement( last->y + ((temp->y - last->y) * this->saveStep));
+        this->setZNoDecrement( last->z + ((temp->z - last->z) * this->saveStep));
+        return step;
     }
     else{
         return 0.f;
@@ -244,58 +246,58 @@ edk::float32 edk::animation::Path3DGroup::updateClockAnimation(edk::float32 dist
 bool edk::animation::Path3DGroup::writeToXML(edk::XML* xml,edk::uint32 id){
     //test the XML
     if(xml){
-        bool ret=false;edkEnd();
+        bool ret=false;
         //create the nameID
-        edk::char8* nameID = edk::String::int64ToStr(id);edkEnd();
+        edk::char8* nameID = edk::String::int64ToStr(id);
         if(nameID){
             //concat
-            edk::char8* name = edk::String::strCat((edk::char8*)"pathAnim_",nameID);edkEnd();
+            edk::char8* name = edk::String::strCat((edk::char8*)"pathAnim_",nameID);
             if(name){
                 //create the name
                 if(xml->addSelectedNextChild(name)){
                     if(xml->selectChild(name)){
                         //save the looping
                         if(this->getLoop()){
-                            xml->addSelectedNextAttribute("loop","on");edkEnd();
+                            xml->addSelectedNextAttribute("loop","on");
                         }
                         else{
-                            xml->addSelectedNextAttribute("loop","off");edkEnd();
+                            xml->addSelectedNextAttribute("loop","off");
                         }
                         //save the incrementing
                         if(this->getIncrement()){
-                            xml->addSelectedNextAttribute("increment","on");edkEnd();
+                            xml->addSelectedNextAttribute("increment","on");
                         }
                         else{
-                            xml->addSelectedNextAttribute("increment","off");edkEnd();
+                            xml->addSelectedNextAttribute("increment","off");
                         }
                         //write the animationFrames
-                        edk::uint32 size = this->animations.size();edkEnd();
-                        edk::animation::Frame3D* tempFrame;edkEnd();
+                        edk::uint32 size = this->animations.size();
+                        edk::animation::Frame3D* tempFrame;
                         for(edk::uint32 i=0u;i<size;i++){
                             //write the first
-                            tempFrame = (edk::animation::Frame3D*)this->animations.get(i);edkEnd();
+                            tempFrame = (edk::animation::Frame3D*)this->animations.get(i);
                             if(tempFrame){
-                                tempFrame->writeToXML(xml,i);edkEnd();
+                                tempFrame->writeToXML(xml,i);
                             }
                         }
 
                         //write the animationNames
-                        size = this->animationNames.size();edkEnd();
-                        edk::animation::PathGroup::AnimationPathNames *temp = NULL;edkEnd();
+                        size = this->animationNames.size();
+                        edk::animation::PathGroup::AnimationPathNames *temp = NULL;
                         for(edk::uint32 i=0u;i<size;i++){
-                            temp = (edk::animation::PathGroup::AnimationPathNames *)this->animationNames.getElementInPosition(i);edkEnd();
+                            temp = (edk::animation::PathGroup::AnimationPathNames *)this->animationNames.getElementInPosition(i);
                             if(temp){
-                                temp->writeToXML(xml,i);edkEnd();
+                                temp->writeToXML(xml,i);
                             }
                         }
 
                         //
-                        xml->selectFather();edkEnd();
+                        xml->selectFather();
                     }
                 }
-                free(name);edkEnd();
+                free(name);
             }
-            free(nameID);edkEnd();
+            free(nameID);
         }
         return ret;
     }
@@ -305,63 +307,63 @@ bool edk::animation::Path3DGroup::writeToXML(edk::XML* xml,edk::uint32 id){
 bool edk::animation::Path3DGroup::readFromXML(edk::XML* xml,edk::uint32 id){
     //test the XML
     if(xml){
-        bool ret=false;edkEnd();
+        bool ret=false;
         //create the nameID
-        edk::char8* nameID = edk::String::int64ToStr(id);edkEnd();
+        edk::char8* nameID = edk::String::int64ToStr(id);
         if(nameID){
             //concat
-            edk::char8* name = edk::String::strCat((edk::char8*)"pathAnim_",nameID);edkEnd();
+            edk::char8* name = edk::String::strCat((edk::char8*)"pathAnim_",nameID);
             if(name){
                 //create the name
                 if(xml->selectChild(name)){
-                    this->deleteFrames();edkEnd();
-                    edk::uint32 count = 0u;edkEnd();
-                    edk::animation::Frame3D frameTemp;edkEnd();
+                    this->deleteFrames();
+                    edk::uint32 count = 0u;
+                    edk::animation::Frame3D frameTemp;
                     //read the loop
                     if(edk::String::strCompare(xml->getSelectedAttributeValueByName("loop"),(edk::char8*)"on")){
-                        this->loopOn();edkEnd();
+                        this->loopOn();
                     }
                     else if(edk::String::strCompare(xml->getSelectedAttributeValueByName("loop"),(edk::char8*)"off")){
-                        this->loopOff();edkEnd();
+                        this->loopOff();
                     }
                     //read the increment
                     if(edk::String::strCompare(xml->getSelectedAttributeValueByName("increment"),(edk::char8*)"on")){
-                        this->incrementOn();edkEnd();
+                        this->incrementOn();
                     }
                     else if(edk::String::strCompare(xml->getSelectedAttributeValueByName("increment"),(edk::char8*)"off")){
-                        this->incrementOff();edkEnd();
+                        this->incrementOff();
                     }
                     //read the frames
                     while(frameTemp.readFromXML(xml,count)){
                         //add the frame to the interpolation
-                        this->addNewFrame(frameTemp.second,frameTemp.x,frameTemp.y,frameTemp.z);edkEnd();
+                        this->addNewFrame(frameTemp.second,frameTemp.x,frameTemp.y,frameTemp.z);
                         //
-                        count++;edkEnd();
+                        count++;
                         //clean the frame
-                        frameTemp.second = 0.f;edkEnd();
+                        frameTemp.second = 0.f;
                         //return true
-                        ret=true;edkEnd();
+                        ret=true;
                     }
 
                     //read the names
-                    edk::animation::PathGroup::AnimationPathNames nameTemp;edkEnd();
+                    edk::animation::PathGroup::AnimationPathNames nameTemp;
                     while(nameTemp.readFromXML(xml,count)){
                         //add the animationName
-                        this->addNewAnimationName(nameTemp.getName(),nameTemp.start,nameTemp.end);edkEnd();
+                        this->addNewAnimationName(nameTemp.getName(),nameTemp.start,nameTemp.end);
 
-                        count++;edkEnd();
+                        count++;
                         //clean nameTemp
-                        nameTemp.cleanName();edkEnd();
-                        nameTemp.start = 0u;edkEnd();
-                        nameTemp.end = 0u;edkEnd();
+                        nameTemp.cleanName();
+                        nameTemp.start = 0u;
+                        nameTemp.end = 0u;
                     }
 
                     //
-                    xml->selectFather();edkEnd();
+                    xml->selectFather();
                 }
-                free(name);edkEnd();
+                free(name);
             }
-            free(nameID);edkEnd();
+            free(nameID);
         }
         return ret;
     }

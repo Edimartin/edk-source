@@ -31,12 +31,173 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 //Include the binaryTree to save the elements
 #pragma once
+#include "TypeVars.h"
 #include "vector/BinaryTree.h"
 #include "String.h"
 
 #ifdef printMessages
 #pragma message "    Compiling Object"
 #endif
+
+namespace edk{
+class PointerObject{
+public:
+    PointerObject(edk::classID pointer);
+    ~PointerObject();
+    void* pointer;
+    inline bool operator==(edk::PointerObject object){
+        if(this->pointer==object.pointer){
+            return true;
+        }
+        return false;
+    }
+    inline bool operator>(edk::PointerObject object){
+        if(this->pointer>object.pointer){
+            return true;
+        }
+        return false;
+    }
+
+    inline bool retain(edk::classID pointerClass){
+        if(pointerClass){
+            return this->tree.add(pointerClass);
+        }
+        return false;
+    }
+    inline bool release(edk::classID pointerClass){
+        if(pointerClass){
+            return this->tree.remove(pointerClass);
+        }
+        return false;
+    }
+    inline edk::uint32 size(){
+        return this->tree.size();
+    }
+private:
+    edk::vector::BinaryTree<edk::classID> tree;
+private:
+    edk::classID classThis;
+};
+class Pointer{
+public:
+    Pointer();
+    ~Pointer();
+    template <class typeTemplate>
+    static bool newVec(typeTemplate** pointer,edk::uint64 lenght){
+        if(pointer && lenght){
+            typeTemplate* temp = (typeTemplate*)malloc(sizeof(typeTemplate)*lenght);
+            if(temp){
+                edk::PointerObject* tempObj = new edk::PointerObject(temp);
+                if(tempObj){
+                    if(edk::Pointer::tree.add(tempObj)){
+                        *pointer = temp;
+                        if(edk::Pointer::retain((edk::classID**)pointer,temp)){
+                            return true;
+                        }
+                        *pointer = NULL;
+                        edk::Pointer::tree.remove(tempObj);
+                    }
+                    delete tempObj;
+                }
+                free(temp);
+            }
+            return true;
+        }
+        return false;
+    }
+    template <class typeTemplate>
+    static bool retain(typeTemplate** pointerClass,edk::classID pointer){
+        return edk::Pointer::retain((edk::classID*) pointerClass,pointer);
+    }
+    static bool retain(edk::classID* pointerClass,edk::classID pointer);
+    template <class typeTemplate>
+    static bool release(typeTemplate** pointerClass){
+        return edk::Pointer::release((edk::classID*) pointerClass);
+    }
+    static bool release(edk::classID* pointerClass);
+private:
+    class TreeObjects : public edk::vector::BinaryTree<edk::PointerObject*>{
+    public:
+        TreeObjects(){}
+        ~TreeObjects(){}
+        //compare if the value is bigger
+        virtual bool firstBiggerSecond(edk::PointerObject* first,edk::PointerObject* second){
+            if(*first>*second){
+                //
+                return true;
+            }
+            return false;
+        }
+        //compare if the value is equal
+        virtual bool firstEqualSecond(edk::PointerObject* first,edk::PointerObject* second){
+            if(*first==*second){
+                //
+                return true;
+            }
+            return false;
+        }
+    }
+    static tree;
+    static edk::PointerObject templatePointer;
+};
+template <class typeTemplate>
+class Object{
+public:
+    inline Object(){
+        this->classThis=this;
+    }
+    virtual inline ~Object(){}
+
+    bool retain(typeTemplate** obj){
+        if(obj){
+            printf("\n%u %s %s this == [%lu] obj == [%lu]",__LINE__,__FILE__,__func__
+                   ,(edk::uint64)this
+                   ,(edk::uint64)obj
+                   );fflush(stdout);
+            return this->tree.add(obj);
+        }
+        return false;
+    }
+    bool release(typeTemplate** obj){
+        if(obj){
+            printf("\n%u %s %s this == [%lu] obj == [%lu]",__LINE__,__FILE__,__func__
+                   ,(edk::uint64)this
+                   ,(edk::uint64)obj
+                   );fflush(stdout);
+            if(this->tree.remove(obj)){
+                //test if need delete the pointer
+                if(!this->tree.size()){
+                    typeTemplate* temp = (typeTemplate*)this;
+                    //delete the object
+                    delete temp;
+                    //clean the pointer
+                    *obj=NULL;
+                }
+                return true;
+            }
+        }
+        return false;
+    }
+    static typeTemplate* newObject(){
+        typeTemplate* ret = new typeTemplate;
+        return ret;
+    }
+protected:
+    bool canDelete(){
+        if(this->classThis == this){
+            return true;
+        }
+        return false;
+    }
+private:
+    edk::classID classThis;
+    edk::vector::BinaryTree<typeTemplate**> tree;
+};
+}
+
+
+
+
 
 /*
 
@@ -51,7 +212,7 @@ class obj: public edk::Object<obj>{
     //Construtor virtual precisa chamar a funcao protegida
     virtual ~obj(){
         //destrutor
-        this->removeAll();edkEnd();
+        this->removeAll();
     }
 
 
@@ -60,7 +221,7 @@ class obj: public edk::Object<obj>{
         //
         if(pointer){
             //
-            *pointer=(obj*)this;edkEnd();
+            *pointer=(obj*)this;
         }
     }
     //Clean the object
@@ -68,40 +229,46 @@ class obj: public edk::Object<obj>{
         //
         if(pointer){
             //
-            *pointer = NULL;edkEnd();
+            *pointer = NULL;
         }
     }
 
     //value
-    edk::uint32 value;edkEnd();
+    edk::uint32 value;
 };
 
 */
 
+
+
+
+
 namespace edk{
 template <class typeTemplate>
-class Object{
+class ObjectSmart{
 public:
-    Object(){
-        this->classThis=NULL;edkEnd();
-        this->Constructor(false);edkEnd();
+    ObjectSmart(){
+        this->classThis=NULL;
+        this->Constructor();
     }
-    virtual ~Object(){
-        if(this->classThis==this){
-            this->classThis=NULL;edkEnd();
-            //can destruct the class
-            //remove all
-            this->removeAll();edkEnd();
-        }
+    virtual ~ObjectSmart(){
+        this->Destructor();
     }
 
-    void Constructor(bool runFather=true){
-        if(runFather){edkEnd();}
+    void Constructor(){
         //
         if(this->classThis!=this){
             this->classThis=this;
 
             this->retains.Constructor();
+        }
+    }
+    void Destructor(){
+        if(this->classThis==this){
+            this->classThis=NULL;
+            //can destruct the class
+            //remove all
+            this->removeAll();
         }
     }
 
@@ -112,9 +279,9 @@ public:
             //add the pointer to the retains
             if(this->retains.add(pointer)){
                 //save the object
-                this->saveObject(pointer);edkEnd();
+                this->saveObject(pointer);
                 //
-                return (typeTemplate*)this;edkEnd();
+                return (typeTemplate*)this;
             }
         }
         //else return false
@@ -126,16 +293,16 @@ public:
     {
         //test if have the pointer
         if(pointer){
-            typeTemplate* temp = *pointer;edkEnd();
+            typeTemplate* temp = *pointer;
             //remove the object
-            this->retains.remove(pointer);edkEnd();
+            this->retains.remove(pointer);
             //clean the object
-            this->cleanObject(pointer);edkEnd();
+            this->cleanObject(pointer);
             //test if dont have a root
             if(!this->retains.haveRoot()){
                 //delete self
                 if(temp){
-                    delete this;edkEnd();
+                    delete this;
                     return true;
                 }
             }
@@ -148,12 +315,12 @@ public:
     //Return true if have retains
     bool haveRetains(){
         //
-        return this->retains.haveRoot();edkEnd();
+        return this->retains.haveRoot();
     }
     //return true if have one retain
     bool haveOneRetain(){
         //
-        return !this->retains.haveRootChild();edkEnd();
+        return !this->retains.haveRootChild();
     }
 
 protected:
@@ -163,7 +330,7 @@ protected:
         //
         if(pointer){
             //
-            *pointer=(typeTemplate*)this;edkEnd();
+            *pointer=(typeTemplate*)this;
         }
     }
 
@@ -173,7 +340,7 @@ protected:
         //
         if(pointer){
             //
-            *pointer = NULL;edkEnd();
+            *pointer = NULL;
         }
     }
 
@@ -182,22 +349,22 @@ protected:
     void removeAll()
     {
         //load the rootValue
-        typeTemplate** temp=NULL;edkEnd();
+        typeTemplate** temp=NULL;
         while(this->retains.haveRoot()){
             //get the root
-            temp = this->retains.getRootValue();edkEnd();
+            temp = this->retains.getRootValue();
             if(temp){
                 //clean the pointer
-                this->cleanObject(temp);edkEnd();
+                this->cleanObject(temp);
 
                 //remove the temp
-                this->retains.remove(temp);edkEnd();
+                this->retains.remove(temp);
             }
             else{
-                this->retains.remove(temp);edkEnd();
+                this->retains.remove(temp);
             }
             //clean the temp
-            temp =NULL;edkEnd();
+            temp =NULL;
         }
     }
 private:
@@ -208,7 +375,7 @@ private:
 };
 
 //Create a object with name
-class ObjectWithName : public edk::Object<edk::ObjectWithName>{
+class ObjectWithName : public edk::ObjectSmart<edk::ObjectWithName>{
 public:
     //construtor
     ObjectWithName();
@@ -219,9 +386,10 @@ public:
     //destructor
     virtual ~ObjectWithName();
 
-    void Constructor(bool runFather=true);
-    void Constructor(edk::char8* name,bool runFather=true);
-    void Constructor(const edk::char8* name,bool runFather=true);
+    void Constructor();
+    void Constructor(edk::char8* name);
+    void Constructor(const edk::char8* name);
+    void Destructor();
 
     //Set the name
     bool setName(edk::char8* name);
@@ -244,73 +412,76 @@ private:
 
 //TREE WITH OBJECTS
 template <class typeTemplate>
-class ObjectsTree :public edk::vector::BinaryTree<edk::Object<typeTemplate>*>{
+class ObjectsTree :public edk::vector::BinaryTree<edk::ObjectSmart<typeTemplate>*>{
     //
 public:
     ObjectsTree(){
-        this->classThis=NULL;edkEnd();
-        this->Constructor(false);edkEnd();
+        this->classThis=NULL;
+        this->Constructor();
     }
     virtual ~ObjectsTree(){
-        if(this->classThis==this){
-            this->classThis=NULL;edkEnd();
-            //can destruct the class
-            this->clean();edkEnd();
-        }
+        this->Destructor();
     }
 
-    void Constructor(bool runFather=true){
-        if(runFather){
-            edk::vector::BinaryTree<edk::Object<typeTemplate>*>::Constructor();edkEnd();
-        }
+    void Constructor(){
+        edk::vector::BinaryTree<edk::ObjectSmart<typeTemplate>*>::Constructor();
         if(this->classThis!=this){
             this->classThis=this;
         }
     }
+    void Destructor(){
+        if(this->classThis==this){
+            this->classThis=NULL;
+            //can destruct the class
+            this->clean();
+        }
+        edk::vector::BinaryTree<edk::ObjectSmart<typeTemplate>*>::Destructor();
+    }
+
     //Diferente Add to retain the object
-    bool add(edk::Object<typeTemplate>* value){
+    bool add(edk::ObjectSmart<typeTemplate>* value){
         //
         return false;
     }
-    bool addElement(edk::Object<typeTemplate>* value,edk::Object<typeTemplate>** objRetain){
+    bool addElement(edk::ObjectSmart<typeTemplate>* value,edk::ObjectSmart<typeTemplate>** objRetain){
         //test the value
         if(value){
             if(objRetain){
                 //get the object on the tree
-                edk::Object<typeTemplate>* temp = this->getElement(value);edkEnd();
+                edk::ObjectSmart<typeTemplate>* temp = this->getElement(value);
                 //test if the object is in on the tree
                 if(temp){
                     //then retain the object
-                    return temp->retainObject((typeTemplate**)objRetain);edkEnd();
+                    return temp->retainObject((typeTemplate**)objRetain);
                 }
                 else{
                     //then add the object
-                    if(edk::vector::BinaryTree<edk::Object<typeTemplate>*>::add(value)){
+                    if(edk::vector::BinaryTree<edk::ObjectSmart<typeTemplate>*>::add(value)){
                         //save the temp to retain
-                        return value->retainObject((typeTemplate**)objRetain);edkEnd();
+                        return value->retainObject((typeTemplate**)objRetain);
                     }
                 }
-                temp=NULL;edkEnd();
+                temp=NULL;
             }
         }
         //else return false
         return false;
     }
-    bool remove(edk::Object<typeTemplate>* value){
+    bool remove(edk::ObjectSmart<typeTemplate>* value){
         //
         return false;
     }
-    bool releaseElement(edk::Object<typeTemplate>* value,edk::Object<typeTemplate>** objRetain){
+    bool releaseElement(edk::ObjectSmart<typeTemplate>* value,edk::ObjectSmart<typeTemplate>** objRetain){
         //test the *objRetain
         if(value){
             if(objRetain){
                 //then test if have the *objRetain on the tree
-                edk::Object<typeTemplate>* temp = this->getElement(value);edkEnd();
+                edk::ObjectSmart<typeTemplate>* temp = this->getElement(value);
                 if(temp){
                     //then test if the temp have just one retain
                     if(temp->haveOneRetain()){
                         //remove the temp
-                        edk::vector::BinaryTree<edk::Object<typeTemplate>*>::remove(temp);edkEnd();
+                        edk::vector::BinaryTree<edk::ObjectSmart<typeTemplate>*>::remove(temp);
                         //release the objRetain
                         if(temp->releaseObject((typeTemplate**)(objRetain))){
                             return true;
@@ -318,7 +489,7 @@ public:
                     }
                     else{
                         //else just release the object
-                        return temp->releaseObject((typeTemplate**)(objRetain));edkEnd();
+                        return temp->releaseObject((typeTemplate**)(objRetain));
                     }
                 }
             }
@@ -327,34 +498,34 @@ public:
         return false;
     }
     //delete the element of the tree
-    bool deleteElement(edk::Object<typeTemplate>* value){
+    bool deleteElement(edk::ObjectSmart<typeTemplate>* value){
         //test if the value exist
         if(value){
             //then test if have the *objRetain on the tree
-            edk::Object<typeTemplate>* temp = this->getElement(value);edkEnd();
+            edk::ObjectSmart<typeTemplate>* temp = this->getElement(value);
             //test if the value is in the tree
             if(temp){
                 //then remove the value of the tree
-                if(edk::vector::BinaryTree<edk::Object<typeTemplate>*>::remove(temp)){
+                if(edk::vector::BinaryTree<edk::ObjectSmart<typeTemplate>*>::remove(temp)){
                     //delete the value
-                    delete temp;edkEnd();
-                    temp=NULL;edkEnd();
+                    delete temp;
+                    temp=NULL;
                     //return true
                     return true;
                 }
             }
-            temp=NULL;edkEnd();
+            temp=NULL;
         }
         return false;
     }
     //return the element
-    edk::Object<typeTemplate>* getElement(edk::Object<typeTemplate>* value){
+    edk::ObjectSmart<typeTemplate>* getElement(edk::ObjectSmart<typeTemplate>* value){
         //
-        return edk::vector::BinaryTree<edk::Object<typeTemplate>*>::getElement(value);edkEnd();
+        return edk::vector::BinaryTree<edk::ObjectSmart<typeTemplate>*>::getElement(value);
     }
-    bool haveElement(edk::Object<typeTemplate>* value){
+    bool haveElement(edk::ObjectSmart<typeTemplate>* value){
         //
-        return edk::vector::BinaryTree<edk::Object<typeTemplate>*>::haveElement(value);edkEnd();
+        return edk::vector::BinaryTree<edk::ObjectSmart<typeTemplate>*>::haveElement(value);
     }
 private:
     edk::classID classThis;
@@ -367,23 +538,25 @@ class ObjectNameTree: public edk::vector::BinaryTree<edk::ObjectWithName*>{
     //
 public:
     ObjectNameTree(){
-        this->classThis=NULL;edkEnd();
-        this->Constructor(false);edkEnd();
+        this->classThis=NULL;
+        this->Constructor();
     }
     virtual ~ObjectNameTree(){
-        if(this->classThis==this){
-            this->classThis=NULL;edkEnd();
-            //can destruct the class
-        }
+        this->Destructor();
     }
 
-    void Constructor(bool runFather=true){
-        if(runFather){
-            edk::vector::BinaryTree<edk::ObjectWithName*>::Constructor();edkEnd();
-        }
+    void Constructor(){
+        edk::vector::BinaryTree<edk::ObjectWithName*>::Constructor();
         if(this->classThis!=this){
             this->classThis=this;
         }
+    }
+    void Destructor(){
+        if(this->classThis==this){
+            this->classThis=NULL;
+            //can destruct the class
+        }
+        edk::vector::BinaryTree<edk::ObjectWithName*>::Destructor();
     }
     //Add
     //edk::Object<typeTemplate>* value,edk::Object<typeTemplate>** objRetain
@@ -408,9 +581,6 @@ private:
 private:
     edk::classID classThis;
 };
-
-
 }
-
 
 #endif // OBJECT_H

@@ -29,50 +29,52 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endif
 
 edk::codecs::EncoderVideo::EncoderVideo(){
-    this->classThis=NULL;edkEnd();
-    this->Constructor(false);edkEnd();
+    this->classThis=NULL;
+    this->Constructor();
 }
 edk::codecs::EncoderVideo::~EncoderVideo(){
-    if(this->classThis==this){
-        this->classThis=NULL;edkEnd();
-        //can destruct the class
-        this->finishEncoder();edkEnd();
-    }
+    this->Destructor();
 }
 
-void edk::codecs::EncoderVideo::Constructor(bool runFather){
-    if(runFather){
-        edk::codecs::CodecVideo::Constructor();edkEnd();
-    }
+void edk::codecs::EncoderVideo::Constructor(){
+    edk::codecs::CodecVideo::Constructor();
     if(this->classThis!=this){
         this->classThis=this;
     }
+}
+void edk::codecs::EncoderVideo::Destructor(){
+    if(this->classThis==this){
+        this->classThis=NULL;
+        //can destruct the class
+        this->finishEncoder();
+    }
+    edk::codecs::CodecVideo::Destructor();
 }
 
 //start the encoder
 bool edk::codecs::EncoderVideo::startEncoder(edk::size2ui32 size,edk::uint32 fps){
     if(size.width && size.height && fps){
         //create the frame
-        return this->newFrameYUV(size);edkEnd();
+        return this->newFrameYUV(size);
     }
     return false;
 }
 bool edk::codecs::EncoderVideo::startEncoder(edk::uint32 width, edk::uint32 height, edk::uint32 fps){
-    return this->startEncoder(edk::size2ui32(width,height),fps);edkEnd();
+    return this->startEncoder(edk::size2ui32(width,height),fps);
 }
 
 //alloc a new frameEncoded
 bool edk::codecs::EncoderVideo::newSpaceEncoded(edk::uint32 size){
-    return edk::codecs::CodecVideo::newSpaceEncoded(size);edkEnd();
+    return edk::codecs::CodecVideo::newSpaceEncoded(size);
 }
 //delete the encoded
 void edk::codecs::EncoderVideo::deleteSpaceEncoded(){
-    edk::codecs::CodecVideo::deleteSpaceEncoded();edkEnd();
+    edk::codecs::CodecVideo::deleteSpaceEncoded();
 }
 
 //set next keyFrame
 void edk::codecs::EncoderVideo::setNextKeyframe(){
-    edk::codecs::CodecVideo::setNextKeyframe();edkEnd();
+    edk::codecs::CodecVideo::setNextKeyframe();
 }
 
 //process the encoder
@@ -84,22 +86,22 @@ bool edk::codecs::EncoderVideo::encode(edk::uint8* frame,edk::uint8 channels){
     return false;
 }
 bool edk::codecs::EncoderVideo::encode(const unsigned char* frame,edk::uint8 channels){
-    return this->encode((edk::uint8*)frame,channels);edkEnd();
+    return this->encode((edk::uint8*)frame,channels);
 }
 
 //return the frame encoded
 edk::uint8* edk::codecs::EncoderVideo::getEncoded(){
-    return edk::codecs::CodecVideo::getEncoded();edkEnd();
+    return edk::codecs::CodecVideo::getEncoded();
 }
 edk::uint32 edk::codecs::EncoderVideo::getSpaceEncodedSize(){
-    return edk::codecs::CodecVideo::getSpaceEncodedSize();edkEnd();
+    return edk::codecs::CodecVideo::getSpaceEncodedSize();
 }
 edk::uint32 edk::codecs::EncoderVideo::getEncodedUsedSize(){
-    return edk::codecs::CodecVideo::getEncodedUsedSize();edkEnd();
+    return edk::codecs::CodecVideo::getEncodedUsedSize();
 }
 
 //finish the encoder
 void edk::codecs::EncoderVideo::finishEncoder(){
-    this->deleteFrame();edkEnd();
+    this->deleteFrame();
 }
 

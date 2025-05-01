@@ -43,7 +43,8 @@ public:
     ViewGU3D();
     virtual ~ViewGU3D();
 
-    void Constructor(bool runFather=true);
+    void Constructor();
+    void Destructor();
 
     //draw the GU scene
     virtual void drawScene(edk::rectf32 outsideViewOrigin);

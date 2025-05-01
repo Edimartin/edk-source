@@ -70,8 +70,9 @@ public:
     Polygon3D(edk::uint32 vertexCount);
     virtual ~Polygon3D();
 
-    void Constructor(bool runFather=true);
-    void Constructor(edk::uint32 vertexCount,bool runFather=true);
+    void Constructor();
+    void Constructor(edk::uint32 vertexCount);
+    void Destructor();
 
     void clean();
 
@@ -557,20 +558,14 @@ protected:
     class Polygon3DMorph{
     public:
         Polygon3DMorph(edk::uint32 vertexCount,edk::color4f32 polygonColor){
-            this->classThis=NULL;edkEnd();
-            this->Constructor(vertexCount,polygonColor,false);edkEnd();
+            this->classThis=NULL;
+            this->Constructor(vertexCount,polygonColor);
         }
         virtual ~Polygon3DMorph(){
-            if(this->classThis==this){
-                this->classThis=NULL;edkEnd();
-                //can destruct the class
-                this->vertexs.deleteArray();
-                this->vertexsOriginal.deleteArray();
-            }
+            this->Destructor();
         }
 
-        void Constructor(edk::uint32 vertexCount,edk::color4f32 polygonColor,bool runFather=true){
-            if(runFather){edkEnd();}
+        void Constructor(edk::uint32 vertexCount,edk::color4f32 polygonColor){
             if(this->classThis!=this){
                 this->classThis=this;
 
@@ -581,6 +576,14 @@ protected:
                 this->createPolygon(vertexCount,polygonColor);
             }
         }
+        void Destructor(){
+            if(this->classThis==this){
+                this->classThis=NULL;
+                //can destruct the class
+                this->vertexs.deleteArray();
+                this->vertexsOriginal.deleteArray();
+            }
+        }
 
         edk::vector::Array<edk::shape::Vertex3D*> vertexs;
         edk::vector::Array<edk::shape::Vertex3D*> vertexsOriginal;
@@ -589,29 +592,29 @@ protected:
         //delete the polygonVertex
         void deletePolygon(){
             //remove the animation
-            edk::uint32 size = this->vertexs.size();edkEnd();
+            edk::uint32 size = this->vertexs.size();
             for(edk::uint32 i=0u;i<size;i++){
                 //
                 if(this->vertexs.get(i)){
-                    delete this->vertexs.getNoIF(i);edkEnd();
+                    delete this->vertexs.getNoIF(i);
                 }
             }
-            this->vertexs.deleteArray();edkEnd();
-            size = this->vertexsOriginal.size();edkEnd();
+            this->vertexs.deleteArray();
+            size = this->vertexsOriginal.size();
             for(edk::uint32 i=0u;i<size;i++){
                 //
                 if(this->vertexsOriginal.get(i)){
-                    delete this->vertexsOriginal.getNoIF(i);edkEnd();
+                    delete this->vertexsOriginal.getNoIF(i);
                 }
             }
-            this->vertexsOriginal.deleteArray();edkEnd();
+            this->vertexsOriginal.deleteArray();
 
         }
 
         //create the polygon
         bool createPolygon(edk::uint32 vertexCount,edk::color4f32 polygonColor){
             //delete the polygon
-            this->deletePolygon();edkEnd();
+            this->deletePolygon();
             //test the vertexCount
             if(vertexCount >= minimumVertex){
                 //create the array
@@ -620,16 +623,16 @@ protected:
                         //create all the vertexs
                         for(edk::uint32 i =0u;i<vertexCount;i++){
                             //
-                            this->vertexs.set(i,new edk::shape::Vertex3D());edkEnd();
-                            this->vertexsOriginal.set(i,new edk::shape::Vertex3D());edkEnd();
+                            this->vertexs.set(i,new edk::shape::Vertex3D());
+                            this->vertexsOriginal.set(i,new edk::shape::Vertex3D());
                             //Set alpha 1
                             if(this->vertexs.get(i)){
                                 //set the vertex
-                                this->vertexs.getNoIF(i)->color = polygonColor;edkEnd();
+                                this->vertexs.getNoIF(i)->color = polygonColor;
                             }
                             if(this->vertexsOriginal.get(i)){
                                 //set the vertex
-                                this->vertexsOriginal.getNoIF(i)->color = polygonColor;edkEnd();
+                                this->vertexsOriginal.getNoIF(i)->color = polygonColor;
                             }
                         }
                         //then return true
@@ -647,10 +650,10 @@ protected:
         //set the position of a vertex
         bool setVertexPosition(edk::uint32 vertex,edk::vec3f32 position){
             //load the polygon
-            edk::shape::Vertex3D* vTemp = this->vertexsOriginal.get(vertex);edkEnd();
+            edk::shape::Vertex3D* vTemp = this->vertexsOriginal.get(vertex);
             if(vTemp){
                 //then set the position of the vertex
-                vTemp->position = position;edkEnd();
+                vTemp->position = position;
                 //return true
                 return true;
             }
@@ -660,10 +663,10 @@ protected:
         //set the color of a vertex
         bool setVertexColor(edk::uint32 vertex,edk::color4f32 color){
             //load the polygon
-            edk::shape::Vertex3D* vTemp = this->vertexsOriginal.get(vertex);edkEnd();
+            edk::shape::Vertex3D* vTemp = this->vertexsOriginal.get(vertex);
             if(vTemp){
                 //then set the position of the vertex
-                vTemp->color = color;edkEnd();
+                vTemp->color = color;
                 //return true
                 return true;
             }
@@ -677,10 +680,10 @@ protected:
                 edk::shape::Vertex3D* vTemp = NULL;
                 for(edk::uint32 i=0u;i<size;i++){
                     //load the polygon
-                    vTemp = this->vertexsOriginal.get(i);edkEnd();
+                    vTemp = this->vertexsOriginal.get(i);
                     if(vTemp){
                         //then set the position of the vertex
-                        vTemp->color = color;edkEnd();
+                        vTemp->color = color;
                         //return true
                         return true;
                     }
@@ -695,10 +698,10 @@ protected:
                 edk::shape::Vertex3D* vTemp = NULL;
                 for(edk::uint32 i=0u;i<size;i++){
                     //load the polygon
-                    vTemp = this->vertexsOriginal.get(i);edkEnd();
+                    vTemp = this->vertexsOriginal.get(i);
                     if(vTemp){
                         //then set the position of the vertex
-                        vTemp->color = color;edkEnd();
+                        vTemp->color = color;
                         //return true
                         return true;
                     }
@@ -713,10 +716,10 @@ protected:
                 edk::shape::Vertex3D* vTemp = NULL;
                 for(edk::uint32 i=0u;i<size;i++){
                     //load the polygon
-                    vTemp = this->vertexsOriginal.get(i);edkEnd();
+                    vTemp = this->vertexsOriginal.get(i);
                     if(vTemp){
                         //then set the position of the vertex
-                        vTemp->color.r = r;edkEnd();
+                        vTemp->color.r = r;
                         //return true
                         return true;
                     }
@@ -731,10 +734,10 @@ protected:
                 edk::shape::Vertex3D* vTemp = NULL;
                 for(edk::uint32 i=0u;i<size;i++){
                     //load the polygon
-                    vTemp = this->vertexsOriginal.get(i);edkEnd();
+                    vTemp = this->vertexsOriginal.get(i);
                     if(vTemp){
                         //then set the position of the vertex
-                        vTemp->color.g = g;edkEnd();
+                        vTemp->color.g = g;
                         //return true
                         return true;
                     }
@@ -749,10 +752,10 @@ protected:
                 edk::shape::Vertex3D* vTemp = NULL;
                 for(edk::uint32 i=0u;i<size;i++){
                     //load the polygon
-                    vTemp = this->vertexsOriginal.get(i);edkEnd();
+                    vTemp = this->vertexsOriginal.get(i);
                     if(vTemp){
                         //then set the position of the vertex
-                        vTemp->color.b = b;edkEnd();
+                        vTemp->color.b = b;
                         //return true
                         return true;
                     }
@@ -767,10 +770,10 @@ protected:
                 edk::shape::Vertex3D* vTemp = NULL;
                 for(edk::uint32 i=0u;i<size;i++){
                     //load the polygon
-                    vTemp = this->vertexsOriginal.get(i);edkEnd();
+                    vTemp = this->vertexsOriginal.get(i);
                     if(vTemp){
                         //then set the position of the vertex
-                        vTemp->color.a = a;edkEnd();
+                        vTemp->color.a = a;
                         //return true
                         return true;
                     }
@@ -782,26 +785,26 @@ protected:
         //set the UVMap of the vertex
         bool setVertexUV(edk::uint32 vertex,edk::vec2f32 uv){
             //load the polygon
-            edk::shape::Vertex3DWithUV* vTemp = (edk::shape::Vertex3DWithUV*)this->vertexsOriginal.get(vertex);edkEnd();
+            edk::shape::Vertex3DWithUV* vTemp = (edk::shape::Vertex3DWithUV*)this->vertexsOriginal.get(vertex);
             if(vTemp){
                 //test what type of vertex it is
                 if(vTemp->getType() == EDK_SHAPE_NOUV){
                     //then delete the vTemp and create another with UV
-                    edk::shape::Vertex3DWithUV* uvTemp = new edk::shape::Vertex3DWithUV();edkEnd();
+                    edk::shape::Vertex3DWithUV* uvTemp = new edk::shape::Vertex3DWithUV();
                     if(uvTemp){
                         //copy the vTemp content to uvTemp
-                        uvTemp->position = vTemp->position;edkEnd();
-                        uvTemp->color = vTemp->color;edkEnd();
-                        uvTemp->normal = vTemp->normal;edkEnd();
+                        uvTemp->position = vTemp->position;
+                        uvTemp->color = vTemp->color;
+                        uvTemp->normal = vTemp->normal;
 
                         //delete the vTemp
-                        delete vTemp;edkEnd();
+                        delete vTemp;
                         //set vTemp the uvTemp
-                        vTemp=uvTemp;edkEnd();
+                        vTemp=uvTemp;
                         //set the vertex on the array
-                        this->vertexsOriginal.set(vertex,(edk::shape::Vertex3D*)vTemp);edkEnd();
+                        this->vertexsOriginal.set(vertex,(edk::shape::Vertex3D*)vTemp);
                         //clean uvTemp
-                        uvTemp=NULL;edkEnd();
+                        uvTemp=NULL;
                     }
                     else{
                         //else return false
@@ -809,12 +812,12 @@ protected:
                     }
                 }
                 else if(vTemp->getType() == EDK_SHAPE_ANIMATED_UV){
-                    edk::shape::Vertex3DAnimatedUV* vTemp2 = (edk::shape::Vertex3DAnimatedUV*)vTemp;edkEnd();
-                    vTemp2->setUV(uv);edkEnd();
+                    edk::shape::Vertex3DAnimatedUV* vTemp2 = (edk::shape::Vertex3DAnimatedUV*)vTemp;
+                    vTemp2->setUV(uv);
                     return true;
                 }
                 //set the uv
-                vTemp->setUV(uv);edkEnd();
+                vTemp->setUV(uv);
                 //return true
                 return true;
             }
@@ -830,30 +833,30 @@ protected:
                 //set the frames on vertex
                 for(edk::uint32 i=0u;i<this->vertexs.size();i++){
                     //
-                    vTemp = (edk::shape::Vertex3DWithUV*)this->vertexsOriginal.get(i);edkEnd();
+                    vTemp = (edk::shape::Vertex3DWithUV*)this->vertexsOriginal.get(i);
                     if(vTemp){
                         //test what type of vertex it is
                         if(vTemp->getType() != EDK_SHAPE_ANIMATED_UV){
                             //then delete the vTemp and create another with UV
-                            uvaTemp = new edk::shape::Vertex3DAnimatedUV();edkEnd();
+                            uvaTemp = new edk::shape::Vertex3DAnimatedUV();
                             if(uvaTemp){
                                 //copy the vTemp content to uvTemp
-                                uvaTemp->position = vTemp->position;edkEnd();
-                                uvaTemp->color = vTemp->color;edkEnd();
-                                uvaTemp->normal = vTemp->normal;edkEnd();
+                                uvaTemp->position = vTemp->position;
+                                uvaTemp->color = vTemp->color;
+                                uvaTemp->normal = vTemp->normal;
 
                                 if(vTemp->getType() == EDK_SHAPE_UV){
                                     uvaTemp->setUV(vTemp->getUV());
                                 }
 
                                 //delete the vTemp
-                                delete vTemp;edkEnd();
+                                delete vTemp;
                                 //set vTemp the uvTemp
-                                vTemp=uvaTemp;edkEnd();
+                                vTemp=uvaTemp;
                                 //set the vertex on the array
-                                this->vertexsOriginal.set(i,(edk::shape::Vertex3D*)vTemp);edkEnd();
+                                this->vertexsOriginal.set(i,(edk::shape::Vertex3D*)vTemp);
                                 //clean uvTemp
-                                uvaTemp=NULL;edkEnd();
+                                uvaTemp=NULL;
                             }
                             else{
                                 //else return false
@@ -861,8 +864,8 @@ protected:
                             }
                         }
                         else if(vTemp->getType() == EDK_SHAPE_ANIMATED_UV){
-                            edk::shape::Vertex3DAnimatedUV* vTemp2 = (edk::shape::Vertex3DAnimatedUV*)vTemp;edkEnd();
-                            vTemp2->setUVFrames(frames);edkEnd();
+                            edk::shape::Vertex3DAnimatedUV* vTemp2 = (edk::shape::Vertex3DAnimatedUV*)vTemp;
+                            vTemp2->setUVFrames(frames);
                             return true;
                         }
                         //return true
@@ -883,30 +886,30 @@ protected:
                 //set the frames on vertex
                 for(edk::uint32 i=0u;i<this->vertexs.size();i++){
                     //
-                    vTemp = (edk::shape::Vertex3DWithUV*)this->vertexsOriginal.get(i);edkEnd();
+                    vTemp = (edk::shape::Vertex3DWithUV*)this->vertexsOriginal.get(i);
                     if(vTemp){
                         //test what type of vertex it is
                         if(vTemp->getType() != EDK_SHAPE_ANIMATED_UV){
                             //then delete the vTemp and create another with UV
-                            uvaTemp = new edk::shape::Vertex3DAnimatedUV();edkEnd();
+                            uvaTemp = new edk::shape::Vertex3DAnimatedUV();
                             if(uvaTemp){
                                 //copy the vTemp content to uvTemp
-                                uvaTemp->position = vTemp->position;edkEnd();
-                                uvaTemp->color = vTemp->color;edkEnd();
-                                uvaTemp->normal = vTemp->normal;edkEnd();
+                                uvaTemp->position = vTemp->position;
+                                uvaTemp->color = vTemp->color;
+                                uvaTemp->normal = vTemp->normal;
 
                                 if(vTemp->getType() == EDK_SHAPE_UV){
                                     uvaTemp->setUV(vTemp->getUV());
                                 }
 
                                 //delete the vTemp
-                                delete vTemp;edkEnd();
+                                delete vTemp;
                                 //set vTemp the uvTemp
-                                vTemp=uvaTemp;edkEnd();
+                                vTemp=uvaTemp;
                                 //set the vertex on the array
-                                this->vertexsOriginal.set(i,(edk::shape::Vertex3D*)vTemp);edkEnd();
+                                this->vertexsOriginal.set(i,(edk::shape::Vertex3D*)vTemp);
                                 //clean uvTemp
-                                uvaTemp=NULL;edkEnd();
+                                uvaTemp=NULL;
                             }
                             else{
                                 //else return false
@@ -914,8 +917,8 @@ protected:
                             }
                         }
                         else if(vTemp->getType() == EDK_SHAPE_ANIMATED_UV){
-                            edk::shape::Vertex3DAnimatedUV* vTemp2 = (edk::shape::Vertex3DAnimatedUV*)vTemp;edkEnd();
-                            vTemp2->setUVFrames(x,vTemp2->getUVFrames().y);edkEnd();
+                            edk::shape::Vertex3DAnimatedUV* vTemp2 = (edk::shape::Vertex3DAnimatedUV*)vTemp;
+                            vTemp2->setUVFrames(x,vTemp2->getUVFrames().y);
                             return true;
                         }
                         //return true
@@ -936,30 +939,30 @@ protected:
                 //set the frames on vertex
                 for(edk::uint32 i=0u;i<this->vertexs.size();i++){
                     //
-                    vTemp = (edk::shape::Vertex3DWithUV*)this->vertexsOriginal.get(i);edkEnd();
+                    vTemp = (edk::shape::Vertex3DWithUV*)this->vertexsOriginal.get(i);
                     if(vTemp){
                         //test what type of vertex it is
                         if(vTemp->getType() != EDK_SHAPE_ANIMATED_UV){
                             //then delete the vTemp and create another with UV
-                            uvaTemp = new edk::shape::Vertex3DAnimatedUV();edkEnd();
+                            uvaTemp = new edk::shape::Vertex3DAnimatedUV();
                             if(uvaTemp){
                                 //copy the vTemp content to uvTemp
-                                uvaTemp->position = vTemp->position;edkEnd();
-                                uvaTemp->color = vTemp->color;edkEnd();
-                                uvaTemp->normal = vTemp->normal;edkEnd();
+                                uvaTemp->position = vTemp->position;
+                                uvaTemp->color = vTemp->color;
+                                uvaTemp->normal = vTemp->normal;
 
                                 if(vTemp->getType() == EDK_SHAPE_UV){
                                     uvaTemp->setUV(vTemp->getUV());
                                 }
 
                                 //delete the vTemp
-                                delete vTemp;edkEnd();
+                                delete vTemp;
                                 //set vTemp the uvTemp
-                                vTemp=uvaTemp;edkEnd();
+                                vTemp=uvaTemp;
                                 //set the vertex on the array
-                                this->vertexsOriginal.set(i,(edk::shape::Vertex3D*)vTemp);edkEnd();
+                                this->vertexsOriginal.set(i,(edk::shape::Vertex3D*)vTemp);
                                 //clean uvTemp
-                                uvaTemp=NULL;edkEnd();
+                                uvaTemp=NULL;
                             }
                             else{
                                 //else return false
@@ -967,8 +970,8 @@ protected:
                             }
                         }
                         else if(vTemp->getType() == EDK_SHAPE_ANIMATED_UV){
-                            edk::shape::Vertex3DAnimatedUV* vTemp2 = (edk::shape::Vertex3DAnimatedUV*)vTemp;edkEnd();
-                            vTemp2->setUVFrames(vTemp2->getUVFrames().x,y);edkEnd();
+                            edk::shape::Vertex3DAnimatedUV* vTemp2 = (edk::shape::Vertex3DAnimatedUV*)vTemp;
+                            vTemp2->setUVFrames(vTemp2->getUVFrames().x,y);
                             return true;
                         }
                         //return true
@@ -989,35 +992,35 @@ protected:
             //set the frames on vertex
             for(edk::uint32 i=0u;i<this->vertexs.size();i++){
                 //
-                vTemp = (edk::shape::Vertex3DWithUV*)this->vertexsOriginal.get(i);edkEnd();
+                vTemp = (edk::shape::Vertex3DWithUV*)this->vertexsOriginal.get(i);
                 if(vTemp){
                     //test what type of vertex it is
                     if(vTemp->getType() != EDK_SHAPE_ANIMATED_UV){
                         //then delete the vTemp and create another with UV
-                        uvaTemp = new edk::shape::Vertex3DAnimatedUV();edkEnd();
+                        uvaTemp = new edk::shape::Vertex3DAnimatedUV();
                         if(uvaTemp){
                             //copy the vTemp content to uvTemp
-                            uvaTemp->position = vTemp->position;edkEnd();
-                            uvaTemp->color = vTemp->color;edkEnd();
-                            uvaTemp->normal = vTemp->normal;edkEnd();
+                            uvaTemp->position = vTemp->position;
+                            uvaTemp->color = vTemp->color;
+                            uvaTemp->normal = vTemp->normal;
 
                             if(vTemp->getType() == EDK_SHAPE_UV){
                                 uvaTemp->setUV(vTemp->getUV());
                             }
 
                             //delete the vTemp
-                            delete vTemp;edkEnd();
+                            delete vTemp;
                             //set vTemp the uvTemp
-                            vTemp=uvaTemp;edkEnd();
+                            vTemp=uvaTemp;
                             //set the vertex on the array
-                            this->vertexsOriginal.set(i,(edk::shape::Vertex3D*)vTemp);edkEnd();
+                            this->vertexsOriginal.set(i,(edk::shape::Vertex3D*)vTemp);
                             //clean uvTemp
-                            uvaTemp=NULL;edkEnd();
+                            uvaTemp=NULL;
                         }
                     }
                     else if(vTemp->getType() == EDK_SHAPE_ANIMATED_UV){
-                        edk::shape::Vertex3DAnimatedUV* vTemp2 = (edk::shape::Vertex3DAnimatedUV*)vTemp;edkEnd();
-                        vTemp2->useUVFrame(frame);edkEnd();
+                        edk::shape::Vertex3DAnimatedUV* vTemp2 = (edk::shape::Vertex3DAnimatedUV*)vTemp;
+                        vTemp2->useUVFrame(frame);
                     }
                 }
             }
@@ -1029,35 +1032,35 @@ protected:
             //set the frames on vertex
             for(edk::uint32 i=0u;i<this->vertexs.size();i++){
                 //
-                vTemp = (edk::shape::Vertex3DWithUV*)this->vertexsOriginal.get(i);edkEnd();
+                vTemp = (edk::shape::Vertex3DWithUV*)this->vertexsOriginal.get(i);
                 if(vTemp){
                     //test what type of vertex it is
                     if(vTemp->getType() != EDK_SHAPE_ANIMATED_UV){
                         //then delete the vTemp and create another with UV
-                        uvaTemp = new edk::shape::Vertex3DAnimatedUV();edkEnd();
+                        uvaTemp = new edk::shape::Vertex3DAnimatedUV();
                         if(uvaTemp){
                             //copy the vTemp content to uvTemp
-                            uvaTemp->position = vTemp->position;edkEnd();
-                            uvaTemp->color = vTemp->color;edkEnd();
-                            uvaTemp->normal = vTemp->normal;edkEnd();
+                            uvaTemp->position = vTemp->position;
+                            uvaTemp->color = vTemp->color;
+                            uvaTemp->normal = vTemp->normal;
 
                             if(vTemp->getType() == EDK_SHAPE_UV){
                                 uvaTemp->setUV(vTemp->getUV());
                             }
 
                             //delete the vTemp
-                            delete vTemp;edkEnd();
+                            delete vTemp;
                             //set vTemp the uvTemp
-                            vTemp=uvaTemp;edkEnd();
+                            vTemp=uvaTemp;
                             //set the vertex on the array
-                            this->vertexsOriginal.set(i,(edk::shape::Vertex3D*)vTemp);edkEnd();
+                            this->vertexsOriginal.set(i,(edk::shape::Vertex3D*)vTemp);
                             //clean uvTemp
-                            uvaTemp=NULL;edkEnd();
+                            uvaTemp=NULL;
                         }
                     }
                     else if(vTemp->getType() == EDK_SHAPE_ANIMATED_UV){
-                        edk::shape::Vertex3DAnimatedUV* vTemp2 = (edk::shape::Vertex3DAnimatedUV*)vTemp;edkEnd();
-                        vTemp2->useUVFrameX(x);edkEnd();
+                        edk::shape::Vertex3DAnimatedUV* vTemp2 = (edk::shape::Vertex3DAnimatedUV*)vTemp;
+                        vTemp2->useUVFrameX(x);
                     }
                 }
             }
@@ -1068,35 +1071,35 @@ protected:
             //set the frames on vertex
             for(edk::uint32 i=0u;i<this->vertexs.size();i++){
                 //
-                vTemp = (edk::shape::Vertex3DWithUV*)this->vertexsOriginal.get(i);edkEnd();
+                vTemp = (edk::shape::Vertex3DWithUV*)this->vertexsOriginal.get(i);
                 if(vTemp){
                     //test what type of vertex it is
                     if(vTemp->getType() != EDK_SHAPE_ANIMATED_UV){
                         //then delete the vTemp and create another with UV
-                        uvaTemp = new edk::shape::Vertex3DAnimatedUV();edkEnd();
+                        uvaTemp = new edk::shape::Vertex3DAnimatedUV();
                         if(uvaTemp){
                             //copy the vTemp content to uvTemp
-                            uvaTemp->position = vTemp->position;edkEnd();
-                            uvaTemp->color = vTemp->color;edkEnd();
-                            uvaTemp->normal = vTemp->normal;edkEnd();
+                            uvaTemp->position = vTemp->position;
+                            uvaTemp->color = vTemp->color;
+                            uvaTemp->normal = vTemp->normal;
 
                             if(vTemp->getType() == EDK_SHAPE_UV){
                                 uvaTemp->setUV(vTemp->getUV());
                             }
 
                             //delete the vTemp
-                            delete vTemp;edkEnd();
+                            delete vTemp;
                             //set vTemp the uvTemp
-                            vTemp=uvaTemp;edkEnd();
+                            vTemp=uvaTemp;
                             //set the vertex on the array
-                            this->vertexsOriginal.set(i,(edk::shape::Vertex3D*)vTemp);edkEnd();
+                            this->vertexsOriginal.set(i,(edk::shape::Vertex3D*)vTemp);
                             //clean uvTemp
-                            uvaTemp=NULL;edkEnd();
+                            uvaTemp=NULL;
                         }
                     }
                     else if(vTemp->getType() == EDK_SHAPE_ANIMATED_UV){
-                        edk::shape::Vertex3DAnimatedUV* vTemp2 = (edk::shape::Vertex3DAnimatedUV*)vTemp;edkEnd();
-                        vTemp2->useUVFrameX(y);edkEnd();
+                        edk::shape::Vertex3DAnimatedUV* vTemp2 = (edk::shape::Vertex3DAnimatedUV*)vTemp;
+                        vTemp2->useUVFrameX(y);
                     }
                 }
             }
@@ -1357,28 +1360,28 @@ protected:
         //Write to XML
         bool writeToXML(edk::XML* xml,edk::uint32 morphID){
             if(xml){
-                bool ret=false;edkEnd();
+                bool ret=false;
                 //create the ID string
-                edk::char8* id = edk::String::int32ToStr(morphID);edkEnd();
+                edk::char8* id = edk::String::int32ToStr(morphID);
                 if(id){
-                    edk::char8* name = edk::String::strCat((edk::char8*)"morph_",id);edkEnd();
+                    edk::char8* name = edk::String::strCat((edk::char8*)"morph_",id);
                     if(name){
                         //create the polygon
                         if(xml->addSelectedNextChild(name)){
                             //select the name
                             if(xml->selectChild(name)){
-                                ret=true;edkEnd();
-                                edk::char8* temp = NULL;edkEnd();
-                                edk::uint32 size = 0u;edkEnd();
+                                ret=true;
+                                edk::char8* temp = NULL;
+                                edk::uint32 size = 0u;
 
                                 //write the percent
-                                xml->addSelectedNextAttribute("percent",this->percent);edkEnd();
+                                xml->addSelectedNextAttribute("percent",this->percent);
 
                                 //write the original
-                                temp = edk::String::strCopy("vertexs");edkEnd();
+                                temp = edk::String::strCopy("vertexs");
                                 if(temp){
-                                    xml->addSelectedNextChild(name);edkEnd();
-                                    free(temp);edkEnd();
+                                    xml->addSelectedNextChild(name);
+                                    free(temp);
                                 }
                                 //select the name
                                 if(xml->selectChild(name)){
@@ -1386,48 +1389,48 @@ protected:
 
 
 
-                                    size = this->vertexs.size();edkEnd();
+                                    size = this->vertexs.size();
                                     //save the vertexs
-                                    temp=edk::String::int32ToStr(size);edkEnd();
+                                    temp=edk::String::int32ToStr(size);
                                     if(temp){
-                                        xml->addSelectedNextAttribute((edk::char8*)"vCount",temp);edkEnd();
-                                        free(temp);edkEnd();
+                                        xml->addSelectedNextAttribute((edk::char8*)"vCount",temp);
+                                        free(temp);
                                     }
                                     //Write Vertexs
                                     for(edk::uint32 i=0u;i<size;i++){
-                                        edk::shape::Vertex3DAnimatedUV* polyTemp = (edk::shape::Vertex3DAnimatedUV*)vertexs.get(i);edkEnd();
+                                        edk::shape::Vertex3DAnimatedUV* polyTemp = (edk::shape::Vertex3DAnimatedUV*)vertexs.get(i);
                                         if(polyTemp){
-                                            polyTemp->writeToXML(i,xml);edkEnd();
+                                            polyTemp->writeToXML(i,xml);
                                         }
                                     }
                                     if(xml->addSelectedNextChild("original")){
                                         if(xml->selectChild("original")){
                                             //write the vertexsOriginal
 
-                                            size = this->vertexsOriginal.size();edkEnd();
+                                            size = this->vertexsOriginal.size();
                                             //save the vertexs
-                                            temp=edk::String::int32ToStr(size);edkEnd();
+                                            temp=edk::String::int32ToStr(size);
                                             if(temp){
-                                                xml->addSelectedNextAttribute((edk::char8*)"voCount",temp);edkEnd();
-                                                free(temp);edkEnd();
+                                                xml->addSelectedNextAttribute((edk::char8*)"voCount",temp);
+                                                free(temp);
                                             }
                                             //Write Vertexs
                                             for(edk::uint32 i=0u;i<size;i++){
-                                                edk::shape::Vertex3DAnimatedUV* polyTemp = (edk::shape::Vertex3DAnimatedUV*)vertexsOriginal.get(i);edkEnd();
+                                                edk::shape::Vertex3DAnimatedUV* polyTemp = (edk::shape::Vertex3DAnimatedUV*)vertexsOriginal.get(i);
                                                 if(polyTemp){
-                                                    polyTemp->writeToXML(i,xml);edkEnd();
+                                                    polyTemp->writeToXML(i,xml);
                                                 }
                                             }
 
-                                            xml->selectFather();edkEnd();
+                                            xml->selectFather();
                                         }
                                     }
 
                                     //select the father
-                                    xml->selectFather();edkEnd();
+                                    xml->selectFather();
                                 }
                                 //select the father
-                                xml->selectFather();edkEnd();
+                                xml->selectFather();
                             }
                         }
                     }
@@ -1440,10 +1443,10 @@ protected:
         //read from XML
         bool readFromXML(edk::XML* xml,edk::uint32 morphID){
             if(xml){
-                bool ret=false;edkEnd();
-                edk::char8* id = edk::String::int32ToStr(morphID);edkEnd();
+                bool ret=false;
+                edk::char8* id = edk::String::int32ToStr(morphID);
                 if(id){
-                    edk::char8* name = edk::String::strCat((edk::char8*)"morph_",id);edkEnd();
+                    edk::char8* name = edk::String::strCat((edk::char8*)"morph_",id);
                     if(name){
                         //create the polygon
                         //select the name
@@ -1454,33 +1457,33 @@ protected:
 
                             if(xml->selectChild("vertexs")){
                                 //read the vertex count
-                                edk::uint32 size = edk::String::strToInt32(xml->getSelectedAttributeValueByName("vCount"));edkEnd();
+                                edk::uint32 size = edk::String::strToInt32(xml->getSelectedAttributeValueByName("vCount"));
                                 if(size){
-                                    this->createPolygon(size,edk::color4f32(1.f,1.f,1.f,1.f));edkEnd();
+                                    this->createPolygon(size,edk::color4f32(1.f,1.f,1.f,1.f));
                                     //read the vertexs
                                     for(edk::uint32 i=0u;i<size;i++){
                                         //read the vertex type
-                                        edk::uint8 type = edk::shape::Vertex3D::readTypeFromXML(i,xml);edkEnd();
+                                        edk::uint8 type = edk::shape::Vertex3D::readTypeFromXML(i,xml);
                                         switch(type){
                                         case EDK_SHAPE_ANIMATED_UV:
                                         case EDK_SHAPE_UV:
                                         {
-                                            edk::shape::Vertex3DAnimatedUV temp;edkEnd();
+                                            edk::shape::Vertex3DAnimatedUV temp;
                                             if(temp.readFromXML(i,xml)){
                                                 //set the data
-                                                this->setVertexPosition(i,temp.position);edkEnd();
-                                                this->setVertexColor(i,temp.color);edkEnd();
-                                                this->setVertexUV(i,temp.getSaved());edkEnd();
+                                                this->setVertexPosition(i,temp.position);
+                                                this->setVertexColor(i,temp.color);
+                                                this->setVertexUV(i,temp.getSaved());
                                             }
                                             break;
                                         }
                                         case EDK_SHAPE_NOUV:
                                         {
-                                            edk::shape::Vertex3D temp;edkEnd();
+                                            edk::shape::Vertex3D temp;
                                             if(temp.readFromXML(i,xml)){
                                                 //set the data
-                                                this->setVertexPosition(i,temp.position);edkEnd();
-                                                this->setVertexColor(i,temp.color);edkEnd();
+                                                this->setVertexPosition(i,temp.position);
+                                                this->setVertexColor(i,temp.color);
                                             }
                                             break;
                                         }
@@ -1490,50 +1493,50 @@ protected:
 
                                 if(xml->selectChild("original")){
                                     //
-                                    size = edk::String::strToInt32(xml->getSelectedAttributeValueByName("voCount"));edkEnd();
+                                    size = edk::String::strToInt32(xml->getSelectedAttributeValueByName("voCount"));
                                     if(size){
                                         edk::shape::Vertex3D* vTemp=NULL;
                                         edk::shape::Vertex3DAnimatedUV* uvaTemp=NULL;
                                         //read the vertexs
                                         for(edk::uint32 i=0u;i<size;i++){
                                             //read the vertex type
-                                            edk::uint8 type = edk::shape::Vertex3D::readTypeFromXML(i,xml);edkEnd();
+                                            edk::uint8 type = edk::shape::Vertex3D::readTypeFromXML(i,xml);
                                             switch(type){
                                             case EDK_SHAPE_ANIMATED_UV:
                                             case EDK_SHAPE_UV:
                                             {
-                                                edk::shape::Vertex3DAnimatedUV temp;edkEnd();
+                                                edk::shape::Vertex3DAnimatedUV temp;
                                                 vTemp = this->vertexsOriginal.get(i);
                                                 uvaTemp = new edk::shape::Vertex3DAnimatedUV;
                                                 if(uvaTemp){
                                                     if(temp.readFromXML(i,xml)){
                                                         //set the data
-                                                        uvaTemp->position = temp.position;edkEnd();
-                                                        uvaTemp->color = temp.color;edkEnd();
-                                                        uvaTemp->normal = temp.normal;edkEnd();
-                                                        uvaTemp->setUV(temp.getUV());edkEnd();
-                                                        uvaTemp->setUVFrames(temp.getUVFrames());edkEnd();
+                                                        uvaTemp->position = temp.position;
+                                                        uvaTemp->color = temp.color;
+                                                        uvaTemp->normal = temp.normal;
+                                                        uvaTemp->setUV(temp.getUV());
+                                                        uvaTemp->setUVFrames(temp.getUVFrames());
 
                                                         if(vTemp){
-                                                            delete vTemp;edkEnd();
+                                                            delete vTemp;
                                                         }
-                                                        vTemp=NULL;edkEnd();
+                                                        vTemp=NULL;
                                                     }
                                                     else{
-                                                        delete uvaTemp;edkEnd();
+                                                        delete uvaTemp;
                                                     }
                                                 }
                                                 break;
                                             }
                                             case EDK_SHAPE_NOUV:
                                             {
-                                                edk::shape::Vertex3D temp;edkEnd();
-                                                vTemp = this->vertexsOriginal.get(i);edkEnd();
+                                                edk::shape::Vertex3D temp;
+                                                vTemp = this->vertexsOriginal.get(i);
                                                 if(temp.readFromXML(i,xml) && vTemp){
                                                     //set the data
-                                                    vTemp->position = temp.position;edkEnd();
-                                                    vTemp->color = temp.color;edkEnd();
-                                                    vTemp->normal = temp.normal;edkEnd();
+                                                    vTemp->position = temp.position;
+                                                    vTemp->color = temp.color;
+                                                    vTemp->normal = temp.normal;
                                                 }
                                                 break;
                                             }
@@ -1541,11 +1544,11 @@ protected:
                                         }
                                     }
 
-                                    xml->selectFather();edkEnd();
+                                    xml->selectFather();
                                 }
-                                xml->selectFather();edkEnd();
+                                xml->selectFather();
                             }
-                            xml->selectFather();edkEnd();
+                            xml->selectFather();
                         }
                     }
                 }
@@ -1559,10 +1562,10 @@ protected:
         bool cloneFrom(edk::shape::Polygon3D::Polygon3DMorph* morph){
             if(morph){
                 //copy the percent
-                this->percent = morph->percent;edkEnd();
+                this->percent = morph->percent;
 
                 //create the polygom
-                edk::uint32 size = morph->vertexsOriginal.size();edkEnd();
+                edk::uint32 size = morph->vertexsOriginal.size();
                 if(size){
                     //create the polygon
                     if(this->createPolygon(size,edk::color4f32(1.f,1.f,1.f,1.f))){
@@ -1576,109 +1579,109 @@ protected:
 
                         for(edk::uint32 i=0u;i<size;i++){
                             //get the vertexesOriginal
-                            vTemp = this->vertexsOriginal.get(i);edkEnd();
-                            vTempMorph = morph->vertexsOriginal.get(i);edkEnd();
+                            vTemp = this->vertexsOriginal.get(i);
+                            vTempMorph = morph->vertexsOriginal.get(i);
                             if(vTemp && vTempMorph){
                                 //compare the type
                                 switch(vTempMorph->getType()){
                                 case EDK_SHAPE_ANIMATED_UV:
-                                    uvaTempMorph = (edk::shape::Vertex3DAnimatedUV*)vTempMorph;edkEnd();
+                                    uvaTempMorph = (edk::shape::Vertex3DAnimatedUV*)vTempMorph;
                                     //create the new vertex
-                                    uvaTemp = new edk::shape::Vertex3DAnimatedUV;edkEnd();
+                                    uvaTemp = new edk::shape::Vertex3DAnimatedUV;
                                     if(uvaTemp){
-                                        uvaTemp->position = uvaTempMorph->position;edkEnd();
-                                        uvaTemp->color = uvaTempMorph->color;edkEnd();
-                                        uvaTemp->normal = uvaTempMorph->normal;edkEnd();
-                                        uvaTemp->setUV(uvaTempMorph->getUV());edkEnd();
-                                        uvaTemp->setUVFrames(uvaTempMorph->getUVFrames());edkEnd();
+                                        uvaTemp->position = uvaTempMorph->position;
+                                        uvaTemp->color = uvaTempMorph->color;
+                                        uvaTemp->normal = uvaTempMorph->normal;
+                                        uvaTemp->setUV(uvaTempMorph->getUV());
+                                        uvaTemp->setUVFrames(uvaTempMorph->getUVFrames());
 
                                         //set the uvaTemp
                                         if(this->vertexsOriginal.set(i,uvaTemp)){
-                                            delete vTemp;edkEnd();
+                                            delete vTemp;
                                         }
                                         else{
-                                            delete uvaTemp;edkEnd();
+                                            delete uvaTemp;
                                         }
                                     }
                                     break;
                                 case EDK_SHAPE_UV:
-                                    uvTempMorph = (edk::shape::Vertex3DWithUV*)vTempMorph;edkEnd();
+                                    uvTempMorph = (edk::shape::Vertex3DWithUV*)vTempMorph;
                                     //create the new vertex
-                                    uvTemp = new edk::shape::Vertex3DWithUV;edkEnd();
+                                    uvTemp = new edk::shape::Vertex3DWithUV;
                                     if(uvTemp){
-                                        uvTemp->position = uvTempMorph->position;edkEnd();
-                                        uvTemp->color = uvTempMorph->color;edkEnd();
-                                        uvTemp->normal = uvTempMorph->normal;edkEnd();
-                                        uvTemp->setUV(uvTempMorph->getUV());edkEnd();
+                                        uvTemp->position = uvTempMorph->position;
+                                        uvTemp->color = uvTempMorph->color;
+                                        uvTemp->normal = uvTempMorph->normal;
+                                        uvTemp->setUV(uvTempMorph->getUV());
 
                                         //set the uvaTemp
                                         if(this->vertexsOriginal.set(i,uvTemp)){
-                                            delete vTemp;edkEnd();
+                                            delete vTemp;
                                         }
                                         else{
-                                            delete uvTemp;edkEnd();
+                                            delete uvTemp;
                                         }
                                     }
                                     break;
                                     break;
                                 default:
-                                    vTemp->position = vTempMorph->position;edkEnd();
-                                    vTemp->color = vTempMorph->color;edkEnd();
-                                    vTemp->normal = vTempMorph->normal;edkEnd();
+                                    vTemp->position = vTempMorph->position;
+                                    vTemp->color = vTempMorph->color;
+                                    vTemp->normal = vTempMorph->normal;
                                     break;
                                 }
                             }
 
                             //get the vertexes
-                            vTemp = this->vertexs.get(i);edkEnd();
-                            vTempMorph = morph->vertexs.get(i);edkEnd();
+                            vTemp = this->vertexs.get(i);
+                            vTempMorph = morph->vertexs.get(i);
                             if(vTemp && vTempMorph){
                                 //compare the type
                                 switch(vTempMorph->getType()){
                                 case EDK_SHAPE_ANIMATED_UV:
-                                    uvaTempMorph = (edk::shape::Vertex3DAnimatedUV*)vTempMorph;edkEnd();
+                                    uvaTempMorph = (edk::shape::Vertex3DAnimatedUV*)vTempMorph;
                                     //create the new vertex
-                                    uvaTemp = new edk::shape::Vertex3DAnimatedUV;edkEnd();
+                                    uvaTemp = new edk::shape::Vertex3DAnimatedUV;
                                     if(uvaTemp){
-                                        uvaTemp->position = uvaTempMorph->position;edkEnd();
-                                        uvaTemp->color = uvaTempMorph->color;edkEnd();
-                                        uvaTemp->normal = uvaTempMorph->normal;edkEnd();
-                                        uvaTemp->setUV(uvaTempMorph->getUV());edkEnd();
-                                        uvaTemp->setUVFrames(uvaTempMorph->getUVFrames());edkEnd();
+                                        uvaTemp->position = uvaTempMorph->position;
+                                        uvaTemp->color = uvaTempMorph->color;
+                                        uvaTemp->normal = uvaTempMorph->normal;
+                                        uvaTemp->setUV(uvaTempMorph->getUV());
+                                        uvaTemp->setUVFrames(uvaTempMorph->getUVFrames());
 
                                         //set the uvaTemp
                                         if(this->vertexs.set(i,uvaTemp)){
-                                            delete vTemp;edkEnd();
+                                            delete vTemp;
                                         }
                                         else{
-                                            delete uvaTemp;edkEnd();
+                                            delete uvaTemp;
                                         }
                                     }
                                     break;
                                 case EDK_SHAPE_UV:
-                                    uvTempMorph = (edk::shape::Vertex3DWithUV*)vTempMorph;edkEnd();
+                                    uvTempMorph = (edk::shape::Vertex3DWithUV*)vTempMorph;
                                     //create the new vertex
-                                    uvTemp = new edk::shape::Vertex3DWithUV;edkEnd();
+                                    uvTemp = new edk::shape::Vertex3DWithUV;
                                     if(uvTemp){
-                                        uvTemp->position = uvTempMorph->position;edkEnd();
-                                        uvTemp->color = uvTempMorph->color;edkEnd();
-                                        uvTemp->normal = uvTempMorph->normal;edkEnd();
-                                        uvTemp->setUV(uvTempMorph->getUV());edkEnd();
+                                        uvTemp->position = uvTempMorph->position;
+                                        uvTemp->color = uvTempMorph->color;
+                                        uvTemp->normal = uvTempMorph->normal;
+                                        uvTemp->setUV(uvTempMorph->getUV());
 
                                         //set the uvaTemp
                                         if(this->vertexs.set(i,uvTemp)){
-                                            delete vTemp;edkEnd();
+                                            delete vTemp;
                                         }
                                         else{
-                                            delete uvTemp;edkEnd();
+                                            delete uvTemp;
                                         }
                                     }
                                     break;
                                     break;
                                 default:
-                                    vTemp->position = vTempMorph->position;edkEnd();
-                                    vTemp->color = vTempMorph->color;edkEnd();
-                                    vTemp->normal = vTempMorph->normal;edkEnd();
+                                    vTemp->position = vTempMorph->position;
+                                    vTemp->color = vTempMorph->color;
+                                    vTemp->normal = vTempMorph->normal;
                                     break;
                                 }
                             }
@@ -1721,59 +1724,59 @@ private:
     //Operator =
     edk::shape::Polygon3D operator=(edk::shape::Polygon3D poly){
         //first delete the vertexs
-        this->deletePolygon();edkEnd();
+        this->deletePolygon();
         //then create a new polygon
         if(this->createPolygon(poly.getVertexCount())){
             //then copy the vertex
             for(edk::uint32 i=0u;i<this->getVertexCount();i++){
                 //copy the vertex
-                edk::shape::Vertex3DAnimatedUV* temp = (edk::shape::Vertex3DAnimatedUV*)vertexs.get(i);edkEnd();
+                edk::shape::Vertex3DAnimatedUV* temp = (edk::shape::Vertex3DAnimatedUV*)vertexs.get(i);
                 if(temp){
-                    //this->setVertexPosition(i,poly.getVertexPosition(i));edkEnd();
-                    temp->position = poly.getVertexPosition(i);edkEnd();
-                    //this->setVertexColor(i,poly.getVertexColor(i));edkEnd();
-                    temp->color = poly.getVertexColor(i);edkEnd();
-                    temp->normal = poly.getVertexNormal(i);edkEnd();
+                    //this->setVertexPosition(i,poly.getVertexPosition(i));
+                    temp->position = poly.getVertexPosition(i);
+                    //this->setVertexColor(i,poly.getVertexColor(i));
+                    temp->color = poly.getVertexColor(i);
+                    temp->normal = poly.getVertexNormal(i);
                     //copy the frames
-                    //this->setVertexUVFrames(i,poly.getFrames());edkEnd();
+                    //this->setVertexUVFrames(i,poly.getFrames());
                     //get vertexType
                     switch(poly.getVertexType(i)){
                     //
                     case EDK_SHAPE_ANIMATED_UV:
                         //
-                        this->setVertexUV(i,poly.getVertexUV(i));edkEnd();
-                        this->setVertexUVFrames(i,poly.getFrames());edkEnd();
+                        this->setVertexUV(i,poly.getVertexUV(i));
+                        this->setVertexUVFrames(i,poly.getFrames());
                         break;
                     case EDK_SHAPE_UV:
                         //
-                        this->setVertexUV(i,poly.getVertexUV(i));edkEnd();
+                        this->setVertexUV(i,poly.getVertexUV(i));
                         break;
                     };
                 }
             }
         }
         //set the polygonFrames
-        this->setPolygonUVFrames(poly.getFrames());edkEnd();
-        this->usePolygonUVFrame(poly.frameUsing);edkEnd();
+        this->setPolygonUVFrames(poly.getFrames());
+        this->usePolygonUVFrame(poly.frameUsing);
         //set the transformations
-        this->setTranslate(poly.getTranslate());edkEnd();
-        this->setScale(poly.getScale());edkEnd();
-        this->setAngle(poly.getAngle());edkEnd();
+        this->setTranslate(poly.getTranslate());
+        this->setScale(poly.getScale());
+        this->setAngle(poly.getAngle());
         //set physics
-        this->setDensity(poly.getDensity());edkEnd();
-        this->setFriction(poly.getFriction());edkEnd();
-        this->setRestitution(poly.getRestitution());edkEnd();
+        this->setDensity(poly.getDensity());
+        this->setFriction(poly.getFriction());
+        this->setRestitution(poly.getRestitution());
         //
-        this->type = poly.type;edkEnd();
-        this->polygonCircle = poly.polygonCircle;edkEnd();
-        this->radius=poly.radius;edkEnd();
-        this->polygonLine = poly.polygonLine;edkEnd();
-        this->collisionID = poly.collisionID;edkEnd();
+        this->type = poly.type;
+        this->polygonCircle = poly.polygonCircle;
+        this->radius=poly.radius;
+        this->polygonLine = poly.polygonLine;
+        this->collisionID = poly.collisionID;
         //set the animation
-        this->framesSetAnimation(poly.framesGetAnimation());edkEnd();
-        this->createAnimationFrames = poly.createAnimationFrames;edkEnd();
+        this->framesSetAnimation(poly.framesGetAnimation());
+        this->createAnimationFrames = poly.createAnimationFrames;
         //return the polygon
-        return poly;edkEnd();
+        return poly;
     }
 private:
     edk::classID classThis;

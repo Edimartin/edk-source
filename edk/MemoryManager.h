@@ -34,6 +34,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #include "DebugFile.h"
 #include "vector/BinaryTreeStatic.h"
+#include "vector/BinaryTree.h"
 #include "vector/StackStatic.h"
 #include "thread/Mutex.h"
 
@@ -41,584 +42,284 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #pragma message "    Compiling MemoryManager"
 #endif
 
+
 namespace edk{
+enum MemoryValues{
+    zero =0uL,
+    kilo =1024uL,
+    mega =1024uL*1024uL,
+    giga =1024uL*1024uL*1024uL,
+    tera =1024uL*1024uL*1024uL*1024uL,
+    MemoryValueSize
+};
+class MemoryPiece{
+public:
+    MemoryPiece(){
+        this->classThis=NULL;
+        this->Constructor();
+    }
+    ~MemoryPiece(){
+        this->Destructor();
+    }
+    void Constructor(){
+        if(this->classThis!=this){
+            this->classThis = this;
+            this->bufferStart=0uL;
+            this->bufferEnd=0uL;
+            this->bufferSize=0uL;}
+    }
+    void Destructor(){
+        if(this->classThis == this){
+            this->classThis=NULL;
+            this->tree.clean();
+        }
+    }
+
+    inline bool operator==(edk::MemoryPiece memory){
+        if(this->bufferStart == memory.bufferStart
+                && this->bufferEnd == memory.bufferEnd
+                ){
+            return true;
+        }
+        return false;
+    }
+    inline bool operator>(edk::MemoryPiece memory){
+        if(this->bufferStart > memory.bufferStart
+                && this->bufferEnd > memory.bufferEnd
+                ){
+            return true;
+        }
+        return false;
+    }
+
+    inline bool retain(edk::classID pointerClass){
+        if(pointerClass){
+            return this->tree.add(pointerClass);
+        }
+        return false;
+    }
+    inline bool release(edk::classID pointerClass){
+        if(pointerClass){
+            return this->tree.remove(pointerClass);
+        }
+        return false;
+    }
+    inline edk::uint32 size(){
+        return this->tree.size();
+    }
+    edk::uint64 bufferStart;
+    edk::uint64 bufferEnd;
+    edk::uint64 bufferSize;
+private:
+    edk::vector::BinaryTree<edk::classID> tree;
+private:
+    edk::classID classThis;
+};
+class MemoryUser{
+public:
+    MemoryUser(){
+        this->pointer=NULL;
+        this->user=0uL;
+    }
+    ~MemoryUser(){}
+    inline bool operator==(edk::MemoryUser memory){
+        if(this->user == memory.user){
+            return true;
+        }
+        return false;
+    }
+    inline bool operator>(edk::MemoryUser memory){
+        if(this->user > memory.user){
+            return true;
+        }
+        return false;
+    }
+    edk::MemoryPiece* pointer;
+    edk::classID user;
+};
 class MemoryManager{
 public:
+    MemoryManager();
     MemoryManager(edk::uint64 size);
     virtual ~MemoryManager();
 
+    void constructor();
+    void constructor(edk::uint64 size);
+    void destructor();
+
+    bool deleteBuffer();
+
+    bool newBuffer(edk::uint64 size);
+
     bool haveBuffer();
 
-    //create a new buffer
-    static bool cleanAndNewBuffer(edk::uint64 size);
-    static bool newBuffer();
-    static bool cleanBuffers();
-    static inline bool deleteBuffers(){return edk::MemoryManager::cleanBuffers();}
-    static edk::uint64 size();
+    void cleanUsage();
 
-    //set the memory with zeros
-    static bool setZeros(edk::uint32 position);
-    static bool setZerosAllBuffers();
-
-    //function to alloc new memory
     template <class typeTemplate>
-    inline static bool allocMemory(typeTemplate** pointer,edk::uint64 size=1uL){
-        if(size && pointer){
-            //alloc the memory
-            *pointer = (typeTemplate*)edk::MemoryManager::privateAlloc(size*sizeof(typeTemplate),pointer);
-            if(*pointer) return true;
-        }
-        return false;
+    bool newVec(typeTemplate** pointer,edk::uint64 lenght){
+        return this->newVec((edk::classID*)pointer,lenght);
     }
-
-    //free the memory
-    static bool freeMemory(edk::classID pointer);
+    bool newVec(edk::classID* pointer,edk::uint64 lenght);
     template <class typeTemplate>
-    inline static bool freeMemory(typeTemplate** pointer){
+    bool newObject(typeTemplate** pointer){
         if(pointer){
-            return edk::MemoryManager::freeMemory((edk::classID )pointer);
+            if(this->newVec(pointer,sizeof(typeTemplate))){
+                return true;
+            }
         }
         return false;
     }
-
-    //update the connecteds
-    static bool connectAllRemoveds();
-    static bool connectOneRemoved();
-
-    //print all the positions removed's
-    static void printRemoveds();
+    template <class typeTemplate>
+    bool retain(typeTemplate** pointerClassDest,typeTemplate** pointerClassSource){
+        return this->retain((edk::classID*)pointerClassDest,(edk::classID*)pointerClassSource);
+    }
+    bool  retain(edk::classID* pointerClassDest,edk::classID* pointerClassSource);
+    template <class typeTemplate>
+    bool release(typeTemplate** pointerClass){
+        return this->release((edk::classID*) pointerClass);
+    }
+    bool release(edk::classID* pointerClass);
+protected:
+    inline bool canDestroyThis(){
+        if(this->classThis == this){
+            return true;
+        }
+        return false;
+    }
 private:
-    static edk::classID classThis;
+    edk::uint8* buffer;
+    edk::uint64 size;
+    //positions
+    edk::uint64 posStart,posEnd;
 
-    //mutex for threads
-    static edk::multi::Mutex mut;
+    //binaryTree with the memory
 
-    class MemoryBuffer{
+    class TreeMemorys : public edk::vector::BinaryTree<edk::MemoryPiece*>{
     public:
-        MemoryBuffer(){
-            this->buffer=NULL;
-            this->positionLast=0uL;
+        TreeMemorys(){}
+        ~TreeMemorys(){}
+        void cleanMemorys(){
+            edk::uint32 size = this->size();
+            edk::MemoryPiece* temp;
+            for(edk::uint32 i=0u;i<size;i++){
+                temp = this->getElementInPosition(i);
+                if(temp){
+                    delete temp;
+                }
+            }
+            this->clean();
         }
-        virtual ~MemoryBuffer(){}
-        MemoryBuffer operator=(MemoryBuffer m){
-            this->buffer=m.buffer;
-            this->positionLast=m.positionLast;
-            return m;
-        }
-        bool operator>(MemoryBuffer m){
-            if(this->buffer > m.buffer){
-                return true;
+        bool deleteMemory(edk::MemoryPiece* memory){
+            if(memory){
+                if(this->remove(memory)){
+                    delete memory;
+                    return true;
+                }
             }
             return false;
         }
-        bool operator==(MemoryBuffer m){
-            if(this->buffer == m.buffer){
-                return true;
+        bool deleteMemory(edk::uint64 bufferStart,edk::uint64 bufferEnd){
+            edk::MemoryPiece* temp = this->getMemoryPiece(bufferStart,bufferEnd);
+            if(temp){
+                return this->deleteMemory(temp);
             }
             return false;
         }
-        edk::classID buffer;
-        edk::classID positionLast;
-    };
-    class MemoryPositions{
-    public:
-        MemoryPositions(){}
-        virtual ~MemoryPositions(){}
-        void construct(){}
-        MemoryPositions operator=(MemoryPositions m){
-            this->start=m.start;
-            this->end=m.end;
-            this->buffer=m.buffer;
-            return m;
-        }
-        bool operator>(MemoryPositions m){
-            if(this->start > m.start
-                    //&& this->end > m.end
-                    ){
-                return true;
-            }
-            return false;
-        }
-        bool operator==(MemoryPositions m){
-            if(this->start == m.start
-                    && this->end == m.end
-                    ){
-                return true;
-            }
-            return false;
-        }
-        edk::uint64 start,end;
-        edk::MemoryManager::MemoryBuffer buffer;
-    };
-    class MemorySizes{
-    public:
-        MemorySizes(){}
-        virtual ~MemorySizes(){}
-
-        virtual void construct(){
-            this->size=0u;
-            this->tree.construct();
-        }
-
-        virtual void destruct(){
-            this->tree.destruct();
-        }
-
-        edk::uint64 size;
-        edk::vector::BinaryTreeStatic<edk::MemoryManager::MemoryPositions> tree;
-    };
-    class MemoryPointer : public edk::MemoryManager::MemoryPositions{
-    public:
-        MemoryPointer(){this->pointer=NULL;}
-        virtual ~MemoryPointer(){}
-        MemoryPointer operator=(MemoryPointer m){
-            this->start=m.start;
-            this->end=m.end;
-            this->pointer=m.pointer;
-            this->buffer=m.buffer;
-            return m;
-        }
-        bool operator>(MemoryPointer m){
-            if(this->pointer > m.pointer){
-                return true;
-            }
-            return false;
-        }
-        bool operator==(MemoryPointer m){
-            if(this->pointer == m.pointer){
-                return true;
-            }
-            return false;
-        }
-        edk::classID pointer;
-        edk::MemoryManager::MemoryBuffer buffer;
-    };
-
-    //class to save equally positions
-    class MemoryConnected{
-    public:
-        MemoryConnected(){}
-        virtual ~MemoryConnected(){}
-
-        virtual void construct(){
-            this->buffer=NULL;
-            this->stack.construct();
-        }
-        virtual void destruct(){
-            this->stack.destruct();
-        }
-
-        edk::classID buffer;
-        edk::vector::StackStatic<edk::MemoryManager::MemoryPositions> stack;
-    };
-
-    static edk::uint64 bufferSize;
-    static edk::vector::BinaryTreeStatic<edk::MemoryManager::MemoryPointer> treeAlloc;
-
-    //tree sizes
-    class TreeSizes : public edk::vector::BinaryTreeStatic<edk::MemoryManager::MemorySizes*>{
-    public:
-        TreeSizes(){}
-        virtual ~TreeSizes(){
-        }
-        virtual void construct(){
-            this->objTemplate.construct();
-            edk::vector::BinaryTreeStatic<edk::MemoryManager::MemorySizes*>::construct();
-        }
-
-        virtual void destruct(){
-            this->cleanSizes();
-            this->objTemplate.destruct();
-            edk::vector::BinaryTreeStatic<edk::MemoryManager::MemorySizes*>::destruct();
-        }
-
         //compare if the value is bigger
-        virtual bool firstBiggerSecond(edk::MemoryManager::MemorySizes* first,edk::MemoryManager::MemorySizes* second){
-            //
-            if(first->size>second->size){
+        virtual bool firstBiggerSecond(edk::MemoryPiece* first,edk::MemoryPiece* second){
+            if(*first>*second){
+                return true;
+            }
+            return false;
+        }
+        //compare if the value is equal
+        virtual bool firstEqualSecond(edk::MemoryPiece* first,edk::MemoryPiece* second){
+            if(*first==*second){
+                return true;
+            }
+            return false;
+        }
+
+        edk::MemoryPiece* newMemory(edk::uint64 bufferStart,edk::uint64 bufferEnd,edk::classID pointer){
+            edk::MemoryPiece* temp = new edk::MemoryPiece;
+            if(temp){
+                temp->bufferStart=bufferStart;
+                temp->bufferEnd=bufferEnd;
+                temp->bufferSize=bufferEnd - bufferStart;
+                temp->retain(pointer);
+                if(this->add(temp)){
+                    return temp;
+                }
+                delete temp;
+            }
+            return NULL;
+        }
+    private:
+        edk::MemoryPiece* getMemoryPiece(edk::uint64 bufferStart,edk::uint64 bufferEnd){
+            this->templatePointer.bufferStart = bufferStart;
+            this->templatePointer.bufferEnd = bufferEnd;
+            return this->getElement(&this->templatePointer);
+        }
+        edk::MemoryPiece templatePointer;
+    }treeUsing,treeFree;
+    //class to save the users
+    class TreeUsers : public edk::vector::BinaryTree<edk::MemoryUser>{
+    public:
+        TreeUsers(){}
+        ~TreeUsers(){}
+        //compare if the value is bigger
+        virtual bool firstBiggerSecond(edk::MemoryUser first,edk::MemoryUser second){
+            if(first>second){
                 //
                 return true;
             }
             return false;
         }
         //compare if the value is equal
-        virtual bool firstEqualSecond(edk::MemoryManager::MemorySizes* first,edk::MemoryManager::MemorySizes* second){
-            //
-            if(first->size==second->size){
+        virtual bool firstEqualSecond(edk::MemoryUser first,edk::MemoryUser second){
+            if(first==second){
                 //
                 return true;
             }
             return false;
         }
-
-        //clean the sizes
-        void cleanSizes(){
-            edk::uint32 size=this->size();
-            edk::MemoryManager::MemorySizes* temp;
-            for(edk::uint32 i=0u;i<size;i++){
-                temp = this->getElementInPosition(i);
-                if(temp){
-                    temp->destruct();
-                    delete temp;
-                }
-            }
-            this->clean();
-        }
-        //create a new size
-        bool newPosition(edk::MemoryManager::MemoryBuffer buffer,edk::uint64 size,edk::uint64 start,edk::uint64 end){
-            if(size){
-                //test if DON'T have the size
-                edk::MemoryManager::MemorySizes* temp = this->tempGetSize(size);
-                if(!temp){
-                    //create a new temp
-                    temp = new edk::MemoryManager::MemorySizes;
-                    if(temp){
-                        temp->construct();
-                        temp->size=size;
-                        if(!this->add(temp)){
-                            temp->destruct();
-                            delete temp;
-                            temp=NULL;
-                        }
-                    }
-                }
-                //test if have the temp
-                if(temp){
-                    edk::MemoryManager::MemoryPositions position;
-                    position.construct();
-                    position.start = start;
-                    position.end = end;
-                    position.buffer = buffer;
-                    //add the position
-                    if(temp->tree.add(position)){
-                        return true;
-                    }
-                    else{
-                        //else test if the tree size are zero
-                        if(!temp->tree.size()){
-                            //remove it
-                            if(this->remove(temp)){
-                                temp->destruct();
-                                delete temp;
-                            }
-                        }
-                    }
-                }
+        bool addUser(edk::classID user,edk::MemoryPiece* pointer){
+            if(user && pointer){
+                this->templateUser.user=user;
+                this->templateUser.pointer=pointer;
+                return this->add(this->templateUser);
             }
             return false;
         }
-        bool newPosition(edk::MemoryManager::MemoryBuffer buffer,edk::uint64 start,edk::uint64 end){
-            return this->newPosition(buffer,end-start,start,end);
-        }
-        bool newPosition(edk::MemoryManager::MemoryBuffer buffer,edk::MemoryManager::MemoryPositions pos){
-            return this->newPosition(buffer,pos.end - pos.start,pos.start,pos.end);
-        }
-        bool newPosition(edk::MemoryManager::MemoryPositions pos){
-            return this->newPosition(pos.buffer,pos.end - pos.start,pos.start,pos.end);
-        }
-        //remove a position from the tree
-        bool removePosition(edk::uint64 size,edk::uint64 start,edk::uint64 end){
-            edk::MemoryManager::MemorySizes* temp = this->tempGetSize(size);
-            if(temp){
-                edk::MemoryManager::MemoryPositions position;
-                position.start = start;
-                position.end = end;
-                //remove a position inside the size
-                if(temp->tree.remove(position)){
-                    //test if have the size zero in the tree
-                    if(!temp->tree.size()){
-                        //remove it
-                        if(this->remove(temp)){
-                            temp->destruct();
-                            delete temp;
-                        }
-                    }
-                    return true;
-                }
+        bool removeUser(edk::classID user,edk::MemoryPiece* pointer){
+            if(user && pointer){
+                this->templateUser.user=user;
+                this->templateUser.pointer=pointer;
+                return this->remove(this->templateUser);
             }
             return false;
         }
-        bool removePosition(edk::uint64 start,edk::uint64 end){
-            return this->removePosition(end-start,start,end);
-        }
-        bool removePosition(edk::MemoryManager::MemoryPositions pos){
-            return this->removePosition(pos.end-pos.start,pos.start,pos.end);
-        }
-
-        //return if have one size in the tree
-        bool haveSize(edk::uint64 size){
-            this->objTemplate.size = size;
-            return this->haveElement(&this->objTemplate);
-        }
-        bool haveSize(edk::uint64 start,edk::uint64 end){
-            return this->haveSize(end-start);
-        }
-        bool haveSize(edk::MemoryManager::MemoryPositions pos){
-            return this->haveSize(pos.end-pos.start);
-        }
-        edk::MemoryManager::MemoryPositions getPosInPosition(edk::uint64 size,edk::uint32 position){
-            edk::MemoryManager::MemoryPositions ret;
-            ret.start=0u;
-            ret.end=0u;
-            edk::MemoryManager::MemorySizes* temp = this->tempGetSize(size);
-            if(temp){
-                if(position < temp->tree.size()){
-                    ret = temp->tree.getElementInPosition(position);
-                }
-            }
-            return ret;
-        }
-        edk::MemoryManager::MemoryBuffer getBufferInPosition(edk::uint64 size,edk::uint32 position){
-            edk::MemoryManager::MemoryBuffer ret;
-            edk::MemoryManager::MemorySizes* temp = this->tempGetSize(size);
-            if(temp){
-                if(position < temp->tree.size()){
-                    edk::MemoryManager::MemoryPositions pos = temp->tree.getElementInPosition(position);
-                    ret = pos.buffer;
-                }
-            }
-            return ret;
-        }
-        bool removePosInPosition(edk::uint64 size,edk::uint32 position){
-            edk::MemoryManager::MemorySizes* temp = this->tempGetSize(size);
-            if(temp){
-                if(position < temp->tree.size()){
-                    edk::MemoryManager::MemoryPositions pos = temp->tree.getElementInPosition(position);
-                    if(temp->tree.remove(pos)){
-                        return true;
-                    }
-                }
+        bool removeUser(edk::classID user){
+            if(user){
+                this->templateUser.user=user;
+                this->templateUser.pointer=NULL;
+                return this->remove(this->templateUser);
             }
             return false;
         }
-        edk::MemoryManager::MemoryPositions popPosInPosition(edk::uint64 size,edk::uint32 position){
-            edk::MemoryManager::MemoryPositions ret;
-            ret.start=0u;
-            ret.end=0u;
-            edk::MemoryManager::MemorySizes* temp = this->tempGetSize(size);
-            if(temp){
-                if(position < temp->tree.size()){
-                    ret = temp->tree.getElementInPosition(position);
-                    if(temp->tree.remove(ret)){
-                        //test if don't have sizes on the tree
-                        if(!temp->tree.size()){
-                            //remove it
-                            if(this->remove(temp)){
-                                temp->destruct();
-                                delete temp;
-                            }
-                        }
-                    }
-                    else{
-                        ret.start=0u;
-                        ret.end=0u;
-                    }
-                }
+        edk::MemoryPiece* getUserPointer(edk::classID user){
+            if(user){
+                this->templateUser.user=user;
+                this->templateUser.pointer=NULL;
+                this->templateUser = this->getElement(this->templateUser);
+                return this->templateUser.pointer;
             }
-            return ret;
+            return NULL;
         }
-
-        //get a size after or before
-        edk::uint64 getSizeBefore(edk::uint64 size){
-            this->objTemplate.size = size;
-            edk::MemoryManager::MemorySizes* temp = this->getElementBefore(&this->objTemplate);
-            if(temp){
-                return temp->size;
-            }
-            return 0uL;
-        }
-        edk::uint64 getSizeAfter(edk::uint64 size){
-            this->objTemplate.size = size;
-            edk::MemoryManager::MemorySizes* temp = this->getElementAfter(&this->objTemplate);
-            if(temp){
-                return temp->size;
-            }
-            return 0uL;
-        }
-    private:
-        edk::MemoryManager::MemorySizes objTemplate;
-        edk::MemoryManager::MemorySizes* tempGetSize(edk::uint64 size){
-            this->objTemplate.size = size;
-            return this->getElement(&this->objTemplate);
-        }
-    }static treeSizeRemoved;
-    class TreePosRemoved: public edk::vector::BinaryTreeStatic<edk::MemoryManager::MemoryPositions>{
-    public:
-        TreePosRemoved(){}
-        ~TreePosRemoved(){}
-
-        virtual void construct(){
-            this->stackConnecteds.construct();
-            edk::vector::BinaryTreeStatic<edk::MemoryManager::MemoryPositions>::construct();
-        }
-        virtual void destruct(){
-            edk::vector::BinaryTreeStatic<edk::MemoryManager::MemoryPositions>::destruct();
-            this->stackConnecteds.destruct();
-        }
-        //UPDATE
-        virtual void updateElement(edk::MemoryManager::MemoryPositions value){
-            //update the value
-            if(this->havePos){
-                //test if the buffer are the same
-                if(this->posLast.buffer.buffer == value.buffer.buffer){
-                    //test if they are connected
-                    if(this->posLast.end == value.start){
-                        this->stackConnecteds.addNewPosition(value.buffer.buffer,value);
-                        this->posLast = value;
-                    }
-                    else{
-                        //else force create a new connected
-                        this->stackConnecteds.forceAddNewPosition(value.buffer.buffer,value);
-                        this->posLast = value;
-                    }
-                }
-                else{
-                    //else finish the posStack
-                    this->stackConnecteds.forceAddNewPosition(value.buffer.buffer,value);
-                    this->posLast = value;
-                }
-            }
-            else{
-                this->havePos=true;
-                this->posLast = value;
-                //add the new position
-                this->stackConnecteds.forceAddNewPosition(value.buffer.buffer,value);
-            }
-        }
-        //update the elements
-        virtual void update(){
-            this->havePos=false;
-            edk::vector::BinaryTreeStatic<edk::MemoryManager::MemoryPositions>::update();
-        }
-
-        //get connecteds
-        edk::uint32 getConnectedsSize(){
-            return this->stackConnecteds.size();
-        }
-        edk::uint32 getConnectedsSizeInPosition(edk::uint32 position){
-            return this->stackConnecteds.getSizeInPosition(position);
-        }
-        edk::MemoryManager::MemoryPositions getConnectedInPosition(edk::uint32 positionConnected,edk::uint32 position){
-            return this->stackConnecteds.getPosInPosition(positionConnected,position);
-        }
-
-        void cleanConnecteds(){
-            this->stackConnecteds.destruct();
-            this->stackConnecteds.construct();
-        }
-    private:
-        bool havePos;
-        edk::MemoryManager::MemoryPositions posLast;
-
-        //class to save the connected positions
-        class StackConnecteds: public edk::vector::StackStatic<edk::MemoryManager::MemoryConnected*>{
-        public:
-            StackConnecteds(){}
-            ~StackConnecteds(){}
-
-            virtual void construct(){
-                edk::vector::StackStatic<edk::MemoryManager::MemoryConnected*>::construct();
-            }
-            virtual void destruct(){
-                this->cleanPos();
-                edk::vector::StackStatic<edk::MemoryManager::MemoryConnected*>::destruct();
-            }
-
-            //clean all memoryConnected in the stack
-            void cleanPos(){
-                edk::uint32 size = this->size();
-                edk::MemoryManager::MemoryConnected* pos;
-                for(edk::uint32 i=0u;i<size;i++){
-                    pos = this->get(i);
-                    if(pos){
-                        pos->destruct();
-                        delete pos;
-                    }
-                }
-                this->clean();
-            }
-
-            //add a new position
-            bool addNewPosition(edk::classID buffer,edk::MemoryManager::MemoryPositions pos){
-                if(buffer){
-                    edk::MemoryManager::MemoryConnected* connected = NULL;
-
-                    //test if have the connected with the same buffer inside the stack
-                    if(this->size()){
-                        connected = this->get(this->size()-1u);
-                        if(connected){
-                            //test if the buffer aren't the same
-                            if(connected->buffer != buffer){
-                                //need create a new connected
-                                connected=NULL;
-                            }
-                        }
-                    }
-                    if(!connected){
-                        //create a new connected
-                        connected = new edk::MemoryManager::MemoryConnected;
-                        if(connected){
-                            connected->construct();
-                            connected->buffer=buffer;
-                            this->pushBack(connected);
-                        }
-                    }
-                    if(connected){
-                        //add the position into the connected
-                        connected->stack.pushBack(pos);
-                        return true;
-                    }
-                }
-                return false;
-            }
-            bool forceAddNewPosition(edk::classID buffer,edk::MemoryManager::MemoryPositions pos){
-                edk::MemoryManager::MemoryConnected* connected = NULL;
-                //create a new connected
-                connected = new edk::MemoryManager::MemoryConnected;
-                if(connected){
-                    connected->construct();
-                    connected->buffer=buffer;
-                    this->pushBack(connected);
-                }
-                return this->addNewPosition(buffer,pos);
-            }
-
-            //return the size in a stack in a position
-            edk::uint32 getSizeInPosition(edk::uint32 positionStack){
-                if(this->havePos(positionStack)){
-                    edk::MemoryManager::MemoryConnected* connected = this->get(positionStack);
-                    if(connected){
-                        return connected->stack.size();
-                    }
-                }
-                return 0u;
-            }
-            //get a position in a position
-            edk::MemoryManager::MemoryPositions getPosInPosition(edk::uint32 positionStack,edk::uint32 positionInStack){
-                edk::MemoryManager::MemoryPositions pos;
-                pos.buffer.buffer=NULL;
-                if(this->havePos(positionStack)){
-                    edk::MemoryManager::MemoryConnected* connected = this->get(positionStack);
-                    if(connected){
-                        if(connected->stack.havePos(positionInStack)){
-                            pos = connected->stack.get(positionInStack);
-                        }
-                    }
-                }
-                return pos;
-            }
-        }stackConnecteds;
-    }static treePositionsRemoved;
-
-    //tree memoryBuffers
-    static edk::vector::StackStatic<edk::MemoryManager::MemoryBuffer> stackBuffers;
-    static edk::uint32 bufferLastPosition;
-
-    //save if have the buffer
-    bool saveHaveBuffer;
-
-    //alloc a new memory inside the buffer
-    static edk::classID privateAlloc(edk::uint64 size,edk::classID pointer,edk::uint8 recursive=1u);
+        edk::MemoryUser templateUser;
+    }treeUsers;
+private:
+    edk::classID classThis;
 };
 }
 #endif // MEMORYMANAGER_H

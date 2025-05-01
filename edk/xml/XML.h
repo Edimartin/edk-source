@@ -77,9 +77,10 @@ public:
     XML(edk::char8* xmlCode);
     virtual ~XML();
 
-    void Constructor(bool runFather=true);
-    void Constructor(const edk::char8* xmlCode,bool runFather=true);
-    void Constructor(edk::char8* xmlCode,bool runFather=true);
+    void Constructor();
+    void Constructor(const edk::char8* xmlCode);
+    void Constructor(edk::char8* xmlCode);
+    void Destructor();
 
     //Just load the file
     bool loadFile(const edk::char8* fileName);

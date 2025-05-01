@@ -25,73 +25,76 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 edk::tiles::TileSet2D::TileSet2D(){
-    this->classThis=NULL;edkEnd();
-    this->Constructor(false);edkEnd();
+    this->classThis=NULL;
+    this->Constructor();
 }
 
 edk::tiles::TileSet2D::~TileSet2D(){
-    if(this->classThis==this){
-        this->classThis=NULL;edkEnd();
-        //can destruct the class
-        this->deleteTiles();edkEnd();
-    }
+    this->Destructor();
 }
 
-void edk::tiles::TileSet2D::Constructor(bool /*runFather*/){
+void edk::tiles::TileSet2D::Constructor(){
     if(this->classThis!=this){
         this->classThis=this;
 
-        this->tiles.Constructor();edkEnd();
-        this->treeAnimated.Constructor();edkEnd();
-        this->treeRemoveXML.Constructor();edkEnd();
-        this->tileTemp.Constructor();edkEnd();
-        this->tileIsometricTemp.Constructor();edkEnd();
+        this->tiles.Constructor();
+        this->treeAnimated.Constructor();
+        this->treeRemoveXML.Constructor();
+        this->tileTemp.Constructor();
+        this->tileIsometricTemp.Constructor();
 
         //set the stack for tiles
-        this->tiles.clean(tileStack);edkEnd();
-        this->tileSize = edk::size2f32(1,1);edkEnd();
+        this->tiles.clean(tileStack);
+        this->tileSize = edk::size2f32(1,1);
+    }
+}
+void edk::tiles::TileSet2D::Destructor(){
+    if(this->classThis==this){
+        this->classThis=NULL;
+        //can destruct the class
+        this->deleteTiles();
     }
 }
 
 //Delete all tiles
 void edk::tiles::TileSet2D::deleteTiles(){
-    this->treeAnimated.clean();edkEnd();
+    this->treeAnimated.clean();
     //test if have tiles
     if(this->tiles.size()){
-        edk::tiles::Tile2D* temp = NULL;edkEnd();
+        edk::tiles::Tile2D* temp = NULL;
         for(edk::uint32 i=0u;i<this->tiles.size();i++){
             if(this->tiles.havePos(i)){
-                temp = this->tiles.get(i);edkEnd();
+                temp = this->tiles.get(i);
                 if(temp){
                     switch(temp->getType()){
                     case edk::tiles::tile2DTypeIsometric:
-                        delete (edk::tiles::TileIsometric2D*)temp;edkEnd();
+                        delete (edk::tiles::TileIsometric2D*)temp;
                         break;
                     case edk::tiles::tile2DTypeIsometricFlat:
-                        delete (edk::tiles::TileIsometricFlat2D*)temp;edkEnd();
+                        delete (edk::tiles::TileIsometricFlat2D*)temp;
                         break;
                     case edk::tiles::tile2DTypeSize:
                     case edk::tiles::tile2DTypeNormal:
                     default:
-                        delete temp;edkEnd();
+                        delete temp;
                         break;
                     }
-                    temp=NULL;edkEnd();
+                    temp=NULL;
                 }
             }
         }
         //clean the tileSet
-        this->tiles.clean();edkEnd();
+        this->tiles.clean();
     }
 }
 //delete one tile
 bool edk::tiles::TileSet2D::deleteTile(edk::uint32 position){
     if(position){
-        position--;edkEnd();
+        position--;
         if(this->tiles.havePos(position)){
-            edk::tiles::Tile2D* tile = this->tiles.remove(position);edkEnd();
+            edk::tiles::Tile2D* tile = this->tiles.remove(position);
             if(tile){
-                delete tile;edkEnd();
+                delete tile;
                 return true;
             }
         }
@@ -102,14 +105,14 @@ bool edk::tiles::TileSet2D::deleteTile(edk::uint32 position){
 //delete one tile
 bool edk::tiles::TileSet2D::deleteTilePosition(edk::uint32 position){
     if(position){
-        position--;edkEnd();
+        position--;
         if(this->tiles.havePos(position)){
-            edk::uint32 temp = this->tiles.size()-1u;edkEnd();
+            edk::uint32 temp = this->tiles.size()-1u;
             //swap the position to be last
-            this->tiles.bringPositionTo(position,temp);edkEnd();
-            edk::tiles::Tile2D* tile = this->tiles.remove(temp);edkEnd();
+            this->tiles.bringPositionTo(position,temp);
+            edk::tiles::Tile2D* tile = this->tiles.remove(temp);
             if(tile){
-                delete tile;edkEnd();
+                delete tile;
                 return true;
             }
         }
@@ -120,7 +123,7 @@ bool edk::tiles::TileSet2D::deleteTilePosition(edk::uint32 position){
 //test if have the tile
 bool edk::tiles::TileSet2D::haveTile(edk::uint32 position){
     if(position){
-        position--;edkEnd();
+        position--;
         if(this->tiles.havePos(position)){
             return true;
         }
@@ -133,13 +136,13 @@ bool edk::tiles::TileSet2D::haveTile(edk::uint32 position){
 bool edk::tiles::TileSet2D::setSizeOfTiles(edk::size2f32 size){
     if(size.width!=0.f && size.height!=0.f){
         //save the size
-        this->tileSize = size;edkEnd();
+        this->tileSize = size;
 
         for(edk::uint32 i=0u;i<this->tiles.size();i++){
             if(this->tiles.havePos(i)){
-                edk::tiles::Tile2D* temp = this->tiles.get(i);edkEnd();
+                edk::tiles::Tile2D* temp = this->tiles.get(i);
                 if(temp){
-                    temp->setRect(0,0,size.width,size.height);edkEnd();
+                    temp->setRect(0,0,size.width,size.height);
                 }
             }
         }
@@ -151,16 +154,16 @@ bool edk::tiles::TileSet2D::setSizeOfTiles(edk::size2f32 size){
 }
 bool edk::tiles::TileSet2D::setSizeOfTiles(edk::float32 width,edk::float32 height){
     //
-    return this->setSizeOfTiles(edk::size2f32(width,height));edkEnd();
+    return this->setSizeOfTiles(edk::size2f32(width,height));
 }
 
 //return the size of tiles
 edk::size2f32 edk::tiles::TileSet2D::getSizeOfTiles(){
-    return this->tileSize;edkEnd();
+    return this->tileSize;
 }
 //return the tileSize
 edk::uint32 edk::tiles::TileSet2D::getTileSize(){
-    return this->tiles.size();edkEnd();
+    return this->tiles.size();
 }
 
 //load the tiles from an image
@@ -171,14 +174,14 @@ edk::tiles::TileSet2D::Tile2Positions2D edk::tiles::TileSet2D::loadImageTiles(co
                                                                               edk::color4f32 color
                                                                               ){
     //
-    return this->loadImageTiles((edk::char8*)image,edk::vec2ui32(x,y),filter,color);edkEnd();
+    return this->loadImageTiles((edk::char8*)image,edk::vec2ui32(x,y),filter,color);
 }
 edk::tiles::TileSet2D::Tile2Positions2D edk::tiles::TileSet2D::loadImageTiles(const edk::char8* image,
                                                                               edk::vec2ui32 frames,
                                                                               edk::uint32 filter,
                                                                               edk::color4f32 color
                                                                               ){
-    return this->loadImageTiles((edk::char8*)image,frames,filter,color);edkEnd();
+    return this->loadImageTiles((edk::char8*)image,frames,filter,color);
 }
 edk::tiles::TileSet2D::Tile2Positions2D edk::tiles::TileSet2D::loadImageTiles(edk::char8* image,
                                                                               edk::uint32 x,
@@ -186,7 +189,7 @@ edk::tiles::TileSet2D::Tile2Positions2D edk::tiles::TileSet2D::loadImageTiles(ed
                                                                               edk::uint32 filter,
                                                                               edk::color4f32 color
                                                                               ){
-    return this->loadImageTiles(image,edk::vec2ui32(x,y),filter,color);edkEnd();
+    return this->loadImageTiles(image,edk::vec2ui32(x,y),filter,color);
 }
 edk::tiles::TileSet2D::Tile2Positions2D edk::tiles::TileSet2D::loadImageTiles(edk::char8* image,
                                                                               edk::vec2ui32 frames,
@@ -194,13 +197,13 @@ edk::tiles::TileSet2D::Tile2Positions2D edk::tiles::TileSet2D::loadImageTiles(ed
                                                                               edk::color4f32 color
                                                                               ){
     //
-    edk::tiles::TileSet2D::Tile2Positions2D ret;edkEnd();
+    edk::tiles::TileSet2D::Tile2Positions2D ret;
 
     //test the imageName
     if(image){
         //load the tiles
-        edk::uint32 tempX = frames.x;edkEnd();
-        edk::uint32 tempY = frames.y;edkEnd();
+        edk::uint32 tempX = frames.x;
+        edk::uint32 tempY = frames.y;
         //save the tile position
         edk::uint32 position=0u;
         for(edk::uint32 y=0u;y<tempY;y++){
@@ -208,21 +211,21 @@ edk::tiles::TileSet2D::Tile2Positions2D edk::tiles::TileSet2D::loadImageTiles(ed
                 //test if its the first
                 if(!x && !y){
                     //load the first tile and set the ret
-                    position = ret.first = this->newTile(image,filter,color);edkEnd();
+                    position = ret.first = this->newTile(image,filter,color);
                 }
                 //test if its the last
                 else if(x==tempX-1u && y==tempY-1u){
                     //load the first tile and set the ret
-                    position = ret.last = this->newTile(image,filter,color);edkEnd();
+                    position = ret.last = this->newTile(image,filter,color);
                 }
                 else{
                     //else just load the tile
-                    position = this->newTile(image,filter,color);edkEnd();
+                    position = this->newTile(image,filter,color);
                 }
                 //set the tile frames
-                this->setTileFramesUV(position,tempX,tempY);edkEnd();
+                this->setTileFramesUV(position,tempX,tempY);
                 //set the tile position
-                this->setTileFrameUV(position,x,y);edkEnd();
+                this->setTileFrameUV(position,x,y);
             }
         }
     }
@@ -239,7 +242,7 @@ edk::tiles::TileSet2D::Tile2Positions2D edk::tiles::TileSet2D::loadImageTilesFro
                                                                                         edk::color4f32 color
                                                                                         ){
     //
-    return this->loadImageTilesFromMemory((edk::char8*) name,image,size,edk::vec2ui32(x,y),filter,color);edkEnd();
+    return this->loadImageTilesFromMemory((edk::char8*) name,image,size,edk::vec2ui32(x,y),filter,color);
 }
 edk::tiles::TileSet2D::Tile2Positions2D edk::tiles::TileSet2D::loadImageTilesFromMemory(const edk::char8* name,
                                                                                         edk::uint8* image,
@@ -249,7 +252,7 @@ edk::tiles::TileSet2D::Tile2Positions2D edk::tiles::TileSet2D::loadImageTilesFro
                                                                                         edk::color4f32 color
                                                                                         ){
     //
-    return this->loadImageTilesFromMemory((edk::char8*) name,image,size,frames,filter,color);edkEnd();
+    return this->loadImageTilesFromMemory((edk::char8*) name,image,size,frames,filter,color);
 }
 edk::tiles::TileSet2D::Tile2Positions2D edk::tiles::TileSet2D::loadImageTilesFromMemory(edk::char8* name,
                                                                                         edk::uint8* image,
@@ -260,7 +263,7 @@ edk::tiles::TileSet2D::Tile2Positions2D edk::tiles::TileSet2D::loadImageTilesFro
                                                                                         edk::color4f32 color
                                                                                         ){
     //
-    return this->loadImageTilesFromMemory(name,image,size,edk::vec2ui32(x,y),filter,color);edkEnd();
+    return this->loadImageTilesFromMemory(name,image,size,edk::vec2ui32(x,y),filter,color);
 }
 edk::tiles::TileSet2D::Tile2Positions2D edk::tiles::TileSet2D::loadImageTilesFromMemory(edk::char8* name,
                                                                                         edk::uint8* image,
@@ -270,13 +273,13 @@ edk::tiles::TileSet2D::Tile2Positions2D edk::tiles::TileSet2D::loadImageTilesFro
                                                                                         edk::color4f32 color
                                                                                         ){
     //
-    edk::tiles::TileSet2D::Tile2Positions2D ret;edkEnd();
+    edk::tiles::TileSet2D::Tile2Positions2D ret;
 
     //test the imageName
     if(image){
         //load the tiles
-        edk::uint32 tempX = frames.x;edkEnd();
-        edk::uint32 tempY = frames.y;edkEnd();
+        edk::uint32 tempX = frames.x;
+        edk::uint32 tempY = frames.y;
         //save the tile position
         edk::uint32 position=0u;
         for(edk::uint32 y=0u;y<tempY;y++){
@@ -284,21 +287,21 @@ edk::tiles::TileSet2D::Tile2Positions2D edk::tiles::TileSet2D::loadImageTilesFro
                 //test if its the first
                 if(!x && !y){
                     //load the first tile and set the ret
-                    position = ret.first = this->newTileFromMemory(name,image,size,filter,color);edkEnd();
+                    position = ret.first = this->newTileFromMemory(name,image,size,filter,color);
                 }
                 //test if its the last
                 else if(x==tempX-1u && y==tempY-1u){
                     //load the first tile and set the ret
-                    position = ret.last = this->newTileFromMemory(name,image,size,filter,color);edkEnd();
+                    position = ret.last = this->newTileFromMemory(name,image,size,filter,color);
                 }
                 else{
                     //else just load the tile
-                    position = this->newTileFromMemory(name,image,size,filter,color);edkEnd();
+                    position = this->newTileFromMemory(name,image,size,filter,color);
                 }
                 //set the tile frames
-                this->setTileFramesUV(position,tempX,tempY);edkEnd();
+                this->setTileFramesUV(position,tempX,tempY);
                 //set the tile position
-                this->setTileFrameUV(position,x,y);edkEnd();
+                this->setTileFrameUV(position,x,y);
             }
         }
     }
@@ -314,7 +317,7 @@ edk::tiles::TileSet2D::Tile2Positions2D edk::tiles::TileSet2D::loadImageTilesFro
                                                                                       edk::color4f32 color
                                                                                       ){
     //
-    return this->loadImageTilesFromPack(pack,(edk::char8*)image,edk::vec2ui32(x,y),filter,color);edkEnd();
+    return this->loadImageTilesFromPack(pack,(edk::char8*)image,edk::vec2ui32(x,y),filter,color);
 }
 edk::tiles::TileSet2D::Tile2Positions2D edk::tiles::TileSet2D::loadImageTilesFromPack(edk::pack::FilePackage* pack,
                                                                                       const edk::char8* image,
@@ -323,7 +326,7 @@ edk::tiles::TileSet2D::Tile2Positions2D edk::tiles::TileSet2D::loadImageTilesFro
                                                                                       edk::color4f32 color
                                                                                       ){
     //
-    return this->loadImageTilesFromPack(pack,(edk::char8*)image,frames,filter,color);edkEnd();
+    return this->loadImageTilesFromPack(pack,(edk::char8*)image,frames,filter,color);
 }
 edk::tiles::TileSet2D::Tile2Positions2D edk::tiles::TileSet2D::loadImageTilesFromPack(edk::pack::FilePackage* pack,
                                                                                       edk::char8* image,
@@ -333,7 +336,7 @@ edk::tiles::TileSet2D::Tile2Positions2D edk::tiles::TileSet2D::loadImageTilesFro
                                                                                       edk::color4f32 color
                                                                                       ){
     //
-    return this->loadImageTilesFromPack(pack,image,edk::vec2ui32(x,y),filter,color);edkEnd();
+    return this->loadImageTilesFromPack(pack,image,edk::vec2ui32(x,y),filter,color);
 }
 edk::tiles::TileSet2D::Tile2Positions2D edk::tiles::TileSet2D::loadImageTilesFromPack(edk::pack::FilePackage* pack,
                                                                                       edk::char8* image,
@@ -343,13 +346,13 @@ edk::tiles::TileSet2D::Tile2Positions2D edk::tiles::TileSet2D::loadImageTilesFro
                                                                                       ){
     //
     //
-    edk::tiles::TileSet2D::Tile2Positions2D ret;edkEnd();
+    edk::tiles::TileSet2D::Tile2Positions2D ret;
 
     //test the imageName
     if(image && pack){
         //load the tiles
-        edk::uint32 tempX = frames.x;edkEnd();
-        edk::uint32 tempY = frames.y;edkEnd();
+        edk::uint32 tempX = frames.x;
+        edk::uint32 tempY = frames.y;
         //save the tile position
         edk::uint32 position=0u;
         for(edk::uint32 y=0u;y<tempY;y++){
@@ -357,21 +360,21 @@ edk::tiles::TileSet2D::Tile2Positions2D edk::tiles::TileSet2D::loadImageTilesFro
                 //test if its the first
                 if(!x && !y){
                     //load the first tile and set the ret
-                    position = ret.first = this->newTileFromPack(pack,image,filter,color);edkEnd();
+                    position = ret.first = this->newTileFromPack(pack,image,filter,color);
                 }
                 //test if its the last
                 else if(x==tempX-1u && y==tempY-1u){
                     //load the first tile and set the ret
-                    position = ret.last = this->newTileFromPack(pack,image,filter,color);edkEnd();
+                    position = ret.last = this->newTileFromPack(pack,image,filter,color);
                 }
                 else{
                     //else just load the tile
-                    position = this->newTileFromPack(pack,image,filter,color);edkEnd();
+                    position = this->newTileFromPack(pack,image,filter,color);
                 }
                 //set the tile frames
-                this->setTileFramesUV(position,tempX,tempY);edkEnd();
+                this->setTileFramesUV(position,tempX,tempY);
                 //set the tile position
-                this->setTileFrameUV(position,x,y);edkEnd();
+                this->setTileFrameUV(position,x,y);
             }
         }
     }
@@ -387,14 +390,14 @@ edk::tiles::TileSet2D::Tile2Positions2D edk::tiles::TileSet2D::loadImageTilesIso
                                                                                        edk::color4f32 color
                                                                                        ){
     //
-    return this->loadImageTilesIsometric((edk::char8*)image,edk::vec2ui32(x,y),filter,color);edkEnd();
+    return this->loadImageTilesIsometric((edk::char8*)image,edk::vec2ui32(x,y),filter,color);
 }
 edk::tiles::TileSet2D::Tile2Positions2D edk::tiles::TileSet2D::loadImageTilesIsometric(const edk::char8* image,
                                                                                        edk::vec2ui32 frames,
                                                                                        edk::uint32 filter,
                                                                                        edk::color4f32 color
                                                                                        ){
-    return this->loadImageTilesIsometric((edk::char8*)image,frames,filter,color);edkEnd();
+    return this->loadImageTilesIsometric((edk::char8*)image,frames,filter,color);
 }
 edk::tiles::TileSet2D::Tile2Positions2D edk::tiles::TileSet2D::loadImageTilesIsometric(edk::char8* image,
                                                                                        edk::uint32 x,
@@ -402,7 +405,7 @@ edk::tiles::TileSet2D::Tile2Positions2D edk::tiles::TileSet2D::loadImageTilesIso
                                                                                        edk::uint32 filter,
                                                                                        edk::color4f32 color
                                                                                        ){
-    return this->loadImageTilesIsometric(image,edk::vec2ui32(x,y),filter,color);edkEnd();
+    return this->loadImageTilesIsometric(image,edk::vec2ui32(x,y),filter,color);
 }
 edk::tiles::TileSet2D::Tile2Positions2D edk::tiles::TileSet2D::loadImageTilesIsometric(edk::char8* image,
                                                                                        edk::vec2ui32 frames,
@@ -410,13 +413,13 @@ edk::tiles::TileSet2D::Tile2Positions2D edk::tiles::TileSet2D::loadImageTilesIso
                                                                                        edk::color4f32 color
                                                                                        ){
     //
-    edk::tiles::TileSet2D::Tile2Positions2D ret;edkEnd();
+    edk::tiles::TileSet2D::Tile2Positions2D ret;
 
     //test the imageName
     if(image){
         //load the tiles
-        edk::uint32 tempX = frames.x;edkEnd();
-        edk::uint32 tempY = frames.y;edkEnd();
+        edk::uint32 tempX = frames.x;
+        edk::uint32 tempY = frames.y;
         //save the tile position
         edk::uint32 position=0u;
         for(edk::uint32 y=0u;y<tempY;y++){
@@ -424,21 +427,21 @@ edk::tiles::TileSet2D::Tile2Positions2D edk::tiles::TileSet2D::loadImageTilesIso
                 //test if its the first
                 if(!x && !y){
                     //load the first tile and set the ret
-                    position = ret.first = this->newTileIsometric(image,filter,color);edkEnd();
+                    position = ret.first = this->newTileIsometric(image,filter,color);
                 }
                 //test if its the last
                 else if(x==tempX-1u && y==tempY-1u){
                     //load the first tile and set the ret
-                    position = ret.last = this->newTileIsometric(image,filter,color);edkEnd();
+                    position = ret.last = this->newTileIsometric(image,filter,color);
                 }
                 else{
                     //else just load the tile
-                    position = this->newTileIsometric(image,filter,color);edkEnd();
+                    position = this->newTileIsometric(image,filter,color);
                 }
                 //set the tile frames
-                this->setTileFramesUV(position,tempX,tempY);edkEnd();
+                this->setTileFramesUV(position,tempX,tempY);
                 //set the tile position
-                this->setTileFrameUV(position,x,y);edkEnd();
+                this->setTileFrameUV(position,x,y);
             }
         }
     }
@@ -455,7 +458,7 @@ edk::tiles::TileSet2D::Tile2Positions2D edk::tiles::TileSet2D::loadImageTilesIso
                                                                                                  edk::color4f32 color
                                                                                                  ){
     //
-    return this->loadImageTilesIsometricFromMemory((edk::char8*) name,image,size,edk::vec2ui32(x,y),filter,color);edkEnd();
+    return this->loadImageTilesIsometricFromMemory((edk::char8*) name,image,size,edk::vec2ui32(x,y),filter,color);
 }
 edk::tiles::TileSet2D::Tile2Positions2D edk::tiles::TileSet2D::loadImageTilesIsometricFromMemory(const edk::char8* name,
                                                                                                  edk::uint8* image,
@@ -465,7 +468,7 @@ edk::tiles::TileSet2D::Tile2Positions2D edk::tiles::TileSet2D::loadImageTilesIso
                                                                                                  edk::color4f32 color
                                                                                                  ){
     //
-    return this->loadImageTilesIsometricFromMemory((edk::char8*) name,image,size,frames,filter,color);edkEnd();
+    return this->loadImageTilesIsometricFromMemory((edk::char8*) name,image,size,frames,filter,color);
 }
 edk::tiles::TileSet2D::Tile2Positions2D edk::tiles::TileSet2D::loadImageTilesIsometricFromMemory(edk::char8* name,
                                                                                                  edk::uint8* image,
@@ -476,7 +479,7 @@ edk::tiles::TileSet2D::Tile2Positions2D edk::tiles::TileSet2D::loadImageTilesIso
                                                                                                  edk::color4f32 color
                                                                                                  ){
     //
-    return this->loadImageTilesIsometricFromMemory(name,image,size,edk::vec2ui32(x,y),filter,color);edkEnd();
+    return this->loadImageTilesIsometricFromMemory(name,image,size,edk::vec2ui32(x,y),filter,color);
 }
 edk::tiles::TileSet2D::Tile2Positions2D edk::tiles::TileSet2D::loadImageTilesIsometricFromMemory(edk::char8* name,
                                                                                                  edk::uint8* image,
@@ -486,13 +489,13 @@ edk::tiles::TileSet2D::Tile2Positions2D edk::tiles::TileSet2D::loadImageTilesIso
                                                                                                  edk::color4f32 color
                                                                                                  ){
     //
-    edk::tiles::TileSet2D::Tile2Positions2D ret;edkEnd();
+    edk::tiles::TileSet2D::Tile2Positions2D ret;
 
     //test the imageName
     if(image){
         //load the tiles
-        edk::uint32 tempX = frames.x;edkEnd();
-        edk::uint32 tempY = frames.y;edkEnd();
+        edk::uint32 tempX = frames.x;
+        edk::uint32 tempY = frames.y;
         //save the tile position
         edk::uint32 position=0u;
         for(edk::uint32 y=0u;y<tempY;y++){
@@ -500,21 +503,21 @@ edk::tiles::TileSet2D::Tile2Positions2D edk::tiles::TileSet2D::loadImageTilesIso
                 //test if its the first
                 if(!x && !y){
                     //load the first tile and set the ret
-                    position = ret.first = this->newTileIsometricFromMemory(name,image,size,filter,color);edkEnd();
+                    position = ret.first = this->newTileIsometricFromMemory(name,image,size,filter,color);
                 }
                 //test if its the last
                 else if(x==tempX-1u && y==tempY-1u){
                     //load the first tile and set the ret
-                    position = ret.last = this->newTileIsometricFromMemory(name,image,size,filter,color);edkEnd();
+                    position = ret.last = this->newTileIsometricFromMemory(name,image,size,filter,color);
                 }
                 else{
                     //else just load the tile
-                    position = this->newTileIsometricFromMemory(name,image,size,filter,color);edkEnd();
+                    position = this->newTileIsometricFromMemory(name,image,size,filter,color);
                 }
                 //set the tile frames
-                this->setTileFramesUV(position,tempX,tempY);edkEnd();
+                this->setTileFramesUV(position,tempX,tempY);
                 //set the tile position
-                this->setTileFrameUV(position,x,y);edkEnd();
+                this->setTileFrameUV(position,x,y);
             }
         }
     }
@@ -529,7 +532,7 @@ edk::tiles::TileSet2D::Tile2Positions2D edk::tiles::TileSet2D::loadImageTilesIso
                                                                                                edk::uint32 filter,
                                                                                                edk::color4f32 color
                                                                                                ){
-    return this->loadImageTilesIsometricFromPack(pack,(edk::char8*)image,edk::vec2ui32(x,y),filter,color);edkEnd();
+    return this->loadImageTilesIsometricFromPack(pack,(edk::char8*)image,edk::vec2ui32(x,y),filter,color);
 }
 edk::tiles::TileSet2D::Tile2Positions2D edk::tiles::TileSet2D::loadImageTilesIsometricFromPack(edk::pack::FilePackage* pack,
                                                                                                const edk::char8* image,
@@ -537,7 +540,7 @@ edk::tiles::TileSet2D::Tile2Positions2D edk::tiles::TileSet2D::loadImageTilesIso
                                                                                                edk::uint32 filter,
                                                                                                edk::color4f32 color
                                                                                                ){
-    return this->loadImageTilesIsometricFromPack(pack,(edk::char8*)image,frames,filter,color);edkEnd();
+    return this->loadImageTilesIsometricFromPack(pack,(edk::char8*)image,frames,filter,color);
 }
 edk::tiles::TileSet2D::Tile2Positions2D edk::tiles::TileSet2D::loadImageTilesIsometricFromPack(edk::pack::FilePackage* pack,
                                                                                                edk::char8* image,
@@ -546,7 +549,7 @@ edk::tiles::TileSet2D::Tile2Positions2D edk::tiles::TileSet2D::loadImageTilesIso
                                                                                                edk::uint32 filter,
                                                                                                edk::color4f32 color
                                                                                                ){
-    return this->loadImageTilesIsometricFromPack(pack,image,edk::vec2ui32(x,y),filter,color);edkEnd();
+    return this->loadImageTilesIsometricFromPack(pack,image,edk::vec2ui32(x,y),filter,color);
 }
 edk::tiles::TileSet2D::Tile2Positions2D edk::tiles::TileSet2D::loadImageTilesIsometricFromPack(edk::pack::FilePackage* pack,
                                                                                                edk::char8* image,
@@ -555,13 +558,13 @@ edk::tiles::TileSet2D::Tile2Positions2D edk::tiles::TileSet2D::loadImageTilesIso
                                                                                                edk::color4f32 color
                                                                                                ){
     //
-    edk::tiles::TileSet2D::Tile2Positions2D ret;edkEnd();
+    edk::tiles::TileSet2D::Tile2Positions2D ret;
 
     //test the imageName
     if(image && pack){
         //load the tiles
-        edk::uint32 tempX = frames.x;edkEnd();
-        edk::uint32 tempY = frames.y;edkEnd();
+        edk::uint32 tempX = frames.x;
+        edk::uint32 tempY = frames.y;
         //save the tile position
         edk::uint32 position=0u;
         for(edk::uint32 y=0u;y<tempY;y++){
@@ -569,21 +572,21 @@ edk::tiles::TileSet2D::Tile2Positions2D edk::tiles::TileSet2D::loadImageTilesIso
                 //test if its the first
                 if(!x && !y){
                     //load the first tile and set the ret
-                    position = ret.first = this->newTileIsometricFromPack(pack,image,filter,color);edkEnd();
+                    position = ret.first = this->newTileIsometricFromPack(pack,image,filter,color);
                 }
                 //test if its the last
                 else if(x==tempX-1u && y==tempY-1u){
                     //load the first tile and set the ret
-                    position = ret.last = this->newTileIsometricFromPack(pack,image,filter,color);edkEnd();
+                    position = ret.last = this->newTileIsometricFromPack(pack,image,filter,color);
                 }
                 else{
                     //else just load the tile
-                    position = this->newTileIsometricFromPack(pack,image,filter,color);edkEnd();
+                    position = this->newTileIsometricFromPack(pack,image,filter,color);
                 }
                 //set the tile frames
-                this->setTileFramesUV(position,tempX,tempY);edkEnd();
+                this->setTileFramesUV(position,tempX,tempY);
                 //set the tile position
-                this->setTileFrameUV(position,x,y);edkEnd();
+                this->setTileFrameUV(position,x,y);
             }
         }
     }
@@ -599,14 +602,14 @@ edk::tiles::TileSet2D::Tile2Positions2D edk::tiles::TileSet2D::loadImageTilesIso
                                                                                            edk::color4f32 color
                                                                                            ){
     //
-    return this->loadImageTilesIsometricFlat((edk::char8*)image,edk::vec2ui32(x,y),filter,color);edkEnd();
+    return this->loadImageTilesIsometricFlat((edk::char8*)image,edk::vec2ui32(x,y),filter,color);
 }
 edk::tiles::TileSet2D::Tile2Positions2D edk::tiles::TileSet2D::loadImageTilesIsometricFlat(const edk::char8* image,
                                                                                            edk::vec2ui32 frames,
                                                                                            edk::uint32 filter,
                                                                                            edk::color4f32 color
                                                                                            ){
-    return this->loadImageTilesIsometricFlat((edk::char8*)image,frames,filter,color);edkEnd();
+    return this->loadImageTilesIsometricFlat((edk::char8*)image,frames,filter,color);
 }
 edk::tiles::TileSet2D::Tile2Positions2D edk::tiles::TileSet2D::loadImageTilesIsometricFlat(edk::char8* image,
                                                                                            edk::uint32 x,
@@ -614,7 +617,7 @@ edk::tiles::TileSet2D::Tile2Positions2D edk::tiles::TileSet2D::loadImageTilesIso
                                                                                            edk::uint32 filter,
                                                                                            edk::color4f32 color
                                                                                            ){
-    return this->loadImageTilesIsometricFlat(image,edk::vec2ui32(x,y),filter,color);edkEnd();
+    return this->loadImageTilesIsometricFlat(image,edk::vec2ui32(x,y),filter,color);
 }
 edk::tiles::TileSet2D::Tile2Positions2D edk::tiles::TileSet2D::loadImageTilesIsometricFlat(edk::char8* image,
                                                                                            edk::vec2ui32 frames,
@@ -622,13 +625,13 @@ edk::tiles::TileSet2D::Tile2Positions2D edk::tiles::TileSet2D::loadImageTilesIso
                                                                                            edk::color4f32 color
                                                                                            ){
     //
-    edk::tiles::TileSet2D::Tile2Positions2D ret;edkEnd();
+    edk::tiles::TileSet2D::Tile2Positions2D ret;
 
     //test the imageName
     if(image){
         //load the tiles
-        edk::uint32 tempX = frames.x;edkEnd();
-        edk::uint32 tempY = frames.y;edkEnd();
+        edk::uint32 tempX = frames.x;
+        edk::uint32 tempY = frames.y;
         //save the tile position
         edk::uint32 position=0u;
         for(edk::uint32 y=0u;y<tempY;y++){
@@ -636,21 +639,21 @@ edk::tiles::TileSet2D::Tile2Positions2D edk::tiles::TileSet2D::loadImageTilesIso
                 //test if its the first
                 if(!x && !y){
                     //load the first tile and set the ret
-                    position = ret.first = this->newTileIsometricFlat(image,filter,color);edkEnd();
+                    position = ret.first = this->newTileIsometricFlat(image,filter,color);
                 }
                 //test if its the last
                 else if(x==tempX-1u && y==tempY-1u){
                     //load the first tile and set the ret
-                    position = ret.last = this->newTileIsometricFlat(image,filter,color);edkEnd();
+                    position = ret.last = this->newTileIsometricFlat(image,filter,color);
                 }
                 else{
                     //else just load the tile
-                    position = this->newTileIsometricFlat(image,filter,color);edkEnd();
+                    position = this->newTileIsometricFlat(image,filter,color);
                 }
                 //set the tile frames
-                this->setTileFramesUV(position,tempX,tempY);edkEnd();
+                this->setTileFramesUV(position,tempX,tempY);
                 //set the tile position
-                this->setTileFrameUV(position,x,y);edkEnd();
+                this->setTileFrameUV(position,x,y);
             }
         }
     }
@@ -667,7 +670,7 @@ edk::tiles::TileSet2D::Tile2Positions2D edk::tiles::TileSet2D::loadImageTilesIso
                                                                                                      edk::color4f32 color
                                                                                                      ){
     //
-    return this->loadImageTilesIsometricFlatFromMemory((edk::char8*) name,image,size,edk::vec2ui32(x,y),filter,color);edkEnd();
+    return this->loadImageTilesIsometricFlatFromMemory((edk::char8*) name,image,size,edk::vec2ui32(x,y),filter,color);
 }
 edk::tiles::TileSet2D::Tile2Positions2D edk::tiles::TileSet2D::loadImageTilesIsometricFlatFromMemory(const edk::char8* name,
                                                                                                      edk::uint8* image,
@@ -677,7 +680,7 @@ edk::tiles::TileSet2D::Tile2Positions2D edk::tiles::TileSet2D::loadImageTilesIso
                                                                                                      edk::color4f32 color
                                                                                                      ){
     //
-    return this->loadImageTilesIsometricFlatFromMemory((edk::char8*) name,image,size,frames,filter,color);edkEnd();
+    return this->loadImageTilesIsometricFlatFromMemory((edk::char8*) name,image,size,frames,filter,color);
 }
 edk::tiles::TileSet2D::Tile2Positions2D edk::tiles::TileSet2D::loadImageTilesIsometricFlatFromMemory(edk::char8* name,
                                                                                                      edk::uint8* image,
@@ -688,7 +691,7 @@ edk::tiles::TileSet2D::Tile2Positions2D edk::tiles::TileSet2D::loadImageTilesIso
                                                                                                      edk::color4f32 color
                                                                                                      ){
     //
-    return this->loadImageTilesIsometricFlatFromMemory(name,image,size,edk::vec2ui32(x,y),filter,color);edkEnd();
+    return this->loadImageTilesIsometricFlatFromMemory(name,image,size,edk::vec2ui32(x,y),filter,color);
 }
 edk::tiles::TileSet2D::Tile2Positions2D edk::tiles::TileSet2D::loadImageTilesIsometricFlatFromMemory(edk::char8* name,
                                                                                                      edk::uint8* image,
@@ -698,13 +701,13 @@ edk::tiles::TileSet2D::Tile2Positions2D edk::tiles::TileSet2D::loadImageTilesIso
                                                                                                      edk::color4f32 color
                                                                                                      ){
     //
-    edk::tiles::TileSet2D::Tile2Positions2D ret;edkEnd();
+    edk::tiles::TileSet2D::Tile2Positions2D ret;
 
     //test the imageName
     if(image){
         //load the tiles
-        edk::uint32 tempX = frames.x;edkEnd();
-        edk::uint32 tempY = frames.y;edkEnd();
+        edk::uint32 tempX = frames.x;
+        edk::uint32 tempY = frames.y;
         //save the tile position
         edk::uint32 position=0u;
         for(edk::uint32 y=0u;y<tempY;y++){
@@ -712,21 +715,21 @@ edk::tiles::TileSet2D::Tile2Positions2D edk::tiles::TileSet2D::loadImageTilesIso
                 //test if its the first
                 if(!x && !y){
                     //load the first tile and set the ret
-                    position = ret.first = this->newTileIsometricFlatFromMemory(name,image,size,filter,color);edkEnd();
+                    position = ret.first = this->newTileIsometricFlatFromMemory(name,image,size,filter,color);
                 }
                 //test if its the last
                 else if(x==tempX-1u && y==tempY-1u){
                     //load the first tile and set the ret
-                    position = ret.last = this->newTileIsometricFlatFromMemory(name,image,size,filter,color);edkEnd();
+                    position = ret.last = this->newTileIsometricFlatFromMemory(name,image,size,filter,color);
                 }
                 else{
                     //else just load the tile
-                    position = this->newTileIsometricFlatFromMemory(name,image,size,filter,color);edkEnd();
+                    position = this->newTileIsometricFlatFromMemory(name,image,size,filter,color);
                 }
                 //set the tile frames
-                this->setTileFramesUV(position,tempX,tempY);edkEnd();
+                this->setTileFramesUV(position,tempX,tempY);
                 //set the tile position
-                this->setTileFrameUV(position,x,y);edkEnd();
+                this->setTileFrameUV(position,x,y);
             }
         }
     }
@@ -742,7 +745,7 @@ edk::tiles::TileSet2D::Tile2Positions2D edk::tiles::TileSet2D::loadImageTilesIso
                                                                                                    edk::uint32 filter,
                                                                                                    edk::color4f32 color
                                                                                                    ){
-    return this->loadImageTilesIsometricFlatFromPack(pack,(edk::char8*)image,edk::vec2ui32(x,y),filter,color);edkEnd();
+    return this->loadImageTilesIsometricFlatFromPack(pack,(edk::char8*)image,edk::vec2ui32(x,y),filter,color);
 }
 edk::tiles::TileSet2D::Tile2Positions2D edk::tiles::TileSet2D::loadImageTilesIsometricFlatFromPack(edk::pack::FilePackage* pack,
                                                                                                    const edk::char8* image,
@@ -750,7 +753,7 @@ edk::tiles::TileSet2D::Tile2Positions2D edk::tiles::TileSet2D::loadImageTilesIso
                                                                                                    edk::uint32 filter,
                                                                                                    edk::color4f32 color
                                                                                                    ){
-    return this->loadImageTilesIsometricFlatFromPack(pack,(edk::char8*)image,frames,filter,color);edkEnd();
+    return this->loadImageTilesIsometricFlatFromPack(pack,(edk::char8*)image,frames,filter,color);
 }
 edk::tiles::TileSet2D::Tile2Positions2D edk::tiles::TileSet2D::loadImageTilesIsometricFlatFromPack(edk::pack::FilePackage* pack,
                                                                                                    edk::char8* image,
@@ -759,7 +762,7 @@ edk::tiles::TileSet2D::Tile2Positions2D edk::tiles::TileSet2D::loadImageTilesIso
                                                                                                    edk::uint32 filter,
                                                                                                    edk::color4f32 color
                                                                                                    ){
-    return this->loadImageTilesIsometricFlatFromPack(pack,image,edk::vec2ui32(x,y),filter,color);edkEnd();
+    return this->loadImageTilesIsometricFlatFromPack(pack,image,edk::vec2ui32(x,y),filter,color);
 }
 edk::tiles::TileSet2D::Tile2Positions2D edk::tiles::TileSet2D::loadImageTilesIsometricFlatFromPack(edk::pack::FilePackage* pack,
                                                                                                    edk::char8* image,
@@ -768,13 +771,13 @@ edk::tiles::TileSet2D::Tile2Positions2D edk::tiles::TileSet2D::loadImageTilesIso
                                                                                                    edk::color4f32 color
                                                                                                    ){
     //
-    edk::tiles::TileSet2D::Tile2Positions2D ret;edkEnd();
+    edk::tiles::TileSet2D::Tile2Positions2D ret;
 
     //test the imageName
     if(image && pack){
         //load the tiles
-        edk::uint32 tempX = frames.x;edkEnd();
-        edk::uint32 tempY = frames.y;edkEnd();
+        edk::uint32 tempX = frames.x;
+        edk::uint32 tempY = frames.y;
         //save the tile position
         edk::uint32 position=0u;
         for(edk::uint32 y=0u;y<tempY;y++){
@@ -782,21 +785,21 @@ edk::tiles::TileSet2D::Tile2Positions2D edk::tiles::TileSet2D::loadImageTilesIso
                 //test if its the first
                 if(!x && !y){
                     //load the first tile and set the ret
-                    position = ret.first = this->newTileIsometricFlatFromPack(pack,image,filter,color);edkEnd();
+                    position = ret.first = this->newTileIsometricFlatFromPack(pack,image,filter,color);
                 }
                 //test if its the last
                 else if(x==tempX-1u && y==tempY-1u){
                     //load the first tile and set the ret
-                    position = ret.last = this->newTileIsometricFlatFromPack(pack,image,filter,color);edkEnd();
+                    position = ret.last = this->newTileIsometricFlatFromPack(pack,image,filter,color);
                 }
                 else{
                     //else just load the tile
-                    position = this->newTileIsometricFlatFromPack(pack,image,filter,color);edkEnd();
+                    position = this->newTileIsometricFlatFromPack(pack,image,filter,color);
                 }
                 //set the tile frames
-                this->setTileFramesUV(position,tempX,tempY);edkEnd();
+                this->setTileFramesUV(position,tempX,tempY);
                 //set the tile position
-                this->setTileFrameUV(position,x,y);edkEnd();
+                this->setTileFrameUV(position,x,y);
             }
         }
     }
@@ -807,339 +810,339 @@ edk::tiles::TileSet2D::Tile2Positions2D edk::tiles::TileSet2D::loadImageTilesIso
 //create a new tile
 edk::uint32 edk::tiles::TileSet2D::newTile(const edk::char8* image,edk::uint32 filter,edk::color4f32 color){
     //
-    return this->newTile((edk::char8*) image,filter,color);edkEnd();
+    return this->newTile((edk::char8*) image,filter,color);
 }
 edk::uint32 edk::tiles::TileSet2D::newTile(edk::char8* image,edk::uint32 filter,edk::color4f32 color){
     if(image){
         //new tile with white color
-        edk::uint32 position = this->newTile(color);edkEnd();
+        edk::uint32 position = this->newTile(color);
         if(position){
             //load the image
             if(this->tiles.havePos(position -1u)){
-                edk::tiles::Tile2D* temp = this->tiles.get(position -1u);edkEnd();
+                edk::tiles::Tile2D* temp = this->tiles.get(position -1u);
                 if(temp){
                     //
                     if(temp->loadImage(image,filter)){
                         //return the position
-                        return position;edkEnd();
+                        return position;
                     }
                     else{
                         //else remove the tile
-                        this->tiles.remove(position-1u);edkEnd();
+                        this->tiles.remove(position-1u);
                     }
-                    delete temp;edkEnd();
+                    delete temp;
                 }
             }
         }
     }
     //else return minus one
-    return 0u;edkEnd();
+    return 0u;
 }
 edk::uint32 edk::tiles::TileSet2D::newTile(edk::color4f32 color){
     //create the new tile
-    edk::tiles::Tile2D* tileTemp = new edk::tiles::Tile2D;edkEnd();
+    edk::tiles::Tile2D* tileTemp = new edk::tiles::Tile2D;
     if(tileTemp){
         //set the size of the tile
-        tileTemp->setFrame(0,0,this->tileSize.width,this->tileSize.height);edkEnd();
+        tileTemp->setFrame(0,0,this->tileSize.width,this->tileSize.height);
         //set the color
-        tileTemp->setColor(color);edkEnd();
+        tileTemp->setColor(color);
         //save the stackSize
-        edk::uint32 size = this->tiles.size();edkEnd();
+        edk::uint32 size = this->tiles.size();
         //add the tile in the stack
-        edk::uint32 position = this->tiles.pushBack(tileTemp);edkEnd();
+        edk::uint32 position = this->tiles.pushBack(tileTemp);
         if(size<this->tiles.size() || position){
-            return position + 1u;edkEnd();
+            return position + 1u;
         }
-        delete tileTemp;edkEnd();
+        delete tileTemp;
     }
     //else return -1
     return 0;
 }
 edk::uint32 edk::tiles::TileSet2D::newTileFromMemory(const edk::char8* name,edk::uint8* image,edk::uint32 size,edk::uint32 filter,edk::color4f32 color){
-    return this->newTileFromMemory((edk::char8*) name,image,size,filter,color);edkEnd();
+    return this->newTileFromMemory((edk::char8*) name,image,size,filter,color);
 }
 edk::uint32 edk::tiles::TileSet2D::newTileFromMemory(edk::char8* name,edk::uint8* image,edk::uint32 size,edk::uint32 filter,edk::color4f32 color){
     if(name && image){
         //new tile with white color
-        edk::uint32 position = this->newTile(color);edkEnd();
+        edk::uint32 position = this->newTile(color);
         if(position){
             //load the image
             if(this->tiles.havePos(position -1u)){
-                edk::tiles::Tile2D* temp = this->tiles.get(position -1u);edkEnd();
+                edk::tiles::Tile2D* temp = this->tiles.get(position -1u);
                 if(temp){
                     //
                     if(temp->loadImageFromMemory(name,image,size,filter)){
                         //return the position
-                        return position;edkEnd();
+                        return position;
                     }
                     else{
                         //else remove the tile
-                        this->tiles.remove(position-1u);edkEnd();
+                        this->tiles.remove(position-1u);
                     }
-                    delete temp;edkEnd();
+                    delete temp;
                 }
             }
         }
     }
     //else return minus one
-    return 0u;edkEnd();
+    return 0u;
 }
 edk::uint32 edk::tiles::TileSet2D::newTileFromPack(edk::pack::FilePackage* pack,const edk::char8* image,edk::uint32 filter,edk::color4f32 color){
-    return this->newTileFromPack(pack,(edk::char8*) image,filter,color);edkEnd();
+    return this->newTileFromPack(pack,(edk::char8*) image,filter,color);
 }
 edk::uint32 edk::tiles::TileSet2D::newTileFromPack(edk::pack::FilePackage* pack,edk::char8* image,edk::uint32 filter,edk::color4f32 color){
     if(image && pack){
         //new tile with white color
-        edk::uint32 position = this->newTile(color);edkEnd();
+        edk::uint32 position = this->newTile(color);
         if(position){
             //load the image
             if(this->tiles.havePos(position -1u)){
-                edk::tiles::Tile2D* temp = this->tiles.get(position -1u);edkEnd();
+                edk::tiles::Tile2D* temp = this->tiles.get(position -1u);
                 if(temp){
                     //
                     if(temp->loadImageFromPack(pack,image,filter)){
                         //return the position
-                        return position;edkEnd();
+                        return position;
                     }
                     else{
                         //else remove the tile
-                        this->tiles.remove(position-1u);edkEnd();
+                        this->tiles.remove(position-1u);
                     }
-                    delete temp;edkEnd();
+                    delete temp;
                 }
             }
         }
     }
     //else return minus one
-    return 0u;edkEnd();
+    return 0u;
 }
 //create a new Isometric tile
 edk::uint32 edk::tiles::TileSet2D::newTileIsometric(const edk::char8* image,edk::uint32 filter,edk::color4f32 color){
     //
-    return this->newTileIsometric((edk::char8*) image,filter,color);edkEnd();
+    return this->newTileIsometric((edk::char8*) image,filter,color);
 }
 edk::uint32 edk::tiles::TileSet2D::newTileIsometric(edk::char8* image,edk::uint32 filter,edk::color4f32 color){
     if(image){
         //new tile with white color
-        edk::uint32 position = this->newTileIsometric(color);edkEnd();
+        edk::uint32 position = this->newTileIsometric(color);
         if(position){
             //load the image
             if(this->tiles.havePos(position -1u)){
-                edk::tiles::Tile2D* temp = this->tiles.get(position -1u);edkEnd();
+                edk::tiles::Tile2D* temp = this->tiles.get(position -1u);
                 if(temp){
                     //
                     if(temp->loadImage(image,filter)){
                         //return the position
-                        return position;edkEnd();
+                        return position;
                     }
                     else{
                         //else remove the tile
-                        this->tiles.remove(position-1u);edkEnd();
+                        this->tiles.remove(position-1u);
                     }
-                    delete temp;edkEnd();
+                    delete temp;
                 }
             }
         }
     }
     //else return minus one
-    return 0u;edkEnd();
+    return 0u;
 }
 edk::uint32 edk::tiles::TileSet2D::newTileIsometric(edk::color4f32 color){
     //create the new tile
-    edk::tiles::TileIsometric2D* tileTemp = new edk::tiles::TileIsometric2D;edkEnd();
+    edk::tiles::TileIsometric2D* tileTemp = new edk::tiles::TileIsometric2D;
     if(tileTemp){
         //set the size of the tile
-        tileTemp->setFrame(0,0,this->tileSize.width,this->tileSize.height);edkEnd();
+        tileTemp->setFrame(0,0,this->tileSize.width,this->tileSize.height);
         //set the color
-        tileTemp->setColor(color);edkEnd();
+        tileTemp->setColor(color);
         //save the stackSize
-        edk::uint32 size = this->tiles.size();edkEnd();
+        edk::uint32 size = this->tiles.size();
         //add the tile in the stack
-        edk::uint32 position = this->tiles.pushBack(tileTemp);edkEnd();
+        edk::uint32 position = this->tiles.pushBack(tileTemp);
         if(size<this->tiles.size() || position){
-            return position + 1u;edkEnd();
+            return position + 1u;
         }
-        delete tileTemp;edkEnd();
+        delete tileTemp;
     }
     //else return -1
     return 0;
 }
 edk::uint32 edk::tiles::TileSet2D::newTileIsometricFromMemory(const edk::char8* name,edk::uint8* image,edk::uint32 size,edk::uint32 filter,edk::color4f32 color){
-    return this->newTileIsometricFromMemory((edk::char8*) name,image,size,filter,color);edkEnd();
+    return this->newTileIsometricFromMemory((edk::char8*) name,image,size,filter,color);
 }
 edk::uint32 edk::tiles::TileSet2D::newTileIsometricFromMemory(edk::char8* name,edk::uint8* image,edk::uint32 size,edk::uint32 filter,edk::color4f32 color){
     if(name && image){
         //new tile with white color
-        edk::uint32 position = this->newTileIsometric(color);edkEnd();
+        edk::uint32 position = this->newTileIsometric(color);
         if(position){
             //load the image
             if(this->tiles.havePos(position -1u)){
-                edk::tiles::Tile2D* temp = this->tiles.get(position -1u);edkEnd();
+                edk::tiles::Tile2D* temp = this->tiles.get(position -1u);
                 if(temp){
                     //
                     if(temp->loadImageFromMemory(name,image,size,filter)){
                         //return the position
-                        return position;edkEnd();
+                        return position;
                     }
                     else{
                         //else remove the tile
-                        this->tiles.remove(position-1u);edkEnd();
+                        this->tiles.remove(position-1u);
                     }
-                    delete temp;edkEnd();
+                    delete temp;
                 }
             }
         }
     }
     //else return minus one
-    return 0u;edkEnd();
+    return 0u;
 }
 edk::uint32 edk::tiles::TileSet2D::newTileIsometricFromPack(edk::pack::FilePackage* pack,const edk::char8* image,edk::uint32 filter,edk::color4f32 color){
-    return this->newTileIsometricFromPack(pack,(edk::char8*) image,filter,color);edkEnd();
+    return this->newTileIsometricFromPack(pack,(edk::char8*) image,filter,color);
 }
 edk::uint32 edk::tiles::TileSet2D::newTileIsometricFromPack(edk::pack::FilePackage* pack,edk::char8* image,edk::uint32 filter,edk::color4f32 color){
     if(image && pack){
         //new tile with white color
-        edk::uint32 position = this->newTileIsometric(color);edkEnd();
+        edk::uint32 position = this->newTileIsometric(color);
         if(position){
             //load the image
             if(this->tiles.havePos(position -1u)){
-                edk::tiles::Tile2D* temp = this->tiles.get(position -1u);edkEnd();
+                edk::tiles::Tile2D* temp = this->tiles.get(position -1u);
                 if(temp){
                     //
                     if(temp->loadImageFromPack(pack,image,filter)){
                         //return the position
-                        return position;edkEnd();
+                        return position;
                     }
                     else{
                         //else remove the tile
-                        this->tiles.remove(position-1u);edkEnd();
+                        this->tiles.remove(position-1u);
                     }
-                    delete temp;edkEnd();
+                    delete temp;
                 }
             }
         }
     }
     //else return minus one
-    return 0u;edkEnd();
+    return 0u;
 }
 //create a new Isometric tile
 edk::uint32 edk::tiles::TileSet2D::newTileIsometricFlat(const edk::char8* image,edk::uint32 filter,edk::color4f32 color){
     //
-    return this->newTileIsometricFlat((edk::char8*) image,filter,color);edkEnd();
+    return this->newTileIsometricFlat((edk::char8*) image,filter,color);
 }
 edk::uint32 edk::tiles::TileSet2D::newTileIsometricFlat(edk::char8* image,edk::uint32 filter,edk::color4f32 color){
     if(image){
         //new tile with white color
-        edk::uint32 position = this->newTileIsometricFlat(color);edkEnd();
+        edk::uint32 position = this->newTileIsometricFlat(color);
         if(position){
             //load the image
             if(this->tiles.havePos(position -1u)){
-                edk::tiles::Tile2D* temp = this->tiles.get(position -1u);edkEnd();
+                edk::tiles::Tile2D* temp = this->tiles.get(position -1u);
                 if(temp){
                     //
                     if(temp->loadImage(image,filter)){
                         //return the position
-                        return position;edkEnd();
+                        return position;
                     }
                     else{
                         //else remove the tile
-                        this->tiles.remove(position-1u);edkEnd();
+                        this->tiles.remove(position-1u);
                     }
-                    delete temp;edkEnd();
+                    delete temp;
                 }
             }
         }
     }
     //else return minus one
-    return 0u;edkEnd();
+    return 0u;
 }
 edk::uint32 edk::tiles::TileSet2D::newTileIsometricFlat(edk::color4f32 color){
     //create the new tile
-    edk::tiles::TileIsometricFlat2D* tileTemp = new edk::tiles::TileIsometricFlat2D;edkEnd();
+    edk::tiles::TileIsometricFlat2D* tileTemp = new edk::tiles::TileIsometricFlat2D;
     if(tileTemp){
         //set the size of the tile
-        tileTemp->setFrame(0,0,this->tileSize.width,this->tileSize.height);edkEnd();
+        tileTemp->setFrame(0,0,this->tileSize.width,this->tileSize.height);
         //set the color
-        tileTemp->setColor(color);edkEnd();
+        tileTemp->setColor(color);
         //save the stackSize
-        edk::uint32 size = this->tiles.size();edkEnd();
+        edk::uint32 size = this->tiles.size();
         //add the tile in the stack
-        edk::uint32 position = this->tiles.pushBack(tileTemp);edkEnd();
+        edk::uint32 position = this->tiles.pushBack(tileTemp);
         if(size<this->tiles.size() || position){
-            return position + 1u;edkEnd();
+            return position + 1u;
         }
-        delete tileTemp;edkEnd();
+        delete tileTemp;
     }
     //else return -1
     return 0;
 }
 edk::uint32 edk::tiles::TileSet2D::newTileIsometricFlatFromMemory(const edk::char8* name,edk::uint8* image,edk::uint32 size,edk::uint32 filter,edk::color4f32 color){
-    return this->newTileIsometricFlatFromMemory((edk::char8*) name,image,size,filter,color);edkEnd();
+    return this->newTileIsometricFlatFromMemory((edk::char8*) name,image,size,filter,color);
 }
 edk::uint32 edk::tiles::TileSet2D::newTileIsometricFlatFromMemory(edk::char8* name,edk::uint8* image,edk::uint32 size,edk::uint32 filter,edk::color4f32 color){
     if(name && image){
         //new tile with white color
-        edk::uint32 position = this->newTileIsometricFlat(color);edkEnd();
+        edk::uint32 position = this->newTileIsometricFlat(color);
         if(position){
             //load the image
             if(this->tiles.havePos(position -1u)){
-                edk::tiles::Tile2D* temp = this->tiles.get(position -1u);edkEnd();
+                edk::tiles::Tile2D* temp = this->tiles.get(position -1u);
                 if(temp){
                     //
                     if(temp->loadImageFromMemory(name,image,size,filter)){
                         //return the position
-                        return position;edkEnd();
+                        return position;
                     }
                     else{
                         //else remove the tile
-                        this->tiles.remove(position-1u);edkEnd();
+                        this->tiles.remove(position-1u);
                     }
-                    delete temp;edkEnd();
+                    delete temp;
                 }
             }
         }
     }
     //else return minus one
-    return 0u;edkEnd();
+    return 0u;
 }
 edk::uint32 edk::tiles::TileSet2D::newTileIsometricFlatFromPack(edk::pack::FilePackage* pack,const edk::char8* image,edk::uint32 filter,edk::color4f32 color){
-    return this->newTileIsometricFlatFromPack(pack,(edk::char8*) image,filter,color);edkEnd();
+    return this->newTileIsometricFlatFromPack(pack,(edk::char8*) image,filter,color);
 }
 edk::uint32 edk::tiles::TileSet2D::newTileIsometricFlatFromPack(edk::pack::FilePackage* pack,edk::char8* image,edk::uint32 filter,edk::color4f32 color){
     if(image && pack){
         //new tile with white color
-        edk::uint32 position = this->newTileIsometricFlat(color);edkEnd();
+        edk::uint32 position = this->newTileIsometricFlat(color);
         if(position){
             //load the image
             if(this->tiles.havePos(position -1u)){
-                edk::tiles::Tile2D* temp = this->tiles.get(position -1u);edkEnd();
+                edk::tiles::Tile2D* temp = this->tiles.get(position -1u);
                 if(temp){
                     //
                     if(temp->loadImageFromPack(pack,image,filter)){
                         //return the position
-                        return position;edkEnd();
+                        return position;
                     }
                     else{
                         //else remove the tile
-                        this->tiles.remove(position-1u);edkEnd();
+                        this->tiles.remove(position-1u);
                     }
-                    delete temp;edkEnd();
+                    delete temp;
                 }
             }
         }
     }
     //else return minus one
-    return 0u;edkEnd();
+    return 0u;
 }
 //set the tile UVFrames
 bool edk::tiles::TileSet2D::setTileFramesUV(edk::uint32 tile,edk::vec2ui32 frames){
     if(tile){
-        tile--;edkEnd();
+        tile--;
         //load the tile from the stack
         if(this->tiles.havePos(tile)){
-            edk::tiles::Tile2D* temp = this->tiles.get(tile);edkEnd();
+            edk::tiles::Tile2D* temp = this->tiles.get(tile);
             if(temp){
-                temp->setFramesUV(frames);edkEnd();
+                temp->setFramesUV(frames);
             }
         }
         return true;
@@ -1149,12 +1152,12 @@ bool edk::tiles::TileSet2D::setTileFramesUV(edk::uint32 tile,edk::vec2ui32 frame
 }
 bool edk::tiles::TileSet2D::setTileFramesUV(edk::uint32 tile,edk::uint32 x,edk::uint32 y){
     if(tile){
-        tile--;edkEnd();
+        tile--;
         //load the tile from the stack
         if(this->tiles.havePos(tile)){
-            edk::tiles::Tile2D* temp = this->tiles.get(tile);edkEnd();
+            edk::tiles::Tile2D* temp = this->tiles.get(tile);
             if(temp){
-                temp->setFramesUV(x,y);edkEnd();
+                temp->setFramesUV(x,y);
             }
         }
         return true;
@@ -1165,12 +1168,12 @@ bool edk::tiles::TileSet2D::setTileFramesUV(edk::uint32 tile,edk::uint32 x,edk::
 //use the tile UV frame
 bool edk::tiles::TileSet2D::setTileFrameUV(edk::uint32 tile,edk::vec2ui32 frame){
     if(tile){
-        tile--;edkEnd();
+        tile--;
         //load the tile from the stack
         if(this->tiles.havePos(tile)){
-            edk::tiles::Tile2D* temp = this->tiles.get(tile);edkEnd();
+            edk::tiles::Tile2D* temp = this->tiles.get(tile);
             if(temp){
-                temp->useFrameUV(frame);edkEnd();
+                temp->useFrameUV(frame);
             }
         }
         return true;
@@ -1180,12 +1183,12 @@ bool edk::tiles::TileSet2D::setTileFrameUV(edk::uint32 tile,edk::vec2ui32 frame)
 }
 bool edk::tiles::TileSet2D::setTileFrameUV(edk::uint32 tile,edk::uint32 x,edk::uint32 y){
     if(tile){
-        tile--;edkEnd();
+        tile--;
         //load the tile from the stack
         if(this->tiles.havePos(tile)){
-            edk::tiles::Tile2D* temp = this->tiles.get(tile);edkEnd();
+            edk::tiles::Tile2D* temp = this->tiles.get(tile);
             if(temp){
-                temp->useFrameUV(x,y);edkEnd();
+                temp->useFrameUV(x,y);
             }
         }
         return true;
@@ -1195,13 +1198,13 @@ bool edk::tiles::TileSet2D::setTileFrameUV(edk::uint32 tile,edk::uint32 x,edk::u
 }
 bool edk::tiles::TileSet2D::setTileFrameUVinPosition(edk::uint32 tile,edk::uint32 position){
     if(tile && position){
-        tile--;edkEnd();
-        position--;edkEnd();
+        tile--;
+        position--;
         //load the tile from the stack
         if(this->tiles.havePos(tile)){
-            edk::tiles::Tile2D* temp = this->tiles.get(tile);edkEnd();
+            edk::tiles::Tile2D* temp = this->tiles.get(tile);
             if(temp){
-                temp->useFrameUVinPosition(position);edkEnd();
+                temp->useFrameUVinPosition(position);
             }
         }
         return true;
@@ -1213,12 +1216,12 @@ bool edk::tiles::TileSet2D::setTileFrameUVinPosition(edk::uint32 tile,edk::uint3
 //add tileDrawCallback
 bool edk::tiles::TileSet2D::addDrawCallback(edk::uint32 tile,edk::tiles::DrawTile2DCallback* callback){
     if(tile){
-        tile--;edkEnd();
+        tile--;
         //load the tile from the stack
         if(this->tiles.havePos(tile)){
-            edk::tiles::Tile2D* temp = this->tiles.get(tile);edkEnd();
+            edk::tiles::Tile2D* temp = this->tiles.get(tile);
             if(temp){
-                return temp->addDrawCallback(callback);edkEnd();
+                return temp->addDrawCallback(callback);
             }
         }
     }
@@ -1227,12 +1230,12 @@ bool edk::tiles::TileSet2D::addDrawCallback(edk::uint32 tile,edk::tiles::DrawTil
 }
 bool edk::tiles::TileSet2D::removeDrawCallback(edk::uint32 tile,edk::tiles::DrawTile2DCallback* callback){
     if(tile){
-        tile--;edkEnd();
+        tile--;
         //load the tile from the stack
         if(this->tiles.havePos(tile)){
-            edk::tiles::Tile2D* temp = this->tiles.get(tile);edkEnd();
+            edk::tiles::Tile2D* temp = this->tiles.get(tile);
             if(temp){
-                return temp->removeDrawCallback(callback);edkEnd();
+                return temp->removeDrawCallback(callback);
             }
         }
     }
@@ -1241,12 +1244,12 @@ bool edk::tiles::TileSet2D::removeDrawCallback(edk::uint32 tile,edk::tiles::Draw
 }
 bool edk::tiles::TileSet2D::runStartDraw(edk::uint32 id,edk::vec2ui32 position,edk::vec2f32 worldPosition){
     if(id){
-        edk::uint32 tile = id-1u;edkEnd();
+        edk::uint32 tile = id-1u;
         //load the tile from the stack
         if(this->tiles.havePos(tile)){
-            edk::tiles::Tile2D* temp = this->tiles.get(tile);edkEnd();
+            edk::tiles::Tile2D* temp = this->tiles.get(tile);
             if(temp){
-                temp->runStartDraw(id,position,worldPosition);edkEnd();
+                temp->runStartDraw(id,position,worldPosition);
                 return true;
             }
         }
@@ -1256,12 +1259,12 @@ bool edk::tiles::TileSet2D::runStartDraw(edk::uint32 id,edk::vec2ui32 position,e
 }
 bool edk::tiles::TileSet2D::runEndDraw(edk::uint32 id,edk::vec2ui32 position,edk::vec2f32 worldPosition){
     if(id){
-        edk::uint32 tile = id-1u;edkEnd();
+        edk::uint32 tile = id-1u;
         //load the tile from the stack
         if(this->tiles.havePos(tile)){
-            edk::tiles::Tile2D* temp = this->tiles.get(tile);edkEnd();
+            edk::tiles::Tile2D* temp = this->tiles.get(tile);
             if(temp){
-                temp->runEndDraw(id,position,worldPosition);edkEnd();
+                temp->runEndDraw(id,position,worldPosition);
                 return true;
             }
         }
@@ -1273,14 +1276,14 @@ bool edk::tiles::TileSet2D::runEndDraw(edk::uint32 id,edk::vec2ui32 position,edk
 //Add a interpolation to the animation
 bool edk::tiles::TileSet2D::addFrameInterpolation(edk::uint32 tile,edk::float32 second,edk::float32 frame){
     if(tile && frame>=1.f){
-        tile--;edkEnd();
-        frame-=1.f;edkEnd();
+        tile--;
+        frame-=1.f;
         //load the tile from the stack
         if(this->tiles.havePos(tile)){
-            edk::tiles::Tile2D* temp = this->tiles.get(tile);edkEnd();
+            edk::tiles::Tile2D* temp = this->tiles.get(tile);
             if(temp){
-                this->treeAnimated.add(temp);edkEnd();
-                return temp->addFrameInterpolation(second,frame);edkEnd();
+                this->treeAnimated.add(temp);
+                return temp->addFrameInterpolation(second,frame);
             }
         }
     }
@@ -1290,12 +1293,12 @@ bool edk::tiles::TileSet2D::addFrameInterpolation(edk::uint32 tile,edk::float32 
 //return the interpolationSize
 edk::uint32 edk::tiles::TileSet2D::getInterpolationSize(edk::uint32 tile){
     if(tile){
-        tile--;edkEnd();
+        tile--;
         //load the tile from the stack
         if(this->tiles.havePos(tile)){
-            edk::tiles::Tile2D* temp = this->tiles.get(tile);edkEnd();
+            edk::tiles::Tile2D* temp = this->tiles.get(tile);
             if(temp){
-                temp->getInterpolationSize();edkEnd();
+                temp->getInterpolationSize();
             }
         }
         return true;
@@ -1306,13 +1309,13 @@ edk::uint32 edk::tiles::TileSet2D::getInterpolationSize(edk::uint32 tile){
 //clean
 bool edk::tiles::TileSet2D::cleanFrames(edk::uint32 tile){
     if(tile){
-        tile--;edkEnd();
+        tile--;
         //load the tile from the stack
         if(this->tiles.havePos(tile)){
-            edk::tiles::Tile2D* temp = this->tiles.get(tile);edkEnd();
+            edk::tiles::Tile2D* temp = this->tiles.get(tile);
             if(temp){
-                this->treeAnimated.remove(temp);edkEnd();
-                temp->cleanFames();edkEnd();
+                this->treeAnimated.remove(temp);
+                temp->cleanFames();
             }
         }
         return true;
@@ -1324,12 +1327,12 @@ bool edk::tiles::TileSet2D::cleanFrames(edk::uint32 tile){
 //controls
 bool edk::tiles::TileSet2D::playForward(edk::uint32 tile){
     if(tile){
-        tile--;edkEnd();
+        tile--;
         //load the tile from the stack
         if(this->tiles.havePos(tile)){
-            edk::tiles::Tile2D* temp = this->tiles.get(tile);edkEnd();
+            edk::tiles::Tile2D* temp = this->tiles.get(tile);
             if(temp){
-                return temp->playForward();edkEnd();
+                return temp->playForward();
             }
         }
     }
@@ -1338,12 +1341,12 @@ bool edk::tiles::TileSet2D::playForward(edk::uint32 tile){
 }
 bool edk::tiles::TileSet2D::playForwardIn(edk::uint32 tile,edk::float32 second){
     if(tile){
-        tile--;edkEnd();
+        tile--;
         //load the tile from the stack
         if(this->tiles.havePos(tile)){
-            edk::tiles::Tile2D* temp = this->tiles.get(tile);edkEnd();
+            edk::tiles::Tile2D* temp = this->tiles.get(tile);
             if(temp){
-                return temp->playForwardIn(second);edkEnd();
+                return temp->playForwardIn(second);
             }
         }
     }
@@ -1352,12 +1355,12 @@ bool edk::tiles::TileSet2D::playForwardIn(edk::uint32 tile,edk::float32 second){
 }
 bool edk::tiles::TileSet2D::playRewind(edk::uint32 tile){
     if(tile){
-        tile--;edkEnd();
+        tile--;
         //load the tile from the stack
         if(this->tiles.havePos(tile)){
-            edk::tiles::Tile2D* temp = this->tiles.get(tile);edkEnd();
+            edk::tiles::Tile2D* temp = this->tiles.get(tile);
             if(temp){
-                return temp->playRewind();edkEnd();
+                return temp->playRewind();
             }
         }
     }
@@ -1366,12 +1369,12 @@ bool edk::tiles::TileSet2D::playRewind(edk::uint32 tile){
 }
 bool edk::tiles::TileSet2D::playRewindIn(edk::uint32 tile,edk::float32 second){
     if(tile){
-        tile--;edkEnd();
+        tile--;
         //load the tile from the stack
         if(this->tiles.havePos(tile)){
-            edk::tiles::Tile2D* temp = this->tiles.get(tile);edkEnd();
+            edk::tiles::Tile2D* temp = this->tiles.get(tile);
             if(temp){
-                return temp->playRewindIn(second);edkEnd();
+                return temp->playRewindIn(second);
             }
         }
     }
@@ -1380,12 +1383,12 @@ bool edk::tiles::TileSet2D::playRewindIn(edk::uint32 tile,edk::float32 second){
 }
 bool edk::tiles::TileSet2D::pause(edk::uint32 tile){
     if(tile){
-        tile--;edkEnd();
+        tile--;
         //load the tile from the stack
         if(this->tiles.havePos(tile)){
-            edk::tiles::Tile2D* temp = this->tiles.get(tile);edkEnd();
+            edk::tiles::Tile2D* temp = this->tiles.get(tile);
             if(temp){
-                return temp->pause();edkEnd();
+                return temp->pause();
             }
         }
     }
@@ -1394,12 +1397,12 @@ bool edk::tiles::TileSet2D::pause(edk::uint32 tile){
 }
 bool edk::tiles::TileSet2D::stop(edk::uint32 tile){
     if(tile){
-        tile--;edkEnd();
+        tile--;
         //load the tile from the stack
         if(this->tiles.havePos(tile)){
-            edk::tiles::Tile2D* temp = this->tiles.get(tile);edkEnd();
+            edk::tiles::Tile2D* temp = this->tiles.get(tile);
             if(temp){
-                return temp->stop();edkEnd();
+                return temp->stop();
             }
         }
     }
@@ -1409,12 +1412,12 @@ bool edk::tiles::TileSet2D::stop(edk::uint32 tile){
 //set loop
 bool edk::tiles::TileSet2D::setLoop(edk::uint32 tile,bool loop){
     if(tile){
-        tile--;edkEnd();
+        tile--;
         //load the tile from the stack
         if(this->tiles.havePos(tile)){
-            edk::tiles::Tile2D* temp = this->tiles.get(tile);edkEnd();
+            edk::tiles::Tile2D* temp = this->tiles.get(tile);
             if(temp){
-                return temp->setLoop(loop);edkEnd();
+                return temp->setLoop(loop);
             }
         }
     }
@@ -1423,12 +1426,12 @@ bool edk::tiles::TileSet2D::setLoop(edk::uint32 tile,bool loop){
 }
 bool edk::tiles::TileSet2D::loopOn(edk::uint32 tile){
     if(tile){
-        tile--;edkEnd();
+        tile--;
         //load the tile from the stack
         if(this->tiles.havePos(tile)){
-            edk::tiles::Tile2D* temp = this->tiles.get(tile);edkEnd();
+            edk::tiles::Tile2D* temp = this->tiles.get(tile);
             if(temp){
-                return temp->loopOn();edkEnd();
+                return temp->loopOn();
             }
         }
     }
@@ -1437,12 +1440,12 @@ bool edk::tiles::TileSet2D::loopOn(edk::uint32 tile){
 }
 bool edk::tiles::TileSet2D::loopOff(edk::uint32 tile){
     if(tile){
-        tile--;edkEnd();
+        tile--;
         //load the tile from the stack
         if(this->tiles.havePos(tile)){
-            edk::tiles::Tile2D* temp = this->tiles.get(tile);edkEnd();
+            edk::tiles::Tile2D* temp = this->tiles.get(tile);
             if(temp){
-                return temp->loopOff();edkEnd();
+                return temp->loopOff();
             }
         }
     }
@@ -1452,12 +1455,12 @@ bool edk::tiles::TileSet2D::loopOff(edk::uint32 tile){
 //get the second
 edk::float32 edk::tiles::TileSet2D::getSecond(edk::uint32 tile){
     if(tile){
-        tile--;edkEnd();
+        tile--;
         //load the tile from the stack
         if(this->tiles.havePos(tile)){
-            edk::tiles::Tile2D* temp = this->tiles.get(tile);edkEnd();
+            edk::tiles::Tile2D* temp = this->tiles.get(tile);
             if(temp){
-                return temp->getSecond();edkEnd();
+                return temp->getSecond();
             }
         }
     }
@@ -1467,12 +1470,12 @@ edk::float32 edk::tiles::TileSet2D::getSecond(edk::uint32 tile){
 //return if are playing
 bool edk::tiles::TileSet2D::isPlaying(edk::uint32 tile){
     if(tile){
-        tile--;edkEnd();
+        tile--;
         //load the tile from the stack
         if(this->tiles.havePos(tile)){
-            edk::tiles::Tile2D* temp = this->tiles.get(tile);edkEnd();
+            edk::tiles::Tile2D* temp = this->tiles.get(tile);
             if(temp){
-                return temp->isPlaying();edkEnd();
+                return temp->isPlaying();
             }
         }
     }
@@ -1480,16 +1483,16 @@ bool edk::tiles::TileSet2D::isPlaying(edk::uint32 tile){
     return false;
 }
 bool edk::tiles::TileSet2D::isPlayingName(edk::uint32 tile,const edk::char8* name){
-    return this->isPlayingName(tile,(edk::char8*) name);edkEnd();
+    return this->isPlayingName(tile,(edk::char8*) name);
 }
 bool edk::tiles::TileSet2D::isPlayingName(edk::uint32 tile,edk::char8* name){
     if(tile && name){
-        tile--;edkEnd();
+        tile--;
         //load the tile from the stack
         if(this->tiles.havePos(tile)){
-            edk::tiles::Tile2D* temp = this->tiles.get(tile);edkEnd();
+            edk::tiles::Tile2D* temp = this->tiles.get(tile);
             if(temp){
-                return temp->isPlayingName(name);edkEnd();
+                return temp->isPlayingName(name);
             }
         }
     }
@@ -1497,16 +1500,16 @@ bool edk::tiles::TileSet2D::isPlayingName(edk::uint32 tile,edk::char8* name){
     return false;
 }
 bool edk::tiles::TileSet2D::wasPlayingName(edk::uint32 tile,const edk::char8* name){
-    return this->wasPlayingName(tile,(edk::char8*) name);edkEnd();
+    return this->wasPlayingName(tile,(edk::char8*) name);
 }
 bool edk::tiles::TileSet2D::wasPlayingName(edk::uint32 tile,edk::char8* name){
     if(tile && name){
-        tile--;edkEnd();
+        tile--;
         //load the tile from the stack
         if(this->tiles.havePos(tile)){
-            edk::tiles::Tile2D* temp = this->tiles.get(tile);edkEnd();
+            edk::tiles::Tile2D* temp = this->tiles.get(tile);
             if(temp){
-                return temp->wasPlayingName(name);edkEnd();
+                return temp->wasPlayingName(name);
             }
         }
     }
@@ -1516,12 +1519,12 @@ bool edk::tiles::TileSet2D::wasPlayingName(edk::uint32 tile,edk::char8* name){
 //animationNames
 bool edk::tiles::TileSet2D::addAnimationName(edk::uint32 tile,const edk::char8* name, edk::float32 start,edk::float32 end){
     if(tile){
-        tile--;edkEnd();
+        tile--;
         //load the tile from the stack
         if(this->tiles.havePos(tile)){
-            edk::tiles::Tile2D* temp = this->tiles.get(tile);edkEnd();
+            edk::tiles::Tile2D* temp = this->tiles.get(tile);
             if(temp){
-                return temp->addAnimationName(name,start,end);edkEnd();
+                return temp->addAnimationName(name,start,end);
             }
         }
     }
@@ -1530,12 +1533,12 @@ bool edk::tiles::TileSet2D::addAnimationName(edk::uint32 tile,const edk::char8* 
 }
 bool edk::tiles::TileSet2D::addAnimationName(edk::uint32 tile,edk::char8* name, edk::float32 start,edk::float32 end){
     if(tile){
-        tile--;edkEnd();
+        tile--;
         //load the tile from the stack
         if(this->tiles.havePos(tile)){
-            edk::tiles::Tile2D* temp = this->tiles.get(tile);edkEnd();
+            edk::tiles::Tile2D* temp = this->tiles.get(tile);
             if(temp){
-                return temp->addAnimationName(name,start,end);edkEnd();
+                return temp->addAnimationName(name,start,end);
             }
         }
     }
@@ -1545,12 +1548,12 @@ bool edk::tiles::TileSet2D::addAnimationName(edk::uint32 tile,edk::char8* name, 
 //test if have the animationName
 bool edk::tiles::TileSet2D::haveAnimationName(edk::uint32 tile,const edk::char8* name){
     if(tile){
-        tile--;edkEnd();
+        tile--;
         //load the tile from the stack
         if(this->tiles.havePos(tile)){
-            edk::tiles::Tile2D* temp = this->tiles.get(tile);edkEnd();
+            edk::tiles::Tile2D* temp = this->tiles.get(tile);
             if(temp){
-                return temp->haveAnimationName(name);edkEnd();
+                return temp->haveAnimationName(name);
             }
         }
     }
@@ -1559,12 +1562,12 @@ bool edk::tiles::TileSet2D::haveAnimationName(edk::uint32 tile,const edk::char8*
 }
 bool edk::tiles::TileSet2D::haveAnimationName(edk::uint32 tile,edk::char8* name){
     if(tile){
-        tile--;edkEnd();
+        tile--;
         //load the tile from the stack
         if(this->tiles.havePos(tile)){
-            edk::tiles::Tile2D* temp = this->tiles.get(tile);edkEnd();
+            edk::tiles::Tile2D* temp = this->tiles.get(tile);
             if(temp){
-                return temp->haveAnimationName(name);edkEnd();
+                return temp->haveAnimationName(name);
             }
         }
     }
@@ -1574,12 +1577,12 @@ bool edk::tiles::TileSet2D::haveAnimationName(edk::uint32 tile,edk::char8* name)
 //Play the animationName
 bool edk::tiles::TileSet2D::playNameForward(edk::uint32 tile,const edk::char8* name){
     if(tile){
-        tile--;edkEnd();
+        tile--;
         //load the tile from the stack
         if(this->tiles.havePos(tile)){
-            edk::tiles::Tile2D* temp = this->tiles.get(tile);edkEnd();
+            edk::tiles::Tile2D* temp = this->tiles.get(tile);
             if(temp){
-                return temp->playNameForward(name);edkEnd();
+                return temp->playNameForward(name);
             }
         }
     }
@@ -1588,12 +1591,12 @@ bool edk::tiles::TileSet2D::playNameForward(edk::uint32 tile,const edk::char8* n
 }
 bool edk::tiles::TileSet2D::playNameForward(edk::uint32 tile,edk::char8* name){
     if(tile){
-        tile--;edkEnd();
+        tile--;
         //load the tile from the stack
         if(this->tiles.havePos(tile)){
-            edk::tiles::Tile2D* temp = this->tiles.get(tile);edkEnd();
+            edk::tiles::Tile2D* temp = this->tiles.get(tile);
             if(temp){
-                return temp->playNameForward(name);edkEnd();
+                return temp->playNameForward(name);
             }
         }
     }
@@ -1602,12 +1605,12 @@ bool edk::tiles::TileSet2D::playNameForward(edk::uint32 tile,edk::char8* name){
 }
 bool edk::tiles::TileSet2D::playNameRewind(edk::uint32 tile,const edk::char8* name){
     if(tile){
-        tile--;edkEnd();
+        tile--;
         //load the tile from the stack
         if(this->tiles.havePos(tile)){
-            edk::tiles::Tile2D* temp = this->tiles.get(tile);edkEnd();
+            edk::tiles::Tile2D* temp = this->tiles.get(tile);
             if(temp){
-                return temp->playNameRewind(name);edkEnd();
+                return temp->playNameRewind(name);
             }
         }
     }
@@ -1616,12 +1619,12 @@ bool edk::tiles::TileSet2D::playNameRewind(edk::uint32 tile,const edk::char8* na
 }
 bool edk::tiles::TileSet2D::playNameRewind(edk::uint32 tile,edk::char8* name){
     if(tile){
-        tile--;edkEnd();
+        tile--;
         //load the tile from the stack
         if(this->tiles.havePos(tile)){
-            edk::tiles::Tile2D* temp = this->tiles.get(tile);edkEnd();
+            edk::tiles::Tile2D* temp = this->tiles.get(tile);
             if(temp){
-                return temp->playNameRewind(name);edkEnd();
+                return temp->playNameRewind(name);
             }
         }
     }
@@ -1631,12 +1634,12 @@ bool edk::tiles::TileSet2D::playNameRewind(edk::uint32 tile,edk::char8* name){
 //remove the animationName
 bool edk::tiles::TileSet2D::removeAnimationName(edk::uint32 tile,const edk::char8* name){
     if(tile){
-        tile--;edkEnd();
+        tile--;
         //load the tile from the stack
         if(this->tiles.havePos(tile)){
-            edk::tiles::Tile2D* temp = this->tiles.get(tile);edkEnd();
+            edk::tiles::Tile2D* temp = this->tiles.get(tile);
             if(temp){
-                return temp->removeAnimationName(name);edkEnd();
+                return temp->removeAnimationName(name);
             }
         }
     }
@@ -1645,12 +1648,12 @@ bool edk::tiles::TileSet2D::removeAnimationName(edk::uint32 tile,const edk::char
 }
 bool edk::tiles::TileSet2D::removeAnimationName(edk::uint32 tile,edk::char8* name){
     if(tile){
-        tile--;edkEnd();
+        tile--;
         //load the tile from the stack
         if(this->tiles.havePos(tile)){
-            edk::tiles::Tile2D* temp = this->tiles.get(tile);edkEnd();
+            edk::tiles::Tile2D* temp = this->tiles.get(tile);
             if(temp){
-                return temp->removeAnimationName(name);edkEnd();
+                return temp->removeAnimationName(name);
             }
         }
     }
@@ -1661,12 +1664,12 @@ bool edk::tiles::TileSet2D::removeAnimationName(edk::uint32 tile,edk::char8* nam
 //Set one interpolation X as a curve
 bool edk::tiles::TileSet2D::setCurveX(edk::uint32 tile,edk::uint32 position){
     if(tile){
-        tile--;edkEnd();
+        tile--;
         //load the tile from the stack
         if(this->tiles.havePos(tile)){
-            edk::tiles::Tile2D* temp = this->tiles.get(tile);edkEnd();
+            edk::tiles::Tile2D* temp = this->tiles.get(tile);
             if(temp){
-                return temp->setCurveX(position);edkEnd();
+                return temp->setCurveX(position);
             }
         }
     }
@@ -1675,12 +1678,12 @@ bool edk::tiles::TileSet2D::setCurveX(edk::uint32 tile,edk::uint32 position){
 }
 bool edk::tiles::TileSet2D::setNotCurveX(edk::uint32 tile,edk::uint32 position){
     if(tile){
-        tile--;edkEnd();
+        tile--;
         //load the tile from the stack
         if(this->tiles.havePos(tile)){
-            edk::tiles::Tile2D* temp = this->tiles.get(tile);edkEnd();
+            edk::tiles::Tile2D* temp = this->tiles.get(tile);
             if(temp){
-                return temp->setNotCurveX(position);edkEnd();
+                return temp->setNotCurveX(position);
             }
         }
     }
@@ -1689,12 +1692,12 @@ bool edk::tiles::TileSet2D::setNotCurveX(edk::uint32 tile,edk::uint32 position){
 }
 bool edk::tiles::TileSet2D::getIsCurveX(edk::uint32 tile,edk::uint32 position){
     if(tile){
-        tile--;edkEnd();
+        tile--;
         //load the tile from the stack
         if(this->tiles.havePos(tile)){
-            edk::tiles::Tile2D* temp = this->tiles.get(tile);edkEnd();
+            edk::tiles::Tile2D* temp = this->tiles.get(tile);
             if(temp){
-                return temp->getIsCurveX(position);edkEnd();
+                return temp->getIsCurveX(position);
             }
         }
     }
@@ -1704,12 +1707,12 @@ bool edk::tiles::TileSet2D::getIsCurveX(edk::uint32 tile,edk::uint32 position){
 //Set the interpolation curve points
 bool edk::tiles::TileSet2D::setCurveP1X(edk::uint32 tile,edk::uint32 position,edk::float32 second,edk::float32 x){
     if(tile){
-        tile--;edkEnd();
+        tile--;
         //load the tile from the stack
         if(this->tiles.havePos(tile)){
-            edk::tiles::Tile2D* temp = this->tiles.get(tile);edkEnd();
+            edk::tiles::Tile2D* temp = this->tiles.get(tile);
             if(temp){
-                return temp->setCurveP1X(position,second,x);edkEnd();
+                return temp->setCurveP1X(position,second,x);
             }
         }
     }
@@ -1718,12 +1721,12 @@ bool edk::tiles::TileSet2D::setCurveP1X(edk::uint32 tile,edk::uint32 position,ed
 }
 bool edk::tiles::TileSet2D::setCurveP2X(edk::uint32 tile,edk::uint32 position,edk::float32 second,edk::float32 x){
     if(tile){
-        tile--;edkEnd();
+        tile--;
         //load the tile from the stack
         if(this->tiles.havePos(tile)){
-            edk::tiles::Tile2D* temp = this->tiles.get(tile);edkEnd();
+            edk::tiles::Tile2D* temp = this->tiles.get(tile);
             if(temp){
-                return temp->setCurveP2X(position,second,x);edkEnd();
+                return temp->setCurveP2X(position,second,x);
             }
         }
     }
@@ -1734,12 +1737,12 @@ bool edk::tiles::TileSet2D::setCurveP2X(edk::uint32 tile,edk::uint32 position,ed
 //update the animations
 bool edk::tiles::TileSet2D::updateAnimations(edk::uint32 tile){
     if(tile){
-        tile--;edkEnd();
+        tile--;
         //load the tile from the stack
         if(this->tiles.havePos(tile)){
-            edk::tiles::Tile2D* temp = this->tiles.get(tile);edkEnd();
+            edk::tiles::Tile2D* temp = this->tiles.get(tile);
             if(temp){
-                temp->updateAnimation();edkEnd();
+                temp->updateAnimation();
                 return true;
             }
         }
@@ -1749,12 +1752,12 @@ bool edk::tiles::TileSet2D::updateAnimations(edk::uint32 tile){
 }
 bool edk::tiles::TileSet2D::updateAnimations(edk::uint32 tile,edk::float32 seconds){
     if(tile){
-        tile--;edkEnd();
+        tile--;
         //load the tile from the stack
         if(this->tiles.havePos(tile)){
-            edk::tiles::Tile2D* temp = this->tiles.get(tile);edkEnd();
+            edk::tiles::Tile2D* temp = this->tiles.get(tile);
             if(temp){
-                temp->updateAnimation(seconds);edkEnd();
+                temp->updateAnimation(seconds);
                 return true;
             }
         }
@@ -1763,13 +1766,13 @@ bool edk::tiles::TileSet2D::updateAnimations(edk::uint32 tile,edk::float32 secon
     return false;
 }
 bool edk::tiles::TileSet2D::updateAnimations(){
-    edk::uint32 size = this->treeAnimated.size();edkEnd();
+    edk::uint32 size = this->treeAnimated.size();
     if(size){
-        edk::tiles::Tile2D* temp = NULL;edkEnd();
+        edk::tiles::Tile2D* temp = NULL;
         for(edk::uint32 i=0u;i<size;i++){
-            temp = this->treeAnimated.getElementInPosition(i);edkEnd();
+            temp = this->treeAnimated.getElementInPosition(i);
             if(temp){
-                temp->updateAnimation();edkEnd();
+                temp->updateAnimation();
             }
         }
         return true;
@@ -1777,13 +1780,13 @@ bool edk::tiles::TileSet2D::updateAnimations(){
     return false;
 }
 bool edk::tiles::TileSet2D::updateAnimations(edk::float32 seconds){
-    edk::uint32 size = this->treeAnimated.size();edkEnd();
+    edk::uint32 size = this->treeAnimated.size();
     if(size){
-        edk::tiles::Tile2D* temp = NULL;edkEnd();
+        edk::tiles::Tile2D* temp = NULL;
         for(edk::uint32 i=0u;i<size;i++){
-            temp = this->treeAnimated.getElementInPosition(i);edkEnd();
+            temp = this->treeAnimated.getElementInPosition(i);
             if(temp){
-                temp->updateAnimation(seconds);edkEnd();
+                temp->updateAnimation(seconds);
             }
         }
         return true;
@@ -1794,12 +1797,12 @@ bool edk::tiles::TileSet2D::updateAnimations(edk::float32 seconds){
 //create a new object physics
 bool edk::tiles::TileSet2D::setTilePhysics(edk::uint32 tile,edk::TypeObject type){
     if(tile){
-        tile--;edkEnd();
+        tile--;
         //load the tile from the stack
         if(this->tiles.havePos(tile)){
-            edk::tiles::Tile2D* temp = this->tiles.get(tile);edkEnd();
+            edk::tiles::Tile2D* temp = this->tiles.get(tile);
             if(temp){
-                return temp->setPhysics(type);edkEnd();
+                return temp->setPhysics(type);
             }
         }
     }
@@ -1809,12 +1812,12 @@ bool edk::tiles::TileSet2D::setTilePhysics(edk::uint32 tile,edk::TypeObject type
 //add a polygon to the physics Object
 bool edk::tiles::TileSet2D::addTilePhysicsPolygon(edk::uint32 tile,edk::shape::Polygon2D poly){
     if(tile){
-        tile--;edkEnd();
+        tile--;
         //load the tile from the stack
         if(this->tiles.havePos(tile)){
-            edk::tiles::Tile2D* temp = this->tiles.get(tile);edkEnd();
+            edk::tiles::Tile2D* temp = this->tiles.get(tile);
             if(temp){
-                return temp->addPhysicsPolygon(poly);edkEnd();
+                return temp->addPhysicsPolygon(poly);
             }
         }
     }
@@ -1823,12 +1826,12 @@ bool edk::tiles::TileSet2D::addTilePhysicsPolygon(edk::uint32 tile,edk::shape::P
 }
 bool edk::tiles::TileSet2D::cleanTilePhysicsPolygons(edk::uint32 tile){
     if(tile){
-        tile--;edkEnd();
+        tile--;
         //load the tile from the stack
         if(this->tiles.havePos(tile)){
-            edk::tiles::Tile2D* temp = this->tiles.get(tile);edkEnd();
+            edk::tiles::Tile2D* temp = this->tiles.get(tile);
             if(temp){
-                return temp->cleanPhysicsPolygons();edkEnd();
+                return temp->cleanPhysicsPolygons();
             }
         }
     }
@@ -1838,12 +1841,12 @@ bool edk::tiles::TileSet2D::cleanTilePhysicsPolygons(edk::uint32 tile){
 //get the tilePhysicsMesh
 edk::physics2D::PhysicsMesh2D* edk::tiles::TileSet2D::getTilePhysicsMeshPointer(edk::uint32 tile){
     if(tile){
-        tile--;edkEnd();
+        tile--;
         //load the tile from the stack
         if(this->tiles.havePos(tile)){
-            edk::tiles::Tile2D* temp = this->tiles.get(tile);edkEnd();
+            edk::tiles::Tile2D* temp = this->tiles.get(tile);
             if(temp){
-                return temp->getPhysicsMeshPointer();edkEnd();
+                return temp->getPhysicsMeshPointer();
             }
         }
     }
@@ -1853,12 +1856,12 @@ edk::physics2D::PhysicsMesh2D* edk::tiles::TileSet2D::getTilePhysicsMeshPointer(
 //return the tileMesh
 edk::shape::Mesh2D* edk::tiles::TileSet2D::getTileMeshPointer(edk::uint32 tile){
     if(tile){
-        tile--;edkEnd();
+        tile--;
         //load the tile from the stack
         if(this->tiles.havePos(tile)){
-            edk::tiles::Tile2D* temp = this->tiles.get(tile);edkEnd();
+            edk::tiles::Tile2D* temp = this->tiles.get(tile);
             if(temp){
-                return temp->getMeshPointer();edkEnd();
+                return temp->getMeshPointer();
             }
         }
     }
@@ -1869,12 +1872,12 @@ edk::shape::Mesh2D* edk::tiles::TileSet2D::getTileMeshPointer(edk::uint32 tile){
 //delete the objectPhysics
 bool edk::tiles::TileSet2D::deleteTilePhysics(edk::uint32 tile){
     if(tile){
-        tile--;edkEnd();
+        tile--;
         //load the tile from the stack
         if(this->tiles.havePos(tile)){
-            edk::tiles::Tile2D* temp = this->tiles.get(tile);edkEnd();
+            edk::tiles::Tile2D* temp = this->tiles.get(tile);
             if(temp){
-                temp->deletePhysics();edkEnd();
+                temp->deletePhysics();
                 return true;
             }
         }
@@ -1885,12 +1888,12 @@ bool edk::tiles::TileSet2D::deleteTilePhysics(edk::uint32 tile){
 //return the physicsObject
 edk::physics2D::PhysicObject2D* edk::tiles::TileSet2D::getTilePhysicsObject(edk::uint32 tile){
     if(tile){
-        tile--;edkEnd();
+        tile--;
         //load the tile from the stack
         if(this->tiles.havePos(tile)){
-            edk::tiles::Tile2D* temp = this->tiles.get(tile);edkEnd();
+            edk::tiles::Tile2D* temp = this->tiles.get(tile);
             if(temp){
-                return temp->getPhysicsObject();edkEnd();
+                return temp->getPhysicsObject();
             }
         }
     }
@@ -1900,12 +1903,12 @@ edk::physics2D::PhysicObject2D* edk::tiles::TileSet2D::getTilePhysicsObject(edk:
 //return true if the tile is physics
 bool edk::tiles::TileSet2D::isTilePhysics(edk::uint32 tile){
     if(tile){
-        tile--;edkEnd();
+        tile--;
         //load the tile from the stack
         if(this->tiles.havePos(tile)){
-            edk::tiles::Tile2D* temp = this->tiles.get(tile);edkEnd();
+            edk::tiles::Tile2D* temp = this->tiles.get(tile);
             if(temp){
-                return temp->isPhysics();edkEnd();
+                return temp->isPhysics();
             }
         }
     }
@@ -1921,16 +1924,16 @@ bool edk::tiles::TileSet2D::drawTile(edk::uint32 tile,
                                      edk::color4f32 color
                                      ){
     if(tile){
-        tile--;edkEnd();
+        tile--;
         //load the tile from the stack
         if(this->tiles.havePos(tile)){
-            edk::tiles::Tile2D* temp = this->tiles.get(tile);edkEnd();
+            edk::tiles::Tile2D* temp = this->tiles.get(tile);
             if(temp){
-                temp->setColor(color);edkEnd();
-                temp->setDiffuse(color);edkEnd();
-                temp->setEmission(color);edkEnd();
-                temp->setPosition(position.x * temp->getWidth(),position.y * temp->getHeight());edkEnd();
-                temp->draw(angle,size);edkEnd();
+                temp->setColor(color);
+                temp->setDiffuse(color);
+                temp->setEmission(color);
+                temp->setPosition(position.x * temp->getWidth(),position.y * temp->getHeight());
+                temp->draw(angle,size);
                 return true;
             }
         }
@@ -1953,7 +1956,7 @@ bool edk::tiles::TileSet2D::drawTile(edk::uint32 tile,
                           angle,
                           size,
                           color
-                          );edkEnd();
+                          );
 }
 bool edk::tiles::TileSet2D::drawTileWithoutMaterial(edk::uint32 tile,
                                                     edk::vec2f32 position,
@@ -1962,16 +1965,16 @@ bool edk::tiles::TileSet2D::drawTileWithoutMaterial(edk::uint32 tile,
                                                     edk::color4f32 color
                                                     ){
     if(tile){
-        tile--;edkEnd();
+        tile--;
         //load the tile from the stack
         if(this->tiles.havePos(tile)){
-            edk::tiles::Tile2D* temp = this->tiles.get(tile);edkEnd();
+            edk::tiles::Tile2D* temp = this->tiles.get(tile);
             if(temp){
-                temp->setColor(color);edkEnd();
-                temp->setDiffuse(color);edkEnd();
-                temp->setEmission(color);edkEnd();
-                temp->setPosition(position.x * temp->getWidth(),position.y * temp->getHeight());edkEnd();
-                temp->drawWithoutMaterial(angle,size);edkEnd();
+                temp->setColor(color);
+                temp->setDiffuse(color);
+                temp->setEmission(color);
+                temp->setPosition(position.x * temp->getWidth(),position.y * temp->getHeight());
+                temp->drawWithoutMaterial(angle,size);
                 return true;
             }
         }
@@ -1993,16 +1996,16 @@ bool edk::tiles::TileSet2D::drawTileWithoutMaterial(edk::uint32 tile,
                                          angle,
                                          size,
                                          color
-                                         );edkEnd();
+                                         );
 }
 void edk::tiles::TileSet2D::drawTileWire(edk::vec2f32 position,
                                          edk::float32 angle,
                                          edk::size2f32 size,
                                          edk::color4f32 color
                                          ){
-    this->tileTemp.setColor(color);edkEnd();
-    this->tileTemp.setPosition(position.x * this->tileTemp.getWidth(),position.y * this->tileTemp.getHeight());edkEnd();
-    this->tileTemp.drawWire(angle,size);edkEnd();
+    this->tileTemp.setColor(color);
+    this->tileTemp.setPosition(position.x * this->tileTemp.getWidth(),position.y * this->tileTemp.getHeight());
+    this->tileTemp.drawWire(angle,size);
 }
 void edk::tiles::TileSet2D::drawTileWire(edk::float32 positionX,
                                          edk::float32 positionY,
@@ -2017,16 +2020,16 @@ void edk::tiles::TileSet2D::drawTileWire(edk::float32 positionX,
                     ),
                 angle,
                 size,
-                color);edkEnd();
+                color);
 }
 void edk::tiles::TileSet2D::drawTileIsometricWire(edk::vec2f32 position,
                                                   edk::float32 angle,
                                                   edk::size2f32 size,
                                                   edk::color4f32 color
                                                   ){
-    this->tileIsometricTemp.setColor(color);edkEnd();
-    this->tileIsometricTemp.setPosition(position.x * this->tileTemp.getWidth(),position.y * this->tileTemp.getHeight());edkEnd();
-    this->tileIsometricTemp.drawWire(angle,size);edkEnd();
+    this->tileIsometricTemp.setColor(color);
+    this->tileIsometricTemp.setPosition(position.x * this->tileTemp.getWidth(),position.y * this->tileTemp.getHeight());
+    this->tileIsometricTemp.drawWire(angle,size);
 }
 void edk::tiles::TileSet2D::drawTileIsometricWire(edk::float32 positionX,
                                                   edk::float32 positionY,
@@ -2041,14 +2044,14 @@ void edk::tiles::TileSet2D::drawTileIsometricWire(edk::float32 positionX,
                     ),
                 angle,
                 size,
-                color);edkEnd();
+                color);
 }
 void edk::tiles::TileSet2D::drawTileSelection(edk::vec2f32 position,
                                               edk::float32 angle,
                                               edk::size2f32 size
                                               ){
-    this->tileTemp.setPosition(position.x * this->tileTemp.getWidth(),position.y * this->tileTemp.getHeight());edkEnd();
-    this->tileTemp.drawSelection(angle,size);edkEnd();
+    this->tileTemp.setPosition(position.x * this->tileTemp.getWidth(),position.y * this->tileTemp.getHeight());
+    this->tileTemp.drawSelection(angle,size);
 }
 void edk::tiles::TileSet2D::drawTileSelection(edk::float32 positionX,
                                               edk::float32 positionY,
@@ -2063,7 +2066,7 @@ void edk::tiles::TileSet2D::drawTileSelection(edk::float32 positionX,
                     ),
                 angle,
                 size
-                );edkEnd();
+                );
 }
 bool edk::tiles::TileSet2D::drawTileInWorld(edk::uint32 tile,
                                             edk::vec2f32 position,
@@ -2072,14 +2075,14 @@ bool edk::tiles::TileSet2D::drawTileInWorld(edk::uint32 tile,
                                             edk::color4f32 color
                                             ){
     if(tile){
-        tile--;edkEnd();
+        tile--;
         //load the tile from the stack
         if(this->tiles.havePos(tile)){
-            edk::tiles::Tile2D* temp = this->tiles.get(tile);edkEnd();
+            edk::tiles::Tile2D* temp = this->tiles.get(tile);
             if(temp){
-                temp->setPosition(position.x,position.y);edkEnd();
-                temp->setColor(color);edkEnd();
-                temp->draw(angle,size);edkEnd();
+                temp->setPosition(position.x,position.y);
+                temp->setColor(color);
+                temp->draw(angle,size);
                 return true;
             }
         }
@@ -2102,14 +2105,14 @@ bool edk::tiles::TileSet2D::drawTileInWorld(edk::uint32 tile,
                                  angle,
                                  size,
                                  color
-                                 );edkEnd();
+                                 );
 }
 void edk::tiles::TileSet2D::drawTileSelectionInWorld(edk::vec2f32 position,
                                                      edk::float32 angle,
                                                      edk::size2f32 size
                                                      ){
-    this->tileTemp.setPosition(position.x,position.y);edkEnd();
-    this->tileTemp.drawSelection(angle,size);edkEnd();
+    this->tileTemp.setPosition(position.x,position.y);
+    this->tileTemp.drawSelection(angle,size);
 }
 void edk::tiles::TileSet2D::drawTileSelectionInWorld(edk::float32 positionX,
                                                      edk::float32 positionY,
@@ -2122,7 +2125,7 @@ void edk::tiles::TileSet2D::drawTileSelectionInWorld(edk::float32 positionX,
                                                 ),
                                    angle,
                                    size
-                                   );edkEnd();
+                                   );
 }
 
 bool edk::tiles::TileSet2D::drawTilePhysics(edk::uint32 tile,
@@ -2132,14 +2135,14 @@ bool edk::tiles::TileSet2D::drawTilePhysics(edk::uint32 tile,
                                             edk::color4f32 color
                                             ){
     if(tile){
-        tile--;edkEnd();
+        tile--;
         //load the tile from the stack
         if(this->tiles.havePos(tile)){
-            edk::tiles::Tile2D* temp = this->tiles.get(tile);edkEnd();
+            edk::tiles::Tile2D* temp = this->tiles.get(tile);
             if(temp){
-                temp->setColor(color);edkEnd();
-                temp->setPosition(position.x * temp->getWidth(),position.y * temp->getHeight());edkEnd();
-                temp->drawPhysic(angle,size);edkEnd();
+                temp->setColor(color);
+                temp->setPosition(position.x * temp->getWidth(),position.y * temp->getHeight());
+                temp->drawPhysic(angle,size);
                 return true;
             }
         }
@@ -2161,7 +2164,7 @@ bool edk::tiles::TileSet2D::drawTilePhysics(edk::uint32 tile,
                                  angle,
                                  size,
                                  color
-                                 );edkEnd();
+                                 );
 }
 bool edk::tiles::TileSet2D::drawTilePhysicsInWorld(edk::uint32 tile,
                                                    edk::vec2f32 position,
@@ -2170,14 +2173,14 @@ bool edk::tiles::TileSet2D::drawTilePhysicsInWorld(edk::uint32 tile,
                                                    edk::color4f32 color
                                                    ){
     if(tile){
-        tile--;edkEnd();
+        tile--;
         //load the tile from the stack
         if(this->tiles.havePos(tile)){
-            edk::tiles::Tile2D* temp = this->tiles.get(tile);edkEnd();
+            edk::tiles::Tile2D* temp = this->tiles.get(tile);
             if(temp){
-                temp->setPosition(position.x,position.y);edkEnd();
-                temp->setColor(color);edkEnd();
-                temp->drawPhysic(angle,size);edkEnd();
+                temp->setPosition(position.x,position.y);
+                temp->setColor(color);
+                temp->drawPhysic(angle,size);
                 return true;
             }
         }
@@ -2200,21 +2203,21 @@ bool edk::tiles::TileSet2D::drawTilePhysicsInWorld(edk::uint32 tile,
                                         angle,
                                         size,
                                         color
-                                        );edkEnd();
+                                        );
 }
 bool edk::tiles::TileSet2D::printTile(edk::uint32 tile){
     if(tile){
-        tile--;edkEnd();
+        tile--;
         //load the tile from the stack
         if(this->tiles.havePos(tile)){
-            edk::tiles::Tile2D* temp = this->tiles.get(tile);edkEnd();
+            edk::tiles::Tile2D* temp = this->tiles.get(tile);
             if(temp){
                 printf("\nPosition %.2f %.2f size %.2f %.2f"
                        ,temp->getPositionX()
                        ,temp->getPositionY()
                        ,temp->getWidth()
                        ,temp->getHeight()
-                       );edkEnd();
+                       );
                 return true;
             }
         }
@@ -2226,261 +2229,261 @@ bool edk::tiles::TileSet2D::printTile(edk::uint32 tile){
 //XML
 bool edk::tiles::TileSet2D::writeToXML(edk::XML* xml,edk::uint32 id){
     if(xml){
-        bool ret=false;edkEnd();
+        bool ret=false;
         //create the nameID
-        edk::char8* nameID = edk::String::int64ToStr(id);edkEnd();
+        edk::char8* nameID = edk::String::int64ToStr(id);
         if(nameID){
             //concat
-            edk::char8* name = edk::String::strCat((edk::char8*)"tileSet_",nameID);edkEnd();
+            edk::char8* name = edk::String::strCat((edk::char8*)"tileSet_",nameID);
             if(name){
                 //create the name
                 if(xml->addSelectedNextChild(name)){
                     if(xml->selectChild(name)){
-                        edk::char8* temp;edkEnd();
+                        edk::char8* temp;
                         //write tileSize
-                        temp = edk::String::float32ToStr(this->tileSize.width);edkEnd();
+                        temp = edk::String::float32ToStr(this->tileSize.width);
                         if(temp){
-                            xml->addSelectedNextAttribute((edk::char8*)"sizeW",temp);edkEnd();
-                            free(temp);edkEnd();
+                            xml->addSelectedNextAttribute((edk::char8*)"sizeW",temp);
+                            free(temp);
                         }
-                        temp = edk::String::float32ToStr(this->tileSize.height);edkEnd();
+                        temp = edk::String::float32ToStr(this->tileSize.height);
                         if(temp){
-                            xml->addSelectedNextAttribute((edk::char8*)"sizeH",temp);edkEnd();
-                            free(temp);edkEnd();
+                            xml->addSelectedNextAttribute((edk::char8*)"sizeH",temp);
+                            free(temp);
                         }
                         //write the position
-                        temp = edk::String::float32ToStr(this->tilesPosition.x);edkEnd();
+                        temp = edk::String::float32ToStr(this->tilesPosition.x);
                         if(temp){
-                            xml->addSelectedNextAttribute((edk::char8*)"posX",temp);edkEnd();
-                            free(temp);edkEnd();
+                            xml->addSelectedNextAttribute((edk::char8*)"posX",temp);
+                            free(temp);
                         }
-                        temp = edk::String::float32ToStr(this->tilesPosition.y);edkEnd();
+                        temp = edk::String::float32ToStr(this->tilesPosition.y);
                         if(temp){
-                            xml->addSelectedNextAttribute((edk::char8*)"posY",temp);edkEnd();
-                            free(temp);edkEnd();
+                            xml->addSelectedNextAttribute((edk::char8*)"posY",temp);
+                            free(temp);
                         }
                         //write the tiles
-                        edk::uint32 size = this->tiles.size();edkEnd();
+                        edk::uint32 size = this->tiles.size();
                         //write size
-                        temp = edk::String::int64ToStr(size);edkEnd();
+                        temp = edk::String::int64ToStr(size);
                         if(temp){
-                            xml->addSelectedNextAttribute((edk::char8*)"tileSize",temp);edkEnd();
-                            free(temp);edkEnd();
+                            xml->addSelectedNextAttribute((edk::char8*)"tileSize",temp);
+                            free(temp);
                         }
-                        edk::tiles::Tile2D* tileTemp;edkEnd();
+                        edk::tiles::Tile2D* tileTemp;
                         for(edk::uint32 i=0u;i<=size;i++){
                             if(this->tiles.havePos(i)){
-                                tileTemp = tiles.get(i);edkEnd();
+                                tileTemp = tiles.get(i);
                                 if(tileTemp){
                                     //write the tile
-                                    tileTemp->writeToXML(xml,i+1u);edkEnd();
+                                    tileTemp->writeToXML(xml,i+1u);
                                 }
                             }
                         }
-                        edk::char8* nameTemp;edkEnd();
-                        edk::char8* iTemp;edkEnd();
+                        edk::char8* nameTemp;
+                        edk::char8* iTemp;
                         //write the animatedTiles
                         for(edk::uint32 i=0u;i<size;i++){
-                            tileTemp = tiles.get(i);edkEnd();
+                            tileTemp = tiles.get(i);
                             if(tileTemp){
                                 //test if have the tile in animatedTree
                                 if(this->treeAnimated.haveElement(tileTemp)){
                                     //set the tile as animated
-                                    iTemp = edk::String::int64ToStr(i+1u);edkEnd();
+                                    iTemp = edk::String::int64ToStr(i+1u);
                                     if(iTemp){
-                                        nameTemp = edk::String::strCat((edk::char8*)"anim_",iTemp);edkEnd();
+                                        nameTemp = edk::String::strCat((edk::char8*)"anim_",iTemp);
                                         if(nameTemp){
                                             //add the animated
                                             if(xml->addSelectedNextChild(nameTemp)){
                                                 if(xml->selectChild(nameTemp)){
-                                                    xml->selectFather();edkEnd();
+                                                    xml->selectFather();
                                                 }
                                             }
-                                            free(nameTemp);edkEnd();
+                                            free(nameTemp);
                                         }
-                                        free(iTemp);edkEnd();
+                                        free(iTemp);
                                     }
                                 }
                             }
                         }
-                        ret=true;edkEnd();
-                        xml->selectFather();edkEnd();
+                        ret=true;
+                        xml->selectFather();
                     }
                 }
-                free(name);edkEnd();
+                free(name);
             }
-            free(nameID);edkEnd();
+            free(nameID);
         }
         return ret;
     }
     return false;
 }
 bool edk::tiles::TileSet2D::readFromXML(edk::XML* xml,edk::uint32 id){
-    this->treeRemoveXML.clean();edkEnd();
+    this->treeRemoveXML.clean();
     if(xml){
-        bool ret=false;edkEnd();
+        bool ret=false;
         //create the nameID
-        edk::char8* nameID = edk::String::int64ToStr(id);edkEnd();
+        edk::char8* nameID = edk::String::int64ToStr(id);
         if(nameID){
             //concat
-            edk::char8* name = edk::String::strCat((edk::char8*)"tileSet_",nameID);edkEnd();
+            edk::char8* name = edk::String::strCat((edk::char8*)"tileSet_",nameID);
             if(name){
                 //select the name
                 if(xml->selectChild(name)){
-                    this->deleteTiles();edkEnd();
-                    ret=true;edkEnd();
+                    this->deleteTiles();
+                    ret=true;
                     //read the size
                     this->tileSize = edk::size2f32(edk::String::strToFloat32(xml->getSelectedAttributeValueByName("sizeW")),
                                                    edk::String::strToFloat32(xml->getSelectedAttributeValueByName("sizeH"))
-                                                   );edkEnd();
+                                                   );
                     //read the position
                     this->tilesPosition = edk::vec2f32(edk::String::strToFloat32(xml->getSelectedAttributeValueByName("posX")),
                                                        edk::String::strToFloat32(xml->getSelectedAttributeValueByName("posY"))
-                                                       );edkEnd();
+                                                       );
 
                     //read tiles
-                    edk::tiles::Tile2D* tileTemp;edkEnd();
-                    //                    edk::int32 i = 0u;edkEnd();
-                    edk::char8* nameTemp;edkEnd();
-                    edk::char8* iTemp;edkEnd();
-                    edk::uint32 size = edk::String::strToInt64(xml->getSelectedAttributeValueByName("tileSize"));edkEnd();
-                    edk::uint32 sizeStack;edkEnd();
+                    edk::tiles::Tile2D* tileTemp;
+                    //                    edk::int32 i = 0u;
+                    edk::char8* nameTemp;
+                    edk::char8* iTemp;
+                    edk::uint32 size = edk::String::strToInt64(xml->getSelectedAttributeValueByName("tileSize"));
+                    edk::uint32 sizeStack;
                     for(edk::uint32 i=1u;i<=size;i++){
-                        tileTemp = new edk::tiles::Tile2D;edkEnd();
+                        tileTemp = new edk::tiles::Tile2D;
                         if(tileTemp){
                             //add the tile
-                            sizeStack = this->tiles.size();edkEnd();
-                            this->tiles.pushBack(tileTemp);edkEnd();
+                            sizeStack = this->tiles.size();
+                            this->tiles.pushBack(tileTemp);
                             if(sizeStack<this->tiles.size()){
                                 //load the tile
                                 if(tileTemp->readFromXML(xml,i)){
                                     //test if the tile is animated
-                                    iTemp = edk::String::int64ToStr(i);edkEnd();
+                                    iTemp = edk::String::int64ToStr(i);
                                     if(iTemp){
-                                        nameTemp = edk::String::strCat((edk::char8*)"anim_",iTemp);edkEnd();
+                                        nameTemp = edk::String::strCat((edk::char8*)"anim_",iTemp);
                                         if(nameTemp){
                                             //test the animated
                                             if(xml->selectChild(nameTemp)){
                                                 //add the tile to the animatedTree
-                                                this->treeAnimated.add(tileTemp);edkEnd();
-                                                xml->selectFather();edkEnd();
+                                                this->treeAnimated.add(tileTemp);
+                                                xml->selectFather();
                                             }
-                                            free(nameTemp);edkEnd();
+                                            free(nameTemp);
                                         }
-                                        free(iTemp);edkEnd();
+                                        free(iTemp);
                                     }
                                 }
                                 else{
                                     //else remove the tile after
-                                    this->treeRemoveXML.add(i);edkEnd();
+                                    this->treeRemoveXML.add(i);
                                     //
                                 }
                             }
                             else{
                                 //
-                                delete tileTemp;edkEnd();
-                                ret=false;edkEnd();
+                                delete tileTemp;
+                                ret=false;
                                 break;
                             }
                         }
                     }
                     //remove the tiles
-                    size = this->treeRemoveXML.size();edkEnd();
+                    size = this->treeRemoveXML.size();
                     for(edk::uint32 i=0u;i<size;i++){
-                        this->deleteTile(this->treeRemoveXML.getElementInPosition(i));edkEnd();
+                        this->deleteTile(this->treeRemoveXML.getElementInPosition(i));
                     }
-                    xml->selectFather();edkEnd();
+                    xml->selectFather();
                 }
-                free(name);edkEnd();
+                free(name);
             }
-            free(nameID);edkEnd();
+            free(nameID);
         }
-        this->treeRemoveXML.clean();edkEnd();
+        this->treeRemoveXML.clean();
         return ret;
     }
     return false;
 }
 bool edk::tiles::TileSet2D::readFromXMLFromPack(edk::pack::FilePackage* pack,edk::XML* xml,edk::uint32 id){
-    this->treeRemoveXML.clean();edkEnd();
+    this->treeRemoveXML.clean();
     if(xml && pack){
-        bool ret=false;edkEnd();
+        bool ret=false;
         //create the nameID
-        edk::char8* nameID = edk::String::int64ToStr(id);edkEnd();
+        edk::char8* nameID = edk::String::int64ToStr(id);
         if(nameID){
             //concat
-            edk::char8* name = edk::String::strCat((edk::char8*)"tileSet_",nameID);edkEnd();
+            edk::char8* name = edk::String::strCat((edk::char8*)"tileSet_",nameID);
             if(name){
                 //select the name
                 if(xml->selectChild(name)){
-                    this->deleteTiles();edkEnd();
-                    ret=true;edkEnd();
+                    this->deleteTiles();
+                    ret=true;
                     //read the size
                     this->tileSize = edk::size2f32(edk::String::strToFloat32(xml->getSelectedAttributeValueByName("sizeW")),
                                                    edk::String::strToFloat32(xml->getSelectedAttributeValueByName("sizeH"))
-                                                   );edkEnd();
+                                                   );
                     //read the position
                     this->tilesPosition = edk::vec2f32(edk::String::strToFloat32(xml->getSelectedAttributeValueByName("posX")),
                                                        edk::String::strToFloat32(xml->getSelectedAttributeValueByName("posY"))
-                                                       );edkEnd();
+                                                       );
 
                     //read tiles
-                    edk::tiles::Tile2D* tileTemp;edkEnd();
-                    //                    edk::int32 i = 0u;edkEnd();
-                    edk::char8* nameTemp;edkEnd();
-                    edk::char8* iTemp;edkEnd();
-                    edk::uint32 size = edk::String::strToInt64(xml->getSelectedAttributeValueByName("tileSize"));edkEnd();
-                    edk::uint32 sizeStack;edkEnd();
+                    edk::tiles::Tile2D* tileTemp;
+                    //                    edk::int32 i = 0u;
+                    edk::char8* nameTemp;
+                    edk::char8* iTemp;
+                    edk::uint32 size = edk::String::strToInt64(xml->getSelectedAttributeValueByName("tileSize"));
+                    edk::uint32 sizeStack;
                     for(edk::uint32 i=1u;i<=size;i++){
-                        tileTemp = new edk::tiles::Tile2D;edkEnd();
+                        tileTemp = new edk::tiles::Tile2D;
                         if(tileTemp){
                             //add the tile
-                            sizeStack = this->tiles.size();edkEnd();
-                            this->tiles.pushBack(tileTemp);edkEnd();
+                            sizeStack = this->tiles.size();
+                            this->tiles.pushBack(tileTemp);
                             if(sizeStack<this->tiles.size()){
                                 //load the tile
                                 if(tileTemp->readFromXMLFromPack(pack,xml,i)){
                                     //test if the tile is animated
-                                    iTemp = edk::String::int64ToStr(i);edkEnd();
+                                    iTemp = edk::String::int64ToStr(i);
                                     if(iTemp){
-                                        nameTemp = edk::String::strCat((edk::char8*)"anim_",iTemp);edkEnd();
+                                        nameTemp = edk::String::strCat((edk::char8*)"anim_",iTemp);
                                         if(nameTemp){
                                             //test the animated
                                             if(xml->selectChild(nameTemp)){
                                                 //add the tile to the animatedTree
-                                                this->treeAnimated.add(tileTemp);edkEnd();
-                                                xml->selectFather();edkEnd();
+                                                this->treeAnimated.add(tileTemp);
+                                                xml->selectFather();
                                             }
-                                            free(nameTemp);edkEnd();
+                                            free(nameTemp);
                                         }
-                                        free(iTemp);edkEnd();
+                                        free(iTemp);
                                     }
                                 }
                                 else{
                                     //else remove the tile after
-                                    this->treeRemoveXML.add(i);edkEnd();
+                                    this->treeRemoveXML.add(i);
                                     //
                                 }
                             }
                             else{
                                 //
-                                delete tileTemp;edkEnd();
-                                ret=false;edkEnd();
+                                delete tileTemp;
+                                ret=false;
                                 break;
                             }
                         }
                     }
                     //remove the tiles
-                    size = this->treeRemoveXML.size();edkEnd();
+                    size = this->treeRemoveXML.size();
                     for(edk::uint32 i=0u;i<size;i++){
-                        this->deleteTile(this->treeRemoveXML.getElementInPosition(i));edkEnd();
+                        this->deleteTile(this->treeRemoveXML.getElementInPosition(i));
                     }
-                    xml->selectFather();edkEnd();
+                    xml->selectFather();
                 }
-                free(name);edkEnd();
+                free(name);
             }
-            free(nameID);edkEnd();
+            free(nameID);
         }
-        this->treeRemoveXML.clean();edkEnd();
+        this->treeRemoveXML.clean();
         return ret;
     }
     return false;

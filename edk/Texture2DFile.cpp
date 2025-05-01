@@ -35,33 +35,24 @@ edk::multi::Mutex edk::Texture2DFile::debugMut;
 #endif
 
 edk::Texture2DFile::Texture2DFile(){
-    this->classThis=NULL;edkEnd();
-    this->Constructor(false);edkEnd();
+    this->classThis=NULL;
+    this->Constructor();
 }
 edk::Texture2DFile::Texture2DFile(edk::char8 *textureFileName){
-    this->classThis=NULL;edkEnd();
-    this->Constructor(textureFileName,false);edkEnd();
+    this->classThis=NULL;
+    this->Constructor(textureFileName);
 }
 edk::Texture2DFile::Texture2DFile(const char *textureFileName){
-    this->classThis=NULL;edkEnd();
-    this->Constructor(textureFileName,false);edkEnd();
+    this->classThis=NULL;
+    this->Constructor(textureFileName);
 }
 
 edk::Texture2DFile::~Texture2DFile(){
-    if(this->classThis==this){
-        this->classThis=NULL;edkEnd();
-        //can destruct the class
-        this->deleteTexture();edkEnd();
-        this->deleteName();edkEnd();
-        //remove all
-        this->removeAll();edkEnd();
-    }
+    this->Destructor();
 }
 
-void edk::Texture2DFile::Constructor(bool runFather){
-    if(runFather){
-        edk::Texture2D::Constructor();edkEnd();
-    }
+void edk::Texture2DFile::Constructor(){
+    edk::Texture2D::Constructor();
     if(this->classThis!=this){
         this->classThis=this;
 
@@ -77,10 +68,8 @@ void edk::Texture2DFile::Constructor(bool runFather){
         //ctor
     }
 }
-void edk::Texture2DFile::Constructor(edk::char8 *textureFileName,bool runFather){
-    if(runFather){
-        edk::Texture2D::Constructor();edkEnd();
-    }
+void edk::Texture2DFile::Constructor(edk::char8 *textureFileName){
+    edk::Texture2D::Constructor();
     if(this->classThis!=this){
         this->classThis=this;
 
@@ -94,13 +83,11 @@ void edk::Texture2DFile::Constructor(edk::char8 *textureFileName,bool runFather)
         }
 #endif
         //
-        this->setName(textureFileName);edkEnd();
+        this->setName(textureFileName);
     }
 }
-void edk::Texture2DFile::Constructor(const char *textureFileName,bool runFather){
-    if(runFather){
-        edk::Texture2D::Constructor();edkEnd();
-    }
+void edk::Texture2DFile::Constructor(const char *textureFileName){
+    edk::Texture2D::Constructor();
     if(this->classThis!=this){
         this->classThis=this;
 
@@ -114,8 +101,19 @@ void edk::Texture2DFile::Constructor(const char *textureFileName,bool runFather)
         }
 #endif
         //
-        this->setName(textureFileName);edkEnd();
+        this->setName(textureFileName);
     }
+}
+void edk::Texture2DFile::Destructor(){
+    if(this->classThis==this){
+        this->classThis=NULL;
+        //can destruct the class
+        this->deleteTexture();
+        this->deleteName();
+        //remove all
+        this->removeAll();
+    }
+    edk::Texture2D::Destructor();
 }
 
 //set the debugFile Name
@@ -153,9 +151,9 @@ bool edk::Texture2DFile::loadFromFile(edk::char8 *fileName,edk::uint32 filter){
     this->writeDebug(fileName?fileName:"FILENAME_NULL",__LINE__,__FILE__,__func__);
 #endif
     //return
-    bool ret=false;edkEnd();
+    bool ret=false;
     //delete the last texture
-    this->deleteTexture();edkEnd();
+    this->deleteTexture();
     //first open the image
 #if defined(EDK_TEX2DFILE_PRINT_DEBUG)
     edk::char8* str = edk::String::strCatMulti("loadFromFileToRGBA(",fileName?fileName:"FILENAME_NULL",")",NULL);
@@ -177,7 +175,7 @@ bool edk::Texture2DFile::loadFromFile(edk::char8 *fileName,edk::uint32 filter){
                                 GU_LUMINANCE,
                                 (edk::classID)this->image.getPixels(),
                                 filter
-                                );edkEnd();
+                                );
             break;
         case 3u://RGB
             //load the texture
@@ -189,7 +187,7 @@ bool edk::Texture2DFile::loadFromFile(edk::char8 *fileName,edk::uint32 filter){
                                 GU_RGB,
                                 (edk::classID)this->image.getPixels(),
                                 filter
-                                );edkEnd();
+                                );
             break;
         case 4u://RGBA
             //load the texture
@@ -201,20 +199,20 @@ bool edk::Texture2DFile::loadFromFile(edk::char8 *fileName,edk::uint32 filter){
                                 GU_RGBA,
                                 (edk::classID)this->image.getPixels(),
                                 filter
-                                );edkEnd();
+                                );
             break;
         }
 
         //test if create the texture
         if(this->getID()){
             //set the textureName
-            this->setName( this->image.getFileName() );edkEnd();
+            this->setName( this->image.getFileName() );
 
             //return true
-            ret = true;edkEnd();
+            ret = true;
         }
         //delete the image
-        this->image.deleteImage();edkEnd();
+        this->image.deleteImage();
     }
     //return true or false
 #if defined(EDK_TEX2DFILE_PRINT_DEBUG)
@@ -224,7 +222,7 @@ bool edk::Texture2DFile::loadFromFile(edk::char8 *fileName,edk::uint32 filter){
 }
 bool edk::Texture2DFile::loadFromFile(const char *fileName,edk::uint32 filter){
     //
-    return this->loadFromFile((edk::char8 *)fileName,filter);edkEnd();
+    return this->loadFromFile((edk::char8 *)fileName,filter);
 }
 //LOAD from memory
 bool edk::Texture2DFile::loadFromMemory(edk::uint8* image,edk::uint32 size,edk::uint32 filter){
@@ -240,9 +238,9 @@ bool edk::Texture2DFile::loadFromMemory(edk::uint8* image,edk::uint32 size,edk::
     }
 #endif
     //return
-    bool ret=false;edkEnd();
+    bool ret=false;
     //delete the last texture
-    this->deleteTexture();edkEnd();
+    this->deleteTexture();
     //test the image
     if(image && size){
         //process the decode
@@ -271,7 +269,7 @@ bool edk::Texture2DFile::loadFromMemory(edk::uint8* image,edk::uint32 size,edk::
                                     GU_LUMINANCE,
                                     (edk::classID)this->image.getPixels(),
                                     filter
-                                    );edkEnd();
+                                    );
             }
                 break;
             case 3u://RGB
@@ -285,7 +283,7 @@ bool edk::Texture2DFile::loadFromMemory(edk::uint8* image,edk::uint32 size,edk::
                                     GU_RGB,
                                     (edk::classID)this->image.getPixels(),
                                     filter
-                                    );edkEnd();
+                                    );
             }
                 break;
             case 4u://RGBA
@@ -299,7 +297,7 @@ bool edk::Texture2DFile::loadFromMemory(edk::uint8* image,edk::uint32 size,edk::
                                     GU_RGBA,
                                     (edk::classID)this->image.getPixels(),
                                     filter
-                                    );edkEnd();
+                                    );
             }
                 break;
             }
@@ -307,13 +305,13 @@ bool edk::Texture2DFile::loadFromMemory(edk::uint8* image,edk::uint32 size,edk::
             //test if create the texture
             if(this->getID()){
                 //set the textureName
-                this->setName( this->image.getFileName() );edkEnd();
+                this->setName( this->image.getFileName() );
 
                 //return true
-                ret = true;edkEnd();
+                ret = true;
             }
             //delete the image
-            this->image.deleteImage();edkEnd();
+            this->image.deleteImage();
         }
     }
     //return true or false
@@ -344,9 +342,9 @@ bool edk::Texture2DFile::setFromMemory(edk::uint8* image,edk::uint32 width,edk::
     }
 #endif
     //return
-    bool ret=false;edkEnd();
+    bool ret=false;
     //delete the last texture
-    this->deleteTexture();edkEnd();
+    this->deleteTexture();
     //test the image
     if(image && width && height && channels){
         //process the decode
@@ -379,7 +377,7 @@ bool edk::Texture2DFile::setFromMemory(edk::uint8* image,edk::uint32 width,edk::
                                 GU_LUMINANCE,
                                 (edk::classID)image,
                                 filter
-                                );edkEnd();
+                                );
         }
             break;
         case 3u://RGB
@@ -409,7 +407,7 @@ bool edk::Texture2DFile::setFromMemory(edk::uint8* image,edk::uint32 width,edk::
                                 GU_RGB,
                                 (edk::classID)image,
                                 filter
-                                );edkEnd();
+                                );
         }
             break;
         case 4u://RGBA
@@ -439,7 +437,7 @@ bool edk::Texture2DFile::setFromMemory(edk::uint8* image,edk::uint32 width,edk::
                                 GU_RGBA,
                                 (edk::classID)image,
                                 filter
-                                );edkEnd();
+                                );
         }
             break;
         }
@@ -447,13 +445,13 @@ bool edk::Texture2DFile::setFromMemory(edk::uint8* image,edk::uint32 width,edk::
         //test if create the texture
         if(this->getID()){
             //set the textureName
-            this->setName("");edkEnd();
+            this->setName("");
 
             //return true
-            ret = true;edkEnd();
+            ret = true;
         }
         //delete the image
-        this->image.deleteImage();edkEnd();
+        this->image.deleteImage();
     }
 #if defined(EDK_TEX2DFILE_PRINT_DEBUG)
     this->writeDebug(ret?"RETURN TRUE":"RETURN FALSE",__LINE__,__FILE__,__func__);

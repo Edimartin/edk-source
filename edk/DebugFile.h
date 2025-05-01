@@ -34,6 +34,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #include "TypeVars.h"
 #include "File.h"
+//#include "Object.h"
 
 #if defined(__linux__)/*LINUX*/ || defined(__APPLE__)//MAC OS
 #include <unistd.h>
@@ -69,7 +70,8 @@ public:
     DebugFile();
     virtual ~DebugFile();
 
-    void Constructor(bool runFather=true);
+    void Constructor();
+    void Destructor();
 
     static bool newFile(const edk::char8* name);
     static bool newFile(edk::char8* name);

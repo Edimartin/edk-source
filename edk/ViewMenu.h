@@ -44,7 +44,8 @@ public:
     ViewMenu();
     virtual ~ViewMenu();
 
-    void Constructor(bool runFather=true);
+    void Constructor();
+    void Destructor();
 
     //set borderSize
     bool setBorderSize(edk::uint32 size);

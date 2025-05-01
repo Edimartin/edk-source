@@ -44,7 +44,8 @@ public:
     Triangle2D();
     virtual ~Triangle2D();
 
-    void Constructor(bool runFather=true);
+    void Constructor();
+    void Destructor();
 
     //Virtual Functions
     bool createPolygon(edk::uint32 vertexCount);

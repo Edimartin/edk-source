@@ -29,30 +29,32 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endif
 
 edk::shape::Quadrangle2D::Quadrangle2D(){
-    this->classThis=NULL;edkEnd();
-    this->Constructor(false);edkEnd();
+    this->classThis=NULL;
+    this->Constructor();
 }
 
 edk::shape::Quadrangle2D::~Quadrangle2D(){
-    if(this->classThis==this){
-        this->classThis=NULL;edkEnd();
-        //can destruct the class
-        edk::shape::Polygon2D::deletePolygon();edkEnd();
-    }
+    this->Destructor();
 }
 
-void edk::shape::Quadrangle2D::Constructor(bool runFather){
-    if(runFather){
-        edk::shape::Polygon2D::Constructor();edkEnd();
-    }
+void edk::shape::Quadrangle2D::Constructor(){
+    edk::shape::Polygon2D::Constructor();
     if(this->classThis!=this){
         this->classThis=this;
-        this->type = edk::shape::typeQuadrangle2D;edkEnd();
+        this->type = edk::shape::typeQuadrangle2D;
         //ctor
-        this->polygonColor.a=1.f;edkEnd();
+        this->polygonColor.a=1.f;
         //create a new polygon with 3 vertex
-        edk::shape::Polygon2D::createPolygon(4u);edkEnd();
+        edk::shape::Polygon2D::createPolygon(4u);
     }
+}
+void edk::shape::Quadrangle2D::Destructor(){
+    if(this->classThis==this){
+        this->classThis=NULL;
+        //can destruct the class
+        edk::shape::Polygon2D::deletePolygon();
+    }
+    edk::shape::Polygon2D::Destructor();
 }
 
 //createPolygon
@@ -77,42 +79,42 @@ void edk::shape::Quadrangle2D::deletePolygon(){
 //print the triangle
 void edk::shape::Quadrangle2D::print(){
     //
-    printf("\nQuadrangle");edkEnd();
-    edk::shape::Polygon2D::print();edkEnd();
+    printf("\nQuadrangle");
+    edk::shape::Polygon2D::print();
 }
 
 //Draw the triangle
 void edk::shape::Quadrangle2D::draw(){
     //
-    edk::GU::guPushMatrix();edkEnd();
-    edk::GU::guTranslate2f32(this->translate);edkEnd();
-    edk::GU::guRotateZf32(this->angle);edkEnd();
-    edk::GU::guScale2f32(this->scale);edkEnd();
+    edk::GU::guPushMatrix();
+    edk::GU::guTranslate2f32(this->translate);
+    edk::GU::guRotateZf32(this->angle);
+    edk::GU::guScale2f32(this->scale);
     /*
-    edk::GU::guBegin(GU_QUADS);edkEnd();
-        this->drawVertexs();edkEnd();
-    edk::GU::guEnd();edkEnd();
+    edk::GU::guBegin(GU_QUADS);
+        this->drawVertexs();
+    edk::GU::guEnd();
     */
 
     //drawVBO
     (this->*vboDraw)(GU_QUADS);
 
-    edk::GU::guPopMatrix();edkEnd();
+    edk::GU::guPopMatrix();
 }
 void edk::shape::Quadrangle2D::drawWire(){
 
-    edk::GU::guPushMatrix();edkEnd();
-    edk::GU::guTranslate2f32(this->translate);edkEnd();
-    edk::GU::guRotateZf32(this->angle);edkEnd();
-    edk::GU::guScale2f32(this->scale);edkEnd();
+    edk::GU::guPushMatrix();
+    edk::GU::guTranslate2f32(this->translate);
+    edk::GU::guRotateZf32(this->angle);
+    edk::GU::guScale2f32(this->scale);
     /*
-    edk::GU::guBegin(GU_LINES);edkEnd();
-        this->drawVertexs();edkEnd();
-    edk::GU::guEnd();edkEnd();
+    edk::GU::guBegin(GU_LINES);
+        this->drawVertexs();
+    edk::GU::guEnd();
     */
 
     //drawVBO
     (this->*vboDraw)(GU_LINES);
 
-    edk::GU::guPopMatrix();edkEnd();
+    edk::GU::guPopMatrix();
 }

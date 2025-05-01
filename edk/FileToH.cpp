@@ -24,317 +24,336 @@ OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-edk::FileToH::FileToH(){}
+edk::FileToH::FileToH(){
+    this->classThis=NULL;
+    this->Constructor();
+}
+edk::FileToH::~FileToH(){
+    this->Destructor();
+}
+
+void edk::FileToH::Constructor(){
+    if(this->classThis!=this){
+        this->classThis=this;
+    }
+}
+void edk::FileToH::Destructor(){
+    if(this->classThis==this){
+        this->classThis=NULL;
+    }
+}
+
+
 bool edk::FileToH::writeToFile(edk::char8* fileName,edk::uint32 lineSize){
     if(!lineSize){
-        lineSize=10u;edkEnd();
+        lineSize=10u; 
     }
     //test the vector and the size
     if(fileName){
-        bool ret=false;edkEnd();
+        bool ret=false; 
         //open the file
-        edk::File file;edkEnd();
-        edk::char8* nameVec = edk::FileToH::readFileName(fileName);edkEnd();
+        edk::File file; 
+        edk::char8* nameVec = edk::FileToH::readFileName(fileName); 
         if(nameVec){
-            edk::char8* nameH = edk::String::strCat(nameVec,(edk::char8*)".h");edkEnd();
+            edk::char8* nameH = edk::String::strCat(nameVec,(edk::char8*)".h"); 
             if(nameH){
                 if(file.openBinFile(fileName)){
-                    edk::uint32 size = file.getFileSize();edkEnd();
+                    edk::uint32 size = file.getFileSize(); 
                     if(size){
                         //create the vector
-                        edk::char8* fileVec = (edk::char8*)malloc(sizeof(edk::char8) * (size));edkEnd();
-                        edk::char8 hex[5u];edkEnd();
-                        hex[0u] = '0';edkEnd();
-                        hex[1u] = 'x';edkEnd();
-                        hex[4u] = '\0';edkEnd();
+                        edk::char8* fileVec = (edk::char8*)malloc(sizeof(edk::char8) * (size)); 
+                        edk::char8 hex[5u]; 
+                        hex[0u] = '0'; 
+                        hex[1u] = 'x'; 
+                        hex[4u] = '\0'; 
                         if(fileVec){
                             //read the file
-                            file.readBin(fileVec,size);edkEnd();
+                            file.readBin(fileVec,size); 
 
                             //close the file
-                            file.closeFile();edkEnd();
+                            file.closeFile(); 
                             if(file.createAndOpenTextFile(nameH)){
-                                edk::char8* className = nameVec;edkEnd();
+                                edk::char8* className = nameVec; 
                                 {
-                                    edk::char8* temp = className;edkEnd();
+                                    edk::char8* temp = className; 
                                     while(*temp){
                                         if((*temp == '.' || *temp == '/' )&& temp[1u]){
-                                            className = ++temp;edkEnd();
+                                            className = ++temp; 
                                         }
                                         else{
-                                            temp++;edkEnd();
+                                            temp++; 
                                         }
                                     }
                                 }
-                                edk::char8* fileNameFiltered = fileName;edkEnd();
+                                edk::char8* fileNameFiltered = fileName; 
                                 {
-                                    edk::uint32 nameSize = edk::String::strSize(fileNameFiltered);edkEnd();
+                                    edk::uint32 nameSize = edk::String::strSize(fileNameFiltered); 
                                     for(edk::uint32 i=nameSize;i>0u;i--){
                                         if(i){
                                             if(fileName[i-1u] == '/'){
-                                                fileNameFiltered = &fileName[i];edkEnd();
+                                                fileNameFiltered = &fileName[i]; 
                                                 break;
                                             }
                                         }
                                     }
                                 }
                                 //write the header
-                                file.writeText("#ifndef ");edkEnd();
-                                file.writeText(className);edkEnd();
-                                file.writeText("_H");edkEnd();
-                                file.writeText("\n#define ");edkEnd();
-                                file.writeText(className);edkEnd();
-                                file.writeText("_H");edkEnd();
-                                file.writeText("\n");edkEnd();
+                                file.writeText("#ifndef "); 
+                                file.writeText(className); 
+                                file.writeText("_H"); 
+                                file.writeText("\n#define "); 
+                                file.writeText(className); 
+                                file.writeText("_H"); 
+                                file.writeText("\n"); 
 
                                 //write the size
-                                file.writeText("\nstatic unsigned int ");edkEnd();
-                                file.writeText(className);edkEnd();
-                                file.writeText("Size = ");edkEnd();
-                                file.writeText(size);edkEnd();
-                                file.writeText("u;");edkEnd();
+                                file.writeText("\nstatic unsigned int "); 
+                                file.writeText(className); 
+                                file.writeText("Size = "); 
+                                file.writeText(size); 
+                                file.writeText("u;"); 
 
                                 //write fileName
-                                file.writeText("\nstatic char ");edkEnd();
-                                file.writeText(className);edkEnd();
-                                file.writeText("Name");edkEnd();
-                                file.writeText("[");edkEnd();
-                                file.writeText((edk::uint32)(edk::String::strSize(fileNameFiltered) + 1u));edkEnd();
-                                file.writeText("]");edkEnd();
-                                file.writeText(" = \"");edkEnd();
-                                file.writeText(fileNameFiltered);edkEnd();
-                                file.writeText("\";");edkEnd();
+                                file.writeText("\nstatic char "); 
+                                file.writeText(className); 
+                                file.writeText("Name"); 
+                                file.writeText("["); 
+                                file.writeText((edk::uint32)(edk::String::strSize(fileNameFiltered) + 1u)); 
+                                file.writeText("]"); 
+                                file.writeText(" = \""); 
+                                file.writeText(fileNameFiltered); 
+                                file.writeText("\";"); 
 
-                                //write the char;edkEnd();
-                                file.writeText("\nstatic unsigned char ");edkEnd();
-                                file.writeText(className);edkEnd();
-                                file.writeText("[");edkEnd();
-                                file.writeText(size);edkEnd();
-                                file.writeText("] = {\n");edkEnd();
+                                //write the char; 
+                                file.writeText("\nstatic unsigned char "); 
+                                file.writeText(className); 
+                                file.writeText("["); 
+                                file.writeText(size); 
+                                file.writeText("] = {\n"); 
                                 //write the bytes
 
-                                sprintf(hex,"0x%02x",(edk::uint8)fileVec[0u]);edkEnd();
-                                file.writeText(hex);edkEnd();
+                                sprintf(hex,"0x%02x",(edk::uint8)fileVec[0u]); 
+                                file.writeText(hex); 
 
-                                //file.writeText((edk::uint8)fileVec[0]);edkEnd();
+                                //file.writeText((edk::uint8)fileVec[0]); 
 
-                                edk::uint8 count = 1u;edkEnd();
-                                bool enter=false;edkEnd();
+                                edk::uint8 count = 1u; 
+                                bool enter=false; 
                                 for(edk::uint32 i=1u;i<size;i++){
-                                    file.writeText(",");edkEnd();
+                                    file.writeText(","); 
 
-                                    sprintf(hex,"0x%02x",(edk::uint8)fileVec[i]);edkEnd();
-                                    file.writeText(hex);edkEnd();
+                                    sprintf(hex,"0x%02x",(edk::uint8)fileVec[i]); 
+                                    file.writeText(hex); 
 
-                                    //file.writeText((edk::uint8)fileVec[i]);edkEnd();
+                                    //file.writeText((edk::uint8)fileVec[i]); 
 
                                     if(count>lineSize){
-                                        file.writeText(" \\\n");edkEnd();
+                                        file.writeText(" \\\n"); 
                                         count=0u;
-                                        enter=true;edkEnd();
+                                        enter=true; 
                                     }
                                     else{
-                                        enter=false;edkEnd();
+                                        enter=false; 
                                     }
-                                    count++;edkEnd();
+                                    count++; 
                                 }
                                 if(!enter){
-                                    file.writeText("\n");edkEnd();
+                                    file.writeText("\n"); 
                                 }
-                                file.writeText("};");edkEnd();
+                                file.writeText("};"); 
 
-                                file.writeText("\n");edkEnd();
+                                file.writeText("\n"); 
                                 //write the endIf
-                                file.writeText("\n#endif");edkEnd();
+                                file.writeText("\n#endif"); 
 
 
                                 //flush the file
-                                file.flush();edkEnd();
+                                file.flush(); 
 
                                 //return true
-                                ret = true;edkEnd();
+                                ret = true; 
                             }
 
-                            free(fileVec);edkEnd();
+                            free(fileVec); 
                         }
                     }
-                    file.closeFile();edkEnd();
+                    file.closeFile(); 
                 }
-                free(nameH);edkEnd();
+                free(nameH); 
             }
-            free(nameVec);edkEnd();
+            free(nameVec); 
         }
         return ret;
     }
     return false;
 }
 bool edk::FileToH::writeToFile(const edk::char8* fileName,edk::uint32 lineSize){
-    return edk::FileToH::writeToFile((edk::char8*) fileName,lineSize);edkEnd();
+    return edk::FileToH::writeToFile((edk::char8*) fileName,lineSize); 
 }
 bool edk::FileToH::writeToEDKFile(edk::char8* fileName,edk::uint32 lineSize){
     if(!lineSize){
-        lineSize=10u;edkEnd();
+        lineSize=10u; 
     }
     //test the vector and the size
     if(fileName){
-        bool ret=false;edkEnd();
+        bool ret=false; 
         //open the file
-        edk::File file;edkEnd();
-        edk::char8* nameVec = edk::FileToH::readFileName(fileName);edkEnd();
+        edk::File file; 
+        edk::char8* nameVec = edk::FileToH::readFileName(fileName); 
         if(nameVec){
-            edk::char8* nameH = edk::String::strCat(nameVec,(edk::char8*)".h");edkEnd();
+            edk::char8* nameH = edk::String::strCat(nameVec,(edk::char8*)".h"); 
             if(nameH){
                 if(file.openBinFile(fileName)){
-                    edk::uint32 size = file.getFileSize();edkEnd();
+                    edk::uint32 size = file.getFileSize(); 
                     if(size){
                         //create the vector
-                        edk::char8* fileVec = (edk::char8*)malloc(sizeof(edk::char8) * (size));edkEnd();
-                        edk::char8 hex[5u];edkEnd();
-                        hex[0u] = '0';edkEnd();
-                        hex[1u] = 'x';edkEnd();
-                        hex[4u] = '\0';edkEnd();
+                        edk::char8* fileVec = (edk::char8*)malloc(sizeof(edk::char8) * (size)); 
+                        edk::char8 hex[5u]; 
+                        hex[0u] = '0'; 
+                        hex[1u] = 'x'; 
+                        hex[4u] = '\0'; 
                         if(fileVec){
                             //read the file
-                            file.readBin(fileVec,size);edkEnd();
+                            file.readBin(fileVec,size); 
 
                             //close the file
-                            file.closeFile();edkEnd();
+                            file.closeFile(); 
                             if(file.createAndOpenTextFile(nameH)){
-                                edk::char8* className = nameVec;edkEnd();
+                                edk::char8* className = nameVec; 
                                 {
-                                    edk::char8* temp = className;edkEnd();
+                                    edk::char8* temp = className; 
                                     while(*temp){
                                         if((*temp == '.' || *temp == '/' )&& temp[1u]){
-                                            className = ++temp;edkEnd();
+                                            className = ++temp; 
                                         }
                                         else{
-                                            temp++;edkEnd();
+                                            temp++; 
                                         }
                                     }
                                 }
-                                edk::char8* fileNameFiltered = fileName;edkEnd();
+                                edk::char8* fileNameFiltered = fileName; 
                                 {
-                                    edk::uint32 nameSize = edk::String::strSize(fileNameFiltered);edkEnd();
+                                    edk::uint32 nameSize = edk::String::strSize(fileNameFiltered); 
                                     for(edk::uint32 i=nameSize;i>0u;i--){
                                         if(i) if(fileName[i-1u] == '/'){
-                                            fileNameFiltered = &fileName[i];edkEnd();
+                                            fileNameFiltered = &fileName[i]; 
                                             break;
                                         }
                                     }
                                 }
                                 //write the header
-                                file.writeText("#ifndef ");edkEnd();
-                                file.writeText(className);edkEnd();
-                                file.writeText("_H");edkEnd();
-                                file.writeText("\n#define ");edkEnd();
-                                file.writeText(className);edkEnd();
-                                file.writeText("_H");edkEnd();
-                                file.writeText("\n");edkEnd();
-                                file.writeText("\n");edkEnd();
+                                file.writeText("#ifndef "); 
+                                file.writeText(className); 
+                                file.writeText("_H"); 
+                                file.writeText("\n#define "); 
+                                file.writeText(className); 
+                                file.writeText("_H"); 
+                                file.writeText("\n"); 
+                                file.writeText("\n"); 
 
                                 //include edk::types
-                                file.writeText("#include \"edk/TypeVars.h\"\n");edkEnd();
+                                file.writeText("#include \"edk/TypeVars.h\"\n"); 
 
                                 //write the size
-                                file.writeText("\nstatic edk::uint32 ");edkEnd();
-                                file.writeText(className);edkEnd();
-                                file.writeText("Size = ");edkEnd();
-                                file.writeText(size);edkEnd();
-                                file.writeText("u;");edkEnd();
+                                file.writeText("\nstatic edk::uint32 "); 
+                                file.writeText(className); 
+                                file.writeText("Size = "); 
+                                file.writeText(size); 
+                                file.writeText("u;"); 
 
                                 //write fileName
-                                file.writeText("\nstatic edk::char8 ");edkEnd();
-                                file.writeText(className);edkEnd();
-                                file.writeText("Name");edkEnd();
-                                file.writeText("[");edkEnd();
-                                file.writeText((edk::uint32)(edk::String::strSize(fileNameFiltered) + 1u));edkEnd();
-                                file.writeText("]");edkEnd();
-                                file.writeText(" = \"");edkEnd();
-                                file.writeText(fileNameFiltered);edkEnd();
-                                file.writeText("\";");edkEnd();
+                                file.writeText("\nstatic edk::char8 "); 
+                                file.writeText(className); 
+                                file.writeText("Name"); 
+                                file.writeText("["); 
+                                file.writeText((edk::uint32)(edk::String::strSize(fileNameFiltered) + 1u)); 
+                                file.writeText("]"); 
+                                file.writeText(" = \""); 
+                                file.writeText(fileNameFiltered); 
+                                file.writeText("\";"); 
 
-                                //write the char;edkEnd();
-                                file.writeText("\nstatic edk::uchar8 ");edkEnd();
-                                file.writeText(className);edkEnd();
-                                file.writeText("[");edkEnd();
-                                file.writeText(size);edkEnd();
-                                file.writeText("] = {\n");edkEnd();
+                                //write the char; 
+                                file.writeText("\nstatic edk::uchar8 "); 
+                                file.writeText(className); 
+                                file.writeText("["); 
+                                file.writeText(size); 
+                                file.writeText("] = {\n"); 
                                 //write the bytes
 
-                                sprintf(hex,"0x%02x",(edk::uint8)fileVec[0u]);edkEnd();
-                                file.writeText(hex);edkEnd();
+                                sprintf(hex,"0x%02x",(edk::uint8)fileVec[0u]); 
+                                file.writeText(hex); 
 
-                                //file.writeText((edk::uint8)fileVec[0]);edkEnd();
+                                //file.writeText((edk::uint8)fileVec[0]); 
 
-                                edk::uint8 count = 1u;edkEnd();
-                                bool enter=false;edkEnd();
+                                edk::uint8 count = 1u; 
+                                bool enter=false; 
                                 for(edk::uint32 i=1u;i<size;i++){
-                                    file.writeText(",");edkEnd();
+                                    file.writeText(","); 
 
-                                    sprintf(hex,"0x%02x",(edk::uint8)fileVec[i]);edkEnd();
-                                    file.writeText(hex);edkEnd();
+                                    sprintf(hex,"0x%02x",(edk::uint8)fileVec[i]); 
+                                    file.writeText(hex); 
 
-                                    //file.writeText((edk::uint8)fileVec[i]);edkEnd();
+                                    //file.writeText((edk::uint8)fileVec[i]); 
 
                                     if(count>lineSize){
-                                        file.writeText(" \\\n");edkEnd();
+                                        file.writeText(" \\\n"); 
                                         count=0u;
-                                        enter=true;edkEnd();
+                                        enter=true; 
                                     }
                                     else{
-                                        enter=false;edkEnd();
+                                        enter=false; 
                                     }
-                                    count++;edkEnd();
+                                    count++; 
                                 }
                                 if(!enter){
-                                    file.writeText("\n");edkEnd();
+                                    file.writeText("\n"); 
                                 }
-                                file.writeText("};");edkEnd();
+                                file.writeText("};"); 
 
-                                file.writeText("\n");edkEnd();
+                                file.writeText("\n"); 
                                 //write the endIf
-                                file.writeText("\n#endif");edkEnd();
+                                file.writeText("\n#endif"); 
 
 
                                 //flush the file
-                                file.flush();edkEnd();
+                                file.flush(); 
 
                                 //return true
-                                ret = true;edkEnd();
+                                ret = true; 
                             }
 
-                            free(fileVec);edkEnd();
+                            free(fileVec); 
                         }
                     }
-                    file.closeFile();edkEnd();
+                    file.closeFile(); 
                 }
-                free(nameH);edkEnd();
+                free(nameH); 
             }
-            free(nameVec);edkEnd();
+            free(nameVec); 
         }
         return ret;
     }
     return false;
 }
 bool edk::FileToH::writeToEDKFile(const edk::char8* fileName,edk::uint32 lineSize){
-    return edk::FileToH::writeToEDKFile((edk::char8*) fileName,lineSize);edkEnd();
+    return edk::FileToH::writeToEDKFile((edk::char8*) fileName,lineSize); 
 }
 //read the name without the extension
 edk::char8* edk::FileToH::readFileName(edk::char8* fileName){
     if(fileName){
-        edk::uint32 size = edk::String::strSize(fileName);edkEnd();
+        edk::uint32 size = edk::String::strSize(fileName); 
         if(size){
-            size--;edkEnd();
+            size--; 
             //find the pointer
             while(size){
                 switch(fileName[size]){
                 case '.':
                     //found it
                     if(size){
-                        edk::char8* ret = (edk::char8*)malloc(sizeof(edk::char8) * (size+1u));edkEnd();
+                        edk::char8* ret = (edk::char8*)malloc(sizeof(edk::char8) * (size+1u)); 
                         if(ret){
-                            ret[size] = '\0';edkEnd();
-                            memcpy(ret,fileName,size);edkEnd();
+                            ret[size] = '\0'; 
+                            memcpy(ret,fileName,size); 
                             return ret;
                         }
                     }
@@ -342,7 +361,7 @@ edk::char8* edk::FileToH::readFileName(edk::char8* fileName){
                 case '\0':
                     break;
                 }
-                size--;edkEnd();
+                size--; 
             }
         }
     }

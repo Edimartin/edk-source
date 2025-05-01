@@ -64,7 +64,8 @@ public:
     Tile2D();
     virtual ~Tile2D();
 
-    void Constructor(bool runFather=true);
+    void Constructor();
+    void Destructor();
 
     //return the type of the tile to the tileSet know witch tile is before delete it
     virtual edk::tiles::tile2DType getType();
@@ -236,41 +237,46 @@ protected:
     //binary tree to save the callback functions to init and end draw the tile
     class TreeTileDraw : public edk::vector::BinaryTree<edk::tiles::DrawTile2DCallback*>{
     public:
-        TreeTileDraw(){this->classThis=NULL;this->Constructor(false);edkEnd();}
+        TreeTileDraw(){
+            this->classThis=NULL;
+            this->Constructor();
+        }
         virtual ~TreeTileDraw(){
-            if(this->classThis==this){
-                this->classThis=NULL;edkEnd();
-                //can destruct the class
-            }
+            this->Destructor();
         }
 
-        void Constructor(bool runFather=true){
-            if(runFather){
-                edk::vector::BinaryTree<edk::tiles::DrawTile2DCallback*>::Constructor();edkEnd();
-            }
+        void Constructor(){
+            edk::vector::BinaryTree<edk::tiles::DrawTile2DCallback*>::Constructor();
             if(this->classThis!=this){
                 this->classThis=this;
             }
         }
+        void Destructor(){
+            if(this->classThis==this){
+                this->classThis=NULL;
+                //can destruct the class
+            }
+            edk::vector::BinaryTree<edk::tiles::DrawTile2DCallback*>::Destructor();
+        }
 
         //Print
         virtual void printElement(edk::tiles::DrawTile2DCallback* value){
-            value->startDrawTile(this->id,this->position,this->worldPosition);edkEnd();
+            value->startDrawTile(this->id,this->position,this->worldPosition);
         }
         virtual void renderElement(edk::tiles::DrawTile2DCallback* value){
-            value->endDrawTile(this->id,this->position,this->worldPosition);edkEnd();
+            value->endDrawTile(this->id,this->position,this->worldPosition);
         }
         void runStart(edk::uint32 id,edk::vec2ui32 position,edk::vec2f32 worldPosition){
-            this->id=id;edkEnd();
-            this->position=position;edkEnd();
-            this->worldPosition=worldPosition;edkEnd();
-            this->print();edkEnd();
+            this->id=id;
+            this->position=position;
+            this->worldPosition=worldPosition;
+            this->print();
         }
         void runEnd(edk::uint32 id,edk::vec2ui32 position,edk::vec2f32 worldPosition){
-            this->id=id;edkEnd();
-            this->position=position;edkEnd();
-            this->worldPosition=worldPosition;edkEnd();
-            this->render();edkEnd();
+            this->id=id;
+            this->position=position;
+            this->worldPosition=worldPosition;
+            this->render();
         }
         edk::uint32 id;
         edk::vec2ui32 position;

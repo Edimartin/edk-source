@@ -52,7 +52,8 @@ public:
     BoxGui2d();
     virtual ~BoxGui2d();
 
-    void Constructor(bool runFather=true);
+    void Constructor();
+    void Destructor();
 
     //Add a subObject in to the nexes
     bool addSubObjectBackground(edk::Object2DValues* object);

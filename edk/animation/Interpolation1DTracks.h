@@ -53,7 +53,8 @@ public:
     Interpolation1DTracks();
     virtual ~Interpolation1DTracks();
 
-    void Constructor(bool runFather=true);
+    void Constructor();
+    void Destructor();
 
     //Add a first interpolation
     bool addFirstInterpolationLine(edk::uint32 trackPosition,edk::float32 startSecond, edk::float32 startX, edk::float32 endSecond,edk::float32 endX);
@@ -106,25 +107,25 @@ public:
 
     virtual bool cloneFrom(edk::animation::Interpolation1DTracks* tracks){
         //clean frames
-        this->cleanTracks();edkEnd();
+        this->cleanTracks();
         if(tracks){
-            edk::uint32 size = tracks->stack.size();edkEnd();
-            edk::animation::InterpolationTracks::AnimationAndPosition temp;edkEnd();
-            edk::animation::InterpolationTracks::AnimationAndPosition set;edkEnd();
-            edk::animation::Interpolation1DGroup* tempGroup;edkEnd();
-            edk::animation::Interpolation1DGroup* setGroup;edkEnd();
-            edk::uint32 position=0u;edkEnd();
+            edk::uint32 size = tracks->stack.size();
+            edk::animation::InterpolationTracks::AnimationAndPosition temp;
+            edk::animation::InterpolationTracks::AnimationAndPosition set;
+            edk::animation::Interpolation1DGroup* tempGroup;
+            edk::animation::Interpolation1DGroup* setGroup;
+            edk::uint32 position=0u;
             for(edk::uint32 i=0u;i<size;i++){
-                temp = tracks->stack.get(i);edkEnd();
-                tempGroup = (edk::animation::Interpolation1DGroup*)temp.animation;edkEnd();
+                temp = tracks->stack.get(i);
+                tempGroup = (edk::animation::Interpolation1DGroup*)temp.animation;
                 if(tempGroup){
                     //create a new animation
-                    position = this->newTrack(temp.number);edkEnd();
+                    position = this->newTrack(temp.number);
                     if(position<this->stack.size()){
-                        set = this->stack.get(position);edkEnd();
-                        setGroup = (edk::animation::Interpolation1DGroup*)set.animation;edkEnd();
+                        set = this->stack.get(position);
+                        setGroup = (edk::animation::Interpolation1DGroup*)set.animation;
                         if(setGroup){
-                            setGroup->cloneFrom(tempGroup);edkEnd();
+                            setGroup->cloneFrom(tempGroup);
                         }
                     }
                 }
@@ -138,40 +139,45 @@ protected:
     //stack of tracks
     class StackTracks1D : public edk::animation::InterpolationTracks::StackTracks{
     public:
-        StackTracks1D(){this->classThis=NULL;this->Constructor(false);edkEnd();}
+        StackTracks1D(){
+            this->classThis=NULL;
+            this->Constructor();
+        }
         virtual ~StackTracks1D(){
-            if(this->classThis==this){
-                this->classThis=NULL;edkEnd();
-                //can destruct the class
-            }
+            this->Destructor();
         }
 
-        void Constructor(bool runFather=true){
-            if(runFather){
-                edk::animation::InterpolationTracks::StackTracks::Constructor();edkEnd();
-            }
+        void Constructor(){
+            edk::animation::InterpolationTracks::StackTracks::Constructor();
             if(this->classThis!=this){
                 this->classThis=this;
             }
         }
+        void Destructor(){
+            if(this->classThis==this){
+                this->classThis=NULL;
+                //can destruct the class
+            }
+            edk::animation::InterpolationTracks::StackTracks::Destructor();
+        }
         virtual void loadElement(edk::animation::InterpolationTracks::AnimationAndPosition value){
-            edk::animation::Interpolation1DGroup* group = (edk::animation::Interpolation1DGroup*)value.animation;edkEnd();
+            edk::animation::Interpolation1DGroup* group = (edk::animation::Interpolation1DGroup*)value.animation;
             if(group){
                 if(group->isPlaying()){
                     if(value.number & EDK_TRACK_ADD_X){
-                        this->x+=group->getClockX();edkEnd();
+                        this->x+=group->getClockX();
                     }
                     else if(value.number & EDK_TRACK_SUB_X){
-                        this->x-=group->getClockX();edkEnd();
+                        this->x-=group->getClockX();
                     }
                     else if(value.number & EDK_TRACK_MULTIPLY_X){
-                        this->x*=group->getClockX();edkEnd();
+                        this->x*=group->getClockX();
                     }
                     else if(value.number & EDK_TRACK_DIVIDE_X){
-                        this->x/=group->getClockX();edkEnd();
+                        this->x/=group->getClockX();
                     }
                     else if(value.number & EDK_TRACK_REPLACE_X){
-                        this->x=group->getClockX();edkEnd();
+                        this->x=group->getClockX();
                     }
                 }
             }

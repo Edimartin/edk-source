@@ -71,132 +71,132 @@ void resize(edk::rectf32 outsideViewOrigin){
 }
 void eventMousePressed(edk::vec2f32 point,edk::uint32 button){
     //types
-    //edk::mouse::left;edkEnd();
-    //edk::mouse::right;edkEnd();
-    //edk::mouse::middle;edkEnd();
-    //edk::mouse::xButton1;edkEnd();
-    //edk::mouse::xButton2;edkEnd();
+    //edk::mouse::left;
+    //edk::mouse::right;
+    //edk::mouse::middle;
+    //edk::mouse::xButton1;
+    //edk::mouse::xButton2;
     switch(button){
     //
     case edk::mouse::left:
         //
-        //printf("\nMouse Left Pressed in pos (%.2f %.2f)",point.x,point.y);fflush(stdout);edkEnd();
+        //printf("\nMouse Left Pressed in pos (%.2f %.2f)",point.x,point.y);fflush(stdout);
         break;
     case edk::mouse::right:
         //
-        //printf("\nMouse right Pressed in pos (%.2f %.2f)",point.x,point.y);fflush(stdout);edkEnd();
+        //printf("\nMouse right Pressed in pos (%.2f %.2f)",point.x,point.y);fflush(stdout);
         break;
     case edk::mouse::middle:
         //
-        //printf("\nMouse middle Pressed in pos (%.2f %.2f)",point.x,point.y);fflush(stdout);edkEnd();
+        //printf("\nMouse middle Pressed in pos (%.2f %.2f)",point.x,point.y);fflush(stdout);
         break;
     case edk::mouse::xButton1:
         //
-        //printf("\nMouse xButton1 Pressed in pos (%.2f %.2f)",point.x,point.y);fflush(stdout);edkEnd();
+        //printf("\nMouse xButton1 Pressed in pos (%.2f %.2f)",point.x,point.y);fflush(stdout);
         break;
     case edk::mouse::xButton2:
         //
-        //printf("\nMouse xButton2 Pressed in pos (%.2f %.2f)",point.x,point.y);fflush(stdout);edkEnd();
+        //printf("\nMouse xButton2 Pressed in pos (%.2f %.2f)",point.x,point.y);fflush(stdout);
         break;
         //
     }
 }
 void eventMouseMoved(edk::vec2f32 point,edk::vec2f32 moved,edk::uint32 button){
     //types
-    //edk::mouse::left;edkEnd();
-    //edk::mouse::right;edkEnd();
-    //edk::mouse::middle;edkEnd();
-    //edk::mouse::xButton1;edkEnd();
-    //edk::mouse::xButton2;edkEnd();
+    //edk::mouse::left;
+    //edk::mouse::right;
+    //edk::mouse::middle;
+    //edk::mouse::xButton1;
+    //edk::mouse::xButton2;
     switch(button){
     //
     case edk::mouse::left:
         //
-        printf("\nMouse Left Moved (%.2f %.2f) in pos (%.2f %.2f)",moved.x,moved.y,point.x,point.y);fflush(stdout);edkEnd();
+        printf("\nMouse Left Moved (%.2f %.2f) in pos (%.2f %.2f)",moved.x,moved.y,point.x,point.y);fflush(stdout);
         break;
     case edk::mouse::right:
         //
-        printf("\nMouse right Moved (%.2f %.2f) in pos (%.2f %.2f)",moved.x,moved.y,point.x,point.y);fflush(stdout);edkEnd();
+        printf("\nMouse right Moved (%.2f %.2f) in pos (%.2f %.2f)",moved.x,moved.y,point.x,point.y);fflush(stdout);
         break;
     case edk::mouse::middle:
         //
-        printf("\nMouse middle Moved (%.2f %.2f) in pos (%.2f %.2f)",moved.x,moved.y,point.x,point.y);fflush(stdout);edkEnd();
+        printf("\nMouse middle Moved (%.2f %.2f) in pos (%.2f %.2f)",moved.x,moved.y,point.x,point.y);fflush(stdout);
         break;
     case edk::mouse::xButton1:
         //
-        printf("\nMouse xButton1 Moved (%.2f %.2f) in pos (%.2f %.2f)",moved.x,moved.y,point.x,point.y);fflush(stdout);edkEnd();
+        printf("\nMouse xButton1 Moved (%.2f %.2f) in pos (%.2f %.2f)",moved.x,moved.y,point.x,point.y);fflush(stdout);
         break;
     case edk::mouse::xButton2:
         //
-        printf("\nMouse xButton2 Moved (%.2f %.2f) in pos (%.2f %.2f)",moved.x,moved.y,point.x,point.y);fflush(stdout);edkEnd();
+        printf("\nMouse xButton2 Moved (%.2f %.2f) in pos (%.2f %.2f)",moved.x,moved.y,point.x,point.y);fflush(stdout);
         break;
     default:
         //Mouse is moving without a Button pressed
-        printf("\nMouse Moved (%.2f %.2f) in pos (%.2f %.2f)",moved.x,moved.y,point.x,point.y);fflush(stdout);edkEnd();
+        printf("\nMouse Moved (%.2f %.2f) in pos (%.2f %.2f)",moved.x,moved.y,point.x,point.y);fflush(stdout);
         break;
         //
     }
 }
 void eventMouseReleased(edk::vec2f32 point,edk::uint32 button){
     //types
-    //edk::mouse::left;edkEnd();
-    //edk::mouse::right;edkEnd();
-    //edk::mouse::middle;edkEnd();
-    //edk::mouse::xButton1;edkEnd();
-    //edk::mouse::xButton2;edkEnd();
+    //edk::mouse::left;
+    //edk::mouse::right;
+    //edk::mouse::middle;
+    //edk::mouse::xButton1;
+    //edk::mouse::xButton2;
     switch(button){
     //
     case edk::mouse::left:
         //
-        //printf("\nMouse Left Released in pos (%.2f %.2f)",point.x,point.y);fflush(stdout);edkEnd();
+        //printf("\nMouse Left Released in pos (%.2f %.2f)",point.x,point.y);fflush(stdout);
         break;
     case edk::mouse::right:
         //
-        //printf("\nMouse right Released in pos (%.2f %.2f)",point.x,point.y);fflush(stdout);edkEnd();
+        //printf("\nMouse right Released in pos (%.2f %.2f)",point.x,point.y);fflush(stdout);
         break;
     case edk::mouse::middle:
         //
-        //printf("\nMouse middle Released in pos (%.2f %.2f)",point.x,point.y);fflush(stdout);edkEnd();
+        //printf("\nMouse middle Released in pos (%.2f %.2f)",point.x,point.y);fflush(stdout);
         break;
     case edk::mouse::xButton1:
         //
-        //printf("\nMouse xButton1 Released in pos (%.2f %.2f)",point.x,point.y);fflush(stdout);edkEnd();
+        //printf("\nMouse xButton1 Released in pos (%.2f %.2f)",point.x,point.y);fflush(stdout);
         break;
     case edk::mouse::xButton2:
         //
-        //printf("\nMouse xButton2 Released in pos (%.2f %.2f)",point.x,point.y);fflush(stdout);edkEnd();
+        //printf("\nMouse xButton2 Released in pos (%.2f %.2f)",point.x,point.y);fflush(stdout);
         break;
         //
     }
 }
 void eventMouseDoubleClicked(edk::vec2f32 point,edk::uint32 button){
     //types
-    //edk::mouse::left;edkEnd();
-    //edk::mouse::right;edkEnd();
-    //edk::mouse::middle;edkEnd();
-    //edk::mouse::xButton1;edkEnd();
-    //edk::mouse::xButton2;edkEnd();
+    //edk::mouse::left;
+    //edk::mouse::right;
+    //edk::mouse::middle;
+    //edk::mouse::xButton1;
+    //edk::mouse::xButton2;
     switch(button){
     //
     case edk::mouse::left:
         //
-        //printf("\nMouse Left Double Clicked in pos (%.2f %.2f)",point.x,point.y);fflush(stdout);edkEnd();
+        //printf("\nMouse Left Double Clicked in pos (%.2f %.2f)",point.x,point.y);fflush(stdout);
         break;
     case edk::mouse::right:
         //
-        //printf("\nMouse right Double Clicked in pos (%.2f %.2f)",point.x,point.y);fflush(stdout);edkEnd();
+        //printf("\nMouse right Double Clicked in pos (%.2f %.2f)",point.x,point.y);fflush(stdout);
         break;
     case edk::mouse::middle:
         //
-        //printf("\nMouse middle Double Clicked in pos (%.2f %.2f)",point.x,point.y);fflush(stdout);edkEnd();
+        //printf("\nMouse middle Double Clicked in pos (%.2f %.2f)",point.x,point.y);fflush(stdout);
         break;
     case edk::mouse::xButton1:
         //
-        //printf("\nMouse xButton1 Double Clicked in pos (%.2f %.2f)",point.x,point.y);fflush(stdout);edkEnd();
+        //printf("\nMouse xButton1 Double Clicked in pos (%.2f %.2f)",point.x,point.y);fflush(stdout);
         break;
     case edk::mouse::xButton2:
         //
-        //printf("\nMouse xButton2 Double Clicked in pos (%.2f %.2f)",point.x,point.y);fflush(stdout);edkEnd();
+        //printf("\nMouse xButton2 Double Clicked in pos (%.2f %.2f)",point.x,point.y);fflush(stdout);
         break;
         //
     }
@@ -204,11 +204,11 @@ void eventMouseDoubleClicked(edk::vec2f32 point,edk::uint32 button){
 //Mouse go Inside Outside
 void eventMouseEntryInsideView(edk::vec2f32 point){
     //
-    //printf("\nMouse entry in to view in position (%.2f %.2f )",point.x,point.y);fflush(stdout);edkEnd();
+    //printf("\nMouse entry in to view in position (%.2f %.2f )",point.x,point.y);fflush(stdout);
 }
 void eventMouseLeftView(edk::vec2f32 point){
     //
-    //printf("\nMouse left the view in position (%.2f %.2f )",point.x,point.y);fflush(stdout);edkEnd();
+    //printf("\nMouse left the view in position (%.2f %.2f )",point.x,point.y);fflush(stdout);
 }
 */
 
@@ -227,8 +227,9 @@ public:
 
     virtual ~View();
 
-    void Constructor(bool runFather=true);
-    void Constructor(edk::rectf32 frame,bool runFather=true);
+    void Constructor();
+    void Constructor(edk::rectf32 frame);
+    void Destructor();
 
     virtual void draw(edk::rectf32 outsideViewOrigin);
     virtual void resize(edk::rectf32 outsideViewOrigin);

@@ -45,7 +45,8 @@ public:
     AnimatedPolygon3DList();
     virtual ~AnimatedPolygon3DList();
 
-    void Constructor(bool runFather=true);
+    void Constructor();
+    void Destructor();
 
     //ANIMATIONS
     //create a new animation in a polygon

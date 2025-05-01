@@ -46,8 +46,9 @@ public:
     Bezier3D(edk::vec3f32 p1,edk::vec3f32 p2,edk::vec3f32 p3,edk::vec3f32 p4);
     virtual ~Bezier3D();
 
-    void Constructor(bool runFather=true);
-    void Constructor(edk::vec3f32 p1,edk::vec3f32 p2,edk::vec3f32 p3,edk::vec3f32 p4,bool runFather=true);
+    void Constructor();
+    void Constructor(edk::vec3f32 p1,edk::vec3f32 p2,edk::vec3f32 p3,edk::vec3f32 p4);
+    void Destructor();
 
     //return the point
     edk::vec3f32 getPoint(edk::float32 percent);

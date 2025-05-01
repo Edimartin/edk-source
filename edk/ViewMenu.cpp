@@ -27,37 +27,39 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "edkImages/EDKmenuTemplateTexture.h"
 
 edk::ViewMenu::ViewMenu(){
-    this->classThis=NULL;edkEnd();
-    this->Constructor(false);edkEnd();
+    this->classThis=NULL;
+    this->Constructor();
 }
 edk::ViewMenu::~ViewMenu(){
-    if(this->classThis==this){
-        this->classThis=NULL;edkEnd();
-        //can destruct the class
-    }
+    this->Destructor();
 }
 
-void edk::ViewMenu::Constructor(bool runFather){
-    if(runFather){
-        edk::ViewSpriteController::Constructor();edkEnd();
-    }
+void edk::ViewMenu::Constructor(){
+    edk::ViewSpriteController::Constructor();
     if(this->classThis!=this){
         this->classThis=this;
 
-        this->cam.Constructor();edkEnd();
+        this->cam.Constructor();
 
-        this->borderSize = 25.f;edkEnd();
-        this->loadSpriteFromMemory(EDKmenuTemplateTextureName,EDKmenuTemplateTexture,EDKmenuTemplateTextureSize);edkEnd();
+        this->borderSize = 25.f;
+        this->loadSpriteFromMemory(EDKmenuTemplateTextureName,EDKmenuTemplateTexture,EDKmenuTemplateTextureSize);
     }
+}
+void edk::ViewMenu::Destructor(){
+    if(this->classThis==this){
+        this->classThis=NULL;
+        //can destruct the class
+    }
+    edk::ViewSpriteController::Destructor();
 }
 
 //set borderSize
 bool edk::ViewMenu::setBorderSize(edk::uint32 size){
     if(size){
-        this->borderSize = size;edkEnd();
+        this->borderSize = size;
         return true;
     }
-    this->borderSize = 25.f;edkEnd();
+    this->borderSize = 25.f;
     return false;
 }
 //return the inside frame
@@ -66,14 +68,14 @@ edk::rectui32 edk::ViewMenu::getInsideFrame(){
                       0u,
                       (edk::uint32)(this->frame.size.width - this->borderSize*2.f),
                       (edk::uint32)(this->frame.size.height - this->borderSize*2.f)
-                      );edkEnd();
+                      );
     return ret;
 }
 //return the size inside
 edk::size2ui32 edk::ViewMenu::getInsideSize(){
     return edk::size2ui32((edk::uint32)(this->frame.size.width - this->borderSize*2.f),
                           (edk::uint32)(this->frame.size.height - this->borderSize*2.f)
-                          );edkEnd();
+                          );
 }
 
 //draw
@@ -86,176 +88,176 @@ void edk::ViewMenu::draw(rectf32 outsideViewOrigin){
                         outsideViewOrigin.size.width - this->borderSize,
                         outsideViewOrigin.size.height - this->borderSize
                         )
-                );edkEnd();
+                );
 */
-    edk::ViewSpriteController::draw(outsideViewOrigin);edkEnd();
+    edk::ViewSpriteController::draw(outsideViewOrigin);
 }
 
 //draw the polygon on the scene
 void edk::ViewMenu::drawPolygon(rectf32){
     //test the rect
     if(this->rectMenuSave!=this->frame){
-        this->borderTemp=this->borderSize;edkEnd();
+        this->borderTemp=this->borderSize;
         //load the rect size
-        edk::size2f32 sizeTemp = edk::size2f32(this->frame.size * 0.5f);edkEnd();
+        edk::size2f32 sizeTemp = edk::size2f32(this->frame.size * 0.5f);
         //save the rect
-        this->rectMenuSave = this->frame;edkEnd();
+        this->rectMenuSave = this->frame;
 
         //set the camera rect
-        this->cam.setRectPoints(0,0,this->frame.size.width,this->frame.size.height);edkEnd();
+        this->cam.setRectPoints(0,0,this->frame.size.width,this->frame.size.height);
         //test the smaller size
         if(sizeTemp.width < sizeTemp.height){
             //width
             if(this->borderTemp>sizeTemp.width){
-                this->borderTemp = sizeTemp.width;edkEnd();
+                this->borderTemp = sizeTemp.width;
             }
         }
         else{
             //height
             if(this->borderTemp>sizeTemp.height){
-                this->borderTemp = sizeTemp.height;edkEnd();
+                this->borderTemp = sizeTemp.height;
             }
         }
     }
 
-    this->cam.draw();edkEnd();
+    this->cam.draw();
     //draw the polygon with UV Map
-    edk::GU::guUseMatrix(GU_MODELVIEW);edkEnd();
+    edk::GU::guUseMatrix(GU_MODELVIEW);
 
     //texture
-    edk::GU::guEnable(GU_TEXTURE_2D);edkEnd();
+    edk::GU::guEnable(GU_TEXTURE_2D);
 
-    edk::GU::guUseTexture2D(this->spriteCode);edkEnd();
+    edk::GU::guUseTexture2D(this->spriteCode);
 
     //Draw a quadrangle
-    edk::GU::guBegin(GU_QUADS);edkEnd();
+    edk::GU::guBegin(GU_QUADS);
 
     //rect1
-    edk::GU::guVertexTex2f32(0.0f, 1.0f);edkEnd();
-    edk::GU::guVertex3f32(0.f, 0.f, 0.f);edkEnd();
+    edk::GU::guVertexTex2f32(0.0f, 1.0f);
+    edk::GU::guVertex3f32(0.f, 0.f, 0.f);
 
-    edk::GU::guVertexTex2f32(0.0f, 0.5f);edkEnd();
-    edk::GU::guVertex3f32(0.f, this->borderTemp, 0.f);edkEnd();
+    edk::GU::guVertexTex2f32(0.0f, 0.5f);
+    edk::GU::guVertex3f32(0.f, this->borderTemp, 0.f);
 
-    edk::GU::guVertexTex2f32(0.5f, 0.5f);edkEnd();
-    edk::GU::guVertex3f32(this->borderTemp, this->borderTemp, 0.f);edkEnd();
+    edk::GU::guVertexTex2f32(0.5f, 0.5f);
+    edk::GU::guVertex3f32(this->borderTemp, this->borderTemp, 0.f);
 
-    edk::GU::guVertexTex2f32(0.5f, 1.0f);edkEnd();
-    edk::GU::guVertex3f32(this->borderTemp, 0.f, 0.f);edkEnd();
+    edk::GU::guVertexTex2f32(0.5f, 1.0f);
+    edk::GU::guVertex3f32(this->borderTemp, 0.f, 0.f);
 
     //rect2
-    edk::GU::guVertexTex2f32(0.f, 0.5f);edkEnd();
-    edk::GU::guVertex3f32(0.f, this->frame.size.height - this->borderTemp, 0.f);edkEnd();
+    edk::GU::guVertexTex2f32(0.f, 0.5f);
+    edk::GU::guVertex3f32(0.f, this->frame.size.height - this->borderTemp, 0.f);
 
-    edk::GU::guVertexTex2f32(0.f, 0.f);edkEnd();
-    edk::GU::guVertex3f32(0.f, this->frame.size.height, 0.f);edkEnd();
+    edk::GU::guVertexTex2f32(0.f, 0.f);
+    edk::GU::guVertex3f32(0.f, this->frame.size.height, 0.f);
 
-    edk::GU::guVertexTex2f32(0.5f, 0.f);edkEnd();
-    edk::GU::guVertex3f32(this->borderTemp, this->frame.size.height, 0.f);edkEnd();
+    edk::GU::guVertexTex2f32(0.5f, 0.f);
+    edk::GU::guVertex3f32(this->borderTemp, this->frame.size.height, 0.f);
 
-    edk::GU::guVertexTex2f32(0.5f, 0.5f);edkEnd();
-    edk::GU::guVertex3f32(this->borderTemp, this->frame.size.height - this->borderTemp, 0.f);edkEnd();
+    edk::GU::guVertexTex2f32(0.5f, 0.5f);
+    edk::GU::guVertex3f32(this->borderTemp, this->frame.size.height - this->borderTemp, 0.f);
 
     //rect3
-    edk::GU::guVertexTex2f32(0.5f, 0.5f);edkEnd();
-    edk::GU::guVertex3f32(this->frame.size.width-this->borderTemp, this->frame.size.height - this->borderTemp, 0.f);edkEnd();
+    edk::GU::guVertexTex2f32(0.5f, 0.5f);
+    edk::GU::guVertex3f32(this->frame.size.width-this->borderTemp, this->frame.size.height - this->borderTemp, 0.f);
 
-    edk::GU::guVertexTex2f32(0.5f, 0.f);edkEnd();
-    edk::GU::guVertex3f32(this->frame.size.width-this->borderTemp, this->frame.size.height, 0.f);edkEnd();
+    edk::GU::guVertexTex2f32(0.5f, 0.f);
+    edk::GU::guVertex3f32(this->frame.size.width-this->borderTemp, this->frame.size.height, 0.f);
 
-    edk::GU::guVertexTex2f32(1.0f, 0.f);edkEnd();
-    edk::GU::guVertex3f32(this->frame.size.width, this->frame.size.height, 0.f);edkEnd();
+    edk::GU::guVertexTex2f32(1.0f, 0.f);
+    edk::GU::guVertex3f32(this->frame.size.width, this->frame.size.height, 0.f);
 
-    edk::GU::guVertexTex2f32(1.0f, 0.5f);edkEnd();
-    edk::GU::guVertex3f32(this->frame.size.width, this->frame.size.height - this->borderTemp, 0.f);edkEnd();
+    edk::GU::guVertexTex2f32(1.0f, 0.5f);
+    edk::GU::guVertex3f32(this->frame.size.width, this->frame.size.height - this->borderTemp, 0.f);
 
     //rect4
-    edk::GU::guVertexTex2f32(0.5f, 1.f);edkEnd();
-    edk::GU::guVertex3f32(this->frame.size.width-this->borderTemp, 0.f, 0.f);edkEnd();
+    edk::GU::guVertexTex2f32(0.5f, 1.f);
+    edk::GU::guVertex3f32(this->frame.size.width-this->borderTemp, 0.f, 0.f);
 
 
-    edk::GU::guVertexTex2f32(0.5f, 0.5f);edkEnd();
-    edk::GU::guVertex3f32(this->frame.size.width-this->borderTemp, this->borderTemp, 0.f);edkEnd();
+    edk::GU::guVertexTex2f32(0.5f, 0.5f);
+    edk::GU::guVertex3f32(this->frame.size.width-this->borderTemp, this->borderTemp, 0.f);
 
 
-    edk::GU::guVertexTex2f32(1.f, 0.5f);edkEnd();
-    edk::GU::guVertex3f32(this->frame.size.width, this->borderTemp, 0.f);edkEnd();
+    edk::GU::guVertexTex2f32(1.f, 0.5f);
+    edk::GU::guVertex3f32(this->frame.size.width, this->borderTemp, 0.f);
 
 
-    edk::GU::guVertexTex2f32(1.f, 1.f);edkEnd();
-    edk::GU::guVertex3f32(this->frame.size.width, 0.f, 0.f);edkEnd();
+    edk::GU::guVertexTex2f32(1.f, 1.f);
+    edk::GU::guVertex3f32(this->frame.size.width, 0.f, 0.f);
 
 
 
     //rect1
-    edk::GU::guVertexTex2f32(0.f, 0.515f);edkEnd();
-    edk::GU::guVertex3f32(0.f, this->borderTemp, 0.f);edkEnd();
+    edk::GU::guVertexTex2f32(0.f, 0.515f);
+    edk::GU::guVertex3f32(0.f, this->borderTemp, 0.f);
 
-    edk::GU::guVertexTex2f32(0.f, 0.515f);edkEnd();
-    edk::GU::guVertex3f32(0.f, this->frame.size.height-this->borderTemp, 0.f);edkEnd();
+    edk::GU::guVertexTex2f32(0.f, 0.515f);
+    edk::GU::guVertex3f32(0.f, this->frame.size.height-this->borderTemp, 0.f);
 
-    edk::GU::guVertexTex2f32(0.5f, 0.495f);edkEnd();
-    edk::GU::guVertex3f32(this->borderTemp, this->frame.size.height-this->borderTemp, 0.f);edkEnd();
+    edk::GU::guVertexTex2f32(0.5f, 0.495f);
+    edk::GU::guVertex3f32(this->borderTemp, this->frame.size.height-this->borderTemp, 0.f);
 
-    edk::GU::guVertexTex2f32(0.5f, 0.495);edkEnd();
-    edk::GU::guVertex3f32(this->borderTemp, this->borderTemp, 0.f);edkEnd();
+    edk::GU::guVertexTex2f32(0.5f, 0.495);
+    edk::GU::guVertex3f32(this->borderTemp, this->borderTemp, 0.f);
 
     //rect2
-    edk::GU::guVertexTex2f32(0.515f, 0.5f);edkEnd();
-    edk::GU::guVertex3f32(this->borderTemp, this->frame.size.height - this->borderTemp, 0.f);edkEnd();
+    edk::GU::guVertexTex2f32(0.515f, 0.5f);
+    edk::GU::guVertex3f32(this->borderTemp, this->frame.size.height - this->borderTemp, 0.f);
 
-    edk::GU::guVertexTex2f32(0.515f, 0.f);edkEnd();
-    edk::GU::guVertex3f32(this->borderTemp, this->frame.size.height, 0.f);edkEnd();
+    edk::GU::guVertexTex2f32(0.515f, 0.f);
+    edk::GU::guVertex3f32(this->borderTemp, this->frame.size.height, 0.f);
 
-    edk::GU::guVertexTex2f32(0.495f, 0.f);edkEnd();
-    edk::GU::guVertex3f32(this->frame.size.width-this->borderTemp, this->frame.size.height, 0.f);edkEnd();
+    edk::GU::guVertexTex2f32(0.495f, 0.f);
+    edk::GU::guVertex3f32(this->frame.size.width-this->borderTemp, this->frame.size.height, 0.f);
 
-    edk::GU::guVertexTex2f32(0.495f, 0.5f);edkEnd();
-    edk::GU::guVertex3f32(this->frame.size.width-this->borderTemp, this->frame.size.height - this->borderTemp, 0.f);edkEnd();
+    edk::GU::guVertexTex2f32(0.495f, 0.5f);
+    edk::GU::guVertex3f32(this->frame.size.width-this->borderTemp, this->frame.size.height - this->borderTemp, 0.f);
 
     //rect3
-    edk::GU::guVertexTex2f32(0.5f, 0.515f);edkEnd();
-    edk::GU::guVertex3f32(this->frame.size.width-this->borderTemp, this->borderTemp, 0.f);edkEnd();
+    edk::GU::guVertexTex2f32(0.5f, 0.515f);
+    edk::GU::guVertex3f32(this->frame.size.width-this->borderTemp, this->borderTemp, 0.f);
 
-    edk::GU::guVertexTex2f32(0.5f, 0.515f);edkEnd();
-    edk::GU::guVertex3f32(this->frame.size.width-this->borderTemp, this->frame.size.height - this->borderTemp, 0.f);edkEnd();
+    edk::GU::guVertexTex2f32(0.5f, 0.515f);
+    edk::GU::guVertex3f32(this->frame.size.width-this->borderTemp, this->frame.size.height - this->borderTemp, 0.f);
 
-    edk::GU::guVertexTex2f32(1.f, 0.495f);edkEnd();
-    edk::GU::guVertex3f32(this->frame.size.width, this->frame.size.height - this->borderTemp, 0.f);edkEnd();
+    edk::GU::guVertexTex2f32(1.f, 0.495f);
+    edk::GU::guVertex3f32(this->frame.size.width, this->frame.size.height - this->borderTemp, 0.f);
 
-    edk::GU::guVertexTex2f32(1.f, 0.495f);edkEnd();
-    edk::GU::guVertex3f32(this->frame.size.width, this->borderTemp, 0.f);edkEnd();
+    edk::GU::guVertexTex2f32(1.f, 0.495f);
+    edk::GU::guVertex3f32(this->frame.size.width, this->borderTemp, 0.f);
 
     //rect4
-    edk::GU::guVertexTex2f32(0.515f, 1.f);edkEnd();
-    edk::GU::guVertex3f32(this->borderTemp, 0.f, 0.f);edkEnd();
+    edk::GU::guVertexTex2f32(0.515f, 1.f);
+    edk::GU::guVertex3f32(this->borderTemp, 0.f, 0.f);
 
-    edk::GU::guVertexTex2f32(0.515f, 0.5f);edkEnd();
-    edk::GU::guVertex3f32(this->borderTemp, this->borderTemp, 0.f);edkEnd();
+    edk::GU::guVertexTex2f32(0.515f, 0.5f);
+    edk::GU::guVertex3f32(this->borderTemp, this->borderTemp, 0.f);
 
-    edk::GU::guVertexTex2f32(0.495f, 0.5f);edkEnd();
-    edk::GU::guVertex3f32(this->frame.size.width-this->borderTemp, this->borderTemp, 0.f);edkEnd();
+    edk::GU::guVertexTex2f32(0.495f, 0.5f);
+    edk::GU::guVertex3f32(this->frame.size.width-this->borderTemp, this->borderTemp, 0.f);
 
-    edk::GU::guVertexTex2f32(0.495f, 1.f);edkEnd();
-    edk::GU::guVertex3f32(this->frame.size.width-this->borderTemp, 0.f, 0.f);edkEnd();
+    edk::GU::guVertexTex2f32(0.495f, 1.f);
+    edk::GU::guVertex3f32(this->frame.size.width-this->borderTemp, 0.f, 0.f);
 
 
     //CENTER
-    edk::GU::guVertexTex2f32(0.495f, 0.515f);edkEnd();
-    edk::GU::guVertex3f32(this->borderTemp, this->borderTemp, 0.f);edkEnd();
+    edk::GU::guVertexTex2f32(0.495f, 0.515f);
+    edk::GU::guVertex3f32(this->borderTemp, this->borderTemp, 0.f);
 
-    edk::GU::guVertexTex2f32(0.495f, 0.495f);edkEnd();
-    edk::GU::guVertex3f32(this->borderTemp, this->frame.size.height-this->borderTemp, 0.f);edkEnd();
+    edk::GU::guVertexTex2f32(0.495f, 0.495f);
+    edk::GU::guVertex3f32(this->borderTemp, this->frame.size.height-this->borderTemp, 0.f);
 
-    edk::GU::guVertexTex2f32(0.515f, 0.495f);edkEnd();
-    edk::GU::guVertex3f32(this->frame.size.width-this->borderTemp, this->frame.size.height-this->borderTemp, 0.f);edkEnd();
+    edk::GU::guVertexTex2f32(0.515f, 0.495f);
+    edk::GU::guVertex3f32(this->frame.size.width-this->borderTemp, this->frame.size.height-this->borderTemp, 0.f);
 
-    edk::GU::guVertexTex2f32(0.515f, 0.515f);edkEnd();
-    edk::GU::guVertex3f32(this->frame.size.width-this->borderTemp, this->borderTemp, 0.f);edkEnd();
+    edk::GU::guVertexTex2f32(0.515f, 0.515f);
+    edk::GU::guVertex3f32(this->frame.size.width-this->borderTemp, this->borderTemp, 0.f);
 
 
-    edk::GU::guEnd();edkEnd();
+    edk::GU::guEnd();
 
-    edk::GU::guUseTexture2D(0u);edkEnd();
-    edk::GU::guDisable(GU_TEXTURE_2D);edkEnd();
+    edk::GU::guUseTexture2D(0u);
+    edk::GU::guDisable(GU_TEXTURE_2D);
 }

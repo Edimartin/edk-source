@@ -42,7 +42,8 @@ public:
     ViewButtonMove();
     virtual ~ViewButtonMove();
 
-    void Constructor(bool runFather=true);
+    void Constructor();
+    void Destructor();
 
     virtual void updateView(edk::WindowEvents* events);
     //Function to set button position

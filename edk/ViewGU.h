@@ -69,7 +69,8 @@ public:
     ViewGU();
     virtual ~ViewGU();
 
-    void Constructor(bool runFather=true);
+    void Constructor();
+    void Destructor();
 
     //filter
     //GU_NEAREST

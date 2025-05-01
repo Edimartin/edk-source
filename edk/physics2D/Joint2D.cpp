@@ -25,24 +25,27 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 edk::physics2D::Joint2D::Joint2D(bool collide){
-    this->classThis=NULL;edkEnd();
-    this->Constructor(collide,false);edkEnd();
+    this->classThis=NULL;
+    this->Constructor(collide);
 }
 
 edk::physics2D::Joint2D::~Joint2D(){
-    if(this->classThis==this){
-        this->classThis=NULL;edkEnd();
-        //can destruct the class
-    }
+    this->Destructor();
 }
 
-void edk::physics2D::Joint2D::Constructor(bool collide,bool /*runFather*/){
+void edk::physics2D::Joint2D::Constructor(bool collide){
     if(this->classThis!=this){
         this->classThis=this;
-        this->objectA=NULL;edkEnd();
-        this->objectB=NULL;edkEnd();
-        this->collide = collide;edkEnd();
-        this->type = EDK_JOINT;edkEnd();
+        this->objectA=NULL;
+        this->objectB=NULL;
+        this->collide = collide;
+        this->type = EDK_JOINT;
+    }
+}
+void edk::physics2D::Joint2D::Destructor(){
+    if(this->classThis==this){
+        this->classThis=NULL;
+        //can destruct the class
     }
 }
 
@@ -53,9 +56,9 @@ void edk::physics2D::Joint2D::draw(edk::size2f32,edk::color3f32){
 
 //return the joint type
 edk::uint8 edk::physics2D::Joint2D::getType(){
-    return this->type;edkEnd();
+    return this->type;
 }
 //get Collide
 bool edk::physics2D::Joint2D::getCollide(){
-    return this->collide;edkEnd();
+    return this->collide;
 }

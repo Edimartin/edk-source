@@ -48,7 +48,8 @@ public:
     Grid3D();
     virtual ~Grid3D();
 
-    void Constructor(bool runFather=true);
+    void Constructor();
+    void Destructor();
 
     //set the distanceLines
     bool setDistanceLines(edk::float32 distance);

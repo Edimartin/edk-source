@@ -29,21 +29,23 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endif
 
 edk::collision::LineContact2D::LineContact2D(){
-    this->classThis=NULL;edkEnd();
-    this->Constructor(false);edkEnd();
+    this->classThis=NULL;
+    this->Constructor();
 }
 
 edk::collision::LineContact2D::~LineContact2D(){
-    if(this->classThis==this){
-        this->classThis=NULL;edkEnd();
-        //can destruct the class
-    }
+    this->Destructor();
 }
 
-void edk::collision::LineContact2D::Constructor(bool /*runFather*/){
-    //
+void edk::collision::LineContact2D::Constructor(){
     if(this->classThis!=this){
         this->classThis=this;
+    }
+}
+void edk::collision::LineContact2D::Destructor(){
+    if(this->classThis==this){
+        this->classThis=NULL;
+        //can destruct the class
     }
 }
 
@@ -51,7 +53,7 @@ void edk::collision::LineContact2D::Constructor(bool /*runFather*/){
 //point
 bool edk::collision::LineContact2D::contactPoint(edk::vec2f32 point,edk::shape::Line2D test){
     //
-    return edk::collision::MathCollision::pointStraigh2D(point,test.start.position,test.end.position);edkEnd();
+    return edk::collision::MathCollision::pointStraigh2D(point,test.start.position,test.end.position);
 }
 //line
 bool edk::collision::LineContact2D::contactLine(edk::shape::Line2D line,
@@ -64,18 +66,18 @@ bool edk::collision::LineContact2D::contactLine(edk::shape::Line2D line,
                                                              test.start.position,
                                                              test.end.position,
                                                              collision
-                                                             );edkEnd();
+                                                             );
 }
 //Circle
 edk::collision::Vecs2f32 edk::collision::LineContact2D::contactCircle(edk::shape::Circle2D circle,edk::shape::Line2D test){
     //
     //else return no point
-    return edk::collision::MathCollision::straightCircle2D(test.start.position,test.end.position,circle.getTranslate(),circle.getCircleRadius()) ;edkEnd();
+    return edk::collision::MathCollision::straightCircle2D(test.start.position,test.end.position,circle.getTranslate(),circle.getCircleRadius()) ;
 }
 //polygon
 edk::collision::Vecs2f32 edk::collision::LineContact2D::contactPolygon(edk::shape::Polygon2D polygon,edk::shape::Line2D test){
     //create the return vector
-    edk::collision::Vecs2f32 ret(1u);edkEnd();
+    edk::collision::Vecs2f32 ret(1u);
 
     //test if the first is inside
     if(edk::collision::MathCollision::polygonPoint(polygon,test.start.position)){
@@ -86,8 +88,8 @@ edk::collision::Vecs2f32 edk::collision::LineContact2D::contactPolygon(edk::shap
             //Then the two points are inside of the polygon
 
             //return the two points
-            ret.pushBack(test.start.position);edkEnd();
-            ret.pushBack(test.end.position);edkEnd();
+            ret.pushBack(test.start.position);
+            ret.pushBack(test.end.position);
             //return the ret
             return ret;
         }
@@ -100,25 +102,25 @@ edk::collision::Vecs2f32 edk::collision::LineContact2D::contactPolygon(edk::shap
             //test the line collision
             //            ret+= edk::collision::MathCollision::straightStraight2D(test.start.position,test.end.position,
             //                                                                    polygon.getVertexPosition(i),polygon.getVertexPosition(0u)
-            //                                                                    );edkEnd();
-            edk::collision::Vecs2f32 straight;edkEnd();
+            //                                                                    );
+            edk::collision::Vecs2f32 straight;
             edk::collision::MathCollision::straightStraight2D(test.start.position,test.end.position,
                                                               polygon.getVertexPosition(i),polygon.getVertexPosition(0u),
                                                               &straight
-                                                              );edkEnd();
-            ret.incrementFrom(&straight);edkEnd();
+                                                              );
+            ret.incrementFrom(&straight);
         }
         else{
             //test the line collision
             //            ret+= edk::collision::MathCollision::straightStraight2D(test.start.position,test.end.position,
             //                                                                    polygon.getVertexPosition(i),polygon.getVertexPosition(i+1u)
-            //                                                                    );edkEnd();
-            edk::collision::Vecs2f32 straight;edkEnd();
+            //                                                                    );
+            edk::collision::Vecs2f32 straight;
             edk::collision::MathCollision::straightStraight2D(test.start.position,test.end.position,
                                                               polygon.getVertexPosition(i),polygon.getVertexPosition(i+1u),
                                                               &straight
-                                                              );edkEnd();
-            ret.incrementFrom(&straight);edkEnd();
+                                                              );
+            ret.incrementFrom(&straight);
         }
     }
     //else return no point

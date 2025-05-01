@@ -57,7 +57,8 @@ public:
     VideoEDK(edk::video::EDKcodecName codec=edk::video::edkCodecNothing);
     ~VideoEDK();
 
-    void Constructor(edk::video::EDKcodecName codec=edk::video::edkCodecNothing,bool runFather=true);
+    void Constructor(edk::video::EDKcodecName codec=edk::video::edkCodecNothing);
+    void Destructor();
 
     //set use a codec
     bool useCodec(edk::video::EDKcodecName codec);

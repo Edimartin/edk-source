@@ -29,17 +29,14 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endif
 
 edk::shape::Grid3D::Grid3D(){
-    this->classThis=NULL;edkEnd();
-    this->Constructor(false);edkEnd();
+    this->classThis=NULL;
+    this->Constructor();
 }
 edk::shape::Grid3D::~Grid3D(){
-    if(this->classThis==this){
-        this->classThis=NULL;edkEnd();
-        //can destruct the class
-    }
+    this->Destructor();
 }
 
-void edk::shape::Grid3D::Constructor(bool /*runFather*/){
+void edk::shape::Grid3D::Constructor(){
     if(this->classThis!=this){
         this->classThis=this;
         //position of the grid
@@ -51,6 +48,12 @@ void edk::shape::Grid3D::Constructor(bool /*runFather*/){
         this->colorLinesBold=edk::color4f32(0.f,0.f,0.f,1.f);
         this->setDistanceLines(0.f);
         this->setDistanceLinesBold(0.f);
+    }
+}
+void edk::shape::Grid3D::Destructor(){
+    if(this->classThis==this){
+        this->classThis=NULL;
+        //can destruct the class
     }
 }
 
@@ -81,9 +84,9 @@ edk::float32 edk::shape::Grid3D::getDistanceLinesBold(){
 //draw the grid
 void edk::shape::Grid3D::drawXY(){
     //
-    edk::GU::guPushMatrix();edkEnd();
-    edk::GU::guTranslate3f32(this->position);edkEnd();
-    edk::GU::guRotateZf32(this->angles.z);edkEnd();
+    edk::GU::guPushMatrix();
+    edk::GU::guTranslate3f32(this->position);
+    edk::GU::guRotateZf32(this->angles.z);
 
     edk::GU::guLineWidth(1u);
 
@@ -135,13 +138,13 @@ void edk::shape::Grid3D::drawXY(){
 
     edk::GU::guLineWidth(1u);
 
-    edk::GU::guPopMatrix();edkEnd();
+    edk::GU::guPopMatrix();
 }
 void edk::shape::Grid3D::drawXZ(){
     //
-    edk::GU::guPushMatrix();edkEnd();
-    edk::GU::guTranslate3f32(this->position);edkEnd();
-    edk::GU::guRotateYf32(this->angles.y);edkEnd();
+    edk::GU::guPushMatrix();
+    edk::GU::guTranslate3f32(this->position);
+    edk::GU::guRotateYf32(this->angles.y);
 
     edk::GU::guLineWidth(1u);
 
@@ -193,13 +196,13 @@ void edk::shape::Grid3D::drawXZ(){
 
     edk::GU::guLineWidth(1u);
 
-    edk::GU::guPopMatrix();edkEnd();
+    edk::GU::guPopMatrix();
 }
 void edk::shape::Grid3D::drawYZ(){
     //
-    edk::GU::guPushMatrix();edkEnd();
-    edk::GU::guTranslate3f32(this->position);edkEnd();
-    edk::GU::guRotateXf32(this->angles.x);edkEnd();
+    edk::GU::guPushMatrix();
+    edk::GU::guTranslate3f32(this->position);
+    edk::GU::guRotateXf32(this->angles.x);
 
     edk::GU::guLineWidth(1u);
 
@@ -251,5 +254,5 @@ void edk::shape::Grid3D::drawYZ(){
 
     edk::GU::guLineWidth(1u);
 
-    edk::GU::guPopMatrix();edkEnd();
+    edk::GU::guPopMatrix();
 }

@@ -112,7 +112,8 @@ public:
     Time();
     virtual ~Time();
 
-    void Constructor(bool runFather=true);
+    void Constructor();
+    void Destructor();
 
     void start();
 
@@ -191,7 +192,7 @@ private:
 
     //clean the str
     inline void cleanStr(){
-        memset(this->str,0u,SIZE_EDK_WATCH_TIME_STRING);edkEnd();
+        memset(this->str,0u,SIZE_EDK_WATCH_TIME_STRING);
     }
 
 

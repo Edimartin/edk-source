@@ -54,7 +54,8 @@ public:
     Shader();
     virtual ~Shader();
 
-    void Constructor(bool runFather=true);
+    void Constructor();
+    void Destructor();
 
     //read the shaderType in a name
     static edk::shd::shaderType readType(edk::char8* name);

@@ -29,53 +29,53 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endif
 
 edk::shape::Circle2D::Circle2D(){
-    this->classThis=NULL;edkEnd();
-    this->Constructor(false);edkEnd();
+    this->classThis=NULL;
+    this->Constructor();
 }
 edk::shape::Circle2D::Circle2D(edk::uint32 sides,edk::float32 radius){
-    this->classThis=NULL;edkEnd();
-    this->Constructor(sides,radius,false);edkEnd();
+    this->classThis=NULL;
+    this->Constructor(sides,radius);
 }
 
 edk::shape::Circle2D::~Circle2D(){
-    if(this->classThis==this){
-        this->classThis=NULL;edkEnd();
-        //can destruct the class
-    }
+    this->Destructor();
 }
 
-void edk::shape::Circle2D::Constructor(bool runFather){
-    if(runFather){
-        edk::shape::Polygon2D::Constructor();edkEnd();
-    }
+void edk::shape::Circle2D::Constructor(){
+    edk::shape::Polygon2D::Constructor();
     if(this->classThis!=this){
         this->classThis=this;
-        this->polygonCircle=true;edkEnd();
+        this->polygonCircle=true;
         this->type=edk::shape::typeCircle2D;
-        this->createPolygon(4u,1.0);edkEnd();
+        this->createPolygon(4u,1.0);
     }
 }
-void edk::shape::Circle2D::Constructor(edk::uint32 sides,edk::float32 radius,bool runFather){
-    if(runFather){
-        edk::shape::Polygon2D::Constructor();edkEnd();
-    }
+void edk::shape::Circle2D::Constructor(edk::uint32 sides,edk::float32 radius){
+    edk::shape::Polygon2D::Constructor();
     if(this->classThis!=this){
         this->classThis=this;
-        this->polygonCircle=true;edkEnd();
-        this->createPolygon(sides,radius);edkEnd();
+        this->polygonCircle=true;
+        this->createPolygon(sides,radius);
     }
+}
+void edk::shape::Circle2D::Destructor(){
+    if(this->classThis==this){
+        this->classThis=NULL;
+        //can destruct the class
+    }
+    edk::shape::Polygon2D::Destructor();
 }
 
 
 //Create the circle
 bool edk::shape::Circle2D::createPolygon(edk::uint32 sides,edk::float32 radius){
     //delete the circle
-    this->deletePolygon();edkEnd();
+    this->deletePolygon();
 
     //update the radius
     if(radius>0.0f){
         //
-        this->radius=radius;edkEnd();
+        this->radius=radius;
     }
     else{
         //normalize the radius
@@ -86,16 +86,16 @@ bool edk::shape::Circle2D::createPolygon(edk::uint32 sides,edk::float32 radius){
     if(edk::shape::Polygon2D::createPolygon(sides)){
         //set the vertex positions
         //divide the angles
-        edk::float32 angles = 360.f/sides;edkEnd();
+        edk::float32 angles = 360.f/sides;
         //vecTemp
-        edk::vec2f32 temp(0,0);edkEnd();
-        edk::vec2f32 translateUV(0.5f,0.5f);edkEnd();
+        edk::vec2f32 temp(0,0);
+        edk::vec2f32 translateUV(0.5f,0.5f);
         for(edk::uint32 i=0u;i<sides;i++){
-            temp = edk::Math::rotate(edk::vec2f32(0.5f,0.0f),angles*i);edkEnd();
+            temp = edk::Math::rotate(edk::vec2f32(0.5f,0.0f),angles*i);
             //set the position of the vertex
-            edk::shape::Polygon2D::setVertexPosition(i,(temp*this->radius)*2.f);edkEnd();
+            edk::shape::Polygon2D::setVertexPosition(i,(temp*this->radius)*2.f);
             //set the same position to the UV
-            edk::shape::Polygon2D::setVertexUV(i,temp + translateUV);edkEnd();
+            edk::shape::Polygon2D::setVertexUV(i,temp + translateUV);
         }
 
         //return true
@@ -109,21 +109,21 @@ bool edk::shape::Circle2D::createPolygon(edk::uint32 sides,edk::float32 radius){
 //delete
 void edk::shape::Circle2D::deletePolygon(){
     //
-    edk::shape::Polygon2D::deletePolygon();edkEnd();
+    edk::shape::Polygon2D::deletePolygon();
 }
 
 //Set the color
 bool edk::shape::Circle2D::setPolygonColor(edk::color4f32 color){
     //
-    return edk::shape::Polygon2D::setPolygonColor(color);edkEnd();
+    return edk::shape::Polygon2D::setPolygonColor(color);
 }
 bool edk::shape::Circle2D::setPolygonColor(edk::float32 r,edk::float32 g,edk::float32 b){
     //
-    return edk::shape::Polygon2D::setPolygonColor(r,g,b);edkEnd();
+    return edk::shape::Polygon2D::setPolygonColor(r,g,b);
 }
 bool edk::shape::Circle2D::setPolygonColor(edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a){
     //
-    return edk::shape::Polygon2D::setPolygonColor(r,g,b,a);edkEnd();
+    return edk::shape::Polygon2D::setPolygonColor(r,g,b,a);
 }
 /*
 //return true if the polygon is a circle
@@ -132,22 +132,22 @@ bool edk::shape::Circle2D::isCircle(){
 }
 //return the circleRadius only if is a circle
 edk::float32 edk::shape::Circle2D::getCircleRadius(){
-    return this->radius;edkEnd();
+    return this->radius;
 }
 */
 
 //print the polygon
 void edk::shape::Circle2D::print(){
     //
-    printf("\nCircle");edkEnd();
-    edk::shape::Polygon2D::print();edkEnd();
+    printf("\nCircle");
+    edk::shape::Polygon2D::print();
 }
 //Draw the polygon
 void edk::shape::Circle2D::draw(){
     //
-    edk::shape::Polygon2D::draw();edkEnd();
+    edk::shape::Polygon2D::draw();
 }
 void edk::shape::Circle2D::drawWire(){
 
-    edk::shape::Polygon2D::drawWire();edkEnd();
+    edk::shape::Polygon2D::drawWire();
 }

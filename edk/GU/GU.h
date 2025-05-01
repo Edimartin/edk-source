@@ -254,7 +254,8 @@ public:
     //destrutor
     virtual ~GU();
 
-    void Constructor(bool runFather=true);
+    void Constructor();
+    void Destructor();
 
     static void setCantLoadTextures();
     static void setCanLoadTextures();
@@ -694,17 +695,15 @@ private:
 
     class TextureClass{
     public:
-        TextureClass(){this->classThis=NULL;edkEnd();
-                       this->Constructor(false);edkEnd();}
+        TextureClass(){
+            this->classThis=NULL;
+            this->Constructor();
+        }
         virtual ~TextureClass(){
-            if(this->classThis==this){
-                this->classThis=NULL;edkEnd();
-                //can destruct the class
-            }
+            this->Destructor();
         }
 
-        void Constructor(bool runFather=true){
-            if(runFather){edkEnd();}
+        void Constructor(){
             if(this->classThis!=this){
                 this->classThis=this;
                 this->width=0u;
@@ -715,6 +714,12 @@ private:
                 this->data=0u;
                 this->threadID = 0u;
                 this->id = 0u;
+            }
+        }
+        void Destructor(){
+            if(this->classThis==this){
+                this->classThis=NULL;
+                //can destruct the class
             }
         }
         edk::GU::TextureClass operator=(edk::GU::TextureClass tex){
@@ -751,22 +756,26 @@ private:
 
     class Texture_Tree : public edk::vector::BinaryTree<edk::GU::TextureClass>{
     public:
-        Texture_Tree(){this->classThis=NULL;edkEnd();
-                       this->Constructor(false);edkEnd();}
+        Texture_Tree(){
+            this->classThis=NULL;
+            this->Constructor();
+        }
         virtual ~Texture_Tree(){
-            if(this->classThis==this){
-                this->classThis=NULL;edkEnd();
-                //can destruct the class
-            }
+            this->Destructor();
         }
 
-        void Constructor(bool runFather=true){
-            if(runFather){
-                edk::vector::BinaryTree<edk::GU::TextureClass>::Constructor();edkEnd();
-            }
+        void Constructor(){
+            edk::vector::BinaryTree<edk::GU::TextureClass>::Constructor();
             if(this->classThis!=this){
                 this->classThis=this;
             }
+        }
+        void Destructor(){
+            if(this->classThis==this){
+                this->classThis=NULL;
+                //can destruct the class
+            }
+            edk::vector::BinaryTree<edk::GU::TextureClass>::Destructor();
         }
         //compare if the value is bigger
         virtual bool firstBiggerSecond(edk::GU::TextureClass first,edk::GU::TextureClass second){
@@ -807,21 +816,25 @@ private:
 
     class MipmapClass{
     public:
-        MipmapClass(){this->classThis=NULL;edkEnd();
-                      this->Constructor(false);edkEnd();}
+        MipmapClass(){
+            this->classThis=NULL;
+            this->Constructor();
+        }
         virtual ~MipmapClass(){
-            if(this->classThis==this){
-                this->classThis=NULL;edkEnd();
-                //can destruct the class
-            }
+            this->Destructor();
         }
 
-        void Constructor(bool runFather=true){
-            if(runFather){edkEnd();}
+        void Constructor(){
             if(this->classThis!=this){
                 this->classThis=this;
                 this->threadID = 0u;
                 this->ID = 0u;
+            }
+        }
+        void Destructor(){
+            if(this->classThis==this){
+                this->classThis=NULL;
+                //can destruct the class
             }
         }
 

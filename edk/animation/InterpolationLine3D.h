@@ -45,7 +45,8 @@ public:
     InterpolationLine3D();
     virtual ~InterpolationLine3D();
 
-    void Constructor(bool runFather=true);
+    void Constructor();
+    void Destructor();
 
     //SETERS
     //set the start frame

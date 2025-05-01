@@ -48,7 +48,8 @@ public:
     LineContact2D();
     virtual ~LineContact2D();
 
-    void Constructor(bool runFather=true);
+    void Constructor();
+    void Destructor();
 
     //Contacts
     //point

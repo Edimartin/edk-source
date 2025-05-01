@@ -44,7 +44,8 @@ public:
     ScrollBar2d();
     virtual ~ScrollBar2d();
 
-    void Constructor(bool runFather=true);
+    void Constructor();
+    void Destructor();
 
     //save the FontTemplate
     static bool saveTemplates(const edk::char8* folder);

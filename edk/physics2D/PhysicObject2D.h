@@ -47,7 +47,8 @@ public:
     PhysicObject2D();
     virtual ~PhysicObject2D();
 
-    void Constructor(bool runFather=true);
+    void Constructor();
+    void Destructor();
 
     //physics meshs
     edk::physics2D::PhysicsMesh2D physicMesh;
@@ -319,17 +320,17 @@ private:
 
     virtual edk::physics2D::PhysicObject2D operator=(edk::physics2D::PhysicObject2D obj){
         //copy the object
-        this->cloneFrom(&obj);edkEnd();
+        this->cloneFrom(&obj); 
         //copy the mesh
-        //this->physicMesh=obj.physicMesh;edkEnd();
-        this->physicMesh.cloneFrom(&obj.physicMesh);edkEnd();
-        this->canSleep = obj.canSleep;edkEnd();
-        this->fixedRotation = obj.fixedRotation;edkEnd();
-        //this->animationPosition = obj.animationPosition;edkEnd();
-        this->animationPosition.cloneFrom(&obj.animationPosition);edkEnd();
-        //this->animationRotation = obj.animationRotation;edkEnd();
-        this->animationRotation.cloneFrom(&obj.animationRotation);edkEnd();
-        return obj;edkEnd();
+        //this->physicMesh=obj.physicMesh; 
+        this->physicMesh.cloneFrom(&obj.physicMesh); 
+        this->canSleep = obj.canSleep; 
+        this->fixedRotation = obj.fixedRotation; 
+        //this->animationPosition = obj.animationPosition; 
+        this->animationPosition.cloneFrom(&obj.animationPosition); 
+        //this->animationRotation = obj.animationRotation; 
+        this->animationRotation.cloneFrom(&obj.animationRotation); 
+        return obj; 
     }
 
 protected:

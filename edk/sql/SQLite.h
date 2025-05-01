@@ -68,7 +68,8 @@ public:
     SQLite();
     virtual ~SQLite();
 
-    void Constructor(bool runFather=true);
+    void Constructor();
+    void Destructor();
 
     //open dataBase
     bool openDataBase(const edk::char8* name);

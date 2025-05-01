@@ -45,7 +45,8 @@ public:
     DecoderJPEG();
     virtual ~DecoderJPEG();
 
-    void Constructor(bool runFather=true);
+    void Constructor();
+    void Destructor();
 
     //process the decoder
     bool decode(edk::uint8* encoded,edk::uint32 size);

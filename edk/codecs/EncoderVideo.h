@@ -43,7 +43,8 @@ public:
     EncoderVideo();
     virtual ~EncoderVideo();
 
-    void Constructor(bool runFather=true);
+    void Constructor();
+    void Destructor();
 
     //start the encoder
     virtual bool startEncoder(edk::size2ui32 size, edk::uint32 fps);

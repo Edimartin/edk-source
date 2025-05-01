@@ -225,7 +225,8 @@ public:
     //destrutor
     virtual ~GU_GLSL();
 
-    void Constructor(bool runFather=true);
+    void Constructor();
+    void Destructor();
 
     static void setCantCreateShaders();
     static void setCanCreateShaders();
@@ -613,21 +614,26 @@ private:
     static bool initiate;
     class ShaderClass{
     public:
-        ShaderClass(){this->classThis=NULL;this->Constructor(false);edkEnd();}
+        ShaderClass(){
+            this->classThis=NULL;
+            this->Constructor();
+        }
         virtual ~ShaderClass(){
-            if(this->classThis==this){
-                this->classThis=NULL;edkEnd();
-                //can destruct the class
-            }
+            this->Destructor();
         }
 
-        void Constructor(bool runFather=true){
-            if(runFather){edkEnd();}
+        void Constructor(){
             if(this->classThis!=this){
                 this->classThis=this;
                 this->threadID = 0u;
                 this->id = 0u;
                 this->type = 0u;
+            }
+        }
+        void Destructor(){
+            if(this->classThis==this){
+                this->classThis=NULL;
+                //can destruct the class
             }
         }
         edk::GU_GLSL::ShaderClass operator=(edk::GU_GLSL::ShaderClass shader){
@@ -660,21 +666,26 @@ private:
 
     class Shader_Tree : public edk::vector::BinaryTree<edk::GU_GLSL::ShaderClass>{
     public:
-        Shader_Tree(){this->classThis=NULL;this->Constructor(false);edkEnd();}
+        Shader_Tree(){
+            this->classThis=NULL;
+            this->Constructor();
+        }
         virtual ~Shader_Tree(){
-            if(this->classThis==this){
-                this->classThis=NULL;edkEnd();
-                //can destruct the class
-            }
+            this->Destructor();
         }
 
-        void Constructor(bool runFather=true){
-            if(runFather){
-                edk::vector::BinaryTree<edk::GU_GLSL::ShaderClass>::Constructor();edkEnd();
-            }
+        void Constructor(){
+            edk::vector::BinaryTree<edk::GU_GLSL::ShaderClass>::Constructor();
             if(this->classThis!=this){
                 this->classThis=this;
             }
+        }
+        void Destructor(){
+            if(this->classThis==this){
+                this->classThis=NULL;
+                //can destruct the class
+            }
+            edk::vector::BinaryTree<edk::GU_GLSL::ShaderClass>::Destructor();
         }
         //compare if the value is bigger
         virtual bool firstBiggerSecond(edk::GU_GLSL::ShaderClass first,edk::GU_GLSL::ShaderClass second){
@@ -714,16 +725,15 @@ private:
     //class ro write the shaders
     class ShaderWriteClass{
     public:
-        ShaderWriteClass(){this->classThis=NULL;this->Constructor(false);edkEnd();}
+        ShaderWriteClass(){
+            this->classThis=NULL;
+            this->Constructor();
+        }
         virtual ~ShaderWriteClass(){
-            if(this->classThis==this){
-                this->classThis=NULL;edkEnd();
-                //can destruct the class
-            }
+            this->Destructor();
         }
 
-        void Constructor(bool runFather=true){
-            if(runFather){edkEnd();}
+        void Constructor(){
             if(this->classThis!=this){
                 this->classThis=this;
                 this->threadID = 0u;
@@ -731,6 +741,12 @@ private:
                 this->data=NULL;
                 this->length = 0u;
                 this->success = false;
+            }
+        }
+        void Destructor(){
+            if(this->classThis==this){
+                this->classThis=NULL;
+                //can destruct the class
             }
         }
         edk::GU_GLSL::ShaderWriteClass operator=(edk::GU_GLSL::ShaderWriteClass shader){
@@ -766,21 +782,26 @@ private:
 
     class ShaderWrite_Tree : public edk::vector::BinaryTree<edk::GU_GLSL::ShaderWriteClass>{
     public:
-        ShaderWrite_Tree(){this->classThis=NULL;this->Constructor(false);edkEnd();}
+        ShaderWrite_Tree(){
+            this->classThis=NULL;
+            this->Constructor();
+        }
         virtual ~ShaderWrite_Tree(){
-            if(this->classThis==this){
-                this->classThis=NULL;edkEnd();
-                //can destruct the class
-            }
+            this->Destructor();
         }
 
-        void Constructor(bool runFather=true){
-            if(runFather){
-                edk::vector::BinaryTree<edk::GU_GLSL::ShaderWriteClass>::Constructor();edkEnd();
-            }
+        void Constructor(){
+            edk::vector::BinaryTree<edk::GU_GLSL::ShaderWriteClass>::Constructor();
             if(this->classThis!=this){
                 this->classThis=this;
             }
+        }
+        void Destructor(){
+            if(this->classThis==this){
+                this->classThis=NULL;
+                //can destruct the class
+            }
+            edk::vector::BinaryTree<edk::GU_GLSL::ShaderWriteClass>::Destructor();
         }
         //compare if the value is bigger
         virtual bool firstBiggerSecond(edk::GU_GLSL::ShaderClass first,edk::GU_GLSL::ShaderClass second){
@@ -820,20 +841,25 @@ private:
     //class ro write the shaders
     class ShaderCompileClass{
     public:
-        ShaderCompileClass(){this->classThis=NULL;this->Constructor(false);edkEnd();}
+        ShaderCompileClass(){
+            this->classThis=NULL;
+            this->Constructor();
+        }
         virtual ~ShaderCompileClass(){
-            if(this->classThis==this){
-                this->classThis=NULL;edkEnd();
-                //can destruct the class
-            }
+            this->Destructor();
         }
 
-        void Constructor(bool runFather=true){
-            if(runFather){edkEnd();}
+        void Constructor(){
             if(this->classThis!=this){
                 this->classThis=this;
                 this->threadID = 0u;
                 this->id=0u;
+            }
+        }
+        void Destructor(){
+            if(this->classThis==this){
+                this->classThis=NULL;
+                //can destruct the class
             }
         }
         edk::GU_GLSL::ShaderCompileClass operator=(edk::GU_GLSL::ShaderCompileClass shader){
@@ -863,21 +889,26 @@ private:
 
     class ShaderCompile_Tree : public edk::vector::BinaryTree<edk::GU_GLSL::ShaderCompileClass>{
     public:
-        ShaderCompile_Tree(){this->classThis=NULL;this->Constructor(false);edkEnd();}
+        ShaderCompile_Tree(){
+            this->classThis=NULL;
+            this->Constructor();
+        }
         virtual ~ShaderCompile_Tree(){
-            if(this->classThis==this){
-                this->classThis=NULL;edkEnd();
-                //can destruct the class
-            }
+            this->Destructor();
         }
 
-        void Constructor(bool runFather=true){
-            if(runFather){
-                edk::vector::BinaryTree<edk::GU_GLSL::ShaderCompileClass>::Constructor();edkEnd();
-            }
+        void Constructor(){
+            edk::vector::BinaryTree<edk::GU_GLSL::ShaderCompileClass>::Constructor();
             if(this->classThis!=this){
                 this->classThis=this;
             }
+        }
+        void Destructor(){
+            if(this->classThis==this){
+                this->classThis=NULL;
+                //can destruct the class
+            }
+            edk::vector::BinaryTree<edk::GU_GLSL::ShaderCompileClass>::Destructor();
         }
         //compare if the value is bigger
         virtual bool firstBiggerSecond(edk::GU_GLSL::ShaderClass first,edk::GU_GLSL::ShaderClass second){
@@ -917,16 +948,15 @@ private:
     //class ro write the shaders
     class ShaderIVClass{
     public:
-        ShaderIVClass(){this->classThis=NULL;this->Constructor(false);edkEnd();}
+        ShaderIVClass(){
+            this->classThis=NULL;
+            this->Constructor();
+        }
         virtual ~ShaderIVClass(){
-            if(this->classThis==this){
-                this->classThis=NULL;edkEnd();
-                //can destruct the class
-            }
+            this->Destructor();
         }
 
-        void Constructor(bool runFather=true){
-            if(runFather){edkEnd();}
+        void Constructor(){
             if(this->classThis!=this){
                 this->classThis=this;
                 this->threadID = 0u;
@@ -934,6 +964,12 @@ private:
                 this->pname=0u;
                 this->params=NULL;
                 this->type=0u;
+            }
+        }
+        void Destructor(){
+            if(this->classThis==this){
+                this->classThis=NULL;
+                //can destruct the class
             }
         }
         edk::GU_GLSL::ShaderIVClass operator=(edk::GU_GLSL::ShaderIVClass shader){
@@ -969,21 +1005,26 @@ private:
 
     class ShaderIV_Tree : public edk::vector::BinaryTree<edk::GU_GLSL::ShaderIVClass>{
     public:
-        ShaderIV_Tree(){this->classThis=NULL;this->Constructor(false);edkEnd();}
+        ShaderIV_Tree(){
+            this->classThis=NULL;
+            this->Constructor();
+        }
         virtual ~ShaderIV_Tree(){
-            if(this->classThis==this){
-                this->classThis=NULL;edkEnd();
-                //can destruct the class
-            }
+            this->Destructor();
         }
 
-        void Constructor(bool runFather=true){
-            if(runFather){
-                edk::vector::BinaryTree<edk::GU_GLSL::ShaderIVClass>::Constructor();edkEnd();
-            }
+        void Constructor(){
+            edk::vector::BinaryTree<edk::GU_GLSL::ShaderIVClass>::Constructor();
             if(this->classThis!=this){
                 this->classThis=this;
             }
+        }
+        void Destructor(){
+            if(this->classThis==this){
+                this->classThis=NULL;
+                //can destruct the class
+            }
+            edk::vector::BinaryTree<edk::GU_GLSL::ShaderIVClass>::Destructor();
         }
         //compare if the value is bigger
         virtual bool firstBiggerSecond(edk::GU_GLSL::ShaderClass first,edk::GU_GLSL::ShaderClass second){
@@ -1023,16 +1064,15 @@ private:
     //class ro write the shaders
     class ShaderLogClass{
     public:
-        ShaderLogClass(){this->classThis=NULL;this->Constructor(false);edkEnd();}
+        ShaderLogClass(){
+            this->classThis=NULL;
+            this->Constructor();
+        }
         virtual ~ShaderLogClass(){
-            if(this->classThis==this){
-                this->classThis=NULL;edkEnd();
-                //can destruct the class
-            }
+            this->Destructor();
         }
 
-        void Constructor(bool runFather=true){
-            if(runFather){edkEnd();}
+        void Constructor(){
             if(this->classThis!=this){
                 this->classThis=this;
                 this->threadID = 0u;
@@ -1041,6 +1081,12 @@ private:
                 this->length=NULL;
                 this->infoLog=NULL;
                 this->type=0u;
+            }
+        }
+        void Destructor(){
+            if(this->classThis==this){
+                this->classThis=NULL;
+                //can destruct the class
             }
         }
         edk::GU_GLSL::ShaderLogClass operator=(edk::GU_GLSL::ShaderLogClass shader){
@@ -1078,21 +1124,26 @@ private:
 
     class ShaderLog_Tree : public edk::vector::BinaryTree<edk::GU_GLSL::ShaderLogClass>{
     public:
-        ShaderLog_Tree(){this->classThis=NULL;this->Constructor(false);edkEnd();}
+        ShaderLog_Tree(){
+            this->classThis=NULL;
+            this->Constructor();
+        }
         virtual ~ShaderLog_Tree(){
-            if(this->classThis==this){
-                this->classThis=NULL;edkEnd();
-                //can destruct the class
-            }
+            this->Destructor();
         }
 
-        void Constructor(bool runFather=true){
-            if(runFather){
-                edk::vector::BinaryTree<edk::GU_GLSL::ShaderLogClass>::Constructor();edkEnd();
-            }
+        void Constructor(){
+            edk::vector::BinaryTree<edk::GU_GLSL::ShaderLogClass>::Constructor();
             if(this->classThis!=this){
                 this->classThis=this;
             }
+        }
+        void Destructor(){
+            if(this->classThis==this){
+                this->classThis=NULL;
+                //can destruct the class
+            }
+            edk::vector::BinaryTree<edk::GU_GLSL::ShaderLogClass>::Destructor();
         }
         //compare if the value is bigger
         virtual bool firstBiggerSecond(edk::GU_GLSL::ShaderClass first,edk::GU_GLSL::ShaderClass second){
@@ -1132,22 +1183,27 @@ private:
     //class ro write the shaders
     class ProgramAttachClass{
     public:
-        ProgramAttachClass(){this->classThis=NULL;this->Constructor(false);edkEnd();}
+        ProgramAttachClass(){
+            this->classThis=NULL;
+            this->Constructor();
+        }
         virtual ~ProgramAttachClass(){
-            if(this->classThis==this){
-                this->classThis=NULL;edkEnd();
-                //can destruct the class
-            }
+            this->Destructor();
         }
 
-        void Constructor(bool runFather=true){
-            if(runFather){edkEnd();}
+        void Constructor(){
             if(this->classThis!=this){
                 this->classThis=this;
                 this->threadID = 0u;
                 this->id=0u;
                 this->shaderId=0u;
                 this->success=false;
+            }
+        }
+        void Destructor(){
+            if(this->classThis==this){
+                this->classThis=NULL;
+                //can destruct the class
             }
         }
         edk::GU_GLSL::ProgramAttachClass operator=(edk::GU_GLSL::ProgramAttachClass shader){
@@ -1181,21 +1237,26 @@ private:
 
     class ProgramAttach_Tree : public edk::vector::BinaryTree<edk::GU_GLSL::ProgramAttachClass>{
     public:
-        ProgramAttach_Tree(){this->classThis=NULL;this->Constructor(false);edkEnd();}
+        ProgramAttach_Tree(){
+            this->classThis=NULL;
+            this->Constructor();
+        }
         virtual ~ProgramAttach_Tree(){
-            if(this->classThis==this){
-                this->classThis=NULL;edkEnd();
-                //can destruct the class
-            }
+            this->Destructor();
         }
 
-        void Constructor(bool runFather=true){
-            if(runFather){
-                edk::vector::BinaryTree<edk::GU_GLSL::ProgramAttachClass>::Constructor();
-            }
+        void Constructor(){
+            edk::vector::BinaryTree<edk::GU_GLSL::ProgramAttachClass>::Constructor();
             if(this->classThis!=this){
                 this->classThis=this;
             }
+        }
+        void Destructor(){
+            if(this->classThis==this){
+                this->classThis=NULL;
+                //can destruct the class
+            }
+            edk::vector::BinaryTree<edk::GU_GLSL::ProgramAttachClass>::Destructor();
         }
         //compare if the value is bigger
         virtual bool firstBiggerSecond(edk::GU_GLSL::ShaderClass first,edk::GU_GLSL::ShaderClass second){
@@ -1235,20 +1296,25 @@ private:
     //class ro write the shaders
     class ProgramLinkClass{
     public:
-        ProgramLinkClass(){this->classThis=NULL;this->Constructor(false);edkEnd();}
+        ProgramLinkClass(){
+            this->classThis=NULL;
+            this->Constructor();
+        }
         virtual ~ProgramLinkClass(){
-            if(this->classThis==this){
-                this->classThis=NULL;edkEnd();
-                //can destruct the class
-            }
+            this->Destructor();
         }
 
-        void Constructor(bool runFather=true){
-            if(runFather){edkEnd();}
+        void Constructor(){
             if(this->classThis!=this){
                 this->classThis=this;
                 this->threadID = 0u;
                 this->programID=0u;
+            }
+        }
+        void Destructor(){
+            if(this->classThis==this){
+                this->classThis=NULL;
+                //can destruct the class
             }
         }
         edk::GU_GLSL::ProgramLinkClass operator=(edk::GU_GLSL::ProgramLinkClass shader){
@@ -1278,21 +1344,26 @@ private:
 
     class ProgramLink_Tree : public edk::vector::BinaryTree<edk::GU_GLSL::ProgramLinkClass>{
     public:
-        ProgramLink_Tree(){this->classThis=NULL;this->Constructor(false);edkEnd();}
+        ProgramLink_Tree(){
+            this->classThis=NULL;
+            this->Constructor();
+        }
         virtual ~ProgramLink_Tree(){
-            if(this->classThis==this){
-                this->classThis=NULL;edkEnd();
-                //can destruct the class
-            }
+            this->Destructor();
         }
 
-        void Constructor(bool runFather=true){
-            if(runFather){
-                edk::vector::BinaryTree<edk::GU_GLSL::ProgramLinkClass>::Constructor();
-            }
+        void Constructor(){
+            edk::vector::BinaryTree<edk::GU_GLSL::ProgramLinkClass>::Constructor();
             if(this->classThis!=this){
                 this->classThis=this;
             }
+        }
+        void Destructor(){
+            if(this->classThis==this){
+                this->classThis=NULL;
+                //can destruct the class
+            }
+            edk::vector::BinaryTree<edk::GU_GLSL::ProgramLinkClass>::Destructor();
         }
         //compare if the value is bigger
         virtual bool firstBiggerSecond(edk::GU_GLSL::ShaderClass first,edk::GU_GLSL::ShaderClass second){
@@ -1331,20 +1402,25 @@ private:
 
     class ShaderUseClass{
     public:
-        ShaderUseClass(){this->classThis=NULL;this->Constructor(false);edkEnd();}
+        ShaderUseClass(){
+            this->classThis=NULL;
+            this->Constructor();
+        }
         virtual ~ShaderUseClass(){
-            if(this->classThis==this){
-                this->classThis=NULL;edkEnd();
-                //can destruct the class
-            }
+            this->Destructor();
         }
 
-        void Constructor(bool runFather=true){
-            if(runFather){edkEnd();}
+        void Constructor(){
             if(this->classThis!=this){
                 this->classThis=this;
                 this->threadID = 0u;
                 this->id = 0u;
+            }
+        }
+        void Destructor(){
+            if(this->classThis==this){
+                this->classThis=NULL;
+                //can destruct the class
             }
         }
         edk::GU_GLSL::ShaderUseClass operator=(edk::GU_GLSL::ShaderUseClass shader){
@@ -1375,22 +1451,26 @@ private:
 
     class ShaderUse_Tree : public edk::vector::BinaryTree<edk::GU_GLSL::ShaderUseClass>{
     public:
-        ShaderUse_Tree(){this->classThis=NULL;edkEnd();
-                         this->Constructor(false);edkEnd();}
+        ShaderUse_Tree(){
+            this->classThis=NULL;
+            this->Constructor();
+        }
         virtual ~ShaderUse_Tree(){
-            if(this->classThis==this){
-                this->classThis=NULL;edkEnd();
-                //can destruct the class
-            }
+            this->Destructor();
         }
 
-        void Constructor(bool runFather=true){
-            if(runFather){
-                edk::vector::BinaryTree<edk::GU_GLSL::ShaderUseClass>::Constructor();edkEnd();
-            }
+        void Constructor(){
+            edk::vector::BinaryTree<edk::GU_GLSL::ShaderUseClass>::Constructor();
             if(this->classThis!=this){
                 this->classThis=this;
             }
+        }
+        void Destructor(){
+            if(this->classThis==this){
+                this->classThis=NULL;
+                //can destruct the class
+            }
+            edk::vector::BinaryTree<edk::GU_GLSL::ShaderUseClass>::Destructor();
         }
         //compare if the value is bigger
         virtual bool firstBiggerSecond(edk::GU_GLSL::ShaderUseClass first,edk::GU_GLSL::ShaderUseClass second){

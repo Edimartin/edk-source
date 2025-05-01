@@ -1,19 +1,14 @@
 #include "InfiniteWallpaper.h"
 
 edk::InfiniteWallpaper::InfiniteWallpaper(){
-    this->classThis=NULL;edkEnd();
-    this->Constructor(false);edkEnd();
+    this->classThis=NULL;
+    this->Constructor();
 }
 edk::InfiniteWallpaper::~InfiniteWallpaper(){
-    if(this->classThis==this){
-        this->classThis=NULL;edkEnd();
-        //can destruct the class
-        this->clean();edkEnd();
-    }
+    this->Destructor();
 }
 
-void edk::InfiniteWallpaper::Constructor(bool /*runFather*/){
-    //
+void edk::InfiniteWallpaper::Constructor(){
     if(this->classThis!=this){
         this->classThis=this;
 
@@ -22,45 +17,52 @@ void edk::InfiniteWallpaper::Constructor(bool /*runFather*/){
         this->matrix.Constructor();
         this->obj.Constructor();
 
-        this->percent=0.f;edkEnd();
-        this->translate=0.f;edkEnd();
-        this->clock.start();edkEnd();
-        this->saveLenght = 0u;edkEnd();
-        this->cleanLimit();edkEnd();
+        this->percent=0.f;
+        this->translate=0.f;
+        this->clock.start();
+        this->saveLenght = 0u;
+        this->cleanLimit();
+    }
+}
+void edk::InfiniteWallpaper::Destructor(){
+    if(this->classThis==this){
+        this->classThis=NULL;
+        //can destruct the class
+        this->clean();
     }
 }
 
 //change the status
 void edk::InfiniteWallpaper::changeStatus(){
-    edk::uint32 size = this->stack.size();edkEnd();
-    edk::InfiniteWallpaper::WallpaperObject* temp;edkEnd();
+    edk::uint32 size = this->stack.size();
+    edk::InfiniteWallpaper::WallpaperObject* temp;
     for(edk::uint32 i=0u;i<size;i++){
-        temp = this->stack.get(i);edkEnd();
+        temp = this->stack.get(i);
         if(temp){
-            temp->obj.size = this->saveSize;edkEnd();
+            temp->obj.size = this->saveSize;
         }
     }
 }
 void edk::InfiniteWallpaper::changeSize(){
-    this->saveSize = this->size;edkEnd();
-    this->changeStatus();edkEnd();
+    this->saveSize = this->size;
+    this->changeStatus();
 }
 
 //clean wallpapers
 void edk::InfiniteWallpaper::clean(){
-    edk::uint32 size = this->stack.size();edkEnd();
-    edk::InfiniteWallpaper::WallpaperObject* temp;edkEnd();
+    edk::uint32 size = this->stack.size();
+    edk::InfiniteWallpaper::WallpaperObject* temp;
     for(edk::uint32 i=0u;i<size;i++){
-        temp = this->stack.get(i);edkEnd();
+        temp = this->stack.get(i);
         if(temp){
-            temp->obj.cleanMeshes();edkEnd();
-            delete temp;edkEnd();
+            temp->obj.cleanMeshes();
+            delete temp;
         }
     }
-    this->stack.clean();edkEnd();
-    this->translate=0.f;edkEnd();
-    this->matrix.deleteMatrix();edkEnd();
-    this->saveLenght=0u;edkEnd();
+    this->stack.clean();
+    this->translate=0.f;
+    this->matrix.deleteMatrix();
+    this->saveLenght=0u;
 }
 //add new wallpaper
 //filter
@@ -72,108 +74,108 @@ void edk::InfiniteWallpaper::clean(){
 //GU_LINEAR_MIPMAP_LINEAR
 bool edk::InfiniteWallpaper::newWallpaper(edk::char8* name,edk::uint32 drawTimes,edk::uint32 filter){
     if(name){
-        edk::InfiniteWallpaper::WallpaperObject* temp = new edk::InfiniteWallpaper::WallpaperObject(drawTimes);edkEnd();
+        edk::InfiniteWallpaper::WallpaperObject* temp = new edk::InfiniteWallpaper::WallpaperObject(drawTimes);
         if(temp){
             //create a new mesh
-            edk::shape::Mesh2D* mesh = temp->obj.newMesh();edkEnd();
+            edk::shape::Mesh2D* mesh = temp->obj.newMesh();
             if(mesh){
-                edk::shape::Rectangle2D rect;edkEnd();
-                rect.setPivoToCenter();edkEnd();
-                mesh->addPolygon(rect);edkEnd();
+                edk::shape::Rectangle2D rect;
+                rect.setPivoToCenter();
+                mesh->addPolygon(rect);
                 if(mesh->material.loadTexture(name,0u,filter)){
                     //add the temp in to the stack
-                    edk::uint32 size = this->stack.size();edkEnd();
-                    this->stack.pushBack(temp);edkEnd();
+                    edk::uint32 size = this->stack.size();
+                    this->stack.pushBack(temp);
                     if(size < this->stack.size()){
-                        temp->obj.size=this->size;edkEnd();
+                        temp->obj.size=this->size;
                         return true;
                     }
                 }
-                temp->obj.cleanMeshes();edkEnd();
+                temp->obj.cleanMeshes();
             }
-            delete temp;edkEnd();
+            delete temp;
         }
     }
     return false;
 }
 bool edk::InfiniteWallpaper::newWallpaper(const edk::char8* name,edk::uint32 drawTimes,edk::uint32 filter){
-    return newWallpaper((edk::char8*) name,drawTimes,filter);edkEnd();
+    return newWallpaper((edk::char8*) name,drawTimes,filter);
 }
 bool edk::InfiniteWallpaper::newWallpaperFromMemory(edk::char8* name,edk::uint8* image,edk::uint32 size,edk::uint32 drawTimes,edk::uint32 filter){
     if(name){
-        edk::InfiniteWallpaper::WallpaperObject* temp = new edk::InfiniteWallpaper::WallpaperObject(drawTimes);edkEnd();
+        edk::InfiniteWallpaper::WallpaperObject* temp = new edk::InfiniteWallpaper::WallpaperObject(drawTimes);
         if(temp){
             //create a new mesh
-            edk::shape::Mesh2D* mesh = temp->obj.newMesh();edkEnd();
+            edk::shape::Mesh2D* mesh = temp->obj.newMesh();
             if(mesh){
-                edk::shape::Rectangle2D rect;edkEnd();
-                rect.setPivoToCenter();edkEnd();
-                mesh->addPolygon(rect);edkEnd();
+                edk::shape::Rectangle2D rect;
+                rect.setPivoToCenter();
+                mesh->addPolygon(rect);
                 if(mesh->material.loadTextureFromMemory(name,image,size,0u,filter)){
                     //add the temp in to the stack
-                    edk::uint32 size = this->stack.size();edkEnd();
-                    this->stack.pushBack(temp);edkEnd();
+                    edk::uint32 size = this->stack.size();
+                    this->stack.pushBack(temp);
                     if(size < this->stack.size()){
-                        temp->obj.size=this->size;edkEnd();
+                        temp->obj.size=this->size;
                         return true;
                     }
                 }
-                temp->obj.cleanMeshes();edkEnd();
+                temp->obj.cleanMeshes();
             }
-            delete temp;edkEnd();
+            delete temp;
         }
     }
     return false;
 }
 bool edk::InfiniteWallpaper::newWallpaperFromMemory(const edk::char8* name,edk::uint8* image,edk::uint32 size,edk::uint32 drawTimes,edk::uint32 filter){
-    return this->newWallpaperFromMemory((edk::char8*) name,image,size,drawTimes,filter);edkEnd();
+    return this->newWallpaperFromMemory((edk::char8*) name,image,size,drawTimes,filter);
 }
 bool edk::InfiniteWallpaper::newWallpaperFromPack(edk::pack::FilePackage* pack,edk::char8* name,edk::uint32 drawTimes,edk::uint32 filter){
     if(name){
-        edk::InfiniteWallpaper::WallpaperObject* temp = new edk::InfiniteWallpaper::WallpaperObject(drawTimes);edkEnd();
+        edk::InfiniteWallpaper::WallpaperObject* temp = new edk::InfiniteWallpaper::WallpaperObject(drawTimes);
         if(temp){
             //create a new mesh
-            edk::shape::Mesh2D* mesh = temp->obj.newMesh();edkEnd();
+            edk::shape::Mesh2D* mesh = temp->obj.newMesh();
             if(mesh){
-                edk::shape::Rectangle2D rect;edkEnd();
-                rect.setPivoToCenter();edkEnd();
-                mesh->addPolygon(rect);edkEnd();
+                edk::shape::Rectangle2D rect;
+                rect.setPivoToCenter();
+                mesh->addPolygon(rect);
                 if(mesh->material.loadTextureFromPack(pack,name,0u,filter)){
                     //add the temp in to the stack
-                    edk::uint32 size = this->stack.size();edkEnd();
-                    this->stack.pushBack(temp);edkEnd();
+                    edk::uint32 size = this->stack.size();
+                    this->stack.pushBack(temp);
                     if(size < this->stack.size()){
-                        temp->obj.size=this->size;edkEnd();
+                        temp->obj.size=this->size;
                         return true;
                     }
                 }
-                temp->obj.cleanMeshes();edkEnd();
+                temp->obj.cleanMeshes();
             }
-            delete temp;edkEnd();
+            delete temp;
         }
     }
     return false;
 }
 bool edk::InfiniteWallpaper::newWallpaperFromPack(edk::pack::FilePackage* pack,const edk::char8* name,edk::uint32 drawTimes,edk::uint32 filter){
-    return this->newWallpaperFromPack(pack,(edk::char8*) name,drawTimes,filter);edkEnd();
+    return this->newWallpaperFromPack(pack,(edk::char8*) name,drawTimes,filter);
 }
 //clone a wallpaper from an object
 bool edk::InfiniteWallpaper::newWallpaperFromObject2D(edk::Object2D* obj,edk::uint32 drawTimes){
     if(obj){
         //create a new object
-        edk::InfiniteWallpaper::WallpaperObject* temp = new edk::InfiniteWallpaper::WallpaperObject(drawTimes);edkEnd();
+        edk::InfiniteWallpaper::WallpaperObject* temp = new edk::InfiniteWallpaper::WallpaperObject(drawTimes);
         if(temp){
             //clone the temp from object
             if(temp->obj.cloneFrom(obj)){
                 //push back the object
-                edk::uint32 size = this->stack.size();edkEnd();
-                this->stack.pushBack(temp);edkEnd();
+                edk::uint32 size = this->stack.size();
+                this->stack.pushBack(temp);
                 if(size < this->stack.size()){
-                    temp->obj.size=this->size;edkEnd();
+                    temp->obj.size=this->size;
                     return true;
                 }
             }
-            delete temp;edkEnd();
+            delete temp;
         }
     }
     return false;
@@ -181,36 +183,36 @@ bool edk::InfiniteWallpaper::newWallpaperFromObject2D(edk::Object2D* obj,edk::ui
 
 //set the speed of the wallpaper
 void edk::InfiniteWallpaper::setSpeed(edk::vec2f32 speed){
-    this->speed = speed;edkEnd();
+    this->speed = speed;
 }
 void edk::InfiniteWallpaper::setSpeed(edk::float32 x,edk::float32 y){
-    return this->setSpeed(edk::vec2f32(x,y));edkEnd();
+    return this->setSpeed(edk::vec2f32(x,y));
 }
 void edk::InfiniteWallpaper::setSpeedX(edk::float32 speedX){
-    this->speed.x = speedX;edkEnd();
+    this->speed.x = speedX;
 }
 void edk::InfiniteWallpaper::setSpeedY(edk::float32 speedY){
-    this->speed.y = speedY;edkEnd();
+    this->speed.y = speedY;
 }
 
 //set the sizeLimit
 void edk::InfiniteWallpaper::setLimit(edk::size2ui32 size){
-    this->sizeLimit=size;edkEnd();
+    this->sizeLimit=size;
 }
 void edk::InfiniteWallpaper::setLimitWidth(edk::uint32 width){
-    this->sizeLimit.width = width;edkEnd();
+    this->sizeLimit.width = width;
 }
 void edk::InfiniteWallpaper::setLimitHeight(edk::uint32 height){
-    this->sizeLimit.height = height;edkEnd();
+    this->sizeLimit.height = height;
 }
 void edk::InfiniteWallpaper::cleanLimit(){
-    this->sizeLimit=0u;edkEnd();
+    this->sizeLimit=0u;
 }
 void edk::InfiniteWallpaper::cleanLimitWidth(){
-    this->sizeLimit.width = 0u;edkEnd();
+    this->sizeLimit.width = 0u;
 }
 void edk::InfiniteWallpaper::cleanLimitHeight(){
-    this->sizeLimit.height = 0u;edkEnd();
+    this->sizeLimit.height = 0u;
 }
 
 #if defined(EDK_INFITINE_WALLPAPER_DEBUG_ON)
@@ -218,81 +220,81 @@ edk::uint32 counter=0u;
 #endif
 void edk::InfiniteWallpaper::update(edk::float32 runMove,edk::float32 seconds){
     if(seconds<0.f){
-        seconds*=-1.f;edkEnd();
+        seconds*=-1.f;
     }
     //update the size
     if(this->saveSize!=this->size){
-        this->changeSize();edkEnd();
+        this->changeSize();
     }
     //
-    this->translate.x+=this->speed.x*runMove * seconds;edkEnd();
-    this->translate.y+=this->speed.y*runMove * seconds *-1;edkEnd();
+    this->translate.x+=this->speed.x*runMove * seconds;
+    this->translate.y+=this->speed.y*runMove * seconds *-1;
 
-    bool changeXNegative;edkEnd();
-    bool changeXPositive;edkEnd();
-    bool changeYNegative;edkEnd();
-    bool changeYPositive;edkEnd();
+    bool changeXNegative;
+    bool changeXPositive;
+    bool changeYNegative;
+    bool changeYPositive;
 
     do{
-        changeXNegative=false;edkEnd();
-        changeXPositive=false;edkEnd();
-        changeYNegative=false;edkEnd();
-        changeYPositive=false;edkEnd();
+        changeXNegative=false;
+        changeXPositive=false;
+        changeYNegative=false;
+        changeYPositive=false;
         //test if the translate is bigger then the size
         if(this->translate.x > this->size.width){
             if(this->matrix.width()==1u){
-                this->translate.x = this->size.width;edkEnd();
+                this->translate.x = this->size.width;
             }
             else{
-                this->translate.x -= this->size.width;edkEnd();
+                this->translate.x -= this->size.width;
                 //change the matrix in X
 #if defined(EDK_INFITINE_WALLPAPER_DEBUG_ON)
-                printf("\n\n%u",counter++);edkEnd();
+                printf("\n\n%u",counter++);
 #endif
-                changeXPositive=true;edkEnd();
+                changeXPositive=true;
             }
         }
         if(this->matrix.width()==1u){
             if(this->translate.x < 0.f){
-                this->translate.x = 0.f;edkEnd();
+                this->translate.x = 0.f;
             }
         }
         else{
             if(this->translate.x < this->size.width*-1.f){
-                this->translate.x += this->size.width;edkEnd();
+                this->translate.x += this->size.width;
                 //change the matrix
 #if defined(EDK_INFITINE_WALLPAPER_DEBUG_ON)
-                printf("\n\n%u",counter++);edkEnd();
+                printf("\n\n%u",counter++);
 #endif
-                changeXNegative=true;edkEnd();
+                changeXNegative=true;
             }
         }
         if(this->translate.y > this->size.height){
             if(this->matrix.height()==1u){
-                this->translate.y = this->size.height;edkEnd();
+                this->translate.y = this->size.height;
             }
             else{
-                this->translate.y -= this->size.height;edkEnd();
+                this->translate.y -= this->size.height;
                 //change the matrix
 #if defined(EDK_INFITINE_WALLPAPER_DEBUG_ON)
-                printf("\n\n%u",counter++);edkEnd();
+                printf("\n\n%u",counter++);
 #endif
-                changeYPositive=true;edkEnd();
+                changeYPositive=true;
             }
         }
         if(this->matrix.height()==1u){
             if(this->translate.y < 0.f){
-                this->translate.y = 0.f;edkEnd();
+                this->translate.y = 0.f;
             }
         }
         else{
             if(this->translate.y < this->size.height*-1.f){
-                this->translate.y += this->size.height;edkEnd();
+                this->translate.y += this->size.height;
                 //change the matrix
 #if defined(EDK_INFITINE_WALLPAPER_DEBUG_ON)
-                printf("\n\n%u",counter++);edkEnd();
+                printf("\n\n%u",counter++);
 #endif
-                changeYNegative=true;edkEnd();
+                changeYNegative=true;
             }
         }
 
@@ -307,51 +309,51 @@ void edk::InfiniteWallpaper::update(edk::float32 runMove,edk::float32 seconds){
             else{
                 //just X Positive
                 if(this->matrix.haveMatrix() && this->stack.size()){
-                    edk::size2ui32 size = this->matrix.size();edkEnd();
-                    edk::InfiniteWallpaper::WallpaperObject* temp = NULL;edkEnd();
-                    edk::uint32 position;edkEnd();
-                    edk::uint32 savePosition;edkEnd();
-                    bool runIncreDecre=false;edkEnd();
+                    edk::size2ui32 size = this->matrix.size();
+                    edk::InfiniteWallpaper::WallpaperObject* temp = NULL;
+                    edk::uint32 position;
+                    edk::uint32 savePosition;
+                    bool runIncreDecre=false;
 
                     if(size.width){
                         for(edk::uint32 y=0u;y<size.height;y++){
-                            position = this->matrix.get(size.width-1u,y);edkEnd();
+                            position = this->matrix.get(size.width-1u,y);
 #if defined(EDK_INFITINE_WALLPAPER_DEBUG_ON)
-                            printf("\n%u %s %s this->matrix.remove((size.width[%u]-1u)[%u],y[%u])[%u];edkEnd();",__LINE__,__FILE__,__func__
+                            printf("\n%u %s %s this->matrix.remove((size.width[%u]-1u)[%u],y[%u])[%u]; ",__LINE__,__FILE__,__func__
                                    ,size.width
                                    ,size.width-1u
                                    ,y
                                    ,position
-                                   );edkEnd();
+                                   );
 #endif
-                            temp = this->stack.get(position);edkEnd();
+                            temp = this->stack.get(position);
                             if(temp){
                                 //
                                 if(temp->getDrawTimes()){
 #if defined(EDK_INFITINE_WALLPAPER_DEBUG_ON)
-                                    printf("\n%u %s %s",__LINE__,__FILE__,__func__);edkEnd();
+                                    printf("\n%u %s %s",__LINE__,__FILE__,__func__);
 #endif
-                                    temp->incrementDraw();edkEnd();
-                                    temp->haveRemoved=false;edkEnd();
+                                    temp->incrementDraw();
+                                    temp->haveRemoved=false;
                                 }
                             }
 
 
                             //test with the neighbours
                             if(size.width>1u){
-                                savePosition = this->matrix.get(size.width-2u,y);edkEnd();
+                                savePosition = this->matrix.get(size.width-2u,y);
                                 if(savePosition<position){
                                     for(edk::uint32 i = position-1u;i>savePosition;i--){
-                                        temp = this->stack.get(i);edkEnd();
+                                        temp = this->stack.get(i);
                                         if(temp){
                                             //
                                             if(temp->getDrawTimes()){
                                                 if(temp->canDraw()){
 #if defined(EDK_INFITINE_WALLPAPER_DEBUG_ON)
-                                                    printf("\n%u %s %s",__LINE__,__FILE__,__func__);edkEnd();
+                                                    printf("\n%u %s %s",__LINE__,__FILE__,__func__);
 #endif
-                                                    temp->incrementDraw();edkEnd();
-                                                    temp->haveRemoved=false;edkEnd();
+                                                    temp->incrementDraw();
+                                                    temp->haveRemoved=false;
                                                 }
                                                 else{
                                                     break;
@@ -362,19 +364,19 @@ void edk::InfiniteWallpaper::update(edk::float32 runMove,edk::float32 seconds){
                                 }
                                 else{
                                     for(edk::uint32 i = position;i>0u;i--){
-                                        temp = this->stack.get(i-1u);edkEnd();
+                                        temp = this->stack.get(i-1u);
                                         if(temp){
                                             //
                                             if(temp->getDrawTimes()){
                                                 if(!temp->canDraw()){
 #if defined(EDK_INFITINE_WALLPAPER_DEBUG_ON)
-                                                    printf("\n%u %s %s",__LINE__,__FILE__,__func__);edkEnd();
+                                                    printf("\n%u %s %s",__LINE__,__FILE__,__func__);
 #endif
-                                                    temp->incrementDraw();edkEnd();
-                                                    temp->haveRemoved=false;edkEnd();
+                                                    temp->incrementDraw();
+                                                    temp->haveRemoved=false;
                                                 }
                                                 else{
-                                                    runIncreDecre=true;edkEnd();
+                                                    runIncreDecre=true;
                                                     break;
                                                 }
                                             }
@@ -382,16 +384,16 @@ void edk::InfiniteWallpaper::update(edk::float32 runMove,edk::float32 seconds){
                                     }
                                     if(!runIncreDecre){
                                         for(edk::uint32 i = this->stack.size()-1u;i>savePosition;i--){
-                                            temp = this->stack.get(i);edkEnd();
+                                            temp = this->stack.get(i);
                                             if(temp){
                                                 //
                                                 if(temp->getDrawTimes()){
                                                     if(!temp->canDraw()){
 #if defined(EDK_INFITINE_WALLPAPER_DEBUG_ON)
-                                                        printf("\n%u %s %s",__LINE__,__FILE__,__func__);edkEnd();
+                                                        printf("\n%u %s %s",__LINE__,__FILE__,__func__);
 #endif
-                                                        temp->incrementDraw();edkEnd();
-                                                        temp->haveRemoved=false;edkEnd();
+                                                        temp->incrementDraw();
+                                                        temp->haveRemoved=false;
                                                     }
                                                     else{
                                                         break;
@@ -400,7 +402,7 @@ void edk::InfiniteWallpaper::update(edk::float32 runMove,edk::float32 seconds){
                                             }
                                         }
                                     }
-                                    runIncreDecre=false;edkEnd();
+                                    runIncreDecre=false;
                                 }
 
                             }
@@ -409,42 +411,42 @@ void edk::InfiniteWallpaper::update(edk::float32 runMove,edk::float32 seconds){
 
                     for(edk::uint32 x=size.width;x>0u;x--){
                         for(edk::uint32 y=0u;y<size.height;y++){
-                            this->matrix.set(x-1u,y,this->matrix.get(x-2u,y));edkEnd();
+                            this->matrix.set(x-1u,y,this->matrix.get(x-2u,y));
                         }
                     }
                     //in the end it fill the first matrix values
                     for(edk::uint32 y=0u;y<size.height;y++){
-                        position = this->matrix.get(1u,y);edkEnd();
+                        position = this->matrix.get(1u,y);
                         if(position==0u){
-                            position = this->stack.size()-1u;edkEnd();
+                            position = this->stack.size()-1u;
                         }
                         else{
-                            position--;edkEnd();
+                            position--;
                         }
-                        savePosition = position;edkEnd();
+                        savePosition = position;
                         for(;;){
-                            temp = this->stack.get(position);edkEnd();
+                            temp = this->stack.get(position);
 #if defined(EDK_INFITINE_WALLPAPER_DEBUG_ON)
                             printf("\n%u %s %s try([%u])'%s'",__LINE__,__FILE__,__func__
                                    ,position
                                    ,temp?"true":"false"
-                                         );edkEnd();
+                                         );
 #endif
                             if(temp){
                                 if(temp->getDrawTimes()){
                                     if(temp->isMinusDraw()){
 #if defined(EDK_INFITINE_WALLPAPER_DEBUG_ON)
-                                        printf("\n%u %s %s",__LINE__,__FILE__,__func__);edkEnd();
+                                        printf("\n%u %s %s",__LINE__,__FILE__,__func__);
 #endif
-                                        temp->incrementDraw();edkEnd();
-                                        runIncreDecre=true;edkEnd();
+                                        temp->incrementDraw();
+                                        runIncreDecre=true;
                                     }
                                 }
                                 //test if can draw
                                 if(temp->canDraw()){
                                     if(!temp->haveRemoved){
                                         if(temp->getDrawTimes()){
-                                            //temp->incrementDraw();edkEnd();
+                                            //temp->incrementDraw();
                                         }
                                     }
                                     break;
@@ -454,34 +456,34 @@ void edk::InfiniteWallpaper::update(edk::float32 runMove,edk::float32 seconds){
                                         if(temp->getDrawTimes()){
                                             if(!runIncreDecre){
 #if defined(EDK_INFITINE_WALLPAPER_DEBUG_ON)
-                                                printf("\n%u %s %s",__LINE__,__FILE__,__func__);edkEnd();
+                                                printf("\n%u %s %s",__LINE__,__FILE__,__func__);
 #endif
-                                                temp->incrementDraw();edkEnd();
+                                                temp->incrementDraw();
                                             }
                                         }
                                     }
                                 }
-                                temp->haveRemoved=false;edkEnd();
-                                runIncreDecre=false;edkEnd();
+                                temp->haveRemoved=false;
+                                runIncreDecre=false;
                             }
                             if(position==0u){
-                                position = this->stack.size()-1u;edkEnd();
+                                position = this->stack.size()-1u;
                             }
                             else{
-                                position--;edkEnd();
+                                position--;
                             }
                             if(position==savePosition){
                                 break;
                             }
                         }
 #if defined(EDK_INFITINE_WALLPAPER_DEBUG_ON)
-                        printf("\n%u %s %s this->matrix.set(0[%u],y[%u],position[%u]);edkEnd();",__LINE__,__FILE__,__func__
+                        printf("\n%u %s %s this->matrix.set(0[%u],y[%u],position[%u]); ",__LINE__,__FILE__,__func__
                                ,0
                                ,y
                                ,position
-                               );edkEnd();
+                               );
 #endif
-                        this->matrix.set(0u,y,position);edkEnd();
+                        this->matrix.set(0u,y,position);
                     }
                 }
             }
@@ -496,49 +498,49 @@ void edk::InfiniteWallpaper::update(edk::float32 runMove,edk::float32 seconds){
             else{
                 //just X Negative
                 if(this->matrix.haveMatrix() && this->stack.size()){
-                    edk::size2ui32 size = this->matrix.size();edkEnd();
+                    edk::size2ui32 size = this->matrix.size();
                     if(size.width>1u){
-                        edk::uint32 position;edkEnd();
-                        edk::uint32 savePosition;edkEnd();
-                        bool runIncreDecre=false;edkEnd();
-                        edk::InfiniteWallpaper::WallpaperObject* temp = NULL;edkEnd();
+                        edk::uint32 position;
+                        edk::uint32 savePosition;
+                        bool runIncreDecre=false;
+                        edk::InfiniteWallpaper::WallpaperObject* temp = NULL;
 
                         for(edk::uint32 y=0u;y<size.height;y++){
-                            position = this->matrix.get(0u,y);edkEnd();
+                            position = this->matrix.get(0u,y);
 #if defined(EDK_INFITINE_WALLPAPER_DEBUG_ON)
-                            printf("\n%u %s %s this->matrix.remove(0u[%u],y[%u])[%u];edkEnd();",__LINE__,__FILE__,__func__
+                            printf("\n%u %s %s this->matrix.remove(0u[%u],y[%u])[%u]; ",__LINE__,__FILE__,__func__
                                    ,0u
                                    ,y
                                    ,position
-                                   );edkEnd();
+                                   );
 #endif
-                            temp = this->stack.get(position);edkEnd();
+                            temp = this->stack.get(position);
                             if(temp){
                                 //decrement the draw from TEMP
                                 if(temp->getDrawTimes()){
 #if defined(EDK_INFITINE_WALLPAPER_DEBUG_ON)
-                                    printf("\n%u %s %s",__LINE__,__FILE__,__func__);edkEnd();
+                                    printf("\n%u %s %s",__LINE__,__FILE__,__func__);
 #endif
-                                    temp->decrementDraw();edkEnd();
-                                    temp->haveRemoved=false;edkEnd();
+                                    temp->decrementDraw();
+                                    temp->haveRemoved=false;
                                 }
                             }
 
 
                             //test with the neighbours
-                            savePosition = this->matrix.get(1u,y);edkEnd();
+                            savePosition = this->matrix.get(1u,y);
                             if(savePosition>position){
                                 for(edk::uint32 i = position+1u;i<savePosition;i++){
-                                    temp = this->stack.get(i);edkEnd();
+                                    temp = this->stack.get(i);
                                     if(temp){
                                         //
                                         if(temp->getDrawTimes()){
                                             if(temp->canDraw()){
 #if defined(EDK_INFITINE_WALLPAPER_DEBUG_ON)
-                                                printf("\n%u %s %s",__LINE__,__FILE__,__func__);edkEnd();
+                                                printf("\n%u %s %s",__LINE__,__FILE__,__func__);
 #endif
-                                                temp->decrementDraw();edkEnd();
-                                                temp->haveRemoved=false;edkEnd();
+                                                temp->decrementDraw();
+                                                temp->haveRemoved=false;
                                             }
                                             else{
                                                 break;
@@ -549,19 +551,19 @@ void edk::InfiniteWallpaper::update(edk::float32 runMove,edk::float32 seconds){
                             }
                             else{
                                 for(edk::uint32 i = position+1u;i<this->stack.size();i++){
-                                    temp = this->stack.get(i);edkEnd();
+                                    temp = this->stack.get(i);
                                     if(temp){
                                         //
                                         if(temp->getDrawTimes()){
                                             if(!temp->canDraw()){
 #if defined(EDK_INFITINE_WALLPAPER_DEBUG_ON)
-                                                printf("\n%u %s %s",__LINE__,__FILE__,__func__);edkEnd();
+                                                printf("\n%u %s %s",__LINE__,__FILE__,__func__);
 #endif
-                                                temp->decrementDraw();edkEnd();
-                                                temp->haveRemoved=false;edkEnd();
+                                                temp->decrementDraw();
+                                                temp->haveRemoved=false;
                                             }
                                             else{
-                                                runIncreDecre=true;edkEnd();
+                                                runIncreDecre=true;
                                                 break;
                                             }
                                         }
@@ -569,16 +571,16 @@ void edk::InfiniteWallpaper::update(edk::float32 runMove,edk::float32 seconds){
                                 }
                                 if(!runIncreDecre){
                                     for(edk::uint32 i = 0u;i<savePosition;i++){
-                                        temp = this->stack.get(i);edkEnd();
+                                        temp = this->stack.get(i);
                                         if(temp){
                                             //
                                             if(temp->getDrawTimes()){
                                                 if(!temp->canDraw()){
 #if defined(EDK_INFITINE_WALLPAPER_DEBUG_ON)
-                                                    printf("\n%u %s %s",__LINE__,__FILE__,__func__);edkEnd();
+                                                    printf("\n%u %s %s",__LINE__,__FILE__,__func__);
 #endif
-                                                    temp->decrementDraw();edkEnd();
-                                                    temp->haveRemoved=false;edkEnd();
+                                                    temp->decrementDraw();
+                                                    temp->haveRemoved=false;
                                                 }
                                                 else{
                                                     break;
@@ -587,47 +589,47 @@ void edk::InfiniteWallpaper::update(edk::float32 runMove,edk::float32 seconds){
                                         }
                                     }
                                 }
-                                runIncreDecre=false;edkEnd();
+                                runIncreDecre=false;
                             }
 
                         }
 
-                        size.width--;edkEnd();
+                        size.width--;
                         for(edk::uint32 x=0;x<size.width;x++){
                             for(edk::uint32 y=0u;y<size.height;y++){
-                                this->matrix.set(x,y,this->matrix.get(x+1u,y));edkEnd();
+                                this->matrix.set(x,y,this->matrix.get(x+1u,y));
                             }
                         }
                         //in the end it fill the first matrix values
                         for(edk::uint32 y=0u;y<size.height;y++){
-                            position = this->matrix.get(size.width-1u,y) + 1u;edkEnd();
+                            position = this->matrix.get(size.width-1u,y) + 1u;
                             if(this->stack.size()<=position){
-                                position=0u;edkEnd();
+                                position=0u;
                             }
-                            savePosition = position;edkEnd();
+                            savePosition = position;
                             for(;;){
-                                temp = this->stack.get(position);edkEnd();
+                                temp = this->stack.get(position);
 #if defined(EDK_INFITINE_WALLPAPER_DEBUG_ON)
                                 printf("\n%u %s %s try([%u])'%s'",__LINE__,__FILE__,__func__
                                        ,position
                                        ,temp?"true":"false"
-                                             );edkEnd();
+                                             );
 #endif
                                 if(temp){
                                     if(temp->getDrawTimes()){
                                         if(!temp->isMinusDraw()){
 #if defined(EDK_INFITINE_WALLPAPER_DEBUG_ON)
-                                            printf("\n%u %s %s",__LINE__,__FILE__,__func__);edkEnd();
+                                            printf("\n%u %s %s",__LINE__,__FILE__,__func__);
 #endif
-                                            temp->decrementDraw();edkEnd();
-                                            runIncreDecre=true;edkEnd();
+                                            temp->decrementDraw();
+                                            runIncreDecre=true;
                                         }
                                     }
                                     //test if can draw
                                     if(temp->canDraw()){
                                         if(!temp->haveRemoved){
                                             if(temp->getDrawTimes()){
-                                                //temp->decrementDraw();edkEnd();
+                                                //temp->decrementDraw();
                                             }
                                         }
                                         break;
@@ -637,32 +639,32 @@ void edk::InfiniteWallpaper::update(edk::float32 runMove,edk::float32 seconds){
                                             if(temp->getDrawTimes()){
                                                 if(!runIncreDecre){
 #if defined(EDK_INFITINE_WALLPAPER_DEBUG_ON)
-                                                    printf("\n%u %s %s",__LINE__,__FILE__,__func__);edkEnd();
+                                                    printf("\n%u %s %s",__LINE__,__FILE__,__func__);
 #endif
-                                                    temp->decrementDraw();edkEnd();
+                                                    temp->decrementDraw();
                                                 }
                                             }
                                         }
                                     }
-                                    temp->haveRemoved=false;edkEnd();
-                                    runIncreDecre=false;edkEnd();
+                                    temp->haveRemoved=false;
+                                    runIncreDecre=false;
                                 }
-                                position++;edkEnd();
+                                position++;
                                 if(this->stack.size()<=position){
-                                    position=0u;edkEnd();
+                                    position=0u;
                                 }
                                 if(position==savePosition){
                                     break;
                                 }
                             }
 #if defined(EDK_INFITINE_WALLPAPER_DEBUG_ON)
-                            printf("\n%u %s %s this->matrix.set(size.width[%u],y[%u],position[%u]);edkEnd();",__LINE__,__FILE__,__func__
+                            printf("\n%u %s %s this->matrix.set(size.width[%u],y[%u],position[%u]); ",__LINE__,__FILE__,__func__
                                    ,size.width
                                    ,y
                                    ,position
-                                   );edkEnd();
+                                   );
 #endif
-                            this->matrix.set(size.width,y,position);edkEnd();
+                            this->matrix.set(size.width,y,position);
                         }
                     }
                 }
@@ -671,42 +673,42 @@ void edk::InfiniteWallpaper::update(edk::float32 runMove,edk::float32 seconds){
         else if(changeYPositive){
             //just Y Positive
             if(this->matrix.haveMatrix() && this->stack.size()){
-                edk::size2ui32 size = this->matrix.size();edkEnd();
-                edk::InfiniteWallpaper::WallpaperObject* temp = NULL;edkEnd();
-                edk::uint32 position;edkEnd();
-                edk::uint32 savePosition;edkEnd();
-                bool runIncreDecre=false;edkEnd();
+                edk::size2ui32 size = this->matrix.size();
+                edk::InfiniteWallpaper::WallpaperObject* temp = NULL;
+                edk::uint32 position;
+                edk::uint32 savePosition;
+                bool runIncreDecre=false;
 
                 for(edk::uint32 x=0u;x<size.width;x++){
-                    position = this->matrix.get(x,size.height-1u);edkEnd();
-                    temp = this->stack.get(position);edkEnd();
+                    position = this->matrix.get(x,size.height-1u);
+                    temp = this->stack.get(position);
                     if(temp){
                         //decrement the draw from TEMP
                         if(temp->getDrawTimes()){
 #if defined(EDK_INFITINE_WALLPAPER_DEBUG_ON)
-                            printf("\n%u %s %s",__LINE__,__FILE__,__func__);edkEnd();
+                            printf("\n%u %s %s",__LINE__,__FILE__,__func__);
 #endif
-                            temp->incrementDraw();edkEnd();
-                            temp->haveRemoved=false;edkEnd();
+                            temp->incrementDraw();
+                            temp->haveRemoved=false;
                         }
                     }
 
 
                     //test with the neighbours
                     if(size.height>1u){
-                        savePosition = this->matrix.get(x,size.height-2u);edkEnd();
+                        savePosition = this->matrix.get(x,size.height-2u);
                         if(savePosition<position){
                             for(edk::uint32 i = position-1u;i>savePosition;i--){
-                                temp = this->stack.get(i);edkEnd();
+                                temp = this->stack.get(i);
                                 if(temp){
                                     //
                                     if(temp->getDrawTimes()){
                                         if(temp->canDraw()){
 #if defined(EDK_INFITINE_WALLPAPER_DEBUG_ON)
-                                            printf("\n%u %s %s",__LINE__,__FILE__,__func__);edkEnd();
+                                            printf("\n%u %s %s",__LINE__,__FILE__,__func__);
 #endif
-                                            temp->incrementDraw();edkEnd();
-                                            temp->haveRemoved=false;edkEnd();
+                                            temp->incrementDraw();
+                                            temp->haveRemoved=false;
                                         }
                                         else{
                                             break;
@@ -717,19 +719,19 @@ void edk::InfiniteWallpaper::update(edk::float32 runMove,edk::float32 seconds){
                         }
                         else{
                             for(edk::uint32 i = position;i>0u;i--){
-                                temp = this->stack.get(i-1u);edkEnd();
+                                temp = this->stack.get(i-1u);
                                 if(temp){
                                     //
                                     if(temp->getDrawTimes()){
                                         if(!temp->canDraw()){
 #if defined(EDK_INFITINE_WALLPAPER_DEBUG_ON)
-                                            printf("\n%u %s %s",__LINE__,__FILE__,__func__);edkEnd();
+                                            printf("\n%u %s %s",__LINE__,__FILE__,__func__);
 #endif
-                                            temp->incrementDraw();edkEnd();
-                                            temp->haveRemoved=false;edkEnd();
+                                            temp->incrementDraw();
+                                            temp->haveRemoved=false;
                                         }
                                         else{
-                                            runIncreDecre=true;edkEnd();
+                                            runIncreDecre=true;
                                             break;
                                         }
                                     }
@@ -737,16 +739,16 @@ void edk::InfiniteWallpaper::update(edk::float32 runMove,edk::float32 seconds){
                             }
                             if(!runIncreDecre){
                                 for(edk::uint32 i = this->stack.size()-1u;i>savePosition;i--){
-                                    temp = this->stack.get(i);edkEnd();
+                                    temp = this->stack.get(i);
                                     if(temp){
                                         //
                                         if(temp->getDrawTimes()){
                                             if(!temp->canDraw()){
 #if defined(EDK_INFITINE_WALLPAPER_DEBUG_ON)
-                                                printf("\n%u %s %s",__LINE__,__FILE__,__func__);edkEnd();
+                                                printf("\n%u %s %s",__LINE__,__FILE__,__func__);
 #endif
-                                                temp->incrementDraw();edkEnd();
-                                                temp->haveRemoved=false;edkEnd();
+                                                temp->incrementDraw();
+                                                temp->haveRemoved=false;
                                             }
                                             else{
                                                 break;
@@ -755,7 +757,7 @@ void edk::InfiniteWallpaper::update(edk::float32 runMove,edk::float32 seconds){
                                     }
                                 }
                             }
-                            runIncreDecre=false;edkEnd();
+                            runIncreDecre=false;
                         }
 
                     }
@@ -763,36 +765,36 @@ void edk::InfiniteWallpaper::update(edk::float32 runMove,edk::float32 seconds){
 
                 for(edk::uint32 y=size.width;y>0u;y--){
                     for(edk::uint32 x=0u;x<size.width;x++){
-                        this->matrix.set(x,y-1u,this->matrix.get(x,y-2u));edkEnd();
+                        this->matrix.set(x,y-1u,this->matrix.get(x,y-2u));
                     }
                 }
                 //in the end it fill the first matrix values
                 for(edk::uint32 x=0u;x<size.width;x++){
-                    position = this->matrix.get(x,1u);edkEnd();
+                    position = this->matrix.get(x,1u);
                     if(position==0u){
-                        position = this->stack.size()-1u;edkEnd();
+                        position = this->stack.size()-1u;
                     }
                     else{
-                        position--;edkEnd();
+                        position--;
                     }
-                    savePosition = position;edkEnd();
+                    savePosition = position;
                     for(;;){
-                        temp = this->stack.get(position);edkEnd();
+                        temp = this->stack.get(position);
                         if(temp){
                             if(temp->getDrawTimes()){
                                 if(temp->isMinusDraw()){
 #if defined(EDK_INFITINE_WALLPAPER_DEBUG_ON)
-                                    printf("\n%u %s %s",__LINE__,__FILE__,__func__);edkEnd();
+                                    printf("\n%u %s %s",__LINE__,__FILE__,__func__);
 #endif
-                                    temp->incrementDraw();edkEnd();
-                                    runIncreDecre=true;edkEnd();
+                                    temp->incrementDraw();
+                                    runIncreDecre=true;
                                 }
                             }
                             //test if can draw
                             if(temp->canDraw()){
                                 if(!temp->haveRemoved){
                                     if(temp->getDrawTimes()){
-                                        //temp->incrementDraw();edkEnd();
+                                        //temp->incrementDraw();
                                     }
                                 }
                                 break;
@@ -802,69 +804,69 @@ void edk::InfiniteWallpaper::update(edk::float32 runMove,edk::float32 seconds){
                                     if(temp->getDrawTimes()){
                                         if(!runIncreDecre){
 #if defined(EDK_INFITINE_WALLPAPER_DEBUG_ON)
-                                            printf("\n%u %s %s",__LINE__,__FILE__,__func__);edkEnd();
+                                            printf("\n%u %s %s",__LINE__,__FILE__,__func__);
 #endif
-                                            temp->incrementDraw();edkEnd();
+                                            temp->incrementDraw();
                                         }
                                     }
                                 }
                             }
-                            temp->haveRemoved=false;edkEnd();
-                            runIncreDecre=false;edkEnd();
+                            temp->haveRemoved=false;
+                            runIncreDecre=false;
                         }
                         if(position==0u){
-                            position = this->stack.size()-1u;edkEnd();
+                            position = this->stack.size()-1u;
                         }
                         else{
-                            position--;edkEnd();
+                            position--;
                         }
                         if(position==savePosition){
                             break;
                         }
                     }
-                    this->matrix.set(x,0u,position);edkEnd();
+                    this->matrix.set(x,0u,position);
                 }
             }
         }
         else if(changeYNegative){
             //just Y Negative
             if(this->matrix.haveMatrix() && this->stack.size()){
-                edk::size2ui32 size = this->matrix.size();edkEnd();
+                edk::size2ui32 size = this->matrix.size();
                 if(size.height>1u){
-                    edk::uint32 position;edkEnd();
-                    edk::uint32 savePosition;edkEnd();
-                    bool runIncreDecre=false;edkEnd();
-                    edk::InfiniteWallpaper::WallpaperObject* temp = NULL;edkEnd();
+                    edk::uint32 position;
+                    edk::uint32 savePosition;
+                    bool runIncreDecre=false;
+                    edk::InfiniteWallpaper::WallpaperObject* temp = NULL;
 
                     for(edk::uint32 x=0u;x<size.width;x++){
-                        position = this->matrix.get(x,0u);edkEnd();
-                        temp = this->stack.get(position);edkEnd();
+                        position = this->matrix.get(x,0u);
+                        temp = this->stack.get(position);
                         if(temp){
                             //decrement the draw from TEMP
                             if(temp->getDrawTimes()){
 #if defined(EDK_INFITINE_WALLPAPER_DEBUG_ON)
-                                printf("\n%u %s %s",__LINE__,__FILE__,__func__);edkEnd();
+                                printf("\n%u %s %s",__LINE__,__FILE__,__func__);
 #endif
-                                temp->decrementDraw();edkEnd();
-                                temp->haveRemoved=false;edkEnd();
+                                temp->decrementDraw();
+                                temp->haveRemoved=false;
                             }
                         }
 
 
                         //test with the neighbours
-                        savePosition = this->matrix.get(x,1u);edkEnd();
+                        savePosition = this->matrix.get(x,1u);
                         if(savePosition>position){
                             for(edk::uint32 i = position+1u;i<savePosition;i++){
-                                temp = this->stack.get(i);edkEnd();
+                                temp = this->stack.get(i);
                                 if(temp){
                                     //
                                     if(temp->getDrawTimes()){
                                         if(temp->canDraw()){
 #if defined(EDK_INFITINE_WALLPAPER_DEBUG_ON)
-                                            printf("\n%u %s %s",__LINE__,__FILE__,__func__);edkEnd();
+                                            printf("\n%u %s %s",__LINE__,__FILE__,__func__);
 #endif
-                                            temp->decrementDraw();edkEnd();
-                                            temp->haveRemoved=false;edkEnd();
+                                            temp->decrementDraw();
+                                            temp->haveRemoved=false;
                                         }
                                         else{
                                             break;
@@ -875,19 +877,19 @@ void edk::InfiniteWallpaper::update(edk::float32 runMove,edk::float32 seconds){
                         }
                         else{
                             for(edk::uint32 i = position+1u;i<this->stack.size();i++){
-                                temp = this->stack.get(i);edkEnd();
+                                temp = this->stack.get(i);
                                 if(temp){
                                     //
                                     if(temp->getDrawTimes()){
                                         if(!temp->canDraw()){
 #if defined(EDK_INFITINE_WALLPAPER_DEBUG_ON)
-                                            printf("\n%u %s %s",__LINE__,__FILE__,__func__);edkEnd();
+                                            printf("\n%u %s %s",__LINE__,__FILE__,__func__);
 #endif
-                                            temp->decrementDraw();edkEnd();
-                                            temp->haveRemoved=false;edkEnd();
+                                            temp->decrementDraw();
+                                            temp->haveRemoved=false;
                                         }
                                         else{
-                                            runIncreDecre=true;edkEnd();
+                                            runIncreDecre=true;
                                             break;
                                         }
                                     }
@@ -895,16 +897,16 @@ void edk::InfiniteWallpaper::update(edk::float32 runMove,edk::float32 seconds){
                             }
                             if(!runIncreDecre){
                                 for(edk::uint32 i = 0u;i<savePosition;i++){
-                                    temp = this->stack.get(i);edkEnd();
+                                    temp = this->stack.get(i);
                                     if(temp){
                                         //
                                         if(temp->getDrawTimes()){
                                             if(!temp->canDraw()){
 #if defined(EDK_INFITINE_WALLPAPER_DEBUG_ON)
-                                                printf("\n%u %s %s",__LINE__,__FILE__,__func__);edkEnd();
+                                                printf("\n%u %s %s",__LINE__,__FILE__,__func__);
 #endif
-                                                temp->decrementDraw();edkEnd();
-                                                temp->haveRemoved=false;edkEnd();
+                                                temp->decrementDraw();
+                                                temp->haveRemoved=false;
                                             }
                                             else{
                                                 break;
@@ -913,41 +915,41 @@ void edk::InfiniteWallpaper::update(edk::float32 runMove,edk::float32 seconds){
                                     }
                                 }
                             }
-                            runIncreDecre=false;edkEnd();
+                            runIncreDecre=false;
                         }
 
                     }
 
-                    size.height--;edkEnd();
+                    size.height--;
                     for(edk::uint32 y=0;y<size.height;y++){
                         for(edk::uint32 x=0u;x<size.width;x++){
-                            this->matrix.set(x,y,this->matrix.get(x,y+1u));edkEnd();
+                            this->matrix.set(x,y,this->matrix.get(x,y+1u));
                         }
                     }
                     //in the end it fill the first matrix values
                     for(edk::uint32 x=0u;x<size.width;x++){
-                        position = this->matrix.get(x,size.height-1u) + 1u;edkEnd();
+                        position = this->matrix.get(x,size.height-1u) + 1u;
                         if(this->stack.size()<=position){
-                            position=0u;edkEnd();
+                            position=0u;
                         }
-                        savePosition = position;edkEnd();
+                        savePosition = position;
                         for(;;){
-                            temp = this->stack.get(position);edkEnd();
+                            temp = this->stack.get(position);
                             if(temp){
                                 if(temp->getDrawTimes()){
                                     if(!temp->isMinusDraw()){
 #if defined(EDK_INFITINE_WALLPAPER_DEBUG_ON)
-                                        printf("\n%u %s %s",__LINE__,__FILE__,__func__);edkEnd();
+                                        printf("\n%u %s %s",__LINE__,__FILE__,__func__);
 #endif
-                                        temp->decrementDraw();edkEnd();
-                                        runIncreDecre=true;edkEnd();
+                                        temp->decrementDraw();
+                                        runIncreDecre=true;
                                     }
                                 }
                                 //test if can draw
                                 if(temp->canDraw()){
                                     if(!temp->haveRemoved){
                                         if(temp->getDrawTimes()){
-                                            //temp->decrementDraw();edkEnd();
+                                            //temp->decrementDraw();
                                         }
                                     }
                                     break;
@@ -957,25 +959,25 @@ void edk::InfiniteWallpaper::update(edk::float32 runMove,edk::float32 seconds){
                                         if(temp->getDrawTimes()){
                                             if(!runIncreDecre){
 #if defined(EDK_INFITINE_WALLPAPER_DEBUG_ON)
-                                                printf("\n%u %s %s",__LINE__,__FILE__,__func__);edkEnd();
+                                                printf("\n%u %s %s",__LINE__,__FILE__,__func__);
 #endif
-                                                temp->decrementDraw();edkEnd();
+                                                temp->decrementDraw();
                                             }
                                         }
                                     }
                                 }
-                                temp->haveRemoved=false;edkEnd();
-                                runIncreDecre=false;edkEnd();
+                                temp->haveRemoved=false;
+                                runIncreDecre=false;
                             }
-                            position++;edkEnd();
+                            position++;
                             if(this->stack.size()<=position){
-                                position=0u;edkEnd();
+                                position=0u;
                             }
                             if(position==savePosition){
                                 break;
                             }
                         }
-                        this->matrix.set(x,size.height,position);edkEnd();
+                        this->matrix.set(x,size.height,position);
                     }
                 }
             }
@@ -984,25 +986,25 @@ void edk::InfiniteWallpaper::update(edk::float32 runMove,edk::float32 seconds){
            changeXPositive||
            changeYNegative||
            changeYPositive
-           );edkEnd();
+           );
 }
 void edk::InfiniteWallpaper::update(edk::float32 runMove){
-    this->update(runMove,this->clock.getSeconds());edkEnd();
-    this->clock.start();edkEnd();
+    this->update(runMove,this->clock.getSeconds());
+    this->clock.start();
 }
 void edk::InfiniteWallpaper::update(edk::vec2f32 runMove,edk::float32 seconds){
     //save the speed
-    edk::vec2f32 speed = this->speed;edkEnd();
+    edk::vec2f32 speed = this->speed;
     //update the speed
-    this->speed = runMove;edkEnd();
+    this->speed = runMove;
     //run the update
-    this->update(1.f,seconds);edkEnd();
+    this->update(1.f,seconds);
     //paste the speed
-    this->speed = speed;edkEnd();
+    this->speed = speed;
 }
 void edk::InfiniteWallpaper::update(edk::vec2f32 runMove){
-    this->update(runMove,this->clock.getSeconds());edkEnd();
-    this->clock.start();edkEnd();
+    this->update(runMove,this->clock.getSeconds());
+    this->clock.start();
 }
 
 //draw the wallpaper
@@ -1010,26 +1012,26 @@ void edk::InfiniteWallpaper::drawInsideRect(edk::rectf32 rect){
     //
     edk::vec2i32 lenght = edk::vec2i32((edk::int32)(rect.size.width / this->size.width),
                                        (edk::int32)(rect.size.height / this->size.height)
-                                       ) + 1;edkEnd();
-    edk::vec2i32 lenghtDouble;edkEnd();
+                                       ) + 1;
+    edk::vec2i32 lenghtDouble;
     if(lenght.x<0){
-        lenght.x*=-1;edkEnd();}
+        lenght.x*=-1; }
 
     if(lenght.y<0){
-        lenght.y*=-1;edkEnd();
+        lenght.y*=-1;
     }
 
-    lenghtDouble = lenght +2;edkEnd();
+    lenghtDouble = lenght +2;
 
     //test if lenght is bigger than the sizeLimit
     if(this->sizeLimit.width != 0u){
         //test the X
         if(lenghtDouble.x > (edk::int32)this->sizeLimit.width){
             //
-            lenghtDouble.x = (edk::int32)this->sizeLimit.width;edkEnd();
-            lenght.x = lenghtDouble.x/2u;edkEnd();
+            lenghtDouble.x = (edk::int32)this->sizeLimit.width;
+            lenght.x = lenghtDouble.x/2u;
             if(!lenght.x){
-                lenght.x=1;edkEnd();
+                lenght.x=1;
             }
         }
     }
@@ -1037,10 +1039,10 @@ void edk::InfiniteWallpaper::drawInsideRect(edk::rectf32 rect){
         //test the Y
         if(lenghtDouble.y > (edk::int32)this->sizeLimit.height){
             //
-            lenghtDouble.y = (edk::int32)this->sizeLimit.height;edkEnd();
-            lenght.y = lenghtDouble.y/2u;edkEnd();
+            lenghtDouble.y = (edk::int32)this->sizeLimit.height;
+            lenght.y = lenghtDouble.y/2u;
             if(!lenght.y){
-                lenght.y=1;edkEnd();
+                lenght.y=1;
             }
         }
     }
@@ -1051,28 +1053,28 @@ void edk::InfiniteWallpaper::drawInsideRect(edk::rectf32 rect){
             this->matrix.height()!=(edk::uint32)lenghtDouble.y
             ){
         //change the matrix
-        this->matrix.createMatrix(lenghtDouble.x,lenghtDouble.y);edkEnd();
+        this->matrix.createMatrix(lenghtDouble.x,lenghtDouble.y);
 
-        edk::size2ui32 size = this->matrix.size();edkEnd();
+        edk::size2ui32 size = this->matrix.size();
         //fill the matrix with the wallpapers in X (temporary)
-        edk::uint32 value = 0u;edkEnd();
+        edk::uint32 value = 0u;
 
         //decrement value
         if(this->stack.size()){
             for(edk::uint32 i=0u;i<(edk::uint32)lenght.x;i++){
                 if(value){
-                    value--;edkEnd();
+                    value--;
                 }
                 else{
-                    value = this->stack.size()-1u;edkEnd();
+                    value = this->stack.size()-1u;
                 }
             }
         }
 
         for(edk::uint32 x=0u;x<size.width;x++){
             for(edk::uint32 y=0;y<size.height;y++){
-                this->matrix.set(x,y,value);edkEnd();
-                value++;edkEnd();
+                this->matrix.set(x,y,value);
+                value++;
                 if(value>=this->stack.size()){
                     value=0u;
                 }
@@ -1084,40 +1086,40 @@ void edk::InfiniteWallpaper::drawInsideRect(edk::rectf32 rect){
     if(this->stack.size()){
         edk::uint32 objPos=0u;
         edk::uint32 matrixValue=0u;
-        edk::InfiniteWallpaper::WallpaperObject* temp = this->stack.get(objPos);edkEnd();
+        edk::InfiniteWallpaper::WallpaperObject* temp = this->stack.get(objPos);
         if(this->matrix.haveMatrix()){
-            edk::size2ui32 size = this->matrix.size();edkEnd();
-            edk::int32 posX,posY;edkEnd();
-            this->obj.size = this->size;edkEnd();
-            this->obj.addMesh(temp->obj.getMesh(0u));edkEnd();
+            edk::size2ui32 size = this->matrix.size();
+            edk::int32 posX,posY;
+            this->obj.size = this->size;
+            this->obj.addMesh(temp->obj.getMesh(0u));
             if(lenghtDouble.x==1){
-                lenght.x=0;edkEnd();
+                lenght.x=0;
             }
             if(lenghtDouble.y==1){
-                lenght.y=0;edkEnd();
+                lenght.y=0;
             }
-            posY=lenght.y*-1;edkEnd();
+            posY=lenght.y*-1;
             for(edk::uint32 y=0u;y<size.height;y++){
-                this->obj.position.y = this->position.y + (this->translate.y * -1.f) + (posY * this->size.height);edkEnd();
-                posX=lenght.x*-1;edkEnd();
+                this->obj.position.y = this->position.y + (this->translate.y * -1.f) + (posY * this->size.height);
+                posX=lenght.x*-1;
                 for(edk::uint32 x=0u;x<size.width;x++){
-                    this->obj.position.x = this->position.x + this->translate.x + (posX * this->size.width);edkEnd();
+                    this->obj.position.x = this->position.x + this->translate.x + (posX * this->size.width);
                     //test if need change the mesh
-                    matrixValue = this->matrix.get(x,y);edkEnd();
+                    matrixValue = this->matrix.get(x,y);
                     if(matrixValue != objPos){
                         if((temp = this->stack.get(matrixValue))){
                             //chante the mesh
-                            this->obj.cleanMeshes();edkEnd();
-                            this->obj.addMesh(temp->obj.getMesh(0u));edkEnd();
-                            objPos = matrixValue;edkEnd();
+                            this->obj.cleanMeshes();
+                            this->obj.addMesh(temp->obj.getMesh(0u));
+                            objPos = matrixValue;
                         }
                     }
-                    this->obj.draw();edkEnd();
-                    posX++;edkEnd();
+                    this->obj.draw();
+                    posX++;
                 }
-                posY++;edkEnd();
+                posY++;
             }
-            this->obj.cleanMeshes();edkEnd();
+            this->obj.cleanMeshes();
         }
     }
 }
@@ -1127,5 +1129,5 @@ void edk::InfiniteWallpaper::drawInsideSize(edk::vec2f32 position,edk::size2f32 
                                       position.x + (size.width*0.5f),
                                       position.y + (size.height*0.5f)
                                       )
-                         );edkEnd();
+                         );
 }

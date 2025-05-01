@@ -42,6 +42,10 @@ namespace edk{
 class OpenLamp{
 public:
     OpenLamp();
+    ~OpenLamp();
+
+    void Constructor();
+    void Destructor();
 
     //convert one pixel
     static edk::color3ui8 pixelToNormal(edk::uint8 up,edk::uint8 down,edk::uint8 left,edk::uint8 right,edk::uint8 front);
@@ -55,6 +59,8 @@ public:
                                edk::uint8* normal,edk::uint32 pixelsSize
                                );
     static bool imageToNormal(edk::Image2D* up,edk::Image2D* down,edk::Image2D* left,edk::Image2D* right,edk::Image2D* front,edk::Image2D* normal);
+private:
+    edk::classID classThis;
 };
 }//end namespace edk
 

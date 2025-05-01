@@ -43,7 +43,8 @@ public:
     DecoderVideo();
     virtual ~DecoderVideo();
 
-    void Constructor(bool runFather=true);
+    void Constructor();
+    void Destructor();
 
     //start the encoder
     virtual bool startDecoder(edk::uint32 spaceDecodeSize=0u);

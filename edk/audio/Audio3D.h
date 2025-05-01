@@ -43,7 +43,8 @@ public:
     Audio3D();
     virtual ~Audio3D();
 
-    void Constructor(bool runFather=true);
+    void Constructor();
+    void Destructor();
 
     //OPEN
     bool open(const edk::char8* name);

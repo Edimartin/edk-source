@@ -41,6 +41,10 @@ namespace physics2D{
 class DistanceJoint2D : public edk::physics2D::Joint2D{
 public:
     DistanceJoint2D(bool collide=false);
+    ~DistanceJoint2D();
+
+    void Constructor(bool collide=false);
+    void Destructor();
 
     edk::vec2f32 worldPositionB;
 
@@ -48,6 +52,8 @@ public:
     virtual void draw(edk::size2f32 size,edk::color3f32 color);
 
     edk::float32 distance;
+private:
+    edk::classID classThis;
 };
 }
 }

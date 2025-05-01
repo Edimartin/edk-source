@@ -1785,24 +1785,18 @@ static edk::uchar8 EDKFontTemplate[36814] = {
 };
 
 edk::fonts::FontMap::FontLine::FontLine(edk::uint32 size){
-    this->classThis=NULL;this->Constructor(size,false);edkEnd();
+    this->classThis=NULL;this->Constructor(size);
 }
 edk::fonts::FontMap::FontLine::~FontLine(){
-    if(this->classThis==this){this->classThis=NULL;edkEnd();
-        //can destruct the class
-        //delete the line
-        if(this->line){
-            free(this->line);edkEnd();
-        }
-    }
+    this->Destructor();
 }
 
-void edk::fonts::FontMap::FontLine::Constructor(edk::uint32 size,bool /*runFather*/){
+void edk::fonts::FontMap::FontLine::Constructor(edk::uint32 size){
     if(this->classThis!=this){
         this->classThis=this;
-        this->size = size;edkEnd();
+        this->size = size;
         if(this->size){
-            this->line = (edk::uint32*)malloc(sizeof(edk::uint32) * (this->size));edkEnd();
+            this->line = (edk::uint32*)malloc(sizeof(edk::uint32) * (this->size));
             if(line){
                 //clean the line
                 for(edk::uint32 i=0u;i<this->size;i++){
@@ -1815,10 +1809,19 @@ void edk::fonts::FontMap::FontLine::Constructor(edk::uint32 size,bool /*runFathe
         }
     }
 }
+void edk::fonts::FontMap::FontLine::Destructor(){
+    if(this->classThis==this){this->classThis=NULL;
+        //can destruct the class
+        //delete the line
+        if(this->line){
+            free(this->line);
+        }
+    }
+}
 
 //get the size
 edk::uint32 edk::fonts::FontMap::FontLine::getSize(){
-    return size;edkEnd();
+    return size;
 }
 //return true if have the line
 bool edk::fonts::FontMap::FontLine::haveLine(){
@@ -1832,7 +1835,7 @@ bool edk::fonts::FontMap::FontLine::setValue(edk::uint32 position,edk::uint32 va
     //test if have the position
     if(this->havePosition(position)){
         //set the value
-        this->line[position] = value;edkEnd();
+        this->line[position] = value;
         return true;
     }
     return false;
@@ -1841,9 +1844,9 @@ bool edk::fonts::FontMap::FontLine::setValue(edk::uint32 position,edk::uint32 va
 edk::uint32 edk::fonts::FontMap::FontLine::getValue(edk::uint32 position){
     if(this->havePosition(position)){
         //return the value
-        return this->line[position];edkEnd();
+        return this->line[position];
     }
-    return 0u;edkEnd();
+    return 0u;
 }
 //test if have position
 bool edk::fonts::FontMap::FontLine::havePosition(edk::uint32 position){
@@ -1855,54 +1858,47 @@ bool edk::fonts::FontMap::FontLine::havePosition(edk::uint32 position){
 
 
 edk::fonts::FontMap::FontMap(){
-    this->classThis=NULL;edkEnd();
-    this->Constructor(false);edkEnd();
+    this->classThis=NULL;
+    this->Constructor();
 }
 edk::fonts::FontMap::~FontMap(){
-    if(this->classThis==this){
-        this->classThis=NULL;edkEnd();
-        //can destruct the class
-        this->removeFontImage();edkEnd();
-        this->deleteLines();edkEnd();
-    }
+    this->Destructor();
 }
 
-void edk::fonts::FontMap::Constructor(bool runFather){
-    if(runFather){
-        edk::Object2DValues::Constructor();
-        edk::animation::AnimationCallback::Constructor();
-    }
+void edk::fonts::FontMap::Constructor(){
+    edk::Object2DValues::Constructor();
+    edk::animation::AnimationCallback::Constructor();
     if(this->classThis!=this){
         this->classThis=this;
 
-        this->map.Constructor();edkEnd();
-        this->list.Constructor();edkEnd();
-        this->animOrigin.Constructor();edkEnd();
-        this->animLast.Constructor();edkEnd();
-        this->treeCallbacks.Constructor();edkEnd();
-        this->lines.Constructor();edkEnd();
+        this->map.Constructor();
+        this->list.Constructor();
+        this->animOrigin.Constructor();
+        this->animLast.Constructor();
+        this->treeCallbacks.Constructor();
+        this->lines.Constructor();
 
-        this->set = NULL;edkEnd();
-        this->map.cleanTiles();edkEnd();
-        this->originID = this->lastID = 0u;edkEnd();
-        this->origin = this->last = edk::vec2ui32(0u,0u);edkEnd();
-        this->speedOrigin = this->fasterOrigin = 1.f;edkEnd();
-        this->speedLast = 1.f;edkEnd();
-        this->fasterLast = 4.f;edkEnd();
-        this->animOrigin.setSpeed(this->speedOrigin);edkEnd();
-        this->animLast.setSpeed(this->speedLast);edkEnd();
-        this->forceSpeedOrigin = forceSpeedLast = false;edkEnd();
-        this->forceSpeedOriginValue = this->forceSpeedLastValue = 1.f;edkEnd();
-        this->enterOrigin = this->enterLast = false;edkEnd();
+        this->set = NULL;
+        this->map.cleanTiles();
+        this->originID = this->lastID = 0u;
+        this->origin = this->last = edk::vec2ui32(0u,0u);
+        this->speedOrigin = this->fasterOrigin = 1.f;
+        this->speedLast = 1.f;
+        this->fasterLast = 4.f;
+        this->animOrigin.setSpeed(this->speedOrigin);
+        this->animLast.setSpeed(this->speedLast);
+        this->forceSpeedOrigin = forceSpeedLast = false;
+        this->forceSpeedOriginValue = this->forceSpeedLastValue = 1.f;
+        this->enterOrigin = this->enterLast = false;
         this->write=0u;
 
         //set the animation callback
-        this->animOrigin.setAnimationCallback(this);edkEnd();
-        this->animLast.setAnimationCallback(this);edkEnd();
+        this->animOrigin.setAnimationCallback(this);
+        this->animLast.setAnimationCallback(this);
         this->maxSizeLine=0u;
 
         //load the templateFont
-        this->loadFontImageFromMemory(EDKFontTemplateName,EDKFontTemplate,EDKFontTemplateSize);edkEnd();
+        this->loadFontImageFromMemory(EDKFontTemplateName,EDKFontTemplate,EDKFontTemplateSize);
 
         //save the transform
         this->savePosition = this->position;
@@ -1910,292 +1906,302 @@ void edk::fonts::FontMap::Constructor(bool runFather){
         this->saveSize = this->size;
     }
 }
+void edk::fonts::FontMap::Destructor(){
+    edk::Object2DValues::Destructor();
+    edk::animation::AnimationCallback::Destructor();
+    if(this->classThis==this){
+        this->classThis=NULL;
+        //can destruct the class
+        this->removeFontImage();
+        this->deleteLines();
+    }
+}
 
 //gete the tileID
 edk::uint32 edk::fonts::FontMap::getTileID(edk::char8* str,edk::uint8* jump){
     //
     if(str && jump){
-        *jump=1u;edkEnd();
+        *jump=1u;
         if((edk::uint8)*str==195u){
-            *jump+=1u;edkEnd();
-            str++;edkEnd();
+            *jump+=1u;
+            str++;
             switch((edk::uint8)*str){
             case 128u:
-                //printf("\nCrase A");edkEnd();
+                //printf("\nCrase A");
                 return ((edk::uchar8)*str) + 64u;
             case 129u:
-                //printf("\nAcento A");edkEnd();
+                //printf("\nAcento A");
                 return ((edk::uchar8)*str) + 64u;
             case 130u:
-                //printf("\nChapeu A");edkEnd();
+                //printf("\nChapeu A");
                 return ((edk::uchar8)*str) + 64u;
             case 131u:
-                //printf("\nTio A");edkEnd();
+                //printf("\nTio A");
                 return ((edk::uchar8)*str) + 64u;
             case 132u:
-                //printf("\nTrema A");edkEnd();
+                //printf("\nTrema A");
                 return ((edk::uchar8)*str) + 64u;
             case 135u:
-                //printf("\nCedilha Maiusculo");edkEnd();
+                //printf("\nCedilha Maiusculo");
                 return ((edk::uchar8)*str) + 64u;
             case 136u:
-                //printf("\nCrase E");edkEnd();
+                //printf("\nCrase E");
                 return ((edk::uchar8)*str) + 64u;
             case 137u:
-                //printf("\nAcento E");edkEnd();
+                //printf("\nAcento E");
                 return ((edk::uchar8)*str) + 64u;
             case 138u:
-                //printf("\nChapeu E");edkEnd();
+                //printf("\nChapeu E");
                 return ((edk::uchar8)*str) + 64u;
             case 139u:
-                //printf("\nTrema E");edkEnd();
+                //printf("\nTrema E");
                 return ((edk::uchar8)*str) + 64u;
             case 140u:
-                //printf("\nCrase I");edkEnd();
+                //printf("\nCrase I");
                 return ((edk::uchar8)*str) + 64u;
             case 141u:
-                //printf("\nAcento I");edkEnd();
+                //printf("\nAcento I");
                 return ((edk::uchar8)*str) + 64u;
             case 142u:
-                //printf("\nChapeu I");edkEnd();
+                //printf("\nChapeu I");
                 return ((edk::uchar8)*str) + 64u;
             case 143u:
-                //printf("\nTrema I");edkEnd();
+                //printf("\nTrema I");
                 return ((edk::uchar8)*str) + 64u;
             case 145u:
-                //printf("\nTio N");edkEnd();
+                //printf("\nTio N");
                 return ((edk::uchar8)*str) + 64u;
             case 146u:
-                //printf("\nCrase O");edkEnd();
+                //printf("\nCrase O");
                 return ((edk::uchar8)*str) + 64u;
             case 147u:
-                //printf("\nAcento O");edkEnd();
+                //printf("\nAcento O");
                 return ((edk::uchar8)*str) + 64u;
             case 148u:
-                //printf("\nChapeu O");edkEnd();
+                //printf("\nChapeu O");
                 return ((edk::uchar8)*str) + 64u;
             case 149u:
-                //printf("\nTio O");edkEnd();
+                //printf("\nTio O");
                 return ((edk::uchar8)*str) + 64u;
             case 150u:
-                //printf("\nTrema O");edkEnd();
+                //printf("\nTrema O");
                 return ((edk::uchar8)*str) + 64u;
             case 153u:
-                //printf("\nCrase U");edkEnd();
+                //printf("\nCrase U");
                 return ((edk::uchar8)*str) + 64u;
             case 154u:
-                //printf("\nAcento U");edkEnd();
+                //printf("\nAcento U");
                 return ((edk::uchar8)*str) + 64u;
             case 155u:
-                //printf("\nChapeu U");edkEnd();
+                //printf("\nChapeu U");
                 return ((edk::uchar8)*str) + 64u;
             case 156u:
-                //printf("\nTrema U");edkEnd();
+                //printf("\nTrema U");
                 return ((edk::uchar8)*str) + 64u;
             case 157u:
-                //printf("\nAcento Y");edkEnd();
+                //printf("\nAcento Y");
                 return ((edk::uchar8)*str) + 64u;
             case 160u:
-                //printf("\nCrase a");edkEnd();
+                //printf("\nCrase a");
                 return ((edk::uchar8)*str) + 64u;
             case 161u:
-                //printf("\nAcento a");edkEnd();
+                //printf("\nAcento a");
                 return ((edk::uchar8)*str) + 64u;
             case 162u:
-                //printf("\nChapeu a");edkEnd();
+                //printf("\nChapeu a");
                 return ((edk::uchar8)*str) + 64u;
             case 163u:
-                //printf("\nTio a");edkEnd();
+                //printf("\nTio a");
                 return ((edk::uchar8)*str) + 64u;
             case 164u:
-                //printf("\nTrema a");edkEnd();
+                //printf("\nTrema a");
                 return ((edk::uchar8)*str) + 64u;
             case 167u:
-                //printf("\nCedilha Minusculo");edkEnd();
+                //printf("\nCedilha Minusculo");
                 return ((edk::uchar8)*str) + 64u;
             case 168u:
-                //printf("\nCrase e");edkEnd();
+                //printf("\nCrase e");
                 return ((edk::uchar8)*str) + 64u;
             case 169u:
-                //printf("\nAcento e");edkEnd();
+                //printf("\nAcento e");
                 return ((edk::uchar8)*str) + 64u;
             case 170u:
-                //printf("\nChapeu e");edkEnd();
+                //printf("\nChapeu e");
                 return ((edk::uchar8)*str) + 64u;
             case 171u:
-                //printf("\nTrema e");edkEnd();
+                //printf("\nTrema e");
                 return ((edk::uchar8)*str) + 64u;
             case 172u:
-                //printf("\nCrase i");edkEnd();
+                //printf("\nCrase i");
                 return ((edk::uchar8)*str) + 64u;
             case 173u:
-                //printf("\nAcento i");edkEnd();
+                //printf("\nAcento i");
                 return ((edk::uchar8)*str) + 64u;
             case 174u:
-                //printf("\nChapeu i");edkEnd();
+                //printf("\nChapeu i");
                 return ((edk::uchar8)*str) + 64u;
             case 175u:
-                //printf("\ntrema i");edkEnd();
+                //printf("\ntrema i");
                 return ((edk::uchar8)*str) + 64u;
             case 177u:
-                //printf("\nTio n");edkEnd();
+                //printf("\nTio n");
                 return ((edk::uchar8)*str) + 64u;
             case 178u:
-                //printf("\nCrase o");edkEnd();
+                //printf("\nCrase o");
                 return ((edk::uchar8)*str) + 64u;
             case 179u:
-                //printf("\nAcento o");edkEnd();
+                //printf("\nAcento o");
                 return ((edk::uchar8)*str) + 64u;
             case 180u:
-                //printf("\nChapeu o");edkEnd();
+                //printf("\nChapeu o");
                 return ((edk::uchar8)*str) + 64u;
             case 181u:
-                //printf("\nTio o");edkEnd();
+                //printf("\nTio o");
                 return ((edk::uchar8)*str) + 64u;
             case 182u:
-                //printf("\nTrema o");edkEnd();
+                //printf("\nTrema o");
                 return ((edk::uchar8)*str) + 64u;
             case 185u:
-                //printf("\nCrase u");edkEnd();
+                //printf("\nCrase u");
                 return ((edk::uchar8)*str) + 64u;
             case 186u:
-                //printf("\nAcento u");edkEnd();
+                //printf("\nAcento u");
                 return ((edk::uchar8)*str) + 64u;
             case 187u:
-                //printf("\nChapeu u");edkEnd();
+                //printf("\nChapeu u");
                 return ((edk::uchar8)*str) + 64u;
             case 188u:
-                //printf("\nTrema u");edkEnd();
+                //printf("\nTrema u");
                 return ((edk::uchar8)*str) + 64u;
             case 189u:
-                //printf("\nAcento y");edkEnd();
+                //printf("\nAcento y");
                 return ((edk::uchar8)*str) + 64u;
             default:
-                *jump-=1u;edkEnd();
-                str--;edkEnd();
+                *jump-=1u;
+                str--;
             }
         }
         else if((edk::uint8)*str==225u){
-            *jump+=1u;edkEnd();
-            str++;edkEnd();
+            *jump+=1u;
+            str++;
             if((edk::uint8)*str==186u){
-                *jump+=1u;edkEnd();
-                str++;edkEnd();
+                *jump+=1u;
+                str++;
                 if((edk::uint8)*str==189u){
-                    //printf("\nTio e");edkEnd();
-                    return 32u;edkEnd();
+                    //printf("\nTio e");
+                    return 32u;
                 }
-                *jump-=1u;edkEnd();
-                str--;edkEnd();
+                *jump-=1u;
+                str--;
             }
-            *jump-=1u;edkEnd();
-            str--;edkEnd();
+            *jump-=1u;
+            str--;
         }
         else if((edk::uint8)*str==226u){
-            *jump+=1u;edkEnd();
-            str++;edkEnd();
+            *jump+=1u;
+            str++;
             if((edk::uint8)*str==128u){
-                *jump+=1u;edkEnd();
-                str++;edkEnd();
+                *jump+=1u;
+                str++;
                 if((edk::uint8)*str==148u){
-                    //printf("\n");edkEnd();
-                    return 45u;edkEnd();
+                    //printf("\n");
+                    return 45u;
                 }
                 else if((edk::uint8)*str==152u){
-                    //printf("\nAbrir aspas simples");edkEnd();
-                    return '\'';edkEnd();
+                    //printf("\nAbrir aspas simples");
+                    return '\'';
                 }
                 else if((edk::uint8)*str==153u){
-                    //printf("\nFechar aspas simples");edkEnd();
-                    return '\'';edkEnd();
+                    //printf("\nFechar aspas simples");
+                    return '\'';
                 }
                 else if((edk::uint8)*str==156u){
-                    //printf("\nAbrir aspas");edkEnd();
-                    return '\"';edkEnd();
+                    //printf("\nAbrir aspas");
+                    return '\"';
                 }
                 else if((edk::uint8)*str==157u){
-                    //printf("\nFechar aspas");edkEnd();
-                    return '\"';edkEnd();
+                    //printf("\nFechar aspas");
+                    return '\"';
                 }
-                *jump-=1u;edkEnd();
-                str--;edkEnd();
+                *jump-=1u;
+                str--;
             }
-            *jump-=1u;edkEnd();
-            str--;edkEnd();
+            *jump-=1u;
+            str--;
         }
         else if((edk::uint8)*str==196u){
-            *jump+=1u;edkEnd();
-            str++;edkEnd();
+            *jump+=1u;
+            str++;
             if((edk::uint8)*str==169u){
-                //printf("\nTio i");edkEnd();
-                return 32u;edkEnd();
+                //printf("\nTio i");
+                return 32u;
             }
-            *jump-=1u;edkEnd();
-            str--;edkEnd();
+            *jump-=1u;
+            str--;
         }
         else if((edk::uint8)*str==197u){
-            *jump+=1u;edkEnd();
-            str++;edkEnd();
+            *jump+=1u;
+            str++;
             if((edk::uint8)*str==169u){
-                //printf("\nTio u");edkEnd();
-                return 32u;edkEnd();
+                //printf("\nTio u");
+                return 32u;
             }
-            *jump-=1u;edkEnd();
-            str--;edkEnd();
+            *jump-=1u;
+            str--;
         }
-        return (edk::uchar8)*str;edkEnd();
+        return (edk::uchar8)*str;
     }
-    return 0u;edkEnd();
+    return 0u;
 }
 //return the wordSize
 edk::uint32 edk::fonts::FontMap::wordSize(edk::char8* str){
     if(str){
-        edk::uint32 size = 0u;edkEnd();
+        edk::uint32 size = 0u;
         edk::uint8 jump=0u;
-        edk::uint32 c = this->getTileID(str,&jump);edkEnd();
+        edk::uint32 c = this->getTileID(str,&jump);
         while(c){
             if(c == ' ' || c==10 || c == 13){
                 break;
             }
-            size++;edkEnd();
-            str+=jump;edkEnd();
-            c = this->getTileID(str,&jump);edkEnd();
+            size++;
+            str+=jump;
+            c = this->getTileID(str,&jump);
         }
-        return size;edkEnd();
+        return size;
     }
-    return 0u;edkEnd();
+    return 0u;
 }
 //return the lineSize
 edk::uint32 edk::fonts::FontMap::lineSize(edk::char8* str){
     if(str){
-        edk::uint32 size = 0u;edkEnd();
+        edk::uint32 size = 0u;
         edk::uint8 jump=0u;
-        edk::uint32 c = this->getTileID(str,&jump);edkEnd();
+        edk::uint32 c = this->getTileID(str,&jump);
         while(c){
             if(c==10 || c == 13){
                 break;
             }
-            size++;edkEnd();
-            str+=jump;edkEnd();
-            c = this->getTileID(str,&jump);edkEnd();
+            size++;
+            str+=jump;
+            c = this->getTileID(str,&jump);
         }
-        return size;edkEnd();
+        return size;
     }
-    return 0u;edkEnd();
+    return 0u;
 }
 
 //delete lines
 void edk::fonts::FontMap::deleteLines(){
-    edk::uint32 size = this->lines.size();edkEnd();
-    edk::fonts::FontMap::FontLine * temp = NULL;edkEnd();
+    edk::uint32 size = this->lines.size();
+    edk::fonts::FontMap::FontLine * temp = NULL;
     for(edk::uint32 i=0u;i<size;i++){
-        temp = this->lines.get(i);edkEnd();
+        temp = this->lines.get(i);
         if(temp){
             //
-            delete temp;edkEnd();
+            delete temp;
         }
     }
-    this->lines.clean();edkEnd();
+    this->lines.clean();
     this->maxSizeLine=0u;
 }
 //create new line
@@ -2203,49 +2209,49 @@ edk::fonts::FontMap::FontLine* edk::fonts::FontMap::newLine(edk::uint32 size){
     //test the size
     if(size){
         //create a new line
-        edk::fonts::FontMap::FontLine* line = new edk::fonts::FontMap::FontLine(size);edkEnd();
+        edk::fonts::FontMap::FontLine* line = new edk::fonts::FontMap::FontLine(size);
         if(line){
             //test if the line was created
             if(line->getSize() == size){
                 //add the line to the stack
-                edk::uint32 sizeTemp = this->lines.size();edkEnd();
-                this->lines.pushBack(line);edkEnd();
+                edk::uint32 sizeTemp = this->lines.size();
+                this->lines.pushBack(line);
                 if(sizeTemp<this->lines.size()){
                     if(size>this->maxSizeLine){
-                        this->maxSizeLine = size;edkEnd();
+                        this->maxSizeLine = size;
                     }
                     //return the line
-                    return line;edkEnd();
+                    return line;
                 }
             }
-            delete line;edkEnd();
+            delete line;
         }
     }
     return NULL;
 }
 //return the last line on the map
 edk::fonts::FontMap::FontLine* edk::fonts::FontMap::getLastLine(){
-    edk::fonts::FontMap::FontLine* ret=NULL;edkEnd();
+    edk::fonts::FontMap::FontLine* ret=NULL;
     //test if have some lines
     if(this->lines.size()){
         //get the last line
-        ret = this->lines.get(this->lines.size()-1u);edkEnd();
+        ret = this->lines.get(this->lines.size()-1u);
     }
     return ret;
 }
 //copy the text to the map
 bool edk::fonts::FontMap::copyLinesToMap(){
     //test if have lines
-    edk::uint32 size=this->lines.size();edkEnd();
+    edk::uint32 size=this->lines.size();
     edk::uint32 sizeLine=0u;
     if(size){
         //
-        edk::fonts::FontMap::FontLine *temp=NULL;edkEnd();
+        edk::fonts::FontMap::FontLine *temp=NULL;
         for(edk::uint32 i=0u;i<size;i++){
             //load the line
-            temp = this->lines.get(i);edkEnd();
+            temp = this->lines.get(i);
             if(temp){
-                sizeLine=temp->getSize();edkEnd();
+                sizeLine=temp->getSize();
                 for(edk::uint32 j=0u;j<sizeLine;j++){
                     //copy the character
                     if(!this->map.setTile(temp->getValue(j),j,i)){
@@ -2260,7 +2266,7 @@ bool edk::fonts::FontMap::copyLinesToMap(){
 }
 //test if have the ID
 bool edk::fonts::FontMap::haveID(edk::uint32 ID){
-    edk::uint32 width=this->map.getMapSize().width;edkEnd();
+    edk::uint32 width=this->map.getMapSize().width;
     if(width){
         //test the y
         if((ID/width)<this->map.getMapSize().height){
@@ -2271,31 +2277,31 @@ bool edk::fonts::FontMap::haveID(edk::uint32 ID){
 }
 //get position of the tile
 edk::vec2ui32 edk::fonts::FontMap::getCharacterPosition(edk::uint32 ID){
-    edk::vec2ui32 ret;edkEnd();
-    edk::uint32 width=this->map.getMapSize().width;edkEnd();
-    edk::uint32 height=this->map.getMapSize().height;edkEnd();
+    edk::vec2ui32 ret;
+    edk::uint32 width=this->map.getMapSize().width;
+    edk::uint32 height=this->map.getMapSize().height;
     //test the width
     if(width){
         //get the position
-        edk::uint32 x=ID%width;edkEnd();
-        edk::uint32 y=ID/width;edkEnd();
+        edk::uint32 x=ID%width;
+        edk::uint32 y=ID/width;
         //test the y
         if(y<height){
-            ret.x = x;edkEnd();
-            ret.y = y;edkEnd();
+            ret.x = x;
+            ret.y = y;
         }
     }
     return ret;
 }
 edk::uint32 edk::fonts::FontMap::getCharacterID(edk::vec2ui32 position){
     //test the position
-    edk::uint32 width=this->map.getMapSize().width;edkEnd();
-    edk::uint32 height=this->map.getMapSize().height;edkEnd();
+    edk::uint32 width=this->map.getMapSize().width;
+    edk::uint32 height=this->map.getMapSize().height;
     if(position.x<=width && position.y<=height){
         //return the ID
-        return position.x + (width * position.y);edkEnd();
+        return position.x + (width * position.y);
     }
-    return 0u;edkEnd();
+    return 0u;
 }
 //Draw
 void edk::fonts::FontMap::draw(edk::vec2ui32 origin,edk::vec2ui32 last,edk::color4f32 color){
@@ -2304,20 +2310,20 @@ void edk::fonts::FontMap::draw(edk::vec2ui32 origin,edk::vec2ui32 last,edk::colo
     //test if the line is the same
     if(origin.y == last.y){
         //then draw correctly
-        this->map.draw(origin,edk::size2ui32(last.x+1u,last.y+1u),color);edkEnd();
+        this->map.draw(origin,edk::size2ui32(last.x+1u,last.y+1u),color);
     }
     else{
-        edk::uint32 width = this->map.getMapSize().width;edkEnd();
-        this->map.draw(edk::vec2ui32(origin.x,origin.y),edk::size2ui32(width,origin.y+1u),color);edkEnd();
+        edk::uint32 width = this->map.getMapSize().width;
+        this->map.draw(edk::vec2ui32(origin.x,origin.y),edk::size2ui32(width,origin.y+1u),color);
         //draw all the lines
         for(edk::uint32 i=origin.y+1u;i<last.y;i++){
-            this->map.draw(edk::vec2ui32(0u,i),edk::size2ui32(this->map.getMapSize().width,i+1u),color);edkEnd();
+            this->map.draw(edk::vec2ui32(0u,i),edk::size2ui32(this->map.getMapSize().width,i+1u),color);
         }
-        this->map.draw(edk::vec2ui32(0u,last.y),edk::size2ui32(last.x+1u,last.y+1u),color);edkEnd();
+        this->map.draw(edk::vec2ui32(0u,last.y),edk::size2ui32(last.x+1u,last.y+1u),color);
     }
 }
 void edk::fonts::FontMap::draw(edk::uint32 originWidth,edk::uint32 originLine,edk::uint32 lastWidth,edk::uint32 lastLine,edk::color4f32 color){
-    this->draw(edk::vec2ui32(originWidth,originLine),edk::vec2ui32 (lastWidth,lastLine),color);edkEnd();
+    this->draw(edk::vec2ui32(originWidth,originLine),edk::vec2ui32 (lastWidth,lastLine),color);
 }
 
 void edk::fonts::FontMap::drawWithoutMaterial(edk::vec2ui32 origin,edk::vec2ui32 last,edk::color4f32 color){
@@ -2326,20 +2332,20 @@ void edk::fonts::FontMap::drawWithoutMaterial(edk::vec2ui32 origin,edk::vec2ui32
     //test if the line is the same
     if(origin.y == last.y){
         //then draw correctly
-        this->map.drawWithoutMaterial(origin,edk::size2ui32(last.x+1u,last.y+1u),color);edkEnd();
+        this->map.drawWithoutMaterial(origin,edk::size2ui32(last.x+1u,last.y+1u),color);
     }
     else{
-        edk::uint32 width = this->map.getMapSize().width;edkEnd();
-        this->map.drawWithoutMaterial(edk::vec2ui32(origin.x,origin.y),edk::size2ui32(width,origin.y+1u),color);edkEnd();
+        edk::uint32 width = this->map.getMapSize().width;
+        this->map.drawWithoutMaterial(edk::vec2ui32(origin.x,origin.y),edk::size2ui32(width,origin.y+1u),color);
         //draw all the lines
         for(edk::uint32 i=origin.y+1u;i<last.y;i++){
-            this->map.drawWithoutMaterial(edk::vec2ui32(0u,i),edk::size2ui32(this->map.getMapSize().width,i+1u),color);edkEnd();
+            this->map.drawWithoutMaterial(edk::vec2ui32(0u,i),edk::size2ui32(this->map.getMapSize().width,i+1u),color);
         }
-        this->map.drawWithoutMaterial(edk::vec2ui32(0u,last.y),edk::size2ui32(last.x+1u,last.y+1u),color);edkEnd();
+        this->map.drawWithoutMaterial(edk::vec2ui32(0u,last.y),edk::size2ui32(last.x+1u,last.y+1u),color);
     }
 }
 void edk::fonts::FontMap::drawWithoutMaterial(edk::uint32 originWidth,edk::uint32 originLine,edk::uint32 lastWidth,edk::uint32 lastLine,edk::color4f32 color){
-    this->drawWithoutMaterial(edk::vec2ui32(originWidth,originLine),edk::vec2ui32 (lastWidth,lastLine),color);edkEnd();
+    this->drawWithoutMaterial(edk::vec2ui32(originWidth,originLine),edk::vec2ui32 (lastWidth,lastLine),color);
 }
 
 void edk::fonts::FontMap::drawWire(edk::vec2ui32 origin,edk::vec2ui32 last,edk::color4f32 color){
@@ -2348,20 +2354,20 @@ void edk::fonts::FontMap::drawWire(edk::vec2ui32 origin,edk::vec2ui32 last,edk::
     //test if the line is the same
     if(origin.y == last.y){
         //then drawWire correctly
-        this->map.drawWire(origin,edk::size2ui32(last.x+1u,last.y+1u),color);edkEnd();
+        this->map.drawWire(origin,edk::size2ui32(last.x+1u,last.y+1u),color);
     }
     else{
-        edk::uint32 width = this->map.getMapSize().width;edkEnd();
-        this->map.drawWire(edk::vec2ui32(origin.x,origin.y),edk::size2ui32(width,origin.y+1u),color);edkEnd();
+        edk::uint32 width = this->map.getMapSize().width;
+        this->map.drawWire(edk::vec2ui32(origin.x,origin.y),edk::size2ui32(width,origin.y+1u),color);
         //drawWire all the lines
         for(edk::uint32 i=origin.y+1u;i<last.y;i++){
-            this->map.drawWire(edk::vec2ui32(0u,i),edk::size2ui32(this->map.getMapSize().width,i+1u),color);edkEnd();
+            this->map.drawWire(edk::vec2ui32(0u,i),edk::size2ui32(this->map.getMapSize().width,i+1u),color);
         }
-        this->map.drawWire(edk::vec2ui32(0u,last.y),edk::size2ui32(last.x+1u,last.y+1u),color);edkEnd();
+        this->map.drawWire(edk::vec2ui32(0u,last.y),edk::size2ui32(last.x+1u,last.y+1u),color);
     }
 }
 void edk::fonts::FontMap::drawWire(edk::uint32 originWidth,edk::uint32 originLine,edk::uint32 lastWidth,edk::uint32 lastLine,edk::color4f32 color){
-    this->drawWire(edk::vec2ui32(originWidth,originLine),edk::vec2ui32 (lastWidth,lastLine),color);edkEnd();
+    this->drawWire(edk::vec2ui32(originWidth,originLine),edk::vec2ui32 (lastWidth,lastLine),color);
 }
 void edk::fonts::FontMap::drawSelection(edk::vec2ui32 origin,edk::vec2ui32 last){
     this->updateSavedTransform();
@@ -2369,20 +2375,20 @@ void edk::fonts::FontMap::drawSelection(edk::vec2ui32 origin,edk::vec2ui32 last)
     //test if the line is the same
     if(origin.y == last.y){
         //then drawWire correctly
-        this->map.drawSelection(origin,edk::size2ui32(last.x+1u,last.y+1u));edkEnd();
+        this->map.drawSelection(origin,edk::size2ui32(last.x+1u,last.y+1u));
     }
     else{
-        edk::uint32 width = this->map.getMapSize().width;edkEnd();
-        this->map.drawSelection(edk::vec2ui32(origin.x,origin.y),edk::size2ui32(width,origin.y+1u));edkEnd();
+        edk::uint32 width = this->map.getMapSize().width;
+        this->map.drawSelection(edk::vec2ui32(origin.x,origin.y),edk::size2ui32(width,origin.y+1u));
         //drawSelection all the lines
         for(edk::uint32 i=origin.y+1u;i<last.y;i++){
-            this->map.drawSelection(edk::vec2ui32(0u,i),edk::size2ui32(this->map.getMapSize().width,i+1u));edkEnd();
+            this->map.drawSelection(edk::vec2ui32(0u,i),edk::size2ui32(this->map.getMapSize().width,i+1u));
         }
-        this->map.drawSelection(edk::vec2ui32(0u,last.y),edk::size2ui32(last.x+1u,last.y+1u));edkEnd();
+        this->map.drawSelection(edk::vec2ui32(0u,last.y),edk::size2ui32(last.x+1u,last.y+1u));
     }
 }
 void edk::fonts::FontMap::drawSelection(edk::uint32 originWidth,edk::uint32 originLine,edk::uint32 lastWidth,edk::uint32 lastLine){
-    this->drawSelection(edk::vec2ui32(originWidth,originLine),edk::vec2ui32 (lastWidth,lastLine));edkEnd();
+    this->drawSelection(edk::vec2ui32(originWidth,originLine),edk::vec2ui32 (lastWidth,lastLine));
 }
 //Draw without passing a color
 void edk::fonts::FontMap::draw(edk::vec2ui32 origin,edk::vec2ui32 last){
@@ -2391,20 +2397,20 @@ void edk::fonts::FontMap::draw(edk::vec2ui32 origin,edk::vec2ui32 last){
     //test if the line is the same
     if(origin.y == last.y){
         //then draw correctly
-        this->map.draw(origin,edk::size2ui32(last.x+1u,last.y+1u));edkEnd();
+        this->map.draw(origin,edk::size2ui32(last.x+1u,last.y+1u));
     }
     else{
-        edk::uint32 width = this->map.getMapSize().width;edkEnd();
-        this->map.draw(edk::vec2ui32(origin.x,origin.y),edk::size2ui32(width,origin.y+1u));edkEnd();
+        edk::uint32 width = this->map.getMapSize().width;
+        this->map.draw(edk::vec2ui32(origin.x,origin.y),edk::size2ui32(width,origin.y+1u));
         //draw all the lines
         for(edk::uint32 i=origin.y+1u;i<last.y;i++){
-            this->map.draw(edk::vec2ui32(0u,i),edk::size2ui32(this->map.getMapSize().width,i+1u));edkEnd();
+            this->map.draw(edk::vec2ui32(0u,i),edk::size2ui32(this->map.getMapSize().width,i+1u));
         }
-        this->map.draw(edk::vec2ui32(0u,last.y),edk::size2ui32(last.x+1u,last.y+1u));edkEnd();
+        this->map.draw(edk::vec2ui32(0u,last.y),edk::size2ui32(last.x+1u,last.y+1u));
     }
 }
 void edk::fonts::FontMap::draw(edk::uint32 originWidth,edk::uint32 originLine,edk::uint32 lastWidth,edk::uint32 lastLine){
-    this->draw(edk::vec2ui32(originWidth,originLine),edk::vec2ui32 (lastWidth,lastLine));edkEnd();
+    this->draw(edk::vec2ui32(originWidth,originLine),edk::vec2ui32 (lastWidth,lastLine));
 }
 
 void edk::fonts::FontMap::drawWithoutMaterial(edk::vec2ui32 origin,edk::vec2ui32 last){
@@ -2413,20 +2419,20 @@ void edk::fonts::FontMap::drawWithoutMaterial(edk::vec2ui32 origin,edk::vec2ui32
     //test if the line is the same
     if(origin.y == last.y){
         //then draw correctly
-        this->map.drawWithoutMaterial(origin,edk::size2ui32(last.x+1u,last.y+1u));edkEnd();
+        this->map.drawWithoutMaterial(origin,edk::size2ui32(last.x+1u,last.y+1u));
     }
     else{
-        edk::uint32 width = this->map.getMapSize().width;edkEnd();
-        this->map.drawWithoutMaterial(edk::vec2ui32(origin.x,origin.y),edk::size2ui32(width,origin.y+1u));edkEnd();
+        edk::uint32 width = this->map.getMapSize().width;
+        this->map.drawWithoutMaterial(edk::vec2ui32(origin.x,origin.y),edk::size2ui32(width,origin.y+1u));
         //draw all the lines
         for(edk::uint32 i=origin.y+1u;i<last.y;i++){
-            this->map.drawWithoutMaterial(edk::vec2ui32(0u,i),edk::size2ui32(this->map.getMapSize().width,i+1u));edkEnd();
+            this->map.drawWithoutMaterial(edk::vec2ui32(0u,i),edk::size2ui32(this->map.getMapSize().width,i+1u));
         }
-        this->map.drawWithoutMaterial(edk::vec2ui32(0u,last.y),edk::size2ui32(last.x+1u,last.y+1u));edkEnd();
+        this->map.drawWithoutMaterial(edk::vec2ui32(0u,last.y),edk::size2ui32(last.x+1u,last.y+1u));
     }
 }
 void edk::fonts::FontMap::drawWithoutMaterial(edk::uint32 originWidth,edk::uint32 originLine,edk::uint32 lastWidth,edk::uint32 lastLine){
-    this->drawWithoutMaterial(edk::vec2ui32(originWidth,originLine),edk::vec2ui32 (lastWidth,lastLine));edkEnd();
+    this->drawWithoutMaterial(edk::vec2ui32(originWidth,originLine),edk::vec2ui32 (lastWidth,lastLine));
 }
 
 void edk::fonts::FontMap::drawWire(edk::vec2ui32 origin,edk::vec2ui32 last){
@@ -2435,114 +2441,114 @@ void edk::fonts::FontMap::drawWire(edk::vec2ui32 origin,edk::vec2ui32 last){
     //test if the line is the same
     if(origin.y == last.y){
         //then drawWire correctly
-        this->map.drawWire(origin,edk::size2ui32(last.x+1u,last.y+1u));edkEnd();
+        this->map.drawWire(origin,edk::size2ui32(last.x+1u,last.y+1u));
     }
     else{
-        edk::uint32 width = this->map.getMapSize().width;edkEnd();
-        this->map.drawWire(edk::vec2ui32(origin.x,origin.y),edk::size2ui32(width,origin.y+1u));edkEnd();
+        edk::uint32 width = this->map.getMapSize().width;
+        this->map.drawWire(edk::vec2ui32(origin.x,origin.y),edk::size2ui32(width,origin.y+1u));
         //drawWire all the lines
         for(edk::uint32 i=origin.y+1u;i<last.y;i++){
-            this->map.drawWire(edk::vec2ui32(0u,i),edk::size2ui32(this->map.getMapSize().width,i+1u));edkEnd();
+            this->map.drawWire(edk::vec2ui32(0u,i),edk::size2ui32(this->map.getMapSize().width,i+1u));
         }
-        this->map.drawWire(edk::vec2ui32(0u,last.y),edk::size2ui32(last.x+1u,last.y+1u));edkEnd();
+        this->map.drawWire(edk::vec2ui32(0u,last.y),edk::size2ui32(last.x+1u,last.y+1u));
     }
 }
 void edk::fonts::FontMap::drawWire(edk::uint32 originWidth,edk::uint32 originLine,edk::uint32 lastWidth,edk::uint32 lastLine){
-    this->drawWire(edk::vec2ui32(originWidth,originLine),edk::vec2ui32 (lastWidth,lastLine));edkEnd();
+    this->drawWire(edk::vec2ui32(originWidth,originLine),edk::vec2ui32 (lastWidth,lastLine));
 }
 
 //draw the ID
 void edk::fonts::FontMap::draw(edk::uint32 originID,edk::uint32 lastID,edk::color4f32 color){
-    edk::vec2ui32 origin = this->getCharacterPosition(originID);edkEnd();
-    edk::vec2ui32 last = this->getCharacterPosition(lastID);edkEnd();
-    return this->draw(origin,last,color);edkEnd();
+    edk::vec2ui32 origin = this->getCharacterPosition(originID);
+    edk::vec2ui32 last = this->getCharacterPosition(lastID);
+    return this->draw(origin,last,color);
 }
 void edk::fonts::FontMap::draw(edk::vec2ui32 origin,edk::uint32 lastID,edk::color4f32 color){
-    edk::vec2ui32 last = this->getCharacterPosition(lastID);edkEnd();
-    return this->draw(origin,last,color);edkEnd();
+    edk::vec2ui32 last = this->getCharacterPosition(lastID);
+    return this->draw(origin,last,color);
 }
 void edk::fonts::FontMap::draw(edk::uint32 originID,edk::vec2ui32 last,edk::color4f32 color){
-    edk::vec2ui32 origin = this->getCharacterPosition(originID);edkEnd();
-    return this->draw(origin,last,color);edkEnd();
+    edk::vec2ui32 origin = this->getCharacterPosition(originID);
+    return this->draw(origin,last,color);
 }
 void edk::fonts::FontMap::drawWithoutMaterial(edk::uint32 originID,edk::uint32 lastID,edk::color4f32 color){
-    edk::vec2ui32 origin = this->getCharacterPosition(originID);edkEnd();
-    edk::vec2ui32 last = this->getCharacterPosition(lastID);edkEnd();
-    return this->drawWithoutMaterial(origin,last,color);edkEnd();
+    edk::vec2ui32 origin = this->getCharacterPosition(originID);
+    edk::vec2ui32 last = this->getCharacterPosition(lastID);
+    return this->drawWithoutMaterial(origin,last,color);
 }
 void edk::fonts::FontMap::drawWithoutMaterial(edk::vec2ui32 origin,edk::uint32 lastID,edk::color4f32 color){
-    edk::vec2ui32 last = this->getCharacterPosition(lastID);edkEnd();
-    return this->drawWithoutMaterial(origin,last,color);edkEnd();
+    edk::vec2ui32 last = this->getCharacterPosition(lastID);
+    return this->drawWithoutMaterial(origin,last,color);
 }
 void edk::fonts::FontMap::drawWithoutMaterial(edk::uint32 originID,edk::vec2ui32 last,edk::color4f32 color){
-    edk::vec2ui32 origin = this->getCharacterPosition(originID);edkEnd();
-    return this->drawWithoutMaterial(origin,last,color);edkEnd();
+    edk::vec2ui32 origin = this->getCharacterPosition(originID);
+    return this->drawWithoutMaterial(origin,last,color);
 }
 void edk::fonts::FontMap::drawWire(edk::uint32 originID,edk::uint32 lastID,edk::color4f32 color){
-    edk::vec2ui32 origin = this->getCharacterPosition(originID);edkEnd();
-    edk::vec2ui32 last = this->getCharacterPosition(lastID);edkEnd();
-    return this->drawWire(origin,last,color);edkEnd();
+    edk::vec2ui32 origin = this->getCharacterPosition(originID);
+    edk::vec2ui32 last = this->getCharacterPosition(lastID);
+    return this->drawWire(origin,last,color);
 }
 void edk::fonts::FontMap::drawWire(edk::vec2ui32 origin,edk::uint32 lastID,edk::color4f32 color){
-    edk::vec2ui32 last = this->getCharacterPosition(lastID);edkEnd();
-    return this->drawWire(origin,last,color);edkEnd();
+    edk::vec2ui32 last = this->getCharacterPosition(lastID);
+    return this->drawWire(origin,last,color);
 }
 void edk::fonts::FontMap::drawWire(edk::uint32 originID,edk::vec2ui32 last,edk::color4f32 color){
-    edk::vec2ui32 origin = this->getCharacterPosition(originID);edkEnd();
-    return this->drawWire(origin,last,color);edkEnd();
+    edk::vec2ui32 origin = this->getCharacterPosition(originID);
+    return this->drawWire(origin,last,color);
 }
 void edk::fonts::FontMap::drawSelection(edk::uint32 originID,edk::uint32 lastID){
-    edk::vec2ui32 origin = this->getCharacterPosition(originID);edkEnd();
-    edk::vec2ui32 last = this->getCharacterPosition(lastID);edkEnd();
-    return this->drawSelection(origin,last);edkEnd();
+    edk::vec2ui32 origin = this->getCharacterPosition(originID);
+    edk::vec2ui32 last = this->getCharacterPosition(lastID);
+    return this->drawSelection(origin,last);
 }
 void edk::fonts::FontMap::drawSelection(edk::vec2ui32 origin,edk::uint32 lastID){
-    edk::vec2ui32 last = this->getCharacterPosition(lastID);edkEnd();
-    return this->drawSelection(origin,last);edkEnd();
+    edk::vec2ui32 last = this->getCharacterPosition(lastID);
+    return this->drawSelection(origin,last);
 }
 void edk::fonts::FontMap::drawSelection(edk::uint32 originID,edk::vec2ui32 last){
-    edk::vec2ui32 origin = this->getCharacterPosition(originID);edkEnd();
-    return this->drawSelection(origin,last);edkEnd();
+    edk::vec2ui32 origin = this->getCharacterPosition(originID);
+    return this->drawSelection(origin,last);
 }
 //draw the ID without passing a color
 void edk::fonts::FontMap::draw(edk::uint32 originID,edk::uint32 lastID){
-    edk::vec2ui32 origin = this->getCharacterPosition(originID);edkEnd();
-    edk::vec2ui32 last = this->getCharacterPosition(lastID);edkEnd();
-    return this->draw(origin,last);edkEnd();
+    edk::vec2ui32 origin = this->getCharacterPosition(originID);
+    edk::vec2ui32 last = this->getCharacterPosition(lastID);
+    return this->draw(origin,last);
 }
 void edk::fonts::FontMap::draw(edk::vec2ui32 origin,edk::uint32 lastID){
-    edk::vec2ui32 last = this->getCharacterPosition(lastID);edkEnd();
-    return this->draw(origin,last);edkEnd();
+    edk::vec2ui32 last = this->getCharacterPosition(lastID);
+    return this->draw(origin,last);
 }
 void edk::fonts::FontMap::draw(edk::uint32 originID,edk::vec2ui32 last){
-    edk::vec2ui32 origin = this->getCharacterPosition(originID);edkEnd();
-    return this->draw(origin,last);edkEnd();
+    edk::vec2ui32 origin = this->getCharacterPosition(originID);
+    return this->draw(origin,last);
 }
 void edk::fonts::FontMap::drawWithoutMaterial(edk::uint32 originID,edk::uint32 lastID){
-    edk::vec2ui32 origin = this->getCharacterPosition(originID);edkEnd();
-    edk::vec2ui32 last = this->getCharacterPosition(lastID);edkEnd();
-    return this->drawWithoutMaterial(origin,last);edkEnd();
+    edk::vec2ui32 origin = this->getCharacterPosition(originID);
+    edk::vec2ui32 last = this->getCharacterPosition(lastID);
+    return this->drawWithoutMaterial(origin,last);
 }
 void edk::fonts::FontMap::drawWithoutMaterial(edk::vec2ui32 origin,edk::uint32 lastID){
-    edk::vec2ui32 last = this->getCharacterPosition(lastID);edkEnd();
-    return this->drawWithoutMaterial(origin,last);edkEnd();
+    edk::vec2ui32 last = this->getCharacterPosition(lastID);
+    return this->drawWithoutMaterial(origin,last);
 }
 void edk::fonts::FontMap::drawWithoutMaterial(edk::uint32 originID,edk::vec2ui32 last){
-    edk::vec2ui32 origin = this->getCharacterPosition(originID);edkEnd();
-    return this->drawWithoutMaterial(origin,last);edkEnd();
+    edk::vec2ui32 origin = this->getCharacterPosition(originID);
+    return this->drawWithoutMaterial(origin,last);
 }
 void edk::fonts::FontMap::drawWire(edk::uint32 originID,edk::uint32 lastID){
-    edk::vec2ui32 origin = this->getCharacterPosition(originID);edkEnd();
-    edk::vec2ui32 last = this->getCharacterPosition(lastID);edkEnd();
-    return this->drawWire(origin,last);edkEnd();
+    edk::vec2ui32 origin = this->getCharacterPosition(originID);
+    edk::vec2ui32 last = this->getCharacterPosition(lastID);
+    return this->drawWire(origin,last);
 }
 void edk::fonts::FontMap::drawWire(edk::vec2ui32 origin,edk::uint32 lastID){
-    edk::vec2ui32 last = this->getCharacterPosition(lastID);edkEnd();
-    return this->drawWire(origin,last);edkEnd();
+    edk::vec2ui32 last = this->getCharacterPosition(lastID);
+    return this->drawWire(origin,last);
 }
 void edk::fonts::FontMap::drawWire(edk::uint32 originID,edk::vec2ui32 last){
-    edk::vec2ui32 origin = this->getCharacterPosition(originID);edkEnd();
-    return this->drawWire(origin,last);edkEnd();
+    edk::vec2ui32 origin = this->getCharacterPosition(originID);
+    return this->drawWire(origin,last);
 }
 
 //save the FontTemplate
@@ -2574,73 +2580,73 @@ bool edk::fonts::FontMap::saveTemplate(edk::char8* folder){
 //SET
 void edk::fonts::FontMap::setPosition(edk::vec2f32 position){
     this->position = position;
-    this->map.setPosition(this->position);edkEnd();
+    this->map.setPosition(this->position);
 }
 void edk::fonts::FontMap::setPosition(edk::float32 x,edk::float32 y){
-    this->map.setPosition(x,y);edkEnd();
+    this->map.setPosition(x,y);
 }
 void edk::fonts::FontMap::setScale(edk::size2f32 scale){
     this->size = scale;
-    this->map.setScaleMap(this->size);edkEnd();
+    this->map.setScaleMap(this->size);
 }
 void edk::fonts::FontMap::setScale(edk::float32 width,edk::float32 height){
-    this->map.setScaleMap(width,height);edkEnd();
+    this->map.setScaleMap(width,height);
 }
 
 //GET
 edk::vec2f32 edk::fonts::FontMap::getPosition(){
-    return this->map.getPosition();edkEnd();
+    return this->map.getPosition();
 }
 edk::float32 edk::fonts::FontMap::getPositionX(){
-    return this->map.getPositionX();edkEnd();
+    return this->map.getPositionX();
 }
 edk::float32 edk::fonts::FontMap::getPositionY(){
-    return this->map.getPositionY();edkEnd();
+    return this->map.getPositionY();
 }
 //get size of the map
 edk::size2ui32 edk::fonts::FontMap::getMapSize(){
-    return this->map.getMapSize();edkEnd();
+    return this->map.getMapSize();
 }
 edk::uint32 edk::fonts::FontMap::getMapSizeWidth(){
-    return this->map.getMapSize().width;edkEnd();
+    return this->map.getMapSize().width;
 }
 edk::uint32 edk::fonts::FontMap::getMapSizeHeight(){
-    return this->map.getMapSize().height;edkEnd();
+    return this->map.getMapSize().height;
 }
 //get the mapScale
 edk::size2f32 edk::fonts::FontMap::getMapScale(){
-    return this->map.getScaleMap();edkEnd();
+    return this->map.getScaleMap();
 }
 edk::float32 edk::fonts::FontMap::getMapScaleWidth(){
-    return this->map.getScaleMap().width;edkEnd();
+    return this->map.getScaleMap().width;
 }
 edk::float32 edk::fonts::FontMap::getMapScaleHeight(){
-    return this->map.getScaleMap().height;edkEnd();
+    return this->map.getScaleMap().height;
 }
 //return the last position
 edk::vec2ui32 edk::fonts::FontMap::getTheLastPosition(){
-    vec2ui32 ret(0u,0u);edkEnd();
+    vec2ui32 ret(0u,0u);
     if(this->map.getMapSize().width){
-        ret.x = this->map.getMapSize().width-1u;edkEnd();
+        ret.x = this->map.getMapSize().width-1u;
     }
     if(this->map.getMapSize().height){
-        ret.y = this->map.getMapSize().height-1u;edkEnd();
+        ret.y = this->map.getMapSize().height-1u;
     }
     return ret;
 }
 edk::uint32 edk::fonts::FontMap::getTheLastPositionX(){
-    return this->getTheLastPosition().x;edkEnd();
+    return this->getTheLastPosition().x;
 }
 edk::uint32 edk::fonts::FontMap::getTheLastPositionY(){
-    return this->getTheLastPosition().y;edkEnd();
+    return this->getTheLastPosition().y;
 }
 //load fontImage
 bool edk::fonts::FontMap::loadFontImage(const edk::char8* name,edk::uint32 filter,edk::color4f32 color){
-    return this->loadFontImage((edk::char8*) name,filter,color);edkEnd();
+    return this->loadFontImage((edk::char8*) name,filter,color);
 }
 bool edk::fonts::FontMap::loadFontImage(edk::char8* name,edk::uint32 filter,edk::color4f32 color){
     //remove the fontImage
-    this->removeFontImage();edkEnd();
+    this->removeFontImage();
     //test the name
     if(name){
         //load the fontImage
@@ -2653,7 +2659,7 @@ bool edk::fonts::FontMap::loadFontImage(edk::char8* name,edk::uint32 filter,edk:
         }
     }
     //else remove fontImage
-    this->removeFontImage();edkEnd();
+    this->removeFontImage();
     return false;
 }
 bool edk::fonts::FontMap::loadFontImageFromMemory(const edk::char8* name,
@@ -2662,7 +2668,7 @@ bool edk::fonts::FontMap::loadFontImageFromMemory(const edk::char8* name,
                                                   edk::uint32 filter,
                                                   edk::color4f32 color
                                                   ){
-    return this->loadFontImageFromMemory((edk::char8*) name,image,size,filter,color);edkEnd();
+    return this->loadFontImageFromMemory((edk::char8*) name,image,size,filter,color);
 }
 
 bool edk::fonts::FontMap::loadFontImageFromMemory(edk::char8* name,
@@ -2672,7 +2678,7 @@ bool edk::fonts::FontMap::loadFontImageFromMemory(edk::char8* name,
                                                   edk::color4f32 color
                                                   ){
     //remove the fontImage
-    this->removeFontImage();edkEnd();
+    this->removeFontImage();
     //test the name
     if(name){
         //load the fontImage
@@ -2685,15 +2691,15 @@ bool edk::fonts::FontMap::loadFontImageFromMemory(edk::char8* name,
         }
     }
     //else remove fontImage
-    this->removeFontImage();edkEnd();
+    this->removeFontImage();
     return false;
 }
 bool edk::fonts::FontMap::loadFontImageFromPack(edk::pack::FilePackage* pack,const edk::char8* name,edk::uint32 filter,edk::color4f32 color){
-    return this->loadFontImageFromPack(pack,(edk::char8*) name,filter,color);edkEnd();
+    return this->loadFontImageFromPack(pack,(edk::char8*) name,filter,color);
 }
 bool edk::fonts::FontMap::loadFontImageFromPack(edk::pack::FilePackage* pack,edk::char8* name,edk::uint32 filter,edk::color4f32 color){
     //remove the fontImage
-    this->removeFontImage();edkEnd();
+    this->removeFontImage();
     //test the name
     if(name && pack){
         //load the fontImage
@@ -2706,125 +2712,125 @@ bool edk::fonts::FontMap::loadFontImageFromPack(edk::pack::FilePackage* pack,edk
         }
     }
     //else remove fontImage
-    this->removeFontImage();edkEnd();
+    this->removeFontImage();
     return false;
 }
 //create a map
 bool edk::fonts::FontMap::createMap(edk::size2ui32 size){
     //clean the lines
-    this->deleteLines();edkEnd();
+    this->deleteLines();
     //test the size
     if(size.width && size.height){
         //
         if(this->map.newTileMap(size.width,size.height)){
-            this->selectAll();edkEnd();
+            this->selectAll();
             return true;
         }
     }
     return false;
 }
 bool edk::fonts::FontMap::createMap(edk::uint32 width,edk::uint32 height){
-    return this->createMap(edk::size2ui32(width,height));edkEnd();
+    return this->createMap(edk::size2ui32(width,height));
 }
 
 //create the string
 bool edk::fonts::FontMap::createStringMap(const edk::char8* str,edk::uint32 width){
-    return this->createStringMap((edk::char8*) str,width);edkEnd();
+    return this->createStringMap((edk::char8*) str,width);
 }
 bool edk::fonts::FontMap::createStringMap(edk::char8* str,edk::uint32 width){
-    this->deleteLines();edkEnd();
+    this->deleteLines();
     if(this->addStringLine(str,width)){
         return true;
     }
     //first get the word size
-    this->deleteLines();edkEnd();
+    this->deleteLines();
     return false;
 }
 bool edk::fonts::FontMap::createStringMap(const edk::char8* str){
-    return this->createStringMap((edk::char8*) str);edkEnd();
+    return this->createStringMap((edk::char8*) str);
 }
 bool edk::fonts::FontMap::createStringMap(edk::char8* str){
-    this->deleteLines();edkEnd();
+    this->deleteLines();
     if(this->addStringLine(str)){
         return true;
     }
-    this->deleteLines();edkEnd();
+    this->deleteLines();
     return false;
 }
 bool edk::fonts::FontMap::addStringLine(const edk::char8* str,edk::uint32 width){
-    return this->addStringLine((edk::char8*) str, width);edkEnd();
+    return this->addStringLine((edk::char8*) str, width);
 }
 bool edk::fonts::FontMap::addStringLine(edk::char8* str,edk::uint32 width){
     //first get the word size
     if(str && width){
-        edk::fonts::FontMap::FontLine* line=NULL;edkEnd();
-        edk::uint32 size = 0u;edkEnd();
-        edk::uint32 c = 0u;edkEnd();
+        edk::fonts::FontMap::FontLine* line=NULL;
+        edk::uint32 size = 0u;
+        edk::uint32 c = 0u;
         edk::uint8 jump=0u;
         edk::uint32 enters=0u;
         while(*str){
             //test if dont have the line
             if(!line){
                 //create the new line
-                line = this->newLine(width);edkEnd();
+                line = this->newLine(width);
                 this->write=0u;
             }
             //test if have the line
             if(line){
                 //
-                size = this->wordSize(str);edkEnd();
+                size = this->wordSize(str);
                 if(size){
                     enters=0u;
                     //test if can write the word in the line
                     if(size<=(line->getSize()-this->write)){
                         //then write the word
                         for(edk::uint32 i=0u;i<size;i++){
-                            c = this->getTileID(str,&jump);edkEnd();
-                            line->setValue(this->write,c+1u);edkEnd();
-                            str+=jump;edkEnd();
-                            this->write++;edkEnd();
+                            c = this->getTileID(str,&jump);
+                            line->setValue(this->write,c+1u);
+                            str+=jump;
+                            this->write++;
                         }
                     }
                     //test if the write is zero
                     else if(!this->write){
                         //then break the word
-                        size = line->getSize();edkEnd();
+                        size = line->getSize();
                         for(edk::uint32 i=0u;i<size;i++){
-                            c = this->getTileID(str,&jump);edkEnd();
-                            line->setValue(this->write,c+1u);edkEnd();
-                            str+=jump;edkEnd();
-                            this->write++;edkEnd();
+                            c = this->getTileID(str,&jump);
+                            line->setValue(this->write,c+1u);
+                            str+=jump;
+                            this->write++;
                         }
                     }
                     else{
                         //else create a new line
-                        line=NULL;edkEnd();
+                        line=NULL;
                     }
                 }
                 else{
                     //test if can write the character
                     if(this->write<line->getSize()){
                         //write the character
-                        c = this->getTileID(str,&jump);edkEnd();
+                        c = this->getTileID(str,&jump);
                         //test if have the enter '\n'
                         if(c==10 || c == 13 || c == '\n'){
                             //then create a new line
                             if(enters){
-                                line=NULL;edkEnd();
+                                line=NULL;
                             }
-                            enters++;edkEnd();
-                            str+=jump;edkEnd();
+                            enters++;
+                            str+=jump;
                         }
                         else{
-                            line->setValue(this->write,c+1u);edkEnd();
-                            this->write++;edkEnd();
-                            str+=jump;edkEnd();
+                            line->setValue(this->write,c+1u);
+                            this->write++;
+                            str+=jump;
                             enters=0u;
                         }
                     }
                     else{
                         //else clean the line pointer
-                        line=NULL;edkEnd();
+                        line=NULL;
                     }
                 }
             }
@@ -2836,9 +2842,9 @@ bool edk::fonts::FontMap::addStringLine(edk::char8* str,edk::uint32 width){
         if(this->lines.size()){
             //create the new tileMap
             if(this->map.newTileMap(this->maxSizeLine,this->lines.size())){
-                this->copyLinesToMap();edkEnd();
-                //this->cleanLines();edkEnd();
-                this->selectAll();edkEnd();
+                this->copyLinesToMap();
+                //this->cleanLines();
+                this->selectAll();
                 return true;
             }
         }
@@ -2846,14 +2852,14 @@ bool edk::fonts::FontMap::addStringLine(edk::char8* str,edk::uint32 width){
     return false;
 }
 bool edk::fonts::FontMap::addStringLine(const edk::char8* str){
-    return this->addStringLine((edk::char8*) str);edkEnd();
+    return this->addStringLine((edk::char8*) str);
 }
 bool edk::fonts::FontMap::addStringLine(edk::char8* str){
     //first get the word size
     if(str){
-        edk::fonts::FontMap::FontLine* line=NULL;edkEnd();
-        edk::uint32 size = 0u;edkEnd();
-        edk::uint32 c = 0u;edkEnd();
+        edk::fonts::FontMap::FontLine* line=NULL;
+        edk::uint32 size = 0u;
+        edk::uint32 c = 0u;
         edk::uint8 jump=0u;
         edk::uint32 width=0u;
         edk::uint32 enters=0u;
@@ -2861,90 +2867,90 @@ bool edk::fonts::FontMap::addStringLine(edk::char8* str){
             //test if dont have the line
             if(!line){
                 //get the lineSize
-                width = this->lineSize(str);edkEnd();
+                width = this->lineSize(str);
                 if(width){
                     //create the new line
-                    line = this->newLine(width);edkEnd();
+                    line = this->newLine(width);
                     this->write=0u;
                     enters=0u;
                 }
                 else{
                     if(*str == 10 || *str == 13){
                         if(enters){
-                            line = this->newLine(1u);edkEnd();
+                            line = this->newLine(1u);
                         }
-                        enters++;edkEnd();
+                        enters++;
                     }
                 }
             }
             //test if have the line
             if(line){
                 //
-                size = this->wordSize(str);edkEnd();
+                size = this->wordSize(str);
                 if(size){
                     //test if can write the word in the line
                     if(size<=(line->getSize()-this->write)){
                         //then write the word
                         for(edk::uint32 i=0u;i<size;i++){
-                            c = this->getTileID(str,&jump);edkEnd();
-                            line->setValue(this->write,c+1u);edkEnd();
-                            str+=jump;edkEnd();
-                            this->write++;edkEnd();
+                            c = this->getTileID(str,&jump);
+                            line->setValue(this->write,c+1u);
+                            str+=jump;
+                            this->write++;
                         }
                     }
                     //test if the write is zero
                     else if(!write){
                         //then break the word
-                        size = line->getSize();edkEnd();
+                        size = line->getSize();
                         for(edk::uint32 i=0u;i<size;i++){
-                            c = this->getTileID(str,&jump);edkEnd();
-                            line->setValue(this->write,c+1u);edkEnd();
-                            str+=jump;edkEnd();
-                            this->write++;edkEnd();
+                            c = this->getTileID(str,&jump);
+                            line->setValue(this->write,c+1u);
+                            str+=jump;
+                            this->write++;
                         }
                     }
                     else{
                         //else create a new line
-                        line=NULL;edkEnd();
+                        line=NULL;
                     }
                 }
                 else{
                     //test if can write the character
                     if(this->write<line->getSize()){
                         //write the character
-                        c = this->getTileID(str,&jump);edkEnd();
+                        c = this->getTileID(str,&jump);
                         //test if have the enter '\n'
                         if(c==10 || c == 13 || c == '\n'){
                             //then create a new line
-                            line=NULL;edkEnd();
-                            str+=jump;edkEnd();
+                            line=NULL;
+                            str+=jump;
                         }
                         else{
-                            line->setValue(this->write,c+1u);edkEnd();
-                            this->write++;edkEnd();
-                            str+=jump;edkEnd();
+                            line->setValue(this->write,c+1u);
+                            this->write++;
+                            str+=jump;
                         }
                     }
                     else{
                         //else clean the line pointer
-                        line=NULL;edkEnd();
+                        line=NULL;
                         if(*str == 10 || *str == 13){
-                            str++;edkEnd();
+                            str++;
                         }
                     }
                 }
             }
             else if(*str){
-                str++;edkEnd();
+                str++;
             }
         }
         //test if have lines
         if(this->lines.size()){
             //create the new tileMap
             if(this->map.newTileMap(this->maxSizeLine,this->lines.size())){
-                this->copyLinesToMap();edkEnd();
-                //this->cleanLines();edkEnd();
-                this->selectAll();edkEnd();
+                this->copyLinesToMap();
+                //this->cleanLines();
+                this->selectAll();
                 return true;
             }
         }
@@ -2952,90 +2958,90 @@ bool edk::fonts::FontMap::addStringLine(edk::char8* str){
     return false;
 }
 bool edk::fonts::FontMap::createStringMapOneLine(const edk::char8* str,edk::uint32 width){
-    return this->createStringMapOneLine((edk::char8*) str,width);edkEnd();
+    return this->createStringMapOneLine((edk::char8*) str,width);
 }
 bool edk::fonts::FontMap::createStringMapOneLine(edk::char8* str,edk::uint32 width){
-    this->deleteLines();edkEnd();
+    this->deleteLines();
     //first get the word size
     if(str && width){
-        edk::fonts::FontMap::FontLine* line=NULL;edkEnd();
-        edk::uint32 size = 0u;edkEnd();
-        edk::uint32 c = 0u;edkEnd();
+        edk::fonts::FontMap::FontLine* line=NULL;
+        edk::uint32 size = 0u;
+        edk::uint32 c = 0u;
         edk::uint8 jump=0u;
         edk::uint32 enters=0u;
-        bool haveLine = false;edkEnd();
+        bool haveLine = false;
         while(*str){
             //test if dont have the line
             if(!line){
                 if(haveLine){
                     break;
                 }
-                haveLine=true;edkEnd();
+                haveLine=true;
                 //create the new line
-                line = this->newLine(width);edkEnd();
+                line = this->newLine(width);
                 this->write=0u;
             }
             //test if have the line
             if(line){
                 //
-                size = this->wordSize(str);edkEnd();
+                size = this->wordSize(str);
                 if(size){
                     enters=0u;
                     //test if can write the word in the line
                     if(size<=(line->getSize()-this->write)){
                         //then write the word
                         for(edk::uint32 i=0u;i<size;i++){
-                            c = this->getTileID(str,&jump);edkEnd();
-                            line->setValue(this->write,c+1u);edkEnd();
-                            str+=jump;edkEnd();
-                            this->write++;edkEnd();
+                            c = this->getTileID(str,&jump);
+                            line->setValue(this->write,c+1u);
+                            str+=jump;
+                            this->write++;
                         }
                     }
                     //test if the write is zero
                     else if(!this->write){
                         //then break the word
-                        size = line->getSize();edkEnd();
+                        size = line->getSize();
                         for(edk::uint32 i=0u;i<size;i++){
-                            c = this->getTileID(str,&jump);edkEnd();
-                            line->setValue(this->write,c+1u);edkEnd();
-                            str+=jump;edkEnd();
-                            this->write++;edkEnd();
+                            c = this->getTileID(str,&jump);
+                            line->setValue(this->write,c+1u);
+                            str+=jump;
+                            this->write++;
                         }
                     }
                     else{
                         //else create a new line
-                        line=NULL;edkEnd();
+                        line=NULL;
                     }
                 }
                 else{
                     //test if can write the character
                     if(this->write<line->getSize()){
                         //write the character
-                        c = this->getTileID(str,&jump);edkEnd();
+                        c = this->getTileID(str,&jump);
                         //test if have the enter '\n'
                         if(c==10 || c == 13 || c == '\n'){
                             //then create a new line
                             if(enters){
-                                line=NULL;edkEnd();
+                                line=NULL;
                             }
-                            enters++;edkEnd();
-                            str+=jump;edkEnd();
+                            enters++;
+                            str+=jump;
                         }
                         else{
-                            line->setValue(this->write,c+1u);edkEnd();
-                            this->write++;edkEnd();
-                            str+=jump;edkEnd();
+                            line->setValue(this->write,c+1u);
+                            this->write++;
+                            str+=jump;
                             enters=0u;
                         }
                     }
                     else{
                         //else clean the line pointer
-                        line=NULL;edkEnd();
+                        line=NULL;
                     }
                 }
             }
             else{
-                this->deleteLines();edkEnd();
+                this->deleteLines();
                 return false;
             }
         }
@@ -3043,124 +3049,124 @@ bool edk::fonts::FontMap::createStringMapOneLine(edk::char8* str,edk::uint32 wid
         if(this->lines.size()){
             //create the new tileMap
             if(this->map.newTileMap(width,this->lines.size())){
-                this->copyLinesToMap();edkEnd();
-                //this->cleanLines();edkEnd();
-                this->selectAll();edkEnd();
+                this->copyLinesToMap();
+                //this->cleanLines();
+                this->selectAll();
                 return true;
             }
         }
     }
-    this->deleteLines();edkEnd();
+    this->deleteLines();
     return false;
 }
 bool edk::fonts::FontMap::createStringMapOneLine(const edk::char8* str){
-    return this->createStringMapOneLine((edk::char8*) str);edkEnd();
+    return this->createStringMapOneLine((edk::char8*) str);
 }
 bool edk::fonts::FontMap::createStringMapOneLine(edk::char8* str){
-    this->deleteLines();edkEnd();
+    this->deleteLines();
     //first get the word size
     if(str){
-        edk::fonts::FontMap::FontLine* line=NULL;edkEnd();
-        edk::uint32 size = 0u;edkEnd();
-        edk::uint32 c = 0u;edkEnd();
+        edk::fonts::FontMap::FontLine* line=NULL;
+        edk::uint32 size = 0u;
+        edk::uint32 c = 0u;
         edk::uint8 jump=0u;
         edk::uint32 width=0u;
         edk::uint32 enters=0u;
-        bool haveLine = false;edkEnd();
+        bool haveLine = false;
         while(*str){
             //test if dont have the line
             if(!line){
                 if(haveLine){
                     break;
                 }
-                haveLine=true;edkEnd();
+                haveLine=true;
                 //get the lineSize
-                width = this->lineSize(str);edkEnd();
+                width = this->lineSize(str);
                 if(width){
                     //create the new line
-                    line = this->newLine(width);edkEnd();
+                    line = this->newLine(width);
                     this->write=0u;
                     enters=0u;
                 }
                 else{
                     if(*str == 10 || *str == 13){
                         if(enters){
-                            this->newLine(1u);edkEnd();
+                            this->newLine(1u);
                         }
-                        enters++;edkEnd();
+                        enters++;
                     }
                 }
             }
             //test if have the line
             if(line){
                 //
-                size = this->wordSize(str);edkEnd();
+                size = this->wordSize(str);
                 if(size){
                     //test if can write the word in the line
                     if(size<=(line->getSize()-this->write)){
                         //then write the word
                         for(edk::uint32 i=0u;i<size;i++){
-                            c = this->getTileID(str,&jump);edkEnd();
-                            line->setValue(this->write,c+1u);edkEnd();
-                            str+=jump;edkEnd();
-                            this->write++;edkEnd();
+                            c = this->getTileID(str,&jump);
+                            line->setValue(this->write,c+1u);
+                            str+=jump;
+                            this->write++;
                         }
                     }
                     //test if the write is zero
                     else if(!this->write){
                         //then break the word
-                        size = line->getSize();edkEnd();
+                        size = line->getSize();
                         for(edk::uint32 i=0u;i<size;i++){
-                            c = this->getTileID(str,&jump);edkEnd();
-                            line->setValue(this->write,c+1u);edkEnd();
-                            str+=jump;edkEnd();
-                            this->write++;edkEnd();
+                            c = this->getTileID(str,&jump);
+                            line->setValue(this->write,c+1u);
+                            str+=jump;
+                            this->write++;
                         }
                     }
                     else{
                         //else create a new line
-                        line=NULL;edkEnd();
+                        line=NULL;
                     }
                 }
                 else{
                     //test if can write the character
                     if(this->write<line->getSize()){
                         //write the character
-                        c = this->getTileID(str,&jump);edkEnd();
+                        c = this->getTileID(str,&jump);
                         //test if have the enter '\n'
                         if(c==10 || c == 13 || c == '\n'){
                             //then create a new line
-                            line=NULL;edkEnd();
-                            str+=jump;edkEnd();
+                            line=NULL;
+                            str+=jump;
                         }
                         else{
-                            line->setValue(this->write,c+1u);edkEnd();
-                            this->write++;edkEnd();
-                            str+=jump;edkEnd();
+                            line->setValue(this->write,c+1u);
+                            this->write++;
+                            str+=jump;
                         }
                     }
                     else{
                         //else clean the line pointer
-                        line=NULL;edkEnd();
+                        line=NULL;
                     }
                 }
             }
             else if(*str){
-                str++;edkEnd();
+                str++;
             }
         }
         //test if have lines
         if(this->lines.size()){
             //create the new tileMap
             if(this->map.newTileMap(this->maxSizeLine,this->lines.size())){
-                this->copyLinesToMap();edkEnd();
-                this->deleteLines();edkEnd();
-                this->selectAll();edkEnd();
+                this->copyLinesToMap();
+                this->deleteLines();
+                this->selectAll();
                 return true;
             }
         }
     }
-    this->deleteLines();edkEnd();
+    this->deleteLines();
     return false;
 }
 
@@ -3171,18 +3177,18 @@ bool edk::fonts::FontMap::writeChar(edk::uchar8 c,edk::uint32 x,edk::uint32 y){
             && c
             ){
         //set the character in the map
-        edk::char8 str[2u];edkEnd();
-        str[0u]=c;edkEnd();
-        str[1u]='\0';edkEnd();
+        edk::char8 str[2u];
+        str[0u]=c;
+        str[1u]='\0';
         edk::uint8 jump=0u;
-        c = this->getTileID(str,&jump);edkEnd();
+        c = this->getTileID(str,&jump);
 
-        return this->map.setTile(c+1,x,y);edkEnd();
+        return this->map.setTile(c+1,x,y);
     }
     return false;
 }
 bool edk::fonts::FontMap::writeChar(edk::uchar8 c,edk::vec2ui32 position){
-    return this->writeChar(c,position.x,position.y);edkEnd();
+    return this->writeChar(c,position.x,position.y);
 }
 bool edk::fonts::FontMap::writeChar(edk::char8* c,edk::uint32 x,edk::uint32 y){
     //test if have the position in the map
@@ -3190,96 +3196,96 @@ bool edk::fonts::FontMap::writeChar(edk::char8* c,edk::uint32 x,edk::uint32 y){
             && c
             ){
         //set the character in the map
-        edk::uint8 jump;edkEnd();
-        edk::uint32 temp = this->getTileID(c,&jump);edkEnd();
+        edk::uint8 jump;
+        edk::uint32 temp = this->getTileID(c,&jump);
 
-        return this->map.setTile(temp+1,x,y);edkEnd();
+        return this->map.setTile(temp+1,x,y);
     }
     return false;
 }
 bool edk::fonts::FontMap::writeChar(edk::char8* c,edk::vec2ui32 position){
-    return this->writeChar(c,position.x,position.y);edkEnd();
+    return this->writeChar(c,position.x,position.y);
 }
 bool edk::fonts::FontMap::writeChar(const edk::char8* c,edk::uint32 x,edk::uint32 y){
-    return this->writeChar((edk::char8*) c,x,y);edkEnd();
+    return this->writeChar((edk::char8*) c,x,y);
 }
 bool edk::fonts::FontMap::writeChar(const edk::char8* c,edk::vec2ui32 position){
-    return this->writeChar((edk::char8*) c,position);edkEnd();
+    return this->writeChar((edk::char8*) c,position);
 }
 bool edk::fonts::FontMap::writeColor(edk::color4f32 color,edk::uint32 x,edk::uint32 y){
     //test if have the position in the map
     if(x<this->map.getMapSize().width && y<this->map.getMapSize().height
             ){
-        return this->map.setTileColor(color,x,y);edkEnd();
+        return this->map.setTileColor(color,x,y);
     }
     return false;
 }
 bool edk::fonts::FontMap::writeColor(edk::color4f32 color,edk::vec2ui32 position){
-    return this->writeColor(color,position.x,position.y);edkEnd();
+    return this->writeColor(color,position.x,position.y);
 }
 bool edk::fonts::FontMap::writeColor(edk::color3f32 color,edk::uint32 x,edk::uint32 y){
-    return this->writeColor(edk::color4f32(color.r,color.g,color.b,1.f),x,y);edkEnd();
+    return this->writeColor(edk::color4f32(color.r,color.g,color.b,1.f),x,y);
 }
 bool edk::fonts::FontMap::writeColor(edk::color3f32 color,edk::vec2ui32 position){
-    return this->writeColor(edk::color4f32(color.r,color.g,color.b,1.f),position.x,position.y);edkEnd();
+    return this->writeColor(edk::color4f32(color.r,color.g,color.b,1.f),position.x,position.y);
 }
 bool edk::fonts::FontMap::writeColor(edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a,edk::uint32 x,edk::uint32 y){
-    return this->writeColor(edk::color4f32(r,g,b,a),x,y);edkEnd();
+    return this->writeColor(edk::color4f32(r,g,b,a),x,y);
 }
 bool edk::fonts::FontMap::writeColor(edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a,edk::vec2ui32 position){
-    return this->writeColor(edk::color4f32(r,g,b,a),position.x,position.y);edkEnd();
+    return this->writeColor(edk::color4f32(r,g,b,a),position.x,position.y);
 }
 bool edk::fonts::FontMap::writeColor(edk::float32 r,edk::float32 g,edk::float32 b,edk::uint32 x,edk::uint32 y){
-    return this->writeColor(edk::color4f32(r,g,b,1.f),x,y);edkEnd();
+    return this->writeColor(edk::color4f32(r,g,b,1.f),x,y);
 }
 bool edk::fonts::FontMap::writeColor(edk::float32 r,edk::float32 g,edk::float32 b,edk::vec2ui32 position){
-    return this->writeColor(edk::color4f32(r,g,b,1.f),position.x,position.y);edkEnd();
+    return this->writeColor(edk::color4f32(r,g,b,1.f),position.x,position.y);
 }
 
 bool edk::fonts::FontMap::writeString(const edk::char8* str,edk::uint32 x,edk::uint8 y,edk::uint32 width){
-    return this->writeString((edk::char8*) str,x,y,width);edkEnd();
+    return this->writeString((edk::char8*) str,x,y,width);
 }
 bool edk::fonts::FontMap::writeString(edk::char8* str,edk::uint32 x,edk::uint8 y,edk::uint32 width){
-    edk::uint32 lenght=x+width;edkEnd();
+    edk::uint32 lenght=x+width;
     if(lenght>=this->map.getMapSize().width){
-        lenght = this->map.getMapSize().width;edkEnd();
-        width = lenght-x;edkEnd();
+        lenght = this->map.getMapSize().width;
+        width = lenght-x;
     }
     if(str && width
             && x<this->map.getMapSize().width
             && y<this->map.getMapSize().height
             ){
         edk::uint32 size=0u;
-        edk::uint32 headX=x;edkEnd();
-        edk::uint32 headY=y;edkEnd();
-        edk::uint32 c;edkEnd();
-        edk::uint32 space;edkEnd();
+        edk::uint32 headX=x;
+        edk::uint32 headY=y;
+        edk::uint32 c;
+        edk::uint32 space;
         edk::uint8 jump=0u;
-        edk::char8 temp[2u];edkEnd();
-        bool haveInitialReturn=true;edkEnd();
-        bool newLine=false;edkEnd();
-        temp[0u]=' ';edkEnd();
-        temp[1u]='\0';edkEnd();
+        edk::char8 temp[2u];
+        bool haveInitialReturn=true;
+        bool newLine=false;
+        temp[0u]=' ';
+        temp[1u]='\0';
         //prepare the space
-        space = this->getTileID(temp,&jump);edkEnd();
+        space = this->getTileID(temp,&jump);
         while(*str){
-            size = this->wordSize(str);edkEnd();
+            size = this->wordSize(str);
             //test if the word fit inside the line
             if(size>=lenght-headX){
-                newLine=true;edkEnd();
+                newLine=true;
                 //test if the headX is in the beggining
                 if(headX==x){
-                    size = width;edkEnd();
+                    size = width;
                 }
                 else{
                     //clean the last characters of the line
                     for(;headX<lenght;headX++){
-                        this->map.setTile(space+1u,headX,headY);edkEnd();
+                        this->map.setTile(space+1u,headX,headY);
                     }
 
                     //else it create a new line
-                    headY++;edkEnd();
-                    headX=x;edkEnd();
+                    headY++;
+                    headX=x;
                     if(headY>=this->map.getMapSize().height){
                         break;
                     }
@@ -3288,79 +3294,79 @@ bool edk::fonts::FontMap::writeString(edk::char8* str,edk::uint32 x,edk::uint8 y
             }
             //write the characters
             if(size){
-                haveInitialReturn=false;edkEnd();
+                haveInitialReturn=false;
                 for(edk::uint32 i=0u;i<size;i++){
-                    c = this->getTileID(str,&jump);edkEnd();
-                    this->map.setTile(c+1u,headX,headY);edkEnd();
-                    str+=jump;edkEnd();
-                    headX++;edkEnd();
+                    c = this->getTileID(str,&jump);
+                    this->map.setTile(c+1u,headX,headY);
+                    str+=jump;
+                    headX++;
                 }
             }
             else{
                 if(*str=='\n' || *str==10){
                     if(headX == x && !haveInitialReturn){
                         //
-                        str++;edkEnd();
+                        str++;
                     }
                     else{
                         //clean the last characters of the line
                         for(;headX<lenght;headX++){
-                            this->map.setTile(space+1u,headX,headY);edkEnd();
+                            this->map.setTile(space+1u,headX,headY);
                         }
 
                         //create a new line
-                        headY++;edkEnd();
-                        headX=x;edkEnd();
-                        str++;edkEnd();
+                        headY++;
+                        headX=x;
+                        str++;
                         if(headY>=this->map.getMapSize().height){
                             break;
                         }
                     }
-                    haveInitialReturn=true;edkEnd();
+                    haveInitialReturn=true;
                 }
                 else if(*str==' ' && newLine){
                     if(str[1u]!=' ' && str[1u]!=10 && str[1u]!='\n'){
-                        str++;edkEnd();
+                        str++;
                     }
                 }
                 else{
-                    haveInitialReturn=false;edkEnd();
-                    c = this->getTileID(str,&jump);edkEnd();
-                    this->map.setTile(c+1u,headX,headY);edkEnd();
-                    str+=jump;edkEnd();
-                    headX++;edkEnd();
+                    haveInitialReturn=false;
+                    c = this->getTileID(str,&jump);
+                    this->map.setTile(c+1u,headX,headY);
+                    str+=jump;
+                    headX++;
                 }
             }
-            newLine=false;edkEnd();
+            newLine=false;
         }
         return true;
     }
     return false;
 }
 bool edk::fonts::FontMap::writeString(const edk::char8* str,edk::vec2ui32 position,edk::uint32 width){
-    return this->writeString((edk::char8*) str,position.x,position.y,width);edkEnd();
+    return this->writeString((edk::char8*) str,position.x,position.y,width);
 }
 bool edk::fonts::FontMap::writeString(edk::char8* str,edk::vec2ui32 position,edk::uint32 width){
-    return this->writeString(str,position.x,position.y,width);edkEnd();
+    return this->writeString(str,position.x,position.y,width);
 }
 bool edk::fonts::FontMap::writeString(const edk::char8* str,edk::uint32 x,
                                       edk::uint8 y,
                                       edk::uint32 width,
                                       edk::uint32 height
                                       ){
-    return this->writeString((edk::char8*) str,x,y,width,height);edkEnd();
+    return this->writeString((edk::char8*) str,x,y,width,height);
 }
 
 bool edk::fonts::FontMap::writeString(edk::char8* str,edk::uint32 x,edk::uint8 y,edk::uint32 width,edk::uint32 height){
-    edk::uint32 lenght=x+width;edkEnd();
+    edk::uint32 lenght=x+width;
     if(lenght>=this->map.getMapSize().width){
-        lenght = this->map.getMapSize().width;edkEnd();
-        width = lenght-x;edkEnd();
+        lenght = this->map.getMapSize().width;
+        width = lenght-x;
     }
-    edk::uint32 up=y+height;edkEnd();
+    edk::uint32 up=y+height;
     if(up>=this->map.getMapSize().height){
-        up = this->map.getMapSize().height;edkEnd();
-        height = up-y;edkEnd();
+        up = this->map.getMapSize().height;
+        height = up-y;
     }
     if(str && width && height
             && x<this->map.getMapSize().width
@@ -3368,36 +3374,36 @@ bool edk::fonts::FontMap::writeString(edk::char8* str,edk::uint32 x,edk::uint8 y
             ){
         //
         edk::uint32 size=0u;
-        edk::uint32 headX=x;edkEnd();
-        edk::uint32 headY=y;edkEnd();
-        edk::uint32 c;edkEnd();
-        edk::uint32 space;edkEnd();
+        edk::uint32 headX=x;
+        edk::uint32 headY=y;
+        edk::uint32 c;
+        edk::uint32 space;
         edk::uint8 jump=0u;
-        edk::char8 temp[2u];edkEnd();
-        bool haveInitialReturn=true;edkEnd();
-        bool newLine=false;edkEnd();
-        temp[0u]=' ';edkEnd();
-        temp[1u]='\0';edkEnd();
+        edk::char8 temp[2u];
+        bool haveInitialReturn=true;
+        bool newLine=false;
+        temp[0u]=' ';
+        temp[1u]='\0';
         //prepare the space
-        space = this->getTileID(temp,&jump);edkEnd();
+        space = this->getTileID(temp,&jump);
         while(*str){
-            size = this->wordSize(str);edkEnd();
+            size = this->wordSize(str);
             //test if the word fit inside the line
             if(size>=lenght-headX){
-                newLine=true;edkEnd();
+                newLine=true;
                 //test if the headX is in the beggining
                 if(headX==x){
-                    size = width;edkEnd();
+                    size = width;
                 }
                 else{
                     //clean the last characters of the line
                     for(;headX<lenght;headX++){
-                        this->map.setTile(space+1u,headX,headY);edkEnd();
+                        this->map.setTile(space+1u,headX,headY);
                     }
 
                     //else it create a new line
-                    headY++;edkEnd();
-                    headX=x;edkEnd();
+                    headY++;
+                    headX=x;
                     if(headY>=up){
                         break;
                     }
@@ -3406,50 +3412,50 @@ bool edk::fonts::FontMap::writeString(edk::char8* str,edk::uint32 x,edk::uint8 y
             }
             //write the characters
             if(size){
-                haveInitialReturn=false;edkEnd();
+                haveInitialReturn=false;
                 for(edk::uint32 i=0u;i<size;i++){
-                    c = this->getTileID(str,&jump);edkEnd();
-                    this->map.setTile(c+1u,headX,headY);edkEnd();
-                    str+=jump;edkEnd();
-                    headX++;edkEnd();
+                    c = this->getTileID(str,&jump);
+                    this->map.setTile(c+1u,headX,headY);
+                    str+=jump;
+                    headX++;
                 }
             }
             else{
                 if(*str=='\n' || *str==10){
                     if(headX == x && !haveInitialReturn){
                         //
-                        str++;edkEnd();
+                        str++;
                     }
                     else{
                         //clean the last characters of the line
                         for(;headX<lenght;headX++){
-                            this->map.setTile(space+1u,headX,headY);edkEnd();
+                            this->map.setTile(space+1u,headX,headY);
                         }
 
                         //create a new line
-                        headY++;edkEnd();
-                        headX=x;edkEnd();
-                        str++;edkEnd();
+                        headY++;
+                        headX=x;
+                        str++;
                         if(headY>=up){
                             break;
                         }
                     }
-                    haveInitialReturn=true;edkEnd();
+                    haveInitialReturn=true;
                 }
                 else if(*str==' ' && newLine){
                     if(str[1u]!=' ' && str[1u]!=10 && str[1u]!='\n'){
-                        str++;edkEnd();
+                        str++;
                     }
                 }
                 else{
-                    haveInitialReturn=false;edkEnd();
-                    c = this->getTileID(str,&jump);edkEnd();
-                    this->map.setTile(c+1u,headX,headY);edkEnd();
-                    str+=jump;edkEnd();
-                    headX++;edkEnd();
+                    haveInitialReturn=false;
+                    c = this->getTileID(str,&jump);
+                    this->map.setTile(c+1u,headX,headY);
+                    str+=jump;
+                    headX++;
                 }
             }
-            newLine=false;edkEnd();
+            newLine=false;
         }
         return true;
     }
@@ -3460,26 +3466,26 @@ bool edk::fonts::FontMap::writeString(const edk::char8* str,
                                       edk::uint32 width,
                                       edk::uint32 height
                                       ){
-    return this->writeString((edk::char8*) str,position.x,position.y,width,height);edkEnd();
+    return this->writeString((edk::char8*) str,position.x,position.y,width,height);
 }
 bool edk::fonts::FontMap::writeString(edk::char8* str,
                                       edk::vec2ui32 position,
                                       edk::uint32 width,
                                       edk::uint32 height
                                       ){
-    return this->writeString(str,position.x,position.y,width,height);edkEnd();
+    return this->writeString(str,position.x,position.y,width,height);
 }
 bool edk::fonts::FontMap::writeString(const edk::char8* str,edk::uint32 x,edk::uint8 y,edk::size2ui32 size){
-    return this->writeString((edk::char8*) str,x,y,size.width,size.height);edkEnd();
+    return this->writeString((edk::char8*) str,x,y,size.width,size.height);
 }
 bool edk::fonts::FontMap::writeString(edk::char8* str,edk::uint32 x,edk::uint8 y,edk::size2ui32 size){
-    return this->writeString(str,x,y,size.width,size.height);edkEnd();
+    return this->writeString(str,x,y,size.width,size.height);
 }
 bool edk::fonts::FontMap::writeString(const edk::char8* str,edk::vec2ui32 position,edk::size2ui32 size){
-    return this->writeString((edk::char8*) str,position.x,position.y,size.width,size.height);edkEnd();
+    return this->writeString((edk::char8*) str,position.x,position.y,size.width,size.height);
 }
 bool edk::fonts::FontMap::writeString(edk::char8* str,edk::vec2ui32 position,edk::size2ui32 size){
-    return this->writeString(str,position.x,position.y,size.width,size.height);edkEnd();
+    return this->writeString(str,position.x,position.y,size.width,size.height);
 }
 
 bool edk::fonts::FontMap::writeStringColor(const edk::char8* str,
@@ -3491,7 +3497,7 @@ bool edk::fonts::FontMap::writeStringColor(const edk::char8* str,
                                            edk::float32 b,
                                            edk::float32 a
                                            ){
-    return this->writeStringColor((edk::char8*) str,x,y,width,r,g,b,a);edkEnd();
+    return this->writeStringColor((edk::char8*) str,x,y,width,r,g,b,a);
 }
 bool edk::fonts::FontMap::writeStringColor(edk::char8* str,
                                            edk::uint32 x,
@@ -3502,10 +3508,10 @@ bool edk::fonts::FontMap::writeStringColor(edk::char8* str,
                                            edk::float32 b,
                                            edk::float32 a
                                            ){
-    edk::uint32 lenght=x+width;edkEnd();
+    edk::uint32 lenght=x+width;
     if(lenght>=this->map.getMapSize().width){
-        lenght = this->map.getMapSize().width;edkEnd();
-        width = lenght-x;edkEnd();
+        lenght = this->map.getMapSize().width;
+        width = lenght-x;
     }
     if(str && width
             && x<this->map.getMapSize().width
@@ -3513,37 +3519,37 @@ bool edk::fonts::FontMap::writeStringColor(edk::char8* str,
             ){
         //
         edk::uint32 size=0u;
-        edk::uint32 headX=x;edkEnd();
-        edk::uint32 headY=y;edkEnd();
-        edk::uint32 c;edkEnd();
-        edk::uint32 space;edkEnd();
+        edk::uint32 headX=x;
+        edk::uint32 headY=y;
+        edk::uint32 c;
+        edk::uint32 space;
         edk::uint8 jump=0u;
-        edk::char8 temp[2u];edkEnd();
-        bool haveInitialReturn=true;edkEnd();
-        bool newLine=false;edkEnd();
-        temp[0u]=' ';edkEnd();
-        temp[1u]='\0';edkEnd();
+        edk::char8 temp[2u];
+        bool haveInitialReturn=true;
+        bool newLine=false;
+        temp[0u]=' ';
+        temp[1u]='\0';
         //prepare the space
-        space = this->getTileID(temp,&jump);edkEnd();
+        space = this->getTileID(temp,&jump);
         while(*str){
-            size = this->wordSize(str);edkEnd();
+            size = this->wordSize(str);
             //test if the word fit inside the line
             if(size>=lenght-headX){
-                newLine=true;edkEnd();
+                newLine=true;
                 //test if the headX is in the beggining
                 if(headX==x){
-                    size = width;edkEnd();
+                    size = width;
                 }
                 else{
                     //clean the last characters of the line
                     for(;headX<lenght;headX++){
-                        this->map.setTile(space+1u,headX,headY);edkEnd();
-                        this->map.setTileColor(r,g,b,a,headX,headY);edkEnd();
+                        this->map.setTile(space+1u,headX,headY);
+                        this->map.setTileColor(r,g,b,a,headX,headY);
                     }
 
                     //else it create a new line
-                    headY++;edkEnd();
-                    headX=x;edkEnd();
+                    headY++;
+                    headX=x;
                     if(headY>=this->map.getMapSize().height){
                         break;
                     }
@@ -3552,53 +3558,53 @@ bool edk::fonts::FontMap::writeStringColor(edk::char8* str,
             }
             //write the characters
             if(size){
-                haveInitialReturn=false;edkEnd();
+                haveInitialReturn=false;
                 for(edk::uint32 i=0u;i<size;i++){
-                    c = this->getTileID(str,&jump);edkEnd();
-                    this->map.setTile(c+1u,headX,headY);edkEnd();
-                    this->map.setTileColor(r,g,b,a,headX,headY);edkEnd();
-                    str+=jump;edkEnd();
-                    headX++;edkEnd();
+                    c = this->getTileID(str,&jump);
+                    this->map.setTile(c+1u,headX,headY);
+                    this->map.setTileColor(r,g,b,a,headX,headY);
+                    str+=jump;
+                    headX++;
                 }
             }
             else{
                 if(*str=='\n' || *str==10){
                     if(headX == x && !haveInitialReturn){
                         //
-                        str++;edkEnd();
+                        str++;
                     }
                     else{
                         //clean the last characters of the line
                         for(;headX<lenght;headX++){
-                            this->map.setTile(space+1u,headX,headY);edkEnd();
-                            this->map.setTileColor(r,g,b,a,headX,headY);edkEnd();
+                            this->map.setTile(space+1u,headX,headY);
+                            this->map.setTileColor(r,g,b,a,headX,headY);
                         }
 
                         //create a new line
-                        headY++;edkEnd();
-                        headX=x;edkEnd();
-                        str++;edkEnd();
+                        headY++;
+                        headX=x;
+                        str++;
                         if(headY>=this->map.getMapSize().height){
                             break;
                         }
                     }
-                    haveInitialReturn=true;edkEnd();
+                    haveInitialReturn=true;
                 }
                 else if(*str==' ' && newLine){
                     if(str[1u]!=' ' && str[1u]!=10 && str[1u]!='\n'){
-                        str++;edkEnd();
+                        str++;
                     }
                 }
                 else{
-                    haveInitialReturn=false;edkEnd();
-                    c = this->getTileID(str,&jump);edkEnd();
-                    this->map.setTile(c+1u,headX,headY);edkEnd();
-                    this->map.setTileColor(r,g,b,a,headX,headY);edkEnd();
-                    str+=jump;edkEnd();
-                    headX++;edkEnd();
+                    haveInitialReturn=false;
+                    c = this->getTileID(str,&jump);
+                    this->map.setTile(c+1u,headX,headY);
+                    this->map.setTileColor(r,g,b,a,headX,headY);
+                    str+=jump;
+                    headX++;
                 }
             }
-            newLine=false;edkEnd();
+            newLine=false;
         }
         return true;
     }
@@ -3612,7 +3618,7 @@ bool edk::fonts::FontMap::writeStringColor(const edk::char8* str,
                                            edk::float32 b,
                                            edk::float32 a
                                            ){
-    return this->writeStringColor((edk::char8*) str,position.x,position.y,width,r,g,b,a);edkEnd();
+    return this->writeStringColor((edk::char8*) str,position.x,position.y,width,r,g,b,a);
 }
 bool edk::fonts::FontMap::writeStringColor(edk::char8* str,
                                            edk::vec2ui32 position,
@@ -3622,7 +3628,7 @@ bool edk::fonts::FontMap::writeStringColor(edk::char8* str,
                                            edk::float32 b,
                                            edk::float32 a
                                            ){
-    return this->writeStringColor(str,position.x,position.y,width,r,g,b,a);edkEnd();
+    return this->writeStringColor(str,position.x,position.y,width,r,g,b,a);
 }
 bool edk::fonts::FontMap::writeStringColor(const edk::char8* str,
                                            edk::uint32 x,
@@ -3634,7 +3640,7 @@ bool edk::fonts::FontMap::writeStringColor(const edk::char8* str,
                                            edk::float32 b,
                                            edk::float32 a
                                            ){
-    return this->writeStringColor((edk::char8*) str,x,y,width,height,r,g,b,a);edkEnd();
+    return this->writeStringColor((edk::char8*) str,x,y,width,height,r,g,b,a);
 }
 
 bool edk::fonts::FontMap::writeStringColor(edk::char8* str,
@@ -3647,15 +3653,15 @@ bool edk::fonts::FontMap::writeStringColor(edk::char8* str,
                                            edk::float32 b,
                                            edk::float32 a
                                            ){
-    edk::uint32 lenght=x+width;edkEnd();
+    edk::uint32 lenght=x+width;
     if(lenght>=this->map.getMapSize().width){
-        lenght = this->map.getMapSize().width;edkEnd();
-        width = lenght-x;edkEnd();
+        lenght = this->map.getMapSize().width;
+        width = lenght-x;
     }
-    edk::uint32 up=y+height;edkEnd();
+    edk::uint32 up=y+height;
     if(up>=this->map.getMapSize().height){
-        up = this->map.getMapSize().height;edkEnd();
-        height = up-y;edkEnd();
+        up = this->map.getMapSize().height;
+        height = up-y;
     }
     if(str && width && height
             && x<this->map.getMapSize().width
@@ -3663,37 +3669,37 @@ bool edk::fonts::FontMap::writeStringColor(edk::char8* str,
             ){
         //
         edk::uint32 size=0u;
-        edk::uint32 headX=x;edkEnd();
-        edk::uint32 headY=y;edkEnd();
-        edk::uint32 c;edkEnd();
-        edk::uint32 space;edkEnd();
+        edk::uint32 headX=x;
+        edk::uint32 headY=y;
+        edk::uint32 c;
+        edk::uint32 space;
         edk::uint8 jump=0u;
-        edk::char8 temp[2u];edkEnd();
-        bool haveInitialReturn=true;edkEnd();
-        bool newLine=false;edkEnd();
-        temp[0u]=' ';edkEnd();
-        temp[1u]='\0';edkEnd();
+        edk::char8 temp[2u];
+        bool haveInitialReturn=true;
+        bool newLine=false;
+        temp[0u]=' ';
+        temp[1u]='\0';
         //prepare the space
-        space = this->getTileID(temp,&jump);edkEnd();
+        space = this->getTileID(temp,&jump);
         while(*str){
-            size = this->wordSize(str);edkEnd();
+            size = this->wordSize(str);
             //test if the word fit inside the line
             if(size>=lenght-headX){
-                newLine=true;edkEnd();
+                newLine=true;
                 //test if the headX is in the beggining
                 if(headX==x){
-                    size = width;edkEnd();
+                    size = width;
                 }
                 else{
                     //clean the last characters of the line
                     for(;headX<lenght;headX++){
-                        this->map.setTile(space+1u,headX,headY);edkEnd();
-                        this->map.setTileColor(r,g,b,a,headX,headY);edkEnd();
+                        this->map.setTile(space+1u,headX,headY);
+                        this->map.setTileColor(r,g,b,a,headX,headY);
                     }
 
                     //else it create a new line
-                    headY++;edkEnd();
-                    headX=x;edkEnd();
+                    headY++;
+                    headX=x;
                     if(headY>=up){
                         break;
                     }
@@ -3702,53 +3708,53 @@ bool edk::fonts::FontMap::writeStringColor(edk::char8* str,
             }
             //write the characters
             if(size){
-                haveInitialReturn=false;edkEnd();
+                haveInitialReturn=false;
                 for(edk::uint32 i=0u;i<size;i++){
-                    c = this->getTileID(str,&jump);edkEnd();
-                    this->map.setTile(c+1u,headX,headY);edkEnd();
-                    this->map.setTileColor(r,g,b,a,headX,headY);edkEnd();
-                    str+=jump;edkEnd();
-                    headX++;edkEnd();
+                    c = this->getTileID(str,&jump);
+                    this->map.setTile(c+1u,headX,headY);
+                    this->map.setTileColor(r,g,b,a,headX,headY);
+                    str+=jump;
+                    headX++;
                 }
             }
             else{
                 if(*str=='\n' || *str==10){
                     if(headX == x && !haveInitialReturn){
                         //
-                        str++;edkEnd();
+                        str++;
                     }
                     else{
                         //clean the last characters of the line
                         for(;headX<lenght;headX++){
-                            this->map.setTile(space+1u,headX,headY);edkEnd();
-                            this->map.setTileColor(r,g,b,a,headX,headY);edkEnd();
+                            this->map.setTile(space+1u,headX,headY);
+                            this->map.setTileColor(r,g,b,a,headX,headY);
                         }
 
                         //create a new line
-                        headY++;edkEnd();
-                        headX=x;edkEnd();
-                        str++;edkEnd();
+                        headY++;
+                        headX=x;
+                        str++;
                         if(headY>=up){
                             break;
                         }
                     }
-                    haveInitialReturn=true;edkEnd();
+                    haveInitialReturn=true;
                 }
                 else if(*str==' ' && newLine){
                     if(str[1u]!=' ' && str[1u]!=10 && str[1u]!='\n'){
-                        str++;edkEnd();
+                        str++;
                     }
                 }
                 else{
-                    haveInitialReturn=false;edkEnd();
-                    c = this->getTileID(str,&jump);edkEnd();
-                    this->map.setTile(c+1u,headX,headY);edkEnd();
-                    this->map.setTileColor(r,g,b,a,headX,headY);edkEnd();
-                    str+=jump;edkEnd();
-                    headX++;edkEnd();
+                    haveInitialReturn=false;
+                    c = this->getTileID(str,&jump);
+                    this->map.setTile(c+1u,headX,headY);
+                    this->map.setTileColor(r,g,b,a,headX,headY);
+                    str+=jump;
+                    headX++;
                 }
             }
-            newLine=false;edkEnd();
+            newLine=false;
         }
         return true;
     }
@@ -3763,7 +3769,7 @@ bool edk::fonts::FontMap::writeStringColor(const edk::char8* str,
                                            edk::float32 b,
                                            edk::float32 a
                                            ){
-    return this->writeStringColor((edk::char8*) str,position.x,position.y,width,height,r,g,b,a);edkEnd();
+    return this->writeStringColor((edk::char8*) str,position.x,position.y,width,height,r,g,b,a);
 }
 bool edk::fonts::FontMap::writeStringColor(edk::char8* str,
                                            edk::vec2ui32 position,
@@ -3774,7 +3780,7 @@ bool edk::fonts::FontMap::writeStringColor(edk::char8* str,
                                            edk::float32 b,
                                            edk::float32 a
                                            ){
-    return this->writeStringColor(str,position.x,position.y,width,height,r,g,b,a);edkEnd();
+    return this->writeStringColor(str,position.x,position.y,width,height,r,g,b,a);
 }
 bool edk::fonts::FontMap::writeStringColor(const edk::char8* str,
                                            edk::uint32 x,
@@ -3785,7 +3791,7 @@ bool edk::fonts::FontMap::writeStringColor(const edk::char8* str,
                                            edk::float32 b,
                                            edk::float32 a
                                            ){
-    return this->writeStringColor((edk::char8*) str,x,y,size.width,size.height,r,g,b,a);edkEnd();
+    return this->writeStringColor((edk::char8*) str,x,y,size.width,size.height,r,g,b,a);
 }
 bool edk::fonts::FontMap::writeStringColor(edk::char8* str,
                                            edk::uint32 x,
@@ -3796,7 +3802,7 @@ bool edk::fonts::FontMap::writeStringColor(edk::char8* str,
                                            edk::float32 b,
                                            edk::float32 a
                                            ){
-    return this->writeStringColor(str,x,y,size.width,size.height,r,g,b,a);edkEnd();
+    return this->writeStringColor(str,x,y,size.width,size.height,r,g,b,a);
 }
 bool edk::fonts::FontMap::writeStringColor(const edk::char8* str,
                                            edk::vec2ui32 position,
@@ -3806,7 +3812,7 @@ bool edk::fonts::FontMap::writeStringColor(const edk::char8* str,
                                            edk::float32 b,
                                            edk::float32 a
                                            ){
-    return this->writeStringColor((edk::char8*) str,position.x,position.y,size.width,size.height,r,g,b,a);edkEnd();
+    return this->writeStringColor((edk::char8*) str,position.x,position.y,size.width,size.height,r,g,b,a);
 }
 bool edk::fonts::FontMap::writeStringColor(edk::char8* str,
                                            edk::vec2ui32 position,
@@ -3816,7 +3822,7 @@ bool edk::fonts::FontMap::writeStringColor(edk::char8* str,
                                            edk::float32 b,
                                            edk::float32 a
                                            ){
-    return this->writeStringColor(str,position.x,position.y,size.width,size.height,r,g,b,a);edkEnd();
+    return this->writeStringColor(str,position.x,position.y,size.width,size.height,r,g,b,a);
 }
 
 bool edk::fonts::FontMap::writeStringColor(const edk::char8* str,
@@ -3827,7 +3833,7 @@ bool edk::fonts::FontMap::writeStringColor(const edk::char8* str,
                                            edk::float32 g,
                                            edk::float32 b
                                            ){
-    return this->writeStringColor((edk::char8*) str,x,y,width,r,g,b,1.0f);edkEnd();
+    return this->writeStringColor((edk::char8*) str,x,y,width,r,g,b,1.0f);
 }
 bool edk::fonts::FontMap::writeStringColor(edk::char8* str,
                                            edk::uint32 x,
@@ -3837,7 +3843,7 @@ bool edk::fonts::FontMap::writeStringColor(edk::char8* str,
                                            edk::float32 g,
                                            edk::float32 b
                                            ){
-    return this->writeStringColor(str,x,y,width,r,g,b,1.f);edkEnd();
+    return this->writeStringColor(str,x,y,width,r,g,b,1.f);
 }
 bool edk::fonts::FontMap::writeStringColor(const edk::char8* str,
                                            edk::vec2ui32 position,
@@ -3846,7 +3852,7 @@ bool edk::fonts::FontMap::writeStringColor(const edk::char8* str,
                                            edk::float32 g,
                                            edk::float32 b
                                            ){
-    return this->writeStringColor((edk::char8*) str,position.x,position.y,width,r,g,b,1.0f);edkEnd();
+    return this->writeStringColor((edk::char8*) str,position.x,position.y,width,r,g,b,1.0f);
 }
 bool edk::fonts::FontMap::writeStringColor(edk::char8* str,
                                            edk::vec2ui32 position,
@@ -3855,7 +3861,7 @@ bool edk::fonts::FontMap::writeStringColor(edk::char8* str,
                                            edk::float32 g,
                                            edk::float32 b
                                            ){
-    return this->writeStringColor(str,position.x,position.y,width,r,g,b,1.0f);edkEnd();
+    return this->writeStringColor(str,position.x,position.y,width,r,g,b,1.0f);
 }
 bool edk::fonts::FontMap::writeStringColor(const edk::char8* str,
                                            edk::uint32 x,
@@ -3866,7 +3872,7 @@ bool edk::fonts::FontMap::writeStringColor(const edk::char8* str,
                                            edk::float32 g,
                                            edk::float32 b
                                            ){
-    return this->writeStringColor((edk::char8*) str,x,y,width,height,r,g,b,1.0f);edkEnd();
+    return this->writeStringColor((edk::char8*) str,x,y,width,height,r,g,b,1.0f);
 }
 
 bool edk::fonts::FontMap::writeStringColor(edk::char8* str,
@@ -3878,7 +3884,7 @@ bool edk::fonts::FontMap::writeStringColor(edk::char8* str,
                                            edk::float32 g,
                                            edk::float32 b
                                            ){
-    return this->writeStringColor(str,x,y,width,height,r,g,b,1.f);edkEnd();
+    return this->writeStringColor(str,x,y,width,height,r,g,b,1.f);
 }
 bool edk::fonts::FontMap::writeStringColor(const edk::char8* str,
                                            edk::vec2ui32 position,
@@ -3888,7 +3894,7 @@ bool edk::fonts::FontMap::writeStringColor(const edk::char8* str,
                                            edk::float32 g,
                                            edk::float32 b
                                            ){
-    return this->writeStringColor((edk::char8*) str,position.x,position.y,width,height,r,g,b,1.0f);edkEnd();
+    return this->writeStringColor((edk::char8*) str,position.x,position.y,width,height,r,g,b,1.0f);
 }
 bool edk::fonts::FontMap::writeStringColor(edk::char8* str,
                                            edk::vec2ui32 position,
@@ -3898,7 +3904,7 @@ bool edk::fonts::FontMap::writeStringColor(edk::char8* str,
                                            edk::float32 g,
                                            edk::float32 b
                                            ){
-    return this->writeStringColor(str,position.x,position.y,width,height,r,g,b,1.0f);edkEnd();
+    return this->writeStringColor(str,position.x,position.y,width,height,r,g,b,1.0f);
 }
 bool edk::fonts::FontMap::writeStringColor(const edk::char8* str,
                                            edk::uint32 x,
@@ -3908,7 +3914,7 @@ bool edk::fonts::FontMap::writeStringColor(const edk::char8* str,
                                            edk::float32 g,
                                            edk::float32 b
                                            ){
-    return this->writeStringColor((edk::char8*) str,x,y,size.width,size.height,r,g,b,1.0f);edkEnd();
+    return this->writeStringColor((edk::char8*) str,x,y,size.width,size.height,r,g,b,1.0f);
 }
 bool edk::fonts::FontMap::writeStringColor(edk::char8* str,
                                            edk::uint32 x,
@@ -3918,7 +3924,7 @@ bool edk::fonts::FontMap::writeStringColor(edk::char8* str,
                                            edk::float32 g,
                                            edk::float32 b
                                            ){
-    return this->writeStringColor(str,x,y,size.width,size.height,r,g,b,1.0f);edkEnd();
+    return this->writeStringColor(str,x,y,size.width,size.height,r,g,b,1.0f);
 }
 bool edk::fonts::FontMap::writeStringColor(const edk::char8* str,
                                            edk::vec2ui32 position,
@@ -3927,7 +3933,7 @@ bool edk::fonts::FontMap::writeStringColor(const edk::char8* str,
                                            edk::float32 g,
                                            edk::float32 b
                                            ){
-    return this->writeStringColor((edk::char8*) str,position.x,position.y,size.width,size.height,r,g,b,1.0f);edkEnd();
+    return this->writeStringColor((edk::char8*) str,position.x,position.y,size.width,size.height,r,g,b,1.0f);
 }
 bool edk::fonts::FontMap::writeStringColor(edk::char8* str,
                                            edk::vec2ui32 position,
@@ -3936,7 +3942,7 @@ bool edk::fonts::FontMap::writeStringColor(edk::char8* str,
                                            edk::float32 g,
                                            edk::float32 b
                                            ){
-    return this->writeStringColor(str,position.x,position.y,size.width,size.height,r,g,b,1.0f);edkEnd();
+    return this->writeStringColor(str,position.x,position.y,size.width,size.height,r,g,b,1.0f);
 }
 
 bool edk::fonts::FontMap::writeStringColor(const edk::char8* str,
@@ -3945,7 +3951,7 @@ bool edk::fonts::FontMap::writeStringColor(const edk::char8* str,
                                            edk::uint32 width,
                                            edk::color4f32 color
                                            ){
-    return this->writeStringColor((edk::char8*) str,x,y,width,color.r,color.g,color.b,color.a);edkEnd();
+    return this->writeStringColor((edk::char8*) str,x,y,width,color.r,color.g,color.b,color.a);
 }
 bool edk::fonts::FontMap::writeStringColor(edk::char8* str,
                                            edk::uint32 x,
@@ -3953,21 +3959,21 @@ bool edk::fonts::FontMap::writeStringColor(edk::char8* str,
                                            edk::uint32 width,
                                            edk::color4f32 color
                                            ){
-    return this->writeStringColor(str,x,y,width,color.r,color.g,color.b,color.a);edkEnd();
+    return this->writeStringColor(str,x,y,width,color.r,color.g,color.b,color.a);
 }
 bool edk::fonts::FontMap::writeStringColor(const edk::char8* str,
                                            edk::vec2ui32 position,
                                            edk::uint32 width,
                                            edk::color4f32 color
                                            ){
-    return this->writeStringColor((edk::char8*) str,position.x,position.y,width,color.r,color.g,color.b,color.a);edkEnd();
+    return this->writeStringColor((edk::char8*) str,position.x,position.y,width,color.r,color.g,color.b,color.a);
 }
 bool edk::fonts::FontMap::writeStringColor(edk::char8* str,
                                            edk::vec2ui32 position,
                                            edk::uint32 width,
                                            edk::color4f32 color
                                            ){
-    return this->writeStringColor(str,position.x,position.y,width,color.r,color.g,color.b,color.a);edkEnd();
+    return this->writeStringColor(str,position.x,position.y,width,color.r,color.g,color.b,color.a);
 }
 bool edk::fonts::FontMap::writeStringColor(const edk::char8* str,
                                            edk::uint32 x,
@@ -3976,7 +3982,7 @@ bool edk::fonts::FontMap::writeStringColor(const edk::char8* str,
                                            edk::uint32 height,
                                            edk::color4f32 color
                                            ){
-    return this->writeStringColor((edk::char8*) str,x,y,width,height,color.r,color.g,color.b,color.a);edkEnd();
+    return this->writeStringColor((edk::char8*) str,x,y,width,height,color.r,color.g,color.b,color.a);
 }
 
 bool edk::fonts::FontMap::writeStringColor(edk::char8* str,
@@ -3986,7 +3992,7 @@ bool edk::fonts::FontMap::writeStringColor(edk::char8* str,
                                            edk::uint32 height,
                                            edk::color4f32 color
                                            ){
-    return this->writeStringColor(str,x,y,width,height,color.r,color.g,color.b,color.a);edkEnd();
+    return this->writeStringColor(str,x,y,width,height,color.r,color.g,color.b,color.a);
 }
 bool edk::fonts::FontMap::writeStringColor(const edk::char8* str,
                                            edk::vec2ui32 position,
@@ -4002,7 +4008,7 @@ bool edk::fonts::FontMap::writeStringColor(const edk::char8* str,
                                   color.g,
                                   color.b,
                                   color.a
-                                  );edkEnd();
+                                  );
 }
 bool edk::fonts::FontMap::writeStringColor(edk::char8* str,
                                            edk::vec2ui32 position,
@@ -4010,7 +4016,7 @@ bool edk::fonts::FontMap::writeStringColor(edk::char8* str,
                                            edk::uint32 height,
                                            edk::color4f32 color
                                            ){
-    return this->writeStringColor(str,position.x,position.y,width,height,color.r,color.g,color.b,color.a);edkEnd();
+    return this->writeStringColor(str,position.x,position.y,width,height,color.r,color.g,color.b,color.a);
 }
 bool edk::fonts::FontMap::writeStringColor(const edk::char8* str,
                                            edk::uint32 x,
@@ -4018,7 +4024,7 @@ bool edk::fonts::FontMap::writeStringColor(const edk::char8* str,
                                            edk::size2ui32 size,
                                            edk::color4f32 color
                                            ){
-    return this->writeStringColor((edk::char8*) str,x,y,size.width,size.height,color.r,color.g,color.b,color.a);edkEnd();
+    return this->writeStringColor((edk::char8*) str,x,y,size.width,size.height,color.r,color.g,color.b,color.a);
 }
 bool edk::fonts::FontMap::writeStringColor(edk::char8* str,
                                            edk::uint32 x,
@@ -4026,7 +4032,7 @@ bool edk::fonts::FontMap::writeStringColor(edk::char8* str,
                                            edk::size2ui32 size,
                                            edk::color4f32 color
                                            ){
-    return this->writeStringColor(str,x,y,size.width,size.height,color.r,color.g,color.b,color.a);edkEnd();
+    return this->writeStringColor(str,x,y,size.width,size.height,color.r,color.g,color.b,color.a);
 }
 bool edk::fonts::FontMap::writeStringColor(const edk::char8* str,
                                            edk::vec2ui32 position,
@@ -4041,14 +4047,14 @@ bool edk::fonts::FontMap::writeStringColor(const edk::char8* str,
                                   color.g,
                                   color.b,
                                   color.a
-                                  );edkEnd();
+                                  );
 }
 bool edk::fonts::FontMap::writeStringColor(edk::char8* str,
                                            edk::vec2ui32 position,
                                            edk::size2ui32 size,
                                            edk::color4f32 color
                                            ){
-    return this->writeStringColor(str,position.x,position.y,size.width,size.height,color.r,color.g,color.b,color.a);edkEnd();
+    return this->writeStringColor(str,position.x,position.y,size.width,size.height,color.r,color.g,color.b,color.a);
 }
 
 bool edk::fonts::FontMap::writeStringColor(const edk::char8* str,
@@ -4057,7 +4063,7 @@ bool edk::fonts::FontMap::writeStringColor(const edk::char8* str,
                                            edk::uint32 width,
                                            edk::color3f32 color
                                            ){
-    return this->writeStringColor((edk::char8*) str,x,y,width,color.r,color.g,color.b,1.0f);edkEnd();
+    return this->writeStringColor((edk::char8*) str,x,y,width,color.r,color.g,color.b,1.0f);
 }
 bool edk::fonts::FontMap::writeStringColor(edk::char8* str,
                                            edk::uint32 x,
@@ -4065,21 +4071,21 @@ bool edk::fonts::FontMap::writeStringColor(edk::char8* str,
                                            edk::uint32 width,
                                            edk::color3f32 color
                                            ){
-    return this->writeStringColor(str,x,y,width,color.r,color.g,color.b,1.0f);edkEnd();
+    return this->writeStringColor(str,x,y,width,color.r,color.g,color.b,1.0f);
 }
 bool edk::fonts::FontMap::writeStringColor(const edk::char8* str,
                                            edk::vec2ui32 position,
                                            edk::uint32 width,
                                            edk::color3f32 color
                                            ){
-    return this->writeStringColor((edk::char8*) str,position.x,position.y,width,color.r,color.g,color.b,1.0f);edkEnd();
+    return this->writeStringColor((edk::char8*) str,position.x,position.y,width,color.r,color.g,color.b,1.0f);
 }
 bool edk::fonts::FontMap::writeStringColor(edk::char8* str,
                                            edk::vec2ui32 position,
                                            edk::uint32 width,
                                            edk::color3f32 color
                                            ){
-    return this->writeStringColor(str,position.x,position.y,width,color.r,color.g,color.b,1.0f);edkEnd();
+    return this->writeStringColor(str,position.x,position.y,width,color.r,color.g,color.b,1.0f);
 }
 bool edk::fonts::FontMap::writeStringColor(const edk::char8* str,
                                            edk::uint32 x,
@@ -4088,7 +4094,7 @@ bool edk::fonts::FontMap::writeStringColor(const edk::char8* str,
                                            edk::uint32 height,
                                            edk::color3f32 color
                                            ){
-    return this->writeStringColor((edk::char8*) str,x,y,width,height,color.r,color.g,color.b,1.0f);edkEnd();
+    return this->writeStringColor((edk::char8*) str,x,y,width,height,color.r,color.g,color.b,1.0f);
 }
 
 bool edk::fonts::FontMap::writeStringColor(edk::char8* str,
@@ -4098,7 +4104,7 @@ bool edk::fonts::FontMap::writeStringColor(edk::char8* str,
                                            edk::uint32 height,
                                            edk::color3f32 color
                                            ){
-    return this->writeStringColor(str,x,y,width,height,color.r,color.g,color.b,1.0f);edkEnd();
+    return this->writeStringColor(str,x,y,width,height,color.r,color.g,color.b,1.0f);
 }
 bool edk::fonts::FontMap::writeStringColor(const edk::char8* str,
                                            edk::vec2ui32 position,
@@ -4114,7 +4120,7 @@ bool edk::fonts::FontMap::writeStringColor(const edk::char8* str,
                                   color.g,
                                   color.b,
                                   1.0f
-                                  );edkEnd();
+                                  );
 }
 bool edk::fonts::FontMap::writeStringColor(edk::char8* str,
                                            edk::vec2ui32 position,
@@ -4122,7 +4128,7 @@ bool edk::fonts::FontMap::writeStringColor(edk::char8* str,
                                            edk::uint32 height,
                                            edk::color3f32 color
                                            ){
-    return this->writeStringColor(str,position.x,position.y,width,height,color.r,color.g,color.b,1.0f);edkEnd();
+    return this->writeStringColor(str,position.x,position.y,width,height,color.r,color.g,color.b,1.0f);
 }
 bool edk::fonts::FontMap::writeStringColor(const edk::char8* str,
                                            edk::uint32 x,
@@ -4130,7 +4136,7 @@ bool edk::fonts::FontMap::writeStringColor(const edk::char8* str,
                                            edk::size2ui32 size,
                                            edk::color3f32 color
                                            ){
-    return this->writeStringColor((edk::char8*) str,x,y,size.width,size.height,color.r,color.g,color.b,1.0f);edkEnd();
+    return this->writeStringColor((edk::char8*) str,x,y,size.width,size.height,color.r,color.g,color.b,1.0f);
 }
 bool edk::fonts::FontMap::writeStringColor(edk::char8* str,
                                            edk::uint32 x,
@@ -4138,7 +4144,7 @@ bool edk::fonts::FontMap::writeStringColor(edk::char8* str,
                                            edk::size2ui32 size,
                                            edk::color3f32 color
                                            ){
-    return this->writeStringColor(str,x,y,size.width,size.height,color.r,color.g,color.b,1.0f);edkEnd();
+    return this->writeStringColor(str,x,y,size.width,size.height,color.r,color.g,color.b,1.0f);
 }
 bool edk::fonts::FontMap::writeStringColor(const edk::char8* str,
                                            edk::vec2ui32 position,
@@ -4153,24 +4159,24 @@ bool edk::fonts::FontMap::writeStringColor(const edk::char8* str,
                                   color.g,
                                   color.b,
                                   1.0f
-                                  );edkEnd();
+                                  );
 }
 bool edk::fonts::FontMap::writeStringColor(edk::char8* str,
                                            edk::vec2ui32 position,
                                            edk::size2ui32 size,
                                            edk::color3f32 color
                                            ){
-    return this->writeStringColor(str,position.x,position.y,size.width,size.height,color.r,color.g,color.b,1.0f);edkEnd();
+    return this->writeStringColor(str,position.x,position.y,size.width,size.height,color.r,color.g,color.b,1.0f);
 }
 
 bool edk::fonts::FontMap::writeSpaces(const edk::char8* str,edk::uint32 x,edk::uint8 y,edk::uint32 width){
-    return this->writeSpaces((edk::char8*) str,x,y,width);edkEnd();
+    return this->writeSpaces((edk::char8*) str,x,y,width);
 }
 bool edk::fonts::FontMap::writeSpaces(edk::char8* str,edk::uint32 x,edk::uint8 y,edk::uint32 width){
-    edk::uint32 lenght=x+width;edkEnd();
+    edk::uint32 lenght=x+width;
     if(lenght>=this->map.getMapSize().width){
-        lenght = this->map.getMapSize().width;edkEnd();
-        width = lenght-x;edkEnd();
+        lenght = this->map.getMapSize().width;
+        width = lenght-x;
     }
     if(str && width
             && x<this->map.getMapSize().width
@@ -4178,35 +4184,35 @@ bool edk::fonts::FontMap::writeSpaces(edk::char8* str,edk::uint32 x,edk::uint8 y
             ){
         //
         edk::uint32 size=0u;
-        edk::uint32 headX=x;edkEnd();
-        edk::uint32 headY=y;edkEnd();
-        edk::uint32 space;edkEnd();
+        edk::uint32 headX=x;
+        edk::uint32 headY=y;
+        edk::uint32 space;
         edk::uint8 jump=0u;
-        edk::char8 temp[2u];edkEnd();
-        bool haveInitialReturn=true;edkEnd();
-        bool newLine=false;edkEnd();
-        temp[0u]=' ';edkEnd();
-        temp[1u]='\0';edkEnd();
+        edk::char8 temp[2u];
+        bool haveInitialReturn=true;
+        bool newLine=false;
+        temp[0u]=' ';
+        temp[1u]='\0';
         //prepare the space
-        space = this->getTileID(temp,&jump);edkEnd();
+        space = this->getTileID(temp,&jump);
         while(*str){
-            size = this->wordSize(str);edkEnd();
+            size = this->wordSize(str);
             //test if the word fit inside the line
             if(size>=lenght-headX){
-                newLine=true;edkEnd();
+                newLine=true;
                 //test if the headX is in the beggining
                 if(headX==x){
-                    size = width;edkEnd();
+                    size = width;
                 }
                 else{
                     //clean the last characters of the line
                     for(;headX<lenght;headX++){
-                        this->map.setTile(space+1u,headX,headY);edkEnd();
+                        this->map.setTile(space+1u,headX,headY);
                     }
 
                     //else it create a new line
-                    headY++;edkEnd();
-                    headX=x;edkEnd();
+                    headY++;
+                    headX=x;
                     if(headY>=this->map.getMapSize().height){
                         break;
                     }
@@ -4216,83 +4222,83 @@ bool edk::fonts::FontMap::writeSpaces(edk::char8* str,edk::uint32 x,edk::uint8 y
             //write the characters
             if(size){
                 for(edk::uint32 i=0u;i<size;i++){
-                    this->map.setTile(space+1u,headX,headY);edkEnd();
-                    str+=jump;edkEnd();
-                    headX++;edkEnd();
+                    this->map.setTile(space+1u,headX,headY);
+                    str+=jump;
+                    headX++;
                 }
             }
             else{
                 if(*str=='\n' || *str==10){
                     if(headX == x && !haveInitialReturn){
                         //
-                        str++;edkEnd();
+                        str++;
                     }
                     else{
                         //clean the last characters of the line
                         for(;headX<lenght;headX++){
-                            this->map.setTile(space+1u,headX,headY);edkEnd();
+                            this->map.setTile(space+1u,headX,headY);
                         }
 
                         //create a new line
-                        headY++;edkEnd();
-                        headX=x;edkEnd();
-                        str++;edkEnd();
+                        headY++;
+                        headX=x;
+                        str++;
                         if(headY>=this->map.getMapSize().height){
                             break;
                         }
                     }
-                    haveInitialReturn=true;edkEnd();
+                    haveInitialReturn=true;
                 }
                 else if(*str==' ' && newLine){
                     if(str[1u]!=' ' && str[1u]!=10 && str[1u]!='\n'){
-                        str++;edkEnd();
+                        str++;
                     }
                 }
                 else{
-                    this->map.setTile(space+1u,headX,headY);edkEnd();
-                    str+=jump;edkEnd();
-                    headX++;edkEnd();
+                    this->map.setTile(space+1u,headX,headY);
+                    str+=jump;
+                    headX++;
                 }
             }
-            newLine=false;edkEnd();
+            newLine=false;
         }
 
         //test if reach the end of the limit
         if(headX<lenght){
             for(;headX<lenght;headX++){
-                this->map.setTile(space+1u,headX,headY);edkEnd();
+                this->map.setTile(space+1u,headX,headY);
             }
-            headX = x;edkEnd();
-            headY++;edkEnd();
+            headX = x;
+            headY++;
         }
         return true;
     }
     return false;
 }
 bool edk::fonts::FontMap::writeSpaces(const edk::char8* str,edk::vec2ui32 position,edk::uint32 width){
-    return this->writeSpaces((edk::char8*) str,position.x,position.y,width);edkEnd();
+    return this->writeSpaces((edk::char8*) str,position.x,position.y,width);
 }
 bool edk::fonts::FontMap::writeSpaces(edk::char8* str,edk::vec2ui32 position,edk::uint32 width){
-    return this->writeSpaces(str,position.x,position.y,width);edkEnd();
+    return this->writeSpaces(str,position.x,position.y,width);
 }
 bool edk::fonts::FontMap::writeSpaces(const edk::char8* str,edk::uint32 x,
                                       edk::uint8 y,
                                       edk::uint32 width,
                                       edk::uint32 height
                                       ){
-    return this->writeSpaces((edk::char8*) str,x,y,width,height);edkEnd();
+    return this->writeSpaces((edk::char8*) str,x,y,width,height);
 }
 
 bool edk::fonts::FontMap::writeSpaces(edk::char8* str,edk::uint32 x,edk::uint8 y,edk::uint32 width,edk::uint32 height){
-    edk::uint32 lenght=x+width;edkEnd();
+    edk::uint32 lenght=x+width;
     if(lenght>=this->map.getMapSize().width){
-        lenght = this->map.getMapSize().width;edkEnd();
-        width = lenght-x;edkEnd();
+        lenght = this->map.getMapSize().width;
+        width = lenght-x;
     }
-    edk::uint32 up=y+height;edkEnd();
+    edk::uint32 up=y+height;
     if(up>=this->map.getMapSize().height){
-        up = this->map.getMapSize().height;edkEnd();
-        height = up-y;edkEnd();
+        up = this->map.getMapSize().height;
+        height = up-y;
     }
     if(str && width && height
             && x<this->map.getMapSize().width
@@ -4300,35 +4306,35 @@ bool edk::fonts::FontMap::writeSpaces(edk::char8* str,edk::uint32 x,edk::uint8 y
             ){
         //
         edk::uint32 size=0u;
-        edk::uint32 headX=x;edkEnd();
-        edk::uint32 headY=y;edkEnd();
-        edk::uint32 space;edkEnd();
+        edk::uint32 headX=x;
+        edk::uint32 headY=y;
+        edk::uint32 space;
         edk::uint8 jump=0u;
-        edk::char8 temp[2u];edkEnd();
-        bool haveInitialReturn=true;edkEnd();
-        bool newLine=false;edkEnd();
-        temp[0u]=' ';edkEnd();
-        temp[1u]='\0';edkEnd();
+        edk::char8 temp[2u];
+        bool haveInitialReturn=true;
+        bool newLine=false;
+        temp[0u]=' ';
+        temp[1u]='\0';
         //prepare the space
-        space = this->getTileID(temp,&jump);edkEnd();
+        space = this->getTileID(temp,&jump);
         while(*str){
-            size = this->wordSize(str);edkEnd();
+            size = this->wordSize(str);
             //test if the word fit inside the line
             if(size>=lenght-headX){
-                newLine=true;edkEnd();
+                newLine=true;
                 //test if the headX is in the beggining
                 if(headX==x){
-                    size = width;edkEnd();
+                    size = width;
                 }
                 else{
                     //clean the last characters of the line
                     for(;headX<lenght;headX++){
-                        this->map.setTile(space+1u,headX,headY);edkEnd();
+                        this->map.setTile(space+1u,headX,headY);
                     }
 
                     //else it create a new line
-                    headY++;edkEnd();
-                    headX=x;edkEnd();
+                    headY++;
+                    headX=x;
                     if(headY>=up){
                         break;
                     }
@@ -4338,63 +4344,63 @@ bool edk::fonts::FontMap::writeSpaces(edk::char8* str,edk::uint32 x,edk::uint8 y
             //write the characters
             if(size){
                 for(edk::uint32 i=0u;i<size;i++){
-                    this->map.setTile(space+1u,headX,headY);edkEnd();
-                    str+=jump;edkEnd();
-                    headX++;edkEnd();
+                    this->map.setTile(space+1u,headX,headY);
+                    str+=jump;
+                    headX++;
                 }
             }
             else{
                 if(*str=='\n' || *str==10){
                     if(headX == x && !haveInitialReturn){
                         //
-                        str++;edkEnd();
+                        str++;
                     }
                     else{
                         //clean the last characters of the line
                         for(;headX<lenght;headX++){
-                            this->map.setTile(space+1u,headX,headY);edkEnd();
+                            this->map.setTile(space+1u,headX,headY);
                         }
 
                         //create a new line
-                        headY++;edkEnd();
-                        headX=x;edkEnd();
-                        str++;edkEnd();
+                        headY++;
+                        headX=x;
+                        str++;
                         if(headY>=up){
                             break;
                         }
                     }
-                    haveInitialReturn=true;edkEnd();
+                    haveInitialReturn=true;
                 }
                 else if(*str==' ' && newLine){
-                    haveInitialReturn=false;edkEnd();
+                    haveInitialReturn=false;
                     if(str[1u]!=' ' && str[1u]!=10 && str[1u]!='\n'){
-                        str++;edkEnd();
+                        str++;
                     }
                 }
                 else{
-                    haveInitialReturn=false;edkEnd();
-                    this->map.setTile(space+1u,headX,headY);edkEnd();
-                    str+=jump;edkEnd();
-                    headX++;edkEnd();
+                    haveInitialReturn=false;
+                    this->map.setTile(space+1u,headX,headY);
+                    str+=jump;
+                    headX++;
                 }
             }
-            newLine=false;edkEnd();
+            newLine=false;
         }
 
         //test if reach the end of the limit
         if(headX<lenght){
             if(headY<up){
                 for(;headX<lenght;headX++){
-                    this->map.setTile(space+1u,headX,headY);edkEnd();
+                    this->map.setTile(space+1u,headX,headY);
                 }
-                headX = x;edkEnd();
-                headY++;edkEnd();
+                headX = x;
+                headY++;
             }
         }
         if(headY<up){
             for(;headY<up;headY++){
                 for(headX=x;headX<lenght;headX++){
-                    this->map.setTile(space+1u,headX,headY);edkEnd();
+                    this->map.setTile(space+1u,headX,headY);
                 }
             }
         }
@@ -4407,26 +4413,26 @@ bool edk::fonts::FontMap::writeSpaces(const edk::char8* str,
                                       edk::uint32 width,
                                       edk::uint32 height
                                       ){
-    return this->writeSpaces((edk::char8*) str,position.x,position.y,width,height);edkEnd();
+    return this->writeSpaces((edk::char8*) str,position.x,position.y,width,height);
 }
 bool edk::fonts::FontMap::writeSpaces(edk::char8* str,
                                       edk::vec2ui32 position,
                                       edk::uint32 width,
                                       edk::uint32 height
                                       ){
-    return this->writeSpaces(str,position.x,position.y,width,height);edkEnd();
+    return this->writeSpaces(str,position.x,position.y,width,height);
 }
 bool edk::fonts::FontMap::writeSpaces(const edk::char8* str,edk::uint32 x,edk::uint8 y,edk::size2ui32 size){
-    return this->writeSpaces((edk::char8*) str,x,y,size.width,size.height);edkEnd();
+    return this->writeSpaces((edk::char8*) str,x,y,size.width,size.height);
 }
 bool edk::fonts::FontMap::writeSpaces(edk::char8* str,edk::uint32 x,edk::uint8 y,edk::size2ui32 size){
-    return this->writeSpaces(str,x,y,size.width,size.height);edkEnd();
+    return this->writeSpaces(str,x,y,size.width,size.height);
 }
 bool edk::fonts::FontMap::writeSpaces(const edk::char8* str,edk::vec2ui32 position,edk::size2ui32 size){
-    return this->writeSpaces((edk::char8*) str,position.x,position.y,size.width,size.height);edkEnd();
+    return this->writeSpaces((edk::char8*) str,position.x,position.y,size.width,size.height);
 }
 bool edk::fonts::FontMap::writeSpaces(edk::char8* str,edk::vec2ui32 position,edk::size2ui32 size){
-    return this->writeSpaces(str,position.x,position.y,size.width,size.height);edkEnd();
+    return this->writeSpaces(str,position.x,position.y,size.width,size.height);
 }
 
 bool edk::fonts::FontMap::writeSpacesColor(const edk::char8* str,
@@ -4438,7 +4444,7 @@ bool edk::fonts::FontMap::writeSpacesColor(const edk::char8* str,
                                            edk::float32 b,
                                            edk::float32 a
                                            ){
-    return this->writeSpacesColor((edk::char8*) str,x,y,width,r,g,b,a);edkEnd();
+    return this->writeSpacesColor((edk::char8*) str,x,y,width,r,g,b,a);
 }
 bool edk::fonts::FontMap::writeSpacesColor(edk::char8* str,
                                            edk::uint32 x,
@@ -4449,10 +4455,10 @@ bool edk::fonts::FontMap::writeSpacesColor(edk::char8* str,
                                            edk::float32 b,
                                            edk::float32 a
                                            ){
-    edk::uint32 lenght=x+width;edkEnd();
+    edk::uint32 lenght=x+width;
     if(lenght>=this->map.getMapSize().width){
-        lenght = this->map.getMapSize().width;edkEnd();
-        width = lenght-x;edkEnd();
+        lenght = this->map.getMapSize().width;
+        width = lenght-x;
     }
     if(str && width
             && x<this->map.getMapSize().width
@@ -4460,36 +4466,36 @@ bool edk::fonts::FontMap::writeSpacesColor(edk::char8* str,
             ){
         //
         edk::uint32 size=0u;
-        edk::uint32 headX=x;edkEnd();
-        edk::uint32 headY=y;edkEnd();
-        edk::uint32 space;edkEnd();
+        edk::uint32 headX=x;
+        edk::uint32 headY=y;
+        edk::uint32 space;
         edk::uint8 jump=0u;
-        edk::char8 temp[2u];edkEnd();
-        bool haveInitialReturn=true;edkEnd();
-        bool newLine=false;edkEnd();
-        temp[0u]=' ';edkEnd();
-        temp[1u]='\0';edkEnd();
+        edk::char8 temp[2u];
+        bool haveInitialReturn=true;
+        bool newLine=false;
+        temp[0u]=' ';
+        temp[1u]='\0';
         //prepare the space
-        space = this->getTileID(temp,&jump);edkEnd();
+        space = this->getTileID(temp,&jump);
         while(*str){
-            size = this->wordSize(str);edkEnd();
+            size = this->wordSize(str);
             //test if the word fit inside the line
             if(size>=lenght-headX){
-                newLine=true;edkEnd();
+                newLine=true;
                 //test if the headX is in the beggining
                 if(headX==x){
-                    size = width;edkEnd();
+                    size = width;
                 }
                 else{
                     //clean the last characters of the line
                     for(;headX<lenght;headX++){
-                        this->map.setTile(space+1u,headX,headY);edkEnd();
-                        this->map.setTileColor(r,g,b,a,headX,headY);edkEnd();
+                        this->map.setTile(space+1u,headX,headY);
+                        this->map.setTileColor(r,g,b,a,headX,headY);
                     }
 
                     //else it create a new line
-                    headY++;edkEnd();
-                    headX=x;edkEnd();
+                    headY++;
+                    headX=x;
                     if(headY>=this->map.getMapSize().height){
                         break;
                     }
@@ -4498,62 +4504,62 @@ bool edk::fonts::FontMap::writeSpacesColor(edk::char8* str,
             }
             //write the characters
             if(size){
-                haveInitialReturn=false;edkEnd();
+                haveInitialReturn=false;
                 for(edk::uint32 i=0u;i<size;i++){
-                    this->map.setTile(space+1u,headX,headY);edkEnd();
-                    this->map.setTileColor(r,g,b,a,headX,headY);edkEnd();
-                    str+=jump;edkEnd();
-                    headX++;edkEnd();
+                    this->map.setTile(space+1u,headX,headY);
+                    this->map.setTileColor(r,g,b,a,headX,headY);
+                    str+=jump;
+                    headX++;
                 }
             }
             else{
                 if(*str=='\n' || *str==10){
                     if(headX == x && !haveInitialReturn){
                         //
-                        str++;edkEnd();
+                        str++;
                     }
                     else{
                         //clean the last characters of the line
                         for(;headX<lenght;headX++){
-                            this->map.setTile(space+1u,headX,headY);edkEnd();
-                            this->map.setTileColor(r,g,b,a,headX,headY);edkEnd();
+                            this->map.setTile(space+1u,headX,headY);
+                            this->map.setTileColor(r,g,b,a,headX,headY);
                         }
 
                         //create a new line
-                        headY++;edkEnd();
-                        headX=x;edkEnd();
-                        str++;edkEnd();
+                        headY++;
+                        headX=x;
+                        str++;
                         if(headY>=this->map.getMapSize().height){
                             break;
                         }
                     }
-                    haveInitialReturn=true;edkEnd();
+                    haveInitialReturn=true;
                 }
                 else if(*str==' ' && newLine){
-                    haveInitialReturn=false;edkEnd();
+                    haveInitialReturn=false;
                     if(str[1u]!=' ' && str[1u]!=10 && str[1u]!='\n'){
-                        str++;edkEnd();
+                        str++;
                     }
                 }
                 else{
-                    haveInitialReturn=false;edkEnd();
-                    this->map.setTile(space+1u,headX,headY);edkEnd();
-                    this->map.setTileColor(r,g,b,a,headX,headY);edkEnd();
-                    str+=jump;edkEnd();
-                    headX++;edkEnd();
+                    haveInitialReturn=false;
+                    this->map.setTile(space+1u,headX,headY);
+                    this->map.setTileColor(r,g,b,a,headX,headY);
+                    str+=jump;
+                    headX++;
                 }
             }
-            newLine=false;edkEnd();
+            newLine=false;
         }
 
         //test if reach the end of the limit
         if(headX<lenght){
             for(;headX<lenght;headX++){
-                this->map.setTile(space+1u,headX,headY);edkEnd();
-                this->map.setTileColor(r,g,b,a,headX,headY);edkEnd();
+                this->map.setTile(space+1u,headX,headY);
+                this->map.setTileColor(r,g,b,a,headX,headY);
             }
-            headX = x;edkEnd();
-            headY++;edkEnd();
+            headX = x;
+            headY++;
         }
         return true;
     }
@@ -4567,7 +4573,7 @@ bool edk::fonts::FontMap::writeSpacesColor(const edk::char8* str,
                                            edk::float32 b,
                                            edk::float32 a
                                            ){
-    return this->writeSpacesColor((edk::char8*) str,position.x,position.y,width,r,g,b,a);edkEnd();
+    return this->writeSpacesColor((edk::char8*) str,position.x,position.y,width,r,g,b,a);
 }
 bool edk::fonts::FontMap::writeSpacesColor(edk::char8* str,
                                            edk::vec2ui32 position,
@@ -4577,7 +4583,7 @@ bool edk::fonts::FontMap::writeSpacesColor(edk::char8* str,
                                            edk::float32 b,
                                            edk::float32 a
                                            ){
-    return this->writeSpacesColor(str,position.x,position.y,width,r,g,b,a);edkEnd();
+    return this->writeSpacesColor(str,position.x,position.y,width,r,g,b,a);
 }
 bool edk::fonts::FontMap::writeSpacesColor(const edk::char8* str,
                                            edk::uint32 x,
@@ -4589,7 +4595,7 @@ bool edk::fonts::FontMap::writeSpacesColor(const edk::char8* str,
                                            edk::float32 b,
                                            edk::float32 a
                                            ){
-    return this->writeSpacesColor((edk::char8*) str,x,y,width,height,r,g,b,a);edkEnd();
+    return this->writeSpacesColor((edk::char8*) str,x,y,width,height,r,g,b,a);
 }
 
 bool edk::fonts::FontMap::writeSpacesColor(edk::char8* str,
@@ -4602,15 +4608,15 @@ bool edk::fonts::FontMap::writeSpacesColor(edk::char8* str,
                                            edk::float32 b,
                                            edk::float32 a
                                            ){
-    edk::uint32 lenght=x+width;edkEnd();
+    edk::uint32 lenght=x+width;
     if(lenght>=this->map.getMapSize().width){
-        lenght = this->map.getMapSize().width;edkEnd();
-        width = lenght-x;edkEnd();
+        lenght = this->map.getMapSize().width;
+        width = lenght-x;
     }
-    edk::uint32 up=y+height;edkEnd();
+    edk::uint32 up=y+height;
     if(up>=this->map.getMapSize().height){
-        up = this->map.getMapSize().height;edkEnd();
-        height = up-y;edkEnd();
+        up = this->map.getMapSize().height;
+        height = up-y;
     }
     if(str && width && height
             && x<this->map.getMapSize().width
@@ -4618,36 +4624,36 @@ bool edk::fonts::FontMap::writeSpacesColor(edk::char8* str,
             ){
         //
         edk::uint32 size=0u;
-        edk::uint32 headX=x;edkEnd();
-        edk::uint32 headY=y;edkEnd();
-        edk::uint32 space;edkEnd();
+        edk::uint32 headX=x;
+        edk::uint32 headY=y;
+        edk::uint32 space;
         edk::uint8 jump=0u;
-        edk::char8 temp[2u];edkEnd();
-        bool haveInitialReturn=true;edkEnd();
-        bool newLine=false;edkEnd();
-        temp[0u]=' ';edkEnd();
-        temp[1u]='\0';edkEnd();
+        edk::char8 temp[2u];
+        bool haveInitialReturn=true;
+        bool newLine=false;
+        temp[0u]=' ';
+        temp[1u]='\0';
         //prepare the space
-        space = this->getTileID(temp,&jump);edkEnd();
+        space = this->getTileID(temp,&jump);
         while(*str){
-            size = this->wordSize(str);edkEnd();
+            size = this->wordSize(str);
             //test if the word fit inside the line
             if(size>=lenght-headX){
-                newLine=true;edkEnd();
+                newLine=true;
                 //test if the headX is in the beggining
                 if(headX==x){
-                    size = width;edkEnd();
+                    size = width;
                 }
                 else{
                     //clean the last characters of the line
                     for(;headX<lenght;headX++){
-                        this->map.setTile(space+1u,headX,headY);edkEnd();
-                        this->map.setTileColor(r,g,b,a,headX,headY);edkEnd();
+                        this->map.setTile(space+1u,headX,headY);
+                        this->map.setTileColor(r,g,b,a,headX,headY);
                     }
 
                     //else it create a new line
-                    headY++;edkEnd();
-                    headX=x;edkEnd();
+                    headY++;
+                    headX=x;
                     if(headY>=up){
                         break;
                     }
@@ -4656,69 +4662,69 @@ bool edk::fonts::FontMap::writeSpacesColor(edk::char8* str,
             }
             //write the characters
             if(size){
-                haveInitialReturn=false;edkEnd();
+                haveInitialReturn=false;
                 for(edk::uint32 i=0u;i<size;i++){
-                    this->map.setTile(space+1u,headX,headY);edkEnd();
-                    this->map.setTileColor(r,g,b,a,headX,headY);edkEnd();
-                    str+=jump;edkEnd();
-                    headX++;edkEnd();
+                    this->map.setTile(space+1u,headX,headY);
+                    this->map.setTileColor(r,g,b,a,headX,headY);
+                    str+=jump;
+                    headX++;
                 }
             }
             else{
                 if(*str=='\n' || *str==10){
                     if(headX == x && !haveInitialReturn){
                         //
-                        str++;edkEnd();
+                        str++;
                     }
                     else{
                         //clean the last characters of the line
                         for(;headX<lenght;headX++){
-                            this->map.setTile(space+1u,headX,headY);edkEnd();
-                            this->map.setTileColor(r,g,b,a,headX,headY);edkEnd();
+                            this->map.setTile(space+1u,headX,headY);
+                            this->map.setTileColor(r,g,b,a,headX,headY);
                         }
 
                         //create a new line
-                        headY++;edkEnd();
-                        headX=x;edkEnd();
-                        str++;edkEnd();
+                        headY++;
+                        headX=x;
+                        str++;
                         if(headY>=up){
                             break;
                         }
                     }
-                    haveInitialReturn=true;edkEnd();
+                    haveInitialReturn=true;
                 }
                 else if(*str==' ' && newLine){
                     if(str[1u]!=' ' && str[1u]!=10 && str[1u]!='\n'){
-                        str++;edkEnd();
+                        str++;
                     }
                 }
                 else{
-                    haveInitialReturn=false;edkEnd();
-                    this->map.setTile(space+1u,headX,headY);edkEnd();
-                    this->map.setTileColor(r,g,b,a,headX,headY);edkEnd();
-                    str+=jump;edkEnd();
-                    headX++;edkEnd();
+                    haveInitialReturn=false;
+                    this->map.setTile(space+1u,headX,headY);
+                    this->map.setTileColor(r,g,b,a,headX,headY);
+                    str+=jump;
+                    headX++;
                 }
             }
-            newLine=false;edkEnd();
+            newLine=false;
         }
 
         //test if reach the end of the limit
         if(headX<lenght){
             if(headY<up){
                 for(;headX<lenght;headX++){
-                    this->map.setTile(space+1u,headX,headY);edkEnd();
-                    this->map.setTileColor(r,g,b,a,headX,headY);edkEnd();
+                    this->map.setTile(space+1u,headX,headY);
+                    this->map.setTileColor(r,g,b,a,headX,headY);
                 }
-                headX = x;edkEnd();
-                headY++;edkEnd();
+                headX = x;
+                headY++;
             }
         }
         if(headY<up){
             for(;headY<up;headY++){
                 for(headX=x;headX<lenght;headX++){
-                    this->map.setTile(space+1u,headX,headY);edkEnd();
-                    this->map.setTileColor(r,g,b,a,headX,headY);edkEnd();
+                    this->map.setTile(space+1u,headX,headY);
+                    this->map.setTileColor(r,g,b,a,headX,headY);
                 }
             }
         }
@@ -4735,7 +4741,7 @@ bool edk::fonts::FontMap::writeSpacesColor(const edk::char8* str,
                                            edk::float32 b,
                                            edk::float32 a
                                            ){
-    return this->writeSpacesColor((edk::char8*) str,position.x,position.y,width,height,r,g,b,a);edkEnd();
+    return this->writeSpacesColor((edk::char8*) str,position.x,position.y,width,height,r,g,b,a);
 }
 bool edk::fonts::FontMap::writeSpacesColor(edk::char8* str,
                                            edk::vec2ui32 position,
@@ -4746,7 +4752,7 @@ bool edk::fonts::FontMap::writeSpacesColor(edk::char8* str,
                                            edk::float32 b,
                                            edk::float32 a
                                            ){
-    return this->writeSpacesColor(str,position.x,position.y,width,height,r,g,b,a);edkEnd();
+    return this->writeSpacesColor(str,position.x,position.y,width,height,r,g,b,a);
 }
 bool edk::fonts::FontMap::writeSpacesColor(const edk::char8* str,
                                            edk::uint32 x,
@@ -4757,7 +4763,7 @@ bool edk::fonts::FontMap::writeSpacesColor(const edk::char8* str,
                                            edk::float32 b,
                                            edk::float32 a
                                            ){
-    return this->writeSpacesColor((edk::char8*) str,x,y,size.width,size.height,r,g,b,a);edkEnd();
+    return this->writeSpacesColor((edk::char8*) str,x,y,size.width,size.height,r,g,b,a);
 }
 bool edk::fonts::FontMap::writeSpacesColor(edk::char8* str,
                                            edk::uint32 x,
@@ -4768,7 +4774,7 @@ bool edk::fonts::FontMap::writeSpacesColor(edk::char8* str,
                                            edk::float32 b,
                                            edk::float32 a
                                            ){
-    return this->writeSpacesColor(str,x,y,size.width,size.height,r,g,b,a);edkEnd();
+    return this->writeSpacesColor(str,x,y,size.width,size.height,r,g,b,a);
 }
 bool edk::fonts::FontMap::writeSpacesColor(const edk::char8* str,
                                            edk::vec2ui32 position,
@@ -4778,7 +4784,7 @@ bool edk::fonts::FontMap::writeSpacesColor(const edk::char8* str,
                                            edk::float32 b,
                                            edk::float32 a
                                            ){
-    return this->writeSpacesColor((edk::char8*) str,position.x,position.y,size.width,size.height,r,g,b,a);edkEnd();
+    return this->writeSpacesColor((edk::char8*) str,position.x,position.y,size.width,size.height,r,g,b,a);
 }
 bool edk::fonts::FontMap::writeSpacesColor(edk::char8* str,
                                            edk::vec2ui32 position,
@@ -4788,7 +4794,7 @@ bool edk::fonts::FontMap::writeSpacesColor(edk::char8* str,
                                            edk::float32 b,
                                            edk::float32 a
                                            ){
-    return this->writeSpacesColor(str,position.x,position.y,size.width,size.height,r,g,b,a);edkEnd();
+    return this->writeSpacesColor(str,position.x,position.y,size.width,size.height,r,g,b,a);
 }
 
 bool edk::fonts::FontMap::writeSpacesColor(const edk::char8* str,
@@ -4799,7 +4805,7 @@ bool edk::fonts::FontMap::writeSpacesColor(const edk::char8* str,
                                            edk::float32 g,
                                            edk::float32 b
                                            ){
-    return this->writeSpacesColor((edk::char8*) str,x,y,width,r,g,b,1.0f);edkEnd();
+    return this->writeSpacesColor((edk::char8*) str,x,y,width,r,g,b,1.0f);
 }
 bool edk::fonts::FontMap::writeSpacesColor(edk::char8* str,
                                            edk::uint32 x,
@@ -4809,7 +4815,7 @@ bool edk::fonts::FontMap::writeSpacesColor(edk::char8* str,
                                            edk::float32 g,
                                            edk::float32 b
                                            ){
-    return this->writeSpacesColor(str,x,y,width,r,g,b,1.f);edkEnd();
+    return this->writeSpacesColor(str,x,y,width,r,g,b,1.f);
 }
 bool edk::fonts::FontMap::writeSpacesColor(const edk::char8* str,
                                            edk::vec2ui32 position,
@@ -4818,7 +4824,7 @@ bool edk::fonts::FontMap::writeSpacesColor(const edk::char8* str,
                                            edk::float32 g,
                                            edk::float32 b
                                            ){
-    return this->writeSpacesColor((edk::char8*) str,position.x,position.y,width,r,g,b,1.0f);edkEnd();
+    return this->writeSpacesColor((edk::char8*) str,position.x,position.y,width,r,g,b,1.0f);
 }
 bool edk::fonts::FontMap::writeSpacesColor(edk::char8* str,
                                            edk::vec2ui32 position,
@@ -4827,7 +4833,7 @@ bool edk::fonts::FontMap::writeSpacesColor(edk::char8* str,
                                            edk::float32 g,
                                            edk::float32 b
                                            ){
-    return this->writeSpacesColor(str,position.x,position.y,width,r,g,b,1.0f);edkEnd();
+    return this->writeSpacesColor(str,position.x,position.y,width,r,g,b,1.0f);
 }
 bool edk::fonts::FontMap::writeSpacesColor(const edk::char8* str,
                                            edk::uint32 x,
@@ -4838,7 +4844,7 @@ bool edk::fonts::FontMap::writeSpacesColor(const edk::char8* str,
                                            edk::float32 g,
                                            edk::float32 b
                                            ){
-    return this->writeSpacesColor((edk::char8*) str,x,y,width,height,r,g,b,1.0f);edkEnd();
+    return this->writeSpacesColor((edk::char8*) str,x,y,width,height,r,g,b,1.0f);
 }
 
 bool edk::fonts::FontMap::writeSpacesColor(edk::char8* str,
@@ -4850,7 +4856,7 @@ bool edk::fonts::FontMap::writeSpacesColor(edk::char8* str,
                                            edk::float32 g,
                                            edk::float32 b
                                            ){
-    return this->writeSpacesColor(str,x,y,width,height,r,g,b,1.f);edkEnd();
+    return this->writeSpacesColor(str,x,y,width,height,r,g,b,1.f);
 }
 bool edk::fonts::FontMap::writeSpacesColor(const edk::char8* str,
                                            edk::vec2ui32 position,
@@ -4860,7 +4866,7 @@ bool edk::fonts::FontMap::writeSpacesColor(const edk::char8* str,
                                            edk::float32 g,
                                            edk::float32 b
                                            ){
-    return this->writeSpacesColor((edk::char8*) str,position.x,position.y,width,height,r,g,b,1.0f);edkEnd();
+    return this->writeSpacesColor((edk::char8*) str,position.x,position.y,width,height,r,g,b,1.0f);
 }
 bool edk::fonts::FontMap::writeSpacesColor(edk::char8* str,
                                            edk::vec2ui32 position,
@@ -4870,7 +4876,7 @@ bool edk::fonts::FontMap::writeSpacesColor(edk::char8* str,
                                            edk::float32 g,
                                            edk::float32 b
                                            ){
-    return this->writeSpacesColor(str,position.x,position.y,width,height,r,g,b,1.0f);edkEnd();
+    return this->writeSpacesColor(str,position.x,position.y,width,height,r,g,b,1.0f);
 }
 bool edk::fonts::FontMap::writeSpacesColor(const edk::char8* str,
                                            edk::uint32 x,
@@ -4880,7 +4886,7 @@ bool edk::fonts::FontMap::writeSpacesColor(const edk::char8* str,
                                            edk::float32 g,
                                            edk::float32 b
                                            ){
-    return this->writeSpacesColor((edk::char8*) str,x,y,size.width,size.height,r,g,b,1.0f);edkEnd();
+    return this->writeSpacesColor((edk::char8*) str,x,y,size.width,size.height,r,g,b,1.0f);
 }
 bool edk::fonts::FontMap::writeSpacesColor(edk::char8* str,
                                            edk::uint32 x,
@@ -4890,7 +4896,7 @@ bool edk::fonts::FontMap::writeSpacesColor(edk::char8* str,
                                            edk::float32 g,
                                            edk::float32 b
                                            ){
-    return this->writeSpacesColor(str,x,y,size.width,size.height,r,g,b,1.0f);edkEnd();
+    return this->writeSpacesColor(str,x,y,size.width,size.height,r,g,b,1.0f);
 }
 bool edk::fonts::FontMap::writeSpacesColor(const edk::char8* str,
                                            edk::vec2ui32 position,
@@ -4899,7 +4905,7 @@ bool edk::fonts::FontMap::writeSpacesColor(const edk::char8* str,
                                            edk::float32 g,
                                            edk::float32 b
                                            ){
-    return this->writeSpacesColor((edk::char8*) str,position.x,position.y,size.width,size.height,r,g,b,1.0f);edkEnd();
+    return this->writeSpacesColor((edk::char8*) str,position.x,position.y,size.width,size.height,r,g,b,1.0f);
 }
 bool edk::fonts::FontMap::writeSpacesColor(edk::char8* str,
                                            edk::vec2ui32 position,
@@ -4908,7 +4914,7 @@ bool edk::fonts::FontMap::writeSpacesColor(edk::char8* str,
                                            edk::float32 g,
                                            edk::float32 b
                                            ){
-    return this->writeSpacesColor(str,position.x,position.y,size.width,size.height,r,g,b,1.0f);edkEnd();
+    return this->writeSpacesColor(str,position.x,position.y,size.width,size.height,r,g,b,1.0f);
 }
 
 bool edk::fonts::FontMap::writeSpacesColor(const edk::char8* str,
@@ -4917,7 +4923,7 @@ bool edk::fonts::FontMap::writeSpacesColor(const edk::char8* str,
                                            edk::uint32 width,
                                            edk::color4f32 color
                                            ){
-    return this->writeSpacesColor((edk::char8*) str,x,y,width,color.r,color.g,color.b,color.a);edkEnd();
+    return this->writeSpacesColor((edk::char8*) str,x,y,width,color.r,color.g,color.b,color.a);
 }
 bool edk::fonts::FontMap::writeSpacesColor(edk::char8* str,
                                            edk::uint32 x,
@@ -4925,21 +4931,21 @@ bool edk::fonts::FontMap::writeSpacesColor(edk::char8* str,
                                            edk::uint32 width,
                                            edk::color4f32 color
                                            ){
-    return this->writeSpacesColor(str,x,y,width,color.r,color.g,color.b,color.a);edkEnd();
+    return this->writeSpacesColor(str,x,y,width,color.r,color.g,color.b,color.a);
 }
 bool edk::fonts::FontMap::writeSpacesColor(const edk::char8* str,
                                            edk::vec2ui32 position,
                                            edk::uint32 width,
                                            edk::color4f32 color
                                            ){
-    return this->writeSpacesColor((edk::char8*) str,position.x,position.y,width,color.r,color.g,color.b,color.a);edkEnd();
+    return this->writeSpacesColor((edk::char8*) str,position.x,position.y,width,color.r,color.g,color.b,color.a);
 }
 bool edk::fonts::FontMap::writeSpacesColor(edk::char8* str,
                                            edk::vec2ui32 position,
                                            edk::uint32 width,
                                            edk::color4f32 color
                                            ){
-    return this->writeSpacesColor(str,position.x,position.y,width,color.r,color.g,color.b,color.a);edkEnd();
+    return this->writeSpacesColor(str,position.x,position.y,width,color.r,color.g,color.b,color.a);
 }
 bool edk::fonts::FontMap::writeSpacesColor(const edk::char8* str,
                                            edk::uint32 x,
@@ -4948,7 +4954,7 @@ bool edk::fonts::FontMap::writeSpacesColor(const edk::char8* str,
                                            edk::uint32 height,
                                            edk::color4f32 color
                                            ){
-    return this->writeSpacesColor((edk::char8*) str,x,y,width,height,color.r,color.g,color.b,color.a);edkEnd();
+    return this->writeSpacesColor((edk::char8*) str,x,y,width,height,color.r,color.g,color.b,color.a);
 }
 
 bool edk::fonts::FontMap::writeSpacesColor(edk::char8* str,
@@ -4958,7 +4964,7 @@ bool edk::fonts::FontMap::writeSpacesColor(edk::char8* str,
                                            edk::uint32 height,
                                            edk::color4f32 color
                                            ){
-    return this->writeSpacesColor(str,x,y,width,height,color.r,color.g,color.b,color.a);edkEnd();
+    return this->writeSpacesColor(str,x,y,width,height,color.r,color.g,color.b,color.a);
 }
 bool edk::fonts::FontMap::writeSpacesColor(const edk::char8* str,
                                            edk::vec2ui32 position,
@@ -4974,7 +4980,7 @@ bool edk::fonts::FontMap::writeSpacesColor(const edk::char8* str,
                                   color.g,
                                   color.b,
                                   color.a
-                                  );edkEnd();
+                                  );
 }
 bool edk::fonts::FontMap::writeSpacesColor(edk::char8* str,
                                            edk::vec2ui32 position,
@@ -4982,7 +4988,7 @@ bool edk::fonts::FontMap::writeSpacesColor(edk::char8* str,
                                            edk::uint32 height,
                                            edk::color4f32 color
                                            ){
-    return this->writeSpacesColor(str,position.x,position.y,width,height,color.r,color.g,color.b,color.a);edkEnd();
+    return this->writeSpacesColor(str,position.x,position.y,width,height,color.r,color.g,color.b,color.a);
 }
 bool edk::fonts::FontMap::writeSpacesColor(const edk::char8* str,
                                            edk::uint32 x,
@@ -4990,7 +4996,7 @@ bool edk::fonts::FontMap::writeSpacesColor(const edk::char8* str,
                                            edk::size2ui32 size,
                                            edk::color4f32 color
                                            ){
-    return this->writeSpacesColor((edk::char8*) str,x,y,size.width,size.height,color.r,color.g,color.b,color.a);edkEnd();
+    return this->writeSpacesColor((edk::char8*) str,x,y,size.width,size.height,color.r,color.g,color.b,color.a);
 }
 bool edk::fonts::FontMap::writeSpacesColor(edk::char8* str,
                                            edk::uint32 x,
@@ -4998,7 +5004,7 @@ bool edk::fonts::FontMap::writeSpacesColor(edk::char8* str,
                                            edk::size2ui32 size,
                                            edk::color4f32 color
                                            ){
-    return this->writeSpacesColor(str,x,y,size.width,size.height,color.r,color.g,color.b,color.a);edkEnd();
+    return this->writeSpacesColor(str,x,y,size.width,size.height,color.r,color.g,color.b,color.a);
 }
 bool edk::fonts::FontMap::writeSpacesColor(const edk::char8* str,
                                            edk::vec2ui32 position,
@@ -5013,14 +5019,14 @@ bool edk::fonts::FontMap::writeSpacesColor(const edk::char8* str,
                                   color.g,
                                   color.b,
                                   color.a
-                                  );edkEnd();
+                                  );
 }
 bool edk::fonts::FontMap::writeSpacesColor(edk::char8* str,
                                            edk::vec2ui32 position,
                                            edk::size2ui32 size,
                                            edk::color4f32 color
                                            ){
-    return this->writeSpacesColor(str,position.x,position.y,size.width,size.height,color.r,color.g,color.b,color.a);edkEnd();
+    return this->writeSpacesColor(str,position.x,position.y,size.width,size.height,color.r,color.g,color.b,color.a);
 }
 
 bool edk::fonts::FontMap::writeSpacesColor(const edk::char8* str,
@@ -5029,7 +5035,7 @@ bool edk::fonts::FontMap::writeSpacesColor(const edk::char8* str,
                                            edk::uint32 width,
                                            edk::color3f32 color
                                            ){
-    return this->writeSpacesColor((edk::char8*) str,x,y,width,color.r,color.g,color.b,1.0f);edkEnd();
+    return this->writeSpacesColor((edk::char8*) str,x,y,width,color.r,color.g,color.b,1.0f);
 }
 bool edk::fonts::FontMap::writeSpacesColor(edk::char8* str,
                                            edk::uint32 x,
@@ -5037,21 +5043,21 @@ bool edk::fonts::FontMap::writeSpacesColor(edk::char8* str,
                                            edk::uint32 width,
                                            edk::color3f32 color
                                            ){
-    return this->writeSpacesColor(str,x,y,width,color.r,color.g,color.b,1.0f);edkEnd();
+    return this->writeSpacesColor(str,x,y,width,color.r,color.g,color.b,1.0f);
 }
 bool edk::fonts::FontMap::writeSpacesColor(const edk::char8* str,
                                            edk::vec2ui32 position,
                                            edk::uint32 width,
                                            edk::color3f32 color
                                            ){
-    return this->writeSpacesColor((edk::char8*) str,position.x,position.y,width,color.r,color.g,color.b,1.0f);edkEnd();
+    return this->writeSpacesColor((edk::char8*) str,position.x,position.y,width,color.r,color.g,color.b,1.0f);
 }
 bool edk::fonts::FontMap::writeSpacesColor(edk::char8* str,
                                            edk::vec2ui32 position,
                                            edk::uint32 width,
                                            edk::color3f32 color
                                            ){
-    return this->writeSpacesColor(str,position.x,position.y,width,color.r,color.g,color.b,1.0f);edkEnd();
+    return this->writeSpacesColor(str,position.x,position.y,width,color.r,color.g,color.b,1.0f);
 }
 bool edk::fonts::FontMap::writeSpacesColor(const edk::char8* str,
                                            edk::uint32 x,
@@ -5060,7 +5066,7 @@ bool edk::fonts::FontMap::writeSpacesColor(const edk::char8* str,
                                            edk::uint32 height,
                                            edk::color3f32 color
                                            ){
-    return this->writeSpacesColor((edk::char8*) str,x,y,width,height,color.r,color.g,color.b,1.0f);edkEnd();
+    return this->writeSpacesColor((edk::char8*) str,x,y,width,height,color.r,color.g,color.b,1.0f);
 }
 
 bool edk::fonts::FontMap::writeSpacesColor(edk::char8* str,
@@ -5070,7 +5076,7 @@ bool edk::fonts::FontMap::writeSpacesColor(edk::char8* str,
                                            edk::uint32 height,
                                            edk::color3f32 color
                                            ){
-    return this->writeSpacesColor(str,x,y,width,height,color.r,color.g,color.b,1.0f);edkEnd();
+    return this->writeSpacesColor(str,x,y,width,height,color.r,color.g,color.b,1.0f);
 }
 bool edk::fonts::FontMap::writeSpacesColor(const edk::char8* str,
                                            edk::vec2ui32 position,
@@ -5086,7 +5092,7 @@ bool edk::fonts::FontMap::writeSpacesColor(const edk::char8* str,
                                   color.g,
                                   color.b,
                                   1.0f
-                                  );edkEnd();
+                                  );
 }
 bool edk::fonts::FontMap::writeSpacesColor(edk::char8* str,
                                            edk::vec2ui32 position,
@@ -5094,7 +5100,7 @@ bool edk::fonts::FontMap::writeSpacesColor(edk::char8* str,
                                            edk::uint32 height,
                                            edk::color3f32 color
                                            ){
-    return this->writeSpacesColor(str,position.x,position.y,width,height,color.r,color.g,color.b,1.0f);edkEnd();
+    return this->writeSpacesColor(str,position.x,position.y,width,height,color.r,color.g,color.b,1.0f);
 }
 bool edk::fonts::FontMap::writeSpacesColor(const edk::char8* str,
                                            edk::uint32 x,
@@ -5102,7 +5108,7 @@ bool edk::fonts::FontMap::writeSpacesColor(const edk::char8* str,
                                            edk::size2ui32 size,
                                            edk::color3f32 color
                                            ){
-    return this->writeSpacesColor((edk::char8*) str,x,y,size.width,size.height,color.r,color.g,color.b,1.0f);edkEnd();
+    return this->writeSpacesColor((edk::char8*) str,x,y,size.width,size.height,color.r,color.g,color.b,1.0f);
 }
 bool edk::fonts::FontMap::writeSpacesColor(edk::char8* str,
                                            edk::uint32 x,
@@ -5110,7 +5116,7 @@ bool edk::fonts::FontMap::writeSpacesColor(edk::char8* str,
                                            edk::size2ui32 size,
                                            edk::color3f32 color
                                            ){
-    return this->writeSpacesColor(str,x,y,size.width,size.height,color.r,color.g,color.b,1.0f);edkEnd();
+    return this->writeSpacesColor(str,x,y,size.width,size.height,color.r,color.g,color.b,1.0f);
 }
 bool edk::fonts::FontMap::writeSpacesColor(const edk::char8* str,
                                            edk::vec2ui32 position,
@@ -5125,14 +5131,14 @@ bool edk::fonts::FontMap::writeSpacesColor(const edk::char8* str,
                                   color.g,
                                   color.b,
                                   1.0f
-                                  );edkEnd();
+                                  );
 }
 bool edk::fonts::FontMap::writeSpacesColor(edk::char8* str,
                                            edk::vec2ui32 position,
                                            edk::size2ui32 size,
                                            edk::color3f32 color
                                            ){
-    return this->writeSpacesColor(str,position.x,position.y,size.width,size.height,color.r,color.g,color.b,1.0f);edkEnd();
+    return this->writeSpacesColor(str,position.x,position.y,size.width,size.height,color.r,color.g,color.b,1.0f);
 }
 //clean the text charaters with spaces in all positions of the map
 bool edk::fonts::FontMap::cleanSpaces(){
@@ -5140,8 +5146,8 @@ bool edk::fonts::FontMap::cleanSpaces(){
     if(size.width && size.height){
         for(edk::uint32 y=0u;y<size.height;y++){
             for(edk::uint32 x=0u;x<size.width;x++){
-                this->map.setTile(' '+1u,x,y);edkEnd();
-                //this->map.setTileColor(r,g,b,a,x,y);edkEnd();
+                this->map.setTile(' '+1u,x,y);
+                //this->map.setTileColor(r,g,b,a,x,y);
             }
         }
         return true;
@@ -5154,8 +5160,8 @@ bool edk::fonts::FontMap::cleanSpacesColor(edk::color3f32 color){
     if(size.width && size.height){
         for(edk::uint32 y=0u;y<size.height;y++){
             for(edk::uint32 x=0u;x<size.width;x++){
-                this->map.setTile(' '+1u,x,y);edkEnd();
-                this->map.setTileColor(color.r,color.g,color.b,1.f,x,y);edkEnd();
+                this->map.setTile(' '+1u,x,y);
+                this->map.setTileColor(color.r,color.g,color.b,1.f,x,y);
             }
         }
         return true;
@@ -5170,8 +5176,8 @@ bool edk::fonts::FontMap::cleanSpacesColor(edk::color4f32 color){
     if(size.width && size.height){
         for(edk::uint32 y=0u;y<size.height;y++){
             for(edk::uint32 x=0u;x<size.width;x++){
-                this->map.setTile(' '+1u,x,y);edkEnd();
-                this->map.setTileColor(color,x,y);edkEnd();
+                this->map.setTile(' '+1u,x,y);
+                this->map.setTileColor(color,x,y);
             }
         }
         return true;
@@ -5184,13 +5190,13 @@ bool edk::fonts::FontMap::cleanSpacesColor(edk::float32 r,edk::float32 g,edk::fl
 
 //set the color
 void edk::fonts::FontMap::setColor(edk::color4f32 color){
-    this->map.setColor(color);edkEnd();
+    this->map.setColor(color);
 }
 void edk::fonts::FontMap::setColor(edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a){
-    this->map.setColor(r,g,b,a);edkEnd();
+    this->map.setColor(r,g,b,a);
 }
 void edk::fonts::FontMap::setAlpha(edk::float32 value){
-    this->map.setAlpha(value);edkEnd();
+    this->map.setAlpha(value);
 }
 void edk::fonts::FontMap::setColor(edk::color4ui8 color){
     this->setColor(edk::color4f32((edk::float32)color.r/255.f,
@@ -5198,46 +5204,46 @@ void edk::fonts::FontMap::setColor(edk::color4ui8 color){
                                   (edk::float32)color.b/255.f,
                                   (edk::float32)color.a/255.f
                                   )
-                   );edkEnd();
+                   );
 }
 void edk::fonts::FontMap::setColor(edk::uint8 r,edk::uint8 g,edk::uint8 b,edk::uint8 a){
-    this->setColor(edk::color4ui8(r,g,b,a));edkEnd();
+    this->setColor(edk::color4ui8(r,g,b,a));
 }
 void edk::fonts::FontMap::setAlpha(edk::uint8 value){
-    this->setAlpha((edk::float32)value/255.f);edkEnd();
+    this->setAlpha((edk::float32)value/255.f);
 }
 
 //delete tileMap
 void edk::fonts::FontMap::deleteMap(){
     //delete lines
-    this->deleteLines();edkEnd();
-    this->map.deleteTileMap();edkEnd();
+    this->deleteLines();
+    this->map.deleteTileMap();
 }
 //return true if have a text
 bool edk::fonts::FontMap::haveText(){
-    return this->map.haveTileMap();edkEnd();
+    return this->map.haveTileMap();
 }
 
 //add callback
 bool edk::fonts::FontMap::addCallback(edk::fonts::FontCallback* callback){
-    return this->treeCallbacks.add(callback);edkEnd();
+    return this->treeCallbacks.add(callback);
 }
 
 bool edk::fonts::FontMap::removeCallback(edk::fonts::FontCallback* callback){
-    return this->treeCallbacks.remove(callback);edkEnd();
+    return this->treeCallbacks.remove(callback);
 }
 
 //cleanCallacks
 void edk::fonts::FontMap::cleanCallbacks(){
-    this->treeCallbacks.clean();edkEnd();
+    this->treeCallbacks.clean();
 }
 
 //Select characters to draw
 void edk::fonts::FontMap::selectAll(){
-    this->origin = edk::vec2ui32(0u,0u);edkEnd();
-    this->last = edk::vec2ui32(this->map.getMapSize().width-1u,this->map.getMapSize().height-1u);edkEnd();
-    this->originID = 0u;edkEnd();
-    this->lastID = this->getCharacterID(this->last);edkEnd();
+    this->origin = edk::vec2ui32(0u,0u);
+    this->last = edk::vec2ui32(this->map.getMapSize().width-1u,this->map.getMapSize().height-1u);
+    this->originID = 0u;
+    this->lastID = this->getCharacterID(this->last);
 }
 
 //set the origin and the last values
@@ -5247,20 +5253,20 @@ bool edk::fonts::FontMap::setOriginAndLast(edk::uint32 originID, edk::uint32 las
         //test if the ID from origin is smaller than last
         if(originID<lastID){
             //add the interpolation
-            this->originID = originID;edkEnd();
-            this->lastID = lastID;edkEnd();
-            this->origin = this->getCharacterPosition(this->originID);edkEnd();
-            this->last = this->getCharacterPosition(this->lastID);edkEnd();
+            this->originID = originID;
+            this->lastID = lastID;
+            this->origin = this->getCharacterPosition(this->originID);
+            this->last = this->getCharacterPosition(this->lastID);
             return true;
         }
     }
     return false;
 }
 bool edk::fonts::FontMap::setOriginAndLast(edk::vec2ui32 origin, edk::vec2ui32 last){
-    return this->setOriginAndLast(this->getCharacterID(origin),this->getCharacterID(last));edkEnd();
+    return this->setOriginAndLast(this->getCharacterID(origin),this->getCharacterID(last));
 }
 bool edk::fonts::FontMap::setOriginAndLast(edk::uint32 originX,edk::uint32 originY,edk::uint32 lastX,edk::uint32 lastY){
-    return this->setOriginAndLast(edk::vec2ui32(originX,originY),edk::vec2ui32(lastX,lastY));edkEnd();
+    return this->setOriginAndLast(edk::vec2ui32(originX,originY),edk::vec2ui32(lastX,lastY));
 }
 bool edk::fonts::FontMap::setOrigin(edk::uint32 originID){
     //test if have the ID
@@ -5268,18 +5274,18 @@ bool edk::fonts::FontMap::setOrigin(edk::uint32 originID){
         //test if the ID from origin is smaller than last
         if(originID<this->lastID){
             //add the interpolation
-            this->originID = originID;edkEnd();
-            this->origin = this->getCharacterPosition(this->originID);edkEnd();
+            this->originID = originID;
+            this->origin = this->getCharacterPosition(this->originID);
             return true;
         }
     }
     return false;
 }
 bool edk::fonts::FontMap::setOrigin(edk::vec2ui32 origin){
-    return this->setOrigin(this->getCharacterID(origin));edkEnd();
+    return this->setOrigin(this->getCharacterID(origin));
 }
 bool edk::fonts::FontMap::setOrigin(edk::uint32 originX,edk::uint32 originY){
-    return this->setOrigin(edk::vec2ui32(originX,originY));edkEnd();
+    return this->setOrigin(edk::vec2ui32(originX,originY));
 }
 bool edk::fonts::FontMap::setLast(edk::uint32 lastID){
     //test if have the ID
@@ -5287,18 +5293,18 @@ bool edk::fonts::FontMap::setLast(edk::uint32 lastID){
         //test if the ID from origin is smaller than last
         if(lastID>this->originID){
             //add the interpolation
-            this->lastID = lastID;edkEnd();
-            this->last = this->getCharacterPosition(this->lastID);edkEnd();
+            this->lastID = lastID;
+            this->last = this->getCharacterPosition(this->lastID);
             return true;
         }
     }
     return false;
 }
 bool edk::fonts::FontMap::setLast(edk::vec2ui32 last){
-    return this->setLast(this->getCharacterID(last));edkEnd();
+    return this->setLast(this->getCharacterID(last));
 }
 bool edk::fonts::FontMap::setLast(edk::uint32 lastX,edk::uint32 lastY){
-    return this->setLast(edk::vec2ui32(lastX,lastY));edkEnd();
+    return this->setLast(edk::vec2ui32(lastX,lastY));
 }
 
 //add animations
@@ -5306,232 +5312,232 @@ bool edk::fonts::FontMap::addInterpolation(edk::float32 second,edk::uint32 origi
     //test if have the ID
     if(this->haveID(originID) && this->haveID(lastID)){
         //add the interpolation
-        this->animOrigin.addNewInterpolationLine(second,(edk::float32)originID);edkEnd();
-        this->animLast.addNewInterpolationLine(second,(edk::float32)lastID+1u);edkEnd();
+        this->animOrigin.addNewInterpolationLine(second,(edk::float32)originID);
+        this->animLast.addNewInterpolationLine(second,(edk::float32)lastID+1u);
         return true;
     }
     return false;
 }
 bool edk::fonts::FontMap::addInterpolation(edk::float32 second,edk::vec2ui32 origin,edk::vec2ui32 last){
-    return this->addInterpolation(second,this->getCharacterID(origin),this->getCharacterID(last));edkEnd();
+    return this->addInterpolation(second,this->getCharacterID(origin),this->getCharacterID(last));
 }
 bool edk::fonts::FontMap::addInterpolation(edk::float32 second,edk::uint32 originX,edk::uint32 originY,edk::uint32 lastX,edk::uint32 lastY){
-    return this->addInterpolation(second,edk::vec2ui32(originX,originY),edk::vec2ui32(lastX,lastY));edkEnd();
+    return this->addInterpolation(second,edk::vec2ui32(originX,originY),edk::vec2ui32(lastX,lastY));
 }
 
 bool edk::fonts::FontMap::addInterpolationOrigin(edk::float32 second,edk::uint32 ID){
     //test if have the ID
     if(this->haveID(ID)){
         //add the interpolation
-        this->animOrigin.addNewInterpolationLine(second,(edk::float32)ID);edkEnd();
+        this->animOrigin.addNewInterpolationLine(second,(edk::float32)ID);
         return true;
     }
     return false;
 }
 bool edk::fonts::FontMap::addInterpolationOrigin(edk::float32 second,edk::vec2ui32 origin){
-    return this->addInterpolationOrigin(second,this->getCharacterID(origin));edkEnd();
+    return this->addInterpolationOrigin(second,this->getCharacterID(origin));
 }
 bool edk::fonts::FontMap::addInterpolationOrigin(edk::float32 second,edk::uint32 originX,edk::uint32 originY){
-    return this->addInterpolationOrigin(second,edk::vec2ui32(originX,originY));edkEnd();
+    return this->addInterpolationOrigin(second,edk::vec2ui32(originX,originY));
 }
 bool edk::fonts::FontMap::addInterpolationLast(edk::float32 second,edk::uint32 ID){
     //test if have the ID
     if(this->haveID(ID)){
         //add the interpolation
-        this->animLast.addNewInterpolationLine(second,(edk::float32)ID+1u);edkEnd();
+        this->animLast.addNewInterpolationLine(second,(edk::float32)ID+1u);
         return true;
     }
     return false;
 }
 bool edk::fonts::FontMap::addInterpolationLast(edk::float32 second,edk::vec2ui32 last){
-    return this->addInterpolationLast(second,this->getCharacterID(last));edkEnd();
+    return this->addInterpolationLast(second,this->getCharacterID(last));
 }
 bool edk::fonts::FontMap::addInterpolationLast(edk::float32 second,edk::uint32 lastX,edk::uint32 lastY){
-    return this->addInterpolationLast(second,edk::vec2ui32(lastX,lastY));edkEnd();
+    return this->addInterpolationLast(second,edk::vec2ui32(lastX,lastY));
 }
 
 //Set animation speed
 void edk::fonts::FontMap::setAnimationSpeedOrigin(edk::float32 speed){
-    this->speedOrigin = speed;edkEnd();
+    this->speedOrigin = speed;
 }
 //set faster
 void edk::fonts::FontMap::setAtimationFasterSpeedOrigin(edk::float32 faster){
-    this->fasterOrigin = faster;edkEnd();
+    this->fasterOrigin = faster;
 }
 //speed
 void edk::fonts::FontMap::setAnimationSpeedLast(edk::float32 speed){
-    this->speedLast=speed;edkEnd();
+    this->speedLast=speed;
 }
 //set faster
 void edk::fonts::FontMap::setAtimationFasterSpeedLast(edk::float32 faster){
-    this->fasterLast=faster;edkEnd();
+    this->fasterLast=faster;
 }
 
 //CONTROLS
 //animation controllers
 void edk::fonts::FontMap::playForward(){
-    this->animOrigin.playForward();edkEnd();
-    this->animLast.playForward();edkEnd();
+    this->animOrigin.playForward();
+    this->animLast.playForward();
 }
 void edk::fonts::FontMap::playForwardIn(edk::float32 second){
-    this->animOrigin.playForwardIn(second);edkEnd();
-    this->animLast.playForwardIn(second);edkEnd();
+    this->animOrigin.playForwardIn(second);
+    this->animLast.playForwardIn(second);
 }
 void edk::fonts::FontMap::playRewind(){
-    this->animOrigin.playRewind();edkEnd();
-    this->animLast.playRewind();edkEnd();
+    this->animOrigin.playRewind();
+    this->animLast.playRewind();
 }
 void edk::fonts::FontMap::playRewindIn(edk::float32 second){
-    this->animOrigin.playRewindIn(second);edkEnd();
-    this->animLast.playRewindIn(second);edkEnd();
+    this->animOrigin.playRewindIn(second);
+    this->animLast.playRewindIn(second);
 }
 void edk::fonts::FontMap::pause(){
-    this->animLast.pause();edkEnd();
-    this->animOrigin.pause();edkEnd();
+    this->animLast.pause();
+    this->animOrigin.pause();
 }
 void edk::fonts::FontMap::pauseOn(){
-    this->animLast.pauseOn();edkEnd();
-    this->animOrigin.pauseOn();edkEnd();
+    this->animLast.pauseOn();
+    this->animOrigin.pauseOn();
 }
 void edk::fonts::FontMap::pauseOff(){
-    this->animLast.pauseOff();edkEnd();
-    this->animOrigin.pauseOff();edkEnd();
+    this->animLast.pauseOff();
+    this->animOrigin.pauseOff();
 }
 void edk::fonts::FontMap::stop(){
-    this->animOrigin.stop();edkEnd();
-    this->animLast.stop();edkEnd();
+    this->animOrigin.stop();
+    this->animLast.stop();
 }
 //set loop
 void edk::fonts::FontMap::setLoop(bool loop){
-    this->animOrigin.setLoop(loop);edkEnd();
-    this->animLast.setLoop(loop);edkEnd();
+    this->animOrigin.setLoop(loop);
+    this->animLast.setLoop(loop);
 }
 void edk::fonts::FontMap::loopOn(){
-    this->animOrigin.loopOn();edkEnd();
-    this->animLast.loopOn();edkEnd();
+    this->animOrigin.loopOn();
+    this->animLast.loopOn();
 }
 void edk::fonts::FontMap::loopOff(){
-    this->animOrigin.loopOff();edkEnd();
-    this->animLast.loopOff();edkEnd();
+    this->animOrigin.loopOff();
+    this->animLast.loopOff();
 }
 
 //Force speed for the next update
 void edk::fonts::FontMap::forceSpeedInOrigin(edk::float32 speed){
-    this->forceSpeedOrigin = true;edkEnd();
-    this->forceSpeedOriginValue = speed;edkEnd();
+    this->forceSpeedOrigin = true;
+    this->forceSpeedOriginValue = speed;
 }
 void edk::fonts::FontMap::forceSpeedInLast(edk::float32 speed){
-    this->forceSpeedLast = true;edkEnd();
-    this->forceSpeedLastValue = speed;edkEnd();
+    this->forceSpeedLast = true;
+    this->forceSpeedLastValue = speed;
 }
 //update animations
 bool edk::fonts::FontMap::updateAnimations(){
     this->updateSavedTransform();
 
-    bool ret=false;edkEnd();
-    edk::uint32 tileID;edkEnd();
+    bool ret=false;
+    edk::uint32 tileID;
     //test if need force speed
     if(this->forceSpeedOrigin){
-        this->forceSpeedOrigin = false;edkEnd();
+        this->forceSpeedOrigin = false;
         //set the update speed
-        this->animOrigin.setSpeed(this->forceSpeedOriginValue);edkEnd();
+        this->animOrigin.setSpeed(this->forceSpeedOriginValue);
     }
-    this->animOrigin.updateClockAnimation();edkEnd();
+    this->animOrigin.updateClockAnimation();
     //test if need force speed
     if(this->forceSpeedLast){
-        this->forceSpeedLast = false;edkEnd();
+        this->forceSpeedLast = false;
         //set the update speed
-        this->animLast.setSpeed(this->forceSpeedLastValue);edkEnd();
+        this->animLast.setSpeed(this->forceSpeedLastValue);
     }
-    this->animLast.updateClockAnimation();edkEnd();
-    this->animationPosition.updateClockAnimation();edkEnd();
-    this->animationSize.updateClockAnimation();edkEnd();
+    this->animLast.updateClockAnimation();
+    this->animationPosition.updateClockAnimation();
+    this->animationSize.updateClockAnimation();
     //test if is animating
     if(this->animOrigin.isPlaying()){
         //get the value
-        edk::float32 clockX = this->animOrigin.getClockX();edkEnd();
-        this->originID = (edk::uint32)clockX;edkEnd();
+        edk::float32 clockX = this->animOrigin.getClockX();
+        this->originID = (edk::uint32)clockX;
         //update the origin
-        this->origin = this->getCharacterPosition(this->originID);edkEnd();
+        this->origin = this->getCharacterPosition(this->originID);
 
-        tileID = this->map.getTileID(this->origin);edkEnd();
+        tileID = this->map.getTileID(this->origin);
         if(tileID == 0u || tileID == ' '){
             //test if found enter
             if(tileID == 0u){
                 //found enter
                 if(!this->enterOrigin){
-                    this->enterOrigin=true;edkEnd();
+                    this->enterOrigin=true;
                     //Run found Enter
-                    edk::uint32 size = this->treeCallbacks.size();edkEnd();
+                    edk::uint32 size = this->treeCallbacks.size();
                     for(edk::uint32 i=0u;i<size;i++){
-                        this->treeCallbacks.getElementInPosition(i)->originFoundEnd();edkEnd();
+                        this->treeCallbacks.getElementInPosition(i)->originFoundEnd();
                     }
                 }
             }
             else{
-                this->enterOrigin=false;edkEnd();
+                this->enterOrigin=false;
             }
             //speed the animation
-            this->animOrigin.setSpeed(this->fasterOrigin);edkEnd();//faster
+            this->animOrigin.setSpeed(this->fasterOrigin); //faster
         }
         else{
-            this->animOrigin.setSpeed(this->speedOrigin);edkEnd();//normal
-            this->enterOrigin=false;edkEnd();
+            this->animOrigin.setSpeed(this->speedOrigin); //normal
+            this->enterOrigin=false;
         }
 
-        ret=true;edkEnd();
+        ret=true;
     }
     if(this->animLast.isPlaying()){
         //test the character
         //get the value
-        edk::float32 clockX = this->animLast.getClockX();edkEnd();
-        this->lastID = (edk::uint32)clockX;edkEnd();
+        edk::float32 clockX = this->animLast.getClockX();
+        this->lastID = (edk::uint32)clockX;
         //update last
-        this->last = this->getCharacterPosition(this->lastID);edkEnd();
+        this->last = this->getCharacterPosition(this->lastID);
 
         //update the last speed
-        tileID = this->map.getTileID(this->last);edkEnd();
+        tileID = this->map.getTileID(this->last);
         if(tileID == 0u || tileID == ' '){
             //test if found enter
             if(tileID == 0u){
                 //found enter
                 if(!this->enterOrigin){
-                    this->enterOrigin=true;edkEnd();
+                    this->enterOrigin=true;
                     //Run found Enter
-                    edk::uint32 size = this->treeCallbacks.size();edkEnd();
+                    edk::uint32 size = this->treeCallbacks.size();
                     for(edk::uint32 i=0u;i<size;i++){
-                        this->treeCallbacks.getElementInPosition(i)->lastFoundEnd();edkEnd();
+                        this->treeCallbacks.getElementInPosition(i)->lastFoundEnd();
                     }
                 }
             }
             else{
-                this->enterOrigin=false;edkEnd();
+                this->enterOrigin=false;
             }
             //speed the animation
-            this->animLast.setSpeed(this->fasterLast);edkEnd();//faster
+            this->animLast.setSpeed(this->fasterLast); //faster
         }
         else{
-            this->animLast.setSpeed(this->speedLast);edkEnd();//normal
-            this->enterOrigin=false;edkEnd();
+            this->animLast.setSpeed(this->speedLast); //normal
+            this->enterOrigin=false;
         }
 
-        ret=true;edkEnd();
+        ret=true;
     }
 
     //update the position
     if(this->animationPosition.isPlaying()){
-        edk::vec2f32 posTemp;edkEnd();
-        posTemp.x = this->animationPosition.getClockX();edkEnd();
-        posTemp.y = this->animationPosition.getClockY();edkEnd();
-        this->setPosition(posTemp);edkEnd();
+        edk::vec2f32 posTemp;
+        posTemp.x = this->animationPosition.getClockX();
+        posTemp.y = this->animationPosition.getClockY();
+        this->setPosition(posTemp);
     }
 
     //update the position
     if(this->animationSize.isPlaying()){
-        edk::size2f32 sizeTemp;edkEnd();
-        sizeTemp.width = this->animationSize.getClockX();edkEnd();
-        sizeTemp.height = this->animationSize.getClockY();edkEnd();
-        this->setScale(sizeTemp);edkEnd();
+        edk::size2f32 sizeTemp;
+        sizeTemp.width = this->animationSize.getClockX();
+        sizeTemp.height = this->animationSize.getClockY();
+        this->setScale(sizeTemp);
     }
 
     return ret;
@@ -5539,175 +5545,175 @@ bool edk::fonts::FontMap::updateAnimations(){
 bool edk::fonts::FontMap::updateAnimations(edk::float32 seconds){
     this->updateSavedTransform();
 
-    bool ret=false;edkEnd();
-    edk::uint32 tileID;edkEnd();
+    bool ret=false;
+    edk::uint32 tileID;
     //test if need force speed
     if(this->forceSpeedOrigin){
-        this->forceSpeedOrigin = false;edkEnd();
+        this->forceSpeedOrigin = false;
         //set the update speed
-        this->animOrigin.setSpeed(this->forceSpeedOriginValue);edkEnd();
+        this->animOrigin.setSpeed(this->forceSpeedOriginValue);
     }
     //test if is animating
-    this->animOrigin.updateClockAnimation(seconds);edkEnd();
+    this->animOrigin.updateClockAnimation(seconds);
     //test if need force speed
     if(this->forceSpeedLast){
-        this->forceSpeedLast = false;edkEnd();
+        this->forceSpeedLast = false;
         //set the update speed
-        this->animLast.setSpeed(this->forceSpeedLastValue);edkEnd();
+        this->animLast.setSpeed(this->forceSpeedLastValue);
     }
-    this->animLast.updateClockAnimation(seconds);edkEnd();
+    this->animLast.updateClockAnimation(seconds);
     if(this->animOrigin.isPlaying()){
         //get the value
-        edk::float32 clockX = this->animOrigin.getClockX();edkEnd();
-        this->originID = (edk::uint32)clockX;edkEnd();
+        edk::float32 clockX = this->animOrigin.getClockX();
+        this->originID = (edk::uint32)clockX;
         //update the origin
-        this->origin = this->getCharacterPosition(this->originID);edkEnd();
+        this->origin = this->getCharacterPosition(this->originID);
 
-        tileID = this->map.getTileID(this->origin);edkEnd();
+        tileID = this->map.getTileID(this->origin);
         if(tileID == 0u || tileID == ' '){
             //test if found enter
             if(tileID == 0u){
                 //found enter
                 if(!this->enterOrigin){
-                    this->enterOrigin=true;edkEnd();
+                    this->enterOrigin=true;
                     //Run found Enter
-                    edk::uint32 size = this->treeCallbacks.size();edkEnd();
+                    edk::uint32 size = this->treeCallbacks.size();
                     for(edk::uint32 i=0u;i<size;i++){
-                        this->treeCallbacks.getElementInPosition(i)->originFoundEnd();edkEnd();
+                        this->treeCallbacks.getElementInPosition(i)->originFoundEnd();
                     }
                 }
             }
             else{
-                this->enterOrigin=false;edkEnd();
+                this->enterOrigin=false;
             }
             //speed the animation
-            this->animOrigin.setSpeed(this->fasterOrigin);edkEnd();//faster
+            this->animOrigin.setSpeed(this->fasterOrigin); //faster
         }
         else{
-            this->animOrigin.setSpeed(this->speedOrigin);edkEnd();//normal
-            this->enterOrigin=false;edkEnd();
+            this->animOrigin.setSpeed(this->speedOrigin); //normal
+            this->enterOrigin=false;
         }
 
-        ret=true;edkEnd();
+        ret=true;
     }
     if(this->animLast.isPlaying()){
         //get the value
-        edk::float32 clockX = this->animLast.getClockX();edkEnd();
-        this->lastID = (edk::uint32)clockX;edkEnd();
+        edk::float32 clockX = this->animLast.getClockX();
+        this->lastID = (edk::uint32)clockX;
         //update last
-        this->last = this->getCharacterPosition(this->lastID);edkEnd();
+        this->last = this->getCharacterPosition(this->lastID);
 
         //update the last speed
-        tileID = this->map.getTileID(this->last);edkEnd();
+        tileID = this->map.getTileID(this->last);
         if(tileID == 0u || tileID == ' '){
             //test if found enter
             if(tileID == 0u){
                 //found enter
                 if(!this->enterOrigin){
-                    this->enterOrigin=true;edkEnd();
+                    this->enterOrigin=true;
                     //Run found Enter
-                    edk::uint32 size = this->treeCallbacks.size();edkEnd();
+                    edk::uint32 size = this->treeCallbacks.size();
                     for(edk::uint32 i=0u;i<size;i++){
-                        this->treeCallbacks.getElementInPosition(i)->lastFoundEnd();edkEnd();
+                        this->treeCallbacks.getElementInPosition(i)->lastFoundEnd();
                     }
                 }
             }
             else{
-                this->enterOrigin=false;edkEnd();
+                this->enterOrigin=false;
             }
             //speed the animation
-            this->animLast.setSpeed(this->fasterLast);edkEnd();//faster
+            this->animLast.setSpeed(this->fasterLast); //faster
         }
         else{
-            this->animLast.setSpeed(this->speedLast);edkEnd();//normal
-            this->enterOrigin=false;edkEnd();
+            this->animLast.setSpeed(this->speedLast); //normal
+            this->enterOrigin=false;
         }
 
-        ret=true;edkEnd();
+        ret=true;
     }
 
     //update the position
     if(this->animationPosition.isPlaying()){
-        this->animationPosition.updateClockAnimation(seconds);edkEnd();
-        edk::vec2f32 posTemp;edkEnd();
-        posTemp.x = this->animationPosition.getClockX();edkEnd();
-        posTemp.y = this->animationPosition.getClockY();edkEnd();
-        this->setPosition(posTemp);edkEnd();
+        this->animationPosition.updateClockAnimation(seconds);
+        edk::vec2f32 posTemp;
+        posTemp.x = this->animationPosition.getClockX();
+        posTemp.y = this->animationPosition.getClockY();
+        this->setPosition(posTemp);
     }
 
     //update the position
     if(this->animationSize.isPlaying()){
-        this->animationSize.updateClockAnimation(seconds);edkEnd();
-        edk::size2f32 sizeTemp;edkEnd();
-        sizeTemp.width = this->animationSize.getClockX();edkEnd();
-        sizeTemp.height = this->animationSize.getClockY();edkEnd();
-        this->setScale(sizeTemp);edkEnd();
+        this->animationSize.updateClockAnimation(seconds);
+        edk::size2f32 sizeTemp;
+        sizeTemp.width = this->animationSize.getClockX();
+        sizeTemp.height = this->animationSize.getClockY();
+        this->setScale(sizeTemp);
     }
     return ret;
 }
 
 //draw the text
 void edk::fonts::FontMap::draw(edk::color4f32 color){
-    this->draw(this->origin,this->last,color);edkEnd();
+    this->draw(this->origin,this->last,color);
 }
 void edk::fonts::FontMap::draw(edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a){
-    this->draw(this->origin,this->last,edk::color4f32(r,g,b,a));edkEnd();
+    this->draw(this->origin,this->last,edk::color4f32(r,g,b,a));
 }
 void edk::fonts::FontMap::draw(edk::float32 r,edk::float32 g,edk::float32 b){
-    this->draw(r,g,b,1.f);edkEnd();
+    this->draw(r,g,b,1.f);
 }
 void edk::fonts::FontMap::draw(){
-    this->draw(this->origin,this->last);edkEnd();
+    this->draw(this->origin,this->last);
 }
 void edk::fonts::FontMap::drawWithoutMaterial(edk::color4f32 color){
-    //this->map.draw(color);edkEnd();
-    this->drawWithoutMaterial(this->origin,this->last,color);edkEnd();
+    //this->map.draw(color);
+    this->drawWithoutMaterial(this->origin,this->last,color);
 }
 void edk::fonts::FontMap::drawWithoutMaterial(edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a){
-    this->drawWithoutMaterial(this->origin,this->last,edk::color4f32(r,g,b,a));edkEnd();
+    this->drawWithoutMaterial(this->origin,this->last,edk::color4f32(r,g,b,a));
 }
 void edk::fonts::FontMap::drawWithoutMaterial(edk::float32 r,edk::float32 g,edk::float32 b){
-    this->drawWithoutMaterial(r,g,b,1.f);edkEnd();
+    this->drawWithoutMaterial(r,g,b,1.f);
 }
 void edk::fonts::FontMap::drawWithoutMaterial(){
-    this->drawWithoutMaterial(this->origin,this->last);edkEnd();
+    this->drawWithoutMaterial(this->origin,this->last);
 }
 void edk::fonts::FontMap::drawWire(edk::color4f32 color){
-    this->drawWire(this->origin,this->last,color);edkEnd();
+    this->drawWire(this->origin,this->last,color);
 }
 void edk::fonts::FontMap::drawWire(edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a){
-    this->drawWire(this->origin,this->last,edk::color4f32(r,g,b,a));edkEnd();
+    this->drawWire(this->origin,this->last,edk::color4f32(r,g,b,a));
 }
 void edk::fonts::FontMap::drawWire(edk::float32 r,edk::float32 g,edk::float32 b){
-    this->drawWire(r,g,b,1.f);edkEnd();
+    this->drawWire(r,g,b,1.f);
 }
 void edk::fonts::FontMap::drawWire(){
-    this->drawWire(this->origin,this->last);edkEnd();
+    this->drawWire(this->origin,this->last);
 }
 void edk::fonts::FontMap::drawSelection(){
-    this->drawSelection(this->origin,this->last);edkEnd();
+    this->drawSelection(this->origin,this->last);
 }
 //draw the pivo
 void edk::fonts::FontMap::drawPivo(edk::float32 size,edk::color3f32 color){
-    this->map.drawPivo(size,color);edkEnd();
+    this->map.drawPivo(size,color);
 }
 
 //remove the fontImage
 void edk::fonts::FontMap::removeFontImage(){
     //remove the tileSet from map
-    this->map.removeTileSet();edkEnd();
-    this->list.removeFontSet(this->set);edkEnd();
-    this->set=NULL;edkEnd();
+    this->map.removeTileSet();
+    this->list.removeFontSet(this->set);
+    this->set=NULL;
 }
 
 void edk::fonts::FontMap::animationEnd(edk::animation::InterpolationGroup* animation){
     //run the animation callback
-    edk::uint32 size = this->treeCallbacks.size();edkEnd();
-    bool isOrigin=false;edkEnd();
+    edk::uint32 size = this->treeCallbacks.size();
+    bool isOrigin=false;
     if(animation == &this->animOrigin){
-        isOrigin=true;edkEnd();
+        isOrigin=true;
     }
     for(edk::uint32 i=0u;i<size;i++){
-        this->treeCallbacks.getElementInPosition(i)->animationEnd(this,isOrigin);edkEnd();
+        this->treeCallbacks.getElementInPosition(i)->animationEnd(this,isOrigin);
     }
 }

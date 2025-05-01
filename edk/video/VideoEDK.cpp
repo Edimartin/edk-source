@@ -25,13 +25,11 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 edk::video::VideoEDK::VideoEDK(edk::video::EDKcodecName codec){
-    this->classThis=NULL;edkEnd();
-    this->Constructor(codec,false);edkEnd();
+    this->classThis=NULL;
+    this->Constructor(codec);
 }
 edk::video::VideoEDK::~VideoEDK(){
-    if(this->classThis==this){
-        this->classThis=NULL;edkEnd();
-    }
+    this->Destructor();
 }
 
 //remove the last coded
@@ -357,10 +355,8 @@ void edk::video::VideoEDK::finishDecoder(){
     return (this->*functionFinishDecoder)();
 }
 
-void edk::video::VideoEDK::Constructor(edk::video::EDKcodecName codec,bool runFather){
-    if(runFather){
-        edk::Video::Constructor();edkEnd();
-    }
+void edk::video::VideoEDK::Constructor(edk::video::EDKcodecName codec){
+    edk::Video::Constructor();
     if(this->classThis!=this){
         this->classThis=this;
 
@@ -384,6 +380,12 @@ void edk::video::VideoEDK::Constructor(edk::video::EDKcodecName codec,bool runFa
 
         this->useCodec(codec);
     }
+}
+void edk::video::VideoEDK::Destructor(){
+    if(this->classThis==this){
+        this->classThis=NULL;
+    }
+    edk::Video::Destructor();
 }
 
 //set use a codec

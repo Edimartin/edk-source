@@ -44,7 +44,8 @@ public:
     Rectangle2D();
     virtual ~Rectangle2D();
 
-    void Constructor(bool runFather=true);
+    void Constructor();
+    void Destructor();
 
     //Virtual Functions
     bool createPolygon(edk::uint32 vertexCount);
@@ -89,25 +90,25 @@ private:
     //Operator =
     edk::shape::Rectangle2D operator=(edk::shape::Rectangle2D poly){
         //first remove the UV from the polygon
-        this->deletePolygon();edkEnd();
+        this->deletePolygon();
         //copy the polygons
         for(edk::uint32 i=0u;i<this->vertexs.size();i++){
             //copy the vertex
-            edk::shape::Vertex2DAnimatedUV* temp = (edk::shape::Vertex2DAnimatedUV*)this->vertexs.get(i);edkEnd();
+            edk::shape::Vertex2DAnimatedUV* temp = (edk::shape::Vertex2DAnimatedUV*)this->vertexs.get(i);
             if(temp){
-                //this->setVertexPosition(i,poly.getVertexPosition(i));edkEnd();
-                temp->position = poly.getVertexPosition(i);edkEnd();
-                //this->setVertexColor(i,poly.getVertexColor(i));edkEnd();
-                temp->color = poly.getVertexColor(i);edkEnd();
+                //this->setVertexPosition(i,poly.getVertexPosition(i));
+                temp->position = poly.getVertexPosition(i);
+                //this->setVertexColor(i,poly.getVertexColor(i));
+                temp->color = poly.getVertexColor(i);
                 //get vertexType
                 switch(poly.getVertexType(i)){
                 //
                 case EDK_SHAPE_ANIMATED_UV:
                     //
-                    this->setVertexUVFrames(i,poly.getFrames());edkEnd();
+                    this->setVertexUVFrames(i,poly.getFrames());
                 case EDK_SHAPE_UV:
                     //
-                    this->setVertexUV(i,poly.getVertexUV(i));edkEnd();
+                    this->setVertexUV(i,poly.getVertexUV(i));
                     break;
                 };
             }
@@ -115,13 +116,13 @@ private:
         //copy the polygons
         for(edk::uint32 i=0u;i<this->vertexsOriginal.size();i++){
             //copy the vertex
-            edk::shape::Vertex2DAnimatedUV* vTemp = (edk::shape::Vertex2DAnimatedUV*)this->vertexsOriginal.get(i);edkEnd();
-            edk::shape::Vertex2DAnimatedUV* temp = (edk::shape::Vertex2DAnimatedUV*)poly.vertexsOriginal.get(i);edkEnd();
+            edk::shape::Vertex2DAnimatedUV* vTemp = (edk::shape::Vertex2DAnimatedUV*)this->vertexsOriginal.get(i);
+            edk::shape::Vertex2DAnimatedUV* temp = (edk::shape::Vertex2DAnimatedUV*)poly.vertexsOriginal.get(i);
             if(vTemp && temp){
-                //this->setVertexPosition(i,poly.getVertexPosition(i));edkEnd();
-                vTemp->position = temp->position;edkEnd();
-                //this->setVertexColor(i,poly.getVertexColor(i));edkEnd();
-                vTemp->color = temp->color;edkEnd();
+                //this->setVertexPosition(i,poly.getVertexPosition(i));
+                vTemp->position = temp->position;
+                //this->setVertexColor(i,poly.getVertexColor(i));
+                vTemp->color = temp->color;
                 //get vertexType
                 switch(poly.getVertexType(i)){
                 //
@@ -137,8 +138,8 @@ private:
             }
         }
         //return the polygon
-        edk::shape::Rectangle2D temp;edkEnd();
-        return temp;edkEnd();
+        edk::shape::Rectangle2D temp;
+        return temp;
     }
 private:
     edk::classID classThis;

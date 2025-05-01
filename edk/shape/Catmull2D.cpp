@@ -29,72 +29,72 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endif
 
 edk::shape::Catmull2D::Catmull2D(){
-    this->classThis=NULL;edkEnd();
-    this->Constructor(false);edkEnd();
+    this->classThis=NULL;
+    this->Constructor();
 }
 edk::shape::Catmull2D::Catmull2D(edk::vec2f32 p1,edk::vec2f32 p2,edk::vec2f32 p3,edk::vec2f32 p4){
-    this->classThis=NULL;edkEnd();
-    this->Constructor(p1,p2,p3,p4,false);edkEnd();
+    this->classThis=NULL;
+    this->Constructor(p1,p2,p3,p4);
 }
 
 edk::shape::Catmull2D::~Catmull2D(){
-    if(this->classThis==this){
-        this->classThis=NULL;edkEnd();
-        //can destruct the class
-    }
+    this->Destructor();
 }
 
-void edk::shape::Catmull2D::Constructor(bool runFather){
-    if(runFather){
-        edk::shape::Curve2D::Constructor();edkEnd();
-    }
+void edk::shape::Catmull2D::Constructor(){
+    edk::shape::Curve2D::Constructor();
     if(this->classThis!=this){
         this->classThis=this;
-        this->point1=0.f;edkEnd();
-        this->point2=0.f;edkEnd();
-        this->point3=0.f;edkEnd();
-        this->point4=0.f;edkEnd();
+        this->point1=0.f;
+        this->point2=0.f;
+        this->point3=0.f;
+        this->point4=0.f;
     }
 }
-void edk::shape::Catmull2D::Constructor(edk::vec2f32 p1,edk::vec2f32 p2,edk::vec2f32 p3,edk::vec2f32 p4,bool runFather){
-    if(runFather){
-        edk::shape::Curve2D::Constructor();edkEnd();
-    }
+void edk::shape::Catmull2D::Constructor(edk::vec2f32 p1,edk::vec2f32 p2,edk::vec2f32 p3,edk::vec2f32 p4){
+    edk::shape::Curve2D::Constructor();
     if(this->classThis!=this){
         this->classThis=this;
-        this->point1=p1;edkEnd();
-        this->point2=p2;edkEnd();
-        this->point3=p3;edkEnd();
-        this->point4=p4;edkEnd();
+        this->point1=p1;
+        this->point2=p2;
+        this->point3=p3;
+        this->point4=p4;
     }
+}
+void edk::shape::Catmull2D::Destructor(){
+    if(this->classThis==this){
+        this->classThis=NULL;
+        //can destruct the class
+    }
+    edk::shape::Curve2D::Destructor();
 }
 
 
 //Implement the Bezier Curve
 edk::vec2f32 edk::shape::Catmull2D::getPoint(edk::float32 percent){
     //return the ret
-    return edk::shape::Catmull2D::getPoint(this->point1,this->point2,this->point3,this->point4,percent);edkEnd();
+    return edk::shape::Catmull2D::getPoint(this->point1,this->point2,this->point3,this->point4,percent);
 }
 edk::vec2f32 edk::shape::Catmull2D::getPoint(edk::vec2f32 p1,edk::vec2f32 p2,edk::vec2f32 p3,edk::vec2f32 p4,edk::float32 percent){
     //create a return point
-    edk::vec2f32 ret;edkEnd();
+    edk::vec2f32 ret;
 
     //percent pow's
-    edk::float32 percent2 = percent * percent;edkEnd();
-    edk::float32 percent3 = percent * percent * percent;edkEnd();
+    edk::float32 percent2 = percent * percent;
+    edk::float32 percent3 = percent * percent * percent;
 
     //get X
     ret.x = 0.5 *((2 * p2.x) +
                   (-p1.x + p3.x) * percent +
                   (2*p1.x - 5*p2.x + 4*p3.x - p4.x) * percent2 +
                   (-p1.x + 3*p2.x- 3*p3.x + p4.x) * percent3
-                  );edkEnd();
+                  );
     //get Y
     ret.y = 0.5 *((2 * p2.y) +
                   (-p1.y + p3.y) * percent +
                   (2*p1.y- 5*p2.y + 4*p3.y - p4.y) * percent2 +
                   (-p1.y + 3*p2.y- 3*p3.y + p4.y) * percent3
-                  );edkEnd();
+                  );
 
     //return the ret
     return ret;

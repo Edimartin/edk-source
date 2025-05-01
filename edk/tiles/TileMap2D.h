@@ -49,7 +49,8 @@ public:
     tileContact2D();
     virtual ~tileContact2D();
 
-    void Constructor(bool runFather=true);
+    void Constructor();
+    void Destructor();
 
     edk::uint32 tileA;
     edk::uint32 tileB;
@@ -60,55 +61,60 @@ private:
 };
 class tileCallback{
 public:
-    tileCallback(){this->classThis=NULL;this->Constructor(false);edkEnd();}
+    tileCallback(){
+        this->classThis=NULL;
+        this->Constructor();
+    }
     virtual ~tileCallback(){
-        if(this->classThis==this){
-            this->classThis=NULL;edkEnd();
-            //can destruct the class
-        }
+        this->Destructor();
     }
 
-    void Constructor(bool runFather=true){
-        if(runFather){edkEnd();}
+    void Constructor(){
         if(this->classThis!=this){
             this->classThis=this;
+        }
+    }
+    void Destructor(){
+        if(this->classThis==this){
+            this->classThis=NULL;
+            //can destruct the class
         }
     }
 
     virtual void contact2DTileBegin(edk::tiles::tileContact2D tiles,edk::physics2D::Contact2D* contact){
         if(contact){
-            tiles.tileA++;edkEnd();
+            tiles.tileA++;
         }
     }
     virtual void contact2DTileEnd(edk::tiles::tileContact2D tiles,edk::physics2D::Contact2D* contact){
         if(contact){
-            tiles.tileA++;edkEnd();
+            tiles.tileA++;
         }
     }
     virtual void contact2DTileKeepBegin(edk::tiles::tileContact2D tiles,edk::physics2D::Contact2D* contact){
         if(contact){
-            tiles.tileA++;edkEnd();
+            tiles.tileA++;
         }
     }
     virtual void contact2DTileKeepEnd(edk::tiles::tileContact2D tiles,edk::physics2D::Contact2D* contact){
         if(contact){
-            tiles.tileA++;edkEnd();
+            tiles.tileA++;
         }
     }
     //contact sensors
     virtual void sensor2DTileBegin(edk::tiles::tileContact2D tiles,edk::physics2D::Contact2D* contact){
         if(contact){
-            tiles.tileA++;edkEnd();
+            tiles.tileA++;
         }
     }
     virtual void sensor2DTileEnd(edk::tiles::tileContact2D tiles,edk::physics2D::Contact2D* contact){
         if(contact){
-            tiles.tileA++;edkEnd();
+            tiles.tileA++;
         }
     }
     virtual void sensor2DTileKeeping(edk::tiles::tileContact2D tiles,edk::physics2D::Contact2D* contact){
         if(contact){
-            tiles.tileA++;edkEnd();
+            tiles.tileA++;
         }
     }
 private:
@@ -122,8 +128,9 @@ public:
     TileMap2D(edk::tiles::TileSet2D* tileSet);
     virtual ~TileMap2D();
 
-    void Constructor(bool runFather=true);
-    void Constructor(edk::tiles::TileSet2D* tileSet,bool runFather=true);
+    void Constructor();
+    void Constructor(edk::tiles::TileSet2D* tileSet);
+    void Destructor();
 
     //set the tileSet
     bool setTileSet(edk::tiles::TileSet2D* tileSet);
@@ -359,22 +366,27 @@ private:
     //PhysicsTiles
     class PhysicsTiles{
     public:
-        PhysicsTiles(edk::physics2D::PhysicObject2D* object){this->classThis=NULL;this->Constructor(object,false);edkEnd();}
+        PhysicsTiles(edk::physics2D::PhysicObject2D* object){
+            this->classThis=NULL;
+            this->Constructor(object);
+        }
         virtual ~PhysicsTiles(){
-            if(this->classThis==this){
-                this->classThis=NULL;edkEnd();
-                //can destruct the class
-            }
         }
 
-        void Constructor(edk::physics2D::PhysicObject2D* object,bool runFather=true){
-            if(runFather){edkEnd();}
+        void Constructor(edk::physics2D::PhysicObject2D* object){
             if(this->classThis!=this){
                 this->classThis=this;
                 this->object=object;
                 this->tile=0u;
             }
         }
+        void Destructor(){
+            if(this->classThis==this){
+                this->classThis=NULL;
+                //can destruct the class
+            }
+        }
+
         edk::vec2ui32 position;
         edk::physics2D::PhysicObject2D* object;
         edk::uint32 tile;
@@ -384,25 +396,30 @@ private:
     //Physics Objects Tree
     class TreePhysicsTiles:public edk::vector::BinaryTree<edk::tiles::TileMap2D::PhysicsTiles*>{
     public:
-        TreePhysicsTiles(){this->classThis=NULL;this->Constructor(false);edkEnd();}
+        TreePhysicsTiles(){
+            this->classThis=NULL;
+            this->Constructor();
+        }
         virtual ~TreePhysicsTiles(){
-            if(this->classThis==this){
-                this->classThis=NULL;edkEnd();
-                //can destruct the class
-                this->deleteAll();edkEnd();
-                this->tileSet=NULL;edkEnd();
-            }
+            this->Destructor();
         }
 
-        void Constructor(bool runFather=true){
-            if(runFather){
-                edk::vector::BinaryTree<edk::tiles::TileMap2D::PhysicsTiles*>::Constructor();edkEnd();
-            }
+        void Constructor(){
+            edk::vector::BinaryTree<edk::tiles::TileMap2D::PhysicsTiles*>::Constructor();
             if(this->classThis!=this){
                 this->classThis=this;
 
-                this->treePosition.Constructor();edkEnd();
+                this->treePosition.Constructor();
             }
+        }
+        void Destructor(){
+            if(this->classThis==this){
+                this->classThis=NULL;
+                //can destruct the class
+                this->deleteAll();
+                this->tileSet=NULL;
+            }
+            edk::vector::BinaryTree<edk::tiles::TileMap2D::PhysicsTiles*>::Destructor();
         }
 
         //compare if the value is bigger
@@ -424,58 +441,58 @@ private:
                 //update the value drawing the tile from tileSet
                 if(value->object && value->tile){
                     //draw the tile in object position
-                    this->tileSet->drawTile(value->tile,value->object->position,value->object->angle,value->object->size);edkEnd();
+                    this->tileSet->drawTile(value->tile,value->object->position,value->object->angle,value->object->size);
                 }
             }
         }
         //create a new physics object
         edk::physics2D::PhysicObject2D* newObjectInPosition(edk::vec2ui32 position,edk::uint32 tile, edk::uint8 type,bool sensor){
             //test if don't have an object in the position
-            edk::tiles::TileMap2D::PhysicsTiles* temp = this->getPhysicsTileInPosition(position);edkEnd();
+            edk::tiles::TileMap2D::PhysicsTiles* temp = this->getPhysicsTileInPosition(position);
             if(!temp){
                 //create the new object
-                edk::physics2D::PhysicObject2D* object = NULL;edkEnd();
+                edk::physics2D::PhysicObject2D* object = NULL;
                 switch(type){
                 case edk::TypeObject2DStatic:
                     if(sensor){
-                        object = new edk::physics2D::StaticSensor2D;edkEnd();
+                        object = new edk::physics2D::StaticSensor2D;
                     }
                     else{
-                        object = new edk::physics2D::StaticObject2D;edkEnd();
+                        object = new edk::physics2D::StaticObject2D;
                     }
                     break;
                 case edk::TypeObject2DKinematic:
                     if(sensor){
-                        object = new edk::physics2D::KinematicSensor2D;edkEnd();
+                        object = new edk::physics2D::KinematicSensor2D;
                     }
                     else{
-                        object = new edk::physics2D::KinematicObject2D;edkEnd();
+                        object = new edk::physics2D::KinematicObject2D;
                     }
                     break;
                 case edk::TypeObject2DDynamic:
-                    object = new edk::physics2D::DynamicObject2D;edkEnd();
+                    object = new edk::physics2D::DynamicObject2D;
                     break;
                 }
                 if(object){
-                    temp = new edk::tiles::TileMap2D::PhysicsTiles(object);edkEnd();
+                    temp = new edk::tiles::TileMap2D::PhysicsTiles(object);
                     if(temp){
                         if(temp->object){
                             //set the position
-                            temp->position=position;edkEnd();
-                            temp->tile = tile;edkEnd();
+                            temp->position=position;
+                            temp->tile = tile;
 
                             //add to the position tree
                             if(this->treePosition.add(temp)){
                                 //add to the tree
                                 if(this->add(temp)){
-                                    return temp->object;edkEnd();
+                                    return temp->object;
                                 }
-                                this->treePosition.remove(temp);edkEnd();
+                                this->treePosition.remove(temp);
                             }
                         }
-                        delete temp;edkEnd();
+                        delete temp;
                     }
-                    delete object;edkEnd();
+                    delete object;
                 }
             }
             return NULL;
@@ -483,106 +500,106 @@ private:
         //test if have the object
         bool haveObject(edk::physics2D::PhysicObject2D* object){
             if(object){
-                edk::tiles::TileMap2D::PhysicsTiles find(object);edkEnd();
-                return this->haveElement(&find);edkEnd();
+                edk::tiles::TileMap2D::PhysicsTiles find(object);
+                return this->haveElement(&find);
             }
             return false;
         }
         bool havePosition(edk::vec2ui32 position){
-            edk::tiles::TileMap2D::PhysicsTiles find(NULL);edkEnd();
-            find.position=position;edkEnd();
+            edk::tiles::TileMap2D::PhysicsTiles find(NULL);
+            find.position=position;
             return this->treePosition.haveElement(&find);
         }
         //return the position object
         edk::vec2ui32 getPositionOfObject(edk::physics2D::PhysicObject2D* object){
-            edk::vec2ui32 ret;edkEnd();
-            edk::tiles::TileMap2D::PhysicsTiles* temp = this->getPhysicsTileObject(object);edkEnd();
+            edk::vec2ui32 ret;
+            edk::tiles::TileMap2D::PhysicsTiles* temp = this->getPhysicsTileObject(object);
             if(temp){
                 //save the position
-                ret = temp->position;edkEnd();
+                ret = temp->position;
             }
             return ret;
         }
         //get object
         edk::physics2D::PhysicObject2D* getObjectInPosition(edk::vec2ui32 position){
-            edk::tiles::TileMap2D::PhysicsTiles* temp = this->getPhysicsTileInPosition(position);edkEnd();
+            edk::tiles::TileMap2D::PhysicsTiles* temp = this->getPhysicsTileInPosition(position);
             if(temp){
-                return temp->object;edkEnd();
+                return temp->object;
             }
             return NULL;
         }
         edk::physics2D::PhysicObject2D* getObjectInPosition(edk::uint32 position){
-            edk::tiles::TileMap2D::PhysicsTiles* temp = this->getElementInPosition(position);edkEnd();
+            edk::tiles::TileMap2D::PhysicsTiles* temp = this->getElementInPosition(position);
             if(temp){
-                return temp->object;edkEnd();
+                return temp->object;
             }
             return NULL;
         }
         //delete object
         bool deleteObject(edk::physics2D::PhysicObject2D* object){
             //load the object
-            return this->deletePhysicsTiles(this->getPhysicsTileObject(object));edkEnd();
+            return this->deletePhysicsTiles(this->getPhysicsTileObject(object));
         }
         //delete object in position
         bool deleteObjectInPosition(edk::vec2ui32 position){
             //load the object
-            return this->deletePhysicsTiles(this->getPhysicsTileInPosition(position));edkEnd();
+            return this->deletePhysicsTiles(this->getPhysicsTileInPosition(position));
         }
         //delete all objects
         void deleteAll(){
-            edk::tiles::TileMap2D::PhysicsTiles* temp = NULL;edkEnd();
+            edk::tiles::TileMap2D::PhysicsTiles* temp = NULL;
             for(edk::uint32 i=0u;i<this->size();i++){
-                temp = this->getElementInPosition(i);edkEnd();
+                temp = this->getElementInPosition(i);
                 if(temp){
-                    //this->treePosition.remove(temp);edkEnd();
-                    delete temp;edkEnd();
+                    //this->treePosition.remove(temp);
+                    delete temp;
                 }
             }
-            this->clean();edkEnd();
+            this->clean();
             /*
             for(edk::uint32 i=0u;i<this->treePosition.size();i++){
-                temp = this->treePosition.getElementInPosition(i);edkEnd();
+                temp = this->treePosition.getElementInPosition(i);
                 if(temp){
-                    delete temp;edkEnd();
+                    delete temp;
                 }
             }
             */
-            this->treePosition.clean();edkEnd();
+            this->treePosition.clean();
         }
         //set tileSet
         bool setTileSet(edk::tiles::TileSet2D *tileSet){
-            this->tileSet=tileSet;edkEnd();
+            this->tileSet=tileSet;
             if(this->tileSet){
-                edkEnd();
+
                 return true;
             }
             return false;
         }
         edk::tiles::TileMap2D::PhysicsTiles* getPhysicsTileObject(edk::physics2D::PhysicObject2D* object){
-            edk::tiles::TileMap2D::PhysicsTiles find(object);edkEnd();
+            edk::tiles::TileMap2D::PhysicsTiles find(object);
             return this->getElement(&find);
         }
         //get PhysicsTiles
         edk::tiles::TileMap2D::PhysicsTiles* getPhysicsTileInPosition(edk::vec2ui32 position){
-            edk::tiles::TileMap2D::PhysicsTiles find(NULL);edkEnd();
-            find.position = position;edkEnd();
+            edk::tiles::TileMap2D::PhysicsTiles find(NULL);
+            find.position = position;
             return this->treePosition.getElement(&find);
         }
         //get physicsObject
         edk::physics2D::PhysicObject2D* getPhysicsObjectInPosition(edk::vec2ui32 position){
-            edk::tiles::TileMap2D::PhysicsTiles* temp = getPhysicsTileInPosition(position);edkEnd();
+            edk::tiles::TileMap2D::PhysicsTiles* temp = getPhysicsTileInPosition(position);
             if(temp){
-                return temp->object;edkEnd();
+                return temp->object;
             }
             return NULL;
         }
         //return the ID in position
         edk::uint32 getIDInPosition(edk::vec2ui32 position){
-            edk::tiles::TileMap2D::PhysicsTiles* temp = getPhysicsTileInPosition(position);edkEnd();
+            edk::tiles::TileMap2D::PhysicsTiles* temp = getPhysicsTileInPosition(position);
             if(temp){
-                return temp->tile;edkEnd();
+                return temp->tile;
             }
-            return 0u;edkEnd();
+            return 0u;
         }
 
     private:
@@ -591,12 +608,12 @@ private:
         //delete physicsObject
         bool deletePhysicsTiles(edk::tiles::TileMap2D::PhysicsTiles* physicTiles){
             if(physicTiles){
-                edk::tiles::TileMap2D::PhysicsTiles* temp = this->getElement(physicTiles);edkEnd();
+                edk::tiles::TileMap2D::PhysicsTiles* temp = this->getElement(physicTiles);
                 if(temp){
                     //remove from the trees
                     if(this->remove(temp)){
                         if(this->treePosition.remove(temp)){
-                            delete temp;edkEnd();
+                            delete temp;
                             return true;
                         }
                     }
@@ -637,24 +654,29 @@ private:
     //StaticTileObjects
     class StaticTileObjects{
     public:
-        StaticTileObjects(edk::physics2D::PhysicObject2D* object){this->classThis=NULL;this->Constructor(object,false);edkEnd();}
+        StaticTileObjects(edk::physics2D::PhysicObject2D* object){
+            this->classThis=NULL;
+            this->Constructor(object);
+        }
         virtual ~StaticTileObjects(){
-            if(this->classThis==this){
-                this->classThis=NULL;edkEnd();
-                //can destruct the class
-                this->positions.clean();edkEnd();
-            }
+            this->Destructor();
         }
 
-        void Constructor(edk::physics2D::PhysicObject2D* object,bool runFather=true){
-            if(runFather){edkEnd();}
+        void Constructor(edk::physics2D::PhysicObject2D* object){
             if(this->classThis!=this){
                 this->classThis=this;
 
-                this->positions.Constructor();edkEnd();
+                this->positions.Constructor();
 
-                this->object=object;edkEnd();
-                this->tile=0u;edkEnd();
+                this->object=object;
+                this->tile=0u;
+            }
+        }
+        void Destructor(){
+            if(this->classThis==this){
+                this->classThis=NULL;
+                //can destruct the class
+                this->positions.clean();
             }
         }
 
@@ -664,21 +686,26 @@ private:
         //tree with the positions
         class TreePositions:public edk::vector::BinaryTree<edk::vec2ui32>{
         public:
-            TreePositions(){this->classThis=NULL;this->Constructor(false);edkEnd();}
+            TreePositions(){
+                this->classThis=NULL;
+                this->Constructor();
+            }
             virtual ~TreePositions(){
-                if(this->classThis==this){
-                    this->classThis=NULL;edkEnd();
-                    //can destruct the class
-                }
+                this->Destructor();
             }
 
-            void Constructor(bool runFather=true){
-                if(runFather){
-                    edk::vector::BinaryTree<edk::vec2ui32>::Constructor();edkEnd();
-                }
+            void Constructor(){
+                edk::vector::BinaryTree<edk::vec2ui32>::Constructor();
                 if(this->classThis!=this){
                     this->classThis=this;
                 }
+            }
+            void Destructor(){
+                if(this->classThis==this){
+                    this->classThis=NULL;
+                    //can destruct the class
+                }
+                edk::vector::BinaryTree<edk::vec2ui32>::Destructor();
             }
 
             //compare if the value is bigger
@@ -715,25 +742,30 @@ private:
     //Physics Objects Tree
     class TreeStaticTileObjects:public edk::vector::BinaryTree<edk::tiles::TileMap2D::StaticTileObjects*>{
     public:
-        TreeStaticTileObjects(){this->classThis=NULL;this->Constructor(false);edkEnd();}
+        TreeStaticTileObjects(){
+            this->classThis=NULL;
+            this->Constructor();
+        }
         virtual ~TreeStaticTileObjects(){
-            if(this->classThis==this){
-                this->classThis=NULL;edkEnd();
-                //can destruct the class
-                this->deleteAll();edkEnd();
-                this->tileSet=NULL;edkEnd();
-            }
+            this->Destructor();
         }
 
-        void Constructor(bool runFather=true){
-            if(runFather){
-                edk::vector::BinaryTree<edk::tiles::TileMap2D::StaticTileObjects*>::Constructor();edkEnd();
-            }
+        void Constructor(){
+            edk::vector::BinaryTree<edk::tiles::TileMap2D::StaticTileObjects*>::Constructor();
             if(this->classThis!=this){
                 this->classThis=this;
 
-                this->treePosition.Constructor();edkEnd();
+                this->treePosition.Constructor();
             }
+        }
+        void Destructor(){
+            if(this->classThis==this){
+                this->classThis=NULL;
+                //can destruct the class
+                this->deleteAll();
+                this->tileSet=NULL;
+            }
+            edk::vector::BinaryTree<edk::tiles::TileMap2D::StaticTileObjects*>::Destructor();
         }
 
         //compare if the value is bigger
@@ -755,7 +787,7 @@ private:
                 //update the value drawing the tile from tileSet
                 if(value->object && value->tile){
                     //draw the tile in object position
-                    this->tileSet->drawTile(value->tile,value->object->position,value->object->angle,value->object->size);edkEnd();
+                    this->tileSet->drawTile(value->tile,value->object->position,value->object->angle,value->object->size);
                 }
             }
         }
@@ -763,7 +795,7 @@ private:
         edk::physics2D::PhysicObject2D* newObjectInPositions(edk::vector::Stack<edk::vec2ui32>* positions,edk::uint32 tile, edk::uint8 type,bool sensor){
             if(positions){
                 //test if have the positions
-                edk::uint32 size = positions->size();edkEnd();
+                edk::uint32 size = positions->size();
                 for(edk::uint32 i=0u;i<size;i++){
                     //test if have the position
                     if(this->havePosition(positions->get(i))){
@@ -771,62 +803,62 @@ private:
                     }
                 }
 
-                edk::physics2D::PhysicObject2D* object = NULL;edkEnd();
+                edk::physics2D::PhysicObject2D* object = NULL;
                 //create the new object
                 if(type == edk::TypeObject2DStatic){
                     if(sensor){
-                        object = new edk::physics2D::StaticSensor2D;edkEnd();
+                        object = new edk::physics2D::StaticSensor2D;
                     }
                     else{
-                        object = new edk::physics2D::StaticObject2D;edkEnd();
+                        object = new edk::physics2D::StaticObject2D;
                     }
                 }
                 if(object){
                     //create the staticTileObject to the tree
-                    edk::tiles::TileMap2D::StaticTileObjects* temp = new edk::tiles::TileMap2D::StaticTileObjects(object);edkEnd();
+                    edk::tiles::TileMap2D::StaticTileObjects* temp = new edk::tiles::TileMap2D::StaticTileObjects(object);
                     if(temp){
                         if(temp->object){
-                            bool canAdd=true;edkEnd();
+                            bool canAdd=true;
 
                             //Add all positions on the positionTree
-                            edk::tiles::TileMap2D::PhysicsTiles* tempPosition;edkEnd();
+                            edk::tiles::TileMap2D::PhysicsTiles* tempPosition;
                             for(edk::uint32 i=0u;i<size;i++){
-                                tempPosition = new edk::tiles::TileMap2D::PhysicsTiles(temp->object);edkEnd();
+                                tempPosition = new edk::tiles::TileMap2D::PhysicsTiles(temp->object);
                                 if(tempPosition){
-                                    tempPosition->position = positions->get(i);edkEnd();
+                                    tempPosition->position = positions->get(i);
                                     //add to the position tree
                                     if(this->treePosition.add(tempPosition)){
-                                        temp->positions.add(tempPosition->position);edkEnd();
+                                        temp->positions.add(tempPosition->position);
                                     }
                                     else{
-                                        delete tempPosition;edkEnd();
+                                        delete tempPosition;
                                         //else can't add the position
-                                        canAdd=false;edkEnd();
+                                        canAdd=false;
                                     }
                                 }
                             }
                             if(canAdd){
-                                temp->tile = tile;edkEnd();
+                                temp->tile = tile;
                                 //add to the tree
                                 if(this->add(temp)){
-                                    return temp->object;edkEnd();
+                                    return temp->object;
                                 }
                             }
                             //else remove all positions from the treePosition
-                            edk::tiles::TileMap2D::PhysicsTiles find(NULL);edkEnd();
+                            edk::tiles::TileMap2D::PhysicsTiles find(NULL);
                             for(edk::uint32 i=0u;i<size;i++){
-                                find.position = positions->get(i);edkEnd();
+                                find.position = positions->get(i);
                                 //add to the position tree
                                 if((tempPosition = this->treePosition.getElement(&find))){
                                     if(this->treePosition.remove(tempPosition)){
-                                        delete tempPosition;edkEnd();
+                                        delete tempPosition;
                                     }
                                 }
                             }
                         }
-                        delete temp;edkEnd();
+                        delete temp;
                     }
-                    delete object;edkEnd();
+                    delete object;
                 }
             }
             return NULL;
@@ -834,123 +866,123 @@ private:
         //test if have the object
         bool haveObject(edk::physics2D::PhysicObject2D* object){
             if(object){
-                edk::tiles::TileMap2D::StaticTileObjects find(object);edkEnd();
-                return this->haveElement(&find);edkEnd();
+                edk::tiles::TileMap2D::StaticTileObjects find(object);
+                return this->haveElement(&find);
             }
             return false;
         }
         bool havePosition(edk::vec2ui32 position){
-            edk::tiles::TileMap2D::PhysicsTiles find(NULL);edkEnd();
-            find.position=position;edkEnd();
+            edk::tiles::TileMap2D::PhysicsTiles find(NULL);
+            find.position=position;
             return this->treePosition.haveElement(&find);
         }
         //return the position size of the object
         edk::uint32 getPositionSizeOfObject(edk::physics2D::PhysicObject2D* object){
-            edk::uint32 ret=0u;edkEnd();
-            edk::tiles::TileMap2D::StaticTileObjects* temp = this->getPhysicsTileObject(object);edkEnd();
+            edk::uint32 ret=0u;
+            edk::tiles::TileMap2D::StaticTileObjects* temp = this->getPhysicsTileObject(object);
             if(temp){
                 //get the position size
-                ret = temp->positions.size();edkEnd();
+                ret = temp->positions.size();
             }
             return ret;
         }
         //return the position object
         edk::vec2ui32 getPositionOfObject(edk::physics2D::PhysicObject2D* object, edk::uint32 position){
-            edk::vec2ui32 ret;edkEnd();
-            edk::tiles::TileMap2D::StaticTileObjects* temp = this->getPhysicsTileObject(object);edkEnd();
+            edk::vec2ui32 ret;
+            edk::tiles::TileMap2D::StaticTileObjects* temp = this->getPhysicsTileObject(object);
             if(temp){
                 if(position < temp->positions.size()){
                     //get the position in position
-                    ret = temp->positions.getElementInPosition(position);edkEnd();
+                    ret = temp->positions.getElementInPosition(position);
                 }
             }
             return ret;
         }
         //get object
         edk::physics2D::PhysicObject2D* getObjectInPosition(edk::vec2ui32 position){
-            edk::tiles::TileMap2D::StaticTileObjects* temp = this->getPhysicsTileInPosition(position);edkEnd();
+            edk::tiles::TileMap2D::StaticTileObjects* temp = this->getPhysicsTileInPosition(position);
             if(temp){
-                return temp->object;edkEnd();
+                return temp->object;
             }
             return NULL;
         }
         edk::physics2D::PhysicObject2D* getObjectInPosition(edk::uint32 position){
-            edk::tiles::TileMap2D::StaticTileObjects* temp = this->getElementInPosition(position);edkEnd();
+            edk::tiles::TileMap2D::StaticTileObjects* temp = this->getElementInPosition(position);
             if(temp){
-                return temp->object;edkEnd();
+                return temp->object;
             }
             return NULL;
         }
         //delete object
         bool deleteObject(edk::physics2D::PhysicObject2D* object){
             //load the object
-            return this->deleteStaticTileObjects(this->getPhysicsTileObject(object));edkEnd();
+            return this->deleteStaticTileObjects(this->getPhysicsTileObject(object));
         }
         //delete object in position
         bool deleteObjectInPosition(edk::vec2ui32 position){
             //load the object
-            return this->deleteStaticTileObjects(this->getPhysicsTileInPosition(position));edkEnd();
+            return this->deleteStaticTileObjects(this->getPhysicsTileInPosition(position));
         }
         //delete all objects
         void deleteAll(){
-            edk::tiles::TileMap2D::StaticTileObjects* temp = NULL;edkEnd();
+            edk::tiles::TileMap2D::StaticTileObjects* temp = NULL;
             for(edk::uint32 i=0u;i<this->size();i++){
-                temp = this->getElementInPosition(i);edkEnd();
+                temp = this->getElementInPosition(i);
                 if(temp){
-                    //this->treePosition.remove(temp);edkEnd();
-                    delete temp;edkEnd();
+                    //this->treePosition.remove(temp);
+                    delete temp;
                 }
             }
-            this->clean();edkEnd();
-            edk::tiles::TileMap2D::PhysicsTiles* temp2 = NULL;edkEnd();
+            this->clean();
+            edk::tiles::TileMap2D::PhysicsTiles* temp2 = NULL;
             for(edk::uint32 i=0u;i<this->treePosition.size();i++){
-                temp2 = this->treePosition.getElementInPosition(i);edkEnd();
+                temp2 = this->treePosition.getElementInPosition(i);
                 if(temp2){
-                    delete temp2;edkEnd();
+                    delete temp2;
                 }
             }
-            this->treePosition.clean();edkEnd();
+            this->treePosition.clean();
         }
         //set tileSet
         bool setTileSet(edk::tiles::TileSet2D *tileSet){
-            this->tileSet=tileSet;edkEnd();
+            this->tileSet=tileSet;
             if(this->tileSet){
-                edkEnd();
+
                 return true;
             }
             return false;
         }
         edk::tiles::TileMap2D::StaticTileObjects* getPhysicsTileObject(edk::physics2D::PhysicObject2D* object){
-            edk::tiles::TileMap2D::StaticTileObjects find(object);edkEnd();
+            edk::tiles::TileMap2D::StaticTileObjects find(object);
             return this->getElement(&find);
         }
         //get StaticTileObjects
         edk::tiles::TileMap2D::StaticTileObjects* getPhysicsTileInPosition(edk::vec2ui32 position){
-            edk::tiles::TileMap2D::PhysicsTiles find(NULL);edkEnd();
-            find.position = position;edkEnd();
+            edk::tiles::TileMap2D::PhysicsTiles find(NULL);
+            find.position = position;
             //get the object from the temp
-            edk::tiles::TileMap2D::PhysicsTiles* temp = this->treePosition.getElement(&find);edkEnd();
+            edk::tiles::TileMap2D::PhysicsTiles* temp = this->treePosition.getElement(&find);
             if(temp){
-                edk::tiles::TileMap2D::StaticTileObjects findObject(temp->object);edkEnd();
-                return this->getElement(&findObject);edkEnd();
+                edk::tiles::TileMap2D::StaticTileObjects findObject(temp->object);
+                return this->getElement(&findObject);
             }
             return NULL;
         }
         //get physicsObject
         edk::physics2D::PhysicObject2D* getPhysicsObjectInPosition(edk::vec2ui32 position){
-            edk::tiles::TileMap2D::StaticTileObjects* temp = getPhysicsTileInPosition(position);edkEnd();
+            edk::tiles::TileMap2D::StaticTileObjects* temp = getPhysicsTileInPosition(position);
             if(temp){
-                return temp->object;edkEnd();
+                return temp->object;
             }
             return NULL;
         }
         //return the ID in position
         edk::uint32 getIDInPosition(edk::vec2ui32 position){
-            edk::tiles::TileMap2D::StaticTileObjects* temp = getPhysicsTileInPosition(position);edkEnd();
+            edk::tiles::TileMap2D::StaticTileObjects* temp = getPhysicsTileInPosition(position);
             if(temp){
-                return temp->tile;edkEnd();
+                return temp->tile;
             }
-            return 0u;edkEnd();
+            return 0u;
         }
 
     private:
@@ -959,24 +991,24 @@ private:
         //delete physicsObject
         bool deleteStaticTileObjects(edk::tiles::TileMap2D::StaticTileObjects* physicTiles){
             if(physicTiles){
-                edk::tiles::TileMap2D::StaticTileObjects* temp = this->getElement(physicTiles);edkEnd();
+                edk::tiles::TileMap2D::StaticTileObjects* temp = this->getElement(physicTiles);
                 if(temp){
                     //remove from the trees
-                    edk::tiles::TileMap2D::PhysicsTiles find(NULL);edkEnd();
-                    edk::tiles::TileMap2D::PhysicsTiles* tempRemove;edkEnd();
-                    edk::uint32 size = temp->positions.size();edkEnd();
+                    edk::tiles::TileMap2D::PhysicsTiles find(NULL);
+                    edk::tiles::TileMap2D::PhysicsTiles* tempRemove;
+                    edk::uint32 size = temp->positions.size();
                     for(edk::uint32 i=0u;i<size;i++){
-                        find.position = temp->positions.getElementInPosition(i);edkEnd();
-                        tempRemove = this->treePosition.getElement(&find);edkEnd();
+                        find.position = temp->positions.getElementInPosition(i);
+                        tempRemove = this->treePosition.getElement(&find);
                         if(tempRemove){
                             if(tempRemove->object == temp->object){
                                 if(this->treePosition.remove(tempRemove)){
-                                    delete tempRemove;edkEnd();
+                                    delete tempRemove;
                                 }
                             }
                         }
                     }
-                    delete temp;edkEnd();
+                    delete temp;
                     return true;
                 }
             }

@@ -99,7 +99,8 @@ public:
     File();
     virtual ~File();
 
-    void Constructor(bool runFather=true);
+    void Constructor();
+    void Destructor();
 
     edk::uint64 getFileSize();
 
@@ -387,7 +388,8 @@ public:
     FileStream();
     virtual ~FileStream();
 
-    void Constructor(bool runFather=true);
+    void Constructor();
+    void Destructor();
 
     bool openFileStream(edk::char8* name);
     bool openFileStream(const edk::char8* name);

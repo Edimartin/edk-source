@@ -52,7 +52,8 @@ public:
     EncoderH264();
     virtual ~EncoderH264();
 
-    void Constructor(bool runFather=true);
+    void Constructor();
+    void Destructor();
 
     //start the encoder
     bool startEncoder(edk::size2ui32 size, edk::uint32 fps);

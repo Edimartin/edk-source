@@ -45,7 +45,8 @@ public:
     KinematicSensor2D();
     virtual ~KinematicSensor2D();
 
-    void Constructor(bool runFather=true);
+    void Constructor();
+    void Destructor();
 private:
     edk::classID classThis;
 };

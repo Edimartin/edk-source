@@ -61,7 +61,8 @@ public:
     MariaDB();
     virtual ~MariaDB();
 
-    void Constructor(bool runFather=true);
+    void Constructor();
+    void Destructor();
 
     //open dataBase
     bool openDataBase(const edk::char8* database,const edk::char8* user,const edk::char8* password);

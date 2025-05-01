@@ -25,35 +25,38 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 edk::pack::FileNode::FileNode(){
-    this->classThis=NULL;edkEnd();
-    this->Constructor(false);edkEnd();
+    this->classThis=NULL; 
+    this->Constructor();
 }
 edk::pack::FileNode::~FileNode(){
-    if(this->classThis==this){
-        this->classThis=NULL;edkEnd();
-        //can destruct the class
-        this->str.cleanName();edkEnd();
-        this->fileName.cleanName();edkEnd();
-    }
+    this->Destructor();
 }
 
-void edk::pack::FileNode::Constructor(bool /*runFather*/){
+void edk::pack::FileNode::Constructor(){
     if(this->classThis!=this){
         this->classThis=this;
 
-        this->str.Constructor();edkEnd();
-        this->fileName.Constructor();edkEnd();
+        this->str.Constructor(); 
+        this->fileName.Constructor(); 
 
-        this->position = 0u;edkEnd();
-        this->fileSize = 0u;edkEnd();
-        //this->position = this->fileSize = 0u;edkEnd();
-        this->cleanMD5();edkEnd();
+        this->position = 0u; 
+        this->fileSize = 0u; 
+        //this->position = this->fileSize = 0u; 
+        this->cleanMD5(); 
+    }
+}
+void edk::pack::FileNode::Destructor(){
+    if(this->classThis==this){
+        this->classThis=NULL;
+        //can destruct the class
+        this->str.cleanName();
+        this->fileName.cleanName();
     }
 }
 
 //clean the md5 code
 void edk::pack::FileNode::cleanMD5(){
-    memset(this->md5,0u,sizeof(this->md5));edkEnd();
+    memset(this->md5,0u,sizeof(this->md5)); 
 }
 //compare the md5
 bool edk::pack::FileNode::compareMD5(edk::uint8 md5[16u]){
@@ -68,74 +71,74 @@ bool edk::pack::FileNode::compareMD5(edk::uint8 md5[16u]){
 //print the md5
 void edk::pack::FileNode::printMD5(edk::uint8 md5[16u]){
     for(edk::uint32 i=0u;i<16u;i++){
-        printf("%02x",(edk::uint8)md5[i]);edkEnd();
+        printf("%02x",(edk::uint8)md5[i]); 
     }
-    fflush(stdout);edkEnd();
+    fflush(stdout); 
 }
 
 //set the fileName
 bool edk::pack::FileNode::setFileName(edk::char8* str){
     //clean the names
-    this->cleanName();edkEnd();
+    this->cleanName(); 
     //test the string
     if(str){
         //set the string
         if(this->str.setName(str)){
             //get the fileName string
-            edk::char8* temp = edk::String::strFileName(str);edkEnd();
+            edk::char8* temp = edk::String::strFileName(str); 
             if(temp){
                 //set the temp to the fileName
                 if(this->fileName.setName(temp)){
-                    free(temp);edkEnd();
+                    free(temp); 
                     return true;
                 }
-                free(temp);edkEnd();
+                free(temp); 
             }
-            this->str.cleanName();edkEnd();
+            this->str.cleanName(); 
         }
     }
     return false;
 }
 bool edk::pack::FileNode::setFileName(const edk::char8* str){
-    return this->setFileName((edk::char8*) str);edkEnd();
+    return this->setFileName((edk::char8*) str); 
 }
 //return the fileName
 edk::char8* edk::pack::FileNode::getFileName(){
-    return this->fileName.getName();edkEnd();
+    return this->fileName.getName(); 
 }
 edk::char8* edk::pack::FileNode::getStrName(){
-    return this->str.getName();edkEnd();
+    return this->str.getName(); 
 }
 //clean the name
 void edk::pack::FileNode::cleanName(){
-    this->str.cleanName();edkEnd();
-    this->fileName.cleanName();edkEnd();
+    this->str.cleanName(); 
+    this->fileName.cleanName(); 
 }
 void edk::pack::FileNode::clean(){
-    this->cleanName();edkEnd();
-    this->position = this->fileSize = 0u;edkEnd();
+    this->cleanName(); 
+    this->position = this->fileSize = 0u; 
 }
 
 void edk::pack::FileNode::setPosition(edk::uint64 position){
-    this->position = position;edkEnd();
+    this->position = position; 
 }
 edk::uint64 edk::pack::FileNode::getPosition(){
-    return this->position;edkEnd();
+    return this->position; 
 }
 void edk::pack::FileNode::setFileSize(edk::uint64 fileSize){
-    this->fileSize = fileSize;edkEnd();
+    this->fileSize = fileSize; 
 }
 edk::uint64 edk::pack::FileNode::getFileSize(){
-    return this->fileSize;edkEnd();
+    return this->fileSize; 
 }
 
 //return the size of the node
 edk::uint64 edk::pack::FileNode::getSize(){
-    return this->size();edkEnd();
+    return this->size(); 
 }
 edk::uint64 edk::pack::FileNode::size(){
     //return the node size
-    return this->fileName.size()+1u + sizeof(this->fileName.size()) + sizeof(this->position) + sizeof(this->fileSize);edkEnd();
+    return this->fileName.size()+1u + sizeof(this->fileName.size()) + sizeof(this->position) + sizeof(this->fileSize); 
 }
 
 //return true if this fileNode is bigger then the other node
@@ -161,17 +164,17 @@ bool edk::pack::FileNode::equalThan(edk::pack::FileNode* node){
 void edk::pack::FileNode::print(){
     printf("\nNode size %lu:"
            ,this->getSize()
-           );edkEnd();
+           ); 
     printf("\nName '%s' '%s'"
            ,this->str.getName()
            ,this->fileName.getName()
-           );edkEnd();
+           ); 
     printf("\nposition %lu fileSize %lu"
            ,this->position
            ,this->fileSize
-           );edkEnd();
-    printf("\nMD5: ");edkEnd();this->printMD5(this->md5);edkEnd();
-    fflush(stdout);edkEnd();
+           ); 
+    printf("\nMD5: "); this->printMD5(this->md5); 
+    fflush(stdout); 
 }
 
 //write the node to the file
@@ -179,42 +182,42 @@ bool edk::pack::FileNode::writeFile(edk::File* file){
     //test the file
     if(file && this->fileName.size()){
         //write the nameSize
-        file->writeBin(this->fileName.size());edkEnd();
+        file->writeBin(this->fileName.size()); 
         //write the string
-        edk::uint32 size = this->fileName.size();edkEnd();
-        file->writeBin(this->fileName.getName(),size);edkEnd();
-        //file->writeBin(this->fileName.getName());edkEnd();
+        edk::uint32 size = this->fileName.size(); 
+        file->writeBin(this->fileName.getName(),size); 
+        //file->writeBin(this->fileName.getName()); 
         //write the position and the size
-        file->writeBin(this->position);edkEnd();
-        file->writeBin(this->fileSize);edkEnd();
-        file->writeBin(this->md5,sizeof(this->md5));edkEnd();
+        file->writeBin(this->position); 
+        file->writeBin(this->fileSize); 
+        file->writeBin(this->md5,sizeof(this->md5)); 
         return true;
     }
     return false;
 }
 bool edk::pack::FileNode::readFile(edk::File* file){
-    this->clean();edkEnd();
+    this->clean(); 
     if(file){
         if(file->getFileSize()){
             if(!file->endOfFile()){
                 //get the string size
-                edk::uint32 strSize = file->readBinUInt32();edkEnd();
+                edk::uint32 strSize = file->readBinUInt32(); 
                 //create a new string to copy
-                edk::char8* temp = (edk::char8*)malloc(sizeof(edk::char8)*strSize+1u);edkEnd();
+                edk::char8* temp = (edk::char8*)malloc(sizeof(edk::char8)*strSize+1u); 
                 if(temp){
-                    temp[strSize] = '\0';edkEnd();
+                    temp[strSize] = '\0'; 
                     //read the string
-                    file->readBin(temp,strSize);edkEnd();
+                    file->readBin(temp,strSize); 
                     //copy the string
-                    this->setFileName(temp);edkEnd();
-                    free(temp);edkEnd();
+                    this->setFileName(temp); 
+                    free(temp); 
                 }
 
                 //read the position
-                this->position = file->readBinUInt64();edkEnd();
-                this->fileSize = file->readBinUInt64();edkEnd();
+                this->position = file->readBinUInt64(); 
+                this->fileSize = file->readBinUInt64(); 
                 //read the md5
-                file->readBin(this->md5,sizeof(this->md5));edkEnd();
+                file->readBin(this->md5,sizeof(this->md5)); 
 
                 return true;
             }

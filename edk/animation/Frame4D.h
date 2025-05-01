@@ -44,54 +44,52 @@ class Frame4D:public edk::animation::Frame3D{
 public:
     Frame4D()
         :edk::animation::Frame3D(){
-        this->classThis=NULL;edkEnd();
-        this->Constructor(false);edkEnd();
+        this->classThis=NULL;
+        this->Constructor();
     }
     Frame4D(edk::float32 second,edk::float32 x,edk::float32 y,edk::float32 z,edk::float32 w)
         :edk::animation::Frame3D(second,x,y,z),w(w){
-        this->classThis=NULL;edkEnd();
-        this->Constructor(second,x,y,z,false);edkEnd();
+        this->classThis=NULL;
+        this->Constructor(second,x,y,z,w);
     }
     Frame4D(edk::float32 second,edk::vec4f32 value)
         :edk::animation::Frame3D(second,value.x,value.y,value.z),w(value.w){
-        this->classThis=NULL;edkEnd();
-        this->Constructor(second,value,false);edkEnd();
+        this->classThis=NULL;
+        this->Constructor(second,value);
     }
     virtual ~Frame4D(){
-        if(this->classThis==this){
-            this->classThis=NULL;edkEnd();
-            //can destruct the class
-        }
+        this->Destructor();
     }
 
 
-    void Constructor(bool runFather=true){
-        if(runFather){
-            edk::animation::Frame3D::Constructor();
-        }
+    void Constructor(){
+        edk::animation::Frame3D::Constructor();
         if(this->classThis!=this){
             this->classThis=this;
             //
-            this->w=0.0f;edkEnd();
+            this->w=0.0f;
         }
     }
-    void Constructor(edk::float32 second,edk::float32 x,edk::float32 y,edk::float32 z,edk::float32 w,bool runFather=true){
-        if(runFather){
-            edk::animation::Frame3D::Constructor(second,x,y,z);
-        }
+    void Constructor(edk::float32 second,edk::float32 x,edk::float32 y,edk::float32 z,edk::float32 w){
+        edk::animation::Frame3D::Constructor(second,x,y,z);
         if(this->classThis!=this){
             this->classThis=this;
             this->w=w;
         }
     }
-    void Constructor(edk::float32 second,edk::vec4f32 value,bool runFather=true){
-        if(runFather){
-            edk::animation::Frame3D::Constructor(second,value.x,value.y,value.z);
-        }
+    void Constructor(edk::float32 second,edk::vec4f32 value){
+        edk::animation::Frame3D::Constructor(second,value.x,value.y,value.z);
         if(this->classThis!=this){
             this->classThis=this;
             this->w=value.w;
         }
+    }
+    void Destructor(){
+        if(this->classThis==this){
+            this->classThis=NULL;
+            //can destruct the class
+        }
+        edk::animation::Frame3D::Destructor();
     }
 
     //w 4D of the frame
@@ -99,11 +97,11 @@ public:
 
     virtual bool cloneFrom(edk::animation::Frame4D* frame){
         if(frame){
-            this->second = frame->second;edkEnd();
-            this->x = frame->x;edkEnd();
-            this->y = frame->y;edkEnd();
-            this->z = frame->z;edkEnd();
-            this->w = frame->w;edkEnd();
+            this->second = frame->second;
+            this->x = frame->x;
+            this->y = frame->y;
+            this->z = frame->z;
+            this->w = frame->w;
             return true;
         }
         return false;
@@ -112,26 +110,26 @@ public:
     //write to XML
     bool writeToXML(edk::XML* xml,edk::uint32 frameID){
         if(edk::animation::Frame3D::writeToXML(xml,frameID)){
-            bool ret=false;edkEnd();
-            edk::char8* nameID = edk::String::int64ToStr(frameID);edkEnd();
+            bool ret=false;
+            edk::char8* nameID = edk::String::int64ToStr(frameID);
             if(nameID){
                 //create the name
-                edk::char8* name = edk::String::strCat((edk::char8*)"frame_",nameID);edkEnd();
+                edk::char8* name = edk::String::strCat((edk::char8*)"frame_",nameID);
                 if(name){
                     if(xml->selectChild(name)){
                         //write the frame
-                        edk::char8* temp = edk::String::float32ToStr(this->w);edkEnd();
+                        edk::char8* temp = edk::String::float32ToStr(this->w);
                         //test the temp
                         if(temp){
-                            xml->addSelectedNextAttribute((edk::char8*)"w",temp);edkEnd();
-                            free(temp);edkEnd();
+                            xml->addSelectedNextAttribute((edk::char8*)"w",temp);
+                            free(temp);
                         }
-                        xml->selectFather();edkEnd();
-                        ret=true;edkEnd();
+                        xml->selectFather();
+                        ret=true;
                     }
-                    free(name);edkEnd();
+                    free(name);
                 }
-                free(nameID);edkEnd();
+                free(nameID);
             }
             return ret;
         }
@@ -139,25 +137,25 @@ public:
     }
     bool readFromXML(edk::XML* xml,edk::uint32 frameID){
         if(xml){
-            bool ret=edk::animation::Frame3D::readFromXML(xml,frameID);edkEnd();
-            edk::char8* nameID = edk::String::int64ToStr(frameID);edkEnd();
+            bool ret=edk::animation::Frame3D::readFromXML(xml,frameID);
+            edk::char8* nameID = edk::String::int64ToStr(frameID);
             if(nameID){
                 //create the name
-                edk::char8* name = edk::String::strCat((edk::char8*)"frame_",nameID);edkEnd();
+                edk::char8* name = edk::String::strCat((edk::char8*)"frame_",nameID);
                 if(name){
                     if(xml->selectChild(name)){
                         //write the frame
-                        edk::char8* temp = xml->getSelectedAttributeValueByName("w");edkEnd();
+                        edk::char8* temp = xml->getSelectedAttributeValueByName("w");
                         if(temp){
                             //convert the second
-                            this->w = edk::String::strToFloat32(temp);edkEnd();
+                            this->w = edk::String::strToFloat32(temp);
                         }
-                        xml->selectFather();edkEnd();
-                        ret=true;edkEnd();
+                        xml->selectFather();
+                        ret=true;
                     }
-                    free(name);edkEnd();
+                    free(name);
                 }
-                free(nameID);edkEnd();
+                free(nameID);
             }
             return ret;
         }
@@ -168,12 +166,12 @@ private:
     //Operator =
     edk::animation::Frame4D operator=(edk::animation::Frame4D frame){
         //
-        this->second = frame.second;edkEnd();
-        this->x = frame.x;edkEnd();
-        this->y = frame.y;edkEnd();
-        this->z = frame.z;edkEnd();
-        this->w = frame.w;edkEnd();
-        return *this;edkEnd();
+        this->second = frame.second;
+        this->x = frame.x;
+        this->y = frame.y;
+        this->z = frame.z;
+        this->w = frame.w;
+        return *this;
     }
 private:
     edk::classID classThis;

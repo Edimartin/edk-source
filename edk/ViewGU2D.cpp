@@ -29,28 +29,30 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endif
 
 edk::ViewGU2D::ViewGU2D(){
-    this->classThis=NULL;edkEnd();
-    this->Constructor(false);edkEnd();
+    this->classThis=NULL;
+    this->Constructor();
 }
 
 edk::ViewGU2D::~ViewGU2D(){
-    if(this->classThis==this){
-        this->classThis=NULL;edkEnd();
-        //can destruct the class
-    }
+    this->Destructor();
 }
 
-void edk::ViewGU2D::Constructor(bool runFather){
-    if(runFather){
-        edk::ViewGU::Constructor();edkEnd();
-    }
+void edk::ViewGU2D::Constructor(){
+    edk::ViewGU::Constructor();
     if(this->classThis!=this){
         this->classThis=this;
 
-        this->camera.Constructor();edkEnd();
+        this->camera.Constructor();
 
-        this->camera.position=edk::vec2f32(0u,0u);edkEnd();
+        this->camera.position=edk::vec2f32(0u,0u);
     }
+}
+void edk::ViewGU2D::Destructor(){
+    if(this->classThis==this){
+        this->classThis=NULL;
+        //can destruct the class
+    }
+    edk::ViewGU::Destructor();
 }
 
 void edk::ViewGU2D::updateAnimations(){
@@ -65,29 +67,29 @@ void edk::ViewGU2D::updateAnimations(edk::float32 seconds){
 //draw the 2Dcamera
 void edk::ViewGU2D::drawCamera2D(){
     //draw the camera2D
-    this->camera.draw();edkEnd();
+    this->camera.draw();
 }
 //draw selection camera
 void edk::ViewGU2D::drawSelectionCamera(){
-    this->camera.drawOrthoOnly();edkEnd();
+    this->camera.drawOrthoOnly();
 }
 
 //draw the polygon on the scene
 void edk::ViewGU2D::drawPolygon(edk::rectf32 outsideViewOrigin){
-    edk::ViewSpriteController::drawPolygon(outsideViewOrigin);edkEnd();
+    edk::ViewSpriteController::drawPolygon(outsideViewOrigin);
 
     //run selection function before draw the scene
-    this->runSelectionFunction();edkEnd();
+    this->runSelectionFunction();
 
-    this->drawCamera2D();edkEnd();
+    this->drawCamera2D();
 
     //set the matrix before draw the scene
-    edk::GU::guUseMatrix(GU_MODELVIEW);edkEnd();
+    edk::GU::guUseMatrix(GU_MODELVIEW);
 
     //draw the GU scene
-    this->drawScene(outsideViewOrigin);edkEnd();
+    this->drawScene(outsideViewOrigin);
 
-    edk::GU::guDisableAllLights();edkEnd();
+    edk::GU::guDisableAllLights();
 }
 
 

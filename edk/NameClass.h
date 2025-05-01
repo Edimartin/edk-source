@@ -44,61 +44,61 @@ class Name{
 public:
     Name(){
         this->classThis=NULL;
-        this->Constructor(false);
+        this->Constructor();
     }
     Name(edk::char8* _name){
         this->classThis=NULL;
-        this->Constructor(_name,false);
+        this->Constructor(_name);
     }
     Name(const edk::char8* _name){
         this->classThis=NULL;
-        this->Constructor(_name,false);
+        this->Constructor(_name);
     }
     virtual ~Name(){
+        this->Destructor();
+    }
+
+    void Constructor(){
+        if(this->classThis!=this){
+            this->classThis=this;
+            //
+            this->_name=NULL;
+            this->_size = 0u;
+            this->_namePointer=&this->_name;
+            this->_sizePointer=&this->_size;
+        }
+    }
+    void Constructor(edk::char8* _name){
+        if(this->classThis!=this){
+            this->classThis=this;
+            //
+            this->_name=NULL;
+            this->_size = 0u;
+
+            this->_namePointer=&this->_name;
+            this->_sizePointer=&this->_size;
+
+            this->setName(_name);
+        }
+    }
+    void Constructor(const edk::char8* _name){
+        if(this->classThis!=this){
+            this->classThis=this;
+            //
+            this->_name=NULL;
+            this->_size = 0u;
+
+            this->_namePointer=&this->_name;
+            this->_sizePointer=&this->_size;
+
+            this->setName(_name);
+        }
+    }
+    void Destructor(){
         if(this->classThis==this){
             this->classThis=NULL;
             //can destruct the class
             this->deleteName();
-        }
-    }
-
-    void Constructor(bool runFather=true){
-        if(runFather){runFather=false;}
-        if(this->classThis!=this){
-            this->classThis=this;
-            //
-            this->_name=NULL;
-            this->_size = 0u;
-            this->_namePointer=&this->_name;
-            this->_sizePointer=&this->_size;
-        }
-    }
-    void Constructor(edk::char8* _name,bool runFather=true){
-        if(runFather){runFather=false;}
-        if(this->classThis!=this){
-            this->classThis=this;
-            //
-            this->_name=NULL;
-            this->_size = 0u;
-
-            this->_namePointer=&this->_name;
-            this->_sizePointer=&this->_size;
-
-            this->setName(_name);
-        }
-    }
-    void Constructor(const edk::char8* _name,bool runFather=true){
-        if(runFather){runFather=false;}
-        if(this->classThis!=this){
-            this->classThis=this;
-            //
-            this->_name=NULL;
-            this->_size = 0u;
-
-            this->_namePointer=&this->_name;
-            this->_sizePointer=&this->_size;
-
-            this->setName(_name);
         }
     }
 

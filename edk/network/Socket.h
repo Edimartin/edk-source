@@ -80,12 +80,14 @@ public:
     Adress(edk::uint32 ip,edk::uint16 port);
     Adress(edk::char8* str,edk::uint16 port);
     Adress(const edk::char8* str,edk::uint16 port);
+    ~Adress();
 
-    void Constructor(bool runFather=true);
-    void Constructor(edk::uchar8 n1,edk::uchar8 n2,edk::uchar8 n3,edk::uchar8 n4,edk::uint16 port,bool runFather=true);
-    void Constructor(edk::uint32 ip,edk::uint16 port,bool runFather=true);
-    void Constructor(edk::char8* str,edk::uint16 port,bool runFather=true);
-    void Constructor(const edk::char8* str,edk::uint16 port,bool runFather=true);
+    void Constructor();
+    void Constructor(edk::uchar8 n1,edk::uchar8 n2,edk::uchar8 n3,edk::uchar8 n4,edk::uint16 port);
+    void Constructor(edk::uint32 ip,edk::uint16 port);
+    void Constructor(edk::char8* str,edk::uint16 port);
+    void Constructor(const edk::char8* str,edk::uint16 port);
+    void Destructor();
 
     //Adress Functions
     //set the IP
@@ -104,15 +106,15 @@ public:
 
     //Operator
     Adress operator=(Adress adress){
-        this->port=adress.port;edkEnd();
-        this->ip=adress.ip;edkEnd();
-        return adress;edkEnd();
+        this->port=adress.port;
+        this->ip=adress.ip;
+        return adress;
     }
     inline bool operator==(Adress adress){
-        return (bool)( (adress.ip==this->ip)&&(adress.port==this->port));edkEnd();
+        return (bool)( (adress.ip==this->ip)&&(adress.port==this->port));
     }
     inline bool operator!=(Adress adress){
-        return (bool)( (adress.ip!=this->ip)||(adress.port!=this->port));edkEnd();
+        return (bool)( (adress.ip!=this->ip)||(adress.port!=this->port));
     }
     inline bool operator>(Adress adress){
         if(this->ip>adress.ip){
@@ -172,7 +174,8 @@ public:
     Socket();
     virtual ~Socket();
 
-    void Constructor(bool runFather=true);
+    void Constructor();
+    void Destructor();
 
     //Send a message to the server
     virtual edk::int32 sendStream(edk::network::Adress host,edk::classID stream,edk::uint32 size)=0;

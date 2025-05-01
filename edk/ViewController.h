@@ -78,8 +78,9 @@ public:
 
     virtual ~ViewController();
 
-    void Constructor(bool runFather=true);
-    void Constructor(edk::rectf32 frame,bool runFather=true);
+    void Constructor();
+    void Constructor(edk::rectf32 frame);
+    void Destructor();
 
     virtual bool addSubview(edk::View *addView);
 

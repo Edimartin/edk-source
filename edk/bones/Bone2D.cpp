@@ -27,100 +27,98 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #define edkIKAngleLimit 0.01f
 
 edk::bones::Bone2D::Bone2D(){
-    this->classThis=NULL;edkEnd();
-    this->Constructor(false);edkEnd();
+    this->classThis=NULL;
+    this->Constructor();
 }
 edk::bones::Bone2D::Bone2D(edk::char8* name)
     : edk::Name(name){
-    this->classThis=NULL;edkEnd();
-    this->Constructor(name,false);edkEnd();
+    this->classThis=NULL;
+    this->Constructor(name);
 }
 edk::bones::Bone2D::Bone2D(const edk::char8* name)
     : edk::Name(name){
-    this->classThis=NULL;edkEnd();
-    this->Constructor(name,false);edkEnd();
+    this->classThis=NULL;
+    this->Constructor(name);
 }
 
 edk::bones::Bone2D::~Bone2D(){
+    this->Destructor();
+}
+
+void edk::bones::Bone2D::Constructor(){
+    edk::Name::Constructor();
+    if(this->classThis!=this){
+        this->classThis=this;
+
+        this->animationAngle.Constructor();
+        this->animationPosition.Constructor();
+        this->nexts.Constructor();
+        this->treeObjects.Constructor();
+        this->matrixTranslate.Constructor();
+        this->matrixRotate.Constructor();
+        this->matrixTransform.Constructor();
+        this->matrixPosition.Constructor();
+        this->matrixPosition.createMatrix(3u,3u);
+
+        this->vector = edk::vec2f32(0,1);
+        this->angle = 0u;
+        this->ikPosition=0.f;
+        this->setIdentity(&this->mat);
+    }
+}
+void edk::bones::Bone2D::Constructor(edk::char8* name){
+    edk::Name::Constructor(name);
+    if(this->classThis!=this){
+        this->classThis=this;
+
+        this->animationAngle.Constructor();
+        this->animationPosition.Constructor();
+        this->nexts.Constructor();
+        this->treeObjects.Constructor();
+        this->matrixTranslate.Constructor();
+        this->matrixRotate.Constructor();
+        this->matrixTransform.Constructor();
+        this->matrixPosition.Constructor();
+        this->matrixPosition.createMatrix(3u,3u);
+
+        this->vector = edk::vec2f32(0,1);
+        this->angle = 0u;
+        this->ikPosition=0.f;
+    }
+}
+void edk::bones::Bone2D::Constructor(const edk::char8* name){
+    edk::Name::Constructor(name);
+    if(this->classThis!=this){
+        this->classThis=this;
+
+        this->animationAngle.Constructor();
+        this->animationPosition.Constructor();
+        this->nexts.Constructor();
+        this->treeObjects.Constructor();
+        this->matrixTranslate.Constructor();
+        this->matrixRotate.Constructor();
+        this->matrixTransform.Constructor();
+        this->matrixPosition.Constructor();
+        this->matrixPosition.createMatrix(3u,3u);
+
+        this->vector = edk::vec2f32(0,1);
+        this->angle = 0u;
+        this->ikPosition=0.f;
+    }
+}
+void edk::bones::Bone2D::Destructor(){
     if(this->classThis==this){
-        this->classThis=NULL;edkEnd();
+        this->classThis=NULL;
         //can destruct the class
-        this->cleanBone();edkEnd();
+        this->cleanBone();
         /*
-    this->removeAllAnimationNamesThis();edkEnd();
-    this->removeAllAnimations();edkEnd();
-    this->removeAllConnectionObjects();edkEnd();
-    this->removeAllNexts();edkEnd();
+    this->removeAllAnimationNamesThis();
+    this->removeAllAnimations();
+    this->removeAllConnectionObjects();
+    this->removeAllNexts();
     */
     }
-}
-
-void edk::bones::Bone2D::Constructor(bool runFather){
-    if(runFather){
-        edk::Name::Constructor();edkEnd();
-    }
-    if(this->classThis!=this){
-        this->classThis=this;
-
-        this->animationAngle.Constructor();edkEnd();
-        this->animationPosition.Constructor();edkEnd();
-        this->nexts.Constructor();edkEnd();
-        this->treeObjects.Constructor();edkEnd();
-        this->matrixTranslate.Constructor();edkEnd();
-        this->matrixRotate.Constructor();edkEnd();
-        this->matrixTransform.Constructor();edkEnd();
-        this->matrixPosition.Constructor();edkEnd();
-        this->matrixPosition.createMatrix(3u,3u);
-
-        this->vector = edk::vec2f32(0,1);edkEnd();
-        this->angle = 0u;edkEnd();
-        this->ikPosition=0.f;edkEnd();
-        this->setIdentity(&this->mat);edkEnd();
-    }
-}
-void edk::bones::Bone2D::Constructor(edk::char8* name,bool runFather){
-    if(runFather){
-        edk::Name::Constructor(name);edkEnd();
-    }
-    if(this->classThis!=this){
-        this->classThis=this;
-
-        this->animationAngle.Constructor();edkEnd();
-        this->animationPosition.Constructor();edkEnd();
-        this->nexts.Constructor();edkEnd();
-        this->treeObjects.Constructor();edkEnd();
-        this->matrixTranslate.Constructor();edkEnd();
-        this->matrixRotate.Constructor();edkEnd();
-        this->matrixTransform.Constructor();edkEnd();
-        this->matrixPosition.Constructor();edkEnd();
-        this->matrixPosition.createMatrix(3u,3u);
-
-        this->vector = edk::vec2f32(0,1);edkEnd();
-        this->angle = 0u;edkEnd();
-        this->ikPosition=0.f;edkEnd();
-    }
-}
-void edk::bones::Bone2D::Constructor(const edk::char8* name,bool runFather){
-    if(runFather){
-        edk::Name::Constructor(name);edkEnd();
-    }
-    if(this->classThis!=this){
-        this->classThis=this;
-
-        this->animationAngle.Constructor();edkEnd();
-        this->animationPosition.Constructor();edkEnd();
-        this->nexts.Constructor();edkEnd();
-        this->treeObjects.Constructor();edkEnd();
-        this->matrixTranslate.Constructor();edkEnd();
-        this->matrixRotate.Constructor();edkEnd();
-        this->matrixTransform.Constructor();edkEnd();
-        this->matrixPosition.Constructor();edkEnd();
-        this->matrixPosition.createMatrix(3u,3u);
-
-        this->vector = edk::vec2f32(0,1);edkEnd();
-        this->angle = 0u;edkEnd();
-        this->ikPosition=0.f;edkEnd();
-    }
+    edk::Name::Destructor();
 }
 
 //set the indentity matrix
@@ -131,10 +129,10 @@ bool edk::bones::Bone2D::setIdentity(edk::float32 mat[][3u][3u]){
         for(edk::uint8 x=0u;x<3u;x++){
             for(edk::uint8 y=0u;y<3u;y++){
                 if(x==y){
-                    mat[0u][x][y] = 1.f;edkEnd();
+                    mat[0u][x][y] = 1.f;
                 }
                 else{
-                    mat[0u][x][y] = 0.f;edkEnd();
+                    mat[0u][x][y] = 0.f;
                 }
             }
         }
@@ -149,7 +147,7 @@ bool edk::bones::Bone2D::copyMatrix(edk::float32 mat[][3u][3u],edk::float32 dest
         //then clean the matrix
         for(edk::uint8 x=0u;x<3u;x++){
             for(edk::uint8 y=0u;y<3u;y++){
-                dest[0u][x][y] = mat[0u][x][y];edkEnd();
+                dest[0u][x][y] = mat[0u][x][y];
             }
         }
         return true;
@@ -160,30 +158,30 @@ bool edk::bones::Bone2D::copyMatrix(edk::float32 mat[][3u][3u],edk::float32 dest
 bool edk::bones::Bone2D::multiplyMatrix(edk::float32 mat[][3u][3u],edk::float32 vec[][3u]){
     //test the mat
     if(mat && vec){
-        edk::float32 temp[3];edkEnd();
+        edk::float32 temp[3];
         //we need 3 multiplicatons
         temp[0u] = (mat[0u][0u][0u] * vec[0u][0u])
                 +
                 (mat[0u][1u][0u] * vec[0u][1u])
                 +
                 (mat[0u][2u][0u] * vec[0u][2u])
-                ;edkEnd();
+                ;
         temp[1u] = (mat[0u][0u][1u] * vec[0u][0u])
                 +
                 (mat[0u][1u][1u] * vec[0u][1u])
                 +
                 (mat[0u][2u][1u] * vec[0u][2u])
-                ;edkEnd();
+                ;
         temp[2u] = (mat[0u][0u][2u] * vec[0u][0u])
                 +
                 (mat[0u][1u][2u] * vec[0u][1u])
                 +
                 (mat[0u][2u][2u] * vec[0u][2u])
-                ;edkEnd();
+                ;
         //Put all in the vertex
-        vec[0u][0u] = temp[0u];edkEnd();
-        vec[0u][1u] = temp[1u];edkEnd();
-        vec[0u][2u] = temp[2u];edkEnd();
+        vec[0u][0u] = temp[0u];
+        vec[0u][1u] = temp[1u];
+        vec[0u][2u] = temp[2u];
         return true;
     }
     return false;
@@ -192,65 +190,65 @@ bool edk::bones::Bone2D::multiplyMatrix(edk::float32 mat[][3u][3u],edk::float32 
 bool edk::bones::Bone2D::multiplyMatrix(edk::float32 mat1[][3u][3u],edk::float32 mat2[][3u][3u]){
     //test the mat
     if(mat1 && mat2){
-        edk::float32 temp[3u][3u];edkEnd();
+        edk::float32 temp[3u][3u];
         temp[0u][0u] = (mat1[0u][0u][0u] * mat2[0u][0u][0u])
                 +
                 (mat1[0u][1u][0u] * mat2[0u][0u][1u])
                 +
                 (mat1[0u][2u][0u] * mat2[0u][0u][2u])
-                ;edkEnd();
+                ;
         temp[1u][0u] = (mat1[0u][0u][0u] * mat2[0u][1u][0u])
                 +
                 (mat1[0u][1u][0u] * mat2[0u][1u][1u])
                 +
                 (mat1[0u][2u][0u] * mat2[0u][1u][2u])
-                ;edkEnd();
+                ;
         temp[2u][0u] = (mat1[0u][0u][0u] * mat2[0u][2u][0u])
                 +
                 (mat1[0u][1u][0u] * mat2[0u][2u][1u])
                 +
                 (mat1[0u][2u][0u] * mat2[0u][2u][2u])
-                ;edkEnd();
+                ;
         //
         temp[0u][1u] = (mat1[0u][0u][1u] * mat2[0u][0u][0u])
                 +
                 (mat1[0u][1u][1u] * mat2[0u][0u][1u])
                 +
                 (mat1[0u][2u][1u] * mat2[0u][0u][2u])
-                ;edkEnd();
+                ;
         temp[1u][1u] = (mat1[0u][0u][1u] * mat2[0u][1u][0u])
                 +
                 (mat1[0u][1u][1u] * mat2[0u][1u][1u])
                 +
                 (mat1[0u][2u][1u] * mat2[0u][1u][2u])
-                ;edkEnd();
+                ;
         temp[2u][1u] = (mat1[0u][0u][1u] * mat2[0u][2u][0u])
                 +
                 (mat1[0u][1u][1u] * mat2[0u][2u][1u])
                 +
                 (mat1[0u][2u][1u] * mat2[0u][2u][2u])
-                ;edkEnd();
+                ;
         //
         temp[0u][2u] = (mat1[0u][0u][2u] * mat2[0u][0u][0u])
                 +
                 (mat1[0u][1u][2u] * mat2[0u][0u][1u])
                 +
                 (mat1[0u][2u][2u] * mat2[0u][0u][2u])
-                ;edkEnd();
+                ;
         temp[1u][2u] = (mat1[0u][0u][2u] * mat2[0u][1u][0u])
                 +
                 (mat1[0u][1u][2u] * mat2[0u][1u][1u])
                 +
                 (mat1[0u][2u][2u] * mat2[0u][1u][2u])
-                ;edkEnd();
+                ;
         temp[2u][2u] = (mat1[0u][0u][2u] * mat2[0u][2u][0u])
                 +
                 (mat1[0u][1u][2u] * mat2[0u][2u][1u])
                 +
                 (mat1[0u][2u][2u] * mat2[0u][2u][2u])
-                ;edkEnd();
+                ;
         //copy the temp to the mat2
-        edk::bones::Bone2D::copyMatrix(&temp,mat2);edkEnd();
+        edk::bones::Bone2D::copyMatrix(&temp,mat2);
         return true;
     }
     return false;
@@ -259,10 +257,10 @@ bool edk::bones::Bone2D::multiplyMatrix(edk::float32 mat1[][3u][3u],edk::float32
 bool edk::bones::Bone2D::generateTranslateMatrix(edk::vec2f32 position,edk::float32 mat[][3u][3u]){
     if(mat){
         //then clean the matrix
-        edk::bones::Bone2D::setIdentity(mat);edkEnd();
-        mat[0u][2u][0u] = position.x;edkEnd();
-        mat[0u][2u][1u] = position.y;edkEnd();
-        mat[0u][2u][2u] = 1.f;edkEnd();
+        edk::bones::Bone2D::setIdentity(mat);
+        mat[0u][2u][0u] = position.x;
+        mat[0u][2u][1u] = position.y;
+        mat[0u][2u][2u] = 1.f;
         return true;
     }
     return false;
@@ -270,11 +268,11 @@ bool edk::bones::Bone2D::generateTranslateMatrix(edk::vec2f32 position,edk::floa
 bool edk::bones::Bone2D::generateRotationMatrix(edk::float32 angle,edk::float32 mat[][3u][3u]){
     if(mat){
         //then clean the matrix
-        edk::bones::Bone2D::setIdentity(mat);edkEnd();
-        mat[0u][0u][0u] = edk::Math::getCosin(angle);edkEnd();//cos
-        mat[0u][1u][0u] = edk::Math::getSin(angle)*-1.f;edkEnd();//-sin
-        mat[0u][0u][1u] = edk::Math::getSin(angle);edkEnd();//sin
-        mat[0u][1u][1u] = edk::Math::getCosin(angle);edkEnd();//cos
+        edk::bones::Bone2D::setIdentity(mat);
+        mat[0u][0u][0u] = edk::Math::getCosin(angle); //cos
+        mat[0u][1u][0u] = edk::Math::getSin(angle)*-1.f; //-sin
+        mat[0u][0u][1u] = edk::Math::getSin(angle); //sin
+        mat[0u][1u][1u] = edk::Math::getCosin(angle); //cos
         return true;
     }
     return false;
@@ -282,9 +280,9 @@ bool edk::bones::Bone2D::generateRotationMatrix(edk::float32 angle,edk::float32 
 bool edk::bones::Bone2D::generateScaleMatrix(edk::size2f32 size,edk::float32 mat[][3u][3u]){
     if(mat){
         //then clean the matrix
-        edk::bones::Bone2D::setIdentity(mat);edkEnd();
-        mat[0u][0u][0u] = size.width;edkEnd();
-        mat[0u][1u][1u] = size.height;edkEnd();
+        edk::bones::Bone2D::setIdentity(mat);
+        mat[0u][0u][0u] = size.width;
+        mat[0u][1u][1u] = size.height;
         return true;
     }
     return false;
@@ -292,29 +290,29 @@ bool edk::bones::Bone2D::generateScaleMatrix(edk::size2f32 size,edk::float32 mat
 
 //calculate the lenght
 edk::float32 edk::bones::Bone2D::calculateLenght(edk::bones::Bone2D* bone,edk::uint32 tail,edk::uint32* counter,bool* found){
-    edk::float32 ret=0.f;edkEnd();
+    edk::float32 ret=0.f;
     if(bone){
         //test if find the bone
         if(bone == this){
             //
-            *counter=1u;edkEnd();
-            *found=true;edkEnd();
+            *counter=1u;
+            *found=true;
             return edk::Math::pythagoras(this->vector);
         }
         else{
             //else search another bone
-            edk::uint32 size = this->nexts.size();edkEnd();
+            edk::uint32 size = this->nexts.size();
             for(edk::uint32 i=0u;i<size;i++){
-                edk::bones::Bone2D* temp = (edk::bones::Bone2D*)this->nexts.getElementInPosition(i);edkEnd();
-                ret = temp->calculateLenght(bone,tail,counter,found);edkEnd();
+                edk::bones::Bone2D* temp = (edk::bones::Bone2D*)this->nexts.getElementInPosition(i);
+                ret = temp->calculateLenght(bone,tail,counter,found);
                 if(*found){
                     //found it
                     if(*counter<tail){
                         //increment the count
-                        *counter+=1u;edkEnd();
+                        *counter+=1u;
 
-                        ret+=edk::Math::pythagoras(this->vector);edkEnd();
-                        *counter=1u;edkEnd();
+                        ret+=edk::Math::pythagoras(this->vector);
+                        *counter=1u;
                     }
                     break;
                 }
@@ -328,35 +326,35 @@ edk::float32 edk::bones::Bone2D::calculateLenght(edk::bones::Bone2D* bone,edk::u
 void edk::bones::Bone2D::printMatrix(edk::float32 mat[3u][3u]){
     //then clean the matrix
     for(edk::uint8 y=0u;y<3u;y++){
-        printf("\n[");edkEnd();
+        printf("\n[");
         for(edk::uint8 x=0u;x<3u;x++){
             printf(" %.2f "
                    ,mat[x][y]
-                   );edkEnd();
+                   );
         }
-        printf("]");edkEnd();
+        printf("]");
     }
 }
 void edk::bones::Bone2D::printVector(edk::float32 mat[3u]){
     //then clean the matrix
-    printf("\n[");edkEnd();
+    printf("\n[");
     for(edk::uint8 i=0u;i<3u;i++){
         printf(" %.2f "
                ,mat[i]
-               );edkEnd();
+               );
     }
-    printf("]");edkEnd();
+    printf("]");
 }
 
 //clean the bone
 void edk::bones::Bone2D::cleanBone(){
-    //this->removeAllAnimationNames();edkEnd();
-    this->removeAllAnimations();edkEnd();
-    this->removeAllNexts();edkEnd();
-    this->deleteName();edkEnd();
-    this->vector = edk::vec2f32(0,1);edkEnd();
-    this->angle = 0u;edkEnd();
-    this->setIdentity(&this->mat);edkEnd();
+    //this->removeAllAnimationNames();
+    this->removeAllAnimations();
+    this->removeAllNexts();
+    this->deleteName();
+    this->vector = edk::vec2f32(0,1);
+    this->angle = 0u;
+    this->setIdentity(&this->mat);
 }
 
 //add a bome to the nexts
@@ -364,32 +362,32 @@ bool edk::bones::Bone2D::addNext(edk::bones::Bone2D* next){
     //test the next
     if(next){
         //add the next
-        return this->nexts.add(next);edkEnd();
+        return this->nexts.add(next);
     }
     return false;
 }
 //remove next
 bool edk::bones::Bone2D::removeNext(edk::bones::Bone2D* next){
     if(next){
-        return this->nexts.remove(next);edkEnd();
+        return this->nexts.remove(next);
     }
     return false;
 }
 //remove all nexts
 void edk::bones::Bone2D::removeAllNexts(){
     //test if have nexts
-    this->nexts.clean();edkEnd();
+    this->nexts.clean();
 }
 
 //remove by the name
 bool edk::bones::Bone2D::removeNextByName(const edk::char8* name){
-    return this->removeNextByName((edk::char8*) name);edkEnd();
+    return this->removeNextByName((edk::char8*) name);
 }
 bool edk::bones::Bone2D::removeNextByName(edk::char8* name){
     if(name){
-        edk::bones::Bone2D* temp = (edk::bones::Bone2D*)this->nexts.getElementByName(name);edkEnd();
+        edk::bones::Bone2D* temp = (edk::bones::Bone2D*)this->nexts.getElementByName(name);
         if(temp){
-            return this->removeNext(temp);edkEnd();
+            return this->removeNext(temp);
         }
     }
     return false;
@@ -398,371 +396,371 @@ bool edk::bones::Bone2D::removeNextByName(edk::char8* name){
 //add a connection object
 bool edk::bones::Bone2D::addConnectionObject(edk::Object2DValues* object){
     if(object){
-        return this->treeObjects.addObject(object);edkEnd();
+        return this->treeObjects.addObject(object);
     }
     return NULL;
 }
 //return the objects size
 edk::uint32 edk::bones::Bone2D::getConnectionObjectSize(){
-    return this->treeObjects.size();edkEnd();
+    return this->treeObjects.size();
 }
 //remove the connectionObject
 bool edk::bones::Bone2D::removeConnectionObject(edk::Object2DValues* object){
-    return this->treeObjects.removeObject(object);edkEnd();
+    return this->treeObjects.removeObject(object);
 }
 //remove the connectionObject in the position
 bool edk::bones::Bone2D::removeConnectionObjectInPosition(edk::uint32 position){
-    return this->treeObjects.removeObjectInPosition(position);edkEnd();
+    return this->treeObjects.removeObjectInPosition(position);
 }
 //remove all connection objects
 void edk::bones::Bone2D::removeAllConnectionObjects(){
-    edk::uint32 size = this->treeObjects.size();edkEnd();
+    edk::uint32 size = this->treeObjects.size();
     for(edk::uint32 i=0u;i<size;i++){
-        this->treeObjects.removeObjectInPosition(0u);edkEnd();
+        this->treeObjects.removeObjectInPosition(0u);
     }
-    this->treeObjects.clean();edkEnd();
+    this->treeObjects.clean();
 }
 //remove all animations
 void edk::bones::Bone2D::removeAllAnimations(){
-    this->animationPosition.cleanAnimations();edkEnd();
-    this->animationAngle.cleanAnimations();edkEnd();
+    this->animationPosition.cleanAnimations();
+    this->animationAngle.cleanAnimations();
 }
 
 //update all animations
 void edk::bones::Bone2D::updateAnimations(){
-    this->updateAnimationsThis();edkEnd();
+    this->updateAnimationsThis();
     //update the son's
     for(edk::uint32 i=0u;i<this->nexts.size();i++){
-        edk::bones::Bone2D* temp = (edk::bones::Bone2D*)this->nexts.getElementInPosition(i);edkEnd();
-        temp->updateAnimations();edkEnd();
+        edk::bones::Bone2D* temp = (edk::bones::Bone2D*)this->nexts.getElementInPosition(i);
+        temp->updateAnimations();
     }
 }
 void edk::bones::Bone2D::updateAnimations(edk::float32 seconds){
-    this->updateAnimationsThis(seconds);edkEnd();
+    this->updateAnimationsThis(seconds);
     //update the son's
     for(edk::uint32 i=0u;i<this->nexts.size();i++){
-        edk::bones::Bone2D* temp = (edk::bones::Bone2D*)this->nexts.getElementInPosition(i);edkEnd();
-        temp->updateAnimations(seconds);edkEnd();
+        edk::bones::Bone2D* temp = (edk::bones::Bone2D*)this->nexts.getElementInPosition(i);
+        temp->updateAnimations(seconds);
     }
 }
 void edk::bones::Bone2D::updateAnimationsThis(){
     //test if is playng the animations
     if(this->animationPosition.isPlaying()){
-        this->animationPosition.updateClockAnimation();edkEnd();
-        edk::vec2f32 posTemp;edkEnd();
-        posTemp.x = this->animationPosition.getClockX();edkEnd();
-        posTemp.y = this->animationPosition.getClockY();edkEnd();
+        this->animationPosition.updateClockAnimation();
+        edk::vec2f32 posTemp;
+        posTemp.x = this->animationPosition.getClockX();
+        posTemp.y = this->animationPosition.getClockY();
         //
-        this->position = posTemp;edkEnd();
+        this->position = posTemp;
     }
     if(this->animationAngle.isPlaying()){
-        this->animationAngle.updateClockAnimation();edkEnd();
+        this->animationAngle.updateClockAnimation();
 
-        edk::float32 angleTemp = this->animationAngle.getClockX();edkEnd();
-        this->angle = angleTemp;edkEnd();
+        edk::float32 angleTemp = this->animationAngle.getClockX();
+        this->angle = angleTemp;
     }
 }
 void edk::bones::Bone2D::updateAnimationsThis(edk::float32 seconds){
     //test if is playng the animations
     if(this->animationPosition.isPlaying()){
-        this->animationPosition.updateClockAnimation(seconds);edkEnd();
-        edk::vec2f32 posTemp;edkEnd();
-        posTemp.x = this->animationPosition.getClockX();edkEnd();
-        posTemp.y = this->animationPosition.getClockY();edkEnd();
+        this->animationPosition.updateClockAnimation(seconds);
+        edk::vec2f32 posTemp;
+        posTemp.x = this->animationPosition.getClockX();
+        posTemp.y = this->animationPosition.getClockY();
         //
-        this->position = posTemp;edkEnd();
+        this->position = posTemp;
     }
     if(this->animationAngle.isPlaying()){
-        this->animationAngle.updateClockAnimation(seconds);edkEnd();
-        edk::float32 angleTemp = this->animationAngle.getClockX();edkEnd();
-        this->angle = angleTemp;edkEnd();
+        this->animationAngle.updateClockAnimation(seconds);
+        edk::float32 angleTemp = this->animationAngle.getClockX();
+        this->angle = angleTemp;
     }
 }
 //scale animations
 void edk::bones::Bone2D::scaleAnimations(edk::float32 scale){
-    this->animationAngle.scaleFrames(scale);edkEnd();
-    this->animationPosition.scaleFrames(scale);edkEnd();
+    this->animationAngle.scaleFrames(scale);
+    this->animationPosition.scaleFrames(scale);
     //update the son's
     for(edk::uint32 i=0u;i<this->nexts.size();i++){
-        edk::bones::Bone2D* temp = (edk::bones::Bone2D*)this->nexts.getElementInPosition(i);edkEnd();
-        temp->scaleAnimations(scale);edkEnd();
+        edk::bones::Bone2D* temp = (edk::bones::Bone2D*)this->nexts.getElementInPosition(i);
+        temp->scaleAnimations(scale);
     }
 }
 void edk::bones::Bone2D::scaleAnimationsPosition(edk::float32 scale){
-    this->animationPosition.scaleFrames(scale);edkEnd();
+    this->animationPosition.scaleFrames(scale);
     //update the son's
     for(edk::uint32 i=0u;i<this->nexts.size();i++){
-        edk::bones::Bone2D* temp = (edk::bones::Bone2D*)this->nexts.getElementInPosition(i);edkEnd();
-        temp->scaleAnimationsPosition(scale);edkEnd();
+        edk::bones::Bone2D* temp = (edk::bones::Bone2D*)this->nexts.getElementInPosition(i);
+        temp->scaleAnimationsPosition(scale);
     }
 }
 void edk::bones::Bone2D::scaleAnimationsAngle(edk::float32 scale){
-    this->animationAngle.scaleFrames(scale);edkEnd();
+    this->animationAngle.scaleFrames(scale);
     //update the son's
     for(edk::uint32 i=0u;i<this->nexts.size();i++){
-        edk::bones::Bone2D* temp = (edk::bones::Bone2D*)this->nexts.getElementInPosition(i);edkEnd();
-        temp->scaleAnimationsAngle(scale);edkEnd();
+        edk::bones::Bone2D* temp = (edk::bones::Bone2D*)this->nexts.getElementInPosition(i);
+        temp->scaleAnimationsAngle(scale);
     }
 }
 //Speed
 void edk::bones::Bone2D::setAnimationsSpeed(edk::float32 speed){
-    this->animationAngle.setSpeed(speed);edkEnd();
-    this->animationPosition.setSpeed(speed);edkEnd();
+    this->animationAngle.setSpeed(speed);
+    this->animationPosition.setSpeed(speed);
     //update the son's
     for(edk::uint32 i=0u;i<this->nexts.size();i++){
-        edk::bones::Bone2D* temp = (edk::bones::Bone2D*)this->nexts.getElementInPosition(i);edkEnd();
-        temp->setAnimationsSpeed(speed);edkEnd();
+        edk::bones::Bone2D* temp = (edk::bones::Bone2D*)this->nexts.getElementInPosition(i);
+        temp->setAnimationsSpeed(speed);
     }
 }
 void edk::bones::Bone2D::setAnimationPositionSpeed(edk::float32 speed){
-    this->animationAngle.setSpeed(speed);edkEnd();
-    this->animationPosition.setSpeed(speed);edkEnd();
+    this->animationAngle.setSpeed(speed);
+    this->animationPosition.setSpeed(speed);
     //update the son's
     for(edk::uint32 i=0u;i<this->nexts.size();i++){
-        edk::bones::Bone2D* temp = (edk::bones::Bone2D*)this->nexts.getElementInPosition(i);edkEnd();
-        temp->setAnimationPositionSpeed(speed);edkEnd();
+        edk::bones::Bone2D* temp = (edk::bones::Bone2D*)this->nexts.getElementInPosition(i);
+        temp->setAnimationPositionSpeed(speed);
     }
 }
 void edk::bones::Bone2D::setAnimationAngleSpeed(edk::float32 speed){
-    this->animationAngle.setSpeed(speed);edkEnd();
-    this->animationPosition.setSpeed(speed);edkEnd();
+    this->animationAngle.setSpeed(speed);
+    this->animationPosition.setSpeed(speed);
     //update the son's
     for(edk::uint32 i=0u;i<this->nexts.size();i++){
-        edk::bones::Bone2D* temp = (edk::bones::Bone2D*)this->nexts.getElementInPosition(i);edkEnd();
-        temp->setAnimationAngleSpeed(speed);edkEnd();
+        edk::bones::Bone2D* temp = (edk::bones::Bone2D*)this->nexts.getElementInPosition(i);
+        temp->setAnimationAngleSpeed(speed);
     }
 }
 
 //CONTROLS
 //animation controllers
 void edk::bones::Bone2D::playForward(){
-    this->playForwardThis();edkEnd();
+    this->playForwardThis();
     //update the son's
     for(edk::uint32 i=0u;i<this->nexts.size();i++){
-        edk::bones::Bone2D* temp = (edk::bones::Bone2D*)this->nexts.getElementInPosition(i);edkEnd();
-        temp->playForward();edkEnd();
+        edk::bones::Bone2D* temp = (edk::bones::Bone2D*)this->nexts.getElementInPosition(i);
+        temp->playForward();
     }
 }
 void edk::bones::Bone2D::playForwardIn(edk::float32 second){
-    this->playForwardInThis(second);edkEnd();
+    this->playForwardInThis(second);
     //update the son's
     for(edk::uint32 i=0u;i<this->nexts.size();i++){
-        edk::bones::Bone2D* temp = (edk::bones::Bone2D*)this->nexts.getElementInPosition(i);edkEnd();
-        temp->playForwardIn(second);edkEnd();
+        edk::bones::Bone2D* temp = (edk::bones::Bone2D*)this->nexts.getElementInPosition(i);
+        temp->playForwardIn(second);
     }
 }
 void edk::bones::Bone2D::playRewind(){
-    this->playRewindThis();edkEnd();
+    this->playRewindThis();
     //update the son's
     for(edk::uint32 i=0u;i<this->nexts.size();i++){
-        edk::bones::Bone2D* temp = (edk::bones::Bone2D*)this->nexts.getElementInPosition(i);edkEnd();
-        temp->playRewind();edkEnd();
+        edk::bones::Bone2D* temp = (edk::bones::Bone2D*)this->nexts.getElementInPosition(i);
+        temp->playRewind();
     }
 }
 void edk::bones::Bone2D::playRewindIn(edk::float32 second){
-    this->playRewindInThis(second);edkEnd();
+    this->playRewindInThis(second);
     //update the son's
     for(edk::uint32 i=0u;i<this->nexts.size();i++){
-        edk::bones::Bone2D* temp = (edk::bones::Bone2D*)this->nexts.getElementInPosition(i);edkEnd();
-        temp->playRewindIn(second);edkEnd();
+        edk::bones::Bone2D* temp = (edk::bones::Bone2D*)this->nexts.getElementInPosition(i);
+        temp->playRewindIn(second);
     }
 }
 void edk::bones::Bone2D::pause(){
-    this->pauseThis();edkEnd();
+    this->pauseThis();
     //update the son's
     for(edk::uint32 i=0u;i<this->nexts.size();i++){
-        edk::bones::Bone2D* temp = (edk::bones::Bone2D*)this->nexts.getElementInPosition(i);edkEnd();
-        temp->pause();edkEnd();
+        edk::bones::Bone2D* temp = (edk::bones::Bone2D*)this->nexts.getElementInPosition(i);
+        temp->pause();
     }
 }
 void edk::bones::Bone2D::pauseOn(){
-    this->pauseOnThis();edkEnd();
+    this->pauseOnThis();
     //update the son's
     for(edk::uint32 i=0u;i<this->nexts.size();i++){
-        edk::bones::Bone2D* temp = (edk::bones::Bone2D*)this->nexts.getElementInPosition(i);edkEnd();
-        temp->pauseOn();edkEnd();
+        edk::bones::Bone2D* temp = (edk::bones::Bone2D*)this->nexts.getElementInPosition(i);
+        temp->pauseOn();
     }
 }
 void edk::bones::Bone2D::pauseOff(){
-    this->pauseOffThis();edkEnd();
+    this->pauseOffThis();
     //update the son's
     for(edk::uint32 i=0u;i<this->nexts.size();i++){
-        edk::bones::Bone2D* temp = (edk::bones::Bone2D*)this->nexts.getElementInPosition(i);edkEnd();
-        temp->pauseOff();edkEnd();
+        edk::bones::Bone2D* temp = (edk::bones::Bone2D*)this->nexts.getElementInPosition(i);
+        temp->pauseOff();
     }
 }
 void edk::bones::Bone2D::stop(){
-    this->stopThis();edkEnd();
+    this->stopThis();
     //update the son's
     for(edk::uint32 i=0u;i<this->nexts.size();i++){
-        edk::bones::Bone2D* temp = (edk::bones::Bone2D*)this->nexts.getElementInPosition(i);edkEnd();
-        temp->stop();edkEnd();
+        edk::bones::Bone2D* temp = (edk::bones::Bone2D*)this->nexts.getElementInPosition(i);
+        temp->stop();
     }
 }
 //set loop
 void edk::bones::Bone2D::setLoop(bool loop){
-    this->setLoopThis(loop);edkEnd();
+    this->setLoopThis(loop);
     //update the son's
     for(edk::uint32 i=0u;i<this->nexts.size();i++){
-        edk::bones::Bone2D* temp = (edk::bones::Bone2D*)this->nexts.getElementInPosition(i);edkEnd();
-        temp->setLoop(loop);edkEnd();
+        edk::bones::Bone2D* temp = (edk::bones::Bone2D*)this->nexts.getElementInPosition(i);
+        temp->setLoop(loop);
     }
 }
 void edk::bones::Bone2D::loopOn(){
-    this->loopOnThis();edkEnd();
+    this->loopOnThis();
     //update the son's
     for(edk::uint32 i=0u;i<this->nexts.size();i++){
-        edk::bones::Bone2D* temp = (edk::bones::Bone2D*)this->nexts.getElementInPosition(i);edkEnd();
-        temp->loopOn();edkEnd();
+        edk::bones::Bone2D* temp = (edk::bones::Bone2D*)this->nexts.getElementInPosition(i);
+        temp->loopOn();
     }
 }
 void edk::bones::Bone2D::loopOff(){
-    this->loopOffThis();edkEnd();
+    this->loopOffThis();
     //update the son's
     for(edk::uint32 i=0u;i<this->nexts.size();i++){
-        edk::bones::Bone2D* temp = (edk::bones::Bone2D*)this->nexts.getElementInPosition(i);edkEnd();
-        temp->loopOff();edkEnd();
+        edk::bones::Bone2D* temp = (edk::bones::Bone2D*)this->nexts.getElementInPosition(i);
+        temp->loopOff();
     }
 }
 void edk::bones::Bone2D::printFrames(){
-    this->printFramesThis();edkEnd();
+    this->printFramesThis();
     //update the son's
     for(edk::uint32 i=0u;i<this->nexts.size();i++){
-        edk::bones::Bone2D* temp = (edk::bones::Bone2D*)this->nexts.getElementInPosition(i);edkEnd();
-        temp->printFrames();edkEnd();
+        edk::bones::Bone2D* temp = (edk::bones::Bone2D*)this->nexts.getElementInPosition(i);
+        temp->printFrames();
     }
 }
 //ANIMATIONNAMES
 bool edk::bones::Bone2D::addNewAnimationName(const edk::char8* name, edk::float32 start,edk::float32 end){
     bool ret =
-            this->addNewAnimationNameThis(name,start,end);edkEnd();
+            this->addNewAnimationNameThis(name,start,end);
     //update the son's
     for(edk::uint32 i=0u;i<this->nexts.size();i++){
-        edk::bones::Bone2D* temp = (edk::bones::Bone2D*)this->nexts.getElementInPosition(i);edkEnd();
-        temp->addNewAnimationName(name,start,end);edkEnd();
+        edk::bones::Bone2D* temp = (edk::bones::Bone2D*)this->nexts.getElementInPosition(i);
+        temp->addNewAnimationName(name,start,end);
     }
     return ret;
 }
 bool edk::bones::Bone2D::addNewAnimationName(edk::char8* name, edk::float32 start,edk::float32 end){
     bool ret =
-            this->addNewAnimationNameThis(name,start,end);edkEnd();
+            this->addNewAnimationNameThis(name,start,end);
     //update the son's
     for(edk::uint32 i=0u;i<this->nexts.size();i++){
-        edk::bones::Bone2D* temp = (edk::bones::Bone2D*)this->nexts.getElementInPosition(i);edkEnd();
-        temp->addNewAnimationName(name,start,end);edkEnd();
+        edk::bones::Bone2D* temp = (edk::bones::Bone2D*)this->nexts.getElementInPosition(i);
+        temp->addNewAnimationName(name,start,end);
     }
     return ret;
 }
 //select the animationName
 bool edk::bones::Bone2D::selectAnimationName(const edk::char8* name){
     bool ret =
-            this->selectAnimationNameThis(name);edkEnd();
+            this->selectAnimationNameThis(name);
     //update the son's
     for(edk::uint32 i=0u;i<this->nexts.size();i++){
-        edk::bones::Bone2D* temp = (edk::bones::Bone2D*)this->nexts.getElementInPosition(i);edkEnd();
-        temp->selectAnimationName(name);edkEnd();
+        edk::bones::Bone2D* temp = (edk::bones::Bone2D*)this->nexts.getElementInPosition(i);
+        temp->selectAnimationName(name);
     }
     return ret;
 }
 bool edk::bones::Bone2D::selectAnimationName(edk::char8* name){
     bool ret =
-            this->selectAnimationNameThis(name);edkEnd();
+            this->selectAnimationNameThis(name);
     //update the son's
     for(edk::uint32 i=0u;i<this->nexts.size();i++){
-        edk::bones::Bone2D* temp = (edk::bones::Bone2D*)this->nexts.getElementInPosition(i);edkEnd();
-        temp->selectAnimationName(name);edkEnd();
+        edk::bones::Bone2D* temp = (edk::bones::Bone2D*)this->nexts.getElementInPosition(i);
+        temp->selectAnimationName(name);
     }
     return ret;
 }
 //test if have the animationName
 bool edk::bones::Bone2D::haveAnimationName(const edk::char8* name){
     bool ret =
-            this->haveAnimationNameThis(name);edkEnd();
+            this->haveAnimationNameThis(name);
     //update the son's
     for(edk::uint32 i=0u;i<this->nexts.size();i++){
-        edk::bones::Bone2D* temp = (edk::bones::Bone2D*)this->nexts.getElementInPosition(i);edkEnd();
-        temp->haveAnimationName(name);edkEnd();
+        edk::bones::Bone2D* temp = (edk::bones::Bone2D*)this->nexts.getElementInPosition(i);
+        temp->haveAnimationName(name);
     }
     return ret;
 }
 bool edk::bones::Bone2D::haveAnimationName(edk::char8* name){
     bool ret =
-            this->haveAnimationNameThis(name);edkEnd();
+            this->haveAnimationNameThis(name);
     //update the son's
     for(edk::uint32 i=0u;i<this->nexts.size();i++){
-        edk::bones::Bone2D* temp = (edk::bones::Bone2D*)this->nexts.getElementInPosition(i);edkEnd();
-        temp->haveAnimationName(name);edkEnd();
+        edk::bones::Bone2D* temp = (edk::bones::Bone2D*)this->nexts.getElementInPosition(i);
+        temp->haveAnimationName(name);
     }
     return ret;
 }
 //Play the animationName
 bool edk::bones::Bone2D::playNameForward(const edk::char8* name){
     bool ret =
-            this->playNameForwardThis(name);edkEnd();
+            this->playNameForwardThis(name);
     //update the son's
     for(edk::uint32 i=0u;i<this->nexts.size();i++){
-        edk::bones::Bone2D* temp = (edk::bones::Bone2D*)this->nexts.getElementInPosition(i);edkEnd();
-        temp->playNameForward(name);edkEnd();
+        edk::bones::Bone2D* temp = (edk::bones::Bone2D*)this->nexts.getElementInPosition(i);
+        temp->playNameForward(name);
     }
     return ret;
 }
 bool edk::bones::Bone2D::playNameForward(edk::char8* name){
     bool ret =
-            this->playNameForwardThis(name);edkEnd();
+            this->playNameForwardThis(name);
     //update the son's
     for(edk::uint32 i=0u;i<this->nexts.size();i++){
-        edk::bones::Bone2D* temp = (edk::bones::Bone2D*)this->nexts.getElementInPosition(i);edkEnd();
-        temp->playNameForward(name);edkEnd();
+        edk::bones::Bone2D* temp = (edk::bones::Bone2D*)this->nexts.getElementInPosition(i);
+        temp->playNameForward(name);
     }
     return ret;
 }
 bool edk::bones::Bone2D::playNameRewind(const edk::char8* name){
     bool ret =
-            this->playNameRewindThis(name);edkEnd();
+            this->playNameRewindThis(name);
     //update the son's
     for(edk::uint32 i=0u;i<this->nexts.size();i++){
-        edk::bones::Bone2D* temp = (edk::bones::Bone2D*)this->nexts.getElementInPosition(i);edkEnd();
-        temp->playNameRewind(name);edkEnd();
+        edk::bones::Bone2D* temp = (edk::bones::Bone2D*)this->nexts.getElementInPosition(i);
+        temp->playNameRewind(name);
     }
     return ret;
 }
 bool edk::bones::Bone2D::playNameRewind(edk::char8* name){
     bool ret =
-            this->playNameRewindThis(name);edkEnd();
+            this->playNameRewindThis(name);
     //update the son's
     for(edk::uint32 i=0u;i<this->nexts.size();i++){
-        edk::bones::Bone2D* temp = (edk::bones::Bone2D*)this->nexts.getElementInPosition(i);edkEnd();
-        temp->playNameRewind(name);edkEnd();
+        edk::bones::Bone2D* temp = (edk::bones::Bone2D*)this->nexts.getElementInPosition(i);
+        temp->playNameRewind(name);
     }
     return ret;
 }
 //remove the animationName
 bool edk::bones::Bone2D::removeAnimationName(const edk::char8* name){
     bool ret =
-            this->removeAnimationNameThis(name);edkEnd();
+            this->removeAnimationNameThis(name);
     //update the son's
     for(edk::uint32 i=0u;i<this->nexts.size();i++){
-        edk::bones::Bone2D* temp = (edk::bones::Bone2D*)this->nexts.getElementInPosition(i);edkEnd();
-        temp->removeAnimationName(name);edkEnd();
+        edk::bones::Bone2D* temp = (edk::bones::Bone2D*)this->nexts.getElementInPosition(i);
+        temp->removeAnimationName(name);
     }
     return ret;
 }
 bool edk::bones::Bone2D::removeAnimationName(edk::char8* name){
     bool ret =
-            this->removeAnimationNameThis(name);edkEnd();
+            this->removeAnimationNameThis(name);
     //update the son's
     for(edk::uint32 i=0u;i<this->nexts.size();i++){
-        edk::bones::Bone2D* temp = (edk::bones::Bone2D*)this->nexts.getElementInPosition(i);edkEnd();
-        temp->removeAnimationName(name);edkEnd();
+        edk::bones::Bone2D* temp = (edk::bones::Bone2D*)this->nexts.getElementInPosition(i);
+        temp->removeAnimationName(name);
     }
     return ret;
 }
 void edk::bones::Bone2D::removeAllAnimationNames(){
-    this->removeAllAnimationNamesThis();edkEnd();
+    this->removeAllAnimationNamesThis();
     //update the son's
     for(edk::uint32 i=0u;i<this->nexts.size();i++){
-        edk::bones::Bone2D* temp = (edk::bones::Bone2D*)this->nexts.getElementInPosition(i);edkEnd();
-        temp->removeAllAnimationNames();edkEnd();
+        edk::bones::Bone2D* temp = (edk::bones::Bone2D*)this->nexts.getElementInPosition(i);
+        temp->removeAllAnimationNames();
     }
 }
 //return if are playing
@@ -773,7 +771,7 @@ bool edk::bones::Bone2D::isPlaying(){
     else{
         //update the son's
         for(edk::uint32 i=0u;i<this->nexts.size();i++){
-            edk::bones::Bone2D* temp = (edk::bones::Bone2D*)this->nexts.getElementInPosition(i);edkEnd();
+            edk::bones::Bone2D* temp = (edk::bones::Bone2D*)this->nexts.getElementInPosition(i);
             if(temp->isPlaying()){
                 return true;
             }
@@ -782,13 +780,13 @@ bool edk::bones::Bone2D::isPlaying(){
     return false;
 }
 bool edk::bones::Bone2D::isPlayingName(const edk::char8* name){
-    return this->isPlayingName((edk::char8*) name);edkEnd();
+    return this->isPlayingName((edk::char8*) name);
 }
 bool edk::bones::Bone2D::isPlayingName(edk::char8* name){
     if(name){
         //update the son's
         for(edk::uint32 i=0u;i<this->nexts.size();i++){
-            edk::bones::Bone2D* temp = (edk::bones::Bone2D*)this->nexts.getElementInPosition(i);edkEnd();
+            edk::bones::Bone2D* temp = (edk::bones::Bone2D*)this->nexts.getElementInPosition(i);
             if(temp->isPlayingName(name)){
                 return true;
             }
@@ -797,13 +795,13 @@ bool edk::bones::Bone2D::isPlayingName(edk::char8* name){
     return false;
 }
 bool edk::bones::Bone2D::wasPlayingName(const edk::char8* name){
-    return this->wasPlayingName((edk::char8*) name);edkEnd();
+    return this->wasPlayingName((edk::char8*) name);
 }
 bool edk::bones::Bone2D::wasPlayingName(edk::char8* name){
     if(name){
         //update the son's
         for(edk::uint32 i=0u;i<this->nexts.size();i++){
-            edk::bones::Bone2D* temp = (edk::bones::Bone2D*)this->nexts.getElementInPosition(i);edkEnd();
+            edk::bones::Bone2D* temp = (edk::bones::Bone2D*)this->nexts.getElementInPosition(i);
             if(temp->wasPlayingName(name)){
                 return true;
             }
@@ -813,208 +811,208 @@ bool edk::bones::Bone2D::wasPlayingName(edk::char8* name){
 }
 //This Bone
 void edk::bones::Bone2D::playForwardThis(){
-    this->animationPosition.playForward();edkEnd();
-    this->animationAngle.playForward();edkEnd();
+    this->animationPosition.playForward();
+    this->animationAngle.playForward();
 }
 void edk::bones::Bone2D::playForwardInThis(edk::float32 second){
-    this->animationPosition.playForwardIn(second);edkEnd();
-    this->animationAngle.playForwardIn(second);edkEnd();
+    this->animationPosition.playForwardIn(second);
+    this->animationAngle.playForwardIn(second);
 }
 void edk::bones::Bone2D::playRewindThis(){
-    this->animationPosition.playRewind();edkEnd();
-    this->animationAngle.playRewind();edkEnd();
+    this->animationPosition.playRewind();
+    this->animationAngle.playRewind();
 }
 void edk::bones::Bone2D::playRewindInThis(edk::float32 second){
-    this->animationPosition.playRewindIn(second);edkEnd();
-    this->animationAngle.playRewindIn(second);edkEnd();
+    this->animationPosition.playRewindIn(second);
+    this->animationAngle.playRewindIn(second);
 }
 void edk::bones::Bone2D::pauseThis(){
-    this->animationPosition.pause();edkEnd();
-    this->animationAngle.pause();edkEnd();
+    this->animationPosition.pause();
+    this->animationAngle.pause();
 }
 void edk::bones::Bone2D::pauseOnThis(){
-    this->animationPosition.pauseOn();edkEnd();
-    this->animationAngle.pauseOn();edkEnd();
+    this->animationPosition.pauseOn();
+    this->animationAngle.pauseOn();
 }
 void edk::bones::Bone2D::pauseOffThis(){
-    this->animationPosition.pauseOff();edkEnd();
-    this->animationAngle.pauseOff();edkEnd();
+    this->animationPosition.pauseOff();
+    this->animationAngle.pauseOff();
 }
 void edk::bones::Bone2D::stopThis(){
-    this->animationPosition.stop();edkEnd();
-    this->animationAngle.stop();edkEnd();
+    this->animationPosition.stop();
+    this->animationAngle.stop();
 }
 //set loop
 void edk::bones::Bone2D::setLoopThis(bool loop){
-    this->animationPosition.setLoop(loop);edkEnd();
-    this->animationAngle.setLoop(loop);edkEnd();
+    this->animationPosition.setLoop(loop);
+    this->animationAngle.setLoop(loop);
 }
 void edk::bones::Bone2D::loopOnThis(){
-    this->animationPosition.loopOn();edkEnd();
-    this->animationAngle.loopOn();edkEnd();
+    this->animationPosition.loopOn();
+    this->animationAngle.loopOn();
 }
 void edk::bones::Bone2D::loopOffThis(){
-    this->animationPosition.loopOff();edkEnd();
-    this->animationAngle.loopOff();edkEnd();
+    this->animationPosition.loopOff();
+    this->animationAngle.loopOff();
 }
 void edk::bones::Bone2D::printFramesThis(){
-    printf("\nPosition");edkEnd();
-    this->animationPosition.printFrames();edkEnd();
-    printf("\nAngle");edkEnd();
-    this->animationAngle.printFrames();edkEnd();
+    printf("\nPosition");
+    this->animationPosition.printFrames();
+    printf("\nAngle");
+    this->animationAngle.printFrames();
 }
 //ANIMATIONNAMES
 bool edk::bones::Bone2D::addNewAnimationNameThis(const edk::char8* name, edk::float32 start,edk::float32 end){
-    bool ret=true;edkEnd();
+    bool ret=true;
     if(!this->animationPosition.addNewAnimationName(name,start,end)){
-        ret=false;edkEnd();
+        ret=false;
     }
     if(!this->animationAngle.addNewAnimationName(name,start,end)){
-        ret=false;edkEnd();
+        ret=false;
     }
     return ret;
 }
 bool edk::bones::Bone2D::addNewAnimationNameThis(edk::char8* name, edk::float32 start,edk::float32 end){
-    bool ret=true;edkEnd();
+    bool ret=true;
     if(!this->animationPosition.addNewAnimationName(name,start,end)){
-        ret=false;edkEnd();
+        ret=false;
     }
     if(!this->animationAngle.addNewAnimationName(name,start,end)){
-        ret=false;edkEnd();
+        ret=false;
     }
     return ret;
 }
 //select the animationName
 bool edk::bones::Bone2D::selectAnimationNameThis(const edk::char8* name){
-    bool ret=true;edkEnd();
+    bool ret=true;
     if(!this->animationPosition.selectAnimationName(name)){
-        ret=false;edkEnd();
+        ret=false;
     }
     if(!this->animationAngle.selectAnimationName(name)){
-        ret=false;edkEnd();
+        ret=false;
     }
     return ret;
 }
 bool edk::bones::Bone2D::selectAnimationNameThis(edk::char8* name){
-    bool ret=true;edkEnd();
+    bool ret=true;
     if(!this->animationPosition.selectAnimationName(name)){
-        ret=false;edkEnd();
+        ret=false;
     }
     if(!this->animationAngle.selectAnimationName(name)){
-        ret=false;edkEnd();
+        ret=false;
     }
     return ret;
 }
 //test if have the animationName
 bool edk::bones::Bone2D::haveAnimationNameThis(const edk::char8* name){
-    bool ret=true;edkEnd();
+    bool ret=true;
     if(!this->animationPosition.haveAnimationName(name)){
-        ret=false;edkEnd();
+        ret=false;
     }
     if(!this->animationAngle.haveAnimationName(name)){
-        ret=false;edkEnd();
+        ret=false;
     }
     return ret;
 }
 bool edk::bones::Bone2D::haveAnimationNameThis(edk::char8* name){
-    bool ret=true;edkEnd();
+    bool ret=true;
     if(!this->animationPosition.haveAnimationName(name)){
-        ret=false;edkEnd();
+        ret=false;
     }
     if(!this->animationAngle.haveAnimationName(name)){
-        ret=false;edkEnd();
+        ret=false;
     }
     return ret;
 }
 //Play the animationName
 bool edk::bones::Bone2D::playNameForwardThis(const edk::char8* name){
-    bool ret=true;edkEnd();
+    bool ret=true;
     if(!this->animationPosition.playNameForward(name)){
-        ret=false;edkEnd();
+        ret=false;
     }
     if(!this->animationAngle.playNameForward(name)){
-        ret=false;edkEnd();
+        ret=false;
     }
     return ret;
 }
 bool edk::bones::Bone2D::playNameForwardThis(edk::char8* name){
-    bool ret=true;edkEnd();
+    bool ret=true;
     if(!this->animationPosition.playNameForward(name)){
-        ret=false;edkEnd();
+        ret=false;
     }
     if(!this->animationAngle.playNameForward(name)){
-        ret=false;edkEnd();
+        ret=false;
     }
     return ret;
 }
 bool edk::bones::Bone2D::playNameRewindThis(const edk::char8* name){
-    bool ret=true;edkEnd();
+    bool ret=true;
     if(!this->animationPosition.playNameRewind(name)){
-        ret=false;edkEnd();
+        ret=false;
     }
     if(!this->animationAngle.playNameRewind(name)){
-        ret=false;edkEnd();
+        ret=false;
     }
     return ret;
 }
 bool edk::bones::Bone2D::playNameRewindThis(edk::char8* name){
-    bool ret=true;edkEnd();
+    bool ret=true;
     if(!this->animationPosition.playNameRewind(name)){
-        ret=false;edkEnd();
+        ret=false;
     }
     if(!this->animationAngle.playNameRewind(name)){
-        ret=false;edkEnd();
+        ret=false;
     }
     return ret;
 }
 //remove the animationName
 bool edk::bones::Bone2D::removeAnimationNameThis(const edk::char8* name){
-    bool ret=true;edkEnd();
+    bool ret=true;
     if(!this->animationPosition.removeAnimationName(name)){
-        ret=false;edkEnd();
+        ret=false;
     }
     if(!this->animationAngle.removeAnimationName(name)){
-        ret=false;edkEnd();
+        ret=false;
     }
     return ret;
 }
 bool edk::bones::Bone2D::removeAnimationNameThis(edk::char8* name){
-    bool ret=true;edkEnd();
+    bool ret=true;
     if(!this->animationPosition.removeAnimationName(name)){
-        ret=false;edkEnd();
+        ret=false;
     }
     if(!this->animationAngle.removeAnimationName(name)){
-        ret=false;edkEnd();
+        ret=false;
     }
     return ret;
 }
 void edk::bones::Bone2D::removeAllAnimationNamesThis(){
-    this->animationPosition.cleanAnimationNames();edkEnd();
-    this->animationAngle.cleanAnimationNames();edkEnd();
+    this->animationPosition.cleanAnimationNames();
+    this->animationAngle.cleanAnimationNames();
 }
 
 //return if are playing
 bool edk::bones::Bone2D::isPlayingThis(){
-    bool ret=false;edkEnd();
+    bool ret=false;
     if(this->animationPosition.isPlaying()){
-        ret=true;edkEnd();
+        ret=true;
     }
     if(this->animationAngle.isPlaying()){
-        ret=true;edkEnd();
+        ret=true;
     }
     return ret;
 }
 
 //return the size of the nexts
 edk::uint32 edk::bones::Bone2D::getNextsSize(){
-    return this->nexts.size();edkEnd();
+    return this->nexts.size();
 }
 
 //return the next in position
 edk::bones::Bone2D* edk::bones::Bone2D::getNextInPosition(edk::uint32 position){
     //test if have the position
     if(position<this->nexts.size()){
-        return (edk::bones::Bone2D*)this->nexts.getElementInPosition(position);edkEnd();
+        return (edk::bones::Bone2D*)this->nexts.getElementInPosition(position);
     }
     return NULL;
 }
@@ -1027,61 +1025,61 @@ void edk::bones::Bone2D::print(){
            ,this->vector.x
            ,this->vector.y
            ,this->angle
-           );edkEnd();
+           );
     //draw the son's
     for(edk::uint32 i=0u;i<this->nexts.size();i++){
-        edk::bones::Bone2D* temp = (edk::bones::Bone2D*)this->nexts.getElementInPosition(i);edkEnd();
-        temp->print();edkEnd();
+        edk::bones::Bone2D* temp = (edk::bones::Bone2D*)this->nexts.getElementInPosition(i);
+        temp->print();
     }
 }
 //draw the boneLine
 void edk::bones::Bone2D::draw(){
-    //    printf("Angle == %.2f  ",this->angle);edkEnd();
-    //    printf("position %.2f %.2f ",this->position.x,this->position.y);edkEnd();
+    //    printf("Angle == %.2f  ",this->angle);
+    //    printf("position %.2f %.2f ",this->position.x,this->position.y);
 
-    //edk::GU::guTranslate2f32(this->position);edkEnd();
-    edk::GU::guTranslate2f32(this->position.x,this->position.y);edkEnd();
-    edk::GU::guRotateZf32(this->angle);edkEnd();
+    //edk::GU::guTranslate2f32(this->position);
+    edk::GU::guTranslate2f32(this->position.x,this->position.y);
+    edk::GU::guRotateZf32(this->angle);
 
-    edk::GU::guBegin(GU_LINES);edkEnd();
-    //edk::GU::guVertex2f32(this->position.x,this->position.y);edkEnd();
-    edk::GU::guVertex2f32(0,0);edkEnd();
-    edk::GU::guVertex2f32(this->vector.x,this->vector.y);edkEnd();
-    edk::GU::guEnd();edkEnd();
+    edk::GU::guBegin(GU_LINES);
+    //edk::GU::guVertex2f32(this->position.x,this->position.y);
+    edk::GU::guVertex2f32(0,0);
+    edk::GU::guVertex2f32(this->vector.x,this->vector.y);
+    edk::GU::guEnd();
 
     //draw the line
-    //edk::GU::guTranslate2f32(this->vector);edkEnd();
+    //edk::GU::guTranslate2f32(this->vector);
     for(edk::uint32 i=0u;i<this->nexts.size();i++){
-        edk::bones::Bone2D* temp = (edk::bones::Bone2D*)this->nexts.getElementInPosition(i);edkEnd();
-        temp->draw();edkEnd();
+        edk::bones::Bone2D* temp = (edk::bones::Bone2D*)this->nexts.getElementInPosition(i);
+        temp->draw();
     }
 
-    edk::GU::guRotateZf32(this->angle*-1.f);edkEnd();
-    edk::GU::guTranslate2f32(this->position*-1.f);edkEnd();
+    edk::GU::guRotateZf32(this->angle*-1.f);
+    edk::GU::guTranslate2f32(this->position*-1.f);
 }
 void edk::bones::Bone2D::drawLines(){
-    //    printf("Angle == %.2f  ",this->angle);edkEnd();
-    //    printf("position %.2f %.2f ",this->position.x,this->position.y);edkEnd();
+    //    printf("Angle == %.2f  ",this->angle);
+    //    printf("position %.2f %.2f ",this->position.x,this->position.y);
 
-    //edk::GU::guTranslate2f32(this->position);edkEnd();
-    edk::GU::guTranslate2f32(this->position.x,this->position.y);edkEnd();
-    edk::GU::guRotateZf32(this->angle);edkEnd();
+    //edk::GU::guTranslate2f32(this->position);
+    edk::GU::guTranslate2f32(this->position.x,this->position.y);
+    edk::GU::guRotateZf32(this->angle);
 
-    edk::GU::guBegin(GU_LINES);edkEnd();
-    //edk::GU::guVertex2f32(this->position.x,this->position.y);edkEnd();
-    edk::GU::guVertex2f32(0,0);edkEnd();
-    edk::GU::guVertex2f32(this->vector.x,this->vector.y);edkEnd();
-    edk::GU::guEnd();edkEnd();
+    edk::GU::guBegin(GU_LINES);
+    //edk::GU::guVertex2f32(this->position.x,this->position.y);
+    edk::GU::guVertex2f32(0,0);
+    edk::GU::guVertex2f32(this->vector.x,this->vector.y);
+    edk::GU::guEnd();
 
     //draw the line
-    //edk::GU::guTranslate2f32(this->vector);edkEnd();
+    //edk::GU::guTranslate2f32(this->vector);
     for(edk::uint32 i=0u;i<this->nexts.size();i++){
-        edk::bones::Bone2D* temp = (edk::bones::Bone2D*)this->nexts.getElementInPosition(i);edkEnd();
-        temp->drawLines();edkEnd();
+        edk::bones::Bone2D* temp = (edk::bones::Bone2D*)this->nexts.getElementInPosition(i);
+        temp->drawLines();
     }
 
-    edk::GU::guRotateZf32(this->angle*-1.f);edkEnd();
-    edk::GU::guTranslate2f32(this->position*-1.f);edkEnd();
+    edk::GU::guRotateZf32(this->angle*-1.f);
+    edk::GU::guTranslate2f32(this->position*-1.f);
 }
 void edk::bones::Bone2D::drawLinesIK(edk::vector::Matrixf32<3u,3u>* transformMat){
     edk::vec2f32 pos;
@@ -1089,152 +1087,152 @@ void edk::bones::Bone2D::drawLinesIK(edk::vector::Matrixf32<3u,3u>* transformMat
     //first copy the matrix
     if(this->matrixTransform.cloneFrom(transformMat)){
 
-        this->matrixPosition.setIdentity(1.f,0.f);edkEnd();
+        this->matrixPosition.setIdentity(1.f,0.f);
 
         //transform all the vertices
         if(this->matrixPosition.haveMatrix()){
             //
-            this->matrixPosition.set(0u,0u,this->position.x);edkEnd();
-            this->matrixPosition.set(0u,1u,this->position.y);edkEnd();
-            this->matrixPosition.set(0u,2u,1.f);edkEnd();
+            this->matrixPosition.set(0u,0u,this->position.x);
+            this->matrixPosition.set(0u,1u,this->position.y);
+            this->matrixPosition.set(0u,2u,1.f);
 
             //multiply the matrix
-            this->matrixPosition.multiplyMatrixWithThis((edk::vector::MatrixDynamic<edk::float32>*)&this->matrixTransform);edkEnd();
+            this->matrixPosition.multiplyMatrixWithThis((edk::vector::MatrixDynamic<edk::float32>*)&this->matrixTransform);
 
-            pos.x = this->matrixPosition.getNoIF(0u,0u);edkEnd();
-            pos.y = this->matrixPosition.getNoIF(0u,1u);edkEnd();
+            pos.x = this->matrixPosition.getNoIF(0u,0u);
+            pos.y = this->matrixPosition.getNoIF(0u,1u);
 
             //draw the line
-            edk::GU::guVertex2f32(pos);edkEnd();
-            edk::GU::guVertex2f32(this->ikPosition);edkEnd();
+            edk::GU::guVertex2f32(pos);
+            edk::GU::guVertex2f32(this->ikPosition);
         }
         //generate transform matrices
-        edk::Math::generateTranslateMatrix(this->position,&this->matrixTranslate);edkEnd();
-        edk::Math::generateRotateMatrixZ(this->angle,&this->matrixRotate);edkEnd();
+        edk::Math::generateTranslateMatrix(this->position,&this->matrixTranslate);
+        edk::Math::generateRotateMatrixZ(this->angle,&this->matrixRotate);
 
         //multiply the matrix by
         //translate
-        this->matrixTransform.multiplyThisWithMatrix(&this->matrixTranslate);edkEnd();
+        this->matrixTransform.multiplyThisWithMatrix(&this->matrixTranslate);
         //angle
-        this->matrixTransform.multiplyThisWithMatrix(&this->matrixRotate);edkEnd();
+        this->matrixTransform.multiplyThisWithMatrix(&this->matrixRotate);
 
         for(edk::uint32 i=0u;i<this->nexts.size();i++){
-            edk::bones::Bone2D* temp = (edk::bones::Bone2D*)this->nexts.getElementInPosition(i);edkEnd();
-            temp->drawLinesIK(&this->matrixTransform);edkEnd();
+            edk::bones::Bone2D* temp = (edk::bones::Bone2D*)this->nexts.getElementInPosition(i);
+            temp->drawLinesIK(&this->matrixTransform);
         }
     }
 }
 void edk::bones::Bone2D::drawPoints(edk::float32 scale){
-    //    printf("Angle == %.2f  ",this->angle);edkEnd();
-    //    printf("position %.2f %.2f ",this->position.x,this->position.y);edkEnd();
+    //    printf("Angle == %.2f  ",this->angle);
+    //    printf("position %.2f %.2f ",this->position.x,this->position.y);
 
-    edk::GU::guTranslate2f32(this->position.x,this->position.y);edkEnd();
-    edk::GU::guRotateZf32(this->angle);edkEnd();
+    edk::GU::guTranslate2f32(this->position.x,this->position.y);
+    edk::GU::guRotateZf32(this->angle);
 
-    edk::GU::guBegin(GU_POLYGON);edkEnd();
-    edk::GU::guVertex2f32(-scale,-scale);edkEnd();
-    edk::GU::guVertex2f32(-scale,+scale);edkEnd();
-    edk::GU::guVertex2f32(+scale,+scale);edkEnd();
-    edk::GU::guVertex2f32(+scale,-scale);edkEnd();
-    edk::GU::guEnd();edkEnd();
+    edk::GU::guBegin(GU_POLYGON);
+    edk::GU::guVertex2f32(-scale,-scale);
+    edk::GU::guVertex2f32(-scale,+scale);
+    edk::GU::guVertex2f32(+scale,+scale);
+    edk::GU::guVertex2f32(+scale,-scale);
+    edk::GU::guEnd();
 
     //draw the line
     for(edk::uint32 i=0u;i<this->nexts.size();i++){
-        edk::bones::Bone2D* temp = (edk::bones::Bone2D*)this->nexts.getElementInPosition(i);edkEnd();
-        temp->drawPoints(scale);edkEnd();
+        edk::bones::Bone2D* temp = (edk::bones::Bone2D*)this->nexts.getElementInPosition(i);
+        temp->drawPoints(scale);
     }
 
-    edk::GU::guRotateZf32(this->angle*-1.f);edkEnd();
-    edk::GU::guTranslate2f32(this->position*-1.f);edkEnd();
+    edk::GU::guRotateZf32(this->angle*-1.f);
+    edk::GU::guTranslate2f32(this->position*-1.f);
 }
 //update the objects
 void edk::bones::Bone2D::updateObjects(edk::float32 angle,edk::size2f32 size,edk::float32 mat[][3u][3u],edk::float32 angleRemove,edk::float32 angleMultiply){
-    angle+=this->angle*angleMultiply;edkEnd();
+    angle+=this->angle*angleMultiply;
     //rotate de position
-    edk::float32 vecPos[3u];edkEnd();
-    vecPos[0u] = this->position.x;edkEnd();
-    vecPos[1u] = this->position.y;edkEnd();
-    vecPos[2u] = 1.f;edkEnd();
+    edk::float32 vecPos[3u];
+    vecPos[0u] = this->position.x;
+    vecPos[1u] = this->position.y;
+    vecPos[2u] = 1.f;
 
 
     //test the matrix
     if(mat){
         //rotate the bone position as the bone father
-        edk::bones::Bone2D::multiplyMatrix(mat,&vecPos);edkEnd();
+        edk::bones::Bone2D::multiplyMatrix(mat,&vecPos);
     }
 
-    edk::vec2f32 posTemp;edkEnd();
-    posTemp.x = vecPos[0u];edkEnd();
-    posTemp.y = vecPos[1u];edkEnd();
+    edk::vec2f32 posTemp;
+    posTemp.x = vecPos[0u];
+    posTemp.y = vecPos[1u];
 
     //TRANSLATE AND ROTATE DE BONE POSITION
-    edk::float32 translate[3u][3u];edkEnd();
-    edk::bones::Bone2D::generateTranslateMatrix(posTemp,&translate);edkEnd();
+    edk::float32 translate[3u][3u];
+    edk::bones::Bone2D::generateTranslateMatrix(posTemp,&translate);
     //generate matrix
-    edk::float32 rotate[3u][3u];edkEnd();
-    edk::bones::Bone2D::generateRotationMatrix(angle,&rotate);edkEnd();
+    edk::float32 rotate[3u][3u];
+    edk::bones::Bone2D::generateRotationMatrix(angle,&rotate);
     //generate scale
-    edk::float32 scale[3u][3u];edkEnd();
-    edk::bones::Bone2D::generateScaleMatrix(size,&scale);edkEnd();
+    edk::float32 scale[3u][3u];
+    edk::bones::Bone2D::generateScaleMatrix(size,&scale);
 
     //create a new matrix
-    edk::float32 newMat[3u][3u];edkEnd();
-    edk::bones::Bone2D::setIdentity(&newMat);edkEnd();
+    edk::float32 newMat[3u][3u];
+    edk::bones::Bone2D::setIdentity(&newMat);
 
     //multiply the scale matrix
-    edk::bones::Bone2D::multiplyMatrix(&scale,&newMat);edkEnd();
+    edk::bones::Bone2D::multiplyMatrix(&scale,&newMat);
     //multiply the rotatio matrix
-    edk::bones::Bone2D::multiplyMatrix(&rotate,&newMat);edkEnd();
+    edk::bones::Bone2D::multiplyMatrix(&rotate,&newMat);
     //multiply the translation matrix
-    edk::bones::Bone2D::multiplyMatrix(&translate,&newMat);edkEnd();
+    edk::bones::Bone2D::multiplyMatrix(&translate,&newMat);
 
     //set the tree angle and matrix
-    this->treeObjects.setMatrix(&newMat);edkEnd();
-    this->treeObjects.setAngle(angle);edkEnd();
-    this->treeObjects.setAngleRemove(angleRemove);edkEnd();
-    this->treeObjects.setAngleMultiply(angleMultiply);edkEnd();
+    this->treeObjects.setMatrix(&newMat);
+    this->treeObjects.setAngle(angle);
+    this->treeObjects.setAngleRemove(angleRemove);
+    this->treeObjects.setAngleMultiply(angleMultiply);
 
-    this->treeObjects.setScale(size);edkEnd();
-    this->treeObjects.update();edkEnd();
+    this->treeObjects.setScale(size);
+    this->treeObjects.update();
 
     for(edk::uint32 i=0u;i<this->nexts.size();i++){
-        edk::bones::Bone2D* temp = (edk::bones::Bone2D*)this->nexts.getElementInPosition(i);edkEnd();
-        temp->updateObjects(angle,size,&newMat,angleRemove,angleMultiply);edkEnd();
+        edk::bones::Bone2D* temp = (edk::bones::Bone2D*)this->nexts.getElementInPosition(i);
+        temp->updateObjects(angle,size,&newMat,angleRemove,angleMultiply);
     }
 }
 //calculate the bone point in the world
 edk::vec2f32 edk::bones::Bone2D::getWorldVector(edk::bones::Bone2D* bone,bool* found,edk::float32 angle,edk::size2f32 size,edk::vector::Matrixf32<3u,3u>* transformMat){
-    edk::vec2f32 ret(0,0);edkEnd();
+    edk::vec2f32 ret(0,0);
     //first copy the matrix
     if(this->matrixTransform.cloneFrom(transformMat)){
         this->matrixPosition.setIdentity(1.f,0.f);
 
         //generate transform matrices
-        edk::Math::generateTranslateMatrix(this->position,&this->matrixTranslate);edkEnd();
-        edk::Math::generateRotateMatrixZ(this->angle,&this->matrixRotate);edkEnd();
+        edk::Math::generateTranslateMatrix(this->position,&this->matrixTranslate);
+        edk::Math::generateRotateMatrixZ(this->angle,&this->matrixRotate);
 
         //multiply the matrix by
         //translate
-        this->matrixTransform.multiplyThisWithMatrix(&this->matrixTranslate);edkEnd();
+        this->matrixTransform.multiplyThisWithMatrix(&this->matrixTranslate);
         //angle
-        this->matrixTransform.multiplyThisWithMatrix(&this->matrixRotate);edkEnd();
+        this->matrixTransform.multiplyThisWithMatrix(&this->matrixRotate);
 
         //transform all the vertices
         if(this->matrixPosition.haveMatrix()){
             if(bone){
                 if(bone == this){
                     //
-                    this->matrixPosition.set(0u,0u,this->vector.x);edkEnd();
-                    this->matrixPosition.set(0u,1u,this->vector.y);edkEnd();
-                    this->matrixPosition.set(0u,2u,1.f);edkEnd();
+                    this->matrixPosition.set(0u,0u,this->vector.x);
+                    this->matrixPosition.set(0u,1u,this->vector.y);
+                    this->matrixPosition.set(0u,2u,1.f);
 
                     //multiply the matrix
-                    this->matrixPosition.multiplyMatrixWithThis((edk::vector::MatrixDynamic<edk::float32>*)&this->matrixTransform);edkEnd();
+                    this->matrixPosition.multiplyMatrixWithThis((edk::vector::MatrixDynamic<edk::float32>*)&this->matrixTransform);
 
-                    ret.x = this->matrixPosition.getNoIF(0u,0u);edkEnd();
-                    ret.y = this->matrixPosition.getNoIF(0u,1u);edkEnd();
+                    ret.x = this->matrixPosition.getNoIF(0u,0u);
+                    ret.y = this->matrixPosition.getNoIF(0u,1u);
 
-                    *found=true;edkEnd();
+                    *found=true;
 
                     return ret;
                 }
@@ -1246,18 +1244,18 @@ edk::vec2f32 edk::bones::Bone2D::getWorldVector(edk::bones::Bone2D* bone,bool* f
     }
 
     for(edk::uint32 i=0u;i<this->nexts.size();i++){
-        edk::bones::Bone2D* temp = (edk::bones::Bone2D*)this->nexts.getElementInPosition(i);edkEnd();
-        ret = temp->getWorldVector(bone,found,angle,size,&this->matrixTransform);edkEnd();
+        edk::bones::Bone2D* temp = (edk::bones::Bone2D*)this->nexts.getElementInPosition(i);
+        ret = temp->getWorldVector(bone,found,angle,size,&this->matrixTransform);
         if(*found){
             return ret;
         }
     }
-    ret.x=0.f;edkEnd();
-    ret.y=0.f;edkEnd();
+    ret.x=0.f;
+    ret.y=0.f;
     return ret;
 }
 edk::vec2f32 edk::bones::Bone2D::getWorldPosition(edk::bones::Bone2D* bone,bool* found,edk::float32 angle,edk::size2f32 size,edk::vector::Matrixf32<3u,3u>* transformMat){
-    edk::vec2f32 ret(0,0);edkEnd();
+    edk::vec2f32 ret(0,0);
     //first copy the matrix
     if(this->matrixTransform.cloneFrom(transformMat)){
 
@@ -1268,17 +1266,17 @@ edk::vec2f32 edk::bones::Bone2D::getWorldPosition(edk::bones::Bone2D* bone,bool*
             if(bone){
                 if(bone == this){
                     //
-                    this->matrixPosition.set(0u,0u,this->position.x);edkEnd();
-                    this->matrixPosition.set(0u,1u,this->position.y);edkEnd();
-                    this->matrixPosition.set(0u,2u,1.f);edkEnd();
+                    this->matrixPosition.set(0u,0u,this->position.x);
+                    this->matrixPosition.set(0u,1u,this->position.y);
+                    this->matrixPosition.set(0u,2u,1.f);
 
                     //multiply the matrix
-                    this->matrixPosition.multiplyMatrixWithThis((edk::vector::MatrixDynamic<edk::float32>*)&this->matrixTransform);edkEnd();
+                    this->matrixPosition.multiplyMatrixWithThis((edk::vector::MatrixDynamic<edk::float32>*)&this->matrixTransform);
 
-                    ret.x = this->matrixPosition.getNoIF(0u,0u);edkEnd();
-                    ret.y = this->matrixPosition.getNoIF(0u,1u);edkEnd();
+                    ret.x = this->matrixPosition.getNoIF(0u,0u);
+                    ret.y = this->matrixPosition.getNoIF(0u,1u);
 
-                    *found=true;edkEnd();
+                    *found=true;
 
                     return ret;
                 }
@@ -1290,24 +1288,24 @@ edk::vec2f32 edk::bones::Bone2D::getWorldPosition(edk::bones::Bone2D* bone,bool*
     }
 
     //generate transform matrices
-    edk::Math::generateTranslateMatrix(this->position,&this->matrixTranslate);edkEnd();
-    edk::Math::generateRotateMatrixZ(this->angle,&this->matrixRotate);edkEnd();
+    edk::Math::generateTranslateMatrix(this->position,&this->matrixTranslate);
+    edk::Math::generateRotateMatrixZ(this->angle,&this->matrixRotate);
 
     //multiply the matrix by
     //translate
-    this->matrixTransform.multiplyThisWithMatrix(&this->matrixTranslate);edkEnd();
+    this->matrixTransform.multiplyThisWithMatrix(&this->matrixTranslate);
     //angle
-    this->matrixTransform.multiplyThisWithMatrix(&this->matrixRotate);edkEnd();
+    this->matrixTransform.multiplyThisWithMatrix(&this->matrixRotate);
 
     for(edk::uint32 i=0u;i<this->nexts.size();i++){
-        edk::bones::Bone2D* temp = (edk::bones::Bone2D*)this->nexts.getElementInPosition(i);edkEnd();
-        ret = temp->getWorldPosition(bone,found,angle,size,&this->matrixTransform);edkEnd();
+        edk::bones::Bone2D* temp = (edk::bones::Bone2D*)this->nexts.getElementInPosition(i);
+        ret = temp->getWorldPosition(bone,found,angle,size,&this->matrixTransform);
         if(*found){
             return ret;
         }
     }
-    ret.x=0.f;edkEnd();
-    ret.y=0.f;edkEnd();
+    ret.x=0.f;
+    ret.y=0.f;
     return ret;
 }
 //calculate the IK with a point in the world
@@ -1319,117 +1317,117 @@ edk::vec2f32 edk::bones::Bone2D::calculateInverseKinematic(edk::bones::Bone2D* b
                                                            edk::uint32* counterAngles,
                                                            edk::vector::Matrixf32<3u,3u>* transformMat
                                                            ){
-    edk::vec2f32 ret(0,0);edkEnd();
+    edk::vec2f32 ret(0,0);
     edk::vec2f32 positionWorld(0,0);
     edk::float32 rotateAngle;
     if(this->matrixTransform.cloneFrom(transformMat)){
         //test if found the bone
         if(bone){
             if(bone == this){
-                *found=true;edkEnd();
-                *count=0u;edkEnd();
-                *counterAngles=0u;edkEnd();
+                *found=true;
+                *count=0u;
+                *counterAngles=0u;
 
-                edk::vector::Matrixf32<3u,3u>  matrixVector;edkEnd();
-                matrixVector.cloneFrom(transformMat);edkEnd();
+                edk::vector::Matrixf32<3u,3u>  matrixVector;
+                matrixVector.cloneFrom(transformMat);
 
-                edk::Math::generateTranslateMatrix(this->position,&this->matrixTranslate);edkEnd();
-                edk::Math::generateRotateMatrixZ(this->angle,&this->matrixRotate);edkEnd();
+                edk::Math::generateTranslateMatrix(this->position,&this->matrixTranslate);
+                edk::Math::generateRotateMatrixZ(this->angle,&this->matrixRotate);
 
                 //multiply the matrix by
                 //translate
-                matrixVector.multiplyThisWithMatrix(&this->matrixTranslate);edkEnd();
+                matrixVector.multiplyThisWithMatrix(&this->matrixTranslate);
                 //angle
-                matrixVector.multiplyThisWithMatrix(&this->matrixRotate);edkEnd();
+                matrixVector.multiplyThisWithMatrix(&this->matrixRotate);
 
-                this->matrixPosition.setIdentity(1.f,0.f);edkEnd();
+                this->matrixPosition.setIdentity(1.f,0.f);
 
                 //calculate the boneVector in the world
-                this->matrixPosition.set(0u,0u,this->vector.x);edkEnd();
-                this->matrixPosition.set(0u,1u,this->vector.y);edkEnd();
-                this->matrixPosition.set(0u,2u,1.f);edkEnd();
+                this->matrixPosition.set(0u,0u,this->vector.x);
+                this->matrixPosition.set(0u,1u,this->vector.y);
+                this->matrixPosition.set(0u,2u,1.f);
 
                 //multiply the matrix
-                this->matrixPosition.multiplyMatrixWithThis((edk::vector::MatrixDynamic<edk::float32>*)&matrixVector);edkEnd();
+                this->matrixPosition.multiplyMatrixWithThis((edk::vector::MatrixDynamic<edk::float32>*)&matrixVector);
 
-                ret.x = this->matrixPosition.getNoIF(0u,0u);edkEnd();
-                ret.y = this->matrixPosition.getNoIF(0u,1u);edkEnd();
+                ret.x = this->matrixPosition.getNoIF(0u,0u);
+                ret.y = this->matrixPosition.getNoIF(0u,1u);
 
                 //get the bone worldPosition
-                this->matrixPosition.setIdentity(1.f,0.f);edkEnd();
+                this->matrixPosition.setIdentity(1.f,0.f);
                 //
-                this->matrixPosition.set(0u,0u,0.f);edkEnd();
-                this->matrixPosition.set(0u,1u,0.f);edkEnd();
-                this->matrixPosition.set(0u,2u,1.f);edkEnd();
+                this->matrixPosition.set(0u,0u,0.f);
+                this->matrixPosition.set(0u,1u,0.f);
+                this->matrixPosition.set(0u,2u,1.f);
 
                 //multiply the matrix
-                this->matrixPosition.multiplyMatrixWithThis((edk::vector::MatrixDynamic<edk::float32>*)&matrixVector);edkEnd();
+                this->matrixPosition.multiplyMatrixWithThis((edk::vector::MatrixDynamic<edk::float32>*)&matrixVector);
 
-                positionWorld.x = this->matrixPosition.getNoIF(0u,0u);edkEnd();
-                positionWorld.y = this->matrixPosition.getNoIF(0u,1u);edkEnd();
+                positionWorld.x = this->matrixPosition.getNoIF(0u,0u);
+                positionWorld.y = this->matrixPosition.getNoIF(0u,1u);
 
-                rotateAngle = edk::Math::getAngle(worldPoint-positionWorld)-edk::Math::getAngle(ret-positionWorld);edkEnd();
+                rotateAngle = edk::Math::getAngle(worldPoint-positionWorld)-edk::Math::getAngle(ret-positionWorld);
 
                 if(rotateAngle>edkIKAngleLimit || rotateAngle<-edkIKAngleLimit){
-                    this->angle+=rotateAngle;edkEnd();
+                    this->angle+=rotateAngle;
                     if(this->angle<0.f){
-                        this->angle+=360.f;edkEnd();
+                        this->angle+=360.f;
                     }
                     if(this->angle>360.f){
-                        this->angle-=360.f;edkEnd();
+                        this->angle-=360.f;
                     }
 
                     //rotate the ret
-                    ret = edk::Math::rotatePlus(ret - positionWorld,rotateAngle)+positionWorld;edkEnd();
+                    ret = edk::Math::rotatePlus(ret - positionWorld,rotateAngle)+positionWorld;
                 }
                 else{
-                    *counterAngles+=1u;edkEnd();
+                    *counterAngles+=1u;
                 }
-                this->ikPosition = ret;edkEnd();
+                this->ikPosition = ret;
                 //increment the count
-                *count+=1u;edkEnd();
+                *count+=1u;
                 return ret;
             }
             else{
                 if(!(*found)){
                     //generate transform matrices
-                    edk::Math::generateTranslateMatrix(this->position,&this->matrixTranslate);edkEnd();
-                    edk::Math::generateRotateMatrixZ(this->angle,&this->matrixRotate);edkEnd();
+                    edk::Math::generateTranslateMatrix(this->position,&this->matrixTranslate);
+                    edk::Math::generateRotateMatrixZ(this->angle,&this->matrixRotate);
 
                     //multiply the matrix by
                     //translate
-                    this->matrixTransform.multiplyThisWithMatrix(&this->matrixTranslate);edkEnd();
+                    this->matrixTransform.multiplyThisWithMatrix(&this->matrixTranslate);
                     //angle
-                    this->matrixTransform.multiplyThisWithMatrix(&this->matrixRotate);edkEnd();
+                    this->matrixTransform.multiplyThisWithMatrix(&this->matrixRotate);
 
                     //else search the selected bone
                     edk::uint32 size = this->nexts.size();
                     if(size){
                         for(edk::uint32 i=0u;i<size;i++){
-                            edk::bones::Bone2D* temp = (edk::bones::Bone2D*)this->nexts.getElementInPosition(i);edkEnd();
-                            ret = temp->calculateInverseKinematic(bone,found,worldPoint,limit,count,counterAngles,&this->matrixTransform);edkEnd();
+                            edk::bones::Bone2D* temp = (edk::bones::Bone2D*)this->nexts.getElementInPosition(i);
+                            ret = temp->calculateInverseKinematic(bone,found,worldPoint,limit,count,counterAngles,&this->matrixTransform);
                             if(*found){
                                 //rotate the angle
                                 if(*count<limit){
                                     //increment the count
-                                    *count+=1u;edkEnd();
+                                    *count+=1u;
 
-                                    this->matrixPosition.setIdentity(1.f,0.f);edkEnd();
+                                    this->matrixPosition.setIdentity(1.f,0.f);
 
                                     //transform all the vertices
                                     if(this->matrixPosition.haveMatrix()){
                                         //
-                                        this->matrixPosition.set(0u,0u,0.f);edkEnd();
-                                        this->matrixPosition.set(0u,1u,0.f);edkEnd();
-                                        this->matrixPosition.set(0u,2u,1.f);edkEnd();
+                                        this->matrixPosition.set(0u,0u,0.f);
+                                        this->matrixPosition.set(0u,1u,0.f);
+                                        this->matrixPosition.set(0u,2u,1.f);
 
                                         //multiply the matrix
-                                        this->matrixPosition.multiplyMatrixWithThis((edk::vector::MatrixDynamic<edk::float32>*)&this->matrixTransform);edkEnd();
+                                        this->matrixPosition.multiplyMatrixWithThis((edk::vector::MatrixDynamic<edk::float32>*)&this->matrixTransform);
 
-                                        positionWorld.x = this->matrixPosition.getNoIF(0u,0u);edkEnd();
-                                        positionWorld.y = this->matrixPosition.getNoIF(0u,1u);edkEnd();
+                                        positionWorld.x = this->matrixPosition.getNoIF(0u,0u);
+                                        positionWorld.y = this->matrixPosition.getNoIF(0u,1u);
 
-                                        rotateAngle = edk::Math::getAngle(worldPoint-positionWorld)-edk::Math::getAngle(ret-positionWorld);edkEnd();
+                                        rotateAngle = edk::Math::getAngle(worldPoint-positionWorld)-edk::Math::getAngle(ret-positionWorld);
                                         /*
                                     printf("\n%u ret[%.2f] worldPoint[%.2f] rotateAngle[%.2f]",__LINE__
                                            ,edk::Math::getAngle(ret-positionWorld)
@@ -1439,22 +1437,22 @@ edk::vec2f32 edk::bones::Bone2D::calculateInverseKinematic(edk::bones::Bone2D* b
 */
 
                                         if(rotateAngle>edkIKAngleLimit || rotateAngle<-edkIKAngleLimit){
-                                            this->angle+=rotateAngle;edkEnd();
+                                            this->angle+=rotateAngle;
                                             if(this->angle<0.f){
-                                                this->angle+=360.f;edkEnd();
+                                                this->angle+=360.f;
                                             }
                                             if(this->angle>360.f){
-                                                this->angle-=360.f;edkEnd();
+                                                this->angle-=360.f;
                                             }
                                             //rotate the ret
-                                            ret = edk::Math::rotatePlus(ret - positionWorld,rotateAngle)+positionWorld;edkEnd();
+                                            ret = edk::Math::rotatePlus(ret - positionWorld,rotateAngle)+positionWorld;
                                         }
                                         else{
-                                            *counterAngles+=1u;edkEnd();
+                                            *counterAngles+=1u;
                                         }
                                     }
                                 }
-                                this->ikPosition = ret;edkEnd();
+                                this->ikPosition = ret;
                                 return ret;
                             }
                         }
@@ -1466,10 +1464,10 @@ edk::vec2f32 edk::bones::Bone2D::calculateInverseKinematic(edk::bones::Bone2D* b
             }
         }
         else{
-            this->ikPosition = ret;edkEnd();
+            this->ikPosition = ret;
             return ret;
         }
     }
-    this->ikPosition = ret;edkEnd();
+    this->ikPosition = ret;
     return ret;
 }

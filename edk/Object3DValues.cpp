@@ -25,17 +25,14 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 edk::Object3DValues::Object3DValues(){
-    this->classThis=NULL;edkEnd();
-    this->Constructor(false);edkEnd();
+    this->classThis=NULL;
+    this->Constructor();
 }
 edk::Object3DValues::~Object3DValues(){
-    if(this->classThis==this){
-        this->classThis=NULL;edkEnd();
-        //can destruct the class
-    }
+    this->Destructor();
 }
 
-void edk::Object3DValues::Constructor(bool /*runFather*/){
+void edk::Object3DValues::Constructor(){
     if(this->classThis!=this){
         this->classThis=this;
 
@@ -44,11 +41,17 @@ void edk::Object3DValues::Constructor(bool /*runFather*/){
         this->animationSize.Constructor();
 
         this->type=edk::TypeObject3DValues;
-        //this->angle=0.f;edkEnd();
-        this->loadIdentityValues();edkEnd();
-        this->connectedLoadIdentityValues();edkEnd();
-        this->fixedRotation=false;edkEnd();
-        //this->cleanSaved();edkEnd();
+        //this->angle=0.f;
+        this->loadIdentityValues();
+        this->connectedLoadIdentityValues();
+        this->fixedRotation=false;
+        //this->cleanSaved();
+    }
+}
+void edk::Object3DValues::Destructor(){
+    if(this->classThis==this){
+        this->classThis=NULL;
+        //can destruct the class
     }
 }
 
@@ -78,21 +81,21 @@ void edk::Object3DValues::print(){
 }
 
 void edk::Object3DValues::loadIdentityValues(){
-    this->position = edk::vec3f32(0,0,0);edkEnd();
-    this->angle = 0.f;edkEnd();
-    this->size = edk::size3f32(1,1,1);edkEnd();
+    this->position = edk::vec3f32(0,0,0);
+    this->angle = 0.f;
+    this->size = edk::size3f32(1,1,1);
 }
 
 void edk::Object3DValues::connectedLoadIdentityValues(){
-    this->connectedPosition = edk::vec3f32(0,0,0);edkEnd();
-    this->connectedAngle = 0.f;edkEnd();
-    this->connectedSize = edk::size3f32(1,1,1);edkEnd();
-    this->connectedPivo = edk::vec3f32(0,0,0);edkEnd();
+    this->connectedPosition = edk::vec3f32(0,0,0);
+    this->connectedAngle = 0.f;
+    this->connectedSize = edk::size3f32(1,1,1);
+    this->connectedPivo = edk::vec3f32(0,0,0);
 }
 void edk::Object3DValues::updateValuesFromConnected(){
-    this->position = this->connectedPosition;edkEnd();
-    this->angle = this->connectedAngle;edkEnd();
-    this->size = this->connectedSize;edkEnd();
+    this->position = this->connectedPosition;
+    this->angle = this->connectedAngle;
+    this->size = this->connectedSize;
 }
 
 //draw the pivo
@@ -104,72 +107,72 @@ void edk::Object3DValues::drawPivo(edk::float32 size,edk::float32 r,edk::float32
 }
 //update all animations
 bool edk::Object3DValues::updateAnimations(){
-    bool ret=false;edkEnd();
-    this->animationPosition.updateClockAnimation();edkEnd();
-    this->animationRotation.updateClockAnimation();edkEnd();
-    this->animationSize.updateClockAnimation();edkEnd();
+    bool ret=false;
+    this->animationPosition.updateClockAnimation();
+    this->animationRotation.updateClockAnimation();
+    this->animationSize.updateClockAnimation();
     //test if are playing the animations
     if(this->animationPosition.isPlaying()){
         //
-        edk::vec3f32 posTemp;edkEnd();
-        posTemp.x = this->animationPosition.getClockX(this->position.x);edkEnd();
-        posTemp.y = this->animationPosition.getClockY(this->position.y);edkEnd();
-        posTemp.z = this->animationPosition.getClockZ(this->position.z);edkEnd();
+        edk::vec3f32 posTemp;
+        posTemp.x = this->animationPosition.getClockX(this->position.x);
+        posTemp.y = this->animationPosition.getClockY(this->position.y);
+        posTemp.z = this->animationPosition.getClockZ(this->position.z);
         //set the value
-        this->position = posTemp;edkEnd();
-        ret=true;edkEnd();
+        this->position = posTemp;
+        ret=true;
     }
     if(this->animationRotation.isPlaying()){
         //
-        edk::float32 angleTemp = this->animationRotation.getClockX();edkEnd();
+        edk::float32 angleTemp = this->animationRotation.getClockX();
         //set the value
-        this->angle = angleTemp;edkEnd();
-        ret=true;edkEnd();
+        this->angle = angleTemp;
+        ret=true;
     }
     if(this->animationSize.isPlaying()){
         //
-        edk::size3f32 sizeTemp;edkEnd();
-        sizeTemp.width = this->animationSize.getClockX();edkEnd();
-        sizeTemp.height = this->animationSize.getClockY();edkEnd();
-        sizeTemp.length = this->animationSize.getClockZ();edkEnd();
+        edk::size3f32 sizeTemp;
+        sizeTemp.width = this->animationSize.getClockX();
+        sizeTemp.height = this->animationSize.getClockY();
+        sizeTemp.length = this->animationSize.getClockZ();
         //set the value
-        this->size = sizeTemp;edkEnd();
-        ret=true;edkEnd();
+        this->size = sizeTemp;
+        ret=true;
     }
     return ret;
 }
 bool edk::Object3DValues::updateAnimations(edk::float32 seconds){
-    bool ret=false;edkEnd();
-    this->animationPosition.updateClockAnimation(seconds);edkEnd();
-    this->animationRotation.updateClockAnimation(seconds);edkEnd();
-    this->animationSize.updateClockAnimation(seconds);edkEnd();
+    bool ret=false;
+    this->animationPosition.updateClockAnimation(seconds);
+    this->animationRotation.updateClockAnimation(seconds);
+    this->animationSize.updateClockAnimation(seconds);
     //test if are playing the animations
     if(this->animationPosition.isPlaying()){
         //
-        edk::vec3f32 posTemp;edkEnd();
-        posTemp.x = this->animationPosition.getClockX(this->position.x);edkEnd();
-        posTemp.y = this->animationPosition.getClockY(this->position.y);edkEnd();
-        posTemp.z = this->animationPosition.getClockZ(this->position.z);edkEnd();
+        edk::vec3f32 posTemp;
+        posTemp.x = this->animationPosition.getClockX(this->position.x);
+        posTemp.y = this->animationPosition.getClockY(this->position.y);
+        posTemp.z = this->animationPosition.getClockZ(this->position.z);
         //set the value
-        this->position = posTemp;edkEnd();
-        ret=true;edkEnd();
+        this->position = posTemp;
+        ret=true;
     }
     if(this->animationRotation.isPlaying()){
         //
-        edk::float32 angleTemp = this->animationRotation.getClockX();edkEnd();
+        edk::float32 angleTemp = this->animationRotation.getClockX();
         //set the value
-        this->angle = angleTemp;edkEnd();
-        ret=true;edkEnd();
+        this->angle = angleTemp;
+        ret=true;
     }
     if(this->animationSize.isPlaying()){
         //
-        edk::size3f32 sizeTemp;edkEnd();
-        sizeTemp.width = this->animationSize.getClockX();edkEnd();
-        sizeTemp.height = this->animationSize.getClockY();edkEnd();
-        sizeTemp.length = this->animationSize.getClockZ();edkEnd();
+        edk::size3f32 sizeTemp;
+        sizeTemp.width = this->animationSize.getClockX();
+        sizeTemp.height = this->animationSize.getClockY();
+        sizeTemp.length = this->animationSize.getClockZ();
         //set the value
-        this->size = sizeTemp;edkEnd();
-        ret=true;edkEnd();
+        this->size = sizeTemp;
+        ret=true;
     }
     return ret;
 }

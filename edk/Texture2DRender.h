@@ -43,7 +43,8 @@ public:
     Texture2DRender();
     virtual ~Texture2DRender();
 
-    void Constructor(bool runFather=true);
+    void Constructor();
+    void Destructor();
 
     //Load the renderTexture
     bool createRender(edk::size2ui32 size,edk::uint32 filter = GU_NEAREST);

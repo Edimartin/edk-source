@@ -57,7 +57,8 @@ public:
     ObjectGui2dBorder();
     virtual ~ObjectGui2dBorder();
 
-    void Constructor(bool runFather=true);
+    void Constructor();
+    void Destructor();
 
     //save the FontTemplate
     static bool saveTemplate(const edk::char8* folder);

@@ -53,44 +53,44 @@ class QueueCel : public edk::vector::Array<typeTemplate>{
 public:
     //construtor
     QueueCel(){
-        this->classThis=NULL;edkEnd();
-        this->Constructor(false);edkEnd();
+        this->classThis=NULL;
+        this->Constructor();
     }
     QueueCel(edk::uint32 size){
-        this->classThis=NULL;edkEnd();
-        this->Constructor(size,false);edkEnd();
+        this->classThis=NULL;
+        this->Constructor(size);
     }
     //Destrutor
     virtual ~QueueCel(){
-        if(this->classThis==this){
-            this->classThis=NULL;edkEnd();
-            //can destruct the class
-            //clean the next
-            this->next=NULL;edkEnd();
-        }
+        this->Destructor();
     }
 
-    void Constructor(bool runFather=true){
-        if(runFather){
-            edk::vector::Array<typeTemplate>::Constructor();edkEnd();
-        }
+    void Constructor(){
+        edk::vector::Array<typeTemplate>::Constructor();
         if(this->classThis!=this){
             this->classThis=this;
             //clean the next
-            this->next=NULL;edkEnd();
+            this->next=NULL;
         }
     }
-    void Constructor(edk::uint32 size,bool runFather=true){
-        if(runFather){
-            edk::vector::Array<typeTemplate>::Constructor();edkEnd();
-        }
+    void Constructor(edk::uint32 size){
+        edk::vector::Array<typeTemplate>::Constructor();
         if(this->classThis!=this){
             this->classThis=this;
             //clean the next
-            this->next=NULL;edkEnd();
+            this->next=NULL;
             //
-            this->createArray(size);edkEnd();
+            this->createArray(size);
         }
+    }
+    void Destructor(){
+        if(this->classThis==this){
+            this->classThis=NULL;
+            //can destruct the class
+            //clean the next
+            this->next=NULL;
+        }
+        edk::vector::Array<typeTemplate>::Destructor();
     }
 
     //Next array
@@ -105,30 +105,25 @@ template <class typeTemplate>
 class Queue{
 public:
     Queue(){
-        this->classThis=NULL;edkEnd();
-        this->Constructor(false);
+        this->classThis=NULL;
+        this->Constructor();
     }
     Queue(edk::uint32 size){
-        this->classThis=NULL;edkEnd();
-        this->Constructor(size,false);
+        this->classThis=NULL;
+        this->Constructor(size);
     }
     virtual ~Queue(){
-        if(this->classThis==this){
-            this->classThis=NULL;edkEnd();
-            //can destruct the class
-            this->clean(10u);
-        }
+        this->Destructor();
     }
 
-    void Constructor(bool runFather=true){
-        if(runFather){edkEnd();}
+    void Constructor(){
         if(this->classThis!=this){
             this->classThis=this;
             //
-            this->first = this->last = NULL;edkEnd();
-            this->arraySize = PatternArraySize;edkEnd();
-            this->start = this->end = 0u;edkEnd();
-            this->_size = 0u;edkEnd();
+            this->first = this->last = NULL;
+            this->arraySize = PatternArraySize;
+            this->start = this->end = 0u;
+            this->_size = 0u;
 
             //Have the first cel
             this->firstPointer=&this->first;
@@ -139,20 +134,19 @@ public:
             this->_sizePointer=&this->_size;
         }
     }
-    void Constructor(edk::uint32 size,bool runFather=true){
-        if(runFather){edkEnd();}
+    void Constructor(edk::uint32 size){
         if(this->classThis!=this){
             this->classThis=this;
             //
-            this->first = this->last = NULL;edkEnd();
+            this->first = this->last = NULL;
             if(size){
-                this->arraySize = size;edkEnd();
+                this->arraySize = size;
             }
             else{
-                this->arraySize = PatternArraySize;edkEnd();
+                this->arraySize = PatternArraySize;
             }
-            this->start = this->end = 0u;edkEnd();
-            this->_size = 0u;edkEnd();
+            this->start = this->end = 0u;
+            this->_size = 0u;
 
             //Have the first cel
             this->firstPointer=&this->first;
@@ -161,6 +155,13 @@ public:
             this->startPointer=&this->start;
             this->endPointer=&this->end;
             this->_sizePointer=&this->_size;
+        }
+    }
+    void Destructor(){
+        if(this->classThis==this){
+            this->classThis=NULL;
+            //can destruct the class
+            this->clean(10u);
         }
     }
 
@@ -169,28 +170,28 @@ public:
         //test the arraySiIze
         if(size){
             //set the arraySize
-            (*this->arraySizePointer)=size;edkEnd();
+            (*this->arraySizePointer)=size;
         }
         else{
-            (*this->arraySizePointer)=PatternArraySize;edkEnd();
+            (*this->arraySizePointer)=PatternArraySize;
         }
 
         //clean the vectors
-        edk::vector::QueueCel<typeTemplate>* temp = NULL;edkEnd();
-        edk::vector::QueueCel<typeTemplate>* tempDelete = (*this->firstPointer);edkEnd();
+        edk::vector::QueueCel<typeTemplate>* temp = NULL;
+        edk::vector::QueueCel<typeTemplate>* tempDelete = (*this->firstPointer);
         while(tempDelete){
             //
             if(tempDelete->next){
-                temp=tempDelete->next;edkEnd();
+                temp=tempDelete->next;
             }
             else{
-                temp=NULL;edkEnd();
+                temp=NULL;
             }
             //delete the tempDelete
-            delete tempDelete;edkEnd();
-            tempDelete = temp;edkEnd();
+            delete tempDelete;
+            tempDelete = temp;
         }
-        (*this->firstPointer)=(*this->lastPointer)=NULL;edkEnd();
+        (*this->firstPointer)=(*this->lastPointer)=NULL;
     }
     void clean(){
         this->clean((*this->arraySizePointer));
@@ -201,43 +202,43 @@ public:
         //test if have the end
         if(!(*this->lastPointer)){
             //create a new first and last
-            (*this->firstPointer) = new edk::vector::QueueCel<typeTemplate>((*this->arraySizePointer));edkEnd();
+            (*this->firstPointer) = new edk::vector::QueueCel<typeTemplate>((*this->arraySizePointer));
             if((*this->firstPointer)){
                 //set the last
-                (*this->lastPointer) = (*this->firstPointer);edkEnd();
+                (*this->lastPointer) = (*this->firstPointer);
             }
-            (*this->startPointer) = (*this->endPointer) = 0u;edkEnd();
-            (*this->_sizePointer) = 0u;edkEnd();
+            (*this->startPointer) = (*this->endPointer) = 0u;
+            (*this->_sizePointer) = 0u;
         }
         if((*this->lastPointer)){
             //add the value
-            (*this->lastPointer)->set((*this->endPointer),value);edkEnd();
+            (*this->lastPointer)->set((*this->endPointer),value);
             //increment the end
-            (*this->endPointer)++;edkEnd();
+            (*this->endPointer)++;
             //test if the increment is passing the size
             if((*this->endPointer)>=(*this->arraySizePointer)){
                 //create the next last
-                (*this->lastPointer)->next = new edk::vector::QueueCel<typeTemplate>((*this->arraySizePointer));edkEnd();
+                (*this->lastPointer)->next = new edk::vector::QueueCel<typeTemplate>((*this->arraySizePointer));
                 if((*this->lastPointer)->next){
-                    (*this->lastPointer) = (*this->lastPointer)->next;edkEnd();
+                    (*this->lastPointer) = (*this->lastPointer)->next;
                 }
-                (*this->endPointer)=0u;edkEnd();
+                (*this->endPointer)=0u;
             }
-            (*this->_sizePointer)++;edkEnd();
+            (*this->_sizePointer)++;
 #if defined(EDK_DEBUG_VECTOR)
-                edkWriteClassDebugNoPosition(this,this->generateDebugValue(&value),true);
+            edkWriteClassDebugNoPosition(this,this->generateDebugValue(&value),true);
 #endif
             return true;
         }
 #if defined(EDK_DEBUG_VECTOR)
-                edkWriteClassDebugNoPosition(this,this->generateDebugValue(&value),false);
+        edkWriteClassDebugNoPosition(this,this->generateDebugValue(&value),false);
 #endif
         return false;
     }
 
     //pop front
     typeTemplate popFront(){
-        typeTemplate ret;edkEnd();
+        typeTemplate ret;
         memset((edk::classID)&ret,0,sizeof(typeTemplate));
         //test if have the first
         if((*this->firstPointer)){
@@ -246,52 +247,52 @@ public:
                 //only get the value if the start is smaller then the end
                 if((*this->startPointer)<(*this->endPointer)){
                     //get the value
-                    ret = (*this->firstPointer)->get((*this->startPointer));edkEnd();
+                    ret = (*this->firstPointer)->get((*this->startPointer));
                     //increment the start
-                    (*this->startPointer)++;edkEnd();
+                    (*this->startPointer)++;
                     if((*this->_sizePointer)){
                         (*this->_sizePointer)--;
                     }
                 }
                 if((*this->startPointer)>=(*this->endPointer)){
                     //get the last value. Delete the cel's
-                    delete first;edkEnd();
-                    (*this->firstPointer) = (*this->lastPointer) = NULL;edkEnd();
-                    (*this->startPointer) = (*this->endPointer) = 0u;edkEnd();
-                    (*this->_sizePointer) = 0u;edkEnd();
+                    delete first;
+                    (*this->firstPointer) = (*this->lastPointer) = NULL;
+                    (*this->startPointer) = (*this->endPointer) = 0u;
+                    (*this->_sizePointer) = 0u;
                 }
             }
             else{
                 //get the value
-                ret = (*this->firstPointer)->get((*this->startPointer));edkEnd();
+                ret = (*this->firstPointer)->get((*this->startPointer));
                 //increment the start
-                (*this->startPointer)++;edkEnd();
+                (*this->startPointer)++;
                 if((*this->_sizePointer)){
-                    (*this->_sizePointer)--;edkEnd();
+                    (*this->_sizePointer)--;
                 }
 
                 //test if reach the end
                 if((*this->startPointer)>=(*this->arraySizePointer)){
                     //delete the first and go to the next
-                    edk::vector::QueueCel<typeTemplate>* temp = (*this->firstPointer);edkEnd();
-                    (*this->firstPointer) = (*this->firstPointer)->next;edkEnd();
-                    delete temp;edkEnd();
-                    (*this->startPointer) = 0u;edkEnd();
+                    edk::vector::QueueCel<typeTemplate>* temp = (*this->firstPointer);
+                    (*this->firstPointer) = (*this->firstPointer)->next;
+                    delete temp;
+                    (*this->startPointer) = 0u;
 
 
                     //tes if reach the last
                     if((*this->firstPointer)==(*this->lastPointer) && !(*this->endPointer)){
                         //delete the first and last
-                        delete first;edkEnd();
-                        (*this->firstPointer) = (*this->lastPointer) = NULL;edkEnd();
-                        (*this->startPointer) = (*this->endPointer) = 0u;edkEnd();
-                        (*this->_sizePointer) = 0u;edkEnd();
+                        delete first;
+                        (*this->firstPointer) = (*this->lastPointer) = NULL;
+                        (*this->startPointer) = (*this->endPointer) = 0u;
+                        (*this->_sizePointer) = 0u;
                     }
                 }
             }
         }
 #if defined(EDK_DEBUG_VECTOR)
-                edkWriteClassDebugNoPosition(this,this->generateDebugValue(&ret),true);
+        edkWriteClassDebugNoPosition(this,this->generateDebugValue(&ret),true);
 #endif
         return ret;
     }
@@ -299,14 +300,14 @@ public:
     //GETTERS
     //return the vector size
     edk::uint32  size(){
-        return (*this->_sizePointer);edkEnd();
+        return (*this->_sizePointer);
     }
     edk::uint32  getSize(){
-        return this->size();edkEnd();
+        return this->size();
     }
     //return the value in a position
     typeTemplate get(edk::uint32 pos){
-        typeTemplate ret;edkEnd();
+        typeTemplate ret;
         memset((edk::classID)&ret,0,sizeof(typeTemplate));
         //first test if have the first cell
         if((*this->firstPointer) && pos<(*this->_sizePointer)){
@@ -316,9 +317,9 @@ public:
                 memcpy((edk::classID)&ret,(edk::classID)&(*this->firstPointer)->getPointer()[(*this->startPointer)+pos],sizeof(typeTemplate));
             }
             else{
-                pos-=(*this->arraySizePointer)-(*this->startPointer);edkEnd();
+                pos-=(*this->arraySizePointer)-(*this->startPointer);
                 //else search for the value in other cel's
-                edk::vector::QueueCel<typeTemplate>* temp = (*this->firstPointer)->next;edkEnd();
+                edk::vector::QueueCel<typeTemplate>* temp = (*this->firstPointer)->next;
                 while(temp){
                     //test if the value is in this cel
                     if(pos<(*this->arraySizePointer)){
@@ -338,14 +339,14 @@ public:
                     }
                     else{
                         //else go to the next
-                        temp=temp->next;edkEnd();
-                        pos-=(*this->arraySizePointer);edkEnd();
+                        temp=temp->next;
+                        pos-=(*this->arraySizePointer);
                     }
                 }
             }
         }
 #if defined(EDK_DEBUG_VECTOR)
-                edkWriteClassDebug(this,pos,this->generateDebugValue(&ret),true);
+        edkWriteClassDebug(this,pos,this->generateDebugValue(&ret),true);
 #endif
         return ret;
     }
@@ -371,12 +372,12 @@ private:
 private:
 #if defined(EDK_DEBUG_VECTOR)
     inline edk::uint64 generateDebugValue(typeTemplate* value){
-        edk::uint64 newValue=0uL;edkEnd();
+        edk::uint64 newValue=0uL;
         if(sizeof(typeTemplate)>=sizeof(newValue)){
-            memcpy((void*)&newValue,(void*)value,sizeof(newValue));edkEnd();
+            memcpy((void*)&newValue,(void*)value,sizeof(newValue));
         }
         else{
-            memcpy((void*)&newValue,(void*)value,sizeof(typeTemplate));edkEnd();
+            memcpy((void*)&newValue,(void*)value,sizeof(typeTemplate));
         }
         return newValue;
     }

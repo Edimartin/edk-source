@@ -76,7 +76,8 @@ public:
 
     virtual ~Window();
 
-    void Constructor(bool runFather=true);
+    void Constructor();
+    void Destructor();
 
     bool createWindow(edk::uint32 width, edk::uint32 height/*, edk::uint32 bitsPerPixel*/, char8 *name, typeID design, edk::uint32 depth, edk::uint32 stencil, edk::uint32 antialiasing);
 

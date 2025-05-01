@@ -56,20 +56,16 @@ bool edk::GU::canLoadTexture=true;
 
 //construtor
 edk::GU::GU(){
-    this->classThis=NULL;edkEnd();
-    this->Constructor(false);edkEnd();
+    this->classThis=NULL;
+    this->Constructor();
 }
 
 //destrutor
 edk::GU::~GU(){
-    if(this->classThis==this){
-        this->classThis=NULL;edkEnd();
-        //can destruct the class
-    }
+    this->Destructor();
 }
 
-void edk::GU::Constructor(bool /*runFather*/){
-    //
+void edk::GU::Constructor(){
     if(this->classThis!=this){
         this->classThis=this;
         if(edk::GU::templateConstructNeed){
@@ -82,6 +78,12 @@ void edk::GU::Constructor(bool /*runFather*/){
             edk::GU::genMipmaps.Constructor();
             edk::GU::templateConstructNeed=false;
         }
+    }
+}
+void edk::GU::Destructor(){
+    if(this->classThis==this){
+        this->classThis=NULL;
+        //can destruct the class
     }
 }
 

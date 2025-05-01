@@ -45,7 +45,8 @@ public:
     ViewTextField();
     virtual ~ViewTextField();
 
-    void Constructor(bool runFather=true);
+    void Constructor();
+    void Destructor();
 
     void load(rectf32 outsideViewOrigin);
     void unload();
@@ -84,7 +85,8 @@ private:
         TextField();
         virtual ~TextField();
 
-        void Constructor(bool runFather=true);
+        void Constructor();
+        void Destructor();
 
         void eventMousePressed(edk::vec2f32 point,edk::uint32 button);
         void eventMouseMoved(edk::vec2f32 point,edk::vec2f32 moved,edk::uint32 button);

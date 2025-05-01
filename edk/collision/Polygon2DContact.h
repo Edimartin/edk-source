@@ -54,7 +54,8 @@ public:
     Polygon2DContact();
     virtual ~Polygon2DContact();
 
-    void Constructor(bool runFather=true);
+    void Constructor();
+    void Destructor();
 
     //boolean with two polygons
     static bool booleanAnotB(edk::shape::Polygon2D* polyA,edk::shape::Polygon2D* polyB,edk::shape::Polygon2D* polyDest);
@@ -64,22 +65,28 @@ public:
 private:
     class ContactVertex{
     public:
-        ContactVertex(){this->classThis=NULL;this->Constructor(false); }
+        ContactVertex(){
+            this->classThis=NULL;
+            this->Constructor();
+        }
         virtual ~ContactVertex(){
+            this->Destructor();
+        }
+
+        void Constructor(){
+            if(this->classThis!=this){
+                this->classThis=this;
+
+                this->vec.Constructor();
+            }
+        }
+        void Destructor(){
             if(this->classThis==this){
                 this->classThis=NULL;
                 //can destruct the class
             }
         }
 
-        void Constructor(bool runFather=true){
-            if(runFather){ }
-            if(this->classThis!=this){
-                this->classThis=this;
-
-                this->vec.Constructor();edkEnd();
-            }
-        }
         edk::shape::Vertex2DAnimatedUV vec;
         edk::vec2ui32 posA;
         edk::vec2ui32 posB;

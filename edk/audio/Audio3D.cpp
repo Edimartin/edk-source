@@ -29,36 +29,38 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endif
 
 edk::Audio3D::Audio3D(){
-    this->classThis=NULL;edkEnd();
-    this->Constructor(false);edkEnd();
+    this->classThis=NULL;
+    this->Constructor();
 }
 
 edk::Audio3D::~Audio3D(){
-    if(this->classThis==this){
-        this->classThis=NULL;edkEnd();
-        //can destruct the class
-    }
+    this->Destructor();
 }
 
-void edk::Audio3D::Constructor(bool runFather){
-    if(runFather){
-        edk::Audio::Constructor();edkEnd();
-    }
+void edk::Audio3D::Constructor(){
+    edk::Audio::Constructor();
     if(this->classThis!=this){
         this->classThis=this;
     }
+}
+void edk::Audio3D::Destructor(){
+    if(this->classThis==this){
+        this->classThis=NULL;
+        //can destruct the class
+    }
+    edk::Audio::Destructor();
 }
 
 //OPEN
 bool edk::Audio3D::open(const edk::char8* name){
     //
-    return this->open((edk::char8*) name);edkEnd();
+    return this->open((edk::char8*) name);
 }
 bool edk::Audio3D::open(edk::char8* name){
     //open the audio
     if(edk::Audio::open(name)){
         //then set the position of the audio
-        this->setPosition3D(this->position);edkEnd();
+        this->setPosition3D(this->position);
         //then return true
         return true;
     }
@@ -66,13 +68,13 @@ bool edk::Audio3D::open(edk::char8* name){
     return false;
 }
 bool edk::Audio3D::openFromMemory(const edk::char8* name,edk::classID vector,edk::uint32 size){
-    return this->openFromMemory((edk::char8*) name,vector,size);edkEnd();
+    return this->openFromMemory((edk::char8*) name,vector,size);
 }
 bool edk::Audio3D::openFromMemory(edk::char8* name,edk::classID vector,edk::uint32 size){
     //open the audio
     if(edk::Audio::openFromMemory(name,vector,size)){
         //then set the position of the audio
-        this->setPosition3D(this->position);edkEnd();
+        this->setPosition3D(this->position);
         //then return true
         return true;
     }
@@ -80,13 +82,13 @@ bool edk::Audio3D::openFromMemory(edk::char8* name,edk::classID vector,edk::uint
     return false;
 }
 bool edk::Audio3D::openFromPack(edk::pack::FilePackage* pack,const edk::char8* name){
-    return this->openFromPack(pack,(edk::char8*) name);edkEnd();
+    return this->openFromPack(pack,(edk::char8*) name);
 }
 bool edk::Audio3D::openFromPack(edk::pack::FilePackage* pack,edk::char8* name){
     //open the audio
     if(edk::Audio::openFromPack(pack,name)){
         //then set the position of the audio
-        this->setPosition3D(this->position);edkEnd();
+        this->setPosition3D(this->position);
         //then return true
         return true;
     }
@@ -97,26 +99,26 @@ bool edk::Audio3D::openFromPack(edk::pack::FilePackage* pack,edk::char8* name){
 //Set the listener position
 void edk::Audio3D::setListenerPosition3D(edk::vec3f32 position){
     //
-    //sf::Listener::SetPosition(position.x,position.y,position.z);edkEnd();//1.6
-    sf::Listener::setPosition(position.x,position.y,position.z);edkEnd();//2.0
+    //sf::Listener::SetPosition(position.x,position.y,position.z); //1.6
+    sf::Listener::setPosition(position.x,position.y,position.z); //2.0
 }
 //Set the listener lookAt
 void edk::Audio3D::setListenerLookAt3D(edk::vec3f32 lookAt){
     //
-    //sf::Listener::SetTarget(lookAt.x,lookAt.y,lookAt.z);edkEnd();//1.6
-    sf::Listener::setDirection(lookAt.x,lookAt.y,lookAt.z);edkEnd();//2.0
+    //sf::Listener::SetTarget(lookAt.x,lookAt.y,lookAt.z); //1.6
+    sf::Listener::setDirection(lookAt.x,lookAt.y,lookAt.z); //2.0
 }
 
 //SETERS
 //Set the position of the audio in the cene
 bool edk::Audio3D::setPosition3D(edk::vec3f32 position){
     //save the position
-    this->position=position;edkEnd();
+    this->position=position;
     //
     if(this->sound){
         //
-        //this->sound->SetPosition(sf::Vector3f(this->position.x,this->position.y,this->position.z));edkEnd();//1.6
-        this->sound->setPosition(sf::Vector3f(this->position.x,this->position.y,this->position.z));edkEnd();//2.0
+        //this->sound->SetPosition(sf::Vector3f(this->position.x,this->position.y,this->position.z)); //1.6
+        this->sound->setPosition(sf::Vector3f(this->position.x,this->position.y,this->position.z)); //2.0
         return true;
     }
     //else return false
@@ -125,14 +127,14 @@ bool edk::Audio3D::setPosition3D(edk::vec3f32 position){
 //set if are using the listener
 bool edk::Audio3D::useListener(bool use){
     //clean haveListener
-    this->haveListener=false;edkEnd();
+    this->haveListener=false;
     //test if have a sound
     if(this->sound){
         //the set are using the listener
-        //this->sound->SetRelativeToListener(use);edkEnd();//1.6
-        this->sound->setRelativeToListener(use);edkEnd();//2.0
+        //this->sound->SetRelativeToListener(use); //1.6
+        this->sound->setRelativeToListener(use); //2.0
         //save haveListener
-        this->haveListener=use;edkEnd();
+        this->haveListener=use;
         //return true
         return true;
     }
@@ -144,5 +146,5 @@ bool edk::Audio3D::useListener(bool use){
 //return if are using the listener
 bool edk::Audio3D::usingListener(){
     //
-    return this->haveListener;edkEnd();
+    return this->haveListener;
 }

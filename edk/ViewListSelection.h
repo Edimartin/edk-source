@@ -46,7 +46,8 @@ public:
     ViewListSelection();
     virtual ~ViewListSelection();
 
-    void Constructor(bool runFather=true);
+    void Constructor();
+    void Destructor();
 
     //Events
     void eventMousePressed(edk::vec2f32 point,edk::uint32 button);

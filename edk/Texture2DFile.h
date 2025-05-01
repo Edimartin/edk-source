@@ -81,9 +81,10 @@ public:
     Texture2DFile(const char *textureFileName);
     virtual ~Texture2DFile();
 
-    void Constructor(bool runFather=true);
-    void Constructor(edk::char8 *textureFileName,bool runFather=true);
-    void Constructor(const char *textureFileName,bool runFather=true);
+    void Constructor();
+    void Constructor(edk::char8 *textureFileName);
+    void Constructor(const char *textureFileName);
+    void Destructor();
 
     //set the debugFile Name
     static bool createDebugFile(const edk::char8* name);

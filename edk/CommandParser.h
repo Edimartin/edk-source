@@ -44,8 +44,9 @@ public:
     CommandParser(edk::int32 argc,edk::char8* argv[]);
     virtual ~CommandParser();
 
-    void Constructor(bool runFather=true);
-    void Constructor(edk::int32 argc,edk::char8* argv[],bool runFather=true);
+    void Constructor();
+    void Constructor(edk::int32 argc,edk::char8* argv[]);
+    void Destructor();
 
     //new command
     bool addCommand(const edk::char8* command,const edk::char8* value);
@@ -100,7 +101,8 @@ private:
         Command();
         virtual ~Command();
 
-        void Constructor(bool runFather=true);
+        void Constructor();
+        void Destructor();
 
         //command value
         edk::Name value;
@@ -118,7 +120,8 @@ private:
         TreeCommand();
         virtual ~TreeCommand();
 
-        void Constructor(bool runFather=true);
+        void Constructor();
+        void Destructor();
         //Print the command and value
         void printElement(edk::Name* value);
         //print only the command name

@@ -51,7 +51,8 @@ public:
     Text2D();
     virtual ~Text2D();
 
-    void Constructor(bool runFather=true);
+    void Constructor();
+    void Destructor();
 
     //load the button textures and meshes
     bool load();

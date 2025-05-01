@@ -68,18 +68,21 @@ const edk::char8 *hexPrint[256u] = {
 
 edk::BinaryConverter::BinaryConverter(){
     this->classThis=NULL;
-    this->Constructor(false);
+    this->Constructor();
 }
 edk::BinaryConverter::~BinaryConverter(){
+    this->Destructor();
+}
+
+void edk::BinaryConverter::Constructor(){
+    if(this->classThis!=this){
+        this->classThis=this;
+    }
+}
+void edk::BinaryConverter::Destructor(){
     if(this->classThis==this){
         this->classThis=NULL;
         //can destruct the class
-    }
-}
-
-void edk::BinaryConverter::Constructor(bool /*runFather*/){
-    if(this->classThis!=this){
-        this->classThis=this;
     }
 }
 

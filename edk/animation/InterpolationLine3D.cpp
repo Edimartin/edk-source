@@ -29,54 +29,56 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endif
 
 edk::animation::InterpolationLine3D::InterpolationLine3D(){
-    this->classThis=NULL;edkEnd();
-    this->Constructor(false);edkEnd();
+    this->classThis=NULL;
+    this->Constructor();
 }
 
 edk::animation::InterpolationLine3D::~InterpolationLine3D(){
-    if(this->classThis==this){
-        this->classThis=NULL;edkEnd();
-        //can destruct the class
-    }
+    this->Destructor();
 }
 
-void edk::animation::InterpolationLine3D::Constructor(bool runFather){
-    if(runFather){
-        edk::animation::InterpolationLine2D::Constructor();
-    }
+void edk::animation::InterpolationLine3D::Constructor(){
+    edk::animation::InterpolationLine2D::Constructor();
     if(this->classThis!=this){
         this->classThis=this;
         //ctor
-        this->allocStart();edkEnd();
-        this->allocEnd();edkEnd();
-        this->curveZ=false;edkEnd();
-        this->constantZ=false;edkEnd();
+        this->allocStart();
+        this->allocEnd();
+        this->curveZ=false;
+        this->constantZ=false;
     }
+}
+void edk::animation::InterpolationLine3D::Destructor(){
+    if(this->classThis==this){
+        this->classThis=NULL;
+        //can destruct the class
+    }
+    edk::animation::InterpolationLine2D::Destructor();
 }
 
 //set new
 edk::animation::Frame* edk::animation::InterpolationLine3D::useNewFrame(edk::uint8 count,edk::float32 values,...){
     //
-    edk::float32* value = &values;edkEnd();
+    edk::float32* value = &values;
     switch(count){
     case 1:
         //
-        edkEnd();
+
         return (edk::animation::Frame*)(new edk::animation::Frame3D(value[0],0.0f,0.0f,0.0f));
     case 2:
         //
-        edkEnd();
+
         return (edk::animation::Frame*)(new edk::animation::Frame3D(value[0],value[1],0.0f,0.0f));
     case 3:
         //
-        edkEnd();
+
         return (edk::animation::Frame*)(new edk::animation::Frame3D(value[0],value[1],value[2],0.0f));
     case 4:
         //
-        edkEnd();
+
         return (edk::animation::Frame*)(new edk::animation::Frame3D(value[0],value[1],value[2],value[3]));
     default:
-        edkEnd();
+
         return (edk::animation::Frame*)(new edk::animation::Frame3D());
     }
     return NULL;
@@ -88,22 +90,22 @@ bool edk::animation::InterpolationLine3D::setStart(edk::animation::Frame3D* fram
     //Set the Frame2D data
     if(edk::animation::InterpolationLine2D::setStart(frame)){
         //convert to set the 2D
-        edk::animation::Frame3D* temp = (edk::animation::Frame3D*)this->start;edkEnd();
-        temp->z=frame->z;edkEnd();
+        edk::animation::Frame3D* temp = (edk::animation::Frame3D*)this->start;
+        temp->z=frame->z;
         return true;
     }
     return false;
 }
 bool edk::animation::InterpolationLine3D::setStart(edk::float32 second,edk::vec3f32 value){
     //
-    return this->setStart(second,value.x,value.y,value.z);edkEnd();
+    return this->setStart(second,value.x,value.y,value.z);
 }
 bool edk::animation::InterpolationLine3D::setStart(edk::float32 second,edk::float32 x,edk::float32 y,edk::float32 z){
     //
     if(edk::animation::InterpolationLine2D::setStart(second,x,y)){
         //
-        edk::animation::Frame3D* temp = (edk::animation::Frame3D*)this->start;edkEnd();
-        temp->z=z;edkEnd();
+        edk::animation::Frame3D* temp = (edk::animation::Frame3D*)this->start;
+        temp->z=z;
         return true;
     }
     //else return false
@@ -113,8 +115,8 @@ bool edk::animation::InterpolationLine3D::setStartValue(edk::float32 x,edk::floa
     //test if are using a frame alloc
     if(edk::animation::InterpolationLine2D::setStartValue(x,y)){
         //
-        edk::animation::Frame3D* temp = (edk::animation::Frame3D*)this->start;edkEnd();
-        temp->z=z;edkEnd();
+        edk::animation::Frame3D* temp = (edk::animation::Frame3D*)this->start;
+        temp->z=z;
         //return true
         return true;
     }
@@ -125,8 +127,8 @@ bool edk::animation::InterpolationLine3D::setEnd(edk::animation::Frame3D* frame)
     //first test if can set the second and x
     if(edk::animation::InterpolationLine2D::setEnd(frame)){
         //convert to set the Frame3D
-        edk::animation::Frame3D* temp = (edk::animation::Frame3D*)this->end;edkEnd();
-        temp->z=frame->z;edkEnd();
+        edk::animation::Frame3D* temp = (edk::animation::Frame3D*)this->end;
+        temp->z=frame->z;
         //return true
         return true;
     }
@@ -135,14 +137,14 @@ bool edk::animation::InterpolationLine3D::setEnd(edk::animation::Frame3D* frame)
 }
 bool edk::animation::InterpolationLine3D::setEnd(edk::float32 second,edk::vec3f32 value){
     //
-    return this->setEnd(second,value.x,value.y,value.z);edkEnd();
+    return this->setEnd(second,value.x,value.y,value.z);
 }
 bool edk::animation::InterpolationLine3D::setEnd(edk::float32 second,edk::float32 x,edk::float32 y,edk::float32 z){
     //
     if(edk::animation::InterpolationLine2D::setEnd(second,x,y)){
         //
-        edk::animation::Frame3D* temp = (edk::animation::Frame3D*)this->end;edkEnd();
-        temp->z=z;edkEnd();
+        edk::animation::Frame3D* temp = (edk::animation::Frame3D*)this->end;
+        temp->z=z;
         return true;
     }
     //else return false
@@ -152,8 +154,8 @@ bool edk::animation::InterpolationLine3D::setEndValue(edk::float32 x,edk::float3
     //test if are using a frame alloc
     if(edk::animation::InterpolationLine2D::setEndValue(x,y)){
         //
-        edk::animation::Frame3D* temp = (edk::animation::Frame3D*)this->end;edkEnd();
-        temp->z=z;edkEnd();
+        edk::animation::Frame3D* temp = (edk::animation::Frame3D*)this->end;
+        temp->z=z;
         //return true
         return true;
     }
@@ -162,38 +164,38 @@ bool edk::animation::InterpolationLine3D::setEndValue(edk::float32 x,edk::float3
 }
 //set the points in the curve
 bool edk::animation::InterpolationLine3D::setP1Z(edk::float32 second,edk::float32 z){
-    bool ret=true;edkEnd();
+    bool ret=true;
     //filter the second
     if(second<this->start->second){
-        second = this->start->second;edkEnd();
-        ret=false;edkEnd();
+        second = this->start->second;
+        ret=false;
     }
     if(second>this->end->second){
-        second = this->end->second;edkEnd();
-        ret=false;edkEnd();
+        second = this->end->second;
+        ret=false;
     }
 
     //set the position
-    this->p1Z.width = second;edkEnd();
-    this->p1Z.height = z;edkEnd();
+    this->p1Z.width = second;
+    this->p1Z.height = z;
 
     return ret;
 }
 bool edk::animation::InterpolationLine3D::setP2Z(edk::float32 second,edk::float32 z){
-    bool ret=true;edkEnd();
+    bool ret=true;
     //filter the second
     if(second<this->start->second){
-        second = this->start->second;edkEnd();
-        ret=false;edkEnd();
+        second = this->start->second;
+        ret=false;
     }
     if(second>this->end->second){
-        second = this->end->second;edkEnd();
-        ret=false;edkEnd();
+        second = this->end->second;
+        ret=false;
     }
 
     //set the position
-    this->p2Z.width = second;edkEnd();
-    this->p2Z.height = z;edkEnd();
+    this->p2Z.width = second;
+    this->p2Z.height = z;
 
     return ret;
 }
@@ -201,23 +203,23 @@ bool edk::animation::InterpolationLine3D::setP2Z(edk::float32 second,edk::float3
 //Set as a curve
 bool edk::animation::InterpolationLine3D::setCurveZ(bool curve){
     if(this->curveZ!=curve){
-        this->curveZ = curve;edkEnd();
+        this->curveZ = curve;
 
-        edk::animation::Frame3D* tempStart = (edk::animation::Frame3D*)this->start;edkEnd();
-        edk::animation::Frame3D* tempEnd = (edk::animation::Frame3D*)this->end;edkEnd();
+        edk::animation::Frame3D* tempStart = (edk::animation::Frame3D*)this->start;
+        edk::animation::Frame3D* tempEnd = (edk::animation::Frame3D*)this->end;
 
         if(this->curveZ){
             edk::size2f32 dist = edk::size2f32(tempEnd->second - tempStart->second,
                                                tempEnd->z - tempStart->z
-                                               );edkEnd();
-            this->p1Z = dist*0.25;edkEnd();
-            this->p2Z = dist*0.75;edkEnd();
+                                               );
+            this->p1Z = dist*0.25;
+            this->p2Z = dist*0.75;
         }
         else{
-            this->p1Z.width = tempStart->second;edkEnd();
-            this->p1Z.height = tempStart->z;edkEnd();
-            this->p2Z.width = tempEnd->second;edkEnd();
-            this->p2Z.height = tempEnd->z;edkEnd();
+            this->p1Z.width = tempStart->second;
+            this->p1Z.height = tempStart->z;
+            this->p2Z.width = tempEnd->second;
+            this->p2Z.height = tempEnd->z;
         }
 
         return true;
@@ -225,54 +227,54 @@ bool edk::animation::InterpolationLine3D::setCurveZ(bool curve){
     return false;
 }
 void edk::animation::InterpolationLine3D::isCurveZ(){
-    this->setCurveZ(true);edkEnd();
+    this->setCurveZ(true);
 }
 void edk::animation::InterpolationLine3D::isNotCurveZ(){
-    this->setCurveZ(false);edkEnd();
+    this->setCurveZ(false);
 }
 bool edk::animation::InterpolationLine3D::getCurveZ(){
-    return this->curveZ;edkEnd();
+    return this->curveZ;
 }
 //set as constant interpolation
 void edk::animation::InterpolationLine3D::setConstantZ(){
-    this->constantZ=true;edkEnd();
-    this->setCurveZ(false);edkEnd();
+    this->constantZ=true;
+    this->setCurveZ(false);
 }
 void edk::animation::InterpolationLine3D::setLinearZ(){
-    this->constantZ=false;edkEnd();
-    this->setCurveZ(false);edkEnd();
+    this->constantZ=false;
+    this->setCurveZ(false);
 }
 
 //GETERS
 //return the start
 edk::animation::Frame3D edk::animation::InterpolationLine3D::getStart3D(){
     //convert the frame to return
-    edk::animation::Frame3D* ret = (edk::animation::Frame3D*)this->start;edkEnd();
-    return *ret;edkEnd();
+    edk::animation::Frame3D* ret = (edk::animation::Frame3D*)this->start;
+    return *ret;
 }
 //return the end
 edk::animation::Frame3D edk::animation::InterpolationLine3D::getEnd3D(){
     //convert the frame to return
-    edk::animation::Frame3D* ret = (edk::animation::Frame3D*)this->end;edkEnd();
-    return *ret;edkEnd();
+    edk::animation::Frame3D* ret = (edk::animation::Frame3D*)this->end;
+    return *ret;
 }
 
 //return the position in the second
 edk::float32 edk::animation::InterpolationLine3D::getPositionZ(edk::float32 second){
     //convert the two frames
-    edk::animation::Frame3D* retStart = (edk::animation::Frame3D*)this->start;edkEnd();
-    edk::animation::Frame3D* retEnd = (edk::animation::Frame3D*)this->end;edkEnd();
+    edk::animation::Frame3D* retStart = (edk::animation::Frame3D*)this->start;
+    edk::animation::Frame3D* retEnd = (edk::animation::Frame3D*)this->end;
     if(this->constantZ){
-        return retStart->z;edkEnd();
+        return retStart->z;
     }
     //else test the linear or curve
 
-    edk::float32 percent = ((second - retStart->second)/ distance);edkEnd();
+    edk::float32 percent = ((second - retStart->second)/ distance);
     if(percent>=1.f){
-        return retEnd->z;edkEnd();
+        return retEnd->z;
     }
     else if(percent<=0.f){
-        return retStart->z;edkEnd();
+        return retStart->z;
     }
     //test if is a curve
     if(this->curveZ){
@@ -280,91 +282,91 @@ edk::float32 edk::animation::InterpolationLine3D::getPositionZ(edk::float32 seco
                                     edk::vec2f32(this->p1Z.width,this->p1Z.height),
                                     edk::vec2f32(this->p2Z.width,this->p2Z.height),
                                     edk::vec2f32(retEnd->second,retEnd->z)
-                                    );edkEnd();
-        return bezier.getPoint(percent).y;edkEnd();
+                                    );
+        return bezier.getPoint(percent).y;
     }
     return retStart->z+((retEnd->z-retStart->z) *
                         percent
-                        );edkEnd();
+                        );
 }
 
 //write to XML
 bool edk::animation::InterpolationLine3D::writeToXMLStart(edk::XML* xml,edk::uint32 frameID){
-    edk::animation::Frame3D* temp = (edk::animation::Frame3D*)this->start;edkEnd();
-    return temp->writeToXML(xml,frameID);edkEnd();
+    edk::animation::Frame3D* temp = (edk::animation::Frame3D*)this->start;
+    return temp->writeToXML(xml,frameID);
 }
 bool edk::animation::InterpolationLine3D::writeToXMLEnd(edk::XML* xml,edk::uint32 frameID){
-    edk::animation::Frame3D* temp = (edk::animation::Frame3D*)this->end;edkEnd();
-    return temp->writeToXML(xml,frameID);edkEnd();
+    edk::animation::Frame3D* temp = (edk::animation::Frame3D*)this->end;
+    return temp->writeToXML(xml,frameID);
 }
 
 //write curve
 bool edk::animation::InterpolationLine3D::writeCurveToXML(edk::XML* xml,edk::uint32 curveID){
-    bool ret=edk::animation::InterpolationLine2D::writeCurveToXML(xml,curveID);edkEnd();
+    bool ret=edk::animation::InterpolationLine2D::writeCurveToXML(xml,curveID);
     if(xml && this->curveZ){
-        edk::char8* nameID = edk::String::int64ToStr(curveID);edkEnd();
+        edk::char8* nameID = edk::String::int64ToStr(curveID);
         if(nameID){
             //create the name
-            edk::char8* name = edk::String::strCat((edk::char8*)"curveZ_",nameID);edkEnd();
+            edk::char8* name = edk::String::strCat((edk::char8*)"curveZ_",nameID);
             if(name){
                 if(xml->addSelectedNextChild(name)){
                     if(xml->selectChild(name)){
                         //write the frame
-                        edk::char8* temp = NULL;edkEnd();
+                        edk::char8* temp = NULL;
                         //
-                        temp = edk::String::float32ToStr(this->p1Z.width);edkEnd();
+                        temp = edk::String::float32ToStr(this->p1Z.width);
                         if(temp){
-                            xml->addSelectedNextAttribute((edk::char8*)"p1W",temp);edkEnd();
-                            free(temp);edkEnd();
+                            xml->addSelectedNextAttribute((edk::char8*)"p1W",temp);
+                            free(temp);
                         }
-                        temp = edk::String::float32ToStr(this->p1Z.height);edkEnd();
+                        temp = edk::String::float32ToStr(this->p1Z.height);
                         if(temp){
-                            xml->addSelectedNextAttribute((edk::char8*)"p1H",temp);edkEnd();
-                            free(temp);edkEnd();
+                            xml->addSelectedNextAttribute((edk::char8*)"p1H",temp);
+                            free(temp);
                         }
-                        temp = edk::String::float32ToStr(this->p2Z.width);edkEnd();
+                        temp = edk::String::float32ToStr(this->p2Z.width);
                         if(temp){
-                            xml->addSelectedNextAttribute((edk::char8*)"p2W",temp);edkEnd();
-                            free(temp);edkEnd();
+                            xml->addSelectedNextAttribute((edk::char8*)"p2W",temp);
+                            free(temp);
                         }
-                        temp = edk::String::float32ToStr(this->p2Z.height);edkEnd();
+                        temp = edk::String::float32ToStr(this->p2Z.height);
                         if(temp){
-                            xml->addSelectedNextAttribute((edk::char8*)"p2H",temp);edkEnd();
-                            free(temp);edkEnd();
+                            xml->addSelectedNextAttribute((edk::char8*)"p2H",temp);
+                            free(temp);
                         }
 
-                        xml->selectFather();edkEnd();
-                        ret=true;edkEnd();
+                        xml->selectFather();
+                        ret=true;
                     }
                 }
-                free(name);edkEnd();
+                free(name);
             }
-            free(nameID);edkEnd();
+            free(nameID);
         }
     }
     return ret;
 }
 //read the curve
 bool edk::animation::InterpolationLine3D::readCurveFromXML(edk::XML* xml,edk::uint32 curveID){
-    bool ret=edk::animation::InterpolationLine2D::readCurveFromXML(xml,curveID);edkEnd();
+    bool ret=edk::animation::InterpolationLine2D::readCurveFromXML(xml,curveID);
     if(xml && this->curveZ){
-        edk::char8* nameID = edk::String::int64ToStr(curveID);edkEnd();
+        edk::char8* nameID = edk::String::int64ToStr(curveID);
         if(nameID){
             //create the name
-            edk::char8* name = edk::String::strCat((edk::char8*)"curveY_",nameID);edkEnd();
+            edk::char8* name = edk::String::strCat((edk::char8*)"curveY_",nameID);
             if(name){
                 if(xml->selectChild(name)){
                     //read the values
-                    this->p1Z.width = edk::String::strToFloat32(xml->getSelectedAttributeValueByName("p1W"));edkEnd();
-                    this->p1Z.height = edk::String::strToFloat32(xml->getSelectedAttributeValueByName("p1H"));edkEnd();
-                    this->p2Z.width = edk::String::strToFloat32(xml->getSelectedAttributeValueByName("p2W"));edkEnd();
-                    this->p2Z.height = edk::String::strToFloat32(xml->getSelectedAttributeValueByName("p2H"));edkEnd();
-                    xml->selectFather();edkEnd();
-                    ret=true;edkEnd();
+                    this->p1Z.width = edk::String::strToFloat32(xml->getSelectedAttributeValueByName("p1W"));
+                    this->p1Z.height = edk::String::strToFloat32(xml->getSelectedAttributeValueByName("p1H"));
+                    this->p2Z.width = edk::String::strToFloat32(xml->getSelectedAttributeValueByName("p2W"));
+                    this->p2Z.height = edk::String::strToFloat32(xml->getSelectedAttributeValueByName("p2H"));
+                    xml->selectFather();
+                    ret=true;
                 }
-                free(name);edkEnd();
+                free(name);
             }
-            free(nameID);edkEnd();
+            free(nameID);
         }
     }
     return ret;

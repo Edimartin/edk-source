@@ -45,7 +45,8 @@ public:
     KinematicObject2D();
     virtual ~KinematicObject2D();
 
-    void Constructor(bool runFather=true);
+    void Constructor();
+    void Destructor();
 private:
     edk::classID classThis;
 };

@@ -25,30 +25,32 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 edk::gui2d::BoxGui2d::BoxGui2d(){
-    this->classThis=NULL;edkEnd();
-    this->Constructor(false);edkEnd();
+    this->classThis=NULL;
+    this->Constructor();
 }
 edk::gui2d::BoxGui2d::~BoxGui2d(){
-    if(this->classThis==this){
-        this->classThis=NULL;edkEnd();
-        //can destruct the class
-        this->removeAllSubObjectsBackground();
-    }
+    this->Destructor();
 }
 
-void edk::gui2d::BoxGui2d::Constructor(bool runFather){
-    if(runFather){
-        edk::gui2d::ObjectGui2d::Constructor();edkEnd();
-    }
+void edk::gui2d::BoxGui2d::Constructor(){
+    edk::gui2d::ObjectGui2d::Constructor();
     if(this->classThis!=this){
         this->classThis=this;
 
-        this->nextsBack.Constructor();edkEnd();
-        this->nextsFore.Constructor();edkEnd();
+        this->nextsBack.Constructor();
+        this->nextsFore.Constructor();
 
         this->textScale = this->getTextTemplateScale();
         this->canCleanText=true;
     }
+}
+void edk::gui2d::BoxGui2d::Destructor(){
+    if(this->classThis==this){
+        this->classThis=NULL;
+        //can destruct the class
+        this->removeAllSubObjectsBackground();
+    }
+    edk::gui2d::ObjectGui2d::Destructor();
 }
 
 //Add a subObject in to the nexes
@@ -137,7 +139,7 @@ bool edk::gui2d::BoxGui2d::createMap(edk::size2ui32 size){
     return false;
 }
 bool edk::gui2d::BoxGui2d::createMap(edk::uint32 width,edk::uint32 height){
-    return this->createMap(edk::size2ui32(width,height));edkEnd();
+    return this->createMap(edk::size2ui32(width,height));
 }
 //create a map with only the height size and the scale
 bool edk::gui2d::BoxGui2d::createMapHeight(edk::uint32 height,edk::float32 scaleWidth,edk::float32 scaleHeight){

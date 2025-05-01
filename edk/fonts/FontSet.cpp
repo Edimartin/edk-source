@@ -25,44 +25,47 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 edk::fonts::FontSet::FontSet(edk::uint32 filter){
-    this->classThis=NULL;edkEnd();
-    this->Constructor(filter,false);edkEnd();
+    this->classThis=NULL;
+    this->Constructor(filter);
 }
 edk::fonts::FontSet::~FontSet(){
-    if(this->classThis==this){
-        this->classThis=NULL;edkEnd();
-        //can destruct the class
-        this->deleteImage();edkEnd();
-    }
+    this->Destructor();
 }
 
-void edk::fonts::FontSet::Constructor(edk::uint32 filter,bool /*runFather*/){
+void edk::fonts::FontSet::Constructor(edk::uint32 filter){
     if(this->classThis!=this){
         this->classThis=this;
 
-        this->tileSet.Constructor();edkEnd();
-        this->name.Constructor();edkEnd();
+        this->tileSet.Constructor();
+        this->name.Constructor();
 
-        this->filter=filter;edkEnd();
+        this->filter=filter;
+    }
+}
+void edk::fonts::FontSet::Destructor(){
+    if(this->classThis==this){
+        this->classThis=NULL;
+        //can destruct the class
+        this->deleteImage();
     }
 }
 
 //load the font
 bool edk::fonts::FontSet::loadFontImage(const edk::char8* image,edk::uint32 filter,edk::color4f32 color){
-    edkEnd();
+
     return this->loadFontImage((edk::char8*) image,filter,color);
 }
 
 bool edk::fonts::FontSet::loadFontImage(edk::char8* image,edk::uint32 filter,edk::color4f32 color){
-    this->deleteImage();edkEnd();
-    edk::tiles::TileSet2D::Tile2Positions2D ret = this->tileSet.loadImageTiles(image,16u,16u,filter,color);edkEnd();
+    this->deleteImage();
+    edk::tiles::TileSet2D::Tile2Positions2D ret = this->tileSet.loadImageTiles(image,16u,16u,filter,color);
     if(ret.first==1u && ret.last==256u){
         if(this->name.setName(image)){
-            this->filter = filter;edkEnd();
+            this->filter = filter;
             return true;
         }
     }
-    this->deleteImage();edkEnd();
+    this->deleteImage();
     return false;
 }
 
@@ -81,15 +84,15 @@ bool edk::fonts::FontSet::loadFontImageFromMemory(edk::char8* name,
                                                   edk::uint32 filter,
                                                   edk::color4f32 color
                                                   ){
-    this->deleteImage();edkEnd();
-    edk::tiles::TileSet2D::Tile2Positions2D ret = this->tileSet.loadImageTilesFromMemory(name,image,size,16u,16u,filter,color);edkEnd();
+    this->deleteImage();
+    edk::tiles::TileSet2D::Tile2Positions2D ret = this->tileSet.loadImageTilesFromMemory(name,image,size,16u,16u,filter,color);
     if(ret.first==1u && ret.last==256u){
         if(this->name.setName(name)){
-            this->filter = filter;edkEnd();
+            this->filter = filter;
             return true;
         }
     }
-    this->deleteImage();edkEnd();
+    this->deleteImage();
     return false;
 }
 
@@ -97,32 +100,32 @@ bool edk::fonts::FontSet::loadFontImageFromPack(edk::pack::FilePackage* pack,con
     return this->loadFontImageFromPack(pack,(edk::char8*) image,filter,color);
 }
 bool edk::fonts::FontSet::loadFontImageFromPack(edk::pack::FilePackage* pack,edk::char8* image,edk::uint32 filter,edk::color4f32 color){
-    this->deleteImage();edkEnd();
-    edk::tiles::TileSet2D::Tile2Positions2D ret = this->tileSet.loadImageTilesFromPack(pack,image,16u,16u,filter,color);edkEnd();
+    this->deleteImage();
+    edk::tiles::TileSet2D::Tile2Positions2D ret = this->tileSet.loadImageTilesFromPack(pack,image,16u,16u,filter,color);
     if(ret.first==1u && ret.last==256u){
         if(this->name.setName(image)){
-            this->filter = filter;edkEnd();
+            this->filter = filter;
             return true;
         }
     }
-    this->deleteImage();edkEnd();
+    this->deleteImage();
     return false;
 }
 
 //delete image
 void edk::fonts::FontSet::deleteImage(){
-    this->tileSet.deleteTiles();edkEnd();
-    this->name.cleanName();edkEnd();
+    this->tileSet.deleteTiles();
+    this->name.cleanName();
 }
 
 //get the tileset
 edk::tiles::TileSet2D* edk::fonts::FontSet::getTileSet(){
-    edkEnd();
+
     return &this->tileSet;
 }
 //return the filter
 edk::uint32 edk::fonts::FontSet::getFilter(){
-    edkEnd();
+
     return this->filter;
 }
 
@@ -131,7 +134,7 @@ bool edk::fonts::FontSet::setName(const edk::char8* name){
     return this->setName((edk::char8*) name);
 }
 bool edk::fonts::FontSet::setName(edk::char8* name){
-    this->deleteImage();edkEnd();
+    this->deleteImage();
     return this->name.setName(name);
 }
 //test the names
@@ -149,40 +152,43 @@ bool edk::fonts::FontSet::nameEqualThan(edk::char8* name){
 }
 //get the name
 edk::char8* edk::fonts::FontSet::getName(){
-    return this->name.getName();edkEnd();
+    return this->name.getName();
 }
 
 edk::fonts::fontSetList::FontRetain::FontRetain(edk::uint32 filter)
     :set(filter)
 {
-    this->classThis=NULL;edkEnd();
-    this->Constructor(filter,false);edkEnd();
+    this->classThis=NULL;
+    this->Constructor(filter);
 }
 edk::fonts::fontSetList::FontRetain::~FontRetain(){
-    if(this->classThis==this){
-        this->classThis=NULL;edkEnd();
-        //can destruct the class
-        this->retains=0u;
-    }
+    this->Destructor();
 }
 
-void edk::fonts::fontSetList::FontRetain::Constructor(edk::uint32 filter,bool runFather){
+void edk::fonts::fontSetList::FontRetain::Constructor(edk::uint32 filter){
     if(this->classThis!=this){
         this->classThis=this;
 
-        this->set.Constructor(filter,runFather);
+        this->set.Constructor(filter);
 
+        this->retains=0u;
+    }
+}
+void edk::fonts::fontSetList::FontRetain::Destructor(){
+    if(this->classThis==this){
+        this->classThis=NULL;
+        //can destruct the class
         this->retains=0u;
     }
 }
 
 //retain release
 void edk::fonts::fontSetList::FontRetain::retain(){
-    this->retains++;edkEnd();
+    this->retains++;
 }
 bool edk::fonts::fontSetList::FontRetain::release(){
     if(this->retains){
-        this->retains--;edkEnd();
+        this->retains--;
         return true;
     }
     return false;
@@ -197,63 +203,63 @@ bool edk::fonts::fontSetList::FontRetain::haveNoRetains(){
 
 //getFontSet
 edk::fonts::fontSetList::FontRetain* edk::fonts::fontSetList::TreeFont::getFontSetByImage(edk::char8* image,edk::uint32 filter){
-    edk::fonts::fontSetList::FontRetain find(filter);edkEnd();
-    find.set.setName(image);edkEnd();
+    edk::fonts::fontSetList::FontRetain find(filter);
+    find.set.setName(image);
     return this->getElement(&find);
 }
 //compare if the value is bigger
 bool edk::fonts::fontSetList::TreeFont::firstBiggerSecond(edk::fonts::fontSetList::FontRetain* first,edk::fonts::fontSetList::FontRetain* second){
     if(first && second){
         if(first->set.getFilter() > second->set.getFilter()){
-            edkEnd();
+
             return first->set.nameBiggerThan(second->set.getName());
         }
         else if(first->set.getFilter() == second->set.getFilter()){
-            edkEnd();
+
             return first->set.nameBiggerThan(second->set.getName());
         }
     }
-    edkEnd();
+
     return false;
 }
 bool edk::fonts::fontSetList::TreeFont::firstEqualSecond(edk::fonts::fontSetList::FontRetain* first,edk::fonts::fontSetList::FontRetain* second){
     if(first && second){
         if(first->set.getFilter() == second->set.getFilter()){
-            edkEnd();
+
             return first->set.nameEqualThan(second->set.getName());
         }
     }
-    edkEnd();
+
     return false;
 }
 //UPDATE
 void edk::fonts::fontSetList::TreeFont::updateElement(edk::fonts::fontSetList::FontRetain* value){
     //update the value
-    value++;edkEnd();
+    value++;
 }
 
 //load the font
 edk::fonts::FontSet* edk::fonts::fontSetList::TreeFont::loadFontImage(edk::char8* image,edk::uint32 filter,edk::color4f32 color){
     if(image){
         //find the image
-        edk::fonts::fontSetList::FontRetain* ret = this->getFontSetByImage(image,filter);edkEnd();
+        edk::fonts::fontSetList::FontRetain* ret = this->getFontSetByImage(image,filter);
         if(ret){
             //then retain
-            ret->retain();edkEnd();
+            ret->retain();
             return &ret->set;
         }
         else{
             //else create the new fontSet
-            ret = new edk::fonts::fontSetList::FontRetain;edkEnd();
+            ret = new edk::fonts::fontSetList::FontRetain;
             if(ret){
                 if(ret->set.loadFontImage(image,filter,color)){
                     //add the fontRet to the tree
                     if(this->add(ret)){
-                        ret->retain();edkEnd();
+                        ret->retain();
                         return &ret->set;
                     }
                 }
-                delete ret;edkEnd();
+                delete ret;
             }
         }
     }
@@ -262,24 +268,24 @@ edk::fonts::FontSet* edk::fonts::fontSetList::TreeFont::loadFontImage(edk::char8
 edk::fonts::FontSet* edk::fonts::fontSetList::TreeFont::loadFontImageFromMemory(edk::char8* name,edk::uint8* image,edk::uint32 size,edk::uint32 filter,edk::color4f32 color){
     if(image){
         //find the image
-        edk::fonts::fontSetList::FontRetain* ret = this->getFontSetByImage(name,filter);edkEnd();
+        edk::fonts::fontSetList::FontRetain* ret = this->getFontSetByImage(name,filter);
         if(ret){
             //then retain
-            ret->retain();edkEnd();
+            ret->retain();
             return &ret->set;
         }
         else{
             //else create the new fontSet
-            ret = new edk::fonts::fontSetList::FontRetain;edkEnd();
+            ret = new edk::fonts::fontSetList::FontRetain;
             if(ret){
                 if(ret->set.loadFontImageFromMemory(name,image,size,filter,color)){
                     //add the fontRet to the tree
                     if(this->add(ret)){
-                        ret->retain();edkEnd();
+                        ret->retain();
                         return &ret->set;
                     }
                 }
-                delete ret;edkEnd();
+                delete ret;
             }
         }
     }
@@ -288,24 +294,24 @@ edk::fonts::FontSet* edk::fonts::fontSetList::TreeFont::loadFontImageFromMemory(
 edk::fonts::FontSet* edk::fonts::fontSetList::TreeFont::loadFontImageFromPack(edk::pack::FilePackage* pack,edk::char8* image,edk::uint32 filter,edk::color4f32 color){
     if(image && pack){
         //find the image
-        edk::fonts::fontSetList::FontRetain* ret = this->getFontSetByImage(image,filter);edkEnd();
+        edk::fonts::fontSetList::FontRetain* ret = this->getFontSetByImage(image,filter);
         if(ret){
             //then retain
-            ret->retain();edkEnd();
+            ret->retain();
             return &ret->set;
         }
         else{
             //else create the new fontSet
-            ret = new edk::fonts::fontSetList::FontRetain;edkEnd();
+            ret = new edk::fonts::fontSetList::FontRetain;
             if(ret){
                 if(ret->set.loadFontImageFromPack(pack,image,filter,color)){
                     //add the fontRet to the tree
                     if(this->add(ret)){
-                        ret->retain();edkEnd();
+                        ret->retain();
                         return &ret->set;
                     }
                 }
-                delete ret;edkEnd();
+                delete ret;
             }
         }
     }
@@ -316,15 +322,15 @@ edk::fonts::FontSet* edk::fonts::fontSetList::TreeFont::loadFontImageFromPack(ed
 bool edk::fonts::fontSetList::TreeFont::removeImage(edk::char8* image,edk::uint32 filter){
     if(image){
         //test if have the image
-        edk::fonts::fontSetList::FontRetain* ret = this->getFontSetByImage(image,filter);edkEnd();
+        edk::fonts::fontSetList::FontRetain* ret = this->getFontSetByImage(image,filter);
         if(ret){
             //release
-            ret->release();edkEnd();
+            ret->release();
             //test if have no retains
             if(ret->haveNoRetains()){
                 //delete the ret
                 if(this->remove(ret)){
-                    delete ret;edkEnd();
+                    delete ret;
                 }
             }
             return true;
@@ -337,40 +343,36 @@ bool edk::fonts::fontSetList::TreeFont::removeFontSet(edk::fonts::FontSet* set){
     //test set
     if(set){
         //remove the set
-        this->removeImage(set->getName(),set->getFilter());edkEnd();
+        this->removeImage(set->getName(),set->getFilter());
     }
     return false;
 }
 //delete all fontSet
 void edk::fonts::fontSetList::TreeFont::deleteAllFontSet(){
-    edk::uint32 size = this->getSize();edkEnd();
-    edk::fonts::fontSetList::FontRetain* temp = NULL;edkEnd();
+    edk::uint32 size = this->getSize();
+    edk::fonts::fontSetList::FontRetain* temp = NULL;
     for(edk::uint32 i=0u;i<size;i++){
         //
-        temp = this->getElementInPosition(i);edkEnd();
+        temp = this->getElementInPosition(i);
         if(temp){
-            delete temp;edkEnd();
+            delete temp;
         }
     }
-    this->clean();edkEnd();
+    this->clean();
 }
 
 bool edk::fonts::fontSetList::templateConstructNeed=true;
 edk::fonts::fontSetList::TreeFont edk::fonts::fontSetList::tree;
 //static treeFonts
 edk::fonts::fontSetList::fontSetList(){
-    this->classThis=NULL;edkEnd();
-    this->Constructor(false);edkEnd();
+    this->classThis=NULL;
+    this->Constructor();
 }
 edk::fonts::fontSetList::~fontSetList(){
-    if(this->classThis==this){
-        this->classThis=NULL;edkEnd();
-        //can destruct the class
-    }
+    this->Destructor();
 }
 
-void edk::fonts::fontSetList::Constructor(bool runFather){
-    if(runFather){edkEnd();}
+void edk::fonts::fontSetList::Constructor(){
     if(this->classThis!=this){
         this->classThis=this;
 
@@ -378,6 +380,12 @@ void edk::fonts::fontSetList::Constructor(bool runFather){
             edk::fonts::fontSetList::tree.Constructor();
             edk::fonts::fontSetList::templateConstructNeed=false;
         }
+    }
+}
+void edk::fonts::fontSetList::Destructor(){
+    if(this->classThis==this){
+        this->classThis=NULL;
+        //can destruct the class
     }
 }
 
@@ -404,5 +412,5 @@ bool edk::fonts::fontSetList::removeFontSet(edk::fonts::FontSet* set){
 }
 //delete all Fonts
 void edk::fonts::fontSetList::deleteAllFonts(){
-    edk::fonts::fontSetList::tree.deleteAllFontSet();edkEnd();
+    edk::fonts::fontSetList::tree.deleteAllFontSet();
 }

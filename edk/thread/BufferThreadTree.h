@@ -45,33 +45,39 @@ namespace multi{
 //object to save the thread ID and the buffer
 class BufferThreadObject : public edk::MemoryBuffer<edk::uint8>{
 public:
-    BufferThreadObject(){this->classThis=NULL;this->Constructor(false);edkEnd();}
-    BufferThreadObject(edk::uint64 id){this->classThis=NULL;this->Constructor(id,false);edkEnd();}
+    BufferThreadObject(){
+        this->classThis=NULL;
+        this->Constructor();
+    }
+    BufferThreadObject(edk::uint64 id){
+        this->classThis=NULL;
+        this->Constructor(id);
+    }
     virtual ~BufferThreadObject(){
-        if(this->classThis==this){
-            this->classThis=NULL;edkEnd();
-            //can destruct the class
-            edk::MemoryBuffer<edk::uint8>::clean();
-        }
+        this->Destructor();
     }
 
-    void Constructor(bool runFather=true){
-        if(runFather){
-            edk::MemoryBuffer<edk::uint8>::Constructor();edkEnd();
-        }
+    void Constructor(){
+        edk::MemoryBuffer<edk::uint8>::Constructor();
         if(this->classThis!=this){
             this->classThis=this;
             this->id=0u;
         }
     }
-    void Constructor(edk::uint64 id,bool runFather=true){
-        if(runFather){
-            edk::MemoryBuffer<edk::uint8>::Constructor();edkEnd();
-        }
+    void Constructor(edk::uint64 id){
+        edk::MemoryBuffer<edk::uint8>::Constructor();
         if(this->classThis!=this){
             this->classThis=this;
             this->id=id;
         }
+    }
+    void Destructor(){
+        if(this->classThis==this){
+            this->classThis=NULL;
+            //can destruct the class
+            edk::MemoryBuffer<edk::uint8>::clean();
+        }
+        edk::MemoryBuffer<edk::uint8>::Destructor();
     }
 
     //thread ID
@@ -84,7 +90,8 @@ public:
     BufferThreadTree();
     virtual ~BufferThreadTree();
 
-    void Constructor(bool runFather=true);
+    void Constructor();
+    void Destructor();
 
     //write a vector into the buffer
     bool writeToBuffer(edk::uint8* vector,edk::uint64 size);
@@ -100,20 +107,25 @@ private:
     //tree to save the buffer
     class TreeBuffers : public edk::vector::BinaryTree<edk::multi::BufferThreadObject*>{
     public:
-        TreeBuffers(){this->classThis=NULL;this->Constructor(false);edkEnd();}
+        TreeBuffers(){
+            this->classThis=NULL;
+            this->Constructor();
+        }
         virtual ~TreeBuffers(){
-            if(this->classThis==this){
-                this->classThis=NULL;edkEnd();
-                //can destruct the class
-            }
+            this->Destructor();
         }
 
-        void Constructor(bool runFather=true){
-            if(runFather){edkEnd();}
+        void Constructor(){
             if(this->classThis!=this){
                 this->classThis=this;
 
-                this->templateBuffer.Constructor();edkEnd();
+                this->templateBuffer.Constructor();
+            }
+        }
+        void Destructor(){
+            if(this->classThis==this){
+                this->classThis=NULL;
+                //can destruct the class
             }
         }
 

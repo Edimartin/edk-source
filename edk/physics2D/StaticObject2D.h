@@ -45,7 +45,8 @@ public:
     StaticObject2D();
     virtual ~StaticObject2D();
 
-    void Constructor(bool runFather=true);
+    void Constructor();
+    void Destructor();
 private:
     edk::classID classThis;
 };

@@ -52,100 +52,102 @@ namespace encrypt{
 class SHA256_variables{
 public:
     SHA256_variables(){
-        this->classThis=NULL;edkEnd();
-        this->Constructor(false);edkEnd();
+        this->classThis=NULL;
+        this->Constructor();
     }
     virtual ~SHA256_variables(){
-        if(this->classThis==this){
-            this->classThis=NULL;edkEnd();
-            //can destruct the class
-        }
+        this->Destructor();
     }
 
-    void Constructor(bool runFather=true){
-        if(runFather){edkEnd();}
+    void Constructor(){
         if(this->classThis!=this){
             this->classThis=this;
-            this->init();edkEnd();
+            this->init();
+        }
+    }
+    void Destructor(){
+        if(this->classThis==this){
+            this->classThis=NULL;
+            //can destruct the class
         }
     }
 
 
     void transform(edk::uint8* data){
-        edk::uint32 a, b, c, d, e, f, g, h, i, j, t1, t2, m[64u];edkEnd();
+        edk::uint32 a, b, c, d, e, f, g, h, i, j, t1, t2, m[64u];
 
         for (i = 0u, j = 0u; i < 16u; ++i, j += 4u){
-            m[i] = (data[j] << 24u) | (data[j + 1u] << 16u) | (data[j + 2u] << 8u) | (data[j + 3u]);edkEnd();
+            m[i] = (data[j] << 24u) | (data[j + 1u] << 16u) | (data[j + 2u] << 8u) | (data[j + 3u]);
         }
         for ( ; i < 64u; ++i){
-            m[i] = SIG1(m[i - 2u]) + m[i - 7u] + SIG0(m[i - 15u]) + m[i - 16u];edkEnd();
+            m[i] = SIG1(m[i - 2u]) + m[i - 7u] + SIG0(m[i - 15u]) + m[i - 16u];
         }
 
-        a = this->state[0u];edkEnd();
-        b = this->state[1u];edkEnd();
-        c = this->state[2u];edkEnd();
-        d = this->state[3u];edkEnd();
-        e = this->state[4u];edkEnd();
-        f = this->state[5u];edkEnd();
-        g = this->state[6u];edkEnd();
-        h = this->state[7u];edkEnd();
+        a = this->state[0u];
+        b = this->state[1u];
+        c = this->state[2u];
+        d = this->state[3u];
+        e = this->state[4u];
+        f = this->state[5u];
+        g = this->state[6u];
+        h = this->state[7u];
 
         for (i = 0u; i < 64u; ++i){
-            t1 = h + EP1(e) + CH(e,f,g) + k[i] + m[i];edkEnd();
-            t2 = EP0(a) + MAJ(a,b,c);edkEnd();
-            h = g;edkEnd();
-            g = f;edkEnd();
-            f = e;edkEnd();
-            e = d + t1;edkEnd();
-            d = c;edkEnd();
-            c = b;edkEnd();
-            b = a;edkEnd();
-            a = t1 + t2;edkEnd();
+            t1 = h + EP1(e) + CH(e,f,g) + k[i] + m[i];
+            t2 = EP0(a) + MAJ(a,b,c);
+            h = g;
+            g = f;
+            f = e;
+            e = d + t1;
+            d = c;
+            c = b;
+            b = a;
+            a = t1 + t2;
         }
 
-        this->state[0u] += a;edkEnd();
-        this->state[1u] += b;edkEnd();
-        this->state[2u] += c;edkEnd();
-        this->state[3u] += d;edkEnd();
-        this->state[4u] += e;edkEnd();
-        this->state[5u] += f;edkEnd();
-        this->state[6u] += g;edkEnd();
-        this->state[7u] += h;edkEnd();
+        this->state[0u] += a;
+        this->state[1u] += b;
+        this->state[2u] += c;
+        this->state[3u] += d;
+        this->state[4u] += e;
+        this->state[5u] += f;
+        this->state[6u] += g;
+        this->state[7u] += h;
     }
 
     //init the SHA256
     void init(){
         //
-        this->size = 0u;edkEnd();
-        this->bitSize = 0u;edkEnd();
-        this->state[0u] = 0x6a09e667;edkEnd();
-        this->state[1u] = 0xbb67ae85;edkEnd();
-        this->state[2u] = 0x3c6ef372;edkEnd();
-        this->state[3u] = 0xa54ff53a;edkEnd();
-        this->state[4u] = 0x510e527f;edkEnd();
-        this->state[5u] = 0x9b05688c;edkEnd();
-        this->state[6u] = 0x1f83d9ab;edkEnd();
-        this->state[7u] = 0x5be0cd19;edkEnd();
+        this->size = 0u;
+        this->bitSize = 0u;
+        this->state[0u] = 0x6a09e667;
+        this->state[1u] = 0xbb67ae85;
+        this->state[2u] = 0x3c6ef372;
+        this->state[3u] = 0xa54ff53a;
+        this->state[4u] = 0x510e527f;
+        this->state[5u] = 0x9b05688c;
+        this->state[6u] = 0x1f83d9ab;
+        this->state[7u] = 0x5be0cd19;
     }
     //update the SHA256
     void update(edk::uint8* data, edk::uint32 len){
-        edk::uint32 i;edkEnd();
+        edk::uint32 i;
 
         for (i = 0u; i < len; ++i){
-            this->data[this->size] = data[i];edkEnd();
-            this->size++;edkEnd();
+            this->data[this->size] = data[i];
+            this->size++;
             if(this->size == 64u){
-                this->transform(this->data);edkEnd();
-                this->bitSize += 512u;edkEnd();
-                this->size = 0u;edkEnd();
+                this->transform(this->data);
+                this->bitSize += 512u;
+                this->size = 0u;
             }
         }
     }
     //finish the SHA256
     void final(edk::uint8* hash){
-        edk::uint32 i;edkEnd();
+        edk::uint32 i;
 
-        i = this->size;edkEnd();
+        i = this->size;
 
         // Pad whatever data is left in the buffer.
         if(this->size < 56u){
@@ -158,33 +160,33 @@ public:
             while (i < 64u){
                 this->data[i++] = 0x00;
             }
-            this->transform(this->data);edkEnd();
-            memset(this->data, 0, 56u);edkEnd();
+            this->transform(this->data);
+            memset(this->data, 0, 56u);
         }
 
         // Append to the padding the total message's length in bits and transform.
-        this->bitSize += this->size * 8u;edkEnd();
-        this->data[63u] = this->bitSize;edkEnd();
-        this->data[62u] = this->bitSize >> 8u;edkEnd();
-        this->data[61u] = this->bitSize >> 16u;edkEnd();
-        this->data[60u] = this->bitSize >> 24u;edkEnd();
-        this->data[59u] = this->bitSize >> 32u;edkEnd();
-        this->data[58u] = this->bitSize >> 40u;edkEnd();
-        this->data[57u] = this->bitSize >> 48u;edkEnd();
-        this->data[56u] = this->bitSize >> 56u;edkEnd();
-        this->transform(this->data);edkEnd();
+        this->bitSize += this->size * 8u;
+        this->data[63u] = this->bitSize;
+        this->data[62u] = this->bitSize >> 8u;
+        this->data[61u] = this->bitSize >> 16u;
+        this->data[60u] = this->bitSize >> 24u;
+        this->data[59u] = this->bitSize >> 32u;
+        this->data[58u] = this->bitSize >> 40u;
+        this->data[57u] = this->bitSize >> 48u;
+        this->data[56u] = this->bitSize >> 56u;
+        this->transform(this->data);
 
         // Since this implementation uses little endian byte ordering and SHA uses big endian,
         // reverse all the bytes when copying the final state to the output hash.
         for (i = 0u; i < 4u; ++i){
-            hash[i]      = (this->state[0] >> (24u - i * 8u)) & 0x000000ff;edkEnd();
-            hash[i + 4u]  = (this->state[1] >> (24u - i * 8u)) & 0x000000ff;edkEnd();
-            hash[i + 8u]  = (this->state[2] >> (24u - i * 8u)) & 0x000000ff;edkEnd();
-            hash[i + 12u] = (this->state[3] >> (24u - i * 8u)) & 0x000000ff;edkEnd();
-            hash[i + 16u] = (this->state[4] >> (24u - i * 8u)) & 0x000000ff;edkEnd();
-            hash[i + 20u] = (this->state[5] >> (24u - i * 8u)) & 0x000000ff;edkEnd();
-            hash[i + 24u] = (this->state[6] >> (24u - i * 8u)) & 0x000000ff;edkEnd();
-            hash[i + 28u] = (this->state[7] >> (24u - i * 8u)) & 0x000000ff;edkEnd();
+            hash[i]      = (this->state[0] >> (24u - i * 8u)) & 0x000000ff;
+            hash[i + 4u]  = (this->state[1] >> (24u - i * 8u)) & 0x000000ff;
+            hash[i + 8u]  = (this->state[2] >> (24u - i * 8u)) & 0x000000ff;
+            hash[i + 12u] = (this->state[3] >> (24u - i * 8u)) & 0x000000ff;
+            hash[i + 16u] = (this->state[4] >> (24u - i * 8u)) & 0x000000ff;
+            hash[i + 20u] = (this->state[5] >> (24u - i * 8u)) & 0x000000ff;
+            hash[i + 24u] = (this->state[6] >> (24u - i * 8u)) & 0x000000ff;
+            hash[i + 28u] = (this->state[7] >> (24u - i * 8u)) & 0x000000ff;
         }
     }
 private:
@@ -201,33 +203,35 @@ private:
 
 
 edk::encrypt::SHA256::SHA256(){
-    this->classThis=NULL;edkEnd();
-    this->Constructor(false);edkEnd();
+    this->classThis=NULL;
+    this->Constructor();
 }
 edk::encrypt::SHA256::~SHA256(){
-    if(this->classThis==this){
-        this->classThis=NULL;edkEnd();
-        //can destruct the class
-    }
+    this->Destructor();
 }
 
-void edk::encrypt::SHA256::Constructor(bool /*runFather*/){
-    //
+void edk::encrypt::SHA256::Constructor(){
     if(this->classThis!=this){
         this->classThis=this;
+    }
+}
+void edk::encrypt::SHA256::Destructor(){
+    if(this->classThis==this){
+        this->classThis=NULL;
+        //can destruct the class
     }
 }
 
 bool edk::encrypt::SHA256::convertTo(edk::char8 *pass, edk::uint32 size, edk::char8 *dest){
     //testa as strings e os tamanhos
     if(pass && size && dest){
-        edk::encrypt::SHA256_variables SHA256;edkEnd();
+        edk::encrypt::SHA256_variables SHA256;
         //
-        edk::uint8 result[32u];edkEnd();
+        edk::uint8 result[32u];
         //prcess the update
-        SHA256.update((edk::uint8*)pass,size);edkEnd();
+        SHA256.update((edk::uint8*)pass,size);
         //process the final
-        SHA256.final(result);edkEnd();
+        SHA256.final(result);
 
         //write the result in the destiny
 #ifdef _MSC_VER
@@ -240,7 +244,7 @@ bool edk::encrypt::SHA256::convertTo(edk::char8 *pass, edk::uint32 size, edk::ch
                 ,result[0],result[1],result[2],result[3],result[4],result[5],result[6],result[7],result[8],result[9],result[10],result[11],result[12],result[13],result[14],result[15]
                 ,result[16],result[17],result[18],result[19],result[20],result[21],result[22],result[23],result[24],result[25],result[26],result[27],result[28],result[29],result[30]
                 ,result[31]
-                );edkEnd();
+                );
         //then return true
         return true;
     }
@@ -248,41 +252,41 @@ bool edk::encrypt::SHA256::convertTo(edk::char8 *pass, edk::uint32 size, edk::ch
     return false;
 }
 bool edk::encrypt::SHA256::convertTo(const edk::char8 *pass, edk::uint32 size, edk::char8 *dest){
-    return edk::encrypt::SHA256::convertTo((edk::char8 *)pass, size, dest);edkEnd();
+    return edk::encrypt::SHA256::convertTo((edk::char8 *)pass, size, dest);
 }
 bool edk::encrypt::SHA256::convertTo(edk::char8 *pass, edk::char8 *dest){
-    return edk::encrypt::SHA256::convertTo(pass,edk::String::strSize(pass),dest);edkEnd();
+    return edk::encrypt::SHA256::convertTo(pass,edk::String::strSize(pass),dest);
 }
 bool edk::encrypt::SHA256::convertTo(const edk::char8 *pass, edk::char8 *dest){
-    return edk::encrypt::SHA256::convertTo((edk::char8 *)pass, dest);edkEnd();
+    return edk::encrypt::SHA256::convertTo((edk::char8 *)pass, dest);
 }
 bool edk::encrypt::SHA256::convertFileTo(edk::File* file, edk::char8 *dest){
     //first test the file and dest
     if(file && dest){
         if(file->isOpened()){
-            edk::encrypt::SHA256_variables SHA256;edkEnd();
+            edk::encrypt::SHA256_variables SHA256;
             //
-            edk::uint8 result[32u];edkEnd();
-            edk::uint8 data[fileReadSize];edkEnd();
-            edk::uint64 size = file->getFileSize();edkEnd();
+            edk::uint8 result[32u];
+            edk::uint8 data[fileReadSize];
+            edk::uint64 size = file->getFileSize();
             if(size){
                 while(size){
                     if(size>=sizeof(data)){
                         //copy the file in to the memory
-                        file->readBin(data,sizeof(data));edkEnd();
+                        file->readBin(data,sizeof(data));
                         //process the update
-                        SHA256.update(data,sizeof(data));edkEnd();
+                        SHA256.update(data,sizeof(data));
                     }
                     else{
                         //copy the file in to the memory
-                        file->readBin(data,size);edkEnd();
+                        file->readBin(data,size);
                         //process the update
-                        SHA256.update(data,size);edkEnd();
+                        SHA256.update(data,size);
                     }
                 }
             }
             //process the final
-            SHA256.final(result);edkEnd();
+            SHA256.final(result);
 
             //write the result in the destiny
 #ifdef _MSC_VER
@@ -295,7 +299,7 @@ bool edk::encrypt::SHA256::convertFileTo(edk::File* file, edk::char8 *dest){
                     ,result[0],result[1],result[2],result[3],result[4],result[5],result[6],result[7],result[8],result[9],result[10],result[11],result[12],result[13],result[14],result[15]
                     ,result[16],result[17],result[18],result[19],result[20],result[21],result[22],result[23],result[24],result[25],result[26],result[27],result[28],result[29],result[30]
                     ,result[31]
-                    );edkEnd();
+                    );
             //then return true
             return true;
         }
@@ -303,28 +307,28 @@ bool edk::encrypt::SHA256::convertFileTo(edk::File* file, edk::char8 *dest){
     return false;
 }
 bool edk::encrypt::SHA256::convertFileTo(edk::char8 *fileName, edk::char8 *dest){
-    bool ret = false;edkEnd();
+    bool ret = false;
     if(fileName && dest){
-        edk::File file;edkEnd();
-        file.openBinFile(fileName);edkEnd();
+        edk::File file;
+        file.openBinFile(fileName);
         if(file.isOpened()){
-            ret = edk::encrypt::SHA256::convertFileTo(&file,dest);edkEnd();
-            file.closeFile();edkEnd();
+            ret = edk::encrypt::SHA256::convertFileTo(&file,dest);
+            file.closeFile();
         }
     }
     return ret;
 }
 bool edk::encrypt::SHA256::convertFileTo(const edk::char8 *fileName, edk::char8 *dest){
-    return edk::encrypt::SHA256::convertFileTo((edk::char8 *)fileName, dest);edkEnd();
+    return edk::encrypt::SHA256::convertFileTo((edk::char8 *)fileName, dest);
 }
 bool edk::encrypt::SHA256::convertTo(edk::char8 *pass, edk::uint32 size, edk::uint8 dest[32u]){
     //testa as strings e os tamanhos
     if(pass && size && dest){
-        edk::encrypt::SHA256_variables SHA256;edkEnd();
+        edk::encrypt::SHA256_variables SHA256;
         //prcess the update
-        SHA256.update((edk::uint8*)pass,size);edkEnd();
+        SHA256.update((edk::uint8*)pass,size);
         //process the final
-        SHA256.final(dest);edkEnd();
+        SHA256.final(dest);
         //then return true
         return true;
     }
@@ -332,40 +336,40 @@ bool edk::encrypt::SHA256::convertTo(edk::char8 *pass, edk::uint32 size, edk::ui
     return false;
 }
 bool edk::encrypt::SHA256::convertTo(const edk::char8 *pass, edk::uint32 size, edk::uint8 dest[32u]){
-    return edk::encrypt::SHA256::convertTo((edk::char8 *)pass, size, dest);edkEnd();
+    return edk::encrypt::SHA256::convertTo((edk::char8 *)pass, size, dest);
 }
 bool edk::encrypt::SHA256::convertTo(edk::char8 *pass, edk::uint8 dest[32u]){
-    return edk::encrypt::SHA256::convertTo(pass,edk::String::strSize(pass),dest);edkEnd();
+    return edk::encrypt::SHA256::convertTo(pass,edk::String::strSize(pass),dest);
 }
 bool edk::encrypt::SHA256::convertTo(const edk::char8 *pass, edk::uint8 dest[32u]){
-    return edk::encrypt::SHA256::convertTo((edk::char8 *)pass, dest);edkEnd();
+    return edk::encrypt::SHA256::convertTo((edk::char8 *)pass, dest);
 }
 bool edk::encrypt::SHA256::convertFileTo(edk::File* file, edk::uint8 dest[32u]){
     //first test the file and dest
     if(file && dest){
         if(file->isOpened()){
-            edk::encrypt::SHA256_variables SHA256;edkEnd();
+            edk::encrypt::SHA256_variables SHA256;
             //
-            edk::uint8 data[fileReadSize];edkEnd();
-            edk::uint64 size = file->getFileSize();edkEnd();
+            edk::uint8 data[fileReadSize];
+            edk::uint64 size = file->getFileSize();
             if(size){
                 while(size){
                     if(size>=sizeof(data)){
                         //copy the file in to the memory
-                        file->readBin(data,sizeof(data));edkEnd();
+                        file->readBin(data,sizeof(data));
                         //process the update
-                        SHA256.update(data,sizeof(data));edkEnd();
+                        SHA256.update(data,sizeof(data));
                     }
                     else{
                         //copy the file in to the memory
-                        file->readBin(data,size);edkEnd();
+                        file->readBin(data,size);
                         //process the update
-                        SHA256.update(data,size);edkEnd();
+                        SHA256.update(data,size);
                     }
                 }
             }
             //process the final
-            SHA256.final(dest);edkEnd();
+            SHA256.final(dest);
             //then return true
             return true;
         }
@@ -374,65 +378,65 @@ bool edk::encrypt::SHA256::convertFileTo(edk::File* file, edk::uint8 dest[32u]){
 }
 bool edk::encrypt::SHA256::convertFileTo(edk::char8 *fileName, edk::uint8 dest[32u]){
     //
-    bool ret = false;edkEnd();
+    bool ret = false;
     if(fileName && dest){
-        edk::File file;edkEnd();
-        file.openBinFile(fileName);edkEnd();
+        edk::File file;
+        file.openBinFile(fileName);
         if(file.isOpened()){
-            ret = edk::encrypt::SHA256::convertFileTo(&file,dest);edkEnd();
-            file.closeFile();edkEnd();
+            ret = edk::encrypt::SHA256::convertFileTo(&file,dest);
+            file.closeFile();
         }
     }
     return ret;
 }
 bool edk::encrypt::SHA256::convertFileTo(const edk::char8 *fileName, edk::uint8 dest[32u]){
-    return edk::encrypt::SHA256::convertFileTo((edk::char8 *)fileName, dest);edkEnd();
+    return edk::encrypt::SHA256::convertFileTo((edk::char8 *)fileName, dest);
 }
 edk::char8* edk::encrypt::SHA256::convert(edk::char8 *pass, edk::uint32 size){
-    edk::char8* ret=NULL;edkEnd();
+    edk::char8* ret=NULL;
     if(pass && size){
         //cria a string de retorno
-        ret = (edk::char8*)malloc(sizeof(edk::char8) * (65u));edkEnd();
+        ret = (edk::char8*)malloc(sizeof(edk::char8) * (65u));
         if(ret){
-            edk::encrypt::SHA256::convertTo(pass, size,ret);edkEnd();
+            edk::encrypt::SHA256::convertTo(pass, size,ret);
         }
     }
     //senao retorna NULL
     return ret;
 }
 edk::char8* edk::encrypt::SHA256::convert(const edk::char8 *pass, edk::uint32 size){
-    return edk::encrypt::SHA256::convert((edk::char8 *)pass, size);edkEnd();
+    return edk::encrypt::SHA256::convert((edk::char8 *)pass, size);
 }
 edk::char8* edk::encrypt::SHA256::convert(edk::char8 *pass){
-    return edk::encrypt::SHA256::convert(pass, edk::String::strSize(pass));edkEnd();
+    return edk::encrypt::SHA256::convert(pass, edk::String::strSize(pass));
 }
 edk::char8* edk::encrypt::SHA256::convert(const edk::char8 *pass){
-    return edk::encrypt::SHA256::convert((edk::char8 *)pass);edkEnd();
+    return edk::encrypt::SHA256::convert((edk::char8 *)pass);
 }
 edk::char8* edk::encrypt::SHA256::convertFile(edk::File* file){
-    edk::char8* ret=NULL;edkEnd();
+    edk::char8* ret=NULL;
     if(file){
         //cria a string de retorno
-        ret = (edk::char8*)malloc(sizeof(edk::char8) * (65u));edkEnd();
+        ret = (edk::char8*)malloc(sizeof(edk::char8) * (65u));
         if(ret){
-            edk::encrypt::SHA256::convertFileTo(file,ret);edkEnd();
+            edk::encrypt::SHA256::convertFileTo(file,ret);
         }
     }
     //senao retorna NULL
     return ret;
 }
 edk::char8* edk::encrypt::SHA256::convertFile(edk::char8 *fileName){
-    edk::char8* ret=NULL;edkEnd();
+    edk::char8* ret=NULL;
     if(fileName){
-        edk::File file;edkEnd();
-        file.openBinFile(fileName);edkEnd();
+        edk::File file;
+        file.openBinFile(fileName);
         if(file.isOpened()){
-            ret = edk::encrypt::SHA256::convertFile(&file);edkEnd();
-            file.closeFile();edkEnd();
+            ret = edk::encrypt::SHA256::convertFile(&file);
+            file.closeFile();
         }
     }
     return ret;
 }
 edk::char8* edk::encrypt::SHA256::convertFile(const edk::char8 *fileName){
-    return edk::encrypt::SHA256::convertFile((edk::char8 *)fileName);edkEnd();
+    return edk::encrypt::SHA256::convertFile((edk::char8 *)fileName);
 }

@@ -26,31 +26,49 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 edk::physics2D::RopeJoint2D::RopeJoint2D(bool collide)
     :
-        edk::physics2D::Joint2D(collide)
+      edk::physics2D::Joint2D(collide)
 {
-    this->type = EDK_ROPE_JOINT;edkEnd();
-    this->maxLength = 0.f;edkEnd();
+    this->classThis=NULL;
+    this->Constructor(collide);
+}
+edk::physics2D::RopeJoint2D::~RopeJoint2D(){
+    this->Destructor();
+}
+
+void edk::physics2D::RopeJoint2D::Constructor(bool collide){
+    edk::physics2D::Joint2D::Constructor(collide);
+    if(this->classThis!=this){
+        this->classThis=this;
+        this->type = EDK_ROPE_JOINT;
+        this->maxLength = 0.f;
+    }
+}
+void edk::physics2D::RopeJoint2D::Destructor(){
+    if(this->classThis==this){
+        this->classThis=NULL;
+    }
+    edk::physics2D::Joint2D::Destructor();
 }
 
 //draw the joint in debug mode
 void edk::physics2D::RopeJoint2D::draw(edk::size2f32,edk::color3f32 color){
-    edk::GU::guColor3f32(color);edkEnd();
-    edk::GU::guPushMatrix();edkEnd();
-    edk::GU::guBegin(GU_LINES);edkEnd();
+    edk::GU::guColor3f32(color);
+    edk::GU::guPushMatrix();
+    edk::GU::guBegin(GU_LINES);
     //the line
-/*
-    edk::GU::guVertex2f32(this->worldPositionA.x,this->worldPositionA.y);edkEnd();
-    edk::GU::guVertex2f32(this->worldPositionB.x,this->worldPositionB.y);edkEnd();
+    /*
+    edk::GU::guVertex2f32(this->worldPositionA.x,this->worldPositionA.y);
+    edk::GU::guVertex2f32(this->worldPositionB.x,this->worldPositionB.y);
 */
-    temp=edk::Math::rotate(this->positionA,this->objectA->angle);edkEnd();
+    temp=edk::Math::rotate(this->positionA,this->objectA->angle);
     edk::GU::guVertex2f32(this->objectA->position.x + (temp.x),
                           this->objectA->position.y + (temp.y)
-                          );edkEnd();
-    temp=edk::Math::rotate(this->positionB,this->objectB->angle);edkEnd();
+                          );
+    temp=edk::Math::rotate(this->positionB,this->objectB->angle);
     edk::GU::guVertex2f32(this->objectB->position.x + (temp.x),
                           this->objectB->position.y + (temp.y)
-                          );edkEnd();
+                          );
 
-    edk::GU::guEnd();edkEnd();
-    edk::GU::guPopMatrix();edkEnd();
+    edk::GU::guEnd();
+    edk::GU::guPopMatrix();
 }

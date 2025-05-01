@@ -42,6 +42,11 @@ namespace edk{
 class FileToH{
 public:
     FileToH();
+    ~FileToH();
+
+    void Constructor();
+    void Destructor();
+
     static bool writeToFile(edk::char8* fileName,edk::uint32 lineSize);
     static bool writeToFile(const edk::char8* fileName,edk::uint32 lineSize);
     static bool writeToEDKFile(edk::char8* fileName,edk::uint32 lineSize);
@@ -49,6 +54,8 @@ public:
 //private:
     //read the name without the extension
     static edk::char8* readFileName(edk::char8* fileName);
+private:
+    edk::classID classThis;
 };
 }//edn namespace edk
 

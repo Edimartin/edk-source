@@ -29,52 +29,52 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endif
 
 edk::ViewController::ViewController(){
-    this->classThis=NULL;edkEnd();
-    this->Constructor(false);edkEnd();
+    this->classThis=NULL;
+    this->Constructor();
 }
 
 edk::ViewController::ViewController(rectf32 frame){
-    this->classThis=NULL;edkEnd();
-    this->Constructor(frame,false);edkEnd();
+    this->classThis=NULL;
+    this->Constructor(frame);
 }
 
 edk::ViewController::~ViewController(){
+    this->Destructor();
+}
+
+void edk::ViewController::Constructor(){
+    edk::View::Constructor();
+    if(this->classThis!=this){
+        this->classThis=this;
+
+        this->nexts.Constructor();
+
+        this->frame = edk::rectf32(0.f,0.f,0.f,0.f);
+        this->positionInWindow=this->frame.origin;
+        this->setRectInside = false;
+    }
+}
+void edk::ViewController::Constructor(edk::rectf32 frame){
+    edk::View::Constructor();
+    if(this->classThis!=this){
+        this->classThis=this;
+
+        this->nexts.Constructor();
+
+        this->frame=frame;
+        this->positionInWindow=this->frame.origin;
+        this->setRectInside = false;
+    }
+}
+void edk::ViewController::Destructor(){
     if(this->classThis==this){
-        this->classThis=NULL;edkEnd();
+        this->classThis=NULL;
         //can destruct the class
         this->removeAllSubview();
-        this->frame = edk::rectf32(0.f,0.f,0.f,0.f);edkEnd();
-        this->positionInWindow=this->frame.origin;edkEnd();
+        this->frame = edk::rectf32(0.f,0.f,0.f,0.f);
+        this->positionInWindow=this->frame.origin;
     }
-}
-
-void edk::ViewController::Constructor(bool runFather){
-    if(runFather){
-        edk::View::Constructor();edkEnd();
-    }
-    if(this->classThis!=this){
-        this->classThis=this;
-
-        this->nexts.Constructor();edkEnd();
-
-        this->frame = edk::rectf32(0.f,0.f,0.f,0.f);edkEnd();
-        this->positionInWindow=this->frame.origin;edkEnd();
-        this->setRectInside = false;edkEnd();
-    }
-}
-void edk::ViewController::Constructor(edk::rectf32 frame,bool runFather){
-    if(runFather){
-        edk::View::Constructor();edkEnd();
-    }
-    if(this->classThis!=this){
-        this->classThis=this;
-
-        this->nexts.Constructor();edkEnd();
-
-        this->frame=frame;edkEnd();
-        this->positionInWindow=this->frame.origin;edkEnd();
-        this->setRectInside = false;edkEnd();
-    }
+    edk::View::Destructor();
 }
 
 //draw the view inside in a separated function to viewTexture draw other views inside
@@ -87,8 +87,8 @@ void edk::ViewController::drawViewInside(){
                     rectTemp.origin.y,
                     rectTemp.size.width - this->borderTemp,
                     rectTemp.size.height - this->borderTemp
-                    );edkEnd();
-        this->setRectInside = true;edkEnd();
+                    );
+        this->setRectInside = true;
         //Then draw the others
         for(edk::uint32 i=0u;i<this->nexts.size();i++){
             //test if the view exist
@@ -96,7 +96,7 @@ void edk::ViewController::drawViewInside(){
                 //then draw using the view in GU. no in EDK
                 this->nexts.get(i)->runDraw(
                             this->rectInside
-                            );edkEnd();
+                            );
             }
         }
     }
@@ -106,13 +106,13 @@ void edk::ViewController::runPause(){
     //test if this view is not hided
     if(!this->hide){
         //pause this view
-        edk::View::runPause();edkEnd();
+        edk::View::runPause();
         //Then pause the others
         for(edk::uint32 i=0u;i<this->nexts.size();i++){
             //test if the view exist
             if(this->nexts.havePos(i)){
                 //then pause the view
-                this->nexts.get(i)->runPause();edkEnd();
+                this->nexts.get(i)->runPause();
             }
         }
     }
@@ -122,13 +122,13 @@ void edk::ViewController::runUnpause(){
     //test if this view is not hided
     if(!this->hide){
         //pause this view
-        edk::View::runUnpause();edkEnd();
+        edk::View::runUnpause();
         //Then unpause the others
         for(edk::uint32 i=0u;i<this->nexts.size();i++){
             //test if the view exist
             if(this->nexts.havePos(i)){
                 //then unpause the view
-                this->nexts.get(i)->runUnpause();edkEnd();
+                this->nexts.get(i)->runUnpause();
             }
         }
     }
@@ -150,10 +150,10 @@ bool edk::ViewController::addSubview(edk::View *addView){
     if(addView){
         if(!this->haveSubview(addView)){
             //now he can add the view
-            edk::uint32 temp = this->nexts.size();edkEnd();
+            edk::uint32 temp = this->nexts.size();
 
             //Add the new view
-            this->nexts.pushBack(addView);edkEnd();
+            this->nexts.pushBack(addView);
 
             //test if have added the view
             if(this->nexts.size()>temp){
@@ -165,11 +165,11 @@ bool edk::ViewController::addSubview(edk::View *addView){
                                 rectTemp.size.width - (edk::float32)this->borderSize,
                                 rectTemp.size.height - (edk::float32)this->borderSize
                                 );
-                    edkEnd();
-                    addView->runLoad(this->rectInside);edkEnd();
+
+                    addView->runLoad(this->rectInside);
                 }
                 else{
-                    addView->runLoad(this->frame);edkEnd();
+                    addView->runLoad(this->frame);
                 }
                 //have added the view
                 return true;
@@ -182,14 +182,14 @@ bool edk::ViewController::addSubview(edk::View *addView){
 
 edk::uint32 edk::ViewController::getCount(){
     //return the vector size
-    return this->nexts.size();edkEnd();
+    return this->nexts.size();
 }
 
 edk::View* edk::ViewController::getSubview(edk::uint64 n){
     //test if the view exist
     if(this->nexts.havePos(n)){
         //then find the view
-        return this->nexts.get(n);edkEnd();
+        return this->nexts.get(n);
     }
     //else return NULL
     return NULL;
@@ -204,13 +204,13 @@ edk::uint32 edk::ViewController::getSubviewId(edk::View *subView){
             if(this->nexts.havePos(i)){
                 if(subView==this->nexts.get(i)){
                     //foundIt. Return the pos in the vector
-                    return i;edkEnd();
+                    return i;
                 }
             }
         }
     }
     //else return the viewSize+1u
-    return this->nexts.size()+1u;edkEnd();
+    return this->nexts.size()+1u;
 }
 
 bool edk::ViewController::haveSubview(edk::View *subView){
@@ -226,33 +226,33 @@ bool edk::ViewController::haveSubview(edk::View *subView){
 //bring subView to front
 bool edk::ViewController::bringSubviewToSubviewFront(edk::View *subView1,edk::View *subView2){
     //
-    return this->bringSubviewIDToIDFront(this->getSubviewId(subView1),this->getSubviewId(subView2));edkEnd();
+    return this->bringSubviewIDToIDFront(this->getSubviewId(subView1),this->getSubviewId(subView2));
 }
 bool edk::ViewController::bringSubviewToIDFront(edk::View *subView,edk::uint32 newID){
     //
-    return this->bringSubviewIDToIDFront(this->getSubviewId(subView),newID);edkEnd();
+    return this->bringSubviewIDToIDFront(this->getSubviewId(subView),newID);
 }
 bool edk::ViewController::bringSubviewIDToIDFront(edk::uint32 id,edk::uint32 newID){
     //test if the newId are on the front
     if(newID>id){
         //bring to front of the newID
-        return this->nexts.bringPositionTo(id,newID+1u);edkEnd();
+        return this->nexts.bringPositionTo(id,newID+1u);
     }
     else{
         //bring to position of the newID
-        return this->nexts.bringPositionTo(id,newID);edkEnd();
+        return this->nexts.bringPositionTo(id,newID);
     }
     //else return false
     return false;
 }
 bool edk::ViewController::bringSubviewToFront(edk::View *subView){
     //first find the subViewID
-    return this-> bringSubviewIDToFront(this->getSubviewId(subView));edkEnd();
+    return this-> bringSubviewIDToFront(this->getSubviewId(subView));
 }
 bool edk::ViewController::bringSubviewIDToFront(edk::uint32 id){
     //
     if(this->nexts.size()){
-        return this->nexts.bringPositionTo(id,this->nexts.size()-1u);edkEnd();
+        return this->nexts.bringPositionTo(id,this->nexts.size()-1u);
     }
     //else return false
     return false;
@@ -260,36 +260,36 @@ bool edk::ViewController::bringSubviewIDToFront(edk::uint32 id){
 //move the subViews
 bool edk::ViewController::bringSubviewUp(edk::View* subView){
     //
-    return this->bringSubviewIDUp(this->getSubviewId(subView));edkEnd();
+    return this->bringSubviewIDUp(this->getSubviewId(subView));
 }
 bool edk::ViewController::bringSubviewIDUp(edk::uint32 id){
     //test if the id can move up
-    return this->nexts.bringPositionPlusOne(id);edkEnd();
+    return this->nexts.bringPositionPlusOne(id);
 }
 bool edk::ViewController::bringSubviewDown(edk::View* subView){
     //
-    return this->bringSubviewIDDown(this->getSubviewId(subView));edkEnd();
+    return this->bringSubviewIDDown(this->getSubviewId(subView));
 }
 bool edk::ViewController::bringSubviewIDDown(edk::uint32 id){
     //
-    return this->nexts.bringPositionMinusOne(id);edkEnd();
+    return this->nexts.bringPositionMinusOne(id);
 }
 bool edk::ViewController::bringSubviewUp(edk::View* subView,edk::uint32 count){
     //
-    return this->bringSubviewIDUp(this->getSubviewId(subView),count);edkEnd();
+    return this->bringSubviewIDUp(this->getSubviewId(subView),count);
 }
 bool edk::ViewController::bringSubviewIDUp(edk::uint32 id,edk::uint32 count){
     //
-    return this->bringSubviewIDToIDFront(id,id+count);edkEnd();
+    return this->bringSubviewIDToIDFront(id,id+count);
 }
 bool edk::ViewController::bringSubviewDown(edk::View* subView,edk::uint32 count){
     //
-    return this->bringSubviewIDDown(this->getSubviewId(subView),count);edkEnd();
+    return this->bringSubviewIDDown(this->getSubviewId(subView),count);
 }
 bool edk::ViewController::bringSubviewIDDown(edk::uint32 id,edk::uint32 count){
     //test if the the count is les than id
     if(count<=id){
-        return this->bringSubviewIDToIDFront(id,id-count);edkEnd();
+        return this->bringSubviewIDToIDFront(id,id-count);
     }
     //else return false
     return false;
@@ -299,47 +299,47 @@ bool edk::ViewController::bringSubviewIDDown(edk::uint32 id,edk::uint32 count){
 bool edk::ViewController::removeSubview(edk::View *subView){
     if(subView){
         //get subView ID
-        edk::uint32 id = this->getSubviewId(subView);edkEnd();
+        edk::uint32 id = this->getSubviewId(subView);
         if(this->nexts.havePos(id)){
-            this->nexts.bringPositionTo(id,this->nexts.size()-1u);edkEnd();
+            this->nexts.bringPositionTo(id,this->nexts.size()-1u);
             //then remove the same
-            this->nexts.remove(this->nexts.size()-1u);edkEnd();
+            this->nexts.remove(this->nexts.size()-1u);
 
             //remove the mouseInside
-            this->mouseInside = false;edkEnd();
+            this->mouseInside = false;
             //run unload
-            subView->runUnload();edkEnd();
+            subView->runUnload();
             return true;
         }
     }
     return false;
 }
 void edk::ViewController::removeAllSubview(){
-    edk::uint32 size  =this->nexts.size();edkEnd();
-    edk::View *subView=NULL;edkEnd();
+    edk::uint32 size  =this->nexts.size();
+    edk::View *subView=NULL;
     for(edk::uint32 i=0u;i<size;i++){
         //run unload function in views
         if(this->nexts.havePos(i)){
-            subView = this->nexts.get(i);edkEnd();
+            subView = this->nexts.get(i);
             if(subView){
-                subView->runUnload();edkEnd();
+                subView->runUnload();
             }
         }
     }
-    this->nexts.clean();edkEnd();
+    this->nexts.clean();
 }
 
 void edk::ViewController::draw(edk::rectf32 outsideViewOrigin){
     //First draw calculting the rectTemp
-    edk::View::draw(outsideViewOrigin);edkEnd();
+    edk::View::draw(outsideViewOrigin);
     //draw the view inside
-    this->drawViewInside();edkEnd();
+    this->drawViewInside();
 }
 
 //contact in the view
 bool edk::ViewController::contact(edk::vec2f32 point,edk::vec2f32 moved,edk::uint8 state,edk::vector::Stack<edk::uint32>* buttons){
     //return
-    bool ret=false;edkEnd();
+    bool ret=false;
     if(this->pointInside(point)){
         for(edk::uint32 i=this->nexts.size();i>0u;i--){
             //test if the view exist
@@ -347,41 +347,41 @@ bool edk::ViewController::contact(edk::vec2f32 point,edk::vec2f32 moved,edk::uin
                 if(this->nexts.get(i-1u)){
                     //test the contact
                     if(ret){
-                        this->nexts.get(i-1u)->contactRelease(point - this->animatedFrame.origin,state,buttons);edkEnd();
+                        this->nexts.get(i-1u)->contactRelease(point - this->animatedFrame.origin,state,buttons);
                     }
                     else{
                         if(this->nexts.get(i-1u)->contact(point - this->animatedFrame.origin,moved,state,buttons)){
                             //
-                            ret=true;edkEnd();
+                            ret=true;
                         }
                         else{
-                            this->nexts.get(i-1u)->contactRelease(point - this->animatedFrame.origin,state,buttons);edkEnd();
+                            this->nexts.get(i-1u)->contactRelease(point - this->animatedFrame.origin,state,buttons);
                         }
                     }
                 }
             }
         }
         if(ret){
-            this->edk::View::contactRelease(point,state,buttons);edkEnd();
+            this->edk::View::contactRelease(point,state,buttons);
         }
         else{
-            ret = this->edk::View::contact(point,moved,state,buttons);edkEnd();
+            ret = this->edk::View::contact(point,moved,state,buttons);
         }
     }
     else{
-        this->contactRelease(point,state,buttons);edkEnd();
+        this->contactRelease(point,state,buttons);
     }
     //else return false
     return ret;
 }
 void edk::ViewController::contactRelease(edk::vec2f32 point,edk::uint8 state,edk::vector::Stack<edk::uint32>* buttons){
-    this->edk::View::contactRelease(point,state,buttons);edkEnd();
+    this->edk::View::contactRelease(point,state,buttons);
     for(edk::uint32 i=this->nexts.size();i>0u;i--){
         //test if the view exist
         if(this->nexts.havePos(i-1u)){
             if(this->nexts.get(i-1u)){
                 //test the contact
-                this->nexts.get(i-1u)->contactRelease(point - this->animatedFrame.origin,state,buttons);edkEnd();
+                this->nexts.get(i-1u)->contactRelease(point - this->animatedFrame.origin,state,buttons);
             }
         }
     }

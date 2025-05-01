@@ -25,25 +25,22 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 edk::ListDirectory::ListDirectory(){
-    this->classThis=NULL;edkEnd();
-    this->Constructor(false);edkEnd();
+    this->classThis=NULL;
+    this->Constructor();
 }
 edk::ListDirectory::~ListDirectory(){
-    if(this->classThis==this){
-        this->classThis=NULL;edkEnd();
-        //can destruct the class
-    }
+    this->Destructor();
 }
 
 //start listing the folders and files in a directory received by function parameter
 bool edk::ListDirectory::runNoClean(edk::char8* directory){
     if(directory){
         //directory pointer
-        DIR *dir;edkEnd();
+        DIR *dir;
         //file pointer
-        struct dirent *file;edkEnd();
+        struct dirent *file;
         //status of the file
-        struct stat status;edkEnd();
+        struct stat status;
 
 
         edk::char8* str = NULL;
@@ -58,18 +55,18 @@ bool edk::ListDirectory::runNoClean(edk::char8* directory){
             free(str);
         }
 
-        edk::char8* temp=NULL;edkEnd();
+        edk::char8* temp=NULL;
         //open the directory
-        dir = opendir(directory);edkEnd();
+        dir = opendir(directory);
         if(dir){
-            //printf("\nDirectory %s",directory);edkEnd();
+            //printf("\nDirectory %s",directory);
             //list the files
             while((file = readdir(dir)) != NULL){
                 //create the file string to read the status
-                temp = edk::String::strCatMulti(directory,"/",file->d_name,NULL);edkEnd();
+                temp = edk::String::strCatMulti(directory,"/",file->d_name,NULL);
                 if(temp){
                     //read the status
-                    stat(temp, &status);edkEnd();
+                    stat(temp, &status);
 
                     switch(status.st_mode & S_IFMT){
                     case S_IFDIR:
@@ -78,50 +75,50 @@ bool edk::ListDirectory::runNoClean(edk::char8* directory){
                         if(!edk::String::strCompare(file->d_name,".")
                                 && !edk::String::strCompare(file->d_name,"..")
                                 ){
-                            //printf("\nFolder:'%s' LastModify:%lu size:%lu",file->d_name,status.st_mtime,status.st_size);fflush(stdout);edkEnd();
-                            this->listFolder(file->d_name,status.st_mtime,status.st_size);edkEnd();
+                            //printf("\nFolder:'%s' LastModify:%lu size:%lu",file->d_name,status.st_mtime,status.st_size);fflush(stdout);
+                            this->listFolder(file->d_name,status.st_mtime,status.st_size);
                         }
                         break;
                     case S_IFREG:
                         //FILE
-                        //printf("\nFile  :'%s' LastModify:%lu size:%lu",file->d_name,status.st_mtime,status.st_size);fflush(stdout);edkEnd();
-                        this->listFile(file->d_name,status.st_mtime,status.st_size);edkEnd();
+                        //printf("\nFile  :'%s' LastModify:%lu size:%lu",file->d_name,status.st_mtime,status.st_size);fflush(stdout);
+                        this->listFile(file->d_name,status.st_mtime,status.st_size);
                         break;
                     }
 
-                    free(temp);edkEnd();
+                    free(temp);
                 }
             }
-            closedir(dir);edkEnd();
+            closedir(dir);
             return true;
         }
     }
     return false;
 }
 bool edk::ListDirectory::runNoClean(const edk::char8* directory){
-    return this->runNoClean((edk::char8*) directory);edkEnd();
+    return this->runNoClean((edk::char8*) directory);
 }
 bool edk::ListDirectory::runNoCleanFilesOnly(edk::char8* directory){
     if(directory){
         //directory pointer
-        DIR *dir;edkEnd();
+        DIR *dir;
         //file pointer
-        struct dirent *file;edkEnd();
+        struct dirent *file;
         //status of the file
-        struct stat status;edkEnd();
+        struct stat status;
 
-        edk::char8* temp=NULL;edkEnd();
+        edk::char8* temp=NULL;
         //open the directory
-        dir = opendir(directory);edkEnd();
+        dir = opendir(directory);
         if(dir){
-            //printf("\nDirectory %s",directory);edkEnd();
+            //printf("\nDirectory %s",directory);
             //list the files
             while((file = readdir(dir)) != NULL){
                 //create the file string to read the status
-                temp = edk::String::strCatMulti(directory,"/",file->d_name,NULL);edkEnd();
+                temp = edk::String::strCatMulti(directory,"/",file->d_name,NULL);
                 if(temp){
                     //read the status
-                    stat(temp, &status);edkEnd();
+                    stat(temp, &status);
 
                     switch(status.st_mode & S_IFMT){
                     case S_IFDIR:
@@ -129,15 +126,15 @@ bool edk::ListDirectory::runNoCleanFilesOnly(edk::char8* directory){
                         break;
                     case S_IFREG:
                         //FILE
-                        //printf("\nFile  :'%s' LastModify:%lu size:%lu",file->d_name,status.st_mtime,status.st_size);fflush(stdout);edkEnd();
-                        this->listFile(file->d_name,status.st_mtime,status.st_size);edkEnd();
+                        //printf("\nFile  :'%s' LastModify:%lu size:%lu",file->d_name,status.st_mtime,status.st_size);fflush(stdout);
+                        this->listFile(file->d_name,status.st_mtime,status.st_size);
                         break;
                     }
 
-                    free(temp);edkEnd();
+                    free(temp);
                 }
             }
-            closedir(dir);edkEnd();
+            closedir(dir);
             return true;
         }
     }
@@ -149,24 +146,24 @@ bool edk::ListDirectory::runNoCleanFilesOnly(const edk::char8* directory){
 bool edk::ListDirectory::runNoCleanFoldersOnly(edk::char8* directory){
     if(directory){
         //directory pointer
-        DIR *dir;edkEnd();
+        DIR *dir;
         //file pointer
-        struct dirent *file;edkEnd();
+        struct dirent *file;
         //status of the file
-        struct stat status;edkEnd();
+        struct stat status;
 
-        edk::char8* temp=NULL;edkEnd();
+        edk::char8* temp=NULL;
         //open the directory
-        dir = opendir(directory);edkEnd();
+        dir = opendir(directory);
         if(dir){
-            //printf("\nDirectory %s",directory);edkEnd();
+            //printf("\nDirectory %s",directory);
             //list the files
             while((file = readdir(dir)) != NULL){
                 //create the file string to read the status
-                temp = edk::String::strCatMulti(directory,"/",file->d_name,NULL);edkEnd();
+                temp = edk::String::strCatMulti(directory,"/",file->d_name,NULL);
                 if(temp){
                     //read the status
-                    stat(temp, &status);edkEnd();
+                    stat(temp, &status);
 
                     switch(status.st_mode & S_IFMT){
                     case S_IFDIR:
@@ -175,18 +172,18 @@ bool edk::ListDirectory::runNoCleanFoldersOnly(edk::char8* directory){
                         if(!edk::String::strCompare(file->d_name,".")
                                 && !edk::String::strCompare(file->d_name,"..")
                                 ){
-                            //printf("\nFolder:'%s' LastModify:%lu size:%lu",file->d_name,status.st_mtime,status.st_size);fflush(stdout);edkEnd();
-                            this->listFolder(file->d_name,status.st_mtime,status.st_size);edkEnd();
+                            //printf("\nFolder:'%s' LastModify:%lu size:%lu",file->d_name,status.st_mtime,status.st_size);fflush(stdout);
+                            this->listFolder(file->d_name,status.st_mtime,status.st_size);
                         }
                         break;
                     case S_IFREG:
                         break;
                     }
 
-                    free(temp);edkEnd();
+                    free(temp);
                 }
             }
-            closedir(dir);edkEnd();
+            closedir(dir);
             return true;
         }
     }
@@ -196,13 +193,19 @@ bool edk::ListDirectory::runNoCleanFoldersOnly(const edk::char8* directory){
     return this->runNoCleanFoldersOnly((edk::char8*) directory);
 }
 
-void edk::ListDirectory::Constructor(bool /*runFather*/){
+void edk::ListDirectory::Constructor(){
     //
     if(this->classThis!=this){
         this->classThis=this;
 
         this->files.Constructor();
         this->folders.Constructor();
+    }
+}
+void edk::ListDirectory::Destructor(){
+    if(this->classThis==this){
+        this->classThis=NULL;
+        //can destruct the class
     }
 }
 
@@ -218,7 +221,7 @@ bool edk::ListDirectory::run(edk::char8* directory){
     return this->runNoClean(directory);
 }
 bool edk::ListDirectory::run(const edk::char8* directory){
-    return this->run((edk::char8*) directory);edkEnd();
+    return this->run((edk::char8*) directory);
 }
 bool edk::ListDirectory::runFilesOnly(edk::char8* directory){
     this->folders.clean();

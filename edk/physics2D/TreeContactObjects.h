@@ -44,22 +44,24 @@ namespace physics2D{
 class ContactObjects{
 public:
     ContactObjects(edk::physics2D::PhysicObject2D* objectA,edk::physics2D::PhysicObject2D* objectB){
-        this->classThis=NULL;edkEnd();
-        this->Constructor(objectA,objectB);edkEnd();
+        this->classThis=NULL;
+        this->Constructor(objectA,objectB);
     }
     virtual ~ContactObjects(){
-        if(this->classThis==this){
-            this->classThis=NULL;edkEnd();
-            //can destruct the class
-        }
+        this->Destructor();
     }
 
-    void Constructor(edk::physics2D::PhysicObject2D* objectA,edk::physics2D::PhysicObject2D* objectB,bool runFather=true){
-        if(runFather){edkEnd();}
+    void Constructor(edk::physics2D::PhysicObject2D* objectA,edk::physics2D::PhysicObject2D* objectB){
         if(this->classThis!=this){
             this->classThis=this;
-            this->objectA=objectA;edkEnd();
-            this->objectB=objectB;edkEnd();
+            this->objectA=objectA;
+            this->objectB=objectB;
+        }
+    }
+    void Destructor(){
+        if(this->classThis==this){
+            this->classThis=NULL;
+            //can destruct the class
         }
     }
 
@@ -71,23 +73,25 @@ private:
 class ContactObject{
 public:
     ContactObject(edk::physics2D::PhysicObject2D* object){
-        this->classThis=NULL;edkEnd();
-        this->Constructor(object);edkEnd();
+        this->classThis=NULL;
+        this->Constructor(object);
     }
     virtual ~ContactObject(){
-        if(this->classThis==this){
-            this->classThis=NULL;edkEnd();
-            //can destruct the class
-            this->pointers.clean();
-        }
+        this->Destructor();
     }
 
-    void Constructor(edk::physics2D::PhysicObject2D* object,bool runFather=true){
-        if(runFather){edkEnd();}
+    void Constructor(edk::physics2D::PhysicObject2D* object){
         if(this->classThis!=this){
-            this->classThis=this;edkEnd();
-            this->object=object;edkEnd();
+            this->classThis=this;
+            this->object=object;
             this->pointers.Constructor();
+        }
+    }
+    void Destructor(){
+        if(this->classThis==this){
+            this->classThis=NULL;
+            //can destruct the class
+            this->pointers.clean();
         }
     }
 
@@ -101,7 +105,8 @@ public:
     TreeContactObjects();
     virtual ~TreeContactObjects();
 
-    void Constructor(bool runFather=true);
+    void Constructor();
+    void Destructor();
 
     //clean the tree
     void cleanContacts();
@@ -119,21 +124,25 @@ private:
     edk::physics2D::ContactObjects* getContactSecond(edk::physics2D::PhysicObject2D* objectA,edk::physics2D::PhysicObject2D* objectB);
     class TreeObjects : public edk::vector::BinaryTree<edk::physics2D::ContactObjects*>{
     public:
-        TreeObjects(){this->classThis=NULL;this->Constructor(false);edkEnd();}
+        TreeObjects(){
+            this->classThis=NULL;
+            this->Constructor();
+        }
         virtual ~TreeObjects(){
-            if(this->classThis==this){
-                this->classThis=NULL;edkEnd();
-                //can destruct the class
-            }
         }
 
-        void Constructor(bool runFather=true){
-            if(runFather){
-                edk::vector::BinaryTree<edk::physics2D::ContactObjects*>::Constructor();edkEnd();
-            }
+        void Constructor(){
+            edk::vector::BinaryTree<edk::physics2D::ContactObjects*>::Constructor();
             if(this->classThis!=this){
                 this->classThis=this;
             }
+        }
+        void Destructor(){
+            if(this->classThis==this){
+                this->classThis=NULL;
+                //can destruct the class
+            }
+            edk::vector::BinaryTree<edk::physics2D::ContactObjects*>::Destructor();
         }
 
         //compare if the value is bigger

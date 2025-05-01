@@ -45,7 +45,8 @@ public:
     InterpolationLine2D();
     virtual ~InterpolationLine2D();
 
-    void Constructor(bool runFather=true);
+    void Constructor();
+    void Destructor();
 
     //SETERS
     //set the start frame

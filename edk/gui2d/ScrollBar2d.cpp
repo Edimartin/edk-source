@@ -343,93 +343,94 @@ static edk::uchar8 borderScrollUp[6555] = {
 };
 
 edk::gui2d::ScrollBar2d::ScrollBar2d(){
-    this->classThis=NULL;edkEnd();
-    this->Constructor(false);edkEnd();
+    this->classThis=NULL; 
+    this->Constructor();
 }
 edk::gui2d::ScrollBar2d::~ScrollBar2d(){
-    if(this->classThis==this){
-        this->classThis=NULL;edkEnd();
-        //can destruct the class
-        //clean the meshes
-        this->unload();edkEnd();
-    }
+    this->Destructor();
 }
 
-void edk::gui2d::ScrollBar2d::Constructor(bool runFather){
-    if(runFather){
-        edk::gui2d::ObjectGui2d::Constructor();edkEnd();
-    }
+void edk::gui2d::ScrollBar2d::Constructor(){
+        edk::gui2d::ObjectGui2d::Constructor(); 
     if(this->classThis!=this){
         this->classThis=this;
 
-
-        this->objInside.Constructor();edkEnd();
+        this->objInside.Constructor(); 
 
         this->type=edk::TypeObject2DScrollBar;
-        this->setBorderSize(0.5f);edkEnd();
-        this->objPosition = 0.f;edkEnd();
-        this->saveSize = 1.f;edkEnd();
-        this->foregroundSize = 0.5f;edkEnd();
-        this->saveSize = 0.f;edkEnd();
+        this->setBorderSize(0.5f); 
+        this->objPosition = 0.f; 
+        this->saveSize = 1.f; 
+        this->foregroundSize = 0.5f; 
+        this->saveSize = 0.f; 
         //set the percents
-        this->setPercent(50.0f,50.0f);edkEnd();
+        this->setPercent(50.0f,50.0f); 
 
-        this->saveStatusInside=this->statusInside=edk::gui2d::gui2dTextureNormal;edkEnd();
+        this->saveStatusInside=this->statusInside=edk::gui2d::gui2dTextureNormal; 
     }
+}
+void edk::gui2d::ScrollBar2d::Destructor(){
+    if(this->classThis==this){
+        this->classThis=NULL;
+        //can destruct the class
+        //clean the meshes
+        this->unload();
+    }
+    edk::gui2d::ObjectGui2d::Destructor();
 }
 
 void edk::gui2d::ScrollBar2d::updateObjPosition(){
     //update X
-    edk::vec2f32 position = this->objPosition-this->position;edkEnd();
+    edk::vec2f32 position = this->objPosition-this->position; 
     if(position.x + (this->foregroundSize.width*(this->size.width*0.5))>(this->size.width*0.5)){
         //
-        this->objPosition.x = this->position.x + (this->size.width*0.5) - (this->foregroundSize.width*(this->size.width*0.5));edkEnd();
+        this->objPosition.x = this->position.x + (this->size.width*0.5) - (this->foregroundSize.width*(this->size.width*0.5)); 
     }
     if(position.x - (this->foregroundSize.width*(this->size.width*0.5))<(this->size.width*-0.5)){
         //
-        this->objPosition.x = this->position.x - (this->size.width*0.5) + (this->foregroundSize.width*(this->size.width*0.5));edkEnd();
+        this->objPosition.x = this->position.x - (this->size.width*0.5) + (this->foregroundSize.width*(this->size.width*0.5)); 
     }
     //update Y
     if(position.y + (this->foregroundSize.height*(this->size.height*0.5))>(this->size.height*0.5)){
         //
-        this->objPosition.y = this->position.y + (this->size.height*0.5) - (this->foregroundSize.height*(this->size.height*0.5));edkEnd();
+        this->objPosition.y = this->position.y + (this->size.height*0.5) - (this->foregroundSize.height*(this->size.height*0.5)); 
     }
     if(position.y - (this->foregroundSize.height*(this->size.height*0.5))<(this->size.height*-0.5)){
         //
-        this->objPosition.y = this->position.y - (this->size.height*0.5) + (this->foregroundSize.height*(this->size.height*0.5));edkEnd();
+        this->objPosition.y = this->position.y - (this->size.height*0.5) + (this->foregroundSize.height*(this->size.height*0.5)); 
     }
 }
 //function to calculate the percent values for X and Y
 void edk::gui2d::ScrollBar2d::calculatePercents(){
     //
-    edk::float32 div = 0.f;edkEnd();
+    edk::float32 div = 0.f; 
 
-    div = this->size.width - this->foregroundSize.width;edkEnd();
+    div = this->size.width - this->foregroundSize.width; 
     if(div==0.f){
-        this->percent.x = 1.f;edkEnd();
+        this->percent.x = 1.f; 
     }
     else{
         this->percent.x = (this->objPosition.x - this->position.x + this->size.width*0.5 - this->foregroundSize.width*0.5f)
-                / (this->size.width - this->foregroundSize.width);edkEnd();
+                / (this->size.width - this->foregroundSize.width); 
     }
-    div = this->size.height - this->foregroundSize.height;edkEnd();
+    div = this->size.height - this->foregroundSize.height; 
     if(div==0.f){
-        this->percent.y = 1.f;edkEnd();
+        this->percent.y = 1.f; 
     }
     else{
         this->percent.y = (this->objPosition.y - this->position.y + this->size.height*0.5 - this->foregroundSize.height*0.5f)
-                / (this->size.height - this->foregroundSize.height);edkEnd();
+                / (this->size.height - this->foregroundSize.height); 
     }
     //change the percent to 0.f to 100.f
-    this->percent.x *= 100.f;edkEnd();
-    this->percent.y *= 100.f;edkEnd();
+    this->percent.x *= 100.f; 
+    this->percent.y *= 100.f; 
 }
 //calculate the position from the percents
 void edk::gui2d::ScrollBar2d::calculatePosition(){
     this->objPosition.x = (this->position.x - this->size.width*0.5f + this->foregroundSize.width*0.5f) + (this->size.width - this->foregroundSize.width)
-            * (this->percent.x * 0.01f);edkEnd();
+            * (this->percent.x * 0.01f); 
     this->objPosition.y = (this->position.x - this->size.height*0.5f + this->foregroundSize.height*0.5f) + (this->size.height - this->foregroundSize.height)
-            * (this->percent.y * 0.01f);edkEnd();
+            * (this->percent.y * 0.01f); 
 }
 
 //save the FontTemplate
@@ -459,246 +460,246 @@ bool edk::gui2d::ScrollBar2d::saveTemplates(edk::char8* folder){
 
 //Set the percent
 void edk::gui2d::ScrollBar2d::setPercent(edk::vec2f32 percent){
-    this->setPercent(percent.x,percent.y);edkEnd();
+    this->setPercent(percent.x,percent.y); 
 }
 void edk::gui2d::ScrollBar2d::setPercent(edk::float32 x,edk::float32 y){
-    this->percent.x = x;edkEnd();
-    this->percent.y = y;edkEnd();
+    this->percent.x = x; 
+    this->percent.y = y; 
 
     //test the new percent
     if(this->percent.x<0.f){
-        this->percent.x=0.f;edkEnd();
+        this->percent.x=0.f; 
     }
     if(this->percent.y<0.f){
-        this->percent.y=0.f;edkEnd();
+        this->percent.y=0.f; 
     }
     if(this->percent.x>100.f){
-        this->percent.x=100.f;edkEnd();
+        this->percent.x=100.f; 
     }
     if(this->percent.y>100.f){
-        this->percent.y=100.f;edkEnd();
+        this->percent.y=100.f; 
     }
 
-    this->calculatePosition();edkEnd();
+    this->calculatePosition(); 
 }
 void edk::gui2d::ScrollBar2d::setPercentX(edk::float32 x){
-    this->percent.x = x;edkEnd();
+    this->percent.x = x; 
 
     //test the new percent
     if(this->percent.x<0.f){
-        this->percent.x=0.f;edkEnd();
+        this->percent.x=0.f; 
     }
     if(this->percent.y<0.f){
-        this->percent.y=0.f;edkEnd();
+        this->percent.y=0.f; 
     }
 
-    this->calculatePosition();edkEnd();
+    this->calculatePosition(); 
 }
 void edk::gui2d::ScrollBar2d::setPercentY(edk::float32 y){
-    this->percent.y = y;edkEnd();
+    this->percent.y = y; 
 
     //test the new percent
     if(this->percent.x>100.f){
-        this->percent.x=100.f;edkEnd();
+        this->percent.x=100.f; 
     }
     if(this->percent.y>100.f){
-        this->percent.y=100.f;edkEnd();
+        this->percent.y=100.f; 
     }
 
-    this->calculatePosition();edkEnd();
+    this->calculatePosition(); 
 }
 //return the percent
 edk::float32 edk::gui2d::ScrollBar2d::getPercentX(){
-    return this->percent.x;edkEnd();
+    return this->percent.x; 
 }
 edk::float32 edk::gui2d::ScrollBar2d::getPercentY(){
-    return this->percent.y;edkEnd();
+    return this->percent.y; 
 }
 edk::vec2f32 edk::gui2d::ScrollBar2d::getPercent(){
-    return this->percent;edkEnd();
+    return this->percent; 
 }
 
 //load the button textures and meshes
 bool edk::gui2d::ScrollBar2d::load(){
     if(edk::gui2d::ObjectGui2d::load()){
-        this->saveSize = this->size;edkEnd();
-        this->objInside.load(edk::size2f32(this->foregroundSize * this->size));edkEnd();
+        this->saveSize = this->size; 
+        this->objInside.load(edk::size2f32(this->foregroundSize * this->size)); 
         //update the obj position
-        this->calculatePosition();edkEnd();
-        this->updateObjPosition();edkEnd();
-        this->calculatePercents();edkEnd();
+        this->calculatePosition(); 
+        this->updateObjPosition(); 
+        this->calculatePercents(); 
 
-        this->loadSpriteFromMemory(borderScrollUpName,borderScrollUp,borderScrollUpSize);edkEnd();
-        this->loadSpritePressedFromMemory(borderScrollUpName,borderScrollUp,borderScrollUpSize);edkEnd();
-        this->loadSpriteUpFromMemory(borderScrollUpName,borderScrollUp,borderScrollUpSize);edkEnd();
-        this->loadSpritePressedUpFromMemory(borderScrollUpName,borderScrollUp,borderScrollUpSize);edkEnd();
+        this->loadSpriteFromMemory(borderScrollUpName,borderScrollUp,borderScrollUpSize); 
+        this->loadSpritePressedFromMemory(borderScrollUpName,borderScrollUp,borderScrollUpSize); 
+        this->loadSpriteUpFromMemory(borderScrollUpName,borderScrollUp,borderScrollUpSize); 
+        this->loadSpritePressedUpFromMemory(borderScrollUpName,borderScrollUp,borderScrollUpSize); 
 
         return true;
     }
     return false;
 }
 void edk::gui2d::ScrollBar2d::unload(){
-    this->obj.unload();edkEnd();
-    edk::gui2d::ObjectGui2d::unload();edkEnd();
+    this->obj.unload(); 
+    edk::gui2d::ObjectGui2d::unload(); 
 }
 void edk::gui2d::ScrollBar2d::update(){
-    edk::gui2d::ObjectGui2d::update();edkEnd();
+    edk::gui2d::ObjectGui2d::update(); 
 }
 
 //set border size
 bool edk::gui2d::ScrollBar2d::setBorderSize(edk::float32 size){
-    this->saveSize.width = this->size.width+1.f;edkEnd();
-    this->objInside.setBorderSize(size);edkEnd();
-    return edk::gui2d::ObjectGui2d::setBorderSize(size);edkEnd();
+    this->saveSize.width = this->size.width+1.f; 
+    this->objInside.setBorderSize(size); 
+    return edk::gui2d::ObjectGui2d::setBorderSize(size); 
 }
 //set the size
 bool edk::gui2d::ScrollBar2d::setForegroundSize(edk::size2f32 size){
     //
-    return this->setForegroundSize(size.width,size.height);edkEnd();
+    return this->setForegroundSize(size.width,size.height); 
 }
 bool edk::gui2d::ScrollBar2d::setForegroundSize(edk::float32 width,edk::float32 height){
-    bool ret = true;edkEnd();
+    bool ret = true; 
     //test the size
     if(width<0.f){
-        width=0.f;edkEnd();
-        ret = false;edkEnd();
+        width=0.f; 
+        ret = false; 
     }
     if(width>1.f){
-        width=1.f;edkEnd();
-        ret = false;edkEnd();
+        width=1.f; 
+        ret = false; 
     }
     if(height<0.f){
-        height=0.f;edkEnd();
-        ret = false;edkEnd();
+        height=0.f; 
+        ret = false; 
     }
     if(height>1.f){
-        height=1.f;edkEnd();
-        ret = false;edkEnd();
+        height=1.f; 
+        ret = false; 
     }
     //set the size
-    this->foregroundSize.width = width;edkEnd();
-    this->foregroundSize.height = height;edkEnd();
+    this->foregroundSize.width = width; 
+    this->foregroundSize.height = height; 
 
-    this->saveSize.width = this->saveSize.width+1.f;edkEnd();
+    this->saveSize.width = this->saveSize.width+1.f; 
 
     return ret;
 }
 //get the foregroundSize
 edk::float32 edk::gui2d::ScrollBar2d::getForegroundWidth(){
-    return this->foregroundSize.width;edkEnd();
+    return this->foregroundSize.width; 
 }
 edk::float32 edk::gui2d::ScrollBar2d::getForegroundHeight(){
-    return this->foregroundSize.height;edkEnd();
+    return this->foregroundSize.height; 
 }
 edk::size2f32 edk::gui2d::ScrollBar2d::getForegroundSize(){
-    return this->foregroundSize;edkEnd();
+    return this->foregroundSize; 
 }
 
 //set the color
 void edk::gui2d::ScrollBar2d::setForegroundColor(edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a){
-    this->objInside.setColor(r,g,b,a);edkEnd();
+    this->objInside.setColor(r,g,b,a); 
 }
 void edk::gui2d::ScrollBar2d::setForegroundColor(edk::float32 r,edk::float32 g,edk::float32 b){
-    this->objInside.setColor(r,g,b);edkEnd();
+    this->objInside.setColor(r,g,b); 
 }
 void edk::gui2d::ScrollBar2d::setForegroundColor(edk::color4f32 color){
-    this->objInside.setColor(color);edkEnd();
+    this->objInside.setColor(color); 
 }
 void edk::gui2d::ScrollBar2d::setForegroundColor(edk::color3f32 color){
-    this->objInside.setColor(color);edkEnd();
+    this->objInside.setColor(color); 
 }
 
 //draw the button
 void edk::gui2d::ScrollBar2d::draw(){
-    edk::gui2d::ObjectGui2d::draw();edkEnd();
+    edk::gui2d::ObjectGui2d::draw(); 
 
     //test if the size is different
     if(this->saveSize!=this->size){
-        this->saveSize=this->size;edkEnd();
+        this->saveSize=this->size; 
         //update the obj position
-        this->objInside.updatePolygons(this->foregroundSize * this->size);edkEnd();
-        this->calculatePosition();edkEnd();
-        this->calculatePercents();edkEnd();
+        this->objInside.updatePolygons(this->foregroundSize * this->size); 
+        this->calculatePosition(); 
+        this->calculatePercents(); 
     }
 
     //put the transformation on a stack
-    edk::GU::guPushMatrix();edkEnd();
+    edk::GU::guPushMatrix(); 
 
     //add translate
-    edk::GU::guTranslate2f32(this->objPosition);edkEnd();
+    edk::GU::guTranslate2f32(this->objPosition); 
     //add rotation
-    edk::GU::guRotateZf32(this->angle);edkEnd();
+    edk::GU::guRotateZf32(this->angle); 
     //add scale
-    //edk::GU::guScale2f32(this->size);edkEnd();
+    //edk::GU::guScale2f32(this->size); 
 
-    edk::GU::guEnable(GU_LIGHTING);edkEnd();
+    edk::GU::guEnable(GU_LIGHTING); 
 
     switch(this->statusInside){
     case gui2dTextureUp:
-        this->objInside.drawUp();edkEnd();
+        this->objInside.drawUp(); 
         break;
     case gui2dTexturePressed:
-        this->objInside.drawPressed();edkEnd();
+        this->objInside.drawPressed(); 
         break;
     case gui2dTexturePressedUp:
-        this->objInside.drawPressedUp();edkEnd();
+        this->objInside.drawPressedUp(); 
         break;
     case gui2dTextureSize:
     case gui2dTextureNormal:
-        this->objInside.drawNormal();edkEnd();
+        this->objInside.drawNormal(); 
         break;
     }
-    edk::GU::guDisable(GU_LIGHTING);edkEnd();
+    edk::GU::guDisable(GU_LIGHTING); 
 
-    edk::GU::guPopMatrix();edkEnd();
+    edk::GU::guPopMatrix(); 
 }
 
 //move functions
 void edk::gui2d::ScrollBar2d::startMove(edk::vec2f32 mousePosition){
     //move the objPosition to mousePosition
-    this->objPosition = mousePosition;edkEnd();
+    this->objPosition = mousePosition; 
     //update the inside position
-    this->updateObjPosition();edkEnd();
-    this->calculatePercents();edkEnd();
-    this->savePosition = this->objPosition;edkEnd();
+    this->updateObjPosition(); 
+    this->calculatePercents(); 
+    this->savePosition = this->objPosition; 
 }
 void edk::gui2d::ScrollBar2d::moveTo(edk::vec2f32 position){
-    this->objPosition = this->savePosition + position;edkEnd();
+    this->objPosition = this->savePosition + position; 
     //update the inside position
-    this->updateObjPosition();edkEnd();
-    this->calculatePercents();edkEnd();
+    this->updateObjPosition(); 
+    this->calculatePercents(); 
 }
 void edk::gui2d::ScrollBar2d::cancelMove(){
-    this->objPosition = this->savePosition;edkEnd();
+    this->objPosition = this->savePosition; 
 }
 //return true if the object can be moved
 bool edk::gui2d::ScrollBar2d::canMove(){
     return true;
 }
 bool edk::gui2d::ScrollBar2d::setStatus(edk::gui2d::gui2dTexture status){
-    this->status = edk::gui2d::gui2dTexture::gui2dTextureNormal;edkEnd();
+    this->status = edk::gui2d::gui2dTexture::gui2dTextureNormal; 
     switch(status){
     case edk::gui2d::gui2dTexture::gui2dTextureUp:
-        this->statusInside = edk::gui2d::gui2dTexture::gui2dTextureUp;edkEnd();
+        this->statusInside = edk::gui2d::gui2dTexture::gui2dTextureUp; 
         return true;
         break;
     case edk::gui2d::gui2dTexture::gui2dTexturePressedUp:
-        this->statusInside = edk::gui2d::gui2dTexture::gui2dTexturePressedUp;edkEnd();
+        this->statusInside = edk::gui2d::gui2dTexture::gui2dTexturePressedUp; 
         return true;
         break;
     case edk::gui2d::gui2dTexture::gui2dTexturePressed:
-        this->statusInside = edk::gui2d::gui2dTexture::gui2dTexturePressed;edkEnd();
+        this->statusInside = edk::gui2d::gui2dTexture::gui2dTexturePressed; 
         return true;
         break;
     case edk::gui2d::gui2dTexture::gui2dTextureSize:
     case edk::gui2d::gui2dTexture::gui2dTextureNormal:
-        this->statusInside = edk::gui2d::gui2dTexture::gui2dTextureNormal;edkEnd();
+        this->statusInside = edk::gui2d::gui2dTexture::gui2dTextureNormal; 
         return true;
         break;
     }
     return false;
 }
 edk::gui2d::gui2dTexture edk::gui2d::ScrollBar2d::getStatus(){
-    return this->statusInside;edkEnd();
+    return this->statusInside; 
 }
 

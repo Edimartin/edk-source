@@ -46,8 +46,9 @@ public:
     Bezier2D(edk::vec2f32 p1,edk::vec2f32 p2,edk::vec2f32 p3,edk::vec2f32 p4);
     virtual ~Bezier2D();
 
-    void Constructor(bool runFather=true);
-    void Constructor(edk::vec2f32 p1,edk::vec2f32 p2,edk::vec2f32 p3,edk::vec2f32 p4,bool runFather=true);
+    void Constructor();
+    void Constructor(edk::vec2f32 p1,edk::vec2f32 p2,edk::vec2f32 p3,edk::vec2f32 p4);
+    void Destructor();
 
     //Implement the Bezier Curve
     edk::vec2f32 getPoint(edk::float32 percent);

@@ -50,7 +50,8 @@ public:
     Button2D();
     virtual ~Button2D();
 
-    void Constructor(bool runFather=true);
+    void Constructor();
+    void Destructor();
 
     //load the button textures and meshes
     bool load();

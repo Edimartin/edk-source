@@ -49,8 +49,9 @@ public:
     ViewGUTexture(edk::uint32 width,edk::uint32 height);
     virtual ~ViewGUTexture();
 
-    void Constructor(edk::size2ui32 size,bool runFather=true);
-    void Constructor(edk::uint32 width,edk::uint32 height,bool runFather=true);
+    void Constructor(edk::size2ui32 size);
+    void Constructor(edk::uint32 width,edk::uint32 height);
+    void Destructor();
 
     //set the new size of the texture
     bool setTextureSize(edk::size2ui32 size);

@@ -50,27 +50,22 @@ edk::uint8 vboSizeofMesh3D[edk::GU::vbo_Size] = {
 };
 
 edk::shape::Polygon3DList::Polygon3DList(){
-    this->classThis=NULL;edkEnd();
-    this->Constructor(false);edkEnd();
+    this->classThis=NULL;
+    this->Constructor();
 }
 
 edk::shape::Polygon3DList::~Polygon3DList(){
-    if(this->classThis==this){
-        this->classThis=NULL;edkEnd();
-        //can destruct the class
-        //clean the polygons
-        this->cleanPolygons();edkEnd();
-    }
+    this->Destructor();
 }
 
-void edk::shape::Polygon3DList::Constructor(bool /*runFather*/){
+void edk::shape::Polygon3DList::Constructor(){
     if(this->classThis!=this){
         this->classThis=this;
 
-        this->polygons.Constructor();edkEnd();
+        this->polygons.Constructor();
 
         //clean the selected
-        this->freeSelected();edkEnd();
+        this->freeSelected();
 
         this->tempP.Constructor();
         this->tempP.setTranslate(0.f,0.f,0.f);
@@ -106,12 +101,20 @@ void edk::shape::Polygon3DList::Constructor(bool /*runFather*/){
         this->setAutomaticallyVBOWireFunctions();
     }
 }
+void edk::shape::Polygon3DList::Destructor(){
+    if(this->classThis==this){
+        this->classThis=NULL;
+        //can destruct the class
+        //clean the polygons
+        this->cleanPolygons();
+    }
+}
 
 
 
 //return the vertexCount
 edk::uint32 edk::shape::Polygon3DList::getVertexCount(){
-    return this->vertexs.size();edkEnd();
+    return this->vertexs.size();
 }
 void edk::shape::Polygon3DList::cleanVertexes(){
     edk::uint32 size = this->vertexs.size();
@@ -125,7 +128,7 @@ void edk::shape::Polygon3DList::cleanVertexes(){
     this->vertexs.clean();
 }
 edk::uint32 edk::shape::Polygon3DList::getVertexCountWithMatrix(){
-    return this->vertexsWithMatrix.size();edkEnd();
+    return this->vertexsWithMatrix.size();
 }
 void edk::shape::Polygon3DList::cleanVertexesWithMatrix(){
     edk::uint32 size = this->vertexsWithMatrix.size();
@@ -139,7 +142,7 @@ void edk::shape::Polygon3DList::cleanVertexesWithMatrix(){
     this->vertexsWithMatrix.clean();
 }
 edk::uint32 edk::shape::Polygon3DList::getVertexCountWire(){
-    return this->vertexsWire.size();edkEnd();
+    return this->vertexsWire.size();
 }
 void edk::shape::Polygon3DList::cleanVertexesWire(){
     edk::uint32 size = this->vertexsWire.size();
@@ -155,7 +158,7 @@ void edk::shape::Polygon3DList::cleanVertexesWire(){
 //function to create the VBO
 bool edk::shape::Polygon3DList::createVBO(edk::uint32 vertexCount,edk::GU::VBOType type){
     //delete the last VBO
-    this->deleteVBO();edkEnd();
+    this->deleteVBO();
     //
     if(this->canUseVBO && vertexCount){
         //create the new VBO
@@ -382,27 +385,27 @@ bool edk::shape::Polygon3DList::createVBO(edk::uint32 vertexCount,edk::GU::VBOTy
 
 
                 //alloc the vertexBuffer in GU
-                this->vbo = edk::GU_GLSL::guAllocBuffer(GU_ARRAY_BUFFER);edkEnd();
+                this->vbo = edk::GU_GLSL::guAllocBuffer(GU_ARRAY_BUFFER);
                 if(this->vbo){
                     if(edk::GU_GLSL::guBufferData(GU_ARRAY_BUFFER, this->vertexBuffer.getSize() * sizeof(edk::float32), this->vertexBuffer.getPointer(), GU_STATIC_DRAW)){
-                        edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);edkEnd();
+                        edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);
                         //save the type
-                        this->vboType = type;edkEnd();
-                        this->vboCount=vertexCount;edkEnd();
+                        this->vboType = type;
+                        this->vboCount=vertexCount;
 
                         //update the VBO functions
                         this->setAutomaticallyVBOFunctions();
 
                         return true;
                     }
-                    edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);edkEnd();
+                    edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);
 
                     //else delete the bugger
-                    edk::GU_GLSL::guDeleteBuffer(this->vbo);edkEnd();
-                    this->vbo=0u;edkEnd();
+                    edk::GU_GLSL::guDeleteBuffer(this->vbo);
+                    this->vbo=0u;
                 }
                 //else delete the vertexBuffer
-                this->vertexBuffer.clean();edkEnd();
+                this->vertexBuffer.clean();
             }
         }
     }
@@ -410,7 +413,7 @@ bool edk::shape::Polygon3DList::createVBO(edk::uint32 vertexCount,edk::GU::VBOTy
 }
 bool edk::shape::Polygon3DList::createVBOWithMatrix(edk::uint32 vertexCount,edk::GU::VBOType type){
     //delete the last VBO
-    this->deleteVBOWithMatrix();edkEnd();
+    this->deleteVBOWithMatrix();
     //
     if(this->canUseVBO && vertexCount){
         //create the new VBO
@@ -637,7 +640,7 @@ bool edk::shape::Polygon3DList::createVBOWithMatrix(edk::uint32 vertexCount,edk:
 
 
                 //alloc the vertexBufferWithMatrix in GU
-                this->vboWithMatrix = edk::GU_GLSL::guAllocBuffer(GU_ARRAY_BUFFER);edkEnd();
+                this->vboWithMatrix = edk::GU_GLSL::guAllocBuffer(GU_ARRAY_BUFFER);
                 if(this->vboWithMatrix){
                     if(edk::GU_GLSL::guBufferData(GU_ARRAY_BUFFER,
                                                   this->vertexBufferWithMatrix.getSize() * sizeof(edk::float32),
@@ -645,24 +648,24 @@ bool edk::shape::Polygon3DList::createVBOWithMatrix(edk::uint32 vertexCount,edk:
                                                   GU_STATIC_DRAW
                                                   )
                             ){
-                        edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);edkEnd();
+                        edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);
                         //save the type
-                        this->vboWithMatrixType = type;edkEnd();
-                        this->vboWithMatrixCount=vertexCount;edkEnd();
+                        this->vboWithMatrixType = type;
+                        this->vboWithMatrixCount=vertexCount;
 
                         //update the VBO functions
                         this->setAutomaticallyVBOFunctionsWithMatrix();
 
                         return true;
                     }
-                    edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);edkEnd();
+                    edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);
 
                     //else delete the bugger
-                    edk::GU_GLSL::guDeleteBuffer(this->vboWithMatrix);edkEnd();
-                    this->vboWithMatrix=0u;edkEnd();
+                    edk::GU_GLSL::guDeleteBuffer(this->vboWithMatrix);
+                    this->vboWithMatrix=0u;
                 }
                 //else delete the vertexBufferWithMatrix
-                this->vertexBufferWithMatrix.clean();edkEnd();
+                this->vertexBufferWithMatrix.clean();
             }
         }
     }
@@ -670,7 +673,7 @@ bool edk::shape::Polygon3DList::createVBOWithMatrix(edk::uint32 vertexCount,edk:
 }
 bool edk::shape::Polygon3DList::createVBOWire(edk::uint32 vertexCount,edk::GU::VBOType type){
     //delete the last VBO
-    this->deleteVBOWire();edkEnd();
+    this->deleteVBOWire();
     //
     if(this->canUseVBO && vertexCount){
         //create the new VBO
@@ -897,7 +900,7 @@ bool edk::shape::Polygon3DList::createVBOWire(edk::uint32 vertexCount,edk::GU::V
 
 
                 //alloc the vertexBuffer in GU
-                this->vboWire = edk::GU_GLSL::guAllocBuffer(GU_ARRAY_BUFFER);edkEnd();
+                this->vboWire = edk::GU_GLSL::guAllocBuffer(GU_ARRAY_BUFFER);
                 if(this->vboWire){
                     if(edk::GU_GLSL::guBufferData(GU_ARRAY_BUFFER,
                                                   this->vertexBufferWire.getSize() * sizeof(edk::float32),
@@ -905,24 +908,24 @@ bool edk::shape::Polygon3DList::createVBOWire(edk::uint32 vertexCount,edk::GU::V
                                                   GU_STATIC_DRAW
                                                   )
                             ){
-                        edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);edkEnd();
+                        edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);
                         //save the type
-                        this->vboWireType = type;edkEnd();
-                        this->vboWireCount=vertexCount;edkEnd();
+                        this->vboWireType = type;
+                        this->vboWireCount=vertexCount;
 
                         //update the VBO functions
                         this->setAutomaticallyVBOWireFunctions();
 
                         return true;
                     }
-                    edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);edkEnd();
+                    edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);
 
                     //else delete the bugger
-                    edk::GU_GLSL::guDeleteBuffer(this->vboWire);edkEnd();
-                    this->vboWire=0u;edkEnd();
+                    edk::GU_GLSL::guDeleteBuffer(this->vboWire);
+                    this->vboWire=0u;
                 }
                 //else delete the vertexBuffer
-                this->vertexBufferWire.clean();edkEnd();
+                this->vertexBufferWire.clean();
             }
         }
     }
@@ -931,23 +934,23 @@ bool edk::shape::Polygon3DList::createVBOWire(edk::uint32 vertexCount,edk::GU::V
 //run the GU function to update the VBO
 bool edk::shape::Polygon3DList::updateVBO(){
     if(this->haveVBO() && this->vertexBuffer.getSize()){
-        edk::GU_GLSL::guUseBuffer(GU_ARRAY_BUFFER,this->vbo);edkEnd();
+        edk::GU_GLSL::guUseBuffer(GU_ARRAY_BUFFER,this->vbo);
         if(edk::GU_GLSL::guBufferData(GU_ARRAY_BUFFER, this->vertexBuffer.getSize() * sizeof(edk::float32), this->vertexBuffer.getPointer(), GU_STATIC_DRAW)){
-            edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);edkEnd();
+            edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);
             return true;
         }
-        edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);edkEnd();
+        edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);
     }
     return false;
 }
 bool edk::shape::Polygon3DList::updateVBOWithMatrix(){
     if(this->haveVBO() && this->vertexBufferWithMatrix.getSize()){
-        edk::GU_GLSL::guUseBuffer(GU_ARRAY_BUFFER,this->vboWithMatrix);edkEnd();
+        edk::GU_GLSL::guUseBuffer(GU_ARRAY_BUFFER,this->vboWithMatrix);
         if(edk::GU_GLSL::guBufferData(GU_ARRAY_BUFFER, this->vertexBufferWithMatrix.getSize() * sizeof(edk::float32), this->vertexBufferWithMatrix.getPointer(), GU_STATIC_DRAW)){
-            edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);edkEnd();
+            edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);
             return true;
         }
-        edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);edkEnd();
+        edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);
     }
     return false;
 }
@@ -962,20 +965,20 @@ bool edk::shape::Polygon3DList::updateVBOValuesWithMatrices(edk::vector::Matrixf
                 matrixTemp->setIdentity(1.f,0.f);
                 //read the position
                 vertex = i*vboSizeofMesh3D[this->vboWithMatrixType];
-                matrixTemp->set(0u,0u,this->vertexBufferWithMatrix.get(vertex));edkEnd();
-                vertex++;edkEnd();
-                matrixTemp->set(0u,1u,this->vertexBufferWithMatrix.get(vertex));edkEnd();
-                vertex++;edkEnd();
-                matrixTemp->set(0u,2u,this->vertexBufferWithMatrix.get(vertex));edkEnd();
+                matrixTemp->set(0u,0u,this->vertexBufferWithMatrix.get(vertex));
+                vertex++;
+                matrixTemp->set(0u,1u,this->vertexBufferWithMatrix.get(vertex));
+                vertex++;
+                matrixTemp->set(0u,2u,this->vertexBufferWithMatrix.get(vertex));
                 //multiply the matrix
-                matrixTemp->multiplyMatrixWithThis(matrix);edkEnd();
+                matrixTemp->multiplyMatrixWithThis(matrix);
                 //set the position
-                vertex = i*vboSizeofMesh3D[this->vboWithMatrixType];edkEnd();
-                this->vertexBufferWithMatrix.set(vertex,matrixTemp->get(0u,0u));edkEnd();
-                vertex++;edkEnd();
-                this->vertexBufferWithMatrix.set(vertex,matrixTemp->get(0u,1u));edkEnd();
-                vertex++;edkEnd();
-                this->vertexBufferWithMatrix.set(vertex,matrixTemp->get(0u,2u));edkEnd();
+                vertex = i*vboSizeofMesh3D[this->vboWithMatrixType];
+                this->vertexBufferWithMatrix.set(vertex,matrixTemp->get(0u,0u));
+                vertex++;
+                this->vertexBufferWithMatrix.set(vertex,matrixTemp->get(0u,1u));
+                vertex++;
+                this->vertexBufferWithMatrix.set(vertex,matrixTemp->get(0u,2u));
             }
             //update the VBO
             this->updateVBOFunctionsWithMatrix();
@@ -986,16 +989,16 @@ bool edk::shape::Polygon3DList::updateVBOValuesWithMatrices(edk::vector::Matrixf
 }
 bool edk::shape::Polygon3DList::updateVBOWire(){
     if(this->haveVBO() && this->vertexBufferWire.getSize()){
-        edk::GU_GLSL::guUseBuffer(GU_ARRAY_BUFFER,this->vboWire);edkEnd();
+        edk::GU_GLSL::guUseBuffer(GU_ARRAY_BUFFER,this->vboWire);
         if(edk::GU_GLSL::guBufferData(GU_ARRAY_BUFFER,
                                       this->vertexBufferWire.getSize() * sizeof(edk::float32),
                                       this->vertexBufferWire.getPointer(),
                                       GU_STATIC_DRAW)
                 ){
-            edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);edkEnd();
+            edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);
             return true;
         }
-        edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);edkEnd();
+        edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);
     }
     return false;
 }
@@ -13205,36 +13208,36 @@ bool edk::shape::Polygon3DList::changeVBOWire(edk::GU::VBOType type){
 }
 void edk::shape::Polygon3DList::deleteVBO(){
     if(this->vbo){
-        edk::GU_GLSL::guDeleteBuffer(this->vbo);edkEnd();
-        this->vbo=0u;edkEnd();
+        edk::GU_GLSL::guDeleteBuffer(this->vbo);
+        this->vbo=0u;
     }
     if(this->vertexBuffer.size()){
-        this->vertexBuffer.deleteArray();edkEnd();
+        this->vertexBuffer.deleteArray();
     }
-    this->vboType = edk::GU::vbo_NULL;edkEnd();
-    this->vboCount=0u;edkEnd();
+    this->vboType = edk::GU::vbo_NULL;
+    this->vboCount=0u;
 }
 void edk::shape::Polygon3DList::deleteVBOWithMatrix(){
     if(this->vboWithMatrix){
-        edk::GU_GLSL::guDeleteBuffer(this->vboWithMatrix);edkEnd();
-        this->vboWithMatrix=0u;edkEnd();
+        edk::GU_GLSL::guDeleteBuffer(this->vboWithMatrix);
+        this->vboWithMatrix=0u;
     }
     if(this->vertexBufferWithMatrix.size()){
-        this->vertexBufferWithMatrix.deleteArray();edkEnd();
+        this->vertexBufferWithMatrix.deleteArray();
     }
-    this->vboWithMatrixType = edk::GU::vbo_NULL;edkEnd();
-    this->vboWithMatrixCount=0u;edkEnd();
+    this->vboWithMatrixType = edk::GU::vbo_NULL;
+    this->vboWithMatrixCount=0u;
 }
 void edk::shape::Polygon3DList::deleteVBOWire(){
     if(this->vboWire){
-        edk::GU_GLSL::guDeleteBuffer(this->vboWire);edkEnd();
-        this->vboWire=0u;edkEnd();
+        edk::GU_GLSL::guDeleteBuffer(this->vboWire);
+        this->vboWire=0u;
     }
     if(this->vertexBufferWire.size()){
-        this->vertexBufferWire.deleteArray();edkEnd();
+        this->vertexBufferWire.deleteArray();
     }
-    this->vboWireType = edk::GU::vbo_NULL;edkEnd();
-    this->vboWireCount=0u;edkEnd();
+    this->vboWireType = edk::GU::vbo_NULL;
+    this->vboWireCount=0u;
 }
 bool edk::shape::Polygon3DList::haveVBO(){
     return (bool)(this->canUseVBO && this->vbo);
@@ -17446,7 +17449,7 @@ bool edk::shape::Polygon3DList::updateVBOUV(){
                 break;
             }
 
-            vTemp = (edk::shape::Vertex3DWithUV*)this->vertexs.getNoIF(i);edkEnd();
+            vTemp = (edk::shape::Vertex3DWithUV*)this->vertexs.getNoIF(i);
             if(vTemp->getType() != EDK_SHAPE_NOUV){
                 uv = vTemp->getUV();
             }
@@ -17578,7 +17581,7 @@ bool edk::shape::Polygon3DList::updateVBOUVWithMatrix(){
                 break;
             }
 
-            vTemp = (edk::shape::Vertex3DWithUV*)this->vertexs.getNoIF(i);edkEnd();
+            vTemp = (edk::shape::Vertex3DWithUV*)this->vertexs.getNoIF(i);
             if(vTemp->getType() != EDK_SHAPE_NOUV){
                 uv = vTemp->getUV();
             }
@@ -17760,7 +17763,7 @@ bool edk::shape::Polygon3DList::updateVBOValues(){
             default:
                 break;
             }
-            vTemp = (edk::shape::Vertex3DWithUV*)this->vertexs.getNoIF(i);edkEnd();
+            vTemp = (edk::shape::Vertex3DWithUV*)this->vertexs.getNoIF(i);
             if(vTemp->getType() != EDK_SHAPE_NOUV){
                 uv = vTemp->getUV();
                 position = vTemp->position;
@@ -17967,7 +17970,7 @@ bool edk::shape::Polygon3DList::updateVBOValuesWithMatrices(){
             default:
                 break;
             }
-            vTemp = (edk::shape::Vertex3DWithUV*)this->vertexsWithMatrix.getNoIF(i);edkEnd();
+            vTemp = (edk::shape::Vertex3DWithUV*)this->vertexsWithMatrix.getNoIF(i);
             if(vTemp->getType() != EDK_SHAPE_NOUV){
                 uv = vTemp->getUV();
                 position = vTemp->position;
@@ -18174,7 +18177,7 @@ bool edk::shape::Polygon3DList::updateVBOWireValues(){
             default:
                 break;
             }
-            vTemp = (edk::shape::Vertex3DWithUV*)this->vertexsWire.getNoIF(i);edkEnd();
+            vTemp = (edk::shape::Vertex3DWithUV*)this->vertexsWire.getNoIF(i);
             if(vTemp->getType() != EDK_SHAPE_NOUV){
                 uv = vTemp->getUV();
                 position = vTemp->position;
@@ -18298,7 +18301,7 @@ void edk::shape::Polygon3DList::print_NULL(){
     for(edk::uint32 i=0u;i<this->getVertexCount();i++){
         //
         if(vertexs.getNoIF(i)){
-            vertexs.getNoIF(i)->print(i);edkEnd();
+            vertexs.getNoIF(i)->print(i);
         }
     }
 }
@@ -18310,7 +18313,7 @@ void edk::shape::Polygon3DList::print_XY(){
                ,i
                ,this->vertexBuffer.getNoIF(position)
                ,this->vertexBuffer.getNoIF(position+1u)
-               );edkEnd();
+               );
         position+=increment;
     }fflush(stdout);
 }
@@ -18323,7 +18326,7 @@ void edk::shape::Polygon3DList::print_XYZ(){
                ,this->vertexBuffer.getNoIF(position)
                ,this->vertexBuffer.getNoIF(position+1u)
                ,this->vertexBuffer.getNoIF(position+2u)
-               );edkEnd();
+               );
         position+=increment;
     }fflush(stdout);
 }
@@ -18339,7 +18342,7 @@ void edk::shape::Polygon3DList::print_XY_NxNyNz(){
                ,this->vertexBuffer.getNoIF(position+2u)
                ,this->vertexBuffer.getNoIF(position+3u)
                ,this->vertexBuffer.getNoIF(position+4u)
-               );edkEnd();
+               );
         position+=increment;
     }fflush(stdout);
 }
@@ -18356,7 +18359,7 @@ void edk::shape::Polygon3DList::print_XYZ_NxNyNz(){
                ,this->vertexBuffer.getNoIF(position+3u)
                ,this->vertexBuffer.getNoIF(position+4u)
                ,this->vertexBuffer.getNoIF(position+5u)
-               );edkEnd();
+               );
         position+=increment;
     }fflush(stdout);
 }
@@ -18372,7 +18375,7 @@ void edk::shape::Polygon3DList::print_XY_RGB(){
                ,this->vertexBuffer.getNoIF(position+2u)
                ,this->vertexBuffer.getNoIF(position+3u)
                ,this->vertexBuffer.getNoIF(position+4u)
-               );edkEnd();
+               );
         position+=increment;
     }fflush(stdout);
 }
@@ -18389,7 +18392,7 @@ void edk::shape::Polygon3DList::print_XYZ_RGB(){
                ,this->vertexBuffer.getNoIF(position+3u)
                ,this->vertexBuffer.getNoIF(position+4u)
                ,this->vertexBuffer.getNoIF(position+5u)
-               );edkEnd();
+               );
         position+=increment;
     }fflush(stdout);
 }
@@ -18406,7 +18409,7 @@ void edk::shape::Polygon3DList::print_XY_RGBA(){
                ,this->vertexBuffer.getNoIF(position+3u)
                ,this->vertexBuffer.getNoIF(position+4u)
                ,this->vertexBuffer.getNoIF(position+5u)
-               );edkEnd();
+               );
         position+=increment;
     }fflush(stdout);
 }
@@ -18424,7 +18427,7 @@ void edk::shape::Polygon3DList::print_XYZ_RGBA(){
                ,this->vertexBuffer.getNoIF(position+4u)
                ,this->vertexBuffer.getNoIF(position+5u)
                ,this->vertexBuffer.getNoIF(position+6u)
-               );edkEnd();
+               );
         position+=increment;
     }fflush(stdout);
 }
@@ -18444,7 +18447,7 @@ void edk::shape::Polygon3DList::print_XY_RGB_NxNyNz(){
                ,this->vertexBuffer.getNoIF(position+5u)
                ,this->vertexBuffer.getNoIF(position+6u)
                ,this->vertexBuffer.getNoIF(position+7u)
-               );edkEnd();
+               );
         position+=increment;
     }fflush(stdout);
 }
@@ -18465,7 +18468,7 @@ void edk::shape::Polygon3DList::print_XYZ_RGB_NxNyNz(){
                ,this->vertexBuffer.getNoIF(position+6u)
                ,this->vertexBuffer.getNoIF(position+7u)
                ,this->vertexBuffer.getNoIF(position+8u)
-               );edkEnd();
+               );
         position+=increment;
     }fflush(stdout);
 }
@@ -18486,7 +18489,7 @@ void edk::shape::Polygon3DList::print_XY_RGBA_NxNyNz(){
                ,this->vertexBuffer.getNoIF(position+6u)
                ,this->vertexBuffer.getNoIF(position+7u)
                ,this->vertexBuffer.getNoIF(position+8u)
-               );edkEnd();
+               );
         position+=increment;
     }fflush(stdout);
 }
@@ -18508,7 +18511,7 @@ void edk::shape::Polygon3DList::print_XYZ_RGBA_NxNyNz(){
                ,this->vertexBuffer.getNoIF(position+7u)
                ,this->vertexBuffer.getNoIF(position+8u)
                ,this->vertexBuffer.getNoIF(position+9u)
-               );edkEnd();
+               );
         position+=increment;
     }fflush(stdout);
 }
@@ -18531,7 +18534,7 @@ void edk::shape::Polygon3DList::print_XY_RGB_NxNyNz_UVxUVy(){
 
                ,this->vertexBuffer.getNoIF(position+8u)
                ,this->vertexBuffer.getNoIF(position+9u)
-               );edkEnd();
+               );
         position+=increment;
     }fflush(stdout);
 }
@@ -18555,7 +18558,7 @@ void edk::shape::Polygon3DList::print_XYZ_RGB_NxNyNz_UVxUVy(){
 
                ,this->vertexBuffer.getNoIF(position+9u)
                ,this->vertexBuffer.getNoIF(position+10u)
-               );edkEnd();
+               );
         position+=increment;
     }fflush(stdout);
 }
@@ -18579,7 +18582,7 @@ void edk::shape::Polygon3DList::print_XY_RGBA_NxNyNz_UVxUVy(){
 
                ,this->vertexBuffer.getNoIF(position+9u)
                ,this->vertexBuffer.getNoIF(position+10u)
-               );edkEnd();
+               );
         position+=increment;
     }fflush(stdout);
 }
@@ -18604,7 +18607,7 @@ void edk::shape::Polygon3DList::print_XYZ_RGBA_NxNyNz_UVxUVy(){
 
                ,this->vertexBuffer.getNoIF(position+10u)
                ,this->vertexBuffer.getNoIF(position+11u)
-               );edkEnd();
+               );
         position+=increment;
     }fflush(stdout);
 }
@@ -19528,9 +19531,9 @@ void edk::shape::Polygon3DList::drawWithMatrix_NULL(edk::uint32 mode){
 
     edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);
 */
-    edk::GU::guBegin(mode);edkEnd();
-    this->drawVertexs();edkEnd();
-    edk::GU::guEnd();edkEnd();
+    edk::GU::guBegin(mode);
+    this->drawVertexs();
+    edk::GU::guEnd();
 }
 void edk::shape::Polygon3DList::drawWithMatrix_XY(edk::uint32 mode){
     edk::GU_GLSL::guUseBuffer(GU_ARRAY_BUFFER,this->vboWithMatrix);
@@ -19983,9 +19986,9 @@ void edk::shape::Polygon3DList::drawUpdateWithMatrix_NULL(edk::uint32 mode){
 
     edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);
 */
-    edk::GU::guBegin(mode);edkEnd();
-    this->drawVertexs();edkEnd();
-    edk::GU::guEnd();edkEnd();
+    edk::GU::guBegin(mode);
+    this->drawVertexs();
+    edk::GU::guEnd();
     //change the drawFunction
     this->setVBOFunctionNULL();
 }
@@ -20868,7 +20871,7 @@ void edk::shape::Polygon3DList::drawWire_XYZ_RGBA_NxNyNz_UVxUVy(edk::uint32 mode
 
 //DRAWWire UPDATE
 void edk::shape::Polygon3DList::drawWireUpdate_NULL(edk::uint32 /*mode*/){
-    this->drawWirePolygons();edkEnd();
+    this->drawWirePolygons();
     //change the drawFunction
     this->setVBOFunctionNULL();
 }
@@ -21336,12 +21339,12 @@ void edk::shape::Polygon3DList::drawWireUpdate_XYZ_RGBA_NxNyNz_UVxUVy(edk::uint3
 bool edk::shape::Polygon3DList::setPolygonsColor(edk::color4f32 color){
     //test if have polygons
     if(this->polygons.size()){
-        edk::shape::Polygon3D* polygon=NULL;edkEnd();
+        edk::shape::Polygon3D* polygon=NULL;
         //set the polygonColors
         for(edk::uint32 i=0u;i<this->polygons.size();i++){
-            polygon = this->polygons.get(i);edkEnd();
+            polygon = this->polygons.get(i);
             if(polygon){
-                polygon->setPolygonColor(color);edkEnd();
+                polygon->setPolygonColor(color);
             }
         }
         return true;
@@ -21349,17 +21352,17 @@ bool edk::shape::Polygon3DList::setPolygonsColor(edk::color4f32 color){
     return false;
 }
 bool edk::shape::Polygon3DList::setPolygonsColor(edk::color3f32 color){
-    return setPolygonsColor(color.r,color.g,color.b);edkEnd();
+    return setPolygonsColor(color.r,color.g,color.b);
 }
 bool edk::shape::Polygon3DList::setPolygonsColor(edk::float32 r,edk::float32 g,edk::float32 b){
     //test if have polygons
     if(this->polygons.size()){
-        edk::shape::Polygon3D* polygon=NULL;edkEnd();
+        edk::shape::Polygon3D* polygon=NULL;
         //set the polygonColors
         for(edk::uint32 i=0u;i<this->polygons.size();i++){
-            polygon = this->polygons.get(i);edkEnd();
+            polygon = this->polygons.get(i);
             if(polygon){
-                polygon->setPolygonColor(r,g,b);edkEnd();
+                polygon->setPolygonColor(r,g,b);
             }
         }
         return true;
@@ -21369,12 +21372,12 @@ bool edk::shape::Polygon3DList::setPolygonsColor(edk::float32 r,edk::float32 g,e
 bool edk::shape::Polygon3DList::setPolygonsColor(edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a){
     //test if have polygons
     if(this->polygons.size()){
-        edk::shape::Polygon3D* polygon=NULL;edkEnd();
+        edk::shape::Polygon3D* polygon=NULL;
         //set the polygonColors
         for(edk::uint32 i=0u;i<this->polygons.size();i++){
-            polygon = this->polygons.get(i);edkEnd();
+            polygon = this->polygons.get(i);
             if(polygon){
-                polygon->setPolygonColor(r,g,b,a);edkEnd();
+                polygon->setPolygonColor(r,g,b,a);
             }
         }
         return true;
@@ -21384,12 +21387,12 @@ bool edk::shape::Polygon3DList::setPolygonsColor(edk::float32 r,edk::float32 g,e
 bool edk::shape::Polygon3DList::setPolygonsColorR(edk::float32 r){
     //test if have polygons
     if(this->polygons.size()){
-        edk::shape::Polygon3D* polygon=NULL;edkEnd();
+        edk::shape::Polygon3D* polygon=NULL;
         //set the polygonColors
         for(edk::uint32 i=0u;i<this->polygons.size();i++){
-            polygon = this->polygons.get(i);edkEnd();
+            polygon = this->polygons.get(i);
             if(polygon){
-                polygon->setPolygonColorR(r);edkEnd();
+                polygon->setPolygonColorR(r);
             }
         }
         return true;
@@ -21399,12 +21402,12 @@ bool edk::shape::Polygon3DList::setPolygonsColorR(edk::float32 r){
 bool edk::shape::Polygon3DList::setPolygonsColorG(edk::float32 g){
     //test if have polygons
     if(this->polygons.size()){
-        edk::shape::Polygon3D* polygon=NULL;edkEnd();
+        edk::shape::Polygon3D* polygon=NULL;
         //set the polygonColors
         for(edk::uint32 i=0u;i<this->polygons.size();i++){
-            polygon = this->polygons.get(i);edkEnd();
+            polygon = this->polygons.get(i);
             if(polygon){
-                polygon->setPolygonColorG(g);edkEnd();
+                polygon->setPolygonColorG(g);
             }
         }
         return true;
@@ -21414,12 +21417,12 @@ bool edk::shape::Polygon3DList::setPolygonsColorG(edk::float32 g){
 bool edk::shape::Polygon3DList::setPolygonsColorB(edk::float32 b){
     //test if have polygons
     if(this->polygons.size()){
-        edk::shape::Polygon3D* polygon=NULL;edkEnd();
+        edk::shape::Polygon3D* polygon=NULL;
         //set the polygonColors
         for(edk::uint32 i=0u;i<this->polygons.size();i++){
-            polygon = this->polygons.get(i);edkEnd();
+            polygon = this->polygons.get(i);
             if(polygon){
-                polygon->setPolygonColorB(b);edkEnd();
+                polygon->setPolygonColorB(b);
             }
         }
         return true;
@@ -21429,12 +21432,12 @@ bool edk::shape::Polygon3DList::setPolygonsColorB(edk::float32 b){
 bool edk::shape::Polygon3DList::setPolygonsColorA(edk::float32 a){
     //test if have polygons
     if(this->polygons.size()){
-        edk::shape::Polygon3D* polygon=NULL;edkEnd();
+        edk::shape::Polygon3D* polygon=NULL;
         //set the polygonColors
         for(edk::uint32 i=0u;i<this->polygons.size();i++){
-            polygon = this->polygons.get(i);edkEnd();
+            polygon = this->polygons.get(i);
             if(polygon){
-                polygon->setPolygonColorA(a);edkEnd();
+                polygon->setPolygonColorA(a);
             }
         }
         return true;
@@ -21445,12 +21448,12 @@ bool edk::shape::Polygon3DList::setPolygonsColorA(edk::float32 a){
 bool edk::shape::Polygon3DList::setPolygonsSmooth(bool smooth){
     //test if have polygons
     if(this->polygons.size()){
-        edk::shape::Polygon3D* polygon=NULL;edkEnd();
+        edk::shape::Polygon3D* polygon=NULL;
         //set the polygonColors
         for(edk::uint32 i=0u;i<this->polygons.size();i++){
-            polygon = this->polygons.getPolygon(i);edkEnd();
+            polygon = this->polygons.getPolygon(i);
             if(polygon){
-                polygon->smooth=smooth;edkEnd();
+                polygon->smooth=smooth;
             }
         }
         return true;
@@ -21460,12 +21463,12 @@ bool edk::shape::Polygon3DList::setPolygonsSmooth(bool smooth){
 bool edk::shape::Polygon3DList::setPolygonsSmoothOn(){
     //test if have polygons
     if(this->polygons.size()){
-        edk::shape::Polygon3D* polygon=NULL;edkEnd();
+        edk::shape::Polygon3D* polygon=NULL;
         //set the polygonColors
         for(edk::uint32 i=0u;i<this->polygons.size();i++){
-            polygon = this->polygons.getPolygon(i);edkEnd();
+            polygon = this->polygons.getPolygon(i);
             if(polygon){
-                polygon->smooth=true;edkEnd();
+                polygon->smooth=true;
             }
         }
         return true;
@@ -21475,12 +21478,12 @@ bool edk::shape::Polygon3DList::setPolygonsSmoothOn(){
 bool edk::shape::Polygon3DList::setPolygonsSmoothOff(){
     //test if have polygons
     if(this->polygons.size()){
-        edk::shape::Polygon3D* polygon=NULL;edkEnd();
+        edk::shape::Polygon3D* polygon=NULL;
         //set the polygonColors
         for(edk::uint32 i=0u;i<this->polygons.size();i++){
-            polygon = this->polygons.getPolygon(i);edkEnd();
+            polygon = this->polygons.getPolygon(i);
             if(polygon){
-                polygon->smooth=false;edkEnd();
+                polygon->smooth=false;
             }
         }
         return true;
@@ -21491,12 +21494,12 @@ bool edk::shape::Polygon3DList::setPolygonsSmoothOff(){
 bool edk::shape::Polygon3DList::updatePolygonsNormals(){
     //test if have polygons
     if(this->polygons.size()){
-        edk::shape::Polygon3D* polygon=NULL;edkEnd();
+        edk::shape::Polygon3D* polygon=NULL;
         //set the polygonColors
         for(edk::uint32 i=0u;i<this->polygons.size();i++){
-            polygon = this->polygons.getPolygon(i);edkEnd();
+            polygon = this->polygons.getPolygon(i);
             if(polygon){
-                polygon->updateNormal();edkEnd();
+                polygon->updateNormal();
             }
         }
         return true;
@@ -21507,67 +21510,67 @@ bool edk::shape::Polygon3DList::updatePolygonsNormals(){
 //set physics
 bool edk::shape::Polygon3DList::setPolygonDensity(edk::uint32 position,edk::float32 density){
     if(this->polygons.havePos(position)){
-        this->polygons.get(position)->setDensity(density);edkEnd();
+        this->polygons.get(position)->setDensity(density);
         return true;
     }
     return false;
 }
 void edk::shape::Polygon3DList::setDensity(edk::float32 density){
-    edk::uint32 size = this->polygons.size();edkEnd();
+    edk::uint32 size = this->polygons.size();
     for(edk::uint32 i=0u;i<size;i++){
         if(this->polygons.havePos(i)){
-            this->polygons.get(i)->setDensity(density);edkEnd();
+            this->polygons.get(i)->setDensity(density);
         }
     }
 }
 bool edk::shape::Polygon3DList::setPolygonFriction(edk::uint32 position,edk::float32 friction){
     if(this->polygons.havePos(position)){
-        this->polygons.get(position)->setFriction(friction);edkEnd();
+        this->polygons.get(position)->setFriction(friction);
         return true;
     }
     return false;
 }
 void edk::shape::Polygon3DList::setFriction(edk::float32 friction){
-    edk::uint32 size = this->polygons.size();edkEnd();
+    edk::uint32 size = this->polygons.size();
     for(edk::uint32 i=0u;i<size;i++){
         if(this->polygons.havePos(i)){
-            this->polygons.get(i)->setFriction(friction);edkEnd();
+            this->polygons.get(i)->setFriction(friction);
         }
     }
 }
 bool edk::shape::Polygon3DList::setPolygonRestitution(edk::uint32 position,edk::float32 restitution){
     if(this->polygons.havePos(position)){
-        this->polygons.get(position)->setRestitution(restitution);edkEnd();
+        this->polygons.get(position)->setRestitution(restitution);
         return true;
     }
     return false;
 }
 void edk::shape::Polygon3DList::setRestitution(edk::float32 restitution){
-    edk::uint32 size = this->polygons.size();edkEnd();
+    edk::uint32 size = this->polygons.size();
     for(edk::uint32 i=0u;i<size;i++){
         if(this->polygons.havePos(i)){
-            this->polygons.get(i)->setRestitution(restitution);edkEnd();
+            this->polygons.get(i)->setRestitution(restitution);
         }
     }
 }
 //getPhysics
 edk::float32 edk::shape::Polygon3DList::getPolygonDensity(edk::uint32 position){
     if(this->polygons.havePos(position)){
-        return this->polygons.get(position)->getDensity();edkEnd();
+        return this->polygons.get(position)->getDensity();
     }
     //return initial value
-    return 1.f;edkEnd();
+    return 1.f;
 }
 edk::float32 edk::shape::Polygon3DList::getPolygonFriction(edk::uint32 position){
     if(this->polygons.havePos(position)){
-        return this->polygons.get(position)->getFriction();edkEnd();
+        return this->polygons.get(position)->getFriction();
     }
     //return initial value
     return 0.f;
 }
 edk::float32 edk::shape::Polygon3DList::getPolygonRestitution(edk::uint32 position){
     if(this->polygons.havePos(position)){
-        return this->polygons.get(position)->getRestitution();edkEnd();
+        return this->polygons.get(position)->getRestitution();
     }
     //return initial value
     return 0.f;
@@ -21576,15 +21579,15 @@ edk::float32 edk::shape::Polygon3DList::getPolygonRestitution(edk::uint32 positi
 //function to calculate boundingBox
 bool edk::shape::Polygon3DList::calculateBoundingBox(edk::cubef32* rectangle,edk::vector::Matrixf32<4u,4u>* transformMat){
     if(rectangle && transformMat){
-        edk::uint32 size = this->polygons.size();edkEnd();
+        edk::uint32 size = this->polygons.size();
         if(size){
             //copy the first polygon
             if(this->polygons.havePos(0u)){
-                *rectangle = this->polygons.get(0u)->generateBoundingBox(transformMat);edkEnd();
+                *rectangle = this->polygons.get(0u)->generateBoundingBox(transformMat);
                 //draw the polygons
                 for(edk::uint32 i=1u;i<size;i++){
                     if(this->polygons.havePos(i)){
-                        this->polygons.get(i)->calculateBoundingBox(rectangle,transformMat);edkEnd();
+                        this->polygons.get(i)->calculateBoundingBox(rectangle,transformMat);
                     }
                 }
                 return true;
@@ -21594,17 +21597,17 @@ bool edk::shape::Polygon3DList::calculateBoundingBox(edk::cubef32* rectangle,edk
     return false;
 }
 edk::cubef32 edk::shape::Polygon3DList::generateBoundingBox(edk::vector::Matrixf32<4u,4u>* transformMat){
-    edk::cubef32 ret;edkEnd();
+    edk::cubef32 ret;
     if(transformMat){
-        edk::uint32 size = this->polygons.size();edkEnd();
+        edk::uint32 size = this->polygons.size();
         if(size){
             //copy the first polygon
             if(this->polygons.havePos(0u)){
-                ret = this->polygons.get(0u)->generateBoundingBox(transformMat);edkEnd();
+                ret = this->polygons.get(0u)->generateBoundingBox(transformMat);
                 //draw the polygons
                 for(edk::uint32 i=1u;i<size;i++){
                     if(this->polygons.havePos(i)){
-                        this->polygons.get(i)->calculateBoundingBox(&ret,transformMat);edkEnd();
+                        this->polygons.get(i)->calculateBoundingBox(&ret,transformMat);
                     }
                 }
             }
@@ -21620,7 +21623,7 @@ bool edk::shape::Polygon3DList::calculateBoundingPoint(edk::vec3f32 point,edk::v
     return false;
 }
 edk::vec3f32 edk::shape::Polygon3DList::generateBoundingPoint(edk::vec3f32 point,edk::vector::Matrixf32<4u,4u>* transformMat){
-    edk::vec3f32 ret;edkEnd();
+    edk::vec3f32 ret;
     if(transformMat){
         this->tempP.setVertexPosition(0u,point);
         ret = this->tempP.generateBoundingPoint(transformMat);
@@ -21634,16 +21637,16 @@ bool edk::shape::Polygon3DList::calculateBoundingBoxFromPolygons(edk::cubef32* r
                                                                  edk::uint32* positions
                                                                  ){
     if(rectangle && transformMat && positions){
-        edk::uint32 size = this->polygons.size();edkEnd();
+        edk::uint32 size = this->polygons.size();
         if(size && lenght){
             edk::uint32 value = positions[0u];
             //copy the first polygon
             if(this->polygons.havePos(value)){
-                *rectangle = this->polygons.get(value)->generateBoundingBox(transformMat);edkEnd();
+                *rectangle = this->polygons.get(value)->generateBoundingBox(transformMat);
                 for(edk::uint32 i=1u;i<lenght;i++){
                     value = positions[i];
                     if(this->polygons.havePos(value)){
-                        this->polygons.get(value)->calculateBoundingBox(rectangle,transformMat);edkEnd();
+                        this->polygons.get(value)->calculateBoundingBox(rectangle,transformMat);
                     }
                 }
                 return true;
@@ -21656,18 +21659,18 @@ edk::cubef32 edk::shape::Polygon3DList::generateBoundingBoxFromPolygons(edk::vec
                                                                         edk::uint32 lenght,
                                                                         edk::uint32* positions
                                                                         ){
-    edk::cubef32 ret;edkEnd();
+    edk::cubef32 ret;
     if(transformMat && positions){
-        edk::uint32 size = this->polygons.size();edkEnd();
+        edk::uint32 size = this->polygons.size();
         if(size && lenght){
             edk::uint32 value = positions[0u];
             //copy the first polygon
             if(this->polygons.havePos(value)){
-                ret = this->polygons.get(value)->generateBoundingBox(transformMat);edkEnd();
+                ret = this->polygons.get(value)->generateBoundingBox(transformMat);
                 for(edk::uint32 i=1u;i<lenght;i++){
                     value = positions[i];
                     if(this->polygons.havePos(value)){
-                        this->polygons.get(value)->calculateBoundingBox(&ret,transformMat);edkEnd();
+                        this->polygons.get(value)->calculateBoundingBox(&ret,transformMat);
                     }
                 }
             }
@@ -21676,12 +21679,12 @@ edk::cubef32 edk::shape::Polygon3DList::generateBoundingBoxFromPolygons(edk::vec
     return ret;
 }
 bool edk::shape::Polygon3DList::getWorldPolygon(edk::shape::Polygon3D* dest,edk::uint32 polygonPosition,edk::vector::Matrixf32<4u,4u>* transformMat){
-    bool ret=false;edkEnd();
+    bool ret=false;
     if(dest){
         if(transformMat){
             //copy the first rectangle
             if(this->polygons.havePos(polygonPosition)){
-                ret = this->polygons.get(polygonPosition)->getWorldPolygonClone(dest,transformMat);edkEnd();
+                ret = this->polygons.get(polygonPosition)->getWorldPolygonClone(dest,transformMat);
             }
         }
     }
@@ -21737,10 +21740,10 @@ edk::uint32 edk::shape::Polygon3DList::addPolygon(edk::shape::Polygon3D polygon)
     //return
     edk::uint32 ret=0u;
     //polygon to be added
-    edk::shape::Polygon3D* temp=NULL;edkEnd();
+    edk::shape::Polygon3D* temp=NULL;
     //test if it's a line
     if(polygon.isLine()){
-        temp=new edk::shape::Lines3D;edkEnd();
+        temp=new edk::shape::Lines3D;
     }
     //test al much vertex have the polygon. Test if are a polygon or Rectangle.
     else if(polygon.getVertexCount()>=2u){
@@ -21749,63 +21752,63 @@ edk::uint32 edk::shape::Polygon3DList::addPolygon(edk::shape::Polygon3D polygon)
                 //it's circle
 
                 //create the circle
-                temp=(edk::shape::Polygon3D*)new edk::shape::Circle3D;edkEnd();
+                temp=(edk::shape::Polygon3D*)new edk::shape::Circle3D;
             }
             else{
                 //it's a polygon
 
                 //create the polygon
-                temp=new edk::shape::Polygon3D;edkEnd();
+                temp=new edk::shape::Polygon3D;
             }
         }
         else{
             //it's a rectangle
 
             //create a rectangle
-            temp=(edk::shape::Polygon3D*) new edk::shape::Cube3D;edkEnd();
+            temp=(edk::shape::Polygon3D*) new edk::shape::Cube3D;
         }
     }
 
     //test if have created the polygon
     if(temp){
         //copy the polygon
-        //*temp = polygon;edkEnd();
-        temp->cloneFrom(&polygon);edkEnd();
+        //*temp = polygon;
+        temp->cloneFrom(&polygon);
 
         //load the size of the polygons
-        edk::uint32 size = this->polygons.size() - this->polygons.sizeRemoved();edkEnd();
+        edk::uint32 size = this->polygons.size() - this->polygons.sizeRemoved();
         //add the polygon
-        ret = this->polygons.pushBack(temp);edkEnd();
+        ret = this->polygons.pushBack(temp);
         //now compare the size in the list
         if(size<(this->polygons.size() - this->polygons.sizeRemoved())){
             //polygon added
 
             //select the ret
-            this->selectPolygon(ret);edkEnd();
+            this->selectPolygon(ret);
         }
         else{
             //polygon dont added. Delete the temp
-            delete temp;edkEnd();
+            delete temp;
             //clean the ret
             ret=0u;
         }
     }
     //set temp NULL
-    temp=NULL;edkEnd();
+    temp=NULL;
 
-    //else return 0u;edkEnd();
+    //else return 0u;
     return ret;
 }
 //GETERS
 //return the polygonSize
 edk::uint32 edk::shape::Polygon3DList::getPolygonSize(){
     //
-    return this->polygons.size();edkEnd();
+    return this->polygons.size();
 }
 //return true if have a polygon selected
 bool edk::shape::Polygon3DList::haveSelected(){
     //
-    return (bool) this->selected;edkEnd();
+    return (bool) this->selected;
 }
 
 //test if have a polygon in a position
@@ -21840,14 +21843,14 @@ bool edk::shape::Polygon3DList::getPolygon(edk::uint32 position,edk::shape::Poly
 //DELETE
 //clean the polygons
 void edk::shape::Polygon3DList::cleanPolygons(){
-    this->freeSelected();edkEnd();
+    this->freeSelected();
     edk::uint32 size = this->polygons.size();
     //remove all the polygons
     for(edk::uint32 i=size;i>0u;i--){
         //
-        this->removePolygon(i-1u);edkEnd();
+        this->removePolygon(i-1u);
     }
-    this->polygons.clean();edkEnd();
+    this->polygons.clean();
 
     this->cleanVertexes();
     this->cleanVertexesWithMatrix();
@@ -21861,13 +21864,13 @@ bool edk::shape::Polygon3DList::removePolygon(edk::uint32 position){
     //test if have this polygon
     if(this->polygons.havePos(position)){
         //then get the element in the position
-        edk::shape::Polygon3D* temp = this->polygons.remove(position);edkEnd();
+        edk::shape::Polygon3D* temp = this->polygons.remove(position);
         //test if have the temp
         if(temp){
             //delete the polygon
-            delete temp;edkEnd();
+            delete temp;
         }
-        temp=NULL;edkEnd();
+        temp=NULL;
         //return true
         return true;
     }
@@ -21877,7 +21880,7 @@ bool edk::shape::Polygon3DList::removePolygon(edk::uint32 position){
 //free de selected
 void edk::shape::Polygon3DList::freeSelected(){
     //
-    this->selected=NULL;edkEnd();
+    this->selected=NULL;
 }
 
 //SELECTED
@@ -21885,7 +21888,7 @@ bool edk::shape::Polygon3DList::selectPolygon(edk::uint32 position){
     //test if have the position
     if(this->polygons.havePos(position)){
         //select the polygon
-        this->selected = this->polygons.get(position);edkEnd();
+        this->selected = this->polygons.get(position);
         //test if have selected some polygon
         if(this->selected){
             //then return true
@@ -21902,7 +21905,7 @@ bool edk::shape::Polygon3DList::selectedSetVertexPosition(edk::uint32 vertex,edk
         //
 
         //return true
-        return this->selected->setVertexPosition(vertex,position);edkEnd();
+        return this->selected->setVertexPosition(vertex,position);
     }
     //else return false
     return false;
@@ -21913,7 +21916,7 @@ bool edk::shape::Polygon3DList::selectedSetVertexPosition(edk::uint32 vertex,edk
         //
 
         //return true
-        return this->selected->setVertexPosition(vertex,x,y,z);edkEnd();
+        return this->selected->setVertexPosition(vertex,x,y,z);
     }
     //else return false
     return false;
@@ -21925,7 +21928,7 @@ bool edk::shape::Polygon3DList::selectedSetVertexColor(edk::uint32 vertex,edk::c
         //
 
         //return true
-        return this->selected->setVertexColor(vertex,color);edkEnd();
+        return this->selected->setVertexColor(vertex,color);
     }
     //else return false
     return false;
@@ -21936,7 +21939,7 @@ bool edk::shape::Polygon3DList::selectedSetVertexColor(edk::uint32 vertex,edk::f
         //
 
         //return true
-        return this->selected->setVertexColor(vertex,r,g,b);edkEnd();
+        return this->selected->setVertexColor(vertex,r,g,b);
     }
     //else return false
     return false;
@@ -21947,7 +21950,7 @@ bool edk::shape::Polygon3DList::selectedSetVertexColor(edk::uint32 vertex,edk::f
         //
 
         //return true
-        return this->selected->setVertexColor(vertex,r,g,b,a);edkEnd();
+        return this->selected->setVertexColor(vertex,r,g,b,a);
     }
     //else return false
     return false;
@@ -21959,7 +21962,7 @@ bool edk::shape::Polygon3DList::selectedSetPolygonColor(edk::color4f32 color){
         //
 
         //return true
-        return this->selected->setPolygonColor(color);edkEnd();
+        return this->selected->setPolygonColor(color);
     }
     //else return false
     return false;
@@ -21970,7 +21973,7 @@ bool edk::shape::Polygon3DList::selectedSetPolygonColor(edk::float32 r,edk::floa
         //
 
         //return true
-        return this->selected->setPolygonColor(r,g,b);edkEnd();
+        return this->selected->setPolygonColor(r,g,b);
     }
     //else return false
     return false;
@@ -21981,7 +21984,7 @@ bool edk::shape::Polygon3DList::selectedSetPolygonColor(edk::float32 r,edk::floa
         //
 
         //return true
-        return this->selected->setPolygonColor(r,g,b,a);edkEnd();
+        return this->selected->setPolygonColor(r,g,b,a);
     }
     //else return false
     return false;
@@ -21993,7 +21996,7 @@ bool edk::shape::Polygon3DList::selectedSetVertexUV(edk::uint32 vertex,edk::vec2
         //
 
         //return true
-        return this->selected->setVertexUV(vertex,uv);edkEnd();
+        return this->selected->setVertexUV(vertex,uv);
     }
     //else return false
     return false;
@@ -22004,7 +22007,7 @@ bool edk::shape::Polygon3DList::selectedSetVertexUV(edk::uint32 vertex,edk::floa
         //
 
         //return true
-        return this->selected->setVertexUV(vertex,x,y);edkEnd();
+        return this->selected->setVertexUV(vertex,x,y);
     }
     //else return false
     return false;
@@ -22016,7 +22019,7 @@ bool edk::shape::Polygon3DList::selectedSetPolygonUVFrames(edk::vec2ui32 frames)
         //
 
         //return true
-        return this->selected->setPolygonUVFrames(frames);edkEnd();
+        return this->selected->setPolygonUVFrames(frames);
     }
     //else return false
     return false;
@@ -22027,7 +22030,7 @@ bool edk::shape::Polygon3DList::selectedSetPolygonUVFrames(edk::uint32 x,edk::ui
         //
 
         //return true
-        return this->selected->setPolygonUVFrames(x,y);edkEnd();
+        return this->selected->setPolygonUVFrames(x,y);
     }
     //else return false
     return false;
@@ -22038,7 +22041,7 @@ bool edk::shape::Polygon3DList::selectedSetPolygonUVFramesX(edk::uint32 x){
         //
 
         //return true
-        return this->selected->setPolygonUVFramesX(x);edkEnd();
+        return this->selected->setPolygonUVFramesX(x);
     }
     //else return false
     return false;
@@ -22049,7 +22052,7 @@ bool edk::shape::Polygon3DList::selectedSetPolygonUVFramesY(edk::uint32 y){
         //
 
         //return true
-        return this->selected->setPolygonUVFramesY(y);edkEnd();
+        return this->selected->setPolygonUVFramesY(y);
     }
     //else return false
     return false;
@@ -22074,7 +22077,7 @@ bool edk::shape::Polygon3DList::selectedUsePolygonUVFrame(edk::vec2ui32 frame){
     //test if have selected
     if(this->selected){
         //
-        this->selected->usePolygonUVFrame(frame);edkEnd();
+        this->selected->usePolygonUVFrame(frame);
 
         //return true
         return true;
@@ -22083,13 +22086,13 @@ bool edk::shape::Polygon3DList::selectedUsePolygonUVFrame(edk::vec2ui32 frame){
     return false;
 }
 bool edk::shape::Polygon3DList::selectedUsePolygonUVFrame(edk::uint32 x,edk::uint32 y){
-    return this->selectedUsePolygonUVFrame(edk::vec2ui32 (x,y));edkEnd();
+    return this->selectedUsePolygonUVFrame(edk::vec2ui32 (x,y));
 }
 bool edk::shape::Polygon3DList::selectedUsePolygonUVFramePosition(edk::uint32 position){
     //test if have selcted
     if(this->selected){
         //
-        this->selected->usePolygonUVFramePosition(position);edkEnd();
+        this->selected->usePolygonUVFramePosition(position);
 
         //return true
         return true;
@@ -22101,7 +22104,7 @@ bool edk::shape::Polygon3DList::selectedUsePolygonUVFrameX(edk::uint32 x){
     //test if have selected
     if(this->selected){
         //
-        this->selected->usePolygonUVFrameX(x);edkEnd();
+        this->selected->usePolygonUVFrameX(x);
 
         //return true
         return true;
@@ -22113,7 +22116,7 @@ bool edk::shape::Polygon3DList::selectedUsePolygonUVFrameY(edk::uint32 y){
     //test if have selected
     if(this->selected){
         //
-        this->selected->usePolygonUVFrameY(y);edkEnd();
+        this->selected->usePolygonUVFrameY(y);
 
         //return true
         return true;
@@ -22126,7 +22129,7 @@ bool edk::shape::Polygon3DList::selectedSetDensity(edk::float32 density){
     //test if have selected
     if(this->selected){
         //
-        this->selected->setDensity(density);edkEnd();
+        this->selected->setDensity(density);
 
         //return true
         return true;
@@ -22138,7 +22141,7 @@ bool edk::shape::Polygon3DList::selectedSetFriction(edk::float32 friction){
     //test if have selected
     if(this->selected){
         //
-        this->selected->setFriction(friction);edkEnd();
+        this->selected->setFriction(friction);
 
         //return true
         return true;
@@ -22150,7 +22153,7 @@ bool edk::shape::Polygon3DList::selectedSetRestitution(edk::float32 restitution)
     //test if have selected
     if(this->selected){
         //
-        this->selected->setRestitution(restitution);edkEnd();
+        this->selected->setRestitution(restitution);
 
         //return true
         return true;
@@ -22162,7 +22165,7 @@ bool edk::shape::Polygon3DList::selectedSetRestitution(edk::float32 restitution)
 bool edk::shape::Polygon3DList::selectedSetTranslate(edk::vec3f32 translate){
     //test if have selected
     if(this->selected){
-        this->selected->setTranslate(translate);edkEnd();
+        this->selected->setTranslate(translate);
         //return true
         return true;
     }
@@ -22172,7 +22175,7 @@ bool edk::shape::Polygon3DList::selectedSetTranslate(edk::vec3f32 translate){
 bool edk::shape::Polygon3DList::selectedSetTranslate(edk::float32 translate){
     //test if have selected
     if(this->selected){
-        this->selected->setTranslate(translate);edkEnd();
+        this->selected->setTranslate(translate);
         //return true
         return true;
     }
@@ -22185,7 +22188,7 @@ bool edk::shape::Polygon3DList::selectedSetTranslate(edk::float32 x,edk::float32
 bool edk::shape::Polygon3DList::selectedSetScale(edk::size3f32 scale){
     //test if have selected
     if(this->selected){
-        this->selected->setScale(scale);edkEnd();
+        this->selected->setScale(scale);
         //return true
         return true;
     }
@@ -22195,7 +22198,7 @@ bool edk::shape::Polygon3DList::selectedSetScale(edk::size3f32 scale){
 bool edk::shape::Polygon3DList::selectedSetScale(edk::float32 scale){
     //test if have selected
     if(this->selected){
-        this->selected->setScale(scale);edkEnd();
+        this->selected->setScale(scale);
         //return true
         return true;
     }
@@ -22208,7 +22211,7 @@ bool edk::shape::Polygon3DList::selectedSetScale(edk::float32 width,edk::float32
 bool edk::shape::Polygon3DList::selectedSetAngle(edk::float32 angle){
     //test if have selected
     if(this->selected){
-        this->selected->setAngle(angle);edkEnd();
+        this->selected->setAngle(angle);
         //return true
         return true;
     }
@@ -22222,7 +22225,7 @@ bool edk::shape::Polygon3DList::selectedRemoveVertexUV(edk::uint32 vertex){
     //test if have selected
     if(this->selected){
         //
-        return this->selected->removeVertexUV(vertex);edkEnd();
+        return this->selected->removeVertexUV(vertex);
     }
     //else return false
     return false;
@@ -22232,7 +22235,7 @@ bool edk::shape::Polygon3DList::selectedRemovePolygonUV(){
     //test if have selected
     if(this->selected){
         //
-        this->selected->removePolygonUV();edkEnd();
+        this->selected->removePolygonUV();
 
         //return true
         return true;
@@ -22245,7 +22248,7 @@ bool edk::shape::Polygon3DList::selectedCleanPolygonUVAnimation(){
     //test if have selected
     if(this->selected){
         //
-        this->selected->cleanPolygonUVAnimation();edkEnd();
+        this->selected->cleanPolygonUVAnimation();
 
         //return true
         return true;
@@ -22258,86 +22261,86 @@ edk::uint32 edk::shape::Polygon3DList::selectedGetVertexCount(){
     //test if have selected
     if(this->selected){
         //
-        return this->selected->getVertexCount();edkEnd();
+        return this->selected->getVertexCount();
     }
     //else return zero
-    return 0u;edkEnd();
+    return 0u;
 }
 //return if the vertex have UV
 edk::uint8 edk::shape::Polygon3DList::selectedGetVertexType(edk::uint32 pos){
     //test if have selected
     if(this->selected){
         //
-        return this->selected->getVertexType(pos);edkEnd();
+        return this->selected->getVertexType(pos);
     }
     //else return zero
-    return 0u;edkEnd();
+    return 0u;
 }
 //return the vertex
 edk::vec3f32 edk::shape::Polygon3DList::selectedGetVertexPosition(edk::uint32 pos){
     //test if have selected
     if(this->selected){
         //
-        return this->selected->getVertexPosition(pos);edkEnd();
+        return this->selected->getVertexPosition(pos);
     }
     //else return zero
-    return edk::vec3f32(0.f,0.f,0.f);edkEnd();
+    return edk::vec3f32(0.f,0.f,0.f);
 }
 //return the vertex color
 edk::color4f32 edk::shape::Polygon3DList::selectedGetVertexColor(edk::uint32 pos){
     //test if have selected
     if(this->selected){
         //
-        return this->selected->getVertexColor(pos);edkEnd();
+        return this->selected->getVertexColor(pos);
     }
     //else return zero
-    return edk::color4f32(0,0,0,0);edkEnd();
+    return edk::color4f32(0,0,0,0);
 }
 //return the vertex UV
 edk::vec2f32 edk::shape::Polygon3DList::selectedGetVertexUV(edk::uint32 pos){
     //test if have selected
     if(this->selected){
         //
-        return this->selected->getVertexUV(pos);edkEnd();
+        return this->selected->getVertexUV(pos);
     }
     //else return zero
-    return edk::vec2f32();edkEnd();
+    return edk::vec2f32();
 }
 //return the frames
 edk::vec2ui32 edk::shape::Polygon3DList::selectedGetFrames(){
     //test if have selected
     if(this->selected){
-        return this->selected->getFrames();edkEnd();
+        return this->selected->getFrames();
     }
     //else return zero
-    return edk::vec2ui32(0u,0u);edkEnd();
+    return edk::vec2ui32(0u,0u);
 }
 edk::uint32 edk::shape::Polygon3DList::selectedGetFramesPosition(){
     //test if have selected
     if(this->selected){
-        return this->selected->getFramesPosition();edkEnd();
+        return this->selected->getFramesPosition();
     }
     //else return zero
-    return 0u;edkEnd();
+    return 0u;
 }
 //return the frameUsed
 edk::vec2ui32 edk::shape::Polygon3DList::selectedGetFrameUsed(){
     //test if have selected
     if(this->selected){
         //
-        return this->selected->getFrameUsed();edkEnd();
+        return this->selected->getFrameUsed();
     }
     //else return zero
-    return edk::vec2ui32(0u,0u);edkEnd();
+    return edk::vec2ui32(0u,0u);
 }
 edk::uint32 edk::shape::Polygon3DList::selectedGetFramePositionUsed(){
     //test if have selected
     if(this->selected){
         //
-        return this->selected->getFramePositionUsed();edkEnd();
+        return this->selected->getFramePositionUsed();
     }
     //else return zero
-    return 0u;edkEnd();
+    return 0u;
 }
 
 //get Transate
@@ -22345,37 +22348,37 @@ edk::vec3f32 edk::shape::Polygon3DList::selectedGetTranslate(){
     //test if have selected
     if(this->selected){
         //
-        return this->selected->getTranslate();edkEnd();
+        return this->selected->getTranslate();
     }
     //else return zero
-    return edk::vec3f32(0.f,0.f,0.f);edkEnd();
+    return edk::vec3f32(0.f,0.f,0.f);
 }
 //get scale
 edk::size3f32 edk::shape::Polygon3DList::selectedGetScale(){
     //test if have selected
     if(this->selected){
         //
-        return this->selected->getScale();edkEnd();
+        return this->selected->getScale();
     }
     //else return zero
-    return edk::size3f32(0.f,0.f,0.f);edkEnd();
+    return edk::size3f32(0.f,0.f,0.f);
 }
 //get angle
 edk::float32 edk::shape::Polygon3DList::selectedGetAngle(){
     //test if have selected
     if(this->selected){
         //
-        return this->selected->getAngle();edkEnd();
+        return this->selected->getAngle();
     }
     //else return zero
-    return 0u;edkEnd();
+    return 0u;
 }
 //return if is a circle
 bool edk::shape::Polygon3DList::selectedIsCircle(){
     //test if have selected
     if(this->selected){
         //
-        return this->selected->isCircle();edkEnd();
+        return this->selected->isCircle();
     }
     return false;
 }
@@ -22384,7 +22387,7 @@ bool edk::shape::Polygon3DList::selectedIsLine(){
     //test if have selected
     if(this->selected){
         //
-        return this->selected->isLine();edkEnd();
+        return this->selected->isLine();
     }
     return false;
 }
@@ -22393,16 +22396,16 @@ edk::uint8 edk::shape::Polygon3DList::selectedGetCollisionID(){
     //test if have selected
     if(this->selected){
         //
-        return this->selected->getCollisionID();edkEnd();
+        return this->selected->getCollisionID();
     }
-    return 0u;edkEnd();
+    return 0u;
 }
 //return the circle radius
 edk::float32 edk::shape::Polygon3DList::selectedGetCircleRadius(){
     //test if have selected
     if(this->selected){
         //
-        return this->selected->getCircleRadius();edkEnd();
+        return this->selected->getCircleRadius();
     }
     return 0.f;
 }
@@ -22411,7 +22414,7 @@ edk::float32 edk::shape::Polygon3DList::selectedGetDensity(){
     //test if have selected
     if(this->selected){
         //
-        return this->selected->getDensity();edkEnd();
+        return this->selected->getDensity();
     }
     return 0.f;
 }
@@ -22419,7 +22422,7 @@ edk::float32 edk::shape::Polygon3DList::selectedGetFriction(){
     //test if have selected
     if(this->selected){
         //
-        return this->selected->getFriction();edkEnd();
+        return this->selected->getFriction();
     }
     return 0.f;
 }
@@ -22427,7 +22430,7 @@ edk::float32 edk::shape::Polygon3DList::selectedGetRestitution(){
     //test if have selected
     if(this->selected){
         //
-        return this->selected->getRestitution();edkEnd();
+        return this->selected->getRestitution();
     }
     return 0.f;
 }
@@ -22436,7 +22439,7 @@ bool edk::shape::Polygon3DList::selectedDrawPolygon(){
     //test if have selected
     if(this->selected){
         //
-        this->selected->draw();edkEnd();
+        this->selected->draw();
         return true;
     }
     return false;
@@ -22445,7 +22448,7 @@ bool edk::shape::Polygon3DList::selectedDrawWirePolygon(){
     //test if have selected
     if(this->selected){
         //
-        this->selected->drawWire();edkEnd();
+        this->selected->drawWire();
         return true;
     }
     return false;
@@ -22454,7 +22457,7 @@ bool edk::shape::Polygon3DList::selectedDrawVertexs(edk::color3f32 color){
     //test if have selected
     if(this->selected){
         //
-        this->selected->drawPolygonVertexs(edk::color4f32(color.r,color.g,color.b,1.f));edkEnd();
+        this->selected->drawPolygonVertexs(edk::color4f32(color.r,color.g,color.b,1.f));
         return true;
     }
     return false;
@@ -22494,7 +22497,7 @@ bool edk::shape::Polygon3DList::generateVBO(){
                     this->vertexs.set((i*3u)+2u,(edk::shape::Vertex3D*)vert2);
                     //create the new vertex
                     if(this->polygons.havePos(i)){
-                        temp = this->polygons.get(i);edkEnd();
+                        temp = this->polygons.get(i);
                         if(temp){
                             if(temp->getVertexCount()>=3u){
                                 //add the vertexes
@@ -22599,7 +22602,7 @@ bool edk::shape::Polygon3DList::generateVBOWire(){
                     this->vertexsWire.set((i*6u)+5u,(edk::shape::Vertex3D*)vert5);
                     //create the new vertex
                     if(this->polygons.havePos(i)){
-                        temp = this->polygons.get(i);edkEnd();
+                        temp = this->polygons.get(i);
                         if(temp){
                             if(temp->getVertexCount()>=3u){
                                 //add the vertexes
@@ -22715,39 +22718,39 @@ bool edk::shape::Polygon3DList::generateVBOWire(){
 //XML
 bool edk::shape::Polygon3DList::writeToXML(edk::XML* xml,edk::uint32 id){
     if(xml){
-        bool ret=false;edkEnd();
+        bool ret=false;
         //create the nameID
-        edk::char8* nameID = edk::String::int64ToStr(id);edkEnd();
+        edk::char8* nameID = edk::String::int64ToStr(id);
         if(nameID){
             //concat
-            edk::char8* name = edk::String::strCat((edk::char8*)"mesh_",nameID);edkEnd();
+            edk::char8* name = edk::String::strCat((edk::char8*)"mesh_",nameID);
             if(name){
                 //create the name
                 if(xml->addSelectedNextChild(name)){
                     if(xml->selectChild(name)){
-                        edk::uint32 size = this->polygons.size();edkEnd();
-                        edk::char8* temp = edk::String::int64ToStr((edk::int64)size);edkEnd();
+                        edk::uint32 size = this->polygons.size();
+                        edk::char8* temp = edk::String::int64ToStr((edk::int64)size);
                         if(temp){
-                            xml->addSelectedNextAttribute((edk::char8*)"pCount",temp);edkEnd();
-                            free(temp);edkEnd();
+                            xml->addSelectedNextAttribute((edk::char8*)"pCount",temp);
+                            free(temp);
                         }
-                        edk::shape::Polygon3D* poly;edkEnd();
+                        edk::shape::Polygon3D* poly;
                         //write the polygons
                         for(edk::uint32 i=0u;i<size;i++){
                             if(this->polygons.havePos(i)){
-                                poly=this->polygons.get(i);edkEnd();
+                                poly=this->polygons.get(i);
                                 if(poly){
-                                    poly->writeToXML(xml,i);edkEnd();
+                                    poly->writeToXML(xml,i);
                                 }
                             }
                         }
-                        ret=true;edkEnd();
-                        xml->selectFather();edkEnd();
+                        ret=true;
+                        xml->selectFather();
                     }
                 }
-                free(name);edkEnd();
+                free(name);
             }
-            free(nameID);edkEnd();
+            free(nameID);
         }
         return ret;
     }
@@ -22755,31 +22758,31 @@ bool edk::shape::Polygon3DList::writeToXML(edk::XML* xml,edk::uint32 id){
 }
 bool edk::shape::Polygon3DList::readFromXML(edk::XML* xml,edk::uint32 id){
     if(xml){
-        bool ret=false;edkEnd();
+        bool ret=false;
         //create the nameID
-        edk::char8* nameID = edk::String::int64ToStr(id);edkEnd();
+        edk::char8* nameID = edk::String::int64ToStr(id);
         if(nameID){
             //concat
-            edk::char8* name = edk::String::strCat((edk::char8*)"mesh_",nameID);edkEnd();
+            edk::char8* name = edk::String::strCat((edk::char8*)"mesh_",nameID);
             if(name){
                 //select the name
                 if(xml->selectChild(name)){
-                    this->cleanPolygons();edkEnd();
-                    edk::uint32 size = edk::String::strToInt64(xml->getSelectedAttributeValueByName("pCount"));edkEnd();
-                    edk::shape::Polygon3D poly;edkEnd();
+                    this->cleanPolygons();
+                    edk::uint32 size = edk::String::strToInt64(xml->getSelectedAttributeValueByName("pCount"));
+                    edk::shape::Polygon3D poly;
                     //READ the polygons
                     for(edk::uint32 i=0u;i<size;i++){
-                        poly.deletePolygon();edkEnd();
-                        poly.readFromXML(xml,i);edkEnd();
+                        poly.deletePolygon();
+                        poly.readFromXML(xml,i);
                         //add the poly
-                        this->addPolygon(poly);edkEnd();
+                        this->addPolygon(poly);
                     }
-                    ret=true;edkEnd();
-                    xml->selectFather();edkEnd();
+                    ret=true;
+                    xml->selectFather();
                 }
-                free(name);edkEnd();
+                free(name);
             }
-            free(nameID);edkEnd();
+            free(nameID);
         }
         return ret;
     }
@@ -22787,26 +22790,26 @@ bool edk::shape::Polygon3DList::readFromXML(edk::XML* xml,edk::uint32 id){
 }
 bool edk::shape::Polygon3DList::cloneFrom(edk::shape::Polygon3DList* list){
     //delete the polygons
-    this->cleanPolygons();edkEnd();
+    this->cleanPolygons();
     if(list){
         //read the polygons
 #if defined(edkCPPversion17)
-        edk::uint32 size = list->polygons.size();edkEnd();
+        edk::uint32 size = list->polygons.size();
 #else
-        register edk::uint32 size = list->polygons.size();edkEnd();
+        register edk::uint32 size = list->polygons.size();
 #endif
         edk::uint32 select=0u;
-        edk::shape::Polygon3D* temp = NULL;edkEnd();
+        edk::shape::Polygon3D* temp = NULL;
         for(edk::uint32 i=0u;i<size;i++){
-            temp=list->polygons.get(i);edkEnd();
+            temp=list->polygons.get(i);
             if(temp){
                 if(temp==list->selected){
-                    select=i;edkEnd();
+                    select=i;
                 }
-                this->addPolygon(*temp);edkEnd();
+                this->addPolygon(*temp);
             }
         }
-        this->selectPolygon(select);edkEnd();
+        this->selectPolygon(select);
         return true;
     }
     return false;
@@ -22820,8 +22823,8 @@ void edk::shape::Polygon3DList::printPolygons(){
         if(this->polygons.havePos(i)){
             printf("\nPolygon %u"
                    ,i
-                   );fflush(stdout);edkEnd();
-            this->polygons.get(i)->print();edkEnd();
+                   );fflush(stdout);
+            this->polygons.get(i)->print();
         }
     }
 }
@@ -22831,8 +22834,8 @@ bool edk::shape::Polygon3DList::printPolygon(edk::uint32 polygon){
         if(this->polygons.havePos(polygon)){
             printf("\nPolygon %u"
                    ,polygon
-                   );edkEnd();
-            this->polygons.get(polygon)->print();edkEnd();
+                   );
+            this->polygons.get(polygon)->print();
             return true;
         }
     }
@@ -22844,7 +22847,7 @@ void edk::shape::Polygon3DList::drawPolygons(){
     //draw the polygons
     for(edk::uint32 i=0u;i<this->polygons.size();i++){
         if(this->polygons.havePos(i)){
-            this->polygons.get(i)->draw();edkEnd();
+            this->polygons.get(i)->draw();
         }
     }
 }
@@ -22852,7 +22855,7 @@ bool edk::shape::Polygon3DList::drawPolygon(edk::uint32 polygon){
     //draw the polygon
     if(polygon<this->polygons.size()){
         if(this->polygons.havePos(polygon)){
-            this->polygons.get(polygon)->draw();edkEnd();
+            this->polygons.get(polygon)->draw();
             return true;
         }
     }
@@ -22863,7 +22866,7 @@ void edk::shape::Polygon3DList::drawWirePolygons(){
     //draw the polygons
     for(edk::uint32 i=0u;i<this->polygons.size();i++){
         if(this->polygons.havePos(i)){
-            this->polygons.get(i)->drawWire();edkEnd();
+            this->polygons.get(i)->drawWire();
         }
     }
 }
@@ -22871,18 +22874,18 @@ bool edk::shape::Polygon3DList::drawWirePolygon(edk::uint32 polygon){
     //draw the polygons
     if(polygon<this->polygons.size()){
         if(this->polygons.havePos(polygon)){
-            this->polygons.get(polygon)->drawWire();edkEnd();
+            this->polygons.get(polygon)->drawWire();
             return true;
         }
     }
     return false;
 }
 void edk::shape::Polygon3DList::drawVertexs(edk::color3f32 color){
-    edk::GU::guColor3f32(color);edkEnd();
+    edk::GU::guColor3f32(color);
     //draw the polygons
     for(edk::uint32 i=0u;i<this->polygons.size();i++){
         if(this->polygons.havePos(i)){
-            this->polygons.get(i)->drawPolygonVertexs(edk::color4f32(color.r,color.g,color.b,1.f));edkEnd();
+            this->polygons.get(i)->drawPolygonVertexs(edk::color4f32(color.r,color.g,color.b,1.f));
         }
     }
 }
@@ -22890,8 +22893,8 @@ bool edk::shape::Polygon3DList::drawPolygonVertexs(edk::uint32 polygon,edk::colo
     //draw the polygons
     if(polygon<this->polygons.size()){
         if(this->polygons.havePos(polygon)){
-            edk::GU::guColor3f32(color);edkEnd();
-            this->polygons.get(polygon)->drawPolygonVertexs(edk::color4f32(color.r,color.g,color.b,1.f));edkEnd();
+            edk::GU::guColor3f32(color);
+            this->polygons.get(polygon)->drawPolygonVertexs(edk::color4f32(color.r,color.g,color.b,1.f));
             return true;
         }
     }
@@ -22902,7 +22905,7 @@ void edk::shape::Polygon3DList::drawNormals(){
     //draw the polygons
     for(edk::uint32 i=0u;i<this->polygons.size();i++){
         if(this->polygons.havePos(i)){
-            this->polygons.get(i)->drawNormals();edkEnd();
+            this->polygons.get(i)->drawNormals();
         }
     }
 }
@@ -22910,7 +22913,7 @@ void edk::shape::Polygon3DList::drawNormalsWithColor(edk::color3f32 color){
     //draw the polygons
     for(edk::uint32 i=0u;i<this->polygons.size();i++){
         if(this->polygons.havePos(i)){
-            this->polygons.get(i)->drawNormalsWithColor(edk::color4f32(color.r,color.g,color.b,1.f));edkEnd();
+            this->polygons.get(i)->drawNormalsWithColor(edk::color4f32(color.r,color.g,color.b,1.f));
         }
     }
 }
@@ -22919,7 +22922,7 @@ void edk::shape::Polygon3DList::drawWirePolygonsWorld(){
     //draw the polygons
     for(edk::uint32 i=0u;i<this->polygons.size();i++){
         if(this->polygons.havePos(i)){
-            this->polygons.get(i)->drawWireWorld();edkEnd();
+            this->polygons.get(i)->drawWireWorld();
         }
     }
 }
@@ -22927,18 +22930,18 @@ bool edk::shape::Polygon3DList::drawWirePolygonWorld(edk::uint32 polygon){
     //draw the polygons
     if(polygon<this->polygons.size()){
         if(this->polygons.havePos(polygon)){
-            this->polygons.get(polygon)->drawWireWorld();edkEnd();
+            this->polygons.get(polygon)->drawWireWorld();
             return true;
         }
     }
     return false;
 }
 void edk::shape::Polygon3DList::drawVertexsWorld(edk::color3f32 color){
-    edk::GU::guColor3f32(color);edkEnd();
+    edk::GU::guColor3f32(color);
     //draw the polygons
     for(edk::uint32 i=0u;i<this->polygons.size();i++){
         if(this->polygons.havePos(i)){
-            this->polygons.get(i)->drawPolygonVertexsWorld(edk::color4f32(color.r,color.g,color.b,1.f));edkEnd();
+            this->polygons.get(i)->drawPolygonVertexsWorld(edk::color4f32(color.r,color.g,color.b,1.f));
         }
     }
 }
@@ -22946,8 +22949,8 @@ bool edk::shape::Polygon3DList::drawPolygonVertexsWorld(edk::uint32 polygon,edk:
     //draw the polygons
     if(polygon<this->polygons.size()){
         if(this->polygons.havePos(polygon)){
-            edk::GU::guColor3f32(color);edkEnd();
-            this->polygons.get(polygon)->drawPolygonVertexsWorld(edk::color4f32(color.r,color.g,color.b,1.f));edkEnd();
+            edk::GU::guColor3f32(color);
+            this->polygons.get(polygon)->drawPolygonVertexsWorld(edk::color4f32(color.r,color.g,color.b,1.f));
             return true;
         }
     }
@@ -22961,7 +22964,7 @@ void edk::shape::Polygon3DList::drawPolygonsWithMatrix(edk::vector::Matrixf32<4u
     //draw the polygons
     for(edk::uint32 i=0u;i<this->polygons.size();i++){
         if(this->polygons.havePos(i)){
-            this->polygons.get(i)->drawWithMatrix(matrix,matrixTemp);edkEnd();
+            this->polygons.get(i)->drawWithMatrix(matrix,matrixTemp);
         }
     }
 }
@@ -22971,7 +22974,7 @@ bool edk::shape::Polygon3DList::drawPolygonWithMatrix(edk::vector::Matrixf32<4u,
     //draw the polygon
     if(polygon<this->polygons.size()){
         if(this->polygons.havePos(polygon)){
-            this->polygons.get(polygon)->drawWithMatrix(matrix,matrixTemp);edkEnd();
+            this->polygons.get(polygon)->drawWithMatrix(matrix,matrixTemp);
             return true;
         }
     }
@@ -22984,7 +22987,7 @@ void edk::shape::Polygon3DList::drawWirePolygonsWithMatrix(edk::vector::Matrixf3
     //draw the polygons
     for(edk::uint32 i=0u;i<this->polygons.size();i++){
         if(this->polygons.havePos(i)){
-            this->polygons.get(i)->drawWireWithMatrix(matrix,matrixTemp);edkEnd();
+            this->polygons.get(i)->drawWireWithMatrix(matrix,matrixTemp);
         }
     }
 }
@@ -22995,7 +22998,7 @@ bool edk::shape::Polygon3DList::drawWirePolygonWithMatrix(edk::vector::Matrixf32
     //draw the polygons
     if(polygon<this->polygons.size()){
         if(this->polygons.havePos(polygon)){
-            this->polygons.get(polygon)->drawWireWithMatrix(matrix,matrixTemp);edkEnd();
+            this->polygons.get(polygon)->drawWireWithMatrix(matrix,matrixTemp);
             return true;
         }
     }
@@ -23005,14 +23008,14 @@ void edk::shape::Polygon3DList::drawVertexsWithMatrix(edk::vector::Matrixf32<4u,
                                                       edk::vector::Matrixf32<4u,4u>* matrixTemp,
                                                       edk::color3f32 color
                                                       ){
-    edk::GU::guColor3f32(color);edkEnd();
+    edk::GU::guColor3f32(color);
     //draw the polygons
     for(edk::uint32 i=0u;i<this->polygons.size();i++){
         if(this->polygons.havePos(i)){
             this->polygons.get(i)->drawPolygonVertexsWithMatrix(matrix,
                                                                 matrixTemp,
                                                                 edk::color4f32(color.r,color.g,color.b,1.f)
-                                                                );edkEnd();
+                                                                );
         }
     }
 }
@@ -23023,11 +23026,11 @@ bool edk::shape::Polygon3DList::drawPolygonVertexsWithMatrix(edk::vector::Matrix
     //draw the polygons
     if(polygon<this->polygons.size()){
         if(this->polygons.havePos(polygon)){
-            edk::GU::guColor3f32(color);edkEnd();
+            edk::GU::guColor3f32(color);
             this->polygons.get(polygon)->drawPolygonVertexsWithMatrix(matrix,
                                                                       matrixTemp,
                                                                       edk::color4f32(color.r,color.g,color.b,1.f)
-                                                                      );edkEnd();
+                                                                      );
             return true;
         }
     }
@@ -23040,7 +23043,7 @@ void edk::shape::Polygon3DList::drawWirePolygonsWorldWithMatrix(edk::vector::Mat
     //draw the polygons
     for(edk::uint32 i=0u;i<this->polygons.size();i++){
         if(this->polygons.havePos(i)){
-            this->polygons.get(i)->drawWireWorldWithMatrix(matrix,matrixTemp);edkEnd();
+            this->polygons.get(i)->drawWireWorldWithMatrix(matrix,matrixTemp);
         }
     }
 }
@@ -23051,7 +23054,7 @@ bool edk::shape::Polygon3DList::drawWirePolygonWorldWithMatrix(edk::vector::Matr
     //draw the polygons
     if(polygon<this->polygons.size()){
         if(this->polygons.havePos(polygon)){
-            this->polygons.get(polygon)->drawWireWorldWithMatrix(matrix,matrixTemp);edkEnd();
+            this->polygons.get(polygon)->drawWireWorldWithMatrix(matrix,matrixTemp);
             return true;
         }
     }
@@ -23061,14 +23064,14 @@ void edk::shape::Polygon3DList::drawVertexsWorldWithMatrix(edk::vector::Matrixf3
                                                            edk::vector::Matrixf32<4u,4u>* matrixTemp,
                                                            edk::color3f32 color
                                                            ){
-    edk::GU::guColor3f32(color);edkEnd();
+    edk::GU::guColor3f32(color);
     //draw the polygons
     for(edk::uint32 i=0u;i<this->polygons.size();i++){
         if(this->polygons.havePos(i)){
             this->polygons.get(i)->drawPolygonVertexsWorldWithMatrix(matrix,
                                                                      matrixTemp,
                                                                      edk::color4f32(color.r,color.g,color.b,1.f)
-                                                                     );edkEnd();
+                                                                     );
         }
     }
 }
@@ -23079,11 +23082,11 @@ bool edk::shape::Polygon3DList::drawPolygonVertexsWorldWithMatrix(edk::vector::M
     //draw the polygons
     if(polygon<this->polygons.size()){
         if(this->polygons.havePos(polygon)){
-            edk::GU::guColor3f32(color);edkEnd();
+            edk::GU::guColor3f32(color);
             this->polygons.get(polygon)->drawPolygonVertexsWorldWithMatrix(matrix,
                                                                            matrixTemp,
                                                                            edk::color4f32(color.r,color.g,color.b,1.f)
-                                                                           );edkEnd();
+                                                                           );
             return true;
         }
     }

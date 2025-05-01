@@ -44,7 +44,8 @@ public:
     DecoderImage();
     virtual ~DecoderImage();
 
-    void Constructor(bool runFather=true);
+    void Constructor();
+    void Destructor();
 
     //process the decoder
     virtual bool decode(edk::uint8* encoded,edk::uint32 size);

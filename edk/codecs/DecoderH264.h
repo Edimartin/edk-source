@@ -52,7 +52,8 @@ public:
     DecoderH264();
     virtual ~DecoderH264();
 
-    void Constructor(bool runFather=true);
+    void Constructor();
+    void Destructor();
 
     //start the encoder
     bool startDecoder(edk::uint32 spaceDecodeSize);

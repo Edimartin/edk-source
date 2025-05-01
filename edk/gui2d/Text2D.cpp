@@ -24,25 +24,27 @@ OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 edk::gui2d::Text2D::Text2D(){
-    this->classThis=NULL;edkEnd();
-    this->Constructor(false);edkEnd();
+    this->classThis=NULL;
+    this->Constructor();
 }
 edk::gui2d::Text2D::~Text2D(){
-    if(this->classThis==this){
-        this->classThis=NULL;edkEnd();
-        //can destruct the class
-    }
+    this->Destructor();
 }
 
-void edk::gui2d::Text2D::Constructor(bool runFather){
-    if(runFather){
-        edk::gui2d::ObjectGui2d::Constructor();edkEnd();
-    }
+void edk::gui2d::Text2D::Constructor(){
+    edk::gui2d::ObjectGui2d::Constructor();
     if(this->classThis!=this){
         this->classThis=this;
         this->type=edk::TypeObject2DText;
-        edk::gui2d::ObjectGui2d::setBorderSize(0.01f);edkEnd();
+        edk::gui2d::ObjectGui2d::setBorderSize(0.01f);
     }
+}
+void edk::gui2d::Text2D::Destructor(){
+    if(this->classThis==this){
+        this->classThis=NULL;
+        //can destruct the class
+    }
+    edk::gui2d::ObjectGui2d::Destructor();
 }
 
 //load the button textures and meshes
@@ -54,10 +56,10 @@ bool edk::gui2d::Text2D::load(){
     return false;
 }
 void edk::gui2d::Text2D::unload(){
-    edk::gui2d::ObjectGui2d::unload();edkEnd();
+    edk::gui2d::ObjectGui2d::unload();
 }
 void edk::gui2d::Text2D::update(){
-    edk::gui2d::ObjectGui2d::update();edkEnd();
+    edk::gui2d::ObjectGui2d::update();
 }
 
 //set border size
@@ -67,10 +69,10 @@ bool edk::gui2d::Text2D::setBorderSize(edk::float32){
 
 //draw the button
 void edk::gui2d::Text2D::draw(){
-    this->drawStart();edkEnd();
+    this->drawStart();
     if(this->text.haveText() && this->drawText){
         //
-        this->text.draw(edk::color4f32(0,0,0,1));edkEnd();
+        this->text.draw(edk::color4f32(0,0,0,1));
     }
-    this->drawEnd();edkEnd();
+    this->drawEnd();
 }

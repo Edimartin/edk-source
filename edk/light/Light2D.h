@@ -43,6 +43,10 @@ namespace light{
 class Light2D : public edk::light::Light{
 public:
     Light2D();
+    ~Light2D();
+
+    void Constructor();
+    void Destructor();
 
     //Set the 2D Values
     void setPosition(edk::float32 x,edk::float32 y);
@@ -58,6 +62,8 @@ public:
     edk::float32 getDirectionX();
     edk::float32 getDirectionY();
     edk::vec2f32 getDirection2f();
+private:
+    edk::classID classThis;
 };
 }//end namespace light
 }//end namespace edk

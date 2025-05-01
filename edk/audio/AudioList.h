@@ -45,7 +45,8 @@ public:
     AudioList();
     virtual ~AudioList();
 
-    void Constructor(bool runFather=true);
+    void Constructor();
+    void Destructor();
 
     //LOAD
     //Load the audio. If are loaded, just return the

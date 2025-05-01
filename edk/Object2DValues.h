@@ -47,7 +47,8 @@ public:
     Object2DValues();
     virtual ~Object2DValues();
 
-    void Constructor(bool runFather=true);
+    void Constructor();
+    void Destructor();
 
     //print the values
     virtual void print();
@@ -68,26 +69,26 @@ public:
     //operators
     // =
     edk::Object2DValues operator=(edk::Object2DValues values){
-        this->position = values.position;edkEnd();
-        this->angle = values.angle;edkEnd();
-        this->size = values.size;edkEnd();
-        return *this;edkEnd();
+        this->position = values.position; 
+        this->angle = values.angle; 
+        this->size = values.size; 
+        return *this; 
     }
 
     // ==
     inline bool operator==(edk::Object2DValues values){
-        return (this->position==values.position && this->angle==values.angle && this->size == values.size);edkEnd();
+        return (this->position==values.position && this->angle==values.angle && this->size == values.size); 
     }
     // !=
     inline bool operator!=(edk::Object2DValues values){
-        return (this->position!=values.position || this->angle!=values.angle || this->size != values.size);edkEnd();
+        return (this->position!=values.position || this->angle!=values.angle || this->size != values.size); 
     }
     //clone from
     bool cloneValuesFrom(edk::Object2DValues* values){
         if(values){
-            this->position = values->position;edkEnd();
-            this->angle = values->angle;edkEnd();
-            this->size = values->size;edkEnd();
+            this->position = values->position; 
+            this->angle = values->angle; 
+            this->size = values->size; 
             return true;
         }
         return false;

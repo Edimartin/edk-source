@@ -62,7 +62,8 @@ public:
     Data();
     virtual ~Data();
 
-    void Constructor(bool runFather=true);
+    void Constructor();
+    void Destructor();
 
     //data stack
     edk::vector::Stack<edk::int32> ints;

@@ -46,8 +46,9 @@ public:
     Line3D(edk::vec3f32 start,edk::vec3f32 end);
     virtual ~Line3D();
 
-    void Constructor(bool runFather=true);
-    void Constructor(edk::vec3f32 start,edk::vec3f32 end,bool runFather=true);
+    void Constructor();
+    void Constructor(edk::vec3f32 start,edk::vec3f32 end);
+    void Destructor();
     //line Vectex's
     edk::shape::Vertex3D start,end;
 

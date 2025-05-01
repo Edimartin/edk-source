@@ -43,7 +43,8 @@ public:
     BinaryConverter();
     virtual ~BinaryConverter();
 
-    void Constructor(bool runFather=true);
+    void Constructor();
+    void Destructor();
 
     static void printBits(edk::uchar8 byte);
     static inline void printBits(edk::char8 byte){printBits((edk::uchar8)byte);}

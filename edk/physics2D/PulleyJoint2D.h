@@ -42,6 +42,10 @@ namespace physics2D{
 class PulleyJoint2D : public edk::physics2D::DistanceJoint2D{
 public:
     PulleyJoint2D(bool collide=false);
+    ~PulleyJoint2D();
+
+    void Constructor(bool collide=false);
+    void Destructor();
 
     edk::vec2f32 pulleyPositionA;
     edk::vec2f32 pulleyPositionB;
@@ -50,6 +54,8 @@ public:
 
     //draw the joint in debug mode
     virtual void draw(edk::size2f32 size,edk::color3f32 color);
+private:
+    edk::classID classThis;
 };
 }
 }

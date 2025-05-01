@@ -25,26 +25,29 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 edk::multi::BufferThreadTree::BufferThreadTree(){
-    this->classThis=NULL;edkEnd();
-    this->Constructor(false);
+    this->classThis=NULL;
+    this->Constructor();
 }
 edk::multi::BufferThreadTree::~BufferThreadTree(){
-    if(this->classThis==this){
-        this->classThis=NULL;edkEnd();
-        //can destruct the class
-        this->mut.lock();
-        this->tree.cleanBuffers();
-        this->mut.unlock();
-    }
+    this->Destructor();
 }
 
-void edk::multi::BufferThreadTree::Constructor(bool /*runFather*/){
+void edk::multi::BufferThreadTree::Constructor(){
     //
     if(this->classThis!=this){
         this->classThis=this;
 
-        this->mut.Constructor();edkEnd();
-        this->tree.Constructor();edkEnd();
+        this->mut.Constructor();
+        this->tree.Constructor();
+    }
+}
+void edk::multi::BufferThreadTree::Destructor(){
+    if(this->classThis==this){
+        this->classThis=NULL;
+        //can destruct the class
+        this->mut.lock();
+        this->tree.cleanBuffers();
+        this->mut.unlock();
     }
 }
 

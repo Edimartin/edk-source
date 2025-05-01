@@ -72,11 +72,13 @@ public:
 
     virtual ~Image2D();
 
-    void Constructor(bool runFather=true);
+    void Constructor();
 
-    void Constructor(char8 *imageFileName,bool runFather=true);
+    void Constructor(char8 *imageFileName);
 
-    void Constructor(const char *imageFileName,bool runFather=true);
+    void Constructor(const char *imageFileName);
+
+    void Destructor();
 
     void clean();
 

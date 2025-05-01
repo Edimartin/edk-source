@@ -88,7 +88,8 @@ public:
     ViewConsole();
     virtual ~ViewConsole();
 
-    void Constructor(bool runFather=true);
+    void Constructor();
+    void Destructor();
 
     //set the map size
     bool newConsole(edk::size2ui32 size);

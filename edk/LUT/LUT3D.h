@@ -48,7 +48,8 @@ public:
     LUT3D();
     virtual ~LUT3D();
 
-    void Constructor(bool runFather=true);
+    void Constructor();
+    void Destructor();
 
     //create a new table
     bool newTable(edk::uint16 size);

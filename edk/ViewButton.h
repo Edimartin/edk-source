@@ -47,22 +47,22 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //event press button
 void eventPressButton(edk::uint32 mouseButton){
     //
-    //printf("\nPRESS BUTTON %u",mouseButton);edkEnd();
+    //printf("\nPRESS BUTTON %u",mouseButton); 
 }
 //event releaseButton
 void eventReleaseButton(edk::uint32 mouseButton,bool inside){
     //
-    //printf("\nRELEASE BUTTON %u",mouseButton);edkEnd();
+    //printf("\nRELEASE BUTTON %u",mouseButton); 
 }
 //event releaseButton
 void eventDoubleClickButton(edk::uint32 mouseButton,bool inside){
     //
-    //printf("\nDOUBLE CLICK BUTTON %u",mouseButton);edkEnd();
+    //printf("\nDOUBLE CLICK BUTTON %u",mouseButton); 
 }
 //event holdButton
 void eventHoldButton(edk::uint32 mouseButton){
     //
-    //printf("\nHOLDING BUTTON %u",mouseButton);edkEnd();
+    //printf("\nHOLDING BUTTON %u",mouseButton); 
 }
 //Mouse go Inside Outside
 void eventMouseEntryInsideView(edk::vec2f32 point){
@@ -91,7 +91,8 @@ public:
     ViewButton();
     virtual ~ViewButton();
 
-    void Constructor(bool runFather=true);
+    void Constructor();
+    void Destructor();
 
     //save the FontTemplate
     static bool saveTemplate(const edk::char8* folder);

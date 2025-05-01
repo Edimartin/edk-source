@@ -45,60 +45,60 @@ namespace edk{
 class vec2f32ColorRGB{
 public:
     vec2f32ColorRGB(){
-        this->classThis=NULL;edkEnd();
-        this->Constructor(false);edkEnd();
+        this->classThis=NULL;
+        this->Constructor();
     }
     vec2f32ColorRGB(edk::vec2f32 position,edk::color3ui8 color){
-        this->classThis=NULL;edkEnd();
-        this->Constructor(position,color,false);edkEnd();
+        this->classThis=NULL;
+        this->Constructor(position,color);
     }
     vec2f32ColorRGB(edk::float32 x,edk::float32 y,edk::uint8 r,edk::uint8 g,edk::uint8 b){
-        this->classThis=NULL;edkEnd();
-        this->Constructor(x,y,r,g,b,false);edkEnd();
+        this->classThis=NULL;
+        this->Constructor(x,y,r,g,b);
     }
     virtual ~vec2f32ColorRGB(){
-        if(this->classThis==this){
-            this->classThis=NULL;edkEnd();
-            //can destruct the class
-        }
+        this->Desstructor();
     }
 
-    void Constructor(bool runFather=true){
-        if(runFather){edkEnd();}
+    void Constructor(){
         if(this->classThis!=this){
             this->classThis=this;
-            this->position.x = this->position.y = 0.f;edkEnd();
-            this->color.r = this->color.g = this->color.b = 0u;edkEnd();
+            this->position.x = this->position.y = 0.f;
+            this->color.r = this->color.g = this->color.b = 0u;
         }
     }
-    void Constructor(edk::vec2f32 position,edk::color3ui8 color,bool runFather=true){
-        if(runFather){edkEnd();}
+    void Constructor(edk::vec2f32 position,edk::color3ui8 color){
         if(this->classThis!=this){
             this->classThis=this;
-            this->position = position;edkEnd();
-            this->color = color;edkEnd();
+            this->position = position;
+            this->color = color;
         }
     }
-    void Constructor(edk::float32 x,edk::float32 y,edk::uint8 r,edk::uint8 g,edk::uint8 b,bool runFather=true){
-        if(runFather){edkEnd();}
+    void Constructor(edk::float32 x,edk::float32 y,edk::uint8 r,edk::uint8 g,edk::uint8 b){
         if(this->classThis!=this){
             this->classThis=this;
-            this->position.x = x;edkEnd();
-            this->position.y = y;edkEnd();
-            this->color.r = r;edkEnd();
-            this->color.g = g;edkEnd();
-            this->color.b = b;edkEnd();
+            this->position.x = x;
+            this->position.y = y;
+            this->color.r = r;
+            this->color.g = g;
+            this->color.b = b;
+        }
+    }
+    void Desstructor(){
+        if(this->classThis==this){
+            this->classThis=NULL;
+            //can destruct the class
         }
     }
 
     //operator =
     edk::vec2f32ColorRGB operator=(edk::vec2f32ColorRGB vecColor){
-        this->position.x= vecColor.position.x;edkEnd();
-        this->position.y= vecColor.position.y;edkEnd();
-        this->color.r = vecColor.color.r;edkEnd();
-        this->color.g = vecColor.color.g;edkEnd();
-        this->color.b = vecColor.color.b;edkEnd();
-        return *this;edkEnd();
+        this->position.x= vecColor.position.x;
+        this->position.y= vecColor.position.y;
+        this->color.r = vecColor.color.r;
+        this->color.g = vecColor.color.g;
+        this->color.b = vecColor.color.b;
+        return *this;
     }
     edk::vec2f32 position;
     edk::color3ui8 color;
@@ -108,56 +108,57 @@ private:
 class vec2f32ColorGray{
 public:
     vec2f32ColorGray(){
-        this->classThis=NULL;edkEnd();
-        this->Constructor(false);edkEnd();
+        this->classThis=NULL;
+        this->Constructor();
     }
     vec2f32ColorGray(edk::vec2f32 position,edk::uint8 grayscale){
-        this->classThis=NULL;edkEnd();
-        this->Constructor(position,grayscale,false);edkEnd();
+        this->classThis=NULL;
+        this->Constructor(position,grayscale);
     }
     vec2f32ColorGray(edk::float32 x,edk::float32 y,edk::uint8 grayscale){
-        this->classThis=NULL;edkEnd();
-        this->Constructor(x,y,grayscale,false);edkEnd();
+        this->classThis=NULL;
+        this->Constructor(x,y,grayscale);
     }
     virtual ~vec2f32ColorGray(){
+        this->Destructor();
+    }
+
+
+    void Constructor(){
+        if(this->classThis!=this){
+            this->classThis=this;
+            this->position.x = this->position.y = 0.f;
+            this->grayscale = 0u;
+        }
+    }
+    void Constructor(edk::vec2f32 position,edk::uint8 grayscale){
+        if(this->classThis!=this){
+            this->classThis=this;
+            this->position = position;
+            this->grayscale = grayscale;
+        }
+    }
+    void Constructor(edk::float32 x,edk::float32 y,edk::uint8 grayscale){
+        if(this->classThis!=this){
+            this->classThis=this;
+            this->position.x = x;
+            this->position.y = y;
+            this->grayscale = grayscale;
+        }
+    }
+    void Destructor(){
         if(this->classThis==this){
-            this->classThis=NULL;edkEnd();
+            this->classThis=NULL;
             //can destruct the class
         }
     }
 
-
-    void Constructor(bool runFather=true){
-        if(runFather){edkEnd();}
-        if(this->classThis!=this){
-            this->classThis=this;
-            this->position.x = this->position.y = 0.f;edkEnd();
-            this->grayscale = 0u;edkEnd();
-        }
-    }
-    void Constructor(edk::vec2f32 position,edk::uint8 grayscale,bool runFather=true){
-        if(runFather){edkEnd();}
-        if(this->classThis!=this){
-            this->classThis=this;
-            this->position = position;edkEnd();
-            this->grayscale = grayscale;edkEnd();
-        }
-    }
-    void Constructor(edk::float32 x,edk::float32 y,edk::uint8 grayscale,bool runFather=true){
-        if(runFather){edkEnd();}
-        if(this->classThis!=this){
-            this->classThis=this;
-            this->position.x = x;edkEnd();
-            this->position.y = y;edkEnd();
-            this->grayscale = grayscale;edkEnd();
-        }
-    }
     //operator =
     edk::vec2f32ColorGray operator=(edk::vec2f32ColorGray vecColor){
-        this->position.x= vecColor.position.x;edkEnd();
-        this->position.y= vecColor.position.y;edkEnd();
-        this->grayscale = vecColor.grayscale;edkEnd();
-        return *this;edkEnd();
+        this->position.x= vecColor.position.x;
+        this->position.y= vecColor.position.y;
+        this->grayscale = vecColor.grayscale;
+        return *this;
     }
     edk::vec2f32 position;
     edk::uint8 grayscale;
@@ -170,7 +171,8 @@ public:
     Voronoi();
     virtual ~Voronoi();
 
-    void Constructor(bool runFather=true);
+    void Constructor();
+    void Destructor();
 
     //generate the voronoi image
     static bool generateImageRGB(edk::uint32 pointSize,edk::uint8* image,edk::uint32 width,edk::uint32 height);
@@ -225,31 +227,34 @@ private:
     class ImageRGB{
     public:
         ImageRGB(){
-            this->classThis=NULL;edkEnd();
-            this->Constructor(false);edkEnd();
+            this->classThis=NULL;
+            this->Constructor();
         }
         virtual ~ImageRGB(){
-            if(this->classThis==this){
-                this->classThis=NULL;edkEnd();
-                //can destruct the class
-                this->points.deleteArray();edkEnd();
-            }
+            this->Destructor();
         }
 
-        void Constructor(bool runFather=true){
-            if(runFather){edkEnd();}
+        void Constructor(){
             if(this->classThis!=this){
                 this->classThis=this;
 
                 this->points.Constructor();
 
-                this->image=NULL;edkEnd();
-                this->width=0u;edkEnd();
-                this->height=0u;edkEnd();
-                this->start=0u;edkEnd();
-                this->end=0u;edkEnd();
+                this->image=NULL;
+                this->width=0u;
+                this->height=0u;
+                this->start=0u;
+                this->end=0u;
             }
         }
+        void Destructor(){
+            if(this->classThis==this){
+                this->classThis=NULL;
+                //can destruct the class
+                this->points.deleteArray();
+            }
+        }
+
         edk::vector::Array<edk::vec2f32ColorRGB> points;
         edk::uint8* image;
         edk::uint32 width;
@@ -262,31 +267,35 @@ private:
     class ImageGray{
     public:
         ImageGray(){
-            this->classThis=NULL;edkEnd();
-            this->Constructor(false);edkEnd();
+            this->classThis=NULL;
+            this->Constructor();
         }
         virtual ~ImageGray(){
-            if(this->classThis==this){
-                this->classThis=NULL;edkEnd();
-                //can destruct the class
-                this->points.deleteArray();edkEnd();
-            }
+            this->Destructor();
         }
 
-        void Constructor(bool runFather=true){
-            if(runFather){edkEnd();}
+        void Constructor(){
             if(this->classThis!=this){
                 this->classThis=this;
 
-                this->points.Constructor();edkEnd();
+                this->points.Constructor();
 
-                this->image=NULL;edkEnd();
-                this->width=0u;edkEnd();
-                this->height=0u;edkEnd();
-                this->start=0u;edkEnd();
-                this->end=0u;edkEnd();
+                this->image=NULL;
+                this->width=0u;
+                this->height=0u;
+                this->start=0u;
+                this->end=0u;
             }
         }
+        void Destructor(){
+            if(this->classThis==this){
+                this->classThis=NULL;
+                //can destruct the class
+                this->points.deleteArray();
+            }
+        }
+
+
         edk::vector::Array<edk::vec2f32ColorGray> points;
         edk::uint8* image;
         edk::uint32 width;

@@ -58,9 +58,10 @@ public:
     Bone2D(const edk::char8* name);
     virtual ~Bone2D();
 
-    void Constructor(bool runFather=true);
-    void Constructor(edk::char8* name,bool runFather=true);
-    void Constructor(const edk::char8* name,bool runFather=true);
+    void Constructor();
+    void Constructor(edk::char8* name);
+    void Constructor(const edk::char8* name);
+    void Destructor();
 
     edk::vec2f32 position;
     edk::vec2f32 vector;
@@ -233,32 +234,32 @@ public:
 
     virtual bool cloneFrom(edk::bones::Bone2D* bone){
         if(bone){
-            this->position = bone->position;edkEnd();
-            this->vector = bone->vector;edkEnd();
-            this->angle = bone->angle;edkEnd();
+            this->position = bone->position;
+            this->vector = bone->vector;
+            this->angle = bone->angle;
             //copy the animations
-            //this->animationAngle = bone.animationAngle;edkEnd();
-            this->animationAngle.cloneFrom(&bone->animationAngle);edkEnd();
-            //this->animationPosition = bone->animationPosition;edkEnd();
-            this->animationPosition.cloneFrom(&bone->animationPosition);edkEnd();
+            //this->animationAngle = bone.animationAngle;
+            this->animationAngle.cloneFrom(&bone->animationAngle);
+            //this->animationPosition = bone->animationPosition;
+            this->animationPosition.cloneFrom(&bone->animationPosition);
 
-            this->setName(bone->getName());edkEnd();
+            this->setName(bone->getName());
 
             //copy the connectionObjects
-            edk::uint32 size = bone->treeObjects.size();edkEnd();
-            edk::bones::Bone2D::ObjectConnect* temp;edkEnd();
-            edk::bones::Bone2D::ObjectConnect* newConnection;edkEnd();
+            edk::uint32 size = bone->treeObjects.size();
+            edk::bones::Bone2D::ObjectConnect* temp;
+            edk::bones::Bone2D::ObjectConnect* newConnection;
             for(edk::uint32 i=0u;i<size;i++){
                 if((temp = bone->treeObjects.getElementInPosition(i))){
                     if((newConnection = new edk::bones::Bone2D::ObjectConnect)){
                         //copy the object valuess
-                        newConnection->position = temp->position;edkEnd();
-                        newConnection->angle = temp->angle;edkEnd();
-                        newConnection->size = temp->size;edkEnd();
-                        newConnection->object = temp->object;edkEnd();
+                        newConnection->position = temp->position;
+                        newConnection->angle = temp->angle;
+                        newConnection->size = temp->size;
+                        newConnection->object = temp->object;
                         //add the new connection to the tree
                         if(!this->treeObjects.add(newConnection)){
-                            delete newConnection;edkEnd();
+                            delete newConnection;
                         }
                     }
                 }
@@ -279,36 +280,43 @@ private:
     //class to add the objects to the bone
     class ObjectConnect{
     public:
-        ObjectConnect(){this->classThis=NULL;this->Constructor(false);edkEnd();}
-        ObjectConnect(edk::Object2DValues* object){this->classThis=NULL;this->Constructor(object,false);edkEnd();}
+        ObjectConnect(){
+            this->classThis=NULL;
+            this->Constructor();
+        }
+        ObjectConnect(edk::Object2DValues* object){
+            this->classThis=NULL;
+            this->Constructor(object);
+        }
         virtual ~ObjectConnect(){
-            if(this->classThis==this){
-                this->classThis=NULL;edkEnd();
-                //can destruct the class
-            }
+            this->Destructor();
         }
 
-        void Constructor(bool runFather=true){
-            if(runFather){edkEnd();}
+        void Constructor(){
             if(this->classThis!=this){
                 this->classThis=this;
-                this->object=NULL;edkEnd();
-                this->angle=0u;edkEnd();
+                this->object=NULL;
+                this->angle=0u;
             }
         }
-        void Constructor(edk::Object2DValues* object,bool runFather=true){
-            if(runFather){edkEnd();}
+        void Constructor(edk::Object2DValues* object){
             if(this->classThis!=this){
                 this->classThis=this;
                 if(object){
-                    this->object=object;edkEnd();
-                    this->angle=object->angle;edkEnd();
-                    this->position = object->position;edkEnd();
-                    this->size = object->size;edkEnd();
+                    this->object=object;
+                    this->angle=object->angle;
+                    this->position = object->position;
+                    this->size = object->size;
                 }
                 else{
-                    this->object=NULL;edkEnd();this->angle=0u;edkEnd();
+                    this->object=NULL; this->angle=0u;
                 }
+            }
+        }
+        void Destructor(){
+            if(this->classThis==this){
+                this->classThis=NULL;
+                //can destruct the class
             }
         }
 
@@ -328,9 +336,9 @@ private:
     public:
         TreeObjects(){
             //set the matrix identity
-            edk::bones::Bone2D::setIdentity(&this->mat);edkEnd();
-            this->setAngleRemove(0.f);edkEnd();
-            this->setAngleMultiply(1.f);edkEnd();
+            edk::bones::Bone2D::setIdentity(&this->mat);
+            this->setAngleRemove(0.f);
+            this->setAngleMultiply(1.f);
         }
 
         //compare if the value is bigger
@@ -353,75 +361,75 @@ private:
         virtual void updateElement(ObjectConnect* value){
             //test the object
             if(value->object){
-                edk::float32 vec[3u];edkEnd();
+                edk::float32 vec[3u];
                 //copy the position to the vector
-                vec[0u] = value->position.x;edkEnd();
-                vec[1u] = value->position.y;edkEnd();
-                vec[2u] = 1.f;edkEnd();
+                vec[0u] = value->position.x;
+                vec[1u] = value->position.y;
+                vec[2u] = 1.f;
 
                 //multiply for the matrix
-                edk::bones::Bone2D::multiplyMatrix(&this->mat,&vec);edkEnd();
+                edk::bones::Bone2D::multiplyMatrix(&this->mat,&vec);
 
                 //set the position values
-                value->object->position.x = vec[0u];edkEnd();
-                value->object->position.y = vec[1u];edkEnd();
+                value->object->position.x = vec[0u];
+                value->object->position.y = vec[1u];
 
                 //Scale the angle
-                edk::float32 angleScaled = (value->angle * this->angleMultiply) + this->angle;edkEnd();
+                edk::float32 angleScaled = (value->angle * this->angleMultiply) + this->angle;
                 if(this->scale.width!=this->scale.height){
                     angleScaled = edk::Math::getAngle(
                                 edk::vec2f32( edk::Math::getCosin(angleScaled) * this->scale.width ,
                                               edk::Math::getSin(angleScaled) * this->scale.height
                                               )
-                                );edkEnd();
+                                );
                 }
                 if(!value->object->fixedRotation){
-                    value->object->angle = (angleScaled * this->angleMultiply) - this->angleRemove;edkEnd();
+                    value->object->angle = (angleScaled * this->angleMultiply) - this->angleRemove;
                 }
-                value->object->size = value->size * this->scale;edkEnd();
+                value->object->size = value->size * this->scale;
             }
         }
         //return true if have the object
         bool haveObject(edk::Object2D* object){
             if(object){
                 //find the object
-                edk::bones::Bone2D::ObjectConnect find(object);edkEnd();
-                return this->haveElement(&find);edkEnd();
+                edk::bones::Bone2D::ObjectConnect find(object);
+                return this->haveElement(&find);
             }
             return false;
         }
         //return the object in the position
         edk::Object2DValues* getObjectInPosition(edk::uint32 position){
-            edk::bones::Bone2D::ObjectConnect* temp = this->getElementInPosition(position);edkEnd();
+            edk::bones::Bone2D::ObjectConnect* temp = this->getElementInPosition(position);
             if(temp){
-                return temp->object;edkEnd();
+                return temp->object;
             }
             return NULL;
         }
         //return the position
         edk::vec2f32 getObjectFirstPosition(edk::Object2DValues* object){
-            edk::vec2f32 ret(0,0);edkEnd();
-            edk::bones::Bone2D::ObjectConnect* temp = this->getConnect(object);edkEnd();
+            edk::vec2f32 ret(0,0);
+            edk::bones::Bone2D::ObjectConnect* temp = this->getConnect(object);
             if(temp){
-                return temp->position;edkEnd();
+                return temp->position;
             }
             return ret;
         }
         //return the angle
         edk::float32 getObjectFirstAngle(edk::Object2DValues* object){
-            edk::float32 ret = 0.f;edkEnd();
-            edk::bones::Bone2D::ObjectConnect* temp = this->getConnect(object);edkEnd();
+            edk::float32 ret = 0.f;
+            edk::bones::Bone2D::ObjectConnect* temp = this->getConnect(object);
             if(temp){
-                return temp->angle;edkEnd();
+                return temp->angle;
             }
             return ret;
         }
         //remove the object
         bool removeObject(edk::Object2DValues* object){
-            edk::bones::Bone2D::ObjectConnect* temp = this->getConnect(object);edkEnd();
+            edk::bones::Bone2D::ObjectConnect* temp = this->getConnect(object);
             if(temp){
                 if(this->remove(temp)){
-                    delete temp;edkEnd();
+                    delete temp;
                     return true;
                 }
             }
@@ -429,10 +437,10 @@ private:
         }
         //remove the object in position
         bool removeObjectInPosition(edk::uint32 position){
-            edk::bones::Bone2D::ObjectConnect* temp = this->getElementInPosition(position);edkEnd();
+            edk::bones::Bone2D::ObjectConnect* temp = this->getElementInPosition(position);
             if(temp){
                 if(this->remove(temp)){
-                    delete temp;edkEnd();
+                    delete temp;
                     return true;
                 }
             }
@@ -442,17 +450,17 @@ private:
         //add a object to the tree
         bool addObject(edk::Object2DValues* object){
             if(object){
-                edk::bones::Bone2D::ObjectConnect* temp = this->getConnect(object);edkEnd();
+                edk::bones::Bone2D::ObjectConnect* temp = this->getConnect(object);
                 if(!temp){
                     //create the new connect
-                    temp = new edk::bones::Bone2D::ObjectConnect(object);edkEnd();
+                    temp = new edk::bones::Bone2D::ObjectConnect(object);
                     if(temp){
                         //add the temp to the tree
                         if(this->add(temp)){
                             return true;
                         }
                         //else delete temp
-                        delete temp;edkEnd();
+                        delete temp;
                     }
                 }
             }
@@ -461,20 +469,20 @@ private:
 
         //set the matrix
         bool setMatrix(edk::float32 mat[][3u][3u]){
-            return edk::bones::Bone2D::copyMatrix(mat,&this->mat);edkEnd();
+            return edk::bones::Bone2D::copyMatrix(mat,&this->mat);
         }
         //set the angle
         void setAngle(edk::float32 angle){
-            this->angle=angle;edkEnd();
+            this->angle=angle;
         }
         void setAngleRemove(edk::float32 angleRemove){
-            this->angleRemove = angleRemove;edkEnd();
+            this->angleRemove = angleRemove;
         }
         void setAngleMultiply(edk::float32 angleMultiply){
-            this->angleMultiply = angleMultiply;edkEnd();
+            this->angleMultiply = angleMultiply;
         }
         void setScale(edk::size2f32 scale){
-            this->scale=scale;edkEnd();
+            this->scale=scale;
         }
 
     private:
@@ -482,8 +490,8 @@ private:
         edk::bones::Bone2D::ObjectConnect* getConnect(edk::Object2DValues* object){
             if(object){
                 //find the object
-                edk::bones::Bone2D::ObjectConnect find(object);edkEnd();
-                return this->getElement(&find);edkEnd();
+                edk::bones::Bone2D::ObjectConnect find(object);
+                return this->getElement(&find);
             }
             return NULL;
         }
@@ -507,38 +515,38 @@ private:
     edk::bones::Bone2D operator=(edk::bones::Bone2D bone){
         //copy the vectors
 
-        this->position = bone.position;edkEnd();
-        this->vector = bone.vector;edkEnd();
-        this->angle = bone.angle;edkEnd();
+        this->position = bone.position;
+        this->vector = bone.vector;
+        this->angle = bone.angle;
         //copy the animations
-        //this->animationAngle = bone.animationAngle;edkEnd();
-        this->animationAngle.cloneFrom(&bone.animationAngle);edkEnd();
-        //this->animationPosition = bone.animationPosition;edkEnd();
-        this->animationPosition.cloneFrom(&bone.animationPosition);edkEnd();
+        //this->animationAngle = bone.animationAngle;
+        this->animationAngle.cloneFrom(&bone.animationAngle);
+        //this->animationPosition = bone.animationPosition;
+        this->animationPosition.cloneFrom(&bone.animationPosition);
 
-        this->setName(bone.getName());edkEnd();
+        this->setName(bone.getName());
 
         //copy the connectionObjects
-        edk::uint32 size = bone.treeObjects.size();edkEnd();
-        edk::bones::Bone2D::ObjectConnect* temp;edkEnd();
-        edk::bones::Bone2D::ObjectConnect* newConnection;edkEnd();
+        edk::uint32 size = bone.treeObjects.size();
+        edk::bones::Bone2D::ObjectConnect* temp;
+        edk::bones::Bone2D::ObjectConnect* newConnection;
         for(edk::uint32 i=0u;i<size;i++){
             if((temp = bone.treeObjects.getElementInPosition(i))){
                 if((newConnection = new edk::bones::Bone2D::ObjectConnect)){
                     //copy the object valuess
-                    newConnection->position = temp->position;edkEnd();
-                    newConnection->angle = temp->angle;edkEnd();
-                    newConnection->size = temp->size;edkEnd();
-                    newConnection->object = temp->object;edkEnd();
+                    newConnection->position = temp->position;
+                    newConnection->angle = temp->angle;
+                    newConnection->size = temp->size;
+                    newConnection->object = temp->object;
                     //add the new connection to the tree
                     if(!this->treeObjects.add(newConnection)){
-                        delete newConnection;edkEnd();
+                        delete newConnection;
                     }
                 }
             }
         }
 
-        return bone;edkEnd();
+        return bone;
     }
 private:
     edk::classID classThis;

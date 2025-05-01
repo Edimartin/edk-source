@@ -45,6 +45,10 @@ namespace physics2D{
 class RevoluteJoint2D : public edk::physics2D::Joint2D{
 public:
     RevoluteJoint2D(bool collide=false);
+    ~RevoluteJoint2D();
+
+    void Constuctor(bool collide=false);
+    void Destuctor();
 
     //
     void setAngle(edk::float32 lowerAngle,edk::float32 upperAngle);
@@ -69,6 +73,8 @@ private:
     edk::float32 maxTorque;
     edk::float32 speed;
     edk::uint8 revoluteType;
+private:
+    edk::classID classThis;
 };
 }
 }

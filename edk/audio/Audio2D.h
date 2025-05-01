@@ -43,7 +43,8 @@ public:
     Audio2D();
     virtual ~Audio2D();
 
-    void Constructor(bool runFather=true);
+    void Constructor();
+    void Destructor();
 
     //OPEN
     bool open(const edk::char8* name);

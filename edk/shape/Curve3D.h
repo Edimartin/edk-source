@@ -46,8 +46,9 @@ public:
     Curve3D(edk::vec3f32 p1,edk::vec3f32 p2,edk::vec3f32 p3,edk::vec3f32 p4);
     virtual ~Curve3D();
 
-    void Constructor(bool runFather=true);
-    void Constructor(edk::vec3f32 p1,edk::vec3f32 p2,edk::vec3f32 p3,edk::vec3f32 p4,bool runFather=true);
+    void Constructor();
+    void Constructor(edk::vec3f32 p1,edk::vec3f32 p2,edk::vec3f32 p3,edk::vec3f32 p4);
+    void Destructor();
 
     //set one point position
     bool setPoint(edk::uint8 position,edk::vec3f32 point);

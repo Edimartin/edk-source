@@ -29,81 +29,83 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endif
 
 edk::shd::Shader::Shader(){
-    this->classThis=NULL;edkEnd();
-    this->Constructor(false);edkEnd();
+    this->classThis=NULL;
+    this->Constructor();
 }
 edk::shd::Shader::~Shader(){
-    if(this->classThis==this){
-        this->classThis=NULL;edkEnd();
-        //can destruct the class
-        this->deleteShader();edkEnd();
-        //delete the log
-        this->deleteLog();edkEnd();
-    }
+    this->Destructor();
 }
 
-void edk::shd::Shader::Constructor(bool runFather){
-    if(runFather){
-        edk::ObjectWithName::Constructor();edkEnd();
-    }
+void edk::shd::Shader::Constructor(){
+    edk::ObjectWithName::Constructor();
     if(this->classThis!=this){
         this->classThis=this;
         this->id=0u;
-        this->type=EDK_SHADER_NONE;edkEnd();
-        this->log=NULL;edkEnd();
+        this->type=EDK_SHADER_NONE;
+        this->log=NULL;
     }
+}
+void edk::shd::Shader::Destructor(){
+    if(this->classThis==this){
+        this->classThis=NULL;
+        //can destruct the class
+        this->deleteShader();
+        //delete the log
+        this->deleteLog();
+    }
+    edk::ObjectWithName::Destructor();
 }
 
 //read the shaderType in a name
 edk::shd::shaderType edk::shd::Shader::readType(edk::char8* name){
     //count the name
-    edk::uint32 size = edk::String::strSize(name);edkEnd();
+    edk::uint32 size = edk::String::strSize(name);
     //test the size
     if(size>5u){
         //test if its a vertex
         if(edk::String::strCompare(&name[size-5u],(edk::char8*)".vert")){
             //then return vertex
-            return EDK_SHADER_VERTEX;edkEnd();
+            return EDK_SHADER_VERTEX;
         }
         else if(edk::String::strCompare(&name[size-5u],(edk::char8*)".frag")){
             //then return fragment
-            return EDK_SHADER_FRAGMENT;edkEnd();
+            return EDK_SHADER_FRAGMENT;
         }
         else if(edk::String::strCompare(&name[size-5u],(edk::char8*)".geom")){
             //then return fragment
-            return EDK_SHADER_GEOMETRY;edkEnd();
+            return EDK_SHADER_GEOMETRY;
         }
     }
     //else return none
-    return EDK_SHADER_NONE;edkEnd();
+    return EDK_SHADER_NONE;
 }
 
 bool edk::shd::Shader::checkCompilationStatus(edk::uint32 id){
-    this->deleteLog();edkEnd();
+    this->deleteLog();
     edk::int32 status = 0;
 
     //get the status
-    edk::GU_GLSL::guGetShaderiv(id, GU_COMPILE_STATUS, &status);edkEnd();
+    edk::GU_GLSL::guGetShaderiv(id, GU_COMPILE_STATUS, &status);
     if(status == 0){
         //status is error
         edk::int32 infologLength = 0;
         edk::int32 charsWritten  = 0;
         //load the information lenght
-        edk::GU_GLSL::guGetShaderiv(id, GU_INFO_LOG_LENGTH, &infologLength);edkEnd();
+        edk::GU_GLSL::guGetShaderiv(id, GU_INFO_LOG_LENGTH, &infologLength);
         //if the information lenght is true
         if(infologLength > 0){
             //alloca the string
-            this->log = (edk::char8*)malloc(sizeof(edk::char8) * (infologLength));edkEnd();
+            this->log = (edk::char8*)malloc(sizeof(edk::char8) * (infologLength));
             if(this->log == NULL){
-                printf( "ERROR: Could not allocate InfoLog buffer");edkEnd();
+                printf( "ERROR: Could not allocate InfoLog buffer");
                 return false;
             }
-            edk::GU_GLSL::guGetShaderInfoLog(id, infologLength, &charsWritten, this->log);edkEnd();
+            edk::GU_GLSL::guGetShaderInfoLog(id, infologLength, &charsWritten, this->log);
             if(infologLength > 1){
                 /*
                 printf("\nLOG: %s"
                 ,this->log
-                );edkEnd();
+                );
 */
             }
             else{
@@ -130,15 +132,15 @@ bool edk::shd::Shader::loadShaderFromMemory(edk::uint8* shader, edk::uint32 size
         switch(type){
         case EDK_SHADER_VERTEX:
             //
-            this->id=edk::GU_GLSL::guCreateShader(GU_GLSL_VERTEX_SHADER);edkEnd();
+            this->id=edk::GU_GLSL::guCreateShader(GU_GLSL_VERTEX_SHADER);
             break;
         case EDK_SHADER_FRAGMENT:
             //
-            this->id=edk::GU_GLSL::guCreateShader(GU_GLSL_FRAGMENT_SHADER);edkEnd();
+            this->id=edk::GU_GLSL::guCreateShader(GU_GLSL_FRAGMENT_SHADER);
             break;
         case EDK_SHADER_GEOMETRY:
             //
-            this->id=edk::GU_GLSL::guCreateShader(GU_GLSL_GEOMETRY_SHADER);edkEnd();
+            this->id=edk::GU_GLSL::guCreateShader(GU_GLSL_GEOMETRY_SHADER);
             break;
         }
         if(this->id){
@@ -146,7 +148,7 @@ bool edk::shd::Shader::loadShaderFromMemory(edk::uint8* shader, edk::uint32 size
             //now set the shader data
             if(edk::GU_GLSL::guShaderSource(this->id,shader,size)){
                 //compile the shader
-                edk::GU_GLSL::guCompileShader(this->id);edkEnd();
+                edk::GU_GLSL::guCompileShader(this->id);
                 //check if compile OK
                 if(this->checkCompilationStatus(this->id)){
 
@@ -155,7 +157,7 @@ bool edk::shd::Shader::loadShaderFromMemory(edk::uint8* shader, edk::uint32 size
                 }
             }
             //else delete the shader
-            this->deleteShader();edkEnd();
+            this->deleteShader();
         }
     }
     //else return false
@@ -163,29 +165,29 @@ bool edk::shd::Shader::loadShaderFromMemory(edk::uint8* shader, edk::uint32 size
 }
 bool edk::shd::Shader::loadShaderFromFile(const edk::char8* name){
     //
-    return this->loadShaderFromFile((edk::char8*) name);edkEnd();
+    return this->loadShaderFromFile((edk::char8*) name);
 }
 bool edk::shd::Shader::loadShaderFromFile(edk::char8* name){
     //
-    bool ret=false;edkEnd();
+    bool ret=false;
     //test if the file exist
-    edk::File shader;edkEnd();
-    edk::shd::shaderType type = edk::shd::Shader::readType(name);edkEnd();
+    edk::File shader;
+    edk::shd::shaderType type = edk::shd::Shader::readType(name);
     //set the shaderName
     if(this->setName(name)){
         //read the shaderType
         if(shader.openBinFile(name)){
             //get the fileSize
-            edk::uint64 size = shader.getFileSize();edkEnd();
+            edk::uint64 size = shader.getFileSize();
             if(size){
                 //copy the shader
-                edk::uint8* data = (edk::uint8*)shader.readBin(size);edkEnd();
+                edk::uint8* data = (edk::uint8*)shader.readBin(size);
                 if(data){
                     //load shaderFromMemory
-                    ret = this->loadShaderFromMemory(data,size,type);edkEnd();
+                    ret = this->loadShaderFromMemory(data,size,type);
 
                     //delete the data
-                    delete data;edkEnd();
+                    delete data;
                 }
             }
         }
@@ -197,12 +199,12 @@ bool edk::shd::Shader::loadShaderFromFile(edk::char8* name){
 //return true if the shader is loaded
 bool edk::shd::Shader::haveShader(){
     //
-    return (bool)this->id;edkEnd();
+    return (bool)this->id;
 }
 //return the log
 edk::char8* edk::shd::Shader::getCompileLog(){
     //
-    return this->log;edkEnd();
+    return this->log;
 }
 
 //delete the shader
@@ -210,7 +212,7 @@ void edk::shd::Shader::deleteShader(){
     //test if have the shader
     if(this->haveShader()){
         //then delete the shader
-        edk::GU_GLSL::guDeleteShader(this->id);edkEnd();
+        edk::GU_GLSL::guDeleteShader(this->id);
     }
     this->id=0u;
 }
@@ -218,16 +220,16 @@ void edk::shd::Shader::deleteShader(){
 void edk::shd::Shader::deleteLog(){
     //test if have a log
     if(this->log){
-        delete this->log;edkEnd();
+        delete this->log;
     }
-    this->log=NULL;edkEnd();
+    this->log=NULL;
 }
 //clean the log
 void edk::shd::Shader::dontDeleteLog(){
-    this->log=NULL;edkEnd();
+    this->log=NULL;
 }
 
 //get the shaderID
-edk::uint32 edk::shd::Shader::getShaderID(){return this->id;edkEnd();}
+edk::uint32 edk::shd::Shader::getShaderID(){return this->id; }
 //get shaderType
-edk::shd::shaderType edk::shd::Shader::getShaderType(){return this->type;edkEnd();}
+edk::shd::shaderType edk::shd::Shader::getShaderType(){return this->type; }

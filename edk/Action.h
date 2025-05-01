@@ -43,18 +43,23 @@ namespace edk{
 //This is an Action. You can use this class to save actions to animation or ctrl+z.
 class Action{
 public:
-    Action(){this->classThis=NULL;this->Constructor(false);edkEnd();}
+    Action(){
+        this->classThis=NULL;
+        this->Constructor();
+    }
     virtual ~Action(){
-        if(this->classThis==this){
-            this->classThis=NULL;edkEnd();
-            //can destruct the class
-        }
+        this->Destructor();
     }
 
-    void Constructor(bool runFather=true){
-        if(runFather){edkEnd();}
+    void Constructor(){
         if(this->classThis!=this){
             this->classThis=this;
+        }
+    }
+    void Destructor(){
+        if(this->classThis==this){
+            this->classThis=NULL;
+            //can destruct the class
         }
     }
 
@@ -74,22 +79,27 @@ private:
 };
 class ActionZero: public edk::Action{
 public:
-    ActionZero(){this->classThis=NULL;this->Constructor(false);}
+    ActionZero(){
+        this->classThis=NULL;
+        this->Constructor();
+    }
     virtual ~ActionZero(){
-        if(this->classThis==this){
-            this->classThis=NULL;edkEnd();
-            //can destruct the class
-        }
+        this->Destructor();
     }
 
-    void Constructor(bool runFather=true){
-        if(runFather){
-            edk::Action::Constructor();
-        }
+    void Constructor(){
+        edk::Action::Constructor();
         if(this->classThis!=this){
             this->classThis=this;
-            this->code = 0u;edkEnd();
+            this->code = 0u;
         }
+    }
+    void Destructor(){
+        if(this->classThis==this){
+            this->classThis=NULL;
+            //can destruct the class
+        }
+        edk::Action::Destructor();
     }
 
     //run action function
@@ -98,53 +108,53 @@ public:
     virtual void runCounterAction(){}
     //write to XML
     virtual bool writeToXML(edk::XML* xml,edk::uint32 id){
-        bool ret=false;edkEnd();
+        bool ret=false;
         if(xml){
-            edk::char8* number = edk::String::uint32ToStr(id);edkEnd();
+            edk::char8* number = edk::String::uint32ToStr(id);
             if(number){
-                edk::char8* name = edk::String::strCat((edk::char8*)"Action_",number);edkEnd();
+                edk::char8* name = edk::String::strCat((edk::char8*)"Action_",number);
                 if(name){
                     //create the Action
                     if(xml->addSelectedNextChild(name)){
                         if(xml->selectChild(name)){
-                            edk::char8* str = edk::String::uint32ToStr(this->getCode());edkEnd();
+                            edk::char8* str = edk::String::uint32ToStr(this->getCode());
                             if(str){
-                                xml->addSelectedNextAttribute((edk::char8*)"code",str);edkEnd();
-                                delete str;edkEnd();
+                                xml->addSelectedNextAttribute((edk::char8*)"code",str);
+                                delete str;
                             }
 
-                            ret=true;edkEnd();
+                            ret=true;
                             //then select the father
-                            xml->selectFather();edkEnd();
+                            xml->selectFather();
                         }
                     }
-                    free(name);edkEnd();
+                    free(name);
                 }
-                free(number);edkEnd();
+                free(number);
             }
         }
         return ret;
     }
     //read XML
     virtual bool readFromXML(edk::XML* xml,edk::uint32 id){
-        bool ret=false;edkEnd();
+        bool ret=false;
         if(xml){
-            edk::char8* number = edk::String::uint32ToStr(id);edkEnd();
+            edk::char8* number = edk::String::uint32ToStr(id);
             if(number){
-                edk::char8* name = edk::String::strCat((edk::char8*)"Action_",number);edkEnd();
+                edk::char8* name = edk::String::strCat((edk::char8*)"Action_",number);
                 if(name){
                     //create the Action
                     if(xml->selectChild(name)){
                         //read the code
-                        this->code = edk::String::strToInt64(xml->getSelectedAttributeValueByName("code"));edkEnd();
+                        this->code = edk::String::strToInt64(xml->getSelectedAttributeValueByName("code"));
 
-                        ret=true;edkEnd();
+                        ret=true;
                         //then select the father
-                        xml->selectFather();edkEnd();
+                        xml->selectFather();
                     }
-                    free(name);edkEnd();
+                    free(name);
                 }
-                free(number);edkEnd();
+                free(number);
             }
         }
         return ret;
@@ -152,7 +162,7 @@ public:
 
     //return the code
     edk::uint64 getCode(){
-        return this->code;edkEnd();
+        return this->code;
     }
 protected:
     edk::uint64 code;
@@ -162,50 +172,52 @@ private:
 //Action with names
 class ActionName: public edk::Name ,public edk::Action{
 public:
-    ActionName(){this->classThis=NULL;this->Constructor(false);edkEnd();}
+    ActionName(){
+        this->classThis=NULL;
+        this->Constructor();
+    }
     ActionName(edk::char8* _name){
-        this->classThis=NULL;edkEnd();
-        this->Constructor(_name,false);edkEnd();
+        this->classThis=NULL;
+        this->Constructor(_name);
     }
     ActionName(const edk::char8* _name){
-        this->classThis=NULL;edkEnd();
-        this->Constructor(_name,false);edkEnd();
+        this->classThis=NULL;
+        this->Constructor(_name);
     }
     virtual ~ActionName(){
-        if(this->classThis==this){
-            this->classThis=NULL;edkEnd();
-            //can destruct the class
-        this->deleteName();edkEnd();
-        }
+        this->Destructor();
     }
 
-    void Constructor(bool runFather=true){
-        if(runFather){
-            edk::Name::Constructor();edkEnd();
-            edk::Action::Constructor();edkEnd();
-        }
+    void Constructor(){
+        edk::Name::Constructor();
+        edk::Action::Constructor();
         if(this->classThis!=this){
             this->classThis=this;
-            this->code = 0u;edkEnd();
+            this->code = 0u;
         }
     }
-    void Constructor(edk::char8* _name,bool runFather=true){
-        if(runFather){
-            edk::Name::Constructor(_name);edkEnd();
-            edk::Action::Constructor();edkEnd();
-        }
+    void Constructor(edk::char8* _name){
+        edk::Name::Constructor(_name);
+        edk::Action::Constructor();
         if(this->classThis!=this){
             this->classThis=this;
         }
     }
-    void Constructor(const edk::char8* _name,bool runFather=true){
-        if(runFather){
-            edk::Name::Constructor(_name);edkEnd();
-            edk::Action::Constructor();edkEnd();
-        }
+    void Constructor(const edk::char8* _name){
+        edk::Name::Constructor(_name);
+        edk::Action::Constructor();
         if(this->classThis!=this){
             this->classThis=this;
         }
+    }
+    void Destructor(){
+        if(this->classThis==this){
+            this->classThis=NULL;
+            //can destruct the class
+            this->deleteName();
+        }
+        edk::Name::Destructor();
+        edk::Action::Destructor();
     }
 
     //run action function
@@ -214,54 +226,54 @@ public:
     virtual void runCounterAction(){}
     //write to XML
     virtual bool writeToXML(edk::XML* xml,edk::uint32 id){
-        bool ret=false;edkEnd();
+        bool ret=false;
         if(xml){
-            edk::char8* number = edk::String::uint32ToStr(id);edkEnd();
+            edk::char8* number = edk::String::uint32ToStr(id);
             if(number){
-                edk::char8* name = edk::String::strCat((edk::char8*)"Action_",number);edkEnd();
+                edk::char8* name = edk::String::strCat((edk::char8*)"Action_",number);
                 if(name){
                     //create the Action
                     if(xml->addSelectedNextChild(name)){
                         if(xml->selectChild(name)){
-                            edk::char8* str = edk::String::uint32ToStr(this->getCode());edkEnd();
+                            edk::char8* str = edk::String::uint32ToStr(this->getCode());
                             if(str){
-                                xml->addSelectedNextAttribute((edk::char8*)"code",str);edkEnd();
-                                delete str;edkEnd();
+                                xml->addSelectedNextAttribute((edk::char8*)"code",str);
+                                delete str;
                             }
                             if(this->getName()){
-                                xml->addSelectedNextAttribute((edk::char8*)"name",this->getName());edkEnd();
+                                xml->addSelectedNextAttribute((edk::char8*)"name",this->getName());
                             }
                             //then select the father
-                            xml->selectFather();edkEnd();
+                            xml->selectFather();
                         }
                     }
-                    free(name);edkEnd();
+                    free(name);
                 }
-                free(number);edkEnd();
+                free(number);
             }
         }
         return ret;
     }
     //read XML
     virtual bool readFromXML(edk::XML* xml,edk::uint32 id){
-        bool ret=false;edkEnd();
+        bool ret=false;
         if(xml){
-            edk::char8* number = edk::String::uint32ToStr(id);edkEnd();
+            edk::char8* number = edk::String::uint32ToStr(id);
             if(number){
-                edk::char8* name = edk::String::strCat((edk::char8*)"Action_",number);edkEnd();
+                edk::char8* name = edk::String::strCat((edk::char8*)"Action_",number);
                 if(name){
                     //create the Action
                     if(xml->selectChild(name)){
                         //read the code
-                        this->code = edk::String::strToInt64(xml->getSelectedAttributeValueByName((edk::char8*)"code"));edkEnd();
+                        this->code = edk::String::strToInt64(xml->getSelectedAttributeValueByName((edk::char8*)"code"));
                         //read the name
-                        this->setName(xml->getSelectedAttributeValueByName((edk::char8*)"name"));edkEnd();
+                        this->setName(xml->getSelectedAttributeValueByName((edk::char8*)"name"));
                         //then select the father
-                        xml->selectFather();edkEnd();
+                        xml->selectFather();
                     }
-                    free(name);edkEnd();
+                    free(name);
                 }
-                free(number);edkEnd();
+                free(number);
             }
         }
         return ret;
@@ -269,7 +281,7 @@ public:
 
     //return the code
     edk::uint64 getCode(){
-        return this->code;edkEnd();
+        return this->code;
     }
 protected:
     edk::uint64 code;

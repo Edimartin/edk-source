@@ -52,7 +52,8 @@ public:
     Material();
     virtual ~Material();
 
-    void Constructor(bool runFather=true);
+    void Constructor();
+    void Destructor();
 
     //create a new texture
     bool newTexture(edk::char8* name,edk::size2ui32 size,edk::uint8 position=0u,edk::uint32 mode = GU_RGB,edk::uint32 filter = GU_NEAREST);
@@ -179,88 +180,88 @@ public:
     inline bool cloneColorsFrom(Material *mat){
         if(mat){
             //copy tge vectors
-            memcpy(this->ambient,mat->ambient,sizeof(this->ambient));edkEnd();
-            memcpy(this->diffuse,mat->diffuse,sizeof(this->diffuse));edkEnd();
-            memcpy(this->specular,mat->specular,sizeof(this->specular));edkEnd();
-            memcpy(this->emission,mat->emission,sizeof(this->emission));edkEnd();
-            this->shininess = mat->shininess;edkEnd();
+            memcpy(this->ambient,mat->ambient,sizeof(this->ambient));
+            memcpy(this->diffuse,mat->diffuse,sizeof(this->diffuse));
+            memcpy(this->specular,mat->specular,sizeof(this->specular));
+            memcpy(this->emission,mat->emission,sizeof(this->emission));
+            this->shininess = mat->shininess;
             return true;
         }
         return false;
     }
     inline bool cloneTexturesFrom(Material *mat){
         if(mat){
-            edk::uint32 texTemp[materialTextureCount];edkEnd();
+            edk::uint32 texTemp[materialTextureCount];
             //copy the textures
             for(edk::uint8 i=0u;i<materialTextureCount;i++){
-                texTemp[i] = this->textures[i];edkEnd();
+                texTemp[i] = this->textures[i];
                 //set the new texture
-                this->textures[i] = mat->textures[i];edkEnd();
+                this->textures[i] = mat->textures[i];
                 //retain the texture
                 if(this->textures[i]){
-                    this->list.retainTexture(this->textures[i]);edkEnd();
+                    this->list.retainTexture(this->textures[i]);
                 }
             }
             //release the old textures
             for(edk::uint8 i=0u;i<materialTextureCount;i++){
                 if(texTemp[i]){
-                    this->list.removeTexture(texTemp[i]);edkEnd();
+                    this->list.removeTexture(texTemp[i]);
                 }
             }
-            this->countTextures = mat->countTextures;edkEnd();
+            this->countTextures = mat->countTextures;
             return true;
         }
         return false;
     }
     inline bool cloneTextureFrom(Material *mat,edk::uint32 position){
         if(mat && position<materialTextureCount){
-            edk::uint32 texTemp;edkEnd();
+            edk::uint32 texTemp;
             //copy the textures
-                texTemp = this->textures[position];edkEnd();
-                //set the new texture
-                this->textures[position] = mat->textures[position];edkEnd();
-                //retain the texture
-                if(this->textures[position]){
-                    this->countTextures++;
-                    this->list.retainTexture(this->textures[position]);edkEnd();
-                }
+            texTemp = this->textures[position];
+            //set the new texture
+            this->textures[position] = mat->textures[position];
+            //retain the texture
+            if(this->textures[position]){
+                this->countTextures++;
+                this->list.retainTexture(this->textures[position]);
+            }
             //release the old textures
-                if(texTemp){
-                    this->countTextures--;
-                    this->list.removeTexture(texTemp);edkEnd();
-                }
+            if(texTemp){
+                this->countTextures--;
+                this->list.removeTexture(texTemp);
+            }
             return true;
         }
         return false;
     }
 private:
     Material operator =(Material mat){
-        edk::uint32 texTemp[materialTextureCount];edkEnd();
+        edk::uint32 texTemp[materialTextureCount];
         //copy the textures
         for(edk::uint8 i=0u;i<materialTextureCount;i++){
-            texTemp[i] = this->textures[i];edkEnd();
+            texTemp[i] = this->textures[i];
             //set the new texture
-            this->textures[i] = mat.textures[i];edkEnd();
+            this->textures[i] = mat.textures[i];
             //retain the texture
             if(this->textures[i]){
-                this->list.retainTexture(this->textures[i]);edkEnd();
+                this->list.retainTexture(this->textures[i]);
             }
         }
         //release the old textures
         for(edk::uint8 i=0u;i<materialTextureCount;i++){
             if(texTemp[i]){
-                this->list.removeTexture(texTemp[i]);edkEnd();
+                this->list.removeTexture(texTemp[i]);
             }
         }
         //copy tge vectors
-        edk::uint32 sizeOf = sizeof(this->ambient);edkEnd();
-        memcpy(this->ambient,mat.ambient,sizeOf);edkEnd();
-        memcpy(this->diffuse,mat.diffuse,sizeOf);edkEnd();
-        memcpy(this->specular,mat.specular,sizeOf);edkEnd();
-        memcpy(this->emission,mat.emission,sizeOf);edkEnd();
-        this->shininess = mat.shininess;edkEnd();
-        this->countTextures = mat.countTextures;edkEnd();
-        return mat;edkEnd();
+        edk::uint32 sizeOf = sizeof(this->ambient);
+        memcpy(this->ambient,mat.ambient,sizeOf);
+        memcpy(this->diffuse,mat.diffuse,sizeOf);
+        memcpy(this->specular,mat.specular,sizeOf);
+        memcpy(this->emission,mat.emission,sizeOf);
+        this->shininess = mat.shininess;
+        this->countTextures = mat.countTextures;
+        return mat;
     }
 protected:
     //draw the material parameters

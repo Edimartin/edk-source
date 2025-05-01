@@ -25,36 +25,39 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 edk::sql::SQLite::SQLite(){
-    this->classThis=NULL;edkEnd();
-    this->Constructor(false);edkEnd();
+    this->classThis=NULL;
+    this->Constructor();
 }
 
 edk::sql::SQLite::~SQLite(){
-    if(this->classThis==this){
-        this->classThis=NULL;edkEnd();
-        //can destruct the class
-        //close the db
-        this->closeDataBase();edkEnd();
-        this->deleteBaseName();edkEnd();
-    }
+    this->Destructor();
 }
 
-void edk::sql::SQLite::Constructor(bool /*runFather*/){
+void edk::sql::SQLite::Constructor(){
     if(this->classThis!=this){
         this->classThis=this;
 #if defined(EDK_USE_SQLITE)
-        this->db = NULL;edkEnd();
+        this->db = NULL;
 #endif
-        this->baseName=NULL;edkEnd();
+        this->baseName=NULL;
+    }
+}
+void edk::sql::SQLite::Destructor(){
+    if(this->classThis==this){
+        this->classThis=NULL;
+        //can destruct the class
+        //close the db
+        this->closeDataBase();
+        this->deleteBaseName();
     }
 }
 
 //add a extension to the file
 edk::char8* edk::sql::SQLite::addExtension(edk::char8* name,edk::char8* extension){
     //return
-    edk::char8* ret=NULL;edkEnd();
+    edk::char8* ret=NULL;
     if(name){
-        edk::uint32 nameSize = edk::String::strSize(name);edkEnd();
+        edk::uint32 nameSize = edk::String::strSize(name);
         if(nameSize){
 
             //test if the fileName have some extension
@@ -62,21 +65,21 @@ edk::char8* edk::sql::SQLite::addExtension(edk::char8* name,edk::char8* extensio
                 //test if it's a point
                 if(name[i-1u]=='.'){
                     //remove the extension
-                    extension=NULL;edkEnd();
+                    extension=NULL;
                 }
             }
 
             if(extension){
-                edk::uint32 extensionSize = edk::String::strSize(extension);edkEnd();
+                edk::uint32 extensionSize = edk::String::strSize(extension);
                 if(extensionSize>1u){
                     //create the new String to copy the extension
-                    ret = edk::String::strCat(name,extension);edkEnd();
+                    ret = edk::String::strCat(name,extension);
                 }
             }
 
             if(!ret){
                 //copy the fullName
-                ret = edk::String::strCopy(name);edkEnd();
+                ret = edk::String::strCopy(name);
             }
         }
     }
@@ -85,55 +88,55 @@ edk::char8* edk::sql::SQLite::addExtension(edk::char8* name,edk::char8* extensio
 //delete basename
 void edk::sql::SQLite::deleteBaseName(){
     if(this->baseName){
-        free(this->baseName);edkEnd();
+        free(this->baseName);
     }
-    this->baseName=NULL;edkEnd();
+    this->baseName=NULL;
 }
 
 //open dataBase
 bool edk::sql::SQLite::openDataBase(const edk::char8* name){
-    return this->openDataBase((edk::char8*) name);edkEnd();
+    return this->openDataBase((edk::char8*) name);
 }
 bool edk::sql::SQLite::openDataBase(edk::char8* name){
     //close the last dataBase
-    this->closeDataBase();edkEnd();
-    this->deleteBaseName();edkEnd();
+    this->closeDataBase();
+    this->deleteBaseName();
     //add a extension
-    edk::char8* nameExtension = this->addExtension(name,(edk::char8*)edkDataBase);edkEnd();
+    edk::char8* nameExtension = this->addExtension(name,(edk::char8*)edkDataBase);
     if(nameExtension){
         if(edk::File::fileExist(nameExtension)){
 #if defined(EDK_USE_SQLITE)
-            edk::int32 rc;edkEnd();
-            rc = sqlite3_open((const edk::char8*) nameExtension, &this->db);edkEnd();
+            edk::int32 rc;
+            rc = sqlite3_open((const edk::char8*) nameExtension, &this->db);
             if(!rc){
-                this->baseName = edk::String::strCopy(nameExtension);edkEnd();
-                free(nameExtension);edkEnd();
+                this->baseName = edk::String::strCopy(nameExtension);
+                free(nameExtension);
                 return true;
             }
             printf("\nSQL error - %s"
                    ,sqlite3_errmsg(db)
-                   );edkEnd();
+                   );
             //else open the dataBase get error
-            this->db=NULL;edkEnd();
+            this->db=NULL;
 #endif
         }
-        free(nameExtension);edkEnd();
+        free(nameExtension);
     }
     else{
         //test if have the file
         if(edk::File::fileExist(name)){
 #if defined(EDK_USE_SQLITE)
-            edk::int32 rc;edkEnd();
-            rc = sqlite3_open((const edk::char8*) name, &this->db);edkEnd();
+            edk::int32 rc;
+            rc = sqlite3_open((const edk::char8*) name, &this->db);
             if(!rc){
-                this->baseName = edk::String::strCopy(name);edkEnd();
+                this->baseName = edk::String::strCopy(name);
                 return true;
             }
             printf("\nSQL error - %s"
                    ,sqlite3_errmsg(db)
-                   );edkEnd();
+                   );
             //else open the dataBase get error
-            this->db=NULL;edkEnd();
+            this->db=NULL;
 #endif
         }
     }
@@ -141,84 +144,84 @@ bool edk::sql::SQLite::openDataBase(edk::char8* name){
 }
 //create a new dataBase (it will delete the file with the same name)
 bool edk::sql::SQLite::newDataBase(const edk::char8* name){
-    return this->newDataBase((edk::char8*) name);edkEnd();
+    return this->newDataBase((edk::char8*) name);
 }
 bool edk::sql::SQLite::newDataBase(edk::char8* name){
     //create the name with the extension
-    edk::char8* nameExtension = this->addExtension(name,(edk::char8*)edkDataBase);edkEnd();
+    edk::char8* nameExtension = this->addExtension(name,(edk::char8*)edkDataBase);
     if(nameExtension){
         if(edk::File::createFile(nameExtension)){
-            bool ret = this->openDataBase(nameExtension);edkEnd();
-            free(nameExtension);edkEnd();
+            bool ret = this->openDataBase(nameExtension);
+            free(nameExtension);
             return ret;
         }
-        free(nameExtension);edkEnd();
+        free(nameExtension);
     }
     else{
         //create a new file
         if(edk::File::createFile(name)){
-            return this->openDataBase(name);edkEnd();
+            return this->openDataBase(name);
         }
     }
     return false;
 }
 //delete dataBase
 bool edk::sql::SQLite::deleteDataBase(const edk::char8* name){
-    return this->deleteDataBase((edk::char8*) name);edkEnd();
+    return this->deleteDataBase((edk::char8*) name);
 }
 bool edk::sql::SQLite::deleteDataBase(edk::char8* name){
     if(name){
-        edk::char8* nameExtension = this->addExtension(name,(edk::char8*)edkDataBase);edkEnd();
+        edk::char8* nameExtension = this->addExtension(name,(edk::char8*)edkDataBase);
         if(nameExtension){
             if(edk::File::fileExist(nameExtension)){
                 //delete the file
-                bool ret = edk::File::deleteFile(nameExtension);edkEnd();
-                free(nameExtension);edkEnd();
+                bool ret = edk::File::deleteFile(nameExtension);
+                free(nameExtension);
                 return ret;
             }
-            free(nameExtension);edkEnd();
+            free(nameExtension);
         }
         else{
             if(edk::File::fileExist(name)){
                 //delete the file
-                return edk::File::deleteFile(name);edkEnd();
+                return edk::File::deleteFile(name);
             }
         }
     }
     else{
         //close this opened data base
-        this->closeDataBase();edkEnd();
+        this->closeDataBase();
         if(edk::File::fileExist(this->baseName)){
             //delete the file
-            bool ret = edk::File::deleteFile(this->baseName);edkEnd();
-            this->deleteBaseName();edkEnd();
+            bool ret = edk::File::deleteFile(this->baseName);
+            this->deleteBaseName();
             return ret;
         }
-        this->deleteBaseName();edkEnd();
+        this->deleteBaseName();
     }
     return false;
 }
 //execute a command
 #if defined(EDK_USE_SQLITE)
 static edk::int32 sqlCallback(void *callback, edk::int32 argc, char **argv, char **azColName){
-    edk::int32 i;edkEnd();
+    edk::int32 i;
     if(argc){
-        edk::sql::SQLGroup* temp = (edk::sql::SQLGroup*)callback;edkEnd();
-        edk::sql::SQLNodes* group=NULL;edkEnd();
+        edk::sql::SQLGroup* temp = (edk::sql::SQLGroup*)callback;
+        edk::sql::SQLNodes* group=NULL;
         if(temp){
-            group = temp->getNewGroup();edkEnd();
+            group = temp->getNewGroup();
             if(group){
                 for(i=0; i<argc; i++){
                     /*
-                    printf("%s = %s\n", azColName[i], argv[i] ? argv[i] : "NULL");edkEnd();
+                    printf("%s = %s\n", azColName[i], argv[i] ? argv[i] : "NULL");
                     if(argv[i]){
-                        group->addNode((edk::char8*)azColName[i],(edk::char8*)argv[i]);edkEnd();
+                        group->addNode((edk::char8*)azColName[i],(edk::char8*)argv[i]);
                     }
                     else{
-                        group->addNode((edk::char8*)azColName[i],(edk::char8*)"NULL");edkEnd();
+                        group->addNode((edk::char8*)azColName[i],(edk::char8*)"NULL");
                     }
 */
-                    return group->addNode((edk::char8*)azColName[i],(edk::char8*)argv[i]);edkEnd();
+                    return group->addNode((edk::char8*)azColName[i],(edk::char8*)argv[i]);
                 }
             }
         }
@@ -227,25 +230,25 @@ static edk::int32 sqlCallback(void *callback, edk::int32 argc, char **argv, char
 }
 #endif
 bool edk::sql::SQLite::execute(const edk::char8* command,edk::sql::SQLGroup* callback){
-    return this->execute((edk::char8*) command,callback);edkEnd();
+    return this->execute((edk::char8*) command,callback);
 }
 bool edk::sql::SQLite::execute(edk::char8* command
                                ,edk::sql::SQLGroup*
-#if defined(EDK_USE_SQLITE)
+                               #if defined(EDK_USE_SQLITE)
                                callback
-#endif
+                               #endif
                                ){
     //est if have opened the dataBase
     if(this->haveOpenedDataBase() && command){
 #if defined(EDK_USE_SQLITE)
         //execute the comand
-        edk::char8* zErrMsg = NULL;edkEnd();
-        edk::int32 rc = sqlite3_exec(this->db, (const char *)command, sqlCallback, callback, (char**)&zErrMsg);edkEnd();
+        edk::char8* zErrMsg = NULL;
+        edk::int32 rc = sqlite3_exec(this->db, (const char *)command, sqlCallback, callback, (char**)&zErrMsg);
         if( rc == SQLITE_OK ){
             return true;
         }else{
-            printf( "SQL error: %s\n", zErrMsg);edkEnd();
-            sqlite3_free(zErrMsg);edkEnd();
+            printf( "SQL error: %s\n", zErrMsg);
+            sqlite3_free(zErrMsg);
         }
 #endif
     }
@@ -266,8 +269,8 @@ bool edk::sql::SQLite::haveOpenedDataBase(){
 void edk::sql::SQLite::closeDataBase(){
 #if defined(EDK_USE_SQLITE)
     if(this->db){
-        sqlite3_close(this->db);edkEnd();
+        sqlite3_close(this->db);
     }
-    this->db=NULL;edkEnd();
+    this->db=NULL;
 #endif
 }

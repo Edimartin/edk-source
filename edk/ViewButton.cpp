@@ -1284,25 +1284,16 @@ static edk::uchar8 EDKButtonPressedTemplate[8678] = {
 };
 
 edk::ViewButton::ViewButton(){
-    this->classThis=NULL;edkEnd();
-    this->Constructor(false);edkEnd();
+    this->classThis=NULL;
+    this->Constructor();
 }
 
 edk::ViewButton::~ViewButton(){
-    if(this->classThis==this){
-        this->classThis=NULL;edkEnd();
-        //can destruct the class
-        //remove all sprites
-        this->deleteAllSprites();edkEnd();
-        this->deleteAllSymbols();edkEnd();
-        this->deleteButtonText();edkEnd();
-    }
+    this->Destructor();
 }
 
-void edk::ViewButton::Constructor(bool runFather){
-    if(runFather){
-        edk::ViewSprite::Constructor();edkEnd();
-    }
+void edk::ViewButton::Constructor(){
+    edk::ViewSprite::Constructor();
     if(this->classThis!=this){
         this->classThis=this;
 
@@ -1314,28 +1305,39 @@ void edk::ViewButton::Constructor(bool runFather){
         this->camTemp.Constructor();
 
         //save if something happen with the button
-        this->wasPressed();edkEnd();
-        this->wasReleased();edkEnd();
-        this->wasHolded();edkEnd();
+        this->wasPressed();
+        this->wasReleased();
+        this->wasHolded();
         //clean the sprites
         this->spritePressedCode=this->spriteUpCode=0u;
-        this->symbolCode = this->symbolPressedCode = this->symbolUpCode = 0u;edkEnd();
-        this->mouseInside=false;edkEnd();
-        this->borderSize = 25;edkEnd();
-        this->stateButton = edk::buttonView::state::normal;edkEnd();
+        this->symbolCode = this->symbolPressedCode = this->symbolUpCode = 0u;
+        this->mouseInside=false;
+        this->borderSize = 25;
+        this->stateButton = edk::buttonView::state::normal;
 
         //load the images
-        this->loadSpriteFromMemory(EDKButtonNormalTemplateName,EDKButtonNormalTemplate,EDKButtonNormalTemplateSize,GU_LINEAR);edkEnd();
-        this->loadSpriteUpFromMemory(EDKButtonUpTemplateName,EDKButtonUpTemplate,EDKButtonUpTemplateSize,GU_LINEAR);edkEnd();
-        this->loadSpritePressedFromMemory(EDKButtonPressedTemplateName,EDKButtonPressedTemplate,EDKButtonPressedTemplateSize,GU_LINEAR);edkEnd();
-        this->buttonCallback = NULL;edkEnd();
-        this->buttonOn = true;edkEnd();
-        this->symbolSize = edk::size2ui32(0u,0u);edkEnd();
-        this->insideScale = edk::size2f32(1,1);edkEnd();
+        this->loadSpriteFromMemory(EDKButtonNormalTemplateName,EDKButtonNormalTemplate,EDKButtonNormalTemplateSize,GU_LINEAR);
+        this->loadSpriteUpFromMemory(EDKButtonUpTemplateName,EDKButtonUpTemplate,EDKButtonUpTemplateSize,GU_LINEAR);
+        this->loadSpritePressedFromMemory(EDKButtonPressedTemplateName,EDKButtonPressedTemplate,EDKButtonPressedTemplateSize,GU_LINEAR);
+        this->buttonCallback = NULL;
+        this->buttonOn = true;
+        this->symbolSize = edk::size2ui32(0u,0u);
+        this->insideScale = edk::size2f32(1,1);
 
         //set the text to black color
-        this->text.setColor(0.f,0.f,0.f,1.f);edkEnd();
+        this->text.setColor(0.f,0.f,0.f,1.f);
     }
+}
+void edk::ViewButton::Destructor(){
+    if(this->classThis==this){
+        this->classThis=NULL;
+        //can destruct the class
+        //remove all sprites
+        this->deleteAllSprites();
+        this->deleteAllSymbols();
+        this->deleteButtonText();
+    }
+    edk::ViewSprite::Destructor();
 }
 
 //save the FontTemplate
@@ -1401,16 +1403,16 @@ bool edk::ViewButton::saveTemplate(edk::char8* folder){
 //set borderSize
 bool edk::ViewButton::setBorderSize(edk::uint32 size){
     if(size){
-        this->borderSize = size;edkEnd();
+        this->borderSize = size;
         return true;
     }
-    this->borderSize = 25.f;edkEnd();
+    this->borderSize = 25.f;
     return false;
 }
 //set the callback
 bool edk::ViewButton::setCallback(edk::ButtonCallback* callback){
     if(callback){
-        this->buttonCallback = callback;edkEnd();
+        this->buttonCallback = callback;
         return true;
     }
     return false;
@@ -1423,15 +1425,15 @@ void edk::ViewButton::removeCallback(){
 //LOAD SPRITES
 bool edk::ViewButton::loadSpritePressed(const edk::char8* name,edk::uint32 filter){
     //
-    return loadSpritePressed((edk::char8*)name,filter);edkEnd();
+    return loadSpritePressed((edk::char8*)name,filter);
 }
 bool edk::ViewButton::loadSpritePressed(edk::char8* name,edk::uint32 filter){
     //delete the sprite
-    this->deleteSpritePressed();edkEnd();
+    this->deleteSpritePressed();
     //test the name
     if(name){
         //then load the texture
-        this->spritePressedCode = this->list.loadTexture(name,filter);edkEnd();
+        this->spritePressedCode = this->list.loadTexture(name,filter);
         if(this->spritePressedCode){
             return true;
         }
@@ -1441,15 +1443,15 @@ bool edk::ViewButton::loadSpritePressed(edk::char8* name,edk::uint32 filter){
     return false;
 }
 bool edk::ViewButton::loadSpritePressedFromMemory(const edk::char8* name,edk::uint8* sprite,edk::uint32 size,edk::uint32 filter){
-    return this->loadSpritePressedFromMemory((edk::char8*) name,sprite,size,filter);edkEnd();
+    return this->loadSpritePressedFromMemory((edk::char8*) name,sprite,size,filter);
 }
 bool edk::ViewButton::loadSpritePressedFromMemory(edk::char8* name,edk::uint8* sprite,edk::uint32 size,edk::uint32 filter){
     //delete the sprite
-    this->deleteSpritePressed();edkEnd();
+    this->deleteSpritePressed();
     //test the name
     if(name){
         //then load the texture
-        this->spritePressedCode = this->list.loadTextureFromMemory(name,sprite,size,filter);edkEnd();
+        this->spritePressedCode = this->list.loadTextureFromMemory(name,sprite,size,filter);
         if(this->spritePressedCode){
             return true;
         }
@@ -1459,15 +1461,15 @@ bool edk::ViewButton::loadSpritePressedFromMemory(edk::char8* name,edk::uint8* s
     return false;
 }
 bool edk::ViewButton::loadSpritePressedFromPack(edk::pack::FilePackage* pack,const edk::char8* name,edk::uint32 filter){
-    return this->loadSpritePressedFromPack(pack,(edk::char8* )name,filter);edkEnd();
+    return this->loadSpritePressedFromPack(pack,(edk::char8* )name,filter);
 }
 bool edk::ViewButton::loadSpritePressedFromPack(edk::pack::FilePackage* pack,edk::char8* name,edk::uint32 filter){
     //delete the sprite
-    this->deleteSpritePressed();edkEnd();
+    this->deleteSpritePressed();
     //test the name
     if(name && pack){
         //then load the texture
-        this->spritePressedCode = this->list.loadTextureFromPack(pack,name,filter);edkEnd();
+        this->spritePressedCode = this->list.loadTextureFromPack(pack,name,filter);
         if(this->spritePressedCode){
             return true;
         }
@@ -1479,15 +1481,15 @@ bool edk::ViewButton::loadSpritePressedFromPack(edk::pack::FilePackage* pack,edk
 //load UP sprite
 bool edk::ViewButton::loadSpriteUp(const edk::char8* name,edk::uint32 filter){
     //
-    return loadSpriteUp((edk::char8*)name,filter);edkEnd();
+    return loadSpriteUp((edk::char8*)name,filter);
 }
 bool edk::ViewButton::loadSpriteUp(edk::char8* name,edk::uint32 filter){
     //delete the sprite
-    this->deleteSpriteUp();edkEnd();
+    this->deleteSpriteUp();
     //test the name
     if(name){
         //then load the texture
-        this->spriteUpCode = this->list.loadTexture(name,filter);edkEnd();
+        this->spriteUpCode = this->list.loadTexture(name,filter);
         if(this->spriteUpCode){
             return true;
         }
@@ -1496,15 +1498,15 @@ bool edk::ViewButton::loadSpriteUp(edk::char8* name,edk::uint32 filter){
     return false;
 }
 bool edk::ViewButton::loadSpriteUpFromMemory(const edk::char8* name,edk::uint8* sprite,edk::uint32 size,edk::uint32 filter){
-    return this->loadSpriteUpFromMemory((edk::char8*) name,sprite,size,filter);edkEnd();
+    return this->loadSpriteUpFromMemory((edk::char8*) name,sprite,size,filter);
 }
 bool edk::ViewButton::loadSpriteUpFromMemory(edk::char8* name,edk::uint8* sprite,edk::uint32 size,edk::uint32 filter){
     //delete the sprite
-    this->deleteSpriteUp();edkEnd();
+    this->deleteSpriteUp();
     //test the name
     if(name){
         //then load the texture
-        this->spriteUpCode = this->list.loadTextureFromMemory(name,sprite,size,filter);edkEnd();
+        this->spriteUpCode = this->list.loadTextureFromMemory(name,sprite,size,filter);
         if(this->spriteUpCode){
             return true;
         }
@@ -1513,15 +1515,15 @@ bool edk::ViewButton::loadSpriteUpFromMemory(edk::char8* name,edk::uint8* sprite
     return false;
 }
 bool edk::ViewButton::loadSpriteUpFromPack(edk::pack::FilePackage* pack,const edk::char8* name,edk::uint32 filter){
-    return this->loadSpriteUpFromPack(pack,(edk::char8*) name,filter);edkEnd();
+    return this->loadSpriteUpFromPack(pack,(edk::char8*) name,filter);
 }
 bool edk::ViewButton::loadSpriteUpFromPack(edk::pack::FilePackage* pack,edk::char8* name,edk::uint32 filter){
     //delete the sprite
-    this->deleteSpriteUp();edkEnd();
+    this->deleteSpriteUp();
     //test the name
     if(name && pack){
         //then load the texture
-        this->spriteUpCode = this->list.loadTextureFromPack(pack,name,filter);edkEnd();
+        this->spriteUpCode = this->list.loadTextureFromPack(pack,name,filter);
         if(this->spriteUpCode){
             return true;
         }
@@ -1532,45 +1534,45 @@ bool edk::ViewButton::loadSpriteUpFromPack(edk::pack::FilePackage* pack,edk::cha
 
 //Load button symbol normal
 bool edk::ViewButton::loadSymbol(const edk::char8* name,edk::uint32 filter){
-    return this->loadSymbol((edk::char8*)name,filter);edkEnd();
+    return this->loadSymbol((edk::char8*)name,filter);
 }
 bool edk::ViewButton::loadSymbol(edk::char8* name,edk::uint32 filter){
     //delete symbol
-    this->deleteSymbol();edkEnd();
+    this->deleteSymbol();
     if(name){
-        this->symbolCode = this->list.loadTexture(name,filter);edkEnd();
+        this->symbolCode = this->list.loadTexture(name,filter);
         if(this->symbolCode){
-            this->symbolSize = this->list.getTextureSize(this->symbolCode);edkEnd();
+            this->symbolSize = this->list.getTextureSize(this->symbolCode);
             return true;
         }
     }
     return false;
 }
 bool edk::ViewButton::loadSymbolFromMemory(const edk::char8* name,edk::uint8* sprite,edk::uint32 size,edk::uint32 filter){
-    return this->loadSymbolFromMemory((edk::char8*) name,sprite,size,filter);edkEnd();
+    return this->loadSymbolFromMemory((edk::char8*) name,sprite,size,filter);
 }
 bool edk::ViewButton::loadSymbolFromMemory(edk::char8* name,edk::uint8* sprite,edk::uint32 size,edk::uint32 filter){
     //delete symbol
-    this->deleteSymbol();edkEnd();
+    this->deleteSymbol();
     if(name){
-        this->symbolCode = this->list.loadTextureFromMemory(name,sprite,size,filter);edkEnd();
+        this->symbolCode = this->list.loadTextureFromMemory(name,sprite,size,filter);
         if(this->symbolCode){
-            this->symbolSize = this->list.getTextureSize(this->symbolCode);edkEnd();
+            this->symbolSize = this->list.getTextureSize(this->symbolCode);
             return true;
         }
     }
     return false;
 }
 bool edk::ViewButton::loadSymbolFromPack(edk::pack::FilePackage* pack,const edk::char8* name,edk::uint32 filter){
-    return this->loadSymbolFromPack(pack,(edk::char8*) name,filter);edkEnd();
+    return this->loadSymbolFromPack(pack,(edk::char8*) name,filter);
 }
 bool edk::ViewButton::loadSymbolFromPack(edk::pack::FilePackage* pack,edk::char8* name,edk::uint32 filter){
     //delete symbol
-    this->deleteSymbol();edkEnd();
+    this->deleteSymbol();
     if(name && pack){
-        this->symbolCode = this->list.loadTextureFromPack(pack,name,filter);edkEnd();
+        this->symbolCode = this->list.loadTextureFromPack(pack,name,filter);
         if(this->symbolCode){
-            this->symbolSize = this->list.getTextureSize(this->symbolCode);edkEnd();
+            this->symbolSize = this->list.getTextureSize(this->symbolCode);
             return true;
         }
     }
@@ -1578,13 +1580,13 @@ bool edk::ViewButton::loadSymbolFromPack(edk::pack::FilePackage* pack,edk::char8
 }
 //Load button symbol pressed
 bool edk::ViewButton::loadSymbolPressed(const edk::char8* name,edk::uint32 filter){
-    return this->loadSymbol((edk::char8*) name,filter);edkEnd();
+    return this->loadSymbol((edk::char8*) name,filter);
 }
 bool edk::ViewButton::loadSymbolPressed(edk::char8* name,edk::uint32 filter){
     //delete symbol
-    this->deleteSymbolPressed();edkEnd();
+    this->deleteSymbolPressed();
     if(name){
-        this->symbolPressedCode = this->list.loadTexture(name,filter);edkEnd();
+        this->symbolPressedCode = this->list.loadTexture(name,filter);
         if(this->symbolPressedCode){
             return true;
         }
@@ -1592,13 +1594,13 @@ bool edk::ViewButton::loadSymbolPressed(edk::char8* name,edk::uint32 filter){
     return false;
 }
 bool edk::ViewButton::loadSymbolPressedFromMemory(const edk::char8* name,edk::uint8* sprite,edk::uint32 size,edk::uint32 filter){
-    return this->loadSymbolPressedFromMemory((edk::char8*) name,sprite,size,filter);edkEnd();
+    return this->loadSymbolPressedFromMemory((edk::char8*) name,sprite,size,filter);
 }
 bool edk::ViewButton::loadSymbolPressedFromMemory(edk::char8* name,edk::uint8* sprite,edk::uint32 size,edk::uint32 filter){
     //delete symbol
-    this->deleteSymbolPressed();edkEnd();
+    this->deleteSymbolPressed();
     if(name){
-        this->symbolPressedCode = this->list.loadTextureFromMemory(name,sprite,size,filter);edkEnd();
+        this->symbolPressedCode = this->list.loadTextureFromMemory(name,sprite,size,filter);
         if(this->symbolPressedCode){
             return true;
         }
@@ -1606,13 +1608,13 @@ bool edk::ViewButton::loadSymbolPressedFromMemory(edk::char8* name,edk::uint8* s
     return false;
 }
 bool edk::ViewButton::loadSymbolPressedFromPack(edk::pack::FilePackage* pack,const edk::char8* name,edk::uint32 filter){
-    return this->loadSymbolPressedFromPack(pack,(edk::char8*) name,filter);edkEnd();
+    return this->loadSymbolPressedFromPack(pack,(edk::char8*) name,filter);
 }
 bool edk::ViewButton::loadSymbolPressedFromPack(edk::pack::FilePackage* pack,edk::char8* name,edk::uint32 filter){
     //delete symbol
-    this->deleteSymbolPressed();edkEnd();
+    this->deleteSymbolPressed();
     if(name && pack){
-        this->symbolPressedCode = this->list.loadTextureFromPack(pack,name,filter);edkEnd();
+        this->symbolPressedCode = this->list.loadTextureFromPack(pack,name,filter);
         if(this->symbolPressedCode){
             return true;
         }
@@ -1621,13 +1623,13 @@ bool edk::ViewButton::loadSymbolPressedFromPack(edk::pack::FilePackage* pack,edk
 }
 //Load button symbol up
 bool edk::ViewButton::loadSymbolUp(const edk::char8* name,edk::uint32 filter){
-    return this->loadSymbolUp((edk::char8*) name,filter);edkEnd();
+    return this->loadSymbolUp((edk::char8*) name,filter);
 }
 bool edk::ViewButton::loadSymbolUp(edk::char8* name,edk::uint32 filter){
     //delete symbol
-    this->deleteSymbolUp();edkEnd();
+    this->deleteSymbolUp();
     if(name){
-        this->symbolUpCode = this->list.loadTexture(name,filter);edkEnd();
+        this->symbolUpCode = this->list.loadTexture(name,filter);
         if(this->symbolUpCode){
             return true;
         }
@@ -1635,13 +1637,13 @@ bool edk::ViewButton::loadSymbolUp(edk::char8* name,edk::uint32 filter){
     return false;
 }
 bool edk::ViewButton::loadSymbolUpFromMemory(const edk::char8* name,edk::uint8* sprite,edk::uint32 size,edk::uint32 filter){
-    return this->loadSymbolUpFromMemory((edk::char8*) name,sprite,size,filter);edkEnd();
+    return this->loadSymbolUpFromMemory((edk::char8*) name,sprite,size,filter);
 }
 bool edk::ViewButton::loadSymbolUpFromMemory(edk::char8* name,edk::uint8* sprite,edk::uint32 size,edk::uint32 filter){
     //delete symbol
-    this->deleteSymbolUp();edkEnd();
+    this->deleteSymbolUp();
     if(name){
-        this->symbolUpCode = this->list.loadTextureFromMemory(name,sprite,size,filter);edkEnd();
+        this->symbolUpCode = this->list.loadTextureFromMemory(name,sprite,size,filter);
         if(this->symbolUpCode){
             return true;
         }
@@ -1649,13 +1651,13 @@ bool edk::ViewButton::loadSymbolUpFromMemory(edk::char8* name,edk::uint8* sprite
     return false;
 }
 bool edk::ViewButton::loadSymbolUpFromPack(edk::pack::FilePackage* pack,const edk::char8* name,edk::uint32 filter){
-    return this->loadSymbolUpFromPack(pack,(edk::char8*) name,filter);edkEnd();
+    return this->loadSymbolUpFromPack(pack,(edk::char8*) name,filter);
 }
 bool edk::ViewButton::loadSymbolUpFromPack(edk::pack::FilePackage* pack,edk::char8* name,edk::uint32 filter){
     //delete symbol
-    this->deleteSymbolUp();edkEnd();
+    this->deleteSymbolUp();
     if(name && pack){
-        this->symbolUpCode = this->list.loadTextureFromPack(pack,name,filter);edkEnd();
+        this->symbolUpCode = this->list.loadTextureFromPack(pack,name,filter);
         if(this->symbolUpCode){
             return true;
         }
@@ -1669,7 +1671,7 @@ void edk::ViewButton::deleteSpritePressed(){
     //test if have the sprite
     if(this->spritePressedCode){
         //remove the sprite
-        this->list.removeTexture(this->spritePressedCode);edkEnd();
+        this->list.removeTexture(this->spritePressedCode);
     }
     //clean the sprite
     this->spritePressedCode=0u;
@@ -1679,84 +1681,84 @@ void edk::ViewButton::deleteSpriteUp(){
     //test if have the sprite
     if(this->spriteUpCode){
         //remove the sprite
-        this->list.removeTexture(this->spriteUpCode);edkEnd();
+        this->list.removeTexture(this->spriteUpCode);
     }
     //clean the sprite
     this->spriteUpCode=0u;
 }
 //delete all the sprites
 void edk::ViewButton::deleteAllSprites(){
-    this->deleteSprite();edkEnd();
-    this->deleteSpritePressed();edkEnd();
-    this->deleteSpriteUp();edkEnd();
+    this->deleteSprite();
+    this->deleteSpritePressed();
+    this->deleteSpriteUp();
 }
 //deleteSymbolNormal
 void edk::ViewButton::deleteSymbol(){
     if(this->symbolCode){
         //remove the symbol
-        this->list.removeTexture(this->symbolCode);edkEnd();
+        this->list.removeTexture(this->symbolCode);
     }
-    this->symbolSize = edk::size2ui32(0u,0u);edkEnd();
-    this->symbolCode = 0u;edkEnd();
+    this->symbolSize = edk::size2ui32(0u,0u);
+    this->symbolCode = 0u;
 }
 //deleteSymbolPressed
 void edk::ViewButton::deleteSymbolPressed(){
     if(this->symbolPressedCode){
-        this->list.removeTexture(this->symbolPressedCode);edkEnd();
+        this->list.removeTexture(this->symbolPressedCode);
     }
     this->symbolPressedCode=0u;
 }
 //deleteSymbolUp
 void edk::ViewButton::deleteSymbolUp(){
     if(this->symbolUpCode){
-        this->list.removeTexture(this->symbolUpCode);edkEnd();
+        this->list.removeTexture(this->symbolUpCode);
     }
     this->symbolUpCode=0u;
 }
 //deleteAllSymbols
 void edk::ViewButton::deleteAllSymbols(){
-    this->deleteSymbol();edkEnd();
-    this->deleteSymbolPressed();edkEnd();
-    this->deleteSymbolUp();edkEnd();
+    this->deleteSymbol();
+    this->deleteSymbolPressed();
+    this->deleteSymbolUp();
 }
 
 //scale the symbol
 void edk::ViewButton::scaleInside(edk::size2f32 size){
-    this->insideScale = size;edkEnd();
+    this->insideScale = size;
 }
 void edk::ViewButton::scaleInside(edk::float32 width,edk::float32 height){
-    this->scaleInside(edk::size2f32( width,height));edkEnd();
+    this->scaleInside(edk::size2f32( width,height));
 }
 
 //set the state
 void edk::ViewButton::setState(edk::uint8 state){
-    this->stateButton = state;edkEnd();
+    this->stateButton = state;
 }
 //On and Off the button
 void edk::ViewButton::on(){
-    this->buttonOn = true;edkEnd();
+    this->buttonOn = true;
 }
 void edk::ViewButton::off(){
-    this->buttonOn = false;edkEnd();
+    this->buttonOn = false;
 }
 bool edk::ViewButton::isOn(){
-    return this->buttonOn;edkEnd();
+    return this->buttonOn;
 }
 
 //TEXT
 //add the text to the button
 bool edk::ViewButton::writeText(const edk::char8* str){
-    return this->writeText((edk::char8*) str);edkEnd();
+    return this->writeText((edk::char8*) str);
 }
 bool edk::ViewButton::writeText(edk::char8* str){
-    return this->text.createStringMap(str);edkEnd();
+    return this->text.createStringMap(str);
 }
 //load the textFont
 bool edk::ViewButton::loadFontImage(const edk::char8* name,edk::uint32 filter,edk::color4f32 color){
-    return this->loadFontImage((edk::char8*) name,filter,color);edkEnd();
+    return this->loadFontImage((edk::char8*) name,filter,color);
 }
 bool edk::ViewButton::loadFontImage(edk::char8* name,edk::uint32 filter,edk::color4f32 color){
-    return this->text.loadFontImage(name,filter,color);edkEnd();
+    return this->text.loadFontImage(name,filter,color);
 }
 bool edk::ViewButton::loadFontImageFromMemory(const edk::char8* name,
                                               edk::uint8* image,
@@ -1768,7 +1770,7 @@ bool edk::ViewButton::loadFontImageFromMemory(const edk::char8* name,
                                          image,
                                          size,
                                          filter,
-                                         color);edkEnd();
+                                         color);
 }
 
 bool edk::ViewButton::loadFontImageFromMemory(edk::char8* name,
@@ -1777,52 +1779,52 @@ bool edk::ViewButton::loadFontImageFromMemory(edk::char8* name,
                                               edk::uint32 filter,
                                               edk::color4f32 color
                                               ){
-    return this->text.loadFontImageFromMemory(name,image,size,filter,color);edkEnd();
+    return this->text.loadFontImageFromMemory(name,image,size,filter,color);
 }
 
 //remove the buttonText
 void edk::ViewButton::deleteButtonText(){
-    this->text.deleteMap();edkEnd();
+    this->text.deleteMap();
 }
 
 //save if something happen with the button
 bool edk::ViewButton::wasPressed(){
-    bool ret = this->buttonPress;edkEnd();
-    this->buttonPress=false;edkEnd();
+    bool ret = this->buttonPress;
+    this->buttonPress=false;
     return ret;
 }
 bool edk::ViewButton::wasReleased(){
-    bool ret = this->buttonRelease;edkEnd();
-    this->buttonRelease=false;edkEnd();
+    bool ret = this->buttonRelease;
+    this->buttonRelease=false;
     return ret;
 }
 bool edk::ViewButton::wasDoubleClicked(){
-    bool ret = this->buttonDoubleClick;edkEnd();
-    this->buttonDoubleClick=false;edkEnd();
+    bool ret = this->buttonDoubleClick;
+    this->buttonDoubleClick=false;
     return ret;
 }
 bool edk::ViewButton::wasHolded(){
-    bool ret = this->buttonHold;edkEnd();
-    this->buttonHold=false;edkEnd();
+    bool ret = this->buttonHold;
+    this->buttonHold=false;
     return ret;
 }
 
 //EVENT
 //event press button
 void edk::ViewButton::eventPressButton(edk::uint32){
-    //printf("\nPRESS BUTTON %u",mouseButton);edkEnd();
+    //printf("\nPRESS BUTTON %u",mouseButton);
 }
 //event releaseButton
 void edk::ViewButton::eventReleaseButton(edk::uint32,bool){
-    //printf("\nRELEASE BUTTON %u",mouseButton);edkEnd();
+    //printf("\nRELEASE BUTTON %u",mouseButton);
 }
 //event doubleClickButton
 void edk::ViewButton::eventDoubleClickButton(edk::uint32,bool){
-    //printf("\nDOUBLE CLICK BUTTON %u",mouseButton);edkEnd();
+    //printf("\nDOUBLE CLICK BUTTON %u",mouseButton);
 }
 //event holdButton
 void edk::ViewButton::eventHoldButton(edk::uint32){
-    //printf("\nHOLDING BUTTON %u",mouseButton);edkEnd();
+    //printf("\nHOLDING BUTTON %u",mouseButton);
 }
 bool edk::ViewButton::isButton(){
     return true;
@@ -1834,7 +1836,7 @@ void edk::ViewButton::update(edk::WindowEvents* events){
     //clean the doubleClick buttons
     this->doubleButton.clean();
     //update the view
-    edk::View::update(events);edkEnd();
+    edk::View::update(events);
     //test if have events
     if(events){
         //test if the mouse are outside
@@ -1846,21 +1848,21 @@ void edk::ViewButton::update(edk::WindowEvents* events){
                     //test if the number are on the tree
                     if(this->holdButton.haveElement(events->mouseRelease.get(i))){
                         //run the mouseUnpressed function
-                        this->eventMouseReleased(edk::vec2f32(-1,-1),events->mouseRelease.get(i));edkEnd();
+                        this->eventMouseReleased(edk::vec2f32(-1,-1),events->mouseRelease.get(i));
                     }
                 }
                 //then remove the state
-                this->holdButton.clean();edkEnd();
+                this->holdButton.clean();
             }
         }
         else{
             //run the holdButton events
             for(edk::uint32 i=0u;i<this->holdButton.size();i++){
-                this->buttonHold=true;edkEnd();
+                this->buttonHold=true;
                 //run the function with the button on the order
-                this->eventHoldButton(this->holdButton.getElementInPosition(i));edkEnd();
+                this->eventHoldButton(this->holdButton.getElementInPosition(i));
                 if(this->buttonCallback){
-                    this->buttonCallback->holdButton(this,this->holdButton.getElementInPosition(i));edkEnd();
+                    this->buttonCallback->holdButton(this,this->holdButton.getElementInPosition(i));
                 }
             }
         }
@@ -1870,16 +1872,16 @@ void edk::ViewButton::update(edk::WindowEvents* events){
 void edk::ViewButton::eventMousePressed(edk::vec2f32 ,edk::uint32 button){
     if(this->buttonOn){
         //set buttonPressed
-        this->stateButton=edk::buttonView::state::pressed;edkEnd();
+        this->stateButton=edk::buttonView::state::pressed;
 
         //set button in hold
-        this->holdButton.add(button);edkEnd();
+        this->holdButton.add(button);
 
         //set the function
-        this->buttonPress=true;edkEnd();
-        this->eventPressButton(button);edkEnd();
+        this->buttonPress=true;
+        this->eventPressButton(button);
         if(this->buttonCallback){
-            this->buttonCallback->pressButton(this,button);edkEnd();
+            this->buttonCallback->pressButton(this,button);
         }
     }
 }
@@ -1888,11 +1890,11 @@ void edk::ViewButton::eventMouseMoved(edk::vec2f32,edk::vec2f32,edk::uint32){
         //test if mouse is pressed
         if(this->holdButton.size()){
             //then set the buttonPressed
-            this->stateButton=edk::buttonView::state::pressed;edkEnd();
+            this->stateButton=edk::buttonView::state::pressed;
         }
         else{
             //else set the button to UP
-            this->stateButton=edk::buttonView::state::up;edkEnd();
+            this->stateButton=edk::buttonView::state::up;
         }
     }
 }
@@ -1900,26 +1902,26 @@ void edk::ViewButton::eventMouseReleased(edk::vec2f32,edk::uint32 button){
     if(this->buttonOn){
         //test if have the button in the tree
         if(this->holdButton.haveElement(button)){
-            this->buttonRelease=true;edkEnd();
+            this->buttonRelease=true;
             //then run the releaseEvent
-            this->eventReleaseButton(button,this->mouseInside);edkEnd();
+            this->eventReleaseButton(button,this->mouseInside);
             if(this->buttonCallback){
-                this->buttonCallback->releaseButton(this,button,this->mouseInside);edkEnd();
+                this->buttonCallback->releaseButton(this,button,this->mouseInside);
             }
         }
         //decrement the buttonPressed
-        this->holdButton.remove(button);edkEnd();
+        this->holdButton.remove(button);
 
         //test if the button are not pressed
         if(!this->holdButton.size()){
             //test if the mouse are inside
             if(this->mouseInside){
                 //then set the button to up
-                this->stateButton=edk::buttonView::state::up;edkEnd();
+                this->stateButton=edk::buttonView::state::up;
             }
             else{
                 // else set the button to normal
-                this->stateButton=edk::buttonView::state::normal;edkEnd();
+                this->stateButton=edk::buttonView::state::normal;
             }
         }
     }
@@ -1927,13 +1929,13 @@ void edk::ViewButton::eventMouseReleased(edk::vec2f32,edk::uint32 button){
 void edk::ViewButton::eventMouseDoubleClicked(edk::vec2f32 ,edk::uint32 button){
     if(this->buttonOn){
         //set button in hold
-        this->doubleButton.add(button);edkEnd();
+        this->doubleButton.add(button);
 
         //set the function
-        this->buttonDoubleClick=true;edkEnd();
-        this->eventDoubleClickButton(button,this->mouseInside);edkEnd();
+        this->buttonDoubleClick=true;
+        this->eventDoubleClickButton(button,this->mouseInside);
         if(this->buttonCallback){
-            this->buttonCallback->doubleClickButton(this,button,this->mouseInside);edkEnd();
+            this->buttonCallback->doubleClickButton(this,button,this->mouseInside);
         }
     }
 }
@@ -1941,24 +1943,24 @@ void edk::ViewButton::eventMouseDoubleClicked(edk::vec2f32 ,edk::uint32 button){
 void edk::ViewButton::eventMouseEntryInsideView(edk::vec2f32){
     if(this->buttonOn){
         //set the mouse are inside
-        this->mouseInside=true;edkEnd();
+        this->mouseInside=true;
         //test if the button is pressed
         if(this->holdButton.size()){
             //then set state to pressed
-            this->stateButton=edk::buttonView::state::pressed;edkEnd();
+            this->stateButton=edk::buttonView::state::pressed;
         }
         else{
             //else set state to UP
-            this->stateButton=edk::buttonView::state::up;edkEnd();
+            this->stateButton=edk::buttonView::state::up;
         }
     }
 }
 void edk::ViewButton::eventMouseLeftView(edk::vec2f32 ){
     if(this->buttonOn){
         //set the mouse are outside
-        this->mouseInside=false;edkEnd();
+        this->mouseInside=false;
         //set to normal
-        this->stateButton=edk::buttonView::state::normal;edkEnd();
+        this->stateButton=edk::buttonView::state::normal;
     }
 }
 
@@ -1966,43 +1968,43 @@ void edk::ViewButton::eventMouseLeftView(edk::vec2f32 ){
 void edk::ViewButton::drawPolygon(rectf32 outsideViewOrigin){
     //test the rect
     if(this->rectButtonSave!=this->frame){
-        this->borderTemp=this->borderSize;edkEnd();
+        this->borderTemp=this->borderSize;
         //load the rect size
-        edk::size2f32 sizeTemp = edk::size2f32(this->frame.size * 0.5f);edkEnd();
+        edk::size2f32 sizeTemp = edk::size2f32(this->frame.size * 0.5f);
         //save the rect
-        this->rectButtonSave = this->frame;edkEnd();
+        this->rectButtonSave = this->frame;
 
         //set the camera rect
-        this->cam.setRectPoints(0,0,this->frame.size.width,this->frame.size.height);edkEnd();
+        this->cam.setRectPoints(0,0,this->frame.size.width,this->frame.size.height);
         //test the smaller size
         if(sizeTemp.width < sizeTemp.height){
             //width
             if(this->borderTemp>sizeTemp.width){
-                this->borderTemp = sizeTemp.width;edkEnd();
+                this->borderTemp = sizeTemp.width;
             }
         }
         else{
             //height
             if(this->borderTemp>sizeTemp.height){
-                this->borderTemp = sizeTemp.height;edkEnd();
+                this->borderTemp = sizeTemp.height;
             }
         }
     }
 
     //a codeTemp
-    edk::uint32 codeTemp=this->getSpriteCode();edkEnd();
-    edk::uint32 symbolCodeTemp=this->symbolCode;edkEnd();
-    edk::size2ui32 insideSize = edk::size2ui32 (0u,0u);edkEnd();
+    edk::uint32 codeTemp=this->getSpriteCode();
+    edk::uint32 symbolCodeTemp=this->symbolCode;
+    edk::size2ui32 insideSize = edk::size2ui32 (0u,0u);
     edk::size2f32 tempSize = edk::size2f32(this->frame.size.width - this->borderTemp,
                                            this->frame.size.height - this->borderTemp
-                                           );edkEnd();
+                                           );
     if((tempSize.width)>0.f
             &&
             (tempSize.height)>0.f
             ){
         insideSize = edk::size2ui32 ((edk::uint32)((edk::int32)this->frame.size.width-(edk::int32)this->borderTemp),
                                      (edk::uint32)((edk::int32)this->frame.size.height-(edk::int32)this->borderTemp)
-                                     );edkEnd();
+                                     );
     }
     //test what state is the button
     switch(this->stateButton){
@@ -2010,253 +2012,253 @@ void edk::ViewButton::drawPolygon(rectf32 outsideViewOrigin){
         //test if have the spritePressed
         if(this->spritePressedCode){
             //then set the pressedCode to the codeTemp
-            codeTemp=this->spritePressedCode;edkEnd();
+            codeTemp=this->spritePressedCode;
         }
         if(this->symbolPressedCode){
-            symbolCodeTemp = this->symbolPressedCode;edkEnd();
+            symbolCodeTemp = this->symbolPressedCode;
         }
         break;
     case edk::buttonView::state::up:
         //test if have the spriteUp
         if(this->spriteUpCode){
             //then set the pressedCode to the codeTemp
-            codeTemp=this->spriteUpCode;edkEnd();
+            codeTemp=this->spriteUpCode;
         }
         if(this->symbolUpCode){
-            symbolCodeTemp = this->symbolUpCode;edkEnd();
+            symbolCodeTemp = this->symbolUpCode;
         }
         break;
     }
-    this->cam.draw();edkEnd();
+    this->cam.draw();
 
     //draw the polygon with UV Map
-    edk::GU::guUseMatrix(GU_MODELVIEW);edkEnd();
+    edk::GU::guUseMatrix(GU_MODELVIEW);
 
     //texture
-    edk::GU::guEnable(GU_TEXTURE_2D);edkEnd();
+    edk::GU::guEnable(GU_TEXTURE_2D);
 
     //set the texture of the button
-    edk::GU::guUseTexture2D(codeTemp);edkEnd();
+    edk::GU::guUseTexture2D(codeTemp);
 
 
     //Draw a quadrangle
-    edk::GU::guBegin(GU_QUADS);edkEnd();
+    edk::GU::guBegin(GU_QUADS);
     //rect1
-    edk::GU::guVertexTex2f32(0.0f, 1.0f);edkEnd();
-    edk::GU::guVertex3f32(0.f, 0.f, 0.f);edkEnd();
+    edk::GU::guVertexTex2f32(0.0f, 1.0f);
+    edk::GU::guVertex3f32(0.f, 0.f, 0.f);
 
-    edk::GU::guVertexTex2f32(0.0f, 0.5f);edkEnd();
-    edk::GU::guVertex3f32(0.f, this->borderTemp, 0.f);edkEnd();
+    edk::GU::guVertexTex2f32(0.0f, 0.5f);
+    edk::GU::guVertex3f32(0.f, this->borderTemp, 0.f);
 
-    edk::GU::guVertexTex2f32(0.5f, 0.5f);edkEnd();
-    edk::GU::guVertex3f32(this->borderTemp, this->borderTemp, 0.f);edkEnd();
+    edk::GU::guVertexTex2f32(0.5f, 0.5f);
+    edk::GU::guVertex3f32(this->borderTemp, this->borderTemp, 0.f);
 
-    edk::GU::guVertexTex2f32(0.5f, 1.0f);edkEnd();
-    edk::GU::guVertex3f32(this->borderTemp, 0.f, 0.f);edkEnd();
+    edk::GU::guVertexTex2f32(0.5f, 1.0f);
+    edk::GU::guVertex3f32(this->borderTemp, 0.f, 0.f);
 
     //rect2
-    edk::GU::guVertexTex2f32(0.f, 0.5f);edkEnd();
-    edk::GU::guVertex3f32(0.f, this->frame.size.height - this->borderTemp, 0.f);edkEnd();
+    edk::GU::guVertexTex2f32(0.f, 0.5f);
+    edk::GU::guVertex3f32(0.f, this->frame.size.height - this->borderTemp, 0.f);
 
-    edk::GU::guVertexTex2f32(0.f, 0.f);edkEnd();
-    edk::GU::guVertex3f32(0.f, this->frame.size.height, 0.f);edkEnd();
+    edk::GU::guVertexTex2f32(0.f, 0.f);
+    edk::GU::guVertex3f32(0.f, this->frame.size.height, 0.f);
 
-    edk::GU::guVertexTex2f32(0.5f, 0.f);edkEnd();
-    edk::GU::guVertex3f32(this->borderTemp, this->frame.size.height, 0.f);edkEnd();
+    edk::GU::guVertexTex2f32(0.5f, 0.f);
+    edk::GU::guVertex3f32(this->borderTemp, this->frame.size.height, 0.f);
 
-    edk::GU::guVertexTex2f32(0.5f, 0.5f);edkEnd();
-    edk::GU::guVertex3f32(this->borderTemp, this->frame.size.height - this->borderTemp, 0.f);edkEnd();
+    edk::GU::guVertexTex2f32(0.5f, 0.5f);
+    edk::GU::guVertex3f32(this->borderTemp, this->frame.size.height - this->borderTemp, 0.f);
 
     //rect3
-    edk::GU::guVertexTex2f32(0.5f, 0.5f);edkEnd();
-    edk::GU::guVertex3f32(tempSize.width, this->frame.size.height - this->borderTemp, 0.f);edkEnd();
+    edk::GU::guVertexTex2f32(0.5f, 0.5f);
+    edk::GU::guVertex3f32(tempSize.width, this->frame.size.height - this->borderTemp, 0.f);
 
-    edk::GU::guVertexTex2f32(0.5f, 0.f);edkEnd();
-    edk::GU::guVertex3f32(tempSize.width, this->frame.size.height, 0.f);edkEnd();
+    edk::GU::guVertexTex2f32(0.5f, 0.f);
+    edk::GU::guVertex3f32(tempSize.width, this->frame.size.height, 0.f);
 
-    edk::GU::guVertexTex2f32(1.0f, 0.f);edkEnd();
-    edk::GU::guVertex3f32(this->frame.size.width, this->frame.size.height, 0.f);edkEnd();
+    edk::GU::guVertexTex2f32(1.0f, 0.f);
+    edk::GU::guVertex3f32(this->frame.size.width, this->frame.size.height, 0.f);
 
-    edk::GU::guVertexTex2f32(1.0f, 0.5f);edkEnd();
-    edk::GU::guVertex3f32(this->frame.size.width, this->frame.size.height - this->borderTemp, 0.f);edkEnd();
+    edk::GU::guVertexTex2f32(1.0f, 0.5f);
+    edk::GU::guVertex3f32(this->frame.size.width, this->frame.size.height - this->borderTemp, 0.f);
 
     //rect4
-    edk::GU::guVertexTex2f32(0.5f, 1.f);edkEnd();
-    edk::GU::guVertex3f32(tempSize.width, 0.f, 0.f);edkEnd();
+    edk::GU::guVertexTex2f32(0.5f, 1.f);
+    edk::GU::guVertex3f32(tempSize.width, 0.f, 0.f);
 
 
-    edk::GU::guVertexTex2f32(0.5f, 0.5f);edkEnd();
-    edk::GU::guVertex3f32(tempSize.width, this->borderTemp, 0.f);edkEnd();
+    edk::GU::guVertexTex2f32(0.5f, 0.5f);
+    edk::GU::guVertex3f32(tempSize.width, this->borderTemp, 0.f);
 
 
-    edk::GU::guVertexTex2f32(1.f, 0.5f);edkEnd();
-    edk::GU::guVertex3f32(this->frame.size.width, this->borderTemp, 0.f);edkEnd();
+    edk::GU::guVertexTex2f32(1.f, 0.5f);
+    edk::GU::guVertex3f32(this->frame.size.width, this->borderTemp, 0.f);
 
 
-    edk::GU::guVertexTex2f32(1.f, 1.f);edkEnd();
-    edk::GU::guVertex3f32(this->frame.size.width, 0.f, 0.f);edkEnd();
+    edk::GU::guVertexTex2f32(1.f, 1.f);
+    edk::GU::guVertex3f32(this->frame.size.width, 0.f, 0.f);
 
 
 
     //rect1
-    edk::GU::guVertexTex2f32(0.f, 0.515f);edkEnd();
-    edk::GU::guVertex3f32(0.f, this->borderTemp, 0.f);edkEnd();
+    edk::GU::guVertexTex2f32(0.f, 0.515f);
+    edk::GU::guVertex3f32(0.f, this->borderTemp, 0.f);
 
-    edk::GU::guVertexTex2f32(0.f, 0.515f);edkEnd();
-    edk::GU::guVertex3f32(0.f, tempSize.height, 0.f);edkEnd();
+    edk::GU::guVertexTex2f32(0.f, 0.515f);
+    edk::GU::guVertex3f32(0.f, tempSize.height, 0.f);
 
-    edk::GU::guVertexTex2f32(0.5f, 0.495f);edkEnd();
-    edk::GU::guVertex3f32(this->borderTemp, tempSize.height, 0.f);edkEnd();
+    edk::GU::guVertexTex2f32(0.5f, 0.495f);
+    edk::GU::guVertex3f32(this->borderTemp, tempSize.height, 0.f);
 
-    edk::GU::guVertexTex2f32(0.5f, 0.495);edkEnd();
-    edk::GU::guVertex3f32(this->borderTemp, this->borderTemp, 0.f);edkEnd();
+    edk::GU::guVertexTex2f32(0.5f, 0.495);
+    edk::GU::guVertex3f32(this->borderTemp, this->borderTemp, 0.f);
 
     //rect2
-    edk::GU::guVertexTex2f32(0.515f, 0.5f);edkEnd();
-    edk::GU::guVertex3f32(this->borderTemp, this->frame.size.height - this->borderTemp, 0.f);edkEnd();
+    edk::GU::guVertexTex2f32(0.515f, 0.5f);
+    edk::GU::guVertex3f32(this->borderTemp, this->frame.size.height - this->borderTemp, 0.f);
 
-    edk::GU::guVertexTex2f32(0.515f, 0.f);edkEnd();
-    edk::GU::guVertex3f32(this->borderTemp, this->frame.size.height, 0.f);edkEnd();
+    edk::GU::guVertexTex2f32(0.515f, 0.f);
+    edk::GU::guVertex3f32(this->borderTemp, this->frame.size.height, 0.f);
 
-    edk::GU::guVertexTex2f32(0.495f, 0.f);edkEnd();
-    edk::GU::guVertex3f32(tempSize.width, this->frame.size.height, 0.f);edkEnd();
+    edk::GU::guVertexTex2f32(0.495f, 0.f);
+    edk::GU::guVertex3f32(tempSize.width, this->frame.size.height, 0.f);
 
-    edk::GU::guVertexTex2f32(0.495f, 0.5f);edkEnd();
-    edk::GU::guVertex3f32(tempSize.width, this->frame.size.height - this->borderTemp, 0.f);edkEnd();
+    edk::GU::guVertexTex2f32(0.495f, 0.5f);
+    edk::GU::guVertex3f32(tempSize.width, this->frame.size.height - this->borderTemp, 0.f);
 
     //rect3
-    edk::GU::guVertexTex2f32(0.5f, 0.515f);edkEnd();
-    edk::GU::guVertex3f32(tempSize.width, this->borderTemp, 0.f);edkEnd();
+    edk::GU::guVertexTex2f32(0.5f, 0.515f);
+    edk::GU::guVertex3f32(tempSize.width, this->borderTemp, 0.f);
 
-    edk::GU::guVertexTex2f32(0.5f, 0.515f);edkEnd();
-    edk::GU::guVertex3f32(tempSize.width, this->frame.size.height - this->borderTemp, 0.f);edkEnd();
+    edk::GU::guVertexTex2f32(0.5f, 0.515f);
+    edk::GU::guVertex3f32(tempSize.width, this->frame.size.height - this->borderTemp, 0.f);
 
-    edk::GU::guVertexTex2f32(1.f, 0.495f);edkEnd();
-    edk::GU::guVertex3f32(this->frame.size.width, this->frame.size.height - this->borderTemp, 0.f);edkEnd();
+    edk::GU::guVertexTex2f32(1.f, 0.495f);
+    edk::GU::guVertex3f32(this->frame.size.width, this->frame.size.height - this->borderTemp, 0.f);
 
-    edk::GU::guVertexTex2f32(1.f, 0.495f);edkEnd();
-    edk::GU::guVertex3f32(this->frame.size.width, this->borderTemp, 0.f);edkEnd();
+    edk::GU::guVertexTex2f32(1.f, 0.495f);
+    edk::GU::guVertex3f32(this->frame.size.width, this->borderTemp, 0.f);
 
     //rect4
-    edk::GU::guVertexTex2f32(0.515f, 1.f);edkEnd();
-    edk::GU::guVertex3f32(this->borderTemp, 0.f, 0.f);edkEnd();
+    edk::GU::guVertexTex2f32(0.515f, 1.f);
+    edk::GU::guVertex3f32(this->borderTemp, 0.f, 0.f);
 
-    edk::GU::guVertexTex2f32(0.515f, 0.5f);edkEnd();
-    edk::GU::guVertex3f32(this->borderTemp, this->borderTemp, 0.f);edkEnd();
+    edk::GU::guVertexTex2f32(0.515f, 0.5f);
+    edk::GU::guVertex3f32(this->borderTemp, this->borderTemp, 0.f);
 
-    edk::GU::guVertexTex2f32(0.495f, 0.5f);edkEnd();
-    edk::GU::guVertex3f32(tempSize.width, this->borderTemp, 0.f);edkEnd();
+    edk::GU::guVertexTex2f32(0.495f, 0.5f);
+    edk::GU::guVertex3f32(tempSize.width, this->borderTemp, 0.f);
 
-    edk::GU::guVertexTex2f32(0.495f, 1.f);edkEnd();
-    edk::GU::guVertex3f32(tempSize.width, 0.f, 0.f);edkEnd();
+    edk::GU::guVertexTex2f32(0.495f, 1.f);
+    edk::GU::guVertex3f32(tempSize.width, 0.f, 0.f);
 
     //CENTER
-    edk::GU::guVertexTex2f32(0.495f, 0.515f);edkEnd();
-    edk::GU::guVertex3f32(this->borderTemp, this->borderTemp, 0.f);edkEnd();
+    edk::GU::guVertexTex2f32(0.495f, 0.515f);
+    edk::GU::guVertex3f32(this->borderTemp, this->borderTemp, 0.f);
 
-    edk::GU::guVertexTex2f32(0.495f, 0.495f);edkEnd();
-    edk::GU::guVertex3f32(this->borderTemp, tempSize.height, 0.f);edkEnd();
+    edk::GU::guVertexTex2f32(0.495f, 0.495f);
+    edk::GU::guVertex3f32(this->borderTemp, tempSize.height, 0.f);
 
-    edk::GU::guVertexTex2f32(0.515f, 0.495f);edkEnd();
-    edk::GU::guVertex3f32(tempSize.width, tempSize.height, 0.f);edkEnd();
+    edk::GU::guVertexTex2f32(0.515f, 0.495f);
+    edk::GU::guVertex3f32(tempSize.width, tempSize.height, 0.f);
 
-    edk::GU::guVertexTex2f32(0.515f, 0.515f);edkEnd();
-    edk::GU::guVertex3f32(tempSize.width, this->borderTemp, 0.f);edkEnd();
+    edk::GU::guVertexTex2f32(0.515f, 0.515f);
+    edk::GU::guVertex3f32(tempSize.width, this->borderTemp, 0.f);
 
-    edk::GU::guEnd();edkEnd();
+    edk::GU::guEnd();
 
     edk::size2f32 sizeTemp = edk::size2f32((tempSize.width)/this->frame.size.width,
                                            (tempSize.height)/this->frame.size.height
-                                           );edkEnd();
-    edk::float32 proportionInside = (edk::float32)insideSize.width/(edk::float32)insideSize.height;edkEnd();
-    edk::float32 proportionSymbol;edkEnd();
+                                           );
+    edk::float32 proportionInside = (edk::float32)insideSize.width/(edk::float32)insideSize.height;
+    edk::float32 proportionSymbol;
 
     if(symbolCodeTemp){
         //
-        this->camTemp.setRectPoints(-1.1f,-1.1f,2.1f,2.1f);edkEnd();
-        this->camTemp.draw();edkEnd();
+        this->camTemp.setRectPoints(-1.1f,-1.1f,2.1f,2.1f);
+        this->camTemp.draw();
         //draw the polygon with UV Map
-        edk::GU::guUseMatrix(GU_MODELVIEW);edkEnd();
-        edk::GU::guLoadIdentity();edkEnd();
+        edk::GU::guUseMatrix(GU_MODELVIEW);
+        edk::GU::guLoadIdentity();
         //set the texture of the symbol
-        edk::GU::guUseTexture2D(symbolCodeTemp);edkEnd();
+        edk::GU::guUseTexture2D(symbolCodeTemp);
 
-        edk::GU::guScale2f32(sizeTemp);edkEnd();
+        edk::GU::guScale2f32(sizeTemp);
 
         //proportions
-        proportionSymbol = (edk::float32)this->symbolSize.width/(edk::float32)this->symbolSize.height;edkEnd();
+        proportionSymbol = (edk::float32)this->symbolSize.width/(edk::float32)this->symbolSize.height;
         if(proportionInside >= proportionSymbol){
             //then it fits with the height
             sizeTemp = edk::size2f32((((edk::float32)insideSize.height / this->symbolSize.height ) * this->symbolSize.width) / (edk::float32)insideSize.width,
                                      1.f
-                                     );edkEnd();
+                                     );
         }
         else{
             //then it fits with the witdh
             sizeTemp = edk::size2f32(1.f,
                                      (((edk::float32)insideSize.width / this->symbolSize.width) * this->symbolSize.height) / (edk::float32)insideSize.height
-                                     );edkEnd();
+                                     );
         }
 
-        edk::GU::guScale2f32(sizeTemp);edkEnd();
+        edk::GU::guScale2f32(sizeTemp);
 
         //scale the simbol
-        edk::GU::guScale2f32(this->insideScale);edkEnd();
+        edk::GU::guScale2f32(this->insideScale);
 
-        edk::GU::guBegin(GU_QUADS);edkEnd();
-        edk::GU::guVertexTex2f32(0.f, 1.f);edkEnd();
-        edk::GU::guVertex3f32(-1.f,-1.f, 0.f);edkEnd();
+        edk::GU::guBegin(GU_QUADS);
+        edk::GU::guVertexTex2f32(0.f, 1.f);
+        edk::GU::guVertex3f32(-1.f,-1.f, 0.f);
 
-        edk::GU::guVertexTex2f32(0.f, 0.f);edkEnd();
-        edk::GU::guVertex3f32(-1.f, 1.f, 0.f);edkEnd();
+        edk::GU::guVertexTex2f32(0.f, 0.f);
+        edk::GU::guVertex3f32(-1.f, 1.f, 0.f);
 
-        edk::GU::guVertexTex2f32(1.f, 0.f);edkEnd();
-        edk::GU::guVertex3f32(1.f,1.f, 0.f);edkEnd();
+        edk::GU::guVertexTex2f32(1.f, 0.f);
+        edk::GU::guVertex3f32(1.f,1.f, 0.f);
 
-        edk::GU::guVertexTex2f32(1.f, 1.f);edkEnd();
-        edk::GU::guVertex3f32(1.f,-1.f, 0.f);edkEnd();
-        edk::GU::guEnd();edkEnd();
+        edk::GU::guVertexTex2f32(1.f, 1.f);
+        edk::GU::guVertex3f32(1.f,-1.f, 0.f);
+        edk::GU::guEnd();
     }
 
 
-    edk::GU::guUseTexture2D(0u);edkEnd();
-    edk::GU::guDisable(GU_TEXTURE_2D);edkEnd();
+    edk::GU::guUseTexture2D(0u);
+    edk::GU::guDisable(GU_TEXTURE_2D);
 
-    edk::rectf32 temp;edkEnd();
+    edk::rectf32 temp;
 
     if(this->text.haveText()){
         //load the size of the text
 
-        edk::size2f32 textSize = edk::size2f32(this->text.getMapSize().width,this->text.getMapSize().height);edkEnd();
+        edk::size2f32 textSize = edk::size2f32(this->text.getMapSize().width,this->text.getMapSize().height);
         this->camTemp.setRectPoints(-0.5f,
-                              -0.5f,
-                              textSize.width,
-                              textSize.height
-                              );edkEnd();
+                                    -0.5f,
+                                    textSize.width,
+                                    textSize.height
+                                    );
 
-        this->camTemp.draw();edkEnd();
+        this->camTemp.draw();
 
-        proportionSymbol = textSize.width/textSize.height;edkEnd();
+        proportionSymbol = textSize.width/textSize.height;
         if(proportionInside > proportionSymbol){
             //
             this->camTemp.setRectPoints(-0.5f,
-                                  -0.5f,
-                                  insideSize.width / insideSize.height,
-                                  textSize.height
-                                  );edkEnd();
-            this->camTemp.position.x -= ((this->camTemp.getSize().width - textSize.width) * 0.5f);edkEnd();
+                                        -0.5f,
+                                        insideSize.width / insideSize.height,
+                                        textSize.height
+                                        );
+            this->camTemp.position.x -= ((this->camTemp.getSize().width - textSize.width) * 0.5f);
         }
         else{
             //
             this->camTemp.setRectPoints(-0.5f,
-                                  0.0f,
-                                  textSize.width,
-                                  insideSize.height / ((textSize.height / textSize.width) * insideSize.width)
-                                  );edkEnd();
-            this->camTemp.position.y -= (this->camTemp.getSize().height*0.5);edkEnd();
+                                        0.0f,
+                                        textSize.width,
+                                        insideSize.height / ((textSize.height / textSize.width) * insideSize.width)
+                                        );
+            this->camTemp.position.y -= (this->camTemp.getSize().height*0.5);
         }
         if(!edk::GU::guUsingMatrix(GU_MODELVIEW)){
-            edk::GU::guUseMatrix(GU_MODELVIEW);edkEnd();
+            edk::GU::guUseMatrix(GU_MODELVIEW);
         }
         //First create the view in GU
 
@@ -2264,17 +2266,17 @@ void edk::ViewButton::drawPolygon(rectf32 outsideViewOrigin){
                             ,(edk::uint32)( outsideViewOrigin.origin.y + outsideViewOrigin.size.height - this->animatedFrame.origin.y - this->animatedFrame.size.height)
                             ,(edk::uint32)this->animatedFrame.size.width
                             ,(edk::uint32)this->animatedFrame.size.height
-                            );edkEnd();
+                            );
         //Set the viewport
         edk::GU::guSetViewport((edk::uint32)temp.origin.x + this->borderTemp
                                ,(edk::uint32)temp.origin.y + this->borderTemp
                                ,(edk::uint32)temp.size.width - (this->borderTemp*2.f)
                                ,(edk::uint32)temp.size.height - (this->borderTemp*2.f)
-                               );edkEnd();
+                               );
 
 
-        this->camTemp.draw();edkEnd();
+        this->camTemp.draw();
 
-        this->text.draw();edkEnd();
+        this->text.draw();
     }
 }

@@ -45,7 +45,8 @@ public:
     RectangleContact();
     virtual ~RectangleContact();
 
-    void Constructor(bool runFather=true);
+    void Constructor();
+    void Destructor();
 
     //CONTACTS
     static bool contactPoint(edk::vec2f32 point, edk::shape::Rectangle2D rectangle);

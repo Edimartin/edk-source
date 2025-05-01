@@ -70,7 +70,8 @@ public:
     Texture2D();
     virtual ~Texture2D();
 
-    void Constructor(bool runFather=true);
+    void Constructor();
+    void Destructor();
 
     //alloc the textureObject
     //MODE

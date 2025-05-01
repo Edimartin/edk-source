@@ -29,65 +29,64 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endif
 
 edk::shape::Bezier2D::Bezier2D(){
-    this->classThis=NULL;edkEnd();
-    this->Constructor(false);edkEnd();
+    this->classThis=NULL;
+    this->Constructor();
 }
 edk::shape::Bezier2D::Bezier2D(edk::vec2f32 p1,edk::vec2f32 p2,edk::vec2f32 p3,edk::vec2f32 p4){
-    this->classThis=NULL;edkEnd();
-    this->Constructor(p1,p2,p3,p4,false);edkEnd();
+    this->classThis=NULL;
+    this->Constructor(p1,p2,p3,p4);
 }
 
 edk::shape::Bezier2D::~Bezier2D(){
-    if(this->classThis==this){
-        this->classThis=NULL;edkEnd();
-        //can destruct the class
-    }
 }
 
-void edk::shape::Bezier2D::Constructor(bool runFather){
-    if(runFather){
-        edk::shape::Curve2D::Constructor();edkEnd();
-    }
+void edk::shape::Bezier2D::Constructor(){
+    edk::shape::Curve2D::Constructor();
     if(this->classThis!=this){
         this->classThis=this;
         this->setPoints(edk::vec2f32(0.f,0.f),edk::vec2f32(0.f,0.f),edk::vec2f32(0.f,0.f),edk::vec2f32(0.f,0.f));
     }
 }
-void edk::shape::Bezier2D::Constructor(edk::vec2f32 p1,edk::vec2f32 p2,edk::vec2f32 p3,edk::vec2f32 p4,bool runFather){
-    if(runFather){
-        edk::shape::Curve2D::Constructor();edkEnd();
-    }
+void edk::shape::Bezier2D::Constructor(edk::vec2f32 p1,edk::vec2f32 p2,edk::vec2f32 p3,edk::vec2f32 p4){
+    edk::shape::Curve2D::Constructor();
     if(this->classThis!=this){
         this->classThis=this;
         this->setPoints(p1,p2,p3,p4);
     }
 }
+void edk::shape::Bezier2D::Destructor(){
+    if(this->classThis==this){
+        this->classThis=NULL;
+        //can destruct the class
+    }
+    edk::shape::Curve2D::Destructor();
+}
 
 //Implement the Bezier Curve
 edk::vec2f32 edk::shape::Bezier2D::getPoint(edk::float32 percent){
     //return the ret
-    return edk::shape::Bezier2D::getPoint(this->point1,this->point2,this->point3,this->point4,percent);edkEnd();
+    return edk::shape::Bezier2D::getPoint(this->point1,this->point2,this->point3,this->point4,percent);
 }
 edk::vec2f32 edk::shape::Bezier2D::getPoint(edk::vec2f32 p1,edk::vec2f32 p2,edk::vec2f32 p3,edk::vec2f32 p4,edk::float32 percent){
     //create a return point
-    edk::vec2f32 ret;edkEnd();
+    edk::vec2f32 ret;
 
     //percent pow's
-    edk::float32 percent2 = percent * percent;edkEnd();
-    edk::float32 percent3 = percent * percent * percent;edkEnd();
+    edk::float32 percent2 = percent * percent;
+    edk::float32 percent3 = percent * percent * percent;
 
     //get the X
     ret.x = ((-1*(percent3) +3*(percent2) -3*percent +1)*p1.x +
              (  3*(percent3) -6*(percent2) +3*percent +0)*p2.x +
              ( -3*(percent3) +3*(percent2) +0*percent +0)*p3.x +
              (  1*(percent3) +0*(percent2) +0*percent +0)*p4.x
-             );edkEnd();
+             );
     //get the Y
     ret.y = ((-1*(percent3) +3*(percent2) -3*percent +1)*p1.y +
              (  3*(percent3) -6*(percent2) +3*percent +0)*p2.y +
              ( -3*(percent3) +3*(percent2) +0*percent +0)*p3.y +
              (  1*(percent3) +0*(percent2) +0*percent +0)*p4.y
-             );edkEnd();
+             );
 
     //return the ret
     return ret;

@@ -43,7 +43,8 @@ public:
     ViewText();
     virtual ~ViewText();
 
-    void Constructor(bool runFather=true);
+    void Constructor();
+    void Destructor();
 
     //createString
     bool createString(edk::char8* string);

@@ -47,6 +47,10 @@ namespace physics2D{
 class WheelJoint2D : public edk::physics2D::Joint2D{
 public:
     WheelJoint2D(bool collide=false);
+    ~WheelJoint2D();
+
+    void Constructor(bool collide=false);
+    void Destructor();
 
     //set motor
     void setMotor(edk::float32 maxTorque,edk::float32 speed);
@@ -66,6 +70,8 @@ private:
     edk::float32 maxTorque;
     edk::float32 speed;
     edk::uint8 WheelType;
+private:
+    edk::classID classThis;
 };
 }
 }

@@ -42,21 +42,25 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 namespace edk{
 class DebugLineFile{
 public:
-    DebugLineFile(){this->classThis=NULL;edkEnd();
-                    this->Constructor(false);edkEnd();}
+    DebugLineFile(){
+        this->classThis=NULL;
+        this->Constructor();
+    }
     virtual ~DebugLineFile(){
-        if(this->classThis==this){
-            this->classThis=NULL;edkEnd();
-            //can destruct the class
-        }
+        this->Destructor();
     }
 
-    void Constructor(bool runFather=true){
-        if(runFather){edkEnd();}
+    void Constructor(){
         if(this->classThis!=this){
             this->classThis=this;
 
-            this->debugLineFile.Constructor();edkEnd();
+            this->debugLineFile.Constructor();
+        }
+    }
+    void Destructor(){
+        if(this->classThis==this){
+            this->classThis=NULL;
+            //can destruct the class
         }
     }
 

@@ -60,7 +60,8 @@ public:
 
     friend edk::ThreadVideo;
 
-    void Constructor(bool runFather=true);
+    void Constructor();
+    void Destructor();
 
     //close the file
     void close();

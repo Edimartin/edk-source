@@ -49,7 +49,8 @@ public:
     ServerTCP();
     virtual ~ServerTCP();
 
-    void Constructor(bool runFather=true);
+    void Constructor();
+    void Destructor();
 
     //Inicia a ouvir a porta
     edk::network::networkCodes startListen(edk::uint16 port,edk::uint32 connections=0u);
@@ -79,22 +80,28 @@ public:
 protected:
     class nodeAdressTCP : public edk::network::ServerSocket::nodeAdress{
     public:
-        nodeAdressTCP(){this->classThis=NULL;this->Constructor(false);edkEnd();}
+        nodeAdressTCP(){
+            this->classThis=NULL;
+            this->Constructor();
+        }
         virtual ~nodeAdressTCP(){
-            if(this->classThis==this){
-                this->classThis=NULL;edkEnd();
-                //can destruct the class
-            }
+            this->Destructor();
         }
 
-        void Constructor(bool runFather=true){
-            if(runFather){
-                edk::network::ServerSocket::nodeAdress::Constructor();edkEnd();
-            }
+        void Constructor(){
+            edk::network::ServerSocket::nodeAdress::Constructor();
             if(this->classThis!=this){
                 this->classThis=this;
             }
         }
+        void Destructor(){
+            if(this->classThis==this){
+                this->classThis=NULL;
+                //can destruct the class
+            }
+            edk::network::ServerSocket::nodeAdress::Destructor();
+        }
+
         //clientSocket
         edk::uint32 socket;
     private:

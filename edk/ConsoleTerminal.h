@@ -77,7 +77,8 @@ public:
     TTY();
     virtual ~TTY();
 
-    void Constructor(bool runFather=true);
+    void Constructor();
+    void Destructor();
 
     bool initTerminal();
     bool resetTerminal();
@@ -95,7 +96,8 @@ public:
     ConsoleTerminal();
     virtual ~ConsoleTerminal();
 
-    void Constructor(bool runFather=true);
+    void Constructor();
+    void Destructor();
 
     static void enableMouse();
     static void disableMouse();

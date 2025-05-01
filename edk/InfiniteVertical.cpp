@@ -32,18 +32,14 @@ bool edk::InfiniteVertical::tileWorldObject2D::templateConstructNeed=true;
 edk::Object2D edk::InfiniteVertical::tileWorldObject2D::staticObj;
 
 edk::InfiniteVertical::InfiniteVertical(){
-    this->classThis=NULL;edkEnd();
-    this->Constructor(false);edkEnd();
+    this->classThis=NULL;
+    this->Constructor();
 }
 edk::InfiniteVertical::~InfiniteVertical(){
-    if(this->classThis==this){
-        this->classThis=NULL;edkEnd();
-        //can destruct the class
-        this->clean();edkEnd();
-    }
+    this->Destructor();
 }
 
-void edk::InfiniteVertical::Constructor(bool /*runFather*/){
+void edk::InfiniteVertical::Constructor(){
     if(edk::InfiniteVertical::tileWorldObject2D::templateConstructNeed){
         edk::InfiniteVertical::tileWorldObject2D::staticObj.Constructor();
         edk::InfiniteVertical::tileWorldObject2D::templateConstructNeed=false;
@@ -57,34 +53,42 @@ void edk::InfiniteVertical::Constructor(bool /*runFather*/){
         this->buffer.Constructor();
         this->queue.Constructor();
 
-        this->speed=1.f;edkEnd();
-        this->position = 0.f;edkEnd();
-        this->time.start();edkEnd();
-        this->lastObject=NULL;edkEnd();
+        this->speed=1.f;
+        this->position = 0.f;
+        this->time.start();
+        this->lastObject=NULL;
     }
+}
+void edk::InfiniteVertical::Destructor(){
+    if(this->classThis==this){
+        this->classThis=NULL;
+        //can destruct the class
+        this->clean();
+    }
+    edk::InfiniteVertical::tileWorldObject2D::staticObj.Destructor();
 }
 
 //increment the tile position
 edk::vec2f32 edk::InfiniteVertical::incrementTilePosition(edk::float32 seconds,edk::vec2f32 position){
-    position.y+=this->speed*seconds;edkEnd();
+    position.y+=this->speed*seconds;
     return position;
 }
 //set the object first position
 edk::vec2f32 edk::InfiniteVertical::firstPositionObject(edk::rectf32 rect,edk::Object2D* obj){
-    edk::vec2f32 position;edkEnd();
+    edk::vec2f32 position;
     edk::size2f32 size = obj->size;
     if(size.width<0.f){
-        size.width*=-1.f;edkEnd();
+        size.width*=-1.f;
     }
     if(size.height<0.f){
-        size.height*=-1.f;edkEnd();
+        size.height*=-1.f;
     }
-    position = this->tree.getObjectPosition(obj);edkEnd();
+    position = this->tree.getObjectPosition(obj);
     if(this->speed>=0.f){
-        position.y = rect.size.height - size.height*0.5f - this->tree.getObjectDistance(obj);edkEnd();
+        position.y = rect.size.height - size.height*0.5f - this->tree.getObjectDistance(obj);
     }
     else{
-        position.y = rect.origin.y + size.height*0.5f + this->tree.getObjectDistance(obj);edkEnd();
+        position.y = rect.origin.y + size.height*0.5f + this->tree.getObjectDistance(obj);
     }
     return position;
 }
@@ -106,48 +110,48 @@ edk::rectf32 edk::InfiniteVertical::incrementRectObject(edk::rectf32 rect,edk::f
 edk::Object2D* edk::InfiniteVertical::getNextObject(){
     edk::uint32 treeSize = this->tree.size();
     if(treeSize>1u){
-        return this->tree.getObjectInPosition(this->rand.getRandNumber(treeSize));edkEnd();
+        return this->tree.getObjectInPosition(this->rand.getRandNumber(treeSize));
     }
-    return this->tree.getObjectInPosition(0u);edkEnd();
+    return this->tree.getObjectInPosition(0u);
 }
 
 //clean wallpapers
 void edk::InfiniteVertical::clean(){
-    this->tree.cleanTiles();edkEnd();
-    this->time.start();edkEnd();
+    this->tree.cleanTiles();
+    this->time.start();
 }
 
 //create the buffer
 bool edk::InfiniteVertical::newBuffer(edk::uint32 lenght){
-    this->time.start();edkEnd();
+    this->time.start();
     //this->buffer.clean();
     if(lenght){
-        edk::InfiniteVertical::tileWorldObject2D** temp = (edk::InfiniteVertical::tileWorldObject2D**)malloc(sizeof(edk::InfiniteVertical::tileWorldObject2D*)*lenght);edkEnd();
+        edk::InfiniteVertical::tileWorldObject2D** temp = (edk::InfiniteVertical::tileWorldObject2D**)malloc(sizeof(edk::InfiniteVertical::tileWorldObject2D*)*lenght);
         if(temp){
-            bool ret=true;edkEnd();
-            edkMemSet(temp,0u,sizeof(edk::InfiniteVertical::tileWorldObject2D*)*lenght);edkEnd();
+            bool ret=true;
+            edkMemSet(temp,0u,sizeof(edk::InfiniteVertical::tileWorldObject2D*)*lenght);
             //create a new objects
             for(edk::uint32 i=0u;i<lenght;i++){
                 //create a new tileWorldObject
-                temp[i]=new edk::InfiniteVertical::tileWorldObject2D;edkEnd();
+                temp[i]=new edk::InfiniteVertical::tileWorldObject2D;
                 if(!temp[i]){
-                    ret=false;edkEnd();
+                    ret=false;
                     break;
                 }
             }
             if(ret){
-                this->buffer.writeToBuffer(temp,lenght);edkEnd();
+                this->buffer.writeToBuffer(temp,lenght);
             }
             else{
                 //clean all memory
                 for(edk::uint32 i=0u;i<lenght;i++){
                     //create a new tileWorldObject
                     if(temp[i]){
-                        delete temp[i];edkEnd();
+                        delete temp[i];
                     }
                 }
             }
-            free(temp);edkEnd();
+            free(temp);
             return ret;
         }
     }
@@ -163,22 +167,22 @@ bool edk::InfiniteVertical::newBuffer(edk::uint32 lenght){
 //GU_LINEAR_MIPMAP_NEAREST
 //GU_LINEAR_MIPMAP_LINEAR
 bool edk::InfiniteVertical::newObject(edk::char8* name,edk::float32 distance,edk::uint32 filter){
-    this->time.start();edkEnd();
+    this->time.start();
     if(name){
-        edk::Object2D* obj = this->tree.newObject(distance);edkEnd();
+        edk::Object2D* obj = this->tree.newObject(distance);
         if(obj){
-            edk::shape::Mesh2D* mesh = obj->newMesh();edkEnd();
+            edk::shape::Mesh2D* mesh = obj->newMesh();
             if(mesh){
-                edk::shape::Rectangle2D rect;edkEnd();
-                rect.setPivoToCenter();edkEnd();
-                mesh->addPolygon(rect);edkEnd();
+                edk::shape::Rectangle2D rect;
+                rect.setPivoToCenter();
+                mesh->addPolygon(rect);
                 if(mesh->material.loadTexture(name,0u,filter)){
                     this->lastObject = obj;
                     return true;
                 }
-                obj->cleanMeshes();edkEnd();
+                obj->cleanMeshes();
             }
-            this->tree.removeObject(obj);edkEnd();
+            this->tree.removeObject(obj);
         }
     }
     return false;
@@ -187,22 +191,22 @@ bool edk::InfiniteVertical::newObject(const edk::char8* name,edk::float32 distan
     return this->newObject((edk::char8*) name,distance,filter);
 }
 bool edk::InfiniteVertical::newObjectFromMemory(edk::char8* name,edk::uint8* image,edk::uint32 size,edk::float32 distance,edk::uint32 filter){
-    this->time.start();edkEnd();
+    this->time.start();
     if(name){
-        edk::Object2D* obj = this->tree.newObject(distance);edkEnd();
+        edk::Object2D* obj = this->tree.newObject(distance);
         if(obj){
-            edk::shape::Mesh2D* mesh = obj->newMesh();edkEnd();
+            edk::shape::Mesh2D* mesh = obj->newMesh();
             if(mesh){
-                edk::shape::Rectangle2D rect;edkEnd();
-                rect.setPivoToCenter();edkEnd();
-                mesh->addPolygon(rect);edkEnd();
+                edk::shape::Rectangle2D rect;
+                rect.setPivoToCenter();
+                mesh->addPolygon(rect);
                 if(mesh->material.loadTextureFromMemory(name,image,size,0u,filter)){
                     this->lastObject = obj;
                     return true;
                 }
-                obj->cleanMeshes();edkEnd();
+                obj->cleanMeshes();
             }
-            this->tree.removeObject(obj);edkEnd();
+            this->tree.removeObject(obj);
         }
     }
     return false;
@@ -211,22 +215,22 @@ bool edk::InfiniteVertical::newObjectFromMemory(const edk::char8* name,edk::uint
     return this->newObjectFromMemory((edk::char8*) name,image,size,distance,filter);
 }
 bool edk::InfiniteVertical::newObjectFromPack(edk::pack::FilePackage* pack,edk::char8* name,edk::float32 distance,edk::uint32 filter){
-    this->time.start();edkEnd();
+    this->time.start();
     if(name){
-        edk::Object2D* obj = this->tree.newObject(distance);edkEnd();
+        edk::Object2D* obj = this->tree.newObject(distance);
         if(obj){
-            edk::shape::Mesh2D* mesh = obj->newMesh();edkEnd();
+            edk::shape::Mesh2D* mesh = obj->newMesh();
             if(mesh){
-                edk::shape::Rectangle2D rect;edkEnd();
-                rect.setPivoToCenter();edkEnd();
-                mesh->addPolygon(rect);edkEnd();
+                edk::shape::Rectangle2D rect;
+                rect.setPivoToCenter();
+                mesh->addPolygon(rect);
                 if(mesh->material.loadTextureFromPack(pack,name,0u,filter)){
                     this->lastObject = obj;
                     return true;
                 }
-                obj->cleanMeshes();edkEnd();
+                obj->cleanMeshes();
             }
-            this->tree.removeObject(obj);edkEnd();
+            this->tree.removeObject(obj);
         }
     }
     return false;
@@ -254,10 +258,10 @@ bool edk::InfiniteVertical::newObjectFromObject2D(edk::physics2D::PhysicObject2D
 
 //test if have some object inside the queue
 bool edk::InfiniteVertical::haveObjectInQueue(edk::Object2D* obj){
-    edk::uint32 size = this->queue.size();edkEnd();
-    edk::InfiniteVertical::tileWorldObject2D* tile;edkEnd();
+    edk::uint32 size = this->queue.size();
+    edk::InfiniteVertical::tileWorldObject2D* tile;
     for(edk::uint32 i=0u;i<size;i++){
-        tile = this->queue.get(i);edkEnd();
+        tile = this->queue.get(i);
         if(tile){
             if(tile->objPointer == obj){
                 return true;
@@ -273,52 +277,52 @@ edk::Object2D* edk::InfiniteVertical::getLastAddedObject(){
 }
 
 void edk::InfiniteVertical::updateInsideRect(edk::float32 seconds,edk::rectf32 rect){
-    rect.convertIntoPoints();edkEnd();
-    this->updateInsideRectPoints(seconds,rect);edkEnd();
+    rect.convertIntoPoints();
+    this->updateInsideRectPoints(seconds,rect);
 }
 void edk::InfiniteVertical::updateInsideRectPoints(edk::float32 seconds,edk::rectf32 rect){
-    edk::Object2D* obj=NULL;edkEnd();
-    edk::InfiniteVertical::tileWorldObject2D* tile = NULL;edkEnd();
+    edk::Object2D* obj=NULL;
+    edk::InfiniteVertical::tileWorldObject2D* tile = NULL;
     //test if have some object in the queue
     if(!this->queue.size()){
         if(this->buffer.size()){
             //add a new object in the queue
-            tile = this->buffer[0u];edkEnd();
-            this->buffer.incrementOrigin();edkEnd();
+            tile = this->buffer[0u];
+            this->buffer.incrementOrigin();
             if(tile){
                 //add a new object
                 obj = this->getNextObject();
                 if(obj){
-                    tile->objPointer=obj;edkEnd();
-                    tile->position = this->firstPositionObject(rect,tile->objPointer);edkEnd();
-                    this->queue.pushBack(tile);edkEnd();
+                    tile->objPointer=obj;
+                    tile->position = this->firstPositionObject(rect,tile->objPointer);
+                    this->queue.pushBack(tile);
                 }
             }
         }
         else{
             //else create a new buffer
-            this->newBuffer(this->tree.size());edkEnd();
+            this->newBuffer(this->tree.size());
         }
     }
     if(this->queue.size()){
         //update the objects speed
-        edk::uint32 size = this->queue.size();edkEnd();
+        edk::uint32 size = this->queue.size();
         for(edk::uint32 i=0u;i<size;i++){
-            tile = this->queue.get(i);edkEnd();
+            tile = this->queue.get(i);
             if(tile){
-                tile->position = this->incrementTilePosition(seconds,tile->position);edkEnd();
+                tile->position = this->incrementTilePosition(seconds,tile->position);
             }
         }
         //test if need remove the begginins
         while(true){
-            tile = this->queue.get(0u);edkEnd();
+            tile = this->queue.get(0u);
             if(tile){
-                tile->objPointer->position = tile->position + this->position;edkEnd();
+                tile->objPointer->position = tile->position + this->position;
                 //calculate the bounding box
-                tile->objPointer->calculateBoundingBox();edkEnd();
+                tile->objPointer->calculateBoundingBox();
                 if(!this->aabbPoints(incrementRectObject(tile->objPointer->getBoundingBox(),this->tree.getObjectDistance(tile->objPointer)),rect)){
                     //remove the tile
-                    this->queue.popFront();edkEnd();
+                    this->queue.popFront();
                     continue;
                 }
             }
@@ -327,35 +331,35 @@ void edk::InfiniteVertical::updateInsideRectPoints(edk::float32 seconds,edk::rec
         }
         if(this->queue.size()){
             //add a new object in the queue if need
-            edk::uint32 pos = this->queue.size()-1u;edkEnd();
-            edk::rectf32 newRect;edkEnd();
+            edk::uint32 pos = this->queue.size()-1u;
+            edk::rectf32 newRect;
             while(true){
-                tile = this->queue.get(pos);edkEnd();
+                tile = this->queue.get(pos);
                 if(tile){
-                    tile->objPointer->position = tile->position + this->position;edkEnd();
+                    tile->objPointer->position = tile->position + this->position;
                     //calculate the bounding box
-                    tile->objPointer->calculateBoundingBox();edkEnd();
+                    tile->objPointer->calculateBoundingBox();
                     if(this->aabbPoints(incrementRectObject(tile->objPointer->getBoundingBox(),this->tree.getObjectDistance(tile->objPointer)),rect)){
                         edk::size2f32 size = tile->objPointer->size;
                         if(size.width<0.f){
-                            size.width*=-1.f;edkEnd();
+                            size.width*=-1.f;
                         }
                         if(size.height<0.f){
-                            size.height*=-1.f;edkEnd();
+                            size.height*=-1.f;
                         }
-                        newRect.origin.x = tile->position.x + size.width*0.5f;edkEnd();
-                        newRect.size.width = tile->position.x - size.width*0.5f;edkEnd();
-                        newRect.origin.y = tile->position.y + size.height*0.5f;edkEnd();
-                        newRect.size.height = tile->position.y - size.height*0.5f;edkEnd();
+                        newRect.origin.x = tile->position.x + size.width*0.5f;
+                        newRect.size.width = tile->position.x - size.width*0.5f;
+                        newRect.origin.y = tile->position.y + size.height*0.5f;
+                        newRect.size.height = tile->position.y - size.height*0.5f;
                         //add a new tile
-                        tile = this->buffer[0u];edkEnd();
-                        this->buffer.incrementOrigin();edkEnd();
+                        tile = this->buffer[0u];
+                        this->buffer.incrementOrigin();
                         if(tile){
                             obj = this->getNextObject();
                             if(obj){
-                                tile->objPointer=obj;edkEnd();
-                                tile->position = this->firstPositionObject(newRect,tile->objPointer);edkEnd();
-                                this->queue.pushBack(tile);edkEnd();
+                                tile->objPointer=obj;
+                                tile->position = this->firstPositionObject(newRect,tile->objPointer);
+                                this->queue.pushBack(tile);
                                 pos++;
                                 continue;
                             }
@@ -369,40 +373,40 @@ void edk::InfiniteVertical::updateInsideRectPoints(edk::float32 seconds,edk::rec
     }
 }
 void edk::InfiniteVertical::updateInsideSize(edk::float32 seconds,edk::vec2f32 position,edk::size2f32 size){
-    edk::rectf32 rect;edkEnd();
-    rect.origin = position;edkEnd();
-    rect.size = size;edkEnd();
-    rect.convertIntoPoints();edkEnd();
-    this->updateInsideRectPoints(seconds,rect);edkEnd();
+    edk::rectf32 rect;
+    rect.origin = position;
+    rect.size = size;
+    rect.convertIntoPoints();
+    this->updateInsideRectPoints(seconds,rect);
 }
 void edk::InfiniteVertical::updateInsidePoints(edk::float32 seconds,edk::vec2f32 point1,edk::vec2f32 point2){
-    edk::rectf32 rect;edkEnd();
-    rect.origin = point1;edkEnd();
-    rect.size.width = point2.x;edkEnd();
-    rect.size.height = point2.y;edkEnd();
-    this->updateInsideRectPoints(seconds,rect);edkEnd();
+    edk::rectf32 rect;
+    rect.origin = point1;
+    rect.size.width = point2.x;
+    rect.size.height = point2.y;
+    this->updateInsideRectPoints(seconds,rect);
 }
 
 //draw the wallpaper
 void edk::InfiniteVertical::draw(){
-    edk::uint32 size = this->queue.size();edkEnd();
-    edk::InfiniteVertical::tileWorldObject2D* tile;edkEnd();
+    edk::uint32 size = this->queue.size();
+    edk::InfiniteVertical::tileWorldObject2D* tile;
     for(edk::uint32 i=0u;i<size;i++){
-        tile = this->queue.get(i);edkEnd();
+        tile = this->queue.get(i);
         if(tile){
-            tile->objPointer->position = tile->position + this->position;edkEnd();
-            tile->objPointer->draw();edkEnd();
+            tile->objPointer->position = tile->position + this->position;
+            tile->objPointer->draw();
         }
     }
 }
 void edk::InfiniteVertical::drawWire(){
-    edk::uint32 size = this->queue.size();edkEnd();
-    edk::InfiniteVertical::tileWorldObject2D* tile;edkEnd();
+    edk::uint32 size = this->queue.size();
+    edk::InfiniteVertical::tileWorldObject2D* tile;
     for(edk::uint32 i=0u;i<size;i++){
-        tile = this->queue.get(i);edkEnd();
+        tile = this->queue.get(i);
         if(tile){
-            tile->objPointer->position = tile->position + this->position;edkEnd();
-            tile->objPointer->drawWire();edkEnd();
+            tile->objPointer->position = tile->position + this->position;
+            tile->objPointer->drawWire();
         }
     }
 }

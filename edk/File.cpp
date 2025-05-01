@@ -458,25 +458,28 @@ edk::char8* edk::File::readStringFromTheBinFile(FILE* arq,edk::char8* limits,edk
 
 edk::File::File(){
     this->classThis=NULL;
-    this->Constructor(false);
+    this->Constructor();
 }
 
 edk::File::~File(){
-    if(this->classThis==this){
-        this->classThis=NULL;
-        //can destruct the class
-        //close the file
-        this->closeFile();
-    }
+    this->Destructor();
 }
 
-void edk::File::Constructor(bool /*runFather*/){
+void edk::File::Constructor(){
     if(this->classThis!=this){
         this->classThis=this;
         //clean the atributes
         this->arq=NULL;
         this->name=NULL;
         this->size=0u;
+    }
+}
+void edk::File::Destructor(){
+    if(this->classThis==this){
+        this->classThis=NULL;
+        //can destruct the class
+        //close the file
+        this->closeFile();
     }
 }
 
@@ -2856,23 +2859,26 @@ bool edk::File::isOpened(){
 
 edk::FileStream::FileStream(){
     this->classThis=NULL;
-    this->Constructor(false);
+    this->Constructor();
 }
 edk::FileStream::~FileStream(){
-    if(this->classThis==this){
-        this->classThis=NULL;
-        //can destruct the class
-        this->closeFileStream();
-    }
+    this->Destructor();
 }
 
-void edk::FileStream::Constructor(bool /*runFather*/){
+void edk::FileStream::Constructor(){
     if(this->classThis!=this){
         this->classThis=this;
 
         this->name.Constructor();
 
         this->arq=-1;
+    }
+}
+void edk::FileStream::Destructor(){
+    if(this->classThis==this){
+        this->classThis=NULL;
+        //can destruct the class
+        this->closeFileStream();
     }
 }
 

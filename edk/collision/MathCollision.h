@@ -52,7 +52,8 @@ public:
     MathCollision();
     virtual ~MathCollision();
 
-    void Constructor(bool runFather=true);
+    void Constructor();
+    void Destructor();
 
     //BOUNDING BOX
     static bool boundingContact3D(edk::vec3f32 point,edk::vec3f32 vec1,edk::vec3f32 vec2);

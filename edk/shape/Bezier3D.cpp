@@ -29,79 +29,79 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endif
 
 edk::shape::Bezier3D::Bezier3D(){
-    this->classThis=NULL;edkEnd();
-    this->Constructor(false);edkEnd();
+    this->classThis=NULL;
+    this->Constructor();
 }
 edk::shape::Bezier3D::Bezier3D(edk::vec3f32 p1,edk::vec3f32 p2,edk::vec3f32 p3,edk::vec3f32 p4){
-    this->classThis=NULL;edkEnd();
-    this->Constructor(p1,p2,p3,p4,false);edkEnd();
+    this->classThis=NULL;
+    this->Constructor(p1,p2,p3,p4);
 }
 
 edk::shape::Bezier3D::~Bezier3D(){
-    if(this->classThis==this){
-        this->classThis=NULL;edkEnd();
-        //can destruct the class
-    }
+    this->Destructor();
 }
 
-void edk::shape::Bezier3D::Constructor(bool runFather){
-    if(runFather){
-        edk::shape::Curve3D::Constructor();edkEnd();
-    }
+void edk::shape::Bezier3D::Constructor(){
+    edk::shape::Curve3D::Constructor();
     if(this->classThis!=this){
         this->classThis=this;
-        this->point1=0.f;edkEnd();
-        this->point2=0.f;edkEnd();
-        this->point3=0.f;edkEnd();
-        this->point4=0.f;edkEnd();
+        this->point1=0.f;
+        this->point2=0.f;
+        this->point3=0.f;
+        this->point4=0.f;
     }
 }
-void edk::shape::Bezier3D::Constructor(edk::vec3f32 p1,edk::vec3f32 p2,edk::vec3f32 p3,edk::vec3f32 p4,bool runFather){
-    if(runFather){
-        edk::shape::Curve3D::Constructor();edkEnd();
-    }
+void edk::shape::Bezier3D::Constructor(edk::vec3f32 p1,edk::vec3f32 p2,edk::vec3f32 p3,edk::vec3f32 p4){
+    edk::shape::Curve3D::Constructor();
     if(this->classThis!=this){
         this->classThis=this;
-        this->point1=p1;edkEnd();
-        this->point2=p2;edkEnd();
-        this->point3=p3;edkEnd();
-        this->point4=p4;edkEnd();
+        this->point1=p1;
+        this->point2=p2;
+        this->point3=p3;
+        this->point4=p4;
     }
+}
+void edk::shape::Bezier3D::Destructor(){
+    if(this->classThis==this){
+        this->classThis=NULL;
+        //can destruct the class
+    }
+    edk::shape::Curve3D::Destructor();
 }
 
 
 
 //return the point
 edk::vec3f32 edk::shape::Bezier3D::getPoint(edk::float32 percent){
-    return edk::shape::Bezier3D::getPoint(this->point1,this->point2,this->point3,this->point4,percent);edkEnd();
+    return edk::shape::Bezier3D::getPoint(this->point1,this->point2,this->point3,this->point4,percent);
 }
 edk::vec3f32 edk::shape::Bezier3D::getPoint(edk::vec3f32 p1,edk::vec3f32 p2,edk::vec3f32 p3,edk::vec3f32 p4,edk::float32 percent){
 
     //create a vector to return
-    edk::vec3f32 ret;edkEnd();
+    edk::vec3f32 ret;
 
     //percent pow's
-    edk::float32 percent2 = percent * percent;edkEnd();
-    edk::float32 percent3 = percent * percent * percent;edkEnd();
+    edk::float32 percent2 = percent * percent;
+    edk::float32 percent3 = percent * percent * percent;
 
     //get the X
     ret.x = ((-1*(percent3) +3*(percent2) -3*percent +1)*p1.x +
              (  3*(percent3) -6*(percent2) +3*percent +0)*p2.x +
              ( -3*(percent3) +3*(percent2) +0*percent +0)*p3.x +
              (  1*(percent3) +0*(percent2) +0*percent +0)*p4.x
-             );edkEnd();
+             );
     //get the Y
     ret.y = ((-1*(percent3) +3*(percent2) -3*percent +1)*p1.y +
              (  3*(percent3) -6*(percent2) +3*percent +0)*p2.y +
              ( -3*(percent3) +3*(percent2) +0*percent +0)*p3.y +
              (  1*(percent3) +0*(percent2) +0*percent +0)*p4.y
-             );edkEnd();
+             );
     //get the Z
     ret.y = ((-1*(percent3) +3*(percent2) -3*percent +1)*p1.z +
              (  3*(percent3) -6*(percent2) +3*percent +0)*p2.z +
              ( -3*(percent3) +3*(percent2) +0*percent +0)*p3.z +
              (  1*(percent3) +0*(percent2) +0*percent +0)*p4.z
-             );edkEnd();
+             );
 
     return ret;
 }

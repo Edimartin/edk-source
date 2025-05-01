@@ -46,7 +46,8 @@ public:
     StaticSensor2D();
     virtual ~StaticSensor2D();
 
-    void Constructor(bool runFather=true);
+    void Constructor();
+    void Destructor();
 
     //return if it's a sensor
     virtual bool isSensor();

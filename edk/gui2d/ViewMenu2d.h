@@ -57,7 +57,8 @@ public:
     MenuObj();
     virtual ~MenuObj();
 
-    void Constructor(bool runFather=true);
+    void Constructor();
+    void Destructor();
 
     //get the type
     virtual edk::gui2d::gui2dTypes getType();
@@ -128,7 +129,8 @@ public:
     ViewMenu2d();
     virtual ~ViewMenu2d();
 
-    void Constructor(bool runFather=true);
+    void Constructor();
+    void Destructor();
 
     //create a new object
     edk::uint32 newObject(edk::char8* spriteName,edk::char8* text1,edk::char8* text2,edk::uint32 id=0u);

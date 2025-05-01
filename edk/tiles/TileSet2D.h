@@ -51,24 +51,30 @@ public:
     TileSet2D();
     virtual ~TileSet2D();
 
-    void Constructor(bool runFather=true);
+    void Constructor();
+    void Destructor();
 
     //Class to return two positions of te tiles
     class Tile2Positions2D{
     public:
-        Tile2Positions2D(){this->classThis=NULL;this->Constructor(false);edkEnd();}
+        Tile2Positions2D(){
+            this->classThis=NULL;
+            this->Constructor();
+        }
         virtual ~Tile2Positions2D(){
-            if(this->classThis==this){
-                this->classThis=NULL;edkEnd();
-                //can destruct the class
-            }
+            this->Destructor();
         }
 
-        void Constructor(bool runFather=true){
-            if(runFather){edkEnd();}
+        void Constructor(){
             if(this->classThis!=this){
                 this->classThis=this;
-                this->first = this->last = 0u;edkEnd();
+                this->first = this->last = 0u;
+            }
+        }
+        void Destructor(){
+            if(this->classThis==this){
+                this->classThis=NULL;
+                //can destruct the class
             }
         }
 

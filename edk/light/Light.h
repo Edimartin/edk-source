@@ -48,7 +48,8 @@ public:
     Light();
     virtual ~Light();
 
-    void Constructor(bool runFather=true);
+    void Constructor();
+    void Destructor();
     //clean the light
     void clean();
     //Set Colors
@@ -89,22 +90,22 @@ public:
                 ,this->ambient[1u]
                 ,this->ambient[2u]
                 ,this->ambient[3u]
-                );edkEnd();
+                ); 
     }
 
     //Operator =
     edk::light::Light operator = (edk::light::Light newLight){
-        memcpy(this->position,newLight.position,sizeof(this->position));edkEnd();
-        memcpy(this->diffuse,newLight.diffuse,sizeof(this->diffuse));edkEnd();
-        memcpy(this->ambient,newLight.ambient,sizeof(this->ambient));edkEnd();
-        memcpy(this->specular,newLight.specular,sizeof(this->specular));edkEnd();
-        memcpy(this->direction,newLight.direction,sizeof(this->direction));edkEnd();
-        this->exponent = newLight.exponent;edkEnd();
-        this->cutoff = newLight.cutoff;edkEnd();
-        this->constantAttenuation = newLight.constantAttenuation;edkEnd();
-        this->linearAttenuation = newLight.linearAttenuation;edkEnd();
-        this->quadraticAttenuation = newLight.quadraticAttenuation;edkEnd();
-        return newLight;edkEnd();
+        memcpy(this->position,newLight.position,sizeof(this->position)); 
+        memcpy(this->diffuse,newLight.diffuse,sizeof(this->diffuse)); 
+        memcpy(this->ambient,newLight.ambient,sizeof(this->ambient)); 
+        memcpy(this->specular,newLight.specular,sizeof(this->specular)); 
+        memcpy(this->direction,newLight.direction,sizeof(this->direction)); 
+        this->exponent = newLight.exponent; 
+        this->cutoff = newLight.cutoff; 
+        this->constantAttenuation = newLight.constantAttenuation; 
+        this->linearAttenuation = newLight.linearAttenuation; 
+        this->quadraticAttenuation = newLight.quadraticAttenuation; 
+        return newLight; 
     }
     //set light on off
     bool on;

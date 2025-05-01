@@ -44,7 +44,8 @@ public:
     PackageGroup();
     virtual ~PackageGroup();
 
-    void Constructor(bool runFather=true);
+    void Constructor();
+    void Destructor();
     //set the packSize
     void setPackSize(edk::uint32 packSize);
 
@@ -94,7 +95,8 @@ private:
         PackageTree();
         virtual ~PackageTree();
 
-        void Constructor(bool runFather=true);
+        void Constructor();
+        void Destructor();
         //compare if the value is bigger
         bool firstBiggerSecond(edk::network::Package* first,edk::network::Package* second);
         bool firstEqualSecond(edk::network::Package* first,edk::network::Package* second);

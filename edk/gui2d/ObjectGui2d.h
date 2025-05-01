@@ -60,7 +60,8 @@ public:
     ObjectGui2d();
     virtual ~ObjectGui2d();
 
-    void Constructor(bool runFather=true);
+    void Constructor();
+    void Destructor();
 
     //get GUI type
     edk::gui2d::gui2dTypes getTypeGUI();

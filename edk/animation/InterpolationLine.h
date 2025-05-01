@@ -44,7 +44,8 @@ public:
     InterpolationLine();
     virtual ~InterpolationLine();
 
-    void Constructor(bool runFather=true);
+    void Constructor();
+    void Destructor();
 
     //SETERS
     //set the start frame

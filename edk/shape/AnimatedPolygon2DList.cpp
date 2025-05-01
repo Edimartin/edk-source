@@ -25,26 +25,28 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 edk::shape::AnimatedPolygon2DList::AnimatedPolygon2DList(){
-    this->classThis=NULL;edkEnd();
-    this->Constructor(false);edkEnd();
+    this->classThis=NULL;
+    this->Constructor();
 }
 edk::shape::AnimatedPolygon2DList::~AnimatedPolygon2DList(){
-    if(this->classThis==this){
-        this->classThis=NULL;edkEnd();
-        //can destruct the class
-    }
+    this->Destructor();
 }
 
-void edk::shape::AnimatedPolygon2DList::Constructor(bool runFather){
-    if(runFather){
-        edk::shape::Polygon2DList::Constructor();edkEnd();
-    }
+void edk::shape::AnimatedPolygon2DList::Constructor(){
+    edk::shape::Polygon2DList::Constructor();
     if(this->classThis!=this){
         this->classThis=this;
-        this->freeSelectedAnimation();edkEnd();
+        this->freeSelectedAnimation();
         this->selectedID=0u;
-        this->selectedAnimation=NULL;edkEnd();
+        this->selectedAnimation=NULL;
     }
+}
+void edk::shape::AnimatedPolygon2DList::Destructor(){
+    if(this->classThis==this){
+        this->classThis=NULL;
+        //can destruct the class
+    }
+    edk::shape::Polygon2DList::Destructor();
 }
 
 //ANIMATIONS
@@ -53,21 +55,21 @@ bool edk::shape::AnimatedPolygon2DList::setAnimationFramesToPolygon(edk::uint32 
     //test if have the polygon
     if(this->polygons.havePos(position)){
         //select the polygon
-        edk::shape::Polygon2D* temp = this->polygons.get(position);edkEnd();
+        edk::shape::Polygon2D* temp = this->polygons.get(position);
         //test if have selected some polygon
         if(temp){
             //then add a new animation
-            return temp->framesCreateAnimation();edkEnd();
+            return temp->framesCreateAnimation();
         }
     }
     //else return false
     return false;
 }
 bool edk::shape::AnimatedPolygon2DList::newAnimationFramesToPolygon(edk::uint32 position){
-    return this->setAnimationFramesToPolygon(position);edkEnd();
+    return this->setAnimationFramesToPolygon(position);
 }
 bool edk::shape::AnimatedPolygon2DList::createAnimationFramesToPolygon(edk::uint32 position){
-    return this->setAnimationFramesToPolygon(position);edkEnd();
+    return this->setAnimationFramesToPolygon(position);
 }
 //create a new animation into all polygons
 bool edk::shape::AnimatedPolygon2DList::setAnimationFramesToAllPolygons(){
@@ -76,11 +78,11 @@ bool edk::shape::AnimatedPolygon2DList::setAnimationFramesToAllPolygons(){
     if(size){
         this->selectedAnimation=NULL;
         for(edk::uint32 i=0u;i<size;i++){
-            temp = this->polygons.get(i);edkEnd();
+            temp = this->polygons.get(i);
             //test if have selected some polygon
             if(temp){
                 //then add a new animation
-                temp->framesCreateAnimation();edkEnd();
+                temp->framesCreateAnimation();
             }
         }
         this->updateFramesAnimations(0.001f);
@@ -102,12 +104,12 @@ bool edk::shape::AnimatedPolygon2DList::copyAnimationFramesToPolygon(edk::uint32
             &&
             this->polygons.havePos(dest)){
         //select the polygon
-        edk::shape::Polygon2D* temp1 = this->polygons.get(position);edkEnd();
-        edk::shape::Polygon2D* temp2 = this->polygons.get(dest);edkEnd();
+        edk::shape::Polygon2D* temp1 = this->polygons.get(position);
+        edk::shape::Polygon2D* temp2 = this->polygons.get(dest);
         //test if have selected some polygon
         if(temp1 && temp2){
             //then copy the animation from temp1 to temp2
-            return temp2->framesSetAnimation(temp1->framesGetAnimation());edkEnd();
+            return temp2->framesSetAnimation(temp1->framesGetAnimation());
         }
     }
     //else return false
@@ -119,14 +121,14 @@ bool edk::shape::AnimatedPolygon2DList::copyThisAnimationFramesToPolygon(edk::an
             &&
             anim){
         //select the polygon
-        edk::shape::Polygon2D* poly = this->polygons.get(dest);edkEnd();
+        edk::shape::Polygon2D* poly = this->polygons.get(dest);
         if(poly){
             //clean the animation
-            edk::animation::Interpolation1DGroup* temp = poly->framesGetAnimation();edkEnd();
+            edk::animation::Interpolation1DGroup* temp = poly->framesGetAnimation();
             if(temp){
-                temp->cleanAnimations();edkEnd();
-                //*temp = *anim;edkEnd();
-                temp->cloneFrom(anim);edkEnd();
+                temp->cleanAnimations();
+                //*temp = *anim;
+                temp->cloneFrom(anim);
                 return true;
             }
         }
@@ -138,11 +140,11 @@ bool edk::shape::AnimatedPolygon2DList::removeAnimationFramesFromPolygon(edk::ui
     //test if have the polygon
     if(this->polygons.havePos(position)){
         //select the polygon
-        edk::shape::Polygon2D* temp = this->polygons.get(position);edkEnd();
+        edk::shape::Polygon2D* temp = this->polygons.get(position);
         //test if have selected some polygon
         if(temp){
             //then remove the animation
-            temp->framesRemoveAnimation();edkEnd();
+            temp->framesRemoveAnimation();
             //then return true
             return true;
         }
@@ -153,17 +155,17 @@ bool edk::shape::AnimatedPolygon2DList::removeAnimationFramesFromPolygon(edk::ui
 //select the animation
 bool edk::shape::AnimatedPolygon2DList::selectAnimationFramesFromPolygon(edk::uint32 position){
     //free the animation
-    this->freeSelectedAnimation();edkEnd();
+    this->freeSelectedAnimation();
     //test if have the polygon
     if(this->polygons.havePos(position)){
         //select the polygon
-        edk::shape::Polygon2D* temp = this->polygons.get(position);edkEnd();
+        edk::shape::Polygon2D* temp = this->polygons.get(position);
         //test if have selected some polygon
         if(temp){
             //test if have an animation
             if(temp->framesHaveAnimation()){
                 //then select the animation
-                this->selectedAnimation = temp->framesGetAnimation();edkEnd();
+                this->selectedAnimation = temp->framesGetAnimation();
                 //then return true
                 return true;
             }
@@ -174,7 +176,7 @@ bool edk::shape::AnimatedPolygon2DList::selectAnimationFramesFromPolygon(edk::ui
 }
 //get animation ID selected
 edk::uint32 edk::shape::AnimatedPolygon2DList::getAnimationFramesSelectedID(){
-    return this->selectedID;edkEnd();
+    return this->selectedID;
 }
 //return true if have the animation
 bool edk::shape::AnimatedPolygon2DList::haveSelectedAnimation(){
@@ -187,7 +189,7 @@ bool edk::shape::AnimatedPolygon2DList::haveSelectedAnimation(){
 //free the selected animation
 void edk::shape::AnimatedPolygon2DList::freeSelectedAnimation(){
     //set selectedAnimation to NULL
-    this->selectedAnimation=NULL;edkEnd();
+    this->selectedAnimation=NULL;
     this->selectedID=0u;
 }
 //Atualiza as animações da malha
@@ -199,13 +201,13 @@ void edk::shape::AnimatedPolygon2DList::updateFramesAnimations(){
             //carrega a animation
             if(this->polygons.get(i)->framesIsAnimationCreator()){
                 //carrega a animation
-                this->polygons.get(i)->framesGetAnimation()->updateClockAnimation();edkEnd();
+                this->polygons.get(i)->framesGetAnimation()->updateClockAnimation();
             }
         }
     }
     //after update all polygons
 
-    edk::float32 frameTemp = 0.f;edkEnd();
+    edk::float32 frameTemp = 0.f;
 
     for(edk::uint32 i=0u;i<this->polygons.size();i++){
         //
@@ -213,8 +215,8 @@ void edk::shape::AnimatedPolygon2DList::updateFramesAnimations(){
             //carrega a animation
             if(this->polygons.get(i)->framesGetAnimation()){
                 if(this->polygons.get(i)->framesGetAnimation()->isPlaying()){
-                    frameTemp = this->polygons.get(i)->framesGetAnimation()->getClockX();edkEnd();
-                    this->polygons.get(i)->usePolygonUVFramePosition(frameTemp);edkEnd();
+                    frameTemp = this->polygons.get(i)->framesGetAnimation()->getClockX();
+                    this->polygons.get(i)->usePolygonUVFramePosition(frameTemp);
                 }
             }
         }
@@ -222,25 +224,25 @@ void edk::shape::AnimatedPolygon2DList::updateFramesAnimations(){
 }
 void edk::shape::AnimatedPolygon2DList::updateFramesAnimations(edk::float32 seconds){
     //update all animations
-    edk::uint32 size = this->polygons.size();edkEnd();
+    edk::uint32 size = this->polygons.size();
     for(edk::uint32 i=0u;i<size;i++){
         if(this->polygons.get(i)){
             //carrega a animation
             if(this->polygons.get(i)->framesIsAnimationCreator()){
                 //load the animation
-                this->polygons.get(i)->framesGetAnimation()->updateClockAnimation(seconds);edkEnd();
+                this->polygons.get(i)->framesGetAnimation()->updateClockAnimation(seconds);
             }
         }
     }
     //after update all polygons
-    edk::float32 frameTemp = 0.f;edkEnd();
+    edk::float32 frameTemp = 0.f;
     for(edk::uint32 i=0u;i<size;i++){
         if(this->polygons.get(i)){
             //carrega a animation
             if(this->polygons.get(i)->framesGetAnimation()){
                 if(this->polygons.get(i)->framesGetAnimation()->isPlaying()){
-                    frameTemp = this->polygons.get(i)->framesGetAnimation()->getClockX();edkEnd();
-                    this->polygons.get(i)->usePolygonUVFramePosition(frameTemp);edkEnd();
+                    frameTemp = this->polygons.get(i)->framesGetAnimation()->getClockX();
+                    this->polygons.get(i)->usePolygonUVFramePosition(frameTemp);
                 }
             }
         }
@@ -254,15 +256,15 @@ bool edk::shape::AnimatedPolygon2DList::polygonsAnimationPlayForward(){
     edk::uint32 size = this->polygons.size();
     if(size){
         for(edk::uint32 i=0u;i<size;i++){
-            temp = this->polygons.get(i);edkEnd();
+            temp = this->polygons.get(i);
             //test if have selected some polygon
             if(temp){
                 //test if have an animation
                 if(temp->framesHaveAnimation()){
                     //then select the animation
-                    animation = temp->framesGetAnimation();edkEnd();
+                    animation = temp->framesGetAnimation();
                     if(animation){
-                        animation->playForward();edkEnd();
+                        animation->playForward();
                     }
                 }
             }
@@ -279,15 +281,15 @@ bool edk::shape::AnimatedPolygon2DList::polygonsAnimationPlayForwardIn(edk::floa
     edk::uint32 size = this->polygons.size();
     if(size){
         for(edk::uint32 i=0u;i<size;i++){
-            temp = this->polygons.get(i);edkEnd();
+            temp = this->polygons.get(i);
             //test if have selected some polygon
             if(temp){
                 //test if have an animation
                 if(temp->framesHaveAnimation()){
                     //then select the animation
-                    animation = temp->framesGetAnimation();edkEnd();
+                    animation = temp->framesGetAnimation();
                     if(animation){
-                        animation->playForwardIn(second);edkEnd();
+                        animation->playForwardIn(second);
                     }
                 }
             }
@@ -304,15 +306,15 @@ bool edk::shape::AnimatedPolygon2DList::polygonsAnimationRestartForward(){
     edk::uint32 size = this->polygons.size();
     if(size){
         for(edk::uint32 i=0u;i<size;i++){
-            temp = this->polygons.get(i);edkEnd();
+            temp = this->polygons.get(i);
             //test if have selected some polygon
             if(temp){
                 //test if have an animation
                 if(temp->framesHaveAnimation()){
                     //then select the animation
-                    animation = temp->framesGetAnimation();edkEnd();
+                    animation = temp->framesGetAnimation();
                     if(animation){
-                        animation->restartForward();edkEnd();
+                        animation->restartForward();
                     }
                 }
             }
@@ -329,15 +331,15 @@ bool edk::shape::AnimatedPolygon2DList::polygonsAnimationPlayRewind(){
     edk::uint32 size = this->polygons.size();
     if(size){
         for(edk::uint32 i=0u;i<size;i++){
-            temp = this->polygons.get(i);edkEnd();
+            temp = this->polygons.get(i);
             //test if have selected some polygon
             if(temp){
                 //test if have an animation
                 if(temp->framesHaveAnimation()){
                     //then select the animation
-                    animation = temp->framesGetAnimation();edkEnd();
+                    animation = temp->framesGetAnimation();
                     if(animation){
-                        animation->playRewind();edkEnd();
+                        animation->playRewind();
                     }
                 }
             }
@@ -354,15 +356,15 @@ bool edk::shape::AnimatedPolygon2DList::polygonsAnimationPlayRewindIn(edk::float
     edk::uint32 size = this->polygons.size();
     if(size){
         for(edk::uint32 i=0u;i<size;i++){
-            temp = this->polygons.get(i);edkEnd();
+            temp = this->polygons.get(i);
             //test if have selected some polygon
             if(temp){
                 //test if have an animation
                 if(temp->framesHaveAnimation()){
                     //then select the animation
-                    animation = temp->framesGetAnimation();edkEnd();
+                    animation = temp->framesGetAnimation();
                     if(animation){
-                        animation->playRewindIn(second);edkEnd();
+                        animation->playRewindIn(second);
                     }
                 }
             }
@@ -379,15 +381,15 @@ bool edk::shape::AnimatedPolygon2DList::polygonsAnimationRestartRewind(){
     edk::uint32 size = this->polygons.size();
     if(size){
         for(edk::uint32 i=0u;i<size;i++){
-            temp = this->polygons.get(i);edkEnd();
+            temp = this->polygons.get(i);
             //test if have selected some polygon
             if(temp){
                 //test if have an animation
                 if(temp->framesHaveAnimation()){
                     //then select the animation
-                    animation = temp->framesGetAnimation();edkEnd();
+                    animation = temp->framesGetAnimation();
                     if(animation){
-                        animation->restartRewind();edkEnd();
+                        animation->restartRewind();
                     }
                 }
             }
@@ -404,15 +406,15 @@ bool edk::shape::AnimatedPolygon2DList::polygonsAnimationChangeToForward(){
     edk::uint32 size = this->polygons.size();
     if(size){
         for(edk::uint32 i=0u;i<size;i++){
-            temp = this->polygons.get(i);edkEnd();
+            temp = this->polygons.get(i);
             //test if have selected some polygon
             if(temp){
                 //test if have an animation
                 if(temp->framesHaveAnimation()){
                     //then select the animation
-                    animation = temp->framesGetAnimation();edkEnd();
+                    animation = temp->framesGetAnimation();
                     if(animation){
-                        animation->changeToForward();edkEnd();
+                        animation->changeToForward();
                     }
                 }
             }
@@ -429,15 +431,15 @@ bool edk::shape::AnimatedPolygon2DList::polygonsAnimationChangeToRewind(){
     edk::uint32 size = this->polygons.size();
     if(size){
         for(edk::uint32 i=0u;i<size;i++){
-            temp = this->polygons.get(i);edkEnd();
+            temp = this->polygons.get(i);
             //test if have selected some polygon
             if(temp){
                 //test if have an animation
                 if(temp->framesHaveAnimation()){
                     //then select the animation
-                    animation = temp->framesGetAnimation();edkEnd();
+                    animation = temp->framesGetAnimation();
                     if(animation){
-                        animation->changeToRewind();edkEnd();
+                        animation->changeToRewind();
                     }
                 }
             }
@@ -454,15 +456,15 @@ bool edk::shape::AnimatedPolygon2DList::polygonsAnimationChangeWay(){
     edk::uint32 size = this->polygons.size();
     if(size){
         for(edk::uint32 i=0u;i<size;i++){
-            temp = this->polygons.get(i);edkEnd();
+            temp = this->polygons.get(i);
             //test if have selected some polygon
             if(temp){
                 //test if have an animation
                 if(temp->framesHaveAnimation()){
                     //then select the animation
-                    animation = temp->framesGetAnimation();edkEnd();
+                    animation = temp->framesGetAnimation();
                     if(animation){
-                        animation->changeWay();edkEnd();
+                        animation->changeWay();
                     }
                 }
             }
@@ -479,15 +481,15 @@ bool edk::shape::AnimatedPolygon2DList::polygonsAnimationPause(){
     edk::uint32 size = this->polygons.size();
     if(size){
         for(edk::uint32 i=0u;i<size;i++){
-            temp = this->polygons.get(i);edkEnd();
+            temp = this->polygons.get(i);
             //test if have selected some polygon
             if(temp){
                 //test if have an animation
                 if(temp->framesHaveAnimation()){
                     //then select the animation
-                    animation = temp->framesGetAnimation();edkEnd();
+                    animation = temp->framesGetAnimation();
                     if(animation){
-                        animation->pause();edkEnd();
+                        animation->pause();
                     }
                 }
             }
@@ -504,15 +506,15 @@ bool edk::shape::AnimatedPolygon2DList::polygonsAnimationPauseOn(){
     edk::uint32 size = this->polygons.size();
     if(size){
         for(edk::uint32 i=0u;i<size;i++){
-            temp = this->polygons.get(i);edkEnd();
+            temp = this->polygons.get(i);
             //test if have selected some polygon
             if(temp){
                 //test if have an animation
                 if(temp->framesHaveAnimation()){
                     //then select the animation
-                    animation = temp->framesGetAnimation();edkEnd();
+                    animation = temp->framesGetAnimation();
                     if(animation){
-                        animation->pauseOn();edkEnd();
+                        animation->pauseOn();
                     }
                 }
             }
@@ -529,15 +531,15 @@ bool edk::shape::AnimatedPolygon2DList::polygonsAnimationPauseOff(){
     edk::uint32 size = this->polygons.size();
     if(size){
         for(edk::uint32 i=0u;i<size;i++){
-            temp = this->polygons.get(i);edkEnd();
+            temp = this->polygons.get(i);
             //test if have selected some polygon
             if(temp){
                 //test if have an animation
                 if(temp->framesHaveAnimation()){
                     //then select the animation
-                    animation = temp->framesGetAnimation();edkEnd();
+                    animation = temp->framesGetAnimation();
                     if(animation){
-                        animation->pauseOff();edkEnd();
+                        animation->pauseOff();
                     }
                 }
             }
@@ -554,15 +556,15 @@ bool edk::shape::AnimatedPolygon2DList::polygonsAnimationStop(){
     edk::uint32 size = this->polygons.size();
     if(size){
         for(edk::uint32 i=0u;i<size;i++){
-            temp = this->polygons.get(i);edkEnd();
+            temp = this->polygons.get(i);
             //test if have selected some polygon
             if(temp){
                 //test if have an animation
                 if(temp->framesHaveAnimation()){
                     //then select the animation
-                    animation = temp->framesGetAnimation();edkEnd();
+                    animation = temp->framesGetAnimation();
                     if(animation){
-                        animation->stop();edkEnd();
+                        animation->stop();
                     }
                 }
             }
@@ -580,15 +582,15 @@ bool edk::shape::AnimatedPolygon2DList::polygonsAnimationSetLoop(bool loop){
     edk::uint32 size = this->polygons.size();
     if(size){
         for(edk::uint32 i=0u;i<size;i++){
-            temp = this->polygons.get(i);edkEnd();
+            temp = this->polygons.get(i);
             //test if have selected some polygon
             if(temp){
                 //test if have an animation
                 if(temp->framesHaveAnimation()){
                     //then select the animation
-                    animation = temp->framesGetAnimation();edkEnd();
+                    animation = temp->framesGetAnimation();
                     if(animation){
-                        animation->setLoop(loop);edkEnd();
+                        animation->setLoop(loop);
                     }
                 }
             }
@@ -605,15 +607,15 @@ bool edk::shape::AnimatedPolygon2DList::polygonsAnimationLoopOn(){
     edk::uint32 size = this->polygons.size();
     if(size){
         for(edk::uint32 i=0u;i<size;i++){
-            temp = this->polygons.get(i);edkEnd();
+            temp = this->polygons.get(i);
             //test if have selected some polygon
             if(temp){
                 //test if have an animation
                 if(temp->framesHaveAnimation()){
                     //then select the animation
-                    animation = temp->framesGetAnimation();edkEnd();
+                    animation = temp->framesGetAnimation();
                     if(animation){
-                        animation->loopOn();edkEnd();
+                        animation->loopOn();
                     }
                 }
             }
@@ -630,15 +632,15 @@ bool edk::shape::AnimatedPolygon2DList::polygonsAnimationLoopOff(){
     edk::uint32 size = this->polygons.size();
     if(size){
         for(edk::uint32 i=0u;i<size;i++){
-            temp = this->polygons.get(i);edkEnd();
+            temp = this->polygons.get(i);
             //test if have selected some polygon
             if(temp){
                 //test if have an animation
                 if(temp->framesHaveAnimation()){
                     //then select the animation
-                    animation = temp->framesGetAnimation();edkEnd();
+                    animation = temp->framesGetAnimation();
                     if(animation){
-                        animation->loopOff();edkEnd();
+                        animation->loopOff();
                     }
                 }
             }
@@ -656,7 +658,7 @@ bool edk::shape::AnimatedPolygon2DList::selectedAnimationSetAnimationCallback(ed
     //test if have a animationSelected
     if(this->selectedAnimation){
         //add new interpolationLine
-        return this->selectedAnimation->setAnimationCallback(callback);edkEnd();
+        return this->selectedAnimation->setAnimationCallback(callback);
     }
     //else return false
     return false;
@@ -666,7 +668,7 @@ bool edk::shape::AnimatedPolygon2DList::selectedAnimationAddInterpolationLine(ed
     //test if have a animationSelected
     if(this->selectedAnimation){
         //add new interpolationLine
-        return this->selectedAnimation->addNewInterpolationLine(second,x);edkEnd();
+        return this->selectedAnimation->addNewInterpolationLine(second,x);
     }
     //else return false
     return false;
@@ -676,10 +678,10 @@ edk::uint32 edk::shape::AnimatedPolygon2DList::selectedAnimationGetInterpolation
     //test if have a animationSelected
     if(this->selectedAnimation){
         //add new interpolationLine
-        return this->selectedAnimation->getInterpolationSize();edkEnd();
+        return this->selectedAnimation->getInterpolationSize();
     }
     //else return false
-    return 0u;edkEnd();
+    return 0u;
 }
 
 //cleanFrames and Names
@@ -687,7 +689,7 @@ bool edk::shape::AnimatedPolygon2DList::selectedAnimationClean(){
     //test if have a animationSelected
     if(this->selectedAnimation){
         //add new interpolationLine
-        this->selectedAnimation->clean();edkEnd();
+        this->selectedAnimation->clean();
         return true;
     }
     //else return false
@@ -697,7 +699,7 @@ bool edk::shape::AnimatedPolygon2DList::selectedAnimationCleanFrames(){
     //test if have a animationSelected
     if(this->selectedAnimation){
         //add new interpolationLine
-        this->selectedAnimation->cleanAnimations();edkEnd();
+        this->selectedAnimation->cleanAnimations();
         return true;
     }
     //else return false
@@ -707,7 +709,7 @@ bool edk::shape::AnimatedPolygon2DList::selectedAnimationCleanAnimationNames(){
     //test if have a animationSelected
     if(this->selectedAnimation){
         //add new interpolationLine
-        this->selectedAnimation->cleanAnimationNames();edkEnd();
+        this->selectedAnimation->cleanAnimationNames();
         return true;
     }
     //else return false
@@ -718,7 +720,7 @@ bool edk::shape::AnimatedPolygon2DList::selectedAnimationPlayForward(){
     //test if have a animationSelected
     if(this->selectedAnimation){
         //add new interpolationLine
-        this->selectedAnimation->playForward();edkEnd();
+        this->selectedAnimation->playForward();
         this->updateFramesAnimations(0.001f);
         return true;
     }
@@ -729,7 +731,7 @@ bool edk::shape::AnimatedPolygon2DList::selectedAnimationPlayForwardIn(edk::floa
     //test if have a animationSelected
     if(this->selectedAnimation){
         //add new interpolationLine
-        this->selectedAnimation->playForwardIn(second);edkEnd();
+        this->selectedAnimation->playForwardIn(second);
         this->updateFramesAnimations(0.001f);
         return true;
     }
@@ -740,7 +742,7 @@ bool edk::shape::AnimatedPolygon2DList::selectedAnimationRestartForward(){
     //test if have a animationSelected
     if(this->selectedAnimation){
         //add new interpolationLine
-        this->selectedAnimation->restartForward();edkEnd();
+        this->selectedAnimation->restartForward();
         this->updateFramesAnimations(0.001f);
         return true;
     }
@@ -751,7 +753,7 @@ bool edk::shape::AnimatedPolygon2DList::selectedAnimationPlayRewind(){
     //test if have a animationSelected
     if(this->selectedAnimation){
         //add new interpolationLine
-        this->selectedAnimation->playRewind();edkEnd();
+        this->selectedAnimation->playRewind();
         this->updateFramesAnimations(0.001f);
         return true;
     }
@@ -762,7 +764,7 @@ bool edk::shape::AnimatedPolygon2DList::selectedAnimationPlayRewindIn(edk::float
     //test if have a animationSelected
     if(this->selectedAnimation){
         //add new interpolationLine
-        this->selectedAnimation->playRewindIn(second);edkEnd();
+        this->selectedAnimation->playRewindIn(second);
         this->updateFramesAnimations(0.001f);
         return true;
     }
@@ -773,7 +775,7 @@ bool edk::shape::AnimatedPolygon2DList::selectedAnimationRestartRewind(){
     //test if have a animationSelected
     if(this->selectedAnimation){
         //add new interpolationLine
-        this->selectedAnimation->restartRewind();edkEnd();
+        this->selectedAnimation->restartRewind();
         this->updateFramesAnimations(0.001f);
         return true;
     }
@@ -784,7 +786,7 @@ bool edk::shape::AnimatedPolygon2DList::selectedAnimationChangeToForward(){
     //test if have a animationSelected
     if(this->selectedAnimation){
         //add new interpolationLine
-        this->selectedAnimation->changeToForward();edkEnd();
+        this->selectedAnimation->changeToForward();
         return true;
     }
     //else return false
@@ -794,7 +796,7 @@ bool edk::shape::AnimatedPolygon2DList::selectedAnimationChangeToRewind(){
     //test if have a animationSelected
     if(this->selectedAnimation){
         //add new interpolationLine
-        this->selectedAnimation->changeToRewind();edkEnd();
+        this->selectedAnimation->changeToRewind();
         return true;
     }
     //else return false
@@ -804,7 +806,7 @@ bool edk::shape::AnimatedPolygon2DList::selectedAnimationChangeWay(){
     //test if have a animationSelected
     if(this->selectedAnimation){
         //add new interpolationLine
-        this->selectedAnimation->changeWay();edkEnd();
+        this->selectedAnimation->changeWay();
         return true;
     }
     //else return false
@@ -814,7 +816,7 @@ bool edk::shape::AnimatedPolygon2DList::selectedAnimationPause(){
     //test if have a animationSelected
     if(this->selectedAnimation){
         //add new interpolationLine
-        this->selectedAnimation->pause();edkEnd();
+        this->selectedAnimation->pause();
         return true;
     }
     //else return false
@@ -824,7 +826,7 @@ bool edk::shape::AnimatedPolygon2DList::selectedAnimationPauseOn(){
     //test if have a animationSelected
     if(this->selectedAnimation){
         //add new interpolationLine
-        this->selectedAnimation->pauseOn();edkEnd();
+        this->selectedAnimation->pauseOn();
         return true;
     }
     //else return false
@@ -834,7 +836,7 @@ bool edk::shape::AnimatedPolygon2DList::selectedAnimationPauseOff(){
     //test if have a animationSelected
     if(this->selectedAnimation){
         //add new interpolationLine
-        this->selectedAnimation->pauseOff();edkEnd();
+        this->selectedAnimation->pauseOff();
         return true;
     }
     //else return false
@@ -844,7 +846,7 @@ bool edk::shape::AnimatedPolygon2DList::selectedAnimationStop(){
     //test if have a animationSelected
     if(this->selectedAnimation){
         //add new interpolationLine
-        this->selectedAnimation->stop();edkEnd();
+        this->selectedAnimation->stop();
         return true;
     }
     //else return false
@@ -855,7 +857,7 @@ bool edk::shape::AnimatedPolygon2DList::selectedAnimationSetLoop(bool loop){
     //test if have a animationSelected
     if(this->selectedAnimation){
         //add new interpolationLine
-        this->selectedAnimation->setLoop(loop);edkEnd();
+        this->selectedAnimation->setLoop(loop);
         return true;
     }
     //else return false
@@ -865,7 +867,7 @@ bool edk::shape::AnimatedPolygon2DList::selectedAnimationLoopOn(){
     //test if have a animationSelected
     if(this->selectedAnimation){
         //add new interpolationLine
-        this->selectedAnimation->loopOn();edkEnd();
+        this->selectedAnimation->loopOn();
         return true;
     }
     //else return false
@@ -875,7 +877,7 @@ bool edk::shape::AnimatedPolygon2DList::selectedAnimationLoopOff(){
     //test if have a animationSelected
     if(this->selectedAnimation){
         //add new interpolationLine
-        this->selectedAnimation->loopOff();edkEnd();
+        this->selectedAnimation->loopOff();
         return true;
     }
     //else return false
@@ -886,10 +888,10 @@ edk::float32 edk::shape::AnimatedPolygon2DList::selectedAnimationGetSecond(){
     //test if have a animationSelected
     if(this->selectedAnimation){
         //add new interpolationLine
-        return this->selectedAnimation->getAnimationSecond();edkEnd();
+        return this->selectedAnimation->getAnimationSecond();
     }
-    //return zero;edkEnd();
-    return 0.0f;edkEnd();
+    //return zero;
+    return 0.0f;
 }
 //return if are playing
 bool edk::shape::AnimatedPolygon2DList::selectedAnimationIsPlaying(){
@@ -902,7 +904,7 @@ bool edk::shape::AnimatedPolygon2DList::selectedAnimationIsPlaying(){
     return false;
 }
 bool edk::shape::AnimatedPolygon2DList::selectedAnimationIsPlayingName(const edk::char8* name){
-    return this->selectedAnimationIsPlayingName((edk::char8*) name);edkEnd();
+    return this->selectedAnimationIsPlayingName((edk::char8*) name);
 }
 bool edk::shape::AnimatedPolygon2DList::selectedAnimationIsPlayingName(edk::char8* name){
     //test if have a animationSelected
@@ -923,7 +925,7 @@ bool edk::shape::AnimatedPolygon2DList::selectedAnimationIsPlayingFoward(){
     return false;
 }
 bool edk::shape::AnimatedPolygon2DList::selectedAnimationIsPlayingFowardName(const edk::char8* name){
-    return this->selectedAnimationIsPlayingFowardName((edk::char8*) name);edkEnd();
+    return this->selectedAnimationIsPlayingFowardName((edk::char8*) name);
 }
 bool edk::shape::AnimatedPolygon2DList::selectedAnimationIsPlayingFowardName(edk::char8* name){
     //test if have a animationSelected
@@ -944,7 +946,7 @@ bool edk::shape::AnimatedPolygon2DList::selectedAnimationIsPlayingRewind(){
     return false;
 }
 bool edk::shape::AnimatedPolygon2DList::selectedAnimationIsPlayingRewindName(const edk::char8* name){
-    return this->selectedAnimationIsPlayingRewindName((edk::char8*) name);edkEnd();
+    return this->selectedAnimationIsPlayingRewindName((edk::char8*) name);
 }
 bool edk::shape::AnimatedPolygon2DList::selectedAnimationIsPlayingRewindName(edk::char8* name){
     //test if have a animationSelected
@@ -956,7 +958,7 @@ bool edk::shape::AnimatedPolygon2DList::selectedAnimationIsPlayingRewindName(edk
     return false;
 }
 bool edk::shape::AnimatedPolygon2DList::selectedAnimationWasPlayingName(const edk::char8* name){
-    return this->selectedAnimationWasPlayingName((edk::char8*) name);edkEnd();
+    return this->selectedAnimationWasPlayingName((edk::char8*) name);
 }
 bool edk::shape::AnimatedPolygon2DList::selectedAnimationWasPlayingName(edk::char8* name){
     //test if have a animationSelected
@@ -977,7 +979,7 @@ bool edk::shape::AnimatedPolygon2DList::selectedAnimationWasPlayingFoward(){
     return false;
 }
 bool edk::shape::AnimatedPolygon2DList::selectedAnimationWasPlayingFowardName(const edk::char8* name){
-    return this->selectedAnimationWasPlayingFowardName((edk::char8*) name);edkEnd();
+    return this->selectedAnimationWasPlayingFowardName((edk::char8*) name);
 }
 bool edk::shape::AnimatedPolygon2DList::selectedAnimationWasPlayingFowardName(edk::char8* name){
     //test if have a animationSelected
@@ -998,7 +1000,7 @@ bool edk::shape::AnimatedPolygon2DList::selectedAnimationWasPlayingRewind(){
     return false;
 }
 bool edk::shape::AnimatedPolygon2DList::selectedAnimationWasPlayingRewindName(const edk::char8* name){
-    return this->selectedAnimationWasPlayingRewindName((edk::char8*) name);edkEnd();
+    return this->selectedAnimationWasPlayingRewindName((edk::char8*) name);
 }
 bool edk::shape::AnimatedPolygon2DList::selectedAnimationWasPlayingRewindName(edk::char8* name){
     //test if have a animationSelected
@@ -1036,7 +1038,7 @@ bool edk::shape::AnimatedPolygon2DList::selectedAnimationAddAnimationName(const 
     //test if have a animationSelected
     if(this->selectedAnimation){
         //add new interpolationLine
-        this->selectedAnimation->addNewAnimationName(name,start,end);edkEnd();
+        this->selectedAnimation->addNewAnimationName(name,start,end);
         return true;
     }
     //else return false
@@ -1046,7 +1048,7 @@ bool edk::shape::AnimatedPolygon2DList::selectedAnimationAddAnimationName(edk::c
     //test if have a animationSelected
     if(this->selectedAnimation){
         //add new interpolationLine
-        this->selectedAnimation->addNewAnimationName(name,start,end);edkEnd();
+        this->selectedAnimation->addNewAnimationName(name,start,end);
         return true;
     }
     //else return false
@@ -1057,7 +1059,7 @@ bool edk::shape::AnimatedPolygon2DList::selectedAnimationHaveAnimationName(const
     //test if have a animationSelected
     if(this->selectedAnimation){
         //add new interpolationLine
-        return this->selectedAnimation->haveAnimationName(name);edkEnd();
+        return this->selectedAnimation->haveAnimationName(name);
     }
     //else return false
     return false;
@@ -1066,7 +1068,7 @@ bool edk::shape::AnimatedPolygon2DList::selectedAnimationHaveAnimationName(edk::
     //test if have a animationSelected
     if(this->selectedAnimation){
         //add new interpolationLine
-        return this->selectedAnimation->haveAnimationName(name);edkEnd();
+        return this->selectedAnimation->haveAnimationName(name);
     }
     //else return false
     return false;
@@ -1086,7 +1088,7 @@ edk::float32 edk::shape::AnimatedPolygon2DList::selectedAnimationGetAnimationSta
     //test if have a animationSelected
     if(this->selectedAnimation){
         //add new interpolationLine
-        return this->selectedAnimation->getAnimationStart();edkEnd();
+        return this->selectedAnimation->getAnimationStart();
     }
     //else return false
     return 0.f;
@@ -1095,32 +1097,32 @@ edk::float32 edk::shape::AnimatedPolygon2DList::selectedAnimationGetAnimationEnd
     //test if have a animationSelected
     if(this->selectedAnimation){
         //add new interpolationLine
-        return this->selectedAnimation->getAnimationEnd();edkEnd();
+        return this->selectedAnimation->getAnimationEnd();
     }
     //else return false
     return 0.f;
 }
 //return the animation name seconds
 edk::float32 edk::shape::AnimatedPolygon2DList::selectedAnimationGetAnimationNameStart(const edk::char8* name){
-    return this->selectedAnimationGetAnimationNameStart((edk::char8*) name);edkEnd();
+    return this->selectedAnimationGetAnimationNameStart((edk::char8*) name);
 }
 edk::float32 edk::shape::AnimatedPolygon2DList::selectedAnimationGetAnimationNameStart(edk::char8* name){
     //test if have a animationSelected
     if(this->selectedAnimation){
         //add new interpolationLine
-        return this->selectedAnimation->getAnimationNameStart(name);edkEnd();
+        return this->selectedAnimation->getAnimationNameStart(name);
     }
     //else return false
     return 0.f;
 }
 edk::float32 edk::shape::AnimatedPolygon2DList::selectedAnimationGetAnimationNameEnd(const edk::char8* name){
-    return this->selectedAnimationGetAnimationNameEnd((edk::char8*) name);edkEnd();
+    return this->selectedAnimationGetAnimationNameEnd((edk::char8*) name);
 }
 edk::float32 edk::shape::AnimatedPolygon2DList::selectedAnimationGetAnimationNameEnd(edk::char8* name){
     //test if have a animationSelected
     if(this->selectedAnimation){
         //add new interpolationLine
-        return this->selectedAnimation->getAnimationNameEnd(name);edkEnd();
+        return this->selectedAnimation->getAnimationNameEnd(name);
     }
     //else return false
     return 0.f;
@@ -1130,7 +1132,7 @@ bool edk::shape::AnimatedPolygon2DList::selectedAnimationPlayNameForward(const e
     //test if have a animationSelected
     if(this->selectedAnimation){
         //add new interpolationLine
-        this->selectedAnimation->playNameForward(name);edkEnd();
+        this->selectedAnimation->playNameForward(name);
         return true;
     }
     //else return false
@@ -1140,7 +1142,7 @@ bool edk::shape::AnimatedPolygon2DList::selectedAnimationPlayNameForward(edk::ch
     //test if have a animationSelected
     if(this->selectedAnimation){
         //add new interpolationLine
-        this->selectedAnimation->playNameForward(name);edkEnd();
+        this->selectedAnimation->playNameForward(name);
         return true;
     }
     //else return false
@@ -1150,7 +1152,7 @@ bool edk::shape::AnimatedPolygon2DList::selectedAnimationPlayNameForwardIn(const
     //test if have a animationSelected
     if(this->selectedAnimation){
         //add new interpolationLine
-        this->selectedAnimation->playNameForwardIn(name,second);edkEnd();
+        this->selectedAnimation->playNameForwardIn(name,second);
         return true;
     }
     //else return false
@@ -1160,7 +1162,7 @@ bool edk::shape::AnimatedPolygon2DList::selectedAnimationPlayNameForwardIn(edk::
     //test if have a animationSelected
     if(this->selectedAnimation){
         //add new interpolationLine
-        this->selectedAnimation->playNameForwardIn(name,second);edkEnd();
+        this->selectedAnimation->playNameForwardIn(name,second);
         return true;
     }
     //else return false
@@ -1170,7 +1172,7 @@ bool edk::shape::AnimatedPolygon2DList::selectedAnimationPlayNameRewind(const ed
     //test if have a animationSelected
     if(this->selectedAnimation){
         //add new interpolationLine
-        this->selectedAnimation->playNameRewind(name);edkEnd();
+        this->selectedAnimation->playNameRewind(name);
         return true;
     }
     //else return false
@@ -1180,7 +1182,7 @@ bool edk::shape::AnimatedPolygon2DList::selectedAnimationPlayNameRewind(edk::cha
     //test if have a animationSelected
     if(this->selectedAnimation){
         //add new interpolationLine
-        this->selectedAnimation->playNameRewind(name);edkEnd();
+        this->selectedAnimation->playNameRewind(name);
         return true;
     }
     //else return false
@@ -1190,7 +1192,7 @@ bool edk::shape::AnimatedPolygon2DList::selectedAnimationPlayNameRewindIn(const 
     //test if have a animationSelected
     if(this->selectedAnimation){
         //add new interpolationLine
-        this->selectedAnimation->playNameRewindIn(name,second);edkEnd();
+        this->selectedAnimation->playNameRewindIn(name,second);
         return true;
     }
     //else return false
@@ -1200,7 +1202,7 @@ bool edk::shape::AnimatedPolygon2DList::selectedAnimationPlayNameRewindIn(edk::c
     //test if have a animationSelected
     if(this->selectedAnimation){
         //add new interpolationLine
-        this->selectedAnimation->playNameRewindIn(name,second);edkEnd();
+        this->selectedAnimation->playNameRewindIn(name,second);
         return true;
     }
     //else return false
@@ -1211,7 +1213,7 @@ bool edk::shape::AnimatedPolygon2DList::selectedAnimationRemoveAnimationName(con
     //test if have a animationSelected
     if(this->selectedAnimation){
         //add new interpolationLine
-        this->selectedAnimation->removeAnimationName(name);edkEnd();
+        this->selectedAnimation->removeAnimationName(name);
         return true;
     }
     //else return false
@@ -1221,7 +1223,7 @@ bool edk::shape::AnimatedPolygon2DList::selectedAnimationRemoveAnimationName(edk
     //test if have a animationSelected
     if(this->selectedAnimation){
         //add new interpolationLine
-        this->selectedAnimation->removeAnimationName(name);edkEnd();
+        this->selectedAnimation->removeAnimationName(name);
         return true;
     }
     //else return false
@@ -1233,7 +1235,7 @@ bool edk::shape::AnimatedPolygon2DList::selectedAnimationSetCurveX(edk::uint32 p
     //test if have a animationSelected
     if(this->selectedAnimation){
         //add new interpolationLine
-        this->selectedAnimation->setInterpolationCurveX(position);edkEnd();
+        this->selectedAnimation->setInterpolationCurveX(position);
         return true;
     }
     //else return false
@@ -1243,7 +1245,7 @@ bool edk::shape::AnimatedPolygon2DList::selectedAnimationSetNotCurveX(edk::uint3
     //test if have a animationSelected
     if(this->selectedAnimation){
         //add new interpolationLine
-        this->selectedAnimation->setInterpolationNotCurveX(position);edkEnd();
+        this->selectedAnimation->setInterpolationNotCurveX(position);
         return true;
     }
     //else return false
@@ -1253,7 +1255,7 @@ bool edk::shape::AnimatedPolygon2DList::selectedAnimationGetIsCurveX(edk::uint32
     //test if have a animationSelected
     if(this->selectedAnimation){
         //add new interpolationLine
-        return this->selectedAnimation->getInterpolationIsCurveX(position);edkEnd();
+        return this->selectedAnimation->getInterpolationIsCurveX(position);
     }
     //else return false
     return false;
@@ -1263,7 +1265,7 @@ bool edk::shape::AnimatedPolygon2DList::selectedAnimationSetCurveP1X(edk::uint32
     //test if have a animationSelected
     if(this->selectedAnimation){
         //add new interpolationLine
-        return this->selectedAnimation->setInterpolationP1X(position,second,x);edkEnd();
+        return this->selectedAnimation->setInterpolationP1X(position,second,x);
     }
     //else return false
     return false;
@@ -1272,7 +1274,7 @@ bool edk::shape::AnimatedPolygon2DList::selectedAnimationSetCurveP2X(edk::uint32
     //test if have a animationSelected
     if(this->selectedAnimation){
         //add new interpolationLine
-        return this->selectedAnimation->setInterpolationP2X(position,second,x);edkEnd();
+        return this->selectedAnimation->setInterpolationP2X(position,second,x);
     }
     //else return false
     return false;
@@ -1300,22 +1302,22 @@ edk::float32 edk::shape::AnimatedPolygon2DList::selectedAnimationGetSpeed(){
 //XML
 bool edk::shape::AnimatedPolygon2DList::writeToXML(edk::XML* xml,edk::uint32 id){
     if(edk::shape::Polygon2DList::writeToXML(xml,id)){
-        bool ret=false;edkEnd();
+        bool ret=false;
         //create the nameID
-        edk::char8* nameID = edk::String::int64ToStr(id);edkEnd();
+        edk::char8* nameID = edk::String::int64ToStr(id);
         if(nameID){
             //concat
-            edk::char8* name = edk::String::strCat((edk::char8*)"mesh_",nameID);edkEnd();
+            edk::char8* name = edk::String::strCat((edk::char8*)"mesh_",nameID);
             if(name){
                 //create the name
                 if(xml->selectChild(name)){
                     //write the animation
-                    ret=true;edkEnd();
-                    xml->selectFather();edkEnd();
+                    ret=true;
+                    xml->selectFather();
                 }
-                free(name);edkEnd();
+                free(name);
             }
-            free(nameID);edkEnd();
+            free(nameID);
         }
         return ret;
     }
@@ -1324,27 +1326,27 @@ bool edk::shape::AnimatedPolygon2DList::writeToXML(edk::XML* xml,edk::uint32 id)
 bool edk::shape::AnimatedPolygon2DList::readFromXML(edk::XML* xml,edk::uint32 id){
     if(edk::shape::Polygon2DList::readFromXML(xml,id)){
         //create the nameID
-        edk::char8* nameID = edk::String::int64ToStr(id);edkEnd();
+        edk::char8* nameID = edk::String::int64ToStr(id);
         if(nameID){
             //concat
-            edk::char8* name = edk::String::strCat((edk::char8*)"mesh_",nameID);edkEnd();
+            edk::char8* name = edk::String::strCat((edk::char8*)"mesh_",nameID);
             if(name){
                 //create the name
                 if(xml->selectChild(name)){
-                    edk::uint32 size = edk::String::strToInt64(xml->getSelectedAttributeValueByName("pCount"));edkEnd();
-                    edk::shape::Polygon2D poly;edkEnd();
+                    edk::uint32 size = edk::String::strToInt64(xml->getSelectedAttributeValueByName("pCount"));
+                    edk::shape::Polygon2D poly;
                     //write the polygons
                     for(edk::uint32 i=0u;i<size;i++){
-                        poly.deletePolygon();edkEnd();
-                        poly.readFromXML(xml,i);edkEnd();
+                        poly.deletePolygon();
+                        poly.readFromXML(xml,i);
                         //add the poly
-                        this->addPolygon(poly);edkEnd();
+                        this->addPolygon(poly);
                     }
-                    xml->selectFather();edkEnd();
+                    xml->selectFather();
                 }
-                free(name);edkEnd();
+                free(name);
             }
-            free(nameID);edkEnd();
+            free(nameID);
         }
     }
     return false;

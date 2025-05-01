@@ -60,6 +60,8 @@ public:
     edk::int32 receiveStreamNonBlock(edk::classID stream,edk::uint32 size,edk::network::Adress* host);
 private:
     bool binding;
+private:
+    edk::classID classThis;
 };
 }//end namespace udp
 }//end namespace network

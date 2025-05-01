@@ -49,7 +49,8 @@ public:
     ListDirectory();
     virtual ~ListDirectory();
 
-    void Constructor(bool runFather=true);
+    void Constructor();
+    void Destructor();
 
     void clean();
 
@@ -96,23 +97,18 @@ private:
     class FileOrFolders{
     public:
         FileOrFolders(){
-            this->classThis=NULL;edkEnd();
-            this->Constructor(false);edkEnd();
+            this->classThis=NULL;
+            this->Constructor();
         }
         FileOrFolders(edk::char8* name,edk::uint64 lastModify,edk::uint64 size){
-            this->classThis=NULL;edkEnd();
-            this->Constructor(name,lastModify,size,false);edkEnd();
+            this->classThis=NULL;
+            this->Constructor(name,lastModify,size);
         }
         virtual ~FileOrFolders(){
-            if(this->classThis==this){
-                this->classThis=NULL;edkEnd();
-                //can destruct the class
-                this->name.cleanName();
-            }
+            this->Destructor();
         }
 
-        void Constructor(bool runFather=true){
-            if(runFather){edkEnd();}
+        void Constructor(){
             if(this->classThis!=this){
                 this->classThis=this;
 
@@ -121,8 +117,7 @@ private:
                 this->lastModify = this->size = 0u;
             }
         }
-        void Constructor(edk::char8* name,edk::uint64 lastModify,edk::uint64 size,bool runFather=true){
-            if(runFather){edkEnd();}
+        void Constructor(edk::char8* name,edk::uint64 lastModify,edk::uint64 size){
             if(this->classThis!=this){
                 this->classThis=this;
 
@@ -133,6 +128,14 @@ private:
                 this->name.setName(name);
             }
         }
+        void Destructor(){
+            if(this->classThis==this){
+                this->classThis=NULL;
+                //can destruct the class
+                this->name.cleanName();
+            }
+        }
+
         edk::ListDirectory::FileOrFolders operator=(edk::ListDirectory::FileOrFolders name){
             this->name.clone(name.name);
             this->lastModify = name.lastModify;

@@ -45,6 +45,10 @@ class World2D;
 class Contact2D{
 public:
     Contact2D(edk::classID pointer,edk::classID pointerBodyA,edk::classID pointerBodyB);
+    ~Contact2D();
+
+    void Constuctor(edk::classID pointer,edk::classID pointerBodyA,edk::classID pointerBodyB);
+    void Destructor();
 
     friend edk::physics2D::World2D;
 
@@ -101,6 +105,8 @@ private:
     bool enabled;
     //save if aready have the contact
     bool areadyContacted;
+private:
+    edk::classID classThis;
 };
 }//end namespace physics2D
 }//end namespace edk

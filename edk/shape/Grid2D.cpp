@@ -29,17 +29,14 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endif
 
 edk::shape::Grid2D::Grid2D(){
-    this->classThis=NULL;edkEnd();
-    this->Constructor(false);edkEnd();
+    this->classThis=NULL;
+    this->Constructor();
 }
 edk::shape::Grid2D::~Grid2D(){
-    if(this->classThis==this){
-        this->classThis=NULL;edkEnd();
-        //can destruct the class
-    }
+    this->Destructor();
 }
 
-void edk::shape::Grid2D::Constructor(bool /*runFather*/){
+void edk::shape::Grid2D::Constructor(){
     if(this->classThis!=this){
         this->classThis=this;
         this->position = 0.f;
@@ -49,6 +46,12 @@ void edk::shape::Grid2D::Constructor(bool /*runFather*/){
         this->colorLinesBold = edk::color4f32(0.f,0.f,0.f,1.f);
         this->setDistanceLines(0.f);
         this->setDistanceLinesBold(0.f);
+    }
+}
+void edk::shape::Grid2D::Destructor(){
+    if(this->classThis==this){
+        this->classThis=NULL;
+        //can destruct the class
     }
 }
 
@@ -79,9 +82,9 @@ edk::float32 edk::shape::Grid2D::getDistanceLinesBold(){
 //draw the grid
 void edk::shape::Grid2D::draw(){
     //
-    edk::GU::guPushMatrix();edkEnd();
-    edk::GU::guTranslate2f32(this->position);edkEnd();
-    edk::GU::guRotateZf32(this->angle);edkEnd();
+    edk::GU::guPushMatrix();
+    edk::GU::guTranslate2f32(this->position);
+    edk::GU::guRotateZf32(this->angle);
 
     edk::GU::guLineWidth(1u);
 
@@ -133,5 +136,5 @@ void edk::shape::Grid2D::draw(){
 
     edk::GU::guLineWidth(1u);
 
-    edk::GU::guPopMatrix();edkEnd();
+    edk::GU::guPopMatrix();
 }

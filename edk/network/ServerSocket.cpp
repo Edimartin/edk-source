@@ -25,47 +25,51 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 edk::network::ServerSocket::ServerSocket(){
-    this->classThis=NULL;edkEnd();
-    this->Constructor(false);edkEnd();
+    this->classThis=NULL;
+    this->Constructor();
 }
 edk::network::ServerSocket::~ServerSocket(){
-    if(this->classThis==this){
-        this->classThis=NULL;edkEnd();
-        //can destruct the class
-    }
+    this->Constructor();
 }
 
-void edk::network::ServerSocket::Constructor(bool runFather){
-    if(runFather){
-        edk::network::Socket::Constructor();edkEnd();
-    }
+void edk::network::ServerSocket::Constructor(){
+    edk::network::Socket::Constructor();
     if(this->classThis!=this){
         this->classThis=this;
 
-        this->tree.Constructor();edkEnd();
+        this->tree.Constructor();
     }
+}
+void edk::network::ServerSocket::Destructor(){
+    if(this->classThis==this){
+        this->classThis=NULL;
+        //can destruct the class
+    }
+    edk::network::Socket::Destructor();
 }
 
 edk::network::ServerSocket::treeAdress::treeAdress(){
-    this->classThis=NULL;edkEnd();
-    this->Constructor(false);edkEnd();
+    this->classThis=NULL;
+    this->Constructor();
 }
 edk::network::ServerSocket::treeAdress::~treeAdress(){
-    if(this->classThis==this){
-        this->classThis=NULL;edkEnd();
-        //can destruct the class
-        //delete all the adresses
-        this->deleteAllAdress();edkEnd();
-    }
+    this->Destructor();
 }
 
-void edk::network::ServerSocket::treeAdress::Constructor(bool runFather){
-    if(runFather){
-        edk::vector::BinaryTree<nodeAdress*>::Constructor();edkEnd();
-    }
+void edk::network::ServerSocket::treeAdress::Constructor(){
+    edk::vector::BinaryTree<nodeAdress*>::Constructor();
     if(this->classThis!=this){
         this->classThis=this;
     }
+}
+void edk::network::ServerSocket::treeAdress::Destructor(){
+    if(this->classThis==this){
+        this->classThis=NULL;
+        //can destruct the class
+        //delete all the adresses
+        this->deleteAllAdress();
+    }
+    edk::vector::BinaryTree<nodeAdress*>::Destructor();
 }
 
 //Add a adress to the tree
@@ -73,16 +77,16 @@ bool edk::network::ServerSocket::treeAdress::addAdress(edk::network::Adress host
     //test the host
     if(host.getIP() && host.getPort()){
         //create new adress
-        edk::network::ServerSocket::nodeAdress* node = new edk::network::ServerSocket::nodeAdress;edkEnd();
+        edk::network::ServerSocket::nodeAdress* node = new edk::network::ServerSocket::nodeAdress;
         if(node){
             //set the host and the adress
-            node->host = host;edkEnd();
-            node->adress = adress;edkEnd();
+            node->host = host;
+            node->adress = adress;
             //add the node in the tree
             if(this->add(node)){
                 return true;
             }
-            delete node;edkEnd();
+            delete node;
         }
     }
     return false;
@@ -90,19 +94,19 @@ bool edk::network::ServerSocket::treeAdress::addAdress(edk::network::Adress host
 //get a adress in the tree
 edk::network::ServerSocket::nodeAdress* edk::network::ServerSocket::treeAdress::getAdress(edk::network::Adress host){
     //find the adress
-    edk::network::ServerSocket::nodeAdress find;edkEnd();
-    find.host = host;edkEnd();
+    edk::network::ServerSocket::nodeAdress find;
+    find.host = host;
     return this->getElement(&find);
 }
 //remove one adress from the tree
 bool edk::network::ServerSocket::treeAdress::removeAdress(edk::network::Adress host){
     //get Element
-    edk::network::ServerSocket::nodeAdress* node = this->getAdress(host);edkEnd();
+    edk::network::ServerSocket::nodeAdress* node = this->getAdress(host);
     if(node){
         //remove from the tree
         if(this->remove(node)){
             //delete the node
-            delete node;edkEnd();
+            delete node;
             //return true
             return true;
         }
@@ -111,15 +115,15 @@ bool edk::network::ServerSocket::treeAdress::removeAdress(edk::network::Adress h
 }
 //delete all Adresses
 void edk::network::ServerSocket::treeAdress::deleteAllAdress(){
-    edk::network::ServerSocket::nodeAdress* node = NULL;edkEnd();
+    edk::network::ServerSocket::nodeAdress* node = NULL;
     for(edk::uint32 i=0u;i<this->getSize();i++){
-        node = this->getElementInPosition(i);edkEnd();
+        node = this->getElementInPosition(i);
         if(node){
-            delete node;edkEnd();
+            delete node;
         }
-        node=NULL;edkEnd();
+        node=NULL;
     }
-    this->clean();edkEnd();
+    this->clean();
 }
 //compare if the value is bigger
 bool edk::network::ServerSocket::treeAdress::firstBiggerSecond(edk::network::ServerSocket::nodeAdress* first,

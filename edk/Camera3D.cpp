@@ -25,25 +25,22 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 edk::Camera3D::Camera3D(){
-    this->classThis=NULL;edkEnd();
-    this->Constructor(false);edkEnd();
+    this->classThis=NULL;
+    this->Constructor();
 }
 edk::Camera3D::Camera3D(edk::vec3f32 position,edk::vec3f32 lookAt){
-    this->classThis=NULL;edkEnd();
-    this->Constructor(position,lookAt,false);edkEnd();
+    this->classThis=NULL;
+    this->Constructor(position,lookAt);
 }
 edk::Camera3D::Camera3D(edk::float32 pX,edk::float32 pY,edk::float32 pZ,edk::float32 lookX,edk::float32 lookY,edk::float32 lookZ){
-    this->classThis=NULL;edkEnd();
-    this->Constructor(pX,pY,pZ,lookX,lookY,lookZ,false);edkEnd();
+    this->classThis=NULL;
+    this->Constructor(pX,pY,pZ,lookX,lookY,lookZ);
 }
 edk::Camera3D::~Camera3D(){
-    if(this->classThis==this){
-        this->classThis=NULL;edkEnd();
-        //can destruct the class
-    }
+    this->Destructor();
 }
 
-void edk::Camera3D::Constructor(bool /*runFather*/){
+void edk::Camera3D::Constructor(){
     //
     if(this->classThis!=this){
         this->classThis=this;
@@ -54,13 +51,13 @@ void edk::Camera3D::Constructor(bool /*runFather*/){
         this->matrixScale.Constructor();
         this->projection.Constructor();
         this->matrixPosition.Constructor();
-        this->start();edkEnd();
-        this->perspective = true;edkEnd();
-        this->firstPerson=false;edkEnd();
-        this->matrixPosition.createMatrix(1u,4u);edkEnd();
+        this->start();
+        this->perspective = true;
+        this->firstPerson=false;
+        this->matrixPosition.createMatrix(1u,4u);
     }
 }
-void edk::Camera3D::Constructor(edk::vec3f32 position,edk::vec3f32 lookAt,bool /*runFather*/){
+void edk::Camera3D::Constructor(edk::vec3f32 position,edk::vec3f32 lookAt){
     if(this->classThis!=this){
         this->classThis=this;
         this->matrixTranslate.Constructor();
@@ -70,15 +67,21 @@ void edk::Camera3D::Constructor(edk::vec3f32 position,edk::vec3f32 lookAt,bool /
         this->matrixScale.Constructor();
         this->projection.Constructor();
         this->matrixPosition.Constructor();
-        this->start();edkEnd();
-        this->position = position;edkEnd();
-        this->lookAt = lookAt;edkEnd();
-        this->perspective = true;edkEnd();
-        this->firstPerson=false;edkEnd();
-        this->matrixPosition.createMatrix(1u,4u);edkEnd();
+        this->start();
+        this->position = position;
+        this->lookAt = lookAt;
+        this->perspective = true;
+        this->firstPerson=false;
+        this->matrixPosition.createMatrix(1u,4u);
     }
 }
-void edk::Camera3D::Constructor(edk::float32 pX,edk::float32 pY,edk::float32 pZ,edk::float32 lookX,edk::float32 lookY,edk::float32 lookZ,bool /*runFather*/){
+void edk::Camera3D::Constructor(edk::float32 pX,
+                                edk::float32 pY,
+                                edk::float32 pZ,
+                                edk::float32 lookX,
+                                edk::float32 lookY,
+                                edk::float32 lookZ
+                                ){
     if(this->classThis!=this){
         this->classThis=this;
         this->matrixTranslate.Constructor();
@@ -88,121 +91,127 @@ void edk::Camera3D::Constructor(edk::float32 pX,edk::float32 pY,edk::float32 pZ,
         this->matrixScale.Constructor();
         this->projection.Constructor();
         this->matrixPosition.Constructor();
-        this->start();edkEnd();
-        this->position = edk::vec3f32(pX,pY,pZ);edkEnd();
-        this->lookAt = edk::vec3f32(lookX,lookY,lookZ);edkEnd();
-        this->perspective = true;edkEnd();
-        this->firstPerson=false;edkEnd();
-        this->matrixPosition.createMatrix(1u,3u);edkEnd();
+        this->start();
+        this->position = edk::vec3f32(pX,pY,pZ);
+        this->lookAt = edk::vec3f32(lookX,lookY,lookZ);
+        this->perspective = true;
+        this->firstPerson=false;
+        this->matrixPosition.createMatrix(1u,3u);
+    }
+}
+void edk::Camera3D::Destructor(){
+    if(this->classThis==this){
+        this->classThis=NULL;
+        //can destruct the class
     }
 }
 
 void edk::Camera3D::start(){
     //
-    this->position = edk::vec3f32(0.f,0.f,-1.f);edkEnd();
-    this->lookAt = edk::vec3f32(0.f,0.f,0.f);edkEnd();
+    this->position = edk::vec3f32(0.f,0.f,-1.f);
+    this->lookAt = edk::vec3f32(0.f,0.f,0.f);
 
-    this->up = edk::vec2f32(0.f,1.f);edkEnd();
-    this->size = edk::size2f32(1.f,1.f);edkEnd();
-    this->sizePercent = this->size.width/this->size.height;edkEnd();
-    this->_near = 0.0001f;edkEnd();
-    this->_far = 1.f;edkEnd();
+    this->up = edk::vec2f32(0.f,1.f);
+    this->size = edk::size2f32(1.f,1.f);
+    this->sizePercent = this->size.width/this->size.height;
+    this->_near = 0.0001f;
+    this->_far = 1.f;
 
     this->updateProjection();
 }
 //generate the camera matrix
 void edk::Camera3D::calculateProjectionMatrix(){
-    this->projection.setIdentity(1.f,0.f);edkEnd();
+    this->projection.setIdentity(1.f,0.f);
     edk::Math::generateLookAtMatrix(this->position.x,this->position.y,this->position.z,
                                     this->lookAt.x,this->lookAt.y,this->lookAt.z,
                                     this->up.x,this->up.y,0.f,
                                     &this->projection
-                                    );edkEnd();
+                                    );
 }
 //update the camera vectors
 void edk::Camera3D::updateVectors(){
     //multiply the vectors
     //for some reazon it must be a giant lenght to work
-    this->vecLeft=  edk::Math::normalise(this->multiplyPointWithMatrix(edk::vec3f32(-10000.f, 0.f, 0.f)));edkEnd();
-    this->vecRight= edk::Math::normalise(this->multiplyPointWithMatrix(edk::vec3f32( 10000.f, 0.f, 0.f)));edkEnd();
-    this->vecUp=    edk::Math::normalise(this->multiplyPointWithMatrix(edk::vec3f32( 0.f, 10000.f, 0.f)));edkEnd();
-    this->vecDown=  edk::Math::normalise(this->multiplyPointWithMatrix(edk::vec3f32( 0.f,-10000.f, 0.f)));edkEnd();
-    this->vecFront= edk::Math::normalise(this->multiplyPointWithMatrix(edk::vec3f32( 0.f, 0.f, 10000.f)));edkEnd();
-    this->vecBack=  edk::Math::normalise(this->multiplyPointWithMatrix(edk::vec3f32( 0.f, 0.f,-10000.f)));edkEnd();
+    this->vecLeft=  edk::Math::normalise(this->multiplyPointWithMatrix(edk::vec3f32(-10000.f, 0.f, 0.f)));
+    this->vecRight= edk::Math::normalise(this->multiplyPointWithMatrix(edk::vec3f32( 10000.f, 0.f, 0.f)));
+    this->vecUp=    edk::Math::normalise(this->multiplyPointWithMatrix(edk::vec3f32( 0.f, 10000.f, 0.f)));
+    this->vecDown=  edk::Math::normalise(this->multiplyPointWithMatrix(edk::vec3f32( 0.f,-10000.f, 0.f)));
+    this->vecFront= edk::Math::normalise(this->multiplyPointWithMatrix(edk::vec3f32( 0.f, 0.f, 10000.f)));
+    this->vecBack=  edk::Math::normalise(this->multiplyPointWithMatrix(edk::vec3f32( 0.f, 0.f,-10000.f)));
 }
 //multiply a point to the matrix
 edk::vec3f32 edk::Camera3D::multiplyPointWithMatrix(edk::vec3f32 point){
     if(this->matrixPosition.haveMatrix()){
         //
-        this->matrixPosition.set(0u,0u,point.x);edkEnd();
-        this->matrixPosition.set(0u,1u,point.y);edkEnd();
-        this->matrixPosition.set(0u,2u,point.z);edkEnd();
-        this->matrixPosition.set(0u,3u,1.f);edkEnd();
+        this->matrixPosition.set(0u,0u,point.x);
+        this->matrixPosition.set(0u,1u,point.y);
+        this->matrixPosition.set(0u,2u,point.z);
+        this->matrixPosition.set(0u,3u,1.f);
 
         //multiply the matrix
-        this->matrixPosition.multiplyMatrixWithThis((edk::vector::MatrixDynamic<edk::float32>*)&this->projection);edkEnd();
+        this->matrixPosition.multiplyMatrixWithThis((edk::vector::MatrixDynamic<edk::float32>*)&this->projection);
 
-        point.x = this->matrixPosition.getNoIF(0u,0u);edkEnd();
-        point.y = this->matrixPosition.getNoIF(0u,1u);edkEnd();
-        point.z = this->matrixPosition.getNoIF(0u,2u);edkEnd();
+        point.x = this->matrixPosition.getNoIF(0u,0u);
+        point.y = this->matrixPosition.getNoIF(0u,1u);
+        point.z = this->matrixPosition.getNoIF(0u,2u);
     }
     return point;
 }
 
 //Sset witch camera type its using
 void edk::Camera3D::usePerspective(){
-    this->perspective=true;edkEnd();
+    this->perspective=true;
 }
 void edk::Camera3D::useOrtho(){
-    this->perspective=false;edkEnd();
+    this->perspective=false;
 }
 
 //set the size
 void edk::Camera3D::setSize(edk::size2f32 size){
     //
-    this->size=size*0.5f;edkEnd();
-    this->sizePercent = this->size.width/this->size.height;edkEnd();
+    this->size=size*0.5f;
+    this->sizePercent = this->size.width/this->size.height;
 }
 void edk::Camera3D::setSize(edk::float32 sizeW,edk::float32 sizeH){
     //
-    return this->setSize(edk::size2f32(sizeW,sizeH));edkEnd();
+    return this->setSize(edk::size2f32(sizeW,sizeH));
 }
 void edk::Camera3D::setSizeW(edk::float32 width){
-    this->size.width = width*0.5f;edkEnd();
-    this->sizePercent = this->size.width/this->size.height;edkEnd();
+    this->size.width = width*0.5f;
+    this->sizePercent = this->size.width/this->size.height;
 }
 void edk::Camera3D::setSizeH(edk::float32 height){
-    this->size.height = height*0.5f;edkEnd();
-    this->sizePercent = this->size.width/this->size.height;edkEnd();
+    this->size.height = height*0.5f;
+    this->sizePercent = this->size.width/this->size.height;
 }
 //return the size
 edk::float32 edk::Camera3D::getWidth(){
-    return this->size.width * 2.f;edkEnd();
+    return this->size.width * 2.f;
 }
 edk::float32 edk::Camera3D::getHeight(){
-    return this->size.height * 2.f;edkEnd();
+    return this->size.height * 2.f;
 }
 
 //set near and far
 void edk::Camera3D::setNearFar(edk::float32 _near,edk::float32 _far){
     if(_far>_near){
-        this->_near = _near;edkEnd();
-        this->_far = _far;edkEnd();
+        this->_near = _near;
+        this->_far = _far;
     }
     else{
-        this->_near = _far;edkEnd();
-        this->_far = _near;edkEnd();
+        this->_near = _far;
+        this->_far = _near;
     }
 }
 void edk::Camera3D::setFar(edk::float32 _far){
-    this->setNearFar(0.0001f,_far);edkEnd();
+    this->setNearFar(0.0001f,_far);
 }
 //Get near and far
 edk::float32 edk::Camera3D::getNear(){
-    return this->_near;edkEnd();
+    return this->_near;
 }
 edk::float32 edk::Camera3D::getFar(){
-    return this->_far;edkEnd();
+    return this->_far;
 }
 
 //Distance
@@ -211,24 +220,24 @@ edk::float32 edk::Camera3D::getDistance(){
     return edk::Math::pythagoras(this->lookAt.x - this->position.x,
                                  this->lookAt.y - this->position.y,
                                  this->lookAt.y - this->position.z
-                                 );edkEnd();
+                                 );
 }
 //set the distance
 bool edk::Camera3D::setDistance(edk::float32 distance){
     if(distance>0.f){
-        edk::float32 percent = distance / this->getDistance();edkEnd();
+        edk::float32 percent = distance / this->getDistance();
         //set the distance
         if(this->firstPerson){
             //
-            this->lookAt.x = this->position.x + ((this->lookAt.x-this->position.x) * percent);edkEnd();
-            this->lookAt.y = this->position.y + ((this->lookAt.y-this->position.y) * percent);edkEnd();
-            this->lookAt.z = this->position.z + ((this->lookAt.z-this->position.z) * percent);edkEnd();
+            this->lookAt.x = this->position.x + ((this->lookAt.x-this->position.x) * percent);
+            this->lookAt.y = this->position.y + ((this->lookAt.y-this->position.y) * percent);
+            this->lookAt.z = this->position.z + ((this->lookAt.z-this->position.z) * percent);
         }
         else{
             //
-            this->position.x = this->lookAt.x + ((this->position.x-this->lookAt.x) * percent);edkEnd();
-            this->position.y = this->lookAt.y + ((this->position.y-this->lookAt.y) * percent);edkEnd();
-            this->position.z = this->lookAt.z + ((this->position.z-this->lookAt.z) * percent);edkEnd();
+            this->position.x = this->lookAt.x + ((this->position.x-this->lookAt.x) * percent);
+            this->position.y = this->lookAt.y + ((this->position.y-this->lookAt.y) * percent);
+            this->position.z = this->lookAt.z + ((this->position.z-this->lookAt.z) * percent);
         }
         return true;
     }
@@ -236,132 +245,132 @@ bool edk::Camera3D::setDistance(edk::float32 distance){
 }
 //move the distance
 bool edk::Camera3D::moveDistance(edk::float32 distance){
-    return this->setDistance(this->getDistance()+distance);edkEnd();
+    return this->setDistance(this->getDistance()+distance);
 }
 bool edk::Camera3D::incrementDistance(edk::float32 distance){
-    return this->setDistance(this->getDistance()+distance);edkEnd();
+    return this->setDistance(this->getDistance()+distance);
 }
 
 //functions to move the camera in his axis
 void edk::Camera3D::moveHorizontal(edk::float32 distance){
     //get the right vector
-    edk::float32 angle = this->getAngleX();edkEnd();
-    edk::vec3f32 right;edkEnd();
-    right.x = edk::Math::rotateX(1.f,angle+90.f);edkEnd();
-    right.z = edk::Math::rotateY(1.f,angle+90.f);edkEnd();
+    edk::float32 angle = this->getAngleX();
+    edk::vec3f32 right;
+    right.x = edk::Math::rotateX(1.f,angle+90.f);
+    right.z = edk::Math::rotateY(1.f,angle+90.f);
 
     //move the distance
-    this->position.x+=right.x * distance;edkEnd();
-    this->position.y+=right.y * distance;edkEnd();
-    this->position.z+=right.z * distance;edkEnd();
-    this->lookAt.x+=right.x * distance;edkEnd();
-    this->lookAt.y+=right.y * distance;edkEnd();
-    this->lookAt.z+=right.z * distance;edkEnd();
+    this->position.x+=right.x * distance;
+    this->position.y+=right.y * distance;
+    this->position.z+=right.z * distance;
+    this->lookAt.x+=right.x * distance;
+    this->lookAt.y+=right.y * distance;
+    this->lookAt.z+=right.z * distance;
 }
 void edk::Camera3D::moveVertical(edk::float32 distance){
     //
-    edk::vec3f32 up;edkEnd();
-    edk::float32 angleX = this->getAngleX();edkEnd();
-    edk::float32 angleY = this->getAngleY();edkEnd();
-    edk::float32 distanceX;edkEnd();
-    edk::float32 distanceY;edkEnd();
+    edk::vec3f32 up;
+    edk::float32 angleX = this->getAngleX();
+    edk::float32 angleY = this->getAngleY();
+    edk::float32 distanceX;
+    edk::float32 distanceY;
     if(this->firstPerson){
-        distanceX = edk::Math::pythagoras(this->lookAt.x - this->position.x,this->lookAt.z - this->position.z);edkEnd();
-        distanceY = edk::Math::pythagoras(distanceX,this->lookAt.y - this->position.y);edkEnd();
+        distanceX = edk::Math::pythagoras(this->lookAt.x - this->position.x,this->lookAt.z - this->position.z);
+        distanceY = edk::Math::pythagoras(distanceX,this->lookAt.y - this->position.y);
         //
-        distanceX = edk::Math::rotateX(distanceY,angleY+90.f);edkEnd();
-        up.y = edk::Math::rotateY(distanceY,angleY+90.f) + this->position.z;edkEnd();
+        distanceX = edk::Math::rotateX(distanceY,angleY+90.f);
+        up.y = edk::Math::rotateY(distanceY,angleY+90.f) + this->position.z;
         //
-        up.x = edk::Math::rotateX(distanceX,angleX) + this->position.x;edkEnd();
-        up.z = edk::Math::rotateY(distanceX,angleX) + this->position.z;edkEnd();
+        up.x = edk::Math::rotateX(distanceX,angleX) + this->position.x;
+        up.z = edk::Math::rotateY(distanceX,angleX) + this->position.z;
     }
     else{
-        distanceX = edk::Math::pythagoras(this->position.x - this->lookAt.x,this->position.z - this->lookAt.z);edkEnd();
-        distanceY = edk::Math::pythagoras(distanceX,this->position.y - this->lookAt.y);edkEnd();
+        distanceX = edk::Math::pythagoras(this->position.x - this->lookAt.x,this->position.z - this->lookAt.z);
+        distanceY = edk::Math::pythagoras(distanceX,this->position.y - this->lookAt.y);
         //
-        distanceX = edk::Math::rotateX(distanceY,angleY+90.f);edkEnd();
-        up.y = edk::Math::rotateY(distanceY,angleY+90.f) + this->lookAt.z;edkEnd();
+        distanceX = edk::Math::rotateX(distanceY,angleY+90.f);
+        up.y = edk::Math::rotateY(distanceY,angleY+90.f) + this->lookAt.z;
         //
-        up.x = edk::Math::rotateX(distanceX,angleX) + this->lookAt.x;edkEnd();
-        up.z = edk::Math::rotateY(distanceX,angleX) + this->lookAt.z;edkEnd();
+        up.x = edk::Math::rotateX(distanceX,angleX) + this->lookAt.x;
+        up.z = edk::Math::rotateY(distanceX,angleX) + this->lookAt.z;
     }
 
     //move the distance
-    this->position.x+=up.x * distance;edkEnd();
-    this->position.y+=up.y * distance;edkEnd();
-    this->position.z+=up.z * distance;edkEnd();
-    this->lookAt.x+=up.x * distance;edkEnd();
-    this->lookAt.y+=up.y * distance;edkEnd();
-    this->lookAt.z+=up.z * distance;edkEnd();
+    this->position.x+=up.x * distance;
+    this->position.y+=up.y * distance;
+    this->position.z+=up.z * distance;
+    this->lookAt.x+=up.x * distance;
+    this->lookAt.y+=up.y * distance;
+    this->lookAt.z+=up.z * distance;
 }
 
 //return the angle width and height
 edk::float32 edk::Camera3D::getAngleX(){
     if(this->firstPerson){
-        return edk::Math::getAngle(this->lookAt.x-this->position.x,this->lookAt.z-this->position.z);edkEnd();
+        return edk::Math::getAngle(this->lookAt.x-this->position.x,this->lookAt.z-this->position.z);
     }
-    return edk::Math::getAngle(this->position.x-this->lookAt.x,this->position.z-this->lookAt.z);edkEnd();
+    return edk::Math::getAngle(this->position.x-this->lookAt.x,this->position.z-this->lookAt.z);
 }
 edk::float32 edk::Camera3D::getAngleY(){
     if(this->firstPerson){
-        return edk::Math::getAngle(edk::Math::pythagoras(this->lookAt.x-this->position.x,this->lookAt.z-this->position.z),this->lookAt.y-this->position.y);edkEnd();
+        return edk::Math::getAngle(edk::Math::pythagoras(this->lookAt.x-this->position.x,this->lookAt.z-this->position.z),this->lookAt.y-this->position.y);
     }
-    return edk::Math::getAngle(edk::Math::pythagoras(this->position.x-this->lookAt.x,this->position.z-this->lookAt.z),this->position.y-this->lookAt.y);edkEnd();
+    return edk::Math::getAngle(edk::Math::pythagoras(this->position.x-this->lookAt.x,this->position.z-this->lookAt.z),this->position.y-this->lookAt.y);
 }
 edk::float32 edk::Camera3D::getAngleUp(){
     //
-    return edk::Math::getAngle(this->up.x,this->up.y);edkEnd();
+    return edk::Math::getAngle(this->up.x,this->up.y);
 }
 //set the angles
 void edk::Camera3D::setAngleX(edk::float32 angle){
     if(this->firstPerson){
-        edk::float32 distance = edk::Math::pythagoras(this->lookAt.x - this->position.x,this->lookAt.z - this->position.z);edkEnd();
-        this->lookAt.x = edk::Math::rotateX(distance,angle) + this->position.x;edkEnd();
-        this->lookAt.z = edk::Math::rotateY(distance,angle) + this->position.z;edkEnd();
+        edk::float32 distance = edk::Math::pythagoras(this->lookAt.x - this->position.x,this->lookAt.z - this->position.z);
+        this->lookAt.x = edk::Math::rotateX(distance,angle) + this->position.x;
+        this->lookAt.z = edk::Math::rotateY(distance,angle) + this->position.z;
     }
     else{
-        edk::float32 distance = edk::Math::pythagoras(this->position.x - this->lookAt.x,this->position.z - this->lookAt.z);edkEnd();
-        this->position.x = edk::Math::rotateX(distance,angle) + this->lookAt.x;edkEnd();
-        this->position.z = edk::Math::rotateY(distance,angle) + this->lookAt.z;edkEnd();
+        edk::float32 distance = edk::Math::pythagoras(this->position.x - this->lookAt.x,this->position.z - this->lookAt.z);
+        this->position.x = edk::Math::rotateX(distance,angle) + this->lookAt.x;
+        this->position.z = edk::Math::rotateY(distance,angle) + this->lookAt.z;
     }
 }
 void edk::Camera3D::setAngleY(edk::float32 angle){
     if(this->firstPerson){
-        edk::float32 angleX = this->getAngleX();edkEnd();
-        edk::float32 distanceX = edk::Math::pythagoras(this->lookAt.x - this->position.x,this->lookAt.z - this->position.z);edkEnd();
-        edk::float32 distanceY = edk::Math::pythagoras(distanceX,this->lookAt.y - this->position.y);edkEnd();
+        edk::float32 angleX = this->getAngleX();
+        edk::float32 distanceX = edk::Math::pythagoras(this->lookAt.x - this->position.x,this->lookAt.z - this->position.z);
+        edk::float32 distanceY = edk::Math::pythagoras(distanceX,this->lookAt.y - this->position.y);
         //
-        distanceX = edk::Math::rotateX(distanceY,angle);edkEnd();
-        this->lookAt.y = edk::Math::rotateY(distanceY,angle) + this->position.y;edkEnd();
+        distanceX = edk::Math::rotateX(distanceY,angle);
+        this->lookAt.y = edk::Math::rotateY(distanceY,angle) + this->position.y;
         //
-        this->lookAt.x = edk::Math::rotateX(distanceX,angleX) + this->position.x;edkEnd();
-        this->lookAt.z = edk::Math::rotateY(distanceX,angleX) + this->position.z;edkEnd();
+        this->lookAt.x = edk::Math::rotateX(distanceX,angleX) + this->position.x;
+        this->lookAt.z = edk::Math::rotateY(distanceX,angleX) + this->position.z;
     }
     else{
-        edk::float32 angleX = this->getAngleX();edkEnd();
-        edk::float32 distanceX = edk::Math::pythagoras(this->position.x - this->lookAt.x,this->position.z - this->lookAt.z);edkEnd();
-        edk::float32 distanceY = edk::Math::pythagoras(distanceX,this->position.y - this->lookAt.y);edkEnd();
+        edk::float32 angleX = this->getAngleX();
+        edk::float32 distanceX = edk::Math::pythagoras(this->position.x - this->lookAt.x,this->position.z - this->lookAt.z);
+        edk::float32 distanceY = edk::Math::pythagoras(distanceX,this->position.y - this->lookAt.y);
         //
-        distanceX = edk::Math::rotateX(distanceY,angle);edkEnd();
-        this->position.y = edk::Math::rotateY(distanceY,angle) + this->lookAt.y;edkEnd();
+        distanceX = edk::Math::rotateX(distanceY,angle);
+        this->position.y = edk::Math::rotateY(distanceY,angle) + this->lookAt.y;
         //
-        this->position.x = edk::Math::rotateX(distanceX,angleX) + this->lookAt.x;edkEnd();
-        this->position.z = edk::Math::rotateY(distanceX,angleX) + this->lookAt.z;edkEnd();
+        this->position.x = edk::Math::rotateX(distanceX,angleX) + this->lookAt.x;
+        this->position.z = edk::Math::rotateY(distanceX,angleX) + this->lookAt.z;
     }
 }
 void edk::Camera3D::setAngleUp(edk::float32 angle){
-    this->up.x = edk::Math::rotateX(1.f,angle);edkEnd();
-    this->up.y = edk::Math::rotateY(1.f,angle);edkEnd();
+    this->up.x = edk::Math::rotateX(1.f,angle);
+    this->up.y = edk::Math::rotateY(1.f,angle);
 }
 //move the angles
 void edk::Camera3D::rotateAngleX(edk::float32 angle){
-    this->setAngleX(angle + this->getAngleX());edkEnd();
+    this->setAngleX(angle + this->getAngleX());
 }
 void edk::Camera3D::rotateAngleY(edk::float32 angle){
-    this->setAngleY(angle + this->getAngleY());edkEnd();
+    this->setAngleY(angle + this->getAngleY());
 }
 void edk::Camera3D::rotateAngleUp(edk::float32 angle){
-    this->setAngleUp(angle + this->getAngleUp());edkEnd();
+    this->setAngleUp(angle + this->getAngleUp());
 }
 
 //get the projection matrix
@@ -379,15 +388,15 @@ void edk::Camera3D::draw(){
     //test if are NOT using GUmodelview
     if(!edk::GU::guUsingMatrix(GU_PROJECTION)){
         //then set to use modelView
-        edk::GU::guUseMatrix(GU_PROJECTION);edkEnd();
+        edk::GU::guUseMatrix(GU_PROJECTION);
     }
-    edk::GU::guLoadIdentity();edkEnd();
+    edk::GU::guLoadIdentity();
     //
-    edk::Camera3D::drawAxisOnly();edkEnd();
+    edk::Camera3D::drawAxisOnly();
 }
 void edk::Camera3D::drawAxisOnly(){
     if(this->perspective){
-        edk::GU::guUsePerspective(this->size.height*2.f,this->sizePercent,this->_near,this->_far);edkEnd();
+        edk::GU::guUsePerspective(this->size.height*2.f,this->sizePercent,this->_near,this->_far);
     }
     else{
         edk::GU::guUseOrtho(-this->size.width,
@@ -396,13 +405,13 @@ void edk::Camera3D::drawAxisOnly(){
                             this->size.height,
                             this->_near,//nea
                             this->_far//far
-                            );edkEnd();
+                            );
     }
 
     edk::GU::guLookAt(this->position.x,this->position.y,this->position.z,
                       this->lookAt.x,this->lookAt.y,this->lookAt.z,
                       this->up.x,this->up.y,0.f
-                      );edkEnd();
+                      );
 }
 void edk::Camera3D::drawAxisOnly(edk::float32 /*seconds*/){
     //
@@ -662,15 +671,15 @@ void edk::Camera3D::drawVectors(edk::float32 size,edk::float32 r,edk::float32 g,
 //operator to copy the cameras
 bool edk::Camera3D::cloneFrom(edk::Camera3D* cam){
     if(cam){
-        this->position = cam->position;edkEnd();
-        this->lookAt = cam->lookAt;edkEnd();
-        this->perspective = cam->perspective;edkEnd();
-        this->up = cam->up;edkEnd();
-        this->size = cam->size;edkEnd();
-        this->sizePercent = cam->sizePercent;edkEnd();
-        this->_near = cam->_near;edkEnd();
-        this->_far = cam->_far;edkEnd();
-        this->firstPerson = cam->firstPerson;edkEnd();
+        this->position = cam->position;
+        this->lookAt = cam->lookAt;
+        this->perspective = cam->perspective;
+        this->up = cam->up;
+        this->size = cam->size;
+        this->sizePercent = cam->sizePercent;
+        this->_near = cam->_near;
+        this->_far = cam->_far;
+        this->firstPerson = cam->firstPerson;
         this->projection.cloneFrom(&cam->projection);
         return true;
     }

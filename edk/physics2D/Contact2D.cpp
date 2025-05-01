@@ -26,52 +26,69 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 edk::physics2D::Contact2D::Contact2D(edk::classID pointer,edk::classID pointerBodyA,edk::classID pointerBodyB){
     //
-    this->contactPointer=pointer;edkEnd();
-    this->contactBodyA=pointerBodyA;edkEnd();
-    this->contactBodyB=pointerBodyB;edkEnd();
-    this->objectA=NULL;edkEnd();
-    this->objectB=NULL;edkEnd();
-    this->shapeA=0u;
-    this->shapeB=0u;
-    this->velocityA=0.f;edkEnd();
-    this->velocityB=0.f;edkEnd();
-    this->objectAWorldPosition=0.f;edkEnd();
-    this->objectBWorldPosition=0.f;edkEnd();
-    this->objectAWorldAngle=0.f;edkEnd();
-    this->objectBWorldAngle=0.f;edkEnd();
-    this->points = 0u;edkEnd();
-    this->areadyContacted=false;edkEnd();
-    this->enableContact();
+    this->classThis=NULL;
+    this->Constuctor(pointer,pointerBodyA,pointerBodyB);
 }
+edk::physics2D::Contact2D::~Contact2D(){
+    this->Destructor();
+}
+
+void edk::physics2D::Contact2D::Constuctor(edk::classID pointer,edk::classID pointerBodyA,edk::classID pointerBodyB){
+    if(this->classThis!=this){
+        this->classThis=this;
+        this->contactPointer=pointer;
+        this->contactBodyA=pointerBodyA;
+        this->contactBodyB=pointerBodyB;
+        this->objectA=NULL;
+        this->objectB=NULL;
+        this->shapeA=0u;
+        this->shapeB=0u;
+        this->velocityA=0.f;
+        this->velocityB=0.f;
+        this->objectAWorldPosition=0.f;
+        this->objectBWorldPosition=0.f;
+        this->objectAWorldAngle=0.f;
+        this->objectBWorldAngle=0.f;
+        this->points = 0u;
+        this->areadyContacted=false;
+        this->enableContact();
+    }
+}
+void edk::physics2D::Contact2D::Destructor(){
+    if(this->classThis==this){
+        this->classThis=NULL;
+    }
+}
+
 edk::uint8 edk::physics2D::Contact2D::getMaxPoints(){
-    return EDK_MAX_CONTACTS_POINTS;edkEnd();
+    return EDK_MAX_CONTACTS_POINTS;
 }
 
 //return the contactPointer
 edk::classID edk::physics2D::Contact2D::getContactPointer(){
-    return this->contactPointer;edkEnd();
+    return this->contactPointer;
 }
 edk::classID edk::physics2D::Contact2D::getContactBodyA(){
-    return this->contactBodyA;edkEnd();
+    return this->contactBodyA;
 }
 edk::classID edk::physics2D::Contact2D::getContactBodyB(){
-    return this->contactBodyB;edkEnd();
+    return this->contactBodyB;
 }
 
 //disable the contact
 void edk::physics2D::Contact2D::disableContact(){
-    this->enabled=false;edkEnd();
+    this->enabled=false;
 }
 void edk::physics2D::Contact2D::enableContact(){
-    this->enabled=true;edkEnd();
+    this->enabled=true;
 }
 void edk::physics2D::Contact2D::setEnabled(bool enabled){
-    this->enabled=enabled;edkEnd();
+    this->enabled=enabled;
 }
 bool edk::physics2D::Contact2D::isEnabled(){
-    return this->enabled;edkEnd();
+    return this->enabled;
 }
 //return true if aready have a contact with the same objects
 bool edk::physics2D::Contact2D::haveAreadyContact(){
-    return this->areadyContacted;edkEnd();
+    return this->areadyContacted;
 }

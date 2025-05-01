@@ -29,39 +29,41 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endif
 
 edk::shd::DataList::DataList(){
-    this->classThis=NULL;edkEnd();
-    this->Constructor(false);edkEnd();
+    this->classThis=NULL;
+    this->Constructor();
 }
 
 edk::shd::DataList::~DataList(){
-    if(this->classThis==this){
-        this->classThis=NULL;edkEnd();
-        //can destruct the class
-        this->selected=NULL;edkEnd();
-        //clean all the datas
-        this->cleanDatas();edkEnd();
-    }
+    this->Destructor();
 }
 
-void edk::shd::DataList::Constructor(bool runFather){
-    if(runFather){
-        edk::ObjectWithName::Constructor();edkEnd();
-    }
+void edk::shd::DataList::Constructor(){
+    edk::ObjectWithName::Constructor();
     if(this->classThis!=this){
         this->classThis=this;
 
-        this->tree.Constructor();edkEnd();
+        this->tree.Constructor();
 
-        this->selected=NULL;edkEnd();
+        this->selected=NULL;
     }
+}
+void edk::shd::DataList::Destructor(){
+    if(this->classThis==this){
+        this->classThis=NULL;
+        //can destruct the class
+        this->selected=NULL;
+        //clean all the datas
+        this->cleanDatas();
+    }
+    edk::ObjectWithName::Destructor();
 }
 
 //select the data
 bool edk::shd::DataList::selectData(edk::char8* name){
-    edk::uint8 count = 2u;edkEnd();
+    edk::uint8 count = 2u;
     do{
         //select the data
-        this->selected=(edk::shd::Data*)this->tree.getElementByName(name);edkEnd();
+        this->selected=(edk::shd::Data*)this->tree.getElementByName(name);
         if(this->selected){
             //return true
             return true;
@@ -71,24 +73,24 @@ bool edk::shd::DataList::selectData(edk::char8* name){
                 break;
             }
             //else add the newData
-            this->newData(name);edkEnd();
+            this->newData(name);
         }
         //decrement count
-        count--;edkEnd();
-    }while(count);edkEnd();
+        count--;
+    }while(count);
     //else return false
     return false;
 }
 //Set the id of the data
 bool edk::shd::DataList::setDataID(const edk::char8* name,edk::int32 id){
     //
-    return this->setDataID((edk::char8*) name,id);edkEnd();
+    return this->setDataID((edk::char8*) name,id);
 }
 bool edk::shd::DataList::setDataID(edk::char8* name,edk::int32 id){
     //select the data
     if(this->selectData(name) && id!=-1){
         //set the id
-        this->selected->ID=id;edkEnd();
+        this->selected->ID=id;
         //return true
         return true;
     }
@@ -99,13 +101,13 @@ bool edk::shd::DataList::setDataID(edk::char8* name,edk::int32 id){
 //create a new data
 bool edk::shd::DataList::newData(const edk::char8* name){
     //
-    return this->newData((edk::char8*) name);edkEnd();
+    return this->newData((edk::char8*) name);
 }
 bool edk::shd::DataList::newData(edk::char8* name){
     //test if the name is true
     if(name){
         //then create the new data
-        edk::shd::Data* temp = new edk::shd::Data();edkEnd();
+        edk::shd::Data* temp = new edk::shd::Data();
         //test if have a tmep
         if(temp){
             //set the dataName
@@ -117,7 +119,7 @@ bool edk::shd::DataList::newData(edk::char8* name){
                 }
             }
             //else delete the temp
-            delete temp;edkEnd();
+            delete temp;
         }
     }
     //else return false
@@ -129,25 +131,25 @@ void edk::shd::DataList::cleanDatas(){
     //delete the datas
     for(edk::uint32 i=0u;i<this->tree.size();i++){
         //return the element
-        edk::shd::Data* temp= (edk::shd::Data*)this->tree.getElementInPosition(i);edkEnd();
+        edk::shd::Data* temp= (edk::shd::Data*)this->tree.getElementInPosition(i);
         if(temp){
-            delete temp;edkEnd();
+            delete temp;
         }
     }
     //clean the tree
-    this->tree.clean();edkEnd();
+    this->tree.clean();
 }
 
 //Set the data int's
 bool edk::shd::DataList::setData1i(const edk::char8* name,edk::int32 d0){
     //select the data
-    return this->setData1i((edk::char8*) name,d0);edkEnd();
+    return this->setData1i((edk::char8*) name,d0);
 }
 bool edk::shd::DataList::setData1i(edk::char8* name,edk::int32 d0){
     //select the data
     if(this->selectData(name)){
         //set the id
-        this->selected->setData1i(d0);edkEnd();
+        this->selected->setData1i(d0);
         //return true
         return true;
     }
@@ -156,13 +158,13 @@ bool edk::shd::DataList::setData1i(edk::char8* name,edk::int32 d0){
 }
 bool edk::shd::DataList::setData2i(const edk::char8* name,edk::int32 d0,edk::int32 d1){
     //select the data
-    return this->setData2i((edk::char8*) name,d0,d1);edkEnd();
+    return this->setData2i((edk::char8*) name,d0,d1);
 }
 bool edk::shd::DataList::setData2i(edk::char8* name,edk::int32 d0,edk::int32 d1){
     //select the data
     if(this->selectData(name)){
         //set the id
-        this->selected->setData2i(d0,d1);edkEnd();
+        this->selected->setData2i(d0,d1);
         //return true
         return true;
     }
@@ -171,13 +173,13 @@ bool edk::shd::DataList::setData2i(edk::char8* name,edk::int32 d0,edk::int32 d1)
 }
 bool edk::shd::DataList::setData2i(const edk::char8* name,edk::vec2i32 datas){
     //select the data
-    return this->setData2i((edk::char8*) name,datas);edkEnd();
+    return this->setData2i((edk::char8*) name,datas);
 }
 bool edk::shd::DataList::setData2i(edk::char8* name,edk::vec2i32 datas){
     //select the data
     if(this->selectData(name)){
         //set the id
-        this->selected->setData2i(datas);edkEnd();
+        this->selected->setData2i(datas);
         //return true
         return true;
     }
@@ -186,13 +188,13 @@ bool edk::shd::DataList::setData2i(edk::char8* name,edk::vec2i32 datas){
 }
 bool edk::shd::DataList::setData3i(const edk::char8* name,edk::int32 d0,edk::int32 d1,edk::int32 d2){
     //select the data
-    return this->setData3i((edk::char8*) name,d0,d1,d2);edkEnd();
+    return this->setData3i((edk::char8*) name,d0,d1,d2);
 }
 bool edk::shd::DataList::setData3i(edk::char8* name,edk::int32 d0,edk::int32 d1,edk::int32 d2){
     //select the data
     if(this->selectData(name)){
         //set the id
-        this->selected->setData3i(d0,d1,d2);edkEnd();
+        this->selected->setData3i(d0,d1,d2);
         //return true
         return true;
     }
@@ -201,13 +203,13 @@ bool edk::shd::DataList::setData3i(edk::char8* name,edk::int32 d0,edk::int32 d1,
 }
 bool edk::shd::DataList::setData3i(const edk::char8* name,edk::vec3i32 datas){
     //
-    return this->setData3i((edk::char8*) name,datas);edkEnd();
+    return this->setData3i((edk::char8*) name,datas);
 }
 bool edk::shd::DataList::setData3i(edk::char8* name,edk::vec3i32 datas){
     //select the data
     if(this->selectData(name)){
         //set the id
-        this->selected->setData3i(datas);edkEnd();
+        this->selected->setData3i(datas);
         //return true
         return true;
     }
@@ -216,13 +218,13 @@ bool edk::shd::DataList::setData3i(edk::char8* name,edk::vec3i32 datas){
 }
 bool edk::shd::DataList::setData4i(const edk::char8* name,edk::int32 d0,edk::int32 d1,edk::int32 d2,edk::int32 d3){
     //select the data
-    return this->setData4i((edk::char8*) name,d0,d1,d2,d3);edkEnd();
+    return this->setData4i((edk::char8*) name,d0,d1,d2,d3);
 }
 bool edk::shd::DataList::setData4i(edk::char8* name,edk::int32 d0,edk::int32 d1,edk::int32 d2,edk::int32 d3){
     //select the data
     if(this->selectData(name)){
         //set the id
-        this->selected->setData4i(d0,d1,d2,d3);edkEnd();
+        this->selected->setData4i(d0,d1,d2,d3);
         //return true
         return true;
     }
@@ -231,13 +233,13 @@ bool edk::shd::DataList::setData4i(edk::char8* name,edk::int32 d0,edk::int32 d1,
 }
 bool edk::shd::DataList::setData4i(const edk::char8* name,edk::vec4i32 datas){
     //
-    return this->setData4i((edk::char8*) name,datas);edkEnd();
+    return this->setData4i((edk::char8*) name,datas);
 }
 bool edk::shd::DataList::setData4i(edk::char8* name,edk::vec4i32 datas){
     //select the data
     if(this->selectData(name)){
         //set the id
-        this->selected->setData4i(datas);edkEnd();
+        this->selected->setData4i(datas);
         //return true
         return true;
     }
@@ -247,13 +249,13 @@ bool edk::shd::DataList::setData4i(edk::char8* name,edk::vec4i32 datas){
 //Set the data float's
 bool edk::shd::DataList::setData1f(const edk::char8* name,edk::float32 d0){
     //select the data
-    return this->setData1f((edk::char8*) name,d0);edkEnd();
+    return this->setData1f((edk::char8*) name,d0);
 }
 bool edk::shd::DataList::setData1f(edk::char8* name,edk::float32 d0){
     //select the data
     if(this->selectData(name)){
         //set the id
-        this->selected->setData1f(d0);edkEnd();
+        this->selected->setData1f(d0);
         //return true
         return true;
     }
@@ -262,13 +264,13 @@ bool edk::shd::DataList::setData1f(edk::char8* name,edk::float32 d0){
 }
 bool edk::shd::DataList::setData2f(const edk::char8* name,edk::float32 d0,edk::float32 d1){
     //select the data
-    return this->setData2f((edk::char8*) name,d0,d1);edkEnd();
+    return this->setData2f((edk::char8*) name,d0,d1);
 }
 bool edk::shd::DataList::setData2f(edk::char8* name,edk::float32 d0,edk::float32 d1){
     //select the data
     if(this->selectData(name)){
         //set the id
-        this->selected->setData2f(d0,d1);edkEnd();
+        this->selected->setData2f(d0,d1);
         //return true
         return true;
     }
@@ -277,13 +279,13 @@ bool edk::shd::DataList::setData2f(edk::char8* name,edk::float32 d0,edk::float32
 }
 bool edk::shd::DataList::setData2f(const edk::char8* name,edk::vec2f32 datas){
     //select the data
-    return this->setData2f((edk::char8*) name,datas);edkEnd();
+    return this->setData2f((edk::char8*) name,datas);
 }
 bool edk::shd::DataList::setData2f(edk::char8* name,edk::vec2f32 datas){
     //select the data
     if(this->selectData(name)){
         //set the id
-        this->selected->setData2f(datas);edkEnd();
+        this->selected->setData2f(datas);
         //return true
         return true;
     }
@@ -292,13 +294,13 @@ bool edk::shd::DataList::setData2f(edk::char8* name,edk::vec2f32 datas){
 }
 bool edk::shd::DataList::setData3f(const edk::char8* name,edk::float32 d0,edk::float32 d1,edk::float32 d2){
     //select the data
-    return this->setData3f((edk::char8*) name,d0,d1,d2);edkEnd();
+    return this->setData3f((edk::char8*) name,d0,d1,d2);
 }
 bool edk::shd::DataList::setData3f(edk::char8* name,edk::float32 d0,edk::float32 d1,edk::float32 d2){
     //select the data
     if(this->selectData(name)){
         //set the id
-        this->selected->setData3f(d0,d1,d2);edkEnd();
+        this->selected->setData3f(d0,d1,d2);
         //return true
         return true;
     }
@@ -307,13 +309,13 @@ bool edk::shd::DataList::setData3f(edk::char8* name,edk::float32 d0,edk::float32
 }
 bool edk::shd::DataList::setData3f(const edk::char8* name,edk::vec3f32 datas){
     //
-    return this->setData3f((edk::char8*) name,datas);edkEnd();
+    return this->setData3f((edk::char8*) name,datas);
 }
 bool edk::shd::DataList::setData3f(edk::char8* name,edk::vec3f32 datas){
     //select the data
     if(this->selectData(name)){
         //set the id
-        this->selected->setData3f(datas);edkEnd();
+        this->selected->setData3f(datas);
         //return true
         return true;
     }
@@ -322,13 +324,13 @@ bool edk::shd::DataList::setData3f(edk::char8* name,edk::vec3f32 datas){
 }
 bool edk::shd::DataList::setData4f(const edk::char8* name,edk::float32 d0,edk::float32 d1,edk::float32 d2,edk::float32 d3){
     //select the data
-    return this->setData4f((edk::char8*) name,d0,d1,d2,d3);edkEnd();
+    return this->setData4f((edk::char8*) name,d0,d1,d2,d3);
 }
 bool edk::shd::DataList::setData4f(edk::char8* name,edk::float32 d0,edk::float32 d1,edk::float32 d2,edk::float32 d3){
     //select the data
     if(this->selectData(name)){
         //set the id
-        this->selected->setData4f(d0,d1,d2,d3);edkEnd();
+        this->selected->setData4f(d0,d1,d2,d3);
         //return true
         return true;
     }
@@ -337,13 +339,13 @@ bool edk::shd::DataList::setData4f(edk::char8* name,edk::float32 d0,edk::float32
 }
 bool edk::shd::DataList::setData4f(const edk::char8* name,edk::vec4f32 datas){
     //
-    return this->setData4f((edk::char8*) name,datas);edkEnd();
+    return this->setData4f((edk::char8*) name,datas);
 }
 bool edk::shd::DataList::setData4f(edk::char8* name,edk::vec4f32 datas){
     //select the data
     if(this->selectData(name)){
         //set the id
-        this->selected->setData4f(datas);edkEnd();
+        this->selected->setData4f(datas);
         //return true
         return true;
     }
@@ -352,13 +354,13 @@ bool edk::shd::DataList::setData4f(edk::char8* name,edk::vec4f32 datas){
 }
 //set the matrices
 bool edk::shd::DataList::setMatrix2f(const edk::char8* name,edk::float32 mat[2u][2u]){
-    return this->setMatrix2f((edk::char8*) name,mat);edkEnd();
+    return this->setMatrix2f((edk::char8*) name,mat);
 }
 bool edk::shd::DataList::setMatrix2f(edk::char8* name,edk::float32 mat[2u][2u]){
     //select the data
     if(this->selectData(name)){
         //set the id
-        this->selected->setMatrix2f(mat);edkEnd();
+        this->selected->setMatrix2f(mat);
         //return true
         return true;
     }
@@ -372,7 +374,7 @@ bool edk::shd::DataList::setMatrix2f(const edk::char8* name,
     return this->setMatrix2f((edk::char8*) name,
                              f11,f12,
                              f21,f22
-                             );edkEnd();
+                             );
 }
 bool edk::shd::DataList::setMatrix2f(edk::char8* name,
                                      edk::float32 f11,edk::float32 f12,
@@ -383,7 +385,7 @@ bool edk::shd::DataList::setMatrix2f(edk::char8* name,
         //set the id
         this->selected->setMatrix2f(f11,f12,
                                     f21,f22
-                                    );edkEnd();
+                                    );
         //return true
         return true;
     }
@@ -391,13 +393,13 @@ bool edk::shd::DataList::setMatrix2f(edk::char8* name,
     return false;
 }
 bool edk::shd::DataList::setMatrix3f(const edk::char8* name,edk::float32 mat[3u][3u]){
-    return this->setMatrix3f((edk::char8*) name,mat);edkEnd();
+    return this->setMatrix3f((edk::char8*) name,mat);
 }
 bool edk::shd::DataList::setMatrix3f(edk::char8* name,edk::float32 mat[3u][3u]){
     //select the data
     if(this->selectData(name)){
         //set the id
-        this->selected->setMatrix3f(mat);edkEnd();
+        this->selected->setMatrix3f(mat);
         //return true
         return true;
     }
@@ -413,7 +415,7 @@ bool edk::shd::DataList::setMatrix3f(const edk::char8* name,
                              f11,f12,f13,
                              f21,f22,f23,
                              f31,f32,f33
-                             );edkEnd();
+                             );
 }
 bool edk::shd::DataList::setMatrix3f(edk::char8* name,
                                      edk::float32 f11,edk::float32 f12,edk::float32 f13,
@@ -426,7 +428,7 @@ bool edk::shd::DataList::setMatrix3f(edk::char8* name,
         this->selected->setMatrix3f(f11,f12,f13,
                                     f21,f22,f23,
                                     f31,f32,f33
-                                    );edkEnd();
+                                    );
         //return true
         return true;
     }
@@ -434,13 +436,13 @@ bool edk::shd::DataList::setMatrix3f(edk::char8* name,
     return false;
 }
 bool edk::shd::DataList::setMatrix4f(const edk::char8* name,edk::float32 mat[4u][4u]){
-    return this->setMatrix4f((edk::char8*) name,mat);edkEnd();
+    return this->setMatrix4f((edk::char8*) name,mat);
 }
 bool edk::shd::DataList::setMatrix4f(edk::char8* name,edk::float32 mat[4u][4u]){
     //select the data
     if(this->selectData(name)){
         //set the id
-        this->selected->setMatrix4f(mat);edkEnd();
+        this->selected->setMatrix4f(mat);
         //return true
         return true;
     }
@@ -458,7 +460,7 @@ bool edk::shd::DataList::setMatrix4f(const edk::char8* name,
                              f21,f22,f23,f24,
                              f31,f32,f33,f34,
                              f41,f42,f43,f44
-                             );edkEnd();
+                             );
 }
 bool edk::shd::DataList::setMatrix4f(edk::char8* name,
                                      edk::float32 f11,edk::float32 f12,edk::float32 f13,edk::float32 f14,
@@ -473,7 +475,7 @@ bool edk::shd::DataList::setMatrix4f(edk::char8* name,
                                     f21,f22,f23,f24,
                                     f31,f32,f33,f34,
                                     f41,f42,f43,f44
-                                    );edkEnd();
+                                    );
         //return true
         return true;
     }
@@ -487,14 +489,14 @@ bool edk::shd::DataList::setMatrix4f(edk::char8* name,
 //update the data int's
 bool edk::shd::DataList::updateData1i(const edk::char8* name,edk::int32 d0){
     //select the data
-    return this->updateData1i((edk::char8*) name,d0);edkEnd();
+    return this->updateData1i((edk::char8*) name,d0);
 }
 bool edk::shd::DataList::updateData1i(edk::char8* name,edk::int32 d0){
     //select the data
     if(this->selectData(name)){
         //set the id
-        this->selected->setData1i(d0);edkEnd();
-        this->updateData(name);edkEnd();
+        this->selected->setData1i(d0);
+        this->updateData(name);
         //return true
         return true;
     }
@@ -503,14 +505,14 @@ bool edk::shd::DataList::updateData1i(edk::char8* name,edk::int32 d0){
 }
 bool edk::shd::DataList::updateData2i(const edk::char8* name,edk::int32 d0,edk::int32 d1){
     //select the data
-    return this->updateData2i((edk::char8*) name,d0,d1);edkEnd();
+    return this->updateData2i((edk::char8*) name,d0,d1);
 }
 bool edk::shd::DataList::updateData2i(edk::char8* name,edk::int32 d0,edk::int32 d1){
     //select the data
     if(this->selectData(name)){
         //set the id
-        this->selected->setData2i(d0,d1);edkEnd();
-        this->updateData(name);edkEnd();
+        this->selected->setData2i(d0,d1);
+        this->updateData(name);
         //return true
         return true;
     }
@@ -519,14 +521,14 @@ bool edk::shd::DataList::updateData2i(edk::char8* name,edk::int32 d0,edk::int32 
 }
 bool edk::shd::DataList::updateData2i(const edk::char8* name,edk::vec2i32 datas){
     //select the data
-    return this->updateData2i((edk::char8*) name,datas);edkEnd();
+    return this->updateData2i((edk::char8*) name,datas);
 }
 bool edk::shd::DataList::updateData2i(edk::char8* name,edk::vec2i32 datas){
     //select the data
     if(this->selectData(name)){
         //set the id
-        this->selected->setData2i(datas);edkEnd();
-        this->updateData(name);edkEnd();
+        this->selected->setData2i(datas);
+        this->updateData(name);
         //return true
         return true;
     }
@@ -535,14 +537,14 @@ bool edk::shd::DataList::updateData2i(edk::char8* name,edk::vec2i32 datas){
 }
 bool edk::shd::DataList::updateData3i(const edk::char8* name,edk::int32 d0,edk::int32 d1,edk::int32 d2){
     //select the data
-    return this->updateData3i((edk::char8*) name,d0,d1,d2);edkEnd();
+    return this->updateData3i((edk::char8*) name,d0,d1,d2);
 }
 bool edk::shd::DataList::updateData3i(edk::char8* name,edk::int32 d0,edk::int32 d1,edk::int32 d2){
     //select the data
     if(this->selectData(name)){
         //set the id
-        this->selected->setData3i(d0,d1,d2);edkEnd();
-        this->updateData(name);edkEnd();
+        this->selected->setData3i(d0,d1,d2);
+        this->updateData(name);
         //return true
         return true;
     }
@@ -551,14 +553,14 @@ bool edk::shd::DataList::updateData3i(edk::char8* name,edk::int32 d0,edk::int32 
 }
 bool edk::shd::DataList::updateData3i(const edk::char8* name,edk::vec3i32 datas){
     //
-    return this->updateData3i((edk::char8*) name,datas);edkEnd();
+    return this->updateData3i((edk::char8*) name,datas);
 }
 bool edk::shd::DataList::updateData3i(edk::char8* name,edk::vec3i32 datas){
     //select the data
     if(this->selectData(name)){
         //set the id
-        this->selected->setData3i(datas);edkEnd();
-        this->updateData(name);edkEnd();
+        this->selected->setData3i(datas);
+        this->updateData(name);
         //return true
         return true;
     }
@@ -567,14 +569,14 @@ bool edk::shd::DataList::updateData3i(edk::char8* name,edk::vec3i32 datas){
 }
 bool edk::shd::DataList::updateData4i(const edk::char8* name,edk::int32 d0,edk::int32 d1,edk::int32 d2,edk::int32 d3){
     //select the data
-    return this->updateData4i((edk::char8*) name,d0,d1,d2,d3);edkEnd();
+    return this->updateData4i((edk::char8*) name,d0,d1,d2,d3);
 }
 bool edk::shd::DataList::updateData4i(edk::char8* name,edk::int32 d0,edk::int32 d1,edk::int32 d2,edk::int32 d3){
     //select the data
     if(this->selectData(name)){
         //set the id
-        this->selected->setData4i(d0,d1,d2,d3);edkEnd();
-        this->updateData(name);edkEnd();
+        this->selected->setData4i(d0,d1,d2,d3);
+        this->updateData(name);
         //return true
         return true;
     }
@@ -583,14 +585,14 @@ bool edk::shd::DataList::updateData4i(edk::char8* name,edk::int32 d0,edk::int32 
 }
 bool edk::shd::DataList::updateData4i(const edk::char8* name,edk::vec4i32 datas){
     //
-    return this->updateData4i((edk::char8*) name,datas);edkEnd();
+    return this->updateData4i((edk::char8*) name,datas);
 }
 bool edk::shd::DataList::updateData4i(edk::char8* name,edk::vec4i32 datas){
     //select the data
     if(this->selectData(name)){
         //set the id
-        this->selected->setData4i(datas);edkEnd();
-        this->updateData(name);edkEnd();
+        this->selected->setData4i(datas);
+        this->updateData(name);
         //return true
         return true;
     }
@@ -600,14 +602,14 @@ bool edk::shd::DataList::updateData4i(edk::char8* name,edk::vec4i32 datas){
 //Set the data float's
 bool edk::shd::DataList::updateData1f(const edk::char8* name,edk::float32 d0){
     //select the data
-    return this->updateData1f((edk::char8*) name,d0);edkEnd();
+    return this->updateData1f((edk::char8*) name,d0);
 }
 bool edk::shd::DataList::updateData1f(edk::char8* name,edk::float32 d0){
     //select the data
     if(this->selectData(name)){
         //set the id
-        this->selected->setData1f(d0);edkEnd();
-        this->updateData(name);edkEnd();
+        this->selected->setData1f(d0);
+        this->updateData(name);
         //return true
         return true;
     }
@@ -616,14 +618,14 @@ bool edk::shd::DataList::updateData1f(edk::char8* name,edk::float32 d0){
 }
 bool edk::shd::DataList::updateData2f(const edk::char8* name,edk::float32 d0,edk::float32 d1){
     //select the data
-    return this->updateData2f((edk::char8*) name,d0,d1);edkEnd();
+    return this->updateData2f((edk::char8*) name,d0,d1);
 }
 bool edk::shd::DataList::updateData2f(edk::char8* name,edk::float32 d0,edk::float32 d1){
     //select the data
     if(this->selectData(name)){
         //set the id
-        this->selected->setData2f(d0,d1);edkEnd();
-        this->updateData(name);edkEnd();
+        this->selected->setData2f(d0,d1);
+        this->updateData(name);
         //return true
         return true;
     }
@@ -632,14 +634,14 @@ bool edk::shd::DataList::updateData2f(edk::char8* name,edk::float32 d0,edk::floa
 }
 bool edk::shd::DataList::updateData2f(const edk::char8* name,edk::vec2f32 datas){
     //select the data
-    return this->updateData2f((edk::char8*) name,datas);edkEnd();
+    return this->updateData2f((edk::char8*) name,datas);
 }
 bool edk::shd::DataList::updateData2f(edk::char8* name,edk::vec2f32 datas){
     //select the data
     if(this->selectData(name)){
         //set the id
-        this->selected->setData2f(datas);edkEnd();
-        this->updateData(name);edkEnd();
+        this->selected->setData2f(datas);
+        this->updateData(name);
         //return true
         return true;
     }
@@ -648,14 +650,14 @@ bool edk::shd::DataList::updateData2f(edk::char8* name,edk::vec2f32 datas){
 }
 bool edk::shd::DataList::updateData3f(const edk::char8* name,edk::float32 d0,edk::float32 d1,edk::float32 d2){
     //select the data
-    return this->updateData3f((edk::char8*) name,d0,d1,d2);edkEnd();
+    return this->updateData3f((edk::char8*) name,d0,d1,d2);
 }
 bool edk::shd::DataList::updateData3f(edk::char8* name,edk::float32 d0,edk::float32 d1,edk::float32 d2){
     //select the data
     if(this->selectData(name)){
         //set the id
-        this->selected->setData3f(d0,d1,d2);edkEnd();
-        this->updateData(name);edkEnd();
+        this->selected->setData3f(d0,d1,d2);
+        this->updateData(name);
         //return true
         return true;
     }
@@ -664,14 +666,14 @@ bool edk::shd::DataList::updateData3f(edk::char8* name,edk::float32 d0,edk::floa
 }
 bool edk::shd::DataList::updateData3f(const edk::char8* name,edk::vec3f32 datas){
     //
-    return this->updateData3f((edk::char8*) name,datas);edkEnd();
+    return this->updateData3f((edk::char8*) name,datas);
 }
 bool edk::shd::DataList::updateData3f(edk::char8* name,edk::vec3f32 datas){
     //select the data
     if(this->selectData(name)){
         //set the id
-        this->selected->setData3f(datas);edkEnd();
-        this->updateData(name);edkEnd();
+        this->selected->setData3f(datas);
+        this->updateData(name);
         //return true
         return true;
     }
@@ -680,14 +682,14 @@ bool edk::shd::DataList::updateData3f(edk::char8* name,edk::vec3f32 datas){
 }
 bool edk::shd::DataList::updateData4f(const edk::char8* name,edk::float32 d0,edk::float32 d1,edk::float32 d2,edk::float32 d3){
     //select the data
-    return this->updateData4f((edk::char8*) name,d0,d1,d2,d3);edkEnd();
+    return this->updateData4f((edk::char8*) name,d0,d1,d2,d3);
 }
 bool edk::shd::DataList::updateData4f(edk::char8* name,edk::float32 d0,edk::float32 d1,edk::float32 d2,edk::float32 d3){
     //select the data
     if(this->selectData(name)){
         //set the id
-        this->selected->setData4f(d0,d1,d2,d3);edkEnd();
-        this->updateData(name);edkEnd();
+        this->selected->setData4f(d0,d1,d2,d3);
+        this->updateData(name);
         //return true
         return true;
     }
@@ -696,14 +698,14 @@ bool edk::shd::DataList::updateData4f(edk::char8* name,edk::float32 d0,edk::floa
 }
 bool edk::shd::DataList::updateData4f(const edk::char8* name,edk::vec4f32 datas){
     //
-    return this->updateData4f((edk::char8*) name,datas);edkEnd();
+    return this->updateData4f((edk::char8*) name,datas);
 }
 bool edk::shd::DataList::updateData4f(edk::char8* name,edk::vec4f32 datas){
     //select the data
     if(this->selectData(name)){
         //set the id
-        this->selected->setData4f(datas);edkEnd();
-        this->updateData(name);edkEnd();
+        this->selected->setData4f(datas);
+        this->updateData(name);
         //return true
         return true;
     }
@@ -712,14 +714,14 @@ bool edk::shd::DataList::updateData4f(edk::char8* name,edk::vec4f32 datas){
 }
 //set the matrices
 bool edk::shd::DataList::updateMatrix2f(const edk::char8* name,edk::float32 mat[2u][2u]){
-    return this->updateMatrix2f((edk::char8*) name,mat);edkEnd();
+    return this->updateMatrix2f((edk::char8*) name,mat);
 }
 bool edk::shd::DataList::updateMatrix2f(edk::char8* name,edk::float32 mat[2u][2u]){
     //select the data
     if(this->selectData(name)){
         //set the id
-        this->selected->setMatrix2f(mat);edkEnd();
-        this->updateData(name);edkEnd();
+        this->selected->setMatrix2f(mat);
+        this->updateData(name);
         //return true
         return true;
     }
@@ -733,7 +735,7 @@ bool edk::shd::DataList::updateMatrix2f(const edk::char8* name,
     return this->updateMatrix2f((edk::char8*) name,
                                 f11,f12,
                                 f21,f22
-                                );edkEnd();
+                                );
 }
 bool edk::shd::DataList::updateMatrix2f(edk::char8* name,
                                         edk::float32 f11,edk::float32 f12,
@@ -744,8 +746,8 @@ bool edk::shd::DataList::updateMatrix2f(edk::char8* name,
         //set the id
         this->selected->setMatrix2f(f11,f12,
                                     f21,f22
-                                    );edkEnd();
-        this->updateData(name);edkEnd();
+                                    );
+        this->updateData(name);
         //return true
         return true;
     }
@@ -753,14 +755,14 @@ bool edk::shd::DataList::updateMatrix2f(edk::char8* name,
     return false;
 }
 bool edk::shd::DataList::updateMatrix3f(const edk::char8* name,edk::float32 mat[3u][3u]){
-    return this->updateMatrix3f((edk::char8*) name,mat);edkEnd();
+    return this->updateMatrix3f((edk::char8*) name,mat);
 }
 bool edk::shd::DataList::updateMatrix3f(edk::char8* name,edk::float32 mat[3u][3u]){
     //select the data
     if(this->selectData(name)){
         //set the id
-        this->selected->setMatrix3f(mat);edkEnd();
-        this->updateData(name);edkEnd();
+        this->selected->setMatrix3f(mat);
+        this->updateData(name);
         //return true
         return true;
     }
@@ -776,7 +778,7 @@ bool edk::shd::DataList::updateMatrix3f(const edk::char8* name,
                                 f11,f12,f13,
                                 f21,f22,f23,
                                 f31,f32,f33
-                                );edkEnd();
+                                );
 }
 bool edk::shd::DataList::updateMatrix3f(edk::char8* name,
                                         edk::float32 f11,edk::float32 f12,edk::float32 f13,
@@ -789,8 +791,8 @@ bool edk::shd::DataList::updateMatrix3f(edk::char8* name,
         this->selected->setMatrix3f(f11,f12,f13,
                                     f21,f22,f23,
                                     f31,f32,f33
-                                    );edkEnd();
-        this->updateData(name);edkEnd();
+                                    );
+        this->updateData(name);
         //return true
         return true;
     }
@@ -798,14 +800,14 @@ bool edk::shd::DataList::updateMatrix3f(edk::char8* name,
     return false;
 }
 bool edk::shd::DataList::updateMatrix4f(const edk::char8* name,edk::float32 mat[4u][4u]){
-    return this->updateMatrix4f((edk::char8*) name,mat);edkEnd();
+    return this->updateMatrix4f((edk::char8*) name,mat);
 }
 bool edk::shd::DataList::updateMatrix4f(edk::char8* name,edk::float32 mat[4u][4u]){
     //select the data
     if(this->selectData(name)){
         //set the id
-        this->selected->setMatrix4f(mat);edkEnd();
-        this->updateData(name);edkEnd();
+        this->selected->setMatrix4f(mat);
+        this->updateData(name);
         //return true
         return true;
     }
@@ -823,7 +825,7 @@ bool edk::shd::DataList::updateMatrix4f(const edk::char8* name,
                                 f21,f22,f23,f24,
                                 f31,f32,f33,f34,
                                 f41,f42,f43,f44
-                                );edkEnd();
+                                );
 }
 bool edk::shd::DataList::updateMatrix4f(edk::char8* name,
                                         edk::float32 f11,edk::float32 f12,edk::float32 f13,edk::float32 f14,
@@ -838,8 +840,8 @@ bool edk::shd::DataList::updateMatrix4f(edk::char8* name,
                                     f21,f22,f23,f24,
                                     f31,f32,f33,f34,
                                     f41,f42,f43,f44
-                                    );edkEnd();
-        this->updateData(name);edkEnd();
+                                    );
+        this->updateData(name);
         //return true
         return true;
     }
@@ -850,13 +852,13 @@ bool edk::shd::DataList::updateMatrix4f(edk::char8* name,
 //update one data
 bool edk::shd::DataList::updateData(const edk::char8* name){
     //
-    return this->updateData((edk::char8*) name);edkEnd();
+    return this->updateData((edk::char8*) name);
 }
 bool edk::shd::DataList::updateData(edk::char8* name){
     //select the data
     if(this->selectData(name)){
         //set the id
-        this->selected->updateData();edkEnd();
+        this->selected->updateData();
         //return true
         return true;
     }
@@ -871,14 +873,14 @@ bool edk::shd::DataList::updateAllDatas(){
         /*
         for(edk::uint32 i=0u;i<this->tree.size();i++){
             //select the data
-            this->selected = (edk::shd::Data*)this->tree.getElementInPosition(i);edkEnd();
+            this->selected = (edk::shd::Data*)this->tree.getElementInPosition(i);
             if(this->selected){
                 //update the element
-                this->selected->updateData();edkEnd();
+                this->selected->updateData();
             }
         }
         */
-        this->tree.update();edkEnd();
+        this->tree.update();
         //return true
         return true;
     }
@@ -888,14 +890,14 @@ bool edk::shd::DataList::updateAllDatas(){
 
 //remove a data
 void edk::shd::DataList::deleteData(const edk::char8* name){
-    return this->deleteData((edk::char8*) name);edkEnd();
+    return this->deleteData((edk::char8*) name);
 }
 void edk::shd::DataList::deleteData(edk::char8* name){
     //select the data
     if(this->selectData(name)){
         //remove the data
-        this->tree.remove(this->selected);edkEnd();
-        delete this->selected;edkEnd();
-        this->selected=NULL;edkEnd();
+        this->tree.remove(this->selected);
+        delete this->selected;
+        this->selected=NULL;
     }
 }

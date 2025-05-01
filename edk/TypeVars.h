@@ -295,7 +295,10 @@ public:
 };
 class C{
 public:
-    C(){this->classThis=NULL;this->Constructor(false);}
+    C(){
+        this->classThis=NULL;
+        this->Constructor();
+    }
     virtual ~C(){
         if(this->classThis==this){
             this->classThis=NULL;
@@ -303,8 +306,7 @@ public:
         }
     }
 
-    void Constructor(bool runFather=true){
-        if(runFather){runFather=false;}
+    void Constructor(){
         if(this->classThis!=this){
             this->classThis=this;
         }

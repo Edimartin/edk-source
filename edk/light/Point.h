@@ -45,7 +45,8 @@ public:
     Point();
     virtual ~Point();
 
-    void Constructor(bool runFather=true);
+    void Constructor();
+    void Destructor();
     //DRAW THE LIGH USING THE LIGHT NUMBER
     virtual void draw(edk::uint32 lightNumber);
 

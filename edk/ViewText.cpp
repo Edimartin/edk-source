@@ -29,33 +29,35 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endif
 
 edk::ViewText::ViewText(){
-    this->classThis=NULL;edkEnd();
-    this->Constructor(false);edkEnd();
+    this->classThis=NULL;
+    this->Constructor();
 }
 edk::ViewText::~ViewText(){
-    if(this->classThis==this){
-        this->classThis=NULL;edkEnd();
-        //can destruct the class
-    }
+    this->Destructor();
 }
 
-void edk::ViewText::Constructor(bool runFather){
-    if(runFather){
-        edk::ViewGU2D::Constructor();edkEnd();
-    }
+void edk::ViewText::Constructor(){
+    edk::ViewGU2D::Constructor();
     if(this->classThis!=this){
         this->classThis=this;
 
-        this->text.Constructor();edkEnd();
+        this->text.Constructor();
 
         this->textLine=0u;
         this->saveLine=0u;
-        this->text.setColor(0.f,0.f,0.f,1.f);edkEnd();
-        this->cleanString();edkEnd();
+        this->text.setColor(0.f,0.f,0.f,1.f);
+        this->cleanString();
 
         //set the text to black color
-        this->text.setColor(0.f,0.f,0.f,1.f);edkEnd();
+        this->text.setColor(0.f,0.f,0.f,1.f);
     }
+}
+void edk::ViewText::Destructor(){
+    if(this->classThis==this){
+        this->classThis=NULL;
+        //can destruct the class
+    }
+    edk::ViewGU2D::Destructor();
 }
 
 //draw the GU scene
@@ -66,89 +68,89 @@ void edk::ViewText::drawScene(edk::rectf32){
             ||
             this->saveLine!=this->textLine){
         //then rect receive frame
-        this->rectSave=this->frame;edkEnd();
+        this->rectSave=this->frame;
 
         if(this->textLine){
             //resize the camera
             this->camera.setRectPoints(0.f,
-                                 0.f - (this->textLine - 1u),
-                                 this->rectSave.size.width / (this->rectSave.size.height / this->textLine),
-                                 1 + (this->textLine - 1u)
-                                 );edkEnd();
+                                       0.f - (this->textLine - 1u),
+                                       this->rectSave.size.width / (this->rectSave.size.height / this->textLine),
+                                       1 + (this->textLine - 1u)
+                                       );
         }
         else if(this->frame.size.height){
             //update the camera size
             this->camera.setRectPoints(0,
-                                 0,
-                                 this->frame.size.width/this->frame.size.height,
-                                 1
-                                 );edkEnd();
+                                       0,
+                                       this->frame.size.width/this->frame.size.height,
+                                       1
+                                       );
         }
         else{
             //update the camera size
             this->camera.setRectPoints(0,
-                                 0,
-                                 1,
-                                 1
-                                 );edkEnd();
+                                       0,
+                                       1,
+                                       1
+                                       );
         }
-        this->saveLine = this->textLine;edkEnd();
+        this->saveLine = this->textLine;
     }
-    this->text.draw();edkEnd();
+    this->text.draw();
 }
 void edk::ViewText::load(edk::rectf32){
-    //this->text.setPosition(0,0);edkEnd();
+    //this->text.setPosition(0,0);
 }
 void edk::ViewText::unload(){
     //
 }
 void edk::ViewText::update(edk::WindowEvents*){
-    this->text.updateAnimations();edkEnd();
+    this->text.updateAnimations();
 }
 void edk::ViewText::update(edk::WindowEvents*,edk::float32 seconds){
-    this->text.updateAnimations(seconds);edkEnd();
+    this->text.updateAnimations(seconds);
 }
 
 //createString
 bool edk::ViewText::createString(edk::char8* string){
     if(this->text.createStringMap(string)){
         //set the new position
-        this->textLine = this->text.getMapSizeHeight();edkEnd();
-        this->text.setPosition(0.5f,0.5f - (this->textLine-1));edkEnd();
+        this->textLine = this->text.getMapSizeHeight();
+        this->text.setPosition(0.5f,0.5f - (this->textLine-1));
         return true;
     }
     return false;
 }
 bool edk::ViewText::createString(const edk::char8* string){
-    return this->createString((edk::char8*) string);edkEnd();
+    return this->createString((edk::char8*) string);
 }
 
 //load the font image
 bool edk::ViewText::loadFontImage(edk::char8* name,edk::uint32 filter,edk::color4f32 color){
-    return this->text.loadFontImage(name,filter,color);edkEnd();
+    return this->text.loadFontImage(name,filter,color);
 }
 bool edk::ViewText::loadFontImage(const edk::char8* name,edk::uint32 filter,edk::color4f32 color){
-    return this->text.loadFontImage(name,filter,color);edkEnd();
+    return this->text.loadFontImage(name,filter,color);
 }
 
 //set the color
 void edk::ViewText::setColor(edk::color4f32 color){
-    this->text.setColor(color);edkEnd();
+    this->text.setColor(color);
 }
 void edk::ViewText::setColor(edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a){
-    this->text.setColor(r,g,b,a);edkEnd();
+    this->text.setColor(r,g,b,a);
 }
 void edk::ViewText::setAlpha(edk::float32 value){
-    this->text.setAlpha(value);edkEnd();
+    this->text.setAlpha(value);
 }
 void edk::ViewText::setColor(edk::color4ui8 color){
-    this->text.setColor(color);edkEnd();
+    this->text.setColor(color);
 }
 void edk::ViewText::setColor(edk::uint8 r,edk::uint8 g,edk::uint8 b,edk::uint8 a){
-    this->text.setColor(r,g,b,a);edkEnd();
+    this->text.setColor(r,g,b,a);
 }
 void edk::ViewText::setAlpha(edk::uint8 value){
-    this->text.setAlpha(value);edkEnd();
+    this->text.setAlpha(value);
 }
 
 //update the width
@@ -161,17 +163,17 @@ void edk::ViewText::updateWidth(){
                         )
                     * this->text.getMapScaleWidth()
                     )
-                ;edkEnd();
+                ;
     }
 }
 void edk::ViewText::setScale(edk::size2f32 scale){
-    this->text.setScale(scale);edkEnd();
+    this->text.setScale(scale);
 }
 void edk::ViewText::setScale(edk::float32 width,edk::float32 height){
-    this->text.setScale(width,height);edkEnd();
+    this->text.setScale(width,height);
 }
 
 //clean the string
 void edk::ViewText::cleanString(){
-    this->text.createStringMap(" ");edkEnd();
+    this->text.createStringMap(" ");
 }

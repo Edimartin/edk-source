@@ -43,9 +43,16 @@ namespace physics2D{
 class MouseJoint2D : public edk::physics2D::Joint2D{
 public:
     MouseJoint2D(bool collide=false);
+    ~MouseJoint2D();
+
+    void Constructor(bool collide=false);
+    void Destructor();
 
     //draw the joint in debug mode
     virtual void draw(edk::size2f32 size,edk::color3f32 color);
+
+private:
+    edk::classID classThis;
 };
 }
 }

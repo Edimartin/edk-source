@@ -25,29 +25,31 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 edk::network::udp::ClientUDP::ClientUDP(){
-    this->classThis=NULL;edkEnd();
-    this->Constructor(false);edkEnd();
+    this->classThis=NULL;
+    this->Constructor();
 }
 edk::network::udp::ClientUDP::~ClientUDP(){
+    this->Destructor();
+}
+
+void edk::network::udp::ClientUDP::Constructor(){
+    edk::network::Socket::Constructor();
+    if(this->classThis!=this){
+        this->classThis=this;
+
+        this->sendHost.Constructor();
+
+        this->cleanAdress();
+    }
+}
+void edk::network::udp::ClientUDP::Destructor(){
     if(this->classThis==this){
-        this->classThis=NULL;edkEnd();
+        this->classThis=NULL;
         //can destruct the class
         this->cleanAdress();
         this->closeSocket();
     }
-}
-
-void edk::network::udp::ClientUDP::Constructor(bool runFather){
-    if(runFather){
-        edk::network::Socket::Constructor();edkEnd();
-    }
-    if(this->classThis!=this){
-        this->classThis=this;
-
-        this->sendHost.Constructor();edkEnd();
-
-        this->cleanAdress();
-    }
+    edk::network::Socket::Destructor();
 }
 
 //close the socket

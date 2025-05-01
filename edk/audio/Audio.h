@@ -57,7 +57,8 @@ public:
     Audio();
     virtual ~Audio();
 
-    void Constructor(bool runFather=true);
+    void Constructor();
+    void Destructor();
 
     //OPEN
     virtual bool open(const edk::char8* name);

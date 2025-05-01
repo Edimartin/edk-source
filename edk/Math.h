@@ -57,193 +57,194 @@ public:
     Math();
     virtual ~Math();
 
-    void Constructor(bool runFather=true);
+    void Constructor();
+    void Destructor();
 
     //equal comparison
     static inline bool isEqual(edk::char8 n1 ,edk::char8 n2){
-        return (n1==n2);edkEnd();
+        return (n1==n2); 
     }
     static inline bool isEqual(edk::int8 n1 ,edk::int8 n2){
-        return (n1==n2);edkEnd();
+        return (n1==n2); 
     }
     static inline bool isEqual(edk::int16 n1,edk::int16 n2){
-        return (n1==n2);edkEnd();
+        return (n1==n2); 
     }
     static inline bool isEqual(edk::int32 n1,edk::int32 n2){
-        return (n1==n2);edkEnd();
+        return (n1==n2); 
     }
     static inline bool isEqual(edk::int64 n1,edk::int64 n2){
-        return (n1==n2);edkEnd();
+        return (n1==n2); 
     }
     static inline bool isEqual(edk::uint8 n1 ,edk::uint8 n2){
-        return (n1==n2);edkEnd();
+        return (n1==n2); 
     }
     static inline bool isEqual(edk::uint16 n1,edk::uint16 n2){
-        return (n1==n2);edkEnd();
+        return (n1==n2); 
     }
     static inline bool isEqual(edk::uint32 n1,edk::uint32 n2){
-        return (n1==n2);edkEnd();
+        return (n1==n2); 
     }
     static inline bool isEqual(edk::uint64 n1,edk::uint64 n2){
-        return (n1==n2);edkEnd();
+        return (n1==n2); 
     }
     static inline bool isEqual(edk::float32 n1,edk::float32 n2){
-        return (n1>=n2-0.0001f && n1<=n2+0.0001f);edkEnd();
+        return (n1>=n2-0.0001f && n1<=n2+0.0001f); 
     }
     static inline bool isEqual(edk::float64 n1,edk::float64 n2){
-        return (n1>=n2-0.000001f && n1<=n2+0.000001f);edkEnd();
+        return (n1>=n2-0.000001f && n1<=n2+0.000001f); 
     }
     static inline bool isEqual(edk::float32 n1,edk::float32 n2,edk::float32 distance){
-        return (n1>=n2-distance && n1<=n2+distance);edkEnd();
+        return (n1>=n2-distance && n1<=n2+distance); 
     }
     static inline bool isEqual(edk::float64 n1,edk::float64 n2,edk::float64 distance){
-        return (n1>=n2-distance && n1<=n2+distance);edkEnd();
+        return (n1>=n2-distance && n1<=n2+distance); 
     }
     static inline bool equal(edk::char8 n1 ,edk::char8 n2){
-        return (n1==n2);edkEnd();
+        return (n1==n2); 
     }
     static inline bool equal(edk::int8 n1 ,edk::int8 n2){
-        return (n1==n2);edkEnd();
+        return (n1==n2); 
     }
     static inline bool equal(edk::int16 n1,edk::int16 n2){
-        return (n1==n2);edkEnd();
+        return (n1==n2); 
     }
     static inline bool equal(edk::int32 n1,edk::int32 n2){
-        return (n1==n2);edkEnd();
+        return (n1==n2); 
     }
     static inline bool equal(edk::int64 n1,edk::int64 n2){
-        return (n1==n2);edkEnd();
+        return (n1==n2); 
     }
     static inline bool equal(edk::uint8 n1 ,edk::uint8 n2){
-        return (n1==n2);edkEnd();
+        return (n1==n2); 
     }
     static inline bool equal(edk::uint16 n1,edk::uint16 n2){
-        return (n1==n2);edkEnd();
+        return (n1==n2); 
     }
     static inline bool equal(edk::uint32 n1,edk::uint32 n2){
-        return (n1==n2);edkEnd();
+        return (n1==n2); 
     }
     static inline bool equal(edk::uint64 n1,edk::uint64 n2){
-        return (n1==n2);edkEnd();
+        return (n1==n2); 
     }
     static inline bool equal(edk::float32 n1,edk::float32 n2){
-        return (n1>=n2-0.0001f && n1<=n2+0.0001f);edkEnd();
+        return (n1>=n2-0.0001f && n1<=n2+0.0001f); 
     }
     static inline bool equal(edk::float64 n1,edk::float64 n2){
-        return (n1>=n2-0.000001f && n1<=n2+0.000001f);edkEnd();
+        return (n1>=n2-0.000001f && n1<=n2+0.000001f); 
     }
     static inline bool equal(edk::float32 n1,edk::float32 n2,edk::float32 distance){
-        return (n1>=n2-distance && n1<=n2+distance);edkEnd();
+        return (n1>=n2-distance && n1<=n2+distance); 
     }
     static inline bool equal(edk::float64 n1,edk::float64 n2,edk::float64 distance){
-        return (n1>=n2-distance && n1<=n2+distance);edkEnd();
+        return (n1>=n2-distance && n1<=n2+distance); 
     }
 
     static inline bool isEven(edk::char8  n){
         if(EDK_MATH_EVEN(n)){
-            return  true;edkEnd();
+            return  true; 
         }
         return false;
     }
     static inline bool isEven(edk::int8   n){
         if(EDK_MATH_EVEN(n)){
-            return  true;edkEnd();
+            return  true; 
         }
         return false;
     }
     static inline bool isEven(edk::int16  n){
         if(EDK_MATH_EVEN(n)){
-            return  true;edkEnd();
+            return  true; 
         }
         return false;
     }
     static inline bool isEven(edk::int32  n){
         if(EDK_MATH_EVEN(n)){
-            return  true;edkEnd();
+            return  true; 
         }
         return false;
     }
     static inline bool isEven(edk::int64  n){
         if(EDK_MATH_EVEN(n)){
-            return  true;edkEnd();
+            return  true; 
         }
         return false;
     }
     static inline bool isEven(edk::uint8  n){
         if(EDK_MATH_EVEN(n)){
-            return  true;edkEnd();
+            return  true; 
         }
         return false;
     }
     static inline bool isEven(edk::uint16 n){
         if(EDK_MATH_EVEN(n)){
-            return  true;edkEnd();
+            return  true; 
         }
         return false;
     }
     static inline bool isEven(edk::uint32 n){
         if(EDK_MATH_EVEN(n)){
-            return  true;edkEnd();
+            return  true; 
         }
         return false;
     }
     static inline bool isEven(edk::uint64 n){
         if(EDK_MATH_EVEN(n)){
-            return  true;edkEnd();
+            return  true; 
         }
         return false;
     }
     static inline bool even(  edk::char8  n){
         if(EDK_MATH_EVEN(n)){
-            return  true;edkEnd();
+            return  true; 
         }
         return false;
     }
     static inline bool even(  edk::int8   n){
         if(EDK_MATH_EVEN(n)){
-            return  true;edkEnd();
+            return  true; 
         }
         return false;
     }
     static inline bool even(  edk::int16  n){
         if(EDK_MATH_EVEN(n)){
-            return  true;edkEnd();
+            return  true; 
         }
         return false;
     }
     static inline bool even(  edk::int32  n){
         if(EDK_MATH_EVEN(n)){
-            return  true;edkEnd();
+            return  true; 
         }
         return false;
     }
     static inline bool even(  edk::int64  n){
         if(EDK_MATH_EVEN(n)){
-            return  true;edkEnd();
+            return  true; 
         }
         return false;
     }
     static inline bool even(  edk::uint8  n){
         if(EDK_MATH_EVEN(n)){
-            return  true;edkEnd();
+            return  true; 
         }
         return false;
     }
     static inline bool even(  edk::uint16 n){
         if(EDK_MATH_EVEN(n)){
-            return  true;edkEnd();
+            return  true; 
         }
         return false;
     }
     static inline bool even(  edk::uint32 n){
         if(EDK_MATH_EVEN(n)){
-            return  true;edkEnd();
+            return  true; 
         }
         return false;
     }
     static inline bool even(  edk::uint64 n){
         if(EDK_MATH_EVEN(n)){
-            return  true;edkEnd();
+            return  true; 
         }
         return false;
     }
@@ -252,109 +253,109 @@ public:
         if(EDK_MATH_EVEN(n)){
             return false;
         }
-        return  true;edkEnd();
+        return  true; 
     }
     static inline bool isOdd( edk::int8   n){
         if(EDK_MATH_EVEN(n)){
             return false;
         }
-        return  true;edkEnd();
+        return  true; 
     }
     static inline bool isOdd( edk::int16  n){
         if(EDK_MATH_EVEN(n)){
             return false;
         }
-        return  true;edkEnd();
+        return  true; 
     }
     static inline bool isOdd( edk::int32  n){
         if(EDK_MATH_EVEN(n)){
             return false;
         }
-        return  true;edkEnd();
+        return  true; 
     }
     static inline bool isOdd( edk::int64  n){
         if(EDK_MATH_EVEN(n)){
             return false;
         }
-        return  true;edkEnd();
+        return  true; 
     }
     static inline bool isOdd( edk::uint8  n){
         if(EDK_MATH_EVEN(n)){
             return false;
         }
-        return  true;edkEnd();
+        return  true; 
     }
     static inline bool isOdd( edk::uint16 n){
         if(EDK_MATH_EVEN(n)){
             return false;
         }
-        return  true;edkEnd();
+        return  true; 
     }
     static inline bool isOdd( edk::uint32 n){
         if(EDK_MATH_EVEN(n)){
             return false;
         }
-        return  true;edkEnd();
+        return  true; 
     }
     static inline bool isOdd( edk::uint64 n){
         if(EDK_MATH_EVEN(n)){
             return false;
         }
-        return  true;edkEnd();
+        return  true; 
     }
     static inline bool odd(   edk::char8  n){
         if(EDK_MATH_EVEN(n)){
             return false;
         }
-        return  true;edkEnd();
+        return  true; 
     }
     static inline bool odd(   edk::int8   n){
         if(EDK_MATH_EVEN(n)){
             return false;
         }
-        return  true;edkEnd();
+        return  true; 
     }
     static inline bool odd(   edk::int16  n){
         if(EDK_MATH_EVEN(n)){
             return false;
         }
-        return  true;edkEnd();
+        return  true; 
     }
     static inline bool odd(   edk::int32  n){
         if(EDK_MATH_EVEN(n)){
             return false;
         }
-        return  true;edkEnd();
+        return  true; 
     }
     static inline bool odd(   edk::int64  n){
         if(EDK_MATH_EVEN(n)){
             return false;
         }
-        return  true;edkEnd();
+        return  true; 
     }
     static inline bool odd(   edk::uint8  n){
         if(EDK_MATH_EVEN(n)){
             return false;
         }
-        return  true;edkEnd();
+        return  true; 
     }
     static inline bool odd(   edk::uint16 n){
         if(EDK_MATH_EVEN(n)){
             return false;
         }
-        return  true;edkEnd();
+        return  true; 
     }
     static inline bool odd(   edk::uint32 n){
         if(EDK_MATH_EVEN(n)){
             return false;
         }
-        return  true;edkEnd();
+        return  true; 
     }
     static inline bool odd(   edk::uint64 n){
         if(EDK_MATH_EVEN(n)){
             return false;
         }
-        return  true;edkEnd();
+        return  true; 
     }
 
 

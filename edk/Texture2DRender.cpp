@@ -30,28 +30,30 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endif
 
 edk::Texture2DRender::Texture2DRender(){
-    this->classThis=NULL;edkEnd();
-    this->Constructor(false);edkEnd();
+    this->classThis=NULL;
+    this->Constructor();
 }
 
 edk::Texture2DRender::~Texture2DRender(){
-    if(this->classThis==this){
-        this->classThis=NULL;edkEnd();
-        //can destruct the class
-        this->deleteRender();edkEnd();
-    }
+    this->Destructor();
 }
 
-void edk::Texture2DRender::Constructor(bool runFather){
-    if(runFather){
-        edk::Texture2D::Constructor();edkEnd();
-    }
+void edk::Texture2DRender::Constructor(){
+    edk::Texture2D::Constructor();
     if(this->classThis!=this){
         this->classThis=this;
         this->frameBuffer=0u;
         this->depthBuffer=0u;
-        edk::GU_GLSL::guShaderInit();edkEnd();
+        edk::GU_GLSL::guShaderInit();
     }
+}
+void edk::Texture2DRender::Destructor(){
+    if(this->classThis==this){
+        this->classThis=NULL;
+        //can destruct the class
+        this->deleteRender();
+    }
+    edk::Texture2D::Destructor();
 }
 
 //delete the frameBuffer
@@ -59,7 +61,7 @@ void edk::Texture2DRender::deleteFrameBuffer(){
     //test if have a frameBuffer
     if(this->frameBuffer){
         //
-        edk::GU_GLSL::guDeleteFrameBuffer(this->frameBuffer);edkEnd();
+        edk::GU_GLSL::guDeleteFrameBuffer(this->frameBuffer);
     }
     this->frameBuffer=0u;
 }
@@ -69,7 +71,7 @@ bool edk::Texture2DRender::loadFrameBuffer(){
     //test if load GLSL
     if(edk::GU_GLSL::guShaderInitiated()){
         //delete the last frameBuffer
-        this->deleteFrameBuffer();edkEnd();
+        this->deleteFrameBuffer();
 
         //alloc the new frameBuffer
         if((this->frameBuffer = edk::GU_GLSL::guAllocFrameBuffer(GU_FRAMEBUFFER))){
@@ -87,36 +89,36 @@ bool edk::Texture2DRender::createRender(edk::size2ui32 size,edk::uint32 filter){
     if(this->createTexture(size.width, size.height, EDK_RGB, NULL,filter)){
         //create the buffer
         if(this->loadFrameBuffer()){
-            this->useThisBuffer();edkEnd();
+            this->useThisBuffer();
             //set rendered texture
-            edk::GU_GLSL::guFrameBufferTexture(GU_FRAMEBUFFER,GU_COLOR_ATTACHMENT0,this->getID(),0u);edkEnd();
+            edk::GU_GLSL::guFrameBufferTexture(GU_FRAMEBUFFER,GU_COLOR_ATTACHMENT0,this->getID(),0u);
             // Set the list of draw buffers.
-            edk::GU_GLSL::guSetDrawBuffer(GU_COLOR_ATTACHMENT0);edkEnd();
+            edk::GU_GLSL::guSetDrawBuffer(GU_COLOR_ATTACHMENT0);
             if(edk::GU_GLSL::guCheckFrameBufferOK(GU_FRAMEBUFFER)){
-                edk::Texture2DRender::dontUseFrameBuffer();edkEnd();
+                edk::Texture2DRender::dontUseFrameBuffer();
                 //return true
                 return true;
             }
-            edk::Texture2DRender::dontUseFrameBuffer();edkEnd();
-            this->deleteFrameBuffer();edkEnd();
+            edk::Texture2DRender::dontUseFrameBuffer();
+            this->deleteFrameBuffer();
         }
         //else delete the texture
-        this->deleteTexture();edkEnd();
+        this->deleteTexture();
     }
     //else return false
     return false;
 }
 //return the ID
 edk::uint32 edk::Texture2DRender::getBufferID(){
-    return this->frameBuffer;edkEnd();
+    return this->frameBuffer;
 }
 //use this frameBuffer
 void edk::Texture2DRender::useThisBuffer(){
-    edk::GU_GLSL::guUseFrameBuffer(GU_FRAMEBUFFER,this->frameBuffer);edkEnd();
+    edk::GU_GLSL::guUseFrameBuffer(GU_FRAMEBUFFER,this->frameBuffer);
 }
 //dont use frameBuffer
 void edk::Texture2DRender::dontUseFrameBuffer(){
-    edk::GU_GLSL::guUseFrameBuffer(GU_FRAMEBUFFER,0u);edkEnd();
+    edk::GU_GLSL::guUseFrameBuffer(GU_FRAMEBUFFER,0u);
 }
 //dont use this frameBuffer
 void edk::Texture2DRender::dontUseThisFrameBuffer(){
@@ -125,14 +127,14 @@ void edk::Texture2DRender::dontUseThisFrameBuffer(){
 
 bool edk::Texture2DRender::createRender(edk::uint32 width,edk::uint32 height,edk::uint32 filter){
     //
-    return this->createRender(edk::size2ui32(width,height),filter);edkEnd();
+    return this->createRender(edk::size2ui32(width,height),filter);
 }
 bool edk::Texture2DRender::createRender(edk::int32 width,edk::int32 height,edk::uint32 filter){
     //
-    return this->createRender(edk::size2ui32((edk::uint32)width,(edk::uint32)height),filter);edkEnd();
+    return this->createRender(edk::size2ui32((edk::uint32)width,(edk::uint32)height),filter);
 }
 //delete render
 void edk::Texture2DRender::deleteRender(){
-    this->deleteFrameBuffer();edkEnd();
-    this->deleteTexture();edkEnd();
+    this->deleteFrameBuffer();
+    this->deleteTexture();
 }

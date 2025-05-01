@@ -50,7 +50,8 @@ public:
     SHA256();
     virtual ~SHA256();
 
-    void Constructor(bool runFather=true);
+    void Constructor();
+    void Destructor();
 
     //process the SHA256
     static bool convertTo(edk::char8 *pass, edk::uint32 size, edk::char8 *dest);

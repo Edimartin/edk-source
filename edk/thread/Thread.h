@@ -80,8 +80,9 @@ public:
 
     virtual ~Thread();
 
-    void Constructor(bool runFather=true);
-    void Constructor(edk::classID (*threadFunction)(edk::classID), edk::classID parameter,bool runFather=true);
+    void Constructor();
+    void Constructor(edk::classID (*threadFunction)(edk::classID), edk::classID parameter);
+    void Destructor();
 
     bool start(edk::classID (threadFunction)(edk::classID), edk::classID parameter);
 
@@ -228,88 +229,88 @@ template <typename typeTemplate>
 class ThreadClass : public edk::multi::Thread{
 public:
     ThreadClass(){
-        this->classThis=NULL;edkEnd();
-        this->Constructor(false);edkEnd();
+        this->classThis=NULL;
+        this->Constructor();
     }
 
     ThreadClass(edk::classID (typeTemplate::*threadClassFunc)(edk::classID), edk::classID parameter){
-        this->classThis=NULL;edkEnd();
-        this->Constructor(threadClassFunc,parameter,false);edkEnd();
+        this->classThis=NULL;
+        this->Constructor(threadClassFunc,parameter);
     }
 
     virtual ~ThreadClass(){
-        if(this->classThis==this){
-            this->classThis=NULL;edkEnd();
-            //can destruct the class
-            //Kill the Thread
-            this->kill();edkEnd();
-        }
+        this->Destructor();
     }
 
-    void Constructor(bool runFather=true){
-        if(runFather){
-            edk::multi::Thread::Constructor();edkEnd();
-        }
+    void Constructor(){
+        edk::multi::Thread::Constructor();
         if(this->classThis!=this){
             this->classThis=this;
-            this->cleanThread();edkEnd();
+            this->cleanThread();
         }
     }
-    void Constructor(edk::classID (typeTemplate::*threadClassFunc)(edk::classID), edk::classID parameter,bool runFather=true){
-        if(runFather){
-            edk::multi::Thread::Constructor();edkEnd();
-        }
+    void Constructor(edk::classID (typeTemplate::*threadClassFunc)(edk::classID), edk::classID parameter){
+        edk::multi::Thread::Constructor();
         if(this->classThis!=this){
             this->classThis=this;
-            this->cleanThread();edkEnd();
-            this->start(threadClassFunc, parameter);edkEnd();
+            this->cleanThread();
+            this->start(threadClassFunc, parameter);
         }
+    }
+    void Destructor(){
+        if(this->classThis==this){
+            this->classThis=NULL;
+            //can destruct the class
+            //Kill the Thread
+            this->kill();
+        }
+        edk::multi::Thread::Destructor();
     }
 
     bool start(edk::classID (typeTemplate::*threadClassFunc)(edk::classID), edk::classID parameter){
         //kill the previous thread
-        this->kill();edkEnd();
+        this->kill();
 
         //test if the function is true
         if(threadClassFunc){
             //set the parameters
             //copy the function
-            this->threadClassFunc=threadClassFunc;edkEnd();
+            this->threadClassFunc=threadClassFunc;
             //copy the parameter
-            this->funcParameter=parameter;edkEnd();
+            this->funcParameter=parameter;
 
             //WINDOWS 32
 #ifdef WIN32
-            DWORD flag;edkEnd();
+            DWORD flag;
             this->threadID = CreateThread(NULL, //
                                           (DWORD)NULL,        //
                                           edkThreadClassFunc, // função da thread
                                           (void*)this,        // parâmetro da thread
                                           (DWORD)NULL,        //
-                                          &flag);edkEnd();
+                                          &flag);
             //test if create the thread
             if(this->threadID!=(HANDLE)0u){
 #elif defined WIN64
             //WINDOWS 64
-            DWORD flag;edkEnd();
+            DWORD flag;
             this->threadID = CreateThread(NULL, //
                                           (DWORD)NULL,        //
                                           edkThreadClassFunc, // função da thread
                                           (void*)this,        // parâmetro da thread
                                           (DWORD)NULL,        //
-                                          &flag);edkEnd();
+                                          &flag);
             //test if create the thread
             if(this->threadID!=(HANDLE)0u){
 #elif defined __linux__
             //LINUX
-            pthread_attr_t attr;edkEnd();
-            pthread_attr_init(&attr);edkEnd();
+            pthread_attr_t attr;
+            pthread_attr_init(&attr);
             //crate the thread
 
             pthread_create(&this->threadID,
                            &attr,
                            edkThreadClassFunc,
-                           (void*)this);edkEnd();
+                           (void*)this);
             //test if create the thread
             if(this->threadID!=(pthread_t)0u){
 #elif defined __APPLE__
@@ -321,19 +322,19 @@ public:
     }
 
     //clean
-    this->cleanThread();edkEnd();
+    this->cleanThread();
     //else he clean the func
-    this->threadClassFunc=NULL;edkEnd();
+    this->threadClassFunc=NULL;
     return false;
 }
 
 bool start(edk::classID (typeTemplate::*threadClassFunc)(edk::classID)){
-    return this->start(threadClassFunc,(void*)NULL);edkEnd();
+    return this->start(threadClassFunc,(void*)NULL);
 }
 
 bool startIn(edk::classID (typeTemplate::*threadClassFunc)(edk::classID), edk::classID parameter, edk::uint32 core){
     //kill the previous thread
-    this->kill();edkEnd();
+    this->kill();
 
     //test if the function is true and if the core exist
     if(threadClassFunc && core<this->cores){
@@ -341,49 +342,49 @@ bool startIn(edk::classID (typeTemplate::*threadClassFunc)(edk::classID), edk::c
 
         //set the parameters
         //copy the function
-        this->threadFunc=threadClassFunc;edkEnd();
+        this->threadFunc=threadClassFunc;
         //copy the parameter
-        this->funcParameter=parameter;edkEnd();
+        this->funcParameter=parameter;
         //crate the thread
 
 #ifdef WIN32
-        DWORD flag;edkEnd();
+        DWORD flag;
         this->threadID = CreateThread(NULL, //
                                       (DWORD)NULL,        //
                                       edkThreadClassFunc, // função da thread
                                       (void*)this,        // parâmetro da thread
                                       (DWORD)NULL,        //
-                                      &flag);edkEnd();
+                                      &flag);
         //test if create the thread
         if(this->threadID!=(HANDLE)0u){
-            DWORD_PTR mask = core;edkEnd();
-            SetThreadAffinityMask(this->threadID, mask);edkEnd();
+            DWORD_PTR mask = core;
+            SetThreadAffinityMask(this->threadID, mask);
 #elif defined WIN64
         //WINDOWS 64
-        DWORD flag;edkEnd();
+        DWORD flag;
         this->threadID = CreateThread(NULL, //
                                       (DWORD)NULL,        //
                                       edkThreadClassFunc, // função da thread
                                       (void*)this,        // parâmetro da thread
                                       (DWORD)NULL,        //
-                                      &flag);edkEnd();
+                                      &flag);
         //test if create the thread
         if(this->threadID!=(HANDLE)0u){
-            DWORD_PTR mask = core;edkEnd();
-            SetThreadAffinityMask(this->threadID, mask);edkEnd();
+            DWORD_PTR mask = core;
+            SetThreadAffinityMask(this->threadID, mask);
 #elif defined __linux__
         //LINUX
-        pthread_attr_t attr;edkEnd();
-        CPU_SET(core, &this->cpus);edkEnd();
+        pthread_attr_t attr;
+        CPU_SET(core, &this->cpus);
         //start the attribute
-        pthread_attr_init(&attr);edkEnd();
+        pthread_attr_init(&attr);
         //set the core on the attribute
-        pthread_attr_setaffinity_np(&attr, sizeof(cpu_set_t), &this->cpus);edkEnd();
+        pthread_attr_setaffinity_np(&attr, sizeof(cpu_set_t), &this->cpus);
         //set affinity
         pthread_create(&this->threadID,
                        &attr,
                        edkThreadClassFunc,
-                       (void*)this);edkEnd();
+                       (void*)this);
         //test if create the thread
         if(this->threadID!=(pthread_t)0u){
 #elif defined __APPLE__
@@ -395,14 +396,14 @@ bool startIn(edk::classID (typeTemplate::*threadClassFunc)(edk::classID), edk::c
 }
 
 //clean
-this->cleanThread();edkEnd();
+this->cleanThread(); 
 //else he clean the func
-this->threadFunc=NULL;edkEnd();
+this->threadFunc=NULL; 
 return false;
 }
 
 bool startIn(void (typeTemplate::*threadClassFunc)(edk::classID), edk::uint32 core){
-    return this->startIn(threadClassFunc, NULL, core);edkEnd();
+    return this->startIn(threadClassFunc, NULL, core);
 }
 
 bool runClassFunc(){
@@ -410,15 +411,15 @@ bool runClassFunc(){
         //test if have parameter
         if(this->funcParameter){
             //then he cant run the function
-            this->threadClassFunc((void*)this->funcParameter);edkEnd();
+            this->threadClassFunc((void*)this->funcParameter);
         }
         else{
             //then he cant run the function
-            this->threadClassFunc((void*)this->funcParameter);edkEnd();
+            this->threadClassFunc((void*)this->funcParameter);
         }
         //clean the function
-        this->threadClassFunc=NULL;edkEnd();
-        this->funcParameter=NULL;edkEnd();
+        this->threadClassFunc=NULL;
+        this->funcParameter=NULL;
 
         //return true;
         return true;
@@ -445,12 +446,12 @@ DWORD WINAPI edkThreadClassFunc(void*id){
     //test if have a threadClassFunc
     if(id){
         //then convert the pointer
-        edk::multi::ThreadClass<typeTemplate>* temp = (edk::multi::ThreadClass<typeTemplate>*)id;edkEnd();
+        edk::multi::ThreadClass<typeTemplate>* temp = (edk::multi::ThreadClass<typeTemplate>*)id;
 
         //run the function
-        temp->runClassFunc();edkEnd();
+        temp->runClassFunc();
     }
-    return (DWORD)NULL;edkEnd();
+    return (DWORD)NULL;
 }
 #elif defined WIN64
 //WINDOWS 64
@@ -458,12 +459,12 @@ DWORD WINAPI edkThreadClassFunc(void*id){
     //test if have a threadClassFunc
     if(id){
         //then convert the pointer
-        edk::multi::ThreadClass<typeTemplate>* temp = (edk::multi::ThreadClass<typeTemplate>*)id;edkEnd();
+        edk::multi::ThreadClass<typeTemplate>* temp = (edk::multi::ThreadClass<typeTemplate>*)id;
 
         //run the function
-        temp->runClassFunc();edkEnd();
+        temp->runClassFunc();
     }
-    return (DWORD)NULL;edkEnd();
+    return (DWORD)NULL;
 }
 #elif defined __linux__
 //LINUX
@@ -471,12 +472,12 @@ void* edkThreadClassFunc(void*id){
     //test if have a threadClassFunc
     if(id){
         //then convert the pointer
-        edk::multi::ThreadClass<typeTemplate>* temp = (edk::multi::ThreadClass<typeTemplate>*)id;edkEnd();
+        edk::multi::ThreadClass<typeTemplate>* temp = (edk::multi::ThreadClass<typeTemplate>*)id;
 
         //run the function
-        temp->runClassFunc();edkEnd();
+        temp->runClassFunc();
     }
-    return (void*)NULL;edkEnd();
+    return (void*)NULL;
 }
 #elif defined __APPLE__
 //MAC OS
@@ -484,12 +485,12 @@ void* edkThreadClassFunc(void*id){
     //test if have a threadClassFunc
     if(id){
         //then convert the pointer
-        edk::multi::ThreadClass<typeTemplate>* temp = (edk::multi::ThreadClass<typeTemplate>*)id;edkEnd();
+        edk::multi::ThreadClass<typeTemplate>* temp = (edk::multi::ThreadClass<typeTemplate>*)id;
 
         //run the function
-        temp->runClassFunc();edkEnd();
+        temp->runClassFunc();
     }
-    return (void*)NULL;edkEnd();
+    return (void*)NULL;
 }
 #endif
 

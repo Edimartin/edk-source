@@ -48,7 +48,8 @@ public:
     GLSL();
     virtual ~GLSL();
 
-    void Constructor(bool runFather=true);
+    void Constructor();
+    void Destructor();
 
     //create a new data
     bool newData(edk::char8* name);
@@ -107,8 +108,9 @@ private:
         shaderLink(edk::char8* name);
         virtual ~shaderLink();
 
-        void Constructor(bool runFather=true);
-        void Constructor(edk::char8* name,bool runFather=true);
+        void Constructor();
+        void Constructor(edk::char8* name);
+        void Destructor();
 
         //release the shader
         void deleteShader();

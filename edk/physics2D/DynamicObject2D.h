@@ -46,7 +46,8 @@ public:
     DynamicObject2D();
     virtual ~DynamicObject2D();
 
-    void Constructor(bool runFather=true);
+    void Constructor();
+    void Destructor();
 private:
     edk::classID classThis;
 };

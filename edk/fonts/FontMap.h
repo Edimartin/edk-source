@@ -59,7 +59,8 @@ public:
     FontMap();
     virtual ~FontMap();
 
-    void Constructor(bool runFather=true);
+    void Constructor();
+    void Destructor();
 
     //save the FontTemplate
     static bool saveTemplate(const edk::char8* folder);
@@ -998,7 +999,8 @@ private:
         FontLine(edk::uint32 size);
         virtual ~FontLine();
 
-        void Constructor(edk::uint32 size,bool runFather=true);
+        void Constructor(edk::uint32 size);
+        void Destructor();
 
         //get the size
         edk::uint32 getSize();

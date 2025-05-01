@@ -41,6 +41,10 @@ namespace physics2D{
 class RopeJoint2D : public edk::physics2D::Joint2D{
 public:
     RopeJoint2D(bool collide=false);
+    ~RopeJoint2D();
+
+    void Constructor(bool collide=false);
+    void Destructor();
 
     //draw the joint in debug mode
     virtual void draw(edk::size2f32 size,edk::color3f32 color);
@@ -49,6 +53,8 @@ public:
     edk::float32 maxLength;
 private:
     edk::vec2f32 temp;
+private:
+    edk::classID classThis;
 };
 }//end namespace physics2D
 }//end namespace edk

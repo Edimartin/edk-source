@@ -50,7 +50,8 @@ public:
     CodecImage();
     virtual ~CodecImage();
 
-    void Constructor(bool runFather=true);
+    void Constructor();
+    void Destructor();
 protected:
     //create a new frame
     bool newFrame(edk::size2ui32 size,edk::uint8 channels);

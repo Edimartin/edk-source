@@ -45,7 +45,8 @@ public:
     Light3D();
     virtual ~Light3D();
 
-    void Constructor(bool runFather=true);
+    void Constructor();
+    void Destructor();
 
     //Set Vectors
     void setPosition(edk::float32 x,edk::float32 y,edk::float32 z,edk::float32 w);

@@ -55,12 +55,30 @@ edk::classID functionThread(edk::classID values){
 }
 
 edk::Video::Video(){
-    this->classThis=NULL;edkEnd();
-    this->Constructor(false);edkEnd();
+    this->classThis=NULL;
+    this->Constructor();
 }
 edk::Video::~Video(){
+    this->Destructor();
+}
+
+void edk::Video::Constructor(){
+    if(this->classThis!=this){
+        this->classThis=this;
+
+        this->writingFile=edk::edkVideoWriteNothing;
+        this->file.Constructor();
+        this->buffer.Constructor();
+        this->timeCounter.Constructor();
+        this->timeIncrement=0.f;
+        this->size=0u;
+        this->channels=0u;
+        this->frameID=0xFFFFFFFF;
+    }
+}
+void edk::Video::Destructor(){
     if(this->classThis==this){
-        this->classThis=NULL;edkEnd();
+        this->classThis=NULL;
 
         //finish all threads
         edk::ThreadVideo* thread = NULL;
@@ -85,23 +103,8 @@ edk::Video::~Video(){
         this->threads.clean();
 
         //can destruct the class
-        this->close();edkEnd();
-        this->buffer.clean();edkEnd();
-    }
-}
-
-void edk::Video::Constructor(bool /*runFather*/){
-    if(this->classThis!=this){
-        this->classThis=this;edkEnd();
-
-        this->writingFile=edk::edkVideoWriteNothing;edkEnd();
-        this->file.Constructor();edkEnd();
-        this->buffer.Constructor();edkEnd();
-        this->timeCounter.Constructor();edkEnd();
-        this->timeIncrement=0.f;edkEnd();
-        this->size=0u;edkEnd();
-        this->channels=0u;edkEnd();
-        this->frameID=0xFFFFFFFF;
+        this->close();
+        this->buffer.clean();
     }
 }
 
@@ -168,9 +171,9 @@ void edk::Video::close(){
         default:
             break;
         }
-        this->file.closeFile();edkEnd();
+        this->file.closeFile();
     }
-    this->writingFile=edk::edkVideoWriteNothing;edkEnd();
+    this->writingFile=edk::edkVideoWriteNothing;
 }
 
 //create a file
@@ -181,16 +184,16 @@ bool edk::Video::newFile(edk::char8* name,
                          edk::uint32 channels
                          ){
     this->frameID=0u;
-    this->close();edkEnd();
+    this->close();
     if(name && fps>0.f && width && height && channels){
         if(this->file.createAndOpenBinFile(name)){
             //set writing
-            this->writingFile=edk::edkVideoWriteTrue;edkEnd();
+            this->writingFile=edk::edkVideoWriteTrue;
             this->fps=fps;
-            this->timeIncrement=1.f/this->fps;edkEnd();
+            this->timeIncrement=1.f/this->fps;
             //write the header
             this->buffer.clean();
-            this->writeHeader(&this->file);edkEnd();
+            this->writeHeader(&this->file);
             this->file.flush();
 
             //start write the frames
@@ -217,13 +220,13 @@ bool edk::Video::openFile(edk::char8* name,
                           edk::uint8 threads
                           ){
     this->frameID=0u;
-    this->close();edkEnd();
+    this->close();
     if(name){
         if(this->file.openBinFile(name)){
             //read the header
             if(this->readHeader(&this->file)){
                 //set reading
-                this->writingFile=edk::edkVideoWriteFalse;edkEnd();
+                this->writingFile=edk::edkVideoWriteFalse;
                 //read the aditional values
                 this->file.readBin(&this->fps,sizeof(this->fps));
                 this->file.readBin(&this->size.width,sizeof(this->size.width));

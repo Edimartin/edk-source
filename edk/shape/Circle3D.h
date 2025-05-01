@@ -49,8 +49,9 @@ public:
     Circle3D(edk::uint32 sides,edk::float32 radius);
     virtual ~Circle3D();
 
-    void Constructor(bool runFather=true);
-    void Constructor(edk::uint32 sides,edk::float32 radius,bool runFather=true);
+    void Constructor();
+    void Constructor(edk::uint32 sides,edk::float32 radius);
+    void Destructor();
 
     //radius of the circle
     //edk::float32 radius;

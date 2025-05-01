@@ -38,28 +38,15 @@ pthread_mutex_t edk::multi::Mutex::mutDebug;
 #endif
 
 edk::multi::Mutex::Mutex(){
-    this->classThis=NULL;edkEnd();
-    this->Constructor(false);
+    this->classThis=NULL;
+    this->Constructor();
 }
 edk::multi::Mutex::~Mutex(){
-    if(this->classThis==this){
-        this->classThis=NULL;edkEnd();
-        //can destruct the class
-#if defined( WIN32) || defined( WIN64)
-        if(this->mut){
-            CloseHandle(this->mut);edkEnd();
-        }
-#endif
-#if defined(__linux__)/*LINUX*/ || defined(__APPLE__)//MAC OS
-        pthread_mutex_destroy(&this->mut);edkEnd();
-#endif
-    }
+    this->Destructor();
 }
 
-void edk::multi::Mutex::Constructor(bool runFather){
-    if(runFather){
-        edk::multi::MutexDisable::Constructor();edkEnd();
-    }
+void edk::multi::Mutex::Constructor(){
+    edk::multi::MutexDisable::Constructor();
     if(this->classThis!=this){
         this->classThis=this;
 #if defined(EDK_MUTEX_PRINT_DEBUG)
@@ -72,7 +59,7 @@ void edk::multi::Mutex::Constructor(bool runFather){
         }
 #endif
 #if defined( WIN32) || defined( WIN64)
-        this->mut = CreateMutex( NULL, FALSE, NULL);edkEnd();
+        this->mut = CreateMutex( NULL, FALSE, NULL);
         if(this->mut == NULL){
             //
         }
@@ -84,6 +71,21 @@ void edk::multi::Mutex::Constructor(bool runFather){
 #endif
     }
 }
+void edk::multi::Mutex::Destructor(){
+    if(this->classThis==this){
+        this->classThis=NULL;
+        //can destruct the class
+#if defined( WIN32) || defined( WIN64)
+        if(this->mut){
+            CloseHandle(this->mut);
+        }
+#endif
+#if defined(__linux__)/*LINUX*/ || defined(__APPLE__)//MAC OS
+        pthread_mutex_destroy(&this->mut);
+#endif
+    }
+    edk::multi::MutexDisable::Destructor();
+}
 
 //set the debugFile Name
 bool edk::multi::Mutex::createDebugFile(const edk::char8* name){
@@ -94,18 +96,18 @@ bool edk::multi::Mutex::createDebugFile(edk::char8* name){
 #if defined(EDK_MUTEX_PRINT_DEBUG)
         bool ret=false;
 #if defined( WIN32) || defined( WIN64)
-        WaitForSingleObject(edk::multi::Mutex::mutDebug,INFINITE);edkEnd();
+        WaitForSingleObject(edk::multi::Mutex::mutDebug,INFINITE);
 #endif
 #if defined(__linux__)/*LINUX*/ || defined(__APPLE__)//MAC OS
-        pthread_mutex_lock(&edk::multi::Mutex::mutDebug);edkEnd();
+        pthread_mutex_lock(&edk::multi::Mutex::mutDebug);
 #endif
         edk::multi::Mutex::debugFile.closeFile();
         ret = edk::multi::Mutex::debugFile.createFile(name);
 #if defined( WIN32) || defined( WIN64)
-        ReleaseMutex(edk::multi::Mutex::mutDebug);edkEnd();
+        ReleaseMutex(edk::multi::Mutex::mutDebug);
 #endif
 #if defined(__linux__)/*LINUX*/ || defined(__APPLE__)//MAC OS
-        pthread_mutex_unlock(&edk::multi::Mutex::mutDebug);edkEnd();
+        pthread_mutex_unlock(&edk::multi::Mutex::mutDebug);
 #endif
         return ret;
 #else
@@ -118,17 +120,17 @@ bool edk::multi::Mutex::createDebugFile(edk::char8* name){
 void edk::multi::Mutex::closeDebugFile(){
 #if defined(EDK_MUTEX_PRINT_DEBUG)
 #if defined( WIN32) || defined( WIN64)
-    WaitForSingleObject(edk::multi::Mutex::mutDebug,INFINITE);edkEnd();
+    WaitForSingleObject(edk::multi::Mutex::mutDebug,INFINITE);
 #endif
 #if defined(__linux__)/*LINUX*/ || defined(__APPLE__)//MAC OS
-    pthread_mutex_lock(&edk::multi::Mutex::mutDebug);edkEnd();
+    pthread_mutex_lock(&edk::multi::Mutex::mutDebug);
 #endif
     edk::multi::Mutex::debugFile.closeFile();
 #if defined( WIN32) || defined( WIN64)
-    ReleaseMutex(edk::multi::Mutex::mutDebug);edkEnd();
+    ReleaseMutex(edk::multi::Mutex::mutDebug);
 #endif
 #if defined(__linux__)/*LINUX*/ || defined(__APPLE__)//MAC OS
-    pthread_mutex_unlock(&edk::multi::Mutex::mutDebug);edkEnd();
+    pthread_mutex_unlock(&edk::multi::Mutex::mutDebug);
 #endif
 #endif
 }
@@ -136,10 +138,10 @@ void edk::multi::Mutex::closeDebugFile(){
 //lock this mutex to another don't run the code
 void edk::multi::Mutex::lock(){
 #if defined( WIN32) || defined( WIN64)
-    WaitForSingleObject(this->mut,INFINITE);edkEnd();
+    WaitForSingleObject(this->mut,INFINITE);
 #endif
 #if defined(__linux__)/*LINUX*/ || defined(__APPLE__)//MAC OS
-    pthread_mutex_lock(&this->mut);edkEnd();
+    pthread_mutex_lock(&this->mut);
 #endif
 }
 #if defined(EDK_MUTEX_PRINT_DEBUG)
@@ -181,10 +183,10 @@ void edk::multi::Mutex::lock(const edk::char8* text,edk::int32 line,const edk::c
 //unlock this mutex
 void edk::multi::Mutex::unlock(){
 #if defined( WIN32) || defined( WIN64)
-    ReleaseMutex(this->mut);edkEnd();
+    ReleaseMutex(this->mut);
 #endif
 #if defined(__linux__)/*LINUX*/ || defined(__APPLE__)//MAC OS
-    pthread_mutex_unlock(&this->mut);edkEnd();
+    pthread_mutex_unlock(&this->mut);
 #endif
 }
 #if defined(EDK_MUTEX_PRINT_DEBUG)

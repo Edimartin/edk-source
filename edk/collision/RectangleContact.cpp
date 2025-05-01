@@ -29,20 +29,23 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endif
 
 edk::collision::RectangleContact::RectangleContact(){
-    this->classThis=NULL;edkEnd();
-    this->Constructor(false);edkEnd();
+    this->classThis=NULL;
+    this->Constructor();
 }
 
 edk::collision::RectangleContact::~RectangleContact(){
-    if(this->classThis==this){
-        this->classThis=NULL;edkEnd();
-        //can destruct the class
-    }
+    this->Destructor();
 }
 
-void edk::collision::RectangleContact::Constructor(bool /*runFather*/){
+void edk::collision::RectangleContact::Constructor(){
     if(this->classThis!=this){
         this->classThis=this;
+    }
+}
+void edk::collision::RectangleContact::Destructor(){
+    if(this->classThis==this){
+        this->classThis=NULL;
+        //can destruct the class
     }
 }
 
@@ -52,5 +55,5 @@ bool edk::collision::RectangleContact::contactPoint(edk::vec2f32 point, edk::sha
     return edk::collision::MathCollision::boundingContact2D(point,
                                                             rectangle.getVertexPosition(0u) ,
                                                             rectangle.getVertexPosition(1u)
-                                                            );edkEnd();edkEnd();
+                                                            );
 }

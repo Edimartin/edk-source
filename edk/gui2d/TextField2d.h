@@ -60,7 +60,8 @@ public:
     TextField2d();
     virtual ~TextField2d();
 
-    void Constructor(bool runFather=true);
+    void Constructor();
+    void Destructor();
 
     //clean all characters
     void cleanCharacters();
@@ -174,7 +175,8 @@ private:
         TextVec();
         virtual ~TextVec();
 
-        void Constructor(bool runFather=true);
+        void Constructor();
+        void Destructor();
 
         void clean();
         bool write(edk::char8* str);

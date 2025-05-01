@@ -51,7 +51,8 @@ public:
     FileOBJ();
     ~FileOBJ();
 
-    void Constructor(bool runFather=true);
+    void Constructor();
+    void Destructor();
 
     virtual edk::shape::Mesh3D* allocMeshForOBJ()=0;
 
@@ -64,15 +65,15 @@ private:
     class MeshVertex{
     public:
         MeshVertex(){
-            this->use = 0u;edkEnd();
-            this->pointer = &this->vertex;edkEnd();
+            this->use = 0u;
+            this->pointer = &this->vertex;
         }
         void incrementUse(){
-            this->use++;edkEnd();
+            this->use++;
         }
         bool decrementUse(){
             if(this->use){
-                this->use--;edkEnd();
+                this->use--;
             }
             if(this->use){
                 return true;
@@ -89,7 +90,8 @@ private:
         StackVertex();
         virtual ~StackVertex();
 
-        void Constructor(bool runFather=true);
+        void Constructor();
+        void Destructor();
 
         //clean all vertexes
         void cleanVertexes();
@@ -119,34 +121,36 @@ private:
     class MeshNormal{
     public:
         MeshNormal(){
-            this->classThis=NULL;edkEnd();
-            this->Constructor(false);edkEnd();
+            this->classThis=NULL;
+            this->Constructor();
         }
         virtual ~MeshNormal(){
+            this->Destructor();
+        }
+
+        void Constructor(){
+            if(this->classThis!=this){
+                this->classThis=this;
+
+                this->normal.Constructor();
+
+                this->use = 0u;
+                this->pointer = &this->normal;
+            }
+        }
+        void Destructor(){
             if(this->classThis==this){
-                this->classThis=NULL;edkEnd();
+                this->classThis=NULL;
                 //can destruct the class
             }
         }
 
-        void Constructor(bool runFather=true){
-            if(runFather){edkEnd();}
-            if(this->classThis!=this){
-                this->classThis=this;
-
-                this->normal.Constructor();edkEnd();
-
-                this->use = 0u;edkEnd();
-                this->pointer = &this->normal;edkEnd();
-            }
-        }
-
         void incrementUse(){
-            this->use++;edkEnd();
+            this->use++;
         }
         bool decrementUse(){
             if(this->use){
-                this->use--;edkEnd();
+                this->use--;
             }
             if(this->use){
                 return true;
@@ -165,7 +169,8 @@ private:
         StackNormal();
         virtual ~StackNormal();
 
-        void Constructor(bool runFather=true);
+        void Constructor();
+        void Destructor();
 
         //clean all normals
         void cleanNormals();
@@ -193,15 +198,15 @@ private:
     class MeshUV{
     public:
         MeshUV(){
-            this->use = 0u;edkEnd();
-            this->pointer = &this->uv;edkEnd();
+            this->use = 0u;
+            this->pointer = &this->uv;
         }
         void incrementUse(){
-            this->use++;edkEnd();
+            this->use++;
         }
         bool decrementUse(){
             if(this->use){
-                this->use--;edkEnd();
+                this->use--;
             }
             if(this->use){
                 return true;
@@ -218,7 +223,8 @@ private:
         StackUV();
         virtual ~StackUV();
 
-        void Constructor(bool runFather=true);
+        void Constructor();
+        void Destructor();
 
         //clean all uvs
         void cleanUVS();

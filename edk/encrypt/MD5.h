@@ -51,7 +51,8 @@ public:
     MD5();
     virtual ~MD5();
 
-    void Constructor(bool runFather=true);
+    void Constructor();
+    void Destructor();
 
     //process the MD5
     static bool convertTo(edk::char8 *pass, edk::uint32 size, edk::char8 *dest);

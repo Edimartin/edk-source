@@ -25,23 +25,18 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 edk::material::Material::Material(){
-    this->classThis=NULL;edkEnd();
-    this->Constructor(false);edkEnd();
+    this->classThis=NULL;
+    this->Constructor();
 }
 edk::material::Material::~Material(){
-    if(this->classThis==this){
-        this->classThis=NULL;edkEnd();
-        //can destruct the class
-        //remove all the textures
-        this->removeAllTextures();edkEnd();
-    }
+    this->Destructor();
 }
 
-void edk::material::Material::Constructor(bool /*runFather*/){
+void edk::material::Material::Constructor(){
     if(this->classThis!=this){
         this->classThis=this;
 
-        this->list.Constructor();edkEnd();
+        this->list.Constructor();
 
         for(edk::uint8 i=0u;i<materialTextureCount;i++){
             //clean the textures
@@ -49,37 +44,45 @@ void edk::material::Material::Constructor(bool /*runFather*/){
         }
         this->countTextures=0u;
         //ambient
-        this->ambient[0] = 0.2f;edkEnd();
-        this->ambient[1] = 0.2f;edkEnd();
-        this->ambient[2] = 0.2f;edkEnd();
-        this->ambient[3] = 1.0f;edkEnd();
+        this->ambient[0] = 0.2f;
+        this->ambient[1] = 0.2f;
+        this->ambient[2] = 0.2f;
+        this->ambient[3] = 1.0f;
         //diffuse
-        this->diffuse[0] = 0.8f;edkEnd();
-        this->diffuse[1] = 0.8f;edkEnd();
-        this->diffuse[2] = 0.8f;edkEnd();
-        this->diffuse[3] = 1.0f;edkEnd();
+        this->diffuse[0] = 0.8f;
+        this->diffuse[1] = 0.8f;
+        this->diffuse[2] = 0.8f;
+        this->diffuse[3] = 1.0f;
         //specular
-        this->specular[0] = 0.0f;edkEnd();
-        this->specular[1] = 0.0f;edkEnd();
-        this->specular[2] = 0.0f;edkEnd();
-        this->specular[3] = 1.0f;edkEnd();
+        this->specular[0] = 0.0f;
+        this->specular[1] = 0.0f;
+        this->specular[2] = 0.0f;
+        this->specular[3] = 1.0f;
         //emission
-        this->emission[0] = 1.0f;edkEnd();
-        this->emission[1] = 1.0f;edkEnd();
-        this->emission[2] = 1.0f;edkEnd();
-        this->emission[3] = 1.0f;edkEnd();
+        this->emission[0] = 1.0f;
+        this->emission[1] = 1.0f;
+        this->emission[2] = 1.0f;
+        this->emission[3] = 1.0f;
         //shinines
-        this->shininess = 50.0f;edkEnd();
+        this->shininess = 50.0f;
+    }
+}
+void edk::material::Material::Destructor(){
+    if(this->classThis==this){
+        this->classThis=NULL;
+        //can destruct the class
+        //remove all the textures
+        this->removeAllTextures();
     }
 }
 
 //draw the material parameters
 void edk::material::Material::useMaterialParameters(){
-    edk::GU::guMaterialfv32(GU_FRONT,GU_AMBIENT,this->ambient);edkEnd();
-    edk::GU::guMaterialfv32(GU_FRONT,GU_DIFFUSE,this->diffuse);edkEnd();
-    edk::GU::guMaterialfv32(GU_FRONT,GU_SPECULAR,this->specular);edkEnd();
-    edk::GU::guMaterialfv32(GU_FRONT,GU_EMISSION,this->emission);edkEnd();
-    edk::GU::guMaterialf32(GU_FRONT,GU_SHININESS,this->shininess);edkEnd();
+    edk::GU::guMaterialfv32(GU_FRONT,GU_AMBIENT,this->ambient);
+    edk::GU::guMaterialfv32(GU_FRONT,GU_DIFFUSE,this->diffuse);
+    edk::GU::guMaterialfv32(GU_FRONT,GU_SPECULAR,this->specular);
+    edk::GU::guMaterialfv32(GU_FRONT,GU_EMISSION,this->emission);
+    edk::GU::guMaterialf32(GU_FRONT,GU_SHININESS,this->shininess);
 }
 
 //create a new texture
@@ -87,11 +90,11 @@ bool edk::material::Material::newTexture(edk::char8* name,edk::size2ui32 size,ed
     //test the position
     if(position<materialTextureCount){
         //remove the texture
-        this->removeTexture(position);edkEnd();
+        this->removeTexture(position);
         //then load the new texture
-        this->textures[position] = this->list.createTexture(name,size,mode,filter);edkEnd();
+        this->textures[position] = this->list.createTexture(name,size,mode,filter);
         if(this->textures[position]){
-            this->countTextures++;edkEnd();
+            this->countTextures++;
             return true;
         }
     }
@@ -110,11 +113,11 @@ bool edk::material::Material::newTextureWithPBODraw(edk::char8* name,edk::size2u
     //test the position
     if(position<materialTextureCount){
         //remove the texture
-        this->removeTexture(position);edkEnd();
+        this->removeTexture(position);
         //then load the new texture
-        this->textures[position] = this->list.createTextureWithPBODraw(name,size,mode,filter);edkEnd();
+        this->textures[position] = this->list.createTextureWithPBODraw(name,size,mode,filter);
         if(this->textures[position]){
-            this->countTextures++;edkEnd();
+            this->countTextures++;
             return true;
         }
     }
@@ -134,11 +137,11 @@ bool edk::material::Material::newTextureAndDraw(edk::char8* name,edk::size2ui32 
     //test the position
     if(position<materialTextureCount){
         //remove the texture
-        this->removeTexture(position);edkEnd();
+        this->removeTexture(position);
         //then load the new texture
-        this->textures[position] = this->list.createAndDrawTexture(name,size,image,mode,filter);edkEnd();
+        this->textures[position] = this->list.createAndDrawTexture(name,size,image,mode,filter);
         if(this->textures[position]){
-            this->countTextures++;edkEnd();
+            this->countTextures++;
             return true;
         }
     }
@@ -163,11 +166,11 @@ bool edk::material::Material::newTextureAndDrawWithPBODraw(edk::char8* name,edk:
     //test the position
     if(position<materialTextureCount){
         //remove the texture
-        this->removeTexture(position);edkEnd();
+        this->removeTexture(position);
         //then load the new texture
-        this->textures[position] = this->list.createAndDrawTextureWithPBODraw(name,size,image,mode,filter);edkEnd();
+        this->textures[position] = this->list.createAndDrawTextureWithPBODraw(name,size,image,mode,filter);
         if(this->textures[position]){
-            this->countTextures++;edkEnd();
+            this->countTextures++;
             return true;
         }
     }
@@ -194,74 +197,74 @@ bool edk::material::Material::loadTexture(edk::char8* name,edk::uint8 position,e
     //test the position
     if(position<materialTextureCount){
         //remove the texture
-        this->removeTexture(position);edkEnd();
+        this->removeTexture(position);
         //then load the new texture
-        this->textures[position] = this->list.loadTexture(name,filter);edkEnd();
+        this->textures[position] = this->list.loadTexture(name,filter);
         if(this->textures[position]){
-            this->countTextures++;edkEnd();
+            this->countTextures++;
             return true;
         }
     }
     return false;
 }
 bool edk::material::Material::loadTexture(const edk::char8* name,edk::uint8 position,edk::uint32 filter){
-    return this->loadTexture((edk::char8*) name,position,filter);edkEnd();
+    return this->loadTexture((edk::char8*) name,position,filter);
 }
 bool edk::material::Material::loadTextureFromMemory(edk::char8* name,edk::uint8* image,edk::uint32 size,edk::uint8 position,edk::uint32 filter){
     //test the position
     if(position<materialTextureCount){
         //remove the texture
-        this->removeTexture(position);edkEnd();
+        this->removeTexture(position);
         //then load the new texture
-        this->textures[position] = this->list.loadTextureFromMemory(name,image,size,filter);edkEnd();
+        this->textures[position] = this->list.loadTextureFromMemory(name,image,size,filter);
         if(this->textures[position]){
-            this->countTextures++;edkEnd();
+            this->countTextures++;
             return true;
         }
     }
     return false;
 }
 bool edk::material::Material::loadTextureFromMemory(const edk::char8* name,edk::uint8* image,edk::uint32 size,edk::uint8 position,edk::uint32 filter){
-    return loadTextureFromMemory((edk::char8*) name,image,size,position,filter);edkEnd();
+    return loadTextureFromMemory((edk::char8*) name,image,size,position,filter);
 }
 bool edk::material::Material::loadTextureFromPack(edk::pack::FilePackage* pack,edk::char8* name,edk::uint8 position,edk::uint32 filter){
     //test the position
     if(position<materialTextureCount){
         //remove the texture
-        this->removeTexture(position);edkEnd();
+        this->removeTexture(position);
         //then load the new texture
-        this->textures[position] = this->list.loadTextureFromPack(pack,name,filter);edkEnd();
+        this->textures[position] = this->list.loadTextureFromPack(pack,name,filter);
         if(this->textures[position]){
-            this->countTextures++;edkEnd();
+            this->countTextures++;
             return true;
         }
     }
     return false;
 }
 bool edk::material::Material::loadTextureFromPack(edk::pack::FilePackage* pack,const edk::char8* name,edk::uint8 position,edk::uint32 filter){
-    return this->loadTextureFromPack(pack,(edk::char8*) name,position,filter);edkEnd();
+    return this->loadTextureFromPack(pack,(edk::char8*) name,position,filter);
 }
 //set the texture
 bool edk::material::Material::setTextureFromMemory(edk::char8* name,edk::uint8* image,edk::uint32 width,edk::uint32 height,edk::uint32 channels,edk::uint8 position,edk::uint32 filter){
     //test the position
     if(position<materialTextureCount){
         //remove the texture
-        this->removeTexture(position);edkEnd();
+        this->removeTexture(position);
         //then load the new texture
-        this->textures[position] = this->list.setTextureFromMemory(name,image,width,height,channels,filter);edkEnd();
+        this->textures[position] = this->list.setTextureFromMemory(name,image,width,height,channels,filter);
         if(this->textures[position]){
-            this->countTextures++;edkEnd();
+            this->countTextures++;
             return true;
         }
     }
     return false;
 }
 bool edk::material::Material::setTextureFromMemory(const edk::char8* name,edk::uint8* image,edk::uint32 width,edk::uint32 height,edk::uint32 channels,edk::uint8 position,edk::uint32 filter){
-    return this->setTextureFromMemory((edk::char8*) name,image,width,height,channels,position,filter);edkEnd();
+    return this->setTextureFromMemory((edk::char8*) name,image,width,height,channels,position,filter);
 }
 bool edk::material::Material::setTextureFromMemory(edk::Image2D* image,edk::uint8 position,edk::uint32 filter){
     if(image){
-        return this->setTextureFromMemory(image->getName(),image->getPixels(),image->getSize().width,image->getSize().height,image->getChannels(),position,filter);edkEnd();
+        return this->setTextureFromMemory(image->getName(),image->getPixels(),image->getSize().width,image->getSize().height,image->getChannels(),position,filter);
     }
     return false;
 }
@@ -275,118 +278,118 @@ bool edk::material::Material::drawToTexture(edk::char8* name,edk::uint8* image,e
     return false;
 }
 bool edk::material::Material::drawToTexture(const edk::char8* name,edk::uint8* image,edk::uint32 filter){
-    return this->drawToTexture((edk::char8*) name,image,filter);edkEnd();
+    return this->drawToTexture((edk::char8*) name,image,filter);
 }
 bool edk::material::Material::drawToTexture(edk::Image2D* image,edk::uint32 filter){
     if(image){
-        return this->drawToTexture(image->getName(),image->getPixels(),filter);edkEnd();
+        return this->drawToTexture(image->getName(),image->getPixels(),filter);
     }
     return false;
 }
 
 //SETERS
 void edk::material::Material::setAmbient(edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a){
-    this->ambient[0] = r;edkEnd();this->ambient[1] = g;edkEnd();this->ambient[2] = b;edkEnd();this->ambient[3] = a;edkEnd();
+    this->ambient[0] = r; this->ambient[1] = g; this->ambient[2] = b; this->ambient[3] = a;
 }
 void edk::material::Material::setAmbient(edk::float32 r,edk::float32 g,edk::float32 b){
-    this->setAmbient(r,g,b,1.f);edkEnd();
+    this->setAmbient(r,g,b,1.f);
 }
 void edk::material::Material::setAmbient(edk::color4f32 color){
-    this->setAmbient(color.r,color.g,color.b,color.a);edkEnd();
+    this->setAmbient(color.r,color.g,color.b,color.a);
 }
 void edk::material::Material::setAmbient(edk::color3f32 color){
-    this->setAmbient(color.r,color.g,color.b);edkEnd();
+    this->setAmbient(color.r,color.g,color.b);
 }
 void edk::material::Material::setAmbientA(edk::float32 a){
-    this->ambient[3] = a;edkEnd();
+    this->ambient[3] = a;
 }
 void edk::material::Material::setDiffuse(edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a){
-    this->diffuse[0] = r;edkEnd();this->diffuse[1] = g;edkEnd();this->diffuse[2] = b;edkEnd();this->diffuse[3] = a;edkEnd();
+    this->diffuse[0] = r; this->diffuse[1] = g; this->diffuse[2] = b; this->diffuse[3] = a;
 }
 void edk::material::Material::setDiffuse(edk::float32 r,edk::float32 g,edk::float32 b){
-    this->setDiffuse(r,g,b,1.f);edkEnd();
+    this->setDiffuse(r,g,b,1.f);
 }
 void edk::material::Material::setDiffuse(edk::color4f32 color){
-    this->setDiffuse(color.r,color.g,color.b,color.a);edkEnd();
+    this->setDiffuse(color.r,color.g,color.b,color.a);
 }
 void edk::material::Material::setDiffuse(edk::color3f32 color){
-    this->setDiffuse(color.r,color.g,color.b);edkEnd();
+    this->setDiffuse(color.r,color.g,color.b);
 }
 void edk::material::Material::setDiffuseA(edk::float32 a){
-    this->diffuse[3] = a;edkEnd();
+    this->diffuse[3] = a;
 }
 void edk::material::Material::setSpecular(edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a){
-    this->specular[0] = r;edkEnd();this->specular[1] = g;edkEnd();this->specular[2] = b;edkEnd();this->specular[3] = a;edkEnd();
+    this->specular[0] = r; this->specular[1] = g; this->specular[2] = b; this->specular[3] = a;
 }
 void edk::material::Material::setSpecular(edk::float32 r,edk::float32 g,edk::float32 b){
-    this->setSpecular(r,g,b,1.f);edkEnd();
+    this->setSpecular(r,g,b,1.f);
 }
 void edk::material::Material::setSpecular(edk::color4f32 color){
-    this->setSpecular(color.r,color.g,color.b,color.a);edkEnd();
+    this->setSpecular(color.r,color.g,color.b,color.a);
 }
 void edk::material::Material::setSpecular(edk::color3f32 color){
-    this->setSpecular(color.r,color.g,color.b);edkEnd();
+    this->setSpecular(color.r,color.g,color.b);
 }
 void edk::material::Material::setSpecularA(edk::float32 a){
-    this->specular[3] = a;edkEnd();
+    this->specular[3] = a;
 }
 void edk::material::Material::setEmission(edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a){
-    this->emission[0] = r;edkEnd();this->emission[1] = g;edkEnd();this->emission[2] = b;edkEnd();this->emission[3] = a;edkEnd();
+    this->emission[0] = r; this->emission[1] = g; this->emission[2] = b; this->emission[3] = a;
 }
 void edk::material::Material::setEmission(edk::float32 r,edk::float32 g,edk::float32 b){
-    this->setEmission(r,g,b,1.f);edkEnd();
+    this->setEmission(r,g,b,1.f);
 }
 void edk::material::Material::setEmission(edk::color4f32 color){
-    this->setEmission(color.r,color.g,color.b,color.a);edkEnd();
+    this->setEmission(color.r,color.g,color.b,color.a);
 }
 void edk::material::Material::setEmission(edk::color3f32 color){
-    this->setEmission(color.r,color.g,color.b);edkEnd();
+    this->setEmission(color.r,color.g,color.b);
 }
 void edk::material::Material::setEmissionA(edk::float32 a){
-    this->emission[3] = a;edkEnd();
+    this->emission[3] = a;
 }
 void edk::material::Material::setShininess(edk::float32 shininess){
-    this->shininess = shininess;edkEnd();
+    this->shininess = shininess;
 }
 
 //GETERS
 edk::color4f32 edk::material::Material::getAmbient(){
-    return edk::color4f32(this->ambient[0u],this->ambient[1u],this->ambient[2u],this->ambient[3u]);edkEnd();
+    return edk::color4f32(this->ambient[0u],this->ambient[1u],this->ambient[2u],this->ambient[3u]);
 }
 edk::color4f32 edk::material::Material::getDiffuse(){
-    return edk::color4f32(this->diffuse[0u],this->diffuse[1u],this->diffuse[2u],this->diffuse[3u]);edkEnd();
+    return edk::color4f32(this->diffuse[0u],this->diffuse[1u],this->diffuse[2u],this->diffuse[3u]);
 }
 edk::color4f32 edk::material::Material::getSpecular(){
-    return edk::color4f32(this->specular[0u],this->specular[1u],this->specular[2u],this->specular[3u]);edkEnd();
+    return edk::color4f32(this->specular[0u],this->specular[1u],this->specular[2u],this->specular[3u]);
 }
 edk::color4f32 edk::material::Material::getEmission(){
-    return edk::color4f32(this->emission[0u],this->emission[1u],this->emission[2u],this->emission[3u]);edkEnd();
+    return edk::color4f32(this->emission[0u],this->emission[1u],this->emission[2u],this->emission[3u]);
 }
 edk::float32 edk::material::Material::getShininess(){
-    return this->shininess;edkEnd();
+    return this->shininess;
 }
 
 //GETERS
 edk::uint32 edk::material::Material::getTexture(edk::uint8 position){
     if(position < materialTextureCount){
-        return this->textures[position];edkEnd();
+        return this->textures[position];
     }
-    return 0u;edkEnd();
+    return 0u;
 }
 //return the name of the texture
 edk::char8* edk::material::Material::getTextureName(edk::uint8 position){
     if(position < materialTextureCount){
-        return this->list.getTextureName(this->textures[position]);edkEnd();
+        return this->list.getTextureName(this->textures[position]);
     }
     return NULL;
 }
 
 //return the size of the texture
 edk::size2ui32 edk::material::Material::getTextureSize(edk::uint8 position){
-    edk::size2ui32 ret;edkEnd();
+    edk::size2ui32 ret;
     if(position < materialTextureCount){
         //
-        ret = this->list.getTextureSize(this->textures[position]);edkEnd();
+        ret = this->list.getTextureSize(this->textures[position]);
     }
     return ret;
 }
@@ -394,7 +397,7 @@ edk::uint32 edk::material::Material::getTextureWidth(edk::uint8 position){
     edk::uint32 ret=0u;
     if(position < materialTextureCount){
         //
-        ret = this->list.getTextureSize(this->textures[position]).width;edkEnd();
+        ret = this->list.getTextureSize(this->textures[position]).width;
     }
     return ret;
 }
@@ -402,21 +405,21 @@ edk::uint32 edk::material::Material::getTextureHeight(edk::uint8 position){
     edk::uint32 ret=0u;
     if(position < materialTextureCount){
         //
-        ret = this->list.getTextureSize(this->textures[position]).height;edkEnd();
+        ret = this->list.getTextureSize(this->textures[position]).height;
     }
     return ret;
 }
 
 //remove the texture
 bool edk::material::Material::removeTexture(edk::uint8 position){
-    bool ret=false;edkEnd();
+    bool ret=false;
     //test if have the position
     if(position < materialTextureCount){
         //
-        ret = this->list.removeTexture(this->textures[position]);edkEnd();
+        ret = this->list.removeTexture(this->textures[position]);
         if(ret){
             if(this->countTextures){
-                this->countTextures--;edkEnd();
+                this->countTextures--;
             }
         }
         this->textures[position]=0u;
@@ -427,18 +430,18 @@ void edk::material::Material::removeAllTextures(){
     //remove all the textures
     for(edk::uint8 i=0u;i<materialTextureCount;i++){
         //clean the textures
-        this->removeTexture(i);edkEnd();
+        this->removeTexture(i);
     }
 }
 //delete the texture
 bool edk::material::Material::deleteTexture(edk::uint8 position){
-    bool ret=false;edkEnd();
+    bool ret=false;
     //test if have the position
     if(position < materialTextureCount){
         //
-        ret = this->list.deleteTexture(this->textures[position]);edkEnd();
+        ret = this->list.deleteTexture(this->textures[position]);
         if(this->countTextures){
-            this->countTextures--;edkEnd();
+            this->countTextures--;
         }
         this->textures[position]=0u;
     }
@@ -446,7 +449,7 @@ bool edk::material::Material::deleteTexture(edk::uint8 position){
 }
 //test if have texture
 bool edk::material::Material::haveTexture(){
-    return (bool)this->countTextures;edkEnd();
+    return (bool)this->countTextures;
 }
 bool edk::material::Material::haveTexture(edk::uint8 position){
     if(position < materialTextureCount){
@@ -468,237 +471,237 @@ bool edk::material::Material::haveOneTexture(){
 void edk::material::Material::drawStart(){
     //test if have a texture
     if(this->haveTexture()){
-        this->drawStartWithMultiTexture();edkEnd();
+        this->drawStartWithMultiTexture();
     }
     else{
-        this->drawNoTexture();edkEnd();
+        this->drawNoTexture();
     }
 }
 void edk::material::Material::drawEnd(){
     //test if have a texture
-    this->drawEndWithTexture();edkEnd();
+    this->drawEndWithTexture();
 }
 void edk::material::Material::drawNoTexture(){
-    this->useMaterialParameters();edkEnd();
+    this->useMaterialParameters();
 }
 void edk::material::Material::drawStartWithOneTexture(){
-    edk::GU::guEnable(GU_TEXTURE_2D);edkEnd();
+    edk::GU::guEnable(GU_TEXTURE_2D);
 
-    //edk::GU_GLSL::guActiveTexture(GU_TEXTURE0);edkEnd();
+    //edk::GU_GLSL::guActiveTexture(GU_TEXTURE0);
     //set the texture
-    edk::GU::guUseTexture2D(this->textures[0u]);edkEnd();
+    edk::GU::guUseTexture2D(this->textures[0u]);
 
     //draw the material parameters
-    this->useMaterialParameters();edkEnd();
+    this->useMaterialParameters();
 }
 void edk::material::Material::drawStartWithOneTexture(edk::uint32 position){
-    edk::GU::guEnable(GU_TEXTURE_2D);edkEnd();
+    edk::GU::guEnable(GU_TEXTURE_2D);
 
-    //edk::GU_GLSL::guActiveTexture(GU_TEXTURE0);edkEnd();
+    //edk::GU_GLSL::guActiveTexture(GU_TEXTURE0);
     //set the texture
     if(position<materialTextureCount){
-        edk::GU::guUseTexture2D(this->textures[position]);edkEnd();
+        edk::GU::guUseTexture2D(this->textures[position]);
     }
     else{
-        edk::GU::guUseTexture2D(this->textures[0u]);edkEnd();
+        edk::GU::guUseTexture2D(this->textures[0u]);
     }
 
     //draw the material parameters
-    this->useMaterialParameters();edkEnd();
+    this->useMaterialParameters();
 }
 void edk::material::Material::drawStartWithMultiTexture(){
-    edk::GU::guEnable(GU_TEXTURE_2D);edkEnd();
+    edk::GU::guEnable(GU_TEXTURE_2D);
     //set the textures
 
     if(edk::GU_GLSL::guShaderInitiated()){
         for(edk::uint8 i=materialTextureCount-1u;i>0u;i--){
 
             //clean the textures
-            edk::GU_GLSL::guActiveTexture(GU_TEXTURE0+i);edkEnd();
-            edk::GU::guUseTexture2D(this->textures[i]);edkEnd();
+            edk::GU_GLSL::guActiveTexture(GU_TEXTURE0+i);
+            edk::GU::guUseTexture2D(this->textures[i]);
         }
-        edk::GU_GLSL::guActiveTexture(GU_TEXTURE0);edkEnd();
+        edk::GU_GLSL::guActiveTexture(GU_TEXTURE0);
     }
     //set the zero texture
-    edk::GU::guUseTexture2D(this->textures[0u]);edkEnd();
+    edk::GU::guUseTexture2D(this->textures[0u]);
 
     //draw the material parameters
-    this->useMaterialParameters();edkEnd();
+    this->useMaterialParameters();
 }
 void edk::material::Material::drawEndWithTexture(){
     //disable the texture
-    edk::GU::guDisable(GU_TEXTURE_2D);edkEnd();
+    edk::GU::guDisable(GU_TEXTURE_2D);
 }
 
 //XML
 bool edk::material::Material::writeToXML(edk::XML* xml,edk::uint32 id){
     if(xml){
-        bool ret=false;edkEnd();
+        bool ret=false;
         //create the nameID
-        edk::char8* nameID = edk::String::int64ToStr(id);edkEnd();
+        edk::char8* nameID = edk::String::int64ToStr(id);
         if(nameID){
             //concat
-            edk::char8* name = edk::String::strCat((edk::char8*)"material_",nameID);edkEnd();
+            edk::char8* name = edk::String::strCat((edk::char8*)"material_",nameID);
             if(name){
                 //create the name
                 if(xml->addSelectedNextChild(name)){
                     if(xml->selectChild(name)){
                         //write the material
-                        edk::char8* temp=NULL;edkEnd();
-                        edk::char8* nameTemp=NULL;edkEnd();
-                        edk::char8* iTemp=NULL;edkEnd();
+                        edk::char8* temp=NULL;
+                        edk::char8* nameTemp=NULL;
+                        edk::char8* iTemp=NULL;
 
                         //COLORS
                         if(xml->addSelectedNextChild("ambient")){
                             if(xml->selectChild("ambient")){
                                 //write the attributes
                                 for(edk::uint32 i=0u;i<4u;i++){
-                                    iTemp = edk::String::int64ToStr(i);edkEnd();
+                                    iTemp = edk::String::int64ToStr(i);
                                     if(iTemp){
-                                        nameTemp = edk::String::strCat((edk::char8*)"value",iTemp);edkEnd();
+                                        nameTemp = edk::String::strCat((edk::char8*)"value",iTemp);
                                         if(nameTemp){
-                                            temp=edk::String::float32ToStr(ambient[i]);edkEnd();
+                                            temp=edk::String::float32ToStr(ambient[i]);
                                             if(temp){
-                                                xml->addSelectedNextAttribute(nameTemp,temp);edkEnd();
-                                                free(temp);edkEnd();
+                                                xml->addSelectedNextAttribute(nameTemp,temp);
+                                                free(temp);
                                             }
-                                            free(nameTemp);edkEnd();
+                                            free(nameTemp);
                                         }
-                                        free(iTemp);edkEnd();
+                                        free(iTemp);
                                     }
                                 }
-                                xml->selectFather();edkEnd();
+                                xml->selectFather();
                             }
                         }
                         if(xml->addSelectedNextChild("diffuse")){
                             if(xml->selectChild("diffuse")){
                                 //write the attributes
                                 for(edk::uint32 i=0u;i<4u;i++){
-                                    iTemp = edk::String::int64ToStr(i);edkEnd();
+                                    iTemp = edk::String::int64ToStr(i);
                                     if(iTemp){
-                                        nameTemp = edk::String::strCat((edk::char8*)"value",iTemp);edkEnd();
+                                        nameTemp = edk::String::strCat((edk::char8*)"value",iTemp);
                                         if(nameTemp){
-                                            temp=edk::String::float32ToStr(diffuse[i]);edkEnd();
+                                            temp=edk::String::float32ToStr(diffuse[i]);
                                             if(temp){
-                                                xml->addSelectedNextAttribute(nameTemp,temp);edkEnd();
-                                                free(temp);edkEnd();
+                                                xml->addSelectedNextAttribute(nameTemp,temp);
+                                                free(temp);
                                             }
-                                            free(nameTemp);edkEnd();
+                                            free(nameTemp);
                                         }
-                                        free(iTemp);edkEnd();
+                                        free(iTemp);
                                     }
                                 }
-                                xml->selectFather();edkEnd();
+                                xml->selectFather();
                             }
                         }
                         if(xml->addSelectedNextChild("specular")){
                             if(xml->selectChild("specular")){
                                 //write the attributes
                                 for(edk::uint32 i=0u;i<4u;i++){
-                                    iTemp = edk::String::int64ToStr(i);edkEnd();
+                                    iTemp = edk::String::int64ToStr(i);
                                     if(iTemp){
-                                        nameTemp = edk::String::strCat((edk::char8*)"value",iTemp);edkEnd();
+                                        nameTemp = edk::String::strCat((edk::char8*)"value",iTemp);
                                         if(nameTemp){
-                                            temp=edk::String::float32ToStr(specular[i]);edkEnd();
+                                            temp=edk::String::float32ToStr(specular[i]);
                                             if(temp){
-                                                xml->addSelectedNextAttribute(nameTemp,temp);edkEnd();
-                                                free(temp);edkEnd();
+                                                xml->addSelectedNextAttribute(nameTemp,temp);
+                                                free(temp);
                                             }
-                                            free(nameTemp);edkEnd();
+                                            free(nameTemp);
                                         }
-                                        free(iTemp);edkEnd();
+                                        free(iTemp);
                                     }
                                 }
-                                xml->selectFather();edkEnd();
+                                xml->selectFather();
                             }
                         }
                         if(xml->addSelectedNextChild("emission")){
                             if(xml->selectChild("emission")){
                                 //write the attributes
                                 for(edk::uint32 i=0u;i<4u;i++){
-                                    iTemp = edk::String::int64ToStr(i);edkEnd();
+                                    iTemp = edk::String::int64ToStr(i);
                                     if(iTemp){
-                                        nameTemp = edk::String::strCat((edk::char8*)"value",iTemp);edkEnd();
+                                        nameTemp = edk::String::strCat((edk::char8*)"value",iTemp);
                                         if(nameTemp){
-                                            temp=edk::String::float32ToStr(emission[i]);edkEnd();
+                                            temp=edk::String::float32ToStr(emission[i]);
                                             if(temp){
-                                                xml->addSelectedNextAttribute(nameTemp,temp);edkEnd();
-                                                free(temp);edkEnd();
+                                                xml->addSelectedNextAttribute(nameTemp,temp);
+                                                free(temp);
                                             }
-                                            free(nameTemp);edkEnd();
+                                            free(nameTemp);
                                         }
-                                        free(iTemp);edkEnd();
+                                        free(iTemp);
                                     }
                                 }
-                                xml->selectFather();edkEnd();
+                                xml->selectFather();
                             }
                         }
                         if(xml->addSelectedNextChild("shininess")){
                             if(xml->selectChild("shininess")){
                                 //write the attributes
                                 for(edk::uint32 i=0u;i<1u;i++){
-                                    iTemp = edk::String::int64ToStr(i);edkEnd();
+                                    iTemp = edk::String::int64ToStr(i);
                                     if(iTemp){
-                                        nameTemp = edk::String::strCat((edk::char8*)"value",iTemp);edkEnd();
+                                        nameTemp = edk::String::strCat((edk::char8*)"value",iTemp);
                                         if(nameTemp){
-                                            temp=edk::String::float32ToStr(shininess);edkEnd();
+                                            temp=edk::String::float32ToStr(shininess);
                                             if(temp){
-                                                xml->addSelectedNextAttribute(nameTemp,temp);edkEnd();
-                                                free(temp);edkEnd();
+                                                xml->addSelectedNextAttribute(nameTemp,temp);
+                                                free(temp);
                                             }
-                                            free(nameTemp);edkEnd();
+                                            free(nameTemp);
                                         }
-                                        free(iTemp);edkEnd();
+                                        free(iTemp);
                                     }
                                 }
-                                xml->selectFather();edkEnd();
+                                xml->selectFather();
                             }
                         }
 
                         //save textures
-                        edk::uint32 textureID = 0u;edkEnd();
-                        edk::char8* idTemp;edkEnd();
+                        edk::uint32 textureID = 0u;
+                        edk::char8* idTemp;
                         edk::uint32 filter=0u;
                         for(edk::uint32 i=0u;i<materialTextureCount;i++){
                             if(this->textures[i]){
-                                textureID = this->textures[i];edkEnd();
+                                textureID = this->textures[i];
                                 //test if have the textureName
-                                temp = this->list.getTextureName(textureID);edkEnd();
-                                filter = this->list.getTextureFilter(textureID);edkEnd();
+                                temp = this->list.getTextureName(textureID);
+                                filter = this->list.getTextureFilter(textureID);
                                 if(temp){
                                     //save the texture
-                                    idTemp = edk::String::int64ToStr(i);edkEnd();
+                                    idTemp = edk::String::int64ToStr(i);
                                     if(idTemp){
-                                        nameTemp = edk::String::strCat((edk::char8*)"texture_",idTemp);edkEnd();
+                                        nameTemp = edk::String::strCat((edk::char8*)"texture_",idTemp);
                                         if(nameTemp){
                                             if(xml->addSelectedNextChild(nameTemp)){
                                                 if(xml->selectChild(nameTemp)){
-                                                    xml->setSelectedString(temp);edkEnd();
+                                                    xml->setSelectedString(temp);
                                                     //save the filter
-                                                    temp = edk::String::uint32ToStr(filter);edkEnd();
+                                                    temp = edk::String::uint32ToStr(filter);
                                                     if(temp){
-                                                        xml->addSelectedNextAttribute((edk::char8*)"filter",temp);edkEnd();
-                                                        free(temp);edkEnd();
+                                                        xml->addSelectedNextAttribute((edk::char8*)"filter",temp);
+                                                        free(temp);
                                                     }
-                                                    xml->selectFather();edkEnd();
+                                                    xml->selectFather();
                                                 }
                                             }
-                                            free(nameTemp);edkEnd();
+                                            free(nameTemp);
                                         }
-                                        free(idTemp);edkEnd();
+                                        free(idTemp);
                                     }
-                                    temp=NULL;edkEnd();
+                                    temp=NULL;
                                 }
                             }
                         }
 
-                        ret=true;edkEnd();
-                        xml->selectFather();edkEnd();
+                        ret=true;
+                        xml->selectFather();
                     }
                 }
-                free(name);edkEnd();
+                free(name);
             }
-            free(nameID);edkEnd();
+            free(nameID);
         }
         return ret;
     }
@@ -706,127 +709,127 @@ bool edk::material::Material::writeToXML(edk::XML* xml,edk::uint32 id){
 }
 bool edk::material::Material::readFromXML(edk::XML* xml,edk::uint32 id){
     if(xml){
-        bool ret=false;edkEnd();
+        bool ret=false;
         //create the nameID
-        edk::char8* nameID = edk::String::int64ToStr(id);edkEnd();
+        edk::char8* nameID = edk::String::int64ToStr(id);
         if(nameID){
             //concat
-            edk::char8* name = edk::String::strCat((edk::char8*)"material_",nameID);edkEnd();
+            edk::char8* name = edk::String::strCat((edk::char8*)"material_",nameID);
             if(name){
                 //select the name
                 if(xml->selectChild(name)){
                     edk::char8 filter[3u] = {9u,'\n',0u};
-                    edk::char8* temp;edkEnd();
-                    edk::char8* nameTemp = NULL;edkEnd();
-                    edk::char8* iTemp = NULL;edkEnd();
+                    edk::char8* temp;
+                    edk::char8* nameTemp = NULL;
+                    edk::char8* iTemp = NULL;
                     //
                     if(xml->selectChild("ambient")){
                         //set the ambient attributes
                         for(edk::uint32 i=0u;i<4u;i++){
-                            iTemp = edk::String::int64ToStr(i);edkEnd();
+                            iTemp = edk::String::int64ToStr(i);
                             if(iTemp){
-                                nameTemp = edk::String::strCat((edk::char8*)"value",iTemp);edkEnd();
+                                nameTemp = edk::String::strCat((edk::char8*)"value",iTemp);
                                 if(nameTemp){
-                                    this->ambient[i] = edk::String::strToFloat32(xml->getSelectedAttributeValueByName(nameTemp));edkEnd();
-                                    free(nameTemp);edkEnd();
+                                    this->ambient[i] = edk::String::strToFloat32(xml->getSelectedAttributeValueByName(nameTemp));
+                                    free(nameTemp);
                                 }
-                                free(iTemp);edkEnd();
+                                free(iTemp);
                             }
                         }
-                        xml->selectFather();edkEnd();
+                        xml->selectFather();
                     }
                     if(xml->selectChild("diffuse")){
                         //set the diffuse attributes
                         for(edk::uint32 i=0u;i<4u;i++){
-                            iTemp = edk::String::int64ToStr(i);edkEnd();
+                            iTemp = edk::String::int64ToStr(i);
                             if(iTemp){
-                                nameTemp = edk::String::strCat((edk::char8*)"value",iTemp);edkEnd();
+                                nameTemp = edk::String::strCat((edk::char8*)"value",iTemp);
                                 if(nameTemp){
-                                    this->diffuse[i] = edk::String::strToFloat32(xml->getSelectedAttributeValueByName(nameTemp));edkEnd();
-                                    free(nameTemp);edkEnd();
+                                    this->diffuse[i] = edk::String::strToFloat32(xml->getSelectedAttributeValueByName(nameTemp));
+                                    free(nameTemp);
                                 }
-                                free(iTemp);edkEnd();
+                                free(iTemp);
                             }
                         }
-                        xml->selectFather();edkEnd();
+                        xml->selectFather();
                     }
                     if(xml->selectChild("specular")){
                         //set the specular attributes
                         for(edk::uint32 i=0u;i<4u;i++){
-                            iTemp = edk::String::int64ToStr(i);edkEnd();
+                            iTemp = edk::String::int64ToStr(i);
                             if(iTemp){
-                                nameTemp = edk::String::strCat((edk::char8*)"value",iTemp);edkEnd();
+                                nameTemp = edk::String::strCat((edk::char8*)"value",iTemp);
                                 if(nameTemp){
-                                    this->specular[i] = edk::String::strToFloat32(xml->getSelectedAttributeValueByName(nameTemp));edkEnd();
-                                    free(nameTemp);edkEnd();
+                                    this->specular[i] = edk::String::strToFloat32(xml->getSelectedAttributeValueByName(nameTemp));
+                                    free(nameTemp);
                                 }
-                                free(iTemp);edkEnd();
+                                free(iTemp);
                             }
                         }
-                        xml->selectFather();edkEnd();
+                        xml->selectFather();
                     }
                     if(xml->selectChild("emission")){
                         //set the emission attributes
                         for(edk::uint32 i=0u;i<4u;i++){
-                            iTemp = edk::String::int64ToStr(i);edkEnd();
+                            iTemp = edk::String::int64ToStr(i);
                             if(iTemp){
-                                nameTemp = edk::String::strCat((edk::char8*)"value",iTemp);edkEnd();
+                                nameTemp = edk::String::strCat((edk::char8*)"value",iTemp);
                                 if(nameTemp){
-                                    this->emission[i] = edk::String::strToFloat32(xml->getSelectedAttributeValueByName(nameTemp));edkEnd();
-                                    free(nameTemp);edkEnd();
+                                    this->emission[i] = edk::String::strToFloat32(xml->getSelectedAttributeValueByName(nameTemp));
+                                    free(nameTemp);
                                 }
-                                free(iTemp);edkEnd();
+                                free(iTemp);
                             }
                         }
-                        xml->selectFather();edkEnd();
+                        xml->selectFather();
                     }
                     if(xml->selectChild("shininess")){
                         //set the shininess attributes
                         for(edk::uint32 i=0u;i<1u;i++){
-                            iTemp = edk::String::int64ToStr(i);edkEnd();
+                            iTemp = edk::String::int64ToStr(i);
                             if(iTemp){
-                                nameTemp = edk::String::strCat((edk::char8*)"value",iTemp);edkEnd();
+                                nameTemp = edk::String::strCat((edk::char8*)"value",iTemp);
                                 if(nameTemp){
-                                    this->shininess = edk::String::strToFloat32(xml->getSelectedAttributeValueByName(nameTemp));edkEnd();
-                                    free(nameTemp);edkEnd();
+                                    this->shininess = edk::String::strToFloat32(xml->getSelectedAttributeValueByName(nameTemp));
+                                    free(nameTemp);
                                 }
-                                free(iTemp);edkEnd();
+                                free(iTemp);
                             }
                         }
-                        xml->selectFather();edkEnd();
+                        xml->selectFather();
                     }
 
-                    this->removeAllTextures();edkEnd();
+                    this->removeAllTextures();
                     //load the textures
-                    edk::char8* idTemp;edkEnd();
+                    edk::char8* idTemp;
                     for(edk::uint32 i=0u;i<materialTextureCount;i++){
                         //load the texture
-                        idTemp = edk::String::int64ToStr(i);edkEnd();
+                        idTemp = edk::String::int64ToStr(i);
                         if(idTemp){
-                            nameTemp = edk::String::strCat((edk::char8*)"texture_",idTemp);edkEnd();
+                            nameTemp = edk::String::strCat((edk::char8*)"texture_",idTemp);
                             if(nameTemp){
                                 if(xml->selectChild(nameTemp)){
-                                    temp = edk::String::strCopyWithFilter(xml->getSelectedString(),(edk::char8*)filter);edkEnd();
+                                    temp = edk::String::strCopyWithFilter(xml->getSelectedString(),(edk::char8*)filter);
                                     if(temp){
                                         this->loadTexture(temp,i,
                                                           edk::String::strToInt64(xml->getSelectedAttributeValueByName("filter"))
-                                                          );edkEnd();
-                                        free(temp);edkEnd();
+                                                          );
+                                        free(temp);
                                     }
-                                    xml->selectFather();edkEnd();
+                                    xml->selectFather();
                                 }
-                                free(nameTemp);edkEnd();
+                                free(nameTemp);
                             }
-                            free(idTemp);edkEnd();
+                            free(idTemp);
                         }
                     }
 
-                    xml->selectFather();edkEnd();
-                    ret=true;edkEnd();
+                    xml->selectFather();
+                    ret=true;
                 }
-                free(name);edkEnd();
+                free(name);
             }
-            free(nameID);edkEnd();
+            free(nameID);
         }
         return ret;
     }
@@ -834,127 +837,127 @@ bool edk::material::Material::readFromXML(edk::XML* xml,edk::uint32 id){
 }
 bool edk::material::Material::readFromXMLFromPack(edk::pack::FilePackage* pack,edk::XML* xml,edk::uint32 id){
     if(xml && pack){
-        bool ret=false;edkEnd();
+        bool ret=false;
         //create the nameID
-        edk::char8* nameID = edk::String::int64ToStr(id);edkEnd();
+        edk::char8* nameID = edk::String::int64ToStr(id);
         if(nameID){
             //concat
-            edk::char8* name = edk::String::strCat((edk::char8*)"material_",nameID);edkEnd();
+            edk::char8* name = edk::String::strCat((edk::char8*)"material_",nameID);
             if(name){
                 //select the name
                 if(xml->selectChild(name)){
                     edk::char8 filter[3u] = {9u,'\n',0u};
-                    edk::char8* temp;edkEnd();
-                    edk::char8* nameTemp = NULL;edkEnd();
-                    edk::char8* iTemp = NULL;edkEnd();
+                    edk::char8* temp;
+                    edk::char8* nameTemp = NULL;
+                    edk::char8* iTemp = NULL;
                     //
                     if(xml->selectChild("ambient")){
                         //set the ambient attributes
                         for(edk::uint32 i=0u;i<4u;i++){
-                            iTemp = edk::String::int64ToStr(i);edkEnd();
+                            iTemp = edk::String::int64ToStr(i);
                             if(iTemp){
-                                nameTemp = edk::String::strCat((edk::char8*)"value",iTemp);edkEnd();
+                                nameTemp = edk::String::strCat((edk::char8*)"value",iTemp);
                                 if(nameTemp){
-                                    this->ambient[i] = edk::String::strToFloat32(xml->getSelectedAttributeValueByName(nameTemp));edkEnd();
-                                    free(nameTemp);edkEnd();
+                                    this->ambient[i] = edk::String::strToFloat32(xml->getSelectedAttributeValueByName(nameTemp));
+                                    free(nameTemp);
                                 }
-                                free(iTemp);edkEnd();
+                                free(iTemp);
                             }
                         }
-                        xml->selectFather();edkEnd();
+                        xml->selectFather();
                     }
                     if(xml->selectChild("diffuse")){
                         //set the diffuse attributes
                         for(edk::uint32 i=0u;i<4u;i++){
-                            iTemp = edk::String::int64ToStr(i);edkEnd();
+                            iTemp = edk::String::int64ToStr(i);
                             if(iTemp){
-                                nameTemp = edk::String::strCat((edk::char8*)"value",iTemp);edkEnd();
+                                nameTemp = edk::String::strCat((edk::char8*)"value",iTemp);
                                 if(nameTemp){
-                                    this->diffuse[i] = edk::String::strToFloat32(xml->getSelectedAttributeValueByName(nameTemp));edkEnd();
-                                    free(nameTemp);edkEnd();
+                                    this->diffuse[i] = edk::String::strToFloat32(xml->getSelectedAttributeValueByName(nameTemp));
+                                    free(nameTemp);
                                 }
-                                free(iTemp);edkEnd();
+                                free(iTemp);
                             }
                         }
-                        xml->selectFather();edkEnd();
+                        xml->selectFather();
                     }
                     if(xml->selectChild("specular")){
                         //set the specular attributes
                         for(edk::uint32 i=0u;i<4u;i++){
-                            iTemp = edk::String::int64ToStr(i);edkEnd();
+                            iTemp = edk::String::int64ToStr(i);
                             if(iTemp){
-                                nameTemp = edk::String::strCat((edk::char8*)"value",iTemp);edkEnd();
+                                nameTemp = edk::String::strCat((edk::char8*)"value",iTemp);
                                 if(nameTemp){
-                                    this->specular[i] = edk::String::strToFloat32(xml->getSelectedAttributeValueByName(nameTemp));edkEnd();
-                                    free(nameTemp);edkEnd();
+                                    this->specular[i] = edk::String::strToFloat32(xml->getSelectedAttributeValueByName(nameTemp));
+                                    free(nameTemp);
                                 }
-                                free(iTemp);edkEnd();
+                                free(iTemp);
                             }
                         }
-                        xml->selectFather();edkEnd();
+                        xml->selectFather();
                     }
                     if(xml->selectChild("emission")){
                         //set the emission attributes
                         for(edk::uint32 i=0u;i<4u;i++){
-                            iTemp = edk::String::int64ToStr(i);edkEnd();
+                            iTemp = edk::String::int64ToStr(i);
                             if(iTemp){
-                                nameTemp = edk::String::strCat((edk::char8*)"value",iTemp);edkEnd();
+                                nameTemp = edk::String::strCat((edk::char8*)"value",iTemp);
                                 if(nameTemp){
-                                    this->emission[i] = edk::String::strToFloat32(xml->getSelectedAttributeValueByName(nameTemp));edkEnd();
-                                    free(nameTemp);edkEnd();
+                                    this->emission[i] = edk::String::strToFloat32(xml->getSelectedAttributeValueByName(nameTemp));
+                                    free(nameTemp);
                                 }
-                                free(iTemp);edkEnd();
+                                free(iTemp);
                             }
                         }
-                        xml->selectFather();edkEnd();
+                        xml->selectFather();
                     }
                     if(xml->selectChild("shininess")){
                         //set the shininess attributes
                         for(edk::uint32 i=0u;i<1u;i++){
-                            iTemp = edk::String::int64ToStr(i);edkEnd();
+                            iTemp = edk::String::int64ToStr(i);
                             if(iTemp){
-                                nameTemp = edk::String::strCat((edk::char8*)"value",iTemp);edkEnd();
+                                nameTemp = edk::String::strCat((edk::char8*)"value",iTemp);
                                 if(nameTemp){
-                                    this->shininess = edk::String::strToFloat32(xml->getSelectedAttributeValueByName(nameTemp));edkEnd();
-                                    free(nameTemp);edkEnd();
+                                    this->shininess = edk::String::strToFloat32(xml->getSelectedAttributeValueByName(nameTemp));
+                                    free(nameTemp);
                                 }
-                                free(iTemp);edkEnd();
+                                free(iTemp);
                             }
                         }
-                        xml->selectFather();edkEnd();
+                        xml->selectFather();
                     }
 
-                    this->removeAllTextures();edkEnd();
+                    this->removeAllTextures();
                     //load the textures
-                    edk::char8* idTemp;edkEnd();
+                    edk::char8* idTemp;
                     for(edk::uint32 i=0u;i<materialTextureCount;i++){
                         //load the texture
-                        idTemp = edk::String::int64ToStr(i);edkEnd();
+                        idTemp = edk::String::int64ToStr(i);
                         if(idTemp){
-                            nameTemp = edk::String::strCat((edk::char8*)"texture_",idTemp);edkEnd();
+                            nameTemp = edk::String::strCat((edk::char8*)"texture_",idTemp);
                             if(nameTemp){
                                 if(xml->selectChild(nameTemp)){
-                                    temp = edk::String::strCopyWithFilter(xml->getSelectedString(),(edk::char8*)filter);edkEnd();
+                                    temp = edk::String::strCopyWithFilter(xml->getSelectedString(),(edk::char8*)filter);
                                     if(temp){
                                         this->loadTextureFromPack(pack,temp,i,
                                                                   edk::String::strToInt64(xml->getSelectedAttributeValueByName("filter"))
-                                                                  );edkEnd();
-                                        free(temp);edkEnd();
+                                                                  );
+                                        free(temp);
                                     }
-                                    xml->selectFather();edkEnd();
+                                    xml->selectFather();
                                 }
-                                free(nameTemp);edkEnd();
+                                free(nameTemp);
                             }
-                            free(idTemp);edkEnd();
+                            free(idTemp);
                         }
                     }
 
-                    xml->selectFather();edkEnd();
-                    ret=true;edkEnd();
+                    xml->selectFather();
+                    ret=true;
                 }
-                free(name);edkEnd();
+                free(name);
             }
-            free(nameID);edkEnd();
+            free(nameID);
         }
         return ret;
     }
@@ -964,41 +967,41 @@ bool edk::material::Material::readFromXMLFromPack(edk::pack::FilePackage* pack,e
 //TEMP
 void edk::material::Material::printTexture(edk::uint8 position){
     if(position < materialTextureCount){
-        printf("%u",this->textures[position]);edkEnd();
+        printf("%u",this->textures[position]);
     }
 }
 void edk::material::Material::printTextures(){
     for(edk::uint32 i = 0u;i<materialTextureCount;i++){
         if(this->textures[i]){
-            printf("%u == %u",i,this->textures[i]);edkEnd();
+            printf("%u == %u",i,this->textures[i]);
         }
     }
 }
 void edk::material::Material::printMaterial(){
-    printf("\nAmbient");edkEnd();
+    printf("\nAmbient");
     for(edk::uint8 i= 0u;i<4u;i++){
         printf(" %.2f"
                ,this->ambient[i]
-               );edkEnd();
+               );
     }
-    printf("\nDiffuse");edkEnd();
+    printf("\nDiffuse");
     for(edk::uint8 i= 0u;i<4u;i++){
         printf(" %.2f"
                ,this->diffuse[i]
-               );edkEnd();
+               );
     }
-    printf("\nSpecular");edkEnd();
+    printf("\nSpecular");
     for(edk::uint8 i= 0u;i<4u;i++){
         printf(" %.2f"
                ,this->specular[i]
-               );edkEnd();
+               );
     }
-    printf("\nEmission");edkEnd();
+    printf("\nEmission");
     for(edk::uint8 i= 0u;i<4u;i++){
         printf(" %.2f"
                ,this->emission[i]
-               );edkEnd();
+               );
     }
-    printf("\nShininess %.2f",this->shininess);edkEnd();
-    fflush(stdout);edkEnd();
+    printf("\nShininess %.2f",this->shininess);
+    fflush(stdout);
 }

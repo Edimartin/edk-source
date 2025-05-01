@@ -29,110 +29,112 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endif
 
 edk::codecs::CodecVideo::CodecVideo(){
-    this->classThis=NULL;edkEnd();
-    this->Constructor(false);edkEnd();
+    this->classThis=NULL;
+    this->Constructor();
 }
 edk::codecs::CodecVideo::~CodecVideo(){
-    if(this->classThis==this){
-        this->classThis=NULL;edkEnd();
-        //can destruct the class
-        this->deleteFrame();edkEnd();
-        this->deleteSpaceEncoded();edkEnd();
-    }
+    this->Destructor();
 }
 
-void edk::codecs::CodecVideo::Constructor(bool runFather){
-    if(runFather){
-        edk::codecs::CodecImage::Constructor();edkEnd();
-    }
+void edk::codecs::CodecVideo::Constructor(){
+    edk::codecs::CodecImage::Constructor();
     if(this->classThis!=this){
         this->classThis=this;
         this->usingEncodedSize=0u;
-        this->Y=NULL;edkEnd();
-        this->U=NULL;edkEnd();
-        this->V=NULL;edkEnd();
+        this->Y=NULL;
+        this->U=NULL;
+        this->V=NULL;
         this->sizeY=0u;
         this->sizeU=0u;
         this->sizeV=0u;
-        this->nexKeyframe=false;edkEnd();
+        this->nexKeyframe=false;
     }
+}
+void edk::codecs::CodecVideo::Destructor(){
+    if(this->classThis==this){
+        this->classThis=NULL;
+        //can destruct the class
+        this->deleteFrame();
+        this->deleteSpaceEncoded();
+    }
+    edk::codecs::CodecImage::Destructor();
 }
 
 //create a new frame
 bool edk::codecs::CodecVideo::newFrame(edk::size2ui32 size,edk::uint8 channels){
-    return edk::codecs::CodecImage::newFrame(size,channels);edkEnd();
+    return edk::codecs::CodecImage::newFrame(size,channels);
 }
 bool edk::codecs::CodecVideo::newFrame(edk::uint32 width,edk::uint32 height,edk::uint8 channels){
-    return edk::codecs::CodecImage::newFrame(width,height,channels);edkEnd();
+    return edk::codecs::CodecImage::newFrame(width,height,channels);
 }
 //create a new frame
 bool edk::codecs::CodecVideo::newFrameYUV(edk::size2ui32 size){
     //delete the last frame
-    this->deleteFrame();edkEnd();
+    this->deleteFrame();
     //alloc the frame
     if(size.width && size.height){
-        this->frameSize = size;edkEnd();
+        this->frameSize = size;
         //alloc the YUV
-        this->sizeY = size.width*size.height;edkEnd();
-        this->Y = (edk::uint8*)malloc(sizeof(edk::uint8) * (this->sizeY));edkEnd();
+        this->sizeY = size.width*size.height;
+        this->Y = (edk::uint8*)malloc(sizeof(edk::uint8) * (this->sizeY));
         if(this->Y){
-            this->sizeU = this->sizeY>>1u;edkEnd();
-            this->U = (edk::uint8*)malloc(sizeof(edk::uint8) * (this->sizeU));edkEnd();
+            this->sizeU = this->sizeY>>1u;
+            this->U = (edk::uint8*)malloc(sizeof(edk::uint8) * (this->sizeU));
             if(this->U){
-                this->sizeV = this->sizeU;edkEnd();
-                this->V = (edk::uint8*)malloc(sizeof(edk::uint8) * (this->sizeV));edkEnd();
+                this->sizeV = this->sizeU;
+                this->V = (edk::uint8*)malloc(sizeof(edk::uint8) * (this->sizeV));
                 if(this->V){
                     return true;
                 }
                 //else clean the size
                 this->sizeV=0u;
-                //delete U;edkEnd();
+                //delete U;
                 this->sizeU=0u;
-                free(this->U);edkEnd();
-                this->U=NULL;edkEnd();
+                free(this->U);
+                this->U=NULL;
             }
-            //else delete Y;edkEnd();
+            //else delete Y;
             this->sizeY=0u;
-            free(this->Y);edkEnd();
-            this->Y=NULL;edkEnd();
+            free(this->Y);
+            this->Y=NULL;
         }
         //delete the frame
-        edk::codecs::CodecImage::deleteFrame();edkEnd();
+        edk::codecs::CodecImage::deleteFrame();
     }
     return false;
 }
 bool edk::codecs::CodecVideo::newFrameYUV(edk::uint32 width,edk::uint32 height){
-    return this->newFrameYUV(edk::size2ui32(width,height));edkEnd();
+    return this->newFrameYUV(edk::size2ui32(width,height));
 }
 //delete the frame
 void edk::codecs::CodecVideo::deleteFrame(){
     //delete the channels
     if(this->Y){
-        free(this->Y);edkEnd();
+        free(this->Y);
     }
-    this->Y=NULL;edkEnd();
+    this->Y=NULL;
     this->sizeY=0u;
     if(this->U){
-        free(this->U);edkEnd();
+        free(this->U);
     }
-    this->U=NULL;edkEnd();
+    this->U=NULL;
     this->sizeU=0u;
     if(this->V){
-        free(this->V);edkEnd();
+        free(this->V);
     }
-    this->V=NULL;edkEnd();
+    this->V=NULL;
     this->sizeV=0u;
-    edk::codecs::CodecImage::deleteFrame();edkEnd();
+    edk::codecs::CodecImage::deleteFrame();
 }
 //alloc a new frameEncoded
 bool edk::codecs::CodecVideo::newSpaceEncoded(edk::uint32 size){
     this->usingEncodedSize=0u;
-    return edk::codecs::CodecImage::newFrameEncoded(size);edkEnd();
+    return edk::codecs::CodecImage::newFrameEncoded(size);
 }
 //delete the encoded
 void edk::codecs::CodecVideo::deleteSpaceEncoded(){
     this->usingEncodedSize=0u;
-    return edk::codecs::CodecImage::deleteEncoded();edkEnd();
+    return edk::codecs::CodecImage::deleteEncoded();
 }
 
 #include "EncoderJPEG.h"
@@ -156,16 +158,16 @@ bool edk::codecs::CodecVideo::drawFrame(edk::uint8* frame,edk::uint8 channels){
 bool edk::codecs::CodecVideo::writeEncoded(edk::uint8* frame,edk::uint32 size){
     this->usingEncodedSize=0u;
     if(frame && size && edk::codecs::CodecImage::getEncoded()){
-        edk::uint32* encodedSize = edk::codecs::CodecImage::getEncodedSizePosition();edkEnd();
-        edk::uint32 saveSize = *encodedSize;edkEnd();
+        edk::uint32* encodedSize = edk::codecs::CodecImage::getEncodedSizePosition();
+        edk::uint32 saveSize = *encodedSize;
         if(size<*encodedSize){
             //write the frame
-            *encodedSize = size;edkEnd();
-            bool ret = edk::codecs::CodecImage::writeEncoded(frame);edkEnd();
-            *encodedSize = saveSize;edkEnd();
+            *encodedSize = size;
+            bool ret = edk::codecs::CodecImage::writeEncoded(frame);
+            *encodedSize = saveSize;
             if(ret){
                 //save the encodedSize
-                this->usingEncodedSize = size;edkEnd();
+                this->usingEncodedSize = size;
             }
             return ret;
         }
@@ -173,67 +175,67 @@ bool edk::codecs::CodecVideo::writeEncoded(edk::uint8* frame,edk::uint32 size){
     return false;
 }
 bool edk::codecs::CodecVideo::appendEncoded(edk::uint8* frame,edk::uint32 size){
-    edk::uint8 * encoded = edk::codecs::CodecImage::getEncoded();edkEnd();
+    edk::uint8 * encoded = edk::codecs::CodecImage::getEncoded();
     if(frame && size && encoded){
-        edk::uint32* encodedSize = edk::codecs::CodecImage::getEncodedSizePosition();edkEnd();
+        edk::uint32* encodedSize = edk::codecs::CodecImage::getEncodedSizePosition();
         if(size<(encodedSize[0u] - this->usingEncodedSize)){
             //write the frame
-            memcpy(&encoded[this->usingEncodedSize],frame,size);edkEnd();
-            this->usingEncodedSize+=size;edkEnd();
+            memcpy(&encoded[this->usingEncodedSize],frame,size);
+            this->usingEncodedSize+=size;
             return true;
         }
     }
-    printf(" NOTOK %u",this->usingEncodedSize);edkEnd();
+    printf(" NOTOK %u",this->usingEncodedSize);
     return false;
 }
 
 //set the quality
 bool edk::codecs::CodecVideo::setQuality(edk::uint32 quality){
-    return edk::codecs::CodecImage::setQuality(quality);edkEnd();
+    return edk::codecs::CodecImage::setQuality(quality);
 }
 //set the next is keyFrame
 void edk::codecs::CodecVideo::setNextKeyframe(){
-    this->nexKeyframe=true;edkEnd();
+    this->nexKeyframe=true;
 }
 //return true if the next is keyframe
 bool edk::codecs::CodecVideo::isNextKeyframe(){
-    bool ret = this->nexKeyframe;edkEnd();
-    this->nexKeyframe=false;edkEnd();
+    bool ret = this->nexKeyframe;
+    this->nexKeyframe=false;
     return ret;
 }
 
 //get the frames
 edk::uint8* edk::codecs::CodecVideo::getFrame(){
-    return edk::codecs::CodecImage::getFrame();edkEnd();
+    return edk::codecs::CodecImage::getFrame();
 }
 edk::uint8* edk::codecs::CodecVideo::getEncoded(){
-    return edk::codecs::CodecImage::getEncoded();edkEnd();
+    return edk::codecs::CodecImage::getEncoded();
 }
 edk::uint8** edk::codecs::CodecVideo::getEncodedPosition(){
-    return edk::codecs::CodecImage::getEncodedPosition();edkEnd();
+    return edk::codecs::CodecImage::getEncodedPosition();
 }
 edk::uint8* edk::codecs::CodecVideo::getFrameY(){
-    return this->Y;edkEnd();
+    return this->Y;
 }
 edk::uint8* edk::codecs::CodecVideo::getFrameU(){
-    return this->U;edkEnd();
+    return this->U;
 }
 edk::uint8* edk::codecs::CodecVideo::getFrameV(){
-    return this->V;edkEnd();
+    return this->V;
 }
 
 //clean the pointers
 edk::uint8* edk::codecs::CodecVideo::cleanFrame(){
-    return edk::codecs::CodecImage::cleanFrame();edkEnd();
+    return edk::codecs::CodecImage::cleanFrame();
 }
 bool edk::codecs::CodecVideo::cleanYUV(edk::uint8** Y,edk::uint8** U,edk::uint8** V){
     if(Y&&U&&V&&this->Y&&this->U&&this->V){
-        *Y=this->Y;edkEnd();
-        *U=this->U;edkEnd();
-        *V=this->V;edkEnd();
-        this->Y=NULL;edkEnd();
-        this->U=NULL;edkEnd();
-        this->V=NULL;edkEnd();
+        *Y=this->Y;
+        *U=this->U;
+        *V=this->V;
+        this->Y=NULL;
+        this->U=NULL;
+        this->V=NULL;
         this->sizeY=0u;
         this->sizeU=0u;
         this->sizeV=0u;
@@ -243,49 +245,49 @@ bool edk::codecs::CodecVideo::cleanYUV(edk::uint8** Y,edk::uint8** U,edk::uint8*
 }
 edk::uint8* edk::codecs::CodecVideo::cleanEncoded(){
     this->usingEncodedSize=0u;
-    return edk::codecs::CodecImage::cleanEncoded();edkEnd();
+    return edk::codecs::CodecImage::cleanEncoded();
 }
 
 //return the size of the frame
 edk::size2ui32 edk::codecs::CodecVideo::getFrameSize(){
-    return edk::codecs::CodecImage::getFrameSize();edkEnd();
+    return edk::codecs::CodecImage::getFrameSize();
 }
 edk::uint32 edk::codecs::CodecVideo::getFrameWidth(){
     //
-    return edk::codecs::CodecImage::getFrameWidth();edkEnd();
+    return edk::codecs::CodecImage::getFrameWidth();
 }
 edk::uint32 edk::codecs::CodecVideo::getFrameHeight(){
     //
-    return edk::codecs::CodecImage::getFrameHeight();edkEnd();
+    return edk::codecs::CodecImage::getFrameHeight();
 }
 edk::uint32 edk::codecs::CodecVideo::getFrameChannels(){
     //
-    return edk::codecs::CodecImage::getFrameChannels();edkEnd();
+    return edk::codecs::CodecImage::getFrameChannels();
 }
 edk::uint32 edk::codecs::CodecVideo::getFrameVectorSize(){
     //
-    return edk::codecs::CodecImage::getFrameVectorSize();edkEnd();
+    return edk::codecs::CodecImage::getFrameVectorSize();
 }
 edk::uint32 edk::codecs::CodecVideo::getFrameYSize(){
     //
-    return edk::codecs::CodecImage::getFrameWidth() * edk::codecs::CodecImage::getFrameHeight();edkEnd();
+    return edk::codecs::CodecImage::getFrameWidth() * edk::codecs::CodecImage::getFrameHeight();
 }
 edk::uint32 edk::codecs::CodecVideo::getFrameUSize(){
     //
-    return edk::codecs::CodecImage::getFrameWidth()>>1u * edk::codecs::CodecImage::getFrameHeight()>>1u;edkEnd();
+    return edk::codecs::CodecImage::getFrameWidth()>>1u * edk::codecs::CodecImage::getFrameHeight()>>1u;
 }
 edk::uint32 edk::codecs::CodecVideo::getFrameVSize(){
     //
-    return edk::codecs::CodecImage::getFrameWidth()>>1u * edk::codecs::CodecImage::getFrameHeight()>>1u;edkEnd();
+    return edk::codecs::CodecImage::getFrameWidth()>>1u * edk::codecs::CodecImage::getFrameHeight()>>1u;
 }
 //return the size of the encoded
 edk::uint32 edk::codecs::CodecVideo::getSpaceEncodedSize(){
-    return edk::codecs::CodecImage::getEncodedSize();edkEnd();
+    return edk::codecs::CodecImage::getEncodedSize();
 }
 edk::uint32 edk::codecs::CodecVideo::getEncodedUsedSize(){
-    return this->usingEncodedSize;edkEnd();
+    return this->usingEncodedSize;
 }
 edk::uint32 edk::codecs::CodecVideo::getQuality(){
     //
-    return edk::codecs::CodecImage::getQuality();edkEnd();
+    return edk::codecs::CodecImage::getQuality();
 }

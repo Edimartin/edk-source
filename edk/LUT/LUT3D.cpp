@@ -26,36 +26,39 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 edk::LUT3D::LUT3D(){
     //
-    this->classThis=NULL;edkEnd();
-    this->Constructor(false);edkEnd();
+    this->classThis=NULL;
+    this->Constructor();
 }
 edk::LUT3D::~LUT3D(){
-    if(this->classThis==this){
-        this->classThis=NULL;edkEnd();
-        //can destruct the class
-        this->deleteTable();edkEnd();
-    }
+    this->Destructor();
 }
 
-void edk::LUT3D::Constructor(bool /*runFather*/){
+void edk::LUT3D::Constructor(){
     //
     if(this->classThis!=this){
         this->classThis=this;
-        this->cube=NULL;edkEnd();
+        this->cube=NULL;
         this->size=0u;
-        this->imageSize = 0u;edkEnd();
+        this->imageSize = 0u;
+    }
+}
+void edk::LUT3D::Destructor(){
+    if(this->classThis==this){
+        this->classThis=NULL;
+        //can destruct the class
+        this->deleteTable();
     }
 }
 
 //calculate the imageSize
 edk::size2ui32 edk::LUT3D::calcImageSize(edk::uint16 size){
-    edk::uint32 vecSize = size*size*size;edkEnd();
-    edk::uint32 result = (edk::uint32)edk::Math::squareRoot(vecSize);edkEnd();
+    edk::uint32 vecSize = size*size*size;
+    edk::uint32 result = (edk::uint32)edk::Math::squareRoot(vecSize);
     edk::uint8 increment=0u;
     if(vecSize%result){
-        increment=1u;edkEnd();
+        increment=1u;
     }
-    edk::size2ui32 ret = edk::size2ui32(result,(vecSize/result) + increment);edkEnd();
+    edk::size2ui32 ret = edk::size2ui32(result,(vecSize/result) + increment);
     return ret;
 }
 
@@ -67,39 +70,39 @@ bool edk::LUT3D::newTable(edk::uint16 size){
             //test the size
             if(size<=256 && size>1u){
                 //delete the table and create a new one
-                this->deleteTable();edkEnd();
+                this->deleteTable();
                 //
-                this->size = size;edkEnd();
-                this->imageSize = this->calcImageSize(this->size);edkEnd();
+                this->size = size;
+                this->imageSize = this->calcImageSize(this->size);
 
                 //create a new table
-                this->cube = (edk::color3ui8***)malloc(sizeof(edk::color3ui8**)*this->size);edkEnd();
+                this->cube = (edk::color3ui8***)malloc(sizeof(edk::color3ui8**)*this->size);
                 if(this->cube){
                     //clean the values
                     for(edk::uint16 x = 0u;x<this->size;x++){
-                        this->cube[x] = NULL;edkEnd();
+                        this->cube[x] = NULL;
                     }
                     //
                     for(edk::uint16 x = 0u;x<this->size;x++){
-                        this->cube[x] = (edk::color3ui8**)malloc(sizeof(edk::color3ui8*)*this->size);edkEnd();
+                        this->cube[x] = (edk::color3ui8**)malloc(sizeof(edk::color3ui8*)*this->size);
                         if(this->cube[x]){
                             //clean the values
                             for(edk::uint16 y = 0u;y<this->size;y++){
-                                this->cube[x][y] = NULL;edkEnd();
+                                this->cube[x][y] = NULL;
                             }
                             for(edk::uint16 y = 0u;y<this->size;y++){
-                                this->cube[x][y] = (edk::color3ui8*)malloc(sizeof(edk::color3ui8)*this->size);edkEnd();
+                                this->cube[x][y] = (edk::color3ui8*)malloc(sizeof(edk::color3ui8)*this->size);
                                 if(!this->cube[x][y]){
                                     //delete all anothers
                                     for(edk::uint16 yd = 0u;yd<y;yd++){
                                         if(this->cube[x][yd]){
-                                            free(this->cube[x][yd]);edkEnd();
-                                            this->cube[x][yd]=NULL;edkEnd();
+                                            free(this->cube[x][yd]);
+                                            this->cube[x][yd]=NULL;
                                         }
                                     }
                                     //delete the r
-                                    free(this->cube[x]);edkEnd();
-                                    this->cube[x] = NULL;edkEnd();
+                                    free(this->cube[x]);
+                                    this->cube[x] = NULL;
                                     break;
                                 }
                             }
@@ -111,19 +114,19 @@ bool edk::LUT3D::newTable(edk::uint16 size){
                                     //delete all inside
                                     for(edk::uint16 y = 0u;y<this->size;y++){
                                         if(this->cube[xd][y]){
-                                            free(this->cube[xd][y]);edkEnd();
-                                            this->cube[xd][y]=NULL;edkEnd();
+                                            free(this->cube[xd][y]);
+                                            this->cube[xd][y]=NULL;
                                         }
                                     }
-                                    free(this->cube[xd]);edkEnd();
-                                    this->cube[xd] = NULL;edkEnd();
+                                    free(this->cube[xd]);
+                                    this->cube[xd] = NULL;
                                 }
                             }
                             //delete the cube
-                            free(this->cube);edkEnd();
-                            this->cube=NULL;edkEnd();
-                            this->size = 0u;edkEnd();
-                            this->imageSize = 0u;edkEnd();
+                            free(this->cube);
+                            this->cube=NULL;
+                            this->size = 0u;
+                            this->imageSize = 0u;
                             break;
                         }
                     }
@@ -133,7 +136,7 @@ bool edk::LUT3D::newTable(edk::uint16 size){
         //test if have the table
         if(this->cube){
             //
-            return this->cleanTable();edkEnd();
+            return this->cleanTable();
         }
     }
     //delete the table
@@ -144,45 +147,45 @@ bool edk::LUT3D::deleteTable(){
     if(this->cube && this->size){
         for(edk::uint16 x = 0u;x<size;x++){
             for(edk::uint16 y = 0u;y<size;y++){
-                free(this->cube[x][y]);edkEnd();
+                free(this->cube[x][y]);
             }
-            free(this->cube[x]);edkEnd();
+            free(this->cube[x]);
         }
-        free(this->cube);edkEnd();
-        this->cube = NULL;edkEnd();
-        this->size = 0u;edkEnd();
-        this->imageSize = 0u;edkEnd();
+        free(this->cube);
+        this->cube = NULL;
+        this->size = 0u;
+        this->imageSize = 0u;
         return true;
     }
-    this->cube = NULL;edkEnd();
-    this->size = 0u;edkEnd();
-    this->imageSize = 0u;edkEnd();
+    this->cube = NULL;
+    this->size = 0u;
+    this->imageSize = 0u;
     return false;
 }
 //clean the table values
 bool edk::LUT3D::cleanTable(){
     //test if have the table
-    edk::uint16 multiply = 256/(this->size - 1);edkEnd();
-    edk::uint16 value = 0u;edkEnd();
+    edk::uint16 multiply = 256/(this->size - 1);
+    edk::uint16 value = 0u;
     if(this->cube && this->size){
         for(edk::uint16 x = 0u;x<size;x++){
             for(edk::uint16 y = 0u;y<size;y++){
                 for(edk::uint16 z = 0u;z<size;z++){
-                    value = x * multiply;edkEnd();
+                    value = x * multiply;
                     if(value>=255){
-                        value=255;edkEnd();
+                        value=255;
                     }
-                    this->cube[x][y][z].r = value;edkEnd();
-                    value = y * multiply;edkEnd();
+                    this->cube[x][y][z].r = value;
+                    value = y * multiply;
                     if(value>=255){
-                        value=255;edkEnd();
+                        value=255;
                     }
-                    this->cube[x][y][z].g = value;edkEnd();
-                    value = z * multiply;edkEnd();
+                    this->cube[x][y][z].g = value;
+                    value = z * multiply;
                     if(value>=255){
-                        value=255;edkEnd();
+                        value=255;
                     }
-                    this->cube[x][y][z].b = value;edkEnd();
+                    this->cube[x][y][z].b = value;
                 }
             }
         }
@@ -197,7 +200,7 @@ bool edk::LUT3D::printTable(){
         printf("\nTable size %u (%u)"
                ,this->getSize()
                ,this->getVectorSize()
-               );edkEnd();
+               );
         for(edk::uint16 x = 0u;x<size;x++){
             for(edk::uint16 y = 0u;y<size;y++){
                 for(edk::uint16 z = 0u;z<size;z++){
@@ -208,7 +211,7 @@ bool edk::LUT3D::printTable(){
                            ,this->cube[x][y][z].r
                            ,this->cube[x][y][z].g
                            ,this->cube[x][y][z].b
-                           );edkEnd();
+                           );
                 }
             }
         }
@@ -219,79 +222,79 @@ bool edk::LUT3D::printTable(){
 
 //return the size of the table. As a cube it only need return one value
 edk::uint16 edk::LUT3D::getSize(){
-    return this->size;edkEnd();
+    return this->size;
 }
 //return the vector size
 edk::uint32 edk::LUT3D::getVectorSize(){
-    return (edk::uint32)this->size*this->size*this->size;edkEnd();
+    return (edk::uint32)this->size*this->size*this->size;
 }
 //return the size of the image in pixels
 edk::size2ui32 edk::LUT3D::getImageSize(){
-    return this->imageSize;edkEnd();
+    return this->imageSize;
 }
 edk::uint32 edk::LUT3D::getImageWidth(){
-    return this->imageSize.width;edkEnd();
+    return this->imageSize.width;
 }
 edk::uint32 edk::LUT3D::getImageHeight(){
-    return this->imageSize.height;edkEnd();
+    return this->imageSize.height;
 }
 
 //save the table into a .cube file
 bool edk::LUT3D::saveTo(edk::char8* fileName){
     //create the file
-    edk::File file;edkEnd();
+    edk::File file;
     if(file.createAndOpenTextFile(fileName)){
         //Write the fileTitle
-        file.writeText("TITLE \"");edkEnd();
-        file.writeText(fileName);edkEnd();
-        file.writeText("\"\n");edkEnd();
+        file.writeText("TITLE \"");
+        file.writeText(fileName);
+        file.writeText("\"\n");
 
         //write the size of the file
-        file.writeText("LUT_3D_SIZE ");edkEnd();
-        file.writeText(this->size);edkEnd();
-        file.writeText("\n");edkEnd();
-        edk::float32 percent=0.f;edkEnd();
+        file.writeText("LUT_3D_SIZE ");
+        file.writeText(this->size);
+        file.writeText("\n");
+        edk::float32 percent=0.f;
         if(this->cube && this->size){
             for(edk::uint16 z = 0u;z<size;z++){
                 for(edk::uint16 y = 0u;y<size;y++){
                     for(edk::uint16 x = 0u;x<size;x++){
                         //get the value percent
-                        percent = this->cube[x][y][z].r/255.f;edkEnd();
-                        file.writeText(percent);edkEnd();
-                        file.writeText(" ");edkEnd();
-                        percent = this->cube[x][y][z].g/255.f;edkEnd();
-                        file.writeText(percent);edkEnd();
-                        file.writeText(" ");edkEnd();
-                        percent = this->cube[x][y][z].b/255.f;edkEnd();
-                        file.writeText(percent);edkEnd();
-                        file.writeText("\n");edkEnd();
+                        percent = this->cube[x][y][z].r/255.f;
+                        file.writeText(percent);
+                        file.writeText(" ");
+                        percent = this->cube[x][y][z].g/255.f;
+                        file.writeText(percent);
+                        file.writeText(" ");
+                        percent = this->cube[x][y][z].b/255.f;
+                        file.writeText(percent);
+                        file.writeText("\n");
                     }
                 }
             }
-            file.closeFile();edkEnd();
+            file.closeFile();
             return true;
         }
-        file.closeFile();edkEnd();
+        file.closeFile();
     }
     return false;
 }
 bool edk::LUT3D::saveTo(const edk::char8* fileName){
-    return this->saveTo((edk::char8*) fileName);edkEnd();
+    return this->saveTo((edk::char8*) fileName);
 }
 //load from file
 bool edk::LUT3D::loadFrom(edk::char8* fileName){
-    bool ret = false;edkEnd();
-    edk::File file;edkEnd();
+    bool ret = false;
+    edk::File file;
     if(file.openTextFile(fileName)){
-        edk::char8* line = NULL;edkEnd();
-        edk::uint32 size = 0u;edkEnd();
-        edk::char8* title = NULL;edkEnd();
-        edk::char8* sizeTableStr = NULL;edkEnd();
-        edk::uint32 sizeTable = 0u;edkEnd();
+        edk::char8* line = NULL;
+        edk::uint32 size = 0u;
+        edk::char8* title = NULL;
+        edk::char8* sizeTableStr = NULL;
+        edk::uint32 sizeTable = 0u;
         //read the first part
         while(!file.endOfFile() && file.isOpened()){
             //read the line
-            line = file.readTextString("\n",false);edkEnd();
+            line = file.readTextString("\n",false);
             if(line){
                 //test the string size
                 if((size = edk::String::strSize(line))){
@@ -309,13 +312,13 @@ bool edk::LUT3D::loadFrom(edk::char8* fileName){
                                                     if(line[6u]=='"'){
                                                         if(line[size-1u]=='"'){
                                                             if(!title){
-                                                                line[size-1u]='\0';edkEnd();
+                                                                line[size-1u]='\0';
                                                                 //read the title
-                                                                title = edk::String::strCopy(&line[7u]);edkEnd();
+                                                                title = edk::String::strCopy(&line[7u]);
                                                             }
                                                             else{
                                                                 //else close the file
-                                                                file.closeFile();edkEnd();
+                                                                file.closeFile();
                                                             }
                                                         }
                                                     }
@@ -344,15 +347,15 @@ bool edk::LUT3D::loadFrom(edk::char8* fileName){
                                                                             if(!sizeTableStr){
                                                                                 //12u
                                                                                 //read the sizeTableStr
-                                                                                sizeTableStr = edk::String::strCopy(&line[12u]);edkEnd();
+                                                                                sizeTableStr = edk::String::strCopy(&line[12u]);
                                                                                 if(sizeTableStr){
                                                                                     //read the sizeTableStr
-                                                                                    sizeTable = edk::String::strToInt32(sizeTableStr);edkEnd();
+                                                                                    sizeTable = edk::String::strToInt32(sizeTableStr);
                                                                                 }
                                                                             }
                                                                             else{
                                                                                 //else close the file
-                                                                                file.closeFile();edkEnd();
+                                                                                file.closeFile();
                                                                             }
                                                                         }
                                                                     }
@@ -370,7 +373,7 @@ bool edk::LUT3D::loadFrom(edk::char8* fileName){
                     }
                 }
                 //delete the line
-                free(line);edkEnd();
+                free(line);
 
                 //test if have the title and the sizeTableStr
                 if(title && sizeTableStr){
@@ -384,10 +387,10 @@ bool edk::LUT3D::loadFrom(edk::char8* fileName){
         if(title && sizeTableStr && sizeTable && file.isOpened()){
             //create the new table
             if(this->newTable(sizeTable)){
-                edk::uint32 position2 = 0u;edkEnd();
-                edk::uint32 position3 = 0u;edkEnd();
-                edk::float32 percent=0.f;edkEnd();
-                bool haveEnd = false;edkEnd();
+                edk::uint32 position2 = 0u;
+                edk::uint32 position3 = 0u;
+                edk::float32 percent=0.f;
+                bool haveEnd = false;
                 //read the values
                 for(edk::uint16 z = 0u;z<this->size;z++){
                     for(edk::uint16 y = 0u;y<this->size;y++){
@@ -396,7 +399,7 @@ bool edk::LUT3D::loadFrom(edk::char8* fileName){
                             //test if the file is opened and are not in the end of the file
                             while(file.isOpened() && !file.endOfFile()){
                                 //read the line
-                                line = file.readTextString("\n",false);edkEnd();
+                                line = file.readTextString("\n",false);
                                 if(line){
                                     //test the string size
                                     if((size = edk::String::strSize(line))){
@@ -406,37 +409,37 @@ bool edk::LUT3D::loadFrom(edk::char8* fileName){
 
                                             if((position2 = edk::String::stringHaveChar(line,' '))){
                                                 //read the x
-                                                percent = edk::String::strToFloat32(line);edkEnd();
-                                                this->cube[x][y][z].r = (edk::uint8)(percent*255.f)+1u;edkEnd();
+                                                percent = edk::String::strToFloat32(line);
+                                                this->cube[x][y][z].r = (edk::uint8)(percent*255.f)+1u;
                                                 if((position3 = edk::String::stringHaveChar(&line[position2],' '))){
                                                     //
-                                                    position3 += position2;edkEnd();
+                                                    position3 += position2;
                                                     //read the y
-                                                    percent = edk::String::strToFloat32(&line[position2]);edkEnd();
-                                                    this->cube[x][y][z].g = (edk::uint8)(percent*255.f)+1u;edkEnd();
+                                                    percent = edk::String::strToFloat32(&line[position2]);
+                                                    this->cube[x][y][z].g = (edk::uint8)(percent*255.f)+1u;
                                                     //read the z
-                                                    percent = edk::String::strToFloat32(&line[position3]);edkEnd();
-                                                    this->cube[x][y][z].b = (edk::uint8)(percent*255.f)+1u;edkEnd();
+                                                    percent = edk::String::strToFloat32(&line[position3]);
+                                                    this->cube[x][y][z].b = (edk::uint8)(percent*255.f)+1u;
                                                 }
                                                 else{
-                                                    haveEnd=true;edkEnd();
+                                                    haveEnd=true;
                                                 }
                                             }
                                             else{
-                                                haveEnd=true;edkEnd();
+                                                haveEnd=true;
                                             }
                                         }
                                         //delete the line readed
-                                        free(line);edkEnd();
+                                        free(line);
                                         break;
                                     }
 
                                     //delete the line readed
-                                    free(line);edkEnd();
+                                    free(line);
                                 }
                             }
                             if(!file.isOpened() || file.endOfFile()){
-                                haveEnd=true;edkEnd();
+                                haveEnd=true;
                             }
                             if(haveEnd){
                                 break;
@@ -453,7 +456,7 @@ bool edk::LUT3D::loadFrom(edk::char8* fileName){
                     //test if copy all the values
                     if(z>=this->size-1u){
                         //return true
-                        ret = true;edkEnd();
+                        ret = true;
                         break;
                     }
                 }
@@ -462,25 +465,25 @@ bool edk::LUT3D::loadFrom(edk::char8* fileName){
 
         //delete the title
         if(title){
-            free(title);edkEnd();
+            free(title);
         }
         if(sizeTableStr){
-            free(sizeTableStr);edkEnd();
+            free(sizeTableStr);
         }
 
         //test if is not returning true
         if(!ret){
             //delete the table
-            this->deleteTable();edkEnd();
+            this->deleteTable();
         }
 
         //read the lines
-        file.closeFile();edkEnd();
+        file.closeFile();
     }
     return ret;
 }
 bool edk::LUT3D::loadFrom(const edk::char8* fileName){
-    return this->loadFrom((edk::char8*) fileName);edkEnd();
+    return this->loadFrom((edk::char8*) fileName);
 }
 //save to an image file
 bool edk::LUT3D::saveToImage(edk::char8* fileName){
@@ -488,8 +491,8 @@ bool edk::LUT3D::saveToImage(edk::char8* fileName){
         //test the fileName
         if(fileName){
             //create the image
-            edk::Image2D image;edkEnd();
-            edk::uint8* vec = NULL;edkEnd();
+            edk::Image2D image;
+            edk::uint8* vec = NULL;
             if(image.newImage(fileName,this->getImageSize(),3u)){
                 if((vec = image.getPixels())){
                     //copy the pixels
@@ -497,27 +500,27 @@ bool edk::LUT3D::saveToImage(edk::char8* fileName){
                         for(edk::uint16 y = 0u;y<size;y++){
                             for(edk::uint16 x = 0u;x<size;x++){
                                 //get the value percent
-                                vec[0u] = this->cube[x][y][z].r;edkEnd();
-                                vec[1u] = this->cube[x][y][z].g;edkEnd();
-                                vec[2u] = this->cube[x][y][z].b;edkEnd();
-                                vec+=3u;edkEnd();
+                                vec[0u] = this->cube[x][y][z].r;
+                                vec[1u] = this->cube[x][y][z].g;
+                                vec[2u] = this->cube[x][y][z].b;
+                                vec+=3u;
                             }
                         }
                     }
                     //save the image
                     if(image.saveToFile(fileName)){
-                        image.deleteImage();edkEnd();
+                        image.deleteImage();
                         return true;
                     }
                 }
-                image.deleteImage();edkEnd();
+                image.deleteImage();
             }
         }
     }
     return false;
 }
 bool edk::LUT3D::saveToImage(const edk::char8* fileName){
-    return this->saveToImage((edk::char8*) fileName);edkEnd();
+    return this->saveToImage((edk::char8*) fileName);
 }
 //load from an imageFile
 bool edk::LUT3D::loadFromImage(edk::uint16 size,edk::char8* fileName){
@@ -527,13 +530,13 @@ bool edk::LUT3D::loadFromImage(edk::uint16 size,edk::char8* fileName){
             //test the fileName
             if(fileName){
                 //load the imageFile
-                edk::Image2D image;edkEnd();
-                edk::uint8* vec = NULL;edkEnd();
-                edk::uint8 channels = 0u;edkEnd();
+                edk::Image2D image;
+                edk::uint8* vec = NULL;
+                edk::uint8 channels = 0u;
                 if(image.loadFromFile(fileName)){
                     if((vec = image.getPixels())){
                         //get the channels
-                        channels = image.getChannels();edkEnd();
+                        channels = image.getChannels();
                         if(channels==3u || channels==4u){
                             if(this->imageSize.width == image.getWidth()
                                     &&
@@ -544,28 +547,28 @@ bool edk::LUT3D::loadFromImage(edk::uint16 size,edk::char8* fileName){
                                     for(edk::uint16 y = 0u;y<size;y++){
                                         for(edk::uint16 x = 0u;x<size;x++){
                                             //get the value percent
-                                            this->cube[x][y][z].r = vec[0u];edkEnd();
-                                            this->cube[x][y][z].g = vec[1u];edkEnd();
-                                            this->cube[x][y][z].b = vec[2u];edkEnd();
-                                            vec+=channels;edkEnd();
+                                            this->cube[x][y][z].r = vec[0u];
+                                            this->cube[x][y][z].g = vec[1u];
+                                            this->cube[x][y][z].b = vec[2u];
+                                            vec+=channels;
                                         }
                                     }
                                 }
-                                image.deleteImage();edkEnd();
+                                image.deleteImage();
                                 return true;
                             }
                         }
                     }
-                    image.deleteImage();edkEnd();
+                    image.deleteImage();
                 }
             }
         }
         //else delete the table
-        this->deleteTable();edkEnd();
+        this->deleteTable();
     }
     return false;
 }
 bool edk::LUT3D::loadFromImage(edk::uint16 size,const edk::char8* fileName){
-    return this->loadFromImage(size,(edk::char8*) fileName);edkEnd();
+    return this->loadFromImage(size,(edk::char8*) fileName);
 }
 

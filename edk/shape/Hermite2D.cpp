@@ -29,74 +29,74 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endif
 
 edk::shape::Hermite2D::Hermite2D(){
-    this->classThis=NULL;edkEnd();
-    this->Constructor(false);edkEnd();
+    this->classThis=NULL;
+    this->Constructor();
 }
 edk::shape::Hermite2D::Hermite2D(edk::vec2f32 p1,edk::vec2f32 p2,edk::vec2f32 p3,edk::vec2f32 p4){
-    this->classThis=NULL;edkEnd();
-    this->Constructor(p1,p2,p3,p4,false);edkEnd();
+    this->classThis=NULL;
+    this->Constructor(p1,p2,p3,p4);
 }
 
 edk::shape::Hermite2D::~Hermite2D(){
-    if(this->classThis==this){
-        this->classThis=NULL;edkEnd();
-        //can destruct the class
-    }
+    this->Destructor();
 }
 
-void edk::shape::Hermite2D::Constructor(bool runFather){
-    if(runFather){
-        edk::shape::Curve2D::Constructor();edkEnd();
-    }
+void edk::shape::Hermite2D::Constructor(){
+    edk::shape::Curve2D::Constructor();
     if(this->classThis!=this){
         this->classThis=this;
-        this->point1=0.f;edkEnd();
-        this->point2=0.f;edkEnd();
-        this->point3=0.f;edkEnd();
-        this->point4=0.f;edkEnd();
-        this->attenuation=1;edkEnd();
+        this->point1=0.f;
+        this->point2=0.f;
+        this->point3=0.f;
+        this->point4=0.f;
+        this->attenuation=1;
     }
 }
-void edk::shape::Hermite2D::Constructor(edk::vec2f32 p1,edk::vec2f32 p2,edk::vec2f32 p3,edk::vec2f32 p4,bool runFather){
-    if(runFather){
-        edk::shape::Curve2D::Constructor();edkEnd();
-    }
+void edk::shape::Hermite2D::Constructor(edk::vec2f32 p1,edk::vec2f32 p2,edk::vec2f32 p3,edk::vec2f32 p4){
+    edk::shape::Curve2D::Constructor();
     if(this->classThis!=this){
         this->classThis=this;
-        this->point1=p1;edkEnd();
-        this->point2=p2;edkEnd();
-        this->point3=p3;edkEnd();
-        this->point4=p4;edkEnd();
-        this->attenuation=1;edkEnd();
+        this->point1=p1;
+        this->point2=p2;
+        this->point3=p3;
+        this->point4=p4;
+        this->attenuation=1;
     }
+}
+void edk::shape::Hermite2D::Destructor(){
+    if(this->classThis==this){
+        this->classThis=NULL;
+        //can destruct the class
+    }
+    edk::shape::Curve2D::Destructor();
 }
 
 //Implement the Bezier Curve
 edk::vec2f32 edk::shape::Hermite2D::getPoint(edk::float32 percent){
     //return the ret
-    return edk::shape::Hermite2D::getPoint(this->point1,this->point2,this->point3,this->point4,percent,this->attenuation);edkEnd();
+    return edk::shape::Hermite2D::getPoint(this->point1,this->point2,this->point3,this->point4,percent,this->attenuation);
 }
 edk::vec2f32 edk::shape::Hermite2D::getPoint(edk::vec2f32 p1,edk::vec2f32 p2,edk::vec2f32 p3,edk::vec2f32 p4,edk::float32 percent,edk::float32 attenuation){
 
     //create a return point
-    edk::vec2f32 ret;edkEnd();
+    edk::vec2f32 ret;
 
     //percent pow's
-    edk::float32 percent2 = percent * percent;edkEnd();
-    edk::float32 percent3 = percent * percent * percent;edkEnd();
+    edk::float32 percent2 = percent * percent;
+    edk::float32 percent3 = percent * percent * percent;
 
     //get X
     ret.x = ((( 2*percent3 -3*percent2 +0*percent +1)* p1.x +
               (  -2*percent3 +3*percent2 +0*percent)   * p4.x +
               (   1*percent3 -2*percent2 +1*percent)   * attenuation*p3.x +
               (   1*percent3 -1*percent2 +0*percent)   * attenuation*p2.x
-              ));edkEnd();
+              ));
     //get Y
     ret.y = ((( 2*percent3 -3*percent2 +0*percent +1)* p1.y +
               (  -2*percent3 +3*percent2 +0*percent)   * p4.y +
               (   1*percent3 -2*percent2 +1*percent)   * attenuation*p3.y +
               (   1*percent3 -1*percent2 +0*percent)   * attenuation*p2.y
-              ));edkEnd();
+              ));
 
     //return the ret
     return ret;

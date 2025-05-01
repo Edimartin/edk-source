@@ -44,7 +44,8 @@ public:
     ServerSocket();
     virtual ~ServerSocket();
 
-    void Constructor(bool runFather=true);
+    void Constructor();
+    void Destructor();
     //Send the message
     virtual edk::int32 sendStream(edk::network::Adress host,edk::classID stream,edk::uint32 size)=0;
     virtual edk::int32 sendStreamNonBlock(edk::network::Adress host,edk::classID stream,edk::uint32 size)=0;
@@ -55,19 +56,22 @@ protected:
     //node to save the adresses
     class nodeAdress{
     public:
-        nodeAdress(){this->classThis=NULL;edkEnd();
-                     this->Constructor(false);edkEnd();}
+        nodeAdress(){
+            this->classThis=NULL;
+            this->Constructor();
+        }
         virtual ~nodeAdress(){
-            if(this->classThis==this){
-                this->classThis=NULL;edkEnd();
-                //can destruct the class
-            }
         }
 
-        void Constructor(bool runFather=true){
-            if(runFather){edkEnd();}
+        void Constructor(){
             if(this->classThis!=this){
                 this->classThis=this;
+            }
+        }
+        void Destructor(){
+            if(this->classThis==this){
+                this->classThis=NULL;
+                //can destruct the class
             }
         }
         //socket adress
@@ -83,7 +87,8 @@ protected:
         treeAdress();
         virtual ~treeAdress();
 
-        void Constructor(bool runFather=true);
+        void Constructor();
+        void Destructor();
         //Add a adress to the tree
         bool addAdress(edk::network::Adress host,struct sockaddr_in adress);
         //get a adress in the tree

@@ -43,18 +43,14 @@ bool edk::watch::Time::templateConstructNeed=true;
 edk::uint8 edk::watch::Time::monthDays[12u]={31,28,31,30,31,30,31,31,30,31,30,31};
 
 edk::watch::Time::Time(){
-    this->classThis=NULL;edkEnd();
-    this->Constructor(false);edkEnd();
+    this->classThis=NULL;
+    this->Constructor();
 }
 edk::watch::Time::~Time(){
-    if(this->classThis==this){
-        this->classThis=NULL;edkEnd();
-        //can destruct the class
-        this->cleanStr();edkEnd();
-    }
+    this->Destructor();
 }
 
-void edk::watch::Time::Constructor(bool /*runFather*/){
+void edk::watch::Time::Constructor(){
     if(this->classThis!=this){
         this->classThis=this;
         if(edk::watch::Time::templateConstructNeed){
@@ -77,37 +73,44 @@ void edk::watch::Time::Constructor(bool /*runFather*/){
             edk::watch::Time::templateConstructNeed=false;
         }
 
-        this->cleanStr();edkEnd();
-        this->timeStart=0u;edkEnd();
-        this->saveTimeDistance=0u;edkEnd();
+        this->cleanStr();
+        this->timeStart=0u;
+        this->saveTimeDistance=0u;
 #if defined(WIN32) || defined(WIN64)
-        this->systemClock=NULL;edkEnd();
-        QueryPerformanceFrequency(&this->PCFreq);edkEnd();
+        this->systemClock=NULL;
+        QueryPerformanceFrequency(&this->PCFreq);
         if(this->PCFreq.QuadPart==0){
-            this->PCFreq.QuadPart=1;edkEnd();
+            this->PCFreq.QuadPart=1;
         }
 #endif
         //start the new clock
-        this->start();edkEnd();
+        this->start();
         //load the time
-        this->clockLoadLocalTime();edkEnd();
+        this->clockLoadLocalTime();
+    }
+}
+void edk::watch::Time::Destructor(){
+    if(this->classThis==this){
+        this->classThis=NULL;
+        //can destruct the class
+        this->cleanStr();
     }
 }
 
 
 //get day of the year
 edk::uint32 edk::watch::Time::getDayOfYear(edk::uint8 dayOfMonth,edk::uint8 month,edk::uint32 year){
-    edk::uint32 ret = 0u;edkEnd();
+    edk::uint32 ret = 0u;
     if(month<12){
-        ret = dayOfMonth;edkEnd();
+        ret = dayOfMonth;
         for(edk::uint8 i=0u;i<month;i++){
-            ret += edk::watch::Time::monthDays[i];edkEnd();
+            ret += edk::watch::Time::monthDays[i];
         }
         //test if need add the bisext year day
         if(month>2u){
             //calculate if add the bisext day
             if(edk::watch::Time::isBisext(year)){
-                ret++;edkEnd();
+                ret++;
             }
         }
     }
@@ -124,105 +127,105 @@ bool edk::watch::Time::isBisext(edk::uint32 year){
 
 void edk::watch::Time::start(){
     //clean the clock
-    this->overflow=false;edkEnd();
+    this->overflow=false;
 
 #if defined(_WIN32) || defined(_WIN64)
-    this->timeStart = edk::watch::Time::getMicrosecondsReal();edkEnd();
+    this->timeStart = edk::watch::Time::getMicrosecondsReal();
 #elif defined(__linux__) || defined(__APPLE__)
-    this->timeStart = edk::watch::Time::getMicrosecondsReal();edkEnd();
+    this->timeStart = edk::watch::Time::getMicrosecondsReal();
 #endif
 }
 void edk::watch::Time::remove(edk::uint32 microseconds){
     //Remove milliseconds from the cronometer just add milliseconds in the timeStart
-    this->timeStart += microseconds;edkEnd();
+    this->timeStart += microseconds;
 }
 void edk::watch::Time::removeSeconds(edk::float32 seconds){
     if(seconds>0.f){
-        this->remove((edk::uint32)(edk::watch::second * seconds));edkEnd();
+        this->remove((edk::uint32)(edk::watch::second * seconds));
     }
 }
 
 void edk::watch::Time::increase(uint32 microseconds){
     if(microseconds<=this->timeStart){
-        this->timeStart -= microseconds;edkEnd();
+        this->timeStart -= microseconds;
     }
     else{
         //
-        this->timeStart = 0xFFFFFFFF-(microseconds-this->timeStart);edkEnd();
+        this->timeStart = 0xFFFFFFFF-(microseconds-this->timeStart);
     }
 }
 void edk::watch::Time::increaseSeconds(edk::float32 seconds){
     if(seconds>0.f){
-        this->increase((edk::uint32)(edk::watch::second * seconds));edkEnd();
+        this->increase((edk::uint32)(edk::watch::second * seconds));
     }
 }
 
 edk::uint32 edk::watch::Time::getMicroseconds(){
 #if defined(_WIN32) || defined(_WIN64)
     //Windows
-    LARGE_INTEGER li;edkEnd();
-    QueryPerformanceCounter(&li);edkEnd();
-    edk::uint32 temp = (edk::uint32)(li.QuadPart * 1000000 / this->PCFreq.QuadPart );edkEnd();
-    return (temp - this->timeStart);edkEnd();
+    LARGE_INTEGER li;
+    QueryPerformanceCounter(&li);
+    edk::uint32 temp = (edk::uint32)(li.QuadPart * 1000000 / this->PCFreq.QuadPart );
+    return (temp - this->timeStart);
 #elif defined(__linux__) || defined(__APPLE__)
-    edk::uint32 temp = edk::watch::Time::getMicrosecondsReal();edkEnd();
+    edk::uint32 temp = edk::watch::Time::getMicrosecondsReal();
     if(this->timeStart>temp){
         //occur overflow
-        this->overflow=true;edkEnd();
-        return (0xFFFFFFFF - this->timeStart) + temp;edkEnd();
+        this->overflow=true;
+        return (0xFFFFFFFF - this->timeStart) + temp;
     }
     else{
-        return (temp - this->timeStart);edkEnd();
+        return (temp - this->timeStart);
     }
 #endif
-    return 0.0f;edkEnd();
+    return 0.0f;
 }
 
 edk::uint32 edk::watch::Time::getMicrosecondsReal(){
 #if defined(_WIN32) || defined(_WIN64)
     //Windows
-    LARGE_INTEGER li, freq;edkEnd();
-    QueryPerformanceFrequency(&freq);edkEnd();
-    QueryPerformanceCounter(&li);edkEnd();
-    return (edk::uint32)(li.QuadPart * 1000000 / freq.QuadPart );edkEnd();
+    LARGE_INTEGER li, freq;
+    QueryPerformanceFrequency(&freq);
+    QueryPerformanceCounter(&li);
+    return (edk::uint32)(li.QuadPart * 1000000 / freq.QuadPart );
 #elif defined(__linux__) || defined(__APPLE__)
     //MacOS
     //Get the clockTime
-    struct timeval getTime;edkEnd();
-    gettimeofday(&getTime, NULL);edkEnd();
-    //printf("\ngetTime %u timeStart %u",this->getTime.tv_usec,this->timeStart.tv_usec);edkEnd();
-    edk::uint32 temp = (edk::uint32)((getTime.tv_usec+(getTime.tv_sec*linuxSecond))/**0.1*/);edkEnd();
-    return temp;edkEnd();
+    struct timeval getTime;
+    gettimeofday(&getTime, NULL);
+    //printf("\ngetTime %u timeStart %u",this->getTime.tv_usec,this->timeStart.tv_usec);
+    edk::uint32 temp = (edk::uint32)((getTime.tv_usec+(getTime.tv_sec*linuxSecond))/**0.1*/);
+    return temp;
 #endif
-    return 0.0f;edkEnd();
+    return 0.0f;
 }
 
 //return the seconds in float
 edk::float32 edk::watch::Time::getSeconds(){
-    return this->getMicroseconds() * edk::watch::microsecond;edkEnd();
+    return this->getMicroseconds() * edk::watch::microsecond;
 }
 
 //test if occur overflow
 bool edk::watch::Time::overflowOccurred(){
-    this->getMicroseconds();edkEnd();
-    return this->overflow;edkEnd();
+    this->getMicroseconds();
+    return this->overflow;
 }
 
 edk::float32 edk::watch::Time::getEstimativeFrame(){
-    edk::uint32 mili=this->getMicroseconds();edkEnd();
+    edk::uint32 mili=this->getMicroseconds();
     if(mili>0u){
-        return (edk::watch::second/(edk::float32)mili);edkEnd();
+        return (edk::watch::second/(edk::float32)mili);
     }
-    return 0.0f;edkEnd();
+    return 0.0f;
 }
 
 //save the distance
 void edk::watch::Time::saveDistance(){
-    this->saveTimeDistance = this->getMicroseconds();edkEnd();
+    this->saveTimeDistance = this->getMicroseconds();
 }
 //paste the distance
 void edk::watch::Time::pasteDistance(){
-    this->timeStart-=this->saveTimeDistance;edkEnd();
+    this->timeStart-=this->saveTimeDistance;
     this->saveTimeDistance=0u;
 }
 //////////////////////////////////////////////////////////
@@ -249,12 +252,12 @@ void edk::watch::Time::sleepProcessMiliseconds(edk::uint32 Milliseconds){
     edk::int64 seconds=0;
     //converte os segundos apenas se os mesmos existirem
     if(Milliseconds>=1000){
-        seconds = Milliseconds*0.001;edkEnd();
+        seconds = Milliseconds*0.001;
     }
-    edk::int64 nanoseconds = (Milliseconds%1000)*1000000u;edkEnd();
-    //usleep(Milliseconds*1000);edkEnd();
+    edk::int64 nanoseconds = (Milliseconds%1000)*1000000u;
+    //usleep(Milliseconds*1000);
     struct timespec temp = {seconds, nanoseconds};
-    nanosleep(&temp, NULL);edkEnd();
+    nanosleep(&temp, NULL);
 #elif __APPLE__//MacOS
     //To Find
 #endif
@@ -269,31 +272,31 @@ void edk::watch::Time::sleepProcessMicroseconds(edk::uint32 Microseconds){
     edk::int32 seconds=0;
     //converte os segundos apenas se os mesmos existirem
     if(Microseconds>=1000000){
-        seconds = (edk::float32)Microseconds/edk::watch::second;edkEnd();
+        seconds = (edk::float32)Microseconds/edk::watch::second;
     }
     edk::int32 nanoseconds = (Microseconds%edk::watch::second)*1000;
     struct timespec temp = {seconds, nanoseconds};
-    nanosleep(&temp, NULL);edkEnd();
+    nanosleep(&temp, NULL);
 #elif __APPLE__//MacOS
 //To Find
 #endif
-return;edkEnd();
+return; 
 }
 
 //get seconds since epoch
 edk::uint64 edk::watch::Time::getTimeSinceEpoch(){
-    return (edk::uint64) time(NULL);edkEnd();
+    return (edk::uint64) time(NULL);
 }
 
 edk::uint64 edk::watch::Time::getTimeSinceEpoch(edk::uint8 hour,edk::uint8 minute,edk::uint8 second,edk::uint8 dayOfMonth,edk::uint8 month,edk::uint32 year){
     if(year>1970){
-        year-=1970;edkEnd();
+        year-=1970;
     }
     if(dayOfMonth){
-        dayOfMonth--;edkEnd();
+        dayOfMonth--;
     }
     if(month){
-        month--;edkEnd();
+        month--;
     }
     edk::uint64 ret = (edk::uint64)second
             + ((edk::uint64)minute * 60u)
@@ -301,163 +304,163 @@ edk::uint64 edk::watch::Time::getTimeSinceEpoch(edk::uint8 hour,edk::uint8 minut
             + ((edk::uint64)edk::watch::Time::getDayOfYear(dayOfMonth,month,year) * 86400)
             + ((edk::uint64)(year) * 31536000)
             + (((edk::uint64)(year) / 4) * 86400)
-            ;edkEnd();
+            ;
     //
     return ret;
 }
 
 void edk::watch::Time::clockLoadGMTime(){
-    return this->clockLoadGMTime(edk::watch::Time::getTimeSinceEpoch());edkEnd();
+    return this->clockLoadGMTime(edk::watch::Time::getTimeSinceEpoch());
 }
 
 void edk::watch::Time::clockLoadGMTime(edk::uint64 timeSinceEpoch){
-    time_t rawtime = (time_t)timeSinceEpoch;edkEnd();
+    time_t rawtime = (time_t)timeSinceEpoch;
     //get localTime
 #ifdef _MSC_VER
-    //systemClock = gmtime_s ( &rawtime );edkEnd();
+    //systemClock = gmtime_s ( &rawtime );
     ///TODO:gmTime esta dando crash na aplicação
-    gmtime_s(&systemClock,&rawtime);edkEnd();
+    gmtime_s(&systemClock,&rawtime);
 #else
-    this->systemClock = gmtime ( &rawtime );edkEnd();
+    this->systemClock = gmtime ( &rawtime );
 #endif
 }
 
 void edk::watch::Time::clockLoadLocalTime(){
-    return this->clockLoadLocalTime((edk::uint64) time(NULL));edkEnd();
+    return this->clockLoadLocalTime((edk::uint64) time(NULL));
 }
 
 void edk::watch::Time::clockLoadLocalTime(edk::uint64 timeSinceEpoch){
-    time_t rawtime = (time_t)timeSinceEpoch;edkEnd();
+    time_t rawtime = (time_t)timeSinceEpoch;
     //get localTime
 #ifdef _MSC_VER
-    //systemClock = gmtime_s ( &rawtime );edkEnd();
+    //systemClock = gmtime_s ( &rawtime );
     ///TODO:gmTime esta dando crash na aplicação
-    gmtime_s(&systemClock,&rawtime);edkEnd();
+    gmtime_s(&systemClock,&rawtime);
 #else
-    this->systemClock = localtime ( &rawtime );edkEnd();
+    this->systemClock = localtime ( &rawtime );
 #endif
 }
 
 edk::uint32 edk::watch::Time::clockGetMillisecond(){
     //set the struct
-    ftime(&tmb);edkEnd();
+    ftime(&tmb);
     //return the time
-    return tmb.millitm;edkEnd();
+    return tmb.millitm;
 }
 
 edk::uint8 edk::watch::Time::clockGetSecond(){
 #ifdef _MSC_VER
-    return systemClock.tm_sec;edkEnd();
+    return systemClock.tm_sec;
 #else
     if(systemClock){
-        return systemClock->tm_sec;edkEnd();
+        return systemClock->tm_sec;
     }
-    return 0u;edkEnd();
+    return 0u;
 #endif
 }
 
 edk::uint8 edk::watch::Time::clockGetMinute(){
 #ifdef _MSC_VER
-    return systemClock.tm_min;edkEnd();
+    return systemClock.tm_min;
 #else
     if(systemClock){
-        return systemClock->tm_min;edkEnd();
+        return systemClock->tm_min;
     }
-    return 0u;edkEnd();
+    return 0u;
 #endif
 }
 
 edk::uint8 edk::watch::Time::clockGetHour(){
 #ifdef _MSC_VER
-    return systemClock.tm_hour;edkEnd();
+    return systemClock.tm_hour;
 #else
     if(systemClock){
-        return systemClock->tm_hour;edkEnd();
+        return systemClock->tm_hour;
     }
-    return 0u;edkEnd();
+    return 0u;
 #endif
 }
 
 edk::uint8 edk::watch::Time::clockGetDayOfMonth(){
 #ifdef _MSC_VER
-    return systemClock.tm_mday;edkEnd();
+    return systemClock.tm_mday;
 #else
     if(systemClock){
-        return systemClock->tm_mday;edkEnd();
+        return systemClock->tm_mday;
     }
-    return 0u;edkEnd();
+    return 0u;
 #endif
 }
 
 edk::uint8 edk::watch::Time::clockGetDayOfWeek(){
 #ifdef _MSC_VER
-    return systemClock.tm_wday+1u;edkEnd();
+    return systemClock.tm_wday+1u;
 #else
     if(systemClock){
-        return systemClock->tm_wday+1u;edkEnd();
+        return systemClock->tm_wday+1u;
     }
-    return 0u;edkEnd();
+    return 0u;
 #endif
 }
 
 edk::uint32 edk::watch::Time::clockGetDayOfYear(){
 #ifdef _MSC_VER
-    return systemClock.tm_yday+1u;edkEnd();
+    return systemClock.tm_yday+1u;
 #else
     if(systemClock){
-        return systemClock->tm_yday+1u;edkEnd();
+        return systemClock->tm_yday+1u;
     }
-    return 0u;edkEnd();
+    return 0u;
 #endif
 }
 
 edk::uint8 edk::watch::Time::clockGetMonth(){
 #ifdef _MSC_VER
-    return systemClock.tm_mon+1u;edkEnd();
+    return systemClock.tm_mon+1u;
 #else
     if(systemClock){
-        return systemClock->tm_mon+1u;edkEnd();
+        return systemClock->tm_mon+1u;
     }
-    return 0u;edkEnd();
+    return 0u;
 #endif
 }
 
 edk::uint32 edk::watch::Time::clockGetYear(){
 #ifdef _MSC_VER
-    return systemClock.tm_year+1900u;edkEnd();
+    return systemClock.tm_year+1900u;
 #else
     if(systemClock){
-        return systemClock->tm_year+1900u;edkEnd();
+        return systemClock->tm_year+1900u;
     }
-    return 0u;edkEnd();
+    return 0u;
 #endif
 }
 
 edk::int32 edk::watch::Time::clockGetGMTOff(){
 
 #if defined(__WIN32__) || defined(__WIN64__)
-    return 0u;edkEnd();
+    return 0u;
 #else
     if(systemClock){
 # ifdef	__USE_MISC
-        return systemClock->tm_gmtoff;edkEnd();
+        return systemClock->tm_gmtoff;
 # else
-        return systemClock->__tm_gmtoff;edkEnd();
+        return systemClock->__tm_gmtoff;
 # endif
     }
-    return 0u;edkEnd();
+    return 0u;
 #endif
 }
 
 edk::char8* edk::watch::Time::clockGetTimezoneAbreviation(){
 #if defined(__WIN32__) || defined(__WIN64__)
-    return 0u;edkEnd();
+    return 0u;
 #else
     if(systemClock){
 # ifdef	__USE_MISC
-        return (edk::char8*)systemClock->tm_zone;edkEnd();
+        return (edk::char8*)systemClock->tm_zone;
 # else
-        return (edk::char8*)systemClock->__tm_zone;edkEnd();
+        return (edk::char8*)systemClock->__tm_zone;
 # endif
     }
     return NULL;
@@ -466,7 +469,7 @@ edk::char8* edk::watch::Time::clockGetTimezoneAbreviation(){
 
 //functions to generate a string
 edk::uint32 edk::watch::Time::strSizeof(){
-    return SIZE_EDK_WATCH_TIME_STRING;edkEnd();
+    return SIZE_EDK_WATCH_TIME_STRING;
 }
 bool edk::watch::Time::clockWriteStr(edk::char8* str){
     if(str){
@@ -478,20 +481,20 @@ bool edk::watch::Time::clockWriteStr(edk::char8* str){
                 ,this->clockGetMinute()
                 ,this->clockGetHour()
                 ,this->clockGetMillisecond()
-                );edkEnd();
+                );
         return true;
     }
     return false;
 }
 bool edk::watch::Time::clockLoadStr(){
-    this->cleanStr();edkEnd();
-    return this->clockWriteStr(this->str);edkEnd();
+    this->cleanStr();
+    return this->clockWriteStr(this->str);
 }
 edk::char8* edk::watch::Time::clockGetStr(){
-    return this->str;edkEnd();
+    return this->str;
 }
 void edk::watch::Time::clockPrintStr(){
-    this->clockLoadStr();edkEnd();
+    this->clockLoadStr();
     //write the string
-    printf("%s",this->str);edkEnd();
+    printf("%s",this->str);
 }

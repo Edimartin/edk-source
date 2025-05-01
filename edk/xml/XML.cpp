@@ -29,43 +29,46 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endif
 
 edk::XML::XML(){
-    this->classThis=NULL;edkEnd();
-    this->Constructor(false);edkEnd();
+    this->classThis=NULL;
+    this->Constructor();
 }
 edk::XML::XML(const edk::char8* xmlCode){
-    this->classThis=NULL;edkEnd();
-    this->Constructor(xmlCode,false);edkEnd();
+    this->classThis=NULL;
+    this->Constructor(xmlCode);
 }
 edk::XML::XML(edk::char8* xmlCode){
-    this->classThis=NULL;edkEnd();
-    this->Constructor(xmlCode,false);edkEnd();
+    this->classThis=NULL;
+    this->Constructor(xmlCode);
 }
 
 edk::XML::~XML(){
-    if(this->classThis==this){
-        this->classThis=NULL;edkEnd();
-        //can destruct the class
-    }
+    this->Destructor();
 }
 
-void edk::XML::Constructor(bool /*runFather*/){
+void edk::XML::Constructor(){
     //
     if(this->classThis!=this){
         this->classThis=this;
     }
 }
-void edk::XML::Constructor(const edk::char8* xmlCode,bool /*runFather*/){
+void edk::XML::Constructor(const edk::char8* xmlCode){
     if(this->classThis!=this){
         this->classThis=this;
         //parse the xmlCode
         this->parse(xmlCode);
     }
 }
-void edk::XML::Constructor(edk::char8* xmlCode,bool /*runFather*/){
+void edk::XML::Constructor(edk::char8* xmlCode){
     if(this->classThis!=this){
         this->classThis=this;
         //parse the xmlCode
         this->parse(xmlCode);
+    }
+}
+void edk::XML::Destructor(){
+    if(this->classThis==this){
+        this->classThis=NULL;
+        //can destruct the class
     }
 }
 

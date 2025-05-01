@@ -51,9 +51,16 @@ public:
     Camera3D(edk::float32 pX,edk::float32 pY,edk::float32 pZ,edk::float32 lookX,edk::float32 lookY,edk::float32 lookZ);
     virtual ~Camera3D();
 
-    void Constructor(bool runFather=true);
-    void Constructor(edk::vec3f32 position,edk::vec3f32 lookAt,bool runFather=true);
-    void Constructor(edk::float32 pX,edk::float32 pY,edk::float32 pZ,edk::float32 lookX,edk::float32 lookY,edk::float32 lookZ,bool runFather=true);
+    void Constructor();
+    void Constructor(edk::vec3f32 position,edk::vec3f32 lookAt);
+    void Constructor(edk::float32 pX,
+                     edk::float32 pY,
+                     edk::float32 pZ,
+                     edk::float32 lookX,
+                     edk::float32 lookY,
+                     edk::float32 lookZ
+                     );
+    void Destructor();
 
     //Sset witch camera type its using
     void usePerspective();

@@ -49,7 +49,8 @@ public:
     Interpolation3DGroup();
     virtual ~Interpolation3DGroup();
 
-    void Constructor(bool runFather=true);
+    void Constructor();
+    void Destructor();
 
     //Add a first interpolation
     bool addFirstInterpolationLine(edk::float32 startSecond, edk::float32 startX, edk::float32 startY, edk::float32 startZ,
@@ -96,38 +97,38 @@ public:
 
     virtual bool cloneFrom(edk::animation::Interpolation3DGroup* group){
         //clean frames
-        this->cleanAnimations();edkEnd();
+        this->cleanAnimations();
         if(group){
             //first copy the frames
-            edk::uint32 size = group->animations.size();edkEnd();
+            edk::uint32 size = group->animations.size();
             for(edk::uint32 i=0u;i<size;i++){
                 //
-                edk::animation::InterpolationLine3D* temp = (edk::animation::InterpolationLine3D*)group->animations.get(i);edkEnd();
+                edk::animation::InterpolationLine3D* temp = (edk::animation::InterpolationLine3D*)group->animations.get(i);
                 if(temp){
                     //test if it create the start frame
                     if(temp->getCreateStart()){
                         //copy the frame to the animation
-                        this->addNewInterpolationLine(temp->getStart3D());edkEnd();
+                        this->addNewInterpolationLine(temp->getStart3D());
                     }
                     //test if it create the end frame
                     if(temp->getCreateEnd()){
                         //copy the frame to the animation
-                        this->addNewInterpolationLine(temp->getEnd3D());edkEnd();
+                        this->addNewInterpolationLine(temp->getEnd3D());
                     }
                 }
             }
 
             //now copy the animation names
-            size = group->animationNames.size();edkEnd();
+            size = group->animationNames.size();
             for(edk::uint32 i=0u;i<size;i++){
-                edk::animation::AnimationName* temp = (edk::animation::AnimationName*)group->animationNames.getElementInPosition(i);edkEnd();
+                edk::animation::AnimationName* temp = (edk::animation::AnimationName*)group->animationNames.getElementInPosition(i);
                 if(temp){
-                    this->addNewAnimationName(temp->name(),temp->start,temp->end);edkEnd();
+                    this->addNewAnimationName(temp->name(),temp->start,temp->end);
                 }
             }
 
-            this->setLoop(group->getLoop());edkEnd();
-            this->setIncrement(group->getIncrement());edkEnd();
+            this->setLoop(group->getLoop());
+            this->setIncrement(group->getIncrement());
             return true;
         }
         return false;

@@ -43,8 +43,9 @@ public:
     Random(edk::uint32 seed);
     virtual ~Random();
 
-    void Constructor(bool runFather=true);
-    void Constructor(edk::uint32 seed,bool runFather=true);
+    void Constructor();
+    void Constructor(edk::uint32 seed);
+    void Destructor();
 
     virtual void clean();
 

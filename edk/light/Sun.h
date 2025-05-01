@@ -45,7 +45,8 @@ public:
     Sun();
     virtual ~Sun();
 
-    void Constructor(bool runFather=true);
+    void Constructor();
+    void Destructor();
 
     //DRAW THE LIGH USING THE LIGHT NUMBER
     void draw(edk::uint32 lightNumber);

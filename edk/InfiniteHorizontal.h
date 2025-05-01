@@ -48,7 +48,8 @@ public:
     InfiniteHorizontal();
     virtual ~InfiniteHorizontal();
 
-    void Constructor(bool runFather=true);
+    void Constructor();
+    void Destructor();
 
     //clean wallpapers
     void clean();
@@ -128,19 +129,14 @@ private:
     class tileObject2D{
     public:
         tileObject2D(bool isPhysic){
-            this->classThis=NULL;edkEnd();
-            this->Constructor(isPhysic,false);edkEnd();
+            this->classThis=NULL;
+            this->Constructor(isPhysic);
         }
         virtual ~tileObject2D(){
-            if(this->classThis==this){
-                this->classThis=NULL;edkEnd();
-                //can destruct the class
-                this->obj.clean();
-            }
+            this->Destructor();
         }
 
-        void Constructor(bool isPhysic,bool runFather=true){
-            if(runFather){edkEnd();}
+        void Constructor(bool isPhysic){
             if(this->classThis!=this){
                 this->classThis=this;
 
@@ -157,6 +153,14 @@ private:
                 this->position=this->objPointer->position;
             }
         }
+        void Destructor(){
+            if(this->classThis==this){
+                this->classThis=NULL;
+                //can destruct the class
+                this->obj.clean();
+            }
+        }
+
         //return true if the object is physic
         inline bool isPhysic(){return (this->objPointer==(edk::Object2D*)&this->objPhys);}
         edk::Object2D obj;
@@ -173,26 +177,29 @@ private:
         treeObj()
             :tileTemplate(false)
         {
-            this->classThis=NULL;edkEnd();
-            this->Constructor(false);
+            this->classThis=NULL;
+            this->Constructor();
         }
         virtual ~treeObj(){
-            if(this->classThis==this){
-                this->classThis=NULL;edkEnd();
-                //can destruct the class
-            }
+            this->Destructor();
         }
 
-        void Constructor(bool runFather=true){
-            if(runFather){
-                edk::vector::BinaryTree<edk::InfiniteHorizontal::tileObject2D*>::Constructor();
-            }
+        void Constructor(){
+            edk::vector::BinaryTree<edk::InfiniteHorizontal::tileObject2D*>::Constructor();
             if(this->classThis!=this){
                 this->classThis=this;
 
-                this->tileTemplate.Constructor(false);edkEnd();
+                this->tileTemplate.Constructor(false);
             }
         }
+        void Destructor(){
+            if(this->classThis==this){
+                this->classThis=NULL;
+                //can destruct the class
+            }
+            edk::vector::BinaryTree<edk::InfiniteHorizontal::tileObject2D*>::Destructor();
+        }
+
         //compare if the value is bigger
         virtual bool firstBiggerSecond(edk::InfiniteHorizontal::tileObject2D* first,edk::InfiniteHorizontal::tileObject2D* second){
             if(first->objPointer>second->objPointer){
@@ -409,16 +416,15 @@ private:
 
     class tileWorldObject2D{
     public:
-        tileWorldObject2D(){this->classThis=NULL;this->Constructor(false);edkEnd();}
+        tileWorldObject2D(){
+            this->classThis=NULL;
+            this->Constructor();
+        }
         virtual ~tileWorldObject2D(){
-            if(this->classThis==this){
-                this->classThis=NULL;edkEnd();
-                //can destruct the class
-            }
+            this->Destructor();
         }
 
-        void Constructor(bool runFather=true){
-            if(runFather){edkEnd();}
+        void Constructor(){
             if(this->classThis!=this){
                 this->classThis=this;
                 this->position=0.f;
@@ -426,6 +432,13 @@ private:
                 this->objPointer->Constructor();
             }
         }
+        void Destructor(){
+            if(this->classThis==this){
+                this->classThis=NULL;
+                //can destruct the class
+            }
+        }
+
         static edk::Object2D staticObj;
         static bool templateConstructNeed;
         edk::Object2D* objPointer;

@@ -42,11 +42,17 @@ namespace watch {
 
 class FPS {
 
- public:
+public:
 
     FPS();
 
     FPS(uint32 fps);
+
+    ~FPS();
+
+    void Constructor();
+    void Constructor(uint32 fps);
+    void Destructor();
 
     void start();
 
@@ -57,7 +63,7 @@ class FPS {
     edk::uint32 getFPS(){return frames;}
 
 
- private:
+private:
 
     /**
      *  FPS user a clock to control the how much time are the FPS.
@@ -68,6 +74,8 @@ class FPS {
      *  The frames set how much times the code will be processed in one second.
      */
     edk::uint32 frames;
+private:
+    edk::classID classThis;
 };
 
 } /* End of namespace watch */

@@ -46,7 +46,8 @@ public:
     FontSet(edk::uint32 filter = 0u);
     virtual ~FontSet();
 
-    void Constructor(edk::uint32 filter = 0u,bool runFather=true);
+    void Constructor(edk::uint32 filter = 0u);
+    void Destructor();
 
     //load the font
     bool loadFontImage(const edk::char8* image,edk::uint32 filter = GU_NEAREST,edk::color4f32 color = edk::color4f32(0,0,0,1));
@@ -100,7 +101,8 @@ public:
     fontSetList();
     virtual ~fontSetList();
 
-    void Constructor(bool runFather=true);
+    void Constructor();
+    void Destructor();
     //load the fontSet
     edk::fonts::FontSet* createFontSet(edk::char8* image,edk::uint32 filter = GU_NEAREST,edk::color4f32 color = edk::color4f32(0,0,0,1));
     //load the fontSet
@@ -122,7 +124,8 @@ private:
         FontRetain(edk::uint32 filter = 0u);
         virtual ~FontRetain();
 
-        void Constructor(edk::uint32 filter = 0u,bool runFather=true);
+        void Constructor(edk::uint32 filter = 0u);
+        void Destructor();
 
         edk::fonts::FontSet set;
         //retain release
@@ -138,19 +141,23 @@ private:
 
     class TreeFont:public edk::vector::BinaryTree<edk::fonts::fontSetList::FontRetain*>{
     public:
-        TreeFont(){this->classThis=NULL;edkEnd();
-                   this->Constructor(false);edkEnd();}
+        TreeFont(){
+            this->classThis=NULL;
+            this->Constructor();
+        }
         virtual ~TreeFont(){
-            if(this->classThis==this){
-                this->classThis=NULL;edkEnd();
-                //can destruct the class
-            }
+            this->Destructor();
         }
 
-        void Constructor(bool runFather=true){
-            if(runFather){edkEnd();}
+        void Constructor(){
             if(this->classThis!=this){
                 this->classThis=this;
+            }
+        }
+        void Destructor(){
+            if(this->classThis==this){
+                this->classThis=NULL;
+                //can destruct the class
             }
         }
 

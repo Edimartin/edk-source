@@ -41,31 +41,33 @@ template <class typeTemplate>
 class MemoryBufferCircular : public edk::MemoryBuffer<typeTemplate>{
 public:
     MemoryBufferCircular(){
-        this->classThis=NULL;edkEnd();
-        this->Constructor(false);edkEnd();
+        this->classThis=NULL;
+        this->Constructor();
     }
     virtual ~MemoryBufferCircular(){
-        if(this->classThis==this){
-            this->classThis=NULL;edkEnd();
-            //can destruct the class
-        }
+        this->Destructor();
     }
 
-    void Constructor(bool runFather=true){
-        if(runFather){
-            edk::MemoryBuffer<typeTemplate>::Constructor();edkEnd();
-        }
+    void Constructor(){
+        edk::MemoryBuffer<typeTemplate>::Constructor();
         if(this->classThis!=this){
             this->classThis=this;
-            this->origin=0u;edkEnd();
+            this->origin=0u;
         }
+    }
+    void Destructor(){
+        if(this->classThis==this){
+            this->classThis=NULL;
+            //can destruct the class
+        }
+        edk::MemoryBuffer<typeTemplate>::Destructor();
     }
 
     //increment the origin position
     void incrementOrigin(edk::uint32 position=1u){
-        this->origin+=position;edkEnd();
+        this->origin+=position;
         if(this->origin >= this->bufferSize){
-            this->origin-=this->bufferSize;edkEnd();
+            this->origin-=this->bufferSize;
         }
     }
 
@@ -73,14 +75,14 @@ public:
     virtual inline typeTemplate operator[](edk::uint64 index){
         if(index < this->bufferSize){
             //calculate the new position
-            index += this->origin;edkEnd();
+            index += this->origin;
             if(index >= this->bufferSize){
-                index-=this->bufferSize;edkEnd();
+                index-=this->bufferSize;
             }
-            return this->buffer[index];edkEnd();
+            return this->buffer[index];
         }
-        typeTemplate ret;edkEnd();
-        memset(&ret,0u,sizeof(typeTemplate));edkEnd();
+        typeTemplate ret;
+        memset(&ret,0u,sizeof(typeTemplate));
         return ret;
     }
 private:

@@ -28,22 +28,39 @@ edk::physics2D::MouseJoint2D::MouseJoint2D(bool collide)
     :
       edk::physics2D::Joint2D(collide)
 {
-    this->type = EDK_REVOLUTE_JOINT;edkEnd();
+    this->classThis=NULL;
+    this->Constructor(collide);
+}
+edk::physics2D::MouseJoint2D::~MouseJoint2D(){
+    this->Destructor();
+}
+
+void edk::physics2D::MouseJoint2D::Constructor(bool collide){
+    edk::physics2D::Joint2D::Constructor(collide);
+    if(this->classThis!=this){
+        this->classThis=this;
+        this->type = EDK_REVOLUTE_JOINT;
+    }
+}
+void edk::physics2D::MouseJoint2D::Destructor(){
+    if(this->classThis==this){
+        this->classThis=NULL;
+    }
 }
 
 //draw the joint in debug mode
 void edk::physics2D::MouseJoint2D::draw(edk::size2f32 size,edk::color3f32 color){
     //
-    size*=0.5;edkEnd();
-    edk::GU::guColor3f32(color);edkEnd();
-    edk::GU::guPushMatrix();edkEnd();
-    edk::GU::guBegin(GU_LINES);edkEnd();
+    size*=0.5;
+    edk::GU::guColor3f32(color);
+    edk::GU::guPushMatrix();
+    edk::GU::guBegin(GU_LINES);
     //draw the first line
-    edk::GU::guVertex2f32(this->worldPositionA.x - size.width,this->worldPositionA.y + size.height);edkEnd();
-    edk::GU::guVertex2f32(this->worldPositionA.x + size.width,this->worldPositionA.y - size.height);edkEnd();
+    edk::GU::guVertex2f32(this->worldPositionA.x - size.width,this->worldPositionA.y + size.height);
+    edk::GU::guVertex2f32(this->worldPositionA.x + size.width,this->worldPositionA.y - size.height);
     //draw the second line
-    edk::GU::guVertex2f32(this->worldPositionA.x + size.width,this->worldPositionA.y + size.height);edkEnd();
-    edk::GU::guVertex2f32(this->worldPositionA.x - size.width,this->worldPositionA.y - size.height);edkEnd();
-    edk::GU::guEnd();edkEnd();
-    edk::GU::guPopMatrix();edkEnd();
+    edk::GU::guVertex2f32(this->worldPositionA.x + size.width,this->worldPositionA.y + size.height);
+    edk::GU::guVertex2f32(this->worldPositionA.x - size.width,this->worldPositionA.y - size.height);
+    edk::GU::guEnd();
+    edk::GU::guPopMatrix();
 }

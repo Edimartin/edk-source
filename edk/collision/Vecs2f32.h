@@ -43,38 +43,38 @@ namespace collision{
 class Vecs2f32: public edk::vector::Stack<edk::vec2f32>{
 public:
     Vecs2f32(){
-        this->classThis=NULL;edkEnd();
-        this->Constructor(false);edkEnd();
+        this->classThis=NULL;
+        this->Constructor();
     }
     Vecs2f32(edk::uint32 size):
         edk::vector::Stack<edk::vec2f32>::Stack(size){
-        this->classThis=NULL;edkEnd();
-        this->Constructor(size,false);edkEnd();
+        this->classThis=NULL;
+        this->Constructor(size);
     }
     virtual ~Vecs2f32(){
-        if(this->classThis==this){
-            this->classThis=NULL;edkEnd();
-            //can destruct the class
-            //delete the array
-            this->clean();edkEnd();
-        }
+        this->Destructor();
     }
 
-    void Constructor(bool runFather=true){
-        if(runFather){
-            edk::vector::Stack<edk::vec2f32>::Constructor();edkEnd();
-        }
+    void Constructor(){
+        edk::vector::Stack<edk::vec2f32>::Constructor();
         if(this->classThis!=this){
             this->classThis=this;
         }
     }
-    void Constructor(edk::uint32 size,bool runFather=true){
-        if(runFather){
-            edk::vector::Stack<edk::vec2f32>::Constructor(size);edkEnd();
-        }
+    void Constructor(edk::uint32 size){
+        edk::vector::Stack<edk::vec2f32>::Constructor(size);
         if(this->classThis!=this){
             this->classThis=this;
         }
+    }
+    void Destructor(){
+        if(this->classThis==this){
+            this->classThis=NULL;
+            //can destruct the class
+            //delete the array
+            this->clean();
+        }
+        edk::vector::Stack<edk::vec2f32>::Destructor();
     }
     edk::uint32 pushBack(edk::vec2f32 vec){
         //first create the vector
@@ -89,7 +89,7 @@ public:
     //[]
     edk::vec2f32 operator[](edk::uint32 n){
         //
-        return this->get(n);edkEnd();
+        return this->get(n);
     }
     virtual bool cloneFrom(edk::collision::Vecs2f32* vec){
         this->clean();
@@ -101,7 +101,7 @@ public:
             edk::uint32 size = vec->size();
             for(edk::uint32 i=0u;i<size;i++){
                 //copy the vectors
-                edk::vector::Stack<edk::vec2f32>::pushBack(vec->get(i));edkEnd();
+                edk::vector::Stack<edk::vec2f32>::pushBack(vec->get(i));
             }
             return true;
         }

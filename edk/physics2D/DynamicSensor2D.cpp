@@ -25,22 +25,24 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 edk::physics2D::DynamicSensor2D::DynamicSensor2D(){
-    this->classThis=NULL;edkEnd();
-    this->Constructor(false);edkEnd();
+    this->classThis=NULL;
+    this->Constructor();
 }
 edk::physics2D::DynamicSensor2D::~DynamicSensor2D(){
-    if(this->classThis==this){
-        this->classThis=NULL;edkEnd();
-        //can destruct the class
-    }
+    this->Destructor();
 }
 
-void edk::physics2D::DynamicSensor2D::Constructor(bool runFather){
-    if(runFather){
-        edk::physics2D::KinematicSensor2D::Constructor();edkEnd();
-    }
+void edk::physics2D::DynamicSensor2D::Constructor(){
+    edk::physics2D::KinematicSensor2D::Constructor();
     if(this->classThis!=this){
         this->classThis=this;
         this->type=edk::TypeObject2DDynamic;
     }
+}
+void edk::physics2D::DynamicSensor2D::Destructor(){
+    if(this->classThis==this){
+        this->classThis=NULL;
+        //can destruct the class
+    }
+    edk::physics2D::KinematicSensor2D::Destructor();
 }

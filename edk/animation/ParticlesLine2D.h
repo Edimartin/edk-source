@@ -43,7 +43,8 @@ public:
     ParticlesLine2D();
     virtual ~ParticlesLine2D();
 
-    void Constructor(bool runFather=true);
+    void Constructor();
+    void Destructor();
 
     //set the points
     void setP1Local(edk::vec2f32 point);

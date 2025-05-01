@@ -53,7 +53,8 @@ public:
     AudioBuffer();
     virtual ~AudioBuffer();
 
-    void Constructor(bool runFather=true);
+    void Constructor();
+    void Destructor();
 
     //LOAD
     //load the buffer from a file

@@ -478,20 +478,27 @@ inicio:
 }
 
 edk::TTY::TTY(){
-    this->Constructor(false);
+    this->classThis=NULL;
+    this->Constructor();
 }
 edk::TTY::~TTY(){
-    //reset the terminal if it was initiated
-    this->resetTerminal();
+    this->Destructor();
 }
 
-void edk::TTY::Constructor(bool /*runFather*/){
+void edk::TTY::Constructor(){
     if(this->classThis!=this){
         this->classThis=this;
         this->haveInit=false;
         this->haveInitMouse=false;
         //init the terminal
         this->initTerminal();
+    }
+}
+void edk::TTY::Destructor(){
+    if(this->classThis==this){
+        this->classThis=NULL;
+        //reset the terminal if it was initiated
+        this->resetTerminal();
     }
 }
 
@@ -561,16 +568,13 @@ edk::uint32 edk::ConsoleTerminal::keyPos=0u;
 
 edk::ConsoleTerminal::ConsoleTerminal(){
     this->classThis=NULL;
-    this->Constructor(false);
+    this->Constructor();
 }
 edk::ConsoleTerminal::~ConsoleTerminal(){
-    if(this->classThis==this){
-        this->classThis=NULL;
-        //can destruct the class
-    }
+    this->Destructor();
 }
 
-void edk::ConsoleTerminal::Constructor(bool /*runFather*/){
+void edk::ConsoleTerminal::Constructor(){
     if(edk::ConsoleTerminal::templateConstructNeed){
         edk::ConsoleTerminal::tty.Constructor();
         edk::ConsoleTerminal::templateConstructNeed=false;
@@ -578,6 +582,13 @@ void edk::ConsoleTerminal::Constructor(bool /*runFather*/){
     if(this->classThis!=this){
         this->classThis=this;
     }
+}
+void edk::ConsoleTerminal::Destructor(){
+    if(this->classThis==this){
+        this->classThis=NULL;
+        //can destruct the class
+    }
+    edk::ConsoleTerminal::tty.Destructor();
 }
 
 void edk::ConsoleTerminal::enableMouse(){
@@ -661,8 +672,8 @@ bool edk::ConsoleTerminal::keyPressed(){
             if(edk::ConsoleTerminal::tty.mouseEnabled()
                     &&
                     (key == 27u
-                    || key == 50u
-                    || key == 51u)
+                     || key == 50u
+                     || key == 51u)
                     ){
                 edk::ConsoleTerminal::keySize=0u;
                 edk::ConsoleTerminal::bufferSize=0u;

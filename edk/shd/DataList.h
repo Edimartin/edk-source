@@ -52,27 +52,29 @@ class dataTREE: public edk::vector::NameTree{
     //
 public:
     dataTREE(){
-        this->classThis=NULL;edkEnd();
-        this->Constructor(false);edkEnd();
+        this->classThis=NULL; 
+        this->Constructor();
     }
     virtual ~dataTREE(){
-        if(this->classThis==this){
-            this->classThis=NULL;edkEnd();
-            //can destruct the class
-        }
+        this->Destructor();
     }
 
-    void Constructor(bool runFather=true){
-        if(runFather){edkEnd();}
+    void Constructor(){
         if(this->classThis!=this){
             this->classThis=this;
+        }
+    }
+    void Destructor(){
+        if(this->classThis==this){
+            this->classThis=NULL;
+            //can destruct the class
         }
     }
 
     void updateElement(edk::Name* shader){
         //update the tree
-        edk::shd::Data* temp = (edk::shd::Data*)shader;edkEnd();
-        temp->updateData();edkEnd();
+        edk::shd::Data* temp = (edk::shd::Data*)shader; 
+        temp->updateData(); 
     }
 private:
     edk::classID classThis;
@@ -84,7 +86,8 @@ public:
     DataList();
     virtual ~DataList();
 
-    void Constructor(bool runFather=true);
+    void Constructor();
+    void Destructor();
 
     //create a new data
     virtual bool newData(const edk::char8* name);

@@ -46,7 +46,8 @@ public:
     FileNode();
     virtual ~FileNode();
 
-    void Constructor(bool runFather=true);
+    void Constructor();
+    void Destructor();
 
     friend edk::pack::FilePackage;
 

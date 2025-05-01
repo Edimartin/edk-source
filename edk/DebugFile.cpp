@@ -38,12 +38,21 @@ edk::File edk::DebugFile::file;
 edk::uint64 EDKArrayVectorFreeCounter=0u;
 
 edk::DebugFile::DebugFile(){
-    this->classThis=NULL;edkEnd();
-    this->Constructor(false);edkEnd();
+    this->classThis=NULL; 
+    this->Constructor();
 }
 edk::DebugFile::~DebugFile(){
+    this->Destructor();
+}
+
+void edk::DebugFile::Constructor(){
+    if(this->classThis!=this){
+        this->classThis=this;
+    }
+}
+void edk::DebugFile::Destructor(){
     if(this->classThis==this){
-        this->classThis=NULL;edkEnd();
+        this->classThis=NULL;
         //can destruct the class
         //
 #if defined(EDK_DEBUGGER) || defined(EDK_DEBUG_MEMSET) || defined(EDK_DEBUG_MEMCPY)
@@ -53,13 +62,6 @@ edk::DebugFile::~DebugFile(){
             edk::DebugFile::templateConstructNeed=false;
         }
 #endif
-    }
-}
-
-void edk::DebugFile::Constructor(bool /*runFather*/){
-    //
-    if(this->classThis!=this){
-        this->classThis=this;
     }
 }
 

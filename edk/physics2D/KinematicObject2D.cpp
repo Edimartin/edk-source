@@ -25,22 +25,23 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 edk::physics2D::KinematicObject2D::KinematicObject2D(){
-    this->classThis=NULL;edkEnd();
-    this->Constructor(false);edkEnd();
+    this->classThis=NULL;
+    this->Constructor();
 }
 edk::physics2D::KinematicObject2D::~KinematicObject2D(){
-    if(this->classThis==this){
-        this->classThis=NULL;edkEnd();
-        //can destruct the class
-    }
 }
 
-void edk::physics2D::KinematicObject2D::Constructor(bool runFather){
-    if(runFather){
-        edk::physics2D::StaticObject2D::Constructor();edkEnd();
-    }
+void edk::physics2D::KinematicObject2D::Constructor(){
+    edk::physics2D::StaticObject2D::Constructor();
     if(this->classThis!=this){
         this->classThis=this;
         this->type=edk::TypeObject2DKinematic;
     }
+}
+void edk::physics2D::KinematicObject2D::Destructor(){
+    if(this->classThis==this){
+        this->classThis=NULL;
+        //can destruct the class
+    }
+    edk::physics2D::StaticObject2D::Destructor();
 }

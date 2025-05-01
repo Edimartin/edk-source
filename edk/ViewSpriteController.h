@@ -44,7 +44,8 @@ public:
     ViewSpriteController();
     virtual ~ViewSpriteController();
 
-    void Constructor(bool runFather=true);
+    void Constructor();
+    void Destructor();
 
     //filter
     //GU_NEAREST

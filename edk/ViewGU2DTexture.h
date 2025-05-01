@@ -44,8 +44,9 @@ public:
     ViewGU2DTexture(edk::uint32 width,edk::uint32 height);
     virtual ~ViewGU2DTexture();
 
-    void Constructor(edk::size2ui32 size,bool runFather=true);
-    void Constructor(edk::uint32 width,edk::uint32 height,bool runFather=true);
+    void Constructor(edk::size2ui32 size);
+    void Constructor(edk::uint32 width,edk::uint32 height);
+    void Destructor();
 
     virtual void updateAnimations();
     virtual void updateAnimations(edk::float32 seconds);

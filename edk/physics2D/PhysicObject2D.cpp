@@ -35,53 +35,56 @@ enum bodyType{
 }
 
 edk::physics2D::PhysicObject2D::PhysicObject2D(){
-    this->classThis=NULL;edkEnd();
-    this->Constructor(false);edkEnd();
+    this->classThis=NULL; 
+    this->Constructor();
 }
 edk::physics2D::PhysicObject2D::~PhysicObject2D(){
-    if(this->classThis==this){
-        this->classThis=NULL;edkEnd();
-        //can destruct the class
-        this->physicMesh.cleanPolygons();edkEnd();
-        this->physicMeshWorld.cleanPolygons();edkEnd();
-        this->treeCollisionGroups.clean();edkEnd();
-        this->treeNotCollisionGroups.clean();edkEnd();
-    }
+    this->Destructor();
 }
 
-void edk::physics2D::PhysicObject2D::Constructor(bool runFather){
-    if(runFather){
-        edk::Object2D::Constructor();edkEnd();
-    }
+void edk::physics2D::PhysicObject2D::Constructor(){
+        edk::Object2D::Constructor(); 
     if(this->classThis!=this){
         this->classThis=this;
 
-        this->physicMesh.Constructor();edkEnd();
-        this->physicMeshWorld.Constructor();edkEnd();
-        this->physicMatrixPosition.Constructor();edkEnd();
-        this->physicMatrixPivo.Constructor();edkEnd();
-        this->physicMatrixAngle.Constructor();edkEnd();
-        this->physicMatrixSize.Constructor();edkEnd();
-        this->physicMatrixTransform.Constructor();edkEnd();
-        this->treeCollisionGroups.Constructor();edkEnd();
-        this->treeNotCollisionGroups.Constructor();edkEnd();
+        this->boundingBoxPhysics=0.f;
+        this->physicMesh.Constructor(); 
+        this->physicMeshWorld.Constructor(); 
+        this->physicMatrixPosition.Constructor(); 
+        this->physicMatrixPivo.Constructor(); 
+        this->physicMatrixAngle.Constructor(); 
+        this->physicMatrixSize.Constructor(); 
+        this->physicMatrixTransform.Constructor(); 
+        this->treeCollisionGroups.Constructor(); 
+        this->treeNotCollisionGroups.Constructor(); 
 
         this->type=edk::TypeObject2DPhysic;
-        this->fixedRotation=false;edkEnd();
-        this->canSleep=false;edkEnd();
-        this->isObjectSensor=false;edkEnd();
+        this->fixedRotation=false; 
+        this->canSleep=false; 
+        this->isObjectSensor=false; 
 
-        this->speed=0.f;edkEnd();
-        this->linearVelocity = edk::vec2f32(0,0);edkEnd();
-        this->linearVelocitySetted=false;edkEnd();
-        this->angularVelocity=0.f;edkEnd();
-        this->angularVelocitySetted=false;edkEnd();
-        this->direction = edk::vec2f32(0,0);edkEnd();
+        this->speed=0.f; 
+        this->linearVelocity = edk::vec2f32(0,0); 
+        this->linearVelocitySetted=false; 
+        this->angularVelocity=0.f; 
+        this->angularVelocitySetted=false; 
+        this->direction = edk::vec2f32(0,0); 
 
         this->functionDrawBoundingBoxPhysics = &edk::physics2D::PhysicObject2D::drawUnhideBoundingBoxPhysics;
         this->functionDrawWirePhysics = &edk::physics2D::PhysicObject2D::drawUnhideWirePhysics;
         this->functionDrawWirePhysicsWorld = &edk::physics2D::PhysicObject2D::drawUnhideWirePhysicsWorld;
     }
+}
+void edk::physics2D::PhysicObject2D::Destructor(){
+    if(this->classThis==this){
+        this->classThis=NULL;
+        //can destruct the class
+        this->physicMesh.cleanPolygons();
+        this->physicMeshWorld.cleanPolygons();
+        this->treeCollisionGroups.clean();
+        this->treeNotCollisionGroups.clean();
+    }
+    edk::Object2D::Destructor();
 }
 
 void edk::physics2D::PhysicObject2D::writeFatherBoundingBoxPhysic(edk::rectf32* rect,edk::vector::Matrixf32<3u,3u>* transformMat){
@@ -98,50 +101,50 @@ void edk::physics2D::PhysicObject2D::writeFatherBoundingBoxPhysic(edk::rectf32* 
             temp->writeFatherBoundingBox(rect,transformMat);
         }
 
-        edk::Math::generateScaleMatrix(this->connectedSize,&this->physicMatrixSize);edkEnd();
-        edk::Math::generateRotateMatrixZ(this->connectedAngle,&this->physicMatrixAngle);edkEnd();
-        edk::Math::generateTranslateMatrix(this->connectedPosition,&this->physicMatrixPosition);edkEnd();
-        edk::Math::generateTranslateMatrix(this->connectedPivo*-1.0f,&this->physicMatrixPivo);edkEnd();
-        transformMat->multiplyThisWithMatrix(&this->physicMatrixSize);edkEnd();
-        transformMat->multiplyThisWithMatrix(&this->physicMatrixAngle);edkEnd();
-        transformMat->multiplyThisWithMatrix(&this->physicMatrixPosition);edkEnd();
-        transformMat->multiplyThisWithMatrix(&this->physicMatrixPivo);edkEnd();
+        edk::Math::generateScaleMatrix(this->connectedSize,&this->physicMatrixSize); 
+        edk::Math::generateRotateMatrixZ(this->connectedAngle,&this->physicMatrixAngle); 
+        edk::Math::generateTranslateMatrix(this->connectedPosition,&this->physicMatrixPosition); 
+        edk::Math::generateTranslateMatrix(this->connectedPivo*-1.0f,&this->physicMatrixPivo); 
+        transformMat->multiplyThisWithMatrix(&this->physicMatrixSize); 
+        transformMat->multiplyThisWithMatrix(&this->physicMatrixAngle); 
+        transformMat->multiplyThisWithMatrix(&this->physicMatrixPosition); 
+        transformMat->multiplyThisWithMatrix(&this->physicMatrixPivo); 
 
         //first copy the matrix
         //generate transform matrices
-        edk::Math::generateTranslateMatrix(this->position,&this->physicMatrixPosition);edkEnd();
-        edk::Math::generateRotateMatrixZ(this->angle,&this->physicMatrixAngle);edkEnd();
-        edk::Math::generateScaleMatrix(this->size,&this->physicMatrixSize);edkEnd();
-        edk::Math::generateTranslateMatrix(this->pivo*-1.0f,&this->physicMatrixPivo);edkEnd();
+        edk::Math::generateTranslateMatrix(this->position,&this->physicMatrixPosition); 
+        edk::Math::generateRotateMatrixZ(this->angle,&this->physicMatrixAngle); 
+        edk::Math::generateScaleMatrix(this->size,&this->physicMatrixSize); 
+        edk::Math::generateTranslateMatrix(this->pivo*-1.0f,&this->physicMatrixPivo); 
         //translate
-        transformMat->multiplyThisWithMatrix(&this->physicMatrixPosition);edkEnd();
+        transformMat->multiplyThisWithMatrix(&this->physicMatrixPosition); 
         //angle
-        transformMat->multiplyThisWithMatrix(&this->physicMatrixAngle);edkEnd();
+        transformMat->multiplyThisWithMatrix(&this->physicMatrixAngle); 
         //scale
-        transformMat->multiplyThisWithMatrix(&this->physicMatrixSize);edkEnd();
+        transformMat->multiplyThisWithMatrix(&this->physicMatrixSize); 
         //Pivo
-        transformMat->multiplyThisWithMatrix(&this->physicMatrixPivo);edkEnd();
+        transformMat->multiplyThisWithMatrix(&this->physicMatrixPivo); 
     }
     else{
         //first copy the matrix
         //generate transform matrices
-        edk::Math::generateTranslateMatrix(this->position,&this->physicMatrixPosition);edkEnd();
-        edk::Math::generateRotateMatrixZ(this->angle,&this->physicMatrixAngle);edkEnd();
-        edk::Math::generateScaleMatrix(this->size,&this->physicMatrixSize);edkEnd();
-        edk::Math::generateTranslateMatrix(this->pivo*-1.0f,&this->physicMatrixPivo);edkEnd();
+        edk::Math::generateTranslateMatrix(this->position,&this->physicMatrixPosition); 
+        edk::Math::generateRotateMatrixZ(this->angle,&this->physicMatrixAngle); 
+        edk::Math::generateScaleMatrix(this->size,&this->physicMatrixSize); 
+        edk::Math::generateTranslateMatrix(this->pivo*-1.0f,&this->physicMatrixPivo); 
         //translate
-        transformMat->multiplyThisWithMatrix(&this->physicMatrixPosition);edkEnd();
+        transformMat->multiplyThisWithMatrix(&this->physicMatrixPosition); 
         //angle
-        transformMat->multiplyThisWithMatrix(&this->physicMatrixAngle);edkEnd();
+        transformMat->multiplyThisWithMatrix(&this->physicMatrixAngle); 
         //scale
-        transformMat->multiplyThisWithMatrix(&this->physicMatrixSize);edkEnd();
+        transformMat->multiplyThisWithMatrix(&this->physicMatrixSize); 
         //Pivo
-        transformMat->multiplyThisWithMatrix(&this->physicMatrixPivo);edkEnd();
+        transformMat->multiplyThisWithMatrix(&this->physicMatrixPivo); 
     }
 }
 bool edk::physics2D::PhysicObject2D::writeBoundingBoxPhysic(edk::rectf32* rect){
     //multiply the matrix by
-    this->physicMatrixTransform.setIdentity();edkEnd();
+    this->physicMatrixTransform.setIdentity(); 
     if(this->father){
         //calculate the boundingBox from the father
         edk::physics2D::PhysicObject2D* temp = (edk::physics2D::PhysicObject2D*)this->father;
@@ -155,53 +158,53 @@ bool edk::physics2D::PhysicObject2D::writeBoundingBoxPhysic(edk::rectf32* rect){
             temp->writeFatherBoundingBox(rect,&this->physicMatrixTransform);
         }
 
-        edk::Math::generateScaleMatrix(this->connectedSize,&this->physicMatrixSize);edkEnd();
-        edk::Math::generateRotateMatrixZ(this->connectedAngle,&this->physicMatrixAngle);edkEnd();
-        edk::Math::generateTranslateMatrix(this->connectedPosition,&this->physicMatrixPosition);edkEnd();
-        edk::Math::generateTranslateMatrix(this->connectedPivo*-1.0f,&this->physicMatrixPivo);edkEnd();
-        this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixSize);edkEnd();
-        this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixAngle);edkEnd();
-        this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixPosition);edkEnd();
-        this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixPivo);edkEnd();
+        edk::Math::generateScaleMatrix(this->connectedSize,&this->physicMatrixSize); 
+        edk::Math::generateRotateMatrixZ(this->connectedAngle,&this->physicMatrixAngle); 
+        edk::Math::generateTranslateMatrix(this->connectedPosition,&this->physicMatrixPosition); 
+        edk::Math::generateTranslateMatrix(this->connectedPivo*-1.0f,&this->physicMatrixPivo); 
+        this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixSize); 
+        this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixAngle); 
+        this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixPosition); 
+        this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixPivo); 
 
         //first copy the matrix
         //generate transform matrices
-        edk::Math::generateTranslateMatrix(this->position,&this->physicMatrixPosition);edkEnd();
-        edk::Math::generateRotateMatrixZ(this->angle,&this->physicMatrixAngle);edkEnd();
-        edk::Math::generateScaleMatrix(this->size,&this->physicMatrixSize);edkEnd();
-        edk::Math::generateTranslateMatrix(this->pivo*-1.0f,&this->physicMatrixPivo);edkEnd();
+        edk::Math::generateTranslateMatrix(this->position,&this->physicMatrixPosition); 
+        edk::Math::generateRotateMatrixZ(this->angle,&this->physicMatrixAngle); 
+        edk::Math::generateScaleMatrix(this->size,&this->physicMatrixSize); 
+        edk::Math::generateTranslateMatrix(this->pivo*-1.0f,&this->physicMatrixPivo); 
         //translate
-        this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixPosition);edkEnd();
+        this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixPosition); 
         //angle
-        this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixAngle);edkEnd();
+        this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixAngle); 
         //scale
-        this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixSize);edkEnd();
+        this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixSize); 
         //Pivo
-        this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixPivo);edkEnd();
+        this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixPivo); 
     }
     else{
         //first copy the matrix
         //generate transform matrices
-        edk::Math::generateTranslateMatrix(this->position,&this->physicMatrixPosition);edkEnd();
-        edk::Math::generateRotateMatrixZ(this->angle,&this->physicMatrixAngle);edkEnd();
-        edk::Math::generateScaleMatrix(this->size,&this->physicMatrixSize);edkEnd();
-        edk::Math::generateTranslateMatrix(this->pivo*-1.0f,&this->physicMatrixPivo);edkEnd();
+        edk::Math::generateTranslateMatrix(this->position,&this->physicMatrixPosition); 
+        edk::Math::generateRotateMatrixZ(this->angle,&this->physicMatrixAngle); 
+        edk::Math::generateScaleMatrix(this->size,&this->physicMatrixSize); 
+        edk::Math::generateTranslateMatrix(this->pivo*-1.0f,&this->physicMatrixPivo); 
         //translate
-        this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixPosition);edkEnd();
+        this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixPosition); 
         //angle
-        this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixAngle);edkEnd();
+        this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixAngle); 
         //scale
-        this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixSize);edkEnd();
+        this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixSize); 
         //Pivo
-        this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixPivo);edkEnd();
+        this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixPivo); 
     }
 
     if(this->physicMesh.getPolygonSize()){
         if(this->father){
-            this->physicMesh.calculateBoundingBox(rect,&this->physicMatrixTransform);edkEnd();
+            this->physicMesh.calculateBoundingBox(rect,&this->physicMatrixTransform); 
         }
         else{
-            *rect = this->physicMesh.generateBoundingBox(&this->physicMatrixTransform);edkEnd();
+            *rect = this->physicMesh.generateBoundingBox(&this->physicMatrixTransform); 
         }
     }
     else{
@@ -227,53 +230,53 @@ bool edk::physics2D::PhysicObject2D::writeBoundingBoxPhysic(edk::rectf32* rect,e
                 temp->writeFatherBoundingBox(rect,&this->physicMatrixTransform);
             }
 
-            edk::Math::generateScaleMatrix(this->connectedSize,&this->physicMatrixSize);edkEnd();
-            edk::Math::generateRotateMatrixZ(this->connectedAngle,&this->physicMatrixAngle);edkEnd();
-            edk::Math::generateTranslateMatrix(this->connectedPosition,&this->physicMatrixPosition);edkEnd();
-            edk::Math::generateTranslateMatrix(this->connectedPivo*-1.0f,&this->physicMatrixPivo);edkEnd();
-            this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixSize);edkEnd();
-            this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixAngle);edkEnd();
-            this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixPosition);edkEnd();
-            this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixPivo);edkEnd();
+            edk::Math::generateScaleMatrix(this->connectedSize,&this->physicMatrixSize); 
+            edk::Math::generateRotateMatrixZ(this->connectedAngle,&this->physicMatrixAngle); 
+            edk::Math::generateTranslateMatrix(this->connectedPosition,&this->physicMatrixPosition); 
+            edk::Math::generateTranslateMatrix(this->connectedPivo*-1.0f,&this->physicMatrixPivo); 
+            this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixSize); 
+            this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixAngle); 
+            this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixPosition); 
+            this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixPivo); 
 
             //generate transform matrices
-            edk::Math::generateTranslateMatrix(this->position,&this->physicMatrixPosition);edkEnd();
-            edk::Math::generateRotateMatrixZ(this->angle,&this->physicMatrixAngle);edkEnd();
-            edk::Math::generateScaleMatrix(this->size,&this->physicMatrixSize);edkEnd();
-            edk::Math::generateTranslateMatrix(this->pivo*-1.0f,&this->physicMatrixPivo);edkEnd();
+            edk::Math::generateTranslateMatrix(this->position,&this->physicMatrixPosition); 
+            edk::Math::generateRotateMatrixZ(this->angle,&this->physicMatrixAngle); 
+            edk::Math::generateScaleMatrix(this->size,&this->physicMatrixSize); 
+            edk::Math::generateTranslateMatrix(this->pivo*-1.0f,&this->physicMatrixPivo); 
             //multiply the matrix by
             //translate
-            this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixPosition);edkEnd();
+            this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixPosition); 
             //angle
-            this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixAngle);edkEnd();
+            this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixAngle); 
             //scale
-            this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixSize);edkEnd();
+            this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixSize); 
             //Pivo
-            this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixPivo);edkEnd();
+            this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixPivo); 
         }
         else{
             //generate transform matrices
-            edk::Math::generateTranslateMatrix(this->position,&this->physicMatrixPosition);edkEnd();
-            edk::Math::generateRotateMatrixZ(this->angle,&this->physicMatrixAngle);edkEnd();
-            edk::Math::generateScaleMatrix(this->size,&this->physicMatrixSize);edkEnd();
-            edk::Math::generateTranslateMatrix(this->pivo*-1.0f,&this->physicMatrixPivo);edkEnd();
+            edk::Math::generateTranslateMatrix(this->position,&this->physicMatrixPosition); 
+            edk::Math::generateRotateMatrixZ(this->angle,&this->physicMatrixAngle); 
+            edk::Math::generateScaleMatrix(this->size,&this->physicMatrixSize); 
+            edk::Math::generateTranslateMatrix(this->pivo*-1.0f,&this->physicMatrixPivo); 
             //multiply the matrix by
             //translate
-            this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixPosition);edkEnd();
+            this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixPosition); 
             //angle
-            this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixAngle);edkEnd();
+            this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixAngle); 
             //scale
-            this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixSize);edkEnd();
+            this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixSize); 
             //Pivo
-            this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixPivo);edkEnd();
+            this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixPivo); 
         }
 
         if(this->physicMesh.getPolygonSize()){
             if(this->father){
-                *rect = this->physicMesh.generateBoundingBox(&this->physicMatrixTransform);edkEnd();
+                *rect = this->physicMesh.generateBoundingBox(&this->physicMatrixTransform); 
             }
             else{
-                this->physicMesh.calculateBoundingBox(rect,&this->physicMatrixTransform);edkEnd();
+                this->physicMesh.calculateBoundingBox(rect,&this->physicMatrixTransform); 
             }
         }
         else{
@@ -287,7 +290,7 @@ bool edk::physics2D::PhysicObject2D::writeBoundingBoxPhysic(edk::rectf32* rect,e
 bool edk::physics2D::PhysicObject2D::writeChildremBoundingBoxPhysic(edk::rectf32* rect){
     bool ret = false;
     //multiply the matrix by
-    this->physicMatrixTransform.setIdentity();edkEnd();
+    this->physicMatrixTransform.setIdentity(); 
     if(this->father){
         //calculate the boundingBox from the father
         edk::physics2D::PhysicObject2D* temp = (edk::physics2D::PhysicObject2D*)this->father;
@@ -301,54 +304,54 @@ bool edk::physics2D::PhysicObject2D::writeChildremBoundingBoxPhysic(edk::rectf32
             temp->writeFatherBoundingBox(rect,&this->physicMatrixTransform);
         }
 
-        edk::Math::generateScaleMatrix(this->connectedSize,&this->physicMatrixSize);edkEnd();
-        edk::Math::generateRotateMatrixZ(this->connectedAngle,&this->physicMatrixAngle);edkEnd();
-        edk::Math::generateTranslateMatrix(this->connectedPosition,&this->physicMatrixPosition);edkEnd();
-        edk::Math::generateTranslateMatrix(this->connectedPivo*-1.0f,&this->physicMatrixPivo);edkEnd();
-        this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixSize);edkEnd();
-        this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixAngle);edkEnd();
-        this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixPosition);edkEnd();
-        this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixPivo);edkEnd();
+        edk::Math::generateScaleMatrix(this->connectedSize,&this->physicMatrixSize); 
+        edk::Math::generateRotateMatrixZ(this->connectedAngle,&this->physicMatrixAngle); 
+        edk::Math::generateTranslateMatrix(this->connectedPosition,&this->physicMatrixPosition); 
+        edk::Math::generateTranslateMatrix(this->connectedPivo*-1.0f,&this->physicMatrixPivo); 
+        this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixSize); 
+        this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixAngle); 
+        this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixPosition); 
+        this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixPivo); 
 
         //first copy the matrix
         //generate transform matrices
-        edk::Math::generateTranslateMatrix(this->position,&this->physicMatrixPosition);edkEnd();
-        edk::Math::generateRotateMatrixZ(this->angle,&this->physicMatrixAngle);edkEnd();
-        edk::Math::generateScaleMatrix(this->size,&this->physicMatrixSize);edkEnd();
-        edk::Math::generateTranslateMatrix(this->pivo*-1.0f,&this->physicMatrixPivo);edkEnd();
+        edk::Math::generateTranslateMatrix(this->position,&this->physicMatrixPosition); 
+        edk::Math::generateRotateMatrixZ(this->angle,&this->physicMatrixAngle); 
+        edk::Math::generateScaleMatrix(this->size,&this->physicMatrixSize); 
+        edk::Math::generateTranslateMatrix(this->pivo*-1.0f,&this->physicMatrixPivo); 
 
         //translate
-        this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixPosition);edkEnd();
+        this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixPosition); 
         //angle
-        this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixAngle);edkEnd();
+        this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixAngle); 
         //scale
-        this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixSize);edkEnd();
+        this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixSize); 
         //Pivo
-        this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixPivo);edkEnd();
+        this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixPivo); 
     }
     else{
         //first copy the matrix
         //generate transform matrices
-        edk::Math::generateTranslateMatrix(this->position,&this->physicMatrixPosition);edkEnd();
-        edk::Math::generateRotateMatrixZ(this->angle,&this->physicMatrixAngle);edkEnd();
-        edk::Math::generateScaleMatrix(this->size,&this->physicMatrixSize);edkEnd();
-        edk::Math::generateTranslateMatrix(this->pivo*-1.0f,&this->physicMatrixPivo);edkEnd();
+        edk::Math::generateTranslateMatrix(this->position,&this->physicMatrixPosition); 
+        edk::Math::generateRotateMatrixZ(this->angle,&this->physicMatrixAngle); 
+        edk::Math::generateScaleMatrix(this->size,&this->physicMatrixSize); 
+        edk::Math::generateTranslateMatrix(this->pivo*-1.0f,&this->physicMatrixPivo); 
         //translate
-        this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixPosition);edkEnd();
+        this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixPosition); 
         //angle
-        this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixAngle);edkEnd();
+        this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixAngle); 
         //scale
-        this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixSize);edkEnd();
+        this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixSize); 
         //Pivo
-        this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixPivo);edkEnd();
+        this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixPivo); 
     }
 
     if(this->physicMesh.getPolygonSize()){
         if(this->father){
-            this->physicMesh.calculateBoundingBox(rect,&this->physicMatrixTransform);edkEnd();
+            this->physicMesh.calculateBoundingBox(rect,&this->physicMatrixTransform); 
         }
         else{
-            *rect = this->physicMesh.generateBoundingBox(&this->physicMatrixTransform);edkEnd();
+            *rect = this->physicMesh.generateBoundingBox(&this->physicMatrixTransform); 
         }
         ret = true;
     }
@@ -375,54 +378,54 @@ bool edk::physics2D::PhysicObject2D::writeChildremBoundingBoxPhysic(edk::rectf32
                 temp->writeBoundingBox(rect,&this->physicMatrixTransform);
             }
 
-            edk::Math::generateScaleMatrix(this->connectedSize,&this->physicMatrixSize);edkEnd();
-            edk::Math::generateRotateMatrixZ(this->connectedAngle,&this->physicMatrixAngle);edkEnd();
-            edk::Math::generateTranslateMatrix(this->connectedPosition,&this->physicMatrixPosition);edkEnd();
-            edk::Math::generateTranslateMatrix(this->connectedPivo*-1.0f,&this->physicMatrixPivo);edkEnd();
-            this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixSize);edkEnd();
-            this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixAngle);edkEnd();
-            this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixPosition);edkEnd();
-            this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixPivo);edkEnd();
+            edk::Math::generateScaleMatrix(this->connectedSize,&this->physicMatrixSize); 
+            edk::Math::generateRotateMatrixZ(this->connectedAngle,&this->physicMatrixAngle); 
+            edk::Math::generateTranslateMatrix(this->connectedPosition,&this->physicMatrixPosition); 
+            edk::Math::generateTranslateMatrix(this->connectedPivo*-1.0f,&this->physicMatrixPivo); 
+            this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixSize); 
+            this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixAngle); 
+            this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixPosition); 
+            this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixPivo); 
 
 
             //generate transform matrices
-            edk::Math::generateTranslateMatrix(this->position,&this->physicMatrixPosition);edkEnd();
-            edk::Math::generateRotateMatrixZ(this->angle,&this->physicMatrixAngle);edkEnd();
-            edk::Math::generateScaleMatrix(this->size,&this->physicMatrixSize);edkEnd();
-            edk::Math::generateTranslateMatrix(this->pivo*-1.0f,&this->physicMatrixPivo);edkEnd();
+            edk::Math::generateTranslateMatrix(this->position,&this->physicMatrixPosition); 
+            edk::Math::generateRotateMatrixZ(this->angle,&this->physicMatrixAngle); 
+            edk::Math::generateScaleMatrix(this->size,&this->physicMatrixSize); 
+            edk::Math::generateTranslateMatrix(this->pivo*-1.0f,&this->physicMatrixPivo); 
             //multiply the matrix by
             //translate
-            this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixPosition);edkEnd();
+            this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixPosition); 
             //angle
-            this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixAngle);edkEnd();
+            this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixAngle); 
             //scale
-            this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixSize);edkEnd();
+            this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixSize); 
             //Pivo
-            this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixPivo);edkEnd();
+            this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixPivo); 
         }
         else{
             //generate transform matrices
-            edk::Math::generateTranslateMatrix(this->position,&this->physicMatrixPosition);edkEnd();
-            edk::Math::generateRotateMatrixZ(this->angle,&this->physicMatrixAngle);edkEnd();
-            edk::Math::generateScaleMatrix(this->size,&this->physicMatrixSize);edkEnd();
-            edk::Math::generateTranslateMatrix(this->pivo*-1.0f,&this->physicMatrixPivo);edkEnd();
+            edk::Math::generateTranslateMatrix(this->position,&this->physicMatrixPosition); 
+            edk::Math::generateRotateMatrixZ(this->angle,&this->physicMatrixAngle); 
+            edk::Math::generateScaleMatrix(this->size,&this->physicMatrixSize); 
+            edk::Math::generateTranslateMatrix(this->pivo*-1.0f,&this->physicMatrixPivo); 
             //multiply the matrix by
             //translate
-            this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixPosition);edkEnd();
+            this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixPosition); 
             //angle
-            this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixAngle);edkEnd();
+            this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixAngle); 
             //scale
-            this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixSize);edkEnd();
+            this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixSize); 
             //Pivo
-            this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixPivo);edkEnd();
+            this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixPivo); 
         }
 
         if(this->physicMesh.getPolygonSize()){
             if(this->father){
-                *rect = this->physicMesh.generateBoundingBox(&this->physicMatrixTransform);edkEnd();
+                *rect = this->physicMesh.generateBoundingBox(&this->physicMatrixTransform); 
             }
             else{
-                this->physicMesh.calculateBoundingBox(rect,&this->physicMatrixTransform);edkEnd();
+                this->physicMesh.calculateBoundingBox(rect,&this->physicMatrixTransform); 
             }
         }
         else{
@@ -439,7 +442,7 @@ bool edk::physics2D::PhysicObject2D::writeBoundingBoxPhysicFromPolygons(edk::rec
                                                                         edk::uint32* positions
                                                                         ){
     //multiply the matrix by
-    this->physicMatrixTransform.setIdentity();edkEnd();
+    this->physicMatrixTransform.setIdentity(); 
     if(this->father){
         //calculate the boundingBox from the father
         edk::physics2D::PhysicObject2D* temp = (edk::physics2D::PhysicObject2D*)this->father;
@@ -453,45 +456,45 @@ bool edk::physics2D::PhysicObject2D::writeBoundingBoxPhysicFromPolygons(edk::rec
             temp->writeFatherBoundingBox(rect,&this->physicMatrixTransform);
         }
 
-        edk::Math::generateScaleMatrix(this->connectedSize,&this->physicMatrixSize);edkEnd();
-        edk::Math::generateRotateMatrixZ(this->connectedAngle,&this->physicMatrixAngle);edkEnd();
-        edk::Math::generateTranslateMatrix(this->connectedPosition,&this->physicMatrixPosition);edkEnd();
-        edk::Math::generateTranslateMatrix(this->connectedPivo*-1.0f,&this->physicMatrixPivo);edkEnd();
-        this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixSize);edkEnd();
-        this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixAngle);edkEnd();
-        this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixPosition);edkEnd();
-        this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixPivo);edkEnd();
+        edk::Math::generateScaleMatrix(this->connectedSize,&this->physicMatrixSize); 
+        edk::Math::generateRotateMatrixZ(this->connectedAngle,&this->physicMatrixAngle); 
+        edk::Math::generateTranslateMatrix(this->connectedPosition,&this->physicMatrixPosition); 
+        edk::Math::generateTranslateMatrix(this->connectedPivo*-1.0f,&this->physicMatrixPivo); 
+        this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixSize); 
+        this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixAngle); 
+        this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixPosition); 
+        this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixPivo); 
 
         //first copy the matrix
         //generate transform matrices
-        edk::Math::generateTranslateMatrix(this->position,&this->physicMatrixPosition);edkEnd();
-        edk::Math::generateRotateMatrixZ(this->angle,&this->physicMatrixAngle);edkEnd();
-        edk::Math::generateScaleMatrix(this->size,&this->physicMatrixSize);edkEnd();
-        edk::Math::generateTranslateMatrix(this->pivo*-1.0f,&this->physicMatrixPivo);edkEnd();
+        edk::Math::generateTranslateMatrix(this->position,&this->physicMatrixPosition); 
+        edk::Math::generateRotateMatrixZ(this->angle,&this->physicMatrixAngle); 
+        edk::Math::generateScaleMatrix(this->size,&this->physicMatrixSize); 
+        edk::Math::generateTranslateMatrix(this->pivo*-1.0f,&this->physicMatrixPivo); 
         //translate
-        this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixPosition);edkEnd();
+        this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixPosition); 
         //angle
-        this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixAngle);edkEnd();
+        this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixAngle); 
         //scale
-        this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixSize);edkEnd();
+        this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixSize); 
         //Pivo
-        this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixPivo);edkEnd();
+        this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixPivo); 
     }
     else{
         //first copy the matrix
         //generate transform matrices
-        edk::Math::generateTranslateMatrix(this->position,&this->physicMatrixPosition);edkEnd();
-        edk::Math::generateRotateMatrixZ(this->angle,&this->physicMatrixAngle);edkEnd();
-        edk::Math::generateScaleMatrix(this->size,&this->physicMatrixSize);edkEnd();
-        edk::Math::generateTranslateMatrix(this->pivo*-1.0f,&this->physicMatrixPivo);edkEnd();
+        edk::Math::generateTranslateMatrix(this->position,&this->physicMatrixPosition); 
+        edk::Math::generateRotateMatrixZ(this->angle,&this->physicMatrixAngle); 
+        edk::Math::generateScaleMatrix(this->size,&this->physicMatrixSize); 
+        edk::Math::generateTranslateMatrix(this->pivo*-1.0f,&this->physicMatrixPivo); 
         //translate
-        this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixPosition);edkEnd();
+        this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixPosition); 
         //angle
-        this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixAngle);edkEnd();
+        this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixAngle); 
         //scale
-        this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixSize);edkEnd();
+        this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixSize); 
         //Pivo
-        this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixPivo);edkEnd();
+        this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixPivo); 
     }
 
     if(this->physicMesh.getPolygonSize()){
@@ -500,13 +503,13 @@ bool edk::physics2D::PhysicObject2D::writeBoundingBoxPhysicFromPolygons(edk::rec
                                                               &this->physicMatrixTransform,
                                                               lenght,
                                                               positions
-                                                              );edkEnd();
+                                                              ); 
         }
         else{
             *rect = this->physicMesh.generateBoundingBoxFromPolygons(&this->physicMatrixTransform,
                                                                      lenght,
                                                                      positions
-                                                                     );edkEnd();
+                                                                     ); 
         }
     }
     else{
@@ -536,45 +539,45 @@ bool edk::physics2D::PhysicObject2D::writeBoundingBoxPhysicFromPolygons(edk::rec
                 temp->writeFatherBoundingBox(rect,&this->physicMatrixTransform);
             }
 
-            edk::Math::generateScaleMatrix(this->connectedSize,&this->physicMatrixSize);edkEnd();
-            edk::Math::generateRotateMatrixZ(this->connectedAngle,&this->physicMatrixAngle);edkEnd();
-            edk::Math::generateTranslateMatrix(this->connectedPosition,&this->physicMatrixPosition);edkEnd();
-            edk::Math::generateTranslateMatrix(this->connectedPivo*-1.0f,&this->physicMatrixPivo);edkEnd();
-            this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixSize);edkEnd();
-            this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixAngle);edkEnd();
-            this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixPosition);edkEnd();
-            this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixPivo);edkEnd();
+            edk::Math::generateScaleMatrix(this->connectedSize,&this->physicMatrixSize); 
+            edk::Math::generateRotateMatrixZ(this->connectedAngle,&this->physicMatrixAngle); 
+            edk::Math::generateTranslateMatrix(this->connectedPosition,&this->physicMatrixPosition); 
+            edk::Math::generateTranslateMatrix(this->connectedPivo*-1.0f,&this->physicMatrixPivo); 
+            this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixSize); 
+            this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixAngle); 
+            this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixPosition); 
+            this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixPivo); 
 
             //generate transform matrices
-            edk::Math::generateTranslateMatrix(this->position,&this->physicMatrixPosition);edkEnd();
-            edk::Math::generateRotateMatrixZ(this->angle,&this->physicMatrixAngle);edkEnd();
-            edk::Math::generateScaleMatrix(this->size,&this->physicMatrixSize);edkEnd();
-            edk::Math::generateTranslateMatrix(this->pivo*-1.0f,&this->physicMatrixPivo);edkEnd();
+            edk::Math::generateTranslateMatrix(this->position,&this->physicMatrixPosition); 
+            edk::Math::generateRotateMatrixZ(this->angle,&this->physicMatrixAngle); 
+            edk::Math::generateScaleMatrix(this->size,&this->physicMatrixSize); 
+            edk::Math::generateTranslateMatrix(this->pivo*-1.0f,&this->physicMatrixPivo); 
             //multiply the matrix by
             //translate
-            this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixPosition);edkEnd();
+            this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixPosition); 
             //angle
-            this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixAngle);edkEnd();
+            this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixAngle); 
             //scale
-            this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixSize);edkEnd();
+            this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixSize); 
             //Pivo
-            this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixPivo);edkEnd();
+            this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixPivo); 
         }
         else{
             //generate transform matrices
-            edk::Math::generateTranslateMatrix(this->position,&this->physicMatrixPosition);edkEnd();
-            edk::Math::generateRotateMatrixZ(this->angle,&this->physicMatrixAngle);edkEnd();
-            edk::Math::generateScaleMatrix(this->size,&this->physicMatrixSize);edkEnd();
-            edk::Math::generateTranslateMatrix(this->pivo*-1.0f,&this->physicMatrixPivo);edkEnd();
+            edk::Math::generateTranslateMatrix(this->position,&this->physicMatrixPosition); 
+            edk::Math::generateRotateMatrixZ(this->angle,&this->physicMatrixAngle); 
+            edk::Math::generateScaleMatrix(this->size,&this->physicMatrixSize); 
+            edk::Math::generateTranslateMatrix(this->pivo*-1.0f,&this->physicMatrixPivo); 
             //multiply the matrix by
             //translate
-            this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixPosition);edkEnd();
+            this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixPosition); 
             //angle
-            this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixAngle);edkEnd();
+            this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixAngle); 
             //scale
-            this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixSize);edkEnd();
+            this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixSize); 
             //Pivo
-            this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixPivo);edkEnd();
+            this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixPivo); 
         }
 
         if(this->physicMesh.getPolygonSize()){
@@ -582,14 +585,14 @@ bool edk::physics2D::PhysicObject2D::writeBoundingBoxPhysicFromPolygons(edk::rec
                 *rect = this->physicMesh.generateBoundingBoxFromPolygons(&this->physicMatrixTransform,
                                                                          lenght,
                                                                          positions
-                                                                         );edkEnd();
+                                                                         ); 
             }
             else{
                 this->physicMesh.calculateBoundingBoxFromPolygons(rect,
                                                                   &this->physicMatrixTransform,
                                                                   lenght,
                                                                   positions
-                                                                  );edkEnd();
+                                                                  ); 
             }
         }
         else{
@@ -606,7 +609,7 @@ bool edk::physics2D::PhysicObject2D::writeChildremBoundingBoxPhysicFromPolygons(
                                                                                 ){
     bool ret = false;
     //multiply the matrix by
-    this->physicMatrixTransform.setIdentity();edkEnd();
+    this->physicMatrixTransform.setIdentity(); 
     if(this->father){
         //calculate the boundingBox from the father
         edk::physics2D::PhysicObject2D* temp = (edk::physics2D::PhysicObject2D*)this->father;
@@ -620,46 +623,46 @@ bool edk::physics2D::PhysicObject2D::writeChildremBoundingBoxPhysicFromPolygons(
             temp->writeFatherBoundingBox(rect,&this->physicMatrixTransform);
         }
 
-        edk::Math::generateScaleMatrix(this->connectedSize,&this->physicMatrixSize);edkEnd();
-        edk::Math::generateRotateMatrixZ(this->connectedAngle,&this->physicMatrixAngle);edkEnd();
-        edk::Math::generateTranslateMatrix(this->connectedPosition,&this->physicMatrixPosition);edkEnd();
-        edk::Math::generateTranslateMatrix(this->connectedPivo*-1.0f,&this->physicMatrixPivo);edkEnd();
-        this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixSize);edkEnd();
-        this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixAngle);edkEnd();
-        this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixPosition);edkEnd();
-        this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixPivo);edkEnd();
+        edk::Math::generateScaleMatrix(this->connectedSize,&this->physicMatrixSize); 
+        edk::Math::generateRotateMatrixZ(this->connectedAngle,&this->physicMatrixAngle); 
+        edk::Math::generateTranslateMatrix(this->connectedPosition,&this->physicMatrixPosition); 
+        edk::Math::generateTranslateMatrix(this->connectedPivo*-1.0f,&this->physicMatrixPivo); 
+        this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixSize); 
+        this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixAngle); 
+        this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixPosition); 
+        this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixPivo); 
 
         //first copy the matrix
         //generate transform matrices
-        edk::Math::generateTranslateMatrix(this->position,&this->physicMatrixPosition);edkEnd();
-        edk::Math::generateRotateMatrixZ(this->angle,&this->physicMatrixAngle);edkEnd();
-        edk::Math::generateScaleMatrix(this->size,&this->physicMatrixSize);edkEnd();
-        edk::Math::generateTranslateMatrix(this->pivo*-1.0f,&this->physicMatrixPivo);edkEnd();
+        edk::Math::generateTranslateMatrix(this->position,&this->physicMatrixPosition); 
+        edk::Math::generateRotateMatrixZ(this->angle,&this->physicMatrixAngle); 
+        edk::Math::generateScaleMatrix(this->size,&this->physicMatrixSize); 
+        edk::Math::generateTranslateMatrix(this->pivo*-1.0f,&this->physicMatrixPivo); 
 
         //translate
-        this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixPosition);edkEnd();
+        this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixPosition); 
         //angle
-        this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixAngle);edkEnd();
+        this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixAngle); 
         //scale
-        this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixSize);edkEnd();
+        this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixSize); 
         //Pivo
-        this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixPivo);edkEnd();
+        this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixPivo); 
     }
     else{
         //first copy the matrix
         //generate transform matrices
-        edk::Math::generateTranslateMatrix(this->position,&this->physicMatrixPosition);edkEnd();
-        edk::Math::generateRotateMatrixZ(this->angle,&this->physicMatrixAngle);edkEnd();
-        edk::Math::generateScaleMatrix(this->size,&this->physicMatrixSize);edkEnd();
-        edk::Math::generateTranslateMatrix(this->pivo*-1.0f,&this->physicMatrixPivo);edkEnd();
+        edk::Math::generateTranslateMatrix(this->position,&this->physicMatrixPosition); 
+        edk::Math::generateRotateMatrixZ(this->angle,&this->physicMatrixAngle); 
+        edk::Math::generateScaleMatrix(this->size,&this->physicMatrixSize); 
+        edk::Math::generateTranslateMatrix(this->pivo*-1.0f,&this->physicMatrixPivo); 
         //translate
-        this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixPosition);edkEnd();
+        this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixPosition); 
         //angle
-        this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixAngle);edkEnd();
+        this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixAngle); 
         //scale
-        this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixSize);edkEnd();
+        this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixSize); 
         //Pivo
-        this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixPivo);edkEnd();
+        this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixPivo); 
     }
 
     if(this->physicMesh.getPolygonSize()){
@@ -668,13 +671,13 @@ bool edk::physics2D::PhysicObject2D::writeChildremBoundingBoxPhysicFromPolygons(
                                                               &this->physicMatrixTransform,
                                                               lenght,
                                                               positions
-                                                              );edkEnd();
+                                                              ); 
         }
         else{
             *rect = this->physicMesh.generateBoundingBoxFromPolygons(&this->physicMatrixTransform,
                                                                      lenght,
                                                                      positions
-                                                                     );edkEnd();
+                                                                     ); 
         }
         ret = true;
     }
@@ -705,46 +708,46 @@ bool edk::physics2D::PhysicObject2D::writeChildremBoundingBoxPhysicFromPolygons(
                 temp->writeBoundingBox(rect,&this->physicMatrixTransform);
             }
 
-            edk::Math::generateScaleMatrix(this->connectedSize,&this->physicMatrixSize);edkEnd();
-            edk::Math::generateRotateMatrixZ(this->connectedAngle,&this->physicMatrixAngle);edkEnd();
-            edk::Math::generateTranslateMatrix(this->connectedPosition,&this->physicMatrixPosition);edkEnd();
-            edk::Math::generateTranslateMatrix(this->connectedPivo*-1.0f,&this->physicMatrixPivo);edkEnd();
-            this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixSize);edkEnd();
-            this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixAngle);edkEnd();
-            this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixPosition);edkEnd();
-            this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixPivo);edkEnd();
+            edk::Math::generateScaleMatrix(this->connectedSize,&this->physicMatrixSize); 
+            edk::Math::generateRotateMatrixZ(this->connectedAngle,&this->physicMatrixAngle); 
+            edk::Math::generateTranslateMatrix(this->connectedPosition,&this->physicMatrixPosition); 
+            edk::Math::generateTranslateMatrix(this->connectedPivo*-1.0f,&this->physicMatrixPivo); 
+            this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixSize); 
+            this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixAngle); 
+            this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixPosition); 
+            this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixPivo); 
 
 
             //generate transform matrices
-            edk::Math::generateTranslateMatrix(this->position,&this->physicMatrixPosition);edkEnd();
-            edk::Math::generateRotateMatrixZ(this->angle,&this->physicMatrixAngle);edkEnd();
-            edk::Math::generateScaleMatrix(this->size,&this->physicMatrixSize);edkEnd();
-            edk::Math::generateTranslateMatrix(this->pivo*-1.0f,&this->physicMatrixPivo);edkEnd();
+            edk::Math::generateTranslateMatrix(this->position,&this->physicMatrixPosition); 
+            edk::Math::generateRotateMatrixZ(this->angle,&this->physicMatrixAngle); 
+            edk::Math::generateScaleMatrix(this->size,&this->physicMatrixSize); 
+            edk::Math::generateTranslateMatrix(this->pivo*-1.0f,&this->physicMatrixPivo); 
             //multiply the matrix by
             //translate
-            this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixPosition);edkEnd();
+            this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixPosition); 
             //angle
-            this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixAngle);edkEnd();
+            this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixAngle); 
             //scale
-            this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixSize);edkEnd();
+            this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixSize); 
             //Pivo
-            this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixPivo);edkEnd();
+            this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixPivo); 
         }
         else{
             //generate transform matrices
-            edk::Math::generateTranslateMatrix(this->position,&this->physicMatrixPosition);edkEnd();
-            edk::Math::generateRotateMatrixZ(this->angle,&this->physicMatrixAngle);edkEnd();
-            edk::Math::generateScaleMatrix(this->size,&this->physicMatrixSize);edkEnd();
-            edk::Math::generateTranslateMatrix(this->pivo*-1.0f,&this->physicMatrixPivo);edkEnd();
+            edk::Math::generateTranslateMatrix(this->position,&this->physicMatrixPosition); 
+            edk::Math::generateRotateMatrixZ(this->angle,&this->physicMatrixAngle); 
+            edk::Math::generateScaleMatrix(this->size,&this->physicMatrixSize); 
+            edk::Math::generateTranslateMatrix(this->pivo*-1.0f,&this->physicMatrixPivo); 
             //multiply the matrix by
             //translate
-            this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixPosition);edkEnd();
+            this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixPosition); 
             //angle
-            this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixAngle);edkEnd();
+            this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixAngle); 
             //scale
-            this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixSize);edkEnd();
+            this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixSize); 
             //Pivo
-            this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixPivo);edkEnd();
+            this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixPivo); 
         }
 
         if(this->physicMesh.getPolygonSize()){
@@ -752,14 +755,14 @@ bool edk::physics2D::PhysicObject2D::writeChildremBoundingBoxPhysicFromPolygons(
                 *rect = this->physicMesh.generateBoundingBoxFromPolygons(&this->physicMatrixTransform,
                                                                          lenght,
                                                                          positions
-                                                                         );edkEnd();
+                                                                         ); 
             }
             else{
                 this->physicMesh.calculateBoundingBoxFromPolygons(rect,
                                                                   &this->physicMatrixTransform,
                                                                   lenght,
                                                                   positions
-                                                                  );edkEnd();
+                                                                  ); 
             }
         }
         else{
@@ -787,15 +790,15 @@ void edk::physics2D::PhysicObject2D::drawChildremsBackBoundingBoxPhysics(){
 }
 void edk::physics2D::PhysicObject2D::drawChildBackBoundingBoxPhysics(){
     //put the transformation on a stack
-    edk::GU::guPushMatrix();edkEnd();
+    edk::GU::guPushMatrix(); 
 
-    edk::GU::guColor4f32(1.0,1.0,1.0,1.0);edkEnd();
+    edk::GU::guColor4f32(1.0,1.0,1.0,1.0); 
 
     this->drawChildremsBackBoundingBoxPhysics();
 
     (this->*functionDrawBoundingBoxPhysics)();
 
-    edk::GU::guPopMatrix();edkEnd();
+    edk::GU::guPopMatrix(); 
 }
 void edk::physics2D::PhysicObject2D::drawChildremsFrontBoundingBoxPhysics(){
     edk::uint32 size = this->childremsFront.size();
@@ -812,13 +815,13 @@ void edk::physics2D::PhysicObject2D::drawChildremsFrontBoundingBoxPhysics(){
 }
 void edk::physics2D::PhysicObject2D::drawChildFrontBoundingBoxPhysics(){
     //put the transformation on a stack
-    edk::GU::guPushMatrix();edkEnd();
+    edk::GU::guPushMatrix(); 
 
     (this->*functionDrawBoundingBoxPhysics)();
 
     this->drawChildremsFrontBoundingBoxPhysics();
 
-    edk::GU::guPopMatrix();edkEnd();
+    edk::GU::guPopMatrix(); 
 }
 void edk::physics2D::PhysicObject2D::drawChildremsBoundingBoxPhysics(){
     edk::uint32 size = this->childremsBack.size();
@@ -845,16 +848,16 @@ void edk::physics2D::PhysicObject2D::drawChildremsBoundingBoxPhysics(){
 }
 void edk::physics2D::PhysicObject2D::drawChildBoundingBoxPhysics(){
     //put the transformation on a stack
-    edk::GU::guPushMatrix();edkEnd();
+    edk::GU::guPushMatrix(); 
 
-    edk::GU::guColor4f32(1.0,1.0,1.0,1.0);edkEnd();
+    edk::GU::guColor4f32(1.0,1.0,1.0,1.0); 
 
     this->drawChildremsBackBoundingBoxPhysics();
 
     (this->*functionDrawBoundingBoxPhysics)();
 
     this->drawChildremsFrontBoundingBoxPhysics();
-    edk::GU::guPopMatrix();edkEnd();
+    edk::GU::guPopMatrix(); 
 }
 void edk::physics2D::PhysicObject2D::drawChildremsBackWirePhysics(){
     edk::uint32 size = this->childremsBack.size();
@@ -871,27 +874,27 @@ void edk::physics2D::PhysicObject2D::drawChildremsBackWirePhysics(){
 }
 void edk::physics2D::PhysicObject2D::drawChildBackWirePhysics(){
     //put the transformation on a stack
-    edk::GU::guPushMatrix();edkEnd();
+    edk::GU::guPushMatrix(); 
 
-    edk::GU::guScale2f32(this->connectedSize);edkEnd();
-    edk::GU::guRotateZf32(this->connectedAngle);edkEnd();
-    edk::GU::guTranslate2f32(this->connectedPosition);edkEnd();
-    edk::GU::guTranslate2f32(this->connectedPivo*-1.0f);edkEnd();
+    edk::GU::guScale2f32(this->connectedSize); 
+    edk::GU::guRotateZf32(this->connectedAngle); 
+    edk::GU::guTranslate2f32(this->connectedPosition); 
+    edk::GU::guTranslate2f32(this->connectedPivo*-1.0f); 
 
     //add translate
-    edk::GU::guTranslate2f32(this->position);edkEnd();
+    edk::GU::guTranslate2f32(this->position); 
     //add scale
-    edk::GU::guScale2f32(this->size);edkEnd();
+    edk::GU::guScale2f32(this->size); 
     //add rotation
-    edk::GU::guRotateZf32(this->angle);edkEnd();
+    edk::GU::guRotateZf32(this->angle); 
     //set the pivo
-    edk::GU::guTranslate2f32(this->pivo*-1.0f);edkEnd();
+    edk::GU::guTranslate2f32(this->pivo*-1.0f); 
 
     this->drawChildremsBackWirePhysics();
 
     (this->*functionDrawWirePhysics)();
 
-    edk::GU::guPopMatrix();edkEnd();
+    edk::GU::guPopMatrix(); 
 }
 void edk::physics2D::PhysicObject2D::drawChildremsFrontWirePhysics(){
     edk::uint32 size = this->childremsFront.size();
@@ -908,27 +911,27 @@ void edk::physics2D::PhysicObject2D::drawChildremsFrontWirePhysics(){
 }
 void edk::physics2D::PhysicObject2D::drawChildFrontWirePhysics(){
     //put the transformation on a stack
-    edk::GU::guPushMatrix();edkEnd();
+    edk::GU::guPushMatrix(); 
 
-    edk::GU::guScale2f32(this->connectedSize);edkEnd();
-    edk::GU::guRotateZf32(this->connectedAngle);edkEnd();
-    edk::GU::guTranslate2f32(this->connectedPosition);edkEnd();
-    edk::GU::guTranslate2f32(this->connectedPivo*-1.0f);edkEnd();
+    edk::GU::guScale2f32(this->connectedSize); 
+    edk::GU::guRotateZf32(this->connectedAngle); 
+    edk::GU::guTranslate2f32(this->connectedPosition); 
+    edk::GU::guTranslate2f32(this->connectedPivo*-1.0f); 
 
     //add translate
-    edk::GU::guTranslate2f32(this->position);edkEnd();
+    edk::GU::guTranslate2f32(this->position); 
     //add scale
-    edk::GU::guScale2f32(this->size);edkEnd();
+    edk::GU::guScale2f32(this->size); 
     //add rotation
-    edk::GU::guRotateZf32(this->angle);edkEnd();
+    edk::GU::guRotateZf32(this->angle); 
     //set the pivo
-    edk::GU::guTranslate2f32(this->pivo*-1.0f);edkEnd();
+    edk::GU::guTranslate2f32(this->pivo*-1.0f); 
 
     (this->*functionDrawWirePhysics)();
 
     this->drawChildremsFrontWirePhysics();
 
-    edk::GU::guPopMatrix();edkEnd();
+    edk::GU::guPopMatrix(); 
 }
 void edk::physics2D::PhysicObject2D::drawChildremsWirePhysics(){
     edk::uint32 size = this->childremsBack.size();
@@ -955,21 +958,21 @@ void edk::physics2D::PhysicObject2D::drawChildremsWirePhysics(){
 }
 void edk::physics2D::PhysicObject2D::drawChildWirePhysics(){
     //put the transformation on a stack
-    edk::GU::guPushMatrix();edkEnd();
+    edk::GU::guPushMatrix(); 
 
-    edk::GU::guScale2f32(this->connectedSize);edkEnd();
-    edk::GU::guRotateZf32(this->connectedAngle);edkEnd();
-    edk::GU::guTranslate2f32(this->connectedPosition);edkEnd();
-    edk::GU::guTranslate2f32(this->connectedPivo*-1.0f);edkEnd();
+    edk::GU::guScale2f32(this->connectedSize); 
+    edk::GU::guRotateZf32(this->connectedAngle); 
+    edk::GU::guTranslate2f32(this->connectedPosition); 
+    edk::GU::guTranslate2f32(this->connectedPivo*-1.0f); 
 
     //add translate
-    edk::GU::guTranslate2f32(this->position);edkEnd();
+    edk::GU::guTranslate2f32(this->position); 
     //add scale
-    edk::GU::guScale2f32(this->size);edkEnd();
+    edk::GU::guScale2f32(this->size); 
     //add rotation
-    edk::GU::guRotateZf32(this->angle);edkEnd();
+    edk::GU::guRotateZf32(this->angle); 
     //set the pivo
-    edk::GU::guTranslate2f32(this->pivo*-1.0f);edkEnd();
+    edk::GU::guTranslate2f32(this->pivo*-1.0f); 
 
     this->drawChildremsBackWirePhysics();
 
@@ -977,7 +980,7 @@ void edk::physics2D::PhysicObject2D::drawChildWirePhysics(){
 
     this->drawChildremsFrontWirePhysics();
 
-    edk::GU::guPopMatrix();edkEnd();
+    edk::GU::guPopMatrix(); 
 }
 void edk::physics2D::PhysicObject2D::drawChildremsBackWirePhysicsWorld(){
     edk::uint32 size = this->childremsBack.size();
@@ -994,13 +997,13 @@ void edk::physics2D::PhysicObject2D::drawChildremsBackWirePhysicsWorld(){
 }
 void edk::physics2D::PhysicObject2D::drawChildBackWirePhysicsWorld(){
     //put the transformation on a stack
-    edk::GU::guPushMatrix();edkEnd();
+    edk::GU::guPushMatrix(); 
 
     this->drawChildremsBackWirePhysicsWorld();
 
     (this->*functionDrawWirePhysicsWorld)();
 
-    edk::GU::guPopMatrix();edkEnd();
+    edk::GU::guPopMatrix(); 
 }
 void edk::physics2D::PhysicObject2D::drawChildremsFrontWirePhysicsWorld(){
     edk::uint32 size = this->childremsFront.size();
@@ -1017,13 +1020,13 @@ void edk::physics2D::PhysicObject2D::drawChildremsFrontWirePhysicsWorld(){
 }
 void edk::physics2D::PhysicObject2D::drawChildFrontWirePhysicsWorld(){
     //put the transformation on a stack
-    edk::GU::guPushMatrix();edkEnd();
+    edk::GU::guPushMatrix(); 
 
     (this->*functionDrawWirePhysicsWorld)();
 
     this->drawChildremsFrontWirePhysicsWorld();
 
-    edk::GU::guPopMatrix();edkEnd();
+    edk::GU::guPopMatrix(); 
 }
 void edk::physics2D::PhysicObject2D::drawChildremsWirePhysicsWorld(){
     edk::uint32 size = this->childremsBack.size();
@@ -1050,7 +1053,7 @@ void edk::physics2D::PhysicObject2D::drawChildremsWirePhysicsWorld(){
 }
 void edk::physics2D::PhysicObject2D::drawChildWirePhysicsWorld(){
     //put the transformation on a stack
-    edk::GU::guPushMatrix();edkEnd();
+    edk::GU::guPushMatrix(); 
 
     this->drawChildremsBackWirePhysicsWorld();
 
@@ -1058,7 +1061,7 @@ void edk::physics2D::PhysicObject2D::drawChildWirePhysicsWorld(){
 
     this->drawChildremsFrontWirePhysicsWorld();
 
-    edk::GU::guPopMatrix();edkEnd();
+    edk::GU::guPopMatrix(); 
 }
 
 //Draw function
@@ -1068,33 +1071,33 @@ void edk::physics2D::PhysicObject2D::drawHideWirePhysics(){}
 void edk::physics2D::PhysicObject2D::drawHideWirePhysicsWorld(){}
 //UNHIDE
 void edk::physics2D::PhysicObject2D::drawUnhideBoundingBoxPhysics(){
-    edk::GU::guBegin(GU_LINE_LOOP);edkEnd();
-    edk::GU::guVertex2f32(this->boundingBoxPhysics.origin.x  ,this->boundingBoxPhysics.origin.y   );edkEnd();
-    edk::GU::guVertex2f32(this->boundingBoxPhysics.origin.x  ,this->boundingBoxPhysics.size.height);edkEnd();
-    edk::GU::guVertex2f32(this->boundingBoxPhysics.size.width,this->boundingBoxPhysics.size.height);edkEnd();
-    edk::GU::guVertex2f32(this->boundingBoxPhysics.size.width,this->boundingBoxPhysics.origin.y   );edkEnd();
-    edk::GU::guEnd();edkEnd();
+    edk::GU::guBegin(GU_LINE_LOOP); 
+    edk::GU::guVertex2f32(this->boundingBoxPhysics.origin.x  ,this->boundingBoxPhysics.origin.y   ); 
+    edk::GU::guVertex2f32(this->boundingBoxPhysics.origin.x  ,this->boundingBoxPhysics.size.height); 
+    edk::GU::guVertex2f32(this->boundingBoxPhysics.size.width,this->boundingBoxPhysics.size.height); 
+    edk::GU::guVertex2f32(this->boundingBoxPhysics.size.width,this->boundingBoxPhysics.origin.y   ); 
+    edk::GU::guEnd(); 
 }
 void edk::physics2D::PhysicObject2D::drawUnhideWirePhysics(){
-    this->physicMesh.drawWirePolygons();edkEnd();
+    this->physicMesh.drawWirePolygons(); 
 }
 void edk::physics2D::PhysicObject2D::drawUnhideWirePhysicsWorld(){
-    this->physicMeshWorld.drawWirePolygonsWorld();edkEnd();
+    this->physicMeshWorld.drawWirePolygonsWorld(); 
 }
 
 //clean the obect
 void edk::physics2D::PhysicObject2D::clean(){
-    this->physicMesh.cleanPolygons();edkEnd();
-    this->treeCollisionGroups.clean();edkEnd();
-    this->treeNotCollisionGroups.clean();edkEnd();
-    this->canSleep=false;edkEnd();
-    this->speed=0.f;edkEnd();
-    this->direction=0.f;edkEnd();
-    this->linearVelocity=0.f;edkEnd();
-    this->angularVelocity=0.f;edkEnd();
-    this->linearVelocitySetted=false;edkEnd();
-    this->angularVelocitySetted=false;edkEnd();
-    edk::Object2D::clean();edkEnd();
+    this->physicMesh.cleanPolygons(); 
+    this->treeCollisionGroups.clean(); 
+    this->treeNotCollisionGroups.clean(); 
+    this->canSleep=false; 
+    this->speed=0.f; 
+    this->direction=0.f; 
+    this->linearVelocity=0.f; 
+    this->angularVelocity=0.f; 
+    this->linearVelocitySetted=false; 
+    this->angularVelocitySetted=false; 
+    edk::Object2D::clean(); 
 }
 
 //HIDE
@@ -1123,61 +1126,61 @@ bool edk::physics2D::PhysicObject2D::unhide(){
 //set the lonearVelocity
 void edk::physics2D::PhysicObject2D::setLinearVelocity(edk::vec2f32 velocity){
     //set linear velocity
-    this->linearVelocity = velocity;edkEnd();
+    this->linearVelocity = velocity; 
     //calculate the speed
-    this->speed = edk::Math::pythagoras(this->linearVelocity);edkEnd();
+    this->speed = edk::Math::pythagoras(this->linearVelocity); 
     //get the direction
-    this->direction = edk::Math::normalise(this->linearVelocity);edkEnd();
-    this->linearVelocitySetted=true;edkEnd();
+    this->direction = edk::Math::normalise(this->linearVelocity); 
+    this->linearVelocitySetted=true; 
 }
 void edk::physics2D::PhysicObject2D::setLinearVelocity(edk::float32 x,edk::float32 y){
-    this->setLinearVelocity(edk::vec2f32(x,y));edkEnd();
+    this->setLinearVelocity(edk::vec2f32(x,y)); 
 }
 void edk::physics2D::PhysicObject2D::setAngularVelocity(edk::float32 angle){
-    this->angularVelocity = angle;edkEnd();
-    this->angularVelocitySetted=true;edkEnd();
+    this->angularVelocity = angle; 
+    this->angularVelocitySetted=true; 
 }
 //remove all meshes
 void edk::physics2D::PhysicObject2D::cleanMeshes(){
-    edk::Object2D::cleanMeshes();edkEnd();
-    this->physicMesh.cleanPolygons();edkEnd();
+    edk::Object2D::cleanMeshes(); 
+    this->physicMesh.cleanPolygons(); 
 }
 void edk::physics2D::PhysicObject2D::cleanMesh(){
-    edk::Object2D::cleanMeshes();edkEnd();
+    edk::Object2D::cleanMeshes(); 
 }
 
 //return the speed
 edk::float32 edk::physics2D::PhysicObject2D::getSpeed(){
-    return this->speed;edkEnd();
+    return this->speed; 
 }
 //return the direction
 edk::vec2f32 edk::physics2D::PhysicObject2D::getDirection(){
-    return this->direction;edkEnd();
+    return this->direction; 
 }
 //rturn the linearVelocity
 edk::vec2f32 edk::physics2D::PhysicObject2D::getLinearVelocity(){
-    this->linearVelocitySetted=false;edkEnd();
-    edk::vec2f32 ret = this->linearVelocity;edkEnd();
+    this->linearVelocitySetted=false; 
+    edk::vec2f32 ret = this->linearVelocity; 
     return ret;
 }
 //return if set the linearVelocity
 bool edk::physics2D::PhysicObject2D::haveSettedLinearVelocity(){
     if(this->linearVelocitySetted){
-        this->linearVelocitySetted=false;edkEnd();
+        this->linearVelocitySetted=false; 
         return true;
     }
     return false;
 }
 //return the angular velocity
 edk::float32 edk::physics2D::PhysicObject2D::getAngularVelocity(){
-    this->angularVelocitySetted=false;edkEnd();
-    edk::float32 ret = this->angularVelocity;edkEnd();
+    this->angularVelocitySetted=false; 
+    edk::float32 ret = this->angularVelocity; 
     return ret;
 }
 //return if set angular velocoty
 bool edk::physics2D::PhysicObject2D::haveSettedAngularVelocity(){
     if(this->angularVelocitySetted){
-        this->angularVelocitySetted=false;edkEnd();
+        this->angularVelocitySetted=false; 
         return true;
     }
     return false;
@@ -1401,10 +1404,10 @@ bool edk::physics2D::PhysicObject2D::copyAndGenerateWorldPhysicMesh(){
 bool edk::physics2D::PhysicObject2D::generateWorldPhysicMesh(){
     if(this->physicMesh.getPolygonSize() == this->physicMeshWorld.getPolygonSize()){
         //multiply the matrix by
-        this->physicMatrixTransform.setIdentity();edkEnd();
+        this->physicMatrixTransform.setIdentity(); 
         this->loadFatherMatrix(&this->physicMatrixTransform);
         //copy the polygons
-        this->physicMesh.generateWorldPolygons(&this->physicMeshWorld,&this->physicMatrixTransform);edkEnd();
+        this->physicMesh.generateWorldPolygons(&this->physicMeshWorld,&this->physicMatrixTransform); 
         return true;
     }
     return false;
@@ -1425,21 +1428,21 @@ bool edk::physics2D::PhysicObject2D::generateWorldPhysicMeshFromPolygons(edk::ui
                                                                          ){
     if(this->physicMesh.getPolygonSize() == this->physicMeshWorld.getPolygonSize()){
         //multiply the matrix by
-        this->physicMatrixTransform.setIdentity();edkEnd();
+        this->physicMatrixTransform.setIdentity(); 
         this->loadFatherMatrix(&this->physicMatrixTransform);
         //copy the polygons
         this->physicMesh.generateWorldPolygons(&this->physicMeshWorld,
                                                &this->physicMatrixTransform,
                                                lenght,
                                                positions
-                                               );edkEnd();
+                                               ); 
         return true;
     }
     return false;
 }
 
 void edk::physics2D::PhysicObject2D::removeAllMesh(){
-    this->cleanMesh();edkEnd();
+    this->cleanMesh(); 
 }
 
 //return if it's a sensor
@@ -1450,105 +1453,105 @@ bool edk::physics2D::PhysicObject2D::isSensor(){
 //add a group
 bool edk::physics2D::PhysicObject2D::addCollisionGroup(edk::uint32 id){
     //remove from notCollisionGroup
-    this->removeNotCollisionGroup(id);edkEnd();
+    this->removeNotCollisionGroup(id); 
     if(id){
-        return this->treeCollisionGroups.add(id);edkEnd();
+        return this->treeCollisionGroups.add(id); 
     }
     return false;
 }
 bool edk::physics2D::PhysicObject2D::addNotCollisionGroup(edk::uint32 id){
     //remove from collision group
-    this->removeCollisionGroup(id);edkEnd();
+    this->removeCollisionGroup(id); 
     if(id){
-        return this->treeNotCollisionGroups.add(id);edkEnd();
+        return this->treeNotCollisionGroups.add(id); 
     }
     return false;
 }
 bool edk::physics2D::PhysicObject2D::removeCollisionGroup(edk::uint32 id){
-    return this->treeCollisionGroups.remove(id);edkEnd();
+    return this->treeCollisionGroups.remove(id); 
 }
 bool edk::physics2D::PhysicObject2D::removeNotCollisionGroup(edk::uint32 id){
-    return this->treeNotCollisionGroups.remove(id);edkEnd();
+    return this->treeNotCollisionGroups.remove(id); 
 }
 void edk::physics2D::PhysicObject2D::cleanCollisionGroups(){
-    this->treeCollisionGroups.clean();edkEnd();
+    this->treeCollisionGroups.clean(); 
 }
 void edk::physics2D::PhysicObject2D::cleanNotCollisionGroups(){
-    this->treeNotCollisionGroups.clean();edkEnd();
+    this->treeNotCollisionGroups.clean(); 
 }
 void edk::physics2D::PhysicObject2D::cleanAllGroups(){
-    this->cleanCollisionGroups();edkEnd();
-    this->cleanNotCollisionGroups();edkEnd();
+    this->cleanCollisionGroups(); 
+    this->cleanNotCollisionGroups(); 
 }
 bool edk::physics2D::PhysicObject2D::haveCollisionGroup(edk::uint32 id){
-    return this->treeCollisionGroups.haveElement(id);edkEnd();
+    return this->treeCollisionGroups.haveElement(id); 
 }
 bool edk::physics2D::PhysicObject2D::haveNotCollisionGroup(edk::uint32 id){
-    return this->treeNotCollisionGroups.haveElement(id);edkEnd();
+    return this->treeNotCollisionGroups.haveElement(id); 
 }
 edk::uint32 edk::physics2D::PhysicObject2D::getCollisionGroupInPosition(edk::uint32 position){
-    return this->treeCollisionGroups.getElementInPosition(position);edkEnd();
+    return this->treeCollisionGroups.getElementInPosition(position); 
 }
 edk::uint32 edk::physics2D::PhysicObject2D::getNotCollisionGroupInPosition(edk::uint32 position){
-    return this->treeNotCollisionGroups.getElementInPosition(position);edkEnd();
+    return this->treeNotCollisionGroups.getElementInPosition(position); 
 }
 //get group size
 edk::uint32 edk::physics2D::PhysicObject2D::getCollisionGroupSize(){
-    return this->treeCollisionGroups.size();edkEnd();
+    return this->treeCollisionGroups.size(); 
 }
 edk::uint32 edk::physics2D::PhysicObject2D::getNotCollisionGroupSize(){
-    return this->treeNotCollisionGroups.size();edkEnd();
+    return this->treeNotCollisionGroups.size(); 
 }
 
 //get world polygon
 bool edk::physics2D::PhysicObject2D::getWorldPolygonPhysic(edk::shape::Polygon2D* dest,edk::uint32 polygonPosition){
-    bool ret=false;edkEnd();
+    bool ret=false; 
     if(dest){
         //first copy the matrix
         //generate transform matrices
-        edk::Math::generateTranslateMatrix(this->position,&this->physicMatrixPosition);edkEnd();
-        edk::Math::generateRotateMatrixZ(this->angle,&this->physicMatrixAngle);edkEnd();
-        edk::Math::generateScaleMatrix(this->size,&this->physicMatrixSize);edkEnd();
-        edk::Math::generateTranslateMatrix(this->pivo*-1.0f,&this->physicMatrixPivo);edkEnd();
+        edk::Math::generateTranslateMatrix(this->position,&this->physicMatrixPosition); 
+        edk::Math::generateRotateMatrixZ(this->angle,&this->physicMatrixAngle); 
+        edk::Math::generateScaleMatrix(this->size,&this->physicMatrixSize); 
+        edk::Math::generateTranslateMatrix(this->pivo*-1.0f,&this->physicMatrixPivo); 
         //multiply the matrix by
 
-        this->physicMatrixTransform.setIdentity(1.f,0.f);edkEnd();
+        this->physicMatrixTransform.setIdentity(1.f,0.f); 
 
         //translate
-        this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixPosition);edkEnd();
+        this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixPosition); 
         //angle
-        this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixAngle);edkEnd();
+        this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixAngle); 
         //scale
-        this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixSize);edkEnd();
+        this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixSize); 
         //Pivo
-        this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixPivo);edkEnd();
+        this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixPivo); 
 
-        ret = this->physicMesh.getWorldPolygon(dest,polygonPosition,&this->physicMatrixTransform);edkEnd();
+        ret = this->physicMesh.getWorldPolygon(dest,polygonPosition,&this->physicMatrixTransform); 
     }
     return ret;
 }
 bool edk::physics2D::PhysicObject2D::getWorldPolygonPhysic(edk::shape::Polygon2D* dest,edk::uint32 polygonPosition,edk::vector::Matrixf32<3u,3u>* transformMat){
-    bool ret=false;edkEnd();
+    bool ret=false; 
     if(dest){
         //first copy the matrix
         if(this->physicMatrixTransform.cloneFrom(transformMat)){
             //generate transform matrices
-            edk::Math::generateTranslateMatrix(this->position,&this->physicMatrixPosition);edkEnd();
-            edk::Math::generateRotateMatrixZ(this->angle,&this->physicMatrixAngle);edkEnd();
-            edk::Math::generateScaleMatrix(this->size,&this->physicMatrixSize);edkEnd();
-            edk::Math::generateTranslateMatrix(this->pivo*-1.0f,&this->physicMatrixPivo);edkEnd();
+            edk::Math::generateTranslateMatrix(this->position,&this->physicMatrixPosition); 
+            edk::Math::generateRotateMatrixZ(this->angle,&this->physicMatrixAngle); 
+            edk::Math::generateScaleMatrix(this->size,&this->physicMatrixSize); 
+            edk::Math::generateTranslateMatrix(this->pivo*-1.0f,&this->physicMatrixPivo); 
 
             //multiply the matrix by
             //translate
-            this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixPosition);edkEnd();
+            this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixPosition); 
             //angle
-            this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixAngle);edkEnd();
+            this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixAngle); 
             //scale
-            this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixSize);edkEnd();
+            this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixSize); 
             //Pivo
-            this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixPivo);edkEnd();
+            this->physicMatrixTransform.multiplyThisWithMatrix(&this->physicMatrixPivo); 
 
-            ret = this->physicMesh.getWorldPolygon(dest,polygonPosition,&this->physicMatrixTransform);edkEnd();
+            ret = this->physicMesh.getWorldPolygon(dest,polygonPosition,&this->physicMatrixTransform); 
         }
     }
     return ret;
@@ -1556,31 +1559,31 @@ bool edk::physics2D::PhysicObject2D::getWorldPolygonPhysic(edk::shape::Polygon2D
 
 void edk::physics2D::PhysicObject2D::drawPhysics(){
     //put the transformation on a stack
-    edk::GU::guPushMatrix();edkEnd();
+    edk::GU::guPushMatrix(); 
     //add translate
-    edk::GU::guTranslate2f32(this->position);edkEnd();
+    edk::GU::guTranslate2f32(this->position); 
     //add rotation
-    edk::GU::guRotateZf32(this->angle);edkEnd();
+    edk::GU::guRotateZf32(this->angle); 
     //add scale
-    edk::GU::guScale2f32(this->size);edkEnd();
+    edk::GU::guScale2f32(this->size); 
     //set the pivo
-    edk::GU::guTranslate2f32(this->pivo*-1.0f);edkEnd();
+    edk::GU::guTranslate2f32(this->pivo*-1.0f); 
 
-    this->physicMesh.drawPolygons();edkEnd();
+    this->physicMesh.drawPolygons(); 
 
-    edk::GU::guPopMatrix();edkEnd();
+    edk::GU::guPopMatrix(); 
 }
 void edk::physics2D::PhysicObject2D::drawWirePhysics(){
     //put the transformation on a stack
-    edk::GU::guPushMatrix();edkEnd();
+    edk::GU::guPushMatrix(); 
     //add translate
-    edk::GU::guTranslate2f32(this->position);edkEnd();
+    edk::GU::guTranslate2f32(this->position); 
     //add rotation
-    edk::GU::guRotateZf32(this->angle);edkEnd();
+    edk::GU::guRotateZf32(this->angle); 
     //add scale
-    edk::GU::guScale2f32(this->size);edkEnd();
+    edk::GU::guScale2f32(this->size); 
     //set the pivo
-    edk::GU::guTranslate2f32(this->pivo*-1.0f);edkEnd();
+    edk::GU::guTranslate2f32(this->pivo*-1.0f); 
 
     this->drawChildremsBackWirePhysics();
 
@@ -1588,11 +1591,11 @@ void edk::physics2D::PhysicObject2D::drawWirePhysics(){
 
     this->drawChildremsFrontWirePhysics();
 
-    edk::GU::guPopMatrix();edkEnd();
+    edk::GU::guPopMatrix(); 
 }
 void edk::physics2D::PhysicObject2D::drawWirePhysicsWorld(){
     //put the transformation on a stack
-    edk::GU::guPushMatrix();edkEnd();
+    edk::GU::guPushMatrix(); 
 
     //this->drawChildremsBackWirePhysicsWorld();
 
@@ -1600,39 +1603,39 @@ void edk::physics2D::PhysicObject2D::drawWirePhysicsWorld(){
 
     //this->drawChildremsFrontWirePhysicsWorld();
 
-    edk::GU::guPopMatrix();edkEnd();
+    edk::GU::guPopMatrix(); 
 }
 void edk::physics2D::PhysicObject2D::drawPolygonPhysics(edk::uint32 position){
     //put the transformation on a stack
-    edk::GU::guPushMatrix();edkEnd();
+    edk::GU::guPushMatrix(); 
     //add translate
-    edk::GU::guTranslate2f32(this->position);edkEnd();
+    edk::GU::guTranslate2f32(this->position); 
     //add rotation
-    edk::GU::guRotateZf32(this->angle);edkEnd();
+    edk::GU::guRotateZf32(this->angle); 
     //add scale
-    edk::GU::guScale2f32(this->size);edkEnd();
+    edk::GU::guScale2f32(this->size); 
     //set the pivo
-    edk::GU::guTranslate2f32(this->pivo*-1.0f);edkEnd();
+    edk::GU::guTranslate2f32(this->pivo*-1.0f); 
 
-    this->physicMesh.drawPolygon(position);edkEnd();
+    this->physicMesh.drawPolygon(position); 
 
-    edk::GU::guPopMatrix();edkEnd();
+    edk::GU::guPopMatrix(); 
 }
 void edk::physics2D::PhysicObject2D::drawPolygonWirePhysics(edk::uint32 position){
     //put the transformation on a stack
-    edk::GU::guPushMatrix();edkEnd();
+    edk::GU::guPushMatrix(); 
     //add translate
-    edk::GU::guTranslate2f32(this->position);edkEnd();
+    edk::GU::guTranslate2f32(this->position); 
     //add rotation
-    edk::GU::guRotateZf32(this->angle);edkEnd();
+    edk::GU::guRotateZf32(this->angle); 
     //add scale
-    edk::GU::guScale2f32(this->size);edkEnd();
+    edk::GU::guScale2f32(this->size); 
     //set the pivo
-    edk::GU::guTranslate2f32(this->pivo*-1.0f);edkEnd();
+    edk::GU::guTranslate2f32(this->pivo*-1.0f); 
 
-    this->physicMesh.drawWirePolygon(position);edkEnd();
+    this->physicMesh.drawWirePolygon(position); 
 
-    edk::GU::guPopMatrix();edkEnd();
+    edk::GU::guPopMatrix(); 
 }
 void edk::physics2D::PhysicObject2D::drawLinearVelocity(edk::color3f32 color,edk::vec2f32 position,edk::float32 scale){
     edk::GU::guColor3f32(color);
@@ -1662,52 +1665,52 @@ void edk::physics2D::PhysicObject2D::drawLinearVelocity(edk::float32 r,
 
 //update all animations
 bool edk::physics2D::PhysicObject2D::updateAnimations(){
-    bool ret=false;edkEnd();
-    this->animationPosition.updateClockAnimation();edkEnd();
-    this->animationRotation.updateClockAnimation();edkEnd();
+    bool ret=false; 
+    this->animationPosition.updateClockAnimation(); 
+    this->animationRotation.updateClockAnimation(); 
     //test if are playing the animations
     if(this->animationPosition.isPlaying()){
         //get X and Y
         this->position = edk::vec2f32(this->animationPosition.getClockX(),
                                       this->animationPosition.getClockY()
-                                      );edkEnd();
-        ret=true;edkEnd();
+                                      ); 
+        ret=true; 
     }
     if(this->animationRotation.isPlaying()){
         //get the new Angle
-        this->angle = this->animationRotation.getClockX();edkEnd();
-        ret=true;edkEnd();
+        this->angle = this->animationRotation.getClockX(); 
+        ret=true; 
     }
-    this->updateMeshAnimations();edkEnd();
+    this->updateMeshAnimations(); 
     this->updateChildremsAnimations();
     return ret;
 }
 bool edk::physics2D::PhysicObject2D::updateAnimations(edk::float32 seconds){
-    bool ret=false;edkEnd();
-    this->animationPosition.updateClockAnimation(seconds);edkEnd();
-    this->animationRotation.updateClockAnimation(seconds);edkEnd();
-    this->animationSize.updateClockAnimation(seconds);edkEnd();
+    bool ret=false; 
+    this->animationPosition.updateClockAnimation(seconds); 
+    this->animationRotation.updateClockAnimation(seconds); 
+    this->animationSize.updateClockAnimation(seconds); 
     //test if are playing the animations
     if(this->animationPosition.isPlaying()){
         //get X and Y
         this->position = edk::vec2f32(this->animationPosition.getClockX(this->position.x),
                                       this->animationPosition.getClockY(this->position.y)
-                                      );edkEnd();
-        ret=true;edkEnd();
+                                      ); 
+        ret=true; 
     }
     if(this->animationRotation.isPlaying()){
         //get the new Angle
-        this->angle = this->animationRotation.getClockX();edkEnd();
-        ret=true;edkEnd();
+        this->angle = this->animationRotation.getClockX(); 
+        ret=true; 
     }
     //test if is animating the size
     if(this->animationSize.isPlaying()){
         //
-        this->size.width = this->animationSize.getClockX();edkEnd();
-        this->size.height = this->animationSize.getClockY();edkEnd();
-        ret=true;edkEnd();
+        this->size.width = this->animationSize.getClockX(); 
+        this->size.height = this->animationSize.getClockY(); 
+        ret=true; 
     }
-    this->updateMeshAnimations(seconds);edkEnd();
+    this->updateMeshAnimations(seconds); 
     this->updateChildremsAnimations(seconds);
     return ret;
 }
@@ -1715,112 +1718,112 @@ bool edk::physics2D::PhysicObject2D::updateAnimations(edk::float32 seconds){
 //XML
 bool edk::physics2D::PhysicObject2D::writeToXML(edk::XML* xml,edk::uint32 id,bool connected){
     if(xml){
-        bool ret=false;edkEnd();
+        bool ret=false; 
         //create the nameID
-        edk::char8* nameID = edk::String::int64ToStr(id);edkEnd();
+        edk::char8* nameID = edk::String::int64ToStr(id); 
         if(nameID){
             //concat
-            edk::char8* name = edk::String::strCat((edk::char8*)"physicObject_",nameID);edkEnd();
+            edk::char8* name = edk::String::strCat((edk::char8*)"physicObject_",nameID); 
             if(name){
                 //create the name
                 if(xml->addSelectedNextChild(name)){
                     if(xml->selectChild(name)){
                         //set the string
                         if(connected){
-                            xml->setSelectedString("true");edkEnd();
+                            xml->setSelectedString("true"); 
                         }
                         //write object
-                        edk::Object2D::writeToXML(xml,id);edkEnd();
+                        edk::Object2D::writeToXML(xml,id); 
                         //write type
-                        edk::char8* temp;edkEnd();
-                        edk::char8* nameTemp;edkEnd();
-                        edk::char8* iTemp;edkEnd();
-                        temp = edk::String::int32ToStr(this->getTypeValue());edkEnd();
+                        edk::char8* temp; 
+                        edk::char8* nameTemp; 
+                        edk::char8* iTemp; 
+                        temp = edk::String::int32ToStr(this->getTypeValue()); 
                         if(temp){
-                            xml->addSelectedNextAttribute((edk::char8*)"type",temp);edkEnd();
-                            free(temp);edkEnd();
+                            xml->addSelectedNextAttribute((edk::char8*)"type",temp); 
+                            free(temp); 
                         }
                         //write sensor
                         if(this->isSensor()){
-                            xml->addSelectedNextAttribute("sensor","true");edkEnd();
+                            xml->addSelectedNextAttribute("sensor","true"); 
                         }
                         else{
-                            xml->addSelectedNextAttribute("sensor","false");edkEnd();
+                            xml->addSelectedNextAttribute("sensor","false"); 
                         }
                         //write fixedRot
                         if(this->fixedRotation){
-                            xml->addSelectedNextAttribute("fixedRot","true");edkEnd();
+                            xml->addSelectedNextAttribute("fixedRot","true"); 
                         }
                         else{
-                            xml->addSelectedNextAttribute("fixedRot","false");edkEnd();
+                            xml->addSelectedNextAttribute("fixedRot","false"); 
                         }
                         //write canSleep
                         if(this->canSleep){
-                            xml->addSelectedNextAttribute("canSleep","true");edkEnd();
+                            xml->addSelectedNextAttribute("canSleep","true"); 
                         }
                         else{
-                            xml->addSelectedNextAttribute("canSleep","false");edkEnd();
+                            xml->addSelectedNextAttribute("canSleep","false"); 
                         }
                         //write the mesh
-                        this->physicMesh.writeToXML(xml,0u);edkEnd();
-                        edk::uint32 size = 0u;edkEnd();
+                        this->physicMesh.writeToXML(xml,0u); 
+                        edk::uint32 size = 0u; 
                         //write collision groups
                         if(xml->addSelectedNextChild("collision")){
                             if(xml->selectChild("collision")){
-                                size = this->treeCollisionGroups.size();edkEnd();
+                                size = this->treeCollisionGroups.size(); 
                                 for(edk::uint32 i= 0u;i<size;i++){
-                                    temp = edk::String::int64ToStr(this->treeCollisionGroups.getElementInPosition(i));edkEnd();
+                                    temp = edk::String::int64ToStr(this->treeCollisionGroups.getElementInPosition(i)); 
                                     if(temp){
-                                        iTemp = edk::String::int64ToStr(i);edkEnd();
+                                        iTemp = edk::String::int64ToStr(i); 
                                         if(iTemp){
-                                            nameTemp = edk::String::strCat((edk::char8*)"c",iTemp);edkEnd();
+                                            nameTemp = edk::String::strCat((edk::char8*)"c",iTemp); 
                                             if(nameTemp){
-                                                xml->addSelectedNextAttribute(nameTemp,temp);edkEnd();
-                                                free(nameTemp);edkEnd();
+                                                xml->addSelectedNextAttribute(nameTemp,temp); 
+                                                free(nameTemp); 
                                             }
-                                            free(iTemp);edkEnd();
+                                            free(iTemp); 
                                         }
-                                        free(temp);edkEnd();
+                                        free(temp); 
                                     }
                                 }
-                                xml->selectFather();edkEnd();
+                                xml->selectFather(); 
                             }
                         }
                         //write notCollision groups
                         if(xml->addSelectedNextChild("notCollision")){
                             if(xml->selectChild("notCollision")){
-                                size = this->treeCollisionGroups.size();edkEnd();
+                                size = this->treeCollisionGroups.size(); 
                                 for(edk::uint32 i= 0u;i<size;i++){
-                                    temp = edk::String::int64ToStr(this->treeCollisionGroups.getElementInPosition(i));edkEnd();
+                                    temp = edk::String::int64ToStr(this->treeCollisionGroups.getElementInPosition(i)); 
                                     if(temp){
-                                        iTemp = edk::String::int64ToStr(i);edkEnd();
+                                        iTemp = edk::String::int64ToStr(i); 
                                         if(iTemp){
-                                            nameTemp = edk::String::strCat((edk::char8*)"n",iTemp);edkEnd();
+                                            nameTemp = edk::String::strCat((edk::char8*)"n",iTemp); 
                                             if(nameTemp){
-                                                xml->addSelectedNextAttribute(nameTemp,temp);edkEnd();
-                                                free(nameTemp);edkEnd();
+                                                xml->addSelectedNextAttribute(nameTemp,temp); 
+                                                free(nameTemp); 
                                             }
-                                            free(iTemp);edkEnd();
+                                            free(iTemp); 
                                         }
-                                        free(temp);edkEnd();
+                                        free(temp); 
                                     }
                                 }
-                                xml->selectFather();edkEnd();
+                                xml->selectFather(); 
                             }
                         }
                         //write physics animations
-                        this->animationPosition.writeToXML(xml,0u);edkEnd();
-                        //this->animationPositionX.writeToXML(xml,0u);edkEnd();
-                        //this->animationPositionY.writeToXML(xml,0u);edkEnd();
-                        this->animationRotation.writeToXML(xml,1u);edkEnd();
+                        this->animationPosition.writeToXML(xml,0u); 
+                        //this->animationPositionX.writeToXML(xml,0u); 
+                        //this->animationPositionY.writeToXML(xml,0u); 
+                        this->animationRotation.writeToXML(xml,1u); 
 
-                        ret=true;edkEnd();
-                        xml->selectFather();edkEnd();
+                        ret=true; 
+                        xml->selectFather(); 
                     }
                 }
-                free(name);edkEnd();
+                free(name); 
             }
-            free(nameID);edkEnd();
+            free(nameID); 
         }
         return ret;
     }
@@ -1828,22 +1831,22 @@ bool edk::physics2D::PhysicObject2D::writeToXML(edk::XML* xml,edk::uint32 id,boo
 }
 bool edk::physics2D::PhysicObject2D::readFromXML(edk::XML* xml,edk::uint32 id){
     if(xml){
-        bool ret=false;edkEnd();
+        bool ret=false; 
         //create the nameID
-        edk::char8* nameID = edk::String::int64ToStr(id);edkEnd();
+        edk::char8* nameID = edk::String::int64ToStr(id); 
         if(nameID){
             //concat
-            edk::char8* name = edk::String::strCat((edk::char8*)"physicObject_",nameID);edkEnd();
+            edk::char8* name = edk::String::strCat((edk::char8*)"physicObject_",nameID); 
             if(name){
                 //create the name
                 if(xml->selectChild(name)){
-                    edk::char8* nameTemp;edkEnd();
-                    edk::char8* iTemp;edkEnd();
-                    this->physicMesh.cleanPolygons();edkEnd();
+                    edk::char8* nameTemp; 
+                    edk::char8* iTemp; 
+                    this->physicMesh.cleanPolygons(); 
                     //read the object
-                    edk::Object2D::readFromXML(xml,id);edkEnd();
+                    edk::Object2D::readFromXML(xml,id); 
                     //read type
-                    edk::uint32 newType = edk::String::strToInt32(xml->getSelectedAttributeValueByName("type"));edkEnd();
+                    edk::uint32 newType = edk::String::strToInt32(xml->getSelectedAttributeValueByName("type")); 
                     if(newType==(edk::uint32)edk::TypeObject2DStatic || newType==tempEDK::physics::StaticBody){
                         this->type = edk::TypeObject2DStatic;
                     }
@@ -1855,89 +1858,89 @@ bool edk::physics2D::PhysicObject2D::readFromXML(edk::XML* xml,edk::uint32 id){
                     }
                     //read sensor
                     if(edk::String::strCompare(xml->getSelectedAttributeValueByName("sensor"),(edk::char8*)"true")){
-                        this->isObjectSensor=true;edkEnd();
+                        this->isObjectSensor=true; 
                     }
                     else{
-                        this->isObjectSensor=false;edkEnd();
+                        this->isObjectSensor=false; 
                     }
                     //read fixedRot
                     if(edk::String::strCompare(xml->getSelectedAttributeValueByName("fixedRot"),(edk::char8*)"true")){
-                        this->fixedRotation=true;edkEnd();
+                        this->fixedRotation=true; 
                     }
                     else{
-                        this->fixedRotation=false;edkEnd();
+                        this->fixedRotation=false; 
                     }
                     //read canSleep
                     if(edk::String::strCompare(xml->getSelectedAttributeValueByName("canSleep"),(edk::char8*)"true")){
-                        this->canSleep=true;edkEnd();
+                        this->canSleep=true; 
                     }
                     else{
-                        this->canSleep=false;edkEnd();
+                        this->canSleep=false; 
                     }
                     //read mesh
-                    this->physicMesh.readFromXML(xml,0u);edkEnd();
+                    this->physicMesh.readFromXML(xml,0u); 
                     //read collisionGroup
-                    this->treeCollisionGroups.clean();edkEnd();
+                    this->treeCollisionGroups.clean(); 
                     if(xml->selectChild("collision")){
                         edk::uint32 i=0u;
-                        bool cont=true;edkEnd();
+                        bool cont=true; 
                         do{
-                            iTemp = edk::String::int64ToStr(i);edkEnd();
+                            iTemp = edk::String::int64ToStr(i); 
                             if(iTemp){
-                                nameTemp = edk::String::strCat((edk::char8*)"c",iTemp);edkEnd();
+                                nameTemp = edk::String::strCat((edk::char8*)"c",iTemp); 
                                 if(nameTemp){
                                     if(xml->haveSelectedAttribute(nameTemp)){
                                         //read the value
-                                        this->treeCollisionGroups.add(edk::String::strToInt64(xml->getSelectedAttributeValueByName(nameTemp)));edkEnd();
+                                        this->treeCollisionGroups.add(edk::String::strToInt64(xml->getSelectedAttributeValueByName(nameTemp))); 
                                     }
                                     else{
-                                        cont=false;edkEnd();
+                                        cont=false; 
                                     }
-                                    free(nameTemp);edkEnd();
+                                    free(nameTemp); 
                                 }
-                                free(iTemp);edkEnd();
+                                free(iTemp); 
                             }
-                            i++;edkEnd();
-                        }while(cont);edkEnd();
-                        xml->selectFather();edkEnd();
+                            i++; 
+                        }while(cont); 
+                        xml->selectFather(); 
                     }
                     //read notCollisionGroup
-                    this->treeNotCollisionGroups.clean();edkEnd();
+                    this->treeNotCollisionGroups.clean(); 
                     if(xml->selectChild("notCollision")){
                         edk::uint32 i=0u;
-                        bool cont=true;edkEnd();
+                        bool cont=true; 
                         do{
-                            iTemp = edk::String::int64ToStr(i);edkEnd();
+                            iTemp = edk::String::int64ToStr(i); 
                             if(iTemp){
-                                nameTemp = edk::String::strCat((edk::char8*)"n",iTemp);edkEnd();
+                                nameTemp = edk::String::strCat((edk::char8*)"n",iTemp); 
                                 if(nameTemp){
                                     if(xml->haveSelectedAttribute(nameTemp)){
                                         //read the value
-                                        this->treeNotCollisionGroups.add(edk::String::strToInt64(xml->getSelectedAttributeValueByName(nameTemp)));edkEnd();
+                                        this->treeNotCollisionGroups.add(edk::String::strToInt64(xml->getSelectedAttributeValueByName(nameTemp))); 
                                     }
                                     else{
-                                        cont=false;edkEnd();
+                                        cont=false; 
                                     }
-                                    free(nameTemp);edkEnd();
+                                    free(nameTemp); 
                                 }
-                                free(iTemp);edkEnd();
+                                free(iTemp); 
                             }
-                            i++;edkEnd();
-                        }while(cont);edkEnd();
-                        xml->selectFather();edkEnd();
+                            i++; 
+                        }while(cont); 
+                        xml->selectFather(); 
                     }
                     //write physics animations
-                    this->animationPosition.readFromXML(xml,0u);edkEnd();
-                    //this->animationPositionX.readFromXML(xml,0u);edkEnd();
-                    //this->animationPositionY.readFromXML(xml,0u);edkEnd();
-                    this->animationRotation.readFromXML(xml,1u);edkEnd();
+                    this->animationPosition.readFromXML(xml,0u); 
+                    //this->animationPositionX.readFromXML(xml,0u); 
+                    //this->animationPositionY.readFromXML(xml,0u); 
+                    this->animationRotation.readFromXML(xml,1u); 
 
-                    ret=true;edkEnd();
-                    xml->selectFather();edkEnd();
+                    ret=true; 
+                    xml->selectFather(); 
                 }
-                free(name);edkEnd();
+                free(name); 
             }
-            free(nameID);edkEnd();
+            free(nameID); 
         }
         return ret;
     }
@@ -1945,22 +1948,22 @@ bool edk::physics2D::PhysicObject2D::readFromXML(edk::XML* xml,edk::uint32 id){
 }
 bool edk::physics2D::PhysicObject2D::readFromXMLFromPack(edk::pack::FilePackage* pack,edk::XML* xml,edk::uint32 id){
     if(xml && pack){
-        bool ret=false;edkEnd();
+        bool ret=false; 
         //create the nameID
-        edk::char8* nameID = edk::String::int64ToStr(id);edkEnd();
+        edk::char8* nameID = edk::String::int64ToStr(id); 
         if(nameID){
             //concat
-            edk::char8* name = edk::String::strCat((edk::char8*)"physicObject_",nameID);edkEnd();
+            edk::char8* name = edk::String::strCat((edk::char8*)"physicObject_",nameID); 
             if(name){
                 //create the name
                 if(xml->selectChild(name)){
-                    edk::char8* nameTemp;edkEnd();
-                    edk::char8* iTemp;edkEnd();
-                    this->physicMesh.cleanPolygons();edkEnd();
+                    edk::char8* nameTemp; 
+                    edk::char8* iTemp; 
+                    this->physicMesh.cleanPolygons(); 
                     //read the object
-                    edk::Object2D::readFromXMLFromPack(pack,xml,id);edkEnd();
+                    edk::Object2D::readFromXMLFromPack(pack,xml,id); 
                     //read type
-                    edk::uint32 newType = edk::String::strToInt32(xml->getSelectedAttributeValueByName("type"));edkEnd();
+                    edk::uint32 newType = edk::String::strToInt32(xml->getSelectedAttributeValueByName("type")); 
                     if(newType==(edk::uint32)edk::TypeObject2DStatic || newType==tempEDK::physics::StaticBody){
                         this->type = edk::TypeObject2DStatic;
                     }
@@ -1972,88 +1975,88 @@ bool edk::physics2D::PhysicObject2D::readFromXMLFromPack(edk::pack::FilePackage*
                     }
                     //read sensor
                     if(edk::String::strCompare(xml->getSelectedAttributeValueByName("sensor"),(edk::char8*)"true")){
-                        this->isObjectSensor=true;edkEnd();
+                        this->isObjectSensor=true; 
                     }
                     else{
-                        this->isObjectSensor=false;edkEnd();}
+                        this->isObjectSensor=false; }
                     //read fixedRot
                     if(edk::String::strCompare(xml->getSelectedAttributeValueByName("fixedRot"),(edk::char8*)"true")){
-                        this->fixedRotation=true;edkEnd();
+                        this->fixedRotation=true; 
                     }
                     else{
-                        this->fixedRotation=false;edkEnd();
+                        this->fixedRotation=false; 
                     }
                     //read canSleep
                     if(edk::String::strCompare(xml->getSelectedAttributeValueByName("canSleep"),(edk::char8*)"true")){
-                        this->canSleep=true;edkEnd();
+                        this->canSleep=true; 
                     }
                     else{
-                        this->canSleep=false;edkEnd();
+                        this->canSleep=false; 
                     }
                     //read mesh
-                    this->physicMesh.readFromXML(xml,0u);edkEnd();
+                    this->physicMesh.readFromXML(xml,0u); 
                     //read collisionGroup
-                    this->treeCollisionGroups.clean();edkEnd();
+                    this->treeCollisionGroups.clean(); 
                     if(xml->selectChild("collision")){
                         edk::uint32 i=0u;
-                        bool cont=true;edkEnd();
+                        bool cont=true; 
                         do{
-                            iTemp = edk::String::int64ToStr(i);edkEnd();
+                            iTemp = edk::String::int64ToStr(i); 
                             if(iTemp){
-                                nameTemp = edk::String::strCat((edk::char8*)"c",iTemp);edkEnd();
+                                nameTemp = edk::String::strCat((edk::char8*)"c",iTemp); 
                                 if(nameTemp){
                                     if(xml->haveSelectedAttribute(nameTemp)){
                                         //read the value
-                                        this->treeCollisionGroups.add(edk::String::strToInt64(xml->getSelectedAttributeValueByName(nameTemp)));edkEnd();
+                                        this->treeCollisionGroups.add(edk::String::strToInt64(xml->getSelectedAttributeValueByName(nameTemp))); 
                                     }
                                     else{
-                                        cont=false;edkEnd();
+                                        cont=false; 
                                     }
-                                    free(nameTemp);edkEnd();
+                                    free(nameTemp); 
                                 }
-                                free(iTemp);edkEnd();
+                                free(iTemp); 
                             }
-                            i++;edkEnd();
-                        }while(cont);edkEnd();
-                        xml->selectFather();edkEnd();
+                            i++; 
+                        }while(cont); 
+                        xml->selectFather(); 
                     }
                     //read notCollisionGroup
-                    this->treeNotCollisionGroups.clean();edkEnd();
+                    this->treeNotCollisionGroups.clean(); 
                     if(xml->selectChild("notCollision")){
                         edk::uint32 i=0u;
-                        bool cont=true;edkEnd();
+                        bool cont=true; 
                         do{
-                            iTemp = edk::String::int64ToStr(i);edkEnd();
+                            iTemp = edk::String::int64ToStr(i); 
                             if(iTemp){
-                                nameTemp = edk::String::strCat((edk::char8*)"n",iTemp);edkEnd();
+                                nameTemp = edk::String::strCat((edk::char8*)"n",iTemp); 
                                 if(nameTemp){
                                     if(xml->haveSelectedAttribute(nameTemp)){
                                         //read the value
-                                        this->treeNotCollisionGroups.add(edk::String::strToInt64(xml->getSelectedAttributeValueByName(nameTemp)));edkEnd();
+                                        this->treeNotCollisionGroups.add(edk::String::strToInt64(xml->getSelectedAttributeValueByName(nameTemp))); 
                                     }
                                     else{
-                                        cont=false;edkEnd();
+                                        cont=false; 
                                     }
-                                    free(nameTemp);edkEnd();
+                                    free(nameTemp); 
                                 }
-                                free(iTemp);edkEnd();
+                                free(iTemp); 
                             }
-                            i++;edkEnd();
-                        }while(cont);edkEnd();
-                        xml->selectFather();edkEnd();
+                            i++; 
+                        }while(cont); 
+                        xml->selectFather(); 
                     }
                     //write physics animations
-                    this->animationPosition.readFromXML(xml,0u);edkEnd();
-                    //this->animationPositionX.readFromXML(xml,0u);edkEnd();
-                    //this->animationPositionY.readFromXML(xml,0u);edkEnd();
-                    this->animationRotation.readFromXML(xml,1u);edkEnd();
+                    this->animationPosition.readFromXML(xml,0u); 
+                    //this->animationPositionX.readFromXML(xml,0u); 
+                    //this->animationPositionY.readFromXML(xml,0u); 
+                    this->animationRotation.readFromXML(xml,1u); 
 
-                    ret=true;edkEnd();
-                    xml->selectFather();edkEnd();
+                    ret=true; 
+                    xml->selectFather(); 
                 }
-                free(name);edkEnd();
+                free(name); 
             }
-            free(nameID);edkEnd();
+            free(nameID); 
         }
         return ret;
     }
@@ -2061,27 +2064,27 @@ bool edk::physics2D::PhysicObject2D::readFromXMLFromPack(edk::pack::FilePackage*
 }
 bool edk::physics2D::PhysicObject2D::readFromXMLisSensor(edk::XML* xml,edk::uint32 id){
     if(xml){
-        bool ret=false;edkEnd();
+        bool ret=false; 
         //create the nameID
-        edk::char8* nameID = edk::String::int64ToStr(id);edkEnd();
+        edk::char8* nameID = edk::String::int64ToStr(id); 
         if(nameID){
             //concat
-            edk::char8* name = edk::String::strCat((edk::char8*)"physicObject_",nameID);edkEnd();
+            edk::char8* name = edk::String::strCat((edk::char8*)"physicObject_",nameID); 
             if(name){
                 //create the name
                 if(xml->selectChild(name)){
                     //read sensor
                     if(edk::String::strCompare(xml->getSelectedAttributeValueByName("sensor"),(edk::char8*)"true")){
-                        ret=true;edkEnd();
+                        ret=true; 
                     }
                     else{
-                        ret=false;edkEnd();
+                        ret=false; 
                     }
-                    xml->selectFather();edkEnd();
+                    xml->selectFather(); 
                 }
-                free(name);edkEnd();
+                free(name); 
             }
-            free(nameID);edkEnd();
+            free(nameID); 
         }
         return ret;
     }
@@ -2096,25 +2099,25 @@ bool edk::physics2D::PhysicObject2D::clonePhysicsMeshFromMeshPosition(edk::uint3
 
 bool edk::physics2D::PhysicObject2D::cloneFrom(edk::physics2D::PhysicObject2D* obj){
     if(obj){
-        edk::Object2D::cloneFrom(obj);edkEnd();
+        edk::Object2D::cloneFrom(obj); 
         //copy the mesh
-        //this->physicMesh=obj->physicMesh;edkEnd();
-        this->physicMesh.cloneFrom(&obj->physicMesh);edkEnd();
-        this->canSleep = obj->canSleep;edkEnd();
-        this->fixedRotation = obj->fixedRotation;edkEnd();
-        this->animationPosition.cloneFrom(&obj->animationPosition);edkEnd();
-        //this->animationRotation = obj->animationRotation;edkEnd();
-        this->animationRotation.cloneFrom(&obj->animationRotation);edkEnd();
+        //this->physicMesh=obj->physicMesh; 
+        this->physicMesh.cloneFrom(&obj->physicMesh); 
+        this->canSleep = obj->canSleep; 
+        this->fixedRotation = obj->fixedRotation; 
+        this->animationPosition.cloneFrom(&obj->animationPosition); 
+        //this->animationRotation = obj->animationRotation; 
+        this->animationRotation.cloneFrom(&obj->animationRotation); 
 
         //copy the collision groups
-        edk::uint32 size;edkEnd();
-        size = obj->treeCollisionGroups.size();edkEnd();
+        edk::uint32 size; 
+        size = obj->treeCollisionGroups.size(); 
         for(edk::uint32 i=0u;i<size;i++){
-            this->treeCollisionGroups.add(obj->treeCollisionGroups.getElementInPosition(i));edkEnd();
+            this->treeCollisionGroups.add(obj->treeCollisionGroups.getElementInPosition(i)); 
         }
-        size = obj->treeNotCollisionGroups.size();edkEnd();
+        size = obj->treeNotCollisionGroups.size(); 
         for(edk::uint32 i=0u;i<size;i++){
-            this->treeNotCollisionGroups.add(obj->treeNotCollisionGroups.getElementInPosition(i));edkEnd();
+            this->treeNotCollisionGroups.add(obj->treeNotCollisionGroups.getElementInPosition(i)); 
         }
         return true;
     }
@@ -2122,26 +2125,26 @@ bool edk::physics2D::PhysicObject2D::cloneFrom(edk::physics2D::PhysicObject2D* o
 }
 bool edk::physics2D::PhysicObject2D::cloneFromWithType(edk::physics2D::PhysicObject2D* obj){
     if(obj){
-        edk::Object2D::cloneFrom(obj);edkEnd();
+        edk::Object2D::cloneFrom(obj); 
         //copy the mesh
-        //this->physicMesh=obj->physicMesh;edkEnd();
-        this->physicMesh.cloneFrom(&obj->physicMesh);edkEnd();
-        this->canSleep = obj->canSleep;edkEnd();
-        this->fixedRotation = obj->fixedRotation;edkEnd();
-        this->animationPosition.cloneFrom(&obj->animationPosition);edkEnd();
-        //this->animationRotation = obj->animationRotation;edkEnd();
-        this->animationRotation.cloneFrom(&obj->animationRotation);edkEnd();
-        this->type=obj->type;edkEnd();
+        //this->physicMesh=obj->physicMesh; 
+        this->physicMesh.cloneFrom(&obj->physicMesh); 
+        this->canSleep = obj->canSleep; 
+        this->fixedRotation = obj->fixedRotation; 
+        this->animationPosition.cloneFrom(&obj->animationPosition); 
+        //this->animationRotation = obj->animationRotation; 
+        this->animationRotation.cloneFrom(&obj->animationRotation); 
+        this->type=obj->type; 
 
         //copy the collision groups
-        edk::uint32 size;edkEnd();
-        size = obj->treeCollisionGroups.size();edkEnd();
+        edk::uint32 size; 
+        size = obj->treeCollisionGroups.size(); 
         for(edk::uint32 i=0u;i<size;i++){
-            this->treeCollisionGroups.add(obj->treeCollisionGroups.getElementInPosition(i));edkEnd();
+            this->treeCollisionGroups.add(obj->treeCollisionGroups.getElementInPosition(i)); 
         }
-        size = obj->treeNotCollisionGroups.size();edkEnd();
+        size = obj->treeNotCollisionGroups.size(); 
         for(edk::uint32 i=0u;i<size;i++){
-            this->treeNotCollisionGroups.add(obj->treeNotCollisionGroups.getElementInPosition(i));edkEnd();
+            this->treeNotCollisionGroups.add(obj->treeNotCollisionGroups.getElementInPosition(i)); 
         }
         return true;
     }
@@ -2150,7 +2153,7 @@ bool edk::physics2D::PhysicObject2D::cloneFromWithType(edk::physics2D::PhysicObj
 
 bool edk::physics2D::PhysicObject2D::cloneFrom(edk::Object2D* obj){
     if(obj){
-        edk::Object2D::cloneFrom(obj);edkEnd();
+        edk::Object2D::cloneFrom(obj); 
         return true;
     }
     return false;

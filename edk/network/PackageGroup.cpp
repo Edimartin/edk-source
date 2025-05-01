@@ -26,23 +26,25 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
 edk::network::PackageGroup::PackageTree::PackageTree(){
-    this->classThis=NULL;edkEnd();
-    this->Constructor(false);edkEnd();
+    this->classThis=NULL;
+    this->Constructor();
 }
 edk::network::PackageGroup::PackageTree::~PackageTree(){
-    if(this->classThis==this){
-        this->classThis=NULL;edkEnd();
-        //can destruct the class
-    }
+    this->Destructor();
 }
 
-void edk::network::PackageGroup::PackageTree::Constructor(bool runFather){
-    if(runFather){
-        edk::vector::BinaryTree<edk::network::Package*>::Constructor();edkEnd();
-    }
+void edk::network::PackageGroup::PackageTree::Constructor(){
+    edk::vector::BinaryTree<edk::network::Package*>::Constructor();
     if(this->classThis!=this){
         this->classThis=this;
     }
+}
+void edk::network::PackageGroup::PackageTree::Destructor(){
+    if(this->classThis==this){
+        this->classThis=NULL;
+        //can destruct the class
+    }
+    edk::vector::BinaryTree<edk::network::Package*>::Destructor();
 }
 
 //compare if the value is bigger
@@ -65,42 +67,45 @@ bool edk::network::PackageGroup::PackageTree::firstEqualSecond(edk::network::Pac
 //get the pachage
 edk::network::Package* edk::network::PackageGroup::PackageTree::getPackage(edk::uint32 id){
     //
-    edk::network::Package find;edkEnd();
-    find.setHeader(id,0u,id);edkEnd();
+    edk::network::Package find;
+    find.setHeader(id,0u,id);
     return this->getElement(&find);
 }
 
 edk::network::PackageGroup::PackageGroup(){
-    this->classThis=NULL;edkEnd();
-    this->Constructor(false);edkEnd();
+    this->classThis=NULL;
+    this->Constructor();
 }
 edk::network::PackageGroup::~PackageGroup(){
-    if(this->classThis==this){
-        this->classThis=NULL;edkEnd();
-        //can destruct the class
-    }
+    this->Destructor();
 }
 
-void edk::network::PackageGroup::Constructor(bool /*runFather*/){
+void edk::network::PackageGroup::Constructor(){
     if(this->classThis!=this){
         this->classThis=this;
 
-        this->tree.Constructor();edkEnd();
+        this->tree.Constructor();
 
-        this->setPackSize(0u);edkEnd();
-        this->data=NULL;edkEnd();
-        this->deleteVector();edkEnd();
+        this->setPackSize(0u);
+        this->data=NULL;
+        this->deleteVector();
+    }
+}
+void edk::network::PackageGroup::Destructor(){
+    if(this->classThis==this){
+        this->classThis=NULL;
+        //can destruct the class
     }
 }
 
 //set the packSize
 void edk::network::PackageGroup::setPackSize(edk::uint32 packSize){
     if(packSize){
-        this->totalSize = packSize;edkEnd();
+        this->totalSize = packSize;
     }
     else{
         //else set the normal packSize
-        this->totalSize=1000u;edkEnd();
+        this->totalSize=1000u;
     }
 }
 //Add the vector to generate the packages
@@ -110,88 +115,88 @@ bool edk::network::PackageGroup::addVector(edk::classID vec,edk::uint32 size,edk
         if(packSize){
             //test if the packSize is diferent
             if(this->totalSize!=packSize){
-                this->setPackSize(packSize);edkEnd();
+                this->setPackSize(packSize);
             }
         }
-        bool ret=true;edkEnd();
+        bool ret=true;
         //get the size of packages
-        edk::uint32 total = size / this->totalSize;edkEnd();
+        edk::uint32 total = size / this->totalSize;
         //size of the last package
-        edk::uint32 lastSize = size % this->totalSize;edkEnd();
+        edk::uint32 lastSize = size % this->totalSize;
 
-        edk::network::Package* pack=NULL;edkEnd();
-        edk::uint8* temp = (edk::uint8*)vec;edkEnd();
+        edk::network::Package* pack=NULL;
+        edk::uint8* temp = (edk::uint8*)vec;
         edk::uint32 i=0u;
-        edk::uint32 packages = 0u;edkEnd();
+        edk::uint32 packages = 0u;
         //test the total
         if(total){
             //create the packages
-            packages = total;edkEnd();
+            packages = total;
             //test if have a last package without the full size
             if(lastSize){
-                packages++;edkEnd();
+                packages++;
             }
             for(i=0u;i<total;i++){
                 //create the package
-                pack = new edk::network::Package;edkEnd();
+                pack = new edk::network::Package;
                 if(pack){
                     //draw in the package
                     if(pack->drawVector(temp,this->totalSize,0u,i,id,packages)){
                         //add the pack in the tree
                         if(!this->tree.add(pack)){
-                            delete pack;edkEnd();
-                            ret=false;edkEnd();
+                            delete pack;
+                            ret=false;
                             break;
                         }
                     }
                     else{
                         //else delete the pack
-                        delete pack;edkEnd();
-                        ret=false;edkEnd();
+                        delete pack;
+                        ret=false;
                         break;
                     }
-                    temp+=this->totalSize;edkEnd();
+                    temp+=this->totalSize;
                     //clean the pack
-                    pack=NULL;edkEnd();
+                    pack=NULL;
                 }
                 else{
                     //else get the error
-                    ret=false;edkEnd();
+                    ret=false;
                     break;
                 }
             }
         }
         else{
-            packages = 1u;edkEnd();
+            packages = 1u;
         }
 
         //test the ret and the last package
         if(ret && lastSize){
             //add the last package
-            pack = new edk::network::Package;edkEnd();
+            pack = new edk::network::Package;
             if(pack){
                 //draw in the package
                 if(pack->drawVector(temp,lastSize,this->totalSize,i,id,packages)){
                     //add the pack in the tree
                     if(!this->tree.add(pack)){
-                        delete pack;edkEnd();
-                        ret=false;edkEnd();
+                        delete pack;
+                        ret=false;
                     }
                 }
                 else{
                     //else delete the pack
-                    delete pack;edkEnd();
-                    ret=false;edkEnd();
+                    delete pack;
+                    ret=false;
                 }
-                pack=NULL;edkEnd();
+                pack=NULL;
             }
             else{
-                ret=false;edkEnd();
+                ret=false;
             }
         }
-        //if ret is false;edkEnd(); clean the group
+        //if ret is false;  clean the group
         if(!ret){
-            this->cleanGroup();edkEnd();
+            this->cleanGroup();
         }
         return ret;
     }
@@ -200,30 +205,30 @@ bool edk::network::PackageGroup::addVector(edk::classID vec,edk::uint32 size,edk
 //delete the vector
 void edk::network::PackageGroup::deleteVector(){
     if(this->data){
-        free(this->data);edkEnd();
+        free(this->data);
     }
-    this->data=NULL;edkEnd();
+    this->data=NULL;
     this->dataSize=0u;
     this->id=0u;
 }
 
 //return the vector
 edk::uint8* edk::network::PackageGroup::getVector(){
-    return this->data;edkEnd();
+    return this->data;
 }
 
 edk::uint32 edk::network::PackageGroup::getVectorSize(){
-    return this->dataSize;edkEnd();
+    return this->dataSize;
 }
 //return the ID
 edk::uint32 edk::network::PackageGroup::getID(){
-    return this->id;edkEnd();
+    return this->id;
 }
 
 //add a package
 void edk::network::PackageGroup::addPackageBegin(){
-    this->cleanGroup();edkEnd();
-    this->deleteVector();edkEnd();
+    this->cleanGroup();
+    this->deleteVector();
 }
 bool edk::network::PackageGroup::addPackage(edk::classID vec,edk::uint32 size){
     //test the package
@@ -233,18 +238,18 @@ bool edk::network::PackageGroup::addPackage(edk::classID vec,edk::uint32 size){
             //test if the package is broked
             if(!edk::network::Package::headerIsBroken(vec)){
                 //then save the data
-                this->totalSize = edk::network::Package::getHeaderPackages(vec);edkEnd();
+                this->totalSize = edk::network::Package::getHeaderPackages(vec);
                 if(totalSize){
                     //save the ID
-                    this->id = edk::network::Package::getHeaderId(vec);edkEnd();
+                    this->id = edk::network::Package::getHeaderId(vec);
                 }
                 else{
-                    edkEnd();
+
                     return false;
                 }
             }
             else{
-                edkEnd();
+
                 return false;
             }
         }
@@ -260,12 +265,12 @@ bool edk::network::PackageGroup::addPackage(edk::classID vec,edk::uint32 size){
                     return false;
             }
             else{
-                edkEnd();
+
                 return false;
             }
         }
         //create a new package
-        edk::network::Package* pack = new edk::network::Package;edkEnd();
+        edk::network::Package* pack = new edk::network::Package;
 
         if(pack){
             //then set the header
@@ -275,7 +280,7 @@ bool edk::network::PackageGroup::addPackage(edk::classID vec,edk::uint32 size){
                     return true;
                 }
             }
-            delete pack;edkEnd();
+            delete pack;
         }
     }
     return false;
@@ -284,21 +289,21 @@ bool edk::network::PackageGroup::addPackage(edk::classID vec,edk::uint32 size){
 bool edk::network::PackageGroup::addPackageEnd(){
     //test if the packages are full
     if(this->isPackagesFull()){
-        bool ret=true;edkEnd();
+        bool ret=true;
         //load the packages size
         edk::uint32 size=0u;
-        edk::network::Package* pack=NULL;edkEnd();
+        edk::network::Package* pack=NULL;
         for(edk::uint32 i =0u;i<this->tree.size();i++){
             //load the package
-            pack = this->tree.getElementInPosition(i);edkEnd();
+            pack = this->tree.getElementInPosition(i);
             if(pack){
                 //increment the size
-                size+=pack->getPackageSize();edkEnd();
+                size+=pack->getPackageSize();
             }
             else{
                 //else clean the size and break
                 size=0u;
-                ret=false;edkEnd();
+                ret=false;
                 break;
             }
         }
@@ -306,40 +311,40 @@ bool edk::network::PackageGroup::addPackageEnd(){
         //test the size
         if(size){
             //create the new vector with the size
-            this->deleteVector();edkEnd();
-            this->dataSize = size;edkEnd();
-            this->data = (edk::uint8*)malloc(sizeof(edk::uint8) * (this->dataSize));edkEnd();
+            this->deleteVector();
+            this->dataSize = size;
+            this->data = (edk::uint8*)malloc(sizeof(edk::uint8) * (this->dataSize));
             if(this->data){
                 edk::uint32 dataPosition=0u;
                 //copy the vectors to the data
                 for(edk::uint32 i =0u;i<this->tree.size();i++){
                     //load the package
-                    pack = this->tree.getElementInPosition(i);edkEnd();
+                    pack = this->tree.getElementInPosition(i);
                     if(pack){
                         //increment the size
-                        memcpy(&this->data[dataPosition],pack->getPackageVector(),pack->getPackageSize());edkEnd();
+                        memcpy(&this->data[dataPosition],pack->getPackageVector(),pack->getPackageSize());
                         //increment dataPosition
-                        dataPosition+=pack->getPackageSize();edkEnd();
+                        dataPosition+=pack->getPackageSize();
                     }
                     else{
-                        ret=false;edkEnd();
+                        ret=false;
                         break;
                     }
                 }
                 //test if the ret are false
                 if(!ret){
                     //delete the vector
-                    this->deleteVector();edkEnd();
+                    this->deleteVector();
                 }
             }
             else{
-                ret=false;edkEnd();
-                this->deleteVector();edkEnd();
+                ret=false;
+                this->deleteVector();
             }
         }
 
         //delete the packages
-        this->cleanGroup();edkEnd();
+        this->cleanGroup();
         return ret;
     }
     return false;
@@ -373,9 +378,9 @@ edk::classID edk::network::PackageGroup::getVector(edk::uint32 position){
     //test the position
     if(position < this->tree.size()){
         //return the vector
-        edk::network::Package* pack = this->tree.getElementInPosition(position);edkEnd();
+        edk::network::Package* pack = this->tree.getElementInPosition(position);
         if(pack){
-            return pack->getVec();edkEnd();
+            return pack->getVec();
         }
     }
     return NULL;
@@ -384,59 +389,59 @@ edk::uint32 edk::network::PackageGroup::getVectorSize(edk::uint32 position){
     //test the position
     if(position < this->tree.size()){
         //return the vector
-        edk::network::Package* pack = this->tree.getElementInPosition(position);edkEnd();
+        edk::network::Package* pack = this->tree.getElementInPosition(position);
         if(pack){
-            return pack->getVecSize();edkEnd();
+            return pack->getVecSize();
         }
     }
-    return 0u;edkEnd();
+    return 0u;
 }
 edk::uint32 edk::network::PackageGroup::getPackageID(edk::uint32 position){
     //test the position
     if(position < this->tree.size()){
         //return the vector
-        edk::network::Package* pack = this->tree.getElementInPosition(position);edkEnd();
+        edk::network::Package* pack = this->tree.getElementInPosition(position);
         if(pack){
-            return pack->getID();edkEnd();
+            return pack->getID();
         }
     }
-    return 0u;edkEnd();
+    return 0u;
 }
 
 //clean the group
 void edk::network::PackageGroup::cleanGroup(){
     //delete all packages in the tree
-    edk::network::Package* temp=NULL;edkEnd();
+    edk::network::Package* temp=NULL;
 #if defined(edkCPPversion17)
     for(edk::uint32 i=0u;i<this->tree.size();i++){
 #else
     for(register edk::uint32 i=0u;i<this->tree.size();i++){
 #endif
-        temp = this->tree.getElementInPosition(i);edkEnd();
+        temp = this->tree.getElementInPosition(i);
         if(temp){
-            delete temp;edkEnd();
+            delete temp;
         }
-        temp=NULL;edkEnd();
+        temp=NULL;
     }
-    this->tree.clean();edkEnd();
+    this->tree.clean();
 }
 
 //get the tree size
 edk::uint32 edk::network::PackageGroup::getPackages(){
-    return this->tree.size();edkEnd();
+    return this->tree.size();
 }
 //get the total size of packagess
 edk::uint32 edk::network::PackageGroup::getTotalPackages(){
     //test if have some package
     if(this->tree.size()){
         //get the first package
-        edk::network::Package* pack = this->tree.getElementInPosition(0u);edkEnd();
+        edk::network::Package* pack = this->tree.getElementInPosition(0u);
         if(pack){
             //get the number of packages
-            return pack->getPackages();edkEnd();
+            return pack->getPackages();
         }
     }
-    return 0u;edkEnd();
+    return 0u;
 }
 
 //read the package size
@@ -444,7 +449,7 @@ edk::uint32 edk::network::PackageGroup::readPackageSize(edk::classID vec){
     //test the vector
     if(vec){
         //get the header
-        return edk::network::Package::getHeaderFullSize(vec);edkEnd();
+        return edk::network::Package::getHeaderFullSize(vec);
     }
-    return 0u;edkEnd();
+    return 0u;
 }

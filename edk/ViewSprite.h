@@ -45,6 +45,9 @@ public:
     ViewSprite();
     virtual ~ViewSprite();
 
+    void Constructor();
+    void Destructor();
+
     //create a new sprite
     bool createSprite(const edk::char8* name,edk::size2ui32 size, edk::uint32 mode = GU_RGB,edk::uint32 filter = GU_NEAREST);
     bool createSprite(edk::char8* name,edk::size2ui32 size, edk::uint32 mode = GU_RGB,edk::uint32 filter = GU_NEAREST);
@@ -94,6 +97,8 @@ private:
     edk::vec2f32 spriteUV;
     edk::uint32 spriteFilter;
     edk::size2ui32 spriteSize;
+private:
+    edk::classID classThis;
 };
 }//end namespace edk
 

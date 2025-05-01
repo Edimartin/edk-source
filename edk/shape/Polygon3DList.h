@@ -50,7 +50,8 @@ public:
     Polygon3DList();
     virtual ~Polygon3DList();
 
-    void Constructor(bool runFather=true);
+    void Constructor();
+    void Destructor();
 
     //Set polygons color
     bool setPolygonsColor(edk::color4f32 color);
@@ -531,7 +532,7 @@ protected:
             value->drawWithMatrix(this->matrix,this->matrixTemp);
         }
         bool draw(){
-            return edk::vector::Stack<edk::shape::Polygon3D*>::draw();edkEnd();
+            return edk::vector::Stack<edk::shape::Polygon3D*>::draw();
         }
         bool setMatrices(edk::vector::Matrixf32<4u,4u>* matrix,
                          edk::vector::Matrixf32<4u,4u>* matrixTemp
@@ -558,26 +559,26 @@ private:
     //Operator
     edk::shape::Polygon3DList operator=(edk::shape::Polygon3DList list){
         //delete the polygons
-        this->cleanPolygons();edkEnd();
+        this->cleanPolygons();
         //read the polygons
 #if defined(edkCPPversion17)
-        edk::uint32 size = list.polygons.size();edkEnd();
+        edk::uint32 size = list.polygons.size();
 #else
-        register edk::uint32 size = list.polygons.size();edkEnd();
+        register edk::uint32 size = list.polygons.size();
 #endif
-        edk::uint32 select=0u;edkEnd();
-        edk::shape::Polygon3D* temp = NULL;edkEnd();
+        edk::uint32 select=0u;
+        edk::shape::Polygon3D* temp = NULL;
         for(edk::uint32 i=0u;i<size;i++){
-            temp=list.polygons.get(i);edkEnd();
+            temp=list.polygons.get(i);
             if(temp){
                 if(temp==list.selected){
-                    select=i;edkEnd();
+                    select=i;
                 }
-                this->addPolygon(*temp);edkEnd();
+                this->addPolygon(*temp);
             }
         }
-        this->selectPolygon(select);edkEnd();
-        return list;edkEnd();
+        this->selectPolygon(select);
+        return list;
     }
 private:
     edk::classID classThis;

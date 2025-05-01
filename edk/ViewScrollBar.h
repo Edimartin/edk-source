@@ -44,7 +44,8 @@ public:
     ViewScrollBar();
     virtual ~ViewScrollBar();
 
-    void Constructor(bool runFather=true);
+    void Constructor();
+    void Destructor();
 
     void load(rectf32 outsideViewOrigin);
     void unload();
@@ -100,7 +101,8 @@ private:
         ForegroundButton();
         virtual ~ForegroundButton();
 
-        void Constructor(bool runFather=true);
+        void Constructor();
+        void Destructor();
 
         void load(rectf32 outsideViewOrigin);
         void unload();
