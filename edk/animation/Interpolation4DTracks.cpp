@@ -46,6 +46,8 @@ void edk::animation::Interpolation4DTracks::Destructor(){
     if(this->classThis==this){
         this->classThis=NULL;
         //can destruct the class
+
+        this->stack.Destructor();
     }
     edk::animation::Interpolation3DTracks::Destructor();
 }

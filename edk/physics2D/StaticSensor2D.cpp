@@ -48,6 +48,8 @@ void edk::physics2D::StaticSensor2D::Destructor(){
         this->classThis=NULL;
         //can destruct the class
         this->tree.clean();
+
+        this->tree.Destructor();
     }
     edk::physics2D::PhysicObject2D::Destructor();
 }

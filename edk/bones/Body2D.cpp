@@ -68,6 +68,16 @@ void edk::bones::Body2D::Destructor(){
         this->classThis=NULL;
         //can destruct the class
         this->deleteAllBones();
+
+        this->root.Destructor();
+        this->bones.Destructor();
+        this->links.Destructor();
+        this->matrixPosition.Destructor();
+        this->matrixAngle.Destructor();
+        this->matrixSize.Destructor();
+        this->matrixTransform.Destructor();
+        this->matrixPosition.Destructor();
+        this->matrixPivo.Destructor();
     }
     edk::Object2DValues::Destructor();
 }

@@ -88,6 +88,8 @@ private:
                 this->classThis=NULL;
                 //can destruct the class
                 this->obj.cleanMeshes();
+
+                this->obj.Destructor();
             }
         }
 

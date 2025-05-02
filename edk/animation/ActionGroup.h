@@ -239,6 +239,8 @@ private:
                 this->classThis=NULL;
                 //can destruct the class
                 this->cleanActions();
+
+                this->actionsTree.Destructor();
             }
             edk::vector::BinaryTree<edk::animation::ActionGroup::ActionsTree*>::Destructor();
         }

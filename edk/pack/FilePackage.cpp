@@ -65,6 +65,15 @@ void edk::pack::FilePackage::Destructor(){
         //can destruct the class
         this->deleteBuffer();
         this->removeAllNames();
+
+        this->tree.Destructor();
+        this->mutex.Destructor();
+        this->file.Destructor();
+
+#if defined(EDK_FILEPACK_PRINT_DEBUG)
+            edk::pack::FilePackage::debugFile.Destructor();
+            edk::pack::FilePackage::debugMut.Destructor();
+#endif
     }
 }
 

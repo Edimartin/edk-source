@@ -67,6 +67,10 @@ void edk::ViewGUTexture::Destructor(){
         //can destruct the class
         //delete render
         this->render.deleteRender();
+
+        this->shader.Destructor();
+        this->render.Destructor();
+        this->renderCamera.Destructor();
     }
     edk::ViewGU::Destructor();
 }

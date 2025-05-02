@@ -54,6 +54,8 @@ void edk::shd::DataList::Destructor(){
         this->selected=NULL;
         //clean all the datas
         this->cleanDatas();
+
+        this->tree.Destructor();
     }
     edk::ObjectWithName::Destructor();
 }

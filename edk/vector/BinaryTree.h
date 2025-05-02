@@ -2660,6 +2660,8 @@ public:
                 this->sizeTree=0u;
             }
             this->dontDestruct=false;
+
+            this->map.Destructor();
         }
     }
 

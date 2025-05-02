@@ -92,6 +92,8 @@ public:
             this->classThis=NULL;
             //can destruct the class
             this->pointers.clean();
+
+            this->pointers.Destructor();
         }
     }
 

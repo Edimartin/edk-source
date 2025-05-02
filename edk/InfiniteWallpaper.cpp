@@ -29,6 +29,11 @@ void edk::InfiniteWallpaper::Destructor(){
         this->classThis=NULL;
         //can destruct the class
         this->clean();
+
+        this->stack.Destructor();
+        this->clock.Destructor();
+        this->matrix.Destructor();
+        this->obj.Destructor();
     }
 }
 

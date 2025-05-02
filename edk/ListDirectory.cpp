@@ -206,6 +206,9 @@ void edk::ListDirectory::Destructor(){
     if(this->classThis==this){
         this->classThis=NULL;
         //can destruct the class
+
+        this->files.Destructor();
+        this->folders.Destructor();
     }
 }
 

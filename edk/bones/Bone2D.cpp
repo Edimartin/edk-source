@@ -99,8 +99,8 @@ void edk::bones::Bone2D::Constructor(const edk::char8* name){
         this->matrixRotate.Constructor();
         this->matrixTransform.Constructor();
         this->matrixPosition.Constructor();
-        this->matrixPosition.createMatrix(3u,3u);
 
+        this->matrixPosition.createMatrix(3u,3u);
         this->vector = edk::vec2f32(0,1);
         this->angle = 0u;
         this->ikPosition=0.f;
@@ -117,6 +117,15 @@ void edk::bones::Bone2D::Destructor(){
     this->removeAllConnectionObjects();
     this->removeAllNexts();
     */
+
+        this->animationAngle.Destructor();
+        this->animationPosition.Destructor();
+        this->nexts.Destructor();
+        this->treeObjects.Destructor();
+        this->matrixTranslate.Destructor();
+        this->matrixRotate.Destructor();
+        this->matrixTransform.Destructor();
+        this->matrixPosition.Destructor();
     }
     edk::Name::Destructor();
 }

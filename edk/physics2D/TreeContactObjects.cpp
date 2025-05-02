@@ -48,6 +48,9 @@ void edk::physics2D::TreeContactObjects::Destructor(){
     if(this->classThis==this){
         this->classThis=NULL;
         //can destruct the class
+
+        this->treeFirst.Destructor();
+        this->treeSecond.Destructor();
     }
 }
 

@@ -49,6 +49,7 @@ void edk::multi::Mutex::Constructor(){
     edk::multi::MutexDisable::Constructor();
     if(this->classThis!=this){
         this->classThis=this;
+
 #if defined(EDK_MUTEX_PRINT_DEBUG)
         if(edk::multi::Mutex::templateConstructNeed){
             edk::multi::Mutex::debugFile.Constructor();
@@ -82,6 +83,10 @@ void edk::multi::Mutex::Destructor(){
 #endif
 #if defined(__linux__)/*LINUX*/ || defined(__APPLE__)//MAC OS
         pthread_mutex_destroy(&this->mut);
+#endif
+
+#if defined(EDK_MUTEX_PRINT_DEBUG)
+        edk::multi::Mutex::debugFile.Destructor();
 #endif
     }
     edk::multi::MutexDisable::Destructor();

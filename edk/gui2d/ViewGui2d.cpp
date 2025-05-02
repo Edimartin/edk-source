@@ -72,6 +72,14 @@ void edk::gui2d::ViewGui2d::Destructor(){
         this->tree1.clean();
         this->tree2.clean();
         this->volume.cleanMeshes();
+
+        this->tree1.Destructor();
+        this->tree2.Destructor();
+        this->volume.Destructor();
+        this->distanceClick.Destructor();
+        this->distanceDoubleClick.Destructor();
+        this->listCallback.Destructor();
+        this->list.Destructor();
     }
     edk::ViewGU2D::Destructor();
 }

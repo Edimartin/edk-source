@@ -44,6 +44,8 @@ void edk::network::ServerSocket::Destructor(){
     if(this->classThis==this){
         this->classThis=NULL;
         //can destruct the class
+
+        this->tree.Destructor();
     }
     edk::network::Socket::Destructor();
 }

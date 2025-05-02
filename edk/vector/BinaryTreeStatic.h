@@ -2472,7 +2472,7 @@ public:
     }
 
     void Constructor(){
-            edk::vector::QueueStatic<edk::vector::edkLeafsStaticMap>::Constructor();
+        edk::vector::QueueStatic<edk::vector::edkLeafsStaticMap>::Constructor();
         if(this->classThis!=this){
             this->classThis=this;
         }
@@ -2482,7 +2482,7 @@ public:
             this->classThis=NULL;
             //can destruct the class
         }
-            edk::vector::QueueStatic<edk::vector::edkLeafsStaticMap>::Destructor();
+        edk::vector::QueueStatic<edk::vector::edkLeafsStaticMap>::Destructor();
     }
 private:
     edk::classID classThis;
@@ -2531,6 +2531,8 @@ public:
                 this->sizeTree=0u;
             }
             this->dontDestruct=false;
+
+            this->map.Destructor();
         }
     }
 

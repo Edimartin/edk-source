@@ -53,6 +53,12 @@ void edk::tiles::TileSet2D::Destructor(){
         this->classThis=NULL;
         //can destruct the class
         this->deleteTiles();
+
+        this->tiles.Destructor();
+        this->treeAnimated.Destructor();
+        this->treeRemoveXML.Destructor();
+        this->tileTemp.Destructor();
+        this->tileIsometricTemp.Destructor();
     }
 }
 

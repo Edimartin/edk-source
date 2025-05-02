@@ -88,6 +88,8 @@ void edk::View::Destructor(){
     if(this->classThis==this){
         this->classThis=NULL;
         //can destruct the class
+
+        this->animationPosition.Destructor();
     }
 }
 

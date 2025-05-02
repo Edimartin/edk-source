@@ -133,6 +133,8 @@ private:
                 this->classThis=NULL;
                 //can destruct the class
                 this->name.cleanName();
+
+                this->name.Destructor();
             }
         }
 

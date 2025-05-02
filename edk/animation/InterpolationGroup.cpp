@@ -74,6 +74,10 @@ void edk::animation::InterpolationGroup::Destructor(){
         //clean the animations
         this->cleanAnimations();
         this->deleteTempFrame();
+
+        this->animations.Destructor();
+        this->animationNames.Destructor();
+        this->clock.Destructor();
     }
     edk::ObjectSmart<InterpolationGroup>::Destructor();
 }

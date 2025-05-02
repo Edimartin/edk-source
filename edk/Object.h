@@ -269,6 +269,8 @@ public:
             //can destruct the class
             //remove all
             this->removeAll();
+
+            this->retains.Destructor();
         }
     }
 

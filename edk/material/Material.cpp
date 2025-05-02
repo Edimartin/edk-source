@@ -73,6 +73,8 @@ void edk::material::Material::Destructor(){
         //can destruct the class
         //remove all the textures
         this->removeAllTextures();
+
+        this->list.Destructor();
     }
 }
 

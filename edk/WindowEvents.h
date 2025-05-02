@@ -139,6 +139,22 @@ public:
         if(this->classThis==this){
             this->classThis=NULL;
             //can destruct the class
+
+            this->keyPressed.Destructor();
+            this->keyRelease.Destructor();
+            this->keyHolded.Destructor();
+            this->keyText.Destructor();
+            this->mousePressed.Destructor();
+            this->mouseRelease.Destructor();
+            this->mouseHolded.Destructor();
+            this->mouseDoubleClick.Destructor();
+            for(edk::uint32 i=0u;i<edk::mouse::mouseButtonsSize;i++){
+                timeMouseDouble[i].Destructor();
+            }
+            this->controllerPressed.Destructor();
+            this->controllerHolded.Destructor();
+            this->controllerReleased.Destructor();
+            this->controllerAxisMoved.Destructor();
         }
     }
 
@@ -2597,6 +2613,8 @@ private:
                 this->classThis=NULL;
                 //can destruct the class
                 this->buttons.clean();
+
+                this->buttons.Destructor();
             }
         }
 
@@ -2628,6 +2646,8 @@ private:
                 this->classThis=NULL;
                 //can destruct the class
                 this->clean();
+
+                this->buttons.Destructor();
             }
         }
 
@@ -2862,6 +2882,8 @@ private:
                 this->classThis=NULL;
                 //can destruct the class
                 this->axisValue.clean();
+
+                this->axisValue.Destructor();
             }
             edk::WindowEvents::ControllerButtons::Destructor();
         }

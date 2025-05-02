@@ -50,6 +50,9 @@ void edk::animation::InterpolationTracks::Destructor(){
         //can destruct the class
         this->cleanTracks();
         //remove all animationCallbacks
+
+        this->stack.Destructor();
+        this->time.Destructor();
     }
     edk::animation::AnimationCallback::Destructor();
 }

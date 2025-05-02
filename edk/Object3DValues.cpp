@@ -52,6 +52,10 @@ void edk::Object3DValues::Destructor(){
     if(this->classThis==this){
         this->classThis=NULL;
         //can destruct the class
+
+        this->animationPosition.Destructor();
+        this->animationRotation.Destructor();
+        this->animationSize.Destructor();
     }
 }
 

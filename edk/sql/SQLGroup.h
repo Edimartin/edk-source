@@ -85,6 +85,9 @@ public:
             //can destruct the class
             this->name.cleanName();
             this->value.cleanName();
+
+            this->name.Destructor();
+            this->value.Destructor();
         }
     }
 
@@ -140,6 +143,8 @@ public:
                 }
             }
             this->nodes.clean();
+
+            this->nodes.Destructor();
         }
         this->nodes.Destructor();
     }
@@ -212,6 +217,8 @@ public:
             this->classThis=NULL;
             //can destruct the class
             this->deleteAllGroups();
+
+            this->groups.Destructor();
         }
     }
 

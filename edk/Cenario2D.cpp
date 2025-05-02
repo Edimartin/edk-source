@@ -108,6 +108,16 @@ void edk::Cenario2D::Destructor(){
         this->world->removeContactCallback(this);
 
         this->deleteWorld();
+
+        this->tileSet.Destructor();
+        this->actions.Destructor();
+        this->mutContinue.Destructor();
+        this->calls.Destructor();
+        this->treeAnim.Destructor();
+        this->treeAnimPhys.Destructor();
+        this->levels.Destructor();
+        edk::Cenario2D::worldTemplate.Destructor();
+
     }
     edk::Object2DValues::Destructor();
     edk::physics2D::ContactCallback2D::Destructor();

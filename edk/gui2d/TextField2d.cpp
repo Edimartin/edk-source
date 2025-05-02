@@ -383,6 +383,10 @@ void edk::gui2d::TextField2d::TextVec::Destructor(){
         //can destruct the class
         this->cleanFilterIn();
         this->cleanFilterOut();
+
+        this->vec.Destructor();
+        this->filterIn.Destructor();
+        this->filterOut.Destructor();
     }
 }
 
@@ -878,6 +882,12 @@ void edk::gui2d::TextField2d::Destructor(){
         this->classThis=NULL;
         //can destruct the class
         this->unload();
+
+        this->cursor.Destructor();
+        this->meshCursor.Destructor();
+        this->selection.Destructor();
+        this->selectionInside.Destructor();
+        this->textVec.Destructor();
     }
     edk::gui2d::ObjectGui2d::Destructor();
 }

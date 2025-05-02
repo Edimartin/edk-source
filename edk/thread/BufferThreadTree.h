@@ -126,6 +126,8 @@ private:
             if(this->classThis==this){
                 this->classThis=NULL;
                 //can destruct the class
+
+                this->templateBuffer.Destructor();
             }
         }
 

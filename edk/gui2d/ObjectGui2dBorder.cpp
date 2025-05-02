@@ -1664,7 +1664,7 @@ static edk::uchar8 EDKButtonPressedUpTemplate[8008] = {
 };
 
 edk::gui2d::ObjectGui2dBorder::ObjectGui2dBorder(){
-    this->classThis=NULL; 
+    this->classThis=NULL;
     this->Constructor();
 }
 edk::gui2d::ObjectGui2dBorder::~ObjectGui2dBorder(){
@@ -1675,23 +1675,27 @@ void edk::gui2d::ObjectGui2dBorder::Constructor(){
     if(this->classThis!=this){
         this->classThis=this;
 
-        this->mesh.Constructor(); 
-        this->center.Constructor(); 
-        this->selection.Constructor(); 
+        this->mesh.Constructor();
+        this->center.Constructor();
+        this->selection.Constructor();
 
-        this->setBorderSize(0.1f); 
+        this->setBorderSize(0.1f);
     }
 }
 void edk::gui2d::ObjectGui2dBorder::Destructor(){
     if(this->classThis==this){
         this->classThis=NULL;
         //can destruct the class
+
+        this->mesh.Destructor();
+        this->center.Destructor();
+        this->selection.Destructor();
     }
 }
 
 bool edk::gui2d::ObjectGui2dBorder::calculateMeshBoundingBox(edk::rectf32* rect,edk::vector::Matrixf32<3u,3u>* transformMat){
     if(this->mesh.getPolygonSize()){
-        *rect = this->mesh.generateBoundingBox(transformMat); 
+        *rect = this->mesh.generateBoundingBox(transformMat);
         return true;
     }
     return false;
@@ -1776,119 +1780,119 @@ bool edk::gui2d::ObjectGui2dBorder::saveTemplate(edk::char8* folder){
 
 //LOAD SPRITES
 bool edk::gui2d::ObjectGui2dBorder::loadSpriteNormal(const edk::char8* name,edk::uint32 filter){
-    return this->loadSpriteNormal((edk::char8*) name,filter); 
+    return this->loadSpriteNormal((edk::char8*) name,filter);
 }
 bool edk::gui2d::ObjectGui2dBorder::loadSpriteNormal(edk::char8* name,edk::uint32 filter){
-    return this->mesh.material.loadTexture(name,edk::gui2d::gui2dTextureNormal,filter); 
+    return this->mesh.material.loadTexture(name,edk::gui2d::gui2dTextureNormal,filter);
 }
 bool edk::gui2d::ObjectGui2dBorder::loadSpriteNormalFromMemory(const edk::char8* name,edk::uint8* sprite,edk::uint32 size,edk::uint32 filter){
-    return this->loadSpriteNormalFromMemory((edk::char8*) name,sprite,size,filter); 
+    return this->loadSpriteNormalFromMemory((edk::char8*) name,sprite,size,filter);
 }
 bool edk::gui2d::ObjectGui2dBorder::loadSpriteNormalFromMemory(edk::char8* name,edk::uint8* sprite,edk::uint32 size,edk::uint32 filter){
-    return this->mesh.material.loadTextureFromMemory(name,sprite,size,edk::gui2d::gui2dTextureNormal,filter); 
+    return this->mesh.material.loadTextureFromMemory(name,sprite,size,edk::gui2d::gui2dTextureNormal,filter);
 }
 bool edk::gui2d::ObjectGui2dBorder::loadSpriteNormalFromPack(edk::pack::FilePackage* pack,const edk::char8* name,edk::uint32 filter){
-    return this->loadSpriteNormalFromPack(pack,(edk::char8*) name,filter); 
+    return this->loadSpriteNormalFromPack(pack,(edk::char8*) name,filter);
 }
 bool edk::gui2d::ObjectGui2dBorder::loadSpriteNormalFromPack(edk::pack::FilePackage* pack,edk::char8* name,edk::uint32 filter){
-    return this->mesh.material.loadTextureFromPack(pack,name,edk::gui2d::gui2dTextureNormal,filter); 
+    return this->mesh.material.loadTextureFromPack(pack,name,edk::gui2d::gui2dTextureNormal,filter);
 }
 void edk::gui2d::ObjectGui2dBorder::removeSpriteNormal(){
-    this->mesh.material.removeTexture(edk::gui2d::gui2dTextureNormal); 
+    this->mesh.material.removeTexture(edk::gui2d::gui2dTextureNormal);
 }
 //load pressed sprite
 bool edk::gui2d::ObjectGui2dBorder::loadSpritePressed(const edk::char8* name,edk::uint32 filter){
-    return this->loadSpritePressed((edk::char8*) name,filter); 
+    return this->loadSpritePressed((edk::char8*) name,filter);
 }
 bool edk::gui2d::ObjectGui2dBorder::loadSpritePressed(edk::char8* name,edk::uint32 filter){
-    return this->mesh.material.loadTexture(name,edk::gui2d::gui2dTexturePressed,filter); 
+    return this->mesh.material.loadTexture(name,edk::gui2d::gui2dTexturePressed,filter);
 }
 bool edk::gui2d::ObjectGui2dBorder::loadSpritePressedFromMemory(const edk::char8* name,edk::uint8* sprite,edk::uint32 size,edk::uint32 filter){
-    return this->loadSpritePressedFromMemory((edk::char8*) name,sprite,size,filter); 
+    return this->loadSpritePressedFromMemory((edk::char8*) name,sprite,size,filter);
 }
 bool edk::gui2d::ObjectGui2dBorder::loadSpritePressedFromMemory(edk::char8* name,edk::uint8* sprite,edk::uint32 size,edk::uint32 filter){
-    return this->mesh.material.loadTextureFromMemory(name,sprite,size,edk::gui2d::gui2dTexturePressed,filter); 
+    return this->mesh.material.loadTextureFromMemory(name,sprite,size,edk::gui2d::gui2dTexturePressed,filter);
 }
 bool edk::gui2d::ObjectGui2dBorder::loadSpritePressedFromPack(edk::pack::FilePackage* pack,const edk::char8* name,edk::uint32 filter){
-    return this->loadSpritePressedFromPack(pack,(edk::char8*) name,filter); 
+    return this->loadSpritePressedFromPack(pack,(edk::char8*) name,filter);
 }
 bool edk::gui2d::ObjectGui2dBorder::loadSpritePressedFromPack(edk::pack::FilePackage* pack,edk::char8* name,edk::uint32 filter){
-    return this->mesh.material.loadTextureFromPack(pack,name,edk::gui2d::gui2dTexturePressed,filter); 
+    return this->mesh.material.loadTextureFromPack(pack,name,edk::gui2d::gui2dTexturePressed,filter);
 }
 void edk::gui2d::ObjectGui2dBorder::removeSpritePressed(){
-    this->mesh.material.removeTexture(edk::gui2d::gui2dTexturePressed); 
+    this->mesh.material.removeTexture(edk::gui2d::gui2dTexturePressed);
 }
 //load UP sprite
 bool edk::gui2d::ObjectGui2dBorder::loadSpriteUp(const edk::char8* name,edk::uint32 filter){
-    return this->loadSpriteUp((edk::char8*) name,filter); 
+    return this->loadSpriteUp((edk::char8*) name,filter);
 }
 bool edk::gui2d::ObjectGui2dBorder::loadSpriteUp(edk::char8* name,edk::uint32 filter){
-    return this->mesh.material.loadTexture(name,edk::gui2d::gui2dTextureUp,filter); 
+    return this->mesh.material.loadTexture(name,edk::gui2d::gui2dTextureUp,filter);
 }
 bool edk::gui2d::ObjectGui2dBorder::loadSpriteUpFromMemory(const edk::char8* name,edk::uint8* sprite,edk::uint32 size,edk::uint32 filter){
-    return this->loadSpriteUpFromMemory((edk::char8*) name,sprite,size,filter); 
+    return this->loadSpriteUpFromMemory((edk::char8*) name,sprite,size,filter);
 }
 bool edk::gui2d::ObjectGui2dBorder::loadSpriteUpFromMemory(edk::char8* name,edk::uint8* sprite,edk::uint32 size,edk::uint32 filter){
-    return this->mesh.material.loadTextureFromMemory(name,sprite,size,edk::gui2d::gui2dTextureUp,filter); 
+    return this->mesh.material.loadTextureFromMemory(name,sprite,size,edk::gui2d::gui2dTextureUp,filter);
 }
 bool edk::gui2d::ObjectGui2dBorder::loadSpriteUpFromPack(edk::pack::FilePackage* pack,const edk::char8* name,edk::uint32 filter){
-    return this->loadSpriteUpFromPack(pack,(edk::char8*) name,filter); 
+    return this->loadSpriteUpFromPack(pack,(edk::char8*) name,filter);
 }
 bool edk::gui2d::ObjectGui2dBorder::loadSpriteUpFromPack(edk::pack::FilePackage* pack,edk::char8* name,edk::uint32 filter){
-    return this->mesh.material.loadTextureFromPack(pack,name,edk::gui2d::gui2dTextureUp,filter); 
+    return this->mesh.material.loadTextureFromPack(pack,name,edk::gui2d::gui2dTextureUp,filter);
 }
 void edk::gui2d::ObjectGui2dBorder::removeSpriteUp(){
-    this->mesh.material.removeTexture(edk::gui2d::gui2dTextureUp); 
+    this->mesh.material.removeTexture(edk::gui2d::gui2dTextureUp);
 }
 //load pressedUp sprite
 bool edk::gui2d::ObjectGui2dBorder::loadSpritePressedUp(const edk::char8* name,edk::uint32 filter){
-    return this->loadSpritePressedUp((edk::char8*) name,filter); 
+    return this->loadSpritePressedUp((edk::char8*) name,filter);
 }
 bool edk::gui2d::ObjectGui2dBorder::loadSpritePressedUp(edk::char8* name,edk::uint32 filter){
-    return this->mesh.material.loadTexture(name,edk::gui2d::gui2dTexturePressedUp,filter); 
+    return this->mesh.material.loadTexture(name,edk::gui2d::gui2dTexturePressedUp,filter);
 }
 bool edk::gui2d::ObjectGui2dBorder::loadSpritePressedUpFromMemory(const edk::char8* name,edk::uint8* sprite,edk::uint32 size,edk::uint32 filter){
-    return this->loadSpritePressedUpFromMemory((edk::char8*) name,sprite,size,filter); 
+    return this->loadSpritePressedUpFromMemory((edk::char8*) name,sprite,size,filter);
 }
 bool edk::gui2d::ObjectGui2dBorder::loadSpritePressedUpFromMemory(edk::char8* name,edk::uint8* sprite,edk::uint32 size,edk::uint32 filter){
-    return this->mesh.material.loadTextureFromMemory(name,sprite,size,edk::gui2d::gui2dTexturePressedUp,filter); 
+    return this->mesh.material.loadTextureFromMemory(name,sprite,size,edk::gui2d::gui2dTexturePressedUp,filter);
 }
 bool edk::gui2d::ObjectGui2dBorder::loadSpritePressedUpFromPack(edk::pack::FilePackage* pack,const edk::char8* name,edk::uint32 filter){
-    return this->loadSpritePressedUpFromPack(pack,(edk::char8*) name,filter); 
+    return this->loadSpritePressedUpFromPack(pack,(edk::char8*) name,filter);
 }
 bool edk::gui2d::ObjectGui2dBorder::loadSpritePressedUpFromPack(edk::pack::FilePackage* pack,edk::char8* name,edk::uint32 filter){
-    return this->mesh.material.loadTextureFromPack(pack,name,edk::gui2d::gui2dTexturePressedUp,filter); 
+    return this->mesh.material.loadTextureFromPack(pack,name,edk::gui2d::gui2dTexturePressedUp,filter);
 }
 void edk::gui2d::ObjectGui2dBorder::removeSpritePressedUp(){
-    this->mesh.material.removeTexture(edk::gui2d::gui2dTexturePressedUp); 
+    this->mesh.material.removeTexture(edk::gui2d::gui2dTexturePressedUp);
 }
 
 //set the color
 void edk::gui2d::ObjectGui2dBorder::setColor(edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a){
-    this->mesh.material.setEmission(r,g,b,a); 
+    this->mesh.material.setEmission(r,g,b,a);
 }
 void edk::gui2d::ObjectGui2dBorder::setColor(edk::float32 r,edk::float32 g,edk::float32 b){
-    this->mesh.material.setEmission(r,g,b); 
+    this->mesh.material.setEmission(r,g,b);
 }
 void edk::gui2d::ObjectGui2dBorder::setColor(edk::color4f32 color){
-    this->mesh.material.setEmission(color); 
+    this->mesh.material.setEmission(color);
 }
 void edk::gui2d::ObjectGui2dBorder::setColor(edk::color3f32 color){
-    this->mesh.material.setEmission(color); 
+    this->mesh.material.setEmission(color);
 }
 
 //load the polygons
 bool edk::gui2d::ObjectGui2dBorder::updatePolygons(edk::size2f32 size){
     //test if the size is smaller then the border
     if(this->border>size.width*0.5f){
-        this->border = size.width*0.5f; 
+        this->border = size.width*0.5f;
     }
     if(this->border>size.height*0.5f){
-        this->border = size.height*0.5f; 
+        this->border = size.height*0.5f;
     }
     //load the mesh
-    edk::shape::Polygon2D poly; 
-    this->mesh.cleanPolygons(); 
+    edk::shape::Polygon2D poly;
+    this->mesh.cleanPolygons();
     if(poly.createPolygon(4u)){
         //
         /*
@@ -1896,152 +1900,152 @@ bool edk::gui2d::ObjectGui2dBorder::updatePolygons(edk::size2f32 size){
         | | | |
         | | | |
 */
-        poly.setVertexUV(0u,0.f,0.495f); 
-        poly.setVertexPosition(0u,-0.5f*size.width,(+0.5f*size.height) - (this->border)); 
-        poly.setVertexUV(1u,0.f,0.f); 
-        poly.setVertexPosition(1u,-0.5f*size.width,+0.5f*size.height); 
-        poly.setVertexUV(2u,0.495f,0.f); 
-        poly.setVertexPosition(2u,(-0.5f*size.width)+(this->border),+0.5f*size.height); 
-        poly.setVertexUV(3u,0.495f,0.495f); 
-        poly.setVertexPosition(3u,(-0.5f*size.width)+(this->border),(+0.5f*size.height) - (this->border)); 
-        poly.setPolygonColor(1.f,1.f,1.f,1.0f); 
-        this->mesh.addPolygon(poly); 
+        poly.setVertexUV(0u,0.f,0.495f);
+        poly.setVertexPosition(0u,-0.5f*size.width,(+0.5f*size.height) - (this->border));
+        poly.setVertexUV(1u,0.f,0.f);
+        poly.setVertexPosition(1u,-0.5f*size.width,+0.5f*size.height);
+        poly.setVertexUV(2u,0.495f,0.f);
+        poly.setVertexPosition(2u,(-0.5f*size.width)+(this->border),+0.5f*size.height);
+        poly.setVertexUV(3u,0.495f,0.495f);
+        poly.setVertexPosition(3u,(-0.5f*size.width)+(this->border),(+0.5f*size.height) - (this->border));
+        poly.setPolygonColor(1.f,1.f,1.f,1.0f);
+        this->mesh.addPolygon(poly);
         /*
         | | |x|
         | | | |
         | | | |
 */
-        poly.setVertexUV(0u,0.505f,0.495f); 
-        poly.setVertexPosition(0u,(+0.5f*size.width)-(this->border),(+0.5f*size.height)-(this->border)); 
-        poly.setVertexUV(1u,0.505f,0.f); 
-        poly.setVertexPosition(1u,(+0.5f*size.width)-(this->border),+0.5f*size.height); 
-        poly.setVertexUV(2u,1.f,0.f); 
-        poly.setVertexPosition(2u,+0.5f*size.width,+0.5f*size.height); 
-        poly.setVertexUV(3u,1.f,0.495f); 
-        poly.setVertexPosition(3u,+0.5f*size.width,(+0.5f*size.height)-(this->border)); 
-        poly.setPolygonColor(1.f,1.f,1.f,1.0f); 
-        this->mesh.addPolygon(poly); 
+        poly.setVertexUV(0u,0.505f,0.495f);
+        poly.setVertexPosition(0u,(+0.5f*size.width)-(this->border),(+0.5f*size.height)-(this->border));
+        poly.setVertexUV(1u,0.505f,0.f);
+        poly.setVertexPosition(1u,(+0.5f*size.width)-(this->border),+0.5f*size.height);
+        poly.setVertexUV(2u,1.f,0.f);
+        poly.setVertexPosition(2u,+0.5f*size.width,+0.5f*size.height);
+        poly.setVertexUV(3u,1.f,0.495f);
+        poly.setVertexPosition(3u,+0.5f*size.width,(+0.5f*size.height)-(this->border));
+        poly.setPolygonColor(1.f,1.f,1.f,1.0f);
+        this->mesh.addPolygon(poly);
         /*
         | | | |
         | | | |
         | | |x|
 */
-        poly.setVertexUV(0u,0.505f,1.f); 
-        poly.setVertexPosition(0u,(+0.5f*size.width)-(this->border),-0.5f*size.height); 
-        poly.setVertexUV(1u,0.505f,0.505f); 
-        poly.setVertexPosition(1u,(+0.5f*size.width)-(this->border),(-0.5f*size.height)+(this->border)); 
-        poly.setVertexUV(2u,1.f,0.505f); 
-        poly.setVertexPosition(2u,+0.5f*size.width,(-0.5f*size.height)+(this->border)); 
-        poly.setVertexUV(3u,1.f,1.f); 
-        poly.setVertexPosition(3u,+0.5f*size.width,-0.5f*size.height); 
-        poly.setPolygonColor(1.f,1.f,1.f,1.0f); 
-        this->mesh.addPolygon(poly); 
+        poly.setVertexUV(0u,0.505f,1.f);
+        poly.setVertexPosition(0u,(+0.5f*size.width)-(this->border),-0.5f*size.height);
+        poly.setVertexUV(1u,0.505f,0.505f);
+        poly.setVertexPosition(1u,(+0.5f*size.width)-(this->border),(-0.5f*size.height)+(this->border));
+        poly.setVertexUV(2u,1.f,0.505f);
+        poly.setVertexPosition(2u,+0.5f*size.width,(-0.5f*size.height)+(this->border));
+        poly.setVertexUV(3u,1.f,1.f);
+        poly.setVertexPosition(3u,+0.5f*size.width,-0.5f*size.height);
+        poly.setPolygonColor(1.f,1.f,1.f,1.0f);
+        this->mesh.addPolygon(poly);
         /*
         | | | |
         | | | |
         |x| | |
 */
-        poly.setVertexUV(0u,0.f,1.f); 
-        poly.setVertexPosition(0u,-0.5f*size.width,-0.5f*size.height); 
-        poly.setVertexUV(1u,0.f,0.505f); 
-        poly.setVertexPosition(1u,-0.5f*size.width,(-0.5f*size.height)+(this->border)); 
-        poly.setVertexUV(2u,0.495f,0.505f); 
-        poly.setVertexPosition(2u,(-0.5f*size.width)+(this->border),(-0.5f*size.height)+(this->border)); 
-        poly.setVertexUV(3u,0.495f,1.f); 
-        poly.setVertexPosition(3u,(-0.5f*size.width)+(this->border),-0.5f*size.height); 
-        poly.setPolygonColor(1.f,1.f,1.f,1.0f); 
-        this->mesh.addPolygon(poly); 
+        poly.setVertexUV(0u,0.f,1.f);
+        poly.setVertexPosition(0u,-0.5f*size.width,-0.5f*size.height);
+        poly.setVertexUV(1u,0.f,0.505f);
+        poly.setVertexPosition(1u,-0.5f*size.width,(-0.5f*size.height)+(this->border));
+        poly.setVertexUV(2u,0.495f,0.505f);
+        poly.setVertexPosition(2u,(-0.5f*size.width)+(this->border),(-0.5f*size.height)+(this->border));
+        poly.setVertexUV(3u,0.495f,1.f);
+        poly.setVertexPosition(3u,(-0.5f*size.width)+(this->border),-0.5f*size.height);
+        poly.setPolygonColor(1.f,1.f,1.f,1.0f);
+        this->mesh.addPolygon(poly);
         /*
         | | | |
         |x| | |
         | | | |
 */
-        poly.setVertexUV(0u,0.f,0.495f); 
-        poly.setVertexPosition(0u,-0.5f*size.width,(-0.5f*size.height)+(this->border)); 
-        poly.setVertexUV(1u,0.f,0.505f); 
-        poly.setVertexPosition(1u,-0.5f*size.width,(+0.5f*size.height)-(this->border)); 
-        poly.setVertexUV(2u,0.495f,0.505f); 
-        poly.setVertexPosition(2u,(-0.5f*size.width)+(this->border),(+0.5f*size.height)-(this->border)); 
-        poly.setVertexUV(3u,0.495f,0.495f); 
-        poly.setVertexPosition(3u,(-0.5f*size.width)+(this->border),(-0.5f*size.height)+(this->border)); 
-        poly.setPolygonColor(1.f,1.f,1.f,1.0f); 
-        this->mesh.addPolygon(poly); 
+        poly.setVertexUV(0u,0.f,0.495f);
+        poly.setVertexPosition(0u,-0.5f*size.width,(-0.5f*size.height)+(this->border));
+        poly.setVertexUV(1u,0.f,0.505f);
+        poly.setVertexPosition(1u,-0.5f*size.width,(+0.5f*size.height)-(this->border));
+        poly.setVertexUV(2u,0.495f,0.505f);
+        poly.setVertexPosition(2u,(-0.5f*size.width)+(this->border),(+0.5f*size.height)-(this->border));
+        poly.setVertexUV(3u,0.495f,0.495f);
+        poly.setVertexPosition(3u,(-0.5f*size.width)+(this->border),(-0.5f*size.height)+(this->border));
+        poly.setPolygonColor(1.f,1.f,1.f,1.0f);
+        this->mesh.addPolygon(poly);
         /*
         | | | |
         | | |x|
         | | | |
 */
-        poly.setVertexUV(0u,0.505f,0.495f); 
-        poly.setVertexPosition(0u,(+0.5f*size.width)-(this->border),(-0.5f*size.height)+(this->border)); 
-        poly.setVertexUV(1u,0.505f,0.505f); 
-        poly.setVertexPosition(1u,(+0.5f*size.width)-(this->border),(+0.5f*size.height)-(this->border)); 
-        poly.setVertexUV(2u,1.f,0.505f); 
-        poly.setVertexPosition(2u,+0.5f*size.width,(+0.5f*size.height)-(this->border)); 
-        poly.setVertexUV(3u,1.f,0.495f); 
-        poly.setVertexPosition(3u,+0.5f*size.width,(-0.5f*size.height)+(this->border)); 
-        poly.setPolygonColor(1.f,1.f,1.f,1.0f); 
-        this->mesh.addPolygon(poly); 
+        poly.setVertexUV(0u,0.505f,0.495f);
+        poly.setVertexPosition(0u,(+0.5f*size.width)-(this->border),(-0.5f*size.height)+(this->border));
+        poly.setVertexUV(1u,0.505f,0.505f);
+        poly.setVertexPosition(1u,(+0.5f*size.width)-(this->border),(+0.5f*size.height)-(this->border));
+        poly.setVertexUV(2u,1.f,0.505f);
+        poly.setVertexPosition(2u,+0.5f*size.width,(+0.5f*size.height)-(this->border));
+        poly.setVertexUV(3u,1.f,0.495f);
+        poly.setVertexPosition(3u,+0.5f*size.width,(-0.5f*size.height)+(this->border));
+        poly.setPolygonColor(1.f,1.f,1.f,1.0f);
+        this->mesh.addPolygon(poly);
         /*
         | |x| |
         | | | |
         | | | |
 */
-        poly.setVertexUV(0u,0.495f,0.f); 
-        poly.setVertexPosition(0u,(-0.5f*size.width)+(this->border),+0.5f*size.height); 
-        poly.setVertexUV(1u,0.495f,0.495f); 
-        poly.setVertexPosition(1u,(-0.5f*size.width)+(this->border),(+0.5f*size.height)-(this->border)); 
-        poly.setVertexUV(2u,0.505f,0.495f); 
-        poly.setVertexPosition(2u,(+0.5f*size.width)-(this->border),(+0.5f*size.height)-(this->border)); 
-        poly.setVertexUV(3u,0.505f,0.f); 
-        poly.setVertexPosition(3u,(+0.5f*size.width)-(this->border),+0.5f*size.height); 
-        poly.setPolygonColor(1.f,1.f,1.f,1.0f); 
-        this->mesh.addPolygon(poly); 
+        poly.setVertexUV(0u,0.495f,0.f);
+        poly.setVertexPosition(0u,(-0.5f*size.width)+(this->border),+0.5f*size.height);
+        poly.setVertexUV(1u,0.495f,0.495f);
+        poly.setVertexPosition(1u,(-0.5f*size.width)+(this->border),(+0.5f*size.height)-(this->border));
+        poly.setVertexUV(2u,0.505f,0.495f);
+        poly.setVertexPosition(2u,(+0.5f*size.width)-(this->border),(+0.5f*size.height)-(this->border));
+        poly.setVertexUV(3u,0.505f,0.f);
+        poly.setVertexPosition(3u,(+0.5f*size.width)-(this->border),+0.5f*size.height);
+        poly.setPolygonColor(1.f,1.f,1.f,1.0f);
+        this->mesh.addPolygon(poly);
         /*
         | | | |
         | | | |
         | |x| |
 */
-        poly.setVertexUV(0u,0.495f,0.505f); 
-        poly.setVertexPosition(0u,(-0.5f*size.width)+(this->border),(-0.5f*size.height)+(this->border)); 
-        poly.setVertexUV(1u,0.495f,1.f); 
-        poly.setVertexPosition(1u,(-0.5f*size.width)+(this->border),-0.5f*size.height); 
-        poly.setVertexUV(2u,0.505f,1.f); 
-        poly.setVertexPosition(2u,(+0.5f*size.width)-(this->border),-0.5f*size.height); 
-        poly.setVertexUV(3u,0.505f,0.505f); 
-        poly.setVertexPosition(3u,(+0.5f*size.width)-(this->border),(-0.5f*size.height)+(this->border)); 
-        poly.setPolygonColor(1.f,1.f,1.f,1.0f); 
-        this->mesh.addPolygon(poly); 
+        poly.setVertexUV(0u,0.495f,0.505f);
+        poly.setVertexPosition(0u,(-0.5f*size.width)+(this->border),(-0.5f*size.height)+(this->border));
+        poly.setVertexUV(1u,0.495f,1.f);
+        poly.setVertexPosition(1u,(-0.5f*size.width)+(this->border),-0.5f*size.height);
+        poly.setVertexUV(2u,0.505f,1.f);
+        poly.setVertexPosition(2u,(+0.5f*size.width)-(this->border),-0.5f*size.height);
+        poly.setVertexUV(3u,0.505f,0.505f);
+        poly.setVertexPosition(3u,(+0.5f*size.width)-(this->border),(-0.5f*size.height)+(this->border));
+        poly.setPolygonColor(1.f,1.f,1.f,1.0f);
+        this->mesh.addPolygon(poly);
         /*
         | | | |
         | |x| |
         | | | |
 */
-        poly.setVertexUV(0u,0.495f,0.495f); 
-        poly.setVertexPosition(0u,(-0.5f*size.width)+(this->border),(+0.5f*size.height)-(this->border)); 
-        poly.setVertexUV(1u,0.495f,0.505f); 
-        poly.setVertexPosition(1u,(-0.5f*size.width)+(this->border),(-0.5f*size.height)+(this->border)); 
-        poly.setVertexUV(2u,0.505f,0.505f); 
-        poly.setVertexPosition(2u,(+0.5f*size.width)-(this->border),(-0.5f*size.height)+(this->border)); 
-        poly.setVertexUV(3u,0.505f,0.495f); 
-        poly.setVertexPosition(3u,(+0.5f*size.width)-(this->border),(+0.5f*size.height)-(this->border)); 
-        poly.setPolygonColor(1.f,1.f,1.f,1.0f); 
-        this->mesh.addPolygon(poly); 
+        poly.setVertexUV(0u,0.495f,0.495f);
+        poly.setVertexPosition(0u,(-0.5f*size.width)+(this->border),(+0.5f*size.height)-(this->border));
+        poly.setVertexUV(1u,0.495f,0.505f);
+        poly.setVertexPosition(1u,(-0.5f*size.width)+(this->border),(-0.5f*size.height)+(this->border));
+        poly.setVertexUV(2u,0.505f,0.505f);
+        poly.setVertexPosition(2u,(+0.5f*size.width)-(this->border),(-0.5f*size.height)+(this->border));
+        poly.setVertexUV(3u,0.505f,0.495f);
+        poly.setVertexPosition(3u,(+0.5f*size.width)-(this->border),(+0.5f*size.height)-(this->border));
+        poly.setPolygonColor(1.f,1.f,1.f,1.0f);
+        this->mesh.addPolygon(poly);
 
         //update the center
         this->rectCenter.origin = edk::vec2f32((-0.5f*size.width)+(this->border),(-0.5f*size.height)+(this->border));
         this->rectCenter.size = edk::size2f32((size.width)-(this->border*2.f),(size.height)-(this->border*2.f));
-        this->center.setVertexPosition(0u,(-0.5f*size.width)+(this->border),(+0.5f*size.height)-(this->border)); 
-        this->center.setVertexPosition(1u,(+0.5f*size.width)-(this->border),(-0.5f*size.height)+(this->border)); 
+        this->center.setVertexPosition(0u,(-0.5f*size.width)+(this->border),(+0.5f*size.height)-(this->border));
+        this->center.setVertexPosition(1u,(+0.5f*size.width)-(this->border),(-0.5f*size.height)+(this->border));
 
         //update the selection
-        this->selection.setVertexPosition(0u,-0.5f*size.width,+0.5f*size.height); 
-        this->selection.setVertexPosition(1u,+0.5f*size.width,-0.5f*size.height); 
+        this->selection.setVertexPosition(0u,-0.5f*size.width,+0.5f*size.height);
+        this->selection.setVertexPosition(1u,+0.5f*size.width,-0.5f*size.height);
 
         if(this->mesh.getPolygonSize()){
             //
-            //this->mesh.setPolygonsColor(1,0,0,1); 
+            //this->mesh.setPolygonsColor(1,0,0,1);
 
-            //this->mesh.material.setEmission(1,0,0,1); 
+            //this->mesh.material.setEmission(1,0,0,1);
 
             return true;
         }
@@ -2051,22 +2055,22 @@ bool edk::gui2d::ObjectGui2dBorder::updatePolygons(edk::size2f32 size){
 
 //set the borderSize
 bool edk::gui2d::ObjectGui2dBorder::setBorderSize(edk::float32 size){
-    bool ret = true; 
+    bool ret = true;
     //filter the size
     if(size<0.f){
-        size=0.f; 
-        ret = false; 
+        size=0.f;
+        ret = false;
     }
-    this->border = size; 
+    this->border = size;
     return ret;
 }
 edk::float32 edk::gui2d::ObjectGui2dBorder::getBorderSize(){
-    return this->border; 
+    return this->border;
 }
 
 //return the center rectangle
 edk::shape::Rectangle2D* edk::gui2d::ObjectGui2dBorder::getCenter(){
-    return &this->center; 
+    return &this->center;
 }
 //return the rectangle of the center
 edk::rectf32 edk::gui2d::ObjectGui2dBorder::getRectCenter(){
@@ -2076,7 +2080,7 @@ edk::rectf32 edk::gui2d::ObjectGui2dBorder::getRectCenter(){
 //load the objectBorder
 bool edk::gui2d::ObjectGui2dBorder::load(edk::size2f32 size){
     //unload the mesh
-    this->unload(); 
+    this->unload();
 
     //load the polygons
     if(this->updatePolygons(size)){
@@ -2094,29 +2098,29 @@ bool edk::gui2d::ObjectGui2dBorder::load(edk::size2f32 size){
         }
     }
 
-    this->unload(); 
+    this->unload();
     return false;
 }
 //unload the objectBorder
 void edk::gui2d::ObjectGui2dBorder::unload(){
-    this->mesh.cleanPolygons(); 
-    this->mesh.cleanTextures(); 
+    this->mesh.cleanPolygons();
+    this->mesh.cleanTextures();
 }
 
 //draw the object
 void edk::gui2d::ObjectGui2dBorder::drawNormal(){
-    this->mesh.drawOneTexture(gui2dTextureNormal); 
+    this->mesh.drawOneTexture(gui2dTextureNormal);
 }
 void edk::gui2d::ObjectGui2dBorder::drawUp(){
-    this->mesh.drawOneTexture(edk::gui2d::gui2dTextureUp); 
+    this->mesh.drawOneTexture(edk::gui2d::gui2dTextureUp);
 }
 void edk::gui2d::ObjectGui2dBorder::drawPressed(){
-    this->mesh.drawOneTexture(edk::gui2d::gui2dTexturePressed); 
+    this->mesh.drawOneTexture(edk::gui2d::gui2dTexturePressed);
 }
 void edk::gui2d::ObjectGui2dBorder::drawPressedUp(){
-    this->mesh.drawOneTexture(edk::gui2d::gui2dTexturePressedUp); 
+    this->mesh.drawOneTexture(edk::gui2d::gui2dTexturePressedUp);
 }
 void edk::gui2d::ObjectGui2dBorder::drawSelection(){
-    this->selection.draw(); 
+    this->selection.draw();
 }
 

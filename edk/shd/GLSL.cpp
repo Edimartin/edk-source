@@ -313,6 +313,8 @@ void edk::shd::GLSL::Destructor(){
         this->deleteProgram();
         //delete the shaders
         this->deleteShaders();
+
+        this->tree.Destructor();
     }
     edk::shd::DataList::Destructor();
 }

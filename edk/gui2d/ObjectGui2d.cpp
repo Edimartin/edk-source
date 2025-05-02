@@ -66,6 +66,18 @@ void edk::gui2d::ObjectGui2d::Destructor(){
     if(this->classThis==this){
         this->classThis=NULL;
         //can destruct the class
+
+        this->obj.Destructor();
+        this->sprite.Destructor();
+        this->center.Destructor();
+        this->centerS.Destructor();
+        this->spritePolygon.Destructor();
+        this->text.Destructor();
+        this->matrixPosition.Destructor();
+        this->matrixPivo.Destructor();
+        this->matrixAngle.Destructor();
+        this->matrixSize.Destructor();
+        this->matrixTransform.Destructor();
     }
     edk::Object2DValues::Destructor();
 }

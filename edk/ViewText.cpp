@@ -56,6 +56,8 @@ void edk::ViewText::Destructor(){
     if(this->classThis==this){
         this->classThis=NULL;
         //can destruct the class
+
+        this->text.Destructor();
     }
     edk::ViewGU2D::Destructor();
 }

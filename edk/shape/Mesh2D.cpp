@@ -53,6 +53,8 @@ void edk::shape::Mesh2D::Destructor(){
         this->classThis=NULL;
         //can destruct the class
         this->clean();
+
+        this->material.Destructor();
     }
 }
 

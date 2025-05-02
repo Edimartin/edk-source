@@ -112,6 +112,11 @@ void edk::Texture2DFile::Destructor(){
         this->deleteName();
         //remove all
         this->removeAll();
+
+        this->image.Destructor();
+
+        edk::Texture2DFile::debugFile.Destructor();
+        edk::Texture2DFile::debugMut.Destructor();
     }
     edk::Texture2D::Destructor();
 }

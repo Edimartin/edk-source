@@ -418,6 +418,8 @@ private:
                 //can destruct the class
                 this->deleteAll();
                 this->tileSet=NULL;
+
+                this->treePosition.Destructor();
             }
             edk::vector::BinaryTree<edk::tiles::TileMap2D::PhysicsTiles*>::Destructor();
         }
@@ -677,6 +679,8 @@ private:
                 this->classThis=NULL;
                 //can destruct the class
                 this->positions.clean();
+
+                this->positions.Destructor();
             }
         }
 
@@ -764,6 +768,8 @@ private:
                 //can destruct the class
                 this->deleteAll();
                 this->tileSet=NULL;
+
+                this->treePosition.Destructor();
             }
             edk::vector::BinaryTree<edk::tiles::TileMap2D::StaticTileObjects*>::Destructor();
         }

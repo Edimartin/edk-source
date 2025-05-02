@@ -59,6 +59,8 @@ void edk::sql::Postgre::Destructor(){
     if(this->classThis==this){
         this->classThis=NULL;
         //can destruct the class
+
+        this->error.Destructor();
     }
 }
 

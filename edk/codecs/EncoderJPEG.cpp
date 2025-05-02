@@ -50,6 +50,8 @@ void edk::codecs::EncoderJPEG::Destructor(){
         this->classThis=NULL;
         //can destruct the class
         this->deleteEncoded();
+
+        this->stack.Destructor();
     }
     edk::codecs::EncoderImage::Destructor();
 }

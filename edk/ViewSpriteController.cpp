@@ -54,6 +54,8 @@ void edk::ViewSpriteController::Destructor(){
         this->classThis=NULL;
         //can destruct the class
         this->deleteSprite();
+
+        this->list.Destructor();
     }
     edk::ViewController::Destructor();
 }

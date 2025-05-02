@@ -95,6 +95,8 @@ void edk::network::PackageGroup::Destructor(){
     if(this->classThis==this){
         this->classThis=NULL;
         //can destruct the class
+
+        this->tree.Destructor();
     }
 }
 

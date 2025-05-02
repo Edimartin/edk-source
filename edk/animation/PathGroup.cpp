@@ -63,6 +63,10 @@ void edk::animation::PathGroup::Destructor(){
         //can destruct the class
         this->deleteFrames();
         this->nameSelected=NULL;
+
+        this->animations.Destructor();
+        this->clock.Destructor();
+        this->animationNames.Destructor();
     }
 }
 

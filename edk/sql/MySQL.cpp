@@ -51,6 +51,8 @@ void edk::sql::MySQL::Destructor(){
         this->classThis=NULL;
         //can destruct the class
         this->closeDataBase();
+
+        this->error.Destructor();
     }
 }
 

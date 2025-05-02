@@ -229,6 +229,11 @@ void edk::ViewListSelection::Destructor(){
         this->classThis=NULL;
         //can destruct the class
         this->cleanCells();
+
+        this->scroll.Destructor();
+        this->mouseButtons.Destructor();
+        this->mouseButtonsNew.Destructor();
+        this->cells.Destructor();
     }
     edk::ViewGU2D::Destructor();
 }

@@ -53,6 +53,9 @@ void edk::ViewScrollBar::Destructor(){
     if(this->classThis==this){
         this->classThis=NULL;
         //can destruct the class
+
+        this->background.Destructor();
+        this->foreground.Destructor();
     }
     edk::ViewController::Destructor();
 }

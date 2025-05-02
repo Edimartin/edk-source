@@ -266,6 +266,8 @@ private:
                 this->classThis=NULL;
                 //can destruct the class
                 this->removeAll();
+
+                this->tree.Destructor();
             }
             edk::vector::BinaryTree<edk::gui2d::ViewGui2d::ObjGui2dID*>::Destructor();
         }

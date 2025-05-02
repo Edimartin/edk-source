@@ -45,6 +45,8 @@ void edk::codecs::DecoderImage::Destructor(){
     if(this->classThis==this){
         this->classThis=NULL;
         //can destruct the class
+
+        this->file.Destructor();
     }
     edk::codecs::CodecImage::Destructor();
 }

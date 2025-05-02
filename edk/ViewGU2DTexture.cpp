@@ -63,6 +63,8 @@ void edk::ViewGU2DTexture::Destructor(){
     if(this->classThis==this){
         this->classThis=NULL;
         //can destruct the class
+
+        this->camera.Destructor();
     }
     edk::ViewGUTexture::Destructor();
 }

@@ -825,6 +825,7 @@ private:
                 for(edk::uint32 i=0u;i<size;i++){
                     this->deleteObjInPosition(0u);
                 }
+                this->time.Destructor();
             }
             edk::vector::BinaryTree<edk::Cenario2D::ObjClass*>::Destructor();
             edk::vector::BinaryTreeCallback<edk::Cenario2D::ObjClass*>::Destructor();
@@ -2468,6 +2469,7 @@ private:
                 this->classThis=NULL;
                 //can destruct the class
                 this->seconds=0.f;
+                this->time.Destructor();
             }
             edk::vector::BinaryTree<edk::Object2D*>::Destructor();
         }

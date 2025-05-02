@@ -67,9 +67,11 @@ void edk::Video::Constructor(){
         this->classThis=this;
 
         this->writingFile=edk::edkVideoWriteNothing;
+
         this->file.Constructor();
         this->buffer.Constructor();
         this->timeCounter.Constructor();
+
         this->timeIncrement=0.f;
         this->size=0u;
         this->channels=0u;
@@ -105,6 +107,10 @@ void edk::Video::Destructor(){
         //can destruct the class
         this->close();
         this->buffer.clean();
+
+        this->file.Destructor();
+        this->buffer.Destructor();
+        this->timeCounter.Destructor();
     }
 }
 

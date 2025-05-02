@@ -628,6 +628,16 @@ void edk::Object3D::Destructor(){
     this->actions.cleanReadXMLActionFunction();
     */
         this->cleanMeshes();
+
+        this->meshes.Destructor();
+        this->matrixPosition.Destructor();
+        this->matrixPivo.Destructor();
+        this->matrixAngleX.Destructor();
+        this->matrixSize.Destructor();
+        this->matrixTransform.Destructor();
+        this->matrixPivo.Destructor();
+        this->childremsFront.Destructor();
+        this->childremsBack.Destructor();
     }
     edk::Object3DValues::Destructor();
     edk::shape::FileOBJ::Destructor();

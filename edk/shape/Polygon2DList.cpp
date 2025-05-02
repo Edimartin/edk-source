@@ -60,6 +60,9 @@ void edk::shape::Polygon2DList::Destructor(){
         //can destruct the class
         //clean the polygons
         this->cleanPolygons();
+
+        this->polygons.Destructor();
+        this->tempP.Destructor();
     }
 }
 

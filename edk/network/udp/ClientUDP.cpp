@@ -48,6 +48,8 @@ void edk::network::udp::ClientUDP::Destructor(){
         //can destruct the class
         this->cleanAdress();
         this->closeSocket();
+
+        this->sendHost.Destructor();
     }
     edk::network::Socket::Destructor();
 }

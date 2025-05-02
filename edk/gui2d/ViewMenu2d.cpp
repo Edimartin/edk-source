@@ -70,6 +70,14 @@ void edk::gui2d::MenuObj::Destructor(){
         //can destruct the class
         this->str1.cleanName();
         this->str2.cleanName();
+
+        this->obj.Destructor();
+        this->meshObj.Destructor();
+        this->sprite.Destructor();
+        this->text1.Destructor();
+        this->str1.Destructor();
+        this->text2.Destructor();
+        this->str2.Destructor();
     }
 }
 
@@ -431,6 +439,11 @@ void edk::gui2d::ViewMenu2d::Destructor(){
     if(this->classThis==this){
         this->classThis=NULL;
         //can destruct the class
+
+        this->tree1.Destructor();
+        this->tree2.Destructor();
+        this->listCallback.Destructor();
+        this->objs.Destructor();
     }
     edk::ViewGU2D::Destructor();
 }

@@ -73,6 +73,8 @@ void edk::ViewController::Destructor(){
         this->removeAllSubview();
         this->frame = edk::rectf32(0.f,0.f,0.f,0.f);
         this->positionInWindow=this->frame.origin;
+
+        this->nexts.Destructor();
     }
     edk::View::Destructor();
 }

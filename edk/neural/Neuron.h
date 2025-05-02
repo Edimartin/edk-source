@@ -256,6 +256,8 @@ public:
             this->classThis=NULL;
             //can destruct the class
             this->cleanWeights();
+
+            this->treeWeights.Destructor();
         }
         edk::Name::Destructor();
     }

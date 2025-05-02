@@ -123,6 +123,38 @@ void edk::GU_GLSL::Destructor(){
     if(this->classThis==this){
         this->classThis=NULL;
         //can destruct the class
+
+#if defined(_WIN32) || defined(_WIN64)
+            //Windows
+            edk::GU_GLSL::mut.Destructor();
+#endif
+#ifdef __linux__
+            edk::GU_GLSL::mut.Destructor();
+#endif
+            edk::GU_GLSL::mutBeginEnd.Destructor();
+            edk::GU_GLSL::mutCreateShader.Destructor();
+            edk::GU_GLSL::mutDelShader.Destructor();
+            edk::GU_GLSL::mutUseShader.Destructor();
+            edk::GU_GLSL::mutUseNoShader.Destructor();
+            edk::GU_GLSL::genShaders.Destructor();
+            edk::GU_GLSL::delShaders.Destructor();
+            edk::GU_GLSL::treeShaders.Destructor();
+            edk::GU_GLSL::genShadersWrite.Destructor();
+            edk::GU_GLSL::treeShadersWrite.Destructor();
+            edk::GU_GLSL::genShadersCompile.Destructor();
+            edk::GU_GLSL::treeShadersCompile.Destructor();
+            edk::GU_GLSL::genShadersIV.Destructor();
+            edk::GU_GLSL::treeShadersIV.Destructor();
+            edk::GU_GLSL::genShadersLog.Destructor();
+            edk::GU_GLSL::treeShadersLog.Destructor();
+            edk::GU_GLSL::genProgramsAttach.Destructor();
+            edk::GU_GLSL::treeProgramsAttach.Destructor();
+            edk::GU_GLSL::genProgramsLink.Destructor();
+            edk::GU_GLSL::treeProgramsLink.Destructor();
+            edk::GU_GLSL::useShaders.Destructor();
+            edk::GU_GLSL::useNoShaders.Destructor();
+            edk::GU_GLSL::treeUseShaders.Destructor();
+            edk::GU_GLSL::treeUseNoShaders.Destructor();
     }
 }
 

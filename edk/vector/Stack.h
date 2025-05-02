@@ -295,6 +295,8 @@ public:
             //delete the array
             this->clean();
             //this->removed.cantDestruct();
+
+            this->removed.Destructor();
         }
     }
 
@@ -2599,6 +2601,8 @@ public:
             this->classThis=NULL;
             //can destruct the class
             this->clean();
+
+            this->tree.Destructor();
         }
         edk::vector::Stack<edk::Name*>::Destructor();
     }

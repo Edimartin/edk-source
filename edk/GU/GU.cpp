@@ -84,6 +84,13 @@ void edk::GU::Destructor(){
     if(this->classThis==this){
         this->classThis=NULL;
         //can destruct the class
+        edk::GU::genTextures.Destructor();
+        edk::GU::treeTextures.Destructor();
+        edk::GU::mutGetMipmaps.Destructor();
+        edk::GU::delTextures.Destructor();
+        edk::GU::mutGetTextures.Destructor();
+        edk::GU::mutDelTextures.Destructor();
+        edk::GU::genMipmaps.Destructor();
     }
 }
 

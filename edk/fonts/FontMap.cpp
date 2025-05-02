@@ -1914,6 +1914,13 @@ void edk::fonts::FontMap::Destructor(){
         //can destruct the class
         this->removeFontImage();
         this->deleteLines();
+
+        this->map.Destructor();
+        this->list.Destructor();
+        this->animOrigin.Destructor();
+        this->animLast.Destructor();
+        this->treeCallbacks.Destructor();
+        this->lines.Destructor();
     }
 }
 

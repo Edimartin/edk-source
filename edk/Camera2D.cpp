@@ -121,6 +121,10 @@ void edk::Camera2D::Destructor(){
     if(this->classThis==this){
         this->classThis=NULL;
         //can destruct the class
+        this->animPosition.Destructor();
+        this->animAngle.Destructor();
+        this->animShakingPosition.Destructor();
+        this->animShakingAngle.Destructor();
     }
 }
 

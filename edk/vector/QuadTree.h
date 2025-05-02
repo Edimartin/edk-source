@@ -323,6 +323,8 @@ public:
             this->clean();
             //delete the tree
             this->setTree(NULL);
+
+            this->treeThis.Destructor();
         }
     }
 
@@ -631,6 +633,8 @@ public:
             this->clean();
             //delete the tree
             this->setTree(NULL);
+
+            this->treeThis.Destructor();
         }
     }
 
@@ -937,6 +941,12 @@ public:
             this->treeValuesUpdate.clean();
             this->treeGets.clean();
             this->treeOutside.clean();
+
+            this->root.Destructor();
+            this->treeGets.Destructor();
+            this->treeOutside.Destructor();
+            this->treeValuesUpdate.Destructor();
+            this->treeNULL.Destructor();
         }
         edk::vector::BinaryTreeCallback<typeTemplate>::Destructor();
     }
@@ -2493,6 +2503,12 @@ public:
             this->treeValuesUpdate.clean();
             this->treeGets.clean();
             this->treeOutside.clean();
+
+            this->root.Destructor();
+            this->treeGets.Destructor();
+            this->treeOutside.Destructor();
+            this->treeValuesUpdate.Destructor();
+            this->treeNULL.Destructor();
         }
         edk::vector::BinaryTreeCallback<typeTemplate>::Destructor();
     }

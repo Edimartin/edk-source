@@ -1336,6 +1336,13 @@ void edk::ViewButton::Destructor(){
         this->deleteAllSprites();
         this->deleteAllSymbols();
         this->deleteButtonText();
+
+        this->holdButton.Destructor();
+        this->doubleButton.Destructor();
+        this->list.Destructor();
+        this->text.Destructor();
+        this->cam.Destructor();
+        this->camTemp.Destructor();
     }
     edk::ViewSprite::Destructor();
 }

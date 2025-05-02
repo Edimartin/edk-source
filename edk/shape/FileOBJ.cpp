@@ -21,6 +21,8 @@ void edk::shape::FileOBJ::StackVertex::Destructor(){
         this->classThis=NULL;
         //can destruct the class
         this->cleanVertexes();
+
+        this->stack.Destructor();
     }
 }
 
@@ -155,6 +157,8 @@ void edk::shape::FileOBJ::StackNormal::Destructor(){
         this->classThis=NULL;
         //can destruct the class
         this->cleanNormals();
+
+        this->stack.Destructor();
     }
 }
 
@@ -271,6 +275,8 @@ void edk::shape::FileOBJ::StackUV::Destructor(){
         this->classThis=NULL;
         //can destruct the class
         this->cleanUVS();
+
+        this->stack.Destructor();
     }
 }
 

@@ -252,6 +252,8 @@ private:
                 this->classThis=NULL;
                 //can destruct the class
                 this->points.deleteArray();
+
+                this->points.Destructor();
             }
         }
 
@@ -292,6 +294,8 @@ private:
                 this->classThis=NULL;
                 //can destruct the class
                 this->points.deleteArray();
+
+                this->points.Destructor();
             }
         }
 

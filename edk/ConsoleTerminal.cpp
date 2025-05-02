@@ -587,6 +587,7 @@ void edk::ConsoleTerminal::Destructor(){
     if(this->classThis==this){
         this->classThis=NULL;
         //can destruct the class
+        edk::ConsoleTerminal::tty.Destructor();
     }
     edk::ConsoleTerminal::tty.Destructor();
 }

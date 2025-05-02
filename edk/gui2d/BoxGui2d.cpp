@@ -49,6 +49,9 @@ void edk::gui2d::BoxGui2d::Destructor(){
         this->classThis=NULL;
         //can destruct the class
         this->removeAllSubObjectsBackground();
+
+        this->nextsBack.Destructor();
+        this->nextsFore.Destructor();
     }
     edk::gui2d::ObjectGui2d::Destructor();
 }

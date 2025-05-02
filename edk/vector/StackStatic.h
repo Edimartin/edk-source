@@ -272,9 +272,10 @@ public:
     }
     //Construtor with arraySize
     void Constructor(edk::uint32 arraySize){
-        this->removed.Constructor();
         if(this->classThis!=this){
             this->classThis=this;
+
+            this->removed.Constructor();
 
             //Test if the arraySize is bigger then zero
             if(arraySize){
@@ -303,6 +304,8 @@ public:
             this->clean();
             //this->removed.cantDestructor();
             (*this->removedPointer).Destructor();
+
+            this->removed.Destructor();
         }
     }
 
@@ -2336,6 +2339,8 @@ public:
             this->classThis=NULL;
             //can destruct the class
             this->clean();
+
+            this->tree.Destructor();
         }
         edk::vector::StackStatic<edk::Name*>::Destructor();
     }

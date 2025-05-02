@@ -54,6 +54,8 @@ void edk::CommandParser::Command::Destructor(){
         //
         this->cleanName();
         this->value.cleanName();
+
+        this->value.Destructor();
     }
     edk::Name::Destructor();
 }
@@ -79,6 +81,8 @@ void edk::CommandParser::TreeCommand::Destructor(){
         this->classThis=NULL;
         //can destruct the class
         this->clean();
+
+        this->stack.Destructor();
     }
     edk::vector::NameTree::Destructor();
 }
@@ -289,6 +293,10 @@ void edk::CommandParser::Destructor(){
         //can destruct the class
         //
         this->tree.clean();
+
+        this->strPName.Destructor();
+        this->strPCommand.Destructor();
+        this->tree.Destructor();
     }
 }
 

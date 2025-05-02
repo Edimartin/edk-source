@@ -64,6 +64,12 @@ void edk::InfiniteVertical::Destructor(){
         this->classThis=NULL;
         //can destruct the class
         this->clean();
+
+        this->time.Destructor();
+        this->rand.Destructor();
+        this->tree.Destructor();
+        this->buffer.Destructor();
+        this->queue.Destructor();
     }
     edk::InfiniteVertical::tileWorldObject2D::staticObj.Destructor();
 }

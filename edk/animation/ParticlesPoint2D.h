@@ -385,6 +385,8 @@ private:
                 this->classThis=NULL;
                 //can destruct the class
                 this->cleanObjects();
+
+                this->objTemplate.Destructor();
             }
             edk::vector::BinaryTree<edk::animation::ParticlesPoint2D::ParticleObject2D*>::Destructor();
         }

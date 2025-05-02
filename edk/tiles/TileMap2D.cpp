@@ -102,6 +102,10 @@ void edk::tiles::TileMap2D::Destructor(){
         this->deletePhysicsTiles();
         this->deleteTileMap();
         this->cleanWorldPointer();
+
+        this->treeCallbacks.Destructor();
+        this->treePhysics.Destructor();
+        this->treeStaticPhysics.Destructor();
     }
     edk::physics2D::ContactCallback2D::Destructor();
 }

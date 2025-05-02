@@ -82,6 +82,10 @@ void edk::tiles::Tile2D::Destructor(){
         this->deletePhysics();
         this->mesh.cleanTextures();
         this->treeDraw.clean();
+
+        this->obj.Destructor();
+        this->mesh.Destructor();
+        this->treeDraw.Destructor();
     }
 }
 

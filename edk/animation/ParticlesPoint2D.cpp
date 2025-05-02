@@ -89,6 +89,9 @@ void edk::animation::ParticlesPoint2D::ParticleObject::Destructor(){
     if(this->classThis==this){
         this->classThis=NULL;
         //can destruct the class
+
+        this->life.Destructor();
+        this->animFrame.Destructor();
     }
     edk::Object2DValues::Destructor();
 }
@@ -254,6 +257,8 @@ void edk::animation::ParticlesPoint2D::TreeParticles::Destructor(){
     if(this->classThis==this){
         this->classThis=NULL;
         //can destruct the class
+
+        this->treeRemove.Destructor();
     }
     edk::vector::BinaryTree<edk::animation::ParticlesPoint2D::ParticleObject*>::Destructor();
 }
@@ -358,6 +363,12 @@ void edk::animation::ParticlesPoint2D::Destructor(){
         //can destruct the class
         this->cleanParticles();
         this->obj.clean();
+
+        //Object to draw
+        this->obj.Destructor();
+        this->time.Destructor();
+        this->treeParticles.Destructor();
+        this->treeObjects.Destructor();
     }
     edk::Object2DValues::Destructor();
 }

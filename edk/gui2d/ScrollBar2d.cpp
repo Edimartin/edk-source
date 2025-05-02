@@ -375,6 +375,8 @@ void edk::gui2d::ScrollBar2d::Destructor(){
         //can destruct the class
         //clean the meshes
         this->unload();
+
+        this->objInside.Destructor();
     }
     edk::gui2d::ObjectGui2d::Destructor();
 }

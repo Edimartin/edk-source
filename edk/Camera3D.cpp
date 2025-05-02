@@ -103,6 +103,14 @@ void edk::Camera3D::Destructor(){
     if(this->classThis==this){
         this->classThis=NULL;
         //can destruct the class
+
+        this->matrixTranslate.Destructor();
+        this->matrixRotateX.Destructor();
+        this->matrixRotateY.Destructor();
+        this->matrixRotateZ.Destructor();
+        this->matrixScale.Destructor();
+        this->projection.Destructor();
+        this->matrixPosition.Destructor();
     }
 }
 

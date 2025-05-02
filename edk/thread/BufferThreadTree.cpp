@@ -48,6 +48,9 @@ void edk::multi::BufferThreadTree::Destructor(){
         this->mut.lock();
         this->tree.cleanBuffers();
         this->mut.unlock();
+
+        this->mut.Destructor();
+        this->tree.Destructor();
     }
 }
 

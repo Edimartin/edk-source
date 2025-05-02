@@ -44,6 +44,8 @@ void edk::ViewGU3D::Destructor(){
     if(this->classThis==this){
         this->classThis=NULL;
         //can destruct the class
+
+        this->camera.Destructor();
     }
     edk::ViewGU::Destructor();
 }

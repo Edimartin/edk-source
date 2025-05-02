@@ -53,6 +53,8 @@ void edk::Audio::Destructor(){
         this->classThis=NULL;
         //can destruct the class
         this->close();
+
+        this->list.Destructor();
     }
 }
 

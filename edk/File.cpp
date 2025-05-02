@@ -2879,6 +2879,7 @@ void edk::FileStream::Destructor(){
         this->classThis=NULL;
         //can destruct the class
         this->closeFileStream();
+        this->name.Destructor();
     }
 }
 

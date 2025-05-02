@@ -364,10 +364,12 @@ void edk::video::VideoEDK::Constructor(edk::video::EDKcodecName codec){
         this->headerEDK.timeIncrement = 0.f;
         this->size=0u;
         this->frameIDH264=0u;
+
         this->encH264.Constructor();
         this->decH264.Constructor();
         this->encJPEG.Constructor();
         this->decJPEG.Constructor();
+
         this->haveEncNOTHING=false;
         this->haveDecNOTHING=false;
         this->haveEncJPEG=false;
@@ -376,6 +378,7 @@ void edk::video::VideoEDK::Constructor(edk::video::EDKcodecName codec){
         this->haveDecH264=false;
         this->haveEncRGB=false;
         this->haveDecRGB=false;
+
         this->bufferRGB.Constructor();
 
         this->useCodec(codec);
@@ -384,6 +387,12 @@ void edk::video::VideoEDK::Constructor(edk::video::EDKcodecName codec){
 void edk::video::VideoEDK::Destructor(){
     if(this->classThis==this){
         this->classThis=NULL;
+
+        this->encH264.Destructor();
+        this->decH264.Destructor();
+        this->encJPEG.Destructor();
+        this->decJPEG.Destructor();
+        this->bufferRGB.Destructor();
     }
     edk::Video::Destructor();
 }

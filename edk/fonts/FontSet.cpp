@@ -47,6 +47,9 @@ void edk::fonts::FontSet::Destructor(){
         this->classThis=NULL;
         //can destruct the class
         this->deleteImage();
+
+        this->tileSet.Destructor();
+        this->name.Destructor();
     }
 }
 
@@ -179,6 +182,8 @@ void edk::fonts::fontSetList::FontRetain::Destructor(){
         this->classThis=NULL;
         //can destruct the class
         this->retains=0u;
+
+        this->set.Destructor();
     }
 }
 
@@ -386,6 +391,8 @@ void edk::fonts::fontSetList::Destructor(){
     if(this->classThis==this){
         this->classThis=NULL;
         //can destruct the class
+
+        edk::fonts::fontSetList::tree.Destructor();
     }
 }
 

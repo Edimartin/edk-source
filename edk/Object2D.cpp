@@ -544,6 +544,16 @@ void edk::Object2D::Destructor(){
     this->actions.cleanReadXMLActionFunction();
     */
         this->cleanMeshes();
+
+        this->meshes.Destructor();
+        this->matrixPosition.Destructor();
+        this->matrixPivo.Destructor();
+        this->matrixAngle.Destructor();
+        this->matrixSize.Destructor();
+        this->matrixTransform.Destructor();
+        this->matrixPivo.Destructor();
+        this->childremsFront.Destructor();
+        this->childremsBack.Destructor();
     }
     edk::Object2DValues::Destructor();
 }

@@ -582,6 +582,9 @@ protected:
                 //can destruct the class
                 this->vertexs.deleteArray();
                 this->vertexsOriginal.deleteArray();
+
+                this->vertexs.Destructor();
+                this->vertexsOriginal.Destructor();
             }
         }
 

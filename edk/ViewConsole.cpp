@@ -61,6 +61,9 @@ void edk::ViewConsole::Destructor(){
     if(this->classThis==this){
         this->classThis=NULL;
         //can destruct the class
+
+        this->map.Destructor();
+        this->back.Destructor();
     }
     edk::ViewGU::Destructor();
 }

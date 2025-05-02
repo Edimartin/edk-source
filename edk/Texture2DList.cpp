@@ -68,6 +68,16 @@ void edk::Texture2DList::Destructor(){
     if(this->classThis==this){
         this->classThis=NULL;
         //can destruct the class
+
+        this->mutTexture.Destructor();
+        this->mutNameTree.Destructor();
+        edk::Texture2DList::bufferTree.Destructor();
+        edk::Texture2DList::codeTree.Destructor();
+        edk::Texture2DList::nameTree.Destructor();
+
+            edk::Texture2DList::codeTree.Destructor();
+            edk::Texture2DList::nameTree.Destructor();
+            edk::Texture2DList::bufferTree.Destructor();
     }
 }
 

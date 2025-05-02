@@ -50,6 +50,8 @@ void edk::ViewTextField::Destructor(){
     if(this->classThis==this){
         this->classThis=NULL;
         //can destruct the class
+
+        this->text.Destructor();
     }
     edk::ViewMenu::Destructor();
 }
@@ -87,6 +89,9 @@ void edk::ViewTextField::TextField::Destructor(){
         //can destruct the class
         this->cleanString();
         this->deleteString();
+
+        this->obj.Destructor();
+        this->anim.Destructor();
     }
     edk::ViewText::Destructor();
 }

@@ -158,6 +158,9 @@ private:
                 this->classThis=NULL;
                 //can destruct the class
                 this->obj.clean();
+
+                this->obj.Destructor();
+                this->objPhys.Destructor();
             }
         }
 
@@ -196,6 +199,8 @@ private:
             if(this->classThis==this){
                 this->classThis=NULL;
                 //can destruct the class
+
+                this->tileTemplate.Destructor();
             }
             edk::vector::BinaryTree<edk::InfiniteHorizontal::tileObject2D*>::Destructor();
         }
@@ -436,6 +441,7 @@ private:
             if(this->classThis==this){
                 this->classThis=NULL;
                 //can destruct the class
+                this->objPointer->Destructor();
             }
         }
 

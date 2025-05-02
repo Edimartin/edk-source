@@ -51,6 +51,8 @@ void edk::codecs::EncoderImage::Destructor(){
         //can destruct the class
         //printf("\nEncoderImage Destrutor");
         this->deleteEncoded();
+
+        this->file.Destructor();
     }
 }
 

@@ -54,6 +54,7 @@ void edk::Texture2DRender::Destructor(){
         this->deleteRender();
     }
     edk::Texture2D::Destructor();
+    //edk::GU_GLSL::Destructor();
 }
 
 //delete the frameBuffer

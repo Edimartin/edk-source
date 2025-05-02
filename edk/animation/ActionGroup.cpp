@@ -51,6 +51,9 @@ void edk::animation::ActionGroup::Destructor(){
     if(this->classThis==this){
         this->classThis=NULL;
         this->clean();
+
+        this->anim.Destructor();
+        this->tree.Destructor();
     }
 }
 

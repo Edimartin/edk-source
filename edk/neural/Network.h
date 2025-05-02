@@ -65,6 +65,9 @@ public:
             this->classThis=NULL;
             //can destruct the class
             this->clean();
+
+            this->values.Destructor();
+            this->tree.Destructor();
         }
     }
 

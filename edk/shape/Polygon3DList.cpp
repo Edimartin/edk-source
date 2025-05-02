@@ -85,10 +85,12 @@ void edk::shape::Polygon3DList::Constructor(){
         this->vboType=edk::GU::vbo_NULL;
         this->vboWithMatrixType=edk::GU::vbo_NULL;
         this->vboWireType=edk::GU::vbo_NULL;
+
         //array for the vbo
         this->vertexBuffer.Constructor();
         this->vertexBufferWithMatrix.Constructor();
         this->vertexBufferWire.Constructor();
+
         //vbo vertexes size
         this->vboCount=0u;
         this->vboWireCount=0u;
@@ -107,6 +109,16 @@ void edk::shape::Polygon3DList::Destructor(){
         //can destruct the class
         //clean the polygons
         this->cleanPolygons();
+
+        this->polygons.Destructor();
+        this->tempP.Destructor();
+        this->vertexs.Destructor();
+        this->vertexsWithMatrix.Destructor();
+        this->vertexsWire.Destructor();
+        //array for the vbo
+        this->vertexBuffer.Destructor();
+        this->vertexBufferWithMatrix.Destructor();
+        this->vertexBufferWire.Destructor();
     }
 }
 

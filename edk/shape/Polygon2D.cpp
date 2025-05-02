@@ -151,6 +151,16 @@ void edk::shape::Polygon2D::Destructor(){
         //can destruct the class
         //destroy the polygon
         this->deletePolygon();
+
+        this->vertexs.Destructor();
+        this->vertexsOriginal.Destructor();
+        this->vertexBuffer.Destructor();
+        this->vertexsMorph.Destructor();
+        this->matrixTranslate.Destructor();
+        this->matrixRotate.Destructor();
+        this->matrixScale.Destructor();
+        this->matrixTransform.Destructor();
+        this->matrixPosition.Destructor();
     }
 }
 

@@ -49,6 +49,8 @@ void edk::ViewMenu::Destructor(){
     if(this->classThis==this){
         this->classThis=NULL;
         //can destruct the class
+
+        this->cam.Destructor();
     }
     edk::ViewSpriteController::Destructor();
 }

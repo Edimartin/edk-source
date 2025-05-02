@@ -139,6 +139,15 @@ void edk::Window::Destructor(){
         this->fileEvents.closeFile();
         this->treeEventTypes.clean();
 #endif
+
+        this->viewWindow.Destructor();
+        this->time.Destructor();
+        this->events.Destructor();
+#if defined(EDK_WINDOW_EVENTS_RW)
+        this->saveEvents.Destructor();
+        this->fileEvents.Destructor();
+        this->treeEventTypes.Destructor();
+#endif
     }
 }
 
