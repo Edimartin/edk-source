@@ -92,7 +92,7 @@ void edk::Texture2DFile::Constructor(const char *textureFileName){
         this->classThis=this;
 
         this->image.Constructor();
-
+/*
 #if defined(EDK_TEX2DFILE_PRINT_DEBUG)
         if(edk::Texture2DFile::templateConstructNeed){
             edk::Texture2DFile::debugFile.Constructor();
@@ -100,6 +100,7 @@ void edk::Texture2DFile::Constructor(const char *textureFileName){
             edk::Texture2DFile::templateConstructNeed=false;
         }
 #endif
+*/
         //
         this->setName(textureFileName);
     }
@@ -114,9 +115,12 @@ void edk::Texture2DFile::Destructor(){
         this->removeAll();
 
         this->image.Destructor();
-
+/*
+#if defined(EDK_TEX2DFILE_PRINT_DEBUG)
         edk::Texture2DFile::debugFile.Destructor();
         edk::Texture2DFile::debugMut.Destructor();
+#endif
+*/
     }
     edk::Texture2D::Destructor();
 }
