@@ -935,6 +935,7 @@ bool edk::File::openPipe(const edk::char8 *name){
 void edk::File::closeFile(){
     //Test if the file is opened
     if(this->isOpened()){
+        this->flush();
         //Then close the file
         fclose(this->arq);
     }
