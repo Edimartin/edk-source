@@ -749,10 +749,12 @@ void b2World::SolveTOI(const b2TimeStep& step)
 				bA->m_xf.p.y = bA->upC.y;
 				//bA->runUpCY=false;
 			}
+            /*
 			if(bA->runUpA){
 				bA->m_sweep.a = bA->upA;
 				//bA->runUpA=false;
 			}
+            */
 			if(bB->runUpCX){
 				bB->m_xf.p.x = bB->upC.x;
 				//bB->runUpCX=false;
@@ -761,10 +763,12 @@ void b2World::SolveTOI(const b2TimeStep& step)
 				bB->m_xf.p.y = bB->upC.y;
 				//bB->runUpCY=false;
 			}
+            /*
 			if(bB->runUpA){
 				bB->m_sweep.a = bB->upA;
 				//bB->runUpA=false;
 			}
+            */
 		}
 		
 		// The TOI contact likely has some new contact points.
@@ -792,10 +796,12 @@ void b2World::SolveTOI(const b2TimeStep& step)
 					bA->m_xf.p.y = bA->upC.y;
 					//bA->runUpCY=false;
 				}
+                /*
 				if(bA->runUpA){
 					bA->m_sweep.a = bA->upA;
 					//bA->runUpA=false;
 				}
+                */
 				if(bB->runUpCX){
 					bB->m_xf.p.x = bB->upC.x;
 					//bB->runUpCX=false;
@@ -804,10 +810,12 @@ void b2World::SolveTOI(const b2TimeStep& step)
 					bB->m_xf.p.y = bB->upC.y;
 					//bB->runUpCY=false;
 				}
+                /*
 				if(bB->runUpA){
 					bB->m_sweep.a = bB->upA;
 					//bB->runUpA=false;
 				}
+                */
 			}
 
 			//Set the objects old position if it's not collide.

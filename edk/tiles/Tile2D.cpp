@@ -213,38 +213,38 @@ void edk::tiles::Tile2D::useFrameUVinPosition(edk::uint32 position){
 }
 
 //Set the tileImage
-bool edk::tiles::Tile2D::loadImage(const edk::char8* name,edk::uint32 filter){
+bool edk::tiles::Tile2D::loadImage(const edk::char8* name,edk::uint32 minFilter,edk::uint32 magFilter){
     //
-    return this->loadImage((edk::char8*) name,filter);
+    return this->loadImage((edk::char8*) name,minFilter,magFilter);
 }
-bool edk::tiles::Tile2D::loadImage(edk::char8* name,edk::uint32 filter){
+bool edk::tiles::Tile2D::loadImage(edk::char8* name,edk::uint32 minFilter,edk::uint32 magFilter){
     //test the name
     if(name){
-        return this->mesh.material.loadTexture(name,0u,filter);
+        return this->mesh.material.loadTexture(name,0u,minFilter,magFilter);
     }
     //else return false
     return false;
 }
 //set the tileImage from memory
-bool edk::tiles::Tile2D::loadImageFromMemory(const edk::char8* name,edk::uint8* image,edk::uint32 size,edk::uint32 filter){
-    return this->loadImageFromMemory(name,image,size,filter);
+bool edk::tiles::Tile2D::loadImageFromMemory(const edk::char8* name,edk::uint8* image,edk::uint32 size,edk::uint32 minFilter,edk::uint32 magFilter){
+    return this->loadImageFromMemory(name,image,size,minFilter,magFilter);
 }
-bool edk::tiles::Tile2D::loadImageFromMemory(edk::char8* name,edk::uint8* image,edk::uint32 size,edk::uint32 filter){
+bool edk::tiles::Tile2D::loadImageFromMemory(edk::char8* name,edk::uint8* image,edk::uint32 size,edk::uint32 minFilter,edk::uint32 magFilter){
     //test the name
     if(name){
-        return this->mesh.material.loadTextureFromMemory(name,image,size,0u,filter);
+        return this->mesh.material.loadTextureFromMemory(name,image,size,0u,minFilter,magFilter);
     }
     //else return false
     return false;
 }
 //set the tileImage from the pack
-bool edk::tiles::Tile2D::loadImageFromPack(edk::pack::FilePackage* pack,const edk::char8* name,edk::uint32 filter){
-    return this->loadImageFromPack(pack,(edk::char8*) name,filter);
+bool edk::tiles::Tile2D::loadImageFromPack(edk::pack::FilePackage* pack,const edk::char8* name,edk::uint32 minFilter,edk::uint32 magFilter){
+    return this->loadImageFromPack(pack,(edk::char8*) name,minFilter,magFilter);
 }
-bool edk::tiles::Tile2D::loadImageFromPack(edk::pack::FilePackage* pack,edk::char8* name,edk::uint32 filter){
+bool edk::tiles::Tile2D::loadImageFromPack(edk::pack::FilePackage* pack,edk::char8* name,edk::uint32 minFilter,edk::uint32 magFilter){
     //test the name
     if(name && pack){
-        return this->mesh.material.loadTextureFromPack(pack,name,0u,filter);
+        return this->mesh.material.loadTextureFromPack(pack,name,0u,minFilter,magFilter);
     }
     //else return false
     return false;

@@ -95,6 +95,11 @@ public:
 
     void closeWindow();
 
+    void setVSYNC(bool vsync);
+    void enableVSYNC();
+    void disableVSYNC();
+    bool isUsingVSYNC();
+
     void clean();
 
     edk::uint32 getViewCount();
@@ -369,6 +374,8 @@ private:
     //janela SFML
     sf::RenderWindow window;
     //sf::Window window;
+
+    bool vsync;
 
     //View principal
     edk::ViewController viewWindow;

@@ -44,7 +44,8 @@ void edk::Texture2D::Constructor(){
         this->textureId=0u;
         this->pbo=0u;
         this->mode = 0u;
-        this->filter = 0u;
+        this->minFilter = 0u;
+        this->magFilter = 0u;
     }
 }
 void edk::Texture2D::Destructor(){
@@ -57,7 +58,13 @@ void edk::Texture2D::Destructor(){
 }
 
 //alloc the textureObject
-bool edk::Texture2D::createTexture(edk::uint32 width, edk::uint32 height, edk::uint32 mode, const edk::classID  data, edk::uint32 filter){
+bool edk::Texture2D::createTexture(edk::uint32 width,
+                                   edk::uint32 height,
+                                   edk::uint32 mode,
+                                   const edk::classID  data,
+                                   edk::uint32 minFilter,
+                                   edk::uint32 magFilter
+                                   ){
     //alloc the texture
     //first delete the texture
     this->deleteTexture();
@@ -92,18 +99,25 @@ bool edk::Texture2D::createTexture(edk::uint32 width, edk::uint32 height, edk::u
     }
 
     //then alloc the texture
-    this->textureId = edk::GU::guAllocTexture2D(width, height, this->mode, filter, data);
+    this->textureId = edk::GU::guAllocTexture2D(width, height, this->mode, minFilter,magFilter, data);
     if(this->textureId){
         this->size.width = width;
         this->size.height = height;
-        this->filter = filter;
+        this->minFilter = minFilter;
+        this->magFilter = magFilter;
         //return true
         return true;
     }
     //else return false
     return false;
 }
-bool edk::Texture2D::createTextureWithPBODraw(edk::uint32 width, edk::uint32 height, edk::uint32 mode, const edk::classID  data, edk::uint32 filter){
+bool edk::Texture2D::createTextureWithPBODraw(edk::uint32 width,
+                                              edk::uint32 height,
+                                              edk::uint32 mode,
+                                              const edk::classID  data,
+                                              edk::uint32 minFilter,
+                                              edk::uint32 magFilter
+        ){
     //alloc the texture
     //first delete the texture
     this->deleteTexture();
@@ -148,11 +162,12 @@ bool edk::Texture2D::createTextureWithPBODraw(edk::uint32 width, edk::uint32 hei
     }
 
     //then alloc the texture
-    this->textureId = edk::GU::guAllocTexture2D(width, height, this->mode, filter, data);
+    this->textureId = edk::GU::guAllocTexture2D(width, height, this->mode, minFilter,magFilter, data);
     if(this->textureId){
         this->size.width = width;
         this->size.height = height;
-        this->filter = filter;
+        this->minFilter = minFilter;
+        this->magFilter = magFilter;
 
         //generate the PBO
         this->pbo = edk::GU_GLSL::guAllocBuffer(GU_PIXEL_UNPACK_BUFFER);
@@ -167,7 +182,13 @@ bool edk::Texture2D::createTextureWithPBODraw(edk::uint32 width, edk::uint32 hei
     //else return false
     return false;
 }
-bool edk::Texture2D::createTextureWithPBORead(edk::uint32 width, edk::uint32 height, edk::uint32 mode, const edk::classID  data, edk::uint32 filter){
+bool edk::Texture2D::createTextureWithPBORead(edk::uint32 width,
+                                              edk::uint32 height,
+                                              edk::uint32 mode,
+                                              const edk::classID  data,
+                                              edk::uint32 minFilter,
+                                              edk::uint32 magFilter
+                        ){
     //alloc the texture
     //first delete the texture
     this->deleteTexture();
@@ -212,11 +233,12 @@ bool edk::Texture2D::createTextureWithPBORead(edk::uint32 width, edk::uint32 hei
     }
 
     //then alloc the texture
-    this->textureId = edk::GU::guAllocTexture2D(width, height, this->mode, filter, data);
+    this->textureId = edk::GU::guAllocTexture2D(width, height, this->mode, minFilter,magFilter, data);
     if(this->textureId){
         this->size.width = width;
         this->size.height = height;
-        this->filter = filter;
+        this->minFilter = minFilter;
+        this->magFilter = magFilter;
 
         //generate the PBO
         this->pbo = edk::GU_GLSL::guAllocBuffer(GU_PIXEL_PACK_BUFFER);
@@ -237,21 +259,22 @@ bool edk::Texture2D::drawToTexture(const edk::classID  data){
     if(this->getID() && this->size.width && this->size.height && this->mode){
         //then draw to texture
         if(this->getPBO()){
-            return edk::GU::guDrawPBOToTexture2D(this->getPBO(),this->getID(),this->size.width,this->size.height,this->mode,this->filter,data);
+            return edk::GU::guDrawPBOToTexture2D(this->getPBO(),this->getID(),this->size.width,this->size.height,this->mode,data);
         }
-        return edk::GU::guDrawToTexture2D(this->getID(),this->size.width,this->size.height,this->mode,this->filter,data);
+        return edk::GU::guDrawToTexture2D(this->getID(),this->size.width,this->size.height,this->mode,this->minFilter,this->magFilter,data);
     }
     return false;
 }
-bool edk::Texture2D::drawToTexture(const edk::classID  data, edk::uint32 filter){
+bool edk::Texture2D::drawToTexture(const edk::classID  data, edk::uint32 minFilter, edk::uint32 magFilter){
     //test if have texture
     if(this->getID() && this->size.width && this->size.height && this->mode){
         //then draw to texture
-        this->filter = filter;
+        this->minFilter = minFilter;
+        this->magFilter = magFilter;
         if(this->getPBO()){
-            return edk::GU::guDrawPBOToTexture2D(this->getPBO(),this->getID(),this->size.width,this->size.height,this->mode,filter,data);
+            return edk::GU::guDrawPBOToTexture2D(this->getPBO(),this->getID(),this->size.width,this->size.height,this->mode,data);
         }
-        return edk::GU::guDrawToTexture2D(this->getID(),this->size.width,this->size.height,this->mode,filter,data);
+        return edk::GU::guDrawToTexture2D(this->getID(),this->size.width,this->size.height,this->mode,minFilter,magFilter,data);
     }
     return false;
 }

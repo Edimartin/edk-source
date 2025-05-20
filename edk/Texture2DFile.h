@@ -93,12 +93,18 @@ public:
     static void closeDebugFile();
 
     //LOAD
-    bool loadFromFile(edk::char8 *fileName,edk::uint32 filter = GU_NEAREST);
-    bool loadFromFile(const char *fileName,edk::uint32 filter = GU_NEAREST);
+    bool loadFromFile(edk::char8 *fileName,edk::uint32 minFilter = GU_LINEAR,edk::uint32 magFilter = GU_NEAREST);
+    bool loadFromFile(const char *fileName,edk::uint32 minFilter = GU_LINEAR,edk::uint32 magFilter = GU_NEAREST);
     //LOAD from memory
-    bool loadFromMemory(edk::uint8* image,edk::uint32 size,edk::uint32 filter = GU_NEAREST);
+    bool loadFromMemory(edk::uint8* image,edk::uint32 size,edk::uint32 minFilter = GU_LINEAR,edk::uint32 magFilter = GU_NEAREST);
     //SERT from memory
-    bool setFromMemory(edk::uint8* image,edk::uint32 width,edk::uint32 height,edk::uint32 channels,edk::uint32 filter = GU_NEAREST);
+    bool setFromMemory(edk::uint8* image,
+                       edk::uint32 width,
+                       edk::uint32 height,
+                       edk::uint32 channels,
+                       edk::uint32 minFilter = GU_LINEAR,
+                       edk::uint32 magFilter = GU_NEAREST
+            );
 
 protected:
 private:

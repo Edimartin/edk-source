@@ -90,22 +90,24 @@ public:
     edk::uint32 getTheLastPositionY();
 
     //load fontImage
-    bool loadFontImage(const edk::char8* name,edk::uint32 filter = GU_NEAREST,edk::color4f32 color = edk::color4f32(0,0,0,1));
-    bool loadFontImage(edk::char8* name,edk::uint32 filter = GU_NEAREST,edk::color4f32 color = edk::color4f32(0,0,0,1));
+    bool loadFontImage(const edk::char8* name,edk::uint32 minFilter = GU_LINEAR,edk::uint32 magFilter = GU_NEAREST,edk::color4f32 color = edk::color4f32(0,0,0,1));
+    bool loadFontImage(edk::char8* name,edk::uint32 minFilter = GU_LINEAR,edk::uint32 magFilter = GU_NEAREST,edk::color4f32 color = edk::color4f32(0,0,0,1));
     bool loadFontImageFromMemory(const edk::char8* name,
                                  edk::uint8* image,
                                  edk::uint32 size,
-                                 edk::uint32 filter = GU_NEAREST,
+                                 edk::uint32 minFilter = GU_LINEAR,
+                                 edk::uint32 magFilter = GU_NEAREST,
                                  edk::color4f32 color = edk::color4f32(0,0,0,1)
             );
     bool loadFontImageFromMemory(edk::char8* name,
                                  edk::uint8* image,
                                  edk::uint32 size,
-                                 edk::uint32 filter = GU_NEAREST,
+                                 edk::uint32 minFilter = GU_LINEAR,
+                                 edk::uint32 magFilter = GU_NEAREST,
                                  edk::color4f32 color = edk::color4f32(0,0,0,1)
             );
-    bool loadFontImageFromPack(edk::pack::FilePackage* pack,const edk::char8* name,edk::uint32 filter = GU_NEAREST,edk::color4f32 color = edk::color4f32(0,0,0,1));
-    bool loadFontImageFromPack(edk::pack::FilePackage* pack,edk::char8* name,edk::uint32 filter = GU_NEAREST,edk::color4f32 color = edk::color4f32(0,0,0,1));
+    bool loadFontImageFromPack(edk::pack::FilePackage* pack,const edk::char8* name,edk::uint32 minFilter = GU_LINEAR,edk::uint32 magFilter = GU_NEAREST,edk::color4f32 color = edk::color4f32(0,0,0,1));
+    bool loadFontImageFromPack(edk::pack::FilePackage* pack,edk::char8* name,edk::uint32 minFilter = GU_LINEAR,edk::uint32 magFilter = GU_NEAREST,edk::color4f32 color = edk::color4f32(0,0,0,1));
 
     //create a map
     bool createMap(edk::size2ui32 size);

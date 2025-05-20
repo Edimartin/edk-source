@@ -75,26 +75,26 @@ void edk::ViewText::drawScene(edk::rectf32){
         if(this->textLine){
             //resize the camera
             this->camera.setRectPoints(0.f,
-                                       0.f - (this->textLine - 1u),
-                                       this->rectSave.size.width / (this->rectSave.size.height / this->textLine),
-                                       1 + (this->textLine - 1u)
-                                       );
+                                 0.f - (this->textLine - 1u),
+                                 this->rectSave.size.width / (this->rectSave.size.height / this->textLine),
+                                 1 + (this->textLine - 1u)
+                                 );
         }
         else if(this->frame.size.height){
             //update the camera size
             this->camera.setRectPoints(0,
-                                       0,
-                                       this->frame.size.width/this->frame.size.height,
-                                       1
-                                       );
+                                 0,
+                                 this->frame.size.width/this->frame.size.height,
+                                 1
+                                 );
         }
         else{
             //update the camera size
             this->camera.setRectPoints(0,
-                                       0,
-                                       1,
-                                       1
-                                       );
+                                 0,
+                                 1,
+                                 1
+                                 );
         }
         this->saveLine = this->textLine;
     }
@@ -128,11 +128,11 @@ bool edk::ViewText::createString(const edk::char8* string){
 }
 
 //load the font image
-bool edk::ViewText::loadFontImage(edk::char8* name,edk::uint32 filter,edk::color4f32 color){
-    return this->text.loadFontImage(name,filter,color);
+bool edk::ViewText::loadFontImage(edk::char8* name,edk::uint32 minFilter,edk::uint32 magFilter,edk::color4f32 color){
+    return this->text.loadFontImage(name,minFilter,magFilter,color);
 }
-bool edk::ViewText::loadFontImage(const edk::char8* name,edk::uint32 filter,edk::color4f32 color){
-    return this->text.loadFontImage(name,filter,color);
+bool edk::ViewText::loadFontImage(const edk::char8* name,edk::uint32 minFilter,edk::uint32 magFilter,edk::color4f32 color){
+    return this->text.loadFontImage(name,minFilter,magFilter,color);
 }
 
 //set the color

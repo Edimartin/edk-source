@@ -70,14 +70,14 @@ void edk::InfiniteWallpaper::clean(){
     this->saveLenght=0u;
 }
 //add new wallpaper
-//filter
+//filters
 //GU_NEAREST
 //GU_LINEAR
 //GU_NEAREST_MIPMAP_NEAREST
 //GU_NEAREST_MIPMAP_LINEAR
 //GU_LINEAR_MIPMAP_NEAREST
 //GU_LINEAR_MIPMAP_LINEAR
-bool edk::InfiniteWallpaper::newWallpaper(edk::char8* name,edk::uint32 drawTimes,edk::uint32 filter){
+bool edk::InfiniteWallpaper::newWallpaper(edk::char8* name,edk::uint32 drawTimes,edk::uint32 minFilter,edk::uint32 magFilter){
     if(name){
         edk::InfiniteWallpaper::WallpaperObject* temp = new edk::InfiniteWallpaper::WallpaperObject(drawTimes);
         if(temp){
@@ -87,7 +87,7 @@ bool edk::InfiniteWallpaper::newWallpaper(edk::char8* name,edk::uint32 drawTimes
                 edk::shape::Rectangle2D rect;
                 rect.setPivoToCenter();
                 mesh->addPolygon(rect);
-                if(mesh->material.loadTexture(name,0u,filter)){
+                if(mesh->material.loadTexture(name,0u,minFilter,magFilter)){
                     //add the temp in to the stack
                     edk::uint32 size = this->stack.size();
                     this->stack.pushBack(temp);
@@ -103,10 +103,10 @@ bool edk::InfiniteWallpaper::newWallpaper(edk::char8* name,edk::uint32 drawTimes
     }
     return false;
 }
-bool edk::InfiniteWallpaper::newWallpaper(const edk::char8* name,edk::uint32 drawTimes,edk::uint32 filter){
-    return newWallpaper((edk::char8*) name,drawTimes,filter);
+bool edk::InfiniteWallpaper::newWallpaper(const edk::char8* name,edk::uint32 drawTimes,edk::uint32 minFilter,edk::uint32 magFilter){
+    return newWallpaper((edk::char8*) name,drawTimes,minFilter,magFilter);
 }
-bool edk::InfiniteWallpaper::newWallpaperFromMemory(edk::char8* name,edk::uint8* image,edk::uint32 size,edk::uint32 drawTimes,edk::uint32 filter){
+bool edk::InfiniteWallpaper::newWallpaperFromMemory(edk::char8* name,edk::uint8* image,edk::uint32 size,edk::uint32 drawTimes,edk::uint32 minFilter,edk::uint32 magFilter){
     if(name){
         edk::InfiniteWallpaper::WallpaperObject* temp = new edk::InfiniteWallpaper::WallpaperObject(drawTimes);
         if(temp){
@@ -116,7 +116,7 @@ bool edk::InfiniteWallpaper::newWallpaperFromMemory(edk::char8* name,edk::uint8*
                 edk::shape::Rectangle2D rect;
                 rect.setPivoToCenter();
                 mesh->addPolygon(rect);
-                if(mesh->material.loadTextureFromMemory(name,image,size,0u,filter)){
+                if(mesh->material.loadTextureFromMemory(name,image,size,0u,minFilter,magFilter)){
                     //add the temp in to the stack
                     edk::uint32 size = this->stack.size();
                     this->stack.pushBack(temp);
@@ -132,10 +132,10 @@ bool edk::InfiniteWallpaper::newWallpaperFromMemory(edk::char8* name,edk::uint8*
     }
     return false;
 }
-bool edk::InfiniteWallpaper::newWallpaperFromMemory(const edk::char8* name,edk::uint8* image,edk::uint32 size,edk::uint32 drawTimes,edk::uint32 filter){
-    return this->newWallpaperFromMemory((edk::char8*) name,image,size,drawTimes,filter);
+bool edk::InfiniteWallpaper::newWallpaperFromMemory(const edk::char8* name,edk::uint8* image,edk::uint32 size,edk::uint32 drawTimes,edk::uint32 minFilter,edk::uint32 magFilter){
+    return this->newWallpaperFromMemory((edk::char8*) name,image,size,drawTimes,minFilter,magFilter);
 }
-bool edk::InfiniteWallpaper::newWallpaperFromPack(edk::pack::FilePackage* pack,edk::char8* name,edk::uint32 drawTimes,edk::uint32 filter){
+bool edk::InfiniteWallpaper::newWallpaperFromPack(edk::pack::FilePackage* pack,edk::char8* name,edk::uint32 drawTimes,edk::uint32 minFilter,edk::uint32 magFilter){
     if(name){
         edk::InfiniteWallpaper::WallpaperObject* temp = new edk::InfiniteWallpaper::WallpaperObject(drawTimes);
         if(temp){
@@ -145,7 +145,7 @@ bool edk::InfiniteWallpaper::newWallpaperFromPack(edk::pack::FilePackage* pack,e
                 edk::shape::Rectangle2D rect;
                 rect.setPivoToCenter();
                 mesh->addPolygon(rect);
-                if(mesh->material.loadTextureFromPack(pack,name,0u,filter)){
+                if(mesh->material.loadTextureFromPack(pack,name,0u,minFilter,magFilter)){
                     //add the temp in to the stack
                     edk::uint32 size = this->stack.size();
                     this->stack.pushBack(temp);
@@ -161,8 +161,8 @@ bool edk::InfiniteWallpaper::newWallpaperFromPack(edk::pack::FilePackage* pack,e
     }
     return false;
 }
-bool edk::InfiniteWallpaper::newWallpaperFromPack(edk::pack::FilePackage* pack,const edk::char8* name,edk::uint32 drawTimes,edk::uint32 filter){
-    return this->newWallpaperFromPack(pack,(edk::char8*) name,drawTimes,filter);
+bool edk::InfiniteWallpaper::newWallpaperFromPack(edk::pack::FilePackage* pack,const edk::char8* name,edk::uint32 drawTimes,edk::uint32 minFilter,edk::uint32 magFilter){
+    return this->newWallpaperFromPack(pack,(edk::char8*) name,drawTimes,minFilter,magFilter);
 }
 //clone a wallpaper from an object
 bool edk::InfiniteWallpaper::newWallpaperFromObject2D(edk::Object2D* obj,edk::uint32 drawTimes){
@@ -324,7 +324,7 @@ void edk::InfiniteWallpaper::update(edk::float32 runMove,edk::float32 seconds){
                         for(edk::uint32 y=0u;y<size.height;y++){
                             position = this->matrix.get(size.width-1u,y);
 #if defined(EDK_INFITINE_WALLPAPER_DEBUG_ON)
-                            printf("\n%u %s %s this->matrix.remove((size.width[%u]-1u)[%u],y[%u])[%u]; ",__LINE__,__FILE__,__func__
+                            printf("\n%u %s %s this->matrix.remove((size.width[%u]-1u)[%u],y[%u])[%u];",__LINE__,__FILE__,__func__
                                    ,size.width
                                    ,size.width-1u
                                    ,y
@@ -482,7 +482,7 @@ void edk::InfiniteWallpaper::update(edk::float32 runMove,edk::float32 seconds){
                             }
                         }
 #if defined(EDK_INFITINE_WALLPAPER_DEBUG_ON)
-                        printf("\n%u %s %s this->matrix.set(0[%u],y[%u],position[%u]); ",__LINE__,__FILE__,__func__
+                        printf("\n%u %s %s this->matrix.set(0[%u],y[%u],position[%u]);",__LINE__,__FILE__,__func__
                                ,0
                                ,y
                                ,position
@@ -513,7 +513,7 @@ void edk::InfiniteWallpaper::update(edk::float32 runMove,edk::float32 seconds){
                         for(edk::uint32 y=0u;y<size.height;y++){
                             position = this->matrix.get(0u,y);
 #if defined(EDK_INFITINE_WALLPAPER_DEBUG_ON)
-                            printf("\n%u %s %s this->matrix.remove(0u[%u],y[%u])[%u]; ",__LINE__,__FILE__,__func__
+                            printf("\n%u %s %s this->matrix.remove(0u[%u],y[%u])[%u];",__LINE__,__FILE__,__func__
                                    ,0u
                                    ,y
                                    ,position
@@ -663,7 +663,7 @@ void edk::InfiniteWallpaper::update(edk::float32 runMove,edk::float32 seconds){
                                 }
                             }
 #if defined(EDK_INFITINE_WALLPAPER_DEBUG_ON)
-                            printf("\n%u %s %s this->matrix.set(size.width[%u],y[%u],position[%u]); ",__LINE__,__FILE__,__func__
+                            printf("\n%u %s %s this->matrix.set(size.width[%u],y[%u],position[%u]);",__LINE__,__FILE__,__func__
                                    ,size.width
                                    ,y
                                    ,position
@@ -1020,8 +1020,8 @@ void edk::InfiniteWallpaper::drawInsideRect(edk::rectf32 rect){
                                        ) + 1;
     edk::vec2i32 lenghtDouble;
     if(lenght.x<0){
-        lenght.x*=-1; }
-
+        lenght.x*=-1;
+    }
     if(lenght.y<0){
         lenght.y*=-1;
     }

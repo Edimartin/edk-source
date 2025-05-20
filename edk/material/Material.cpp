@@ -88,13 +88,13 @@ void edk::material::Material::useMaterialParameters(){
 }
 
 //create a new texture
-bool edk::material::Material::newTexture(edk::char8* name,edk::size2ui32 size,edk::uint8 position,edk::uint32 mode,edk::uint32 filter){
+bool edk::material::Material::newTexture(edk::char8* name,edk::size2ui32 size,edk::uint8 position,edk::uint32 mode,edk::uint32 minFilter,edk::uint32 magFilter){
     //test the position
     if(position<materialTextureCount){
         //remove the texture
         this->removeTexture(position);
         //then load the new texture
-        this->textures[position] = this->list.createTexture(name,size,mode,filter);
+        this->textures[position] = this->list.createTexture(name,size,mode,minFilter,magFilter);
         if(this->textures[position]){
             this->countTextures++;
             return true;
@@ -102,22 +102,22 @@ bool edk::material::Material::newTexture(edk::char8* name,edk::size2ui32 size,ed
     }
     return false;
 }
-bool edk::material::Material::newTexture(const edk::char8* name,edk::size2ui32 size,edk::uint8 position,edk::uint32 mode,edk::uint32 filter){
-    return this->newTexture((edk::char8*) name,size,position,mode,filter);
+bool edk::material::Material::newTexture(const edk::char8* name,edk::size2ui32 size,edk::uint8 position,edk::uint32 mode,edk::uint32 minFilter,edk::uint32 magFilter){
+    return this->newTexture((edk::char8*) name,size,position,mode,minFilter,magFilter);
 }
-bool edk::material::Material::newTexture(edk::char8* name,edk::uint32 width,edk::uint32 height,edk::uint8 position,edk::uint32 mode,edk::uint32 filter){
-    return this->newTexture(name,edk::size2ui32(width,height),position,mode,filter);
+bool edk::material::Material::newTexture(edk::char8* name,edk::uint32 width,edk::uint32 height,edk::uint8 position,edk::uint32 mode,edk::uint32 minFilter,edk::uint32 magFilter){
+    return this->newTexture(name,edk::size2ui32(width,height),position,mode,minFilter,magFilter);
 }
-bool edk::material::Material::newTexture(const edk::char8* name,edk::uint32 width,edk::uint32 height,edk::uint8 position,edk::uint32 mode,edk::uint32 filter){
-    return this->newTexture((edk::char8*) name,edk::size2ui32(width,height),position,mode,filter);
+bool edk::material::Material::newTexture(const edk::char8* name,edk::uint32 width,edk::uint32 height,edk::uint8 position,edk::uint32 mode,edk::uint32 minFilter,edk::uint32 magFilter){
+    return this->newTexture((edk::char8*) name,edk::size2ui32(width,height),position,mode,minFilter,magFilter);
 }
-bool edk::material::Material::newTextureWithPBODraw(edk::char8* name,edk::size2ui32 size,edk::uint8 position,edk::uint32 mode,edk::uint32 filter){
+bool edk::material::Material::newTextureWithPBODraw(edk::char8* name,edk::size2ui32 size,edk::uint8 position,edk::uint32 mode,edk::uint32 minFilter,edk::uint32 magFilter){
     //test the position
     if(position<materialTextureCount){
         //remove the texture
         this->removeTexture(position);
         //then load the new texture
-        this->textures[position] = this->list.createTextureWithPBODraw(name,size,mode,filter);
+        this->textures[position] = this->list.createTextureWithPBODraw(name,size,mode,minFilter,magFilter);
         if(this->textures[position]){
             this->countTextures++;
             return true;
@@ -125,23 +125,23 @@ bool edk::material::Material::newTextureWithPBODraw(edk::char8* name,edk::size2u
     }
     return false;
 }
-bool edk::material::Material::newTextureWithPBODraw(const edk::char8* name,edk::size2ui32 size,edk::uint8 position,edk::uint32 mode,edk::uint32 filter){
-    return newTextureWithPBODraw((edk::char8*) name,size,position,mode,filter);
+bool edk::material::Material::newTextureWithPBODraw(const edk::char8* name,edk::size2ui32 size,edk::uint8 position,edk::uint32 mode,edk::uint32 minFilter,edk::uint32 magFilter){
+    return newTextureWithPBODraw((edk::char8*) name,size,position,mode,minFilter,magFilter);
 }
-bool edk::material::Material::newTextureWithPBODraw(edk::char8* name,edk::uint32 width,edk::uint32 height,edk::uint8 position,edk::uint32 mode,edk::uint32 filter){
-    return newTextureWithPBODraw(name,edk::size2ui32(width,height),position,mode,filter);
+bool edk::material::Material::newTextureWithPBODraw(edk::char8* name,edk::uint32 width,edk::uint32 height,edk::uint8 position,edk::uint32 mode,edk::uint32 minFilter,edk::uint32 magFilter){
+    return newTextureWithPBODraw(name,edk::size2ui32(width,height),position,mode,minFilter,magFilter);
 }
-bool edk::material::Material::newTextureWithPBODraw(const edk::char8* name,edk::uint32 width,edk::uint32 height,edk::uint8 position,edk::uint32 mode,edk::uint32 filter){
-    return newTextureWithPBODraw((edk::char8*) name,edk::size2ui32(width,height),position,mode,filter);
+bool edk::material::Material::newTextureWithPBODraw(const edk::char8* name,edk::uint32 width,edk::uint32 height,edk::uint8 position,edk::uint32 mode,edk::uint32 minFilter,edk::uint32 magFilter){
+    return newTextureWithPBODraw((edk::char8*) name,edk::size2ui32(width,height),position,mode,minFilter,magFilter);
 }
 //create a new texture passing the buffer
-bool edk::material::Material::newTextureAndDraw(edk::char8* name,edk::size2ui32 size,edk::uint8* image,edk::uint8 position,edk::uint32 mode,edk::uint32 filter){
+bool edk::material::Material::newTextureAndDraw(edk::char8* name,edk::size2ui32 size,edk::uint8* image,edk::uint8 position,edk::uint32 mode,edk::uint32 minFilter,edk::uint32 magFilter){
     //test the position
     if(position<materialTextureCount){
         //remove the texture
         this->removeTexture(position);
         //then load the new texture
-        this->textures[position] = this->list.createAndDrawTexture(name,size,image,mode,filter);
+        this->textures[position] = this->list.createAndDrawTexture(name,size,image,mode,minFilter,magFilter);
         if(this->textures[position]){
             this->countTextures++;
             return true;
@@ -149,28 +149,28 @@ bool edk::material::Material::newTextureAndDraw(edk::char8* name,edk::size2ui32 
     }
     return false;
 }
-bool edk::material::Material::newTextureAndDraw(const edk::char8* name,edk::size2ui32 size,edk::uint8* image,edk::uint8 position,edk::uint32 mode,edk::uint32 filter){
-    return this->newTextureAndDraw((edk::char8*) name,size,image,position,mode,filter);
+bool edk::material::Material::newTextureAndDraw(const edk::char8* name,edk::size2ui32 size,edk::uint8* image,edk::uint8 position,edk::uint32 mode,edk::uint32 minFilter,edk::uint32 magFilter){
+    return this->newTextureAndDraw((edk::char8*) name,size,image,position,mode,minFilter,magFilter);
 }
-bool edk::material::Material::newTextureAndDraw(edk::char8* name,edk::uint32 width,edk::uint32 height,edk::uint8* image,edk::uint8 position,edk::uint32 mode,edk::uint32 filter){
-    return this->newTextureAndDraw(name,edk::size2ui32(width,height),image,position,mode,filter);
+bool edk::material::Material::newTextureAndDraw(edk::char8* name,edk::uint32 width,edk::uint32 height,edk::uint8* image,edk::uint8 position,edk::uint32 mode,edk::uint32 minFilter,edk::uint32 magFilter){
+    return this->newTextureAndDraw(name,edk::size2ui32(width,height),image,position,mode,minFilter,magFilter);
 }
-bool edk::material::Material::newTextureAndDraw(const edk::char8* name,edk::uint32 width,edk::uint32 height,edk::uint8* image,edk::uint8 position,edk::uint32 mode,edk::uint32 filter){
-    return this->newTextureAndDraw((edk::char8* )name,edk::size2ui32(width,height),image,position,mode,filter);
+bool edk::material::Material::newTextureAndDraw(const edk::char8* name,edk::uint32 width,edk::uint32 height,edk::uint8* image,edk::uint8 position,edk::uint32 mode,edk::uint32 minFilter,edk::uint32 magFilter){
+    return this->newTextureAndDraw((edk::char8* )name,edk::size2ui32(width,height),image,position,mode,minFilter,magFilter);
 }
-bool edk::material::Material::newTextureAndDraw(edk::Image2D* image,edk::uint8 position,edk::uint32 mode,edk::uint32 filter){
+bool edk::material::Material::newTextureAndDraw(edk::Image2D* image,edk::uint8 position,edk::uint32 mode,edk::uint32 minFilter,edk::uint32 magFilter){
     if(image){
-        return this->newTextureAndDraw(image->getName(),image->getSize(),image->getPixels(),position,mode,filter);
+        return this->newTextureAndDraw(image->getName(),image->getSize(),image->getPixels(),position,mode,minFilter,magFilter);
     }
     return false;
 }
-bool edk::material::Material::newTextureAndDrawWithPBODraw(edk::char8* name,edk::size2ui32 size,edk::uint8* image,edk::uint8 position,edk::uint32 mode,edk::uint32 filter){
+bool edk::material::Material::newTextureAndDrawWithPBODraw(edk::char8* name,edk::size2ui32 size,edk::uint8* image,edk::uint8 position,edk::uint32 mode,edk::uint32 minFilter,edk::uint32 magFilter){
     //test the position
     if(position<materialTextureCount){
         //remove the texture
         this->removeTexture(position);
         //then load the new texture
-        this->textures[position] = this->list.createAndDrawTextureWithPBODraw(name,size,image,mode,filter);
+        this->textures[position] = this->list.createAndDrawTextureWithPBODraw(name,size,image,mode,minFilter,magFilter);
         if(this->textures[position]){
             this->countTextures++;
             return true;
@@ -178,30 +178,30 @@ bool edk::material::Material::newTextureAndDrawWithPBODraw(edk::char8* name,edk:
     }
     return false;
 }
-bool edk::material::Material::newTextureAndDrawWithPBODraw(const edk::char8* name,edk::size2ui32 size,edk::uint8* image,edk::uint8 position,edk::uint32 mode,edk::uint32 filter){
-    return this->newTextureAndDrawWithPBODraw((edk::char8*) name,size,image,position,mode,filter);
+bool edk::material::Material::newTextureAndDrawWithPBODraw(const edk::char8* name,edk::size2ui32 size,edk::uint8* image,edk::uint8 position,edk::uint32 mode,edk::uint32 minFilter,edk::uint32 magFilter){
+    return this->newTextureAndDrawWithPBODraw((edk::char8*) name,size,image,position,mode,minFilter,magFilter);
 }
-bool edk::material::Material::newTextureAndDrawWithPBODraw(edk::char8* name,edk::uint32 width,edk::uint32 height,edk::uint8* image,edk::uint8 position,edk::uint32 mode,edk::uint32 filter){
-    return this->newTextureAndDrawWithPBODraw(name,edk::size2ui32(width,height),image,position,mode,filter);
+bool edk::material::Material::newTextureAndDrawWithPBODraw(edk::char8* name,edk::uint32 width,edk::uint32 height,edk::uint8* image,edk::uint8 position,edk::uint32 mode,edk::uint32 minFilter,edk::uint32 magFilter){
+    return this->newTextureAndDrawWithPBODraw(name,edk::size2ui32(width,height),image,position,mode,minFilter,magFilter);
 }
-bool edk::material::Material::newTextureAndDrawWithPBODraw(const edk::char8* name,edk::uint32 width,edk::uint32 height,edk::uint8* image,edk::uint8 position,edk::uint32 mode,edk::uint32 filter){
-    return this->newTextureAndDrawWithPBODraw((edk::char8* )name,edk::size2ui32(width,height),image,position,mode,filter);
+bool edk::material::Material::newTextureAndDrawWithPBODraw(const edk::char8* name,edk::uint32 width,edk::uint32 height,edk::uint8* image,edk::uint8 position,edk::uint32 mode,edk::uint32 minFilter,edk::uint32 magFilter){
+    return this->newTextureAndDrawWithPBODraw((edk::char8* )name,edk::size2ui32(width,height),image,position,mode,minFilter,magFilter);
 }
-bool edk::material::Material::newTextureAndDrawWithPBODraw(edk::Image2D* image,edk::uint8 position,edk::uint32 mode,edk::uint32 filter){
+bool edk::material::Material::newTextureAndDrawWithPBODraw(edk::Image2D* image,edk::uint8 position,edk::uint32 mode,edk::uint32 minFilter,edk::uint32 magFilter){
     if(image){
-        return this->newTextureAndDrawWithPBODraw(image->getName(),image->getSize(),image->getPixels(),position,mode,filter);
+        return this->newTextureAndDrawWithPBODraw(image->getName(),image->getSize(),image->getPixels(),position,mode,minFilter,magFilter);
     }
     return false;
 }
 
 //load the texture
-bool edk::material::Material::loadTexture(edk::char8* name,edk::uint8 position,edk::uint32 filter){
+bool edk::material::Material::loadTexture(edk::char8* name,edk::uint8 position,edk::uint32 minFilter,edk::uint32 magFilter){
     //test the position
     if(position<materialTextureCount){
         //remove the texture
         this->removeTexture(position);
         //then load the new texture
-        this->textures[position] = this->list.loadTexture(name,filter);
+        this->textures[position] = this->list.loadTexture(name,minFilter,magFilter);
         if(this->textures[position]){
             this->countTextures++;
             return true;
@@ -209,16 +209,16 @@ bool edk::material::Material::loadTexture(edk::char8* name,edk::uint8 position,e
     }
     return false;
 }
-bool edk::material::Material::loadTexture(const edk::char8* name,edk::uint8 position,edk::uint32 filter){
-    return this->loadTexture((edk::char8*) name,position,filter);
+bool edk::material::Material::loadTexture(const edk::char8* name,edk::uint8 position,edk::uint32 minFilter,edk::uint32 magFilter){
+    return this->loadTexture((edk::char8*) name,position,minFilter,magFilter);
 }
-bool edk::material::Material::loadTextureFromMemory(edk::char8* name,edk::uint8* image,edk::uint32 size,edk::uint8 position,edk::uint32 filter){
+bool edk::material::Material::loadTextureFromMemory(edk::char8* name,edk::uint8* image,edk::uint32 size,edk::uint8 position,edk::uint32 minFilter,edk::uint32 magFilter){
     //test the position
     if(position<materialTextureCount){
         //remove the texture
         this->removeTexture(position);
         //then load the new texture
-        this->textures[position] = this->list.loadTextureFromMemory(name,image,size,filter);
+        this->textures[position] = this->list.loadTextureFromMemory(name,image,size,minFilter,magFilter);
         if(this->textures[position]){
             this->countTextures++;
             return true;
@@ -226,16 +226,16 @@ bool edk::material::Material::loadTextureFromMemory(edk::char8* name,edk::uint8*
     }
     return false;
 }
-bool edk::material::Material::loadTextureFromMemory(const edk::char8* name,edk::uint8* image,edk::uint32 size,edk::uint8 position,edk::uint32 filter){
-    return loadTextureFromMemory((edk::char8*) name,image,size,position,filter);
+bool edk::material::Material::loadTextureFromMemory(const edk::char8* name,edk::uint8* image,edk::uint32 size,edk::uint8 position,edk::uint32 minFilter,edk::uint32 magFilter){
+    return loadTextureFromMemory((edk::char8*) name,image,size,position,minFilter,magFilter);
 }
-bool edk::material::Material::loadTextureFromPack(edk::pack::FilePackage* pack,edk::char8* name,edk::uint8 position,edk::uint32 filter){
+bool edk::material::Material::loadTextureFromPack(edk::pack::FilePackage* pack,edk::char8* name,edk::uint8 position,edk::uint32 minFilter,edk::uint32 magFilter){
     //test the position
     if(position<materialTextureCount){
         //remove the texture
         this->removeTexture(position);
         //then load the new texture
-        this->textures[position] = this->list.loadTextureFromPack(pack,name,filter);
+        this->textures[position] = this->list.loadTextureFromPack(pack,name,minFilter,magFilter);
         if(this->textures[position]){
             this->countTextures++;
             return true;
@@ -243,17 +243,17 @@ bool edk::material::Material::loadTextureFromPack(edk::pack::FilePackage* pack,e
     }
     return false;
 }
-bool edk::material::Material::loadTextureFromPack(edk::pack::FilePackage* pack,const edk::char8* name,edk::uint8 position,edk::uint32 filter){
-    return this->loadTextureFromPack(pack,(edk::char8*) name,position,filter);
+bool edk::material::Material::loadTextureFromPack(edk::pack::FilePackage* pack,const edk::char8* name,edk::uint8 position,edk::uint32 minFilter,edk::uint32 magFilter){
+    return this->loadTextureFromPack(pack,(edk::char8*) name,position,minFilter,magFilter);
 }
 //set the texture
-bool edk::material::Material::setTextureFromMemory(edk::char8* name,edk::uint8* image,edk::uint32 width,edk::uint32 height,edk::uint32 channels,edk::uint8 position,edk::uint32 filter){
+bool edk::material::Material::setTextureFromMemory(edk::char8* name,edk::uint8* image,edk::uint32 width,edk::uint32 height,edk::uint32 channels,edk::uint8 position,edk::uint32 minFilter,edk::uint32 magFilter){
     //test the position
     if(position<materialTextureCount){
         //remove the texture
         this->removeTexture(position);
         //then load the new texture
-        this->textures[position] = this->list.setTextureFromMemory(name,image,width,height,channels,filter);
+        this->textures[position] = this->list.setTextureFromMemory(name,image,width,height,channels,minFilter,magFilter);
         if(this->textures[position]){
             this->countTextures++;
             return true;
@@ -261,37 +261,37 @@ bool edk::material::Material::setTextureFromMemory(edk::char8* name,edk::uint8* 
     }
     return false;
 }
-bool edk::material::Material::setTextureFromMemory(const edk::char8* name,edk::uint8* image,edk::uint32 width,edk::uint32 height,edk::uint32 channels,edk::uint8 position,edk::uint32 filter){
-    return this->setTextureFromMemory((edk::char8*) name,image,width,height,channels,position,filter);
+bool edk::material::Material::setTextureFromMemory(const edk::char8* name,edk::uint8* image,edk::uint32 width,edk::uint32 height,edk::uint32 channels,edk::uint8 position,edk::uint32 minFilter,edk::uint32 magFilter){
+    return this->setTextureFromMemory((edk::char8*) name,image,width,height,channels,position,minFilter,magFilter);
 }
-bool edk::material::Material::setTextureFromMemory(edk::Image2D* image,edk::uint8 position,edk::uint32 filter){
+bool edk::material::Material::setTextureFromMemory(edk::Image2D* image,edk::uint8 position,edk::uint32 minFilter,edk::uint32 magFilter){
     if(image){
-        return this->setTextureFromMemory(image->getName(),image->getPixels(),image->getSize().width,image->getSize().height,image->getChannels(),position,filter);
+        return this->setTextureFromMemory(image->getName(),image->getPixels(),image->getSize().width,image->getSize().height,image->getChannels(),position,minFilter,magFilter);
     }
     return false;
 }
 //draw into a texture
-bool edk::material::Material::drawToTexture(edk::char8* name,edk::uint8* image,edk::uint32 filter){
+bool edk::material::Material::drawToTexture(edk::char8* name,edk::uint8* image,edk::uint32 minFilter,edk::uint32 magFilter){
     //test the position
     //then load the new texture
-    if(this->list.drawTexture(name,image,filter)){
+    if(this->list.drawTexture(name,image,minFilter,magFilter)){
         return true;
     }
     return false;
 }
-bool edk::material::Material::drawToTexture(const edk::char8* name,edk::uint8* image,edk::uint32 filter){
-    return this->drawToTexture((edk::char8*) name,image,filter);
+bool edk::material::Material::drawToTexture(const edk::char8* name,edk::uint8* image,edk::uint32 minFilter,edk::uint32 magFilter){
+    return this->drawToTexture((edk::char8*) name,image,minFilter,magFilter);
 }
-bool edk::material::Material::drawToTexture(edk::Image2D* image,edk::uint32 filter){
+bool edk::material::Material::drawToTexture(edk::Image2D* image,edk::uint32 minFilter,edk::uint32 magFilter){
     if(image){
-        return this->drawToTexture(image->getName(),image->getPixels(),filter);
+        return this->drawToTexture(image->getName(),image->getPixels(),minFilter,magFilter);
     }
     return false;
 }
 
 //SETERS
 void edk::material::Material::setAmbient(edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a){
-    this->ambient[0] = r; this->ambient[1] = g; this->ambient[2] = b; this->ambient[3] = a;
+    this->ambient[0] = r;this->ambient[1] = g;this->ambient[2] = b;this->ambient[3] = a;
 }
 void edk::material::Material::setAmbient(edk::float32 r,edk::float32 g,edk::float32 b){
     this->setAmbient(r,g,b,1.f);
@@ -306,7 +306,7 @@ void edk::material::Material::setAmbientA(edk::float32 a){
     this->ambient[3] = a;
 }
 void edk::material::Material::setDiffuse(edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a){
-    this->diffuse[0] = r; this->diffuse[1] = g; this->diffuse[2] = b; this->diffuse[3] = a;
+    this->diffuse[0] = r;this->diffuse[1] = g;this->diffuse[2] = b;this->diffuse[3] = a;
 }
 void edk::material::Material::setDiffuse(edk::float32 r,edk::float32 g,edk::float32 b){
     this->setDiffuse(r,g,b,1.f);
@@ -321,7 +321,7 @@ void edk::material::Material::setDiffuseA(edk::float32 a){
     this->diffuse[3] = a;
 }
 void edk::material::Material::setSpecular(edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a){
-    this->specular[0] = r; this->specular[1] = g; this->specular[2] = b; this->specular[3] = a;
+    this->specular[0] = r;this->specular[1] = g;this->specular[2] = b;this->specular[3] = a;
 }
 void edk::material::Material::setSpecular(edk::float32 r,edk::float32 g,edk::float32 b){
     this->setSpecular(r,g,b,1.f);
@@ -336,7 +336,7 @@ void edk::material::Material::setSpecularA(edk::float32 a){
     this->specular[3] = a;
 }
 void edk::material::Material::setEmission(edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a){
-    this->emission[0] = r; this->emission[1] = g; this->emission[2] = b; this->emission[3] = a;
+    this->emission[0] = r;this->emission[1] = g;this->emission[2] = b;this->emission[3] = a;
 }
 void edk::material::Material::setEmission(edk::float32 r,edk::float32 g,edk::float32 b){
     this->setEmission(r,g,b,1.f);
@@ -663,13 +663,15 @@ bool edk::material::Material::writeToXML(edk::XML* xml,edk::uint32 id){
                         //save textures
                         edk::uint32 textureID = 0u;
                         edk::char8* idTemp;
-                        edk::uint32 filter=0u;
+                        edk::uint32 minFilter=0u;
+                        edk::uint32 magFilter=0u;
                         for(edk::uint32 i=0u;i<materialTextureCount;i++){
                             if(this->textures[i]){
                                 textureID = this->textures[i];
                                 //test if have the textureName
                                 temp = this->list.getTextureName(textureID);
-                                filter = this->list.getTextureFilter(textureID);
+                                minFilter = this->list.getTextureMinFilter(textureID);
+                                magFilter = this->list.getTextureMagFilter(textureID);
                                 if(temp){
                                     //save the texture
                                     idTemp = edk::String::int64ToStr(i);
@@ -679,10 +681,15 @@ bool edk::material::Material::writeToXML(edk::XML* xml,edk::uint32 id){
                                             if(xml->addSelectedNextChild(nameTemp)){
                                                 if(xml->selectChild(nameTemp)){
                                                     xml->setSelectedString(temp);
-                                                    //save the filter
-                                                    temp = edk::String::uint32ToStr(filter);
+                                                    //save the filters
+                                                    temp = edk::String::uint32ToStr(minFilter);
                                                     if(temp){
-                                                        xml->addSelectedNextAttribute((edk::char8*)"filter",temp);
+                                                        xml->addSelectedNextAttribute((edk::char8*)"minFilter",temp);
+                                                        free(temp);
+                                                    }
+                                                    temp = edk::String::uint32ToStr(magFilter);
+                                                    if(temp){
+                                                        xml->addSelectedNextAttribute((edk::char8*)"magFilter",temp);
                                                         free(temp);
                                                     }
                                                     xml->selectFather();
@@ -813,9 +820,18 @@ bool edk::material::Material::readFromXML(edk::XML* xml,edk::uint32 id){
                                 if(xml->selectChild(nameTemp)){
                                     temp = edk::String::strCopyWithFilter(xml->getSelectedString(),(edk::char8*)filter);
                                     if(temp){
-                                        this->loadTexture(temp,i,
-                                                          edk::String::strToInt64(xml->getSelectedAttributeValueByName("filter"))
-                                                          );
+                                        //test if it's the old version
+                                        if(xml->haveSelectedAttribute("filter")){
+                                            this->loadTexture(temp,i,
+                                                              edk::String::strToInt64(xml->getSelectedAttributeValueByName("filter"))
+                                                              );
+                                        }
+                                        else{
+                                            this->loadTexture(temp,i,
+                                                              edk::String::strToInt64(xml->getSelectedAttributeValueByName("minFilter")),
+                                                              edk::String::strToInt64(xml->getSelectedAttributeValueByName("magFilter"))
+                                                              );
+                                        }
                                         free(temp);
                                     }
                                     xml->selectFather();
@@ -941,9 +957,18 @@ bool edk::material::Material::readFromXMLFromPack(edk::pack::FilePackage* pack,e
                                 if(xml->selectChild(nameTemp)){
                                     temp = edk::String::strCopyWithFilter(xml->getSelectedString(),(edk::char8*)filter);
                                     if(temp){
-                                        this->loadTextureFromPack(pack,temp,i,
-                                                                  edk::String::strToInt64(xml->getSelectedAttributeValueByName("filter"))
-                                                                  );
+                                        //test if it's the old version
+                                        if(xml->haveSelectedAttribute("filter")){
+                                            this->loadTextureFromPack(pack,temp,i,
+                                                                      edk::String::strToInt64(xml->getSelectedAttributeValueByName("filter"))
+                                                                      );
+                                        }
+                                        else{
+                                            this->loadTextureFromPack(pack,temp,i,
+                                                                      edk::String::strToInt64(xml->getSelectedAttributeValueByName("minFilter")),
+                                                                      edk::String::strToInt64(xml->getSelectedAttributeValueByName("magFilter"))
+                                                                      );
+                                        }
                                         free(temp);
                                     }
                                     xml->selectFather();

@@ -21,19 +21,19 @@ public:
     //clean wallpapers
     void clean();
     //add new wallpaper
-    //filter
+    //filters
     //GU_NEAREST
     //GU_LINEAR
     //GU_NEAREST_MIPMAP_NEAREST
     //GU_NEAREST_MIPMAP_LINEAR
     //GU_LINEAR_MIPMAP_NEAREST
     //GU_LINEAR_MIPMAP_LINEAR
-    bool newWallpaper(edk::char8* name,edk::uint32 drawTimes=0u,edk::uint32 filter = GU_NEAREST);
-    bool newWallpaper(const edk::char8* name,edk::uint32 drawTimes=0u,edk::uint32 filter = GU_NEAREST);
-    bool newWallpaperFromMemory(edk::char8* name,edk::uint8* image,edk::uint32 size,edk::uint32 drawTimes=0u,edk::uint32 filter = GU_NEAREST);
-    bool newWallpaperFromMemory(const edk::char8* name,edk::uint8* image,edk::uint32 size,edk::uint32 drawTimes=0u,edk::uint32 filter = GU_NEAREST);
-    bool newWallpaperFromPack(edk::pack::FilePackage* pack,edk::char8* name,edk::uint32 drawTimes=0u,edk::uint32 filter = GU_NEAREST);
-    bool newWallpaperFromPack(edk::pack::FilePackage* pack,const edk::char8* name,edk::uint32 drawTimes=0u,edk::uint32 filter = GU_NEAREST);
+    bool newWallpaper(edk::char8* name,edk::uint32 drawTimes=0u,edk::uint32 minFilter = GU_LINEAR,edk::uint32 magFilter = GU_NEAREST);
+    bool newWallpaper(const edk::char8* name,edk::uint32 drawTimes=0u,edk::uint32 minFilter = GU_LINEAR,edk::uint32 magFilter = GU_NEAREST);
+    bool newWallpaperFromMemory(edk::char8* name,edk::uint8* image,edk::uint32 size,edk::uint32 drawTimes=0u,edk::uint32 minFilter = GU_LINEAR,edk::uint32 magFilter = GU_NEAREST);
+    bool newWallpaperFromMemory(const edk::char8* name,edk::uint8* image,edk::uint32 size,edk::uint32 drawTimes=0u,edk::uint32 minFilter = GU_LINEAR,edk::uint32 magFilter = GU_NEAREST);
+    bool newWallpaperFromPack(edk::pack::FilePackage* pack,edk::char8* name,edk::uint32 drawTimes=0u,edk::uint32 minFilter = GU_LINEAR,edk::uint32 magFilter = GU_NEAREST);
+    bool newWallpaperFromPack(edk::pack::FilePackage* pack,const edk::char8* name,edk::uint32 drawTimes=0u,edk::uint32 minFilter = GU_LINEAR,edk::uint32 magFilter = GU_NEAREST);
     //clone a wallpaper from an object
     bool newWallpaperFromObject2D(edk::Object2D* obj,edk::uint32 drawTimes=0u);
 

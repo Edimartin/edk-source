@@ -82,15 +82,33 @@ public:
     //FILTER
     //        GU_NEAREST
     //        GU_LINEAR
-    bool createTexture(edk::uint32 width, edk::uint32 height, edk::uint32 mode, const edk::classID  data = NULL, edk::uint32 filter = GU_NEAREST);
-    bool createTextureWithPBODraw(edk::uint32 width, edk::uint32 height, edk::uint32 mode, const edk::classID  data = NULL, edk::uint32 filter = GU_NEAREST);
-    bool createTextureWithPBORead(edk::uint32 width, edk::uint32 height, edk::uint32 mode, const edk::classID  data = NULL, edk::uint32 filter = GU_NEAREST);
+    bool createTexture(edk::uint32 width,
+                       edk::uint32 height,
+                       edk::uint32 mode,
+                       const edk::classID  data = NULL,
+                       edk::uint32 minFilter = GU_NEAREST,
+                       edk::uint32 magFilter = GU_LINEAR
+            );
+    bool createTextureWithPBODraw(edk::uint32 width,
+                                  edk::uint32 height,
+                                  edk::uint32 mode,
+                                  const edk::classID  data = NULL,
+                                  edk::uint32 minFilter = GU_NEAREST,
+                                  edk::uint32 magFilter = GU_LINEAR
+            );
+    bool createTextureWithPBORead(edk::uint32 width,
+                                  edk::uint32 height,
+                                  edk::uint32 mode,
+                                  const edk::classID  data = NULL,
+                                  edk::uint32 minFilter = GU_NEAREST,
+                                  edk::uint32 magFilter = GU_LINEAR
+            );
     //draw to the texture
     bool drawToTexture(const edk::classID  data);
     //FILTER
     //        GU_NEAREST
     //        GU_LINEAR
-    bool drawToTexture(const edk::classID  data, edk::uint32 filter = GU_NEAREST);
+    bool drawToTexture(const edk::classID  data, edk::uint32 minFilter = GU_LINEAR, edk::uint32 magFilter = GU_LINEAR);
     //read the texture
 
     //format
@@ -155,7 +173,8 @@ private:
     edk::size2ui32 size;
     //save the mode
     edk::uint32 mode;
-    edk::uint32 filter;
+    edk::uint32 minFilter;
+    edk::uint32 magFilter;
 private:
     edk::classID classThis;
 };

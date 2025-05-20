@@ -77,7 +77,7 @@ void edk::ViewGUTexture::Destructor(){
 
 //set the new size of the texture
 bool edk::ViewGUTexture::setTextureSize(edk::size2ui32 size){
-    return this->render.createRender(size,GU_NEAREST);
+    return this->render.createRender(size,GU_LINEAR);
 }
 bool edk::ViewGUTexture::setTextureSize(edk::uint32 width,edk::uint32 height){
     //

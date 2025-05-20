@@ -322,27 +322,27 @@ public:
     //GU_RGBA
     //GU_LUMINANCE
     //GU_LUMINANCE_ALPHA
-    //filter
+    //filters
     //GU_NEAREST
     //GU_LINEAR
     //GU_NEAREST_MIPMAP_NEAREST
     //GU_NEAREST_MIPMAP_LINEAR
     //GU_LINEAR_MIPMAP_NEAREST
     //GU_LINEAR_MIPMAP_LINEAR
-    static edk::uint32 guAllocTexture2D(edk::uint32 width, edk::uint32 height, edk::uint32 mode, edk::uint32 filter, const edk::classID  data);
+    static edk::uint32 guAllocTexture2D(edk::uint32 width, edk::uint32 height, edk::uint32 mode, edk::uint32 minFilter, edk::uint32 magFilter, const edk::classID  data);
     //mode
     //GU_RGB
     //GU_RGBA
     //GU_LUMINANCE
     //GU_LUMINANCE_ALPHA
-    //filter
+    //filters
     //GU_NEAREST
     //GU_LINEAR
     //GU_NEAREST_MIPMAP_NEAREST
     //GU_NEAREST_MIPMAP_LINEAR
     //GU_LINEAR_MIPMAP_NEAREST
     //GU_LINEAR_MIPMAP_LINEAR
-    static edk::uint32 guAllocTexture3D(edk::uint32 width, edk::uint32 height, edk::uint32 depth, edk::uint32 mode, edk::uint32 filter, const edk::classID  data);
+    static edk::uint32 guAllocTexture3D(edk::uint32 width, edk::uint32 height, edk::uint32 depth, edk::uint32 mode, edk::uint32 minFilter, edk::uint32 magFilter, const edk::classID  data);
     //generate the mipmap from texture
     static void guGenerateMipmap(edk::uint32 ID);
     //Draw to texture
@@ -351,23 +351,49 @@ public:
     //GU_RGBA
     //GU_LUMINANCE
     //GU_LUMINANCE_ALPHA
-    //filter
+    //filters
     //GU_NEAREST
     //GU_LINEAR
-    static bool guDrawToTexture2D(edk::uint32 ID,edk::uint32 width, edk::uint32 height, edk::uint32 mode, edk::uint32 filter, const edk::classID  data);
-    static bool guDrawToTexture2DAndGenerateMipmap(edk::uint32 ID,edk::uint32 width, edk::uint32 height, edk::uint32 mode, edk::uint32 filter, const edk::classID  data);
-    static bool guDrawPBOToTexture2D(edk::uint32 pbo,edk::uint32 ID,edk::uint32 width, edk::uint32 height, edk::uint32 mode, edk::uint32 filter, const edk::classID  data);
-    static bool guDrawPBOToTexture2DAndGenerateMipmap(edk::uint32 pbo,edk::uint32 ID,edk::uint32 width, edk::uint32 height, edk::uint32 mode, edk::uint32 filter, const edk::classID  data);
+    static bool guDrawToTexture2D(edk::uint32 ID,
+                                  edk::uint32 width,
+                                  edk::uint32 height,
+                                  edk::uint32 mode,
+                                  edk::uint32 minFilter,
+                                  edk::uint32 magFilter,
+                                  const edk::classID  data
+                                  );
+    static bool guDrawToTexture2DAndGenerateMipmap(edk::uint32 ID,
+                                                   edk::uint32 width,
+                                                   edk::uint32 height,
+                                                   edk::uint32 mode,
+                                                   edk::uint32 minFilter,
+                                                   edk::uint32 magFilter,
+                                                   const edk::classID  data
+                                                   );
+    static bool guDrawPBOToTexture2D(edk::uint32 pbo,
+                                     edk::uint32 ID,
+                                     edk::uint32 width,
+                                     edk::uint32 height,
+                                     edk::uint32 mode,
+                                     const edk::classID  data
+                                     );
+    static bool guDrawPBOToTexture2DAndGenerateMipmap(edk::uint32 pbo,
+                                                      edk::uint32 ID,
+                                                      edk::uint32 width,
+                                                      edk::uint32 height,
+                                                      edk::uint32 mode,
+                                                      const edk::classID  data
+                                                      );
     //mode
     //GU_RGB
     //GU_RGBA
     //GU_LUMINANCE
     //GU_LUMINANCE_ALPHA
-    //filter
+    //filters
     //GU_NEAREST
     //GU_LINEAR
-    static bool guDrawToTexture3D(edk::uint32 ID,edk::uint32 width, edk::uint32 height, edk::uint32 depth, edk::uint32 mode, edk::uint32 filter, const edk::classID  data);
-    static bool guDrawToTexture3DAndGenerateMipmap(edk::uint32 ID,edk::uint32 width, edk::uint32 height, edk::uint32 depth, edk::uint32 mode, edk::uint32 filter, const edk::classID  data);
+    static bool guDrawToTexture3D(edk::uint32 ID,edk::uint32 width, edk::uint32 height, edk::uint32 depth, edk::uint32 mode, edk::uint32 minFilter, edk::uint32 magFilter, const edk::classID  data);
+    static bool guDrawToTexture3DAndGenerateMipmap(edk::uint32 ID,edk::uint32 width, edk::uint32 height, edk::uint32 depth, edk::uint32 mode, edk::uint32 minFilter, edk::uint32 magFilter, const edk::classID  data);
     //delete texture
     static void guDeleteTexture(edk::uint32 ID);
 
@@ -710,7 +736,8 @@ private:
                 this->height=0u;
                 this->depth=0u;
                 this->mode=0u;
-                this->filter=0u;
+                this->magFilter=0u;
+                this->minFilter=0u;
                 this->data=0u;
                 this->threadID = 0u;
                 this->id = 0u;
@@ -727,7 +754,8 @@ private:
             this->height = tex.height;
             this->depth = tex.depth;
             this->mode = tex.mode;
-            this->filter = tex.filter;
+            this->magFilter = tex.magFilter;
+            this->minFilter = tex.minFilter;
             this->data = tex.data;
             this->threadID = tex.threadID;
             this->id = tex.id;
@@ -742,7 +770,13 @@ private:
         inline bool operator<(edk::GU::TextureClass tex){
             return (this->threadID < tex.threadID);
         }
-        edk::uint32 width; edk::uint32 height; edk::uint32 depth; edk::uint32 mode; edk::uint32 filter; edk::classID  data;
+        edk::uint32 width;
+        edk::uint32 height;
+        edk::uint32 depth;
+        edk::uint32 mode;
+        edk::uint32 minFilter;
+        edk::uint32 magFilter;
+        edk::classID  data;
         edk::uint32 id;
 #if __x86_64__ || __ppc64__
         edk::uint64 threadID;

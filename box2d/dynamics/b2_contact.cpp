@@ -159,6 +159,7 @@ b2Contact::b2Contact(b2Fixture* fA, int32 indexA, b2Fixture* fB, int32 indexB)
 	m_restitutionThreshold = b2MixRestitutionThreshold(m_fixtureA->m_restitutionThreshold, m_fixtureB->m_restitutionThreshold);
 
 	m_tangentSpeed = 0.0f;
+    reallyEnable=false;
 }
 
 // Update the contact manifold and touching status.

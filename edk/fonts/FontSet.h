@@ -43,39 +43,42 @@ namespace edk{
 namespace fonts{
 class FontSet{
 public:
-    FontSet(edk::uint32 filter = 0u);
+    FontSet(edk::uint32 minFilter = 0u,edk::uint32 magFilter = 0u);
     virtual ~FontSet();
 
-    void Constructor(edk::uint32 filter = 0u);
+    void Constructor(edk::uint32 minFilter = 0u,edk::uint32 magFilter = 0u,bool runFather=true);
     void Destructor();
 
     //load the font
-    bool loadFontImage(const edk::char8* image,edk::uint32 filter = GU_NEAREST,edk::color4f32 color = edk::color4f32(0,0,0,1));
-    bool loadFontImage(edk::char8* image,edk::uint32 filter = GU_NEAREST,edk::color4f32 color = edk::color4f32(0,0,0,1));
+    bool loadFontImage(const edk::char8* image,edk::uint32 minFilter = GU_LINEAR,edk::uint32 magFilter = GU_NEAREST,edk::color4f32 color = edk::color4f32(0,0,0,1));
+    bool loadFontImage(edk::char8* image,edk::uint32 minFilter = GU_LINEAR,edk::uint32 magFilter = GU_NEAREST,edk::color4f32 color = edk::color4f32(0,0,0,1));
 
     bool loadFontImageFromMemory(const edk::char8* name,
                                  edk::uint8* image,
                                  edk::uint32 size,
-                                 edk::uint32 filter = GU_NEAREST,
+                                 edk::uint32 minFilter = GU_LINEAR,
+                                 edk::uint32 magFilter = GU_NEAREST,
                                  edk::color4f32 color = edk::color4f32(0,0,0,1)
             );
     bool loadFontImageFromMemory(edk::char8* name,
                                  edk::uint8* image,
                                  edk::uint32 size,
-                                 edk::uint32 filter = GU_NEAREST,
+                                 edk::uint32 minFilter = GU_LINEAR,
+                                 edk::uint32 magFilter = GU_NEAREST,
                                  edk::color4f32 color = edk::color4f32(0,0,0,1)
             );
 
-    bool loadFontImageFromPack(edk::pack::FilePackage* pack,const edk::char8* image,edk::uint32 filter = GU_NEAREST,edk::color4f32 color = edk::color4f32(0,0,0,1));
-    bool loadFontImageFromPack(edk::pack::FilePackage* pack,edk::char8* image,edk::uint32 filter = GU_NEAREST,edk::color4f32 color = edk::color4f32(0,0,0,1));
+    bool loadFontImageFromPack(edk::pack::FilePackage* pack,const edk::char8* image,edk::uint32 minFilter = GU_LINEAR,edk::uint32 magFilter = GU_NEAREST,edk::color4f32 color = edk::color4f32(0,0,0,1));
+    bool loadFontImageFromPack(edk::pack::FilePackage* pack,edk::char8* image,edk::uint32 minFilter = GU_LINEAR,edk::uint32 magFilter = GU_NEAREST,edk::color4f32 color = edk::color4f32(0,0,0,1));
 
     //delete image
     void deleteImage();
 
     //get the tileset
     edk::tiles::TileSet2D* getTileSet();
-    //return the filter
-    edk::uint32 getFilter();
+    //return the filters
+    edk::uint32 getMinFilter();
+    edk::uint32 getMagFilter();
 
     //setName
     bool setName(const edk::char8* name);
@@ -90,7 +93,8 @@ public:
 private:
     edk::tiles::TileSet2D tileSet;
     edk::Name name;
-    edk::uint32 filter;
+    edk::uint32 minFilter;
+    edk::uint32 magFilter;
 private:
     edk::classID classThis;
 };
@@ -104,13 +108,13 @@ public:
     void Constructor();
     void Destructor();
     //load the fontSet
-    edk::fonts::FontSet* createFontSet(edk::char8* image,edk::uint32 filter = GU_NEAREST,edk::color4f32 color = edk::color4f32(0,0,0,1));
+    edk::fonts::FontSet* createFontSet(edk::char8* image,edk::uint32 minFilter = GU_LINEAR,edk::uint32 magFilter = GU_NEAREST,edk::color4f32 color = edk::color4f32(0,0,0,1));
     //load the fontSet
-    edk::fonts::FontSet* createFontSetFromMemory(edk::char8* name,edk::uint8* image,edk::uint32 size,edk::uint32 filter = GU_NEAREST,edk::color4f32 color = edk::color4f32(0,0,0,1));
+    edk::fonts::FontSet* createFontSetFromMemory(edk::char8* name,edk::uint8* image,edk::uint32 size,edk::uint32 minFilter = GU_LINEAR,edk::uint32 magFilter = GU_NEAREST,edk::color4f32 color = edk::color4f32(0,0,0,1));
     //load the fontSet
-    edk::fonts::FontSet* createFontSetFromPack(edk::pack::FilePackage* pack,edk::char8* image,edk::uint32 filter = GU_NEAREST,edk::color4f32 color = edk::color4f32(0,0,0,1));
+    edk::fonts::FontSet* createFontSetFromPack(edk::pack::FilePackage* pack,edk::char8* image,edk::uint32 minFilter = GU_LINEAR,edk::uint32 magFilter = GU_NEAREST,edk::color4f32 color = edk::color4f32(0,0,0,1));
     //remove fontSet
-    bool removeFontSetByName(edk::char8* image,edk::uint32 filter = GU_NEAREST);
+    bool removeFontSetByName(edk::char8* image,edk::uint32 minFilter = GU_LINEAR,edk::uint32 magFilter = GU_NEAREST);
     //remove fontSet
     bool removeFontSet(edk::fonts::FontSet* set);
     //delete all Fonts
@@ -121,10 +125,10 @@ private:
     //retain fonts
     class FontRetain{
     public:
-        FontRetain(edk::uint32 filter = 0u);
+        FontRetain(edk::uint32 minFilter = 0u,edk::uint32 magFilter = 0u);
         virtual ~FontRetain();
 
-        void Constructor(edk::uint32 filter = 0u);
+        void Constructor(edk::uint32 minFilter = 0u,edk::uint32 magFilter = 0u,bool runFather=true);
         void Destructor();
 
         edk::fonts::FontSet set;
@@ -168,18 +172,18 @@ private:
         virtual void updateElement(edk::fonts::fontSetList::FontRetain* value);
 
         //load the font
-        edk::fonts::FontSet* loadFontImage(edk::char8* image,edk::uint32 filter = GU_NEAREST,edk::color4f32 color = edk::color4f32(0,0,0,1));
-        edk::fonts::FontSet* loadFontImageFromMemory(edk::char8* name,edk::uint8* image,edk::uint32 size,edk::uint32 filter = GU_NEAREST,edk::color4f32 color = edk::color4f32(0,0,0,1));
-        edk::fonts::FontSet* loadFontImageFromPack(edk::pack::FilePackage* pack,edk::char8* image,edk::uint32 filter = GU_NEAREST,edk::color4f32 color = edk::color4f32(0,0,0,1));
+        edk::fonts::FontSet* loadFontImage(edk::char8* image,edk::uint32 minFilter = GU_LINEAR,edk::uint32 magFilter = GU_NEAREST,edk::color4f32 color = edk::color4f32(0,0,0,1));
+        edk::fonts::FontSet* loadFontImageFromMemory(edk::char8* name,edk::uint8* image,edk::uint32 size,edk::uint32 minFilter = GU_LINEAR,edk::uint32 magFilter = GU_NEAREST,edk::color4f32 color = edk::color4f32(0,0,0,1));
+        edk::fonts::FontSet* loadFontImageFromPack(edk::pack::FilePackage* pack,edk::char8* image,edk::uint32 minFilter = GU_LINEAR,edk::uint32 magFilter = GU_NEAREST,edk::color4f32 color = edk::color4f32(0,0,0,1));
         //remove image
-        bool removeImage(edk::char8* image,edk::uint32 filter = GU_NEAREST);
+        bool removeImage(edk::char8* image,edk::uint32 minFilter = GU_LINEAR,edk::uint32 magFilter = GU_NEAREST);
         //remove FontSet
         bool removeFontSet(edk::fonts::FontSet* set);
         //delete all fontSet
         void deleteAllFontSet();
     private:
         //getFontSet
-        edk::fonts::fontSetList::FontRetain* getFontSetByImage(edk::char8* image,edk::uint32 filter = GU_NEAREST);
+        edk::fonts::fontSetList::FontRetain* getFontSetByImage(edk::char8* image,edk::uint32 minFilter = GU_LINEAR,edk::uint32 magFilter = GU_NEAREST);
     private:
         edk::classID classThis;
     };

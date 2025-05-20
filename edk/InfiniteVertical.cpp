@@ -165,14 +165,14 @@ bool edk::InfiniteVertical::newBuffer(edk::uint32 lenght){
 }
 
 //add new wallpaper
-//filter
+//filters
 //GU_NEAREST
 //GU_LINEAR
 //GU_NEAREST_MIPMAP_NEAREST
 //GU_NEAREST_MIPMAP_LINEAR
 //GU_LINEAR_MIPMAP_NEAREST
 //GU_LINEAR_MIPMAP_LINEAR
-bool edk::InfiniteVertical::newObject(edk::char8* name,edk::float32 distance,edk::uint32 filter){
+bool edk::InfiniteVertical::newObject(edk::char8* name,edk::float32 distance,edk::uint32 minFilter,edk::uint32 magFilter){
     this->time.start();
     if(name){
         edk::Object2D* obj = this->tree.newObject(distance);
@@ -182,7 +182,7 @@ bool edk::InfiniteVertical::newObject(edk::char8* name,edk::float32 distance,edk
                 edk::shape::Rectangle2D rect;
                 rect.setPivoToCenter();
                 mesh->addPolygon(rect);
-                if(mesh->material.loadTexture(name,0u,filter)){
+                if(mesh->material.loadTexture(name,0u,minFilter,magFilter)){
                     this->lastObject = obj;
                     return true;
                 }
@@ -193,10 +193,10 @@ bool edk::InfiniteVertical::newObject(edk::char8* name,edk::float32 distance,edk
     }
     return false;
 }
-bool edk::InfiniteVertical::newObject(const edk::char8* name,edk::float32 distance,edk::uint32 filter){
-    return this->newObject((edk::char8*) name,distance,filter);
+bool edk::InfiniteVertical::newObject(const edk::char8* name,edk::float32 distance,edk::uint32 minFilter,edk::uint32 magFilter){
+    return this->newObject((edk::char8*) name,distance,minFilter,magFilter);
 }
-bool edk::InfiniteVertical::newObjectFromMemory(edk::char8* name,edk::uint8* image,edk::uint32 size,edk::float32 distance,edk::uint32 filter){
+bool edk::InfiniteVertical::newObjectFromMemory(edk::char8* name,edk::uint8* image,edk::uint32 size,edk::float32 distance,edk::uint32 minFilter,edk::uint32 magFilter){
     this->time.start();
     if(name){
         edk::Object2D* obj = this->tree.newObject(distance);
@@ -206,7 +206,7 @@ bool edk::InfiniteVertical::newObjectFromMemory(edk::char8* name,edk::uint8* ima
                 edk::shape::Rectangle2D rect;
                 rect.setPivoToCenter();
                 mesh->addPolygon(rect);
-                if(mesh->material.loadTextureFromMemory(name,image,size,0u,filter)){
+                if(mesh->material.loadTextureFromMemory(name,image,size,0u,minFilter,magFilter)){
                     this->lastObject = obj;
                     return true;
                 }
@@ -217,10 +217,10 @@ bool edk::InfiniteVertical::newObjectFromMemory(edk::char8* name,edk::uint8* ima
     }
     return false;
 }
-bool edk::InfiniteVertical::newObjectFromMemory(const edk::char8* name,edk::uint8* image,edk::uint32 size,edk::float32 distance,edk::uint32 filter){
-    return this->newObjectFromMemory((edk::char8*) name,image,size,distance,filter);
+bool edk::InfiniteVertical::newObjectFromMemory(const edk::char8* name,edk::uint8* image,edk::uint32 size,edk::float32 distance,edk::uint32 minFilter,edk::uint32 magFilter){
+    return this->newObjectFromMemory((edk::char8*) name,image,size,distance,minFilter,magFilter);
 }
-bool edk::InfiniteVertical::newObjectFromPack(edk::pack::FilePackage* pack,edk::char8* name,edk::float32 distance,edk::uint32 filter){
+bool edk::InfiniteVertical::newObjectFromPack(edk::pack::FilePackage* pack,edk::char8* name,edk::float32 distance,edk::uint32 minFilter,edk::uint32 magFilter){
     this->time.start();
     if(name){
         edk::Object2D* obj = this->tree.newObject(distance);
@@ -230,7 +230,7 @@ bool edk::InfiniteVertical::newObjectFromPack(edk::pack::FilePackage* pack,edk::
                 edk::shape::Rectangle2D rect;
                 rect.setPivoToCenter();
                 mesh->addPolygon(rect);
-                if(mesh->material.loadTextureFromPack(pack,name,0u,filter)){
+                if(mesh->material.loadTextureFromPack(pack,name,0u,minFilter,magFilter)){
                     this->lastObject = obj;
                     return true;
                 }
@@ -241,8 +241,8 @@ bool edk::InfiniteVertical::newObjectFromPack(edk::pack::FilePackage* pack,edk::
     }
     return false;
 }
-bool edk::InfiniteVertical::newObjectFromPack(edk::pack::FilePackage* pack,const edk::char8* name,edk::float32 distance,edk::uint32 filter){
-    return newObjectFromPack(pack,(edk::char8*) name,distance,filter);
+bool edk::InfiniteVertical::newObjectFromPack(edk::pack::FilePackage* pack,const edk::char8* name,edk::float32 distance,edk::uint32 minFilter,edk::uint32 magFilter){
+    return newObjectFromPack(pack,(edk::char8*) name,distance,minFilter,magFilter);
 }
 //clone a wallpaper from an object
 bool edk::InfiniteVertical::newObjectFromObject2D(edk::Object2D* obj,edk::float32 distance){

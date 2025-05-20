@@ -175,25 +175,25 @@ void edk::ViewGU::runDrawScene(edk::rectf32 outsideViewOrigin){
 }
 
 //load the background
-bool edk::ViewGU::loadBackground(const edk::char8* name,edk::uint32 filter){
-    return this->loadBackground((edk::char8*) name,filter);
+bool edk::ViewGU::loadBackground(const edk::char8* name,edk::uint32 minFilter,edk::uint32 magFilter){
+    return this->loadBackground((edk::char8*) name,minFilter,magFilter);
 }
-bool edk::ViewGU::loadBackground(edk::char8* name,edk::uint32 filter){
-    return this->loadSprite(name,filter);
+bool edk::ViewGU::loadBackground(edk::char8* name,edk::uint32 minFilter,edk::uint32 magFilter){
+    return this->loadSprite(name,minFilter,magFilter);
 }
 //load the sprite from memory
-bool edk::ViewGU::loadBackgroundFromMemory(const edk::char8* name,edk::uint8* sprite,edk::uint32 size,edk::uint32 filter){
-    return this->loadBackgroundFromMemory((edk::char8*) name,sprite,size,filter);
+bool edk::ViewGU::loadBackgroundFromMemory(const edk::char8* name,edk::uint8* sprite,edk::uint32 size,edk::uint32 minFilter,edk::uint32 magFilter){
+    return this->loadBackgroundFromMemory((edk::char8*) name,sprite,size,minFilter,magFilter);
 }
-bool edk::ViewGU::loadBackgroundFromMemory(edk::char8* name,edk::uint8* sprite,edk::uint32 size,edk::uint32 filter){
-    return this->loadSpriteFromMemory(name,sprite,size,filter);
+bool edk::ViewGU::loadBackgroundFromMemory(edk::char8* name,edk::uint8* sprite,edk::uint32 size,edk::uint32 minFilter,edk::uint32 magFilter){
+    return this->loadSpriteFromMemory(name,sprite,size,minFilter,magFilter);
 }
 //laod the sprite from pack
-bool edk::ViewGU::loadBackgroundFromPack(edk::pack::FilePackage* pack, edk::char8* name,edk::uint32 filter){
-    return this->loadSpriteFromPack(pack,name,filter);
+bool edk::ViewGU::loadBackgroundFromPack(edk::pack::FilePackage* pack, edk::char8* name,edk::uint32 minFilter,edk::uint32 magFilter){
+    return this->loadSpriteFromPack(pack,name,minFilter,magFilter);
 }
-bool edk::ViewGU::loadBackgroundFromPack(edk::pack::FilePackage* pack, const edk::char8* name,edk::uint32 filter){
-    return this->loadBackgroundFromPack(pack,(edk::char8*) name,filter);
+bool edk::ViewGU::loadBackgroundFromPack(edk::pack::FilePackage* pack, const edk::char8* name,edk::uint32 minFilter,edk::uint32 magFilter){
+    return this->loadBackgroundFromPack(pack,(edk::char8*) name,minFilter,magFilter);
 }
 
 //delete the background

@@ -82,11 +82,12 @@ void edk::Texture2DList::Destructor(){
 }
 
 //get the texture by the name
-edk::Texture2DList::TextureCode* edk::Texture2DList::getTextureByName(edk::char8* name, edk::uint32 filter){
+edk::Texture2DList::TextureCode* edk::Texture2DList::getTextureByName(edk::char8* name, edk::uint32 minFilter, edk::uint32 magFilter){
     //find the texture in the nameTree
     edk::Texture2DList::TextureCode find;
     find.setName(name);
-    find.filter = filter;
+    find.minFilter = minFilter;
+    find.magFilter = magFilter;
 
     this->mutNameTree.lock();
     edk::Texture2DList::TextureCode* ret = (edk::Texture2DList::TextureCode*)edk::Texture2DList::nameTree.getElement(&find);
@@ -105,21 +106,21 @@ edk::Texture2DList::TextureCode* edk::Texture2DList::getTextureByCode(edk::uint3
     return ret;
 }
 //create a new texture
-edk::uint32 edk::Texture2DList::createTexture(edk::char8* name,edk::size2ui32 size,edk::uint32 mode,edk::uint32 filter){
+edk::uint32 edk::Texture2DList::createTexture(edk::char8* name,edk::size2ui32 size,edk::uint32 mode,edk::uint32 minFilter,edk::uint32 magFilter){
     edk::uint32 ret=0u;
     //test the pointers and size
     if(name && size.height && size.width){
         edk::Texture2DList::TextureCode* temp;
         for(edk::uint8 i=0u;i<EDK_TEXTURE_LOADER_TENTATIVES;i++){
             //get the texture from the tree
-            temp = this->getTextureByName(name,filter);
+            temp = this->getTextureByName(name,minFilter,magFilter);
             //test if NOT hame the texture
             if(!temp){
                 //load the new texture
                 temp = new edk::Texture2DList::TextureCode;
                 if(temp){
                     //load the texture
-                    if(temp->createTexture(name,size,mode,filter)){
+                    if(temp->createTexture(name,size,mode,minFilter,magFilter)){
                         //add the texture to the tree's
 
                         this->mutNameTree.lock();
@@ -167,24 +168,24 @@ edk::uint32 edk::Texture2DList::createTexture(edk::char8* name,edk::size2ui32 si
     }
     return ret;
 }
-edk::uint32 edk::Texture2DList::createTexture(const char8* name,edk::size2ui32 size,edk::uint32 mode,edk::uint32 filter){
-    return this->createTexture((edk::char8*) name,size,mode,filter);
+edk::uint32 edk::Texture2DList::createTexture(const char8* name,edk::size2ui32 size,edk::uint32 mode,edk::uint32 minFilter,edk::uint32 magFilter){
+    return this->createTexture((edk::char8*) name,size,mode,minFilter,magFilter);
 }
-edk::uint32 edk::Texture2DList::createTextureWithPBODraw(edk::char8* name,edk::size2ui32 size,edk::uint32 mode,edk::uint32 filter){
+edk::uint32 edk::Texture2DList::createTextureWithPBODraw(edk::char8* name,edk::size2ui32 size,edk::uint32 mode,edk::uint32 minFilter,edk::uint32 magFilter){
     edk::uint32 ret=0u;
     //test the pointers and size
     if(name && size.height && size.width){
         edk::Texture2DList::TextureCode* temp;
         for(edk::uint8 i=0u;i<EDK_TEXTURE_LOADER_TENTATIVES;i++){
             //get the texture from the tree
-            temp = this->getTextureByName(name,filter);
+            temp = this->getTextureByName(name,minFilter,magFilter);
             //test if NOT hame the texture
             if(!temp){
                 //load the new texture
                 temp = new edk::Texture2DList::TextureCode;
                 if(temp){
                     //load the texture
-                    if(temp->createTextureWithPBODraw(name,size,mode,filter)){
+                    if(temp->createTextureWithPBODraw(name,size,mode,minFilter,magFilter)){
                         //add the texture to the tree's
 
                         this->mutNameTree.lock();
@@ -232,24 +233,24 @@ edk::uint32 edk::Texture2DList::createTextureWithPBODraw(edk::char8* name,edk::s
     }
     return ret;
 }
-edk::uint32 edk::Texture2DList::createTextureWithPBODraw(const char8* name,edk::size2ui32 size,edk::uint32 mode,edk::uint32 filter){
-    return this->createTextureWithPBODraw((edk::char8*) name,size,mode,filter);
+edk::uint32 edk::Texture2DList::createTextureWithPBODraw(const char8* name,edk::size2ui32 size,edk::uint32 mode,edk::uint32 minFilter,edk::uint32 magFilter){
+    return this->createTextureWithPBODraw((edk::char8*) name,size,mode,minFilter,magFilter);
 }
-edk::uint32 edk::Texture2DList::createAndDrawTexture(edk::char8* name,edk::size2ui32 size,edk::uint8* image,edk::uint32 mode,edk::uint32 filter){
+edk::uint32 edk::Texture2DList::createAndDrawTexture(edk::char8* name,edk::size2ui32 size,edk::uint8* image,edk::uint32 mode,edk::uint32 minFilter,edk::uint32 magFilter){
     edk::uint32 ret=0u;
     //test the pointers and size
     if(name && size.height && size.width && image){
         edk::Texture2DList::TextureCode* temp;
         for(edk::uint8 i=0u;i<EDK_TEXTURE_LOADER_TENTATIVES;i++){
             //get the texture from the tree
-            temp = this->getTextureByName(name,filter);
+            temp = this->getTextureByName(name,minFilter,magFilter);
             //test if NOT hame the texture
             if(!temp){
                 //load the new texture
                 temp = new edk::Texture2DList::TextureCode;
                 if(temp){
                     //load the texture
-                    if(temp->createAndDrawTexture(name,size,image,mode,filter)){
+                    if(temp->createAndDrawTexture(name,size,image,mode,minFilter,magFilter)){
                         //add the texture to the tree's
 
                         this->mutNameTree.lock();
@@ -297,24 +298,24 @@ edk::uint32 edk::Texture2DList::createAndDrawTexture(edk::char8* name,edk::size2
     }
     return ret;
 }
-edk::uint32 edk::Texture2DList::createAndDrawTexture(const char8* name,edk::size2ui32 size,edk::uint8* image,edk::uint32 mode,edk::uint32 filter){
-    return this->createAndDrawTexture((edk::char8*) name,size,image,mode,filter);
+edk::uint32 edk::Texture2DList::createAndDrawTexture(const char8* name,edk::size2ui32 size,edk::uint8* image,edk::uint32 mode,edk::uint32 minFilter,edk::uint32 magFilter){
+    return this->createAndDrawTexture((edk::char8*) name,size,image,mode,minFilter,magFilter);
 }
-edk::uint32 edk::Texture2DList::createAndDrawTextureWithPBODraw(edk::char8* name,edk::size2ui32 size,edk::uint8* image,edk::uint32 mode,edk::uint32 filter){
+edk::uint32 edk::Texture2DList::createAndDrawTextureWithPBODraw(edk::char8* name,edk::size2ui32 size,edk::uint8* image,edk::uint32 mode,edk::uint32 minFilter,edk::uint32 magFilter){
     edk::uint32 ret=0u;
     //test the pointers and size
     if(name && size.height && size.width && image){
         edk::Texture2DList::TextureCode* temp;
         for(edk::uint8 i=0u;i<EDK_TEXTURE_LOADER_TENTATIVES;i++){
             //get the texture from the tree
-            temp = this->getTextureByName(name,filter);
+            temp = this->getTextureByName(name,minFilter,magFilter);
             //test if NOT hame the texture
             if(!temp){
                 //load the new texture
                 temp = new edk::Texture2DList::TextureCode;
                 if(temp){
                     //load the texture
-                    if(temp->createAndDrawTextureWithPBODraw(name,size,image,mode,filter)){
+                    if(temp->createAndDrawTextureWithPBODraw(name,size,image,mode,minFilter,magFilter)){
                         //add the texture to the tree's
 
                         this->mutNameTree.lock();
@@ -362,40 +363,40 @@ edk::uint32 edk::Texture2DList::createAndDrawTextureWithPBODraw(edk::char8* name
     }
     return ret;
 }
-edk::uint32 edk::Texture2DList::createAndDrawTextureWithPBODraw(const char8* name,edk::size2ui32 size,edk::uint8* image,edk::uint32 mode,edk::uint32 filter){
-    return this->createAndDrawTextureWithPBODraw((edk::char8*) name,size,image,mode,filter);
+edk::uint32 edk::Texture2DList::createAndDrawTextureWithPBODraw(const char8* name,edk::size2ui32 size,edk::uint8* image,edk::uint32 mode,edk::uint32 minFilter,edk::uint32 magFilter){
+    return this->createAndDrawTextureWithPBODraw((edk::char8*) name,size,image,mode,minFilter,magFilter);
 }
 //draw on a texture
-bool edk::Texture2DList::drawTexture(edk::char8* name,edk::uint8* image,edk::uint32 filter){
+bool edk::Texture2DList::drawTexture(edk::char8* name,edk::uint8* image,edk::uint32 minFilter,edk::uint32 magFilter){
     //test the name and retainTexture
     if(name){
         //get the texture from the tree
-        return this->drawTexture(this->getTextureByName(name,filter),image);
+        return this->drawTexture(this->getTextureByName(name,minFilter,magFilter),image);
     }
     return false;
 }
-bool edk::Texture2DList::drawTexture(const char8* name,edk::uint8* image,edk::uint32 filter){
-    return this->drawTexture((const char8*) name, image,filter);
+bool edk::Texture2DList::drawTexture(const char8* name,edk::uint8* image,edk::uint32 minFilter,edk::uint32 magFilter){
+    return this->drawTexture((const char8*) name, image,minFilter,magFilter);
 }
-bool edk::Texture2DList::drawTexture(edk::uint32 code,edk::uint8* image,edk::uint32 filter){
+bool edk::Texture2DList::drawTexture(edk::uint32 code,edk::uint8* image,edk::uint32 minFilter,edk::uint32 magFilter){
     //test the name and retainTexture
     if(code){
         //get the texture from the tree
-        return this->drawTexture(this->getTextureByCode(code),image,filter);
+        return this->drawTexture(this->getTextureByCode(code),image,minFilter,magFilter);
     }
     return false;
 }
 //read from a texture
-bool edk::Texture2DList::readTexture(edk::char8* name,edk::uint32 format,edk::uint8* image,edk::uint32 filter){
+bool edk::Texture2DList::readTexture(edk::char8* name,edk::uint32 format,edk::uint8* image,edk::uint32 minFilter,edk::uint32 magFilter){
     //test the name and retainTexture
     if(name){
         //get the texture from the tree
-        return this->readTexture(this->getTextureByName(name,filter),image,format);
+        return this->readTexture(this->getTextureByName(name,minFilter,magFilter),image,format);
     }
     return false;
 }
-bool edk::Texture2DList::readTexture(const char8* name,edk::uint32 format,edk::uint8* image,edk::uint32 filter){
-    return this->readTexture((const char8*) name, format,image,filter);
+bool edk::Texture2DList::readTexture(const char8* name,edk::uint32 format,edk::uint8* image,edk::uint32 minFilter,edk::uint32 magFilter){
+    return this->readTexture((const char8*) name, format,image,minFilter,magFilter);
 }
 bool edk::Texture2DList::readTexture(edk::uint32 code,edk::uint32 format,edk::uint8* image){
     //test the name and retainTexture
@@ -407,21 +408,21 @@ bool edk::Texture2DList::readTexture(edk::uint32 code,edk::uint32 format,edk::ui
 }
 
 //Load Texture
-edk::uint32 edk::Texture2DList::loadTexture(edk::char8* name,edk::uint32 filter){
+edk::uint32 edk::Texture2DList::loadTexture(edk::char8* name,edk::uint32 minFilter,edk::uint32 magFilter){
     //test the fileName and the retain texture
     edk::uint32 ret=0u;
     if(name){
         edk::Texture2DList::TextureCode* temp;
         for(edk::uint8 i=0u;i<EDK_TEXTURE_LOADER_TENTATIVES;i++){
             //get the texture from the tree
-            temp = this->getTextureByName(name,filter);
+            temp = this->getTextureByName(name,minFilter,magFilter);
             //test if NOT hame the texture
             if(!temp){
                 //load the new texture
                 temp = new edk::Texture2DList::TextureCode;
                 if(temp){
                     //load the texture
-                    if(temp->loadFromFile(name,filter)){
+                    if(temp->loadFromFile(name,minFilter,magFilter)){
                         //add the texture to the tree's
                         this->mutNameTree.lock();
                         if(edk::Texture2DList::codeTree.add(temp)){
@@ -469,26 +470,26 @@ edk::uint32 edk::Texture2DList::loadTexture(edk::char8* name,edk::uint32 filter)
     //else return false
     return ret;
 }
-edk::uint32 edk::Texture2DList::loadTexture(const edk::char8* name,edk::uint32 filter){
+edk::uint32 edk::Texture2DList::loadTexture(const edk::char8* name,edk::uint32 minFilter,edk::uint32 magFilter){
     //
-    return this->loadTexture((edk::char8*) name,filter);
+    return this->loadTexture((edk::char8*) name,minFilter,magFilter);
 }
 //load Texture from memory
-edk::uint32 edk::Texture2DList::loadTextureFromMemory(edk::char8* name,edk::uint8* image,edk::uint32 size,edk::uint32 filter){
+edk::uint32 edk::Texture2DList::loadTextureFromMemory(edk::char8* name,edk::uint8* image,edk::uint32 size,edk::uint32 minFilter,edk::uint32 magFilter){
     edk::uint32 ret=0u;
     //test the pointers and size
     if(name && image && size){
         edk::Texture2DList::TextureCode* temp;
         for(edk::uint8 i=0u;i<EDK_TEXTURE_LOADER_TENTATIVES;i++){
             //get the texture from the tree
-            temp = this->getTextureByName(name,filter);
+            temp = this->getTextureByName(name,minFilter,magFilter);
             //test if NOT hame the texture
             if(!temp){
                 //load the new texture
                 temp = new edk::Texture2DList::TextureCode;
                 if(temp){
                     //load the texture
-                    if(temp->loadFromMemory(name,image,size,filter)){
+                    if(temp->loadFromMemory(name,image,size,minFilter,magFilter)){
                         //add the texture to the tree's
                         this->mutNameTree.lock();
                         if(edk::Texture2DList::codeTree.add(temp)){
@@ -535,25 +536,25 @@ edk::uint32 edk::Texture2DList::loadTextureFromMemory(edk::char8* name,edk::uint
     }
     return ret;
 }
-edk::uint32 edk::Texture2DList::loadTextureFromMemory(const edk::char8* name,edk::uint8* image,edk::uint32 size,edk::uint32 filter){
-    return this->loadTextureFromMemory((edk::char8*) name,image,size,filter);
+edk::uint32 edk::Texture2DList::loadTextureFromMemory(const edk::char8* name,edk::uint8* image,edk::uint32 size,edk::uint32 minFilter,edk::uint32 magFilter){
+    return this->loadTextureFromMemory((edk::char8*) name,image,size,minFilter,magFilter);
 }
 //set Texture from memory
-edk::uint32 edk::Texture2DList::setTextureFromMemory(edk::char8* name,edk::uint8* image,edk::uint32 width,edk::uint32 height,edk::uint32 channels,edk::uint32 filter){
+edk::uint32 edk::Texture2DList::setTextureFromMemory(edk::char8* name,edk::uint8* image,edk::uint32 width,edk::uint32 height,edk::uint32 channels,edk::uint32 minFilter,edk::uint32 magFilter){
     edk::uint32 ret=0u;
     //test the pointers and size
     if(name && image && width && height && channels){
         edk::Texture2DList::TextureCode* temp;
         for(edk::uint8 i=0u;i<EDK_TEXTURE_LOADER_TENTATIVES;i++){
             //get the texture from the tree
-            temp = this->getTextureByName(name,filter);
+            temp = this->getTextureByName(name,minFilter,magFilter);
             //test if NOT hame the texture
             if(!temp){
                 //load the new texture
                 temp = new edk::Texture2DList::TextureCode;
                 if(temp){
                     //load the texture
-                    if(temp->setFromMemory(name,image,width,height,channels,filter)){
+                    if(temp->setFromMemory(name,image,width,height,channels,minFilter,magFilter)){
                         //add the texture to the tree's
 
                         this->mutNameTree.lock();
@@ -601,11 +602,11 @@ edk::uint32 edk::Texture2DList::setTextureFromMemory(edk::char8* name,edk::uint8
     }
     return ret;
 }
-edk::uint32 edk::Texture2DList::setTextureFromMemory(const edk::char8* name,edk::uint8* image,edk::uint32 width,edk::uint32 height,edk::uint32 channels,edk::uint32 filter){
-    return this->setTextureFromMemory((edk::char8*) name,image,width,height,channels,filter);
+edk::uint32 edk::Texture2DList::setTextureFromMemory(const edk::char8* name,edk::uint8* image,edk::uint32 width,edk::uint32 height,edk::uint32 channels,edk::uint32 minFilter,edk::uint32 magFilter){
+    return this->setTextureFromMemory((edk::char8*) name,image,width,height,channels,minFilter,magFilter);
 }
 //load the texture from a file package
-edk::uint32 edk::Texture2DList::loadTextureFromPack(edk::pack::FilePackage* pack,edk::char8* name,edk::uint32 filter){
+edk::uint32 edk::Texture2DList::loadTextureFromPack(edk::pack::FilePackage* pack,edk::char8* name,edk::uint32 minFilter,edk::uint32 magFilter){
     //test the fileName and the retain texture
     edk::uint32 ret=0u;
     if(name && pack){
@@ -640,7 +641,7 @@ edk::uint32 edk::Texture2DList::loadTextureFromPack(edk::pack::FilePackage* pack
                 }
             }
 
-            temp = this->getTextureByName(name,filter);
+            temp = this->getTextureByName(name,minFilter,magFilter);
             //test if NOT hame the texture
             if(!temp){
                 //load the new texture
@@ -659,7 +660,7 @@ edk::uint32 edk::Texture2DList::loadTextureFromPack(edk::pack::FilePackage* pack
                         //copy the file into the buffer
                         if(edk::Texture2DList::bufferTree.writeToBuffer(pack->getBuffer(),pack->getBufferSize())){
                             //load the texture
-                            if(temp->loadFromMemory(name,(edk::uint8*)edk::Texture2DList::bufferTree.getPointer(),edk::Texture2DList::bufferTree.getSize(),filter)){
+                            if(temp->loadFromMemory(name,(edk::uint8*)edk::Texture2DList::bufferTree.getPointer(),edk::Texture2DList::bufferTree.getSize(),minFilter,magFilter)){
                                 pack->mutex.unlock();
                                 this->mutTexture.unlock();
                                 //add the texture to the tree's
@@ -728,8 +729,8 @@ edk::uint32 edk::Texture2DList::loadTextureFromPack(edk::pack::FilePackage* pack
     //else return false
     return ret;
 }
-edk::uint32 edk::Texture2DList::loadTextureFromPack(edk::pack::FilePackage* pack,const edk::char8* name,edk::uint32 filter){
-    return this->loadTextureFromPack(pack,(edk::char8*) name,filter);
+edk::uint32 edk::Texture2DList::loadTextureFromPack(edk::pack::FilePackage* pack,const edk::char8* name,edk::uint32 minFilter,edk::uint32 magFilter){
+    return this->loadTextureFromPack(pack,(edk::char8*) name,minFilter,magFilter);
 }
 //retain the texture
 bool edk::Texture2DList::retainTexture(edk::uint32 code){
@@ -743,9 +744,9 @@ bool edk::Texture2DList::retainTexture(edk::uint32 code){
     return false;
 }
 //draw on the texture
-bool edk::Texture2DList::drawTexture(edk::Texture2DList::TextureCode* temp,edk::uint8* image,edk::uint32 filter){
+bool edk::Texture2DList::drawTexture(edk::Texture2DList::TextureCode* temp,edk::uint8* image,edk::uint32 minFilter,edk::uint32 magFilter){
     if(temp){
-        return temp->drawTexture(image,filter);
+        return temp->drawTexture(image,minFilter,magFilter);
     }
     return false;
 }
@@ -782,18 +783,18 @@ bool edk::Texture2DList::removeTexture(edk::Texture2DList::TextureCode* temp){
     return false;
 }
 //remove texture
-bool edk::Texture2DList::removeTexture(edk::char8* name,edk::uint32 filter){
+bool edk::Texture2DList::removeTexture(edk::char8* name,edk::uint32 minFilter,edk::uint32 magFilter){
     //test the name and retainTexture
     if(name){
         //get the texture from the tree
-        return this->removeTexture(this->getTextureByName(name,filter));
+        return this->removeTexture(this->getTextureByName(name,minFilter,magFilter));
     }
     //else return false
     return false;
 }
-bool edk::Texture2DList::removeTexture(const edk::char8* name,edk::uint32 filter){
+bool edk::Texture2DList::removeTexture(const edk::char8* name,edk::uint32 minFilter,edk::uint32 magFilter){
     //
-    return this->removeTexture((edk::char8*) name,filter);
+    return this->removeTexture((edk::char8*) name,minFilter,magFilter);
 }
 bool edk::Texture2DList::removeTexture(edk::uint32 code){
     if(code){
@@ -820,17 +821,17 @@ bool edk::Texture2DList::deleteTexture(edk::Texture2DList::TextureCode* temp){
     return false;
 }
 //delete texture
-bool edk::Texture2DList::deleteTexture(edk::char8* name,edk::uint32 filter){
+bool edk::Texture2DList::deleteTexture(edk::char8* name,edk::uint32 minFilter,edk::uint32 magFilter){
     //test the name
     if(name){
         //delete the texture
-        return this->deleteTexture(this->getTextureByName(name,filter));
+        return this->deleteTexture(this->getTextureByName(name,minFilter,magFilter));
     }
     //else return false
     return false;
 }
-bool edk::Texture2DList::deleteTexture(const edk::char8* name,edk::uint32 filter){
-    return this->deleteTexture((edk::char8*) name,filter);
+bool edk::Texture2DList::deleteTexture(const edk::char8* name,edk::uint32 minFilter,edk::uint32 magFilter){
+    return this->deleteTexture((edk::char8*) name,minFilter,magFilter);
 }
 bool edk::Texture2DList::deleteTexture(edk::uint32 code){
     //test the name
@@ -853,17 +854,17 @@ void edk::Texture2DList::deleteAllTextures(){
     this->mutNameTree.unlock();
 }
 //return the size of the texture
-edk::size2ui32 edk::Texture2DList::getTextureSize(edk::char8* name,edk::uint32 filter){
+edk::size2ui32 edk::Texture2DList::getTextureSize(edk::char8* name,edk::uint32 minFilter,edk::uint32 magFilter){
     edk::size2ui32 ret(0u,0u);
     //load the texture
-    edk::Texture2DList::TextureCode* temp = this->getTextureByName(name,filter);
+    edk::Texture2DList::TextureCode* temp = this->getTextureByName(name,minFilter,magFilter);
     if(temp){
         ret = temp->file->getSize();
     }
     return ret;
 }
-edk::size2ui32 edk::Texture2DList::getTextureSize(const edk::char8* name,edk::uint32 filter){
-    return this->getTextureSize((edk::char8*) name,filter);
+edk::size2ui32 edk::Texture2DList::getTextureSize(const edk::char8* name,edk::uint32 minFilter,edk::uint32 magFilter){
+    return this->getTextureSize((edk::char8*) name,minFilter,magFilter);
 }
 edk::size2ui32 edk::Texture2DList::getTextureSize(edk::uint32 code){
     edk::size2ui32 ret(0u,0u);
@@ -874,20 +875,20 @@ edk::size2ui32 edk::Texture2DList::getTextureSize(edk::uint32 code){
     }
     return ret;
 }
-edk::uint32 edk::Texture2DList::getTextureWidth(edk::char8* name,edk::uint32 filter){
-    return this->getTextureSize(name,filter).width;
+edk::uint32 edk::Texture2DList::getTextureWidth(edk::char8* name,edk::uint32 minFilter,edk::uint32 magFilter){
+    return this->getTextureSize(name,minFilter,magFilter).width;
 }
-edk::uint32 edk::Texture2DList::getTextureWidth(const edk::char8* name,edk::uint32 filter){
-    return this->getTextureSize(name,filter).width;
+edk::uint32 edk::Texture2DList::getTextureWidth(const edk::char8* name,edk::uint32 minFilter,edk::uint32 magFilter){
+    return this->getTextureSize(name,minFilter,magFilter).width;
 }
 edk::uint32 edk::Texture2DList::getTextureWidth(edk::uint32 code){
     return this->getTextureSize(code).width;
 }
-edk::uint32 edk::Texture2DList::getTextureHeight(edk::char8* name,edk::uint32 filter){
-    return this->getTextureSize(name,filter).height;
+edk::uint32 edk::Texture2DList::getTextureHeight(edk::char8* name,edk::uint32 minFilter,edk::uint32 magFilter){
+    return this->getTextureSize(name,minFilter,magFilter).height;
 }
-edk::uint32 edk::Texture2DList::getTextureHeight(const edk::char8* name,edk::uint32 filter){
-    return this->getTextureSize(name,filter).height;
+edk::uint32 edk::Texture2DList::getTextureHeight(const edk::char8* name,edk::uint32 minFilter,edk::uint32 magFilter){
+    return this->getTextureSize(name,minFilter,magFilter).height;
 }
 edk::uint32 edk::Texture2DList::getTextureHeight(edk::uint32 code){
     return this->getTextureSize(code).height;
@@ -900,23 +901,30 @@ edk::char8* edk::Texture2DList::getTextureName(edk::uint32 code){
     }
     return NULL;
 }
-edk::uint32 edk::Texture2DList::getTextureFilter(edk::uint32 code){
+edk::uint32 edk::Texture2DList::getTextureMinFilter(edk::uint32 code){
     edk::Texture2DList::TextureCode* temp = this->getTextureByCode(code);
     if(temp){
-        return temp->filter;
+        return temp->minFilter;
+    }
+    return 0u;
+}
+edk::uint32 edk::Texture2DList::getTextureMagFilter(edk::uint32 code){
+    edk::Texture2DList::TextureCode* temp = this->getTextureByCode(code);
+    if(temp){
+        return temp->magFilter;
     }
     return 0u;
 }
 
 //Test if have the texture
-bool edk::Texture2DList::haveTexture(edk::char8* name,edk::uint32 filter){
-    if(this->getTextureByName(name,filter)){
+bool edk::Texture2DList::haveTexture(edk::char8* name,edk::uint32 minFilter,edk::uint32 magFilter){
+    if(this->getTextureByName(name,minFilter,magFilter)){
         return true;
     }
     return false;
 }
-bool edk::Texture2DList::haveTexture(const edk::char8* name,edk::uint32 filter){
-    return this->haveTexture((edk::char8*) name,filter);
+bool edk::Texture2DList::haveTexture(const edk::char8* name,edk::uint32 minFilter,edk::uint32 magFilter){
+    return this->haveTexture((edk::char8*) name,minFilter,magFilter);
 }
 bool edk::Texture2DList::haveTexture(uint32 code){
     if(this->getTextureByCode(code)){

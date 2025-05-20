@@ -127,6 +127,8 @@ void edk::Window::Constructor(){
         this->secondEvents=0.f;
         this->saveEvents.clean();
 #endif
+
+        this->vsync=true;
     }
 }
 void edk::Window::Destructor(){
@@ -247,6 +249,11 @@ bool edk::Window::createWindow(uint32 width, uint32 height/*, uint32 bitsPerPixe
             //this->window.EnableKeyRepeat(true); //1.6
             this->window.setKeyRepeatEnabled(true); //2.0
 
+            //use vsync in the window
+            this->window.setVerticalSyncEnabled(this->vsync);
+
+            this->window.setActive(true);
+
             //Seta o tamanho da window
             this->setWindowSize(this->window.getSize().x,this->window.getSize().y);
 
@@ -256,8 +263,6 @@ bool edk::Window::createWindow(uint32 width, uint32 height/*, uint32 bitsPerPixe
             //set the blend with alpha channel
             edk::GU::guEnable(GU_BLEND);
             edk::GU::guBlendFunc(GU_SRC_ALPHA,GU_ONE_MINUS_SRC_ALPHA);
-
-            //this->saveEvents.clean();
 
             this->time.start();
             //retorna true
@@ -328,6 +333,24 @@ void edk::Window::closeWindow(){
         //set init the GU
         edk::GU::guClose();
     }
+}
+
+void edk::Window::setVSYNC(bool vsync){
+    if(this->vsync!=vsync){
+        this->vsync=vsync;
+        if(this->window.isOpen()){
+            this->window.setVerticalSyncEnabled(this->vsync);
+        }
+    }
+}
+void edk::Window::enableVSYNC(){
+    this->setVSYNC(true);
+}
+void edk::Window::disableVSYNC(){
+    this->setVSYNC(false);
+}
+bool edk::Window::isUsingVSYNC(){
+    return this->vsync;
 }
 
 void edk::Window::clean(){

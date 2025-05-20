@@ -1779,89 +1779,89 @@ bool edk::gui2d::ObjectGui2dBorder::saveTemplate(edk::char8* folder){
 }
 
 //LOAD SPRITES
-bool edk::gui2d::ObjectGui2dBorder::loadSpriteNormal(const edk::char8* name,edk::uint32 filter){
-    return this->loadSpriteNormal((edk::char8*) name,filter);
+bool edk::gui2d::ObjectGui2dBorder::loadSpriteNormal(const edk::char8* name,edk::uint32 minFilter,edk::uint32 magFilter){
+    return this->loadSpriteNormal((edk::char8*) name,minFilter,magFilter);
 }
-bool edk::gui2d::ObjectGui2dBorder::loadSpriteNormal(edk::char8* name,edk::uint32 filter){
-    return this->mesh.material.loadTexture(name,edk::gui2d::gui2dTextureNormal,filter);
+bool edk::gui2d::ObjectGui2dBorder::loadSpriteNormal(edk::char8* name,edk::uint32 minFilter,edk::uint32 magFilter){
+    return this->mesh.material.loadTexture(name,edk::gui2d::gui2dTextureNormal,minFilter,magFilter);
 }
-bool edk::gui2d::ObjectGui2dBorder::loadSpriteNormalFromMemory(const edk::char8* name,edk::uint8* sprite,edk::uint32 size,edk::uint32 filter){
-    return this->loadSpriteNormalFromMemory((edk::char8*) name,sprite,size,filter);
+bool edk::gui2d::ObjectGui2dBorder::loadSpriteNormalFromMemory(const edk::char8* name,edk::uint8* sprite,edk::uint32 size,edk::uint32 minFilter,edk::uint32 magFilter){
+    return this->loadSpriteNormalFromMemory((edk::char8*) name,sprite,size,minFilter,magFilter);
 }
-bool edk::gui2d::ObjectGui2dBorder::loadSpriteNormalFromMemory(edk::char8* name,edk::uint8* sprite,edk::uint32 size,edk::uint32 filter){
-    return this->mesh.material.loadTextureFromMemory(name,sprite,size,edk::gui2d::gui2dTextureNormal,filter);
+bool edk::gui2d::ObjectGui2dBorder::loadSpriteNormalFromMemory(edk::char8* name,edk::uint8* sprite,edk::uint32 size,edk::uint32 minFilter,edk::uint32 magFilter){
+    return this->mesh.material.loadTextureFromMemory(name,sprite,size,edk::gui2d::gui2dTextureNormal,minFilter,magFilter);
 }
-bool edk::gui2d::ObjectGui2dBorder::loadSpriteNormalFromPack(edk::pack::FilePackage* pack,const edk::char8* name,edk::uint32 filter){
-    return this->loadSpriteNormalFromPack(pack,(edk::char8*) name,filter);
+bool edk::gui2d::ObjectGui2dBorder::loadSpriteNormalFromPack(edk::pack::FilePackage* pack,const edk::char8* name,edk::uint32 minFilter,edk::uint32 magFilter){
+    return this->loadSpriteNormalFromPack(pack,(edk::char8*) name,minFilter,magFilter);
 }
-bool edk::gui2d::ObjectGui2dBorder::loadSpriteNormalFromPack(edk::pack::FilePackage* pack,edk::char8* name,edk::uint32 filter){
-    return this->mesh.material.loadTextureFromPack(pack,name,edk::gui2d::gui2dTextureNormal,filter);
+bool edk::gui2d::ObjectGui2dBorder::loadSpriteNormalFromPack(edk::pack::FilePackage* pack,edk::char8* name,edk::uint32 minFilter,edk::uint32 magFilter){
+    return this->mesh.material.loadTextureFromPack(pack,name,edk::gui2d::gui2dTextureNormal,minFilter,magFilter);
 }
 void edk::gui2d::ObjectGui2dBorder::removeSpriteNormal(){
     this->mesh.material.removeTexture(edk::gui2d::gui2dTextureNormal);
 }
 //load pressed sprite
-bool edk::gui2d::ObjectGui2dBorder::loadSpritePressed(const edk::char8* name,edk::uint32 filter){
-    return this->loadSpritePressed((edk::char8*) name,filter);
+bool edk::gui2d::ObjectGui2dBorder::loadSpritePressed(const edk::char8* name,edk::uint32 minFilter,edk::uint32 magFilter){
+    return this->loadSpritePressed((edk::char8*) name,minFilter,magFilter);
 }
-bool edk::gui2d::ObjectGui2dBorder::loadSpritePressed(edk::char8* name,edk::uint32 filter){
-    return this->mesh.material.loadTexture(name,edk::gui2d::gui2dTexturePressed,filter);
+bool edk::gui2d::ObjectGui2dBorder::loadSpritePressed(edk::char8* name,edk::uint32 minFilter,edk::uint32 magFilter){
+    return this->mesh.material.loadTexture(name,edk::gui2d::gui2dTexturePressed,minFilter,magFilter);
 }
-bool edk::gui2d::ObjectGui2dBorder::loadSpritePressedFromMemory(const edk::char8* name,edk::uint8* sprite,edk::uint32 size,edk::uint32 filter){
-    return this->loadSpritePressedFromMemory((edk::char8*) name,sprite,size,filter);
+bool edk::gui2d::ObjectGui2dBorder::loadSpritePressedFromMemory(const edk::char8* name,edk::uint8* sprite,edk::uint32 size,edk::uint32 minFilter,edk::uint32 magFilter){
+    return this->loadSpritePressedFromMemory((edk::char8*) name,sprite,size,minFilter,magFilter);
 }
-bool edk::gui2d::ObjectGui2dBorder::loadSpritePressedFromMemory(edk::char8* name,edk::uint8* sprite,edk::uint32 size,edk::uint32 filter){
-    return this->mesh.material.loadTextureFromMemory(name,sprite,size,edk::gui2d::gui2dTexturePressed,filter);
+bool edk::gui2d::ObjectGui2dBorder::loadSpritePressedFromMemory(edk::char8* name,edk::uint8* sprite,edk::uint32 size,edk::uint32 minFilter,edk::uint32 magFilter){
+    return this->mesh.material.loadTextureFromMemory(name,sprite,size,edk::gui2d::gui2dTexturePressed,minFilter,magFilter);
 }
-bool edk::gui2d::ObjectGui2dBorder::loadSpritePressedFromPack(edk::pack::FilePackage* pack,const edk::char8* name,edk::uint32 filter){
-    return this->loadSpritePressedFromPack(pack,(edk::char8*) name,filter);
+bool edk::gui2d::ObjectGui2dBorder::loadSpritePressedFromPack(edk::pack::FilePackage* pack,const edk::char8* name,edk::uint32 minFilter,edk::uint32 magFilter){
+    return this->loadSpritePressedFromPack(pack,(edk::char8*) name,minFilter,magFilter);
 }
-bool edk::gui2d::ObjectGui2dBorder::loadSpritePressedFromPack(edk::pack::FilePackage* pack,edk::char8* name,edk::uint32 filter){
-    return this->mesh.material.loadTextureFromPack(pack,name,edk::gui2d::gui2dTexturePressed,filter);
+bool edk::gui2d::ObjectGui2dBorder::loadSpritePressedFromPack(edk::pack::FilePackage* pack,edk::char8* name,edk::uint32 minFilter,edk::uint32 magFilter){
+    return this->mesh.material.loadTextureFromPack(pack,name,edk::gui2d::gui2dTexturePressed,minFilter,magFilter);
 }
 void edk::gui2d::ObjectGui2dBorder::removeSpritePressed(){
     this->mesh.material.removeTexture(edk::gui2d::gui2dTexturePressed);
 }
 //load UP sprite
-bool edk::gui2d::ObjectGui2dBorder::loadSpriteUp(const edk::char8* name,edk::uint32 filter){
-    return this->loadSpriteUp((edk::char8*) name,filter);
+bool edk::gui2d::ObjectGui2dBorder::loadSpriteUp(const edk::char8* name,edk::uint32 minFilter,edk::uint32 magFilter){
+    return this->loadSpriteUp((edk::char8*) name,minFilter,magFilter);
 }
-bool edk::gui2d::ObjectGui2dBorder::loadSpriteUp(edk::char8* name,edk::uint32 filter){
-    return this->mesh.material.loadTexture(name,edk::gui2d::gui2dTextureUp,filter);
+bool edk::gui2d::ObjectGui2dBorder::loadSpriteUp(edk::char8* name,edk::uint32 minFilter,edk::uint32 magFilter){
+    return this->mesh.material.loadTexture(name,edk::gui2d::gui2dTextureUp,minFilter,magFilter);
 }
-bool edk::gui2d::ObjectGui2dBorder::loadSpriteUpFromMemory(const edk::char8* name,edk::uint8* sprite,edk::uint32 size,edk::uint32 filter){
-    return this->loadSpriteUpFromMemory((edk::char8*) name,sprite,size,filter);
+bool edk::gui2d::ObjectGui2dBorder::loadSpriteUpFromMemory(const edk::char8* name,edk::uint8* sprite,edk::uint32 size,edk::uint32 minFilter,edk::uint32 magFilter){
+    return this->loadSpriteUpFromMemory((edk::char8*) name,sprite,size,minFilter,magFilter);
 }
-bool edk::gui2d::ObjectGui2dBorder::loadSpriteUpFromMemory(edk::char8* name,edk::uint8* sprite,edk::uint32 size,edk::uint32 filter){
-    return this->mesh.material.loadTextureFromMemory(name,sprite,size,edk::gui2d::gui2dTextureUp,filter);
+bool edk::gui2d::ObjectGui2dBorder::loadSpriteUpFromMemory(edk::char8* name,edk::uint8* sprite,edk::uint32 size,edk::uint32 minFilter,edk::uint32 magFilter){
+    return this->mesh.material.loadTextureFromMemory(name,sprite,size,edk::gui2d::gui2dTextureUp,minFilter,magFilter);
 }
-bool edk::gui2d::ObjectGui2dBorder::loadSpriteUpFromPack(edk::pack::FilePackage* pack,const edk::char8* name,edk::uint32 filter){
-    return this->loadSpriteUpFromPack(pack,(edk::char8*) name,filter);
+bool edk::gui2d::ObjectGui2dBorder::loadSpriteUpFromPack(edk::pack::FilePackage* pack,const edk::char8* name,edk::uint32 minFilter,edk::uint32 magFilter){
+    return this->loadSpriteUpFromPack(pack,(edk::char8*) name,minFilter,magFilter);
 }
-bool edk::gui2d::ObjectGui2dBorder::loadSpriteUpFromPack(edk::pack::FilePackage* pack,edk::char8* name,edk::uint32 filter){
-    return this->mesh.material.loadTextureFromPack(pack,name,edk::gui2d::gui2dTextureUp,filter);
+bool edk::gui2d::ObjectGui2dBorder::loadSpriteUpFromPack(edk::pack::FilePackage* pack,edk::char8* name,edk::uint32 minFilter,edk::uint32 magFilter){
+    return this->mesh.material.loadTextureFromPack(pack,name,edk::gui2d::gui2dTextureUp,minFilter,magFilter);
 }
 void edk::gui2d::ObjectGui2dBorder::removeSpriteUp(){
     this->mesh.material.removeTexture(edk::gui2d::gui2dTextureUp);
 }
 //load pressedUp sprite
-bool edk::gui2d::ObjectGui2dBorder::loadSpritePressedUp(const edk::char8* name,edk::uint32 filter){
-    return this->loadSpritePressedUp((edk::char8*) name,filter);
+bool edk::gui2d::ObjectGui2dBorder::loadSpritePressedUp(const edk::char8* name,edk::uint32 minFilter,edk::uint32 magFilter){
+    return this->loadSpritePressedUp((edk::char8*) name,minFilter,magFilter);
 }
-bool edk::gui2d::ObjectGui2dBorder::loadSpritePressedUp(edk::char8* name,edk::uint32 filter){
-    return this->mesh.material.loadTexture(name,edk::gui2d::gui2dTexturePressedUp,filter);
+bool edk::gui2d::ObjectGui2dBorder::loadSpritePressedUp(edk::char8* name,edk::uint32 minFilter,edk::uint32 magFilter){
+    return this->mesh.material.loadTexture(name,edk::gui2d::gui2dTexturePressedUp,minFilter,magFilter);
 }
-bool edk::gui2d::ObjectGui2dBorder::loadSpritePressedUpFromMemory(const edk::char8* name,edk::uint8* sprite,edk::uint32 size,edk::uint32 filter){
-    return this->loadSpritePressedUpFromMemory((edk::char8*) name,sprite,size,filter);
+bool edk::gui2d::ObjectGui2dBorder::loadSpritePressedUpFromMemory(const edk::char8* name,edk::uint8* sprite,edk::uint32 size,edk::uint32 minFilter,edk::uint32 magFilter){
+    return this->loadSpritePressedUpFromMemory((edk::char8*) name,sprite,size,minFilter,magFilter);
 }
-bool edk::gui2d::ObjectGui2dBorder::loadSpritePressedUpFromMemory(edk::char8* name,edk::uint8* sprite,edk::uint32 size,edk::uint32 filter){
-    return this->mesh.material.loadTextureFromMemory(name,sprite,size,edk::gui2d::gui2dTexturePressedUp,filter);
+bool edk::gui2d::ObjectGui2dBorder::loadSpritePressedUpFromMemory(edk::char8* name,edk::uint8* sprite,edk::uint32 size,edk::uint32 minFilter,edk::uint32 magFilter){
+    return this->mesh.material.loadTextureFromMemory(name,sprite,size,edk::gui2d::gui2dTexturePressedUp,minFilter,magFilter);
 }
-bool edk::gui2d::ObjectGui2dBorder::loadSpritePressedUpFromPack(edk::pack::FilePackage* pack,const edk::char8* name,edk::uint32 filter){
-    return this->loadSpritePressedUpFromPack(pack,(edk::char8*) name,filter);
+bool edk::gui2d::ObjectGui2dBorder::loadSpritePressedUpFromPack(edk::pack::FilePackage* pack,const edk::char8* name,edk::uint32 minFilter,edk::uint32 magFilter){
+    return this->loadSpritePressedUpFromPack(pack,(edk::char8*) name,minFilter,magFilter);
 }
-bool edk::gui2d::ObjectGui2dBorder::loadSpritePressedUpFromPack(edk::pack::FilePackage* pack,edk::char8* name,edk::uint32 filter){
-    return this->mesh.material.loadTextureFromPack(pack,name,edk::gui2d::gui2dTexturePressedUp,filter);
+bool edk::gui2d::ObjectGui2dBorder::loadSpritePressedUpFromPack(edk::pack::FilePackage* pack,edk::char8* name,edk::uint32 minFilter,edk::uint32 magFilter){
+    return this->mesh.material.loadTextureFromPack(pack,name,edk::gui2d::gui2dTexturePressedUp,minFilter,magFilter);
 }
 void edk::gui2d::ObjectGui2dBorder::removeSpritePressedUp(){
     this->mesh.material.removeTexture(edk::gui2d::gui2dTexturePressedUp);

@@ -80,14 +80,14 @@ public:
     //GU_LINEAR_MIPMAP_NEAREST
     //GU_LINEAR_MIPMAP_LINEAR
     //load the background
-    bool loadBackground(const edk::char8* name,edk::uint32 filter = GU_NEAREST);
-    bool loadBackground(edk::char8* name,edk::uint32 filter = GU_NEAREST);
+    bool loadBackground(const edk::char8* name,edk::uint32 minFilter = GU_LINEAR,edk::uint32 magFilter = GU_NEAREST);
+    bool loadBackground(edk::char8* name,edk::uint32 minFilter = GU_LINEAR,edk::uint32 magFilter = GU_NEAREST);
     //load the sprite from memory
-    bool loadBackgroundFromMemory(const edk::char8* name,edk::uint8* sprite,edk::uint32 size,edk::uint32 filter = GU_NEAREST);
-    bool loadBackgroundFromMemory(edk::char8* name,edk::uint8* sprite,edk::uint32 size,edk::uint32 filter = GU_NEAREST);
+    bool loadBackgroundFromMemory(const edk::char8* name,edk::uint8* sprite,edk::uint32 size,edk::uint32 minFilter = GU_LINEAR,edk::uint32 magFilter = GU_NEAREST);
+    bool loadBackgroundFromMemory(edk::char8* name,edk::uint8* sprite,edk::uint32 size,edk::uint32 minFilter = GU_LINEAR,edk::uint32 magFilter = GU_NEAREST);
     //laod the sprite from pack
-    bool loadBackgroundFromPack(edk::pack::FilePackage* pack, edk::char8* name,edk::uint32 filter = GU_NEAREST);
-    bool loadBackgroundFromPack(edk::pack::FilePackage* pack, const edk::char8* name,edk::uint32 filter = GU_NEAREST);
+    bool loadBackgroundFromPack(edk::pack::FilePackage* pack, edk::char8* name,edk::uint32 minFilter = GU_LINEAR,edk::uint32 magFilter = GU_NEAREST);
+    bool loadBackgroundFromPack(edk::pack::FilePackage* pack, const edk::char8* name,edk::uint32 minFilter = GU_LINEAR,edk::uint32 magFilter = GU_NEAREST);
 
     //delete the background
     void deleteBackground();

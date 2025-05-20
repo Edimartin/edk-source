@@ -155,7 +155,7 @@ void edk::Texture2DFile::closeDebugFile(){
 
 
 //LOAD
-bool edk::Texture2DFile::loadFromFile(edk::char8 *fileName,edk::uint32 filter){
+bool edk::Texture2DFile::loadFromFile(edk::char8 *fileName,edk::uint32 minFilter,edk::uint32 magFilter){
 #if defined(EDK_TEX2DFILE_PRINT_DEBUG)
     this->writeDebug(fileName?fileName:"FILENAME_NULL",__LINE__,__FILE__,__func__);
 #endif
@@ -183,7 +183,8 @@ bool edk::Texture2DFile::loadFromFile(edk::char8 *fileName,edk::uint32 filter){
                                 this->image.height(),
                                 GU_LUMINANCE,
                                 (edk::classID)this->image.getPixels(),
-                                filter
+                                minFilter,
+                                magFilter
                                 );
             break;
         case 3u://RGB
@@ -195,7 +196,8 @@ bool edk::Texture2DFile::loadFromFile(edk::char8 *fileName,edk::uint32 filter){
                                 this->image.height(),
                                 GU_RGB,
                                 (edk::classID)this->image.getPixels(),
-                                filter
+                                minFilter,
+                                magFilter
                                 );
             break;
         case 4u://RGBA
@@ -207,7 +209,8 @@ bool edk::Texture2DFile::loadFromFile(edk::char8 *fileName,edk::uint32 filter){
                                 this->image.height(),
                                 GU_RGBA,
                                 (edk::classID)this->image.getPixels(),
-                                filter
+                                minFilter,
+                                magFilter
                                 );
             break;
         }
@@ -229,12 +232,12 @@ bool edk::Texture2DFile::loadFromFile(edk::char8 *fileName,edk::uint32 filter){
 #endif
     return ret;
 }
-bool edk::Texture2DFile::loadFromFile(const char *fileName,edk::uint32 filter){
+bool edk::Texture2DFile::loadFromFile(const char *fileName,edk::uint32 minFilter,edk::uint32 magFilter){
     //
-    return this->loadFromFile((edk::char8 *)fileName,filter);
+    return this->loadFromFile((edk::char8 *)fileName,minFilter,magFilter);
 }
 //LOAD from memory
-bool edk::Texture2DFile::loadFromMemory(edk::uint8* image,edk::uint32 size,edk::uint32 filter){
+bool edk::Texture2DFile::loadFromMemory(edk::uint8* image,edk::uint32 size,edk::uint32 minFilter,edk::uint32 magFilter){
 #if defined(EDK_TEX2DFILE_PRINT_DEBUG)
     edk::char8* strSize = edk::String::uint32ToStr(size);
     if(strSize){
@@ -277,7 +280,8 @@ bool edk::Texture2DFile::loadFromMemory(edk::uint8* image,edk::uint32 size,edk::
                                     this->image.height(),
                                     GU_LUMINANCE,
                                     (edk::classID)this->image.getPixels(),
-                                    filter
+                                    minFilter,
+                                    magFilter
                                     );
             }
                 break;
@@ -291,7 +295,8 @@ bool edk::Texture2DFile::loadFromMemory(edk::uint8* image,edk::uint32 size,edk::
                                     this->image.height(),
                                     GU_RGB,
                                     (edk::classID)this->image.getPixels(),
-                                    filter
+                                    minFilter,
+                                    magFilter
                                     );
             }
                 break;
@@ -305,7 +310,8 @@ bool edk::Texture2DFile::loadFromMemory(edk::uint8* image,edk::uint32 size,edk::
                                     this->image.height(),
                                     GU_RGBA,
                                     (edk::classID)this->image.getPixels(),
-                                    filter
+                                    minFilter,
+                                    magFilter
                                     );
             }
                 break;
@@ -330,7 +336,13 @@ bool edk::Texture2DFile::loadFromMemory(edk::uint8* image,edk::uint32 size,edk::
     return ret;
 }
 //SERT from memory
-bool edk::Texture2DFile::setFromMemory(edk::uint8* image,edk::uint32 width,edk::uint32 height,edk::uint32 channels,edk::uint32 filter){
+bool edk::Texture2DFile::setFromMemory(edk::uint8* image,
+                                       edk::uint32 width,
+                                       edk::uint32 height,
+                                       edk::uint32 channels,
+                                       edk::uint32 minFilter,
+                                       edk::uint32 magFilter
+                            ){
 #if defined(EDK_TEX2DFILE_PRINT_DEBUG)
     edk::char8* strWidth = edk::String::uint32ToStr(width);
     if(strWidth){
@@ -385,7 +397,8 @@ bool edk::Texture2DFile::setFromMemory(edk::uint8* image,edk::uint32 width,edk::
                                 height,
                                 GU_LUMINANCE,
                                 (edk::classID)image,
-                                filter
+                                minFilter,
+                                magFilter
                                 );
         }
             break;
@@ -415,7 +428,8 @@ bool edk::Texture2DFile::setFromMemory(edk::uint8* image,edk::uint32 width,edk::
                                 height,
                                 GU_RGB,
                                 (edk::classID)image,
-                                filter
+                                minFilter,
+                                magFilter
                                 );
         }
             break;
@@ -445,7 +459,8 @@ bool edk::Texture2DFile::setFromMemory(edk::uint8* image,edk::uint32 width,edk::
                                 height,
                                 GU_RGBA,
                                 (edk::classID)image,
-                                filter
+                                minFilter,
+                                magFilter
                                 );
         }
             break;

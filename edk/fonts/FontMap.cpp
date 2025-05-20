@@ -2648,16 +2648,16 @@ edk::uint32 edk::fonts::FontMap::getTheLastPositionY(){
     return this->getTheLastPosition().y;
 }
 //load fontImage
-bool edk::fonts::FontMap::loadFontImage(const edk::char8* name,edk::uint32 filter,edk::color4f32 color){
-    return this->loadFontImage((edk::char8*) name,filter,color);
+bool edk::fonts::FontMap::loadFontImage(const edk::char8* name,edk::uint32 minFilter,edk::uint32 magFilter,edk::color4f32 color){
+    return this->loadFontImage((edk::char8*) name,minFilter,magFilter,color);
 }
-bool edk::fonts::FontMap::loadFontImage(edk::char8* name,edk::uint32 filter,edk::color4f32 color){
+bool edk::fonts::FontMap::loadFontImage(edk::char8* name,edk::uint32 minFilter,edk::uint32 magFilter,edk::color4f32 color){
     //remove the fontImage
     this->removeFontImage();
     //test the name
     if(name){
         //load the fontImage
-        if((this->set = this->list.createFontSet(name,filter,color))){
+        if((this->set = this->list.createFontSet(name,minFilter,magFilter,color))){
             //set tileSet in map
             if(this->map.setTileSet(this->set->getTileSet())){
                 //return true
@@ -2672,16 +2672,18 @@ bool edk::fonts::FontMap::loadFontImage(edk::char8* name,edk::uint32 filter,edk:
 bool edk::fonts::FontMap::loadFontImageFromMemory(const edk::char8* name,
                                                   edk::uint8* image,
                                                   edk::uint32 size,
-                                                  edk::uint32 filter,
+                                                  edk::uint32 minFilter,
+                                                  edk::uint32 magFilter,
                                                   edk::color4f32 color
                                                   ){
-    return this->loadFontImageFromMemory((edk::char8*) name,image,size,filter,color);
+    return this->loadFontImageFromMemory((edk::char8*) name,image,size,minFilter,magFilter,color);
 }
 
 bool edk::fonts::FontMap::loadFontImageFromMemory(edk::char8* name,
                                                   edk::uint8* image,
                                                   edk::uint32 size,
-                                                  edk::uint32 filter,
+                                                  edk::uint32 minFilter,
+                                                  edk::uint32 magFilter,
                                                   edk::color4f32 color
                                                   ){
     //remove the fontImage
@@ -2689,7 +2691,7 @@ bool edk::fonts::FontMap::loadFontImageFromMemory(edk::char8* name,
     //test the name
     if(name){
         //load the fontImage
-        if((this->set = this->list.createFontSetFromMemory(name,image,size,filter,color))){
+        if((this->set = this->list.createFontSetFromMemory(name,image,size,minFilter,magFilter,color))){
             //set tileSet in map
             if(this->map.setTileSet(this->set->getTileSet())){
                 //return true
@@ -2701,16 +2703,16 @@ bool edk::fonts::FontMap::loadFontImageFromMemory(edk::char8* name,
     this->removeFontImage();
     return false;
 }
-bool edk::fonts::FontMap::loadFontImageFromPack(edk::pack::FilePackage* pack,const edk::char8* name,edk::uint32 filter,edk::color4f32 color){
-    return this->loadFontImageFromPack(pack,(edk::char8*) name,filter,color);
+bool edk::fonts::FontMap::loadFontImageFromPack(edk::pack::FilePackage* pack,const edk::char8* name,edk::uint32 minFilter,edk::uint32 magFilter,edk::color4f32 color){
+    return this->loadFontImageFromPack(pack,(edk::char8*) name,minFilter,magFilter,color);
 }
-bool edk::fonts::FontMap::loadFontImageFromPack(edk::pack::FilePackage* pack,edk::char8* name,edk::uint32 filter,edk::color4f32 color){
+bool edk::fonts::FontMap::loadFontImageFromPack(edk::pack::FilePackage* pack,edk::char8* name,edk::uint32 minFilter,edk::uint32 magFilter,edk::color4f32 color){
     //remove the fontImage
     this->removeFontImage();
     //test the name
     if(name && pack){
         //load the fontImage
-        if((this->set = this->list.createFontSetFromPack(pack,name,filter,color))){
+        if((this->set = this->list.createFontSetFromPack(pack,name,minFilter,magFilter,color))){
             //set tileSet in map
             if(this->map.setTileSet(this->set->getTileSet())){
                 //return true
@@ -5485,10 +5487,10 @@ bool edk::fonts::FontMap::updateAnimations(){
                 this->enterOrigin=false;
             }
             //speed the animation
-            this->animOrigin.setSpeed(this->fasterOrigin); //faster
+            this->animOrigin.setSpeed(this->fasterOrigin);//faster
         }
         else{
-            this->animOrigin.setSpeed(this->speedOrigin); //normal
+            this->animOrigin.setSpeed(this->speedOrigin);//normal
             this->enterOrigin=false;
         }
 
@@ -5521,10 +5523,10 @@ bool edk::fonts::FontMap::updateAnimations(){
                 this->enterOrigin=false;
             }
             //speed the animation
-            this->animLast.setSpeed(this->fasterLast); //faster
+            this->animLast.setSpeed(this->fasterLast);//faster
         }
         else{
-            this->animLast.setSpeed(this->speedLast); //normal
+            this->animLast.setSpeed(this->speedLast);//normal
             this->enterOrigin=false;
         }
 
@@ -5594,10 +5596,10 @@ bool edk::fonts::FontMap::updateAnimations(edk::float32 seconds){
                 this->enterOrigin=false;
             }
             //speed the animation
-            this->animOrigin.setSpeed(this->fasterOrigin); //faster
+            this->animOrigin.setSpeed(this->fasterOrigin);//faster
         }
         else{
-            this->animOrigin.setSpeed(this->speedOrigin); //normal
+            this->animOrigin.setSpeed(this->speedOrigin);//normal
             this->enterOrigin=false;
         }
 
@@ -5629,10 +5631,10 @@ bool edk::fonts::FontMap::updateAnimations(edk::float32 seconds){
                 this->enterOrigin=false;
             }
             //speed the animation
-            this->animLast.setSpeed(this->fasterLast); //faster
+            this->animLast.setSpeed(this->fasterLast);//faster
         }
         else{
-            this->animLast.setSpeed(this->speedLast); //normal
+            this->animLast.setSpeed(this->speedLast);//normal
             this->enterOrigin=false;
         }
 
