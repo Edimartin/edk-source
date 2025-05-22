@@ -389,6 +389,24 @@ public:
 
     bool cloneFrom(edk::Image2D* image);
     bool newFrom(edk::Image2D* image);
+
+    //copy one image into nother image
+    static bool copyImageToImage(edk::uint8* copy,
+                                 edk::size2ui32 sizeCopy,
+                                 edk::uint8* dest,
+                                 edk::size2ui32 sizeDest,
+                                 edk::vec2ui32 position,
+                                 edk::uint32 channels
+                                 );
+    static bool copyImageToImage(edk::uint8* copy,
+                                 edk::uint32 copySizeW,edk::uint32 copySizeH,
+                                 edk::uint8* dest,
+                                 edk::uint32 destSizeW,edk::uint32 destSizeH,
+                                 edk::uint32 posX,edk::uint32 posY,
+                                 edk::uint32 channels
+                                 );
+    static bool copyImageToImage(edk::Image2D* copy,edk::Image2D* dest,edk::vec2ui32 position);
+    static bool copyImageToImage(edk::Image2D* copy,edk::Image2D* dest,edk::uint32 posX,edk::uint32 posY);
 private:
     edk::Image2D operator=(edk::Image2D){return *this;}
     //pixel vector

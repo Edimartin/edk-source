@@ -3391,3 +3391,65 @@ bool edk::Image2D::newFrom(edk::Image2D* image){
     this->deleteImage();
     return false;
 }
+
+//copy one image into nother image
+bool edk::Image2D::copyImageToImage(edk::uint8* copy,
+                                    edk::size2ui32 sizeCopy,
+                                    edk::uint8* dest,
+                                    edk::size2ui32 sizeDest,
+                                    edk::vec2ui32 position,
+                                    edk::uint32 channels
+                                    ){
+    if(copy && dest && channels
+            && sizeCopy.height && sizeCopy.width
+            && sizeDest.height && sizeDest.width
+            //
+            && sizeCopy.width<=(sizeDest.width-position.x)
+            && sizeCopy.height<=(sizeDest.height-position.y)
+            ){
+        //can copy the image
+        for(edk::uint32 y=0u;y<position.y;y++){
+            dest+=sizeDest.width * channels;
+        }
+        for(edk::uint32 y=0u;y<sizeCopy.height;y++){
+            dest+=position.x*channels;
+            edkMemCpy(dest,copy,sizeCopy.width*channels);
+            copy+=sizeCopy.width*channels;
+            dest+=(sizeDest.width-position.x)*channels;
+        }
+        return true;
+    }
+    return false;
+}
+bool edk::Image2D::copyImageToImage(edk::uint8* copy,
+                                    edk::uint32 copySizeW,edk::uint32 copySizeH,
+                                    edk::uint8* dest,
+                                    edk::uint32 destSizeW,edk::uint32 destSizeH,
+                                    edk::uint32 posX,edk::uint32 posY,
+                                    edk::uint32 channels
+                                    ){
+    return copyImageToImage(copy,
+                            edk::size2ui32(copySizeW,copySizeH),
+                            dest,
+                            edk::size2ui32(destSizeW,destSizeH),
+                            edk::vec2ui32(posX,posY),
+                            channels
+                            );
+}
+bool edk::Image2D::copyImageToImage(edk::Image2D* copy,edk::Image2D* dest,edk::vec2ui32 position){
+    if(copy && dest){
+        if(copy->getChannels() == dest->getChannels()){
+            return edk::Image2D::copyImageToImage(copy->getPixels(),
+                                                  copy->getSize(),
+                                                  dest->getPixels(),
+                                                  dest->getSize(),
+                                                  position,
+                                                  dest->getChannels()
+                                                  );
+        }
+    }
+    return false;
+}
+bool edk::Image2D::copyImageToImage(edk::Image2D* copy,edk::Image2D* dest,edk::uint32 posX,edk::uint32 posY){
+    return edk::Image2D::copyImageToImage(copy,dest,edk::vec2ui32(posX,posY));
+}
