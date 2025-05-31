@@ -3213,6 +3213,18 @@ bool edk::Object2D::updateAnimations(edk::float32 seconds){
     return ret;
 }
 
+bool edk::Object2D::updateSizeFromTexture(edk::uint32 meshPosition,edk::uint32 textPosition,edk::float32 multiply){
+    edk::shape::Mesh2D* mesh = this->getMesh(meshPosition);
+    if(mesh){
+        if(mesh->material.haveTexture(textPosition)){
+            this->size.width = mesh->material.getTextureWidth(textPosition) * multiply;
+            this->size.height = mesh->material.getTextureHeight(textPosition) * multiply;
+            return true;
+        }
+    }
+    return false;
+}
+
 //ACTIONS
 //play actions
 void edk::Object2D::playForwardActions(){

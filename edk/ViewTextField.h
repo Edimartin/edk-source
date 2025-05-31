@@ -73,6 +73,7 @@ public:
     void setWritePosition(edk::uint32 position);
     //return true if is selected
     bool isSelected();
+    static bool isSomeoneSelected();
     //test if the mouse is inside
     bool isMouseInside();
 private:
@@ -122,6 +123,7 @@ private:
         edk::uint32 getSizeString();
         //eturn true if the text is selected
         bool isSelected();
+        static bool isSomeoneSelected();
 
         //save border
         edk::float32 saveBorder;
@@ -154,6 +156,8 @@ private:
         edk::Object2D obj;
         //animation to the object
         edk::animation::Interpolation1DGroup anim;
+    private:
+        static edk::vector::BinaryTree<edk::ViewTextField::TextField*> treeSelected;
     private:
         edk::classID classThis;
     }text;

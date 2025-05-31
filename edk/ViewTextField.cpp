@@ -28,6 +28,8 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #pragma message "            Inside ViewTextField.cpp"
 #endif
 
+edk::vector::BinaryTree<edk::ViewTextField::TextField*> edk::ViewTextField::TextField::treeSelected;
+
 edk::ViewTextField::ViewTextField(){
     this->classThis=NULL;
     this->Constructor();
@@ -89,6 +91,7 @@ void edk::ViewTextField::TextField::Destructor(){
         //can destruct the class
         this->cleanString();
         this->deleteString();
+        edk::ViewTextField::TextField::treeSelected.remove(this);
 
         this->obj.Destructor();
         this->anim.Destructor();
@@ -117,6 +120,7 @@ void edk::ViewTextField::TextField::eventMousePressed(edk::vec2f32 point ,edk::u
     if(button == edk::mouse::left){
         //
         this->selectView=true;
+        edk::ViewTextField::TextField::treeSelected.add(this);
         this->pressInside=true;
 
         //set the entry position
@@ -188,6 +192,7 @@ void edk::ViewTextField::TextField::update(edk::WindowEvents* events){
                 if(!this->pressInside){
                     //remove selection
                     this->selectView = false;
+                    edk::ViewTextField::TextField::treeSelected.remove(this);
                 }
             }
         }
@@ -354,6 +359,7 @@ void edk::ViewTextField::TextField::update(edk::WindowEvents* events){
             case edk::key::escape:
                 //
                 this->selectView=false;
+                edk::ViewTextField::TextField::treeSelected.remove(this);
                 break;
             default:
                 //test if the key is a letter
@@ -499,6 +505,7 @@ void edk::ViewTextField::TextField::update(edk::WindowEvents* events,edk::float3
                 if(!this->pressInside){
                     //remove selection
                     this->selectView = false;
+                    edk::ViewTextField::TextField::treeSelected.remove(this);
                 }
             }
         }
@@ -665,6 +672,7 @@ void edk::ViewTextField::TextField::update(edk::WindowEvents* events,edk::float3
             case edk::key::escape:
                 //
                 this->selectView=false;
+                edk::ViewTextField::TextField::treeSelected.remove(this);
                 break;
             default:
                 //test if the key is a letter
@@ -1090,6 +1098,12 @@ edk::uint32 edk::ViewTextField::TextField::getSizeString(){
 bool edk::ViewTextField::TextField::isSelected(){
     return this->selectView;
 }
+bool edk::ViewTextField::TextField::isSomeoneSelected(){
+    if (edk::ViewTextField::TextField::treeSelected.size()){
+        return true;
+    }
+    return false;
+}
 
 void edk::ViewTextField::load(rectf32){
     this->addSubview(&this->text);
@@ -1154,6 +1168,9 @@ void edk::ViewTextField::setWritePosition(edk::uint32 position){
 //return true if is selected
 bool edk::ViewTextField::isSelected(){
     return this->text.isSelected();
+}
+bool edk::ViewTextField::isSomeoneSelected(){
+    return edk::ViewTextField::TextField::isSomeoneSelected();
 }
 //test if the mouse is inside
 bool edk::ViewTextField::isMouseInside(){

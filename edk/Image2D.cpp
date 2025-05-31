@@ -1074,7 +1074,7 @@ bool edk::Image2D::drawColorPointer(edk::uint8* color,edk::uint8 channels){
             if(this->vec){
                 for(edk::uint32 i=0u;i<imageSize;i++){
                     vecTemp[0u] = color[0u];
-                    vecTemp+=3u;
+                    vecTemp+=1u;
                 }
                 return true;
             }
@@ -1084,14 +1084,14 @@ bool edk::Image2D::drawColorPointer(edk::uint8* color,edk::uint8 channels){
                 if(channels == 1u){
                     for(edk::uint32 i=0u;i<imageSize;i++){
                         vecTemp[0u] = color[0u];
-                        vecTemp+=3u;
+                        vecTemp+=2u;
                     }
                 }
                 else{
                     for(edk::uint32 i=0u;i<imageSize;i++){
                         vecTemp[0u] = color[0u];
                         vecTemp[1u] = color[1u];
-                        vecTemp+=3u;
+                        vecTemp+=2u;
                     }
                 }
                 return true;
@@ -1124,7 +1124,7 @@ bool edk::Image2D::drawColorPointer(edk::uint8* color,edk::uint8 channels){
                         vecTemp[0u] = color[0u];
                         vecTemp[1u] = color[1u];
                         vecTemp[2u] = color[2u];
-                        color+=channels;
+                        vecTemp+=4u;
                     }
                 }
                 else{
@@ -1133,7 +1133,7 @@ bool edk::Image2D::drawColorPointer(edk::uint8* color,edk::uint8 channels){
                         vecTemp[1u] = color[1u];
                         vecTemp[2u] = color[2u];
                         vecTemp[3u] = color[3u];
-                        vecTemp+=3u;
+                        vecTemp+=4u;
                     }
                 }
                 return true;

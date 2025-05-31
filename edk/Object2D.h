@@ -163,6 +163,8 @@ public:
     virtual bool updateAnimations();
     virtual bool updateAnimations(edk::float32 seconds);
 
+    bool updateSizeFromTexture(edk::uint32 meshPosition,edk::uint32 textPosition,edk::float32 multiply=1.f);
+
     //ACTIONS
     //play actions
     void playForwardActions();

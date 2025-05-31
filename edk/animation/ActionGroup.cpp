@@ -186,7 +186,7 @@ void edk::animation::ActionGroup::update(edk::float32 seconds){
 
 //ANIMATION FUNCTIONS
 //get Loop
-bool edk::animation::ActionGroup::isLooping(){return this->anim.getLoop(); }
+bool edk::animation::ActionGroup::isLooping(){return this->anim.getLoop();}
 
 //CONTROLS
 //animation controllers
@@ -206,20 +206,20 @@ void edk::animation::ActionGroup::playForwardIn(edk::float32 second,edk::float32
     this->anim.playForwardIn(second);
     this->firstUpdate(updateSeconds);
 }
-//void edk::animation::ActionGroup::playRewind(){this->anim.playRewind(); }
-//void edk::animation::ActionGroup::playRewindIn(edk::float32 second){this->anim.playRewindIn(second); }
-void edk::animation::ActionGroup::pause(){this->anim.pause(); }
-void edk::animation::ActionGroup::pauseOn(){this->anim.pauseOn(); }
-void edk::animation::ActionGroup::pauseOff(){this->anim.pauseOff(); }
-void edk::animation::ActionGroup::stop(){this->anim.stop(); }
+//void edk::animation::ActionGroup::playRewind(){this->anim.playRewind();}
+//void edk::animation::ActionGroup::playRewindIn(edk::float32 second){this->anim.playRewindIn(second);}
+void edk::animation::ActionGroup::pause(){this->anim.pause();}
+void edk::animation::ActionGroup::pauseOn(){this->anim.pauseOn();}
+void edk::animation::ActionGroup::pauseOff(){this->anim.pauseOff();}
+void edk::animation::ActionGroup::stop(){this->anim.stop();}
 //set loop
-void edk::animation::ActionGroup::setLoop(bool loop){this->anim.setLoop(loop); }
-void edk::animation::ActionGroup::loopOn(){this->anim.loopOn(); }
-void edk::animation::ActionGroup::loopOff(){this->anim.loopOff(); }
+void edk::animation::ActionGroup::setLoop(bool loop){this->anim.setLoop(loop);}
+void edk::animation::ActionGroup::loopOn(){this->anim.loopOn();}
+void edk::animation::ActionGroup::loopOff(){this->anim.loopOff();}
 
 //return if are playing
-bool edk::animation::ActionGroup::isPlaying(){return this->anim.isPlaying(); }
-bool edk::animation::ActionGroup::isPaused(){return this->isPaused(); }
+bool edk::animation::ActionGroup::isPlaying(){return this->anim.isPlaying();}
+bool edk::animation::ActionGroup::isPaused(){return this->isPaused();}
 
 bool edk::animation::ActionGroup::writeToXML(edk::XML* xml,edk::uint32 id){
     bool ret=false;
