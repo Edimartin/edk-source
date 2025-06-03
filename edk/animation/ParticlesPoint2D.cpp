@@ -705,7 +705,7 @@ void edk::animation::ParticlesPoint2D::pauseParticles(){
     else{
 
         //update particles
-        void updateElement(edk::animation::ParticlesPoint2D::ParticleObject* value);         this->isPlayingParticles=!this->isPlayingParticles;
+        void updateElement(edk::animation::ParticlesPoint2D::ParticleObject* value);        this->isPlayingParticles=!this->isPlayingParticles;
     }
     */
     this->treeParticles.pauseParticles();
@@ -749,7 +749,7 @@ void edk::animation::ParticlesPoint2D::update(edk::float32 seconds){
                 this->particles[this->nextParticle].clean();
                 //set the particle life
                 this->particles[this->nextParticle].lifeLimit = this->lifeNear + (this->rand.getRandPercent() * this->lifeDistance);
-                this->particles[this->nextParticle].life.addFirstInterpolationLine(0.f,this->particles[this->nextParticle].lifeLimit); ;
+                this->particles[this->nextParticle].life.addFirstInterpolationLine(0.f,this->particles[this->nextParticle].lifeLimit);
                 this->particles[this->nextParticle].life.playForward();
                 //set the particle frame animation
                 this->newFrameAnimation(&this->particles[this->nextParticle].animFrame,this->particles[this->nextParticle].lifeLimit);

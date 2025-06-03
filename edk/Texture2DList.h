@@ -503,7 +503,7 @@ private:
     //Tree to save the textures by name
     static edk::Texture2DList::NameFilterTree nameTree;
 
-    static bool templateConstructNeed;
+    static edk::uint64 templateConstructNeed;
 
     //get the texture by the name
     edk::Texture2DList::TextureCode* getTextureByName(edk::char8* name, edk::uint32 minFilter, edk::uint32 magFilter);

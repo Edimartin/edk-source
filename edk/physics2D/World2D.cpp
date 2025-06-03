@@ -373,7 +373,6 @@ void edk::physics2D::World2D::MyContactListener::BeginContact(b2Contact* contact
 #if defined(EDK_USE_BOX2D)
 void edk::physics2D::World2D::MyContactListener::EndContact(b2Contact* contact){
     if(this->cleaningWorld){
-
         return;
     }
 
@@ -526,7 +525,6 @@ void edk::physics2D::World2D::MyContactListener::EndContact(b2Contact* contact){
 
 void edk::physics2D::World2D::MyContactListener::PreSolve(b2Contact* contact, const b2Manifold*){
     if(this->cleaningWorld){
-
         return;
     }
 
@@ -675,7 +673,6 @@ void edk::physics2D::World2D::MyContactListener::PreSolve(b2Contact* contact, co
 #if defined(EDK_USE_BOX2D)
 void edk::physics2D::World2D::MyContactListener::PostSolve(b2Contact* contact, const b2ContactImpulse* impulse){
     if(this->cleaningWorld){
-
         return;
     }
 
@@ -1775,6 +1772,75 @@ void edk::physics2D::World2D::physicsSensorKeeping(edk::physics2D::Contact2D* co
     }
 }
 
+//remove the object from the world without the nextStep
+bool edk::physics2D::World2D::removeObjectNoNextStep(edk::physics2D::PhysicObject2D* object){
+    //test the object
+    if(object){
+        if(this->haveObject(object)){
+            if(this->runNextStep){
+                return false;
+            }
+            //remove all the object joints
+            this->removeObjectJoints(object);
+#if defined(EDK_USE_BOX2D)
+            //load the box2D object
+            b2Body* temp=NULL;
+            temp = this->treeStatic.getBody(object);
+            if(temp){
+                this->treeStatic.removeBody(temp);
+            }
+            else{
+                temp = this->treeDynamic.getBody(object);
+                if(temp){
+                    this->treeDynamic.removeBody(temp);
+                }
+                else{
+                    temp = this->treeKinematic.getBody(object);
+                    if(temp){
+                        this->treeKinematic.removeBody(temp);
+                    }
+                }
+            }
+            if(temp){
+                this->world.DestroyBody(temp);
+                return true;
+            }
+#endif
+        }
+        else{
+            //;else test if aready have the object inside the treeDelete
+            if(!this->runNextStep){
+#if defined(EDK_USE_BOX2D)
+                b2Body* temp=NULL;
+                temp = this->treeStatic.getBody(object);
+                if(temp){
+                    this->world.DestroyBody(temp);
+                    this->treeStatic.removeBody(temp);
+                    return true;
+                }
+                else{
+                    temp = this->treeDynamic.getBody(object);
+                    if(temp){
+                        this->world.DestroyBody(temp);
+                        this->treeDynamic.removeBody(temp);
+                        return true;
+                    }
+                    else{
+                        temp = this->treeKinematic.getBody(object);
+                        if(temp){
+                            this->world.DestroyBody(temp);
+                            this->treeKinematic.removeBody(temp);
+                            return true;
+                        }
+                    }
+                }
+#endif
+            }
+        }
+    }
+    return false;
+}
+
 //Set the gravity
 void edk::physics2D::World2D::setGravity(edk::vec2f32 gravity){
     this->gravity=gravity * this->percentIn;
@@ -2317,28 +2383,28 @@ bool edk::physics2D::World2D::removeObject(edk::physics2D::PhysicObject2D* objec
                 b2Body* temp=NULL;
                 temp = this->treeStatic.getBody(object);
                 if(temp){
-                    this->treeStatic.removeBody(temp);
                     this->treeDeleted.add((edk::physics2D::PhysicObject2D*)object);
                     this->world.DestroyBody(temp);
                     this->treeDeleted.remove((edk::physics2D::PhysicObject2D*)object);
+                    this->treeStatic.removeBody(temp);
                     return true;
                 }
                 else{
                     temp = this->treeDynamic.getBody(object);
                     if(temp){
-                        this->treeDynamic.removeBody(temp);
                         this->treeDeleted.add((edk::physics2D::PhysicObject2D*)object);
                         this->world.DestroyBody(temp);
                         this->treeDeleted.remove((edk::physics2D::PhysicObject2D*)object);
+                        this->treeDynamic.removeBody(temp);
                         return true;
                     }
                     else{
                         temp = this->treeKinematic.getBody(object);
                         if(temp){
-                            this->treeKinematic.removeBody(temp);
                             this->treeDeleted.add((edk::physics2D::PhysicObject2D*)object);
                             this->world.DestroyBody(temp);
                             this->treeDeleted.remove((edk::physics2D::PhysicObject2D*)object);
+                            this->treeKinematic.removeBody(temp);
                             return true;
                         }
                     }

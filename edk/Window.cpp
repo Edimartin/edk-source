@@ -169,23 +169,23 @@ bool edk::Window::createWindow(uint32 width, uint32 height/*, uint32 bitsPerPixe
 
         if(design & EDK_WINDOW_NOBAR){
             //
-            style = style | sf::Style::None; //Desenha a janela sem uma barra de titulo
+            style = style | sf::Style::None;//Desenha a janela sem uma barra de titulo
         }
         if(design & EDK_WINDOW_BUTTONS){
             //
-            style = style | sf::Style::Close; //Desenha a janela com o botao de close e o minimize
+            style = style | sf::Style::Close;//Desenha a janela com o botao de close e o minimize
         }
         if(design & EDK_WINDOW_BAR){
             //
-            style = style | sf::Style::Titlebar; //Desenha a janela com a barra de titulo
+            style = style | sf::Style::Titlebar;//Desenha a janela com a barra de titulo
         }
         if(design & EDK_WINDOW_RESIZE){
             //
-            style = style | sf::Style::Resize; //Deixa a janela ser redimensionada
+            style = style | sf::Style::Resize;//Deixa a janela ser redimensionada
         }
         if(design & EDK_WINDOW_FULLSCREEN){
             //
-            style = style | sf::Style::Fullscreen; //Desenha a janela em FULLSCREEN
+            style = style | sf::Style::Fullscreen;//Desenha a janela em FULLSCREEN
         }
 
         /*
@@ -193,23 +193,23 @@ bool edk::Window::createWindow(uint32 width, uint32 height/*, uint32 bitsPerPixe
             //
             case EDK_WINDOW_NOBAR:
                 //
-                style = style | sf::Style::None; //Desenha a janela sem uma barra de titulo
+                style = style | sf::Style::None;//Desenha a janela sem uma barra de titulo
                 break;
             case EDK_WINDOW_BUTTONS:
                 //
-                style = style | sf::Style::Close; //Desenha a janela com o botao de close e o minimize
+                style = style | sf::Style::Close;//Desenha a janela com o botao de close e o minimize
                 break;
             case EDK_WINDOW_BAR:
                 //
-                style = style | sf::Style::Titlebar; //Desenha a janela com a barra de titulo
+                style = style | sf::Style::Titlebar;//Desenha a janela com a barra de titulo
                 break;
             case EDK_WINDOW_RESIZE:
                 //
-                style = style | sf::Style::Resize; //Deixa a janela ser redimensionada
+                style = style | sf::Style::Resize;//Deixa a janela ser redimensionada
                 break;
             case EDK_WINDOW_FULLSCREEN:
                 //
-                style = sf::Style::Fullscreen; //Desenha a janela em FULLSCREEN
+                style = sf::Style::Fullscreen;//Desenha a janela em FULLSCREEN
                 break;
             }
         */
@@ -234,20 +234,20 @@ bool edk::Window::createWindow(uint32 width, uint32 height/*, uint32 bitsPerPixe
         sf::VideoMode desktop = sf::VideoMode::getDesktopMode();
         bitsPerPixel = desktop.bitsPerPixel;
         //Agora ele pode criar a janela
-        //this->window.Create(sf::VideoMode(width, height, bitsPerPixel),(const edk::char8*)name,style,sf::WindowSettings(depth,stencil,antialiasing)); //1.6
-        this->window.create(sf::VideoMode(width, height, bitsPerPixel),(const edk::char8*)name,style,sf::ContextSettings(depth,stencil,antialiasing)); //2.0
+        //this->window.Create(sf::VideoMode(width, height, bitsPerPixel),(const edk::char8*)name,style,sf::WindowSettings(depth,stencil,antialiasing));//1.6
+        this->window.create(sf::VideoMode(width, height, bitsPerPixel),(const edk::char8*)name,style,sf::ContextSettings(depth,stencil,antialiasing));//2.0
 
         //Testa se a janela foi aberta
         if(this->isOpened()){
             //Seta a renderizacao da window
-            //this->window.Show(this->renderWindow); //1.6
-            this->window.setVisible(this->renderWindow); //2.0
+            //this->window.Show(this->renderWindow);//1.6
+            this->window.setVisible(this->renderWindow);//2.0
             //Seta a renderizacao do mouse
-            //this->window.ShowMouseCursor(this->renderMouse); //1.6
-            this->window.setMouseCursorVisible(this->renderMouse); //2.0
+            //this->window.ShowMouseCursor(this->renderMouse);//1.6
+            this->window.setMouseCursorVisible(this->renderMouse);//2.0
             //Seta a keyRepeat como true
-            //this->window.EnableKeyRepeat(true); //1.6
-            this->window.setKeyRepeatEnabled(true); //2.0
+            //this->window.EnableKeyRepeat(true);//1.6
+            this->window.setKeyRepeatEnabled(true);//2.0
 
             //use vsync in the window
             this->window.setVerticalSyncEnabled(this->vsync);
@@ -327,8 +327,8 @@ void edk::Window::closeWindow(){
     //if(this->window.IsOpened()){//1.6
     if(this->window.isOpen()){//2.0
         //
-        //this->window.Close(); //1.6
-        this->window.close(); //2.0
+        //this->window.Close();//1.6
+        this->window.close();//2.0
 
         //set init the GU
         edk::GU::guClose();
@@ -357,13 +357,13 @@ void edk::Window::clean(){
     //
     if(this->isOpened()){
         //Entao ele pode limpar a janela
-        //this->window.Clear(sf::Color((edk::uint32)(this->cleanColor.r*255),(edk::uint32)(this->cleanColor.g*255),(edk::uint32)(this->cleanColor.b*255),(edk::uint32)255)); //1.6
+        //this->window.Clear(sf::Color((edk::uint32)(this->cleanColor.r*255),(edk::uint32)(this->cleanColor.g*255),(edk::uint32)(this->cleanColor.b*255),(edk::uint32)255));//1.6
         this->window.clear(sf::Color((edk::uint32)(this->cleanColor.r*255),
                                      (edk::uint32)(this->cleanColor.g*255),
                                      (edk::uint32)(this->cleanColor.b*255),
                                      (edk::uint32)255
                                      )
-                           ); //2.0
+                           );//2.0
     }
 }
 
@@ -398,8 +398,8 @@ void edk::Window::windowRender(bool show){
     //primeiro testa se possui uma window
     if(this->isOpened()){
         //seta o mouse
-        //this->window.Show(show); //1.6
-        this->window.setVisible(show); //2.0
+        //this->window.Show(show);//1.6
+        this->window.setVisible(show);//2.0
     }
     this->renderWindow=show;
 }
@@ -416,8 +416,8 @@ void edk::Window::mouseRender(bool show){
     //primeiro testa se possui uma window
     if(this->isOpened()){
         //seta o mouse
-        //this->window.ShowMouseCursor(show); //1.6
-        this->window.setMouseCursorVisible(show); //2.0
+        //this->window.ShowMouseCursor(show);//1.6
+        this->window.setMouseCursorVisible(show);//2.0
     }
     this->renderMouse=show;
 }
@@ -436,8 +436,8 @@ bool edk::Window::setMousePosition(vec2i32 pos){
     //testa se a janela esta aberta
     if(this->isOpened()){
         //seta a posicao do mouse
-        //this->window.SetCursorPosition(pos.x,pos.y); //1.6
-        sf::Mouse::setPosition(sf::Vector2i(pos.x,pos.y), this->window); //2.0
+        //this->window.SetCursorPosition(pos.x,pos.y);//1.6
+        sf::Mouse::setPosition(sf::Vector2i(pos.x,pos.y), this->window);//2.0
         saveMousePos = pos;
         //retorna true
         return true;
@@ -455,8 +455,8 @@ bool edk::Window::setWindowPosition(vec2i32 pos){
     //testa se a janela esta aberta
     if(this->isOpened()){
         //seta a posicao do mouse
-        //this->window.SetPosition(pos.x,pos.y); //1.6
-        this->window.setPosition(sf::Vector2i(pos.x,pos.y)); //2.0
+        //this->window.SetPosition(pos.x,pos.y);//1.6
+        this->window.setPosition(sf::Vector2i(pos.x,pos.y));//2.0
         //retorna true
         return true;
     }
@@ -475,8 +475,8 @@ bool edk::Window::setWindowSize(size2ui32 size){
         //save the size of the window
         this->windowSize = size;
         //seta a posicao do mouse
-        //this->window.SetSize(size.width,size.height); //1.6
-        this->window.setSize(sf::Vector2u(size.width,size.height)); //2.0
+        //this->window.SetSize(size.width,size.height);//1.6
+        this->window.setSize(sf::Vector2u(size.width,size.height));//2.0
         //seta o tamanho da view
         this->updateViewSize();
         //retorna true
@@ -581,8 +581,8 @@ bool edk::Window::drawStart(){
     //Tetsa se finalizou o render antes e se a janela esta aberta
     if(!this->activeRender && this->isOpened()){
         //pode setar o render
-        //this->window.SetActive(true); //1.6
-        this->window.setActive(true); //2.0
+        //this->window.SetActive(true);//1.6
+        this->window.setActive(true);//2.0
         //seta activeRender como true
         this->activeRender=true;
         //retorna true
@@ -596,8 +596,8 @@ bool edk::Window::drawEnd(){
     //Tetsa se iniciou o render antes e se a janela esta aberta
     if(this->activeRender && this->isOpened()){
         //pode setar o render
-        //this->window.SetActive(false); //1.6
-        this->window.setActive(false); //2.0
+        //this->window.SetActive(false);//1.6
+        this->window.setActive(false);//2.0
         //seta activeRender como false
         this->activeRender=false;
         //retorna true
@@ -661,8 +661,8 @@ bool edk::Window::flip(){
     //testa se possui uma janela e se ja desenhou
     if(this->isOpened() && !this->activeRender){
         //Pode renderizar na tela
-        //this->window.Display(); //1.6
-        this->window.display(); //2.0
+        //this->window.Display();//1.6
+        this->window.display();//2.0
         //update the loadTexture from GU
         edk::GU::guUpdateLoadTextures();
         edk::GU_GLSL::guUpdateCreateShaders();
@@ -698,8 +698,8 @@ edk::size2ui32 edk::Window::getScreenSize(){
     edk::size2ui32 ret(0u,0u);
     if(this->isOpened()){
         //retorna o tamanho da view
-        //ret = edk::size2ui32(this->window.GetWidth(),this->window.GetHeight()); //1.6
-        ret = edk::size2ui32(this->window.getSize().x,this->window.getSize().y); //2.0
+        //ret = edk::size2ui32(this->window.GetWidth(),this->window.GetHeight());//1.6
+        ret = edk::size2ui32(this->window.getSize().x,this->window.getSize().y);//2.0
     }
     //senao retorna um tamanho zerado
     return ret;
@@ -709,8 +709,8 @@ edk::uint32 edk::Window::getWidth(){
     //
     if(this->isOpened()){
         //
-        //return this->window.GetWidth(); //1.6
-        return this->window.getSize().x; //2.0
+        //return this->window.GetWidth();//1.6
+        return this->window.getSize().x;//2.0
     }
     //senao retorna 0u
     return 0u;
@@ -720,7 +720,7 @@ edk::uint32 edk::Window::getHeight(){
     //
     if(this->isOpened()){
         //
-        //return this->window.GetHeight(); //1.6
+        //return this->window.GetHeight();//1.6
         return this->window.getSize().y;//2.0
     }
     //senao retorna 0u
@@ -750,9 +750,9 @@ bool edk::Window::haveSomethingTypes(edk::EventWindowType types, ...){
 
 //start writing events into a file
 bool edk::Window::startWriteEvents(edk::char8*
-                                   #if defined(EDK_WINDOW_EVENTS_RW)
+#if defined(EDK_WINDOW_EVENTS_RW)
                                    fileName
-                                   #endif
+#endif
                                    ){
     this->stopWriteEvents();
 #if defined(EDK_WINDOW_EVENTS_RW)
@@ -811,9 +811,9 @@ bool edk::Window::startWriteEvents(const edk::char8* fileName,edk::EventWindowTy
 }
 //start reading events from a file
 bool edk::Window::startReadEvents(edk::char8*
-                                  #if defined(EDK_WINDOW_EVENTS_RW)
+#if defined(EDK_WINDOW_EVENTS_RW)
                                   fileName
-                                  #endif
+#endif
                                   ){
     this->stopReadEvents();
 #if defined(EDK_WINDOW_EVENTS_RW)
@@ -1176,7 +1176,7 @@ bool edk::Window::loadEvents(){
     //Eventos da janela
     sf::Event event;
     //Input da janela
-    //const sf::Input& input=window.GetInput(); //1.6
+    //const sf::Input& input=window.GetInput();//1.6
     //2.0
 
     //test if DON'T need force the second passed
@@ -1257,19 +1257,19 @@ bool edk::Window::loadEvents(){
         //if(event.Type == sf::Event::KeyPressed){//1.6
         if(event.type == sf::Event::KeyPressed){//2.0
             //carrega a tecla pressionada
-            //this->events.keyPressed.pushBack(event.Key.Code); //1.6
+            //this->events.keyPressed.pushBack(event.Key.Code);//1.6
             //printf("\nKey Pressed %d",event.key.code);
             if(event.key.code>=0&&event.key.code<26){
-                this->events.keyPressed.pushBack(event.key.code+'a') ; //2.0
+                this->events.keyPressed.pushBack(event.key.code+'a') ;//2.0
             }
             else if(event.key.code>=26&&event.key.code<36){
-                this->events.keyPressed.pushBack(event.key.code+ '0' - 26) ; //2.0
+                this->events.keyPressed.pushBack(event.key.code+ '0' - 26) ;//2.0
             }
             else if(event.key.code>=75&&event.key.code<85){
-                this->events.keyPressed.pushBack(event.key.code+ '0' - 75) ; //2.0
+                this->events.keyPressed.pushBack(event.key.code+ '0' - 75) ;//2.0
             }
             else{
-                this->events.keyPressed.pushBack(event.key.code+256 - 36) ; //2.0
+                this->events.keyPressed.pushBack(event.key.code+256 - 36) ;//2.0
             }
         }
         //FIM PRESSIONOU TECLA
@@ -1280,18 +1280,18 @@ bool edk::Window::loadEvents(){
         //if(event.Type == sf::Event::KeyReleased){//1.6
         if(event.type == sf::Event::KeyReleased){//2.0
             //carrega a tecla pressionada
-            //this->events.keyRelease.pushBack(event.Key.Code); //1.6
+            //this->events.keyRelease.pushBack(event.Key.Code);//1.6
             if(event.key.code>=0&&event.key.code<26){
-                this->events.keyRelease.pushBack(event.key.code+'a') ; //2.0
+                this->events.keyRelease.pushBack(event.key.code+'a') ;//2.0
             }
             else if(event.key.code>=26&&event.key.code<36){
-                this->events.keyRelease.pushBack(event.key.code+ '0' - 26) ; //2.0
+                this->events.keyRelease.pushBack(event.key.code+ '0' - 26) ;//2.0
             }
             else if(event.key.code>=75&&event.key.code<85){
-                this->events.keyRelease.pushBack(event.key.code+ '0' - 75) ; //2.0
+                this->events.keyRelease.pushBack(event.key.code+ '0' - 75) ;//2.0
             }
             else{
-                this->events.keyRelease.pushBack(event.key.code+256 - 36) ; //2.0
+                this->events.keyRelease.pushBack(event.key.code+256 - 36) ;//2.0
             }
         }
         //FIM RETIROU DA PRESSAO A TECLA
@@ -1317,8 +1317,8 @@ bool edk::Window::loadEvents(){
                 */
             //resize true
             this->events.resize=true;
-            //edk::size2ui32 tempView = edk::size2ui32(window.GetWidth(),window.GetHeight()); //1.6
-            edk::size2ui32 tempView = edk::size2ui32(window.getSize().x,window.getSize().y); //2.0
+            //edk::size2ui32 tempView = edk::size2ui32(window.GetWidth(),window.GetHeight());//1.6
+            edk::size2ui32 tempView = edk::size2ui32(window.getSize().x,window.getSize().y);//2.0
             //resizePos
             //this->resizePos = edk::size2i32(window.GetWidth(),window.GetHeight());
             /*
@@ -1346,8 +1346,8 @@ bool edk::Window::loadEvents(){
         //if(event.Type == sf::Event::MouseButtonPressed){//1.6
         if(event.type == sf::Event::MouseButtonPressed){//2.0
             //
-            //this->events.mousePressed.pushBack(event.MouseButton.Button+1u); //1.6
-            this->events.mousePressed.pushBack(event.mouseButton.button+1u); //2.0
+            //this->events.mousePressed.pushBack(event.MouseButton.Button+1u);//1.6
+            this->events.mousePressed.pushBack(event.mouseButton.button+1u);//2.0
 
             this->mouseInside=true;
         }
@@ -1385,9 +1385,9 @@ bool edk::Window::loadEvents(){
         //if(event.Type == sf::Event::MouseButtonReleased){//1.6
         if(event.type == sf::Event::MouseButtonReleased){//2.0
             //
-            mouseButtonValue = event.mouseButton.button+1u; //2.0
-            //this->events.mouseRelease.pushBack(event.MouseButton.Button+1u); //1.6
-            this->events.mouseRelease.pushBack(mouseButtonValue); //2.0
+            mouseButtonValue = event.mouseButton.button+1u;//2.0
+            //this->events.mouseRelease.pushBack(event.MouseButton.Button+1u);//1.6
+            this->events.mouseRelease.pushBack(mouseButtonValue);//2.0
 
             //test the time distance from the last mouse button release
             if(mouseButtonValue < edk::mouse::mouseButtonsSize){
@@ -1420,7 +1420,7 @@ bool edk::Window::loadEvents(){
             this->events.mouseMoved=true;
 
             //Carrega a nova posicao do mouse
-            edk::vec2ui32 mouseTemp = edk::vec2ui32((edk::uint32)sf::Mouse::getPosition(this->window).x,(edk::uint32)sf::Mouse::getPosition(this->window).y); //2.0
+            edk::vec2ui32 mouseTemp = edk::vec2ui32((edk::uint32)sf::Mouse::getPosition(this->window).x,(edk::uint32)sf::Mouse::getPosition(this->window).y);//2.0
             //Calcula a distancia movida
             this->events.mouseMove = edk::vec2i32((edk::int32)mouseTemp.x-(edk::int32)this->saveMousePos.x,
                                                   (edk::int32)mouseTemp.y-(edk::int32)this->saveMousePos.y
@@ -1447,8 +1447,8 @@ bool edk::Window::loadEvents(){
                        ,event.MouseWheel.Delta
                        );
                 */
-            //this->events.mouseScrollWheel=event.MouseWheel.Delta; //1.6
-            this->events.mouseScrollWheel=event.mouseWheel.delta; //2.0
+            //this->events.mouseScrollWheel=event.MouseWheel.Delta;//1.6
+            this->events.mouseScrollWheel=event.mouseWheel.delta;//2.0
 
             this->mouseInside=true;
         }
@@ -1501,18 +1501,18 @@ bool edk::Window::loadEvents(){
 
     }
     //load the window size
-    this->windowSize = edk::size2ui32(window.getSize().x,window.getSize().y); //2.0
+    this->windowSize = edk::size2ui32(window.getSize().x,window.getSize().y);//2.0
     this->events.windowSize = this->windowSize;
 
     //Seta o tamanho da janela
     this->updateViewSize();
 
     //load mousePosition
-    //events.mousePosWindow = events.mousePos = edk::vec2i32( input.GetMouseX(),input.GetMouseY()); //1.6
-    events.mousePosWindow = events.mousePos = edk::vec2i32( sf::Mouse::getPosition(this->window).x,sf::Mouse::getPosition(this->window).y); //2.0
+    //events.mousePosWindow = events.mousePos = edk::vec2i32( input.GetMouseX(),input.GetMouseY());//1.6
+    events.mousePosWindow = events.mousePos = edk::vec2i32( sf::Mouse::getPosition(this->window).x,sf::Mouse::getPosition(this->window).y);//2.0
     this->saveMousePos.x = this->events.mousePos.x;
     this->saveMousePos.y = this->events.mousePos.y;
-    events.mousePosWorld = edk::vec2i32( sf::Mouse::getPosition().x,sf::Mouse::getPosition().y); //2.0
+    events.mousePosWorld = edk::vec2i32( sf::Mouse::getPosition().x,sf::Mouse::getPosition().y);//2.0
 
     //save focus
     this->windowFocus = this->events.focus;
@@ -1523,13 +1523,13 @@ bool edk::Window::loadEvents(){
         for(edk::int32 i=sf::Keyboard::A;i<sf::Keyboard::KeyCount;i=i+1){
             if(sf::Keyboard::isKeyPressed((sf::Keyboard::Key)i)){
                 if(i>=0&&i<26){
-                    this->events.keyHolded.pushBack(i+'a') ; //2.0
+                    this->events.keyHolded.pushBack(i+'a') ;//2.0
                 }
                 else if(i>=26&&i<36){
-                    this->events.keyHolded.pushBack(i+ '0' - 26) ; //2.0
+                    this->events.keyHolded.pushBack(i+ '0' - 26) ;//2.0
                 }
                 else{
-                    this->events.keyHolded.pushBack(i+256 - 36) ; //2.0
+                    this->events.keyHolded.pushBack(i+256 - 36) ;//2.0
                 }
             }
         }
@@ -1609,19 +1609,19 @@ bool edk::Window::loadEvents(){
 
 edk::size2ui32 edk::Window::getDesktopSize(){
     //Carrega o modo do desktop
-    //sf::VideoMode DesktopMode = sf::VideoMode::GetDesktopMode(); //1.6
-    sf::VideoMode DesktopMode = sf::VideoMode::getDesktopMode(); //2.0
+    //sf::VideoMode DesktopMode = sf::VideoMode::GetDesktopMode();//1.6
+    sf::VideoMode DesktopMode = sf::VideoMode::getDesktopMode();//2.0
     //seta o retorno
-    //edk::size2ui32 temp(DesktopMode.Width,DesktopMode.Height); //1.6
-    edk::size2ui32 temp(DesktopMode.width,DesktopMode.height); //2.0
+    //edk::size2ui32 temp(DesktopMode.Width,DesktopMode.Height);//1.6
+    edk::size2ui32 temp(DesktopMode.width,DesktopMode.height);//2.0
     //carrega o desktop mode
     return temp;
 }
 
 edk::uint32 edk::Window::getDesktopBitsPerPixel(){
     //Carrega o modo do desktop
-    //sf::VideoMode DesktopMode = sf::VideoMode::GetDesktopMode(); //1.6
-    sf::VideoMode DesktopMode = sf::VideoMode::getDesktopMode(); //2.0
+    //sf::VideoMode DesktopMode = sf::VideoMode::GetDesktopMode();//1.6
+    sf::VideoMode DesktopMode = sf::VideoMode::getDesktopMode();//2.0
     //retorna os bits
     //return DesktopMode.BitsPerPixel;//1.6
     return DesktopMode.bitsPerPixel;//2.0

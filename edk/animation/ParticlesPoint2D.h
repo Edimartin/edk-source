@@ -268,13 +268,13 @@ private:
         edk::float32 second;
         bool haveSomeParticle;
         //remove tree
-        class treeRemove: public edk::vector::BinaryTree<edk::animation::ParticlesPoint2D::ParticleObject*>{
+        class TreeRemove: public edk::vector::BinaryTree<edk::animation::ParticlesPoint2D::ParticleObject*>{
         public:
-            treeRemove(){
+            TreeRemove(){
                 this->classThis=NULL;
                 this->Constructor();
             }
-            virtual ~treeRemove(){
+            virtual ~TreeRemove(){
             }
 
             void Constructor(){

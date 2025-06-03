@@ -307,7 +307,9 @@ protected:
                 this->classThis=NULL;
                 //can destruct the class
                 if(this->myMesh){
-                    delete this->mesh;
+                    if(this->mesh){
+                        delete this->mesh;
+                    }
                 }
             }
         }

@@ -32,7 +32,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #define EDK_TEXTURE_LOADER_TENTATIVES 2u
 
 //textureTree ordened by the name of the textures
-bool edk::Texture2DList::templateConstructNeed=true;
+edk::uint64 edk::Texture2DList::templateConstructNeed=0uL;
 edk::Texture2DList::TextureCodeTree edk::Texture2DList::codeTree;
 edk::Texture2DList::NameFilterTree edk::Texture2DList::nameTree;
 edk::multi::BufferThreadTree edk::Texture2DList::bufferTree;
@@ -52,16 +52,13 @@ void edk::Texture2DList::Constructor(){
 
         this->mutTexture.Constructor();
         this->mutNameTree.Constructor();
-        edk::Texture2DList::bufferTree.Constructor();
-        edk::Texture2DList::codeTree.Constructor();
-        edk::Texture2DList::nameTree.Constructor();
 
-        if(edk::Texture2DList::templateConstructNeed){
+        if(!edk::Texture2DList::templateConstructNeed){
             edk::Texture2DList::codeTree.Constructor();
             edk::Texture2DList::nameTree.Constructor();
             edk::Texture2DList::bufferTree.Constructor();
-            edk::Texture2DList::templateConstructNeed=false;
         }
+        edk::Texture2DList::templateConstructNeed++;
     }
 }
 void edk::Texture2DList::Destructor(){
@@ -71,13 +68,14 @@ void edk::Texture2DList::Destructor(){
 
         this->mutTexture.Destructor();
         this->mutNameTree.Destructor();
-        edk::Texture2DList::bufferTree.Destructor();
-        edk::Texture2DList::codeTree.Destructor();
-        edk::Texture2DList::nameTree.Destructor();
-
+        if(edk::Texture2DList::templateConstructNeed==1u){
+            edk::Texture2DList::bufferTree.Destructor();
             edk::Texture2DList::codeTree.Destructor();
             edk::Texture2DList::nameTree.Destructor();
-            edk::Texture2DList::bufferTree.Destructor();
+        }
+        if(edk::Texture2DList::templateConstructNeed){
+            edk::Texture2DList::templateConstructNeed--;
+        }
     }
 }
 

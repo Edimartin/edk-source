@@ -466,6 +466,9 @@ private:
     void physicsSensorEnd(edk::physics2D::Contact2D* contact);
     void physicsSensorKeeping(edk::physics2D::Contact2D* contact);
 
+    //remove the object from the world without the nextStep
+    bool removeObjectNoNextStep(edk::physics2D::PhysicObject2D* object);
+
     //contactTree
     edk::vector::BinaryTree<edk::physics2D::ContactCallback2D*> treeCallbacks;
 
@@ -652,7 +655,7 @@ private:
             //update the value
             if(value){
                 //this->world->DestroyBody(value);
-                this->worldEDK->removeObject(value);
+                this->worldEDK->removeObjectNoNextStep(value);
             }
         }
         //Box2D
