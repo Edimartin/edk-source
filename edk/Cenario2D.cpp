@@ -116,8 +116,7 @@ void edk::Cenario2D::Destructor(){
         this->treeAnim.Destructor();
         this->treeAnimPhys.Destructor();
         this->levels.Destructor();
-        edk::Cenario2D::worldTemplate.Destructor();
-
+        //edk::Cenario2D::worldTemplate.Destructor();
     }
     edk::Object2DValues::Destructor();
     edk::physics2D::ContactCallback2D::Destructor();
