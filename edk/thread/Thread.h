@@ -175,7 +175,9 @@ private:
 
     class TreeThreads: public edk::vector::BinaryTree<edk::multi::Thread*>{
     public:
-        TreeThreads(){}
+        TreeThreads(){
+            edk::vector::BinaryTree<edk::multi::Thread*>::Constructor();
+        }
         ~TreeThreads(){
             //kill all threads
             edk::multi::Thread* temp;

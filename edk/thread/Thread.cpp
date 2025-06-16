@@ -149,6 +149,8 @@ void edk::multi::Thread::cleanThread(){
     this->threadFunc=NULL;
     this->funcParameter=(void*)NULL;
 
+    edk::multi::Thread::treeThreads.Constructor();
+
     edk::multi::Thread::treeThreads.remove(this);
 }
 

@@ -2840,6 +2840,16 @@ edk::uint64 edk::File::getSeek64(){
 //flush the file
 bool edk::File::flush(){
     if(this->isOpened()){
+#ifdef _WIN32
+        _commit(_fileno(this->arq));
+#endif
+#ifdef _WIN64
+        _commit(_fileno(this->arq));
+#endif
+#ifdef __linux__
+#endif
+#ifdef __APPLE__
+#endif
         edk::int32 ret = fflush(this->arq);
         if(ret<0){ return false;}
         return true;

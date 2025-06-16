@@ -669,6 +669,9 @@ bool edk::Window::flip(){
         //retorna true
         return true;
     }
+    //update the loadTexture from GU
+    edk::GU::guUpdateLoadTextures();
+    edk::GU_GLSL::guUpdateCreateShaders();
     //senao retorna false
     return false;
 }

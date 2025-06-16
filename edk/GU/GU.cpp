@@ -2149,8 +2149,8 @@ bool edk::GU::guUpdateLoadTextures(){
     edk::GU::mutGetTextures.unlock();
     if(size){
         if(edk::multi::Thread::isThisThreadMain()){
-            if(size>2u){
-                size=2u;
+            if(size>EDK_GU_TEXTURE_LOAD_SIZE_LIMIT){
+                size=EDK_GU_TEXTURE_LOAD_SIZE_LIMIT;
             }
             edk::GU::TextureClass tex;
             for(edk::uint32 i=0u;i<size;i++){
@@ -2211,8 +2211,8 @@ bool edk::GU::guUpdateLoadTextures(){
     edk::GU::mutGetMipmaps.unlock();
     if(size){
         if(edk::multi::Thread::isThisThreadMain()){
-            if(size>2u){
-                size=2u;
+            if(size>EDK_GU_TEXTURE_LOAD_SIZE_LIMIT){
+                size=EDK_GU_TEXTURE_LOAD_SIZE_LIMIT;
             }
             edk::GU::MipmapClass tex;
             for(edk::uint32 i=0u;i<size;i++){
@@ -2241,8 +2241,8 @@ bool edk::GU::guUpdateDeleteTextures(){
     edk::GU::mutDelTextures.unlock();
     if(size){
         if(edk::multi::Thread::isThisThreadMain()){
-            if(size>2u){
-                size=2u;
+            if(size>EDK_GU_TEXTURE_LOAD_SIZE_LIMIT){
+                size=EDK_GU_TEXTURE_LOAD_SIZE_LIMIT;
             }
             edk::uint32 ID=0u;
             for(edk::uint32 i=0u;i<size;i++){
