@@ -289,6 +289,7 @@ public:
     //GU_BGR
     //GU_BGRA
     static bool guReadTexture(edk::uint32 ID,edk::uint32 format, const edk::classID  data);
+    static bool guReadTextureRepeat(edk::uint32 ID,edk::uint32 format, const edk::classID  data);
     //matrix
     //glUniformMatrix2fv
     /*

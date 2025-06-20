@@ -125,36 +125,36 @@ void edk::GU_GLSL::Destructor(){
         //can destruct the class
 
 #if defined(_WIN32) || defined(_WIN64)
-            //Windows
-            edk::GU_GLSL::mut.Destructor();
+        //Windows
+        edk::GU_GLSL::mut.Destructor();
 #endif
 #ifdef __linux__
-            edk::GU_GLSL::mut.Destructor();
+        edk::GU_GLSL::mut.Destructor();
 #endif
-            edk::GU_GLSL::mutBeginEnd.Destructor();
-            edk::GU_GLSL::mutCreateShader.Destructor();
-            edk::GU_GLSL::mutDelShader.Destructor();
-            edk::GU_GLSL::mutUseShader.Destructor();
-            edk::GU_GLSL::mutUseNoShader.Destructor();
-            edk::GU_GLSL::genShaders.Destructor();
-            edk::GU_GLSL::delShaders.Destructor();
-            edk::GU_GLSL::treeShaders.Destructor();
-            edk::GU_GLSL::genShadersWrite.Destructor();
-            edk::GU_GLSL::treeShadersWrite.Destructor();
-            edk::GU_GLSL::genShadersCompile.Destructor();
-            edk::GU_GLSL::treeShadersCompile.Destructor();
-            edk::GU_GLSL::genShadersIV.Destructor();
-            edk::GU_GLSL::treeShadersIV.Destructor();
-            edk::GU_GLSL::genShadersLog.Destructor();
-            edk::GU_GLSL::treeShadersLog.Destructor();
-            edk::GU_GLSL::genProgramsAttach.Destructor();
-            edk::GU_GLSL::treeProgramsAttach.Destructor();
-            edk::GU_GLSL::genProgramsLink.Destructor();
-            edk::GU_GLSL::treeProgramsLink.Destructor();
-            edk::GU_GLSL::useShaders.Destructor();
-            edk::GU_GLSL::useNoShaders.Destructor();
-            edk::GU_GLSL::treeUseShaders.Destructor();
-            edk::GU_GLSL::treeUseNoShaders.Destructor();
+        edk::GU_GLSL::mutBeginEnd.Destructor();
+        edk::GU_GLSL::mutCreateShader.Destructor();
+        edk::GU_GLSL::mutDelShader.Destructor();
+        edk::GU_GLSL::mutUseShader.Destructor();
+        edk::GU_GLSL::mutUseNoShader.Destructor();
+        edk::GU_GLSL::genShaders.Destructor();
+        edk::GU_GLSL::delShaders.Destructor();
+        edk::GU_GLSL::treeShaders.Destructor();
+        edk::GU_GLSL::genShadersWrite.Destructor();
+        edk::GU_GLSL::treeShadersWrite.Destructor();
+        edk::GU_GLSL::genShadersCompile.Destructor();
+        edk::GU_GLSL::treeShadersCompile.Destructor();
+        edk::GU_GLSL::genShadersIV.Destructor();
+        edk::GU_GLSL::treeShadersIV.Destructor();
+        edk::GU_GLSL::genShadersLog.Destructor();
+        edk::GU_GLSL::treeShadersLog.Destructor();
+        edk::GU_GLSL::genProgramsAttach.Destructor();
+        edk::GU_GLSL::treeProgramsAttach.Destructor();
+        edk::GU_GLSL::genProgramsLink.Destructor();
+        edk::GU_GLSL::treeProgramsLink.Destructor();
+        edk::GU_GLSL::useShaders.Destructor();
+        edk::GU_GLSL::useNoShaders.Destructor();
+        edk::GU_GLSL::treeUseShaders.Destructor();
+        edk::GU_GLSL::treeUseNoShaders.Destructor();
     }
 }
 
@@ -980,6 +980,26 @@ void edk::GU_GLSL::guMatrix4f32(edk::int32 id,edk::float32* mat){
 }
 
 bool edk::GU_GLSL::guReadTexture(edk::uint32 ID,edk::uint32 format,const edk::classID  data){
+    //test the ID
+    if(ID){
+        edk::GU_GLSL::mut.lock();
+        //Set using texture
+        glBindTexture(GL_TEXTURE_2D,ID);
+        //
+        glGetTexImage(GL_TEXTURE_2D,
+                      0u,
+                      format,
+                      GL_UNSIGNED_BYTE,
+                      data
+                      );
+        //Clean use texture
+        glBindTexture(GL_TEXTURE_2D, 0u);
+        edk::GU_GLSL::mut.unlock();
+        return true;
+    }
+    return false;
+}
+bool edk::GU_GLSL::guReadTextureRepeat(edk::uint32 ID,edk::uint32 format,const edk::classID  data){
     //test the ID
     if(ID){
         edk::GU_GLSL::mut.lock();

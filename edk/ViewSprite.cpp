@@ -42,8 +42,8 @@ void edk::ViewSprite::Constructor(){
     if(this->classThis!=this){
         this->classThis=this;
         this->spriteCode=0u;
-    this->spriteMinFilter=0u;
-    this->spriteMagFilter=0u;
+        this->spriteMinFilter=0u;
+        this->spriteMagFilter=0u;
         this->spriteSize = edk::size2ui32(0u,0u);
         this->spriteUV = 1.f;
     }
@@ -85,6 +85,34 @@ bool edk::ViewSprite::createSprite(const edk::char8* name,edk::uint32 width,edk:
 bool edk::ViewSprite::createSprite(edk::char8* name,edk::uint32 width,edk::uint32 height, edk::uint32 mode,edk::uint32 minFilter,edk::uint32 magFilter){
     return this->createSprite(name,edk::size2ui32(width,height), mode,minFilter,magFilter);
 }
+//create a new spriteRepeat
+bool edk::ViewSprite::createSpriteRepeat(const edk::char8* name,edk::size2ui32 size, edk::uint32 mode,edk::uint32 minFilter,edk::uint32 magFilter){
+    return this->createSpriteRepeat((edk::char8*) name,size, mode,minFilter,magFilter);
+}
+bool edk::ViewSprite::createSpriteRepeat(edk::char8* name,edk::size2ui32 size, edk::uint32 mode,edk::uint32 minFilter,edk::uint32 magFilter){
+    //delete the spriteRepeat
+    this->deleteSprite();
+    //test the name
+    if(name && size.width && size.height){
+        //then load the texture
+        this->spriteCode = this->list.createTextureRepeat(name,size,mode,minFilter,magFilter);
+        this->spriteMinFilter=minFilter;
+        this->spriteMagFilter=magFilter;
+        if(this->spriteCode){
+            this->spriteSize = this->list.getTextureSize(this->spriteCode);
+            return true;
+        }
+    }
+
+    //else return false
+    return false;
+}
+bool edk::ViewSprite::createSpriteRepeat(const edk::char8* name,edk::uint32 width,edk::uint32 height, edk::uint32 mode,edk::uint32 minFilter,edk::uint32 magFilter){
+    return this->createSpriteRepeat((edk::char8*)name,width,height,mode,minFilter,magFilter);
+}
+bool edk::ViewSprite::createSpriteRepeat(edk::char8* name,edk::uint32 width,edk::uint32 height, edk::uint32 mode,edk::uint32 minFilter,edk::uint32 magFilter){
+    return this->createSpriteRepeat(name,edk::size2ui32(width,height), mode,minFilter,magFilter);
+}
 //draw sprite
 bool edk::ViewSprite::drawSprite(edk::uint8* sprite,edk::uint32 minFilter,edk::uint32 magFilter){
     //test if have the sprite
@@ -106,6 +134,31 @@ bool edk::ViewSprite::loadSprite(edk::char8* name,edk::uint32 minFilter,edk::uin
     if(name){
         //then load the texture
         this->spriteCode = this->list.loadTexture(name,minFilter,magFilter);
+        this->spriteMinFilter = minFilter;
+        this->spriteMagFilter = magFilter;
+        if(this->spriteCode){
+            this->spriteSize = this->list.getTextureSize(this->spriteCode);
+            return true;
+        }
+    }
+    this->spriteMinFilter = 0u;
+    this->spriteMagFilter = 0u;
+
+    //else return false
+    return false;
+}
+//load the spriteRepeat
+bool edk::ViewSprite::loadSpriteRepeat(const edk::char8* name,edk::uint32 minFilter,edk::uint32 magFilter){
+    //
+    return this->loadSpriteRepeat((edk::char8*) name,minFilter,magFilter);
+}
+bool edk::ViewSprite::loadSpriteRepeat(edk::char8* name,edk::uint32 minFilter,edk::uint32 magFilter){
+    //delete the sprite
+    this->deleteSprite();
+    //test the name
+    if(name){
+        //then load the texture
+        this->spriteCode = this->list.loadTextureRepeat(name,minFilter,magFilter);
         this->spriteMinFilter = minFilter;
         this->spriteMagFilter = magFilter;
         if(this->spriteCode){
@@ -143,6 +196,30 @@ bool edk::ViewSprite::loadSpriteFromMemory(edk::char8* name,edk::uint8* sprite,e
     //else return false
     return false;
 }
+//load the spriteRepeat from memory
+bool edk::ViewSprite::loadSpriteRepeatFromMemory(const edk::char8* name,edk::uint8* sprite,edk::uint32 size,edk::uint32 minFilter,edk::uint32 magFilter){
+    return this->loadSpriteRepeatFromMemory((edk::char8*) name,sprite,size,minFilter,magFilter);
+}
+bool edk::ViewSprite::loadSpriteRepeatFromMemory(edk::char8* name,edk::uint8* sprite,edk::uint32 size,edk::uint32 minFilter,edk::uint32 magFilter){
+    //delete the sprite
+    this->deleteSprite();
+    //test the name
+    if(name && sprite && size){
+        //then load the texture
+        this->spriteCode = this->list.loadTextureRepeatFromMemory(name,sprite,size,minFilter,magFilter);
+        this->spriteMinFilter = minFilter;
+        this->spriteMagFilter = magFilter;
+        if(this->spriteCode){
+            this->spriteSize = this->list.getTextureSize(this->spriteCode);
+            return true;
+        }
+    }
+    this->spriteMinFilter = 0u;
+    this->spriteMagFilter = 0u;
+
+    //else return false
+    return false;
+}
 //set sprite from memory
 bool edk::ViewSprite::setSpriteFromMemory(edk::char8* name,edk::uint8* sprite,edk::uint32 width,edk::uint32 height,edk::uint32 channels,edk::uint32 minFilter,edk::uint32 magFilter){
     //delete the sprite
@@ -167,6 +244,30 @@ bool edk::ViewSprite::setSpriteFromMemory(edk::char8* name,edk::uint8* sprite,ed
 bool edk::ViewSprite::setSpriteFromMemory(const edk::char8* name,edk::uint8* sprite,edk::uint32 width,edk::uint32 height,edk::uint32 channels,edk::uint32 minFilter,edk::uint32 magFilter){
     return setSpriteFromMemory((edk::char8*) name,sprite,width,height,channels,minFilter,magFilter);
 }
+//set spriteRepeat from memory
+bool edk::ViewSprite::setSpriteRepeatFromMemory(edk::char8* name,edk::uint8* sprite,edk::uint32 width,edk::uint32 height,edk::uint32 channels,edk::uint32 minFilter,edk::uint32 magFilter){
+    //delete the sprite
+    this->deleteSprite();
+    //test the name
+    if(name && sprite && width && height){
+        //then load the texture
+        this->spriteCode = this->list.setTextureRepeatFromMemory(name,sprite,width,height,channels,minFilter,magFilter);
+        this->spriteMinFilter = minFilter;
+        this->spriteMagFilter = magFilter;
+        if(this->spriteCode){
+            this->spriteSize = this->list.getTextureSize(this->spriteCode);
+            return true;
+        }
+    }
+    this->spriteMinFilter = 0u;
+    this->spriteMagFilter = 0u;
+
+    //else return false
+    return false;
+}
+bool edk::ViewSprite::setSpriteRepeatFromMemory(const edk::char8* name,edk::uint8* sprite,edk::uint32 width,edk::uint32 height,edk::uint32 channels,edk::uint32 minFilter,edk::uint32 magFilter){
+    return setSpriteRepeatFromMemory((edk::char8*) name,sprite,width,height,channels,minFilter,magFilter);
+}
 //load the sprite
 bool edk::ViewSprite::loadSpriteFromPack(edk::pack::FilePackage* pack,const edk::char8* name,edk::uint32 minFilter,edk::uint32 magFilter){
     return this->loadSpriteFromPack(pack,(edk::char8*) name,minFilter,magFilter);
@@ -178,6 +279,30 @@ bool edk::ViewSprite::loadSpriteFromPack(edk::pack::FilePackage* pack,edk::char8
     if(name && pack){
         //then load the texture
         this->spriteCode = this->list.loadTextureFromPack(pack,name,minFilter,magFilter);
+        this->spriteMinFilter = minFilter;
+        this->spriteMagFilter = magFilter;
+        if(this->spriteCode){
+            this->spriteSize = this->list.getTextureSize(this->spriteCode);
+            return true;
+        }
+    }
+    this->spriteMinFilter = 0u;
+    this->spriteMagFilter = 0u;
+
+    //else return false
+    return false;
+}
+//load the spriteRepeat
+bool edk::ViewSprite::loadSpriteRepeatFromPack(edk::pack::FilePackage* pack,const edk::char8* name,edk::uint32 minFilter,edk::uint32 magFilter){
+    return this->loadSpriteRepeatFromPack(pack,(edk::char8*) name,minFilter,magFilter);
+}
+bool edk::ViewSprite::loadSpriteRepeatFromPack(edk::pack::FilePackage* pack,edk::char8* name,edk::uint32 minFilter,edk::uint32 magFilter){
+    //delete the sprite
+    this->deleteSprite();
+    //test the name
+    if(name && pack){
+        //then load the texture
+        this->spriteCode = this->list.loadTextureRepeatFromPack(pack,name,minFilter,magFilter);
         this->spriteMinFilter = minFilter;
         this->spriteMagFilter = magFilter;
         if(this->spriteCode){

@@ -103,12 +103,35 @@ public:
                                   edk::uint32 minFilter = GU_NEAREST,
                                   edk::uint32 magFilter = GU_LINEAR
             );
+    bool createTextureRepeat(edk::uint32 width,
+                             edk::uint32 height,
+                             edk::uint32 mode,
+                             const edk::classID  data = NULL,
+                             edk::uint32 minFilter = GU_NEAREST,
+                             edk::uint32 magFilter = GU_LINEAR
+            );
+    bool createTextureRepeatWithPBODraw(edk::uint32 width,
+                                        edk::uint32 height,
+                                        edk::uint32 mode,
+                                        const edk::classID  data = NULL,
+                                        edk::uint32 minFilter = GU_NEAREST,
+                                        edk::uint32 magFilter = GU_LINEAR
+            );
+    bool createTextureRepeatWithPBORead(edk::uint32 width,
+                                        edk::uint32 height,
+                                        edk::uint32 mode,
+                                        const edk::classID  data = NULL,
+                                        edk::uint32 minFilter = GU_NEAREST,
+                                        edk::uint32 magFilter = GU_LINEAR
+            );
     //draw to the texture
     bool drawToTexture(const edk::classID  data);
+    bool drawToTextureRepeat(const edk::classID  data);
     //FILTER
     //        GU_NEAREST
     //        GU_LINEAR
     bool drawToTexture(const edk::classID  data, edk::uint32 minFilter = GU_LINEAR, edk::uint32 magFilter = GU_LINEAR);
+    bool drawToTextureRepeat(const edk::classID  data, edk::uint32 minFilter = GU_LINEAR, edk::uint32 magFilter = GU_LINEAR);
     //read the texture
 
     //format
@@ -124,6 +147,7 @@ public:
     //GU_BGR
     //GU_BGRA
     bool readFromTexture(const edk::classID  data,edk::uint32 format = GU_RGB);
+    bool readFromTextureRepeat(const edk::classID  data,edk::uint32 format = GU_RGB);
 
     //GETTERS
     //return the textureID

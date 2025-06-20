@@ -117,7 +117,7 @@ bool edk::Texture2D::createTextureWithPBODraw(edk::uint32 width,
                                               const edk::classID  data,
                                               edk::uint32 minFilter,
                                               edk::uint32 magFilter
-        ){
+                                              ){
     //alloc the texture
     //first delete the texture
     this->deleteTexture();
@@ -188,7 +188,7 @@ bool edk::Texture2D::createTextureWithPBORead(edk::uint32 width,
                                               const edk::classID  data,
                                               edk::uint32 minFilter,
                                               edk::uint32 magFilter
-                        ){
+                                              ){
     //alloc the texture
     //first delete the texture
     this->deleteTexture();
@@ -253,6 +253,201 @@ bool edk::Texture2D::createTextureWithPBORead(edk::uint32 width,
     //else return false
     return false;
 }
+bool edk::Texture2D::createTextureRepeat(edk::uint32 width,
+                                         edk::uint32 height,
+                                         edk::uint32 mode,
+                                         const edk::classID  data,
+                                         edk::uint32 minFilter,
+                                         edk::uint32 magFilter
+                                         ){
+    //alloc the texture
+    //first delete the texture
+    this->deleteTexture();
+
+    switch(mode){
+    case EDK_RGB:
+        this->mode = GU_RGB;
+        break;
+    case EDK_RGBA:
+        this->mode = GU_RGBA;
+        break;
+    case EDK_LUMINANCE:
+        this->mode = GU_LUMINANCE;
+        break;
+    case EDK_LUMINANCE_ALPHA:
+        this->mode = GU_LUMINANCE_ALPHA;
+        break;
+    case GU_RGB:
+        this->mode = GU_RGB;
+        break;
+    case GU_RGBA:
+        this->mode = GU_RGBA;
+        break;
+    case GU_LUMINANCE:
+        this->mode = GU_LUMINANCE;
+        break;
+    case GU_LUMINANCE_ALPHA:
+        this->mode = GU_LUMINANCE_ALPHA;
+        break;
+    default:
+        return false;
+    }
+
+    //then alloc the texture
+    this->textureId = edk::GU::guAllocTexture2DRepeat(width, height, this->mode, minFilter,magFilter, data);
+    if(this->textureId){
+        this->size.width = width;
+        this->size.height = height;
+        this->minFilter = minFilter;
+        this->magFilter = magFilter;
+        //return true
+        return true;
+    }
+    //else return false
+    return false;
+}
+bool edk::Texture2D::createTextureRepeatWithPBODraw(edk::uint32 width,
+                                                    edk::uint32 height,
+                                                    edk::uint32 mode,
+                                                    const edk::classID  data,
+                                                    edk::uint32 minFilter,
+                                                    edk::uint32 magFilter
+                                                    ){
+    //alloc the texture
+    //first delete the texture
+    this->deleteTexture();
+
+    edk::uint8 channels = 3u;
+
+    switch(mode){
+    case EDK_RGB:
+        this->mode = GU_RGB;
+        channels = 3u;
+        break;
+    case EDK_RGBA:
+        this->mode = GU_RGBA;
+        channels = 4u;
+        break;
+    case EDK_LUMINANCE:
+        this->mode = GU_LUMINANCE;
+        channels = 1u;
+        break;
+    case EDK_LUMINANCE_ALPHA:
+        this->mode = GU_LUMINANCE_ALPHA;
+        channels = 2u;
+        break;
+    case GU_RGB:
+        this->mode = GU_RGB;
+        channels = 3u;
+        break;
+    case GU_RGBA:
+        this->mode = GU_RGBA;
+        channels = 4u;
+        break;
+    case GU_LUMINANCE:
+        this->mode = GU_LUMINANCE;
+        channels = 1u;
+        break;
+    case GU_LUMINANCE_ALPHA:
+        this->mode = GU_LUMINANCE_ALPHA;
+        channels = 2u;
+        break;
+    default:
+        return false;
+    }
+
+    //then alloc the texture
+    this->textureId = edk::GU::guAllocTexture2DRepeat(width, height, this->mode, minFilter,magFilter, data);
+    if(this->textureId){
+        this->size.width = width;
+        this->size.height = height;
+        this->minFilter = minFilter;
+        this->magFilter = magFilter;
+
+        //generate the PBO
+        this->pbo = edk::GU_GLSL::guAllocBuffer(GU_PIXEL_UNPACK_BUFFER);
+        if(this->pbo){
+            edk::GU_GLSL::guBufferData(GU_PIXEL_UNPACK_BUFFER,width*height*channels,NULL,GU_STREAM_DRAW);
+
+            //return true
+            return true;
+        }
+
+    }
+    //else return false
+    return false;
+}
+bool edk::Texture2D::createTextureRepeatWithPBORead(edk::uint32 width,
+                                                    edk::uint32 height,
+                                                    edk::uint32 mode,
+                                                    const edk::classID  data,
+                                                    edk::uint32 minFilter,
+                                                    edk::uint32 magFilter
+                                                    ){
+    //alloc the texture
+    //first delete the texture
+    this->deleteTexture();
+
+    edk::uint8 channels = 3u;
+
+    switch(mode){
+    case EDK_RGB:
+        this->mode = GU_RGB;
+        channels = 3u;
+        break;
+    case EDK_RGBA:
+        this->mode = GU_RGBA;
+        channels = 4u;
+        break;
+    case EDK_LUMINANCE:
+        this->mode = GU_LUMINANCE;
+        channels = 1u;
+        break;
+    case EDK_LUMINANCE_ALPHA:
+        this->mode = GU_LUMINANCE_ALPHA;
+        channels = 2u;
+        break;
+    case GU_RGB:
+        this->mode = GU_RGB;
+        channels = 3u;
+        break;
+    case GU_RGBA:
+        this->mode = GU_RGBA;
+        channels = 4u;
+        break;
+    case GU_LUMINANCE:
+        this->mode = GU_LUMINANCE;
+        channels = 1u;
+        break;
+    case GU_LUMINANCE_ALPHA:
+        this->mode = GU_LUMINANCE_ALPHA;
+        channels = 2u;
+        break;
+    default:
+        return false;
+    }
+
+    //then alloc the texture
+    this->textureId = edk::GU::guAllocTexture2DRepeat(width, height, this->mode, minFilter,magFilter, data);
+    if(this->textureId){
+        this->size.width = width;
+        this->size.height = height;
+        this->minFilter = minFilter;
+        this->magFilter = magFilter;
+
+        //generate the PBO
+        this->pbo = edk::GU_GLSL::guAllocBuffer(GU_PIXEL_PACK_BUFFER);
+        if(this->pbo){
+            edk::GU_GLSL::guBufferData(GU_PIXEL_PACK_BUFFER,width*height*channels,data,GU_STREAM_DRAW);
+
+            //return true
+            return true;
+        }
+
+    }
+    //else return false
+    return false;
+}
 //draw to the texture
 bool edk::Texture2D::drawToTexture(const edk::classID  data){
     //test if have texture
@@ -262,6 +457,17 @@ bool edk::Texture2D::drawToTexture(const edk::classID  data){
             return edk::GU::guDrawPBOToTexture2D(this->getPBO(),this->getID(),this->size.width,this->size.height,this->mode,data);
         }
         return edk::GU::guDrawToTexture2D(this->getID(),this->size.width,this->size.height,this->mode,this->minFilter,this->magFilter,data);
+    }
+    return false;
+}
+bool edk::Texture2D::drawToTextureRepeat(const edk::classID  data){
+    //test if have texture
+    if(this->getID() && this->size.width && this->size.height && this->mode){
+        //then draw to texture
+        if(this->getPBO()){
+            return edk::GU::guDrawPBOToTexture2DRepeat(this->getPBO(),this->getID(),this->size.width,this->size.height,this->mode,data);
+        }
+        return edk::GU::guDrawToTexture2DRepeat(this->getID(),this->size.width,this->size.height,this->mode,this->minFilter,this->magFilter,data);
     }
     return false;
 }
@@ -278,12 +484,33 @@ bool edk::Texture2D::drawToTexture(const edk::classID  data, edk::uint32 minFilt
     }
     return false;
 }
+bool edk::Texture2D::drawToTextureRepeat(const edk::classID  data, edk::uint32 minFilter, edk::uint32 magFilter){
+    //test if have texture
+    if(this->getID() && this->size.width && this->size.height && this->mode){
+        //then draw to texture
+        this->minFilter = minFilter;
+        this->magFilter = magFilter;
+        if(this->getPBO()){
+            return edk::GU::guDrawPBOToTexture2DRepeat(this->getPBO(),this->getID(),this->size.width,this->size.height,this->mode,data);
+        }
+        return edk::GU::guDrawToTexture2DRepeat(this->getID(),this->size.width,this->size.height,this->mode,minFilter,magFilter,data);
+    }
+    return false;
+}
 //read the texture
 bool edk::Texture2D::readFromTexture(const edk::classID  data,edk::uint32 format){
     //test if have texture
     if(this->getID() && this->size.width && this->size.height && this->mode){
         //
         return edk::GU_GLSL::guReadTexture(this->getID(),format,data);
+    }
+    return false;
+}
+bool edk::Texture2D::readFromTextureRepeat(const edk::classID  data,edk::uint32 format){
+    //test if have texture
+    if(this->getID() && this->size.width && this->size.height && this->mode){
+        //
+        return edk::GU_GLSL::guReadTextureRepeat(this->getID(),format,data);
     }
     return false;
 }

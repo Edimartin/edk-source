@@ -227,6 +227,7 @@ public:
     bool haveSelectedAttributes();
     //test if have the attribute
     bool haveSelectedAttribute(edk::char8* name);
+    bool haveSelectedAttribute(const edk::char8* name);
     //return the selectedName
     edk::char8* getSelectedName();
     //return the string of the selected

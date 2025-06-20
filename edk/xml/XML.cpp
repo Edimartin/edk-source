@@ -1621,6 +1621,9 @@ bool edk::XML::haveSelectedAttribute(edk::char8* name){
     //else return false
     return false;
 }
+bool edk::XML::haveSelectedAttribute(const edk::char8* name){
+    return haveSelectedAttribute((edk::char8*) name);
+}
 //return the selectedName
 edk::char8* edk::XML::getSelectedName(){
     //test if have a selected

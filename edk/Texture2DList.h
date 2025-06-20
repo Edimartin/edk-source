@@ -75,10 +75,23 @@ public:
     edk::uint32 createAndDrawTexture(const char8* name,edk::size2ui32 size,edk::uint8* image,edk::uint32 mode = GU_RGB,edk::uint32 minFilter = GU_LINEAR,edk::uint32 magFilter = GU_NEAREST);
     edk::uint32 createAndDrawTextureWithPBODraw(edk::char8* name,edk::size2ui32 size,edk::uint8* image,edk::uint32 mode,edk::uint32 minFilter,edk::uint32 magFilter);
     edk::uint32 createAndDrawTextureWithPBODraw(const char8* name,edk::size2ui32 size,edk::uint8* image,edk::uint32 mode,edk::uint32 minFilter,edk::uint32 magFilter);
+    //create a new textureRepeat
+    edk::uint32 createTextureRepeat(edk::char8* name,edk::size2ui32 size,edk::uint32 mode = GU_RGB,edk::uint32 minFilter = GU_LINEAR,edk::uint32 magFilter = GU_NEAREST);
+    edk::uint32 createTextureRepeat(const char8* name,edk::size2ui32 size,edk::uint32 mode = GU_RGB,edk::uint32 minFilter = GU_LINEAR,edk::uint32 magFilter = GU_NEAREST);
+    edk::uint32 createTextureWithPBODrawRepeat(edk::char8* name,edk::size2ui32 size,edk::uint32 mode,edk::uint32 minFilter,edk::uint32 magFilter);
+    edk::uint32 createTextureWithPBODrawRepeat(const char8* name,edk::size2ui32 size,edk::uint32 mode,edk::uint32 minFilter,edk::uint32 magFilter);
+    edk::uint32 createAndDrawTextureRepeat(edk::char8* name,edk::size2ui32 size,edk::uint8* image,edk::uint32 mode = GU_RGB,edk::uint32 minFilter = GU_LINEAR,edk::uint32 magFilter = GU_NEAREST);
+    edk::uint32 createAndDrawTextureRepeat(const char8* name,edk::size2ui32 size,edk::uint8* image,edk::uint32 mode = GU_RGB,edk::uint32 minFilter = GU_LINEAR,edk::uint32 magFilter = GU_NEAREST);
+    edk::uint32 createAndDrawTextureWithPBODrawRepeat(edk::char8* name,edk::size2ui32 size,edk::uint8* image,edk::uint32 mode,edk::uint32 minFilter,edk::uint32 magFilter);
+    edk::uint32 createAndDrawTextureWithPBODrawRepeat(const char8* name,edk::size2ui32 size,edk::uint8* image,edk::uint32 mode,edk::uint32 minFilter,edk::uint32 magFilter);
     //draw on a texture
     bool drawTexture(edk::char8* name,edk::uint8* image,edk::uint32 minFilter = GU_LINEAR,edk::uint32 magFilter = GU_NEAREST);
     bool drawTexture(const char8* name,edk::uint8* image,edk::uint32 minFilter = GU_LINEAR,edk::uint32 magFilter = GU_NEAREST);
     bool drawTexture(edk::uint32 code,edk::uint8* image,edk::uint32 minFilter = GU_LINEAR,edk::uint32 magFilter = GU_NEAREST);
+    //draw on a textureRepeat
+    bool drawTextureRepeat(edk::char8* name,edk::uint8* image,edk::uint32 minFilter = GU_LINEAR,edk::uint32 magFilter = GU_NEAREST);
+    bool drawTextureRepeat(const char8* name,edk::uint8* image,edk::uint32 minFilter = GU_LINEAR,edk::uint32 magFilter = GU_NEAREST);
+    bool drawTextureRepeat(edk::uint32 code,edk::uint8* image,edk::uint32 minFilter = GU_LINEAR,edk::uint32 magFilter = GU_NEAREST);
     //read from a texture
 
     //format
@@ -106,15 +119,27 @@ public:
     //Load Texture
     edk::uint32 loadTexture(edk::char8* name,edk::uint32 minFilter = GU_LINEAR,edk::uint32 magFilter = GU_NEAREST);
     edk::uint32 loadTexture(const edk::char8* name,edk::uint32 minFilter = GU_LINEAR,edk::uint32 magFilter = GU_NEAREST);
+    //Load TextureRepeat
+    edk::uint32 loadTextureRepeat(edk::char8* name,edk::uint32 minFilter = GU_LINEAR,edk::uint32 magFilter = GU_NEAREST);
+    edk::uint32 loadTextureRepeat(const edk::char8* name,edk::uint32 minFilter = GU_LINEAR,edk::uint32 magFilter = GU_NEAREST);
     //load Texture from memory
     edk::uint32 loadTextureFromMemory(edk::char8* name,edk::uint8* image,edk::uint32 size,edk::uint32 minFilter = GU_LINEAR,edk::uint32 magFilter = GU_NEAREST);
     edk::uint32 loadTextureFromMemory(const edk::char8* name,edk::uint8* image,edk::uint32 size,edk::uint32 minFilter = GU_LINEAR,edk::uint32 magFilter = GU_NEAREST);
+    //load TextureRepeat from memory
+    edk::uint32 loadTextureRepeatFromMemory(edk::char8* name,edk::uint8* image,edk::uint32 size,edk::uint32 minFilter = GU_LINEAR,edk::uint32 magFilter = GU_NEAREST);
+    edk::uint32 loadTextureRepeatFromMemory(const edk::char8* name,edk::uint8* image,edk::uint32 size,edk::uint32 minFilter = GU_LINEAR,edk::uint32 magFilter = GU_NEAREST);
     //set Texture from memory
     edk::uint32 setTextureFromMemory(edk::char8* name,edk::uint8* image,edk::uint32 width,edk::uint32 height,edk::uint32 channels,edk::uint32 minFilter = GU_LINEAR,edk::uint32 magFilter = GU_NEAREST);
     edk::uint32 setTextureFromMemory(const edk::char8* name,edk::uint8* image,edk::uint32 width,edk::uint32 height,edk::uint32 channels,edk::uint32 minFilter = GU_LINEAR,edk::uint32 magFilter = GU_NEAREST);
+    //set TextureRepeat from memory
+    edk::uint32 setTextureRepeatFromMemory(edk::char8* name,edk::uint8* image,edk::uint32 width,edk::uint32 height,edk::uint32 channels,edk::uint32 minFilter = GU_LINEAR,edk::uint32 magFilter = GU_NEAREST);
+    edk::uint32 setTextureRepeatFromMemory(const edk::char8* name,edk::uint8* image,edk::uint32 width,edk::uint32 height,edk::uint32 channels,edk::uint32 minFilter = GU_LINEAR,edk::uint32 magFilter = GU_NEAREST);
     //load the texture from a file package
     edk::uint32 loadTextureFromPack(edk::pack::FilePackage* pack,edk::char8* name,edk::uint32 minFilter = GU_LINEAR,edk::uint32 magFilter = GU_NEAREST);
     edk::uint32 loadTextureFromPack(edk::pack::FilePackage* pack,const edk::char8* name,edk::uint32 minFilter = GU_LINEAR,edk::uint32 magFilter = GU_NEAREST);
+    //load the textureRepeat from a file package
+    edk::uint32 loadTextureRepeatFromPack(edk::pack::FilePackage* pack,edk::char8* name,edk::uint32 minFilter = GU_LINEAR,edk::uint32 magFilter = GU_NEAREST);
+    edk::uint32 loadTextureRepeatFromPack(edk::pack::FilePackage* pack,const edk::char8* name,edk::uint32 minFilter = GU_LINEAR,edk::uint32 magFilter = GU_NEAREST);
     //retain the texture
     bool retainTexture(edk::uint32 code);
     //remove texture
@@ -288,11 +313,27 @@ private:
             }
             return false;
         }
+        //draw in the textureRepeat
+        bool drawTextureRepeat(edk::uint8* image,edk::uint32 minFilter,edk::uint32 magFilter){
+            if(image){
+                //draw on the texture
+                return this->file->drawToTextureRepeat(image,minFilter,magFilter);
+            }
+            return false;
+        }
         //read from the texture
         bool readTexture(edk::uint8* image,edk::uint32 format){
             if(image){
                 //read from the texture
                 return this->file->readFromTexture(image,format);
+            }
+            return false;
+        }
+        //read from the textureRepeat
+        bool readTextureRepeat(edk::uint8* image,edk::uint32 format){
+            if(image){
+                //read from the texture
+                return this->file->readFromTextureRepeat(image,format);
             }
             return false;
         }
@@ -302,6 +343,24 @@ private:
             this->file = new edk::Texture2DFile;
             if(this->file){
                 if(this->file->loadFromFile(name,minFilter,magFilter)){
+                    //save the name
+                    if(this->setName(name)){
+                        //save the code
+                        this->code=this->file->getID();
+                        this->minFilter = minFilter;
+                        this->magFilter = magFilter;
+                        return true;
+                    }
+                }
+            }
+            this->deleteTexture();
+            return false;
+        }
+        bool loadFromFileRepeat(edk::char8* name,edk::uint32 minFilter,edk::uint32 magFilter){
+            this->deleteTexture();
+            this->file = new edk::Texture2DFile;
+            if(this->file){
+                if(this->file->loadFromFileRepeat(name,minFilter,magFilter)){
                     //save the name
                     if(this->setName(name)){
                         //save the code
@@ -335,12 +394,52 @@ private:
             this->deleteTexture();
             return false;
         }
+        bool loadFromMemoryRepeat(edk::char8* name,edk::uint8* image,edk::uint32 size,edk::uint32 minFilter,edk::uint32 magFilter){
+            this->deleteTexture();
+            if(name){
+                this->file = new edk::Texture2DFile;
+                if(this->file){
+                    if(this->file->loadFromMemoryRepeat(image,size,minFilter,magFilter)){
+                        //save the name
+                        if(this->setName(name)){
+                            //save the code
+                            this->code=this->file->getID();
+                            this->minFilter = minFilter;
+                            this->magFilter = magFilter;
+                            return true;
+                        }
+                    }
+                }
+            }
+            this->deleteTexture();
+            return false;
+        }
         bool setFromMemory(edk::char8* name,edk::uint8* image,edk::uint32 width,edk::uint32 height,edk::uint32 channels,edk::uint32 minFilter,edk::uint32 magFilter){
             this->deleteTexture();
             if(name){
                 this->file = new edk::Texture2DFile;
                 if(this->file){
                     if(this->file->setFromMemory(/*name,*/image,width,height,channels,minFilter,magFilter)){
+                        //save the name
+                        if(this->setName(name)){
+                            //save the code
+                            this->code=this->file->getID();
+                            this->minFilter = minFilter;
+                            this->magFilter = magFilter;
+                            return true;
+                        }
+                    }
+                }
+            }
+            this->deleteTexture();
+            return false;
+        }
+        bool setFromMemoryRepeat(edk::char8* name,edk::uint8* image,edk::uint32 width,edk::uint32 height,edk::uint32 channels,edk::uint32 minFilter,edk::uint32 magFilter){
+            this->deleteTexture();
+            if(name){
+                this->file = new edk::Texture2DFile;
+                if(this->file){
+                    if(this->file->setFromMemoryRepeat(/*name,*/image,width,height,channels,minFilter,magFilter)){
                         //save the name
                         if(this->setName(name)){
                             //save the code
@@ -502,6 +601,8 @@ private:
     static edk::Texture2DList::TextureCodeTree codeTree;
     //Tree to save the textures by name
     static edk::Texture2DList::NameFilterTree nameTree;
+    //Tree to save the texturesRepeat by name
+    static edk::Texture2DList::NameFilterTree nameTreeRepeat;
 
     static edk::uint64 templateConstructNeed;
 
@@ -509,10 +610,16 @@ private:
     edk::Texture2DList::TextureCode* getTextureByName(edk::char8* name, edk::uint32 minFilter, edk::uint32 magFilter);
     //get the texture by the code
     edk::Texture2DList::TextureCode* getTextureByCode(edk::uint32 code);
+    //get the textureRepeat by the name
+    edk::Texture2DList::TextureCode* getTextureRepeatByName(edk::char8* name, edk::uint32 minFilter, edk::uint32 magFilter);
     //draw on the texture
     bool drawTexture(edk::Texture2DList::TextureCode* temp,edk::uint8* image,edk::uint32 minFilter = GU_LINEAR,edk::uint32 magFilter = GU_NEAREST);
+    //draw on the textureRepeat
+    bool drawTextureRepeat(edk::Texture2DList::TextureCode* temp,edk::uint8* image,edk::uint32 minFilter = GU_LINEAR,edk::uint32 magFilter = GU_NEAREST);
     //read from the texture
     bool readTexture(edk::Texture2DList::TextureCode* temp,edk::uint8* image,edk::uint32 format);
+    //read from the textureRepeat
+    bool readTextureRepeat(edk::Texture2DList::TextureCode* temp,edk::uint8* image,edk::uint32 format);
     //remove the texture
     bool removeTexture(edk::Texture2DList::TextureCode* temp);
     //delete the texture
