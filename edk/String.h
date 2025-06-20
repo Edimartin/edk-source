@@ -497,6 +497,11 @@ public:
     static edk::char8* strFileNameNoExtension(const edk::char8* str);
     static bool strFileNameNoExtension(edk::char8* str,edk::char8* dest);
     static bool strFileNameNoExtension(const edk::char8* str,edk::char8* dest);
+    //return the file extension name from a string without the name
+    static edk::char8* strFileExtensionNoName(edk::char8* str);
+    static edk::char8* strFileExtensionNoName(const edk::char8* str);
+    static bool strFileExtensionNoName(edk::char8* str,edk::char8* dest);
+    static bool strFileExtensionNoName(const edk::char8* str,edk::char8* dest);
     //return the file name with the folder from a string without extension
     static edk::char8* strFolderAndFileNameNoExtension(edk::char8* str);
     static edk::char8* strFolderAndFileNameNoExtension(const edk::char8* str);
