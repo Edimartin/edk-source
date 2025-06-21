@@ -40,8 +40,8 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include <errno.h>
 #include "NameClass.h"
 
-#ifdef _WIN32
-//Windows 32
+#ifdef _WIN64
+//Windows 64
 #ifdef _MSC_VER
 //Visual C
 #endif
@@ -52,9 +52,8 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //GCC
 #endif
 #endif
-#endif
-#ifdef _WIN64
-//Windows 64
+#elif _WIN32
+//Windows 32
 #ifdef _MSC_VER
 //Visual C
 #endif

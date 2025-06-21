@@ -40,12 +40,12 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include <string.h>
 
 //Windows.h to the Sleep function
-#ifdef _WIN32 //Windows 32bits
+#ifdef _WIN64//Windows 64bits
 #pragma once
 #include <windows.h>
 #include <winbase.h>
 //#include <pthread_time.h>
-#elif _WIN64//Windows 64bits
+#elif _WIN32//Windows 32bits
 #pragma once
 #include <windows.h>
 #include <winbase.h>
