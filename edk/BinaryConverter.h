@@ -662,6 +662,21 @@ public:
         }
         return false;
     }
+
+    static inline bool isBigEndan(){
+        return edk::BinaryConverter::bigEndian;
+    }
+    static inline bool isLittleEndan(){
+        return !edk::BinaryConverter::bigEndian;
+    }
+    static inline bool systemBigEndan(){
+        return edk::BinaryConverter::bigEndian;
+    }
+    static inline bool systemLittleEndan(){
+        return !edk::BinaryConverter::bigEndian;
+    }
+
+    static bool bigEndian;
 private:
     edk::classID classThis;
 };

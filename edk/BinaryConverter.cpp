@@ -66,6 +66,17 @@ const edk::char8 *hexPrint[256u] = {
     "F0","F1","F2","F3","F4","F5","F6","F7","F8","F9","FA","FB","FC","FD","FE","FF",
 };
 
+bool calculateBigEndian(){
+    edk::uint16 value=1u;
+    edk::uint8* p = (edk::uint8*)&value;
+    if(*p){
+        return true;
+    }
+    return false;
+}
+
+bool edk::BinaryConverter::bigEndian = calculateBigEndian();
+
 edk::BinaryConverter::BinaryConverter(){
     this->classThis=NULL;
     this->Constructor();

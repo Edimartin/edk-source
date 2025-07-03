@@ -62,7 +62,7 @@ void edk::codecs::EncoderH264::Constructor(){
         this->encoder=NULL;
         this->version = WelsGetCodecVersion();
 #else
-        edkPrintf("You must define EDK_USE_OPENH264 before use");
+        //edkPrintf("You must define EDK_USE_OPENH264 before use");
 #endif
     }
 }
@@ -211,7 +211,7 @@ void edk::codecs::EncoderH264::finishEncoder(){
     WelsDestroySVCEncoder(this->encoder);
     this->encoder=NULL;
 #else
-    edkPrintf("You must define EDK_USE_OPENH264 before use");
+    //edkPrintf("You must define EDK_USE_OPENH264 before use");
 #endif
 }
 

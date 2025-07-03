@@ -299,6 +299,17 @@ bool edk::Window::createWindow(uint32  width, uint32  height/*, uint32  bitsPerP
                               );
 }
 
+bool edk::Window::setWindowName(const edk::char8 *name){
+    return this->setWindowName((edk::char8 *)name);
+}
+bool edk::Window::setWindowName(edk::char8 *name){
+    if(this->isOpened()){
+        this->window.setTitle(name);
+        return true;
+    }
+    return false;
+}
+
 bool edk::Window::isOpened(){
     //antes fecha a janela anterior
     //if(this->window.IsOpened()){1.6

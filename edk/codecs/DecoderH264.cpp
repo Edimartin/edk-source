@@ -44,7 +44,7 @@ void edk::codecs::DecoderH264::Constructor(){
         this->decoder=NULL;
         this->version = WelsGetCodecVersion();
 #else
-        edkPrintf("You must define EDK_USE_OPENH264 before use");
+        //edkPrintf("You must define EDK_USE_OPENH264 before use");
 #endif
     }
 }
@@ -243,7 +243,7 @@ bool edk::codecs::DecoderH264::startDecoder(edk::uint32 spaceDecodeSize){
             }
         }
 #else
-        edkPrintf("You must define EDK_USE_OPENH264 before use");
+        //edkPrintf("You must define EDK_USE_OPENH264 before use");
 #endif
     }
     return false;
@@ -281,7 +281,7 @@ bool edk::codecs::DecoderH264::decode(edk::uint8* encoded,edk::uint32 size){
             }
         }
 #else
-        edkPrintf("You must define EDK_USE_OPENH264 before use");
+        //edkPrintf("You must define EDK_USE_OPENH264 before use");
 #endif
     }
     return false;
@@ -300,7 +300,7 @@ void edk::codecs::DecoderH264::finishDecoder(){
     WelsDestroyDecoder(this->decoder);
     this->decoder = NULL;
 #else
-    edkPrintf("You must define EDK_USE_OPENH264 before use");
+    //edkPrintf("You must define EDK_USE_OPENH264 before use");
 #endif
 }
 
@@ -312,7 +312,7 @@ bool edk::codecs::DecoderH264::haveInitialized(){
         return true;
     }
 #else
-    edkPrintf("You must define EDK_USE_OPENH264 before use");
+    //edkPrintf("You must define EDK_USE_OPENH264 before use");
 #endif
     return false;
 }

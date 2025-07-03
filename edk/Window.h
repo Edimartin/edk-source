@@ -87,6 +87,9 @@ public:
 
     bool createWindow(edk::uint32  width, edk::uint32  height/*, edk::uint32  bitsPerPixel*/, const char *name, typeID  design);
 
+    bool setWindowName(const edk::char8 *name);
+    bool setWindowName(edk::char8 *name);
+
     bool isOpened();
 
     bool isShowing();
