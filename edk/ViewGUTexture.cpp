@@ -43,7 +43,6 @@ void edk::ViewGUTexture::Constructor(edk::size2ui32 size){
 
         this->shader.Constructor();
         this->render.Constructor();
-        this->renderCamera.Constructor();
 
         //load the texture
         this->render.createRender(size);
@@ -56,7 +55,6 @@ void edk::ViewGUTexture::Constructor(edk::uint32 width,edk::uint32 height){
 
         this->shader.Constructor();
         this->render.Constructor();
-        this->renderCamera.Constructor();
 
         this->render.createRender(width,height);
     }
@@ -70,7 +68,6 @@ void edk::ViewGUTexture::Destructor(){
 
         this->shader.Destructor();
         this->render.Destructor();
-        this->renderCamera.Destructor();
     }
     edk::ViewGU::Destructor();
 }

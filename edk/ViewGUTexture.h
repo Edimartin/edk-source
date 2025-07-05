@@ -93,8 +93,6 @@ protected:
     edk::shd::GLSL shader;
 private:
     edk::Texture2DRender render;
-    //camera to draw the polygon with the render texture
-    edk::Camera2D renderCamera;
 private:
     edk::classID classThis;
 };
