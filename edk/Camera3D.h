@@ -82,6 +82,22 @@ public:
     edk::float32 getNear();
     edk::float32 getFar();
 
+    //get vectors
+    edk::vec3f32 getPositionNear();
+    edk::vec3f32 getPositionFar();
+    edk::vec3f32 getPositionLeft();
+    edk::vec3f32 getPositionRight();
+    edk::vec3f32 getPositionUp();
+    edk::vec3f32 getPositionDown();
+    edk::vec3f32 getPositionNearUpLeft();
+    edk::vec3f32 getPositionNearUpRight();
+    edk::vec3f32 getPositionNearDownLeft();
+    edk::vec3f32 getPositionNearDownRight();
+    edk::vec3f32 getPositionFarUpLeft();
+    edk::vec3f32 getPositionFarUpRight();
+    edk::vec3f32 getPositionFarDownLeft();
+    edk::vec3f32 getPositionFarDownRight();
+
     //Distance
     edk::float32 getDistance();
     //set the distance
@@ -147,8 +163,8 @@ public:
                   );
     void drawPivo(edk::float32 size,edk::color3f32 color);
     void drawPivo(edk::float32 size,edk::float32 r,edk::float32 g,edk::float32 b);
-    void drawVectors(edk::float32 size,edk::color3f32 color);
-    void drawVectors(edk::float32 size,edk::float32 r,edk::float32 g,edk::float32 b);
+    void drawVectors(edk::color3f32 color);
+    void drawVectors(edk::float32 r,edk::float32 g,edk::float32 b);
 
     //operator to copy the cameras
     bool cloneFrom(edk::Camera3D* cam);
@@ -161,6 +177,7 @@ private:
     edk::vec2f32 up;
     edk::size2f32 size;
     edk::float32 sizePercent;
+    edk::float32 distancePercent;
     edk::float32 _near;
     edk::float32 _far;
     bool firstPerson;
@@ -171,6 +188,17 @@ private:
     edk::vec3f32 vecDown;
     edk::vec3f32 vecFront;
     edk::vec3f32 vecBack;
+    //
+    edk::vec3f32 positionNear;
+    edk::vec3f32 positionFar;
+    edk::vec3f32 vecNearUpLeft;
+    edk::vec3f32 vecNearUpRight;
+    edk::vec3f32 vecNearDownLeft;
+    edk::vec3f32 vecNearDownRight;
+    edk::vec3f32 vecFarUpLeft;
+    edk::vec3f32 vecFarUpRight;
+    edk::vec3f32 vecFarDownLeft;
+    edk::vec3f32 vecFarDownRight;
 
     //camera 3D projection matrix
     edk::vector::Matrixf32<4u,4u> matrixTranslate;

@@ -199,6 +199,7 @@ private:
     //image vector to encode
     edk::uint8* frame;
     edk::uint32 vectorFrameSize;
+    edk::uint32 vectorFrameFullSize;
     //save the type of the frame
     edk::float32 frameChannels;
     //save the frame encoded

@@ -28,6 +28,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 edk::classID functionThread(edk::classID values){
     edk::ThreadVideo* thread = (edk::ThreadVideo*)values;
     if(thread){
+        thread->canDelete=false;
         while(true){
             //
             thread->mutVideo.lock();
@@ -48,8 +49,10 @@ edk::classID functionThread(edk::classID values){
             thread->mutVideo.unlock();
             edk::watch::Time::sleepProcessMicroseconds(1u);
         }
+        thread->mutVideo.lock();
         thread->canDelete=true;
-        edk::watch::Time::sleepProcessMicroseconds(1u);
+        //edk::watch::Time::sleepProcessMicroseconds(1u);
+        thread->mutVideo.unlock();
     }
     return NULL;
 }
@@ -92,7 +95,7 @@ void edk::Video::Destructor(){
                 thread->needExit=true;
                 thread->mutVideo.unlock();
                 thread->mutVideo.lock();
-                while(thread->canDelete){
+                while(!thread->canDelete){
                     thread->mutVideo.unlock();
                     edk::watch::Time::sleepProcessMicroseconds(1u);
                     thread->mutVideo.lock();
@@ -142,9 +145,9 @@ void edk::Video::close(){
 
     this->queueEncode.clean();
     this->queueDecode.clean();
-    /*
+
     //finish all threads
-    edk::ThreadVideo* thread = NULL;
+    thread = NULL;
     edk::uint32 size = this->threads.size();
     for(edk::uint8 i=0u;i<size;i++){
         thread = this->threads.get(i);
@@ -153,7 +156,7 @@ void edk::Video::close(){
             thread->needExit=true;
             thread->mutVideo.unlock();
             thread->mutVideo.lock();
-            while(thread->canDelete){
+            while(!thread->canDelete){
                 thread->mutVideo.unlock();
                 edk::watch::Time::sleepProcessMicroseconds(1u);
                 thread->mutVideo.lock();
@@ -164,7 +167,7 @@ void edk::Video::close(){
         }
     }
     this->threads.clean();
-    */
+
 
     if(this->file.isOpened()){
         switch(this->writingFile){

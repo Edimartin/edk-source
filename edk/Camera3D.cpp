@@ -122,6 +122,7 @@ void edk::Camera3D::start(){
     this->up = edk::vec2f32(0.f,1.f);
     this->size = edk::size2f32(1.f,1.f);
     this->sizePercent = this->size.width/this->size.height;
+    this->distancePercent = edk::Math::pythagoras(this->size.width*0.5f,this->size.height*0.5f);
     this->_near = 0.0001f;
     this->_far = 1.f;
 
@@ -146,6 +147,45 @@ void edk::Camera3D::updateVectors(){
     this->vecDown=  edk::Math::normalise(this->multiplyPointWithMatrix(edk::vec3f32( 0.f,-10000.f, 0.f)));
     this->vecFront= edk::Math::normalise(this->multiplyPointWithMatrix(edk::vec3f32( 0.f, 0.f, 10000.f)));
     this->vecBack=  edk::Math::normalise(this->multiplyPointWithMatrix(edk::vec3f32( 0.f, 0.f,-10000.f)));
+    //
+    this->positionNear =    (edk::Math::normalise(this->lookAt - this->position) * this->_near) + this->position;
+    this->positionFar =     (edk::Math::normalise(this->lookAt - this->position) * this->_far) + this->position;
+    //
+    this->vecNearUpLeft=    (edk::Math::normalise(this->multiplyPointWithMatrix(edk::vec3f32(-10000.f * this->size.width,
+                                                                                            10000.f  * this->size.height,
+                                                                                            0.f)
+                                                                               )
+                                                 )*this->distancePercent);// + this->positionNear;
+    this->vecNearUpRight=   (edk::Math::normalise(this->multiplyPointWithMatrix(edk::vec3f32( 10000.f * this->size.width,
+                                                                                             10000.f * this->size.height,
+                                                                                             0.f)
+                                                                               )
+                                                 )*this->distancePercent);// + this->positionNear;
+    this->vecNearDownLeft=  (edk::Math::normalise(this->multiplyPointWithMatrix(edk::vec3f32(-10000.f * this->size.width,
+                                                                                            -10000.f * this->size.height,
+                                                                                            0.f)
+                                                                               )
+                                                 )*this->distancePercent);// + this->positionNear;
+    this->vecNearDownRight= (edk::Math::normalise(this->multiplyPointWithMatrix(edk::vec3f32( 10000.f  * this->size.width,
+                                                                                             -10000.f * this->size.height,
+                                                                                             0.f)
+                                                                               )
+                                                 )*this->distancePercent);// + this->positionNear;
+    //
+    edk::float32 percent = this->_far/this->_near;
+    this->vecFarUpLeft= (this->vecNearUpLeft * percent
+                         )+this->positionFar;
+    this->vecFarUpRight= (this->vecNearUpRight * percent
+                          )+this->positionFar;
+    this->vecFarDownLeft= (this->vecNearDownLeft * percent
+                           )+this->positionFar;
+    this->vecFarDownRight= (this->vecNearDownRight * percent
+                            )+this->positionFar;
+    //
+    this->vecNearUpLeft+=this->positionNear;
+    this->vecNearUpRight+=this->positionNear;
+    this->vecNearDownLeft+=this->positionNear;
+    this->vecNearDownRight+=this->positionNear;
 }
 //multiply a point to the matrix
 edk::vec3f32 edk::Camera3D::multiplyPointWithMatrix(edk::vec3f32 point){
@@ -179,6 +219,7 @@ void edk::Camera3D::setSize(edk::size2f32 size){
     //
     this->size=size*0.5f;
     this->sizePercent = this->size.width/this->size.height;
+    this->distancePercent = edk::Math::pythagoras(this->size.width*0.5f,this->size.height*0.5f);
 }
 void edk::Camera3D::setSize(edk::float32 sizeW,edk::float32 sizeH){
     //
@@ -187,10 +228,12 @@ void edk::Camera3D::setSize(edk::float32 sizeW,edk::float32 sizeH){
 void edk::Camera3D::setSizeW(edk::float32 width){
     this->size.width = width*0.5f;
     this->sizePercent = this->size.width/this->size.height;
+    this->distancePercent = edk::Math::pythagoras(this->size.width*0.5f,this->size.height*0.5f);
 }
 void edk::Camera3D::setSizeH(edk::float32 height){
     this->size.height = height*0.5f;
     this->sizePercent = this->size.width/this->size.height;
+    this->distancePercent = edk::Math::pythagoras(this->size.width*0.5f,this->size.height*0.5f);
 }
 //return the size
 edk::float32 edk::Camera3D::getWidth(){
@@ -220,6 +263,50 @@ edk::float32 edk::Camera3D::getNear(){
 }
 edk::float32 edk::Camera3D::getFar(){
     return this->_far;
+}
+
+//get vectors
+edk::vec3f32 edk::Camera3D::getPositionNear(){
+    return this->positionNear+this->position;
+}
+edk::vec3f32 edk::Camera3D::getPositionFar(){
+    return this->positionFar+this->position;
+}
+edk::vec3f32 edk::Camera3D::getPositionLeft(){
+    return this->vecLeft+this->position;
+}
+edk::vec3f32 edk::Camera3D::getPositionRight(){
+    return this->vecRight+this->position;
+}
+edk::vec3f32 edk::Camera3D::getPositionUp(){
+    return this->vecUp+this->position;
+}
+edk::vec3f32 edk::Camera3D::getPositionDown(){
+    return this->vecDown+this->position;
+}
+edk::vec3f32 edk::Camera3D::getPositionNearUpLeft(){
+    return this->vecNearUpLeft;
+}
+edk::vec3f32 edk::Camera3D::getPositionNearUpRight(){
+    return this->vecNearUpRight;
+}
+edk::vec3f32 edk::Camera3D::getPositionNearDownLeft(){
+    return this->vecNearDownLeft;
+}
+edk::vec3f32 edk::Camera3D::getPositionNearDownRight(){
+    return this->vecNearDownRight;
+}
+edk::vec3f32 edk::Camera3D::getPositionFarUpLeft(){
+    return this->vecFarUpLeft;
+}
+edk::vec3f32 edk::Camera3D::getPositionFarUpRight(){
+    return this->vecFarUpRight;
+}
+edk::vec3f32 edk::Camera3D::getPositionFarDownLeft(){
+    return this->vecFarDownLeft;
+}
+edk::vec3f32 edk::Camera3D::getPositionFarDownRight(){
+    return this->vecFarDownRight;
 }
 
 //Distance
@@ -612,68 +699,134 @@ void edk::Camera3D::drawPivo(edk::float32 size,edk::float32 r,edk::float32 g,edk
                    edk::color3f32(r,g,b)
                    );
 }
-void edk::Camera3D::drawVectors(edk::float32 size,edk::color3f32 color){
+void edk::Camera3D::drawVectors(edk::color3f32 color){
     //draw the two pivo
-    edk::GU::guBegin(GU_LINES);
     edk::GU::guColor3f32(color);
-    //LEFT
-    edk::GU::guVertex3f32(this->lookAt.x,
-                          this->lookAt.y,
-                          this->lookAt.z
+    edk::GU::guBegin(GU_LINES);
+    //NEAR END FAR POSITIONS
+    edk::GU::guVertex3f32(this->positionNear.x,
+                          this->positionNear.y,
+                          this->positionNear.z
                           );
-    edk::GU::guVertex3f32(this->lookAt.x+(this->vecLeft.x*size),
-                          this->lookAt.y+(this->vecLeft.y*size),
-                          this->lookAt.z+(this->vecLeft.z*size)
+    edk::GU::guVertex3f32(this->positionFar.x,
+                          this->positionFar.y,
+                          this->positionFar.z
                           );
-    //RIGHT
-    edk::GU::guVertex3f32(this->lookAt.x,
-                          this->lookAt.y,
-                          this->lookAt.z
+
+    //nearUpLeftRight
+    edk::GU::guVertex3f32(this->vecNearUpLeft.x,
+                          this->vecNearUpLeft.y,
+                          this->vecNearUpLeft.z
                           );
-    edk::GU::guVertex3f32(this->lookAt.x+(this->vecRight.x*size),
-                          this->lookAt.y+(this->vecRight.y*size),
-                          this->lookAt.z+(this->vecRight.z*size)
+    edk::GU::guVertex3f32(this->vecNearUpRight.x,
+                          this->vecNearUpRight.y,
+                          this->vecNearUpRight.z
                           );
-    //UP
-    edk::GU::guVertex3f32(this->lookAt.x,
-                          this->lookAt.y,
-                          this->lookAt.z
+    //nearDownLeftRight
+    edk::GU::guVertex3f32(this->vecNearDownLeft.x,
+                          this->vecNearDownLeft.y,
+                          this->vecNearDownLeft.z
                           );
-    edk::GU::guVertex3f32(this->lookAt.x+(this->vecUp.x*size),
-                          this->lookAt.y+(this->vecUp.y*size),
-                          this->lookAt.z+(this->vecUp.z*size)
+    edk::GU::guVertex3f32(this->vecNearDownRight.x,
+                          this->vecNearDownRight.y,
+                          this->vecNearDownRight.z
                           );
-    //DOWN
-    edk::GU::guVertex3f32(this->lookAt.x,
-                          this->lookAt.y,
-                          this->lookAt.z
+    //nearUpDownLeft
+    edk::GU::guVertex3f32(this->vecNearDownLeft.x,
+                          this->vecNearDownLeft.y,
+                          this->vecNearDownLeft.z
                           );
-    edk::GU::guVertex3f32(this->lookAt.x+(this->vecDown.x*size),
-                          this->lookAt.y+(this->vecDown.y*size),
-                          this->lookAt.z+(this->vecDown.z*size)
+    edk::GU::guVertex3f32(this->vecNearUpLeft.x,
+                          this->vecNearUpLeft.y,
+                          this->vecNearUpLeft.z
                           );
-    //FRONT
-    edk::GU::guVertex3f32(this->lookAt.x,
-                          this->lookAt.y,
-                          this->lookAt.z
+    //nearUpDownRight
+    edk::GU::guVertex3f32(this->vecNearDownRight.x,
+                          this->vecNearDownRight.y,
+                          this->vecNearDownRight.z
                           );
-    edk::GU::guVertex3f32(this->lookAt.x+(this->vecFront.x*size),
-                          this->lookAt.y+(this->vecFront.y*size),
-                          this->lookAt.z+(this->vecFront.z*size)
+    edk::GU::guVertex3f32(this->vecNearUpRight.x,
+                          this->vecNearUpRight.y,
+                          this->vecNearUpRight.z
                           );
-    //BACK
-    edk::GU::guVertex3f32(this->lookAt.x,
-                          this->lookAt.y,
-                          this->lookAt.z
+
+    //farUpLeftRight
+    edk::GU::guVertex3f32(this->vecFarUpLeft.x,
+                          this->vecFarUpLeft.y,
+                          this->vecFarUpLeft.z
                           );
-    edk::GU::guVertex3f32(this->lookAt.x+(this->vecBack.x*size),
-                          this->lookAt.y+(this->vecBack.y*size),
-                          this->lookAt.z+(this->vecBack.z*size)
+    edk::GU::guVertex3f32(this->vecFarUpRight.x,
+                          this->vecFarUpRight.y,
+                          this->vecFarUpRight.z
+                          );
+    //farDownLeftRight
+    edk::GU::guVertex3f32(this->vecFarDownLeft.x,
+                          this->vecFarDownLeft.y,
+                          this->vecFarDownLeft.z
+                          );
+    edk::GU::guVertex3f32(this->vecFarDownRight.x,
+                          this->vecFarDownRight.y,
+                          this->vecFarDownRight.z
+                          );
+    //farUpDownLeft
+    edk::GU::guVertex3f32(this->vecFarDownLeft.x,
+                          this->vecFarDownLeft.y,
+                          this->vecFarDownLeft.z
+                          );
+    edk::GU::guVertex3f32(this->vecFarUpLeft.x,
+                          this->vecFarUpLeft.y,
+                          this->vecFarUpLeft.z
+                          );
+    //farUpDownRight
+    edk::GU::guVertex3f32(this->vecFarDownRight.x,
+                          this->vecFarDownRight.y,
+                          this->vecFarDownRight.z
+                          );
+    edk::GU::guVertex3f32(this->vecFarUpRight.x,
+                          this->vecFarUpRight.y,
+                          this->vecFarUpRight.z
+                          );
+
+    //upLeft
+    edk::GU::guVertex3f32(this->vecNearUpLeft.x,
+                          this->vecNearUpLeft.y,
+                          this->vecNearUpLeft.z
+                          );
+    edk::GU::guVertex3f32(this->vecFarUpLeft.x,
+                          this->vecFarUpLeft.y,
+                          this->vecFarUpLeft.z
+                          );
+    //upRight
+    edk::GU::guVertex3f32(this->vecNearUpRight.x,
+                          this->vecNearUpRight.y,
+                          this->vecNearUpRight.z
+                          );
+    edk::GU::guVertex3f32(this->vecFarUpRight.x,
+                          this->vecFarUpRight.y,
+                          this->vecFarUpRight.z
+                          );
+    //downLeft
+    edk::GU::guVertex3f32(this->vecNearDownLeft.x,
+                          this->vecNearDownLeft.y,
+                          this->vecNearDownLeft.z
+                          );
+    edk::GU::guVertex3f32(this->vecFarDownLeft.x,
+                          this->vecFarDownLeft.y,
+                          this->vecFarDownLeft.z
+                          );
+    //downRight
+    edk::GU::guVertex3f32(this->vecNearDownRight.x,
+                          this->vecNearDownRight.y,
+                          this->vecNearDownRight.z
+                          );
+    edk::GU::guVertex3f32(this->vecFarDownRight.x,
+                          this->vecFarDownRight.y,
+                          this->vecFarDownRight.z
                           );
     edk::GU::guEnd();
 }
-void edk::Camera3D::drawVectors(edk::float32 size,edk::float32 r,edk::float32 g,edk::float32 b){
-    return this->drawVectors(size,edk::color3f32(r,g,b));
+void edk::Camera3D::drawVectors(edk::float32 r,edk::float32 g,edk::float32 b){
+    return this->drawVectors(edk::color3f32(r,g,b));
 }
 
 //operator to copy the cameras

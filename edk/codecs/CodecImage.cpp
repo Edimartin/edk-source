@@ -49,6 +49,7 @@ void edk::codecs::CodecImage::Constructor(){
         this->encodedQuality = 0u;
         this->frameChannels = 0.f;
         this->vectorFrameSize=0u;
+        this->vectorFrameFullSize=0u;
     }
 }
 void edk::codecs::CodecImage::Destructor(){
@@ -66,13 +67,18 @@ void edk::codecs::CodecImage::Destructor(){
 bool edk::codecs::CodecImage::newFrame(edk::size2ui32 size,edk::uint8 channels){
     //test the size of the image
     if(size.width && size.height && channels){
-        //test if the size of the image is diferent then the last size
-        if(this->frameSize.width == size.width &&
-                this->frameSize.height == size.height &&
-                this->frameChannels == channels
-                ){
-            //return true if have the vector
-            if(this->frame){
+        if(this->frame){
+            //test if the size of the image is diferent then the last size
+            if(this->frameSize.width == size.width &&
+                    this->frameSize.height == size.height &&
+                    this->frameChannels == channels
+                    ){
+                return true;
+            }
+            else if(this->vectorFrameFullSize>= (edk::uint32)(size.width * size.height * channels)){
+                this->vectorFrameSize = (edk::uint32)(size.width * size.height * channels);
+                this->frameChannels = channels;
+                this->frameSize = size;
                 return true;
             }
         }
@@ -82,11 +88,15 @@ bool edk::codecs::CodecImage::newFrame(edk::size2ui32 size,edk::uint8 channels){
         this->deleteFrame();
 
         //set the size of the vector frame
-        this->vectorFrameSize = (edk::uint32)(size.width * size.height * channels);
+        edk::uint32 frameFullSize = this->vectorFrameSize = (edk::uint32)(size.width * size.height * channels);
+        this->vectorFrameFullSize = (edk::uint32)(1920u * 1080u * 4u);
+        if(this->vectorFrameFullSize < frameFullSize){
+            this->vectorFrameFullSize = frameFullSize;
+        }
 
         //create the new frame
-        if(this->vectorFrameSize){
-            if( ( this->frame = (edk::uint8*)malloc(sizeof(edk::uint8) * (this->vectorFrameSize)) ) ){
+        if(this->vectorFrameFullSize){
+            if( ( this->frame = (edk::uint8*)malloc(sizeof(edk::uint8) * (this->vectorFrameFullSize)) ) ){
                 //save the new size
                 this->frameSize = size;
                 this->frameChannels = channels;
@@ -106,10 +116,15 @@ bool edk::codecs::CodecImage::newFrame(edk::uint32 width,edk::uint32 height,edk:
 //delete the frame
 void edk::codecs::CodecImage::deleteFrame(){
     //test if have the frame
-    if(this->frame){
+    if(this->frame
+            && this->vectorFrameSize
+            && this->frameSize.width
+            && this->frameSize.height
+            && this->frameChannels
+            ){
         free(this->frame);
-        this->frame=NULL;
     }
+    this->frame=NULL;
     //clean the size
     this->frameSize = edk::size2ui32(0u,0u);
     this->frameChannels=0.f;
@@ -205,6 +220,7 @@ edk::uint8* edk::codecs::CodecImage::cleanFrame(){
     this->frameSize = edk::size2ui32(0u,0u);
     this->frameChannels=0u;
     this->vectorFrameSize=0u;
+    this->vectorFrameFullSize=0u;
 
     return ret;
 }
