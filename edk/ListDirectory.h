@@ -82,6 +82,17 @@ public:
     edk::uint64 getFolderSize(edk::uint32 position);
     void cleanFolders();
 
+    //print the data
+    void printFiles();
+    void printFolders();
+    void print();
+    static bool printDirectory(edk::char8* directory);
+    static bool printDirectory(const edk::char8* directory);
+    static bool printDirectoryFiles(edk::char8* directory);
+    static bool printDirectoryFiles(const edk::char8* directory);
+    static bool printDirectoryFolders(edk::char8* directory);
+    static bool printDirectoryFolders(const edk::char8* directory);
+
     virtual void listFile(edk::char8* name,edk::uint64 lastModify,edk::uint64 size);
     virtual void listFolder(edk::char8* name,edk::uint64 lastModify,edk::uint64 size);
 private:

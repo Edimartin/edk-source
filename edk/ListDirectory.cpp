@@ -73,8 +73,8 @@ bool edk::ListDirectory::runNoClean(edk::char8* directory){
                         //FOLDER
                         //test if the folder are different the . or ..
                         if(!edk::String::strCompare(file->d_name,".")
-                                && !edk::String::strCompare(file->d_name,"..")
-                                ){
+                            && !edk::String::strCompare(file->d_name,"..")
+                            ){
                             //printf("\nFolder:'%s' LastModify:%lu size:%lu",file->d_name,status.st_mtime,status.st_size);fflush(stdout);
                             this->listFolder(file->d_name,status.st_mtime,status.st_size);
                         }
@@ -170,8 +170,8 @@ bool edk::ListDirectory::runNoCleanFoldersOnly(edk::char8* directory){
                         //FOLDER
                         //test if the folder are different the . or ..
                         if(!edk::String::strCompare(file->d_name,".")
-                                && !edk::String::strCompare(file->d_name,"..")
-                                ){
+                            && !edk::String::strCompare(file->d_name,"..")
+                            ){
                             //printf("\nFolder:'%s' LastModify:%lu size:%lu",file->d_name,status.st_mtime,status.st_size);fflush(stdout);
                             this->listFolder(file->d_name,status.st_mtime,status.st_size);
                         }
@@ -393,6 +393,65 @@ void edk::ListDirectory::cleanFolders(){
         delete temp;
     }
     this->folders.clean();
+}
+
+//print the data
+void edk::ListDirectory::printFiles(){
+    edk::uint32 size = this->files.size();
+    edk::ListDirectory::FileOrFolders* temp;
+    for(edk::uint32 i=0u;i<size;i++){
+        temp = this->files.get(i);
+        if(temp){
+            printf("\n%s",temp->name.getName());fflush(stdout);
+        }
+    }
+}
+void edk::ListDirectory::printFolders(){
+    edk::uint32 size = this->folders.size();
+    edk::ListDirectory::FileOrFolders* temp;
+    for(edk::uint32 i=0u;i<size;i++){
+        temp = this->folders.get(i);
+        if(temp){
+            printf("\n%s/",temp->name.getName());fflush(stdout);
+        }
+    }
+}
+void edk::ListDirectory::print(){
+    this->printFolders();
+    this->printFiles();
+}
+bool edk::ListDirectory::printDirectory(edk::char8* directory){
+    edk::ListDirectory l;
+    if(l.run(directory)){
+        l.print();
+        return true;
+    }
+    return false;
+}
+bool edk::ListDirectory::printDirectory(const edk::char8* directory){
+    return edk::ListDirectory::printDirectory((edk::char8*) directory);
+}
+bool edk::ListDirectory::printDirectoryFiles(edk::char8* directory){
+    edk::ListDirectory l;
+    if(l.run(directory)){
+        l.printFiles();
+        return true;
+    }
+    return false;
+}
+bool edk::ListDirectory::printDirectoryFiles(const edk::char8* directory){
+    return edk::ListDirectory::printDirectoryFiles((edk::char8*) directory);
+}
+bool edk::ListDirectory::printDirectoryFolders(edk::char8* directory){
+    edk::ListDirectory l;
+    if(l.run(directory)){
+        l.printFolders();
+        return true;
+    }
+    return false;
+}
+bool edk::ListDirectory::printDirectoryFolders(const edk::char8* directory){
+    edk::ListDirectory::printDirectoryFolders((edk::char8*) directory);
 }
 
 void edk::ListDirectory::listFile(edk::char8* name,edk::uint64 lastModify,edk::uint64 size){//test if have directory saved

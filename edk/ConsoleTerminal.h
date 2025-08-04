@@ -38,7 +38,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdarg.h>
-#include "./BinaryConverter.h"
+#include "BinaryConverter.h"
 
 #if defined(_WIN32) || defined(_WIN64)
 #include <conio.h>
