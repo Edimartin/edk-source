@@ -181,8 +181,6 @@ set(CMAKE_C_FLAGS   -Wno-deprecated-copy)
 #This line will enable the use of openH264
 #add_definitions(-DEDK_USE_OPENH264)
 
-add_definitions(-DeditMode)
-
 include_directories(./)
 
 if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
