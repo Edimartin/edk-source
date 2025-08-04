@@ -30,7 +30,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 /* LINUX
--lpthread -lGL -lGLU -lGLEW -ldl
+-lpthread -ldl -lX11 -lGL -lGLU -lGLEW
 */
 
 /* WINDOWS
@@ -49,7 +49,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  -lmysqlclient
 */
 
-/*QTCreator
+/*QTCreator QMAKE
 
 #C_FLAGS
 #QMAKE_CFLAGS +=  -nostdlib
@@ -118,6 +118,88 @@ LIBS += -lsfml-system -lsfml-window -lsfml-graphics -lsfml-audio
 
 win32: LIBS += -lwsock32 -lopengl32 -lglu32 -lglew32
 else:unix: LIBS += -lpthread -ldl -lX11 -lGL -lGLU -lGLEW
+
+*/
+
+/*QTCreator CMAKE
+
+#C_FLAGS
+#set(CMAKE_C_FLAGS   -nostdlib)
+#set(CMAKE_C_FLAGS   -nostdinc)
+set(CMAKE_C_FLAGS   -Wno-deprecated-declarations)
+set(CMAKE_C_FLAGS   -Wno-deprecated-copy)
+
+#C++_FLAGS
+#set(CMAKE_C_FLAGS   -nostdlib)
+#set(CMAKE_C_FLAGS   -nostdinc)
+set(CMAKE_C_FLAGS   -Wno-deprecated-declarations)
+set(CMAKE_C_FLAGS   -Wno-deprecated-copy)
+
+#DEFINES DEBUGGER
+#This line will enable the usage of the debugger file
+#add_definitions(-DEDK_DEBUGGER)
+#This line will enable debug file to ba saved in 'files' folder
+#set(PROJECT_VERSION_STRING "./edkDebug.txt")
+#add_definitions(-DEDK_DEBUG_FILE_NAME="${PROJECT_VERSION_STRING}")
+#This line will enable write the debugger file
+#add_definitions(-DEDK_DEBUG_LINE)
+#This line will enable write debug message in memset function
+#add_definitions(-DEDK_DEBUG_MEMSET)
+#This line will enable write debug message in memcpy function
+#add_definitions(-DEDK_DEBUG_MEMCPY)
+#This line will enable write debug message in vector classes functions
+#add_definitions(-DEDK_DEBUG_VECTOR)
+#This line will enable debug print in edk::InfiniteWallpaper
+#add_definitions(-DEDK_INFITINE_WALLPAPER_DEBUG_ON)
+
+#This line unable the use of printDebug to edk::pack::FilePackage (NEED RUN 'edk::pack::FilePackage::createDebugFile(edk::char8* name)' function to create the file)
+#add_definitions(-DEDK_FILEPACK_PRINT_DEBUG)
+#This line unable write a debug file to edk::Texture2DFile (NEED RUN 'edk::Texture2DFile::createDebugFile(edk::char8* name)' function to create the file)
+#add_definitions(-DEDK_TEX2DFILE_PRINT_DEBUG)
+#This line unable the use of printDebug to edk::multi::Mutex (NEED RUN 'edk::multi::Mutex::createDebugFile(edk::char8* name)' function to create the file)
+#add_definitions(-DEDK_MUTEX_PRINT_DEBUG)
+#This line unable the use of draw to edk::vector::QuadTree32 and edk::vector::QuadTree64
+#add_definitions(-DEDK_QUADTREE_GU)
+
+#DEFINES DISABLE
+#This line disable the use of edk::vector::QuadTree32 and edk::vector::QuadTree64
+#add_definitions(-DEDK_DONT_USE_QUADTREE)
+#This line disable the use of Box2D (don't need Box2D files in project)
+#add_definitions(-DEDK_NO_BOX2D)
+#This line disable the use of SQlite (don't need Sqlite file in project)
+#add_definitions(-DEDK_NO_SQLITE)
+
+#DEFINES ENABLE
+#This line will enable read and write window events in class edk::Window
+#add_definitions(-DEDK_WINDOW_EVENTS_RW)
+#This line will enable the use of mariaDB
+#add_definitions(-DEDK_USE_MARIADB)
+#This line will enable the use of postgree
+#add_definitions(-DEDK_USE_POSTGRE)
+#This line will enable the use of mysql
+#add_definitions(-DEDK_USE_MYSQL)
+#This line will enable the use of openH264
+#add_definitions(-DEDK_USE_OPENH264)
+
+add_definitions(-DeditMode)
+
+include_directories(./)
+
+if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
+    set(CMAKE_L_FLAGS -no-pie)
+    target_link_libraries(helloEDK -lpthread -ldl -lX11 -lGL -lGLU -lGLEW)
+elseif(CMAKE_SYSTEM_NAME STREQUAL "Darwin")
+    set(CMAKE_L_FLAGS -no-pie)
+    target_link_libraries(helloEDK -lpthread -ldl -lX11 -lGL -lGLU -lGLEW)
+elseif(CMAKE_SYSTEM_NAME STREQUAL "Windows")
+    set(CMAKE_L_FLAGS -mwindows)
+    target_link_libraries(helloEDK -lwsock32 -lopengl32 -lglu32 -lglew32)
+else()
+    set(CMAKE_L_FLAGS -no-pie)
+    target_link_libraries(helloEDK -lpthread -ldl -lX11 -lGL -lGLU -lGLEW)
+endif()
+
+target_link_libraries(helloEDK -lsfml-system -lsfml-window -lsfml-graphics -lsfml-audio)
 
 */
 
