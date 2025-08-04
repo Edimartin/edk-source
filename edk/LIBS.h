@@ -187,19 +187,19 @@ include_directories(./)
 
 if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
     set(CMAKE_L_FLAGS -no-pie)
-    target_link_libraries(helloEDK -lpthread -ldl -lX11 -lGL -lGLU -lGLEW)
+    target_link_libraries(projectName -lpthread -ldl -lX11 -lGL -lGLU -lGLEW)
 elseif(CMAKE_SYSTEM_NAME STREQUAL "Darwin")
     set(CMAKE_L_FLAGS -no-pie)
-    target_link_libraries(helloEDK -lpthread -ldl -lX11 -lGL -lGLU -lGLEW)
+    target_link_libraries(projectName -lpthread -ldl -lX11 -lGL -lGLU -lGLEW)
 elseif(CMAKE_SYSTEM_NAME STREQUAL "Windows")
     set(CMAKE_L_FLAGS -mwindows)
-    target_link_libraries(helloEDK -lwsock32 -lopengl32 -lglu32 -lglew32)
+    target_link_libraries(projectName -lwsock32 -lopengl32 -lglu32 -lglew32)
 else()
     set(CMAKE_L_FLAGS -no-pie)
-    target_link_libraries(helloEDK -lpthread -ldl -lX11 -lGL -lGLU -lGLEW)
+    target_link_libraries(projectName -lpthread -ldl -lX11 -lGL -lGLU -lGLEW)
 endif()
 
-target_link_libraries(helloEDK -lsfml-system -lsfml-window -lsfml-graphics -lsfml-audio)
+target_link_libraries(projectName -lsfml-system -lsfml-window -lsfml-graphics -lsfml-audio)
 
 */
 
