@@ -130,10 +130,10 @@ set(CMAKE_C_FLAGS   -Wno-deprecated-declarations)
 set(CMAKE_C_FLAGS   -Wno-deprecated-copy)
 
 #C++_FLAGS
-#set(CMAKE_C_FLAGS   -nostdlib)
-#set(CMAKE_C_FLAGS   -nostdinc)
-set(CMAKE_C_FLAGS   -Wno-deprecated-declarations)
-set(CMAKE_C_FLAGS   -Wno-deprecated-copy)
+#set(CMAKE_CXX_FLAGS   -nostdlib)
+#set(CMAKE_CXX_FLAGS   -nostdinc)
+set(CMAKE_CXX_FLAGS   -Wno-deprecated-declarations)
+set(CMAKE_CXX_FLAGS   -Wno-deprecated-copy)
 
 #DEFINES DEBUGGER
 #This line will enable the usage of the debugger file

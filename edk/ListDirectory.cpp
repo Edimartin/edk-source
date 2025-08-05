@@ -451,7 +451,7 @@ bool edk::ListDirectory::printDirectoryFolders(edk::char8* directory){
     return false;
 }
 bool edk::ListDirectory::printDirectoryFolders(const edk::char8* directory){
-    edk::ListDirectory::printDirectoryFolders((edk::char8*) directory);
+    return edk::ListDirectory::printDirectoryFolders((edk::char8*) directory);
 }
 
 void edk::ListDirectory::listFile(edk::char8* name,edk::uint64 lastModify,edk::uint64 size){//test if have directory saved
