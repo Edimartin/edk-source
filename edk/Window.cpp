@@ -393,7 +393,7 @@ edk::View* edk::Window::getSubview(uint64 n){
 }
 
 edk::uint64 edk::Window::getSubviewId(View *subView){
-    return this->getSubviewId(subView);
+    return this->viewWindow.getSubviewId(subView);
 }
 
 void edk::Window::removeSubview(View *subView){

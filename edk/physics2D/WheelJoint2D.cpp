@@ -59,7 +59,7 @@ edk::uint8 edk::physics2D::WheelJoint2D::getWheelType(){
     return this->WheelType;
 }
 edk::float32 edk::physics2D::WheelJoint2D::getMaxTorque(){
-    return this->getMaxTorque();
+    return this->maxTorque;
 }
 edk::float32 edk::physics2D::WheelJoint2D::getSpeed(){
     return this->speed;

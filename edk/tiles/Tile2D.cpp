@@ -110,42 +110,42 @@ void edk::tiles::Tile2D::setPosition(edk::vec2f32 position){
 }
 void edk::tiles::Tile2D::setPosition(edk::float32 posX,edk::float32 posY){
     //
-    return this->setPosition(edk::vec2f32(posX,posY));
+    this->setPosition(edk::vec2f32(posX,posY));
 }
 //set the color of the tile
 void edk::tiles::Tile2D::setColor(edk::color4f32 color){
     this->mesh.selectedSetPolygonColor(color);
 }
 void edk::tiles::Tile2D::setColor(edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a){
-    return this->setColor(edk::color4f32(r,g,b,a));
+    this->setColor(edk::color4f32(r,g,b,a));
 }
 //set the material color
 void edk::tiles::Tile2D::setAmbient(edk::color4f32 color){
     this->mesh.material.setAmbient(color);
 }
 void edk::tiles::Tile2D::setAmbient(edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a){
-    return this->setAmbient(edk::color4f32(r,g,b,a));
+    this->setAmbient(edk::color4f32(r,g,b,a));
 }
 void edk::tiles::Tile2D::setDiffuse(edk::color4f32 color){
     this->mesh.material.setDiffuse(color);
 }
 void edk::tiles::Tile2D::setDiffuse(edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a){
-    return this->setDiffuse(edk::color4f32(r,g,b,a));
+    this->setDiffuse(edk::color4f32(r,g,b,a));
 }
 void edk::tiles::Tile2D::setSpecular(edk::color4f32 color){
     this->mesh.material.setSpecular(color);
 }
 void edk::tiles::Tile2D::setSpecular(edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a){
-    return this->setSpecular(edk::color4f32(r,g,b,a));
+    this->setSpecular(edk::color4f32(r,g,b,a));
 }
 void edk::tiles::Tile2D::setEmission(edk::color4f32 color){
     this->mesh.material.setEmission(color);
 }
 void edk::tiles::Tile2D::setEmission(edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a){
-    return this->setEmission(edk::color4f32(r,g,b,a));
+    this->setEmission(edk::color4f32(r,g,b,a));
 }
 void edk::tiles::Tile2D::setShininess(edk::float32 shininess){
-    return this->setShininess(shininess);
+    this->mesh.material.setShininess(shininess);
 }
 
 
@@ -227,7 +227,7 @@ bool edk::tiles::Tile2D::loadImage(edk::char8* name,edk::uint32 minFilter,edk::u
 }
 //set the tileImage from memory
 bool edk::tiles::Tile2D::loadImageFromMemory(const edk::char8* name,edk::uint8* image,edk::uint32 size,edk::uint32 minFilter,edk::uint32 magFilter){
-    return this->loadImageFromMemory(name,image,size,minFilter,magFilter);
+    return this->loadImageFromMemory((edk::char8*)name,image,size,minFilter,magFilter);
 }
 bool edk::tiles::Tile2D::loadImageFromMemory(edk::char8* name,edk::uint8* image,edk::uint32 size,edk::uint32 minFilter,edk::uint32 magFilter){
     //test the name

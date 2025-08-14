@@ -651,8 +651,8 @@ bool edk::Texture2DList::drawTexture(edk::char8* name,edk::uint8* image,edk::uin
     }
     return false;
 }
-bool edk::Texture2DList::drawTexture(const char8* name,edk::uint8* image,edk::uint32 minFilter,edk::uint32 magFilter){
-    return this->drawTexture((const char8*) name, image,minFilter,magFilter);
+bool edk::Texture2DList::drawTexture(const edk::char8* name,edk::uint8* image,edk::uint32 minFilter,edk::uint32 magFilter){
+    return this->drawTexture((edk::char8*) name, image,minFilter,magFilter);
 }
 bool edk::Texture2DList::drawTexture(edk::uint32 code,edk::uint8* image,edk::uint32 minFilter,edk::uint32 magFilter){
     //test the name and retainTexture
@@ -671,8 +671,8 @@ bool edk::Texture2DList::drawTextureRepeat(edk::char8* name,edk::uint8* image,ed
     }
     return false;
 }
-bool edk::Texture2DList::drawTextureRepeat(const char8* name,edk::uint8* image,edk::uint32 minFilter,edk::uint32 magFilter){
-    return this->drawTextureRepeat((const char8*) name, image,minFilter,magFilter);
+bool edk::Texture2DList::drawTextureRepeat(const edk::char8* name,edk::uint8* image,edk::uint32 minFilter,edk::uint32 magFilter){
+    return this->drawTextureRepeat((edk::char8*) name, image,minFilter,magFilter);
 }
 bool edk::Texture2DList::drawTextureRepeat(edk::uint32 code,edk::uint8* image,edk::uint32 minFilter,edk::uint32 magFilter){
     //test the name and retainTexture
@@ -691,8 +691,8 @@ bool edk::Texture2DList::readTexture(edk::char8* name,edk::uint32 format,edk::ui
     }
     return false;
 }
-bool edk::Texture2DList::readTexture(const char8* name,edk::uint32 format,edk::uint8* image,edk::uint32 minFilter,edk::uint32 magFilter){
-    return this->readTexture((const char8*) name, format,image,minFilter,magFilter);
+bool edk::Texture2DList::readTexture(const edk::char8* name,edk::uint32 format,edk::uint8* image,edk::uint32 minFilter,edk::uint32 magFilter){
+    return this->readTexture((edk::char8*) name, format,image,minFilter,magFilter);
 }
 bool edk::Texture2DList::readTexture(edk::uint32 code,edk::uint32 format,edk::uint8* image){
     //test the name and retainTexture

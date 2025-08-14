@@ -76,7 +76,7 @@ edk::animation::Frame* edk::animation::InterpolationLine1D::useNewFrame(edk::uin
 //set the start frame
 bool edk::animation::InterpolationLine1D::setStart(edk::animation::Frame1D* frame){
     //Set the frame1D data
-    if(edk::animation::InterpolationLine1D::setStart(frame)){
+    if(edk::animation::InterpolationLine::setStart(frame)){
         //convert to set the 1D
         edk::animation::Frame1D* temp = (edk::animation::Frame1D*)this->start;
         temp->x=frame->x;

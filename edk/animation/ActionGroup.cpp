@@ -219,7 +219,7 @@ void edk::animation::ActionGroup::loopOff(){this->anim.loopOff();}
 
 //return if are playing
 bool edk::animation::ActionGroup::isPlaying(){return this->anim.isPlaying();}
-bool edk::animation::ActionGroup::isPaused(){return this->isPaused();}
+bool edk::animation::ActionGroup::isPaused(){return this->anim.isPaused();}
 
 bool edk::animation::ActionGroup::writeToXML(edk::XML* xml,edk::uint32 id){
     bool ret=false;
