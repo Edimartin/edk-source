@@ -789,7 +789,7 @@ void edk::physics2D::PhysicObject2D::drawChildremsBackBoundingBoxPhysics(){
     edk::uint32 size = this->childremsBack.size();
     edk::physics2D::PhysicObject2D* obj;
     for(edk::uint32 i=0u;i<size;i++){
-        obj = (edk::physics2D::PhysicObject2D*)this->childremsBack.getElementInPosition(i);
+        obj = (edk::physics2D::PhysicObject2D*)this->childremsBack.get(i);
         if(this->father->getType()>= edk::TypeObject2DPhysic
                 &&
                 this->father->getType()<= edk::TypeObject2DKinematic
@@ -814,7 +814,7 @@ void edk::physics2D::PhysicObject2D::drawChildremsFrontBoundingBoxPhysics(){
     edk::uint32 size = this->childremsFront.size();
     edk::physics2D::PhysicObject2D* obj;
     for(edk::uint32 i=0u;i<size;i++){
-        obj = (edk::physics2D::PhysicObject2D*)this->childremsFront.getElementInPosition(i);
+        obj = (edk::physics2D::PhysicObject2D*)this->childremsFront.get(i);
         if(this->father->getType()>= edk::TypeObject2DPhysic
                 &&
                 this->father->getType()<= edk::TypeObject2DKinematic
@@ -837,7 +837,7 @@ void edk::physics2D::PhysicObject2D::drawChildremsBoundingBoxPhysics(){
     edk::uint32 size = this->childremsBack.size();
     edk::physics2D::PhysicObject2D* obj;
     for(edk::uint32 i=0u;i<size;i++){
-        obj = (edk::physics2D::PhysicObject2D*)this->childremsBack.getElementInPosition(i);
+        obj = (edk::physics2D::PhysicObject2D*)this->childremsBack.get(i);
         if(this->father->getType()>= edk::TypeObject2DPhysic
                 &&
                 this->father->getType()<= edk::TypeObject2DKinematic
@@ -847,7 +847,7 @@ void edk::physics2D::PhysicObject2D::drawChildremsBoundingBoxPhysics(){
     }
     size = this->childremsFront.size();
     for(edk::uint32 i=0u;i<size;i++){
-        obj = (edk::physics2D::PhysicObject2D*)this->childremsFront.getElementInPosition(i);
+        obj = (edk::physics2D::PhysicObject2D*)this->childremsFront.get(i);
         if(this->father->getType()>= edk::TypeObject2DPhysic
                 &&
                 this->father->getType()<= edk::TypeObject2DKinematic
@@ -873,7 +873,7 @@ void edk::physics2D::PhysicObject2D::drawChildremsBackWirePhysics(){
     edk::uint32 size = this->childremsBack.size();
     edk::physics2D::PhysicObject2D* obj;
     for(edk::uint32 i=0u;i<size;i++){
-        obj = (edk::physics2D::PhysicObject2D*)this->childremsBack.getElementInPosition(i);
+        obj = (edk::physics2D::PhysicObject2D*)this->childremsBack.get(i);
         if(obj->getType()>= edk::TypeObject2DPhysic
                 &&
                 obj->getType()<= edk::TypeObject2DKinematic
@@ -910,7 +910,7 @@ void edk::physics2D::PhysicObject2D::drawChildremsFrontWirePhysics(){
     edk::uint32 size = this->childremsFront.size();
     edk::physics2D::PhysicObject2D* obj;
     for(edk::uint32 i=0u;i<size;i++){
-        obj = (edk::physics2D::PhysicObject2D*)this->childremsFront.getElementInPosition(i);
+        obj = (edk::physics2D::PhysicObject2D*)this->childremsFront.get(i);
         if(obj->getType()>= edk::TypeObject2DPhysic
                 &&
                 obj->getType()<= edk::TypeObject2DKinematic
@@ -947,7 +947,7 @@ void edk::physics2D::PhysicObject2D::drawChildremsWirePhysics(){
     edk::uint32 size = this->childremsBack.size();
     edk::physics2D::PhysicObject2D* obj;
     for(edk::uint32 i=0u;i<size;i++){
-        obj = (edk::physics2D::PhysicObject2D*)this->childremsBack.getElementInPosition(i);
+        obj = (edk::physics2D::PhysicObject2D*)this->childremsBack.get(i);
         if(obj->getType()>= edk::TypeObject2DPhysic
                 &&
                 obj->getType()<= edk::TypeObject2DKinematic
@@ -957,7 +957,7 @@ void edk::physics2D::PhysicObject2D::drawChildremsWirePhysics(){
     }
     size = this->childremsFront.size();
     for(edk::uint32 i=0u;i<size;i++){
-        obj = (edk::physics2D::PhysicObject2D*)this->childremsFront.getElementInPosition(i);
+        obj = (edk::physics2D::PhysicObject2D*)this->childremsFront.get(i);
         if(obj->getType()>= edk::TypeObject2DPhysic
                 &&
                 obj->getType()<= edk::TypeObject2DKinematic
@@ -996,7 +996,7 @@ void edk::physics2D::PhysicObject2D::drawChildremsBackWirePhysicsWorld(){
     edk::uint32 size = this->childremsBack.size();
     edk::physics2D::PhysicObject2D* obj;
     for(edk::uint32 i=0u;i<size;i++){
-        obj = (edk::physics2D::PhysicObject2D*)this->childremsBack.getElementInPosition(i);
+        obj = (edk::physics2D::PhysicObject2D*)this->childremsBack.get(i);
         if(obj->getType()>= edk::TypeObject2DPhysic
                 &&
                 obj->getType()<= edk::TypeObject2DKinematic
@@ -1019,7 +1019,7 @@ void edk::physics2D::PhysicObject2D::drawChildremsFrontWirePhysicsWorld(){
     edk::uint32 size = this->childremsFront.size();
     edk::physics2D::PhysicObject2D* obj;
     for(edk::uint32 i=0u;i<size;i++){
-        obj = (edk::physics2D::PhysicObject2D*)this->childremsFront.getElementInPosition(i);
+        obj = (edk::physics2D::PhysicObject2D*)this->childremsFront.get(i);
         if(obj->getType()>= edk::TypeObject2DPhysic
                 &&
                 obj->getType()<= edk::TypeObject2DKinematic
@@ -1042,7 +1042,7 @@ void edk::physics2D::PhysicObject2D::drawChildremsWirePhysicsWorld(){
     edk::uint32 size = this->childremsBack.size();
     edk::physics2D::PhysicObject2D* obj;
     for(edk::uint32 i=0u;i<size;i++){
-        obj = (edk::physics2D::PhysicObject2D*)this->childremsBack.getElementInPosition(i);
+        obj = (edk::physics2D::PhysicObject2D*)this->childremsBack.get(i);
         if(obj->getType()>= edk::TypeObject2DPhysic
                 &&
                 obj->getType()<= edk::TypeObject2DKinematic
@@ -1052,7 +1052,7 @@ void edk::physics2D::PhysicObject2D::drawChildremsWirePhysicsWorld(){
     }
     size = this->childremsFront.size();
     for(edk::uint32 i=0u;i<size;i++){
-        obj = (edk::physics2D::PhysicObject2D*)this->childremsFront.getElementInPosition(i);
+        obj = (edk::physics2D::PhysicObject2D*)this->childremsFront.get(i);
         if(obj->getType()>= edk::TypeObject2DPhysic
                 &&
                 obj->getType()<= edk::TypeObject2DKinematic

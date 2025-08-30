@@ -150,20 +150,20 @@ public:
 
     bool retain(typeTemplate** obj){
         if(obj){
-            printf("\n%u %s %s this == [%lu] obj == [%lu]",__LINE__,__FILE__,__func__
-                   ,(edk::uint64)this
-                   ,(edk::uint64)obj
-                   );fflush(stdout);
+            //printf("\n%u %s %s this == [%lu] obj == [%lu]",__LINE__,__FILE__,__func__
+            //       ,(edk::uint64)this
+            //       ,(edk::uint64)obj
+            //       );fflush(stdout);
             return this->tree.add(obj);
         }
         return false;
     }
     bool release(typeTemplate** obj){
         if(obj){
-            printf("\n%u %s %s this == [%lu] obj == [%lu]",__LINE__,__FILE__,__func__
-                   ,(edk::uint64)this
-                   ,(edk::uint64)obj
-                   );fflush(stdout);
+            //printf("\n%u %s %s this == [%lu] obj == [%lu]",__LINE__,__FILE__,__func__
+            //       ,(edk::uint64)this
+            //       ,(edk::uint64)obj
+            //       );fflush(stdout);
             if(this->tree.remove(obj)){
                 //test if need delete the pointer
                 if(!this->tree.size()){

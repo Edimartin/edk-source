@@ -485,8 +485,8 @@ private:
 protected:
 
     //connected objects tree
-    edk::vector::BinaryTree<edk::Object2D*> childremsFront;
-    edk::vector::BinaryTree<edk::Object2D*> childremsBack;
+    edk::vector::Stack<edk::Object2D*> childremsFront;
+    edk::vector::Stack<edk::Object2D*> childremsBack;
 
 private:
 

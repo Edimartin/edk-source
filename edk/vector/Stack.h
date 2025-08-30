@@ -2300,6 +2300,9 @@ public:
         }
         return false;
     }
+    edk::uint32 getPositionElement(typeTemplate obj){
+        return this->find(obj);
+    }
 
     //SWAP two objects
     bool swap(edk::uint32 pos1,edk::uint32 pos2){
@@ -2395,6 +2398,18 @@ public:
         else{
             //position2 is minus
             return this->bringPositionMinusTimes(position,position-position2);
+        }
+        //else return false
+        return false;
+    }
+    bool bringPositionToEnd(edk::uint32 position){
+        //test if the position is plus or minus
+        if(this->size()){
+            edk::uint32 position2 = this->size()-1u;
+            if(position<position2){
+                //position2 is plus
+                return this->bringPositionPlusTimes(position,position2-position);
+            }
         }
         //else return false
         return false;

@@ -426,12 +426,12 @@ void edk::Object2D::updateChildremsAnimations(){
     edk::uint32 size = this->childremsBack.size();
     edk::Object2D* obj;
     for(edk::uint32 i=0u;i<size;i++){
-        obj = this->childremsBack.getElementInPosition(i);
+        obj = this->childremsBack.get(i);
         obj->updateAnimations();
     }
     size = this->childremsFront.size();
     for(edk::uint32 i=0u;i<size;i++){
-        obj = this->childremsFront.getElementInPosition(i);
+        obj = this->childremsFront.get(i);
         obj->updateAnimations();
     }
 }
@@ -439,12 +439,12 @@ void edk::Object2D::updateChildremsAnimations(edk::float32 seconds){
     edk::uint32 size = this->childremsBack.size();
     edk::Object2D* obj;
     for(edk::uint32 i=0u;i<size;i++){
-        obj = this->childremsBack.getElementInPosition(i);
+        obj = this->childremsBack.get(i);
         obj->updateAnimations(seconds);
     }
     size = this->childremsFront.size();
     for(edk::uint32 i=0u;i<size;i++){
-        obj = this->childremsFront.getElementInPosition(i);
+        obj = this->childremsFront.get(i);
         obj->updateAnimations(seconds);
     }
 }
@@ -1050,7 +1050,7 @@ void edk::Object2D::drawChildremsBackBoundingBox(){
     edk::uint32 size = this->childremsBack.size();
     edk::Object2D* obj;
     for(edk::uint32 i=0u;i<size;i++){
-        obj = this->childremsBack.getElementInPosition(i);
+        obj = this->childremsBack.get(i);
         obj->drawChildBoundingBox();
     }
 }
@@ -1088,7 +1088,7 @@ void edk::Object2D::drawChildremsFrontBoundingBox(){
     edk::uint32 size = this->childremsFront.size();
     edk::Object2D* obj;
     for(edk::uint32 i=0u;i<size;i++){
-        obj = this->childremsFront.getElementInPosition(i);
+        obj = this->childremsFront.get(i);
         obj->drawChildBoundingBox();
     }
 }
@@ -1124,12 +1124,12 @@ void edk::Object2D::drawChildremsBoundingBox(){
     edk::uint32 size = this->childremsBack.size();
     edk::Object2D* obj;
     for(edk::uint32 i=0u;i<size;i++){
-        obj = this->childremsBack.getElementInPosition(i);
+        obj = this->childremsBack.get(i);
         obj->drawChildBoundingBox();
     }
     size = this->childremsFront.size();
     for(edk::uint32 i=0u;i<size;i++){
-        obj = this->childremsFront.getElementInPosition(i);
+        obj = this->childremsFront.get(i);
         obj->drawChildBoundingBox();
     }
 }
@@ -1168,7 +1168,7 @@ void edk::Object2D::drawChildremsBack(bool haveLight){
     edk::uint32 size = this->childremsBack.size();
     edk::Object2D* obj;
     for(edk::uint32 i=0u;i<size;i++){
-        obj = this->childremsBack.getElementInPosition(i);
+        obj = this->childremsBack.get(i);
         obj->drawChild(haveLight);
     }
 }
@@ -1201,7 +1201,7 @@ void edk::Object2D::drawChildremsFront(bool haveLight){
     edk::uint32 size = this->childremsFront.size();
     edk::Object2D* obj;
     for(edk::uint32 i=0u;i<size;i++){
-        obj = this->childremsFront.getElementInPosition(i);
+        obj = this->childremsFront.get(i);
         obj->drawChild(haveLight);
     }
 }
@@ -1233,12 +1233,12 @@ void edk::Object2D::drawChildrems(bool haveLight){
     edk::uint32 size = this->childremsBack.size();
     edk::Object2D* obj;
     for(edk::uint32 i=0u;i<size;i++){
-        obj = this->childremsBack.getElementInPosition(i);
+        obj = this->childremsBack.get(i);
         obj->drawChild(haveLight);
     }
     size = this->childremsFront.size();
     for(edk::uint32 i=0u;i<size;i++){
-        obj = this->childremsFront.getElementInPosition(i);
+        obj = this->childremsFront.get(i);
         obj->drawChild(haveLight);
     }
 }
@@ -1272,7 +1272,7 @@ void edk::Object2D::drawChildremsBackOneTexture(){
     edk::uint32 size = this->childremsBack.size();
     edk::Object2D* obj;
     for(edk::uint32 i=0u;i<size;i++){
-        obj = this->childremsBack.getElementInPosition(i);
+        obj = this->childremsBack.get(i);
         obj->drawChildOneTexture();
     }
 }
@@ -1304,7 +1304,7 @@ void edk::Object2D::drawChildremsFrontOneTexture(){
     edk::uint32 size = this->childremsFront.size();
     edk::Object2D* obj;
     for(edk::uint32 i=0u;i<size;i++){
-        obj = this->childremsFront.getElementInPosition(i);
+        obj = this->childremsFront.get(i);
         obj->drawChildOneTexture();
     }
 }
@@ -1335,12 +1335,12 @@ void edk::Object2D::drawChildremsOneTexture(){
     edk::uint32 size = this->childremsBack.size();
     edk::Object2D* obj;
     for(edk::uint32 i=0u;i<size;i++){
-        obj = this->childremsBack.getElementInPosition(i);
+        obj = this->childremsBack.get(i);
         obj->drawChildOneTexture();
     }
     size = this->childremsFront.size();
     for(edk::uint32 i=0u;i<size;i++){
-        obj = this->childremsFront.getElementInPosition(i);
+        obj = this->childremsFront.get(i);
         obj->drawChildOneTexture();
     }
 }
@@ -1374,7 +1374,7 @@ void edk::Object2D::drawChildremsBackOneTextureWithLight(bool haveLight){
     edk::uint32 size = this->childremsBack.size();
     edk::Object2D* obj;
     for(edk::uint32 i=0u;i<size;i++){
-        obj = this->childremsBack.getElementInPosition(i);
+        obj = this->childremsBack.get(i);
         obj->drawChildOneTextureWithLight(haveLight);
     }
 }
@@ -1406,7 +1406,7 @@ void edk::Object2D::drawChildremsFrontOneTextureWithLight(bool haveLight){
     edk::uint32 size = this->childremsFront.size();
     edk::Object2D* obj;
     for(edk::uint32 i=0u;i<size;i++){
-        obj = this->childremsFront.getElementInPosition(i);
+        obj = this->childremsFront.get(i);
         obj->drawChildOneTextureWithLight(haveLight);
     }
 }
@@ -1438,12 +1438,12 @@ void edk::Object2D::drawChildremsOneTextureWithLight(bool haveLight){
     edk::uint32 size = this->childremsBack.size();
     edk::Object2D* obj;
     for(edk::uint32 i=0u;i<size;i++){
-        obj = this->childremsBack.getElementInPosition(i);
+        obj = this->childremsBack.get(i);
         obj->drawChildOneTextureWithLight(haveLight);
     }
     size = this->childremsFront.size();
     for(edk::uint32 i=0u;i<size;i++){
-        obj = this->childremsFront.getElementInPosition(i);
+        obj = this->childremsFront.get(i);
         obj->drawChildOneTextureWithLight(haveLight);
     }
 }
@@ -1477,7 +1477,7 @@ void edk::Object2D::drawChildremsBackWithoutMaterial(){
     edk::uint32 size = this->childremsBack.size();
     edk::Object2D* obj;
     for(edk::uint32 i=0u;i<size;i++){
-        obj = this->childremsBack.getElementInPosition(i);
+        obj = this->childremsBack.get(i);
         obj->drawChildWithoutMaterial();
     }
 }
@@ -1509,7 +1509,7 @@ void edk::Object2D::drawChildremsFrontWithoutMaterial(){
     edk::uint32 size = this->childremsFront.size();
     edk::Object2D* obj;
     for(edk::uint32 i=0u;i<size;i++){
-        obj = this->childremsFront.getElementInPosition(i);
+        obj = this->childremsFront.get(i);
         obj->drawChildWithoutMaterial();
     }
 }
@@ -1541,12 +1541,12 @@ void edk::Object2D::drawChildremsWithoutMaterial(){
     edk::uint32 size = this->childremsBack.size();
     edk::Object2D* obj;
     for(edk::uint32 i=0u;i<size;i++){
-        obj = this->childremsBack.getElementInPosition(i);
+        obj = this->childremsBack.get(i);
         obj->drawChildWithoutMaterial();
     }
     size = this->childremsFront.size();
     for(edk::uint32 i=0u;i<size;i++){
-        obj = this->childremsFront.getElementInPosition(i);
+        obj = this->childremsFront.get(i);
         obj->drawChildWithoutMaterial();
     }
 }
@@ -1580,7 +1580,7 @@ void edk::Object2D::drawChildremsBackWithoutMaterialWithLight(bool haveLight){
     edk::uint32 size = this->childremsBack.size();
     edk::Object2D* obj;
     for(edk::uint32 i=0u;i<size;i++){
-        obj = this->childremsBack.getElementInPosition(i);
+        obj = this->childremsBack.get(i);
         obj->drawChildWithoutMaterialWithLight(haveLight);
     }
 }
@@ -1612,7 +1612,7 @@ void edk::Object2D::drawChildremsFrontWithoutMaterialWithLight(bool haveLight){
     edk::uint32 size = this->childremsFront.size();
     edk::Object2D* obj;
     for(edk::uint32 i=0u;i<size;i++){
-        obj = this->childremsFront.getElementInPosition(i);
+        obj = this->childremsFront.get(i);
         obj->drawChildWithoutMaterialWithLight(haveLight);
     }
 }
@@ -1644,12 +1644,12 @@ void edk::Object2D::drawChildremsWithoutMaterialWithLight(bool haveLight){
     edk::uint32 size = this->childremsBack.size();
     edk::Object2D* obj;
     for(edk::uint32 i=0u;i<size;i++){
-        obj = this->childremsBack.getElementInPosition(i);
+        obj = this->childremsBack.get(i);
         obj->drawChildWithoutMaterialWithLight(haveLight);
     }
     size = this->childremsFront.size();
     for(edk::uint32 i=0u;i<size;i++){
-        obj = this->childremsFront.getElementInPosition(i);
+        obj = this->childremsFront.get(i);
         obj->drawChildWithoutMaterialWithLight(haveLight);
     }
 }
@@ -1683,7 +1683,7 @@ void edk::Object2D::drawChildremsBackWire(){
     edk::uint32 size = this->childremsBack.size();
     edk::Object2D* obj;
     for(edk::uint32 i=0u;i<size;i++){
-        obj = this->childremsBack.getElementInPosition(i);
+        obj = this->childremsBack.get(i);
         obj->drawChildWire();
     }
 }
@@ -1715,7 +1715,7 @@ void edk::Object2D::drawChildremsFrontWire(){
     edk::uint32 size = this->childremsFront.size();
     edk::Object2D* obj;
     for(edk::uint32 i=0u;i<size;i++){
-        obj = this->childremsFront.getElementInPosition(i);
+        obj = this->childremsFront.get(i);
         obj->drawChildWire();
     }
 }
@@ -1747,12 +1747,12 @@ void edk::Object2D::drawChildremsWire(){
     edk::uint32 size = this->childremsBack.size();
     edk::Object2D* obj;
     for(edk::uint32 i=0u;i<size;i++){
-        obj = this->childremsBack.getElementInPosition(i);
+        obj = this->childremsBack.get(i);
         obj->drawChildWire();
     }
     size = this->childremsFront.size();
     for(edk::uint32 i=0u;i<size;i++){
-        obj = this->childremsFront.getElementInPosition(i);
+        obj = this->childremsFront.get(i);
         obj->drawChildWire();
     }
 }
@@ -1787,7 +1787,7 @@ void edk::Object2D::drawChildremsBackPivo(edk::float32 size,edk::color3f32 color
     edk::uint32 cSize = this->childremsBack.size();
     edk::Object2D* obj;
     for(edk::uint32 i=0u;i<cSize;i++){
-        obj = this->childremsBack.getElementInPosition(i);
+        obj = this->childremsBack.get(i);
         obj->drawChildPivo(size,color);
     }
 }
@@ -1811,7 +1811,7 @@ void edk::Object2D::drawChildremsFrontPivo(edk::float32 size,edk::color3f32 colo
     edk::uint32 cSize = this->childremsFront.size();
     edk::Object2D* obj;
     for(edk::uint32 i=0u;i<cSize;i++){
-        obj = this->childremsFront.getElementInPosition(i);
+        obj = this->childremsFront.get(i);
         obj->drawChildPivo(size,color);
     }
 }
@@ -1835,12 +1835,12 @@ void edk::Object2D::drawChildremsPivo(edk::float32 size,edk::color3f32 color){
     edk::uint32 cSize = this->childremsBack.size();
     edk::Object2D* obj;
     for(edk::uint32 i=0u;i<cSize;i++){
-        obj = this->childremsBack.getElementInPosition(i);
+        obj = this->childremsBack.get(i);
         obj->drawChildPivo(size,color);
     }
     cSize = this->childremsFront.size();
     for(edk::uint32 i=0u;i<cSize;i++){
-        obj = this->childremsFront.getElementInPosition(i);
+        obj = this->childremsFront.get(i);
         obj->drawChildPivo(size,color);
     }
 }
@@ -1877,7 +1877,7 @@ void edk::Object2D::drawChildremsBackPivo(edk::float32 size,edk::float32 r,edk::
     edk::uint32 cSize = this->childremsBack.size();
     edk::Object2D* obj;
     for(edk::uint32 i=0u;i<cSize;i++){
-        obj = this->childremsBack.getElementInPosition(i);
+        obj = this->childremsBack.get(i);
         obj->drawChildPivo(size,r,g,b);
     }
 }
@@ -1929,7 +1929,7 @@ void edk::Object2D::drawChildremsFrontPivo(edk::float32 size,edk::float32 r,edk:
     edk::uint32 cSize = this->childremsFront.size();
     edk::Object2D* obj;
     for(edk::uint32 i=0u;i<cSize;i++){
-        obj = this->childremsFront.getElementInPosition(i);
+        obj = this->childremsFront.get(i);
         obj->drawChildPivo(size,r,g,b);
     }
 }
@@ -1982,12 +1982,12 @@ void edk::Object2D::drawChildremsPivo(edk::float32 size,edk::float32 r,edk::floa
     edk::uint32 cSize = this->childremsBack.size();
     edk::Object2D* obj;
     for(edk::uint32 i=0u;i<cSize;i++){
-        obj = this->childremsBack.getElementInPosition(i);
+        obj = this->childremsBack.get(i);
         obj->drawChildPivo(size,r,g,b);
     }
     cSize = this->childremsFront.size();
     for(edk::uint32 i=0u;i<cSize;i++){
-        obj = this->childremsFront.getElementInPosition(i);
+        obj = this->childremsFront.get(i);
         obj->drawChildPivo(size,r,g,b);
     }
 }
@@ -4369,7 +4369,9 @@ bool edk::Object2D::readFromXMLFromPack(edk::pack::FilePackage* pack,edk::XML* x
 bool edk::Object2D::connectObjectBack(edk::Object2D* obj){
     if(obj){
         if(!obj->father){
-            if(this->childremsBack.add(obj)){
+            edk::uint32 size = this->childremsBack.size();
+            this->childremsBack.pushBack(obj);
+            if(size<this->childremsBack.size()){
                 obj->father=this;
 
                 obj->newSize = edk::size2f32(1.f / this->size.width,1.f / this->size.height);
@@ -4473,11 +4475,13 @@ bool edk::Object2D::haveConnectedObjectBack(edk::Object2D* obj){
 bool edk::Object2D::disconnectObjectBack(edk::Object2D* obj){
     if(obj){
         if(obj->father == this){
-            if(this->childremsBack.remove(obj)){
-                obj->father=NULL;
-                obj->connectedLoadIdentityValues();
-                obj->newSize=1.f;
-                return true;
+            if(this->childremsBack.bringPositionToEnd(this->childremsBack.getPositionElement(obj))){
+                if(this->childremsBack.popBack()){
+                    obj->father=NULL;
+                    obj->connectedLoadIdentityValues();
+                    obj->newSize=1.f;
+                    return true;
+                }
             }
         }
     }
@@ -4487,7 +4491,7 @@ void edk::Object2D::cleanConnectedObjectsBack(){
     edk::uint32 size = this->childremsBack.size();
     edk::Object2D* obj;
     for(edk::uint32 i=0u;i<size;i++){
-        obj = this->childremsBack.getElementInPosition(i);
+        obj = this->childremsBack.get(i);
         if(obj){
             if(obj->father == this){
                 obj->father=NULL;
@@ -4501,7 +4505,9 @@ void edk::Object2D::cleanConnectedObjectsBack(){
 bool edk::Object2D::connectObjectFront(edk::Object2D* obj){
     if(obj){
         if(!obj->father){
-            if(this->childremsFront.add(obj)){
+            edk::uint32 size = this->childremsFront.size();
+            this->childremsFront.pushBack(obj);
+            if(size < this->childremsFront.size()){
                 obj->father=this;
 
                 obj->newSize = edk::size2f32(1.f / this->size.width,1.f / this->size.height);
@@ -4581,11 +4587,13 @@ bool edk::Object2D::haveConnectedObjectFront(edk::Object2D* obj){
 bool edk::Object2D::disconnectObjectFront(edk::Object2D* obj){
     if(obj){
         if(obj->father == this){
-            if(this->childremsFront.remove(obj)){
-                obj->father=NULL;
-                obj->connectedLoadIdentityValues();
-                obj->newSize=1.f;
-                return true;
+            if(this->childremsFront.bringPositionToEnd(this->childremsFront.getPositionElement(obj))){
+                if(this->childremsFront.popBack()){
+                    obj->father=NULL;
+                    obj->connectedLoadIdentityValues();
+                    obj->newSize=1.f;
+                    return true;
+                }
             }
         }
     }
@@ -4595,7 +4603,7 @@ void edk::Object2D::cleanConnectedObjectsFront(){
     edk::uint32 size = this->childremsFront.size();
     edk::Object2D* obj;
     for(edk::uint32 i=0u;i<size;i++){
-        obj = this->childremsFront.getElementInPosition(i);
+        obj = this->childremsFront.get(i);
         if(obj){
             if(obj->father == this){
                 obj->father=NULL;

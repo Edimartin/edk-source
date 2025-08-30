@@ -1002,7 +1002,11 @@ bool edk::gui2d::ViewMenu2d::addCallback(edk::gui2d::Menu2dCallback* callback){
         //test if have this callback inside the list
         if(!this->listCallback.haveElement(callback)){
             //add the callback to the list
-            return this->listCallback.pushBack(callback);
+            edk::uint32 size = this->listCallback.size();
+            this->listCallback.pushBack(callback);
+            if(size<this->listCallback.size()){
+                return true;
+            }
         }
     }
     return false;

@@ -60,7 +60,11 @@ void edk::gui2d::BoxGui2d::Destructor(){
 bool edk::gui2d::BoxGui2d::addSubObjectBackground(edk::Object2DValues* object){
     //test the object
     if(object){
-        return this->nextsBack.pushBack(object);
+        edk::uint32 size = this->nextsBack.size();
+        this->nextsBack.pushBack(object);
+        if(size<this->nextsBack.size()){
+            return true;
+        }
     }
     return false;
 }
