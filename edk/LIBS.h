@@ -56,12 +56,14 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #QMAKE_CFLAGS +=  -nostdinc
 QMAKE_CFLAGS += -Wno-deprecated-declarations
 QMAKE_CFLAGS += -Wno-deprecated-copy
+QMAKE_CFLAGS += -Wno-overloaded-virtual
 
 #C++_FLAGS
 #QMAKE_CXXFLAGS +=  -nostdlib
 #QMAKE_CXXFLAGS +=  -nostdinc
 QMAKE_CXXFLAGS += -Wno-deprecated-declarations
 QMAKE_CXXFLAGS += -Wno-deprecated-copy
+QMAKE_CXXFLAGS += -Wno-overloaded-virtual
 
 #DEFINES DEBUGGER
 #This line will enable the usage of the debugger file
