@@ -2033,10 +2033,10 @@ public:
                                 }
                                 else{
                                     //else return false
-                                    return false;
+                                    return 0u;
                                 }
                                 //find the end
-                                return true;
+                                return position;
                             }
                             else{
                                 arrayTemp=(edk::vector::Array<typeTemplate>*)temp->get(temp->readPosition++);
@@ -2052,7 +2052,7 @@ public:
                                 }
                                 else{
                                     //else return false
-                                    return false;
+                                    return 0u;
                                 }
                             }
                         }
@@ -2102,10 +2102,10 @@ public:
                                 }
                                 else{
                                     //else return false
-                                    return false;
+                                    return 0u;
                                 }
                                 //find the end
-                                return true;
+                                return position;
                             }
                             else{
                                 arrayTemp=(edk::vector::Array<typeTemplate>*)temp->get(temp->readPosition++);
@@ -2119,7 +2119,7 @@ public:
                                 }
                                 else{
                                     //else return false
-                                    return false;
+                                    return 0u;
                                 }
                             }
                         }
@@ -2410,6 +2410,10 @@ public:
                 //position2 is plus
                 return this->bringPositionPlusTimes(position,position2-position);
             }
+            else if(position == position2){
+                //it's aready in the end
+                return true;
+            }
         }
         //else return false
         return false;
@@ -2443,7 +2447,15 @@ protected:
     virtual void printElement(typeTemplate){}
     virtual void renderElement(typeTemplate){}
     virtual void drawElement(typeTemplate){}
-    virtual bool elementEqual(typeTemplate ,typeTemplate ){return false;}
+    virtual bool elementEqual(typeTemplate obj1,typeTemplate obj2){
+        //copy the pointer
+        typeTemplate *pointer1 = &obj1,*pointer2 = &obj2;
+        edk::uint32 size = sizeof(typeTemplate);
+        if(!edkMemCmp(pointer1,pointer2,size)){
+            return true;
+        }
+        return false;
+    }
 private:
     //Have the first cel
     edk::vector::StackCell** rootPointer;
