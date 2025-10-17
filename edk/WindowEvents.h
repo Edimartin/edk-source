@@ -81,7 +81,8 @@ enum EventWindowType{
     eventWindowMouseHolded,
     eventWindowMouseDoubleClick,
     //eventWindowMouseMoving,
-    eventWindowMouseScrollWheel,
+    eventWindowMouseScrollWheelVertical,
+    eventWindowMouseScrollWheelHorizontal,
     eventWindowSecondPassed,
     eventWindowSecondsGlobal,
     eventWindowControllerPressed,
@@ -190,7 +191,8 @@ public:
             this->mouseHolded.cloneFrom(&event->mouseHolded);
             this->mouseDoubleClick.cloneFrom(&event->mouseDoubleClick);
             //this->mouseMoving.cloneFrom(event->mouseMoving);
-            this->mouseScrollWheel = event->mouseScrollWheel;
+            this->mouseScrollWheelVertical = event->mouseScrollWheelVertical;
+            this->mouseScrollWheelHorizontal = event->mouseScrollWheelHorizontal;
             this->secondPassed = event->secondPassed;
             this->secondsGlobal = event->secondsGlobal;
             this->controllerPressed.cloneFrom(&event->controllerPressed);
@@ -225,7 +227,8 @@ public:
                 || this->mouseHolded.size()
                 || this->mouseDoubleClick.size()
                 //|| this->mouseMoving.size()
-                || this->mouseScrollWheel
+                || this->mouseScrollWheelVertical
+                || this->mouseScrollWheelHorizontal
                 //|| this->secondPassed
                 //|| this->secondsGlobal
                 || this->controllerPressed.getControllerSize()
@@ -344,8 +347,13 @@ public:
                     return true;
                 }
                 break;
-            case edk::eventWindowMouseScrollWheel:
-                if(this->mouseScrollWheel){
+            case edk::eventWindowMouseScrollWheelVertical:
+                if(this->mouseScrollWheelVertical){
+                    return true;
+                }
+                break;
+            case edk::eventWindowMouseScrollWheelHorizontal:
+                if(this->mouseScrollWheelHorizontal){
                     return true;
                 }
                 break;
@@ -485,8 +493,13 @@ public:
                         return true;
                     }
                     break;
-                case edk::eventWindowMouseScrollWheel:
-                    if(this->mouseScrollWheel){
+                case edk::eventWindowMouseScrollWheelVertical:
+                    if(this->mouseScrollWheelVertical){
+                        return true;
+                    }
+                    break;
+                case edk::eventWindowMouseScrollWheelHorizontal:
+                    if(this->mouseScrollWheelHorizontal){
                         return true;
                     }
                     break;
@@ -749,9 +762,15 @@ public:
             have=true;
         }
         //if(this->mouseMoving.size()){}
-        if(this->mouseScrollWheel){
-            printf("\n    edk::eventWindow_MouseScrollWheel(%d)"
-                   ,this->mouseScrollWheel
+        if(this->mouseScrollWheelVertical){
+            printf("\n    edk::eventWindow_MouseScrollWheelVertical(%d)"
+                   ,this->mouseScrollWheelVertical
+                   );
+            have=true;
+        }
+        if(this->mouseScrollWheelHorizontal){
+            printf("\n    edk::eventWindow_MouseScrollWheelHorizontal(%d)"
+                   ,this->mouseScrollWheelHorizontal
                    );
             have=true;
         }
@@ -939,7 +958,10 @@ public:
                 sizeElements++;
             }
             //if(this->mouseMoving.size()){}
-            if(this->mouseScrollWheel){
+            if(this->mouseScrollWheelVertical){
+                sizeElements++;
+            }
+            if(this->mouseScrollWheelHorizontal){
                 sizeElements++;
             }
             /*
@@ -1089,9 +1111,14 @@ public:
                 ret=true;
             }
             //if(this->mouseMoving.size()){}
-            if(this->mouseScrollWheel){
-                file->writeBin((edk::uint32)edk::eventWindowMouseScrollWheel);
-                file->writeBin((edk::int32)this->mouseScrollWheel);
+            if(this->mouseScrollWheelVertical){
+                file->writeBin((edk::uint32)edk::eventWindowMouseScrollWheelVertical);
+                file->writeBin((edk::int32)this->mouseScrollWheelVertical);
+                ret=true;
+            }
+            if(this->mouseScrollWheelHorizontal){
+                file->writeBin((edk::uint32)edk::eventWindowMouseScrollWheelHorizontal);
+                file->writeBin((edk::int32)this->mouseScrollWheelHorizontal);
                 ret=true;
             }
             /*
@@ -1334,8 +1361,14 @@ public:
                         ret=true;
                     }
                     break;
-                case edk::eventWindowMouseScrollWheel:
-                    if(this->mouseScrollWheel){
+                case edk::eventWindowMouseScrollWheelVertical:
+                    if(this->mouseScrollWheelVertical){
+                        sizeElements++;
+                        ret=true;
+                    }
+                    break;
+                case edk::eventWindowMouseScrollWheelHorizontal:
+                    if(this->mouseScrollWheelHorizontal){
                         sizeElements++;
                         ret=true;
                     }
@@ -1580,10 +1613,17 @@ public:
                         ret=true;
                     }
                     break;
-                case edk::eventWindowMouseScrollWheel:
-                    if(this->mouseScrollWheel){
-                        file->writeBin((edk::uint32)edk::eventWindowMouseScrollWheel);
-                        file->writeBin((edk::int32)this->mouseScrollWheel);
+                case edk::eventWindowMouseScrollWheelVertical:
+                    if(this->mouseScrollWheelVertical){
+                        file->writeBin((edk::uint32)edk::eventWindowMouseScrollWheelVertical);
+                        file->writeBin((edk::int32)this->mouseScrollWheelVertical);
+                        ret=true;
+                    }
+                    break;
+                case edk::eventWindowMouseScrollWheelHorizontal:
+                    if(this->mouseScrollWheelHorizontal){
+                        file->writeBin((edk::uint32)edk::eventWindowMouseScrollWheelHorizontal);
+                        file->writeBin((edk::int32)this->mouseScrollWheelHorizontal);
                         ret=true;
                     }
                     break;
@@ -1829,8 +1869,14 @@ public:
                         ret=true;
                     }
                     break;
-                case edk::eventWindowMouseScrollWheel:
-                    if(this->mouseScrollWheel){
+                case edk::eventWindowMouseScrollWheelVertical:
+                    if(this->mouseScrollWheelVertical){
+                        sizeElements++;
+                        ret=true;
+                    }
+                    break;
+                case edk::eventWindowMouseScrollWheelHorizontal:
+                    if(this->mouseScrollWheelHorizontal){
                         sizeElements++;
                         ret=true;
                     }
@@ -2066,10 +2112,17 @@ public:
                         ret=true;
                     }
                     break;
-                case edk::eventWindowMouseScrollWheel:
-                    if(this->mouseScrollWheel){
-                        file->writeBin((edk::uint32)edk::eventWindowMouseScrollWheel);
-                        file->writeBin((edk::int32)this->mouseScrollWheel);
+                case edk::eventWindowMouseScrollWheelVertical:
+                    if(this->mouseScrollWheelVertical){
+                        file->writeBin((edk::uint32)edk::eventWindowMouseScrollWheelVertical);
+                        file->writeBin((edk::int32)this->mouseScrollWheelVertical);
+                        ret=true;
+                    }
+                    break;
+                case edk::eventWindowMouseScrollWheelHorizontal:
+                    if(this->mouseScrollWheelHorizontal){
+                        file->writeBin((edk::uint32)edk::eventWindowMouseScrollWheelHorizontal);
+                        file->writeBin((edk::int32)this->mouseScrollWheelHorizontal);
                         ret=true;
                     }
                     break;
@@ -2355,8 +2408,12 @@ public:
                     }
                         ret=true;
                         break;
-                    case edk::eventWindowMouseScrollWheel:
-                        file->readBin(&this->mouseScrollWheel,sizeof(this->mouseScrollWheel));
+                    case edk::eventWindowMouseScrollWheelVertical:
+                        file->readBin(&this->mouseScrollWheelVertical,sizeof(this->mouseScrollWheelVertical));
+                        ret=true;
+                        break;
+                    case edk::eventWindowMouseScrollWheelHorizontal:
+                        file->readBin(&this->mouseScrollWheelHorizontal,sizeof(this->mouseScrollWheelHorizontal));
                         ret=true;
                         break;
                     case edk::eventWindowControllerPressed:
@@ -2493,7 +2550,8 @@ public:
         this->mouseHolded.clean();
         this->mouseDoubleClick.clean();
         //this->mouseMoving.clean();
-        this->mouseScrollWheel = 0u;
+        this->mouseScrollWheelVertical = 0u;
+        this->mouseScrollWheelHorizontal = 0u;
         this->secondPassed = 0.f;
         this->secondsGlobal = 0.f;
         this->controllerPressed.clean();
@@ -2545,9 +2603,20 @@ public:
     bool lostFocus;
     bool gainedFocus;
     bool focus;
+    //sve the grab
+    bool stopGrab;
+    bool startGrab;
+    bool grab;
+    //sve the minimized
+    bool minimizeWindow;
+    bool restoreWindow;
+    bool minimized;
     //Resize
     bool resize;
     edk::size2i32 resizePos;
+    //Move
+    bool move;
+    edk::vec2i32 movePos;
     //save the size of the window
     edk::size2ui32 windowSize;
     //Keys
@@ -2555,12 +2624,20 @@ public:
     edk::vector::Stack<edk::uint32> keyRelease;
     edk::vector::Stack<edk::uint32> keyHolded;
     edk::vector::Stack<edk::uint32> keyText;
+    edk::vector::Stack<edk::uint32> keyPressedGlobal;
+    edk::vector::Stack<edk::uint32> keyReleaseGlobal;
+    edk::vector::Stack<edk::uint32> keyHoldedGlobal;
     //Mouse
     edk::vector::Stack<edk::uint32> mousePressed;
     //edk::vector::Stack<edk::uint32> mouseMoving;
     edk::vector::Stack<edk::uint32> mouseRelease;
     edk::vector::Stack<edk::uint32> mouseHolded;
     edk::vector::Stack<edk::uint32> mouseDoubleClick;
+    //mouse global
+    bool mouseMovedGlobal;
+    edk::vec2i32 mousePosWorldGlobal;  //mouse position inside the world
+    edk::vec2i32 mousePosWindowGlobal; //mouse position inside the window
+    edk::vec2i32 mouseMoveGlobal;
     //Mouse Movido
     bool mouseMoved;
     edk::vec2i32 mousePos;       //mouse position inside the view
@@ -2572,7 +2649,8 @@ public:
     //Mouse saiu
     bool mouseExit;
     //mouseScroll
-    edk::int32 mouseScrollWheel;
+    edk::int32 mouseScrollWheelVertical;
+    edk::int32 mouseScrollWheelHorizontal;
     //percent of the seconds in the time
     edk::float32 secondPassed;
     //percent of the seconds in the time
@@ -2587,7 +2665,7 @@ private:
     edk::watch::Time timeMouseDouble[edk::mouse::mouseButtonsSize];
     //mouse doubleClick time limit
     edk::float32 timeMouseDoubleLimit;
-
+public:
     //Controller
     class ControllerButtons{
     public:

@@ -1146,9 +1146,13 @@ bool edk::Window::eventMouseMoved(){
     return this->events.mouseMoved;
 }
 
-edk::int8 edk::Window::getMouseScrollWheel(){
+edk::int8 edk::Window::getMouseScrollWheelVertical(){
     //
-    return (int8)this->events.mouseScrollWheel;
+    return (int8)this->events.mouseScrollWheelVertical;
+}
+edk::int8 edk::Window::getMouseScrollWheelHorizontal(){
+    //
+    return (int8)this->events.mouseScrollWheelHorizontal;
 }
 
 bool edk::Window::eventResizeWindow(){
@@ -1462,7 +1466,7 @@ bool edk::Window::loadEvents(){
                        );
                 */
             //this->events.mouseScrollWheel=event.MouseWheel.Delta;//1.6
-            this->events.mouseScrollWheel=event.mouseWheel.delta;//2.0
+            this->events.mouseScrollWheelVertical=event.mouseWheel.delta;//2.0
 
             this->mouseInside=true;
         }

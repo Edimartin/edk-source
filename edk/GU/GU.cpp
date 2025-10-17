@@ -464,6 +464,47 @@ void edk::GU::guClear(edk::uint32 mask){
     glClear(mask);
     edk::GU_GLSL::mut.unlock();
 }
+//Clean Color
+void edk::GU::guClearColor3f32(edk::color3f32 color){
+    edk::GU_GLSL::mut.lock();
+    glClearColor(color.r,color.g,color.b,1.f);
+    edk::GU_GLSL::mut.unlock();
+}
+void edk::GU::guClearColor3f64(edk::color3f64 color){
+    edk::GU_GLSL::mut.lock();
+    glClearColor(color.r,color.g,color.b,1.f);
+    edk::GU_GLSL::mut.unlock();
+}
+void edk::GU::guClearColor3f32(edk::float32 r,edk::float32 g,edk::float32 b){
+    edk::GU_GLSL::mut.lock();
+    glClearColor(r,g,b,1.f);
+    edk::GU_GLSL::mut.unlock();
+}
+void edk::GU::guClearColor3f64(edk::float64 r,edk::float64 g,edk::float64 b){
+    edk::GU_GLSL::mut.lock();
+    glClearColor(r,g,b,1.f);
+    edk::GU_GLSL::mut.unlock();
+}
+void edk::GU::guClearColor4f32(edk::color4f32 color){
+    edk::GU_GLSL::mut.lock();
+    glClearColor(color.r,color.g,color.b,color.a);
+    edk::GU_GLSL::mut.unlock();
+}
+void edk::GU::guClearColor4f64(edk::color4f64 color){
+    edk::GU_GLSL::mut.lock();
+    glClearColor(color.r,color.g,color.b,color.a);
+    edk::GU_GLSL::mut.unlock();
+}
+void edk::GU::guClearColor4f32(edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a){
+    edk::GU_GLSL::mut.lock();
+    glClearColor(r,g,b,a);
+    edk::GU_GLSL::mut.unlock();
+}
+void edk::GU::guClearColor4f64(edk::float64 r,edk::float64 g,edk::float64 b,edk::float64 a){
+    edk::GU_GLSL::mut.lock();
+    glClearColor(r,g,b,a);
+    edk::GU_GLSL::mut.unlock();
+}
 
 //return the openGL matrix are using
 bool edk::GU::guUsingMatrix(edk::uint32 mode){
@@ -575,6 +616,9 @@ edk::uint32 edk::GU::guAllocTexture2D(edk::uint32 width, edk::uint32 height, edk
 
                 //Clean use texture
                 glBindTexture(GL_TEXTURE_2D, 0u);
+            }
+            else{
+                //load the openGL error
             }
             edk::GU_GLSL::mut.unlock();
             edk::GU_GLSL::mutBeginEnd.unlock();

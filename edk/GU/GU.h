@@ -277,13 +277,22 @@ public:
     static void guColor4f32(edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a);
     static void guColor4f64(edk::float64 r,edk::float64 g,edk::float64 b,edk::float64 a);
 
-    //clear dome buffer
+    //clear some buffer
     //mask
     //GU_COLOR_BUFFER_BIT
     //GU_DEPTH_BUFFER_BIT
     //GU_ACCUM_BUFFER_BIT
     //GU_STENCIL_BUFFER_BIT
     static void guClear( edk::uint32 mask );
+    //Clean Color
+    static void guClearColor3f32(edk::color3f32 color);
+    static void guClearColor3f64(edk::color3f64 color);
+    static void guClearColor3f32(edk::float32 r,edk::float32 g,edk::float32 b);
+    static void guClearColor3f64(edk::float64 r,edk::float64 g,edk::float64 b);
+    static void guClearColor4f32(edk::color4f32 color);
+    static void guClearColor4f64(edk::color4f64 color);
+    static void guClearColor4f32(edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a);
+    static void guClearColor4f64(edk::float64 r,edk::float64 g,edk::float64 b,edk::float64 a);
 
     //return the openGL matrix are using
     //mode

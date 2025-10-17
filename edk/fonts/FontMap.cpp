@@ -5706,6 +5706,9 @@ void edk::fonts::FontMap::drawSelection(){
 void edk::fonts::FontMap::drawPivo(edk::float32 size,edk::color3f32 color){
     this->map.drawPivo(size,color);
 }
+void edk::fonts::FontMap::drawPivo(edk::float32 size,edk::float32 r,edk::float32 g,edk::float32 b){
+    this->drawPivo(size,edk::color3f32(r,g,b));
+}
 
 //remove the fontImage
 void edk::fonts::FontMap::removeFontImage(){

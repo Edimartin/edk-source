@@ -1,0 +1,82 @@
+#ifndef GRIDLINES2D_H
+#define GRIDLINES2D_H
+
+/*
+Library GridLines2D - Draw lines in a 2D Grid in EDK Game Engine
+Copyright 2013 Eduardo Moura Sales Martins (edimartin@gmail.com)
+
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of this software and associated documentation files (the
+"Software"), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:
+
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+*/
+
+#ifdef printMessages
+#pragma message "Inside GridLines2D"
+#endif
+
+#pragma once
+#include "../TypeVars.h"
+#include "../TypeVec2.h"
+#include "../DebugFile.h"
+#include "../GU/GU.h"
+
+#ifdef printMessages
+#pragma message "    Compiling GridLines2D"
+#endif
+
+namespace edk{
+namespace shape{
+class GridLines2D{
+public:
+    GridLines2D();
+    virtual ~GridLines2D();
+
+    void Constructor();
+    void Destructor();
+
+    //set the distanceLines
+    bool setDistanceLines(edk::float32 distance);
+    bool setDistanceLinesBold(edk::float32 distance);
+    edk::float32 getDistanceLines();
+    edk::float32 getDistanceLinesBold();
+
+    //draw the grid
+    void draw();
+
+    //position of the grid
+    edk::vec2f32 position;
+    edk::size2f32 size;
+    edk::float32 angle;
+    //color of the lines
+    edk::color4f32 colorLines;
+    edk::color4f32 colorLinesBold;
+private:
+    //set lines distance
+    edk::float32 distanceLines;
+    edk::float32 distanceLinesBold;
+    //private attributes to use in the render function
+    edk::float32 limit;
+    edk::float32 p1,p2;
+    edk::float32 i;
+private:
+    edk::classID classThis;
+};
+}//end namespace shape
+}//end namespace edk
+
+#endif // GRIDLINES2D_H

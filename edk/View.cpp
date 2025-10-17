@@ -102,7 +102,7 @@ void edk::View::drawViewport(edk::rectf32 outsideViewOrigin){
         edk::GU::guUseMatrix(GU_MODELVIEW);
     }
     //First create the view in GU
-    rectTemp = edk::rectf32((edk::int32)(outsideViewOrigin.origin.x + this->animatedFrame.origin.x)
+    this->rectTemp = edk::rectf32((edk::int32)(outsideViewOrigin.origin.x + this->animatedFrame.origin.x)
                             ,(edk::int32)( outsideViewOrigin.origin.y + outsideViewOrigin.size.height - this->animatedFrame.origin.y - this->animatedFrame.size.height)
                             ,(edk::int32)this->animatedFrame.size.width
                             ,(edk::int32)this->animatedFrame.size.height

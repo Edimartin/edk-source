@@ -954,6 +954,7 @@ public:
     void drawSelection();
     //draw the pivo
     void drawPivo(edk::float32 size,edk::color3f32 color);
+    void drawPivo(edk::float32 size,edk::float32 r,edk::float32 g,edk::float32 b);
 
     //remove the fontImage
     void removeFontImage();

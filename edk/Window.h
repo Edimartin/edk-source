@@ -172,9 +172,9 @@ public:
 
     edk::uint32 getHeight();
 
-    vec2i32 getMousePos();
+    edk::vec2i32 getMousePos();
 
-    vec2i32 eventGetMouseMoved();
+    edk::vec2i32 eventGetMouseMoved();
 
     /*
     eventWindowButtonExit
@@ -300,7 +300,8 @@ public:
 
     bool eventMouseMoved();
 
-    edk::int8 getMouseScrollWheel();
+    edk::int8 getMouseScrollWheelVertical();
+    edk::int8 getMouseScrollWheelHorizontal();
 
     bool eventResizeWindow();
 
