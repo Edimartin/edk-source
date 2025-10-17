@@ -32,7 +32,7 @@ edk::shape::GridLines2D::GridLines2D(){
     this->classThis=NULL;
     this->Constructor();
 }
-edk::shape::GridLines2D::~Grid2D(){
+edk::shape::GridLines2D::~GridLines2D(){
     this->Destructor();
 }
 

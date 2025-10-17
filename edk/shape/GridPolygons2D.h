@@ -30,12 +30,12 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endif
 
 #pragma once
-#include "TypeDefines.h"
-#include "TypeByte.h"
-#include "TypeColor.h"
-#include "TypeRect.h"
-#include "TypeSize2.h"
-#include "vector/Matrix.h"
+#include "../TypeDefines.h"
+#include "../TypeByte.h"
+#include "../TypeColor.h"
+#include "../TypeRect.h"
+#include "../TypeSize2.h"
+#include "../vector/Matrix.h"
 
 #ifdef printMessages
 #pragma message "    Compiling GridPolygons2D"
