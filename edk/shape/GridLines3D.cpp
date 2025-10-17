@@ -95,18 +95,28 @@ void edk::shape::GridLines3D::drawXY(){
     //draw the lines
     edk::GU::guBegin(GU_LINES);
     //WIDTH
-    this->limit = this->size.width*0.5;
     this->p1=this->size.height*-0.5;
     this->p2=this->size.height*0.5;
-    for(this->i=this->size.width*-0.5f;this->i<this->limit;this->i+=this->distanceLines){
+    this->limit = this->size.width*-0.5;
+    for(this->i=0.f;this->i>=this->limit;this->i-=this->distanceLines){
+        edk::GU::guVertex3f32(this->i,this->p1,0.f);
+        edk::GU::guVertex3f32(this->i,this->p2,0.f);
+    }
+    this->limit = this->size.width*0.5;
+    for(this->i=0.f;this->i<=this->limit;this->i+=this->distanceLines){
         edk::GU::guVertex3f32(this->i,this->p1,0.f);
         edk::GU::guVertex3f32(this->i,this->p2,0.f);
     }
     //HEIGHT
-    this->limit = this->size.height*0.5;
     this->p1=this->size.width*-0.5;
     this->p2=this->size.width*0.5;
-    for(this->i=this->size.height*-0.5f;this->i<this->limit;this->i+=this->distanceLines){
+    this->limit = this->size.height*-0.5;
+    for(this->i=0.f;this->i>=this->limit;this->i-=this->distanceLines){
+        edk::GU::guVertex3f32(this->p1,this->i,0.f);
+        edk::GU::guVertex3f32(this->p2,this->i,0.f);
+    }
+    this->limit = this->size.height*0.5;
+    for(this->i=0.f;this->i<=this->limit;this->i+=this->distanceLines){
         edk::GU::guVertex3f32(this->p1,this->i,0.f);
         edk::GU::guVertex3f32(this->p2,this->i,0.f);
     }
@@ -119,18 +129,28 @@ void edk::shape::GridLines3D::drawXY(){
     //draw the lines bold
     edk::GU::guBegin(GU_LINES);
     //WIDTH
-    this->limit = this->size.width*0.5;
     this->p1=this->size.height*-0.5;
     this->p2=this->size.height*0.5;
-    for(this->i=this->size.width*-0.5f;this->i<this->limit;this->i+=this->distanceLinesBold){
+    this->limit = this->size.width*-0.5;
+    for(this->i=0.f;this->i>=this->limit;this->i-=this->distanceLinesBold){
+        edk::GU::guVertex3f32(this->i,this->p1,0.f);
+        edk::GU::guVertex3f32(this->i,this->p2,0.f);
+    }
+    this->limit = this->size.width*0.5;
+    for(this->i=0.f;this->i<=this->limit;this->i+=this->distanceLinesBold){
         edk::GU::guVertex3f32(this->i,this->p1,0.f);
         edk::GU::guVertex3f32(this->i,this->p2,0.f);
     }
     //HEIGHT
-    this->limit = this->size.height*0.5;
     this->p1=this->size.width*-0.5;
     this->p2=this->size.width*0.5;
-    for(this->i=this->size.height*-0.5f;this->i<this->limit;this->i+=this->distanceLinesBold){
+    this->limit = this->size.height*-0.5;
+    for(this->i=0.f;this->i>=this->limit;this->i-=this->distanceLinesBold){
+        edk::GU::guVertex3f32(this->p1,this->i,0.f);
+        edk::GU::guVertex3f32(this->p2,this->i,0.f);
+    }
+    this->limit = this->size.height*0.5;
+    for(this->i=0.f;this->i<=this->limit;this->i+=this->distanceLinesBold){
         edk::GU::guVertex3f32(this->p1,this->i,0.f);
         edk::GU::guVertex3f32(this->p2,this->i,0.f);
     }
@@ -153,18 +173,28 @@ void edk::shape::GridLines3D::drawXZ(){
     //draw the lines
     edk::GU::guBegin(GU_LINES);
     //WIDTH
-    this->limit = this->size.width*0.5;
     this->p1=this->size.length*-0.5;
     this->p2=this->size.length*0.5;
-    for(this->i=this->size.width*-0.5f;this->i<this->limit;this->i+=this->distanceLines){
+    this->limit = this->size.width*-0.5;
+    for(this->i=0.f;this->i>=this->limit;this->i-=this->distanceLines){
+        edk::GU::guVertex3f32(this->i,0.f,this->p1);
+        edk::GU::guVertex3f32(this->i,0.f,this->p2);
+    }
+    this->limit = this->size.width*0.5;
+    for(this->i=0.f;this->i<=this->limit;this->i+=this->distanceLines){
         edk::GU::guVertex3f32(this->i,0.f,this->p1);
         edk::GU::guVertex3f32(this->i,0.f,this->p2);
     }
     //LENGHT
-    this->limit = this->size.length*0.5;
     this->p1=this->size.width*-0.5;
     this->p2=this->size.width*0.5;
-    for(this->i=this->size.length*-0.5f;this->i<this->limit;this->i+=this->distanceLines){
+    this->limit = this->size.length*-0.5;
+    for(this->i=0.f;this->i>=this->limit;this->i-=this->distanceLines){
+        edk::GU::guVertex3f32(this->p1,0.f,this->i);
+        edk::GU::guVertex3f32(this->p2,0.f,this->i);
+    }
+    this->limit = this->size.length*0.5;
+    for(this->i=0.f;this->i<=this->limit;this->i+=this->distanceLines){
         edk::GU::guVertex3f32(this->p1,0.f,this->i);
         edk::GU::guVertex3f32(this->p2,0.f,this->i);
     }
@@ -177,18 +207,28 @@ void edk::shape::GridLines3D::drawXZ(){
     //draw the lines bold
     edk::GU::guBegin(GU_LINES);
     //WIDTH
-    this->limit = this->size.width*0.5;
     this->p1=this->size.length*-0.5;
     this->p2=this->size.length*0.5;
-    for(this->i=this->size.width*-0.5f;this->i<this->limit;this->i+=this->distanceLinesBold){
+    this->limit = this->size.width*-0.5;
+    for(this->i=0.f;this->i>=this->limit;this->i-=this->distanceLinesBold){
+        edk::GU::guVertex3f32(this->i,0.f,this->p1);
+        edk::GU::guVertex3f32(this->i,0.f,this->p2);
+    }
+    this->limit = this->size.width*0.5;
+    for(this->i=0.f;this->i<=this->limit;this->i+=this->distanceLinesBold){
         edk::GU::guVertex3f32(this->i,0.f,this->p1);
         edk::GU::guVertex3f32(this->i,0.f,this->p2);
     }
     //LENGHT
-    this->limit = this->size.length*0.5;
     this->p1=this->size.width*-0.5;
     this->p2=this->size.width*0.5;
-    for(this->i=this->size.length*-0.5f;this->i<this->limit;this->i+=this->distanceLinesBold){
+    this->limit = this->size.length*-0.5;
+    for(this->i=0.f;this->i>=this->limit;this->i-=this->distanceLinesBold){
+        edk::GU::guVertex3f32(this->p1,0.f,this->i);
+        edk::GU::guVertex3f32(this->p2,0.f,this->i);
+    }
+    this->limit = this->size.length*0.5;
+    for(this->i=0.f;this->i<=this->limit;this->i+=this->distanceLinesBold){
         edk::GU::guVertex3f32(this->p1,0.f,this->i);
         edk::GU::guVertex3f32(this->p2,0.f,this->i);
     }
@@ -211,18 +251,28 @@ void edk::shape::GridLines3D::drawYZ(){
     //draw the lines
     edk::GU::guBegin(GU_LINES);
     //HEIGHT
-    this->limit = this->size.height*0.5;
     this->p1=this->size.length*-0.5;
     this->p2=this->size.length*0.5;
-    for(this->i=this->size.height*-0.5f;this->i<this->limit;this->i+=this->distanceLines){
+    this->limit = this->size.height*-0.5;
+    for(this->i=0.f;this->i>=this->limit;this->i-=this->distanceLines){
+        edk::GU::guVertex3f32(0.f,this->i,this->p1);
+        edk::GU::guVertex3f32(0.f,this->i,this->p2);
+    }
+    this->limit = this->size.height*0.5;
+    for(this->i=0.f;this->i<=this->limit;this->i+=this->distanceLines){
         edk::GU::guVertex3f32(0.f,this->i,this->p1);
         edk::GU::guVertex3f32(0.f,this->i,this->p2);
     }
     //LENGTH
-    this->limit = this->size.length*0.5;
     this->p1=this->size.height*-0.5;
     this->p2=this->size.height*0.5;
-    for(this->i=this->size.length*-0.5f;this->i<this->limit;this->i+=this->distanceLines){
+    this->limit = this->size.length*-0.5;
+    for(this->i=0.f;this->i>=this->limit;this->i-=this->distanceLines){
+        edk::GU::guVertex3f32(0.f,this->p1,this->i);
+        edk::GU::guVertex3f32(0.f,this->p2,this->i);
+    }
+    this->limit = this->size.length*0.5;
+    for(this->i=0.f;this->i<=this->limit;this->i+=this->distanceLines){
         edk::GU::guVertex3f32(0.f,this->p1,this->i);
         edk::GU::guVertex3f32(0.f,this->p2,this->i);
     }
@@ -235,18 +285,28 @@ void edk::shape::GridLines3D::drawYZ(){
     //draw the lines bold
     edk::GU::guBegin(GU_LINES);
     //HEIGHT
-    this->limit = this->size.height*0.5;
     this->p1=this->size.length*-0.5;
     this->p2=this->size.length*0.5;
-    for(this->i=this->size.height*-0.5f;this->i<this->limit;this->i+=this->distanceLinesBold){
+    this->limit = this->size.height*-0.5;
+    for(this->i=0.f;this->i>=this->limit;this->i-=this->distanceLinesBold){
+        edk::GU::guVertex3f32(0.f,this->i,this->p1);
+        edk::GU::guVertex3f32(0.f,this->i,this->p2);
+    }
+    this->limit = this->size.height*0.5;
+    for(this->i=0.f;this->i<=this->limit;this->i+=this->distanceLinesBold){
         edk::GU::guVertex3f32(0.f,this->i,this->p1);
         edk::GU::guVertex3f32(0.f,this->i,this->p2);
     }
     //LENGTH
-    this->limit = this->size.length*0.5;
     this->p1=this->size.height*-0.5;
     this->p2=this->size.height*0.5;
-    for(this->i=this->size.length*-0.5f;this->i<this->limit;this->i+=this->distanceLinesBold){
+    this->limit = this->size.length*-0.5;
+    for(this->i=0.f;this->i>=this->limit;this->i-=this->distanceLinesBold){
+        edk::GU::guVertex3f32(0.f,this->p1,this->i);
+        edk::GU::guVertex3f32(0.f,this->p2,this->i);
+    }
+    this->limit = this->size.length*0.5;
+    for(this->i=0.f;this->i<=this->limit;this->i+=this->distanceLinesBold){
         edk::GU::guVertex3f32(0.f,this->p1,this->i);
         edk::GU::guVertex3f32(0.f,this->p2,this->i);
     }

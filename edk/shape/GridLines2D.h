@@ -56,7 +56,7 @@ public:
     edk::float32 getDistanceLinesBold();
 
     //draw the grid
-    void draw();
+    virtual void draw();
 
     //position of the grid
     edk::vec2f32 position;
@@ -65,7 +65,7 @@ public:
     //color of the lines
     edk::color4f32 colorLines;
     edk::color4f32 colorLinesBold;
-private:
+protected:
     //set lines distance
     edk::float32 distanceLines;
     edk::float32 distanceLinesBold;

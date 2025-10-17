@@ -93,18 +93,28 @@ void edk::shape::GridLines2D::draw(){
     //draw the lines
     edk::GU::guBegin(GU_LINES);
     //WIDTH
-    this->limit = this->size.width*0.5;
     this->p1=this->size.height*-0.5;
     this->p2=this->size.height*0.5;
-    for(this->i=this->size.width*-0.5f;this->i<this->limit;this->i+=this->distanceLines){
+    this->limit = this->size.width*-0.5;
+    for(this->i=0.0f;this->i>=this->limit;this->i-=this->distanceLines){
+        edk::GU::guVertex2f32(this->i,this->p1);
+        edk::GU::guVertex2f32(this->i,this->p2);
+    }
+    this->limit = this->size.width*0.5;
+    for(this->i=0.f;this->i<=this->limit;this->i+=this->distanceLines){
         edk::GU::guVertex2f32(this->i,this->p1);
         edk::GU::guVertex2f32(this->i,this->p2);
     }
     //HEIGHT
-    this->limit = this->size.height*0.5;
     this->p1=this->size.width*-0.5;
     this->p2=this->size.width*0.5;
-    for(this->i=this->size.height*-0.5f;this->i<this->limit;this->i+=this->distanceLines){
+    this->limit = this->size.height*-0.5;
+    for(this->i=0.f;this->i>=this->limit;this->i-=this->distanceLines){
+        edk::GU::guVertex2f32(this->p1,this->i);
+        edk::GU::guVertex2f32(this->p2,this->i);
+    }
+    this->limit = this->size.height*0.5;
+    for(this->i=0.f;this->i<=this->limit;this->i+=this->distanceLines){
         edk::GU::guVertex2f32(this->p1,this->i);
         edk::GU::guVertex2f32(this->p2,this->i);
     }
@@ -117,18 +127,28 @@ void edk::shape::GridLines2D::draw(){
     //draw the lines bold
     edk::GU::guBegin(GU_LINES);
     //WIDTH
-    this->limit = this->size.width*0.5;
     this->p1=this->size.height*-0.5;
     this->p2=this->size.height*0.5;
-    for(this->i=this->size.width*-0.5f;this->i<this->limit;this->i+=this->distanceLines){
+    this->limit = this->size.width*-0.5;
+    for(this->i=0.f;this->i>=this->limit;this->i-=this->distanceLinesBold){
+        edk::GU::guVertex2f32(this->i,this->p1);
+        edk::GU::guVertex2f32(this->i,this->p2);
+    }
+    this->limit = this->size.width*0.5;
+    for(this->i=0.f;this->i<=this->limit;this->i+=this->distanceLinesBold){
         edk::GU::guVertex2f32(this->i,this->p1);
         edk::GU::guVertex2f32(this->i,this->p2);
     }
     //HEIGHT
-    this->limit = this->size.height*0.5;
     this->p1=this->size.width*-0.5;
     this->p2=this->size.width*0.5;
-    for(this->i=this->size.height*-0.5f;this->i<this->limit;this->i+=this->distanceLines){
+    this->limit = this->size.height*-0.5;
+    for(this->i=0.f;this->i>=this->limit;this->i-=this->distanceLinesBold){
+        edk::GU::guVertex2f32(this->p1,this->i);
+        edk::GU::guVertex2f32(this->p2,this->i);
+    }
+    this->limit = this->size.height*0.5;
+    for(this->i=0.f;this->i<=this->limit;this->i+=this->distanceLinesBold){
         edk::GU::guVertex2f32(this->p1,this->i);
         edk::GU::guVertex2f32(this->p2,this->i);
     }
