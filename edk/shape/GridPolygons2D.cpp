@@ -79,7 +79,7 @@ edk::uint32 edk::shape::GridPolygons2D::getMatrixWidth(){
     return this->mat.getWidth();
 }
 edk::uint32 edk::shape::GridPolygons2D::getMatrixHeight(){
-    this->mat.getHeight();
+    return this->mat.getHeight();
 }
 
 //set color value in position
