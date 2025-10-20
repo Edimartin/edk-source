@@ -24,6 +24,10 @@ OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
+#ifdef printMessages
+#pragma message "            Inside TextField2d.cpp"
+#endif
+
 static edk::uint32 fieldBorderSize = 6887u;
 static edk::char8 fieldBorderName[16] = "fieldBorder.png";
 static edk::uchar8 fieldBorder[6887] = {

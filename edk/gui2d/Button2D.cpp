@@ -24,6 +24,10 @@ OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
+#ifdef printMessages
+#pragma message "            Inside Button2D.cpp"
+#endif
+
 edk::gui2d::Button2D::Button2D(){
     this->classThis=NULL; 
     this->Constructor();

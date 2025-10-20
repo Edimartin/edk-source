@@ -24,6 +24,10 @@ OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
+#ifdef printMessages
+#pragma message "            Inside SHA1.cpp"
+#endif
+
 #define rotateLeft(a, b) ((a << b) | (a >> (32 - b)))
 
 #define fileReadSize 1024u

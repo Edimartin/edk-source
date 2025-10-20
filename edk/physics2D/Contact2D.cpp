@@ -24,6 +24,10 @@ OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
+#ifdef printMessages
+#pragma message "            Inside Contact2D.cpp"
+#endif
+
 edk::physics2D::Contact2D::Contact2D(edk::classID pointer,edk::classID pointerBodyA,edk::classID pointerBodyB){
     //
     this->classThis=NULL;

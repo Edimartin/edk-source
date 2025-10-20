@@ -26,7 +26,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#pragma message "Inside SUN"
+#pragma message "Inside Spot"
 #endif
 
 #pragma once
@@ -35,7 +35,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "Light.h"
 
 #ifdef printMessages
-#pragma message "    Compiling SUN"
+#pragma message "    Compiling Spot"
 #endif
 
 namespace edk{

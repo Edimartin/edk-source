@@ -24,6 +24,10 @@ OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
+#ifdef printMessages
+#pragma message "            Inside Postgre.cpp"
+#endif
+
 //dbname = mydb user = edimartin password = mydb hostaddr = 127.0.0.1 port = 5432
 #define name_dbname "dbname"
 #define name_user "user"

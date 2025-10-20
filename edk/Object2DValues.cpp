@@ -24,6 +24,10 @@ OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
+#ifdef printMessages
+#pragma message "            Inside Object2DValues.cpp"
+#endif
+
 edk::Object2DValues::Object2DValues(){
     this->classThis=NULL;
     this->Constructor();

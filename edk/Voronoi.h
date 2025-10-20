@@ -26,11 +26,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#pragma message "Inside Action"
-#endif
-
-#ifdef printMessages
-#pragma message "    Compiling Action"
+#pragma message "Inside Voronoi"
 #endif
 
 #pragma once
@@ -39,6 +35,10 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "Image2D.h"
 #include "vector/Array.h"
 #include "thread/Thread.h"
+
+#ifdef printMessages
+#pragma message "    Compiling Voronoi"
+#endif
 
 namespace edk{
 //class with position and color

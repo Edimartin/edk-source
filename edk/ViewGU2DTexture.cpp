@@ -24,6 +24,10 @@ OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
+#ifdef printMessages
+#pragma message "            Inside ViewGU2DTexture.cpp"
+#endif
+
 edk::ViewGU2DTexture::ViewGU2DTexture(edk::size2ui32 size)
     :edk::ViewGUTexture(size)
 {

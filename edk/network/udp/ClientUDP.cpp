@@ -24,6 +24,10 @@ OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
+#ifdef printMessages
+#pragma message "            Inside ClientUDP.cpp"
+#endif
+
 edk::network::udp::ClientUDP::ClientUDP(){
     this->classThis=NULL;
     this->Constructor();

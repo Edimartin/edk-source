@@ -24,6 +24,10 @@ OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
+#ifdef printMessages
+#pragma message "            Inside Joint2D.cpp"
+#endif
+
 edk::physics2D::Joint2D::Joint2D(bool collide){
     this->classThis=NULL;
     this->Constructor(collide);

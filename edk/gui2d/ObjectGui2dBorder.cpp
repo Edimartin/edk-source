@@ -24,6 +24,10 @@ OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
+#ifdef printMessages
+#pragma message "            Inside ObjectGui2dBorder.cpp"
+#endif
+
 
 static edk::uint32 EDKButtonNormalTemplateSize = 8226u;
 static edk::char8 EDKButtonNormalTemplateName[28] = "EDKButtonNormalTemplate.png";

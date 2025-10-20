@@ -24,6 +24,10 @@ OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
+#ifdef printMessages
+#pragma message "            Inside FontSet.cpp"
+#endif
+
 edk::fonts::FontSet::FontSet(edk::uint32 minFilter,edk::uint32 magFilter){
     this->classThis=NULL;
     this->Constructor(minFilter,magFilter,false);

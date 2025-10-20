@@ -24,6 +24,10 @@ OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
+#ifdef printMessages
+#pragma message "            Inside Bone2D.cpp"
+#endif
+
 #define edkIKAngleLimit 0.01f
 
 edk::bones::Bone2D::Bone2D(){

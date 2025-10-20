@@ -24,6 +24,9 @@ OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
+#ifdef printMessages
+#pragma message "            Inside poweredEDKColor.cpp"
+#endif
 
 edk::uint32 edk::poweredEDKColor::size = 156730u;
 edk::char8 edk::poweredEDKColor::name[20] = "poweredEDKColor.png";

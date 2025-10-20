@@ -23,6 +23,11 @@ LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
 OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
+
+#ifdef printMessages
+#pragma message "            Inside Text2D.cpp"
+#endif
+
 edk::gui2d::Text2D::Text2D(){
     this->classThis=NULL;
     this->Constructor();

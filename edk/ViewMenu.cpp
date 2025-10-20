@@ -26,6 +26,10 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #include "edkImages/EDKmenuTemplateTexture.h"
 
+#ifdef printMessages
+#pragma message "            Inside ViewMenu.cpp"
+#endif
+
 edk::ViewMenu::ViewMenu(){
     this->classThis=NULL;
     this->Constructor();

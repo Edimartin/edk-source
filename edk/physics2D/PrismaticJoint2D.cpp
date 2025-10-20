@@ -24,6 +24,10 @@ OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
+#ifdef printMessages
+#pragma message "            Inside PrismaticJoint2D.cpp"
+#endif
+
 edk::physics2D::PrismaticJoint2D::PrismaticJoint2D(bool collide)
     : edk::physics2D::Joint2D(collide)
 {

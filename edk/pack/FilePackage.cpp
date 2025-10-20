@@ -24,6 +24,10 @@ OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
+#ifdef printMessages
+#pragma message "            Inside FilePackage.cpp"
+#endif
+
 #if defined(EDK_FILEPACK_PRINT_DEBUG)
 bool edk::pack::FilePackage::templateConstructNeed=true;
 edk::DebugLineFile edk::pack::FilePackage::debugFile;

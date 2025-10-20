@@ -24,6 +24,10 @@ OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
+#ifdef printMessages
+#pragma message "            Inside Cenario2D.cpp"
+#endif
+
 bool edk::Cenario2D::templateConstructNeed=true;
 edk::physics2D::World2D edk::Cenario2D::worldTemplate;
 

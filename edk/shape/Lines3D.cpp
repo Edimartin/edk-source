@@ -24,6 +24,10 @@ OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
+#ifdef printMessages
+#pragma message "            Inside Lines3D.cpp"
+#endif
+
 edk::shape::Lines3D::Lines3D(){
     this->type = edk::shape::typeLine3D; 
     this->polygonLine=true; 

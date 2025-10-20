@@ -24,6 +24,10 @@ OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
+#ifdef printMessages
+#pragma message "            Inside World2D.cpp"
+#endif
+
 #if defined(EDK_USE_BOX2D)
 edk::physics2D::World2D::MyContactListener::MyContactListener(){
     this->classThis=NULL;

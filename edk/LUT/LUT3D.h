@@ -26,7 +26,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#pragma message "Inside TypeColor"
+#pragma message "Inside LUT3D"
 #endif
 
 #pragma once
@@ -38,7 +38,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "edk/Image2D.h"
 
 #ifdef printMessages
-#pragma message "    Compiling TypeColor"
+#pragma message "    Compiling LUT3D"
 #endif
 
 
