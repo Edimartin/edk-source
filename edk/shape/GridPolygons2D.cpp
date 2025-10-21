@@ -189,3 +189,32 @@ void edk::shape::GridPolygons2D::draw(){
         edk::GU::guPopMatrix();
     }
 }
+
+void edk::shape::GridPolygons2D::drawSelection(){
+    if(this->mat.haveMatrix()){
+        //draw polygons
+        edk::uint32 width = this->mat.getWidth(),height = this->mat.getHeight();
+        this->obj.size = this->size;
+        edk::vec2f32 newPosition = edk::vec2f32(this->size.width*-0.5*this->mat.getWidth(),
+                                                this->size.height*-0.5*this->mat.getHeight()
+                                                );
+        edk::shape::Mesh2D* mesh = this->obj.getMesh(0u);
+        edk::float32 newY=0.f;
+        if(mesh){
+            for(edk::uint32 y=0u;y<height;y++){
+                newY = ((this->size.height*y*-1.f)+(this->size.height*(this->mat.getHeight()-1.f)));
+                for(edk::uint32 x=0u;x<width;x++){
+                    this->obj.position = edk::vec2f32(newPosition.x + (this->size.width*x),
+                                                      newPosition.y + newY
+                                                      );
+                    mesh->setPolygonsColor(0.f,0.f,0.f,1.f);
+                    edk::GU::guPushName(x);
+                    edk::GU::guPushName(y);
+                    this->obj.drawWithoutMaterial();
+                    edk::GU::guPopName();
+                    edk::GU::guPopName();
+                }
+            }
+        }
+    }
+}

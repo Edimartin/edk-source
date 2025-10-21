@@ -71,6 +71,8 @@ public:
 
     //draw the grid
     virtual void draw();
+
+    void drawSelection();
 private:
     edk::vector::MatrixDynamic<edk::uint32> mat;
     //polygon to draw the color
