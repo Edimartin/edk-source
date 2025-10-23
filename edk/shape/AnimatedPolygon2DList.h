@@ -74,6 +74,14 @@ public:
     void updateFramesAnimations();
     void updateFramesAnimations(edk::float32 seconds);
 
+    //DELETE
+    //clean the polygons
+    virtual void cleanPolygons();
+    //delete the polygon
+    virtual bool removePolygon(edk::uint32 position);
+    //free de selected
+    virtual void freeSelected();
+
     //controls
     bool polygonsAnimationPlayForward();
     bool polygonsAnimationPlayForwardIn(edk::float32 second);
@@ -194,6 +202,7 @@ public:
 protected:
     //animationSelected
     edk::animation::Interpolation1DGroup* selectedAnimation;
+    edk::uint32 selectedAnimationID;
     edk::uint32 selectedID;
 private:
     edk::classID classThis;

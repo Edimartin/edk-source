@@ -154,11 +154,11 @@ public:
 
     //DELETE
     //clean the polygons
-    void cleanPolygons();
+    virtual void cleanPolygons();
     //delete the polygon
-    bool removePolygon(edk::uint32 position);
+    virtual bool removePolygon(edk::uint32 position);
     //free de selected
-    void freeSelected();
+    virtual void freeSelected();
 
     //SELECTED
     bool selectPolygon(edk::uint32 position);

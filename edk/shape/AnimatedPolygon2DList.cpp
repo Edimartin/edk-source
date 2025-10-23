@@ -43,6 +43,7 @@ void edk::shape::AnimatedPolygon2DList::Constructor(){
         this->freeSelectedAnimation();
         this->selectedID=0u;
         this->selectedAnimation=NULL;
+        this->selectedAnimationID=0u;
     }
 }
 void edk::shape::AnimatedPolygon2DList::Destructor(){
@@ -81,6 +82,7 @@ bool edk::shape::AnimatedPolygon2DList::setAnimationFramesToAllPolygons(){
     edk::uint32 size = this->polygons.size();
     if(size){
         this->selectedAnimation=NULL;
+        this->selectedAnimationID=0u;
         for(edk::uint32 i=0u;i<size;i++){
             temp = this->polygons.get(i);
             //test if have selected some polygon
@@ -170,6 +172,7 @@ bool edk::shape::AnimatedPolygon2DList::selectAnimationFramesFromPolygon(edk::ui
             if(temp->framesHaveAnimation()){
                 //then select the animation
                 this->selectedAnimation = temp->framesGetAnimation();
+                this->selectedAnimationID=position;
                 //then return true
                 return true;
             }
@@ -251,6 +254,28 @@ void edk::shape::AnimatedPolygon2DList::updateFramesAnimations(edk::float32 seco
             }
         }
     }
+}
+
+//DELETE
+//clean the polygons
+void edk::shape::AnimatedPolygon2DList::cleanPolygons(){
+    this->selectedAnimation=NULL;
+    this->selectedAnimationID=0u;
+    edk::shape::Polygon2DList::cleanPolygons();
+}
+//delete the polygo
+bool edk::shape::AnimatedPolygon2DList::removePolygon(edk::uint32 position){
+    if(position == this->selectedAnimationID){
+        this->selectedAnimation=NULL;
+        this->selectedAnimationID=0u;
+    }
+    return edk::shape::Polygon2DList::removePolygon(position);
+}
+//free de selected
+void edk::shape::AnimatedPolygon2DList::freeSelected(){
+    this->selectedAnimation=NULL;
+    this->selectedAnimationID=0u;
+    edk::shape::Polygon2DList::freeSelected();
 }
 
 //controls
