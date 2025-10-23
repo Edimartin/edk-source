@@ -1854,7 +1854,7 @@ void edk::tiles::TileMap2D::draw(edk::color4f32 color){
         edk::size2ui32 last = this->sizeMap;
         if(last.width){
             last.width--;
-            for(edk::uint32 y=1u,y2=this->sizeMap.height-1u;y<this->sizeMap.height;y++,y2--){
+            for(edk::uint32 y=0u,y2=this->sizeMap.height-1u;y<this->sizeMap.height;y++,y2--){
                 for(edk::uint32 x=0u;x<last.width;x++){
                     //draw the tile
                     this->tileSet->drawTile( this->tileMap[y][x]
@@ -1951,7 +1951,7 @@ void edk::tiles::TileMap2D::drawWithoutMaterial(edk::color4f32 color){
         edk::size2ui32 last = this->sizeMap;
         if(last.width){
             last.width--;
-            for(edk::uint32 y=1u,y2=this->sizeMap.height-1u;y<this->sizeMap.height;y++,y2--){
+            for(edk::uint32 y=0u,y2=this->sizeMap.height-1u;y<this->sizeMap.height;y++,y2--){
                 for(edk::uint32 x=0u;x<last.width;x++){
                     //draw the tile
                     this->tileSet->drawTileWithoutMaterial(this->tileMap[y][x]
@@ -2185,7 +2185,7 @@ void edk::tiles::TileMap2D::draw(){
         edk::size2ui32 last = this->sizeMap;
         if(last.width){
             last.width--;
-            for(edk::uint32 y=1u,y2=this->sizeMap.height-1u;y<this->sizeMap.height;y++,y2--){
+            for(edk::uint32 y=0u,y2=this->sizeMap.height-1u;y<this->sizeMap.height;y++,y2--){
                 for(edk::uint32 x=0u;x<last.width;x++){
                     //draw the tile
                     this->tileSet->drawTile(this->tileMap[y][x]
@@ -2283,7 +2283,7 @@ void edk::tiles::TileMap2D::drawWithoutMaterial(){
         edk::size2ui32 last = this->sizeMap;
         if(last.width){
             last.width--;
-            for(edk::uint32 y=1u,y2=this->sizeMap.height-1u;y<this->sizeMap.height;y++,y2--){
+            for(edk::uint32 y=0u,y2=this->sizeMap.height-1u;y<this->sizeMap.height;y++,y2--){
                 for(edk::uint32 x=0u;x<last.width;x++){
                     //draw the tile
                     this->tileSet->drawTileWithoutMaterial(this->tileMap[y][x]
