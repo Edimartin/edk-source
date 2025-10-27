@@ -1006,11 +1006,12 @@ bool edk::shape::FileOBJ::objAddFile(edk::char8* fileName){
 
             edk::char8* newFileName = NULL;
 
-            edk::char8* limits = (edk::char8*)malloc(3u);
+            edk::char8* limits = (edk::char8*)malloc(4u);
             if(limits){
                 limits[0u]=13u;
                 limits[1u]=10u;
-                limits[2u]=0u;
+                limits[2u]='\n';
+                limits[3u]=0u;
 
                 //test if the fileName have the .obj in the end
                 //printf("\nFilename == '%s'",fileName);fflush(stdout);
@@ -1229,6 +1230,8 @@ bool edk::shape::FileOBJ::objAddFile(edk::char8* fileName){
                                         free(str);
                                     }
                                     //printf("\nNEW Vertex Texture %.2f %.2f",x,y);
+                                    //invert the Y
+                                    y=(y*-1.f)+1.f;
                                     this->uvs.newUV(x,y);
                                 }
                             }
@@ -1309,6 +1312,11 @@ bool edk::shape::FileOBJ::objAddFile(edk::char8* fileName){
                                         //printf("\nSMOOTH TRUE '%s'",str);
                                         //smooth=true;
                                     }
+                                    else if(str[0u]=='2'){
+                                        //
+                                        printf("\nSMOOTH TRUE '%s'",str);
+                                        //smooth=true;
+                                    }
                                     free(str);
                                 }
                             }
@@ -1333,11 +1341,11 @@ bool edk::shape::FileOBJ::objAddFile(edk::char8* fileName){
                                     ve = temp = str;
                                     read = 0u;
                                     v=p=n=0u;
-                                    //printf("\n");
+/*
+                                    printf("\n");
 
-                                    //printf("\nTEMP == '%s'",temp);fflush(stdout);
-
-
+                                    printf("\nTEMP == '%s'",temp);fflush(stdout);
+*/
                                     while(*temp){
                                         switch(*temp){
                                         case '/':
@@ -1375,6 +1383,7 @@ bool edk::shape::FileOBJ::objAddFile(edk::char8* fileName){
                                             break;
                                         case ' ':
                                         case '\n':
+                                        case 13u:
                                             *temp = '\0';
                                             if(ve<temp){
                                                 switch(read){
