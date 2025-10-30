@@ -40,7 +40,7 @@ void edk::shd::Shader::Constructor(){
     edk::ObjectWithName::Constructor();
     if(this->classThis!=this){
         this->classThis=this;
-        this->id=0u;
+        this->id=0;
         this->type=EDK_SHADER_NONE;
         this->log=NULL;
     }
@@ -143,7 +143,7 @@ bool edk::shd::Shader::loadShaderFromMemory(edk::uint8* shader, edk::uint32 size
             this->id=edk::GU_GLSL::guCreateShader(GU_GLSL_GEOMETRY_SHADER);
             break;
         }
-        if(this->id){
+        if(this->id>0){
             //create the shaderID
             //now set the shader data
             if(edk::GU_GLSL::guShaderSource(this->id,shader,size)){
@@ -214,7 +214,7 @@ void edk::shd::Shader::deleteShader(){
         //then delete the shader
         edk::GU_GLSL::guDeleteShader(this->id);
     }
-    this->id=0u;
+    this->id=0;
 }
 //delete the log
 void edk::shd::Shader::deleteLog(){

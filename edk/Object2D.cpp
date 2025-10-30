@@ -2694,6 +2694,24 @@ void edk::Object2D::cleanMeshes(){
     this->meshes.removeAllMeshes();
 }
 
+//set the drawStart function to set the textures in the shader
+bool edk::Object2D::setShaderPointer(edk::material::ShaderFunctionToMaterial* shader){
+    if(shader){
+        edk::uint32 size = this->meshes.size();
+        edk::shape::Mesh2D* temp;
+        if(size){
+            for(edk::uint32 i=0u;i<size;i++){
+                temp = this->meshes.getMesh(i);
+                if(temp){
+                    temp->material.setShaderPointer(shader);
+                }
+            }
+            return true;
+        }
+    }
+    return false;
+}
+
 //function to calculate boundingBox
 bool edk::Object2D::calculateBoundingBox(){
     return this->writeChildremBoundingBox(&this->boundingBox);

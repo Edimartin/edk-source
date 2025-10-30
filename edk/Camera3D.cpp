@@ -123,7 +123,7 @@ void edk::Camera3D::start(){
     this->position = edk::vec3f32(0.f,0.f,-1.f);
     this->lookAt = edk::vec3f32(0.f,0.f,0.f);
 
-    this->up = edk::vec2f32(0.f,1.f);
+    this->up = edk::vec3f32(0.f,1.f,0.f);
     this->size = edk::size2f32(1.f,1.f);
     this->sizePercent = this->size.width/this->size.height;
     this->distancePercent = edk::Math::pythagoras(this->size.width*0.5f,this->size.height*0.5f);
@@ -240,11 +240,17 @@ void edk::Camera3D::setSizeH(edk::float32 height){
     this->distancePercent = edk::Math::pythagoras(this->size.width*0.5f,this->size.height*0.5f);
 }
 //return the size
+edk::size2f32 edk::Camera3D::getSize(){
+    return edk::size2f32(this->size.width * 2.f,this->size.height * 2.f);
+}
 edk::float32 edk::Camera3D::getWidth(){
     return this->size.width * 2.f;
 }
 edk::float32 edk::Camera3D::getHeight(){
     return this->size.height * 2.f;
+}
+edk::float32 edk::Camera3D::getSizePercent(){
+    return this->sizePercent;
 }
 
 //set near and far
@@ -311,6 +317,19 @@ edk::vec3f32 edk::Camera3D::getPositionFarDownLeft(){
 }
 edk::vec3f32 edk::Camera3D::getPositionFarDownRight(){
     return this->vecFarDownRight;
+}
+
+edk::vec3f32 edk::Camera3D::getUP(){
+    return this->up;
+}
+edk::float32 edk::Camera3D::getUPX(){
+    return this->up.x;
+}
+edk::float32 edk::Camera3D::getUPY(){
+    return this->up.y;
+}
+edk::float32 edk::Camera3D::getUPZ(){
+    return this->up.z;
 }
 
 //Distance

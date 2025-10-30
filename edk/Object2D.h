@@ -78,6 +78,9 @@ public:
     //remove all meshes
     virtual void cleanMeshes();
 
+    //set the drawStart function to set the textures in the shader
+    bool setShaderPointer(edk::material::ShaderFunctionToMaterial* shader);
+
     //function to calculate boundingBox
     bool calculateBoundingBox();
     bool calculateBoundingBox(edk::vector::Matrixf32<3u,3u>* transformMat);

@@ -45,6 +45,14 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 namespace edk{
 namespace material{
+class Material;
+class ShaderFunctionToMaterial{
+public:
+    ShaderFunctionToMaterial(){}
+    ~ShaderFunctionToMaterial(){}
+    //function to set the pointer
+    virtual void startShaderFunction(edk::material::Material*)=0;
+};
 class Material{
     //Define the textureCount
 #define materialTextureCount 32u
@@ -121,6 +129,9 @@ public:
     void setEmission(edk::color3f32 color);
     void setEmissionA(edk::float32 a);
     void setShininess(edk::float32 shininess);
+
+    //set the drawStart function to set the textures in the shader
+    bool setShaderPointer(edk::material::ShaderFunctionToMaterial* shader);
 
     //GETERS
     edk::color4f32 getAmbient();
@@ -235,6 +246,15 @@ public:
         return false;
     }
 private:
+    //pointer function to start draw the mesh
+    class MaterialFuncton : public ShaderFunctionToMaterial{
+    public:
+        MaterialFuncton(){}
+        ~MaterialFuncton(){}
+        //function to set the pointer
+        void inline startShaderFunction(edk::material::Material*){}
+    }shadeFunction,*shadePointer;
+
     Material operator =(Material mat){
         edk::uint32 texTemp[materialTextureCount];
         //copy the textures

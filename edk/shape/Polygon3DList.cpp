@@ -49,6 +49,8 @@ edk::uint8 vboSizeofMesh3D[edk::GU::vbo_Size] = {
     /*sizeof(edk::float32)* */12u  //vbo_XYZ_RGBA_NxNyNz_UVxUVy,
 };
 
+edk::material::Material edk::shape::Polygon3DList::whiteMaterial;
+
 edk::shape::Polygon3DList::Polygon3DList(){
     this->classThis=NULL;
     this->Constructor();
@@ -19472,6 +19474,27 @@ void edk::shape::Polygon3DList::drawUpdate_XYZ_RGBA_NxNyNz_UVxUVy(edk::uint32 mo
     this->updateVBO();
     edk::GU_GLSL::guUseBuffer(GU_ARRAY_BUFFER,this->vbo);
 
+    edk::uint32 striide = 12 * sizeof(edk::float32);
+    // --- 1. Posição (layout(location = 0) in vec3 aPos) ---
+    // 3 floats de tamanho, stride de 12 floats, offset de 0
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, striide, (edk::classID)0);
+    glEnableVertexAttribArray(0);
+
+    // --- 2. Cor (layout(location = 1) in vec4 aColor) ---
+    // 4 floats de tamanho, stride de 12 floats, offset de 3 floats
+    glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, striide, (edk::classID)(3 * sizeof(GLfloat)));
+    glEnableVertexAttribArray(1);
+
+    // --- 3. Normal (layout(location = 2) in vec3 aNormal) ---
+    // 3 floats de tamanho, stride de 12 floats, offset de 7 floats
+    glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, striide, (edk::classID)(7 * sizeof(GLfloat)));
+    glEnableVertexAttribArray(2);
+
+    // --- 4. UV (Textura) (layout(location = 3) in vec2 aTexCoord) ---
+    // 2 floats de tamanho, stride de 12 floats, offset de 10 floats
+    glVertexAttribPointer(3, 2, GL_FLOAT, GL_FALSE, striide, (edk::classID)(10 * sizeof(GLfloat)));
+    glEnableVertexAttribArray(3);
+
     //enable texture coord in array
     edk::GU_GLSL::guEnableClientState(GU_TEXTURE_COORD_ARRAY);
     //set the texture coor position in array
@@ -23110,5 +23133,7 @@ void edk::shape::Polygon3DList::drawVBOPolygons(){
     (this->*vboDraw)(GU_TRIANGLES);
 }
 void edk::shape::Polygon3DList::drawVBOWirePolygons(){
+    this->whiteMaterial.drawStartWithOneTexture();
     (this->*vboDrawWire)(GU_LINES);
+    this->whiteMaterial.drawEnd();
 }

@@ -105,8 +105,8 @@ void edk::shd::Data::setData2i(edk::vec2i32 datas){
     }
     else{
         //else set the value
-        this->ints.set(1u,datas.x);
-        this->ints.set(2u,datas.y);
+        this->ints.set(0u,datas.x);
+        this->ints.set(1u,datas.y);
     }
     //set use
     this->useData=true;
@@ -188,7 +188,7 @@ void edk::shd::Data::setData2f(edk::vec2f32 datas){
     else{
         //else set the value
         this->floats.set(0u,datas.x);
-        this->floats.set(2u,datas.y);
+        this->floats.set(1u,datas.y);
     }
     //set use
     this->useData=false;

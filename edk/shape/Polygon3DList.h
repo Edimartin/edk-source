@@ -36,6 +36,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "Cube3D.h"
 #include "Circle3D.h"
 #include "Lines3D.h"
+#include "../material/Material.h"
 //Animation
 #include "../animation/Interpolation3DGroup.h"
 
@@ -556,6 +557,8 @@ protected:
     //mesh selected
     edk::shape::Polygon3D* selected;
 private:
+    static edk::material::Material whiteMaterial;
+
     //Operator
     edk::shape::Polygon3DList operator=(edk::shape::Polygon3DList list){
         //delete the polygons

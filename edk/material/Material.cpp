@@ -28,6 +28,8 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #pragma message "            Inside Material.cpp"
 #endif
 
+void inline startDrawFunction(edk::material::Material*){}
+
 edk::material::Material::Material(){
     this->classThis=NULL;
     this->Constructor();
@@ -41,6 +43,8 @@ void edk::material::Material::Constructor(){
         this->classThis=this;
 
         this->list.Constructor();
+
+        this->shadePointer = &this->shadeFunction;
 
         for(edk::uint8 i=0u;i<materialTextureCount;i++){
             //clean the textures
@@ -358,6 +362,16 @@ void edk::material::Material::setShininess(edk::float32 shininess){
     this->shininess = shininess;
 }
 
+//set the drawStart function to set the textures in the shader
+bool edk::material::Material::setShaderPointer(edk::material::ShaderFunctionToMaterial* shader){
+    if(shader){
+        this->shadePointer = (edk::material::Material::MaterialFuncton*)shader;
+        return true;
+    }
+    this->shadePointer = &this->shadeFunction;
+    return false;
+}
+
 //GETERS
 edk::color4f32 edk::material::Material::getAmbient(){
     return edk::color4f32(this->ambient[0u],this->ambient[1u],this->ambient[2u],this->ambient[3u]);
@@ -488,12 +502,14 @@ void edk::material::Material::drawEnd(){
     this->drawEndWithTexture();
 }
 void edk::material::Material::drawNoTexture(){
+    edk::GU::guDisable(GU_TEXTURE_2D);
     this->useMaterialParameters();
 }
 void edk::material::Material::drawStartWithOneTexture(){
+    this->shadePointer->startShaderFunction(this);
     edk::GU::guEnable(GU_TEXTURE_2D);
 
-    //edk::GU_GLSL::guActiveTexture(GU_TEXTURE0);
+    edk::GU_GLSL::guActiveTexture(GU_TEXTURE0);
     //set the texture
     edk::GU::guUseTexture2D(this->textures[0u]);
 
@@ -501,6 +517,7 @@ void edk::material::Material::drawStartWithOneTexture(){
     this->useMaterialParameters();
 }
 void edk::material::Material::drawStartWithOneTexture(edk::uint32 position){
+    this->shadePointer->startShaderFunction(this);
     edk::GU::guEnable(GU_TEXTURE_2D);
 
     //edk::GU_GLSL::guActiveTexture(GU_TEXTURE0);
@@ -516,6 +533,7 @@ void edk::material::Material::drawStartWithOneTexture(edk::uint32 position){
     this->useMaterialParameters();
 }
 void edk::material::Material::drawStartWithMultiTexture(){
+    this->shadePointer->startShaderFunction(this);
     edk::GU::guEnable(GU_TEXTURE_2D);
     //set the textures
 

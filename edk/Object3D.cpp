@@ -3262,6 +3262,24 @@ edk::cubef32 edk::Object3D::generateNewBoundingBoxNoChildrem(edk::vector::Matrix
     return ret;
 }
 
+//set the drawStart function to set the textures in the shader
+bool edk::Object3D::setShaderPointer(edk::material::ShaderFunctionToMaterial* shader){
+    if(shader){
+        edk::uint32 size = this->meshes.size();
+        edk::shape::Mesh3D* temp;
+        if(size){
+            for(edk::uint32 i=0u;i<size;i++){
+                temp = this->meshes.getMesh(i);
+                if(temp){
+                    temp->material.setShaderPointer(shader);
+                }
+            }
+            return true;
+        }
+    }
+    return false;
+}
+
 //return a copy of the boundingBox
 edk::cubef32 edk::Object3D::getBoundingBox(){
     return this->boundingBox;

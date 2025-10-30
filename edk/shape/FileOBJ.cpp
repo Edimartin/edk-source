@@ -1314,7 +1314,7 @@ bool edk::shape::FileOBJ::objAddFile(edk::char8* fileName){
                                     }
                                     else if(str[0u]=='2'){
                                         //
-                                        printf("\nSMOOTH TRUE '%s'",str);
+                                        //printf("\nSMOOTH TRUE '%s'",str);
                                         //smooth=true;
                                     }
                                     free(str);

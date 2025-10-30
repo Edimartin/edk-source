@@ -72,8 +72,10 @@ public:
     void setSizeW(edk::float32 width);
     void setSizeH(edk::float32 height);
     //return the size
+    edk::size2f32 getSize();
     edk::float32 getWidth();
     edk::float32 getHeight();
+    edk::float32 getSizePercent();
 
     //set near and far
     void setNearFar(edk::float32 near,edk::float32 far);
@@ -97,6 +99,11 @@ public:
     edk::vec3f32 getPositionFarUpRight();
     edk::vec3f32 getPositionFarDownLeft();
     edk::vec3f32 getPositionFarDownRight();
+
+    edk::vec3f32 getUP();
+    edk::float32 getUPX();
+    edk::float32 getUPY();
+    edk::float32 getUPZ();
 
     //Distance
     edk::float32 getDistance();
@@ -174,7 +181,7 @@ public:
 private:
     edk::Camera3D operator=(edk::Camera3D){return *this;}
     bool perspective;
-    edk::vec2f32 up;
+    edk::vec3f32 up;
     edk::size2f32 size;
     edk::float32 sizePercent;
     edk::float32 distancePercent;

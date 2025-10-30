@@ -676,7 +676,7 @@ void edk::shd::GLSL::dontUseThisShader(){
     //test if can use shader
     if(this->usingGLSL()){
         //use the shader
-        edk::GU_GLSL::guUseProgram(0u);
+        edk::GU_GLSL::guUseProgram(0);
     }
 }
 //dont use the shader
@@ -684,7 +684,7 @@ void edk::shd::GLSL::useNoShader(){
     //
     if(libStarted){
         //
-        edk::GU_GLSL::guUseProgram(0u);
+        edk::GU_GLSL::guUseProgram(0);
     }
 }
 

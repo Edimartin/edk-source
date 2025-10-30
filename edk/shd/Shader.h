@@ -86,7 +86,7 @@ public:
     edk::shd::shaderType getShaderType();
 protected:
 private:
-    edk::uint32 id;
+    edk::int32 id;
     //shaderType
     edk::shd::shaderType type;
     //compike log

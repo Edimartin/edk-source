@@ -237,23 +237,23 @@ public:
     static bool guShaderInitiated();
 
     static bool guStartShader(edk::int32 shade);
-    static edk::uint32 guCreateShader(edk::uint32 type);
-    static void guDeleteShader(edk::uint32 id);
+    static edk::int32 guCreateShader(edk::uint32 type);
+    static void guDeleteShader(edk::int32 id);
     //Set the shader source to the shader program
-    static bool guShaderSource(edk::uint32 id, edk::uint8 *data,  edk::uint32 length);
+    static bool guShaderSource(edk::int32 id, edk::uint8 *data,  edk::uint32 length);
     //Compile the shader source
-    static void guCompileShader(edk::uint32 id);
-    static void guGetShaderiv(edk::uint32 id,  edk::uint32 pname,  edk::int32 *params);
-    static void guGetProgramiv(edk::uint32 id, edk::uint32 pname,  edk::int32 *params);
-    static void guGetShaderInfoLog(edk::uint32 id,  edk::int32 maxLength,  edk::int32 *length,  edk::char8 *infoLog);
-    static void guGetProgramInfoLog(edk::uint32 id,  edk::int32 maxLength,  edk::int32 *length,  edk::char8 *infoLog);
+    static void guCompileShader(edk::int32 id);
+    static void guGetShaderiv(edk::int32 id,  edk::uint32 pname,  edk::int32 *params);
+    static void guGetProgramiv(edk::int32 id, edk::uint32 pname,  edk::int32 *params);
+    static void guGetShaderInfoLog(edk::int32 id,  edk::int32 maxLength,  edk::int32 *length,  edk::char8 *infoLog);
+    static void guGetProgramInfoLog(edk::int32 id,  edk::int32 maxLength,  edk::int32 *length,  edk::char8 *infoLog);
     //shader program
-    static edk::uint32 guCreateProgram();
-    static bool guProgramUseShader(edk::uint32 id,edk::uint32 shaderId);
-    static void guProgramRemoveShader(edk::uint32 id,edk::uint32 shaderId);
-    static void guDeleteProgram(edk::uint32 id);
-    static void guLinkProgram(edk::uint32 programID);
-    static void guUseProgram(edk::uint32 programID);
+    static edk::int32 guCreateProgram();
+    static bool guProgramUseShader(edk::int32 id,edk::uint32 shaderId);
+    static void guProgramRemoveShader(edk::int32 id,edk::uint32 shaderId);
+    static void guDeleteProgram(edk::int32 id);
+    static void guLinkProgram(edk::int32 programID);
+    static void guUseProgram(edk::int32 programID);
 
     static void guData1i32(edk::int32 id,edk::int32 d0);
     static void guData2i32(edk::int32 id,edk::vec2i32 d);
@@ -603,6 +603,8 @@ public:
 #endif
     static edk::multi::MutexDisable mutBeginEnd;
 
+    static bool usingShaderProgram;
+
     //mutex used to create the shader
     static edk::multi::Mutex mutCreateShader;
     static edk::multi::Mutex mutDelShader;
@@ -663,7 +665,7 @@ private:
         edk::classID classThis;
     };
     static edk::vector::Queue<edk::GU_GLSL::ShaderClass> genShaders;
-    static edk::vector::Queue<edk::uint32> delShaders;
+    static edk::vector::Queue<edk::int32> delShaders;
 
     class Shader_Tree : public edk::vector::BinaryTree<edk::GU_GLSL::ShaderClass>{
     public:
@@ -854,7 +856,7 @@ private:
             if(this->classThis!=this){
                 this->classThis=this;
                 this->threadID = 0u;
-                this->id=0u;
+                this->id=0;
             }
         }
         void Destructor(){
@@ -877,7 +879,7 @@ private:
         inline bool operator<(edk::GU_GLSL::ShaderCompileClass shader){
             return (this->threadID < shader.threadID);
         }
-        edk::uint32 id;
+        edk::int32 id;
 #if __x86_64__ || __ppc64__
         edk::uint64 threadID;
 #else
@@ -1415,7 +1417,7 @@ private:
             if(this->classThis!=this){
                 this->classThis=this;
                 this->threadID = 0u;
-                this->id = 0u;
+                this->id = 0;
             }
         }
         void Destructor(){
@@ -1438,7 +1440,7 @@ private:
         inline bool operator<(edk::GU_GLSL::ShaderUseClass shader){
             return (this->threadID < shader.threadID);
         }
-        edk::uint32 id;
+        edk::int32 id;
 #if __x86_64__ || __ppc64__
         edk::uint64 threadID;
 #else
