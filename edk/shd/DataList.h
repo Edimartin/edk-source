@@ -35,6 +35,8 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 //use one bynaryTree
 #include "../vector/BinaryTree.h"
+//use the matrix
+#include "../vector/Matrix.h"
 //the shaderProgram have a name
 #include "../Object.h"
 
@@ -123,41 +125,53 @@ public:
     bool setData4f(const edk::char8* name,edk::vec4f32 datas);
     bool setData4f(edk::char8* name,edk::vec4f32 datas);
     //set the matrices
+    bool setMatrix2f(const edk::char8* name,edk::vector::Matrix<edk::float32,2u,2u> mat);
+    bool setMatrix2f(edk::char8* name,edk::vector::Matrix<edk::float32,2u,2u> mat);
+    bool setMatrix2f(const edk::char8* name,edk::vector::Matrix<edk::float32,2u,2u>* mat);
+    bool setMatrix2f(edk::char8* name,edk::vector::Matrix<edk::float32,2u,2u>* mat);
     bool setMatrix2f(const edk::char8* name,edk::float32 mat[2u][2u]);
     bool setMatrix2f(edk::char8* name,edk::float32 mat[2u][2u]);
     bool setMatrix2f(const edk::char8* name,
-                     edk::float32 f11,edk::float32 f12,
-                     edk::float32 f21,edk::float32 f22
+                     edk::float32 f00,edk::float32 f01,
+                     edk::float32 f10,edk::float32 f11
                      );
     bool setMatrix2f(edk::char8* name,
-                     edk::float32 f11,edk::float32 f12,
-                     edk::float32 f21,edk::float32 f22
+                     edk::float32 f00,edk::float32 f01,
+                     edk::float32 f10,edk::float32 f11
                      );
+    bool setMatrix3f(const edk::char8* name,edk::vector::Matrix<edk::float32,3u,3u> mat);
+    bool setMatrix3f(edk::char8* name,edk::vector::Matrix<edk::float32,3u,3u> mat);
+    bool setMatrix3f(const edk::char8* name,edk::vector::Matrix<edk::float32,3u,3u>* mat);
+    bool setMatrix3f(edk::char8* name,edk::vector::Matrix<edk::float32,3u,3u>* mat);
     bool setMatrix3f(const edk::char8* name,edk::float32 mat[3u][3u]);
     bool setMatrix3f(edk::char8* name,edk::float32 mat[3u][3u]);
     bool setMatrix3f(const edk::char8* name,
-                     edk::float32 f11,edk::float32 f12,edk::float32 f13,
-                     edk::float32 f21,edk::float32 f22,edk::float32 f23,
-                     edk::float32 f31,edk::float32 f32,edk::float32 f33
+                     edk::float32 f00,edk::float32 f01,edk::float32 f02,
+                     edk::float32 f10,edk::float32 f11,edk::float32 f12,
+                     edk::float32 f20,edk::float32 f21,edk::float32 f22
                      );
     bool setMatrix3f(edk::char8* name,
-                     edk::float32 f11,edk::float32 f12,edk::float32 f13,
-                     edk::float32 f21,edk::float32 f22,edk::float32 f23,
-                     edk::float32 f31,edk::float32 f32,edk::float32 f33
+                     edk::float32 f00,edk::float32 f01,edk::float32 f02,
+                     edk::float32 f10,edk::float32 f11,edk::float32 f12,
+                     edk::float32 f20,edk::float32 f21,edk::float32 f22
                      );
+    bool setMatrix4f(const edk::char8* name,edk::vector::Matrix<edk::float32,4u,4u> mat);
+    bool setMatrix4f(edk::char8* name,edk::vector::Matrix<edk::float32,4u,4u> mat);
+    bool setMatrix4f(const edk::char8* name,edk::vector::Matrix<edk::float32,4u,4u>* mat);
+    bool setMatrix4f(edk::char8* name,edk::vector::Matrix<edk::float32,4u,4u>* mat);
     bool setMatrix4f(const edk::char8* name,edk::float32 mat[4u][4u]);
     bool setMatrix4f(edk::char8* name,edk::float32 mat[4u][4u]);
     bool setMatrix4f(const edk::char8* name,
-                     edk::float32 f11,edk::float32 f12,edk::float32 f13,edk::float32 f14,
-                     edk::float32 f21,edk::float32 f22,edk::float32 f23,edk::float32 f24,
-                     edk::float32 f31,edk::float32 f32,edk::float32 f33,edk::float32 f34,
-                     edk::float32 f41,edk::float32 f42,edk::float32 f43,edk::float32 f44
+                     edk::float32 f00,edk::float32 f01,edk::float32 f02,edk::float32 f03,
+                     edk::float32 f10,edk::float32 f11,edk::float32 f12,edk::float32 f13,
+                     edk::float32 f20,edk::float32 f21,edk::float32 f22,edk::float32 f23,
+                     edk::float32 f30,edk::float32 f31,edk::float32 f32,edk::float32 f33
                      );
     bool setMatrix4f(edk::char8* name,
-                     edk::float32 f11,edk::float32 f12,edk::float32 f13,edk::float32 f14,
-                     edk::float32 f21,edk::float32 f22,edk::float32 f23,edk::float32 f24,
-                     edk::float32 f31,edk::float32 f32,edk::float32 f33,edk::float32 f34,
-                     edk::float32 f41,edk::float32 f42,edk::float32 f43,edk::float32 f44
+                     edk::float32 f00,edk::float32 f01,edk::float32 f02,edk::float32 f03,
+                     edk::float32 f10,edk::float32 f11,edk::float32 f12,edk::float32 f13,
+                     edk::float32 f20,edk::float32 f21,edk::float32 f22,edk::float32 f23,
+                     edk::float32 f30,edk::float32 f31,edk::float32 f32,edk::float32 f33
                      );
 
     //SET AND UPDATE DATA'S

@@ -132,7 +132,11 @@ public:
 
     //get the projection matrix
     void updateProjection();
+    //generate the camera matrix
+    void calculateProjectionMatrix();
+    void calculateLookAtMatrix();
     edk::vector::Matrixf32<4u,4u>* getProjection();
+    edk::vector::Matrixf32<4u,4u>* getLookAtMatrix();
 
     //draw the camera
     void draw();
@@ -214,11 +218,10 @@ private:
     edk::vector::Matrixf32<4u,4u> matrixRotateZ;
     edk::vector::Matrixf32<4u,4u> matrixScale;
     edk::vector::Matrixf32<4u,4u> projection;
+    edk::vector::Matrixf32<4u,4u> lookAtView;
     edk::vector::MatrixDynamic<edk::float32> matrixPosition;
 
     void start();
-    //generate the camera matrix
-    void calculateProjectionMatrix();
     //update the camera vectors
     void updateVectors();
     //multiply a point to the matrix

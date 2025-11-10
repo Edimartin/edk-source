@@ -54,6 +54,7 @@ void edk::Camera3D::Constructor(){
         this->matrixRotateZ.Constructor();
         this->matrixScale.Constructor();
         this->projection.Constructor();
+        this->lookAtView.Constructor();
         this->matrixPosition.Constructor();
         this->start();
         this->perspective = true;
@@ -70,6 +71,7 @@ void edk::Camera3D::Constructor(edk::vec3f32 position,edk::vec3f32 lookAt){
         this->matrixRotateZ.Constructor();
         this->matrixScale.Constructor();
         this->projection.Constructor();
+        this->lookAtView.Constructor();
         this->matrixPosition.Constructor();
         this->start();
         this->position = position;
@@ -94,6 +96,7 @@ void edk::Camera3D::Constructor(edk::float32 pX,
         this->matrixRotateZ.Constructor();
         this->matrixScale.Constructor();
         this->projection.Constructor();
+        this->lookAtView.Constructor();
         this->matrixPosition.Constructor();
         this->start();
         this->position = edk::vec3f32(pX,pY,pZ);
@@ -114,6 +117,7 @@ void edk::Camera3D::Destructor(){
         this->matrixRotateZ.Destructor();
         this->matrixScale.Destructor();
         this->projection.Destructor();
+        this->lookAtView.Destructor();
         this->matrixPosition.Destructor();
     }
 }
@@ -132,15 +136,6 @@ void edk::Camera3D::start(){
 
     this->updateProjection();
 }
-//generate the camera matrix
-void edk::Camera3D::calculateProjectionMatrix(){
-    this->projection.setIdentity(1.f,0.f);
-    edk::Math::generateLookAtMatrix(this->position.x,this->position.y,this->position.z,
-                                    this->lookAt.x,this->lookAt.y,this->lookAt.z,
-                                    this->up.x,this->up.y,0.f,
-                                    &this->projection
-                                    );
-}
 //update the camera vectors
 void edk::Camera3D::updateVectors(){
     //multiply the vectors
@@ -156,25 +151,25 @@ void edk::Camera3D::updateVectors(){
     this->positionFar =     (edk::Math::normalise(this->lookAt - this->position) * this->_far) + this->position;
     //
     this->vecNearUpLeft=    (edk::Math::normalise(this->multiplyPointWithMatrix(edk::vec3f32(-10000.f * this->size.width,
-                                                                                            10000.f  * this->size.height,
-                                                                                            0.f)
-                                                                               )
-                                                 )*this->distancePercent);// + this->positionNear;
-    this->vecNearUpRight=   (edk::Math::normalise(this->multiplyPointWithMatrix(edk::vec3f32( 10000.f * this->size.width,
-                                                                                             10000.f * this->size.height,
+                                                                                             10000.f  * this->size.height,
                                                                                              0.f)
-                                                                               )
-                                                 )*this->distancePercent);// + this->positionNear;
+                                                                                )
+                                                  )*this->distancePercent);// + this->positionNear;
+    this->vecNearUpRight=   (edk::Math::normalise(this->multiplyPointWithMatrix(edk::vec3f32( 10000.f * this->size.width,
+                                                                                              10000.f * this->size.height,
+                                                                                              0.f)
+                                                                                )
+                                                  )*this->distancePercent);// + this->positionNear;
     this->vecNearDownLeft=  (edk::Math::normalise(this->multiplyPointWithMatrix(edk::vec3f32(-10000.f * this->size.width,
-                                                                                            -10000.f * this->size.height,
-                                                                                            0.f)
-                                                                               )
-                                                 )*this->distancePercent);// + this->positionNear;
-    this->vecNearDownRight= (edk::Math::normalise(this->multiplyPointWithMatrix(edk::vec3f32( 10000.f  * this->size.width,
                                                                                              -10000.f * this->size.height,
                                                                                              0.f)
-                                                                               )
-                                                 )*this->distancePercent);// + this->positionNear;
+                                                                                )
+                                                  )*this->distancePercent);// + this->positionNear;
+    this->vecNearDownRight= (edk::Math::normalise(this->multiplyPointWithMatrix(edk::vec3f32( 10000.f  * this->size.width,
+                                                                                              -10000.f * this->size.height,
+                                                                                              0.f)
+                                                                                )
+                                                  )*this->distancePercent);// + this->positionNear;
     //
     edk::float32 percent = this->_far/this->_near;
     this->vecFarUpLeft= (this->vecNearUpLeft * percent
@@ -494,10 +489,41 @@ void edk::Camera3D::rotateAngleUp(edk::float32 angle){
 //get the projection matrix
 void edk::Camera3D::updateProjection(){
     this->calculateProjectionMatrix();
+    this->calculateLookAtMatrix();
     this->updateVectors();
+}
+//generate the camera matrix
+void edk::Camera3D::calculateProjectionMatrix(){
+    if(this->perspective){
+        edk::Math::generatePerspectiveMatrix(edk::Math::angleToRad(this->getHeight()),
+                                             this->getSizePercent(),
+                                             this->getNear(),
+                                             this->getFar(),
+                                             &this->projection);
+    }
+    else{
+        edk::Math::generateOrthoMatrix(-this->size.width,
+                                       this->size.width,
+                                       -this->size.height,
+                                       this->size.height,
+                                       this->_near,
+                                       this->_far,
+                                       &this->projection);
+    }
+}
+void edk::Camera3D::calculateLookAtMatrix(){
+    this->lookAtView.setIdentity(1.f,0.f);
+    edk::Math::generateLookAtMatrix(this->position.x,this->position.y,this->position.z,
+                                    this->lookAt.x,this->lookAt.y,this->lookAt.z,
+                                    this->up.x,this->up.y,this->up.z,
+                                    &this->lookAtView
+                                    );
 }
 edk::vector::Matrixf32<4u,4u>* edk::Camera3D::getProjection(){
     return &this->projection;
+}
+edk::vector::Matrixf32<4u,4u>* edk::Camera3D::getLookAtMatrix(){
+    return &this->lookAtView;
 }
 
 //draw the camera
@@ -865,6 +891,7 @@ bool edk::Camera3D::cloneFrom(edk::Camera3D* cam){
         this->_far = cam->_far;
         this->firstPerson = cam->firstPerson;
         this->projection.cloneFrom(&cam->projection);
+        this->lookAtView.cloneFrom(&cam->lookAtView);
         return true;
     }
     return false;

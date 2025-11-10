@@ -355,6 +355,46 @@ bool edk::shd::DataList::setData4f(edk::char8* name,edk::vec4f32 datas){
     return false;
 }
 //set the matrices
+bool edk::shd::DataList::setMatrix2f(const edk::char8* name,edk::vector::Matrix<edk::float32,2u,2u> mat){
+    if(mat.haveMatrix()){
+        return this->setMatrix2f((edk::char8*) name,
+                                 mat.getNoIF(0u,0u),mat.getNoIF(0u,1u),
+                                 mat.getNoIF(1u,0u),mat.getNoIF(1u,1u)
+                                 );
+    }
+    return false;
+}
+bool edk::shd::DataList::setMatrix2f(edk::char8* name,edk::vector::Matrix<edk::float32,2u,2u> mat){
+    if(mat.haveMatrix()){
+        return this->setMatrix2f(name,
+                                 mat.getNoIF(0u,0u),mat.getNoIF(0u,1u),
+                                 mat.getNoIF(1u,0u),mat.getNoIF(1u,1u)
+                                 );
+    }
+    return false;
+}
+bool edk::shd::DataList::setMatrix2f(const edk::char8* name,edk::vector::Matrix<edk::float32,2u,2u>* mat){
+    if(mat){
+        if(mat->haveMatrix()){
+            return this->setMatrix2f((edk::char8*) name,
+                                     mat->getNoIF(0u,0u),mat->getNoIF(0u,1u),
+                                     mat->getNoIF(1u,0u),mat->getNoIF(1u,1u)
+                                     );
+        }
+    }
+    return false;
+}
+bool edk::shd::DataList::setMatrix2f(edk::char8* name,edk::vector::Matrix<edk::float32,2u,2u>* mat){
+    if(mat){
+        if(mat->haveMatrix()){
+            return this->setMatrix2f(name,
+                                     mat->getNoIF(0u,0u),mat->getNoIF(0u,1u),
+                                     mat->getNoIF(1u,0u),mat->getNoIF(1u,1u)
+                                     );
+        }
+    }
+    return false;
+}
 bool edk::shd::DataList::setMatrix2f(const edk::char8* name,edk::float32 mat[2u][2u]){
     return this->setMatrix2f((edk::char8*) name,mat);
 }
@@ -370,28 +410,72 @@ bool edk::shd::DataList::setMatrix2f(edk::char8* name,edk::float32 mat[2u][2u]){
     return false;
 }
 bool edk::shd::DataList::setMatrix2f(const edk::char8* name,
-                                     edk::float32 f11,edk::float32 f12,
-                                     edk::float32 f21,edk::float32 f22
+                                     edk::float32 f00,edk::float32 f01,
+                                     edk::float32 f10,edk::float32 f11
                                      ){
     return this->setMatrix2f((edk::char8*) name,
-                             f11,f12,
-                             f21,f22
+                             f00,f01,
+                             f10,f11
                              );
 }
 bool edk::shd::DataList::setMatrix2f(edk::char8* name,
-                                     edk::float32 f11,edk::float32 f12,
-                                     edk::float32 f21,edk::float32 f22
+                                     edk::float32 f00,edk::float32 f01,
+                                     edk::float32 f10,edk::float32 f11
                                      ){
     //select the data
     if(this->selectData(name)){
         //set the id
-        this->selected->setMatrix2f(f11,f12,
-                                    f21,f22
+        this->selected->setMatrix2f(f00,f01,
+                                    f10,f11
                                     );
         //return true
         return true;
     }
     //else return false
+    return false;
+}
+bool edk::shd::DataList::setMatrix3f(const edk::char8* name,edk::vector::Matrix<edk::float32,3u,3u> mat){
+    if(mat.haveMatrix()){
+        return this->setMatrix3f((edk::char8*) name,
+                                 mat.getNoIF(0u,0u),mat.getNoIF(0u,1u),mat.getNoIF(0u,2u),
+                                 mat.getNoIF(1u,0u),mat.getNoIF(1u,1u),mat.getNoIF(1u,2u),
+                                 mat.getNoIF(2u,0u),mat.getNoIF(2u,1u),mat.getNoIF(2u,2u)
+                                 );
+    }
+    return false;
+}
+bool edk::shd::DataList::setMatrix3f(edk::char8* name,edk::vector::Matrix<edk::float32,3u,3u> mat){
+    if(mat.haveMatrix()){
+        return this->setMatrix3f(name,
+                                 mat.getNoIF(0u,0u),mat.getNoIF(0u,1u),mat.getNoIF(0u,2u),
+                                 mat.getNoIF(1u,0u),mat.getNoIF(1u,1u),mat.getNoIF(1u,2u),
+                                 mat.getNoIF(2u,0u),mat.getNoIF(2u,1u),mat.getNoIF(2u,2u)
+                                 );
+    }
+    return false;
+}
+bool edk::shd::DataList::setMatrix3f(const edk::char8* name,edk::vector::Matrix<edk::float32,3u,3u>* mat){
+    if(mat){
+        if(mat->haveMatrix()){
+            return this->setMatrix3f((edk::char8*) name,
+                                     mat->getNoIF(0u,0u),mat->getNoIF(0u,1u),mat->getNoIF(0u,2u),
+                                     mat->getNoIF(1u,0u),mat->getNoIF(1u,1u),mat->getNoIF(1u,2u),
+                                     mat->getNoIF(2u,0u),mat->getNoIF(2u,1u),mat->getNoIF(2u,2u)
+                                     );
+        }
+    }
+    return false;
+}
+bool edk::shd::DataList::setMatrix3f(edk::char8* name,edk::vector::Matrix<edk::float32,3u,3u>* mat){
+    if(mat){
+        if(mat->haveMatrix()){
+            return this->setMatrix3f(name,
+                                     mat->getNoIF(0u,0u),mat->getNoIF(0u,1u),mat->getNoIF(0u,2u),
+                                     mat->getNoIF(1u,0u),mat->getNoIF(1u,1u),mat->getNoIF(1u,2u),
+                                     mat->getNoIF(2u,0u),mat->getNoIF(2u,1u),mat->getNoIF(2u,2u)
+                                     );
+        }
+    }
     return false;
 }
 bool edk::shd::DataList::setMatrix3f(const edk::char8* name,edk::float32 mat[3u][3u]){
@@ -409,32 +493,80 @@ bool edk::shd::DataList::setMatrix3f(edk::char8* name,edk::float32 mat[3u][3u]){
     return false;
 }
 bool edk::shd::DataList::setMatrix3f(const edk::char8* name,
-                                     edk::float32 f11,edk::float32 f12,edk::float32 f13,
-                                     edk::float32 f21,edk::float32 f22,edk::float32 f23,
-                                     edk::float32 f31,edk::float32 f32,edk::float32 f33
+                                     edk::float32 f00,edk::float32 f01,edk::float32 f02,
+                                     edk::float32 f10,edk::float32 f11,edk::float32 f12,
+                                     edk::float32 f20,edk::float32 f21,edk::float32 f22
                                      ){
     return this->setMatrix3f((edk::char8*) name,
-                             f11,f12,f13,
-                             f21,f22,f23,
-                             f31,f32,f33
+                             f00,f01,f02,
+                             f10,f11,f12,
+                             f20,f21,f22
                              );
 }
 bool edk::shd::DataList::setMatrix3f(edk::char8* name,
-                                     edk::float32 f11,edk::float32 f12,edk::float32 f13,
-                                     edk::float32 f21,edk::float32 f22,edk::float32 f23,
-                                     edk::float32 f31,edk::float32 f32,edk::float32 f33
+                                     edk::float32 f00,edk::float32 f01,edk::float32 f02,
+                                     edk::float32 f10,edk::float32 f11,edk::float32 f12,
+                                     edk::float32 f20,edk::float32 f21,edk::float32 f22
                                      ){
     //select the data
     if(this->selectData(name)){
         //set the id
-        this->selected->setMatrix3f(f11,f12,f13,
-                                    f21,f22,f23,
-                                    f31,f32,f33
+        this->selected->setMatrix3f(f00,f01,f02,
+                                    f10,f11,f12,
+                                    f20,f21,f22
                                     );
         //return true
         return true;
     }
     //else return false
+    return false;
+}
+bool edk::shd::DataList::setMatrix4f(const edk::char8* name,edk::vector::Matrix<edk::float32,4u,4u> mat){
+    if(mat.haveMatrix()){
+        return this->setMatrix4f((edk::char8*) name,
+                                 mat.getNoIF(0u,0u),mat.getNoIF(0u,1u),mat.getNoIF(0u,2u),mat.getNoIF(0u,3u),
+                                 mat.getNoIF(1u,0u),mat.getNoIF(1u,1u),mat.getNoIF(1u,2u),mat.getNoIF(1u,3u),
+                                 mat.getNoIF(2u,0u),mat.getNoIF(2u,1u),mat.getNoIF(2u,2u),mat.getNoIF(2u,3u),
+                                 mat.getNoIF(3u,0u),mat.getNoIF(3u,1u),mat.getNoIF(3u,2u),mat.getNoIF(3u,3u)
+                                 );
+    }
+    return false;
+}
+bool edk::shd::DataList::setMatrix4f(edk::char8* name,edk::vector::Matrix<edk::float32,4u,4u> mat){
+    if(mat.haveMatrix()){
+        return this->setMatrix4f(name,
+                                 mat.getNoIF(0u,0u),mat.getNoIF(0u,1u),mat.getNoIF(0u,2u),mat.getNoIF(0u,3u),
+                                 mat.getNoIF(1u,0u),mat.getNoIF(1u,1u),mat.getNoIF(1u,2u),mat.getNoIF(1u,3u),
+                                 mat.getNoIF(2u,0u),mat.getNoIF(2u,1u),mat.getNoIF(2u,2u),mat.getNoIF(2u,3u),
+                                 mat.getNoIF(3u,0u),mat.getNoIF(3u,1u),mat.getNoIF(3u,2u),mat.getNoIF(3u,3u)
+                                 );
+    }
+    return false;
+}
+bool edk::shd::DataList::setMatrix4f(const edk::char8* name,edk::vector::Matrix<edk::float32,4u,4u>* mat){
+    if(mat){
+        if(mat->haveMatrix()){
+            return this->setMatrix4f((edk::char8*) name,
+                                     mat->getNoIF(0u,0u),mat->getNoIF(0u,1u),mat->getNoIF(0u,2u),mat->getNoIF(0u,3u),
+                                     mat->getNoIF(1u,0u),mat->getNoIF(1u,1u),mat->getNoIF(1u,2u),mat->getNoIF(1u,3u),
+                                     mat->getNoIF(2u,0u),mat->getNoIF(2u,1u),mat->getNoIF(2u,2u),mat->getNoIF(2u,3u),
+                                     mat->getNoIF(3u,0u),mat->getNoIF(3u,1u),mat->getNoIF(3u,2u),mat->getNoIF(3u,3u)
+                                     );
+        }
+    }
+    return false;
+}
+bool edk::shd::DataList::setMatrix4f(edk::char8* name,edk::vector::Matrix<edk::float32,4u,4u>* mat){
+    if(mat){
+        if(mat->haveMatrix()){
+            return this->setMatrix4f(name,
+                                     mat->getNoIF(0u,0u),mat->getNoIF(0u,1u),mat->getNoIF(0u,2u),mat->getNoIF(0u,3u),
+                                     mat->getNoIF(1u,0u),mat->getNoIF(1u,1u),mat->getNoIF(1u,2u),mat->getNoIF(1u,3u),
+                                     mat->getNoIF(2u,0u),mat->getNoIF(2u,1u),mat->getNoIF(2u,2u),mat->getNoIF(2u,3u),
+                                     mat->getNoIF(3u,0u),mat->getNoIF(3u,1u),mat->getNoIF(3u,2u),mat->getNoIF(3u,3u)
+                                     );
+        }
+    }
     return false;
 }
 bool edk::shd::DataList::setMatrix4f(const edk::char8* name,edk::float32 mat[4u][4u]){
@@ -452,31 +584,31 @@ bool edk::shd::DataList::setMatrix4f(edk::char8* name,edk::float32 mat[4u][4u]){
     return false;
 }
 bool edk::shd::DataList::setMatrix4f(const edk::char8* name,
-                                     edk::float32 f11,edk::float32 f12,edk::float32 f13,edk::float32 f14,
-                                     edk::float32 f21,edk::float32 f22,edk::float32 f23,edk::float32 f24,
-                                     edk::float32 f31,edk::float32 f32,edk::float32 f33,edk::float32 f34,
-                                     edk::float32 f41,edk::float32 f42,edk::float32 f43,edk::float32 f44
+                                     edk::float32 f00,edk::float32 f01,edk::float32 f02,edk::float32 f03,
+                                     edk::float32 f10,edk::float32 f11,edk::float32 f12,edk::float32 f13,
+                                     edk::float32 f20,edk::float32 f21,edk::float32 f22,edk::float32 f23,
+                                     edk::float32 f30,edk::float32 f31,edk::float32 f32,edk::float32 f33
                                      ){
     return this->setMatrix4f((edk::char8*) name,
-                             f11,f12,f13,f14,
-                             f21,f22,f23,f24,
-                             f31,f32,f33,f34,
-                             f41,f42,f43,f44
+                             f00,f01,f02,f03,
+                             f10,f11,f12,f13,
+                             f20,f21,f22,f23,
+                             f30,f31,f32,f33
                              );
 }
 bool edk::shd::DataList::setMatrix4f(edk::char8* name,
-                                     edk::float32 f11,edk::float32 f12,edk::float32 f13,edk::float32 f14,
-                                     edk::float32 f21,edk::float32 f22,edk::float32 f23,edk::float32 f24,
-                                     edk::float32 f31,edk::float32 f32,edk::float32 f33,edk::float32 f34,
-                                     edk::float32 f41,edk::float32 f42,edk::float32 f43,edk::float32 f44
+                                     edk::float32 f00,edk::float32 f01,edk::float32 f02,edk::float32 f03,
+                                     edk::float32 f10,edk::float32 f11,edk::float32 f12,edk::float32 f13,
+                                     edk::float32 f20,edk::float32 f21,edk::float32 f22,edk::float32 f23,
+                                     edk::float32 f30,edk::float32 f31,edk::float32 f32,edk::float32 f33
                                      ){
     //select the data
     if(this->selectData(name)){
         //set the id
-        this->selected->setMatrix4f(f11,f12,f13,f14,
-                                    f21,f22,f23,f24,
-                                    f31,f32,f33,f34,
-                                    f41,f42,f43,f44
+        this->selected->setMatrix4f(f00,f01,f02,f03,
+                                    f10,f11,f12,f13,
+                                    f20,f21,f22,f23,
+                                    f30,f31,f32,f33
                                     );
         //return true
         return true;

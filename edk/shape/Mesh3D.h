@@ -137,6 +137,7 @@ public:
     edk::material::Material material;
 private:
     edk::vector::Matrixf32<4u,4u> matrixTransform;
+
     class AnimationDouble{
     public:
         AnimationDouble(edk::animation::Interpolation1DGroup* first,edk::uint32 id){
