@@ -610,8 +610,18 @@ public:
     static edk::float32 arcCosin(edk::float32 x);
 
     //return the 2D angle of a vector
+    // angle
     static edk::float32 getAngle(edk::float32 x,edk::float32 y);
     static edk::float32 getAngle(edk::vec2f32 vec);
+    static edk::float32 getAngleX(edk::float32 x,edk::float32 y,edk::float32 z);
+    static edk::float32 getAngleX(edk::vec3f32 vec);
+    static edk::float32 getAngleY(edk::float32 x,edk::float32 y,edk::float32 z);
+    static edk::float32 getAngleY(edk::vec3f32 vec);
+    static edk::float32 getAngleZ(edk::float32 x,edk::float32 y,edk::float32 z);
+    static edk::float32 getAngleZ(edk::vec3f32 vec);
+    //3 angles
+    static edk::vec3f32 getAngleXYZ(edk::float32 x,edk::float32 y,edk::float32 z);
+    static edk::vec3f32 getAngleXYZ(edk::vec3f32 vec);
     //Return the 2D Angle between 2 vectors
     static edk::float32 getAngleDistanceModule(edk::float32 x1,edk::float32 y1,
                                                edk::float32 x2,edk::float32 y2
@@ -1289,12 +1299,40 @@ public:
                                     edk::vector::Matrixf32<4u,4u>* dest
                                     );
     //Rotate de vectors
-    static edk::float32 rotateX(edk::float32 radius, edk::float32 angle);
-    static edk::float32 rotateY(edk::float32 radius, edk::float32 angle);
+    static edk::float32 rotateXAxis(edk::float32 radius, edk::float32 angle);
+    static edk::float32 rotateYAxis(edk::float32 radius, edk::float32 angle);
     static edk::vec2f32 rotate(edk::float32 x,edk::float32 y,edk::float32 angle);
     static edk::vec2f32 rotate(edk::vec2f32 vec,edk::float32 angle);
     static edk::vec2f32 rotatePlus(edk::float32 x,edk::float32 y,edk::float32 angle);
     static edk::vec2f32 rotatePlus(edk::vec2f32 vec,edk::float32 angle);
+    //rotate in all axes
+    static edk::vec3f32 rotateX(edk::float32 x,edk::float32 y,edk::float32 z,edk::float32 angle);
+    static edk::vec3f32 rotateX(edk::vec3f32 vec,edk::float32 angle);
+    static edk::vec3f32 rotateY(edk::float32 x,edk::float32 y,edk::float32 z,edk::float32 angle);
+    static edk::vec3f32 rotateY(edk::vec3f32 vec,edk::float32 angle);
+    static edk::vec3f32 rotateZ(edk::float32 x,edk::float32 y,edk::float32 z,edk::float32 angle);
+    static edk::vec3f32 rotateZ(edk::vec3f32 vec,edk::float32 angle);
+    static edk::vec3f32 rotateZY(edk::float32 x,edk::float32 y,edk::float32 z,edk::float32 angleZ,edk::float32 angleY);
+    static edk::vec3f32 rotateZY(edk::vec3f32 vec,edk::float32 angleZ,edk::float32 angleY);
+    static edk::vec3f32 rotateXYZ(edk::float32 x,edk::float32 y,edk::float32 z,
+                                  edk::float32 angleX,edk::float32 angleY,edk::float32 angleZ
+                                  );
+    static edk::vec3f32 rotateXYZ(edk::vec3f32 vec,
+                                  edk::float32 angleX,edk::float32 angleY,edk::float32 angleZ
+                                  );
+    //rotatePlus in all axes
+    static edk::vec3f32 rotatePlusX(edk::float32 x,edk::float32 y,edk::float32 z,edk::float32 angle);
+    static edk::vec3f32 rotatePlusX(edk::vec3f32 vec,edk::float32 angle);
+    static edk::vec3f32 rotatePlusY(edk::float32 x,edk::float32 y,edk::float32 z,edk::float32 angle);
+    static edk::vec3f32 rotatePlusY(edk::vec3f32 vec,edk::float32 angle);
+    static edk::vec3f32 rotatePlusZ(edk::float32 x,edk::float32 y,edk::float32 z,edk::float32 angle);
+    static edk::vec3f32 rotatePlusZ(edk::vec3f32 vec,edk::float32 angle);
+    static edk::vec3f32 rotatePlusXYZ(edk::float32 x,edk::float32 y,edk::float32 z,
+                                    edk::float32 angleX,edk::float32 angleY,edk::float32 angleZ
+                                    );
+    static edk::vec3f32 rotatePlusXYZ(edk::vec3f32 vec,
+                                     edk::float32 angleX,edk::float32 angleY,edk::float32 angleZ
+                                     );
 
     //Normal of the triangle
     static edk::vec3f32 normalTriangle(edk::float32 x1,edk::float32 y1,edk::float32 z1,
@@ -1346,6 +1384,12 @@ public:
         return edk::Math::fitInside(fillOriginX,fillOriginY,fillSizeWidth,fillSizeHeight,
                                     insideSizeWidth,insideSizeHeight
                                     );
+    }
+private:
+    static inline edk::float32 mathNormalizeAngle(edk::float32 angle){
+        edk::int64 temp = (edk::int64)angle;
+        angle -= temp;
+        return angle + (temp%360);
     }
 private:
     edk::classID classThis;

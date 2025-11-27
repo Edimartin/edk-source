@@ -369,8 +369,8 @@ void edk::Camera3D::moveHorizontal(edk::float32 distance){
     //get the right vector
     edk::float32 angle = this->getAngleX();
     edk::vec3f32 right;
-    right.x = edk::Math::rotateX(1.f,angle+90.f);
-    right.z = edk::Math::rotateY(1.f,angle+90.f);
+    right.x = edk::Math::rotateXAxis(1.f,angle+90.f);
+    right.z = edk::Math::rotateYAxis(1.f,angle+90.f);
 
     //move the distance
     this->position.x+=right.x * distance;
@@ -391,21 +391,21 @@ void edk::Camera3D::moveVertical(edk::float32 distance){
         distanceX = edk::Math::pythagoras(this->lookAt.x - this->position.x,this->lookAt.z - this->position.z);
         distanceY = edk::Math::pythagoras(distanceX,this->lookAt.y - this->position.y);
         //
-        distanceX = edk::Math::rotateX(distanceY,angleY+90.f);
-        up.y = edk::Math::rotateY(distanceY,angleY+90.f) + this->position.z;
+        distanceX = edk::Math::rotateXAxis(distanceY,angleY+90.f);
+        up.y = edk::Math::rotateYAxis(distanceY,angleY+90.f) + this->position.z;
         //
-        up.x = edk::Math::rotateX(distanceX,angleX) + this->position.x;
-        up.z = edk::Math::rotateY(distanceX,angleX) + this->position.z;
+        up.x = edk::Math::rotateXAxis(distanceX,angleX) + this->position.x;
+        up.z = edk::Math::rotateYAxis(distanceX,angleX) + this->position.z;
     }
     else{
         distanceX = edk::Math::pythagoras(this->position.x - this->lookAt.x,this->position.z - this->lookAt.z);
         distanceY = edk::Math::pythagoras(distanceX,this->position.y - this->lookAt.y);
         //
-        distanceX = edk::Math::rotateX(distanceY,angleY+90.f);
-        up.y = edk::Math::rotateY(distanceY,angleY+90.f) + this->lookAt.z;
+        distanceX = edk::Math::rotateXAxis(distanceY,angleY+90.f);
+        up.y = edk::Math::rotateYAxis(distanceY,angleY+90.f) + this->lookAt.z;
         //
-        up.x = edk::Math::rotateX(distanceX,angleX) + this->lookAt.x;
-        up.z = edk::Math::rotateY(distanceX,angleX) + this->lookAt.z;
+        up.x = edk::Math::rotateXAxis(distanceX,angleX) + this->lookAt.x;
+        up.z = edk::Math::rotateYAxis(distanceX,angleX) + this->lookAt.z;
     }
 
     //move the distance
@@ -438,13 +438,13 @@ edk::float32 edk::Camera3D::getAngleUp(){
 void edk::Camera3D::setAngleX(edk::float32 angle){
     if(this->firstPerson){
         edk::float32 distance = edk::Math::pythagoras(this->lookAt.x - this->position.x,this->lookAt.z - this->position.z);
-        this->lookAt.x = edk::Math::rotateX(distance,angle) + this->position.x;
-        this->lookAt.z = edk::Math::rotateY(distance,angle) + this->position.z;
+        this->lookAt.x = edk::Math::rotateXAxis(distance,angle) + this->position.x;
+        this->lookAt.z = edk::Math::rotateYAxis(distance,angle) + this->position.z;
     }
     else{
         edk::float32 distance = edk::Math::pythagoras(this->position.x - this->lookAt.x,this->position.z - this->lookAt.z);
-        this->position.x = edk::Math::rotateX(distance,angle) + this->lookAt.x;
-        this->position.z = edk::Math::rotateY(distance,angle) + this->lookAt.z;
+        this->position.x = edk::Math::rotateXAxis(distance,angle) + this->lookAt.x;
+        this->position.z = edk::Math::rotateYAxis(distance,angle) + this->lookAt.z;
     }
 }
 void edk::Camera3D::setAngleY(edk::float32 angle){
@@ -453,27 +453,27 @@ void edk::Camera3D::setAngleY(edk::float32 angle){
         edk::float32 distanceX = edk::Math::pythagoras(this->lookAt.x - this->position.x,this->lookAt.z - this->position.z);
         edk::float32 distanceY = edk::Math::pythagoras(distanceX,this->lookAt.y - this->position.y);
         //
-        distanceX = edk::Math::rotateX(distanceY,angle);
-        this->lookAt.y = edk::Math::rotateY(distanceY,angle) + this->position.y;
+        distanceX = edk::Math::rotateXAxis(distanceY,angle);
+        this->lookAt.y = edk::Math::rotateYAxis(distanceY,angle) + this->position.y;
         //
-        this->lookAt.x = edk::Math::rotateX(distanceX,angleX) + this->position.x;
-        this->lookAt.z = edk::Math::rotateY(distanceX,angleX) + this->position.z;
+        this->lookAt.x = edk::Math::rotateXAxis(distanceX,angleX) + this->position.x;
+        this->lookAt.z = edk::Math::rotateYAxis(distanceX,angleX) + this->position.z;
     }
     else{
         edk::float32 angleX = this->getAngleX();
         edk::float32 distanceX = edk::Math::pythagoras(this->position.x - this->lookAt.x,this->position.z - this->lookAt.z);
         edk::float32 distanceY = edk::Math::pythagoras(distanceX,this->position.y - this->lookAt.y);
         //
-        distanceX = edk::Math::rotateX(distanceY,angle);
-        this->position.y = edk::Math::rotateY(distanceY,angle) + this->lookAt.y;
+        distanceX = edk::Math::rotateXAxis(distanceY,angle);
+        this->position.y = edk::Math::rotateYAxis(distanceY,angle) + this->lookAt.y;
         //
-        this->position.x = edk::Math::rotateX(distanceX,angleX) + this->lookAt.x;
-        this->position.z = edk::Math::rotateY(distanceX,angleX) + this->lookAt.z;
+        this->position.x = edk::Math::rotateXAxis(distanceX,angleX) + this->lookAt.x;
+        this->position.z = edk::Math::rotateYAxis(distanceX,angleX) + this->lookAt.z;
     }
 }
 void edk::Camera3D::setAngleUp(edk::float32 angle){
-    this->up.x = edk::Math::rotateX(1.f,angle);
-    this->up.y = edk::Math::rotateY(1.f,angle);
+    this->up.x = edk::Math::rotateXAxis(1.f,angle);
+    this->up.y = edk::Math::rotateYAxis(1.f,angle);
 }
 //move the angles
 void edk::Camera3D::rotateAngleX(edk::float32 angle){

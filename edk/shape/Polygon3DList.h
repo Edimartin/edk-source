@@ -357,6 +357,14 @@ protected:
     virtual bool setVBOVertexUV(edk::uint32 vertex,edk::vec2f32 uv);
     virtual bool setVBOVertexU(edk::uint32 vertex,edk::float32 u);
     virtual bool setVBOVertexV(edk::uint32 vertex,edk::float32 v);
+    virtual bool setVBOVertexTangent(edk::uint32 vertex,edk::vec3f32 position);
+    virtual bool setVBOVertexTangentX(edk::uint32 vertex,edk::float32 x);
+    virtual bool setVBOVertexTangentY(edk::uint32 vertex,edk::float32 y);
+    virtual bool setVBOVertexTangentZ(edk::uint32 vertex,edk::float32 z);
+    virtual bool setVBOVertexBiTangent(edk::uint32 vertex,edk::vec3f32 position);
+    virtual bool setVBOVertexBiTangentX(edk::uint32 vertex,edk::float32 x);
+    virtual bool setVBOVertexBiTangentY(edk::uint32 vertex,edk::float32 y);
+    virtual bool setVBOVertexBiTangentZ(edk::uint32 vertex,edk::float32 z);
     //With Matrix
     virtual bool setVBOVertexPositionWithMatrix(edk::uint32 vertex,edk::vec3f32 position);
     virtual bool setVBOVertexPositionXWithMatrix(edk::uint32 vertex,edk::float32 x);
@@ -376,6 +384,14 @@ protected:
     virtual bool setVBOVertexUVWithMatrix(edk::uint32 vertex,edk::vec2f32 uv);
     virtual bool setVBOVertexUWithMatrix(edk::uint32 vertex,edk::float32 u);
     virtual bool setVBOVertexVWithMatrix(edk::uint32 vertex,edk::float32 v);
+    virtual bool setVBOVertexTangentWithMatrix(edk::uint32 vertex,edk::vec3f32 position);
+    virtual bool setVBOVertexTangentXWithMatrix(edk::uint32 vertex,edk::float32 x);
+    virtual bool setVBOVertexTangentYWithMatrix(edk::uint32 vertex,edk::float32 y);
+    virtual bool setVBOVertexTangentZWithMatrix(edk::uint32 vertex,edk::float32 z);
+    virtual bool setVBOVertexBiTangentWithMatrix(edk::uint32 vertex,edk::vec3f32 position);
+    virtual bool setVBOVertexBiTangentXWithMatrix(edk::uint32 vertex,edk::float32 x);
+    virtual bool setVBOVertexBiTangentYWithMatrix(edk::uint32 vertex,edk::float32 y);
+    virtual bool setVBOVertexBiTangentZWithMatrix(edk::uint32 vertex,edk::float32 z);
     //updafe the UV into the VBO
     virtual bool updateVBOUV();
     virtual bool updateVBOUVWithMatrix();
@@ -413,6 +429,22 @@ protected:
     void print_XYZ_RGB_NxNyNz_UVxUVy();
     void print_XY_RGBA_NxNyNz_UVxUVy();
     void print_XYZ_RGBA_NxNyNz_UVxUVy();
+    void print_XY_TxTyTz_BxByBz();
+    void print_XYZ_TxTyTz_BxByBz();
+    void print_XY_NxNyNz_TxTyTz_BxByBz();
+    void print_XYZ_NxNyNz_TxTyTz_BxByBz();
+    void print_XY_RGB_TxTyTz_BxByBz();
+    void print_XYZ_RGB_TxTyTz_BxByBz();
+    void print_XY_RGBA_TxTyTz_BxByBz();
+    void print_XYZ_RGBA_TxTyTz_BxByBz();
+    void print_XY_RGB_NxNyNz_TxTyTz_BxByBz();
+    void print_XYZ_RGB_NxNyNz_TxTyTz_BxByBz();
+    void print_XY_RGBA_NxNyNz_TxTyTz_BxByBz();
+    void print_XYZ_RGBA_NxNyNz_TxTyTz_BxByBz();
+    void print_XY_RGB_NxNyNz_UVxUVy_TxTyTz_BxByBz();
+    void print_XYZ_RGB_NxNyNz_UVxUVy_TxTyTz_BxByBz();
+    void print_XY_RGBA_NxNyNz_UVxUVy_TxTyTz_BxByBz();
+    void print_XYZ_RGBA_NxNyNz_UVxUVy_TxTyTz_BxByBz();
     //DRAW
     virtual void draw_NULL(edk::uint32 mode);
     void draw_XY(edk::uint32 mode);
@@ -431,6 +463,22 @@ protected:
     void draw_XYZ_RGB_NxNyNz_UVxUVy(edk::uint32 mode);
     void draw_XY_RGBA_NxNyNz_UVxUVy(edk::uint32 mode);
     void draw_XYZ_RGBA_NxNyNz_UVxUVy(edk::uint32 mode);
+    void draw_XY_TxTyTz_BxByBz(edk::uint32 mode);
+    void draw_XYZ_TxTyTz_BxByBz(edk::uint32 mode);
+    void draw_XY_NxNyNz_TxTyTz_BxByBz(edk::uint32 mode);
+    void draw_XYZ_NxNyNz_TxTyTz_BxByBz(edk::uint32 mode);
+    void draw_XY_RGB_TxTyTz_BxByBz(edk::uint32 mode);
+    void draw_XYZ_RGB_TxTyTz_BxByBz(edk::uint32 mode);
+    void draw_XY_RGBA_TxTyTz_BxByBz(edk::uint32 mode);
+    void draw_XYZ_RGBA_TxTyTz_BxByBz(edk::uint32 mode);
+    void draw_XY_RGB_NxNyNz_TxTyTz_BxByBz(edk::uint32 mode);
+    void draw_XYZ_RGB_NxNyNz_TxTyTz_BxByBz(edk::uint32 mode);
+    void draw_XY_RGBA_NxNyNz_TxTyTz_BxByBz(edk::uint32 mode);
+    void draw_XYZ_RGBA_NxNyNz_TxTyTz_BxByBz(edk::uint32 mode);
+    void draw_XY_RGB_NxNyNz_UVxUVy_TxTyTz_BxByBz(edk::uint32 mode);
+    void draw_XYZ_RGB_NxNyNz_UVxUVy_TxTyTz_BxByBz(edk::uint32 mode);
+    void draw_XY_RGBA_NxNyNz_UVxUVy_TxTyTz_BxByBz(edk::uint32 mode);
+    void draw_XYZ_RGBA_NxNyNz_UVxUVy_TxTyTz_BxByBz(edk::uint32 mode);
     //DRAW UPDATE
     virtual void drawUpdate_NULL(edk::uint32 mode);
     void drawUpdate_XY(edk::uint32 mode);
@@ -449,6 +497,22 @@ protected:
     void drawUpdate_XYZ_RGB_NxNyNz_UVxUVy(edk::uint32 mode);
     void drawUpdate_XY_RGBA_NxNyNz_UVxUVy(edk::uint32 mode);
     void drawUpdate_XYZ_RGBA_NxNyNz_UVxUVy(edk::uint32 mode);
+    void drawUpdate_XY_TxTyTz_BxByBz(edk::uint32 mode);
+    void drawUpdate_XYZ_TxTyTz_BxByBz(edk::uint32 mode);
+    void drawUpdate_XY_NxNyNz_TxTyTz_BxByBz(edk::uint32 mode);
+    void drawUpdate_XYZ_NxNyNz_TxTyTz_BxByBz(edk::uint32 mode);
+    void drawUpdate_XY_RGB_TxTyTz_BxByBz(edk::uint32 mode);
+    void drawUpdate_XYZ_RGB_TxTyTz_BxByBz(edk::uint32 mode);
+    void drawUpdate_XY_RGBA_TxTyTz_BxByBz(edk::uint32 mode);
+    void drawUpdate_XYZ_RGBA_TxTyTz_BxByBz(edk::uint32 mode);
+    void drawUpdate_XY_RGB_NxNyNz_TxTyTz_BxByBz(edk::uint32 mode);
+    void drawUpdate_XYZ_RGB_NxNyNz_TxTyTz_BxByBz(edk::uint32 mode);
+    void drawUpdate_XY_RGBA_NxNyNz_TxTyTz_BxByBz(edk::uint32 mode);
+    void drawUpdate_XYZ_RGBA_NxNyNz_TxTyTz_BxByBz(edk::uint32 mode);
+    void drawUpdate_XY_RGB_NxNyNz_UVxUVy_TxTyTz_BxByBz(edk::uint32 mode);
+    void drawUpdate_XYZ_RGB_NxNyNz_UVxUVy_TxTyTz_BxByBz(edk::uint32 mode);
+    void drawUpdate_XY_RGBA_NxNyNz_UVxUVy_TxTyTz_BxByBz(edk::uint32 mode);
+    void drawUpdate_XYZ_RGBA_NxNyNz_UVxUVy_TxTyTz_BxByBz(edk::uint32 mode);
     //DRAW WITH MATRIX
     virtual void drawWithMatrix_NULL(edk::uint32 mode);
     void drawWithMatrix_XY(edk::uint32 mode);
@@ -467,6 +531,22 @@ protected:
     void drawWithMatrix_XYZ_RGB_NxNyNz_UVxUVy(edk::uint32 mode);
     void drawWithMatrix_XY_RGBA_NxNyNz_UVxUVy(edk::uint32 mode);
     void drawWithMatrix_XYZ_RGBA_NxNyNz_UVxUVy(edk::uint32 mode);
+    void drawWithMatrix_XY_TxTyTz_BxByBz(edk::uint32 mode);
+    void drawWithMatrix_XYZ_TxTyTz_BxByBz(edk::uint32 mode);
+    void drawWithMatrix_XY_NxNyNz_TxTyTz_BxByBz(edk::uint32 mode);
+    void drawWithMatrix_XYZ_NxNyNz_TxTyTz_BxByBz(edk::uint32 mode);
+    void drawWithMatrix_XY_RGB_TxTyTz_BxByBz(edk::uint32 mode);
+    void drawWithMatrix_XYZ_RGB_TxTyTz_BxByBz(edk::uint32 mode);
+    void drawWithMatrix_XY_RGBA_TxTyTz_BxByBz(edk::uint32 mode);
+    void drawWithMatrix_XYZ_RGBA_TxTyTz_BxByBz(edk::uint32 mode);
+    void drawWithMatrix_XY_RGB_NxNyNz_TxTyTz_BxByBz(edk::uint32 mode);
+    void drawWithMatrix_XYZ_RGB_NxNyNz_TxTyTz_BxByBz(edk::uint32 mode);
+    void drawWithMatrix_XY_RGBA_NxNyNz_TxTyTz_BxByBz(edk::uint32 mode);
+    void drawWithMatrix_XYZ_RGBA_NxNyNz_TxTyTz_BxByBz(edk::uint32 mode);
+    void drawWithMatrix_XY_RGB_NxNyNz_UVxUVy_TxTyTz_BxByBz(edk::uint32 mode);
+    void drawWithMatrix_XYZ_RGB_NxNyNz_UVxUVy_TxTyTz_BxByBz(edk::uint32 mode);
+    void drawWithMatrix_XY_RGBA_NxNyNz_UVxUVy_TxTyTz_BxByBz(edk::uint32 mode);
+    void drawWithMatrix_XYZ_RGBA_NxNyNz_UVxUVy_TxTyTz_BxByBz(edk::uint32 mode);
     //DRAW UPDATE WITH MATRIX
     virtual void drawUpdateWithMatrix_NULL(edk::uint32 mode);
     void drawUpdateWithMatrix_XY(edk::uint32 mode);
@@ -485,6 +565,22 @@ protected:
     void drawUpdateWithMatrix_XYZ_RGB_NxNyNz_UVxUVy(edk::uint32 mode);
     void drawUpdateWithMatrix_XY_RGBA_NxNyNz_UVxUVy(edk::uint32 mode);
     void drawUpdateWithMatrix_XYZ_RGBA_NxNyNz_UVxUVy(edk::uint32 mode);
+    void drawUpdateWithMatrix_XY_TxTyTz_BxByBz(edk::uint32 mode);
+    void drawUpdateWithMatrix_XYZ_TxTyTz_BxByBz(edk::uint32 mode);
+    void drawUpdateWithMatrix_XY_NxNyNz_TxTyTz_BxByBz(edk::uint32 mode);
+    void drawUpdateWithMatrix_XYZ_NxNyNz_TxTyTz_BxByBz(edk::uint32 mode);
+    void drawUpdateWithMatrix_XY_RGB_TxTyTz_BxByBz(edk::uint32 mode);
+    void drawUpdateWithMatrix_XYZ_RGB_TxTyTz_BxByBz(edk::uint32 mode);
+    void drawUpdateWithMatrix_XY_RGBA_TxTyTz_BxByBz(edk::uint32 mode);
+    void drawUpdateWithMatrix_XYZ_RGBA_TxTyTz_BxByBz(edk::uint32 mode);
+    void drawUpdateWithMatrix_XY_RGB_NxNyNz_TxTyTz_BxByBz(edk::uint32 mode);
+    void drawUpdateWithMatrix_XYZ_RGB_NxNyNz_TxTyTz_BxByBz(edk::uint32 mode);
+    void drawUpdateWithMatrix_XY_RGBA_NxNyNz_TxTyTz_BxByBz(edk::uint32 mode);
+    void drawUpdateWithMatrix_XYZ_RGBA_NxNyNz_TxTyTz_BxByBz(edk::uint32 mode);
+    void drawUpdateWithMatrix_XY_RGB_NxNyNz_UVxUVy_TxTyTz_BxByBz(edk::uint32 mode);
+    void drawUpdateWithMatrix_XYZ_RGB_NxNyNz_UVxUVy_TxTyTz_BxByBz(edk::uint32 mode);
+    void drawUpdateWithMatrix_XY_RGBA_NxNyNz_UVxUVy_TxTyTz_BxByBz(edk::uint32 mode);
+    void drawUpdateWithMatrix_XYZ_RGBA_NxNyNz_UVxUVy_TxTyTz_BxByBz(edk::uint32 mode);
     //DRAWWire
     virtual void drawWire_NULL(edk::uint32 mode);
     void drawWire_XY(edk::uint32 mode);
@@ -503,6 +599,22 @@ protected:
     void drawWire_XYZ_RGB_NxNyNz_UVxUVy(edk::uint32 mode);
     void drawWire_XY_RGBA_NxNyNz_UVxUVy(edk::uint32 mode);
     void drawWire_XYZ_RGBA_NxNyNz_UVxUVy(edk::uint32 mode);
+    void drawWire_XY_TxTyTz_BxByBz(edk::uint32 mode);
+    void drawWire_XYZ_TxTyTz_BxByBz(edk::uint32 mode);
+    void drawWire_XY_NxNyNz_TxTyTz_BxByBz(edk::uint32 mode);
+    void drawWire_XYZ_NxNyNz_TxTyTz_BxByBz(edk::uint32 mode);
+    void drawWire_XY_RGB_TxTyTz_BxByBz(edk::uint32 mode);
+    void drawWire_XYZ_RGB_TxTyTz_BxByBz(edk::uint32 mode);
+    void drawWire_XY_RGBA_TxTyTz_BxByBz(edk::uint32 mode);
+    void drawWire_XYZ_RGBA_TxTyTz_BxByBz(edk::uint32 mode);
+    void drawWire_XY_RGB_NxNyNz_TxTyTz_BxByBz(edk::uint32 mode);
+    void drawWire_XYZ_RGB_NxNyNz_TxTyTz_BxByBz(edk::uint32 mode);
+    void drawWire_XY_RGBA_NxNyNz_TxTyTz_BxByBz(edk::uint32 mode);
+    void drawWire_XYZ_RGBA_NxNyNz_TxTyTz_BxByBz(edk::uint32 mode);
+    void drawWire_XY_RGB_NxNyNz_UVxUVy_TxTyTz_BxByBz(edk::uint32 mode);
+    void drawWire_XYZ_RGB_NxNyNz_UVxUVy_TxTyTz_BxByBz(edk::uint32 mode);
+    void drawWire_XY_RGBA_NxNyNz_UVxUVy_TxTyTz_BxByBz(edk::uint32 mode);
+    void drawWire_XYZ_RGBA_NxNyNz_UVxUVy_TxTyTz_BxByBz(edk::uint32 mode);
     //DRAWWire UPDATE
     virtual void drawWireUpdate_NULL(edk::uint32 mode);
     void drawWireUpdate_XY(edk::uint32 mode);
@@ -521,6 +633,22 @@ protected:
     void drawWireUpdate_XYZ_RGB_NxNyNz_UVxUVy(edk::uint32 mode);
     void drawWireUpdate_XY_RGBA_NxNyNz_UVxUVy(edk::uint32 mode);
     void drawWireUpdate_XYZ_RGBA_NxNyNz_UVxUVy(edk::uint32 mode);
+    void drawWireUpdate_XY_TxTyTz_BxByBz(edk::uint32 mode);
+    void drawWireUpdate_XYZ_TxTyTz_BxByBz(edk::uint32 mode);
+    void drawWireUpdate_XY_NxNyNz_TxTyTz_BxByBz(edk::uint32 mode);
+    void drawWireUpdate_XYZ_NxNyNz_TxTyTz_BxByBz(edk::uint32 mode);
+    void drawWireUpdate_XY_RGB_TxTyTz_BxByBz(edk::uint32 mode);
+    void drawWireUpdate_XYZ_RGB_TxTyTz_BxByBz(edk::uint32 mode);
+    void drawWireUpdate_XY_RGBA_TxTyTz_BxByBz(edk::uint32 mode);
+    void drawWireUpdate_XYZ_RGBA_TxTyTz_BxByBz(edk::uint32 mode);
+    void drawWireUpdate_XY_RGB_NxNyNz_TxTyTz_BxByBz(edk::uint32 mode);
+    void drawWireUpdate_XYZ_RGB_NxNyNz_TxTyTz_BxByBz(edk::uint32 mode);
+    void drawWireUpdate_XY_RGBA_NxNyNz_TxTyTz_BxByBz(edk::uint32 mode);
+    void drawWireUpdate_XYZ_RGBA_NxNyNz_TxTyTz_BxByBz(edk::uint32 mode);
+    void drawWireUpdate_XY_RGB_NxNyNz_UVxUVy_TxTyTz_BxByBz(edk::uint32 mode);
+    void drawWireUpdate_XYZ_RGB_NxNyNz_UVxUVy_TxTyTz_BxByBz(edk::uint32 mode);
+    void drawWireUpdate_XY_RGBA_NxNyNz_UVxUVy_TxTyTz_BxByBz(edk::uint32 mode);
+    void drawWireUpdate_XYZ_RGBA_NxNyNz_UVxUVy_TxTyTz_BxByBz(edk::uint32 mode);
 
     //list of polygons
     class StackPolygons3D: public edk::vector::Stack<edk::shape::Polygon3D*> {

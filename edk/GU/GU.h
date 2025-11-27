@@ -748,6 +748,23 @@ public:
         vbo_XY_RGBA_NxNyNz_UVxUVy,
         vbo_XYZ_RGBA_NxNyNz_UVxUVy,
 
+        vbo_XY_TxTyTz_BxByBz,
+        vbo_XYZ_TxTyTz_BxByBz,
+        vbo_XY_NxNyNz_TxTyTz_BxByBz,
+        vbo_XYZ_NxNyNz_TxTyTz_BxByBz,
+        vbo_XY_RGB_TxTyTz_BxByBz,
+        vbo_XYZ_RGB_TxTyTz_BxByBz,
+        vbo_XY_RGBA_TxTyTz_BxByBz,
+        vbo_XYZ_RGBA_TxTyTz_BxByBz,
+        vbo_XY_RGB_NxNyNz_TxTyTz_BxByBz,
+        vbo_XYZ_RGB_NxNyNz_TxTyTz_BxByBz,
+        vbo_XY_RGBA_NxNyNz_TxTyTz_BxByBz,
+        vbo_XYZ_RGBA_NxNyNz_TxTyTz_BxByBz,
+        vbo_XY_RGB_NxNyNz_UVxUVy_TxTyTz_BxByBz,
+        vbo_XYZ_RGB_NxNyNz_UVxUVy_TxTyTz_BxByBz,
+        vbo_XY_RGBA_NxNyNz_UVxUVy_TxTyTz_BxByBz,
+        vbo_XYZ_RGBA_NxNyNz_UVxUVy_TxTyTz_BxByBz,
+
         vbo_Size
     };
 

@@ -467,6 +467,34 @@ public:
     static void guDontUseVertexArray();
     static void guDeleteVertexArray(edk::uint32 ID);
 
+    //use a tangent from a pointer
+    static void guTangentPointer2i16(edk::uint64 position,edk::uint64 jump);
+    static void guTangentPointer2i32(edk::uint64 position,edk::uint64 jump);
+    static void guTangentPointer2f32(edk::uint64 position,edk::uint64 jump);
+    static void guTangentPointer2f64(edk::uint64 position,edk::uint64 jump);
+    static void guTangentPointer3i16(edk::uint64 position,edk::uint64 jump);
+    static void guTangentPointer3i32(edk::uint64 position,edk::uint64 jump);
+    static void guTangentPointer3f32(edk::uint64 position,edk::uint64 jump);
+    static void guTangentPointer3f64(edk::uint64 position,edk::uint64 jump);
+    static void guTangentPointer4i16(edk::uint64 position,edk::uint64 jump);
+    static void guTangentPointer4i32(edk::uint64 position,edk::uint64 jump);
+    static void guTangentPointer4f32(edk::uint64 position,edk::uint64 jump);
+    static void guTangentPointer4f64(edk::uint64 position,edk::uint64 jump);
+
+    //use a bi-tangent from a pointer
+    static void guBiTangentPointer2i16(edk::uint64 position,edk::uint64 jump);
+    static void guBiTangentPointer2i32(edk::uint64 position,edk::uint64 jump);
+    static void guBiTangentPointer2f32(edk::uint64 position,edk::uint64 jump);
+    static void guBiTangentPointer2f64(edk::uint64 position,edk::uint64 jump);
+    static void guBiTangentPointer3i16(edk::uint64 position,edk::uint64 jump);
+    static void guBiTangentPointer3i32(edk::uint64 position,edk::uint64 jump);
+    static void guBiTangentPointer3f32(edk::uint64 position,edk::uint64 jump);
+    static void guBiTangentPointer3f64(edk::uint64 position,edk::uint64 jump);
+    static void guBiTangentPointer4i16(edk::uint64 position,edk::uint64 jump);
+    static void guBiTangentPointer4i32(edk::uint64 position,edk::uint64 jump);
+    static void guBiTangentPointer4f32(edk::uint64 position,edk::uint64 jump);
+    static void guBiTangentPointer4f64(edk::uint64 position,edk::uint64 jump);
+
     //Use a TextCoord from a pointer
     static void guTexCoordPointer1i16(edk::uint64 position,edk::uint64 jump);
     static void guTexCoordPointer2i16(edk::uint64 position,edk::uint64 jump);

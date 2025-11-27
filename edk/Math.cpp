@@ -592,6 +592,35 @@ edk::float32 edk::Math::getAngle(edk::vec2f32 vec){
     }
     return 0.0f;
 }
+edk::float32 edk::Math::getAngleX(edk::float32 x,edk::float32 y,edk::float32 z){
+    return getAngleX(edk::vec3f32(x,y,z));
+}
+edk::float32 edk::Math::getAngleX(edk::vec3f32 vec){
+    return edk::Math::getAngle(edk::vec2f32(vec.y,vec.z));
+}
+edk::float32 edk::Math::getAngleY(edk::float32 x,edk::float32 y,edk::float32 z){
+    return getAngleY(edk::vec3f32(x,y,z));
+}
+edk::float32 edk::Math::getAngleY(edk::vec3f32 vec){
+    return edk::Math::getAngle(edk::vec2f32(vec.x,vec.z));
+}
+edk::float32 edk::Math::getAngleZ(edk::float32 x,edk::float32 y,edk::float32 z){
+    return getAngleZ(edk::vec3f32(x,y,z));
+}
+edk::float32 edk::Math::getAngleZ(edk::vec3f32 vec){
+    return edk::Math::getAngle(edk::vec2f32(vec.x,vec.y));
+}
+//3 angles
+edk::vec3f32 edk::Math::getAngleXYZ(edk::float32 x,edk::float32 y,edk::float32 z){
+    return getAngleXYZ(edk::vec3f32(x,y,z));
+}
+edk::vec3f32 edk::Math::getAngleXYZ(edk::vec3f32 vec){
+    edk::vec3f32 ret(edk::Math::getAngleX(vec),
+                     edk::Math::getAngleY(vec),
+                     edk::Math::getAngleZ(vec)
+                     );
+    return ret;
+}
 //Return the 2D Angle between 2 vectors
 edk::float32 edk::Math::getAngleDistanceModule(edk::float32 x1,edk::float32 y1,
                                                edk::float32 x2,edk::float32 y2
@@ -940,11 +969,11 @@ bool edk::Math::generateOrthoMatrix(edk::float32 left,
 }
 
 //Rotate de vector
-edk::float32 edk::Math::rotateX(edk::float32 radius, edk::float32 angle){
+edk::float32 edk::Math::rotateXAxis(edk::float32 radius, edk::float32 angle){
     //
     return edk::Math::getCosin(angle)*radius;
 }
-edk::float32 edk::Math::rotateY(edk::float32 radius, edk::float32 angle){
+edk::float32 edk::Math::rotateYAxis(edk::float32 radius, edk::float32 angle){
     //
     return edk::Math::getSin(angle)*radius;
 }
@@ -954,7 +983,7 @@ edk::vec2f32 edk::Math::rotate(edk::float32 x,edk::float32 y,edk::float32 angle)
 edk::vec2f32 edk::Math::rotate(edk::vec2f32 vec,edk::float32 angle){
     //get the radius of the vector
     edk::float32 radius = edk::Math::pythagoras(vec);
-    return edk::vec2f32( edk::Math::rotateX(radius,angle),edk::Math::rotateY(radius,angle));
+    return edk::vec2f32( edk::Math::rotateXAxis(radius,angle),edk::Math::rotateYAxis(radius,angle));
 }
 edk::vec2f32 edk::Math::rotatePlus(edk::float32 x,edk::float32 y,edk::float32 angle){
     return edk::Math::rotatePlus(edk::vec2f32(x,y),angle);
@@ -971,6 +1000,142 @@ edk::vec2f32 edk::Math::rotatePlus(edk::vec2f32 vec,edk::float32 angle){
     }
     //
     return edk::Math::rotate(vec,angle);
+}
+//rotate in all axes
+edk::vec3f32 edk::Math::rotateX(edk::float32 x,edk::float32 y,edk::float32 z,edk::float32 angle){
+    return edk::Math::rotateX(edk::vec3f32(x,y,z),angle);
+}
+edk::vec3f32 edk::Math::rotateX(edk::vec3f32 vec,edk::float32 angle){
+    //get the radius of the vector
+    edk::float32 radius = edk::Math::pythagoras(edk::vec2f32(vec.y,vec.z));
+    return edk::vec3f32(vec.x,edk::Math::rotateYAxis(radius,angle),edk::Math::rotateXAxis(radius,angle));
+}
+edk::vec3f32 edk::Math::rotateY(edk::float32 x,edk::float32 y,edk::float32 z,edk::float32 angle){
+    return edk::Math::rotateY(edk::vec3f32(x,y,z),angle);
+}
+edk::vec3f32 edk::Math::rotateY(edk::vec3f32 vec,edk::float32 angle){
+    //get the radius of the vector
+    edk::float32 radius = edk::Math::pythagoras(edk::vec2f32(vec.x,vec.z));
+    return edk::vec3f32(edk::Math::rotateXAxis(radius,angle),vec.y,edk::Math::rotateYAxis(radius,angle));
+}
+edk::vec3f32 edk::Math::rotateZ(edk::float32 x,edk::float32 y,edk::float32 z,edk::float32 angle){
+    return edk::Math::rotateZ(edk::vec3f32(x,y,z),angle);
+}
+edk::vec3f32 edk::Math::rotateZ(edk::vec3f32 vec,edk::float32 angle){
+    //get the radius of the vector
+    edk::float32 radius = edk::Math::pythagoras(edk::vec2f32(vec.x,vec.y));
+    return edk::vec3f32(edk::Math::rotateXAxis(radius,angle),edk::Math::rotateYAxis(radius,angle),vec.z);
+}
+edk::vec3f32 edk::Math::rotateZY(edk::float32 x,edk::float32 y,edk::float32 z,edk::float32 angleX,edk::float32 angleY){
+    return edk::Math::rotateZY(edk::vec3f32(x,y,z),angleX,angleY);
+}
+edk::vec3f32 edk::Math::rotateZY(edk::vec3f32 vec,edk::float32 angleZ,edk::float32 angleY){
+    angleZ = edk::Math::mathNormalizeAngle(angleZ);
+    angleY = edk::Math::mathNormalizeAngle(angleY);
+    //get the radius of the vector
+    vec = edk::Math::rotateZ(vec,angleZ);
+    if(angleZ>=90.f && angleZ<270.f){
+        angleY+=180.f;
+    }
+    return edk::Math::rotateY(vec,angleY);
+}
+edk::vec3f32 edk::Math::rotateXYZ(edk::float32 x,edk::float32 y,edk::float32 z,
+                                         edk::float32 angleX,edk::float32 angleY,edk::float32 angleZ
+                                         ){
+    return edk::Math::rotateXYZ(edk::vec3f32(x,y,z),angleX,angleY,angleZ);
+}
+edk::vec3f32 edk::Math::rotateXYZ(edk::vec3f32 vec,
+                                         edk::float32 angleX,edk::float32 angleY,edk::float32 angleZ
+                                         ){
+
+    edk::vector::Matrixf32<4u,4u> mat;
+    edk::vector::Matrixf32<4u,4u> matTemp;
+    edk::vector::MatrixDynamic<edk::float32> matPosition;
+    matPosition.createMatrix(1u,4u);
+    //X
+    mat.setIdentity(1.f,0.f);
+    edk::Math::generateRotateMatrix3DX(angleX,&matTemp);
+    mat.multiplyMatrixWithThis(&matTemp);
+    //Y
+    mat.setIdentity(1.f,0.f);
+    edk::Math::generateRotateMatrix3DY(angleY,&matTemp);
+    mat.multiplyMatrixWithThis(&matTemp);
+    //Z
+    mat.setIdentity(1.f,0.f);
+    edk::Math::generateRotateMatrix3DZ(angleZ,&matTemp);
+    mat.multiplyMatrixWithThis(&matTemp);
+
+    //calculate the new position
+    matPosition.set(0u,0u,edk::Math::pythagoras(vec));
+    matPosition.set(0u,1u,0.f);
+    matPosition.set(0u,2u,0.f);
+    matPosition.set(0u,3u,1.f);
+
+    matPosition.multiplyMatrixWithThis((edk::vector::MatrixDynamic<edk::float32>*)&mat);
+
+    vec.x = matPosition.get(0u,0u);
+    vec.y = matPosition.get(0u,1u);
+    vec.z = matPosition.get(0u,2u);
+
+    return vec;
+}
+//rotatePlus in all axes
+edk::vec3f32 edk::Math::rotatePlusX(edk::float32 x,edk::float32 y,edk::float32 z,edk::float32 angle){
+    return edk::Math::rotatePlusX(edk::vec3f32(x,y,z),angle);
+}
+edk::vec3f32 edk::Math::rotatePlusX(edk::vec3f32 vec,edk::float32 angle){
+    return edk::Math::rotateX(vec,angle + edk::Math::getAngle(vec.z,vec.y));
+}
+edk::vec3f32 edk::Math::rotatePlusY(edk::float32 x,edk::float32 y,edk::float32 z,edk::float32 angle){
+    return edk::Math::rotatePlusY(edk::vec3f32(x,y,z),angle);
+}
+edk::vec3f32 edk::Math::rotatePlusY(edk::vec3f32 vec,edk::float32 angle){
+    return edk::Math::rotateY(vec,angle + edk::Math::getAngle(vec.x,vec.z));
+}
+edk::vec3f32 edk::Math::rotatePlusZ(edk::float32 x,edk::float32 y,edk::float32 z,edk::float32 angle){
+    return edk::Math::rotatePlusZ(edk::vec3f32(x,y,z),angle);
+}
+edk::vec3f32 edk::Math::rotatePlusZ(edk::vec3f32 vec,edk::float32 angle){
+    return edk::Math::rotateZ(vec,angle + edk::Math::getAngle(vec.y,vec.y));
+}
+edk::vec3f32 edk::Math::rotatePlusXYZ(edk::float32 x,edk::float32 y,edk::float32 z,
+                                     edk::float32 angleX,edk::float32 angleY,edk::float32 angleZ
+                                     ){
+    return edk::Math::rotatePlusXYZ(edk::vec3f32(x,y,z),angleX,angleY,angleZ);
+}
+edk::vec3f32 edk::Math::rotatePlusXYZ(edk::vec3f32 vec,
+                                     edk::float32 angleX,edk::float32 angleY,edk::float32 angleZ
+                                     ){
+    edk::vector::Matrixf32<4u,4u> mat;
+    edk::vector::Matrixf32<4u,4u> matTemp;
+    edk::vector::MatrixDynamic<edk::float32> matPosition;
+    matPosition.createMatrix(1u,4u);
+    //X
+    mat.setIdentity(1.f,0.f);
+    edk::Math::generateRotateMatrix3DX(angleX,&matTemp);
+    mat.multiplyMatrixWithThis(&matTemp);
+    //Y
+    mat.setIdentity(1.f,0.f);
+    edk::Math::generateRotateMatrix3DY(angleY,&matTemp);
+    mat.multiplyMatrixWithThis(&matTemp);
+    //Z
+    mat.setIdentity(1.f,0.f);
+    edk::Math::generateRotateMatrix3DZ(angleZ,&matTemp);
+    mat.multiplyMatrixWithThis(&matTemp);
+
+    //calculate the new position
+    matPosition.set(0u,0u,vec.x);
+    matPosition.set(0u,1u,vec.y);
+    matPosition.set(0u,2u,vec.z);
+    matPosition.set(0u,3u,1.f);
+
+    matPosition.multiplyMatrixWithThis((edk::vector::MatrixDynamic<edk::float32>*)&mat);
+
+    vec.x = matPosition.get(0u,0u);
+    vec.y = matPosition.get(0u,1u);
+    vec.z = matPosition.get(0u,2u);
+
+    return vec;
 }
 
 //Normal of the triangle
