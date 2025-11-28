@@ -168,6 +168,7 @@ public:
     bool generateVBOWire(edk::uint32 meshPosition);
     bool generateVBO();
     bool generateVBOWire();
+    bool generateVBOTangentAndBiTangent();
 
     //HIDE
     virtual bool hide();

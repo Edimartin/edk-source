@@ -3702,6 +3702,22 @@ bool edk::Object3D::generateVBOWire(){
     }
     return false;
 }
+bool edk::Object3D::generateVBOTangentAndBiTangent(){
+    edk::shape::Mesh3D* mesh;
+    //print all polygonList
+    edk::uint32 size = this->meshes.size();
+    if(size){
+        for(edk::uint32 i=0u;i<size;i++){
+            //
+            mesh = this->meshes.getMesh(i);
+            if(mesh){
+                mesh->generateVBOTangentAndBiTangent();
+            }
+        }
+        return true;
+    }
+    return false;
+}
 
 //HIDE
 bool edk::Object3D::hide(){

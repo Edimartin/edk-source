@@ -230,6 +230,8 @@ public:
     //convert the mesh to the VBO
     bool generateVBO();
     bool generateVBOWire();
+    //TANGENT and BITANGENT
+    bool generateVBOTangentAndBiTangent();
 
     //XML
     virtual bool writeToXML(edk::XML* xml,edk::uint32 id);

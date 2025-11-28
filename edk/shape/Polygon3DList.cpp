@@ -71334,9 +71334,9 @@ void edk::shape::Polygon3DList::draw_XY_TxTyTz_BxByBz(edk::uint32 mode){
     //set the vertex position in array
     edk::GU_GLSL::guVertexPointer2f32(0u,8u);
     //Tangent
-    edk::GU_GLSL::guTangentPointer2i16(2u,8u);
+    edk::GU_GLSL::guTangentPointer3f32(2u,8u);
     //BiTangent
-    edk::GU_GLSL::guVertexPointer2f32(5u,8u);
+    edk::GU_GLSL::guBiTangentPointer3f32(5u,8u);
 
     //draw the array
     edk::GU_GLSL::guDrawArrays(mode,0,this->vboCount);
@@ -71354,9 +71354,9 @@ void edk::shape::Polygon3DList::draw_XYZ_TxTyTz_BxByBz(edk::uint32 mode){
     //set the vertex position in array
     edk::GU_GLSL::guVertexPointer3f32(0u,9u);
     //Tangent
-    edk::GU_GLSL::guTangentPointer2i16(3u,9u);
+    edk::GU_GLSL::guTangentPointer3f32(3u,9u);
     //BiTangent
-    edk::GU_GLSL::guVertexPointer2f32(6u,9u);
+    edk::GU_GLSL::guBiTangentPointer3f32(6u,9u);
 
     //draw the array
     edk::GU_GLSL::guDrawArrays(mode,0,this->vboCount);
@@ -71378,9 +71378,9 @@ void edk::shape::Polygon3DList::draw_XY_NxNyNz_TxTyTz_BxByBz(edk::uint32 mode){
     //set the vertex position in array
     edk::GU_GLSL::guVertexPointer2f32(0u,11u);
     //Tangent
-    edk::GU_GLSL::guTangentPointer2i16(5u,11u);
+    edk::GU_GLSL::guTangentPointer3f32(5u,11u);
     //BiTangent
-    edk::GU_GLSL::guVertexPointer2f32(8u,11u);
+    edk::GU_GLSL::guBiTangentPointer3f32(8u,11u);
 
     //draw the array
     edk::GU_GLSL::guDrawArrays(mode,0,this->vboCount);
@@ -71404,9 +71404,9 @@ void edk::shape::Polygon3DList::draw_XYZ_NxNyNz_TxTyTz_BxByBz(edk::uint32 mode){
     //set the vertex position in array
     edk::GU_GLSL::guVertexPointer3f32(0u,12u);
     //Tangent
-    edk::GU_GLSL::guTangentPointer2i16(6u,12u);
+    edk::GU_GLSL::guTangentPointer3f32(6u,12u);
     //BiTangent
-    edk::GU_GLSL::guVertexPointer2f32(9u,12u);
+    edk::GU_GLSL::guBiTangentPointer3f32(9u,12u);
 
     //draw the array
     edk::GU_GLSL::guDrawArrays(mode,0,this->vboCount);
@@ -71430,9 +71430,9 @@ void edk::shape::Polygon3DList::draw_XY_RGB_TxTyTz_BxByBz(edk::uint32 mode){
     //set the vertex position in array
     edk::GU_GLSL::guVertexPointer2f32(0u,11u);
     //Tangent
-    edk::GU_GLSL::guTangentPointer2i16(5u,11u);
+    edk::GU_GLSL::guTangentPointer3f32(5u,11u);
     //BiTangent
-    edk::GU_GLSL::guVertexPointer2f32(8u,11u);
+    edk::GU_GLSL::guBiTangentPointer3f32(8u,11u);
 
     //draw the array
     edk::GU_GLSL::guDrawArrays(mode,0,this->vboCount);
@@ -71456,9 +71456,9 @@ void edk::shape::Polygon3DList::draw_XYZ_RGB_TxTyTz_BxByBz(edk::uint32 mode){
     //set the vertex position in array
     edk::GU_GLSL::guVertexPointer3f32(0u,12u);
     //Tangent
-    edk::GU_GLSL::guTangentPointer2i16(6u,12u);
+    edk::GU_GLSL::guTangentPointer3f32(6u,12u);
     //BiTangent
-    edk::GU_GLSL::guVertexPointer2f32(9u,12u);
+    edk::GU_GLSL::guBiTangentPointer3f32(9u,12u);
 
     //draw the array
     edk::GU_GLSL::guDrawArrays(mode,0,this->vboCount);
@@ -71482,9 +71482,9 @@ void edk::shape::Polygon3DList::draw_XY_RGBA_TxTyTz_BxByBz(edk::uint32 mode){
     //set the vertex position in array
     edk::GU_GLSL::guVertexPointer2f32(0u,12u);
     //Tangent
-    edk::GU_GLSL::guTangentPointer2i16(6u,12u);
+    edk::GU_GLSL::guTangentPointer3f32(6u,12u);
     //BiTangent
-    edk::GU_GLSL::guVertexPointer2f32(9u,12u);
+    edk::GU_GLSL::guBiTangentPointer3f32(9u,12u);
 
     //draw the array
     edk::GU_GLSL::guDrawArrays(mode,0,this->vboCount);
@@ -71508,9 +71508,9 @@ void edk::shape::Polygon3DList::draw_XYZ_RGBA_TxTyTz_BxByBz(edk::uint32 mode){
     //set the vertex position in array
     edk::GU_GLSL::guVertexPointer3f32(0u,13u);
     //Tangent
-    edk::GU_GLSL::guTangentPointer2i16(7u,13u);
+    edk::GU_GLSL::guTangentPointer3f32(7u,13u);
     //BiTangent
-    edk::GU_GLSL::guVertexPointer2f32(10u,13u);
+    edk::GU_GLSL::guBiTangentPointer3f32(10u,13u);
 
     //draw the array
     edk::GU_GLSL::guDrawArrays(mode,0,this->vboCount);
@@ -71538,9 +71538,9 @@ void edk::shape::Polygon3DList::draw_XY_RGB_NxNyNz_TxTyTz_BxByBz(edk::uint32 mod
     //set the vertex position in array
     edk::GU_GLSL::guVertexPointer2f32(0u,14u);
     //Tangent
-    edk::GU_GLSL::guTangentPointer2i16(8u,14u);
+    edk::GU_GLSL::guTangentPointer3f32(8u,14u);
     //BiTangent
-    edk::GU_GLSL::guVertexPointer2f32(11u,14u);
+    edk::GU_GLSL::guBiTangentPointer3f32(11u,14u);
 
     //draw the array
     edk::GU_GLSL::guDrawArrays(mode,0,this->vboCount);
@@ -71570,9 +71570,9 @@ void edk::shape::Polygon3DList::draw_XYZ_RGB_NxNyNz_TxTyTz_BxByBz(edk::uint32 mo
     //set the vertex position in array
     edk::GU_GLSL::guVertexPointer3f32(0u,15u);
     //Tangent
-    edk::GU_GLSL::guTangentPointer2i16(9u,15u);
+    edk::GU_GLSL::guTangentPointer3f32(9u,15u);
     //BiTangent
-    edk::GU_GLSL::guVertexPointer2f32(12u,3u);
+    edk::GU_GLSL::guBiTangentPointer3f32(12u,3u);
 
     //draw the array
     edk::GU_GLSL::guDrawArrays(mode,0,this->vboCount);
@@ -71602,9 +71602,9 @@ void edk::shape::Polygon3DList::draw_XY_RGBA_NxNyNz_TxTyTz_BxByBz(edk::uint32 mo
     //set the vertex position in array
     edk::GU_GLSL::guVertexPointer2f32(0u,15u);
     //Tangent
-    edk::GU_GLSL::guTangentPointer2i16(9u,15u);
+    edk::GU_GLSL::guTangentPointer3f32(9u,15u);
     //BiTangent
-    edk::GU_GLSL::guVertexPointer2f32(12u,15u);
+    edk::GU_GLSL::guBiTangentPointer3f32(12u,15u);
 
     //draw the array
     edk::GU_GLSL::guDrawArrays(mode,0,this->vboCount);
@@ -71634,9 +71634,9 @@ void edk::shape::Polygon3DList::draw_XYZ_RGBA_NxNyNz_TxTyTz_BxByBz(edk::uint32 m
     //set the vertex position in array
     edk::GU_GLSL::guVertexPointer3f32(0u,16u);
     //Tangent
-    edk::GU_GLSL::guTangentPointer2i16(10u,16u);
+    edk::GU_GLSL::guTangentPointer3f32(10u,16u);
     //BiTangent
-    edk::GU_GLSL::guVertexPointer2f32(13u,16u);
+    edk::GU_GLSL::guBiTangentPointer3f32(13u,16u);
 
     //draw the array
     edk::GU_GLSL::guDrawArrays(mode,0,this->vboCount);
@@ -71670,9 +71670,9 @@ void edk::shape::Polygon3DList::draw_XY_RGB_NxNyNz_UVxUVy_TxTyTz_BxByBz(edk::uin
     //set the vertex position in array
     edk::GU_GLSL::guVertexPointer2f32(0u,16u);
     //Tangent
-    edk::GU_GLSL::guTangentPointer2i16(10u,16u);
+    edk::GU_GLSL::guTangentPointer3f32(10u,16u);
     //BiTangent
-    edk::GU_GLSL::guVertexPointer2f32(13u,16u);
+    edk::GU_GLSL::guBiTangentPointer3f32(13u,16u);
 
     //draw the array
     edk::GU_GLSL::guDrawArrays(mode,0,this->vboCount);
@@ -71708,9 +71708,9 @@ void edk::shape::Polygon3DList::draw_XYZ_RGB_NxNyNz_UVxUVy_TxTyTz_BxByBz(edk::ui
     //set the vertex position in array
     edk::GU_GLSL::guVertexPointer3f32(0u,17u);
     //Tangent
-    edk::GU_GLSL::guTangentPointer2i16(11u,17u);
+    edk::GU_GLSL::guTangentPointer3f32(11u,17u);
     //BiTangent
-    edk::GU_GLSL::guVertexPointer2f32(14u,17u);
+    edk::GU_GLSL::guBiTangentPointer3f32(14u,17u);
 
     //draw the array
     edk::GU_GLSL::guDrawArrays(mode,0,this->vboCount);
@@ -71746,9 +71746,9 @@ void edk::shape::Polygon3DList::draw_XY_RGBA_NxNyNz_UVxUVy_TxTyTz_BxByBz(edk::ui
     //set the vertex position in array
     edk::GU_GLSL::guVertexPointer2f32(0u,17u);
     //Tangent
-    edk::GU_GLSL::guTangentPointer2i16(11u,17u);
+    edk::GU_GLSL::guTangentPointer3f32(11u,17u);
     //BiTangent
-    edk::GU_GLSL::guVertexPointer2f32(14u,17u);
+    edk::GU_GLSL::guBiTangentPointer3f32(14u,17u);
 
     //draw the array
     edk::GU_GLSL::guDrawArrays(mode,0,this->vboCount);
@@ -71784,9 +71784,9 @@ void edk::shape::Polygon3DList::draw_XYZ_RGBA_NxNyNz_UVxUVy_TxTyTz_BxByBz(edk::u
     //set the vertex position in array
     edk::GU_GLSL::guVertexPointer3f32(0u,18u);
     //Tangent
-    edk::GU_GLSL::guTangentPointer2i16(12u,18u);
+    edk::GU_GLSL::guTangentPointer3f32(12u,18u);
     //BiTangent
-    edk::GU_GLSL::guVertexPointer2f32(15u,18u);
+    edk::GU_GLSL::guBiTangentPointer3f32(15u,18u);
 
     //draw the array
     edk::GU_GLSL::guDrawArrays(mode,0,this->vboCount);
@@ -72319,9 +72319,9 @@ void edk::shape::Polygon3DList::drawUpdate_XY_TxTyTz_BxByBz(edk::uint32 mode){
     //set the vertex position in array
     edk::GU_GLSL::guVertexPointer2f32(0u,8u);
     //Tangent
-    edk::GU_GLSL::guTangentPointer2i16(2u,8u);
+    edk::GU_GLSL::guTangentPointer3f32(2u,8u);
     //BiTangent
-    edk::GU_GLSL::guVertexPointer2f32(5u,8u);
+    edk::GU_GLSL::guBiTangentPointer3f32(5u,8u);
 
     //draw the array
     edk::GU_GLSL::guDrawArrays(mode,0,this->vboCount);
@@ -72331,7 +72331,7 @@ void edk::shape::Polygon3DList::drawUpdate_XY_TxTyTz_BxByBz(edk::uint32 mode){
 
     edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);
     //change the drawFunction
-    this->vboDraw = &edk::shape::Polygon3DList::draw_XY;
+    this->vboDraw = &edk::shape::Polygon3DList::draw_XY_TxTyTz_BxByBz;
 }
 void edk::shape::Polygon3DList::drawUpdate_XYZ_TxTyTz_BxByBz(edk::uint32 mode){
     this->updateVBO();
@@ -72342,9 +72342,9 @@ void edk::shape::Polygon3DList::drawUpdate_XYZ_TxTyTz_BxByBz(edk::uint32 mode){
     //set the vertex position in array
     edk::GU_GLSL::guVertexPointer3f32(0u,9u);
     //Tangent
-    edk::GU_GLSL::guTangentPointer2i16(3u,9u);
+    edk::GU_GLSL::guTangentPointer3f32(3u,9u);
     //BiTangent
-    edk::GU_GLSL::guVertexPointer2f32(6u,9u);
+    edk::GU_GLSL::guBiTangentPointer3f32(6u,9u);
 
     //draw the array
     edk::GU_GLSL::guDrawArrays(mode,0,this->vboCount);
@@ -72354,7 +72354,7 @@ void edk::shape::Polygon3DList::drawUpdate_XYZ_TxTyTz_BxByBz(edk::uint32 mode){
 
     edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);
     //change the drawFunction
-    this->vboDraw = &edk::shape::Polygon3DList::draw_XYZ;
+    this->vboDraw = &edk::shape::Polygon3DList::draw_XYZ_TxTyTz_BxByBz;
 }
 void edk::shape::Polygon3DList::drawUpdate_XY_NxNyNz_TxTyTz_BxByBz(edk::uint32 mode){
     this->updateVBO();
@@ -72369,9 +72369,9 @@ void edk::shape::Polygon3DList::drawUpdate_XY_NxNyNz_TxTyTz_BxByBz(edk::uint32 m
     //set the vertex position in array
     edk::GU_GLSL::guVertexPointer2f32(0u,11u);
     //Tangent
-    edk::GU_GLSL::guTangentPointer2i16(5u,11u);
+    edk::GU_GLSL::guTangentPointer3f32(5u,11u);
     //BiTangent
-    edk::GU_GLSL::guVertexPointer2f32(8u,11u);
+    edk::GU_GLSL::guBiTangentPointer3f32(8u,11u);
 
     //draw the array
     edk::GU_GLSL::guDrawArrays(mode,0,this->vboCount);
@@ -72383,7 +72383,7 @@ void edk::shape::Polygon3DList::drawUpdate_XY_NxNyNz_TxTyTz_BxByBz(edk::uint32 m
 
     edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);
     //change the drawFunction
-    this->vboDraw = &edk::shape::Polygon3DList::draw_XY_NxNyNz;
+    this->vboDraw = &edk::shape::Polygon3DList::draw_XY_NxNyNz_TxTyTz_BxByBz;
 }
 void edk::shape::Polygon3DList::drawUpdate_XYZ_NxNyNz_TxTyTz_BxByBz(edk::uint32 mode){
     this->updateVBO();
@@ -72398,9 +72398,9 @@ void edk::shape::Polygon3DList::drawUpdate_XYZ_NxNyNz_TxTyTz_BxByBz(edk::uint32 
     //set the vertex position in array
     edk::GU_GLSL::guVertexPointer3f32(0u,12u);
     //Tangent
-    edk::GU_GLSL::guTangentPointer2i16(6u,12u);
+    edk::GU_GLSL::guTangentPointer3f32(6u,12u);
     //BiTangent
-    edk::GU_GLSL::guVertexPointer2f32(9u,12u);
+    edk::GU_GLSL::guBiTangentPointer3f32(9u,12u);
 
     //draw the array
     edk::GU_GLSL::guDrawArrays(mode,0,this->vboCount);
@@ -72412,7 +72412,7 @@ void edk::shape::Polygon3DList::drawUpdate_XYZ_NxNyNz_TxTyTz_BxByBz(edk::uint32 
 
     edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);
     //change the drawFunction
-    this->vboDraw = &edk::shape::Polygon3DList::draw_XYZ_NxNyNz;
+    this->vboDraw = &edk::shape::Polygon3DList::draw_XYZ_NxNyNz_TxTyTz_BxByBz;
 }
 void edk::shape::Polygon3DList::drawUpdate_XY_RGB_TxTyTz_BxByBz(edk::uint32 mode){
     this->updateVBO();
@@ -72427,9 +72427,9 @@ void edk::shape::Polygon3DList::drawUpdate_XY_RGB_TxTyTz_BxByBz(edk::uint32 mode
     //set the vertex position in array
     edk::GU_GLSL::guVertexPointer2f32(0u,11u);
     //Tangent
-    edk::GU_GLSL::guTangentPointer2i16(5u,11u);
+    edk::GU_GLSL::guTangentPointer3f32(5u,11u);
     //BiTangent
-    edk::GU_GLSL::guVertexPointer2f32(8u,11u);
+    edk::GU_GLSL::guBiTangentPointer3f32(8u,11u);
 
     //draw the array
     edk::GU_GLSL::guDrawArrays(mode,0,this->vboCount);
@@ -72441,7 +72441,7 @@ void edk::shape::Polygon3DList::drawUpdate_XY_RGB_TxTyTz_BxByBz(edk::uint32 mode
 
     edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);
     //change the drawFunction
-    this->vboDraw = &edk::shape::Polygon3DList::draw_XY_RGB;
+    this->vboDraw = &edk::shape::Polygon3DList::draw_XY_RGB_TxTyTz_BxByBz;
 }
 void edk::shape::Polygon3DList::drawUpdate_XYZ_RGB_TxTyTz_BxByBz(edk::uint32 mode){
     this->updateVBO();
@@ -72456,9 +72456,9 @@ void edk::shape::Polygon3DList::drawUpdate_XYZ_RGB_TxTyTz_BxByBz(edk::uint32 mod
     //set the vertex position in array
     edk::GU_GLSL::guVertexPointer3f32(0u,12u);
     //Tangent
-    edk::GU_GLSL::guTangentPointer2i16(6u,12u);
+    edk::GU_GLSL::guTangentPointer3f32(6u,12u);
     //BiTangent
-    edk::GU_GLSL::guVertexPointer2f32(9u,12u);
+    edk::GU_GLSL::guBiTangentPointer3f32(9u,12u);
 
     //draw the array
     edk::GU_GLSL::guDrawArrays(mode,0,this->vboCount);
@@ -72470,7 +72470,7 @@ void edk::shape::Polygon3DList::drawUpdate_XYZ_RGB_TxTyTz_BxByBz(edk::uint32 mod
 
     edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);
     //change the drawFunction
-    this->vboDraw = &edk::shape::Polygon3DList::draw_XYZ_RGB;
+    this->vboDraw = &edk::shape::Polygon3DList::draw_XYZ_RGB_TxTyTz_BxByBz;
 }
 void edk::shape::Polygon3DList::drawUpdate_XY_RGBA_TxTyTz_BxByBz(edk::uint32 mode){
     this->updateVBO();
@@ -72485,9 +72485,9 @@ void edk::shape::Polygon3DList::drawUpdate_XY_RGBA_TxTyTz_BxByBz(edk::uint32 mod
     //set the vertex position in array
     edk::GU_GLSL::guVertexPointer2f32(0u,12u);
     //Tangent
-    edk::GU_GLSL::guTangentPointer2i16(6u,12u);
+    edk::GU_GLSL::guTangentPointer3f32(6u,12u);
     //BiTangent
-    edk::GU_GLSL::guVertexPointer2f32(9u,12u);
+    edk::GU_GLSL::guBiTangentPointer3f32(9u,12u);
 
     //draw the array
     edk::GU_GLSL::guDrawArrays(mode,0,this->vboCount);
@@ -72499,7 +72499,7 @@ void edk::shape::Polygon3DList::drawUpdate_XY_RGBA_TxTyTz_BxByBz(edk::uint32 mod
 
     edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);
     //change the drawFunction
-    this->vboDraw = &edk::shape::Polygon3DList::draw_XY_RGBA;
+    this->vboDraw = &edk::shape::Polygon3DList::draw_XY_RGBA_TxTyTz_BxByBz;
 }
 void edk::shape::Polygon3DList::drawUpdate_XYZ_RGBA_TxTyTz_BxByBz(edk::uint32 mode){
     this->updateVBO();
@@ -72514,9 +72514,9 @@ void edk::shape::Polygon3DList::drawUpdate_XYZ_RGBA_TxTyTz_BxByBz(edk::uint32 mo
     //set the vertex position in array
     edk::GU_GLSL::guVertexPointer3f32(0u,13u);
     //Tangent
-    edk::GU_GLSL::guTangentPointer2i16(7u,13u);
+    edk::GU_GLSL::guTangentPointer3f32(7u,13u);
     //BiTangent
-    edk::GU_GLSL::guVertexPointer2f32(10u,13u);
+    edk::GU_GLSL::guBiTangentPointer3f32(10u,13u);
 
     //draw the array
     edk::GU_GLSL::guDrawArrays(mode,0,this->vboCount);
@@ -72528,7 +72528,7 @@ void edk::shape::Polygon3DList::drawUpdate_XYZ_RGBA_TxTyTz_BxByBz(edk::uint32 mo
 
     edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);
     //change the drawFunction
-    this->vboDraw = &edk::shape::Polygon3DList::draw_XYZ_RGBA;
+    this->vboDraw = &edk::shape::Polygon3DList::draw_XYZ_RGBA_TxTyTz_BxByBz;
 }
 void edk::shape::Polygon3DList::drawUpdate_XY_RGB_NxNyNz_TxTyTz_BxByBz(edk::uint32 mode){
     this->updateVBO();
@@ -72547,9 +72547,9 @@ void edk::shape::Polygon3DList::drawUpdate_XY_RGB_NxNyNz_TxTyTz_BxByBz(edk::uint
     //set the vertex position in array
     edk::GU_GLSL::guVertexPointer2f32(0u,14u);
     //Tangent
-    edk::GU_GLSL::guTangentPointer2i16(8u,14u);
+    edk::GU_GLSL::guTangentPointer3f32(8u,14u);
     //BiTangent
-    edk::GU_GLSL::guVertexPointer2f32(11u,14u);
+    edk::GU_GLSL::guBiTangentPointer3f32(11u,14u);
 
     //draw the array
     edk::GU_GLSL::guDrawArrays(mode,0,this->vboCount);
@@ -72563,7 +72563,7 @@ void edk::shape::Polygon3DList::drawUpdate_XY_RGB_NxNyNz_TxTyTz_BxByBz(edk::uint
 
     edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);
     //change the drawFunction
-    this->vboDraw = &edk::shape::Polygon3DList::draw_XY_RGB_NxNyNz;
+    this->vboDraw = &edk::shape::Polygon3DList::draw_XY_RGB_NxNyNz_TxTyTz_BxByBz;
 }
 void edk::shape::Polygon3DList::drawUpdate_XYZ_RGB_NxNyNz_TxTyTz_BxByBz(edk::uint32 mode){
     this->updateVBO();
@@ -72582,9 +72582,9 @@ void edk::shape::Polygon3DList::drawUpdate_XYZ_RGB_NxNyNz_TxTyTz_BxByBz(edk::uin
     //set the vertex position in array
     edk::GU_GLSL::guVertexPointer3f32(0u,15u);
     //Tangent
-    edk::GU_GLSL::guTangentPointer2i16(9u,15u);
+    edk::GU_GLSL::guTangentPointer3f32(9u,15u);
     //BiTangent
-    edk::GU_GLSL::guVertexPointer2f32(12u,15u);
+    edk::GU_GLSL::guBiTangentPointer3f32(12u,15u);
 
     //draw the array
     edk::GU_GLSL::guDrawArrays(mode,0,this->vboCount);
@@ -72598,7 +72598,7 @@ void edk::shape::Polygon3DList::drawUpdate_XYZ_RGB_NxNyNz_TxTyTz_BxByBz(edk::uin
 
     edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);
     //change the drawFunction
-    this->vboDraw = &edk::shape::Polygon3DList::draw_XYZ_RGB_NxNyNz;
+    this->vboDraw = &edk::shape::Polygon3DList::draw_XYZ_RGB_NxNyNz_TxTyTz_BxByBz;
 }
 void edk::shape::Polygon3DList::drawUpdate_XY_RGBA_NxNyNz_TxTyTz_BxByBz(edk::uint32 mode){
     this->updateVBO();
@@ -72617,9 +72617,9 @@ void edk::shape::Polygon3DList::drawUpdate_XY_RGBA_NxNyNz_TxTyTz_BxByBz(edk::uin
     //set the vertex position in array
     edk::GU_GLSL::guVertexPointer2f32(0u,15u);
     //Tangent
-    edk::GU_GLSL::guTangentPointer2i16(9u,15u);
+    edk::GU_GLSL::guTangentPointer3f32(9u,15u);
     //BiTangent
-    edk::GU_GLSL::guVertexPointer2f32(12u,15u);
+    edk::GU_GLSL::guBiTangentPointer3f32(12u,15u);
 
     //draw the array
     edk::GU_GLSL::guDrawArrays(mode,0,this->vboCount);
@@ -72633,7 +72633,7 @@ void edk::shape::Polygon3DList::drawUpdate_XY_RGBA_NxNyNz_TxTyTz_BxByBz(edk::uin
 
     edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);
     //change the drawFunction
-    this->vboDraw = &edk::shape::Polygon3DList::draw_XY_RGBA_NxNyNz;
+    this->vboDraw = &edk::shape::Polygon3DList::draw_XY_RGBA_NxNyNz_TxTyTz_BxByBz;
 }
 void edk::shape::Polygon3DList::drawUpdate_XYZ_RGBA_NxNyNz_TxTyTz_BxByBz(edk::uint32 mode){
     this->updateVBO();
@@ -72652,9 +72652,9 @@ void edk::shape::Polygon3DList::drawUpdate_XYZ_RGBA_NxNyNz_TxTyTz_BxByBz(edk::ui
     //set the vertex position in array
     edk::GU_GLSL::guVertexPointer3f32(0u,16u);
     //Tangent
-    edk::GU_GLSL::guTangentPointer2i16(10u,16u);
+    edk::GU_GLSL::guTangentPointer3f32(10u,16u);
     //BiTangent
-    edk::GU_GLSL::guVertexPointer2f32(13u,16u);
+    edk::GU_GLSL::guBiTangentPointer3f32(13u,16u);
 
     //draw the array
     edk::GU_GLSL::guDrawArrays(mode,0,this->vboCount);
@@ -72668,7 +72668,7 @@ void edk::shape::Polygon3DList::drawUpdate_XYZ_RGBA_NxNyNz_TxTyTz_BxByBz(edk::ui
 
     edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);
     //change the drawFunction
-    this->vboDraw = &edk::shape::Polygon3DList::draw_XYZ_RGBA_NxNyNz;
+    this->vboDraw = &edk::shape::Polygon3DList::draw_XYZ_RGBA_NxNyNz_TxTyTz_BxByBz;
 }
 void edk::shape::Polygon3DList::drawUpdate_XY_RGB_NxNyNz_UVxUVy_TxTyTz_BxByBz(edk::uint32 mode){
     this->updateVBO();
@@ -72691,9 +72691,9 @@ void edk::shape::Polygon3DList::drawUpdate_XY_RGB_NxNyNz_UVxUVy_TxTyTz_BxByBz(ed
     //set the vertex position in array
     edk::GU_GLSL::guVertexPointer2f32(0u,16u);
     //Tangent
-    edk::GU_GLSL::guTangentPointer2i16(10u,16u);
+    edk::GU_GLSL::guTangentPointer3f32(10u,16u);
     //BiTangent
-    edk::GU_GLSL::guVertexPointer2f32(13u,16u);
+    edk::GU_GLSL::guBiTangentPointer3f32(13u,16u);
 
     //draw the array
     edk::GU_GLSL::guDrawArrays(mode,0,this->vboCount);
@@ -72709,7 +72709,7 @@ void edk::shape::Polygon3DList::drawUpdate_XY_RGB_NxNyNz_UVxUVy_TxTyTz_BxByBz(ed
 
     edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);
     //change the drawFunction
-    this->vboDraw = &edk::shape::Polygon3DList::draw_XY_RGB_NxNyNz_UVxUVy;
+    this->vboDraw = &edk::shape::Polygon3DList::draw_XY_RGB_NxNyNz_UVxUVy_TxTyTz_BxByBz;
 }
 void edk::shape::Polygon3DList::drawUpdate_XYZ_RGB_NxNyNz_UVxUVy_TxTyTz_BxByBz(edk::uint32 mode){
     this->updateVBO();
@@ -72732,9 +72732,9 @@ void edk::shape::Polygon3DList::drawUpdate_XYZ_RGB_NxNyNz_UVxUVy_TxTyTz_BxByBz(e
     //set the vertex position in array
     edk::GU_GLSL::guVertexPointer3f32(0u,17u);
     //Tangent
-    edk::GU_GLSL::guTangentPointer2i16(11u,17u);
+    edk::GU_GLSL::guTangentPointer3f32(11u,17u);
     //BiTangent
-    edk::GU_GLSL::guVertexPointer2f32(14u,17u);
+    edk::GU_GLSL::guBiTangentPointer3f32(14u,17u);
 
     //draw the array
     edk::GU_GLSL::guDrawArrays(mode,0,this->vboCount);
@@ -72750,7 +72750,7 @@ void edk::shape::Polygon3DList::drawUpdate_XYZ_RGB_NxNyNz_UVxUVy_TxTyTz_BxByBz(e
 
     edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);
     //change the drawFunction
-    this->vboDraw = &edk::shape::Polygon3DList::draw_XYZ_RGB_NxNyNz_UVxUVy;
+    this->vboDraw = &edk::shape::Polygon3DList::draw_XYZ_RGB_NxNyNz_UVxUVy_TxTyTz_BxByBz;
 }
 void edk::shape::Polygon3DList::drawUpdate_XY_RGBA_NxNyNz_UVxUVy_TxTyTz_BxByBz(edk::uint32 mode){
     this->updateVBO();
@@ -72773,9 +72773,9 @@ void edk::shape::Polygon3DList::drawUpdate_XY_RGBA_NxNyNz_UVxUVy_TxTyTz_BxByBz(e
     //set the vertex position in array
     edk::GU_GLSL::guVertexPointer2f32(0u,17u);
     //Tangent
-    edk::GU_GLSL::guTangentPointer2i16(11u,17u);
+    edk::GU_GLSL::guTangentPointer3f32(11u,17u);
     //BiTangent
-    edk::GU_GLSL::guVertexPointer2f32(14u,17u);
+    edk::GU_GLSL::guBiTangentPointer3f32(14u,17u);
 
     //draw the array
     edk::GU_GLSL::guDrawArrays(mode,0,this->vboCount);
@@ -72812,7 +72812,7 @@ void edk::shape::Polygon3DList::drawUpdate_XY_RGBA_NxNyNz_UVxUVy_TxTyTz_BxByBz(e
 
     edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);
     //change the drawFunction
-    this->vboDraw = &edk::shape::Polygon3DList::draw_XY_RGBA_NxNyNz_UVxUVy;
+    this->vboDraw = &edk::shape::Polygon3DList::draw_XY_RGBA_NxNyNz_UVxUVy_TxTyTz_BxByBz;
 }
 void edk::shape::Polygon3DList::drawUpdate_XYZ_RGBA_NxNyNz_UVxUVy_TxTyTz_BxByBz(edk::uint32 mode){
     this->updateVBO();
@@ -72856,9 +72856,9 @@ void edk::shape::Polygon3DList::drawUpdate_XYZ_RGBA_NxNyNz_UVxUVy_TxTyTz_BxByBz(
     //set the vertex position in array
     edk::GU_GLSL::guVertexPointer3f32(0u,18u);
     //Tangent
-    edk::GU_GLSL::guTangentPointer2i16(12u,18u);
+    edk::GU_GLSL::guTangentPointer3f32(12u,18u);
     //BiTangent
-    edk::GU_GLSL::guVertexPointer2f32(15u,18u);
+    edk::GU_GLSL::guBiTangentPointer3f32(15u,18u);
 
     //draw the array
     edk::GU_GLSL::guDrawArrays(mode,0,this->vboCount);
@@ -72874,7 +72874,7 @@ void edk::shape::Polygon3DList::drawUpdate_XYZ_RGBA_NxNyNz_UVxUVy_TxTyTz_BxByBz(
 
     edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);
     //change the drawFunction
-    this->vboDraw = &edk::shape::Polygon3DList::draw_XYZ_RGBA_NxNyNz_UVxUVy;
+    this->vboDraw = &edk::shape::Polygon3DList::draw_XYZ_RGBA_NxNyNz_UVxUVy_TxTyTz_BxByBz;
 }
 //DRAW WITH MATRIX
 void edk::shape::Polygon3DList::drawWithMatrix_NULL(edk::uint32 mode){
@@ -73338,9 +73338,9 @@ void edk::shape::Polygon3DList::drawWithMatrix_XY_TxTyTz_BxByBz(edk::uint32 mode
     //set the vertex position in array
     edk::GU_GLSL::guVertexPointer2f32(0u,8u);
     //Tangent
-    edk::GU_GLSL::guTangentPointer2i16(2u,8u);
+    edk::GU_GLSL::guTangentPointer3f32(2u,8u);
     //BiTangent
-    edk::GU_GLSL::guVertexPointer2f32(5u,8u);
+    edk::GU_GLSL::guBiTangentPointer3f32(5u,8u);
 
     //draw the array
     edk::GU_GLSL::guDrawArrays(mode,0,this->vboWithMatrixCount);
@@ -73358,9 +73358,9 @@ void edk::shape::Polygon3DList::drawWithMatrix_XYZ_TxTyTz_BxByBz(edk::uint32 mod
     //set the vertex position in array
     edk::GU_GLSL::guVertexPointer3f32(0u,9u);
     //Tangent
-    edk::GU_GLSL::guTangentPointer2i16(3u,9u);
+    edk::GU_GLSL::guTangentPointer3f32(3u,9u);
     //BiTangent
-    edk::GU_GLSL::guVertexPointer2f32(6u,9u);
+    edk::GU_GLSL::guBiTangentPointer3f32(6u,9u);
 
     //draw the array
     edk::GU_GLSL::guDrawArrays(mode,0,this->vboWithMatrixCount);
@@ -73382,9 +73382,9 @@ void edk::shape::Polygon3DList::drawWithMatrix_XY_NxNyNz_TxTyTz_BxByBz(edk::uint
     //set the vertex position in array
     edk::GU_GLSL::guVertexPointer2f32(0u,11u);
     //Tangent
-    edk::GU_GLSL::guTangentPointer2i16(5u,11u);
+    edk::GU_GLSL::guTangentPointer3f32(5u,11u);
     //BiTangent
-    edk::GU_GLSL::guVertexPointer2f32(8u,11u);
+    edk::GU_GLSL::guBiTangentPointer3f32(8u,11u);
 
     //draw the array
     edk::GU_GLSL::guDrawArrays(mode,0,this->vboWithMatrixCount);
@@ -73408,9 +73408,9 @@ void edk::shape::Polygon3DList::drawWithMatrix_XYZ_NxNyNz_TxTyTz_BxByBz(edk::uin
     //set the vertex position in array
     edk::GU_GLSL::guVertexPointer3f32(0u,12u);
     //Tangent
-    edk::GU_GLSL::guTangentPointer2i16(6u,12u);
+    edk::GU_GLSL::guTangentPointer3f32(6u,12u);
     //BiTangent
-    edk::GU_GLSL::guVertexPointer2f32(9u,12u);
+    edk::GU_GLSL::guBiTangentPointer3f32(9u,12u);
 
     //draw the array
     edk::GU_GLSL::guDrawArrays(mode,0,this->vboWithMatrixCount);
@@ -73434,9 +73434,9 @@ void edk::shape::Polygon3DList::drawWithMatrix_XY_RGB_TxTyTz_BxByBz(edk::uint32 
     //set the vertex position in array
     edk::GU_GLSL::guVertexPointer2f32(0u,11u);
     //Tangent
-    edk::GU_GLSL::guTangentPointer2i16(5u,11u);
+    edk::GU_GLSL::guTangentPointer3f32(5u,11u);
     //BiTangent
-    edk::GU_GLSL::guVertexPointer2f32(8u,11u);
+    edk::GU_GLSL::guBiTangentPointer3f32(8u,11u);
 
     //draw the array
     edk::GU_GLSL::guDrawArrays(mode,0,this->vboWithMatrixCount);
@@ -73460,9 +73460,9 @@ void edk::shape::Polygon3DList::drawWithMatrix_XYZ_RGB_TxTyTz_BxByBz(edk::uint32
     //set the vertex position in array
     edk::GU_GLSL::guVertexPointer3f32(0u,12u);
     //Tangent
-    edk::GU_GLSL::guTangentPointer2i16(6u,12u);
+    edk::GU_GLSL::guTangentPointer3f32(6u,12u);
     //BiTangent
-    edk::GU_GLSL::guVertexPointer2f32(9u,12u);
+    edk::GU_GLSL::guBiTangentPointer3f32(9u,12u);
 
     //draw the array
     edk::GU_GLSL::guDrawArrays(mode,0,this->vboWithMatrixCount);
@@ -73486,9 +73486,9 @@ void edk::shape::Polygon3DList::drawWithMatrix_XY_RGBA_TxTyTz_BxByBz(edk::uint32
     //set the vertex position in array
     edk::GU_GLSL::guVertexPointer2f32(0u,12u);
     //Tangent
-    edk::GU_GLSL::guTangentPointer2i16(6u,12u);
+    edk::GU_GLSL::guTangentPointer3f32(6u,12u);
     //BiTangent
-    edk::GU_GLSL::guVertexPointer2f32(9u,12u);
+    edk::GU_GLSL::guBiTangentPointer3f32(9u,12u);
 
     //draw the array
     edk::GU_GLSL::guDrawArrays(mode,0,this->vboWithMatrixCount);
@@ -73512,9 +73512,9 @@ void edk::shape::Polygon3DList::drawWithMatrix_XYZ_RGBA_TxTyTz_BxByBz(edk::uint3
     //set the vertex position in array
     edk::GU_GLSL::guVertexPointer3f32(0u,13u);
     //Tangent
-    edk::GU_GLSL::guTangentPointer2i16(7u,13u);
+    edk::GU_GLSL::guTangentPointer3f32(7u,13u);
     //BiTangent
-    edk::GU_GLSL::guVertexPointer2f32(10u,13u);
+    edk::GU_GLSL::guBiTangentPointer3f32(10u,13u);
 
     //draw the array
     edk::GU_GLSL::guDrawArrays(mode,0,this->vboWithMatrixCount);
@@ -73542,9 +73542,9 @@ void edk::shape::Polygon3DList::drawWithMatrix_XY_RGB_NxNyNz_TxTyTz_BxByBz(edk::
     //set the vertex position in array
     edk::GU_GLSL::guVertexPointer2f32(0u,14u);
     //Tangent
-    edk::GU_GLSL::guTangentPointer2i16(8u,14u);
+    edk::GU_GLSL::guTangentPointer3f32(8u,14u);
     //BiTangent
-    edk::GU_GLSL::guVertexPointer2f32(11u,14u);
+    edk::GU_GLSL::guBiTangentPointer3f32(11u,14u);
 
     //draw the array
     edk::GU_GLSL::guDrawArrays(mode,0,this->vboWithMatrixCount);
@@ -73574,9 +73574,9 @@ void edk::shape::Polygon3DList::drawWithMatrix_XYZ_RGB_NxNyNz_TxTyTz_BxByBz(edk:
     //set the vertex position in array
     edk::GU_GLSL::guVertexPointer3f32(0u,15u);
     //Tangent
-    edk::GU_GLSL::guTangentPointer2i16(9u,15u);
+    edk::GU_GLSL::guTangentPointer3f32(9u,15u);
     //BiTangent
-    edk::GU_GLSL::guVertexPointer2f32(12u,15u);
+    edk::GU_GLSL::guBiTangentPointer3f32(12u,15u);
 
     //draw the array
     edk::GU_GLSL::guDrawArrays(mode,0,this->vboWithMatrixCount);
@@ -73606,9 +73606,9 @@ void edk::shape::Polygon3DList::drawWithMatrix_XY_RGBA_NxNyNz_TxTyTz_BxByBz(edk:
     //set the vertex position in array
     edk::GU_GLSL::guVertexPointer2f32(0u,15u);
     //Tangent
-    edk::GU_GLSL::guTangentPointer2i16(9u,15u);
+    edk::GU_GLSL::guTangentPointer3f32(9u,15u);
     //BiTangent
-    edk::GU_GLSL::guVertexPointer2f32(12u,15u);
+    edk::GU_GLSL::guBiTangentPointer3f32(12u,15u);
 
     //draw the array
     edk::GU_GLSL::guDrawArrays(mode,0,this->vboWithMatrixCount);
@@ -73638,9 +73638,9 @@ void edk::shape::Polygon3DList::drawWithMatrix_XYZ_RGBA_NxNyNz_TxTyTz_BxByBz(edk
     //set the vertex position in array
     edk::GU_GLSL::guVertexPointer3f32(0u,16u);
     //Tangent
-    edk::GU_GLSL::guTangentPointer2i16(10u,16u);
+    edk::GU_GLSL::guTangentPointer3f32(10u,16u);
     //BiTangent
-    edk::GU_GLSL::guVertexPointer2f32(13u,16u);
+    edk::GU_GLSL::guBiTangentPointer3f32(13u,16u);
 
     //draw the array
     edk::GU_GLSL::guDrawArrays(mode,0,this->vboWithMatrixCount);
@@ -73674,9 +73674,9 @@ void edk::shape::Polygon3DList::drawWithMatrix_XY_RGB_NxNyNz_UVxUVy_TxTyTz_BxByB
     //set the vertex position in array
     edk::GU_GLSL::guVertexPointer2f32(0u,16u);
     //Tangent
-    edk::GU_GLSL::guTangentPointer2i16(10u,16u);
+    edk::GU_GLSL::guTangentPointer3f32(10u,16u);
     //BiTangent
-    edk::GU_GLSL::guVertexPointer2f32(13u,16u);
+    edk::GU_GLSL::guBiTangentPointer3f32(13u,16u);
 
     //draw the array
     edk::GU_GLSL::guDrawArrays(mode,0,this->vboWithMatrixCount);
@@ -73712,9 +73712,9 @@ void edk::shape::Polygon3DList::drawWithMatrix_XYZ_RGB_NxNyNz_UVxUVy_TxTyTz_BxBy
     //set the vertex position in array
     edk::GU_GLSL::guVertexPointer3f32(0u,17u);
     //Tangent
-    edk::GU_GLSL::guTangentPointer2i16(11u,17u);
+    edk::GU_GLSL::guTangentPointer3f32(11u,17u);
     //BiTangent
-    edk::GU_GLSL::guVertexPointer2f32(14u,17u);
+    edk::GU_GLSL::guBiTangentPointer3f32(14u,17u);
 
     //draw the array
     edk::GU_GLSL::guDrawArrays(mode,0,this->vboWithMatrixCount);
@@ -73750,9 +73750,9 @@ void edk::shape::Polygon3DList::drawWithMatrix_XY_RGBA_NxNyNz_UVxUVy_TxTyTz_BxBy
     //set the vertex position in array
     edk::GU_GLSL::guVertexPointer2f32(0u,17u);
     //Tangent
-    edk::GU_GLSL::guTangentPointer2i16(11u,17u);
+    edk::GU_GLSL::guTangentPointer3f32(11u,17u);
     //BiTangent
-    edk::GU_GLSL::guVertexPointer2f32(14u,17u);
+    edk::GU_GLSL::guBiTangentPointer3f32(14u,17u);
 
     //draw the array
     edk::GU_GLSL::guDrawArrays(mode,0,this->vboWithMatrixCount);
@@ -73788,9 +73788,9 @@ void edk::shape::Polygon3DList::drawWithMatrix_XYZ_RGBA_NxNyNz_UVxUVy_TxTyTz_BxB
     //set the vertex position in array
     edk::GU_GLSL::guVertexPointer3f32(0u,18u);
     //Tangent
-    edk::GU_GLSL::guTangentPointer2i16(12u,18u);
+    edk::GU_GLSL::guTangentPointer3f32(12u,18u);
     //BiTangent
-    edk::GU_GLSL::guVertexPointer2f32(15u,18u);
+    edk::GU_GLSL::guBiTangentPointer3f32(15u,18u);
 
     //draw the array
     edk::GU_GLSL::guDrawArrays(mode,0,this->vboWithMatrixCount);
@@ -74320,9 +74320,9 @@ void edk::shape::Polygon3DList::drawUpdateWithMatrix_XY_TxTyTz_BxByBz(edk::uint3
     //set the vertex position in array
     edk::GU_GLSL::guVertexPointer2f32(0u,8u);
     //Tangent
-    edk::GU_GLSL::guTangentPointer2i16(2u,8u);
+    edk::GU_GLSL::guTangentPointer3f32(2u,8u);
     //BiTangent
-    edk::GU_GLSL::guVertexPointer2f32(5u,8u);
+    edk::GU_GLSL::guBiTangentPointer3f32(5u,8u);
 
     //draw the array
     edk::GU_GLSL::guDrawArrays(mode,0,this->vboWithMatrixCount);
@@ -74332,7 +74332,7 @@ void edk::shape::Polygon3DList::drawUpdateWithMatrix_XY_TxTyTz_BxByBz(edk::uint3
 
     edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);
     //change the drawFunction
-    this->vboDrawWithMatrix = &edk::shape::Polygon3DList::drawWithMatrix_XY;
+    this->vboDrawWithMatrix = &edk::shape::Polygon3DList::drawWithMatrix_XY_TxTyTz_BxByBz;
 }
 void edk::shape::Polygon3DList::drawUpdateWithMatrix_XYZ_TxTyTz_BxByBz(edk::uint32 mode){
     this->updateVBOWithMatrix();
@@ -74343,9 +74343,9 @@ void edk::shape::Polygon3DList::drawUpdateWithMatrix_XYZ_TxTyTz_BxByBz(edk::uint
     //set the vertex position in array
     edk::GU_GLSL::guVertexPointer3f32(0u,9u);
     //Tangent
-    edk::GU_GLSL::guTangentPointer2i16(3u,9u);
+    edk::GU_GLSL::guTangentPointer3f32(3u,9u);
     //BiTangent
-    edk::GU_GLSL::guVertexPointer2f32(6u,9u);
+    edk::GU_GLSL::guBiTangentPointer3f32(6u,9u);
 
     //draw the array
     edk::GU_GLSL::guDrawArrays(mode,0,this->vboWithMatrixCount);
@@ -74355,7 +74355,7 @@ void edk::shape::Polygon3DList::drawUpdateWithMatrix_XYZ_TxTyTz_BxByBz(edk::uint
 
     edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);
     //change the drawFunction
-    this->vboDrawWithMatrix = &edk::shape::Polygon3DList::drawWithMatrix_XYZ;
+    this->vboDrawWithMatrix = &edk::shape::Polygon3DList::drawWithMatrix_XYZ_TxTyTz_BxByBz;
 }
 void edk::shape::Polygon3DList::drawUpdateWithMatrix_XY_NxNyNz_TxTyTz_BxByBz(edk::uint32 mode){
     this->updateVBOWithMatrix();
@@ -74370,9 +74370,9 @@ void edk::shape::Polygon3DList::drawUpdateWithMatrix_XY_NxNyNz_TxTyTz_BxByBz(edk
     //set the vertex position in array
     edk::GU_GLSL::guVertexPointer2f32(0u,11u);
     //Tangent
-    edk::GU_GLSL::guTangentPointer2i16(5u,11u);
+    edk::GU_GLSL::guTangentPointer3f32(5u,11u);
     //BiTangent
-    edk::GU_GLSL::guVertexPointer2f32(8u,11u);
+    edk::GU_GLSL::guBiTangentPointer3f32(8u,11u);
 
     //draw the array
     edk::GU_GLSL::guDrawArrays(mode,0,this->vboWithMatrixCount);
@@ -74384,7 +74384,7 @@ void edk::shape::Polygon3DList::drawUpdateWithMatrix_XY_NxNyNz_TxTyTz_BxByBz(edk
 
     edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);
     //change the drawFunction
-    this->vboDrawWithMatrix = &edk::shape::Polygon3DList::drawWithMatrix_XY_NxNyNz;
+    this->vboDrawWithMatrix = &edk::shape::Polygon3DList::drawWithMatrix_XY_NxNyNz_TxTyTz_BxByBz;
 }
 void edk::shape::Polygon3DList::drawUpdateWithMatrix_XYZ_NxNyNz_TxTyTz_BxByBz(edk::uint32 mode){
     this->updateVBOWithMatrix();
@@ -74399,9 +74399,9 @@ void edk::shape::Polygon3DList::drawUpdateWithMatrix_XYZ_NxNyNz_TxTyTz_BxByBz(ed
     //set the vertex position in array
     edk::GU_GLSL::guVertexPointer3f32(0u,12u);
     //Tangent
-    edk::GU_GLSL::guTangentPointer2i16(6u,12u);
+    edk::GU_GLSL::guTangentPointer3f32(6u,12u);
     //BiTangent
-    edk::GU_GLSL::guVertexPointer2f32(9u,12u);
+    edk::GU_GLSL::guBiTangentPointer3f32(9u,12u);
 
     //draw the array
     edk::GU_GLSL::guDrawArrays(mode,0,this->vboWithMatrixCount);
@@ -74413,7 +74413,7 @@ void edk::shape::Polygon3DList::drawUpdateWithMatrix_XYZ_NxNyNz_TxTyTz_BxByBz(ed
 
     edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);
     //change the drawFunction
-    this->vboDrawWithMatrix = &edk::shape::Polygon3DList::drawWithMatrix_XYZ_NxNyNz;
+    this->vboDrawWithMatrix = &edk::shape::Polygon3DList::drawWithMatrix_XYZ_NxNyNz_TxTyTz_BxByBz;
 }
 void edk::shape::Polygon3DList::drawUpdateWithMatrix_XY_RGB_TxTyTz_BxByBz(edk::uint32 mode){
     this->updateVBOWithMatrix();
@@ -74428,9 +74428,9 @@ void edk::shape::Polygon3DList::drawUpdateWithMatrix_XY_RGB_TxTyTz_BxByBz(edk::u
     //set the vertex position in array
     edk::GU_GLSL::guVertexPointer2f32(0u,11u);
     //Tangent
-    edk::GU_GLSL::guTangentPointer2i16(5u,11u);
+    edk::GU_GLSL::guTangentPointer3f32(5u,11u);
     //BiTangent
-    edk::GU_GLSL::guVertexPointer2f32(8u,11u);
+    edk::GU_GLSL::guBiTangentPointer3f32(8u,11u);
 
     //draw the array
     edk::GU_GLSL::guDrawArrays(mode,0,this->vboWithMatrixCount);
@@ -74442,7 +74442,7 @@ void edk::shape::Polygon3DList::drawUpdateWithMatrix_XY_RGB_TxTyTz_BxByBz(edk::u
 
     edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);
     //change the drawFunction
-    this->vboDrawWithMatrix = &edk::shape::Polygon3DList::drawWithMatrix_XY_RGB;
+    this->vboDrawWithMatrix = &edk::shape::Polygon3DList::drawWithMatrix_XY_RGB_TxTyTz_BxByBz;
 }
 void edk::shape::Polygon3DList::drawUpdateWithMatrix_XYZ_RGB_TxTyTz_BxByBz(edk::uint32 mode){
     this->updateVBOWithMatrix();
@@ -74457,9 +74457,9 @@ void edk::shape::Polygon3DList::drawUpdateWithMatrix_XYZ_RGB_TxTyTz_BxByBz(edk::
     //set the vertex position in array
     edk::GU_GLSL::guVertexPointer3f32(0u,12u);
     //Tangent
-    edk::GU_GLSL::guTangentPointer2i16(6u,12u);
+    edk::GU_GLSL::guTangentPointer3f32(6u,12u);
     //BiTangent
-    edk::GU_GLSL::guVertexPointer2f32(9u,12u);
+    edk::GU_GLSL::guBiTangentPointer3f32(9u,12u);
 
     //draw the array
     edk::GU_GLSL::guDrawArrays(mode,0,this->vboWithMatrixCount);
@@ -74471,7 +74471,7 @@ void edk::shape::Polygon3DList::drawUpdateWithMatrix_XYZ_RGB_TxTyTz_BxByBz(edk::
 
     edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);
     //change the drawFunction
-    this->vboDrawWithMatrix = &edk::shape::Polygon3DList::drawWithMatrix_XYZ_RGB;
+    this->vboDrawWithMatrix = &edk::shape::Polygon3DList::drawWithMatrix_XYZ_RGB_TxTyTz_BxByBz;
 }
 void edk::shape::Polygon3DList::drawUpdateWithMatrix_XY_RGBA_TxTyTz_BxByBz(edk::uint32 mode){
     this->updateVBOWithMatrix();
@@ -74486,9 +74486,9 @@ void edk::shape::Polygon3DList::drawUpdateWithMatrix_XY_RGBA_TxTyTz_BxByBz(edk::
     //set the vertex position in array
     edk::GU_GLSL::guVertexPointer2f32(0u,12u);
     //Tangent
-    edk::GU_GLSL::guTangentPointer2i16(6u,12u);
+    edk::GU_GLSL::guTangentPointer3f32(6u,12u);
     //BiTangent
-    edk::GU_GLSL::guVertexPointer2f32(9u,12u);
+    edk::GU_GLSL::guBiTangentPointer3f32(9u,12u);
 
     //draw the array
     edk::GU_GLSL::guDrawArrays(mode,0,this->vboWithMatrixCount);
@@ -74500,7 +74500,7 @@ void edk::shape::Polygon3DList::drawUpdateWithMatrix_XY_RGBA_TxTyTz_BxByBz(edk::
 
     edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);
     //change the drawFunction
-    this->vboDrawWithMatrix = &edk::shape::Polygon3DList::drawWithMatrix_XY_RGBA;
+    this->vboDrawWithMatrix = &edk::shape::Polygon3DList::drawWithMatrix_XY_RGBA_TxTyTz_BxByBz;
 }
 void edk::shape::Polygon3DList::drawUpdateWithMatrix_XYZ_RGBA_TxTyTz_BxByBz(edk::uint32 mode){
     this->updateVBOWithMatrix();
@@ -74515,9 +74515,9 @@ void edk::shape::Polygon3DList::drawUpdateWithMatrix_XYZ_RGBA_TxTyTz_BxByBz(edk:
     //set the vertex position in array
     edk::GU_GLSL::guVertexPointer3f32(0u,13u);
     //Tangent
-    edk::GU_GLSL::guTangentPointer2i16(7u,13u);
+    edk::GU_GLSL::guTangentPointer3f32(7u,13u);
     //BiTangent
-    edk::GU_GLSL::guVertexPointer2f32(10u,13u);
+    edk::GU_GLSL::guBiTangentPointer3f32(10u,13u);
 
     //draw the array
     edk::GU_GLSL::guDrawArrays(mode,0,this->vboWithMatrixCount);
@@ -74529,7 +74529,7 @@ void edk::shape::Polygon3DList::drawUpdateWithMatrix_XYZ_RGBA_TxTyTz_BxByBz(edk:
 
     edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);
     //change the drawFunction
-    this->vboDrawWithMatrix = &edk::shape::Polygon3DList::drawWithMatrix_XYZ_RGBA;
+    this->vboDrawWithMatrix = &edk::shape::Polygon3DList::drawWithMatrix_XYZ_RGBA_TxTyTz_BxByBz;
 }
 void edk::shape::Polygon3DList::drawUpdateWithMatrix_XY_RGB_NxNyNz_TxTyTz_BxByBz(edk::uint32 mode){
     this->updateVBOWithMatrix();
@@ -74548,9 +74548,9 @@ void edk::shape::Polygon3DList::drawUpdateWithMatrix_XY_RGB_NxNyNz_TxTyTz_BxByBz
     //set the vertex position in array
     edk::GU_GLSL::guVertexPointer2f32(0u,14u);
     //Tangent
-    edk::GU_GLSL::guTangentPointer2i16(8u,14u);
+    edk::GU_GLSL::guTangentPointer3f32(8u,14u);
     //BiTangent
-    edk::GU_GLSL::guVertexPointer2f32(11u,14u);
+    edk::GU_GLSL::guBiTangentPointer3f32(11u,14u);
 
     //draw the array
     edk::GU_GLSL::guDrawArrays(mode,0,this->vboWithMatrixCount);
@@ -74564,7 +74564,7 @@ void edk::shape::Polygon3DList::drawUpdateWithMatrix_XY_RGB_NxNyNz_TxTyTz_BxByBz
 
     edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);
     //change the drawFunction
-    this->vboDrawWithMatrix = &edk::shape::Polygon3DList::drawWithMatrix_XY_RGB_NxNyNz;
+    this->vboDrawWithMatrix = &edk::shape::Polygon3DList::drawWithMatrix_XY_RGB_NxNyNz_TxTyTz_BxByBz;
 }
 void edk::shape::Polygon3DList::drawUpdateWithMatrix_XYZ_RGB_NxNyNz_TxTyTz_BxByBz(edk::uint32 mode){
     this->updateVBOWithMatrix();
@@ -74583,9 +74583,9 @@ void edk::shape::Polygon3DList::drawUpdateWithMatrix_XYZ_RGB_NxNyNz_TxTyTz_BxByB
     //set the vertex position in array
     edk::GU_GLSL::guVertexPointer3f32(0u,15u);
     //Tangent
-    edk::GU_GLSL::guTangentPointer2i16(9u,15u);
+    edk::GU_GLSL::guTangentPointer3f32(9u,15u);
     //BiTangent
-    edk::GU_GLSL::guVertexPointer2f32(12u,15u);
+    edk::GU_GLSL::guBiTangentPointer3f32(12u,15u);
 
     //draw the array
     edk::GU_GLSL::guDrawArrays(mode,0,this->vboWithMatrixCount);
@@ -74599,7 +74599,7 @@ void edk::shape::Polygon3DList::drawUpdateWithMatrix_XYZ_RGB_NxNyNz_TxTyTz_BxByB
 
     edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);
     //change the drawFunction
-    this->vboDrawWithMatrix = &edk::shape::Polygon3DList::drawWithMatrix_XYZ_RGB_NxNyNz;
+    this->vboDrawWithMatrix = &edk::shape::Polygon3DList::drawWithMatrix_XYZ_RGB_NxNyNz_TxTyTz_BxByBz;
 }
 void edk::shape::Polygon3DList::drawUpdateWithMatrix_XY_RGBA_NxNyNz_TxTyTz_BxByBz(edk::uint32 mode){
     this->updateVBOWithMatrix();
@@ -74618,9 +74618,9 @@ void edk::shape::Polygon3DList::drawUpdateWithMatrix_XY_RGBA_NxNyNz_TxTyTz_BxByB
     //set the vertex position in array
     edk::GU_GLSL::guVertexPointer2f32(0u,15u);
     //Tangent
-    edk::GU_GLSL::guTangentPointer2i16(9u,15u);
+    edk::GU_GLSL::guTangentPointer3f32(9u,15u);
     //BiTangent
-    edk::GU_GLSL::guVertexPointer2f32(12u,15u);
+    edk::GU_GLSL::guBiTangentPointer3f32(12u,15u);
 
     //draw the array
     edk::GU_GLSL::guDrawArrays(mode,0,this->vboWithMatrixCount);
@@ -74634,7 +74634,7 @@ void edk::shape::Polygon3DList::drawUpdateWithMatrix_XY_RGBA_NxNyNz_TxTyTz_BxByB
 
     edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);
     //change the drawFunction
-    this->vboDrawWithMatrix = &edk::shape::Polygon3DList::drawWithMatrix_XY_RGBA_NxNyNz;
+    this->vboDrawWithMatrix = &edk::shape::Polygon3DList::drawWithMatrix_XY_RGBA_NxNyNz_TxTyTz_BxByBz;
 }
 void edk::shape::Polygon3DList::drawUpdateWithMatrix_XYZ_RGBA_NxNyNz_TxTyTz_BxByBz(edk::uint32 mode){
     this->updateVBOWithMatrix();
@@ -74653,9 +74653,9 @@ void edk::shape::Polygon3DList::drawUpdateWithMatrix_XYZ_RGBA_NxNyNz_TxTyTz_BxBy
     //set the vertex position in array
     edk::GU_GLSL::guVertexPointer3f32(0u,16u);
     //Tangent
-    edk::GU_GLSL::guTangentPointer2i16(10u,16u);
+    edk::GU_GLSL::guTangentPointer3f32(10u,16u);
     //BiTangent
-    edk::GU_GLSL::guVertexPointer2f32(13u,16u);
+    edk::GU_GLSL::guBiTangentPointer3f32(13u,16u);
 
     //draw the array
     edk::GU_GLSL::guDrawArrays(mode,0,this->vboWithMatrixCount);
@@ -74669,7 +74669,7 @@ void edk::shape::Polygon3DList::drawUpdateWithMatrix_XYZ_RGBA_NxNyNz_TxTyTz_BxBy
 
     edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);
     //change the drawFunction
-    this->vboDrawWithMatrix = &edk::shape::Polygon3DList::drawWithMatrix_XYZ_RGBA_NxNyNz;
+    this->vboDrawWithMatrix = &edk::shape::Polygon3DList::drawWithMatrix_XYZ_RGBA_NxNyNz_TxTyTz_BxByBz;
 }
 void edk::shape::Polygon3DList::drawUpdateWithMatrix_XY_RGB_NxNyNz_UVxUVy_TxTyTz_BxByBz(edk::uint32 mode){
     this->updateVBOWithMatrix();
@@ -74692,9 +74692,9 @@ void edk::shape::Polygon3DList::drawUpdateWithMatrix_XY_RGB_NxNyNz_UVxUVy_TxTyTz
     //set the vertex position in array
     edk::GU_GLSL::guVertexPointer2f32(0u,16u);
     //Tangent
-    edk::GU_GLSL::guTangentPointer2i16(10u,16u);
+    edk::GU_GLSL::guTangentPointer3f32(10u,16u);
     //BiTangent
-    edk::GU_GLSL::guVertexPointer2f32(13u,16u);
+    edk::GU_GLSL::guBiTangentPointer3f32(13u,16u);
 
     //draw the array
     edk::GU_GLSL::guDrawArrays(mode,0,this->vboWithMatrixCount);
@@ -74710,7 +74710,7 @@ void edk::shape::Polygon3DList::drawUpdateWithMatrix_XY_RGB_NxNyNz_UVxUVy_TxTyTz
 
     edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);
     //change the drawFunction
-    this->vboDrawWithMatrix = &edk::shape::Polygon3DList::drawWithMatrix_XY_RGB_NxNyNz_UVxUVy;
+    this->vboDrawWithMatrix = &edk::shape::Polygon3DList::drawWithMatrix_XY_RGB_NxNyNz_UVxUVy_TxTyTz_BxByBz;
 }
 void edk::shape::Polygon3DList::drawUpdateWithMatrix_XYZ_RGB_NxNyNz_UVxUVy_TxTyTz_BxByBz(edk::uint32 mode){
     this->updateVBOWithMatrix();
@@ -74733,9 +74733,9 @@ void edk::shape::Polygon3DList::drawUpdateWithMatrix_XYZ_RGB_NxNyNz_UVxUVy_TxTyT
     //set the vertex position in array
     edk::GU_GLSL::guVertexPointer3f32(0u,17u);
     //Tangent
-    edk::GU_GLSL::guTangentPointer2i16(11u,17u);
+    edk::GU_GLSL::guTangentPointer3f32(11u,17u);
     //BiTangent
-    edk::GU_GLSL::guVertexPointer2f32(14u,17u);
+    edk::GU_GLSL::guBiTangentPointer3f32(14u,17u);
 
     //draw the array
     edk::GU_GLSL::guDrawArrays(mode,0,this->vboWithMatrixCount);
@@ -74751,7 +74751,7 @@ void edk::shape::Polygon3DList::drawUpdateWithMatrix_XYZ_RGB_NxNyNz_UVxUVy_TxTyT
 
     edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);
     //change the drawFunction
-    this->vboDrawWithMatrix = &edk::shape::Polygon3DList::drawWithMatrix_XYZ_RGB_NxNyNz_UVxUVy;
+    this->vboDrawWithMatrix = &edk::shape::Polygon3DList::drawWithMatrix_XYZ_RGB_NxNyNz_UVxUVy_TxTyTz_BxByBz;
 }
 void edk::shape::Polygon3DList::drawUpdateWithMatrix_XY_RGBA_NxNyNz_UVxUVy_TxTyTz_BxByBz(edk::uint32 mode){
     this->updateVBOWithMatrix();
@@ -74774,9 +74774,9 @@ void edk::shape::Polygon3DList::drawUpdateWithMatrix_XY_RGBA_NxNyNz_UVxUVy_TxTyT
     //set the vertex position in array
     edk::GU_GLSL::guVertexPointer2f32(0u,17u);
     //Tangent
-    edk::GU_GLSL::guTangentPointer2i16(11u,17u);
+    edk::GU_GLSL::guTangentPointer3f32(11u,17u);
     //BiTangent
-    edk::GU_GLSL::guVertexPointer2f32(14u,17u);
+    edk::GU_GLSL::guBiTangentPointer3f32(14u,17u);
 
     //draw the array
     edk::GU_GLSL::guDrawArrays(mode,0,this->vboWithMatrixCount);
@@ -74792,7 +74792,7 @@ void edk::shape::Polygon3DList::drawUpdateWithMatrix_XY_RGBA_NxNyNz_UVxUVy_TxTyT
 
     edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);
     //change the drawFunction
-    this->vboDrawWithMatrix = &edk::shape::Polygon3DList::drawWithMatrix_XY_RGBA_NxNyNz_UVxUVy;
+    this->vboDrawWithMatrix = &edk::shape::Polygon3DList::drawWithMatrix_XY_RGBA_NxNyNz_UVxUVy_TxTyTz_BxByBz;
 }
 void edk::shape::Polygon3DList::drawUpdateWithMatrix_XYZ_RGBA_NxNyNz_UVxUVy_TxTyTz_BxByBz(edk::uint32 mode){
     this->updateVBOWithMatrix();
@@ -74815,9 +74815,9 @@ void edk::shape::Polygon3DList::drawUpdateWithMatrix_XYZ_RGBA_NxNyNz_UVxUVy_TxTy
     //set the vertex position in array
     edk::GU_GLSL::guVertexPointer3f32(0u,18u);
     //Tangent
-    edk::GU_GLSL::guTangentPointer2i16(12u,18u);
+    edk::GU_GLSL::guTangentPointer3f32(12u,18u);
     //BiTangent
-    edk::GU_GLSL::guVertexPointer2f32(15u,18u);
+    edk::GU_GLSL::guBiTangentPointer3f32(15u,18u);
 
     //draw the array
     edk::GU_GLSL::guDrawArrays(mode,0,this->vboWithMatrixCount);
@@ -74833,7 +74833,7 @@ void edk::shape::Polygon3DList::drawUpdateWithMatrix_XYZ_RGBA_NxNyNz_UVxUVy_TxTy
 
     edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);
     //change the drawFunction
-    this->vboDrawWithMatrix = &edk::shape::Polygon3DList::drawWithMatrix_XYZ_RGBA_NxNyNz_UVxUVy;
+    this->vboDrawWithMatrix = &edk::shape::Polygon3DList::drawWithMatrix_XYZ_RGBA_NxNyNz_UVxUVy_TxTyTz_BxByBz;
 }
 //DRAWWire
 void edk::shape::Polygon3DList::drawWire_NULL(edk::uint32 /*mode*/){
@@ -75259,9 +75259,9 @@ void edk::shape::Polygon3DList::drawWire_XY_TxTyTz_BxByBz(edk::uint32 mode){
     //set the vertex position in array
     edk::GU_GLSL::guVertexPointer2f32(0u,8u);
     //Tangent
-    edk::GU_GLSL::guTangentPointer2i16(2u,8u);
+    edk::GU_GLSL::guTangentPointer3f32(2u,8u);
     //BiTangent
-    edk::GU_GLSL::guVertexPointer2f32(5u,8u);
+    edk::GU_GLSL::guBiTangentPointer3f32(5u,8u);
 
     //draw the array
     edk::GU_GLSL::guDrawArrays(mode,0,this->vboWireCount);
@@ -75279,9 +75279,9 @@ void edk::shape::Polygon3DList::drawWire_XYZ_TxTyTz_BxByBz(edk::uint32 mode){
     //set the vertex position in array
     edk::GU_GLSL::guVertexPointer3f32(0u,9u);
     //Tangent
-    edk::GU_GLSL::guTangentPointer2i16(3u,9u);
+    edk::GU_GLSL::guTangentPointer3f32(3u,9u);
     //BiTangent
-    edk::GU_GLSL::guVertexPointer2f32(6u,9u);
+    edk::GU_GLSL::guBiTangentPointer3f32(6u,9u);
 
     //draw the array
     edk::GU_GLSL::guDrawArrays(mode,0,this->vboWireCount);
@@ -75303,9 +75303,9 @@ void edk::shape::Polygon3DList::drawWire_XY_NxNyNz_TxTyTz_BxByBz(edk::uint32 mod
     //set the vertex position in array
     edk::GU_GLSL::guVertexPointer2f32(0u,11u);
     //Tangent
-    edk::GU_GLSL::guTangentPointer2i16(5u,11u);
+    edk::GU_GLSL::guTangentPointer3f32(5u,11u);
     //BiTangent
-    edk::GU_GLSL::guVertexPointer2f32(8u,11u);
+    edk::GU_GLSL::guBiTangentPointer3f32(8u,11u);
 
     //draw the array
     edk::GU_GLSL::guDrawArrays(mode,0,this->vboWireCount);
@@ -75329,9 +75329,9 @@ void edk::shape::Polygon3DList::drawWire_XYZ_NxNyNz_TxTyTz_BxByBz(edk::uint32 mo
     //set the vertex position in array
     edk::GU_GLSL::guVertexPointer3f32(0u,12u);
     //Tangent
-    edk::GU_GLSL::guTangentPointer2i16(6u,12u);
+    edk::GU_GLSL::guTangentPointer3f32(6u,12u);
     //BiTangent
-    edk::GU_GLSL::guVertexPointer2f32(9u,12u);
+    edk::GU_GLSL::guBiTangentPointer3f32(9u,12u);
 
     //draw the array
     edk::GU_GLSL::guDrawArrays(mode,0,this->vboWireCount);
@@ -75355,9 +75355,9 @@ void edk::shape::Polygon3DList::drawWire_XY_RGB_TxTyTz_BxByBz(edk::uint32 mode){
     //set the vertex position in array
     edk::GU_GLSL::guVertexPointer2f32(0u,11u);
     //Tangent
-    edk::GU_GLSL::guTangentPointer2i16(5u,11u);
+    edk::GU_GLSL::guTangentPointer3f32(5u,11u);
     //BiTangent
-    edk::GU_GLSL::guVertexPointer2f32(8u,11u);
+    edk::GU_GLSL::guBiTangentPointer3f32(8u,11u);
 
     //draw the array
     edk::GU_GLSL::guDrawArrays(mode,0,this->vboWireCount);
@@ -75381,9 +75381,9 @@ void edk::shape::Polygon3DList::drawWire_XYZ_RGB_TxTyTz_BxByBz(edk::uint32 mode)
     //set the vertex position in array
     edk::GU_GLSL::guVertexPointer3f32(0u,12u);
     //Tangent
-    edk::GU_GLSL::guTangentPointer2i16(6u,12u);
+    edk::GU_GLSL::guTangentPointer3f32(6u,12u);
     //BiTangent
-    edk::GU_GLSL::guVertexPointer2f32(9u,12u);
+    edk::GU_GLSL::guBiTangentPointer3f32(9u,12u);
 
     //draw the array
     edk::GU_GLSL::guDrawArrays(mode,0,this->vboWireCount);
@@ -75407,9 +75407,9 @@ void edk::shape::Polygon3DList::drawWire_XY_RGBA_TxTyTz_BxByBz(edk::uint32 mode)
     //set the vertex position in array
     edk::GU_GLSL::guVertexPointer2f32(0u,12u);
     //Tangent
-    edk::GU_GLSL::guTangentPointer2i16(6u,12u);
+    edk::GU_GLSL::guTangentPointer3f32(6u,12u);
     //BiTangent
-    edk::GU_GLSL::guVertexPointer2f32(9u,12u);
+    edk::GU_GLSL::guBiTangentPointer3f32(9u,12u);
 
     //draw the array
     edk::GU_GLSL::guDrawArrays(mode,0,this->vboWireCount);
@@ -75433,9 +75433,9 @@ void edk::shape::Polygon3DList::drawWire_XYZ_RGBA_TxTyTz_BxByBz(edk::uint32 mode
     //set the vertex position in array
     edk::GU_GLSL::guVertexPointer3f32(0u,13u);
     //Tangent
-    edk::GU_GLSL::guTangentPointer2i16(7u,13u);
+    edk::GU_GLSL::guTangentPointer3f32(7u,13u);
     //BiTangent
-    edk::GU_GLSL::guVertexPointer2f32(10u,13u);
+    edk::GU_GLSL::guBiTangentPointer3f32(10u,13u);
 
     //draw the array
     edk::GU_GLSL::guDrawArrays(mode,0,this->vboWireCount);
@@ -75463,9 +75463,9 @@ void edk::shape::Polygon3DList::drawWire_XY_RGB_NxNyNz_TxTyTz_BxByBz(edk::uint32
     //set the vertex position in array
     edk::GU_GLSL::guVertexPointer2f32(0u,14u);
     //Tangent
-    edk::GU_GLSL::guTangentPointer2i16(8u,14u);
+    edk::GU_GLSL::guTangentPointer3f32(8u,14u);
     //BiTangent
-    edk::GU_GLSL::guVertexPointer2f32(11u,14u);
+    edk::GU_GLSL::guBiTangentPointer3f32(11u,14u);
 
     //draw the array
     edk::GU_GLSL::guDrawArrays(mode,0,this->vboWireCount);
@@ -75495,9 +75495,9 @@ void edk::shape::Polygon3DList::drawWire_XYZ_RGB_NxNyNz_TxTyTz_BxByBz(edk::uint3
     //set the vertex position in array
     edk::GU_GLSL::guVertexPointer3f32(0u,15u);
     //Tangent
-    edk::GU_GLSL::guTangentPointer2i16(9u,15u);
+    edk::GU_GLSL::guTangentPointer3f32(9u,15u);
     //BiTangent
-    edk::GU_GLSL::guVertexPointer2f32(12u,15u);
+    edk::GU_GLSL::guBiTangentPointer3f32(12u,15u);
 
     //draw the array
     edk::GU_GLSL::guDrawArrays(mode,0,this->vboWireCount);
@@ -75527,9 +75527,9 @@ void edk::shape::Polygon3DList::drawWire_XY_RGBA_NxNyNz_TxTyTz_BxByBz(edk::uint3
     //set the vertex position in array
     edk::GU_GLSL::guVertexPointer2f32(0u,15u);
     //Tangent
-    edk::GU_GLSL::guTangentPointer2i16(9u,15u);
+    edk::GU_GLSL::guTangentPointer3f32(9u,15u);
     //BiTangent
-    edk::GU_GLSL::guVertexPointer2f32(12u,15u);
+    edk::GU_GLSL::guBiTangentPointer3f32(12u,15u);
 
     //draw the array
     edk::GU_GLSL::guDrawArrays(mode,0,this->vboWireCount);
@@ -75559,9 +75559,9 @@ void edk::shape::Polygon3DList::drawWire_XYZ_RGBA_NxNyNz_TxTyTz_BxByBz(edk::uint
     //set the vertex position in array
     edk::GU_GLSL::guVertexPointer3f32(0u,16u);
     //Tangent
-    edk::GU_GLSL::guTangentPointer2i16(10u,16u);
+    edk::GU_GLSL::guTangentPointer3f32(10u,16u);
     //BiTangent
-    edk::GU_GLSL::guVertexPointer2f32(13u,16u);
+    edk::GU_GLSL::guBiTangentPointer3f32(13u,16u);
 
     //draw the array
     edk::GU_GLSL::guDrawArrays(mode,0,this->vboWireCount);
@@ -75595,9 +75595,9 @@ void edk::shape::Polygon3DList::drawWire_XY_RGB_NxNyNz_UVxUVy_TxTyTz_BxByBz(edk:
     //set the vertex position in array
     edk::GU_GLSL::guVertexPointer2f32(0u,16u);
     //Tangent
-    edk::GU_GLSL::guTangentPointer2i16(10u,16u);
+    edk::GU_GLSL::guTangentPointer3f32(10u,16u);
     //BiTangent
-    edk::GU_GLSL::guVertexPointer2f32(13u,16u);
+    edk::GU_GLSL::guBiTangentPointer3f32(13u,16u);
 
     //draw the array
     edk::GU_GLSL::guDrawArrays(mode,0,this->vboWireCount);
@@ -75633,9 +75633,9 @@ void edk::shape::Polygon3DList::drawWire_XYZ_RGB_NxNyNz_UVxUVy_TxTyTz_BxByBz(edk
     //set the vertex position in array
     edk::GU_GLSL::guVertexPointer3f32(0u,17u);
     //Tangent
-    edk::GU_GLSL::guTangentPointer2i16(11u,17u);
+    edk::GU_GLSL::guTangentPointer3f32(11u,17u);
     //BiTangent
-    edk::GU_GLSL::guVertexPointer2f32(14u,17u);
+    edk::GU_GLSL::guBiTangentPointer3f32(14u,17u);
 
     //draw the array
     edk::GU_GLSL::guDrawArrays(mode,0,this->vboWireCount);
@@ -75671,9 +75671,9 @@ void edk::shape::Polygon3DList::drawWire_XY_RGBA_NxNyNz_UVxUVy_TxTyTz_BxByBz(edk
     //set the vertex position in array
     edk::GU_GLSL::guVertexPointer2f32(0u,17u);
     //Tangent
-    edk::GU_GLSL::guTangentPointer2i16(11u,17u);
+    edk::GU_GLSL::guTangentPointer3f32(11u,17u);
     //BiTangent
-    edk::GU_GLSL::guVertexPointer2f32(14u,17u);
+    edk::GU_GLSL::guBiTangentPointer3f32(14u,17u);
 
     //draw the array
     edk::GU_GLSL::guDrawArrays(mode,0,this->vboWireCount);
@@ -75709,9 +75709,9 @@ void edk::shape::Polygon3DList::drawWire_XYZ_RGBA_NxNyNz_UVxUVy_TxTyTz_BxByBz(ed
     //set the vertex position in array
     edk::GU_GLSL::guVertexPointer3f32(0u,18u);
     //Tangent
-    edk::GU_GLSL::guTangentPointer2i16(12u,18u);
+    edk::GU_GLSL::guTangentPointer3f32(12u,18u);
     //BiTangent
-    edk::GU_GLSL::guVertexPointer2f32(15u,18u);
+    edk::GU_GLSL::guBiTangentPointer3f32(15u,18u);
 
     //draw the array
     edk::GU_GLSL::guDrawArrays(mode,0,this->vboWireCount);
@@ -76203,9 +76203,9 @@ void edk::shape::Polygon3DList::drawWireUpdate_XY_TxTyTz_BxByBz(edk::uint32 mode
     //set the vertex position in array
     edk::GU_GLSL::guVertexPointer2f32(0u,8u);
     //Tangent
-    edk::GU_GLSL::guTangentPointer2i16(2u,8u);
+    edk::GU_GLSL::guTangentPointer3f32(2u,8u);
     //BiTangent
-    edk::GU_GLSL::guVertexPointer2f32(5u,8u);
+    edk::GU_GLSL::guBiTangentPointer3f32(5u,8u);
 
     //draw the array
     edk::GU_GLSL::guDrawArrays(mode,0,this->vboWireCount);
@@ -76215,7 +76215,7 @@ void edk::shape::Polygon3DList::drawWireUpdate_XY_TxTyTz_BxByBz(edk::uint32 mode
 
     edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);
     //change the drawFunction
-    this->vboDrawWire = &edk::shape::Polygon3DList::drawWire_XY;
+    this->vboDrawWire = &edk::shape::Polygon3DList::drawWire_XY_TxTyTz_BxByBz;
 }
 void edk::shape::Polygon3DList::drawWireUpdate_XYZ_TxTyTz_BxByBz(edk::uint32 mode){
     this->updateVBOWire();
@@ -76226,9 +76226,9 @@ void edk::shape::Polygon3DList::drawWireUpdate_XYZ_TxTyTz_BxByBz(edk::uint32 mod
     //set the vertex position in array
     edk::GU_GLSL::guVertexPointer3f32(0u,9u);
     //Tangent
-    edk::GU_GLSL::guTangentPointer2i16(3u,9u);
+    edk::GU_GLSL::guTangentPointer3f32(3u,9u);
     //BiTangent
-    edk::GU_GLSL::guVertexPointer2f32(6u,9u);
+    edk::GU_GLSL::guBiTangentPointer3f32(6u,9u);
 
     //draw the array
     edk::GU_GLSL::guDrawArrays(mode,0,this->vboWireCount);
@@ -76238,7 +76238,7 @@ void edk::shape::Polygon3DList::drawWireUpdate_XYZ_TxTyTz_BxByBz(edk::uint32 mod
 
     edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);
     //change the drawFunction
-    this->vboDrawWire = &edk::shape::Polygon3DList::drawWire_XYZ;
+    this->vboDrawWire = &edk::shape::Polygon3DList::drawWire_XYZ_TxTyTz_BxByBz;
 }
 void edk::shape::Polygon3DList::drawWireUpdate_XY_NxNyNz_TxTyTz_BxByBz(edk::uint32 mode){
     this->updateVBOWire();
@@ -76253,9 +76253,9 @@ void edk::shape::Polygon3DList::drawWireUpdate_XY_NxNyNz_TxTyTz_BxByBz(edk::uint
     //set the vertex position in array
     edk::GU_GLSL::guVertexPointer2f32(0u,11u);
     //Tangent
-    edk::GU_GLSL::guTangentPointer2i16(5u,11u);
+    edk::GU_GLSL::guTangentPointer3f32(5u,11u);
     //BiTangent
-    edk::GU_GLSL::guVertexPointer2f32(8u,11u);
+    edk::GU_GLSL::guBiTangentPointer3f32(8u,11u);
 
     //draw the array
     edk::GU_GLSL::guDrawArrays(mode,0,this->vboWireCount);
@@ -76267,7 +76267,7 @@ void edk::shape::Polygon3DList::drawWireUpdate_XY_NxNyNz_TxTyTz_BxByBz(edk::uint
 
     edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);
     //change the drawFunction
-    this->vboDrawWire = &edk::shape::Polygon3DList::drawWire_XY_NxNyNz;
+    this->vboDrawWire = &edk::shape::Polygon3DList::drawWire_XY_NxNyNz_TxTyTz_BxByBz;
 }
 void edk::shape::Polygon3DList::drawWireUpdate_XYZ_NxNyNz_TxTyTz_BxByBz(edk::uint32 mode){
     this->updateVBOWire();
@@ -76282,9 +76282,9 @@ void edk::shape::Polygon3DList::drawWireUpdate_XYZ_NxNyNz_TxTyTz_BxByBz(edk::uin
     //set the vertex position in array
     edk::GU_GLSL::guVertexPointer3f32(0u,12u);
     //Tangent
-    edk::GU_GLSL::guTangentPointer2i16(6u,12u);
+    edk::GU_GLSL::guTangentPointer3f32(6u,12u);
     //BiTangent
-    edk::GU_GLSL::guVertexPointer2f32(9u,12u);
+    edk::GU_GLSL::guBiTangentPointer3f32(9u,12u);
 
     //draw the array
     edk::GU_GLSL::guDrawArrays(mode,0,this->vboWireCount);
@@ -76296,7 +76296,7 @@ void edk::shape::Polygon3DList::drawWireUpdate_XYZ_NxNyNz_TxTyTz_BxByBz(edk::uin
 
     edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);
     //change the drawFunction
-    this->vboDrawWire = &edk::shape::Polygon3DList::drawWire_XYZ_NxNyNz;
+    this->vboDrawWire = &edk::shape::Polygon3DList::drawWire_XYZ_NxNyNz_TxTyTz_BxByBz;
 }
 void edk::shape::Polygon3DList::drawWireUpdate_XY_RGB_TxTyTz_BxByBz(edk::uint32 mode){
     this->updateVBOWire();
@@ -76311,9 +76311,9 @@ void edk::shape::Polygon3DList::drawWireUpdate_XY_RGB_TxTyTz_BxByBz(edk::uint32 
     //set the vertex position in array
     edk::GU_GLSL::guVertexPointer2f32(0u,11u);
     //Tangent
-    edk::GU_GLSL::guTangentPointer2i16(5u,11u);
+    edk::GU_GLSL::guTangentPointer3f32(5u,11u);
     //BiTangent
-    edk::GU_GLSL::guVertexPointer2f32(8u,11u);
+    edk::GU_GLSL::guBiTangentPointer3f32(8u,11u);
 
     //draw the array
     edk::GU_GLSL::guDrawArrays(mode,0,this->vboWireCount);
@@ -76325,7 +76325,7 @@ void edk::shape::Polygon3DList::drawWireUpdate_XY_RGB_TxTyTz_BxByBz(edk::uint32 
 
     edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);
     //change the drawFunction
-    this->vboDrawWire = &edk::shape::Polygon3DList::drawWire_XY_RGB;
+    this->vboDrawWire = &edk::shape::Polygon3DList::drawWire_XY_RGB_TxTyTz_BxByBz;
 }
 void edk::shape::Polygon3DList::drawWireUpdate_XYZ_RGB_TxTyTz_BxByBz(edk::uint32 mode){
     this->updateVBOWire();
@@ -76340,9 +76340,9 @@ void edk::shape::Polygon3DList::drawWireUpdate_XYZ_RGB_TxTyTz_BxByBz(edk::uint32
     //set the vertex position in array
     edk::GU_GLSL::guVertexPointer3f32(0u,12u);
     //Tangent
-    edk::GU_GLSL::guTangentPointer2i16(6u,12u);
+    edk::GU_GLSL::guTangentPointer3f32(6u,12u);
     //BiTangent
-    edk::GU_GLSL::guVertexPointer2f32(9u,12u);
+    edk::GU_GLSL::guBiTangentPointer3f32(9u,12u);
 
     //draw the array
     edk::GU_GLSL::guDrawArrays(mode,0,this->vboWireCount);
@@ -76354,7 +76354,7 @@ void edk::shape::Polygon3DList::drawWireUpdate_XYZ_RGB_TxTyTz_BxByBz(edk::uint32
 
     edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);
     //change the drawFunction
-    this->vboDrawWire = &edk::shape::Polygon3DList::drawWire_XYZ_RGB;
+    this->vboDrawWire = &edk::shape::Polygon3DList::drawWire_XYZ_RGB_TxTyTz_BxByBz;
 }
 void edk::shape::Polygon3DList::drawWireUpdate_XY_RGBA_TxTyTz_BxByBz(edk::uint32 mode){
     this->updateVBOWire();
@@ -76369,9 +76369,9 @@ void edk::shape::Polygon3DList::drawWireUpdate_XY_RGBA_TxTyTz_BxByBz(edk::uint32
     //set the vertex position in array
     edk::GU_GLSL::guVertexPointer2f32(0u,12u);
     //Tangent
-    edk::GU_GLSL::guTangentPointer2i16(6u,12u);
+    edk::GU_GLSL::guTangentPointer3f32(6u,12u);
     //BiTangent
-    edk::GU_GLSL::guVertexPointer2f32(9u,12u);
+    edk::GU_GLSL::guBiTangentPointer3f32(9u,12u);
 
     //draw the array
     edk::GU_GLSL::guDrawArrays(mode,0,this->vboWireCount);
@@ -76383,7 +76383,7 @@ void edk::shape::Polygon3DList::drawWireUpdate_XY_RGBA_TxTyTz_BxByBz(edk::uint32
 
     edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);
     //change the drawFunction
-    this->vboDrawWire = &edk::shape::Polygon3DList::drawWire_XY_RGBA;
+    this->vboDrawWire = &edk::shape::Polygon3DList::drawWire_XY_RGBA_TxTyTz_BxByBz;
 }
 void edk::shape::Polygon3DList::drawWireUpdate_XYZ_RGBA_TxTyTz_BxByBz(edk::uint32 mode){
     this->updateVBOWire();
@@ -76398,9 +76398,9 @@ void edk::shape::Polygon3DList::drawWireUpdate_XYZ_RGBA_TxTyTz_BxByBz(edk::uint3
     //set the vertex position in array
     edk::GU_GLSL::guVertexPointer3f32(0u,13u);
     //Tangent
-    edk::GU_GLSL::guTangentPointer2i16(7u,13u);
+    edk::GU_GLSL::guTangentPointer3f32(7u,13u);
     //BiTangent
-    edk::GU_GLSL::guVertexPointer2f32(10u,13u);
+    edk::GU_GLSL::guBiTangentPointer3f32(10u,13u);
 
     //draw the array
     edk::GU_GLSL::guDrawArrays(mode,0,this->vboWireCount);
@@ -76412,7 +76412,7 @@ void edk::shape::Polygon3DList::drawWireUpdate_XYZ_RGBA_TxTyTz_BxByBz(edk::uint3
 
     edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);
     //change the drawFunction
-    this->vboDrawWire = &edk::shape::Polygon3DList::drawWire_XYZ_RGBA;
+    this->vboDrawWire = &edk::shape::Polygon3DList::drawWire_XYZ_RGBA_TxTyTz_BxByBz;
 }
 void edk::shape::Polygon3DList::drawWireUpdate_XY_RGB_NxNyNz_TxTyTz_BxByBz(edk::uint32 mode){
     this->updateVBOWire();
@@ -76431,9 +76431,9 @@ void edk::shape::Polygon3DList::drawWireUpdate_XY_RGB_NxNyNz_TxTyTz_BxByBz(edk::
     //set the vertex position in array
     edk::GU_GLSL::guVertexPointer2f32(0u,14u);
     //Tangent
-    edk::GU_GLSL::guTangentPointer2i16(8u,14u);
+    edk::GU_GLSL::guTangentPointer3f32(8u,14u);
     //BiTangent
-    edk::GU_GLSL::guVertexPointer2f32(11u,14u);
+    edk::GU_GLSL::guBiTangentPointer3f32(11u,14u);
 
     //draw the array
     edk::GU_GLSL::guDrawArrays(mode,0,this->vboWireCount);
@@ -76447,7 +76447,7 @@ void edk::shape::Polygon3DList::drawWireUpdate_XY_RGB_NxNyNz_TxTyTz_BxByBz(edk::
 
     edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);
     //change the drawFunction
-    this->vboDrawWire = &edk::shape::Polygon3DList::drawWire_XY_RGB_NxNyNz;
+    this->vboDrawWire = &edk::shape::Polygon3DList::drawWire_XY_RGB_NxNyNz_TxTyTz_BxByBz;
 }
 void edk::shape::Polygon3DList::drawWireUpdate_XYZ_RGB_NxNyNz_TxTyTz_BxByBz(edk::uint32 mode){
     this->updateVBOWire();
@@ -76466,9 +76466,9 @@ void edk::shape::Polygon3DList::drawWireUpdate_XYZ_RGB_NxNyNz_TxTyTz_BxByBz(edk:
     //set the vertex position in array
     edk::GU_GLSL::guVertexPointer3f32(0u,15u);
     //Tangent
-    edk::GU_GLSL::guTangentPointer2i16(9u,15u);
+    edk::GU_GLSL::guTangentPointer3f32(9u,15u);
     //BiTangent
-    edk::GU_GLSL::guVertexPointer2f32(12u,15u);
+    edk::GU_GLSL::guBiTangentPointer3f32(12u,15u);
 
     //draw the array
     edk::GU_GLSL::guDrawArrays(mode,0,this->vboWireCount);
@@ -76482,7 +76482,7 @@ void edk::shape::Polygon3DList::drawWireUpdate_XYZ_RGB_NxNyNz_TxTyTz_BxByBz(edk:
 
     edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);
     //change the drawFunction
-    this->vboDrawWire = &edk::shape::Polygon3DList::drawWire_XYZ_RGB_NxNyNz;
+    this->vboDrawWire = &edk::shape::Polygon3DList::drawWire_XYZ_RGB_NxNyNz_TxTyTz_BxByBz;
 }
 void edk::shape::Polygon3DList::drawWireUpdate_XY_RGBA_NxNyNz_TxTyTz_BxByBz(edk::uint32 mode){
     this->updateVBOWire();
@@ -76501,9 +76501,9 @@ void edk::shape::Polygon3DList::drawWireUpdate_XY_RGBA_NxNyNz_TxTyTz_BxByBz(edk:
     //set the vertex position in array
     edk::GU_GLSL::guVertexPointer2f32(0u,15u);
     //Tangent
-    edk::GU_GLSL::guTangentPointer2i16(9u,15u);
+    edk::GU_GLSL::guTangentPointer3f32(9u,15u);
     //BiTangent
-    edk::GU_GLSL::guVertexPointer2f32(12u,15u);
+    edk::GU_GLSL::guBiTangentPointer3f32(12u,15u);
 
     //draw the array
     edk::GU_GLSL::guDrawArrays(mode,0,this->vboWireCount);
@@ -76517,7 +76517,7 @@ void edk::shape::Polygon3DList::drawWireUpdate_XY_RGBA_NxNyNz_TxTyTz_BxByBz(edk:
 
     edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);
     //change the drawFunction
-    this->vboDrawWire = &edk::shape::Polygon3DList::drawWire_XY_RGBA_NxNyNz;
+    this->vboDrawWire = &edk::shape::Polygon3DList::drawWire_XY_RGBA_NxNyNz_TxTyTz_BxByBz;
 }
 void edk::shape::Polygon3DList::drawWireUpdate_XYZ_RGBA_NxNyNz_TxTyTz_BxByBz(edk::uint32 mode){
     this->updateVBOWire();
@@ -76536,9 +76536,9 @@ void edk::shape::Polygon3DList::drawWireUpdate_XYZ_RGBA_NxNyNz_TxTyTz_BxByBz(edk
     //set the vertex position in array
     edk::GU_GLSL::guVertexPointer3f32(0u,16u);
     //Tangent
-    edk::GU_GLSL::guTangentPointer2i16(10u,16u);
+    edk::GU_GLSL::guTangentPointer3f32(10u,16u);
     //BiTangent
-    edk::GU_GLSL::guVertexPointer2f32(13u,16u);
+    edk::GU_GLSL::guBiTangentPointer3f32(13u,16u);
 
     //draw the array
     edk::GU_GLSL::guDrawArrays(mode,0,this->vboWireCount);
@@ -76552,7 +76552,7 @@ void edk::shape::Polygon3DList::drawWireUpdate_XYZ_RGBA_NxNyNz_TxTyTz_BxByBz(edk
 
     edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);
     //change the drawFunction
-    this->vboDrawWire = &edk::shape::Polygon3DList::drawWire_XYZ_RGBA_NxNyNz;
+    this->vboDrawWire = &edk::shape::Polygon3DList::drawWire_XYZ_RGBA_NxNyNz_TxTyTz_BxByBz;
 }
 void edk::shape::Polygon3DList::drawWireUpdate_XY_RGB_NxNyNz_UVxUVy_TxTyTz_BxByBz(edk::uint32 mode){
     this->updateVBOWire();
@@ -76575,9 +76575,9 @@ void edk::shape::Polygon3DList::drawWireUpdate_XY_RGB_NxNyNz_UVxUVy_TxTyTz_BxByB
     //set the vertex position in array
     edk::GU_GLSL::guVertexPointer2f32(0u,16u);
     //Tangent
-    edk::GU_GLSL::guTangentPointer2i16(10u,16u);
+    edk::GU_GLSL::guTangentPointer3f32(10u,16u);
     //BiTangent
-    edk::GU_GLSL::guVertexPointer2f32(13u,16u);
+    edk::GU_GLSL::guBiTangentPointer3f32(13u,16u);
 
     //draw the array
     edk::GU_GLSL::guDrawArrays(mode,0,this->vboWireCount);
@@ -76593,7 +76593,7 @@ void edk::shape::Polygon3DList::drawWireUpdate_XY_RGB_NxNyNz_UVxUVy_TxTyTz_BxByB
 
     edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);
     //change the drawFunction
-    this->vboDrawWire = &edk::shape::Polygon3DList::drawWire_XY_RGB_NxNyNz_UVxUVy;
+    this->vboDrawWire = &edk::shape::Polygon3DList::drawWire_XY_RGB_NxNyNz_UVxUVy_TxTyTz_BxByBz;
 }
 void edk::shape::Polygon3DList::drawWireUpdate_XYZ_RGB_NxNyNz_UVxUVy_TxTyTz_BxByBz(edk::uint32 mode){
     this->updateVBOWire();
@@ -76616,9 +76616,9 @@ void edk::shape::Polygon3DList::drawWireUpdate_XYZ_RGB_NxNyNz_UVxUVy_TxTyTz_BxBy
     //set the vertex position in array
     edk::GU_GLSL::guVertexPointer3f32(0u,17u);
     //Tangent
-    edk::GU_GLSL::guTangentPointer2i16(11u,17u);
+    edk::GU_GLSL::guTangentPointer3f32(11u,17u);
     //BiTangent
-    edk::GU_GLSL::guVertexPointer2f32(14u,17u);
+    edk::GU_GLSL::guBiTangentPointer3f32(14u,17u);
 
     //draw the array
     edk::GU_GLSL::guDrawArrays(mode,0,this->vboWireCount);
@@ -76634,7 +76634,7 @@ void edk::shape::Polygon3DList::drawWireUpdate_XYZ_RGB_NxNyNz_UVxUVy_TxTyTz_BxBy
 
     edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);
     //change the drawFunction
-    this->vboDrawWire = &edk::shape::Polygon3DList::drawWire_XYZ_RGB_NxNyNz_UVxUVy;
+    this->vboDrawWire = &edk::shape::Polygon3DList::drawWire_XYZ_RGB_NxNyNz_UVxUVy_TxTyTz_BxByBz;
 }
 void edk::shape::Polygon3DList::drawWireUpdate_XY_RGBA_NxNyNz_UVxUVy_TxTyTz_BxByBz(edk::uint32 mode){
     this->updateVBOWire();
@@ -76657,9 +76657,9 @@ void edk::shape::Polygon3DList::drawWireUpdate_XY_RGBA_NxNyNz_UVxUVy_TxTyTz_BxBy
     //set the vertex position in array
     edk::GU_GLSL::guVertexPointer2f32(0u,17u);
     //Tangent
-    edk::GU_GLSL::guTangentPointer2i16(11u,17u);
+    edk::GU_GLSL::guTangentPointer3f32(11u,17u);
     //BiTangent
-    edk::GU_GLSL::guVertexPointer2f32(14u,17u);
+    edk::GU_GLSL::guBiTangentPointer3f32(14u,17u);
 
     //draw the array
     edk::GU_GLSL::guDrawArrays(mode,0,this->vboWireCount);
@@ -76675,7 +76675,7 @@ void edk::shape::Polygon3DList::drawWireUpdate_XY_RGBA_NxNyNz_UVxUVy_TxTyTz_BxBy
 
     edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);
     //change the drawFunction
-    this->vboDrawWire = &edk::shape::Polygon3DList::drawWire_XY_RGBA_NxNyNz_UVxUVy;
+    this->vboDrawWire = &edk::shape::Polygon3DList::drawWire_XY_RGBA_NxNyNz_UVxUVy_TxTyTz_BxByBz;
 }
 void edk::shape::Polygon3DList::drawWireUpdate_XYZ_RGBA_NxNyNz_UVxUVy_TxTyTz_BxByBz(edk::uint32 mode){
     this->updateVBOWire();
@@ -76698,9 +76698,9 @@ void edk::shape::Polygon3DList::drawWireUpdate_XYZ_RGBA_NxNyNz_UVxUVy_TxTyTz_BxB
     //set the vertex position in array
     edk::GU_GLSL::guVertexPointer3f32(0u,18u);
     //Tangent
-    edk::GU_GLSL::guTangentPointer2i16(12u,18u);
+    edk::GU_GLSL::guTangentPointer3f32(12u,18u);
     //BiTangent
-    edk::GU_GLSL::guVertexPointer2f32(15u,18u);
+    edk::GU_GLSL::guBiTangentPointer3f32(15u,18u);
 
     //draw the array
     edk::GU_GLSL::guDrawArrays(mode,0,this->vboWireCount);
@@ -76716,7 +76716,7 @@ void edk::shape::Polygon3DList::drawWireUpdate_XYZ_RGBA_NxNyNz_UVxUVy_TxTyTz_BxB
 
     edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);
     //change the drawFunction
-    this->vboDrawWire = &edk::shape::Polygon3DList::drawWire_XYZ_RGBA_NxNyNz_UVxUVy;
+    this->vboDrawWire = &edk::shape::Polygon3DList::drawWire_XYZ_RGBA_NxNyNz_UVxUVy_TxTyTz_BxByBz;
 }
 //Set polygons color
 bool edk::shape::Polygon3DList::setPolygonsColor(edk::color4f32 color){
@@ -78096,6 +78096,417 @@ bool edk::shape::Polygon3DList::generateVBOWire(){
         }
     }
     return false;
+}
+//TANGENT and BITANGENT
+bool edk::shape::Polygon3DList::generateVBOTangentAndBiTangent(){
+    bool ret = false;
+    if(this->haveVBO() && this->vertexBuffer.haveArray()){
+        //draw the polygons
+        edk::uint32 sizePolygons = this->polygons.size();
+        edk::shape::Polygon3D* temp;
+        edk::shape::Vertex3DAnimatedUV *vertT0,*vertT1,*vertT2;
+
+        edk::uint32 increment = vboSizeofMesh3D[this->vboType];
+
+        edk::vec3f32 P1;
+        edk::vec3f32 P2;
+        edk::vec3f32 P3;
+        edk::vec3f32 U1;
+        edk::vec3f32 U2;
+        edk::vec3f32 U3;
+        edk::vec3f32 edge1;
+        edk::vec3f32 edge2;
+        edk::vec3f32 deltaUV1;
+        edk::vec3f32 deltaUV2;
+        float f = 0.f;
+        edk::vec3f32 tangent;
+        edk::vec3f32 bitangent;
+
+        edk::uint32 vertexes =0u;
+
+        edk::uint32 v=0u;
+
+        switch(this->vboType){
+        case edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy_TxTyTz_BxByBz);
+
+            for(edk::uint32 i=0u;i<sizePolygons;i++){
+                //create the new vertex
+                if(this->polygons.havePos(i)){
+                    temp = this->polygons.get(i);
+                    if(temp){
+                        vertexes = temp->getVertexCount();
+                        if(vertexes>=3u){
+                            //add the vertexes
+                            vertT0 = (edk::shape::Vertex3DAnimatedUV*)temp->getVertexPointerInPosition(0u);
+                            vertT1 = (edk::shape::Vertex3DAnimatedUV*)temp->getVertexPointerInPosition(1u);
+                            vertT2 = (edk::shape::Vertex3DAnimatedUV*)temp->getVertexPointerInPosition(2u);
+                            if(vertT0
+                                    && vertT1
+                                    && vertT2){
+                                P1 = edk::vec3f32(vertT0->position);
+                                P2 = edk::vec3f32(vertT1->position);
+                                P3 = edk::vec3f32(vertT2->position);
+
+                                if(vertT0->getType()==EDK_SHAPE_UV
+                                        ||
+                                        vertT0->getType()==EDK_SHAPE_ANIMATED_UV
+                                        ){
+                                    U1 = edk::vec3f32(vertT0->getUV().x,vertT0->getUV().y,0.f);
+                                }
+                                else{
+                                    U1 = edk::vec3f32(0.f,0.f,0.f);
+                                }
+                                if(vertT1->getType()==EDK_SHAPE_UV
+                                        ||
+                                        vertT1->getType()==EDK_SHAPE_ANIMATED_UV
+                                        ){
+                                    U2 = edk::vec3f32(vertT1->getUV().x,vertT1->getUV().y,0.f);
+                                }
+                                else{
+                                    U2 = edk::vec3f32(0.f,0.f,0.f);
+                                }
+                                if(vertT2->getType()==EDK_SHAPE_UV
+                                        ||
+                                        vertT2->getType()==EDK_SHAPE_ANIMATED_UV
+                                        ){
+                                    U3 = edk::vec3f32(vertT2->getUV().x,vertT2->getUV().y,0.f);
+                                }
+                                else{
+                                    U3 = edk::vec3f32(0.f,0.f,0.f);
+                                }
+
+                                //Position 3D
+                                edge1 = P2 - P1;
+                                edge2 = P3 - P1;
+
+                                //UVs
+                                deltaUV1 = U2 - U1;
+                                deltaUV2 = U3 - U1;
+
+                                f = 1.0f / (deltaUV1.x * deltaUV2.y - deltaUV2.x * deltaUV1.y);
+
+                                //TANGENTE
+                                tangent.x = f * (deltaUV2.y * edge1.x - deltaUV1.y * edge2.x);
+                                tangent.y = f * (deltaUV2.y * edge1.y - deltaUV1.y * edge2.y);
+                                tangent.z = f * (deltaUV2.y * edge1.z - deltaUV1.y * edge2.z);
+
+                                //BI-TANGENTE
+                                bitangent.x = f * (-deltaUV2.x * edge1.x + deltaUV1.x * edge2.x);
+                                bitangent.y = f * (-deltaUV2.x * edge1.y + deltaUV1.x * edge2.y);
+                                bitangent.z = f * (-deltaUV2.x * edge1.z + deltaUV1.x * edge2.z);
+
+                                // Normalizar e armazenar para cada vértice do triângulo.
+                                tangent = edk::Math::normalise(tangent);
+                                bitangent = edk::Math::normalise(bitangent);
+
+                                for(edk::uint32 j=0u;j<vertexes;j++){
+                                    //Tangent
+                                    this->vertexBuffer.set(i+11u,tangent.x);
+                                    this->vertexBuffer.set(i+12u,tangent.y);
+                                    this->vertexBuffer.set(i+13u,tangent.z);
+                                    //BiTangent
+                                    this->vertexBuffer.set(i+14u,bitangent.x);
+                                    this->vertexBuffer.set(i+15u,bitangent.y);
+                                    this->vertexBuffer.set(i+16u,bitangent.z);
+                                    v+=increment;
+                                }
+                                ret = true;
+                            }
+                            else v+=increment*vertexes;
+                        }
+                        else v+=increment*vertexes;
+                    }
+                    else v+=increment*vertexes;
+                }
+                else v+=increment*vertexes;
+            }
+            break;
+        case edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
+            //change the vertexBuffer
+            this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy_TxTyTz_BxByBz);
+
+            for(edk::uint32 i=0u;i<sizePolygons;i++){
+                //create the new vertex
+                if(this->polygons.havePos(i)){
+                    temp = this->polygons.get(i);
+                    if(temp){
+                        if(temp->getVertexCount()>=3u){
+                            //add the vertexes
+                            vertT0 = (edk::shape::Vertex3DAnimatedUV*)temp->getVertexPointerInPosition(0u);
+                            vertT1 = (edk::shape::Vertex3DAnimatedUV*)temp->getVertexPointerInPosition(1u);
+                            vertT2 = (edk::shape::Vertex3DAnimatedUV*)temp->getVertexPointerInPosition(2u);
+                            if(vertT0
+                                    && vertT1
+                                    && vertT2){
+                                P1 = edk::vec3f32(vertT0->position);
+                                P2 = edk::vec3f32(vertT1->position);
+                                P3 = edk::vec3f32(vertT2->position);
+
+                                if(vertT0->getType()==EDK_SHAPE_UV
+                                        ||
+                                        vertT0->getType()==EDK_SHAPE_ANIMATED_UV
+                                        ){
+                                    U1 = edk::vec3f32(vertT0->getUV().x,vertT0->getUV().y,0.f);
+                                }
+                                else{
+                                    U1 = edk::vec3f32(0.f,0.f,0.f);
+                                }
+                                if(vertT1->getType()==EDK_SHAPE_UV
+                                        ||
+                                        vertT1->getType()==EDK_SHAPE_ANIMATED_UV
+                                        ){
+                                    U2 = edk::vec3f32(vertT1->getUV().x,vertT1->getUV().y,0.f);
+                                }
+                                else{
+                                    U2 = edk::vec3f32(0.f,0.f,0.f);
+                                }
+                                if(vertT2->getType()==EDK_SHAPE_UV
+                                        ||
+                                        vertT2->getType()==EDK_SHAPE_ANIMATED_UV
+                                        ){
+                                    U3 = edk::vec3f32(vertT2->getUV().x,vertT2->getUV().y,0.f);
+                                }
+                                else{
+                                    U3 = edk::vec3f32(0.f,0.f,0.f);
+                                }
+
+                                //Position 3D
+                                edge1 = P2 - P1;
+                                edge2 = P3 - P1;
+
+                                //UVs
+                                deltaUV1 = U2 - U1;
+                                deltaUV2 = U3 - U1;
+
+                                f = 1.0f / (deltaUV1.x * deltaUV2.y - deltaUV2.x * deltaUV1.y);
+
+                                //TANGENTE
+                                tangent.x = f * (deltaUV2.y * edge1.x - deltaUV1.y * edge2.x);
+                                tangent.y = f * (deltaUV2.y * edge1.y - deltaUV1.y * edge2.y);
+                                tangent.z = f * (deltaUV2.y * edge1.z - deltaUV1.y * edge2.z);
+
+                                //BI-TANGENTE
+                                bitangent.x = f * (-deltaUV2.x * edge1.x + deltaUV1.x * edge2.x);
+                                bitangent.y = f * (-deltaUV2.x * edge1.y + deltaUV1.x * edge2.y);
+                                bitangent.z = f * (-deltaUV2.x * edge1.z + deltaUV1.x * edge2.z);
+
+                                // Normalizar e armazenar para cada vértice do triângulo.
+                                tangent = edk::Math::normalise(tangent);
+                                bitangent = edk::Math::normalise(bitangent);
+
+                                for(edk::uint32 j=0u;j<vertexes;j++){
+                                    //Tangent
+                                    this->vertexBuffer.set(i+11u,tangent.x);
+                                    this->vertexBuffer.set(i+12u,tangent.y);
+                                    this->vertexBuffer.set(i+13u,tangent.z);
+                                    //BiTangent
+                                    this->vertexBuffer.set(i+14u,bitangent.x);
+                                    this->vertexBuffer.set(i+15u,bitangent.y);
+                                    this->vertexBuffer.set(i+16u,bitangent.z);
+                                    v+=increment;
+                                }
+                                ret = true;
+                            }
+                            else v+=increment*vertexes;
+                        }
+                        else v+=increment*vertexes;
+                    }
+                    else v+=increment*vertexes;
+                }
+                else v+=increment*vertexes;
+            }
+            break;
+        case edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy_TxTyTz_BxByBz:
+            for(edk::uint32 i=0u;i<sizePolygons;i++){
+                //create the new vertex
+                if(this->polygons.havePos(i)){
+                    temp = this->polygons.get(i);
+                    if(temp){
+                        if(temp->getVertexCount()>=3u){
+                            //add the vertexes
+                            vertT0 = (edk::shape::Vertex3DAnimatedUV*)temp->getVertexPointerInPosition(0u);
+                            vertT1 = (edk::shape::Vertex3DAnimatedUV*)temp->getVertexPointerInPosition(1u);
+                            vertT2 = (edk::shape::Vertex3DAnimatedUV*)temp->getVertexPointerInPosition(2u);
+                            if(vertT0
+                                    && vertT1
+                                    && vertT2){
+                                P1 = edk::vec3f32(vertT0->position);
+                                P2 = edk::vec3f32(vertT1->position);
+                                P3 = edk::vec3f32(vertT2->position);
+
+                                if(vertT0->getType()==EDK_SHAPE_UV
+                                        ||
+                                        vertT0->getType()==EDK_SHAPE_ANIMATED_UV
+                                        ){
+                                    U1 = edk::vec3f32(vertT0->getUV().x,vertT0->getUV().y,0.f);
+                                }
+                                else{
+                                    U1 = edk::vec3f32(0.f,0.f,0.f);
+                                }
+                                if(vertT1->getType()==EDK_SHAPE_UV
+                                        ||
+                                        vertT1->getType()==EDK_SHAPE_ANIMATED_UV
+                                        ){
+                                    U2 = edk::vec3f32(vertT1->getUV().x,vertT1->getUV().y,0.f);
+                                }
+                                else{
+                                    U2 = edk::vec3f32(0.f,0.f,0.f);
+                                }
+                                if(vertT2->getType()==EDK_SHAPE_UV
+                                        ||
+                                        vertT2->getType()==EDK_SHAPE_ANIMATED_UV
+                                        ){
+                                    U3 = edk::vec3f32(vertT2->getUV().x,vertT2->getUV().y,0.f);
+                                }
+                                else{
+                                    U3 = edk::vec3f32(0.f,0.f,0.f);
+                                }
+
+                                //Position 3D
+                                edge1 = P2 - P1;
+                                edge2 = P3 - P1;
+
+                                //UVs
+                                deltaUV1 = U2 - U1;
+                                deltaUV2 = U3 - U1;
+
+                                f = 1.0f / (deltaUV1.x * deltaUV2.y - deltaUV2.x * deltaUV1.y);
+
+                                //TANGENTE
+                                tangent.x = f * (deltaUV2.y * edge1.x - deltaUV1.y * edge2.x);
+                                tangent.y = f * (deltaUV2.y * edge1.y - deltaUV1.y * edge2.y);
+                                tangent.z = f * (deltaUV2.y * edge1.z - deltaUV1.y * edge2.z);
+
+                                //BI-TANGENTE
+                                bitangent.x = f * (-deltaUV2.x * edge1.x + deltaUV1.x * edge2.x);
+                                bitangent.y = f * (-deltaUV2.x * edge1.y + deltaUV1.x * edge2.y);
+                                bitangent.z = f * (-deltaUV2.x * edge1.z + deltaUV1.x * edge2.z);
+
+                                // Normalizar e armazenar para cada vértice do triângulo.
+                                tangent = edk::Math::normalise(tangent);
+                                bitangent = edk::Math::normalise(bitangent);
+
+                                for(edk::uint32 j=0u;j<vertexes;j++){
+                                    //Tangent
+                                    this->vertexBuffer.set(i+11u,tangent.x);
+                                    this->vertexBuffer.set(i+12u,tangent.y);
+                                    this->vertexBuffer.set(i+13u,tangent.z);
+                                    //BiTangent
+                                    this->vertexBuffer.set(i+14u,bitangent.x);
+                                    this->vertexBuffer.set(i+15u,bitangent.y);
+                                    this->vertexBuffer.set(i+16u,bitangent.z);
+                                    v+=increment;
+                                }
+                                ret = true;
+                            }
+                            else v+=increment*vertexes;
+                        }
+                        else v+=increment*vertexes;
+                    }
+                    else v+=increment*vertexes;
+                }
+                else v+=increment*vertexes;
+            }
+            break;
+        case edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy_TxTyTz_BxByBz:
+            for(edk::uint32 i=0u;i<sizePolygons;i++){
+                //create the new vertex
+                if(this->polygons.havePos(i)){
+                    temp = this->polygons.get(i);
+                    if(temp){
+                        if(temp->getVertexCount()>=3u){
+                            //add the vertexes
+                            vertT0 = (edk::shape::Vertex3DAnimatedUV*)temp->getVertexPointerInPosition(0u);
+                            vertT1 = (edk::shape::Vertex3DAnimatedUV*)temp->getVertexPointerInPosition(1u);
+                            vertT2 = (edk::shape::Vertex3DAnimatedUV*)temp->getVertexPointerInPosition(2u);
+                            if(vertT0
+                                    && vertT1
+                                    && vertT2){
+                                P1 = edk::vec3f32(vertT0->position);
+                                P2 = edk::vec3f32(vertT1->position);
+                                P3 = edk::vec3f32(vertT2->position);
+
+                                if(vertT0->getType()==EDK_SHAPE_UV
+                                        ||
+                                        vertT0->getType()==EDK_SHAPE_ANIMATED_UV
+                                        ){
+                                    U1 = edk::vec3f32(vertT0->getUV().x,vertT0->getUV().y,0.f);
+                                }
+                                else{
+                                    U1 = edk::vec3f32(0.f,0.f,0.f);
+                                }
+                                if(vertT1->getType()==EDK_SHAPE_UV
+                                        ||
+                                        vertT1->getType()==EDK_SHAPE_ANIMATED_UV
+                                        ){
+                                    U2 = edk::vec3f32(vertT1->getUV().x,vertT1->getUV().y,0.f);
+                                }
+                                else{
+                                    U2 = edk::vec3f32(0.f,0.f,0.f);
+                                }
+                                if(vertT2->getType()==EDK_SHAPE_UV
+                                        ||
+                                        vertT2->getType()==EDK_SHAPE_ANIMATED_UV
+                                        ){
+                                    U3 = edk::vec3f32(vertT2->getUV().x,vertT2->getUV().y,0.f);
+                                }
+                                else{
+                                    U3 = edk::vec3f32(0.f,0.f,0.f);
+                                }
+
+                                //Position 3D
+                                edge1 = P2 - P1;
+                                edge2 = P3 - P1;
+
+                                //UVs
+                                deltaUV1 = U2 - U1;
+                                deltaUV2 = U3 - U1;
+
+                                f = 1.0f / (deltaUV1.x * deltaUV2.y - deltaUV2.x * deltaUV1.y);
+
+                                //TANGENTE
+                                tangent.x = f * (deltaUV2.y * edge1.x - deltaUV1.y * edge2.x);
+                                tangent.y = f * (deltaUV2.y * edge1.y - deltaUV1.y * edge2.y);
+                                tangent.z = f * (deltaUV2.y * edge1.z - deltaUV1.y * edge2.z);
+
+                                //BI-TANGENTE
+                                bitangent.x = f * (-deltaUV2.x * edge1.x + deltaUV1.x * edge2.x);
+                                bitangent.y = f * (-deltaUV2.x * edge1.y + deltaUV1.x * edge2.y);
+                                bitangent.z = f * (-deltaUV2.x * edge1.z + deltaUV1.x * edge2.z);
+
+                                // Normalizar e armazenar para cada vértice do triângulo.
+                                tangent = edk::Math::normalise(tangent);
+                                bitangent = edk::Math::normalise(bitangent);
+
+                                for(edk::uint32 j=0u;j<vertexes;j++){
+                                    //Tangent
+                                    this->vertexBuffer.set(i+11u,tangent.x);
+                                    this->vertexBuffer.set(i+12u,tangent.y);
+                                    this->vertexBuffer.set(i+13u,tangent.z);
+                                    //BiTangent
+                                    this->vertexBuffer.set(i+14u,bitangent.x);
+                                    this->vertexBuffer.set(i+15u,bitangent.y);
+                                    this->vertexBuffer.set(i+16u,bitangent.z);
+                                    v+=increment;
+                                }
+                                ret = true;
+                            }
+                            else v+=increment*vertexes;
+                        }
+                        else v+=increment*vertexes;
+                    }
+                    else v+=increment*vertexes;
+                }
+                else v+=increment*vertexes;
+            }
+            break;
+        default:
+            break;
+        }
+    }
+    return ret;
 }
 
 //XML
