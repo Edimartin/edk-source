@@ -78203,13 +78203,13 @@ bool edk::shape::Polygon3DList::generateVBOTangentAndBiTangent(){
 
                                 for(edk::uint32 j=0u;j<vertexes;j++){
                                     //Tangent
-                                    this->vertexBuffer.set(i+11u,tangent.x);
-                                    this->vertexBuffer.set(i+12u,tangent.y);
-                                    this->vertexBuffer.set(i+13u,tangent.z);
+                                    this->vertexBuffer.set(v+11u,tangent.x);
+                                    this->vertexBuffer.set(v+12u,tangent.y);
+                                    this->vertexBuffer.set(v+13u,tangent.z);
                                     //BiTangent
-                                    this->vertexBuffer.set(i+14u,bitangent.x);
-                                    this->vertexBuffer.set(i+15u,bitangent.y);
-                                    this->vertexBuffer.set(i+16u,bitangent.z);
+                                    this->vertexBuffer.set(v+14u,bitangent.x);
+                                    this->vertexBuffer.set(v+15u,bitangent.y);
+                                    this->vertexBuffer.set(v+16u,bitangent.z);
                                     v+=increment;
                                 }
                                 ret = true;
@@ -78298,13 +78298,13 @@ bool edk::shape::Polygon3DList::generateVBOTangentAndBiTangent(){
 
                                 for(edk::uint32 j=0u;j<vertexes;j++){
                                     //Tangent
-                                    this->vertexBuffer.set(i+11u,tangent.x);
-                                    this->vertexBuffer.set(i+12u,tangent.y);
-                                    this->vertexBuffer.set(i+13u,tangent.z);
+                                    this->vertexBuffer.set(v+11u,tangent.x);
+                                    this->vertexBuffer.set(v+12u,tangent.y);
+                                    this->vertexBuffer.set(v+13u,tangent.z);
                                     //BiTangent
-                                    this->vertexBuffer.set(i+14u,bitangent.x);
-                                    this->vertexBuffer.set(i+15u,bitangent.y);
-                                    this->vertexBuffer.set(i+16u,bitangent.z);
+                                    this->vertexBuffer.set(v+14u,bitangent.x);
+                                    this->vertexBuffer.set(v+15u,bitangent.y);
+                                    this->vertexBuffer.set(v+16u,bitangent.z);
                                     v+=increment;
                                 }
                                 ret = true;
@@ -78390,13 +78390,13 @@ bool edk::shape::Polygon3DList::generateVBOTangentAndBiTangent(){
 
                                 for(edk::uint32 j=0u;j<vertexes;j++){
                                     //Tangent
-                                    this->vertexBuffer.set(i+11u,tangent.x);
-                                    this->vertexBuffer.set(i+12u,tangent.y);
-                                    this->vertexBuffer.set(i+13u,tangent.z);
+                                    this->vertexBuffer.set(v+11u,tangent.x);
+                                    this->vertexBuffer.set(v+12u,tangent.y);
+                                    this->vertexBuffer.set(v+13u,tangent.z);
                                     //BiTangent
-                                    this->vertexBuffer.set(i+14u,bitangent.x);
-                                    this->vertexBuffer.set(i+15u,bitangent.y);
-                                    this->vertexBuffer.set(i+16u,bitangent.z);
+                                    this->vertexBuffer.set(v+14u,bitangent.x);
+                                    this->vertexBuffer.set(v+15u,bitangent.y);
+                                    this->vertexBuffer.set(v+16u,bitangent.z);
                                     v+=increment;
                                 }
                                 ret = true;
@@ -78482,13 +78482,13 @@ bool edk::shape::Polygon3DList::generateVBOTangentAndBiTangent(){
 
                                 for(edk::uint32 j=0u;j<vertexes;j++){
                                     //Tangent
-                                    this->vertexBuffer.set(i+11u,tangent.x);
-                                    this->vertexBuffer.set(i+12u,tangent.y);
-                                    this->vertexBuffer.set(i+13u,tangent.z);
+                                    this->vertexBuffer.set(v+11u,tangent.x);
+                                    this->vertexBuffer.set(v+12u,tangent.y);
+                                    this->vertexBuffer.set(v+13u,tangent.z);
                                     //BiTangent
-                                    this->vertexBuffer.set(i+14u,bitangent.x);
-                                    this->vertexBuffer.set(i+15u,bitangent.y);
-                                    this->vertexBuffer.set(i+16u,bitangent.z);
+                                    this->vertexBuffer.set(v+14u,bitangent.x);
+                                    this->vertexBuffer.set(v+15u,bitangent.y);
+                                    this->vertexBuffer.set(v+16u,bitangent.z);
                                     v+=increment;
                                 }
                                 ret = true;
