@@ -75664,7 +75664,7 @@ bool edk::shape::Polygon3DList::generateVBOTangentAndBiTangent(){
         edk::shape::Polygon3D* temp;
         edk::shape::Vertex3DAnimatedUV *vertT0,*vertT1,*vertT2;
 
-        edk::uint32 increment = vboSizeofMesh3D[this->vboType];
+        edk::uint32 increment = 0u;
 
         edk::vec3f32 P1;
         edk::vec3f32 P2;
@@ -75672,15 +75672,20 @@ bool edk::shape::Polygon3DList::generateVBOTangentAndBiTangent(){
         edk::vec3f32 U1;
         edk::vec3f32 U2;
         edk::vec3f32 U3;
+        edk::vec3f32 N1;
+        edk::vec3f32 N2;
+        edk::vec3f32 N3;
         edk::vec3f32 edge1;
         edk::vec3f32 edge2;
         edk::vec3f32 deltaUV1;
         edk::vec3f32 deltaUV2;
         float f = 0.f;
-        edk::vec4f32 tangent;
+        edk::vec3f32 tangent;
         edk::vec3f32 bitangent;
 
         edk::uint32 vertexes =0u;
+
+        edk::float32 handedness = 1.f;
 
         edk::uint32 v=0u;
 
@@ -75688,6 +75693,7 @@ bool edk::shape::Polygon3DList::generateVBOTangentAndBiTangent(){
         case edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy:
             //change the vertexBuffer
             this->changeVBO(edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy_TxTyTzTw_BxByBz);
+            increment = vboSizeofMesh3D[this->vboType];
 
             for(edk::uint32 i=0u;i<sizePolygons;i++){
                 //create the new vertex
@@ -75706,6 +75712,10 @@ bool edk::shape::Polygon3DList::generateVBOTangentAndBiTangent(){
                                 P1 = edk::vec3f32(vertT0->position);
                                 P2 = edk::vec3f32(vertT1->position);
                                 P3 = edk::vec3f32(vertT2->position);
+
+                                N1 = edk::vec3f32(vertT0->normal);
+                                N2 = edk::vec3f32(vertT1->normal);
+                                N3 = edk::vec3f32(vertT2->normal);
 
                                 if(vertT0->getType()==EDK_SHAPE_UV
                                         ||
@@ -75735,90 +75745,41 @@ bool edk::shape::Polygon3DList::generateVBOTangentAndBiTangent(){
                                     U3 = edk::vec3f32(0.f,0.f,0.f);
                                 }
 
-                                printf("\nP!(%.2f,%.2f,%.2f)"
-                                       "\nP3(%.2f,%.2f,%.2f)"
-                                       "\nP3(%.2f,%.2f,%.2f)"
-                                       ,P1.x,P1.y,P1.z
-                                       ,P2.x,P2.y,P2.z
-                                       ,P3.x,P3.y,P3.z
-                                       );fflush(stdout);
-
                                 //Position 3D
                                 edge1 = P2 - P1;
                                 edge2 = P3 - P1;
-
-                                printf("\n");fflush(stdout);
-
-                                printf("\nedge1(%.2f,%.2f,%.2f)"
-                                       "\nedge2(%.2f,%.2f,%.2f)"
-                                       ,edge1.x,edge1.y,edge1.z
-                                       ,edge2.x,edge2.y,edge2.z
-                                       );fflush(stdout);
-
-                                printf("\n");fflush(stdout);
-
-                                printf("\nU!(%.2f,%.2f,%.2f)"
-                                       "\nU3(%.2f,%.2f,%.2f)"
-                                       "\nU3(%.2f,%.2f,%.2f)"
-                                       ,U1.x,U1.y,U1.z
-                                       ,U2.x,U2.y,U2.z
-                                       ,U3.x,U3.y,U3.z
-                                       );fflush(stdout);
 
                                 //UVs
                                 deltaUV1 = U2 - U1;
                                 deltaUV2 = U3 - U1;
 
-                                printf("\n");fflush(stdout);
-
-                                printf("\ndeltaUV1(%.2f,%.2f,%.2f)"
-                                       "\ndeltaUV2(%.2f,%.2f,%.2f)"
-                                       ,deltaUV1.x,deltaUV1.y,deltaUV1.z
-                                       ,deltaUV2.x,deltaUV2.y,deltaUV2.z
-                                       );fflush(stdout);
-
                                 f = 1.0f / (deltaUV1.x * deltaUV2.y - deltaUV2.x * deltaUV1.y);
-
-                                printf("\n");fflush(stdout);
-
-                                printf("\nf(%.2f)"
-                                       ,f
-                                       );fflush(stdout);
-
 
                                 //TANGENTE
                                 tangent.x = f * (deltaUV2.y * edge1.x - deltaUV1.y * edge2.x);
                                 tangent.y = f * (deltaUV2.y * edge1.y - deltaUV1.y * edge2.y);
                                 tangent.z = f * (deltaUV2.y * edge1.z - deltaUV1.y * edge2.z);
-                                tangent.w = 1.f;
-
-                                printf("\n");fflush(stdout);
-
-                                printf("\ntangent(%.2f,%.2f,%.2f)"
-                                       ,tangent.x,tangent.y,tangent.z
-                                       );fflush(stdout);
 
                                 //BI-TANGENTE
                                 bitangent.x = f * (-deltaUV2.x * edge1.x + deltaUV1.x * edge2.x);
                                 bitangent.y = f * (-deltaUV2.x * edge1.y + deltaUV1.x * edge2.y);
                                 bitangent.z = f * (-deltaUV2.x * edge1.z + deltaUV1.x * edge2.z);
 
-                                printf("\n");fflush(stdout);
-
-                                printf("\nbitangent(%.2f,%.2f,%.2f)"
-                                       ,bitangent.x,bitangent.y,bitangent.z
-                                       );fflush(stdout);
-
                                 // Normalizar e armazenar para cada vértice do triângulo.
                                 tangent = edk::Math::normalise(tangent);
                                 bitangent = edk::Math::normalise(bitangent);
 
+                                handedness = (edk::Math::dotProduct(
+                                                  edk::Math::crossProduct(N1,tangent),bitangent)< 0.0f
+                                              ) ? -1.0f : 1.0f;
+
                                 for(edk::uint32 j=0u;j<vertexes;j++){
+                                    //edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy_TxTyTzTw_BxByBz
                                     //Tangent
                                     this->vertexBuffer.set(v+11u,tangent.x);
                                     this->vertexBuffer.set(v+12u,tangent.y);
                                     this->vertexBuffer.set(v+13u,tangent.z);
-                                    this->vertexBuffer.set(v+14u,tangent.w);
+                                    this->vertexBuffer.set(v+14u,handedness);
                                     //BiTangent
                                     this->vertexBuffer.set(v+15u,bitangent.x);
                                     this->vertexBuffer.set(v+16u,bitangent.y);
@@ -75839,13 +75800,15 @@ bool edk::shape::Polygon3DList::generateVBOTangentAndBiTangent(){
         case edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
             //change the vertexBuffer
             this->changeVBO(edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy_TxTyTzTw_BxByBz);
+            increment = vboSizeofMesh3D[this->vboType];
 
             for(edk::uint32 i=0u;i<sizePolygons;i++){
                 //create the new vertex
                 if(this->polygons.havePos(i)){
                     temp = this->polygons.get(i);
                     if(temp){
-                        if(temp->getVertexCount()>=3u){
+                        vertexes = temp->getVertexCount();
+                        if(vertexes>=3u){
                             //add the vertexes
                             vertT0 = (edk::shape::Vertex3DAnimatedUV*)temp->getVertexPointerInPosition(0u);
                             vertT1 = (edk::shape::Vertex3DAnimatedUV*)temp->getVertexPointerInPosition(1u);
@@ -75856,6 +75819,10 @@ bool edk::shape::Polygon3DList::generateVBOTangentAndBiTangent(){
                                 P1 = edk::vec3f32(vertT0->position);
                                 P2 = edk::vec3f32(vertT1->position);
                                 P3 = edk::vec3f32(vertT2->position);
+
+                                N1 = edk::vec3f32(vertT0->normal);
+                                N2 = edk::vec3f32(vertT1->normal);
+                                N3 = edk::vec3f32(vertT2->normal);
 
                                 if(vertT0->getType()==EDK_SHAPE_UV
                                         ||
@@ -75885,92 +75852,46 @@ bool edk::shape::Polygon3DList::generateVBOTangentAndBiTangent(){
                                     U3 = edk::vec3f32(0.f,0.f,0.f);
                                 }
 
-                                printf("\nP!(%.2f,%.2f,%.2f)"
-                                       "\nP3(%.2f,%.2f,%.2f)"
-                                       "\nP3(%.2f,%.2f,%.2f)"
-                                       ,P1.x,P1.y,P1.z
-                                       ,P2.x,P2.y,P2.z
-                                       ,P3.x,P3.y,P3.z
-                                       );fflush(stdout);
-
                                 //Position 3D
                                 edge1 = P2 - P1;
                                 edge2 = P3 - P1;
-
-                                printf("\n");fflush(stdout);
-
-                                printf("\nedge1(%.2f,%.2f,%.2f)"
-                                       "\nedge2(%.2f,%.2f,%.2f)"
-                                       ,edge1.x,edge1.y,edge1.z
-                                       ,edge2.x,edge2.y,edge2.z
-                                       );fflush(stdout);
-
-                                printf("\n");fflush(stdout);
-
-                                printf("\nU!(%.2f,%.2f,%.2f)"
-                                       "\nU3(%.2f,%.2f,%.2f)"
-                                       "\nU3(%.2f,%.2f,%.2f)"
-                                       ,U1.x,U1.y,U1.z
-                                       ,U2.x,U2.y,U2.z
-                                       ,U3.x,U3.y,U3.z
-                                       );fflush(stdout);
-
                                 //UVs
                                 deltaUV1 = U2 - U1;
                                 deltaUV2 = U3 - U1;
-
-                                printf("\n");fflush(stdout);
-
-                                printf("\ndeltaUV1(%.2f,%.2f,%.2f)"
-                                       "\ndeltaUV2(%.2f,%.2f,%.2f)"
-                                       ,deltaUV1.x,deltaUV1.y,deltaUV1.z
-                                       ,deltaUV2.x,deltaUV2.y,deltaUV2.z
-                                       );fflush(stdout);
-
                                 f = 1.0f / (deltaUV1.x * deltaUV2.y - deltaUV2.x * deltaUV1.y);
-
-                                printf("\n");fflush(stdout);
-
-                                printf("\nf(%.2f)"
-                                       ,f
-                                       );fflush(stdout);
-
 
                                 //TANGENTE
                                 tangent.x = f * (deltaUV2.y * edge1.x - deltaUV1.y * edge2.x);
                                 tangent.y = f * (deltaUV2.y * edge1.y - deltaUV1.y * edge2.y);
                                 tangent.z = f * (deltaUV2.y * edge1.z - deltaUV1.y * edge2.z);
-                                tangent.w = 1.f;
-
-                                printf("\n");fflush(stdout);
-
-                                printf("\ntangent(%.2f,%.2f,%.2f)"
-                                       ,tangent.x,tangent.y,tangent.z
-                                       );fflush(stdout);
 
                                 //BI-TANGENTE
                                 bitangent.x = f * (-deltaUV2.x * edge1.x + deltaUV1.x * edge2.x);
                                 bitangent.y = f * (-deltaUV2.x * edge1.y + deltaUV1.x * edge2.y);
                                 bitangent.z = f * (-deltaUV2.x * edge1.z + deltaUV1.x * edge2.z);
 
-                                printf("\n");fflush(stdout);
+                                // Normalizar e armazenar para cada vértice do triângulo.
+                                tangent = edk::Math::normalise(tangent);
+                                bitangent = edk::Math::normalise(bitangent);
 
-                                printf("\nbitangent(%.2f,%.2f,%.2f)"
-                                       ,bitangent.x,bitangent.y,bitangent.z
-                                       );fflush(stdout);
+                                handedness = (edk::Math::dotProduct(
+                                                  edk::Math::crossProduct(N1,tangent),bitangent)< 0.0f
+                                              ) ? -1.0f : 1.0f;
 
                                 for(edk::uint32 j=0u;j<vertexes;j++){
+                                    //edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy_TxTyTzTw_BxByBz
                                     //Tangent
-                                    this->vertexBuffer.set(v+11u,tangent.x);
-                                    this->vertexBuffer.set(v+12u,tangent.y);
-                                    this->vertexBuffer.set(v+13u,tangent.z);
-                                    this->vertexBuffer.set(v+14u,tangent.w);
+                                    this->vertexBuffer.set(v+12u,tangent.x);
+                                    this->vertexBuffer.set(v+13u,tangent.y);
+                                    this->vertexBuffer.set(v+14u,tangent.z);
+                                    this->vertexBuffer.set(v+15u,handedness);
                                     //BiTangent
-                                    this->vertexBuffer.set(v+15u,bitangent.x);
-                                    this->vertexBuffer.set(v+16u,bitangent.y);
-                                    this->vertexBuffer.set(v+17u,bitangent.z);
+                                    this->vertexBuffer.set(v+16u,bitangent.x);
+                                    this->vertexBuffer.set(v+17u,bitangent.y);
+                                    this->vertexBuffer.set(v+18u,bitangent.z);
                                     v+=increment;
                                 }
+
                                 ret = true;
                             }
                             else v+=increment*vertexes;
@@ -75983,12 +75904,14 @@ bool edk::shape::Polygon3DList::generateVBOTangentAndBiTangent(){
             }
             break;
         case edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy_TxTyTzTw_BxByBz:
+            increment = vboSizeofMesh3D[this->vboType];
             for(edk::uint32 i=0u;i<sizePolygons;i++){
                 //create the new vertex
                 if(this->polygons.havePos(i)){
                     temp = this->polygons.get(i);
                     if(temp){
-                        if(temp->getVertexCount()>=3u){
+                        vertexes = temp->getVertexCount();
+                        if(vertexes>=3u){
                             //add the vertexes
                             vertT0 = (edk::shape::Vertex3DAnimatedUV*)temp->getVertexPointerInPosition(0u);
                             vertT1 = (edk::shape::Vertex3DAnimatedUV*)temp->getVertexPointerInPosition(1u);
@@ -75999,6 +75922,10 @@ bool edk::shape::Polygon3DList::generateVBOTangentAndBiTangent(){
                                 P1 = edk::vec3f32(vertT0->position);
                                 P2 = edk::vec3f32(vertT1->position);
                                 P3 = edk::vec3f32(vertT2->position);
+
+                                N1 = edk::vec3f32(vertT0->normal);
+                                N2 = edk::vec3f32(vertT1->normal);
+                                N3 = edk::vec3f32(vertT2->normal);
 
                                 if(vertT0->getType()==EDK_SHAPE_UV
                                         ||
@@ -76042,7 +75969,6 @@ bool edk::shape::Polygon3DList::generateVBOTangentAndBiTangent(){
                                 tangent.x = f * (deltaUV2.y * edge1.x - deltaUV1.y * edge2.x);
                                 tangent.y = f * (deltaUV2.y * edge1.y - deltaUV1.y * edge2.y);
                                 tangent.z = f * (deltaUV2.y * edge1.z - deltaUV1.y * edge2.z);
-                                tangent.w = 1.f;
 
                                 //BI-TANGENTE
                                 bitangent.x = f * (-deltaUV2.x * edge1.x + deltaUV1.x * edge2.x);
@@ -76053,12 +75979,17 @@ bool edk::shape::Polygon3DList::generateVBOTangentAndBiTangent(){
                                 tangent = edk::Math::normalise(tangent);
                                 bitangent = edk::Math::normalise(bitangent);
 
+                                handedness = (edk::Math::dotProduct(
+                                                  edk::Math::crossProduct(N1,tangent),bitangent)< 0.0f
+                                              ) ? -1.0f : 1.0f;
+
                                 for(edk::uint32 j=0u;j<vertexes;j++){
+                                    //edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy_TxTyTzTw_BxByBz
                                     //Tangent
                                     this->vertexBuffer.set(v+11u,tangent.x);
                                     this->vertexBuffer.set(v+12u,tangent.y);
                                     this->vertexBuffer.set(v+13u,tangent.z);
-                                    this->vertexBuffer.set(v+14u,tangent.w);
+                                    this->vertexBuffer.set(v+14u,handedness);
                                     //BiTangent
                                     this->vertexBuffer.set(v+15u,bitangent.x);
                                     this->vertexBuffer.set(v+16u,bitangent.y);
@@ -76077,12 +76008,14 @@ bool edk::shape::Polygon3DList::generateVBOTangentAndBiTangent(){
             }
             break;
         case edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy_TxTyTzTw_BxByBz:
+            increment = vboSizeofMesh3D[this->vboType];
             for(edk::uint32 i=0u;i<sizePolygons;i++){
                 //create the new vertex
                 if(this->polygons.havePos(i)){
                     temp = this->polygons.get(i);
                     if(temp){
-                        if(temp->getVertexCount()>=3u){
+                        vertexes = temp->getVertexCount();
+                        if(vertexes>=3u){
                             //add the vertexes
                             vertT0 = (edk::shape::Vertex3DAnimatedUV*)temp->getVertexPointerInPosition(0u);
                             vertT1 = (edk::shape::Vertex3DAnimatedUV*)temp->getVertexPointerInPosition(1u);
@@ -76093,6 +76026,10 @@ bool edk::shape::Polygon3DList::generateVBOTangentAndBiTangent(){
                                 P1 = edk::vec3f32(vertT0->position);
                                 P2 = edk::vec3f32(vertT1->position);
                                 P3 = edk::vec3f32(vertT2->position);
+
+                                N1 = edk::vec3f32(vertT0->normal);
+                                N2 = edk::vec3f32(vertT1->normal);
+                                N3 = edk::vec3f32(vertT2->normal);
 
                                 if(vertT0->getType()==EDK_SHAPE_UV
                                         ||
@@ -76136,7 +76073,6 @@ bool edk::shape::Polygon3DList::generateVBOTangentAndBiTangent(){
                                 tangent.x = f * (deltaUV2.y * edge1.x - deltaUV1.y * edge2.x);
                                 tangent.y = f * (deltaUV2.y * edge1.y - deltaUV1.y * edge2.y);
                                 tangent.z = f * (deltaUV2.y * edge1.z - deltaUV1.y * edge2.z);
-                                tangent.w = 1.f;
 
                                 //BI-TANGENTE
                                 bitangent.x = f * (-deltaUV2.x * edge1.x + deltaUV1.x * edge2.x);
@@ -76147,16 +76083,21 @@ bool edk::shape::Polygon3DList::generateVBOTangentAndBiTangent(){
                                 tangent = edk::Math::normalise(tangent);
                                 bitangent = edk::Math::normalise(bitangent);
 
+                                handedness = (edk::Math::dotProduct(
+                                                  edk::Math::crossProduct(N1,tangent),bitangent)< 0.0f
+                                              ) ? -1.0f : 1.0f;
+
                                 for(edk::uint32 j=0u;j<vertexes;j++){
+                                    //edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy_TxTyTzTw_BxByBz
                                     //Tangent
-                                    this->vertexBuffer.set(v+11u,tangent.x);
-                                    this->vertexBuffer.set(v+12u,tangent.y);
-                                    this->vertexBuffer.set(v+13u,tangent.z);
-                                    this->vertexBuffer.set(v+14u,tangent.w);
+                                    this->vertexBuffer.set(v+12u,tangent.x);
+                                    this->vertexBuffer.set(v+13u,tangent.y);
+                                    this->vertexBuffer.set(v+14u,tangent.z);
+                                    this->vertexBuffer.set(v+15u,handedness);
                                     //BiTangent
-                                    this->vertexBuffer.set(v+15u,bitangent.x);
-                                    this->vertexBuffer.set(v+16u,bitangent.y);
-                                    this->vertexBuffer.set(v+17u,bitangent.z);
+                                    this->vertexBuffer.set(v+16u,bitangent.x);
+                                    this->vertexBuffer.set(v+17u,bitangent.y);
+                                    this->vertexBuffer.set(v+18u,bitangent.z);
                                     v+=increment;
                                 }
                                 ret = true;
