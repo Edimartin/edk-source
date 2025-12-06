@@ -917,15 +917,15 @@ public:
                         //1x0
                         this->multiplyElement(&(*this->matrixPointer)[0u][1u],&(*this->matrixPointer)[2u][2u],&temp1);
                         this->multiplyElement(&(*this->matrixPointer)[2u][1u],&(*this->matrixPointer)[0u][2u],&temp2);
-                        this->subElement(&temp1,&temp2,&(*this->matrixDestPointer)[0u][1u]);
+                        this->subElement(&temp1,&temp2,&(*this->matrixDestPointer)[1u][0u]);
                         //2x0
                         this->multiplyElement(&(*this->matrixPointer)[0u][1u],&(*this->matrixPointer)[1u][2u],&temp1);
                         this->multiplyElement(&(*this->matrixPointer)[1u][1u],&(*this->matrixPointer)[0u][2u],&temp2);
-                        this->subElement(&temp1,&temp2,&(*this->matrixDestPointer)[0u][2u]);
+                        this->subElement(&temp1,&temp2,&(*this->matrixDestPointer)[2u][0u]);
                         //0x1
                         this->multiplyElement(&(*this->matrixPointer)[1u][0u],&(*this->matrixPointer)[2u][2u],&temp1);
                         this->multiplyElement(&(*this->matrixPointer)[2u][0u],&(*this->matrixPointer)[1u][2u],&temp2);
-                        this->subElement(&temp1,&temp2,&(*this->matrixDestPointer)[1u][0u]);
+                        this->subElement(&temp1,&temp2,&(*this->matrixDestPointer)[0u][1u]);
                         //1x1
                         this->multiplyElement(&(*this->matrixPointer)[0u][0u],&(*this->matrixPointer)[2u][2u],&temp1);
                         this->multiplyElement(&(*this->matrixPointer)[2u][0u],&(*this->matrixPointer)[0u][2u],&temp2);
@@ -933,15 +933,15 @@ public:
                         //2x1
                         this->multiplyElement(&(*this->matrixPointer)[0u][0u],&(*this->matrixPointer)[1u][2u],&temp1);
                         this->multiplyElement(&(*this->matrixPointer)[1u][0u],&(*this->matrixPointer)[0u][2u],&temp2);
-                        this->subElement(&temp1,&temp2,&(*this->matrixDestPointer)[1u][2u]);
+                        this->subElement(&temp1,&temp2,&(*this->matrixDestPointer)[2u][1u]);
                         //0x2
                         this->multiplyElement(&(*this->matrixPointer)[1u][0u],&(*this->matrixPointer)[2u][1u],&temp1);
                         this->multiplyElement(&(*this->matrixPointer)[2u][0u],&(*this->matrixPointer)[1u][1u],&temp2);
-                        this->subElement(&temp1,&temp2,&(*this->matrixDestPointer)[2u][0u]);
+                        this->subElement(&temp1,&temp2,&(*this->matrixDestPointer)[0u][2u]);
                         //1x2
                         this->multiplyElement(&(*this->matrixPointer)[0u][0u],&(*this->matrixPointer)[2u][1u],&temp1);
                         this->multiplyElement(&(*this->matrixPointer)[2u][0u],&(*this->matrixPointer)[0u][1u],&temp2);
-                        this->subElement(&temp1,&temp2,&(*this->matrixDestPointer)[2u][1u]);
+                        this->subElement(&temp1,&temp2,&(*this->matrixDestPointer)[1u][2u]);
                         //2x2
                         this->multiplyElement(&(*this->matrixPointer)[0u][0u],&(*this->matrixPointer)[1u][1u],&temp1);
                         this->multiplyElement(&(*this->matrixPointer)[1u][0u],&(*this->matrixPointer)[0u][1u],&temp2);
@@ -959,17 +959,17 @@ public:
                         //this->multiplyElementMinusOne(&(*this->matrixDestPointer)[2u][2u],&(*this->matrixDestPointer)[2u][2u]);
 
 
-                        this->divideElement(&(*this->matrixPointer)[0u][0u],&determinant,&(*this->matrixPointer)[0u][0u]);
-                        this->divideElement(&(*this->matrixPointer)[1u][0u],&determinant,&(*this->matrixPointer)[1u][0u]);
-                        this->divideElement(&(*this->matrixPointer)[2u][0u],&determinant,&(*this->matrixPointer)[2u][0u]);
+                        this->divideElement(&(*this->matrixDestPointer)[0u][0u],&determinant,&(*this->matrixPointer)[0u][0u]);
+                        this->divideElement(&(*this->matrixDestPointer)[1u][0u],&determinant,&(*this->matrixPointer)[0u][1u]);
+                        this->divideElement(&(*this->matrixDestPointer)[2u][0u],&determinant,&(*this->matrixPointer)[0u][2u]);
 
-                        this->divideElement(&(*this->matrixPointer)[0u][1u],&determinant,&(*this->matrixPointer)[0u][1u]);
-                        this->divideElement(&(*this->matrixPointer)[1u][1u],&determinant,&(*this->matrixPointer)[1u][1u]);
-                        this->divideElement(&(*this->matrixPointer)[2u][1u],&determinant,&(*this->matrixPointer)[2u][1u]);
+                        this->divideElement(&(*this->matrixDestPointer)[0u][1u],&determinant,&(*this->matrixPointer)[1u][0u]);
+                        this->divideElement(&(*this->matrixDestPointer)[1u][1u],&determinant,&(*this->matrixPointer)[1u][1u]);
+                        this->divideElement(&(*this->matrixDestPointer)[2u][1u],&determinant,&(*this->matrixPointer)[1u][2u]);
 
-                        this->divideElement(&(*this->matrixPointer)[0u][2u],&determinant,&(*this->matrixPointer)[0u][2u]);
-                        this->divideElement(&(*this->matrixPointer)[1u][2u],&determinant,&(*this->matrixPointer)[1u][2u]);
-                        this->divideElement(&(*this->matrixPointer)[2u][2u],&determinant,&(*this->matrixPointer)[2u][2u]);
+                        this->divideElement(&(*this->matrixDestPointer)[0u][2u],&determinant,&(*this->matrixPointer)[2u][0u]);
+                        this->divideElement(&(*this->matrixDestPointer)[1u][2u],&determinant,&(*this->matrixPointer)[2u][1u]);
+                        this->divideElement(&(*this->matrixDestPointer)[2u][2u],&determinant,&(*this->matrixPointer)[2u][2u]);
 
                         return true;
                     }
