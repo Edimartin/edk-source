@@ -187,7 +187,7 @@ bool edk::shd::Shader::loadShaderFromFile(edk::char8* name){
                     ret = this->loadShaderFromMemory(data,size,type);
 
                     //delete the data
-                    delete data;
+                    free(data);
                 }
             }
         }

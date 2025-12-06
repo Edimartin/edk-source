@@ -410,7 +410,7 @@ public:
                                 this->sumElement(&destMultiply,&destSum,&destSum);
                             }
                             //set the value
-                            memcpy((void*)&matrixDest[y][x],&destSum,sizeof(typeTemplate));
+                            memcpy((void*)&((*this->matrixDestPointer)[y][x]),&destSum,sizeof(typeTemplate));
                         }
                     }
                     this->flipMatrix();
@@ -759,6 +759,226 @@ public:
         (*this->matrixSizePointer)=0u;
     }
 
+    virtual inline bool copyFrom(edk::vector::MatrixDynamic<typeTemplate>* matrix){
+        if(matrix){
+            if(matrix->getWidth() && matrix->getHeight()
+                    && this->getWidth() && this->getHeight()
+                    ){
+                if(this->getWidth() <= matrix->getWidth()){
+                    if(this->getHeight() <= matrix->getHeight()){
+                        for(edk::uint32 y=0u;y<this->matrixSize.height;y++){
+                            memcpy(this->matrix[y],matrix->matrix[y],sizeof(typeTemplate)*this->matrixSize.width);
+                        }
+                    }
+                    else{
+                        for(edk::uint32 y=0u;y<matrix->matrixSize.height;y++){
+                            memcpy(this->matrix[y],matrix->matrix[y],sizeof(typeTemplate)*this->matrixSize.width);
+                        }
+                    }
+                }
+                else{
+                    if(this->getHeight() <= matrix->getHeight()){
+                        for(edk::uint32 y=0u;y<this->matrixSize.height;y++){
+                            memcpy(this->matrix[y],matrix->matrix[y],sizeof(typeTemplate)*matrix->matrixSize.width);
+                        }
+                    }
+                    else{
+                        for(edk::uint32 y=0u;y<matrix->matrixSize.height;y++){
+                            memcpy(this->matrix[y],matrix->matrix[y],sizeof(typeTemplate)*matrix->matrixSize.width);
+                        }
+                    }
+                }
+                return true;
+            }
+        }
+        return false;
+    }
+    virtual inline bool copyTo(edk::vector::MatrixDynamic<typeTemplate>* matrix){
+        if(matrix){
+            if(matrix->getWidth() && matrix->getHeight()
+                    && this->getWidth() && this->getHeight()
+                    ){
+                if(matrix->getWidth() <= this->getWidth()){
+                    if(matrix->getHeight() <= this->getHeight()){
+                        for(edk::uint32 y=0u;y<matrix->matrixSize.height;y++){
+                            memcpy(matrix->matrix[y],this->matrix[y],sizeof(typeTemplate)*matrix->matrixSize.width);
+                        }
+                    }
+                    else{
+                        for(edk::uint32 y=0u;y<this->matrixSize.height;y++){
+                            memcpy(matrix->matrix[y],this->matrix[y],sizeof(typeTemplate)*matrix->matrixSize.width);
+                        }
+                    }
+                }
+                else{
+                    if(matrix->getHeight() <= this->getHeight()){
+                        for(edk::uint32 y=0u;y<matrix->matrixSize.height;y++){
+                            memcpy(matrix->matrix[y],this->matrix[y],sizeof(typeTemplate)*this->matrixSize.width);
+                        }
+                    }
+                    else{
+                        for(edk::uint32 y=0u;y<matrix->matrixSize.height;y++){
+                            memcpy(matrix->matrix[y],this->matrix[y],sizeof(typeTemplate)*this->matrixSize.width);
+                        }
+                    }
+                }
+                return true;
+            }
+        }
+        return false;
+    }
+
+    virtual inline bool invertThis(){
+        if(*this->matrixPointer){
+            if((*this->matrixSizePointer).width == (*this->matrixSizePointer).height){
+                //test if have the matrixDest
+                if(!(*this->matrixDestPointer)){
+                    //create the matrixDest
+                    this->createMatrixDest();
+                }
+                if((*this->matrixDestPointer)){
+                    //matrix 2x2
+                    typeTemplate zeroCompare;
+                    memset(&zeroCompare,0u,sizeof(typeTemplate));
+                    //create the dest matrix
+                    if((*this->matrixSizePointer).width==2u){
+
+                        //calculate the determinant
+                        typeTemplate temp1;
+                        this->multiplyElement(&(*this->matrixPointer)[0u][0u],&(*this->matrixPointer)[1u][1u],&temp1);
+                        typeTemplate temp2;
+                        this->multiplyElement(&(*this->matrixPointer)[1u][0u],&(*this->matrixPointer)[0u][1u],&temp2);
+                        typeTemplate determinant;
+                        this->subElement(&temp1,&temp2,&determinant);
+
+                        if(!memcmp(&determinant,&zeroCompare,sizeof(typeTemplate))){
+                            return false;
+                        }
+
+                        //divide the matrix by the determinant
+                        this->divideElement(&(*this->matrixPointer)[0u][0u],&determinant,&(*this->matrixPointer)[0u][0u]);
+                        this->divideElement(&(*this->matrixPointer)[1u][0u],&determinant,&(*this->matrixPointer)[1u][0u]);
+                        this->divideElement(&(*this->matrixPointer)[1u][0u],&determinant,&(*this->matrixPointer)[0u][1u]);
+                        this->divideElement(&(*this->matrixPointer)[1u][1u],&determinant,&(*this->matrixPointer)[1u][1u]);
+
+                        //invert positions in the the principal diagonal
+                        memcpy(&temp1,&(*this->matrixPointer)[0u][0u],sizeof(typeTemplate));
+                        memcpy(&(*this->matrixPointer)[0u][0u],&(*this->matrixPointer)[1u][1u],sizeof(typeTemplate));
+                        memcpy(&(*this->matrixPointer)[1u][1u],&temp1,sizeof(typeTemplate));
+
+                        //invert the non principal diagonal values
+                        //this->multiplyElementMinusOne(&(*this->matrixPointer)[0u][0u],&(*this->matrixPointer)[0u][0u]);
+                        this->multiplyElementMinusOne(&(*this->matrixPointer)[1u][0u],&(*this->matrixPointer)[1u][0u]);
+                        this->multiplyElementMinusOne(&(*this->matrixPointer)[0u][1u],&(*this->matrixPointer)[0u][1u]);
+                        //this->multiplyElementMinusOne(&(*this->matrixPointer)[1u][1u],&(*this->matrixPointer)[1u][1u]);
+
+                        return true;
+                    }
+                    else if((*this->matrixSizePointer).width==3u){
+                        //matrix 3x3
+
+                        typeTemplate temp1;
+                        typeTemplate temp2;
+                        typeTemplate tempMultiply;
+
+                        this->multiplyElement(&(*this->matrixPointer)[0u][0u],&(*this->matrixPointer)[1u][1u],&tempMultiply);
+                        this->multiplyElement(&tempMultiply,&(*this->matrixPointer)[2u][2u],&tempMultiply);
+                        this->sumElement(&tempMultiply,&zeroCompare,&temp1);
+                        this->multiplyElement(&(*this->matrixPointer)[1u][0u],&(*this->matrixPointer)[2u][1u],&tempMultiply);
+                        this->multiplyElement(&tempMultiply,&(*this->matrixPointer)[0u][2u],&tempMultiply);
+                        this->sumElement(&tempMultiply,&temp1,&temp1);
+                        this->multiplyElement(&(*this->matrixPointer)[2u][0u],&(*this->matrixPointer)[0u][1u],&tempMultiply);
+                        this->multiplyElement(&tempMultiply,&(*this->matrixPointer)[1u][2u],&tempMultiply);
+                        this->sumElement(&tempMultiply,&temp1,&temp1);
+
+                        this->multiplyElement(&(*this->matrixPointer)[2u][0u],&(*this->matrixPointer)[1u][1u],&tempMultiply);
+                        this->multiplyElement(&tempMultiply,&(*this->matrixPointer)[0u][2u],&tempMultiply);
+                        this->sumElement(&tempMultiply,&zeroCompare,&temp2);
+                        this->multiplyElement(&(*this->matrixPointer)[0u][0u],&(*this->matrixPointer)[2u][1u],&tempMultiply);
+                        this->multiplyElement(&tempMultiply,&(*this->matrixPointer)[1u][2u],&tempMultiply);
+                        this->sumElement(&tempMultiply,&temp2,&temp2);
+                        this->multiplyElement(&(*this->matrixPointer)[1u][0u],&(*this->matrixPointer)[0u][1u],&tempMultiply);
+                        this->multiplyElement(&tempMultiply,&(*this->matrixPointer)[2u][2u],&tempMultiply);
+                        this->sumElement(&tempMultiply,&temp2,&temp2);
+
+                        typeTemplate determinant;
+                        this->subElement(&temp1,&temp2,&determinant);
+
+                        if(!memcmp(&determinant,&zeroCompare,sizeof(typeTemplate))){
+                            return false;
+                        }
+
+                        //calculate the co-factor matrix
+
+                        //0x0
+                        this->multiplyElement(&(*this->matrixPointer)[1u][1u],&(*this->matrixPointer)[2u][2u],&temp1);
+                        this->multiplyElement(&(*this->matrixPointer)[2u][1u],&(*this->matrixPointer)[1u][2u],&temp2);
+                        this->subElement(&temp1,&temp2,&(*this->matrixDestPointer)[0u][0u]);
+                        //1x0
+                        this->multiplyElement(&(*this->matrixPointer)[0u][1u],&(*this->matrixPointer)[2u][2u],&temp1);
+                        this->multiplyElement(&(*this->matrixPointer)[2u][1u],&(*this->matrixPointer)[0u][2u],&temp2);
+                        this->subElement(&temp1,&temp2,&(*this->matrixDestPointer)[0u][1u]);
+                        //2x0
+                        this->multiplyElement(&(*this->matrixPointer)[0u][1u],&(*this->matrixPointer)[1u][2u],&temp1);
+                        this->multiplyElement(&(*this->matrixPointer)[1u][1u],&(*this->matrixPointer)[0u][2u],&temp2);
+                        this->subElement(&temp1,&temp2,&(*this->matrixDestPointer)[0u][2u]);
+                        //0x1
+                        this->multiplyElement(&(*this->matrixPointer)[1u][0u],&(*this->matrixPointer)[2u][2u],&temp1);
+                        this->multiplyElement(&(*this->matrixPointer)[2u][0u],&(*this->matrixPointer)[1u][2u],&temp2);
+                        this->subElement(&temp1,&temp2,&(*this->matrixDestPointer)[1u][0u]);
+                        //1x1
+                        this->multiplyElement(&(*this->matrixPointer)[0u][0u],&(*this->matrixPointer)[2u][2u],&temp1);
+                        this->multiplyElement(&(*this->matrixPointer)[2u][0u],&(*this->matrixPointer)[0u][2u],&temp2);
+                        this->subElement(&temp1,&temp2,&(*this->matrixDestPointer)[1u][1u]);
+                        //2x1
+                        this->multiplyElement(&(*this->matrixPointer)[0u][0u],&(*this->matrixPointer)[1u][2u],&temp1);
+                        this->multiplyElement(&(*this->matrixPointer)[1u][0u],&(*this->matrixPointer)[0u][2u],&temp2);
+                        this->subElement(&temp1,&temp2,&(*this->matrixDestPointer)[1u][2u]);
+                        //0x2
+                        this->multiplyElement(&(*this->matrixPointer)[1u][0u],&(*this->matrixPointer)[2u][1u],&temp1);
+                        this->multiplyElement(&(*this->matrixPointer)[2u][0u],&(*this->matrixPointer)[1u][1u],&temp2);
+                        this->subElement(&temp1,&temp2,&(*this->matrixDestPointer)[2u][0u]);
+                        //1x2
+                        this->multiplyElement(&(*this->matrixPointer)[0u][0u],&(*this->matrixPointer)[2u][1u],&temp1);
+                        this->multiplyElement(&(*this->matrixPointer)[2u][0u],&(*this->matrixPointer)[0u][1u],&temp2);
+                        this->subElement(&temp1,&temp2,&(*this->matrixDestPointer)[2u][1u]);
+                        //2x2
+                        this->multiplyElement(&(*this->matrixPointer)[0u][0u],&(*this->matrixPointer)[1u][1u],&temp1);
+                        this->multiplyElement(&(*this->matrixPointer)[1u][0u],&(*this->matrixPointer)[0u][1u],&temp2);
+                        this->subElement(&temp1,&temp2,&(*this->matrixDestPointer)[2u][2u]);
+
+                        //invert the signals
+                        //this->multiplyElementMinusOne(&(*this->matrixDestPointer)[0u][0u],&(*this->matrixDestPointer)[0u][0u]);
+                        this->multiplyElementMinusOne(&(*this->matrixDestPointer)[0u][1u],&(*this->matrixDestPointer)[0u][1u]);
+                        //this->multiplyElementMinusOne(&(*this->matrixDestPointer)[0u][2u],&(*this->matrixDestPointer)[0u][2u]);
+                        this->multiplyElementMinusOne(&(*this->matrixDestPointer)[1u][0u],&(*this->matrixDestPointer)[1u][0u]);
+                        //this->multiplyElementMinusOne(&(*this->matrixDestPointer)[1u][1u],&(*this->matrixDestPointer)[1u][1u]);
+                        this->multiplyElementMinusOne(&(*this->matrixDestPointer)[1u][2u],&(*this->matrixDestPointer)[1u][2u]);
+                        //this->multiplyElementMinusOne(&(*this->matrixDestPointer)[2u][0u],&(*this->matrixDestPointer)[2u][0u]);
+                        this->multiplyElementMinusOne(&(*this->matrixDestPointer)[2u][1u],&(*this->matrixDestPointer)[2u][1u]);
+                        //this->multiplyElementMinusOne(&(*this->matrixDestPointer)[2u][2u],&(*this->matrixDestPointer)[2u][2u]);
+
+
+                        this->divideElement(&(*this->matrixPointer)[0u][0u],&determinant,&(*this->matrixPointer)[0u][0u]);
+                        this->divideElement(&(*this->matrixPointer)[1u][0u],&determinant,&(*this->matrixPointer)[1u][0u]);
+                        this->divideElement(&(*this->matrixPointer)[2u][0u],&determinant,&(*this->matrixPointer)[2u][0u]);
+
+                        this->divideElement(&(*this->matrixPointer)[0u][1u],&determinant,&(*this->matrixPointer)[0u][1u]);
+                        this->divideElement(&(*this->matrixPointer)[1u][1u],&determinant,&(*this->matrixPointer)[1u][1u]);
+                        this->divideElement(&(*this->matrixPointer)[2u][1u],&determinant,&(*this->matrixPointer)[2u][1u]);
+
+                        this->divideElement(&(*this->matrixPointer)[0u][2u],&determinant,&(*this->matrixPointer)[0u][2u]);
+                        this->divideElement(&(*this->matrixPointer)[1u][2u],&determinant,&(*this->matrixPointer)[1u][2u]);
+                        this->divideElement(&(*this->matrixPointer)[2u][2u],&determinant,&(*this->matrixPointer)[2u][2u]);
+
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
     bool cloneFrom(edk::vector::MatrixDynamic<typeTemplate>* matrix){
         if(matrix){
             if(matrix->matrixSize.width && matrix->matrixSize.height){
@@ -847,8 +1067,17 @@ protected:
     virtual void multiplyElement(typeTemplate* value1,typeTemplate* value2,typeTemplate* dest){
         *dest = (*value1)*(*value2);
     }
+    virtual void multiplyElementMinusOne(typeTemplate* value,typeTemplate* dest){
+        *dest = (*value)*(-1);
+    }
     virtual void sumElement(typeTemplate* value1,typeTemplate* value2,typeTemplate* dest){
         *dest = (*value1)+(*value2);
+    }
+    virtual void subElement(typeTemplate* value1,typeTemplate* value2,typeTemplate* dest){
+        *dest = (*value1)-(*value2);
+    }
+    virtual void divideElement(typeTemplate* value1,typeTemplate* value2,typeTemplate* dest){
+        *dest = (*value1)/(*value2);
     }
 
 private:
@@ -969,7 +1198,7 @@ public:
         this->Destructor();
     }
 
-    void Constructor(){
+    inline void Constructor(){
         edk::vector::MatrixDynamic<typeTemplate>::Constructor();
         if(this->classThis!=this){
             this->classThis=this;
@@ -982,7 +1211,7 @@ public:
             }
         }
     }
-    void Destructor(){
+    inline void Destructor(){
         if(this->classThis==this){
             this->classThis=NULL;
             //can destruct the class
@@ -1118,6 +1347,14 @@ public:
     //print the matrix
     inline virtual bool printMatrix(){
         return edk::vector::MatrixDynamic<typeTemplate>::printMatrix();
+    }
+
+    virtual inline bool copyFrom(edk::vector::Matrix<typeTemplate,m,n>* matrix){
+        return edk::vector::MatrixDynamic<typeTemplate>::copyFrom(matrix);
+    }
+
+    virtual inline bool invertThis(){
+        return edk::vector::MatrixDynamic<typeTemplate>::invertThis();
     }
 
     inline virtual bool cloneFrom(edk::vector::Matrix<typeTemplate,m,n>* matrix){
@@ -1256,6 +1493,17 @@ public:
             return  edk::vector::Matrix<edk::float32,m,n>::multiply(matrix1,matrix2);
         }
         return false;
+    }
+
+    virtual bool copyFrom(edk::vector::MatrixDynamic<edk::float32>* matrix){
+        if(matrix){
+            return matrix->copyTo((edk::vector::MatrixDynamic<edk::float32>*)this);
+        }
+        return false;
+    }
+
+    virtual bool invertThis(){
+        return  edk::vector::Matrix<edk::float32,m,n>::invertThis();
     }
 
     //print the matrix

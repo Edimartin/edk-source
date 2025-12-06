@@ -658,6 +658,8 @@ protected:
     class StackPolygons3D: public edk::vector::Stack<edk::shape::Polygon3D*> {
     public:
         StackPolygons3D(){
+            this->matrix=NULL;
+            this->matrixTemp=NULL;
             this->setMatrices(NULL,NULL);
         }
         ~StackPolygons3D(){}

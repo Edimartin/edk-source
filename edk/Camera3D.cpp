@@ -47,6 +47,7 @@ edk::Camera3D::~Camera3D(){
 void edk::Camera3D::Constructor(){
     //
     if(this->classThis!=this){
+        this->perspective=true;
         this->classThis=this;
         this->matrixTranslate.Constructor();
         this->matrixRotateX.Constructor();
