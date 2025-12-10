@@ -735,6 +735,21 @@ public:
         return false;
     }
 
+    virtual bool printMatrixX(){
+        if((*this->matrixPointer) && (*this->matrixSizePointer).width && (*this->matrixSizePointer).height){
+            //printf("\nMatrix [%u] [%u]",(*this->matrixSizePointer).width,(*this->matrixSizePointer).height);
+            for(edk::uint32 y=0u;y<(*this->matrixSizePointer).height;y++){
+                printf("\n");
+                for(edk::uint32 x=0u;x<(*this->matrixSizePointer).width;x++){
+                    this->printElementX(&(*this->matrixPointer)[y][x]);
+                    printf(",");
+                }
+            }fflush(stdout);
+            return true;
+        }
+        return false;
+    }
+
     //delete the array
     void deleteMatrix(){
         //test if is alloc
@@ -1064,6 +1079,9 @@ protected:
     virtual void printElement(edk::uint32 /*x*/,edk::uint32 /*y*/,typeTemplate* /*value*/){
         //printf("\n[%u][%u] == [%ld]",x,y,(edk::int64)*value);
     }
+    virtual void printElementX(typeTemplate* /*value*/){
+        //printf("\n[%u][%u] == [%ld]",x,y,(edk::int64)*value);
+    }
     virtual void multiplyElement(typeTemplate* value1,typeTemplate* value2,typeTemplate* dest){
         *dest = (*value1)*(*value2);
     }
@@ -1348,6 +1366,9 @@ public:
     inline virtual bool printMatrix(){
         return edk::vector::MatrixDynamic<typeTemplate>::printMatrix();
     }
+    inline virtual bool printMatrixX(){
+        return edk::vector::MatrixDynamic<typeTemplate>::printMatrixX();
+    }
 
     virtual inline bool copyFrom(edk::vector::Matrix<typeTemplate,m,n>* matrix){
         return edk::vector::MatrixDynamic<typeTemplate>::copyFrom(matrix);
@@ -1413,6 +1434,9 @@ private:
     }
 protected:
     inline void printElement(edk::uint32 /*x*/,edk::uint32 /*y*/,typeTemplate* /*value*/){
+        //printf("\n[%u][%u] == [%ld]",x,y,(edk::int64)*value);
+    }
+    inline void printElementX(typeTemplate* /*value*/){
         //printf("\n[%u][%u] == [%ld]",x,y,(edk::int64)*value);
     }
     //save if can multiply the matrix
@@ -1515,6 +1539,9 @@ protected:
     inline void printElement(edk::uint32 x,edk::uint32 y,edk::float32* value){
         printf("\n[%u][%u] == [%.2f]",x,y,(edk::float32)(*value));
     }
+    inline void printElementX(edk::float32* value){
+        printf("%.2f",(edk::float32)(*value));
+    }
 private:
     edk::classID classThis;
 };
@@ -1601,6 +1628,9 @@ public:
 protected:
     inline void printElement(edk::uint64 x,edk::uint64 y,edk::float64* value){
         printf("\n[%u][%u] == [%.2f]",x,y,(edk::float64)(*value));
+    }
+    inline void printElementX(edk::float64* value){
+        printf("%.2f",(edk::float32)(*value));
     }
 private:
     edk::classID classThis;

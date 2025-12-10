@@ -209,6 +209,7 @@ void edk::View::draw(edk::rectf32 outsideViewOrigin){
 
         //draw the polygon in the view
         this->drawPolygon(outsideViewOrigin);
+        edk::GU::guUseMatrix(GU_MODELVIEW);
         edk::GU::guPopMatrix();
         /*
         //Draw the nextView

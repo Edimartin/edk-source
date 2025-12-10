@@ -1058,7 +1058,7 @@ private:
             //set the position
             this->saveAngle = this->angle;
         }
-        if(this->position!=this->savePosition){
+        if(this->size!=this->saveSize){
             //set the scale
             this->saveSize = this->size;
             this->setScale(this->size);
