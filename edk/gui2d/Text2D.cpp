@@ -41,6 +41,7 @@ void edk::gui2d::Text2D::Constructor(){
     if(this->classThis!=this){
         this->classThis=this;
         this->type=edk::TypeObject2DText;
+        this->typeGUI = edk::gui2d::gui2dTypeText;
         edk::gui2d::ObjectGui2d::setBorderSize(0.01f);
     }
 }

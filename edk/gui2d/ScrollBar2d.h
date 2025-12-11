@@ -71,6 +71,12 @@ public:
     //set the size
     bool setForegroundSize(edk::size2f32 size);
     bool setForegroundSize(edk::float32 width,edk::float32 height);
+    inline bool setPercentLimit(edk::size2f32 size){
+        return this->setForegroundSize(size.width,size.height);
+    }
+    inline bool setPercentLimit(edk::float32 width,edk::float32 height){
+        return this->setForegroundSize(width,height);
+    }
     //get the foregroundSize
     edk::float32 getForegroundWidth();
     edk::float32 getForegroundHeight();

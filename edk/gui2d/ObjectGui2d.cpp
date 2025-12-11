@@ -132,6 +132,7 @@ bool edk::gui2d::ObjectGui2d::writeBoundingBox(edk::rectf32* rect,edk::vector::M
 void edk::gui2d::ObjectGui2d::drawStart(){
     //
     //put the transformation on a stack
+    edk::GU::guUseMatrix(GU_MODELVIEW);
     edk::GU::guPushMatrix();
 
     //add translate
@@ -188,6 +189,7 @@ void edk::gui2d::ObjectGui2d::drawTextFontWire(){
 }
 void edk::gui2d::ObjectGui2d::drawEnd(){
     //
+    edk::GU::guUseMatrix(GU_MODELVIEW);
     edk::GU::guPopMatrix();
 }
 void edk::gui2d::ObjectGui2d::runTextSize(){

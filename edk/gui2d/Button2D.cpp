@@ -40,6 +40,8 @@ void edk::gui2d::Button2D::Constructor(){
         edk::gui2d::ObjectGui2d::Constructor(); 
     if(this->classThis!=this){
         this->classThis=this;
+
+        this->typeGUI = edk::gui2d::gui2dTypeButton;
         this->type=edk::TypeObject2DButton;
         this->obj.setBorderSize(0.25f); 
     }

@@ -154,8 +154,12 @@ private:
     void updateSelection();
 
     bool drawBackground;
+    bool canCleanText;
     //save the fontColor
     edk::color4f32 fontColor;
+
+    //save textSize
+    edk::size2f32 scaleText;
 
     //save the draw origin position
     edk::uint32 originID;

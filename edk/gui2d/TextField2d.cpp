@@ -864,6 +864,10 @@ void edk::gui2d::TextField2d::Constructor(){
     if(this->classThis!=this){
         this->classThis=this;
 
+        this->canCleanText=true;
+        this->scaleText = edk::size2f32(1.5f,1.f);
+
+        this->typeGUI = edk::gui2d::gui2dTypeTextField;
         this->cursor.Constructor();
         this->meshCursor.Constructor();
         this->selection.Constructor();
@@ -1020,9 +1024,9 @@ void edk::gui2d::TextField2d::updateTextSize(edk::size2f32 sizeText,edk::size2f3
                                              0.f
                                              );
 
-        this->text.setPosition(edk::vec2f32(this->position.x + (centerSize.width*-0.5f) + (this->text.getMapScaleWidth()*0.5f),
-                                            this->position.y
-                                            ));
+        this->text.setPosition((centerSize.width*-0.5f) + (this->text.getMapScaleWidth()*0.5f) - this->text.getMapScaleWidth() * this->originID,
+                               0.f
+                               );
         this->selection.position = edk::vec2f32(this->position.x + (centerSize.width*-0.5f),
                                                 this->position.y
                                                 );
@@ -1085,13 +1089,15 @@ bool edk::gui2d::TextField2d::removeCharacter(edk::uint32 position){
         edk::char8* str = this->textVec.getStringWithLastSpace();
         if(str){
             //write the string
-            if(edk::gui2d::ObjectGui2d::writeText(str)){
+            this->canCleanText=false;
+            if(edk::gui2d::ObjectGui2d::writeText(str,this->scaleText)){
                 //
                 ret = true;
 
                 //force update the text
                 this->forceUpdate();
             }
+            this->canCleanText=true;
             free(str);
         }
         return ret;
@@ -1319,6 +1325,8 @@ void edk::gui2d::TextField2d::incrementCursor(){
             this->forceUpdate();
             this->cursor.animationSize.stop();
             this->cursor.animationSize.playForward();
+
+            this->saveStatus = edk::gui2d::gui2dTextureSize;
         }
     }
 }
@@ -1335,6 +1343,8 @@ void edk::gui2d::TextField2d::incrementCursorWithSelect(){
             this->forceUpdate();
             this->cursor.animationSize.stop();
             this->cursor.animationSize.playForward();
+
+            this->saveStatus = edk::gui2d::gui2dTextureSize;
         }
     }
 }
@@ -1346,6 +1356,8 @@ void edk::gui2d::TextField2d::decrementCursor(){
         this->forceUpdate();
         this->cursor.animationSize.stop();
         this->cursor.animationSize.playForward();
+
+        this->saveStatus = edk::gui2d::gui2dTextureSize;
     }
 }
 void edk::gui2d::TextField2d::decrementCursorWithSelect(){
@@ -1356,6 +1368,8 @@ void edk::gui2d::TextField2d::decrementCursorWithSelect(){
         this->forceUpdate();
         this->cursor.animationSize.stop();
         this->cursor.animationSize.playForward();
+
+        this->saveStatus = edk::gui2d::gui2dTextureSize;
     }
 }
 void edk::gui2d::TextField2d::moveCursorToEnd(){
@@ -1370,6 +1384,8 @@ void edk::gui2d::TextField2d::moveCursorToEnd(){
         this->forceUpdate();
         this->cursor.animationSize.stop();
         this->cursor.animationSize.playForward();
+
+        this->saveStatus = edk::gui2d::gui2dTextureSize;
     }
 }
 void edk::gui2d::TextField2d::moveCursorToEndWithSelect(){
@@ -1384,6 +1400,8 @@ void edk::gui2d::TextField2d::moveCursorToEndWithSelect(){
         this->forceUpdate();
         this->cursor.animationSize.stop();
         this->cursor.animationSize.playForward();
+
+        this->saveStatus = edk::gui2d::gui2dTextureSize;
     }
 }
 void edk::gui2d::TextField2d::moveCursorToStart(){
@@ -1394,6 +1412,8 @@ void edk::gui2d::TextField2d::moveCursorToStart(){
         this->forceUpdate();
         this->cursor.animationSize.stop();
         this->cursor.animationSize.playForward();
+
+        this->saveStatus = edk::gui2d::gui2dTextureSize;
     }
 }
 void edk::gui2d::TextField2d::moveCursorToStartWithSelect(){
@@ -1404,6 +1424,8 @@ void edk::gui2d::TextField2d::moveCursorToStartWithSelect(){
         this->forceUpdate();
         this->cursor.animationSize.stop();
         this->cursor.animationSize.playForward();
+
+        this->saveStatus = edk::gui2d::gui2dTextureSize;
     }
 }
 void edk::gui2d::TextField2d::selectAll(){
@@ -1429,8 +1451,12 @@ bool edk::gui2d::TextField2d::addCharacter(edk::char8 c){
         if(str){
             this->cursorID++;
             this->selectionMiddle = this->selectionEnd = this->selectionStart = this->cursorID;
-            edk::gui2d::ObjectGui2d::writeText(str);
+            this->canCleanText=false;
+            edk::gui2d::ObjectGui2d::writeText(str,this->scaleText);
             free(str);
+            this->canCleanText=true;
+
+            this->saveStatus = edk::gui2d::gui2dTextureSize;
             return true;
         }
         else{
@@ -1450,8 +1476,10 @@ bool edk::gui2d::TextField2d::addString(edk::char8* str){
         if(str){
             this->cursorID++;
             this->selectionMiddle = this->selectionEnd = this->selectionStart = this->cursorID;
+            this->canCleanText=false;
             edk::gui2d::ObjectGui2d::writeText(str);
             free(str);
+            this->canCleanText=true;
             return true;
         }
         else{
@@ -1505,9 +1533,11 @@ bool edk::gui2d::TextField2d::writeText(const edk::char8* text){
     //get the string
     edk::char8* str = this->textVec.getStringWithLastSpace();
     if(str){
+        this->canCleanText=false;
         if(edk::gui2d::ObjectGui2d::writeText(str)){
             ret = true;
         }
+        this->canCleanText=true;
         free(str);
         return ret;
     }
@@ -1520,9 +1550,11 @@ bool edk::gui2d::TextField2d::writeText(edk::char8* text){
     //get the string
     edk::char8* str = this->textVec.getStringWithLastSpace();
     if(str){
-        if(edk::gui2d::ObjectGui2d::writeText(str)){
+        this->canCleanText=false;
+        if(edk::gui2d::ObjectGui2d::writeText(str,this->scaleText)){
             ret = true;
         }
+        this->canCleanText=true;
         free(str);
         return ret;
     }
@@ -1535,9 +1567,12 @@ bool edk::gui2d::TextField2d::writeText(const edk::char8* text,edk::float32 scal
     //get the string
     edk::char8* str = this->textVec.getStringWithLastSpace();
     if(str){
-        if(edk::gui2d::ObjectGui2d::writeText(str,scaleWidth,scaleHeight)){
+        this->canCleanText=false;
+        if(edk::gui2d::ObjectGui2d::writeText(str,edk::size2f32(scaleWidth,scaleHeight))){
+            this->scaleText.width = scaleWidth;this->scaleText.height = scaleHeight;
             ret = true;
         }
+        this->canCleanText=true;
         free(str);
         return ret;
     }
@@ -1550,9 +1585,12 @@ bool edk::gui2d::TextField2d::writeText(edk::char8* text,edk::float32 scaleWidth
     //get the string
     edk::char8* str = this->textVec.getStringWithLastSpace();
     if(str){
-        if(edk::gui2d::ObjectGui2d::writeText(str,scaleWidth,scaleHeight)){
+        this->canCleanText=false;
+        if(edk::gui2d::ObjectGui2d::writeText(str,edk::size2f32(scaleWidth,scaleHeight))){
+            this->scaleText.width = scaleWidth;this->scaleText.height = scaleHeight;
             ret = true;
         }
+        this->canCleanText=true;
         free(str);
         return ret;
     }
@@ -1565,9 +1603,12 @@ bool edk::gui2d::TextField2d::writeText(const edk::char8* text,edk::size2f32 sca
     //get the string
     edk::char8* str = this->textVec.getStringWithLastSpace();
     if(str){
+        this->canCleanText=false;
         if(edk::gui2d::ObjectGui2d::writeText(str,scale)){
+            this->scaleText = scale;
             ret = true;
         }
+        this->canCleanText=true;
         free(str);
         return ret;
     }
@@ -1580,9 +1621,12 @@ bool edk::gui2d::TextField2d::writeText(edk::char8* text,edk::size2f32 scale){
     //get the string
     edk::char8* str = this->textVec.getStringWithLastSpace();
     if(str){
+        this->canCleanText=false;
         if(edk::gui2d::ObjectGui2d::writeText(str,scale)){
+            this->scaleText = scale;
             ret = true;
         }
+        this->canCleanText=true;
         free(str);
         return ret;
     }
@@ -1590,7 +1634,9 @@ bool edk::gui2d::TextField2d::writeText(edk::char8* text,edk::size2f32 scale){
     return false;
 }
 void edk::gui2d::TextField2d::cleanText(){
-    this->cleanTextVariables(NULL);
+    if(this->canCleanText){
+        this->cleanTextVariables(NULL);
+    }
     return edk::gui2d::ObjectGui2d::cleanText();
 }
 //remove or delete characters
@@ -1606,8 +1652,10 @@ void edk::gui2d::TextField2d::deleteCharacter(){
     }
     edk::char8* str = this->textVec.getStringWithLastSpace();
     if(str){
-        edk::gui2d::ObjectGui2d::writeText(str);
+        this->canCleanText=false;
+        edk::gui2d::ObjectGui2d::writeText(str,this->scaleText);
         free(str);
+        this->canCleanText=true;
     }
     else{
         edk::gui2d::ObjectGui2d::cleanText();
@@ -1617,6 +1665,8 @@ void edk::gui2d::TextField2d::deleteCharacter(){
     this->forceUpdate();
     this->cursor.animationSize.stop();
     this->cursor.animationSize.playForward();
+
+    this->saveStatus = edk::gui2d::gui2dTextureSize;
 }
 void edk::gui2d::TextField2d::removeCharacter(){
     bool remove = false;
@@ -1637,7 +1687,9 @@ void edk::gui2d::TextField2d::removeCharacter(){
     if(remove){
         edk::char8* str = this->textVec.getStringWithLastSpace();
         if(str){
-            edk::gui2d::ObjectGui2d::writeText(str);
+            this->canCleanText=false;
+            edk::gui2d::ObjectGui2d::writeText(str,this->scaleText);
+            this->canCleanText=true;
             free(str);
         }
         else{
@@ -1650,6 +1702,8 @@ void edk::gui2d::TextField2d::removeCharacter(){
     this->forceUpdate();
     this->cursor.animationSize.stop();
     this->cursor.animationSize.playForward();
+
+    this->saveStatus = edk::gui2d::gui2dTextureSize;
 }
 //get string writed
 edk::char8* edk::gui2d::TextField2d::getText(){
