@@ -105,6 +105,8 @@ void* edkThreadFunc(void*id){
 
         //run the function
         temp->runFunc();
+
+        temp->kill();
     }
     return (void*)NULL;
 }
