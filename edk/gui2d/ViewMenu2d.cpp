@@ -851,7 +851,7 @@ void edk::gui2d::ViewMenu2d::update(edk::WindowEvents* events){
     if(events->mouseMoved || this->runSelection){
         //
         this->runSelection = true;
-        this->testSelection(events->mousePos);
+        this->testSelection(events->mousePosView);
     }
 }
 void edk::gui2d::ViewMenu2d::drawSelectionScene(){

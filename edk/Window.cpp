@@ -541,8 +541,8 @@ void edk::Window::updateViews(){
 void edk::Window::updateView(edk::View* view,edk::vec2f32 screenPosition){
     //test the viewGU
     if(view){
-        this->events.mousePos.x -= (edk::int32)view->animatedFrame.origin.x;
-        this->events.mousePos.y -= (edk::int32)view->animatedFrame.origin.y;
+        this->events.mousePosView.x -= (edk::int32)view->animatedFrame.origin.x;
+        this->events.mousePosView.y -= (edk::int32)view->animatedFrame.origin.y;
         //update the position in the screen
         view->positionInWindow=view->frame.origin+screenPosition;
         //update the animations on the view
@@ -564,8 +564,8 @@ void edk::Window::updateView(edk::View* view,edk::vec2f32 screenPosition){
                 }
             }
         }
-        this->events.mousePos.x += (edk::int32)view->animatedFrame.origin.x;
-        this->events.mousePos.y += (edk::int32)view->animatedFrame.origin.y;
+        this->events.mousePosView.x += (edk::int32)view->animatedFrame.origin.x;
+        this->events.mousePosView.y += (edk::int32)view->animatedFrame.origin.y;
     }
 }
 //contactView
@@ -1444,7 +1444,7 @@ bool edk::Window::loadEvents(){
                                                   (edk::int32)mouseTemp.y-(edk::int32)this->saveMousePos.y
                                                   );
             //salva a nova posicao do mouse
-            this->events.mousePos = edk::vec2i32(mouseTemp.x,mouseTemp.y);
+            this->events.mousePosView = edk::vec2i32(mouseTemp.x,mouseTemp.y);
         }
         //FIM MOUSE MOVIDO
         ///////////////////////////////////////////////////////////
@@ -1527,9 +1527,9 @@ bool edk::Window::loadEvents(){
 
     //load mousePosition
     //events.mousePosWindow = events.mousePos = edk::vec2i32( input.GetMouseX(),input.GetMouseY());//1.6
-    events.mousePosWindow = events.mousePos = edk::vec2i32( sf::Mouse::getPosition(this->window).x,sf::Mouse::getPosition(this->window).y);//2.0
-    this->saveMousePos.x = this->events.mousePos.x;
-    this->saveMousePos.y = this->events.mousePos.y;
+    events.mousePosWindow = events.mousePosView = edk::vec2i32( sf::Mouse::getPosition(this->window).x,sf::Mouse::getPosition(this->window).y);//2.0
+    this->saveMousePos.x = this->events.mousePosView.x;
+    this->saveMousePos.y = this->events.mousePosView.y;
     events.mousePosWorld = edk::vec2i32( sf::Mouse::getPosition().x,sf::Mouse::getPosition().y);//2.0
 
     //save focus

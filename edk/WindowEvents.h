@@ -178,7 +178,7 @@ public:
             this->mouseExit = event->mouseExit;
             this->resizePos = event->resizePos;
             this->windowSize = event->windowSize;
-            this->mousePos = event->mousePos;
+            this->mousePosView = event->mousePosView;
             this->mousePosWorld = event->mousePosWorld;
             this->mousePosWindow = event->mousePosWindow;
             this->mouseMove = event->mouseMove;
@@ -562,8 +562,8 @@ public:
                    "\n        MousePosWorld(%d,%d)"
                    "\n        MousePosWindow(%d,%d)"
                    "\n        MouseMove(%d,%d)"
-                   ,this->mousePos.x
-                   ,this->mousePos.y
+                   ,this->mousePosView.x
+                   ,this->mousePosView.y
                    ,this->mousePosWorld.x
                    ,this->mousePosWorld.y
                    ,this->mousePosWindow.x
@@ -579,8 +579,8 @@ public:
                    "\n        MousePosWorld(%d,%d)"
                    "\n        MousePosWindow(%d,%d)"
                    "\n        MouseMove(%d,%d)"
-                   ,this->mousePos.x
-                   ,this->mousePos.y
+                   ,this->mousePosView.x
+                   ,this->mousePosView.y
                    ,this->mousePosWorld.x
                    ,this->mousePosWorld.y
                    ,this->mousePosWindow.x
@@ -596,8 +596,8 @@ public:
                    "\n        MousePosWorld(%d,%d)"
                    "\n        MousePosWindow(%d,%d)"
                    "\n        MouseMove(%d,%d)"
-                   ,this->mousePos.x
-                   ,this->mousePos.y
+                   ,this->mousePosView.x
+                   ,this->mousePosView.y
                    ,this->mousePosWorld.x
                    ,this->mousePosWorld.y
                    ,this->mousePosWindow.x
@@ -2265,7 +2265,7 @@ public:
                         ret=true;
                         break;
                     case edk::eventWindowMousePos:
-                        edk::vec2i32(file->readBin(&this->mousePos.x,sizeof(this->mousePos.x)),file->readBin(&this->mousePos.y,sizeof(this->mousePos.y)));
+                        edk::vec2i32(file->readBin(&this->mousePosView.x,sizeof(this->mousePosView.x)),file->readBin(&this->mousePosView.y,sizeof(this->mousePosView.y)));
                         ret=true;
                         break;
                     case edk::eventWindowMousePosWorld:
@@ -2537,7 +2537,7 @@ public:
         this->buttonExit = this->lostFocus = this->gainedFocus = this->resize = this->mouseMoved = this->mouseEnter = this->mouseExit = false;
         this->resizePos = edk::size2i32(0,0);
         this->windowSize = edk::size2ui32(0u,0u);
-        this->mousePos = edk::vec2i32(0,0);
+        this->mousePosView = edk::vec2i32(0,0);
         this->mousePosWorld = edk::vec2i32(0,0);
         this->mousePosWindow = edk::vec2i32(0,0);
         this->mouseMove = edk::vec2i32(0,0);
@@ -2640,7 +2640,7 @@ public:
     edk::vec2i32 mouseMoveGlobal;
     //Mouse Movido
     bool mouseMoved;
-    edk::vec2i32 mousePos;       //mouse position inside the view
+    edk::vec2i32 mousePosView;       //mouse position inside the view
     edk::vec2i32 mousePosWorld;  //mouse position inside the world
     edk::vec2i32 mousePosWindow; //mouse position inside the window
     edk::vec2i32 mouseMove;

@@ -157,18 +157,11 @@ void edk::Camera2D::setSizeH(edk::float32 height){
 //Set a rectangle to the camera
 bool edk::Camera2D::setRectPoints(edk::rectf32 rect){
     //test the size
-    if(rect.size.width && rect.size.height){
-        //set the position of the camera
-        this->position.x = rect.origin.x + (rect.size.width*0.5f);
-        this->position.y = rect.origin.y + (rect.size.height*0.5f);
-        //copi the new size for the camera
-        this->size = rect.size * 0.5f;
-
-        //then return true
-        return true;
-    }
-    //else return false
-    return false;
+    this->size.width = rect.size.width - rect.origin.x;
+    this->size.height = rect.size.height - rect.origin.y;
+    this->position.x = rect.origin.x + (this->size.width*0.5f);
+    this->position.y = rect.origin.y + (this->size.height*0.5f);
+    return true;
 }
 bool edk::Camera2D::setRectPoints(edk::vec2f32 origin,size2f32 size){
     //else return false

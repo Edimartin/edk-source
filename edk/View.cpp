@@ -155,10 +155,10 @@ void edk::View::runLoad(edk::rectf32 outsideViewOrigin){
     this->paused=false;
     //save the first outsideViewOrigin
     this->saveOutsideFrame = outsideViewOrigin;
-    //run the resize function
-    this->resize(outsideViewOrigin);
     //then run load
     this->load(outsideViewOrigin);
+    //run the resize function
+    this->resize(outsideViewOrigin);
 }
 void edk::View::runUnload(){
     this->paused=false;

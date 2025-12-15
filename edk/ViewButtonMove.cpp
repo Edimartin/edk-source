@@ -56,7 +56,7 @@ void edk::ViewButtonMove::updateView(edk::WindowEvents* events){
     //test if is holding the mouse
     if(this->holdedMouse){
         //load the new position
-        edk::vec2f32 newPosition = edk::vec2f32((edk::float32)events->mousePos.x,(edk::float32)events->mousePos.y);
+        edk::vec2f32 newPosition = edk::vec2f32((edk::float32)events->mousePosView.x,(edk::float32)events->mousePosView.y);
         //save the first position
         if(!this->saveFirst){
             this->saveMousePos = newPosition;

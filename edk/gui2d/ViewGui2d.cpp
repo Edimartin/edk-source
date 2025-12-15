@@ -291,8 +291,8 @@ void edk::gui2d::ViewGui2d::update(edk::WindowEvents* events){
     this->mouseStatus = edk::gui2d::gui2dMouseNothing;
 
     //calculate the mouse position in the world view
-    edk::vec2f32 mousePercent = edk::vec2f32((edk::float32)events->mousePos.x / this->frame.size.width
-                                             ,(edk::float32)events->mousePos.y / this->frame.size.height
+    edk::vec2f32 mousePercent = edk::vec2f32((edk::float32)events->mousePosView.x / this->frame.size.width
+                                             ,(edk::float32)events->mousePosView.y / this->frame.size.height
                                              );
     edk::vec2f32 mousePosition = edk::vec2f32((this->camera.getSize().width * mousePercent.x)
                                               - (this->camera.getSize().width*0.5f)
@@ -423,7 +423,7 @@ void edk::gui2d::ViewGui2d::update(edk::WindowEvents* events){
         }
 
         //run the selection
-        this->testSelection(events->mousePos);
+        this->testSelection(events->mousePosView);
     }
     else{
         this->selectionExec = false;

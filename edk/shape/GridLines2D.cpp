@@ -83,8 +83,8 @@ edk::float32 edk::shape::GridLines2D::getDistanceLinesBold(){
 void edk::shape::GridLines2D::draw(){
     //
     edk::GU::guPushMatrix();
-    edk::GU::guTranslate2f32(this->position);
-    edk::GU::guRotateZf32(this->angle);
+    //edk::GU::guTranslate2f32(this->position);
+    //edk::GU::guRotateZf32(this->angle);
 
     edk::GU::guLineWidth(1u);
 
@@ -93,28 +93,20 @@ void edk::shape::GridLines2D::draw(){
     //draw the lines
     edk::GU::guBegin(GU_LINES);
     //WIDTH
-    this->p1=this->size.height*-0.5;
-    this->p2=this->size.height*0.5;
-    this->limit = this->size.width*-0.5;
-    for(this->i=0.0f;this->i>=this->limit;this->i-=this->distanceLines){
-        edk::GU::guVertex2f32(this->i,this->p1);
-        edk::GU::guVertex2f32(this->i,this->p2);
-    }
-    this->limit = this->size.width*0.5;
-    for(this->i=0.f;this->i<=this->limit;this->i+=this->distanceLines){
+    this->p1=(this->size.height*-0.5)+this->position.y;
+    this->p2=(this->size.height*0.5)+this->position.y;
+    this->limit = (this->size.width*0.5) + this->position.x;
+    this->i = ((edk::int32)((this->position.x-(this->size.width*0.5f))/ this->distanceLines) * this->distanceLines);
+    for(;this->i<=this->limit;this->i+=this->distanceLines){
         edk::GU::guVertex2f32(this->i,this->p1);
         edk::GU::guVertex2f32(this->i,this->p2);
     }
     //HEIGHT
-    this->p1=this->size.width*-0.5;
-    this->p2=this->size.width*0.5;
-    this->limit = this->size.height*-0.5;
-    for(this->i=0.f;this->i>=this->limit;this->i-=this->distanceLines){
-        edk::GU::guVertex2f32(this->p1,this->i);
-        edk::GU::guVertex2f32(this->p2,this->i);
-    }
-    this->limit = this->size.height*0.5;
-    for(this->i=0.f;this->i<=this->limit;this->i+=this->distanceLines){
+    this->p1=(this->size.width*-0.5)+this->position.x;
+    this->p2=(this->size.width*0.5)+this->position.x;
+    this->limit = (this->size.height*0.5)+this->position.y;
+    this->i = ((edk::int32)((this->position.y-(this->size.height*0.5f))/ this->distanceLines) * this->distanceLines);
+    for(;this->i<=this->limit;this->i+=this->distanceLines){
         edk::GU::guVertex2f32(this->p1,this->i);
         edk::GU::guVertex2f32(this->p2,this->i);
     }
@@ -127,28 +119,20 @@ void edk::shape::GridLines2D::draw(){
     //draw the lines bold
     edk::GU::guBegin(GU_LINES);
     //WIDTH
-    this->p1=this->size.height*-0.5;
-    this->p2=this->size.height*0.5;
-    this->limit = this->size.width*-0.5;
-    for(this->i=0.f;this->i>=this->limit;this->i-=this->distanceLinesBold){
-        edk::GU::guVertex2f32(this->i,this->p1);
-        edk::GU::guVertex2f32(this->i,this->p2);
-    }
-    this->limit = this->size.width*0.5;
-    for(this->i=0.f;this->i<=this->limit;this->i+=this->distanceLinesBold){
+    this->p1=(this->size.height*-0.5)+this->position.y;
+    this->p2=(this->size.height*0.5)+this->position.y;
+    this->limit = (this->size.width*0.5) + this->position.x;
+    this->i = ((edk::int32)((this->position.x-(this->size.width*0.5f))/ this->distanceLinesBold) * this->distanceLinesBold);
+    for(;this->i<=this->limit;this->i+=this->distanceLinesBold){
         edk::GU::guVertex2f32(this->i,this->p1);
         edk::GU::guVertex2f32(this->i,this->p2);
     }
     //HEIGHT
-    this->p1=this->size.width*-0.5;
-    this->p2=this->size.width*0.5;
-    this->limit = this->size.height*-0.5;
-    for(this->i=0.f;this->i>=this->limit;this->i-=this->distanceLinesBold){
-        edk::GU::guVertex2f32(this->p1,this->i);
-        edk::GU::guVertex2f32(this->p2,this->i);
-    }
-    this->limit = this->size.height*0.5;
-    for(this->i=0.f;this->i<=this->limit;this->i+=this->distanceLinesBold){
+    this->p1=(this->size.width*-0.5)+this->position.x;
+    this->p2=(this->size.width*0.5)+this->position.x;
+    this->limit = (this->size.height*0.5) + this->position.y;
+    this->i = ((edk::int32)((this->position.y-(this->size.height*0.5f))/ this->distanceLinesBold) * this->distanceLinesBold);
+    for(;this->i<=this->limit;this->i+=this->distanceLinesBold){
         edk::GU::guVertex2f32(this->p1,this->i);
         edk::GU::guVertex2f32(this->p2,this->i);
     }
