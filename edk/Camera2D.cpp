@@ -161,6 +161,8 @@ bool edk::Camera2D::setRectPoints(edk::rectf32 rect){
     this->size.height = rect.size.height - rect.origin.y;
     this->position.x = rect.origin.x + (this->size.width*0.5f);
     this->position.y = rect.origin.y + (this->size.height*0.5f);
+    this->size.width*=0.5f;
+    this->size.height*=0.5f;
     return true;
 }
 bool edk::Camera2D::setRectPoints(edk::vec2f32 origin,size2f32 size){

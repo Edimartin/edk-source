@@ -2185,7 +2185,11 @@ void edk::ViewButton::drawPolygon(rectf32 outsideViewOrigin){
 
     if(symbolCodeTemp){
         //
-        this->camTemp.setRectPoints(-1.1f,-1.1f,2.1f,2.1f);
+        this->camTemp.setRectPoints(-1.f,
+                                    -1.f,
+                                    1.f,
+                                    1.f
+                                    );
         this->camTemp.draw();
         //draw the polygon with UV Map
         edk::GU::guUseMatrix(GU_MODELVIEW);
@@ -2241,10 +2245,10 @@ void edk::ViewButton::drawPolygon(rectf32 outsideViewOrigin){
 
         edk::size2f32 textSize = edk::size2f32(this->text.getMapSize().width,this->text.getMapSize().height);
         this->camTemp.setRectPoints(-0.5f,
-                              -0.5f,
-                              textSize.width,
-                              textSize.height
-                              );
+                                    -0.5f,
+                                    textSize.width,
+                                    textSize.height
+                                    );
 
         this->camTemp.draw();
 
@@ -2252,19 +2256,19 @@ void edk::ViewButton::drawPolygon(rectf32 outsideViewOrigin){
         if(proportionInside > proportionSymbol){
             //
             this->camTemp.setRectPoints(-0.5f,
-                                  -0.5f,
-                                  insideSize.width / insideSize.height,
-                                  textSize.height
-                                  );
+                                        -0.5f,
+                                        insideSize.width / insideSize.height,
+                                        textSize.height
+                                        );
             this->camTemp.position.x -= ((this->camTemp.getSize().width - textSize.width) * 0.5f);
         }
         else{
             //
             this->camTemp.setRectPoints(-0.5f,
-                                  0.0f,
-                                  textSize.width,
-                                  insideSize.height / ((textSize.height / textSize.width) * insideSize.width)
-                                  );
+                                        0.0f,
+                                        textSize.width,
+                                        insideSize.height / ((textSize.height / textSize.width) * insideSize.width)
+                                        );
             this->camTemp.position.y -= (this->camTemp.getSize().height*0.5);
         }
         if(!edk::GU::guUsingMatrix(GU_MODELVIEW)){
