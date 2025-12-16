@@ -2253,8 +2253,13 @@ void edk::ViewButton::drawPolygon(rectf32 outsideViewOrigin){
         this->camTemp.draw();
 
         proportionSymbol = textSize.width/textSize.height;
+        if(!insideSize.height){
+            insideSize.height=1u;
+        }
+        if(!insideSize.width){
+            insideSize.width=1u;
+        }
         if(proportionInside > proportionSymbol){
-            //
             this->camTemp.setRectPoints(-0.5f,
                                         -0.5f,
                                         insideSize.width / insideSize.height,

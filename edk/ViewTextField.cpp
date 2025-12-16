@@ -102,7 +102,7 @@ void edk::ViewTextField::TextField::Destructor(){
 //Set the entryPosition
 bool edk::ViewTextField::TextField::setEntryPosition(edk::float32 x){
     //convert the X and Y to the camera
-    edk::rectf32 cameraRect = this->camera.getRectPositionAndSize();
+    edk::rectf32 cameraRect = this->camera.getRectPoints();
     edk::float32 worldPositionX = cameraRect.origin.x + ((x/this->frame.size.width) * cameraRect.size.width)
             -((this->borderSize/this->frame.size.width)* cameraRect.size.width);
 
@@ -113,7 +113,7 @@ bool edk::ViewTextField::TextField::setEntryPosition(edk::float32 x){
     this->writePosition = (edk::uint32)(worldPositionX + 0.5f);
 
     this->setWritePosition(this->writePosition);
-    return false;
+    return true;
 }
 
 void edk::ViewTextField::TextField::eventMousePressed(edk::vec2f32 point ,edk::uint32 button){
@@ -840,16 +840,12 @@ void edk::ViewTextField::TextField::setWritePosition(edk::uint32 position){
         edk::float32 move = camRect.origin.x-(edk::float32)this->writePosition;
         camRect.size.width -= move;
         camRect.origin.x -= move;
-        camRect.size.width-=camRect.origin.x;
-        camRect.size.height-=camRect.origin.y;
         this->camera.setRectPoints(camRect);
     }
     else if(this->writePosition>camRect.size.width){
         edk::float32 move = (edk::float32)this->writePosition-camRect.size.width;
         camRect.origin.x += move;
         camRect.size.width += move;
-        camRect.size.width-=camRect.origin.x;
-        camRect.size.height-=camRect.origin.y;
         this->camera.setRectPoints(camRect);
     }
 }
