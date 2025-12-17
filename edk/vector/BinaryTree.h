@@ -159,7 +159,7 @@ public:
         edk::vector::BinaryTree<obj*>::update();
     }
     //run the function update
-    runFunctionUpdate(){
+    void runFunctionUpdate(){
         this->runUpdateFunction((void (edk::vector::BinaryTree<obj*>::*)(obj*))
                                 &treeObj::functionUpdate
                                 );

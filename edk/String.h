@@ -535,6 +535,8 @@ public:
     static bool uriUnescape(const edk::char8* str,const edk::char8* dest);
     static edk::char8* uriUnescape(edk::char8* str);
     static edk::char8* uriUnescape(const edk::char8* str);
+
+    static bool isCharEndLine(edk::char8 c);
 private:
     static edk::char8* int32ToMinusStr(edk::int32 value);
     static bool int32ToMinusStr(edk::int32 value,edk::char8* dest);

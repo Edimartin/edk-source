@@ -130,6 +130,10 @@ void edk::ViewGU::processHits(edk::int32 hits, edk::uint32 buffer[]){
 void edk::ViewGU::selectObject(edk::uint32 ,edk::int32 ,edk::float32 ,edk::float32 ,edk::vector::Stack<edk::uint32>* ){
     //
 }
+//process the end of selection
+void edk::ViewGU::finishSelection(){
+    //
+}
 //run selection function
 void edk::ViewGU::runSelectionFunction(){
     //test if need run the selection
@@ -164,6 +168,8 @@ void edk::ViewGU::runSelectionFunction(){
 
         edk::int32 total = edk::GU::guRenderMode(GU_RENDER);
         this->processHits(total,buffer);
+
+        this->finishSelection();
     }
 }
 //get true if go run selection
@@ -204,7 +210,8 @@ void edk::ViewGU::deleteBackground(){
 
 //test the selection
 void edk::ViewGU::testSelection(edk::vec2f32 position,edk::size2f32 size){
-    //
+    if(edk::Math::equal(size.width,0.f)) size.width=1.f;
+    if(edk::Math::equal(size.height,0.f)) size.height=1.f;
     this->runSelection = true;
     this->selectionPosition = edk::vec2f32(position.x + this->rectTemp.origin.x,((position.y*-1)+this->frame.size.height) + this->rectTemp.origin.y);
     this->selectionSize = size;
@@ -216,6 +223,8 @@ void edk::ViewGU::testSelection(edk::float32 x,edk::float32 y,edk::float32 width
     this->testSelection(edk::vec2f32(x,y),edk::size2f32(width,height));
 }
 void edk::ViewGU::testSelection(edk::vec2i32 position,edk::size2f32 size){
+    if(edk::Math::equal(size.width,0.f)) size.width=1.f;
+    if(edk::Math::equal(size.height,0.f)) size.height=1.f;
     this->runSelection = true;
     this->selectionPosition = edk::vec2f32(position.x + this->rectTemp.origin.x,((position.y*-1)+this->frame.size.height) + this->rectTemp.origin.y);
     this->selectionSize = size;

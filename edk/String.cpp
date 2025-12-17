@@ -6468,3 +6468,15 @@ edk::char8* edk::String::uriUnescape(edk::char8* str){
 edk::char8* edk::String::uriUnescape(const edk::char8* str){
     return edk::String::uriUnescape((edk::char8*) str);
 }
+
+bool edk::String::isCharEndLine(edk::char8 c){
+    switch(c){
+    case '\n':
+        return true;
+    //case 10u:
+    //    return true;
+    case 13u:
+        return true;
+    }
+    return false;
+}

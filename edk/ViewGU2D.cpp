@@ -93,6 +93,31 @@ void edk::ViewGU2D::drawPolygon(edk::rectf32 outsideViewOrigin){
 
     edk::GU::guDisableAllLights();
 }
+//change point position beetween screen and world
+edk::vec2f32 edk::ViewGU2D::positionScreenToWorld(edk::vec2f32 position){
+    edk::rectf32 rectCam = this->camera.getRectPoints();
+    return edk::vec2f32(((position.x/this->frame.size.width)*this->camera.getSize().width)
+                        + rectCam.origin.x
+                        ,
+                        ((((position.y/this->frame.size.height)*-1.f)+1.f)*this->camera.getSize().height)
+                        + rectCam.origin.y
+                        );
+}
+edk::vec2f32 edk::ViewGU2D::positionScreenToWorld(edk::float32 x,edk::float32 y){
+    return this->positionScreenToWorld(edk::vec2f32(x,y));
+}
+edk::vec2f32 edk::ViewGU2D::positionWorldToScreen(edk::vec2f32 position){
+    edk::rectf32 rectCam = this->camera.getRectPoints();
+    return edk::vec2f32((((position.x - rectCam.origin.x) / this->camera.getSize().width)
+                         * (this->frame.size.width - this->frame.origin.x))
+                        ,
+                        (((((position.y - rectCam.origin.y) / this->camera.getSize().height) * -1.f)+1.f)
+                         * (this->frame.size.height - this->frame.origin.y))
+                        );
+}
+edk::vec2f32 edk::ViewGU2D::positionWorldToScreen(edk::float32 x,edk::float32 y){
+    return this->positionWorldToScreen(edk::vec2f32(x,y));
+}
 
 
 //draw

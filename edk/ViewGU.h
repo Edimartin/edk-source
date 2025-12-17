@@ -126,6 +126,8 @@ protected:
     virtual void processHits(edk::int32 hits, edk::uint32 buffer[]);
     //process the selection
     virtual void selectObject(edk::uint32 position,edk::int32 objects,edk::float32 near,edk::float32 far,edk::vector::Stack<edk::uint32>* names);
+    //process the end of selection
+    virtual void finishSelection();
     //run selection function
     void runSelectionFunction();
     //get true if go run selection
