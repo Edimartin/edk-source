@@ -49,6 +49,8 @@ void edk::gui2d::ViewGui2d::Constructor(){
         this->listCallback.Constructor();
         this->list.Constructor();
 
+        this->mouseMoving=false;
+        this->objPressed=NULL;
         this->idCounter = 0u;
         this->mouseStatus = edk::gui2d::gui2dMouseNothing;
         this->objPressed = NULL;

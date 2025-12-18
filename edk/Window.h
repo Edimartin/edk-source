@@ -366,6 +366,7 @@ private:
     void updateViewSize();
 
     void cleanEvents();
+    void cleanEventsMouse();
     //update joystick events
     void updateControllerEvents();
     //save focus

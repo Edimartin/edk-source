@@ -203,6 +203,70 @@ public:
         }
         return false;
     }
+    bool cloneFromSaved(edk::WindowEvents* event){
+        //first clean this events
+        this->clean();
+        //test if have the event
+        if(event){
+            edk::uint32 size = 0u;
+            edk::uint32 size2 = 0u;
+            //copy the values
+            //this->buttonExit = event->buttonExit;
+            //this->lostFocus = event->lostFocus;
+            //this->gainedFocus = event->gainedFocus;
+            //this->resize = event->resize;
+            //this->mouseMoved = event->mouseMoved;
+            //this->mouseEnter = event->mouseEnter;
+            //this->mouseExit = event->mouseExit;
+            //this->resizePos = event->resizePos;
+            //this->windowSize = event->windowSize;
+            //this->mousePosView = event->mousePosView;
+            //this->mousePosWorld = event->mousePosWorld;
+            //this->mousePosWindow = event->mousePosWindow;
+            this->mouseMove = event->mouseMove;
+            //this->keyPressed.cloneFrom(&event->keyPressed);
+            //this->keyRelease.cloneFrom(&event->keyRelease);
+            size = event->keyHolded.size();
+            for(edk::uint32 i=0u;i<size;i++){
+                if(!event->keyRelease.haveElement(event->keyHolded.get(i))){
+                    this->keyHolded.pushBack(event->keyHolded.get(i));
+                }
+            }
+            //this->keyText.cloneFrom(&event->keyText);
+            //this->mousePressed.cloneFrom(&event->mousePressed);
+            //this->mouseRelease.cloneFrom(&event->mouseRelease);
+            size = event->mouseHolded.size();
+            for(edk::uint32 i=0u;i<size;i++){
+                if(!event->mouseRelease.haveElement(event->mouseHolded.get(i))){
+                    this->mouseHolded.pushBack(event->mouseHolded.get(i));
+                }
+            }
+            //this->mouseDoubleClick.cloneFrom(&event->mouseDoubleClick);
+            //this->mouseScrollWheelVertical = event->mouseScrollWheelVertical;
+            //this->mouseScrollWheelHorizontal = event->mouseScrollWheelHorizontal;
+            //this->secondPassed = event->secondPassed;
+            //this->secondsGlobal = event->secondsGlobal;
+            //this->controllerPressed.cloneFrom(&event->controllerPressed);
+            size = event->controllerHolded.getControllerSize();
+            for(edk::uint32 i=0u;i<size;i++){
+                size2 = event->controllerHolded.getControllerButtonSizeByID(i);
+                for(edk::uint32 j=0u;j<size2;j++){
+                    if(!event->controllerReleased.haveButtonID(event->controllerHolded.getControllerIDInPosition(i),
+                                                               event->controllerHolded.getControllerButtonInPosition(i,j)
+                                                               )
+                            ){
+                        this->controllerHolded.addButton(event->controllerHolded.getControllerIDInPosition(i),
+                                                         event->controllerHolded.getControllerButtonInPosition(i,j)
+                                                         );
+                    }
+                }
+            }
+            //this->controllerReleased.cloneFrom(&event->controllerReleased);
+            //this->controllerAxisMoved.cloneFrom(&event->controllerAxisMoved);
+            return true;
+        }
+        return false;
+    }
     //test if the events have something
     bool haveSomething(){
         if(this->buttonExit
@@ -1029,6 +1093,8 @@ public:
             }
             if(this->resizePos.width || this->resizePos.height){
                 file->writeBin((edk::uint32)edk::eventWindowResizePos);
+                file->writeBin(this->resizePos.width);
+                file->writeBin(this->resizePos.height);
                 writeWindowSize=true;
                 ret=true;
             }
@@ -1036,6 +1102,8 @@ public:
 
             if(this->mouseMove.x || this->mouseMove.y){
                 file->writeBin((edk::uint32)edk::eventWindowMouseMove);
+                file->writeBin(this->mouseMove.x);
+                file->writeBin(this->mouseMove.y);
                 ret=true;
             }
             if(this->keyPressed.size()){
@@ -1191,21 +1259,28 @@ public:
                 ret=true;
             }
 
-
             if(writeWindowSize){
                 file->writeBin((edk::uint32)edk::eventWindowWindowSize);
+                file->writeBin(this->windowSize.width);
+                file->writeBin(this->windowSize.height);
                 ret=true;
             }
             if(writeMousePos){
                 file->writeBin((edk::uint32)edk::eventWindowMousePos);
+                file->writeBin(this->mousePosView.x);
+                file->writeBin(this->mousePosView.y);
                 ret=true;
             }
             if(writeMousePosWindow){
-                file->writeBin((edk::uint32)edk::eventWindowMousePosWorld);
+                file->writeBin((edk::uint32)edk::eventWindowMousePosWindow);
+                file->writeBin(this->mousePosWindow.x);
+                file->writeBin(this->mousePosWindow.y);
                 ret=true;
             }
             if(writeMousePosWorld){
-                file->writeBin((edk::uint32)edk::eventWindowMousePosWindow);
+                file->writeBin((edk::uint32)edk::eventWindowMousePosWorld);
+                file->writeBin(this->mousePosWorld.x);
+                file->writeBin(this->mousePosWorld.y);
                 ret=true;
             }
             file->flush();
@@ -1503,6 +1578,8 @@ public:
                 case edk::eventWindowResizePos:
                     if(this->resizePos.width || this->resizePos.height){
                         file->writeBin((edk::uint32)edk::eventWindowResizePos);
+                        file->writeBin(this->resizePos.width);
+                        file->writeBin(this->resizePos.height);
                         writeWindowSize=true;
                         ret=true;
                     }
@@ -1522,6 +1599,8 @@ public:
                 case edk::eventWindowMouseMove:
                     if(this->mouseMove.x || this->mouseMove.y){
                         file->writeBin((edk::uint32)edk::eventWindowMouseMove);
+                        file->writeBin(this->mouseMove.x);
+                        file->writeBin(this->mouseMove.y);
                         ret=true;
                     }
                     break;
@@ -1704,18 +1783,26 @@ public:
             }
             if(writeWindowSize){
                 file->writeBin((edk::uint32)edk::eventWindowWindowSize);
+                file->writeBin(this->windowSize.width);
+                file->writeBin(this->windowSize.height);
                 ret=true;
             }
             if(writeMousePos){
                 file->writeBin((edk::uint32)edk::eventWindowMousePos);
+                file->writeBin(this->mousePosView.x);
+                file->writeBin(this->mousePosView.y);
                 ret=true;
             }
             if(writeMousePosWindow){
                 file->writeBin((edk::uint32)edk::eventWindowMousePosWorld);
+                file->writeBin(this->mousePosWorld.x);
+                file->writeBin(this->mousePosWorld.y);
                 ret=true;
             }
             if(writeMousePosWorld){
                 file->writeBin((edk::uint32)edk::eventWindowMousePosWindow);
+                file->writeBin(this->mousePosWindow.x);
+                file->writeBin(this->mousePosWindow.y);
                 ret=true;
             }
             //
@@ -1818,6 +1905,9 @@ public:
                 case edk::eventWindowMouseMove:
                     if(this->mouseMove.x || this->mouseMove.y){
                         sizeElements++;
+                        writeMousePos=true;
+                        writeMousePosWorld=true;
+                        writeMousePosWindow=true;
                         ret=true;
                     }
                     break;
@@ -2002,6 +2092,8 @@ public:
                 case edk::eventWindowResizePos:
                     if(this->resizePos.width || this->resizePos.height){
                         file->writeBin((edk::uint32)edk::eventWindowResizePos);
+                        file->writeBin(this->resizePos.width);
+                        file->writeBin(this->resizePos.height);
                         writeWindowSize=true;
                         ret=true;
                     }
@@ -2021,6 +2113,8 @@ public:
                 case edk::eventWindowMouseMove:
                     if(this->mouseMove.x || this->mouseMove.y){
                         file->writeBin((edk::uint32)edk::eventWindowMouseMove);
+                        file->writeBin(this->mouseMove.x);
+                        file->writeBin(this->mouseMove.y);
                         ret=true;
                     }
                     break;
@@ -2197,18 +2291,26 @@ public:
             }
             if(writeWindowSize){
                 file->writeBin((edk::uint32)edk::eventWindowWindowSize);
+                file->writeBin(this->windowSize.width);
+                file->writeBin(this->windowSize.height);
                 ret=true;
             }
             if(writeMousePos){
                 file->writeBin((edk::uint32)edk::eventWindowMousePos);
+                file->writeBin(this->mousePosView.x);
+                file->writeBin(this->mousePosView.y);
                 ret=true;
             }
             if(writeMousePosWindow){
                 file->writeBin((edk::uint32)edk::eventWindowMousePosWorld);
+                file->writeBin(this->mousePosWorld.x);
+                file->writeBin(this->mousePosWorld.y);
                 ret=true;
             }
             if(writeMousePosWorld){
                 file->writeBin((edk::uint32)edk::eventWindowMousePosWindow);
+                file->writeBin(this->mousePosWindow.x);
+                file->writeBin(this->mousePosWindow.y);
                 ret=true;
             }
             file->flush();
@@ -2257,27 +2359,33 @@ public:
                         ret=true;
                         break;
                     case edk::eventWindowResizePos:
-                        edk::size2i32(file->readBin(&this->resizePos.width,sizeof(this->resizePos.width)),file->readBin(&this->resizePos.height,sizeof(this->resizePos.height)));
+                        file->readBin(&this->resizePos.width,sizeof(this->resizePos.width));
+                        file->readBin(&this->resizePos.height,sizeof(this->resizePos.height));
                         ret=true;
                         break;
                     case edk::eventWindowWindowSize:
-                        edk::size2i32(file->readBin(&this->windowSize.width,sizeof(this->windowSize.width)),file->readBin(&this->windowSize.height,sizeof(this->windowSize.height)));
+                        file->readBin(&this->windowSize.width,sizeof(this->windowSize.width));
+                        file->readBin(&this->windowSize.height,sizeof(this->windowSize.height));
                         ret=true;
                         break;
                     case edk::eventWindowMousePos:
-                        edk::vec2i32(file->readBin(&this->mousePosView.x,sizeof(this->mousePosView.x)),file->readBin(&this->mousePosView.y,sizeof(this->mousePosView.y)));
+                        file->readBin(&this->mousePosView.x,sizeof(this->mousePosView.x));
+                        file->readBin(&this->mousePosView.y,sizeof(this->mousePosView.y));
                         ret=true;
                         break;
                     case edk::eventWindowMousePosWorld:
-                        edk::vec2i32(file->readBin(&this->mousePosWorld.x,sizeof(this->mousePosWorld.x)),file->readBin(&this->mousePosWorld.y,sizeof(this->mousePosWorld.y)));
+                        file->readBin(&this->mousePosWorld.x,sizeof(this->mousePosWorld.x));
+                        file->readBin(&this->mousePosWorld.y,sizeof(this->mousePosWorld.y));
                         ret=true;
                         break;
                     case edk::eventWindowMousePosWindow:
-                        edk::vec2i32(file->readBin(&this->mousePosWindow.x,sizeof(this->mousePosWindow.x)),file->readBin(&this->mousePosWindow.y,sizeof(this->mousePosWindow.y)));
+                        file->readBin(&this->mousePosWindow.x,sizeof(this->mousePosWindow.x));
+                        file->readBin(&this->mousePosWindow.y,sizeof(this->mousePosWindow.y));
                         ret=true;
                         break;
                     case edk::eventWindowMouseMove:
-                        edk::vec2i32(file->readBin(&this->mouseMove.x,sizeof(this->mouseMove.x)),file->readBin(&this->mouseMove.y,sizeof(this->mouseMove.y)));
+                        file->readBin(&this->mouseMove.x,sizeof(this->mouseMove.x));
+                        file->readBin(&this->mouseMove.y,sizeof(this->mouseMove.y));
                         ret=true;
                         break;
                     case edk::eventWindowKeyPressed:
@@ -2558,6 +2666,20 @@ public:
         //this->controllerHolded.clean();
         this->controllerReleased.clean();
         this->controllerAxisMoved.clean();
+    }
+    void cleanMouseOnly(){
+        this->mouseMoved = this->mouseEnter = this->mouseExit = false;
+        this->mousePosView = edk::vec2i32(0,0);
+        this->mousePosWorld = edk::vec2i32(0,0);
+        this->mousePosWindow = edk::vec2i32(0,0);
+        this->mouseMove = edk::vec2i32(0,0);
+        this->mousePressed.clean();
+        this->mouseRelease.clean();
+        this->mouseHolded.clean();
+        this->mouseDoubleClick.clean();
+        //this->mouseMoving.clean();
+        this->mouseScrollWheelVertical = 0u;
+        this->mouseScrollWheelHorizontal = 0u;
     }
     //set the mouse double time limit
     bool setMouseDoubleClickLimit(edk::float32 seconds){
@@ -2867,6 +2989,13 @@ public:
                     delete temp;
                     return true;
                 }
+            }
+            return false;
+        }
+        bool haveButtonID(edk::uint32 controllerID,edk::uint32 buttonID){
+            edk::WindowEvents::ControllerButtons* temp = this->getButtons(controllerID);
+            if(temp){
+                temp->buttons.haveElement(buttonID);
             }
             return false;
         }

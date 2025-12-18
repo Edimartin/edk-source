@@ -38,6 +38,10 @@ void edk::Window::cleanEvents(){
     //
     this->events.clean();
 }
+void edk::Window::cleanEventsMouse(){
+    //
+    this->events.cleanMouseOnly();
+}
 //update joystick events
 void edk::Window::updateControllerEvents(){
     edk::uint32 controllers = this->events.controllerPressed.getControllerSize();
@@ -764,9 +768,9 @@ bool edk::Window::haveSomethingTypes(edk::EventWindowType types, ...){
 
 //start writing events into a file
 bool edk::Window::startWriteEvents(edk::char8*
-#if defined(EDK_WINDOW_EVENTS_RW)
+                                   #if defined(EDK_WINDOW_EVENTS_RW)
                                    fileName
-#endif
+                                   #endif
                                    ){
     this->stopWriteEvents();
 #if defined(EDK_WINDOW_EVENTS_RW)
@@ -825,9 +829,9 @@ bool edk::Window::startWriteEvents(const edk::char8* fileName,edk::EventWindowTy
 }
 //start reading events from a file
 bool edk::Window::startReadEvents(edk::char8*
-#if defined(EDK_WINDOW_EVENTS_RW)
+                                  #if defined(EDK_WINDOW_EVENTS_RW)
                                   fileName
-#endif
+                                  #endif
                                   ){
     this->stopReadEvents();
 #if defined(EDK_WINDOW_EVENTS_RW)
@@ -1205,45 +1209,6 @@ bool edk::Window::loadEvents(){
     }
 
 
-
-#if defined(EDK_WINDOW_EVENTS_RW)
-    if(this->playingReadEvents && !this->pausedFileEvents){
-        this->secondEvents+=this->events.secondPassed;
-        //test if the secondEvents is bigger then the nextSecondEvent
-        if(this->secondEvents > this->nextSecondEvents){
-            while(this->secondEvents > this->nextSecondEvents){
-                //test if reach the end of the file
-                if(this->fileEvents.endOfFile()){
-                    //stop the read
-                    this->stopReadEvents();
-                }
-                else{
-                    //else read the events
-                    this->events.readFile(&this->fileEvents);
-                    this->saveEvents.clean();
-                    //test if reach the end of the file
-                    if(this->fileEvents.endOfFile()){
-                        //stop the read
-                        this->stopReadEvents();
-                    }
-                    else{
-                        //then read the nextSecondEvent
-                        this->fileEvents.readBin(&this->nextSecondEvents,sizeof(this->nextSecondEvents));
-                        saveEvents.cloneFrom(&this->events);
-                    }
-                }
-            }
-        }
-        else{
-            edk::float32 secondPassed = this->events.secondPassed;
-            edk::float32 secondsGlobal = this->events.secondsGlobal;
-            this->events.cloneFrom(&this->saveEvents);
-            this->events.secondPassed = secondPassed;
-            this->events.secondsGlobal = secondsGlobal;
-        }
-    }
-#endif
-
     this->time.start();
 
     //while(window.GetEvent(event)){//1.6
@@ -1522,15 +1487,58 @@ bool edk::Window::loadEvents(){
     this->windowSize = edk::size2ui32(window.getSize().x,window.getSize().y);//2.0
     this->events.windowSize = this->windowSize;
 
-    //Seta o tamanho da janela
-    this->updateViewSize();
-
     //load mousePosition
     //events.mousePosWindow = events.mousePos = edk::vec2i32( input.GetMouseX(),input.GetMouseY());//1.6
-    events.mousePosWindow = events.mousePosView = edk::vec2i32( sf::Mouse::getPosition(this->window).x,sf::Mouse::getPosition(this->window).y);//2.0
+    this->events.mousePosWindow = this->events.mousePosView = edk::vec2i32( sf::Mouse::getPosition(this->window).x,sf::Mouse::getPosition(this->window).y);//2.0
     this->saveMousePos.x = this->events.mousePosView.x;
     this->saveMousePos.y = this->events.mousePosView.y;
-    events.mousePosWorld = edk::vec2i32( sf::Mouse::getPosition().x,sf::Mouse::getPosition().y);//2.0
+    this->events.mousePosWorld = edk::vec2i32( sf::Mouse::getPosition().x,sf::Mouse::getPosition().y);//2.0
+
+#if defined(EDK_WINDOW_EVENTS_RW)
+    //READ
+    if(this->playingReadEvents && !this->pausedFileEvents){
+        this->secondEvents+=this->events.secondPassed;
+        //clean the mouse events
+        this->cleanEventsMouse();
+        //test if the secondEvents is bigger then the nextSecondEvent
+        if(this->secondEvents >= this->nextSecondEvents){
+            while(this->secondEvents > this->nextSecondEvents){
+                //test if reach the end of the file
+                if(this->fileEvents.endOfFile()){
+                    //stop the read
+                    this->stopReadEvents();
+                    break;
+                }
+                else{
+                    //else read the events
+                    this->events.readFile(&this->fileEvents);
+                    this->saveEvents.clean();
+                    //test if reach the end of the file
+                    if(this->fileEvents.endOfFile()){
+                        //stop the read
+                        this->stopReadEvents();
+                        break;
+                    }
+                    else{
+                        this->saveEvents.cloneFrom(&this->events);
+                        //then read the nextSecondEvent
+                        this->fileEvents.readBin(&this->nextSecondEvents,sizeof(this->nextSecondEvents));
+                    }
+                }
+            }
+        }
+        else{
+            edk::float32 secondPassed = this->events.secondPassed;
+            edk::float32 secondsGlobal = this->events.secondsGlobal;
+            this->events.cloneFromSaved(&this->saveEvents);
+            this->events.secondPassed = secondPassed;
+            this->events.secondsGlobal = secondsGlobal;
+        }
+    }
+#endif
+
+    //Seta o tamanho da janela
+    this->updateViewSize();
 
     //save focus
     this->windowFocus = this->events.focus;
@@ -1580,6 +1588,7 @@ bool edk::Window::loadEvents(){
 */
 
 #if defined(EDK_WINDOW_EVENTS_RW)
+    //WRITE
     //test if are writing or reading some events file
     if(this->playingWriteEvents && !this->pausedFileEvents){
         this->secondEvents+=this->events.secondPassed;
@@ -1588,14 +1597,14 @@ bool edk::Window::loadEvents(){
             //test if have something in the events
             if(this->events.haveSomethingTypesTree(&this->treeEventTypes)){
                 //write the secondEvents
-                this->fileEvents.writeBin(this->secondEvents);
+                this->fileEvents.writeBin(this->secondEvents);this->fileEvents.flush();
                 //write the events
                 this->events.writeFileTypesTree(&this->fileEvents,&this->treeEventTypes);
                 this->saveHaveEvents=true;
             }
             else if(this->saveHaveEvents){
                 //write the events to remove all used events
-                this->fileEvents.writeBin(this->secondEvents);
+                this->fileEvents.writeBin(this->secondEvents);this->fileEvents.flush();
                 //write the events
                 this->events.writeFileTypesTree(&this->fileEvents,&this->treeEventTypes);
                 this->saveHaveEvents=false;
@@ -1605,14 +1614,14 @@ bool edk::Window::loadEvents(){
             //test if have something in the events
             if(this->events.haveSomething()){
                 //write the secondEvents
-                this->fileEvents.writeBin(this->secondEvents);
+                this->fileEvents.writeBin(this->secondEvents);this->fileEvents.flush();
                 //write the events
                 this->events.writeFile(&this->fileEvents);
                 this->saveHaveEvents=true;
             }
             else if(this->saveHaveEvents){
                 //write the events to remove all used events
-                this->fileEvents.writeBin(this->secondEvents);
+                this->fileEvents.writeBin(this->secondEvents);this->fileEvents.flush();
                 //write the events
                 this->events.writeFile(&this->fileEvents);
                 this->saveHaveEvents=false;
