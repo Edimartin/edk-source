@@ -334,6 +334,8 @@ public:
     //return if the pause is true
     virtual bool isPaused();
 
+    virtual bool canUpdateView();
+
 public:
     edk::rectf32 frame;
     edk::vec2f32 positionInWindow;
@@ -352,6 +354,7 @@ protected:
     edk::float32 borderTemp;
     //save if it's paused
     bool paused;
+    bool canUpdate;
 
     //Draw Functions
     //draw viewPort

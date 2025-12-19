@@ -342,7 +342,7 @@ void edk::ViewController::draw(edk::rectf32 outsideViewOrigin){
 bool edk::ViewController::contact(edk::vec2f32 point,edk::vec2f32 moved,edk::uint8 state,edk::vector::Stack<edk::uint32>* buttons){
     //return
     bool ret=false;
-    if(this->pointInside(point)){
+    if(this->pointInside(point) && this->canUpdateView()){
         for(edk::uint32 i=this->nexts.size();i>0u;i--){
             //test if the view exist
             if(this->nexts.havePos(i-1u)){
@@ -377,13 +377,15 @@ bool edk::ViewController::contact(edk::vec2f32 point,edk::vec2f32 moved,edk::uin
     return ret;
 }
 void edk::ViewController::contactRelease(edk::vec2f32 point,edk::uint8 state,edk::vector::Stack<edk::uint32>* buttons){
-    this->edk::View::contactRelease(point,state,buttons);
-    for(edk::uint32 i=this->nexts.size();i>0u;i--){
-        //test if the view exist
-        if(this->nexts.havePos(i-1u)){
-            if(this->nexts.get(i-1u)){
-                //test the contact
-                this->nexts.get(i-1u)->contactRelease(point - this->animatedFrame.origin,state,buttons);
+    if(this->canUpdateView()){
+        this->edk::View::contactRelease(point,state,buttons);
+        for(edk::uint32 i=this->nexts.size();i>0u;i--){
+            //test if the view exist
+            if(this->nexts.havePos(i-1u)){
+                if(this->nexts.get(i-1u)){
+                    //test the contact
+                    this->nexts.get(i-1u)->contactRelease(point - this->animatedFrame.origin,state,buttons);
+                }
             }
         }
     }

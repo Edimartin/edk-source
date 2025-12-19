@@ -56,6 +56,7 @@ void edk::View::Constructor(){
         //set color to white
         this->backgroundColor = edk::color4f32(1,1,1,1);
         //set to show view
+        this->canUpdate=true;
         this->hide=false;
         this->paused=false;
         this->mouseInside=false;
@@ -869,4 +870,8 @@ void edk::View::updateView(edk::WindowEvents* events){
 //return if the pause is true
 bool edk::View::isPaused(){
     return this->paused;
+}
+
+bool edk::View::canUpdateView(){
+    return this->canUpdate;
 }

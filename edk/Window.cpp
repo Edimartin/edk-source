@@ -551,20 +551,22 @@ void edk::Window::updateView(edk::View* view,edk::vec2f32 screenPosition){
         view->positionInWindow=view->frame.origin+screenPosition;
         //update the animations on the view
         view->updateAnimations(this->events.secondPassed);
-        //update the envents on the view
-        view->updateView(&this->events);
-        //tets if is not a leaf
-        if(!view->isLeaf()){
-            //load the temp
-            edk::ViewController* temp=(edk::ViewController*)view;
-            //then search anothers views
-            for(edk::uint64 i=0u;i<temp->getCount();i++){
-                //load the nextView
-                edk::ViewController* tempController = (edk::ViewController*)temp->getSubview(i);
-                //test if have the nextView
-                if(tempController){
-                    //then test if is a ViewGU
-                    this->updateView(tempController,view->positionInWindow);
+        if(view->canUpdateView()){
+            //update the envents on the view
+            view->updateView(&this->events);
+            //tets if is not a leaf
+            if(!view->isLeaf()){
+                //load the temp
+                edk::ViewController* temp=(edk::ViewController*)view;
+                //then search anothers views
+                for(edk::uint64 i=0u;i<temp->getCount();i++){
+                    //load the nextView
+                    edk::ViewController* tempController = (edk::ViewController*)temp->getSubview(i);
+                    //test if have the nextView
+                    if(tempController){
+                        //then test if is a ViewGU
+                        this->updateView(tempController,view->positionInWindow);
+                    }
                 }
             }
         }
@@ -639,6 +641,23 @@ void edk::Window::drawView(){
     this->viewWindow.draw(
                 this->viewWindow.frame
                 );
+
+    //if it's runnind the events with mouse then print a view with mouse position
+#if defined(EDK_WINDOW_EVENTS_RW)
+    //READ
+    if(this->playingReadEvents && !this->pausedFileEvents){
+        if(!this->viewWindow.haveSubview(&this->viewMouse)){
+            this->addSubview(&this->viewMouse);
+        }
+        this->viewMouse.objMouse.position.x = this->events.mousePosWindow.x;
+        this->viewMouse.objMouse.position.y = (this->events.mousePosWindow.y * -1.f) + this->viewMouse.camera.getSize().height;
+    }
+    else{
+        if(this->viewWindow.haveSubview(&this->viewMouse)){
+            this->removeSubview(&this->viewMouse);
+        }
+    }
+#endif
 
     //End the drawing
     this->drawEnd();

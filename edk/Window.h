@@ -40,6 +40,9 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //Events
 #include "WindowEvents.h"
 
+#include "edk/Object2D.h"
+#include "edk/ViewGU2D.h"
+
 //EDK WINDOW usa SFML
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
@@ -384,6 +387,33 @@ private:
 
     //View principal
     edk::ViewController viewWindow;
+    class ViewMouseDebug: public edk::ViewGU2D{
+    public:
+        ViewMouseDebug(){}
+        ~ViewMouseDebug(){}
+
+        void resize(edk::rectf32 outsideViewOrigin){
+            this->frame=outsideViewOrigin;
+        }
+        void load(edk::rectf32 /*outsideViewOrigin*/){
+            this->canUpdate=false;
+            //
+            this->backgroundColor = edk::color4f32(1.f,1.f,1.f,0.25f);
+        }
+        void drawScene(edk::rectf32 /*outsideViewOrigin*/){
+            this->camera.setRectPoints(this->frame.origin.x,
+                                       this->frame.origin.y,
+                                       this->frame.origin.x + this->frame.size.width,
+                                       this->frame.origin.x + this->frame.size.height
+                                       );
+            //
+            this->objMouse.drawPivo(this->camera.getSize().height,
+                                    0.f,0.f,0.f
+                                    );
+        }
+
+        edk::Object2D objMouse;
+    }viewMouse;
 
     //renderiza o mouse na tela
     bool renderMouse;
