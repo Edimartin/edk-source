@@ -333,6 +333,22 @@ public:
             fflush(stdout);
             return true;
         }
+        else if((position)<=this->bufferWritedSize && this->haveBuffer()){
+            typeTemplate temp;
+            edk::uint8 lenght = 0u;
+            size += position;
+            edk::uint64 i=position;
+            for(;i<this->bufferWritedSize;i++){
+                edkMemCpy(&temp,&this->buffer[i],sizeof(typeTemplate));
+                this->printElementHEX(temp);
+                lenght++;
+            }
+            for(;i<size;i++){
+                printf("   ");
+            }
+            fflush(stdout);
+            return true;
+        }
         return false;
     }
     bool printHexFromPosition(edk::uint64 position){
@@ -426,6 +442,20 @@ public:
                 else{
                     lenght++;
                 }
+            }
+            fflush(stdout);
+            return true;
+        }
+        else if((position)<=this->bufferWritedSize && this->haveBuffer()){
+            typeTemplate temp;
+            size += position;
+            edk::uint64 i=position;
+            for(;i<this->bufferWritedSize;i++){
+                edkMemCpy(&temp,&this->buffer[i],sizeof(typeTemplate));
+                this->printElementLetter(temp);
+            }
+            for(;i<size;i++){
+                printf(" ");
             }
             fflush(stdout);
             return true;
