@@ -164,6 +164,95 @@ public:
                                 &treeObj::functionUpdate
                                 );
     }
+
+
+
+    //Load
+    virtual void loadElementWithPointer(obj** value){
+        printf("\nElement %u"
+               ,(edk::uint32)value
+               );
+    }
+    //Unload
+    virtual void unloadElementWithPointer(obj** value){
+        printf("\nElement %u"
+               ,(edk::uint32)value
+               );
+    }
+    //Print
+    virtual void printElementWithPointer(obj** value){
+        printf("\nElement %u"
+               ,(edk::uint32)value
+               );
+    }
+    virtual void renderElementWithPointer(obj** value){
+        printf("\nElement %u"
+               ,(edk::uint32)value
+               );
+    }
+    virtual void renderWireElementWithPointer(obj** value){
+        printf("\nElement %u"
+               ,(edk::uint32)value
+               );
+    }
+    virtual void drawElementWithPointer(obj** value){
+        printf("\nElement %u"
+               ,(edk::uint32)value
+               );
+    }
+    virtual void drawWireElementWithPointer(obj** value){
+        printf("\nElement %u"
+               ,(edk::uint32)value
+               );
+    }
+    //UPDATE
+    virtual void updateElementWithPointer(obj** value){
+        //update the value
+        value++;
+    }
+
+    //update function to used as pointer
+    void functionUpdateWithPointer(obj** value){
+        //update the value
+        value++;
+    }
+
+    //Load the elements
+    virtual void loadWithPointer(){
+        edk::vector::BinaryTree<obj*>::loadWithPointer();
+    }
+    //Unload the elements
+    virtual void unloadWithPointer(){
+        edk::vector::BinaryTree<obj*>::unloadWithPointer();
+    }
+    //Print the elements
+    virtual void printWithPointer(){
+        edk::vector::BinaryTree<obj*>::printWithPointer();
+    }
+    //render the elements
+    virtual void renderWithPointer(){
+        edk::vector::BinaryTree<obj*>::renderWithPointer();
+    }
+    virtual void renderWireWithPointer(){
+        edk::vector::BinaryTree<obj*>::renderWireWithPointer();
+    }
+    //draw the elements
+    virtual void drawWithPointer(){
+        edk::vector::BinaryTree<obj*>::drawWithPointer();
+    }
+    virtual void drawWireWithPointer(){
+        edk::vector::BinaryTree<obj*>::drawWireWithPointer();
+    }
+    //update the elements
+    virtual void updateWithPointer(){
+        edk::vector::BinaryTree<obj*>::updateWithPointer();
+    }
+    //run the function update
+    void runFunctionUpdateWithPointer(){
+        this->runUpdateFunction((void (edk::vector::BinaryTree<obj*>::*)(obj**))
+                                &treeObj::functionUpdateWithPointer
+                                );
+    }
 };
 
 */
@@ -501,6 +590,84 @@ public:
         if((*this->rootPointer)){
             //then update
             this->updateFunctionNoRecursively((*this->rootPointer),functionPointer);
+        }
+    }
+    void runUpdateWithPointerFunction(void (edk::vector::BinaryTree<typeTemplate>::*functionPointerWithPointer)(typeTemplate* )){
+        //test if have root
+        if((*this->rootPointer)){
+            //then update
+            this->updateFunctionNoRecursively((*this->rootPointer),functionPointerWithPointer);
+        }
+    }
+
+    //Load the elements
+    virtual void loadWithPointer(){
+        //test if have root
+        if((*this->rootPointer)){
+            //
+            this->loadNoRecursivelyWithPointer((*this->rootPointer));
+        }
+    }
+    //Unload the elements
+    virtual void unloadWithPointer(){
+        //test if have root
+        if((*this->rootPointer)){
+            //
+            this->unloadNoRecursivelyWithPointer((*this->rootPointer));
+        }
+    }
+    //Print the elements
+    virtual void printWithPointer(){
+        //test if have root
+        if((*this->rootPointer)){
+            //
+            this->printNoRecursivelyWithPointer((*this->rootPointer));
+        }
+    }
+    //render the elements
+    virtual void renderWithPointer(){
+        //test if have root
+        if((*this->rootPointer)){
+            //
+            this->renderNoRecursivelyWithPointer((*this->rootPointer));
+        }
+    }
+    //render the elements in wire mode
+    virtual void renderWireWithPointer(){
+        //test if have root
+        if((*this->rootPointer)){
+            //
+            this->renderWireNoRecursivelyWithPointer((*this->rootPointer));
+        }
+    }
+    //draw the elements
+    virtual void drawWithPointer(){
+        //test if have root
+        if((*this->rootPointer)){
+            //
+            this->drawNoRecursivelyWithPointer((*this->rootPointer));
+        }
+    }
+    //draw the elements in wire mode
+    virtual void drawWireWithPointer(){
+        //test if have root
+        if((*this->rootPointer)){
+            //
+            this->drawWireNoRecursivelyWithPointer((*this->rootPointer));
+        }
+    }
+    virtual void updateWithPointer(){
+        //test if have root
+        if((*this->rootPointer)){
+            //then update
+            this->updateNoRecursivelyWithPointer((*this->rootPointer));
+        }
+    }
+    void runUpdateFunctionWithPointer(void (edk::vector::BinaryTree<typeTemplate>::*functionPointer)(typeTemplate )){
+        //test if have root
+        if((*this->rootPointer)){
+            //then update
+            this->updateFunctionNoRecursivelyWithPointer((*this->rootPointer),functionPointer);
         }
     }
 
@@ -1102,6 +1269,23 @@ protected:
     virtual void drawWireElement(typeTemplate){}
     //UPDATE
     virtual void updateElement(typeTemplate){}
+
+    //Load
+    virtual void loadElementWithPointer(typeTemplate*){}
+    //Unload
+    virtual void unloadElementWithPointer(typeTemplate*){}
+    //Print
+    virtual void printElementWithPointer(typeTemplate*){}
+    //created for render the object
+    virtual void renderElementWithPointer(typeTemplate*){}
+    //created for render the object in wire mode
+    virtual void renderWireElementWithPointer(typeTemplate*){}
+    //created for draw the object
+    virtual void drawElementWithPointer(typeTemplate*){}
+    //created for draw the object in wire mode
+    virtual void drawWireElementWithPointer(typeTemplate*){}
+    //UPDATE
+    virtual void updateElementWithPointer(typeTemplate*){}
 private:
     //errorCode
     edk::uint16* errorCodePointer;
@@ -1637,6 +1821,31 @@ private:
             }
         }
     }
+    void loadNoRecursivelyWithPointer(BinaryLeaf<typeTemplate>* temp){
+        while(temp){
+            if(temp->readed==0u){
+                temp->readed=1u;
+                if(temp->left){
+                    temp = temp->left;
+                    continue;
+                }
+            }
+            if(temp->readed==1u){
+                //load
+                this->loadElementWithPointer(&temp->value);
+                //run the callback functions
+                temp->readed=2u;
+                if(temp->right){
+                    temp = temp->right;
+                    continue;
+                }
+            }
+            if(temp->readed==2u){
+                temp->readed=0u;
+                temp = temp->father;
+            }
+        }
+    }
     //recursively to unload
     void unloadRecursively(BinaryLeaf<typeTemplate>* temp){
         if(temp){
@@ -1663,6 +1872,30 @@ private:
             if(temp->readed==1u){
                 //unload
                 this->unloadElement(temp->value);
+                temp->readed=2u;
+                if(temp->right){
+                    temp = temp->right;
+                    continue;
+                }
+            }
+            if(temp->readed==2u){
+                temp->readed=0u;
+                temp = temp->father;
+            }
+        }
+    }
+    void unloadNoRecursivelyWithPointer(BinaryLeaf<typeTemplate>* temp){
+        while(temp){
+            if(temp->readed==0u){
+                temp->readed=1u;
+                if(temp->left){
+                    temp = temp->left;
+                    continue;
+                }
+            }
+            if(temp->readed==1u){
+                //unload
+                this->unloadElementWithPointer(&temp->value);
                 temp->readed=2u;
                 if(temp->right){
                     temp = temp->right;
@@ -1754,6 +1987,56 @@ private:
             }
         }
     }
+    void updateNoRecursivelyWithPointer(BinaryLeaf<typeTemplate>* temp){
+        while(temp){
+            if(temp->readed==0u){
+                temp->readed=1u;
+                if(temp->left){
+                    temp = temp->left;
+                    continue;
+                }
+            }
+            if(temp->readed==1u){
+                //update
+                this->updateElementWithPointer(&temp->value);
+                temp->readed=2u;
+                if(temp->right){
+                    temp = temp->right;
+                    continue;
+                }
+            }
+            if(temp->readed==2u){
+                temp->readed=0u;
+                temp = temp->father;
+            }
+        }
+    }
+    void updateFunctionNoRecursivelyWithPointer(BinaryLeaf<typeTemplate>* temp,
+                                     void (edk::vector::BinaryTree<typeTemplate>::*functionPointerWithPointer)(typeTemplate* )
+                                     ){
+        while(temp){
+            if(temp->readed==0u){
+                temp->readed=1u;
+                if(temp->left){
+                    temp = temp->left;
+                    continue;
+                }
+            }
+            if(temp->readed==1u){
+                //update
+                (this->*functionPointerWithPointer)(&temp->value);
+                temp->readed=2u;
+                if(temp->right){
+                    temp = temp->right;
+                    continue;
+                }
+            }
+            if(temp->readed==2u){
+                temp->readed=0u;
+                temp = temp->father;
+            }
+        }
+    }
     //recursively to print
     void printRecursively(BinaryLeaf<typeTemplate>* temp){
         if(temp){
@@ -1782,6 +2065,30 @@ private:
             if(temp->readed==1u){
                 //print
                 this->printElement(temp->value);
+                temp->readed=2u;
+                if(temp->right){
+                    temp = temp->right;
+                    continue;
+                }
+            }
+            if(temp->readed==2u){
+                temp->readed=0u;
+                temp = temp->father;
+            }
+        }
+    }
+    void printNoRecursivelyWithPointer(BinaryLeaf<typeTemplate>* temp){
+        while(temp){
+            if(temp->readed==0u){
+                temp->readed=1u;
+                if(temp->left){
+                    temp = temp->left;
+                    continue;
+                }
+            }
+            if(temp->readed==1u){
+                //print
+                this->printElementWithPointer(&temp->value);
                 temp->readed=2u;
                 if(temp->right){
                     temp = temp->right;
@@ -1834,6 +2141,30 @@ private:
             }
         }
     }
+    void renderNoRecursivelyWithPointer(BinaryLeaf<typeTemplate>* temp){
+        while(temp){
+            if(temp->readed==0u){
+                temp->readed=1u;
+                if(temp->left){
+                    temp = temp->left;
+                    continue;
+                }
+            }
+            if(temp->readed==1u){
+                //render
+                this->renderElementWithPointer(&temp->value);
+                temp->readed=2u;
+                if(temp->right){
+                    temp = temp->right;
+                    continue;
+                }
+            }
+            if(temp->readed==2u){
+                temp->readed=0u;
+                temp = temp->father;
+            }
+        }
+    }
     //recursively to renderWire
     void renderWireRecursively(BinaryLeaf<typeTemplate>* temp){
         if(temp){
@@ -1862,6 +2193,30 @@ private:
             if(temp->readed==1u){
                 //render
                 this->renderWireElement(temp->value);
+                temp->readed=2u;
+                if(temp->right){
+                    temp = temp->right;
+                    continue;
+                }
+            }
+            if(temp->readed==2u){
+                temp->readed=0u;
+                temp = temp->father;
+            }
+        }
+    }
+    void renderWireNoRecursivelyWithPointer(BinaryLeaf<typeTemplate>* temp){
+        while(temp){
+            if(temp->readed==0u){
+                temp->readed=1u;
+                if(temp->left){
+                    temp = temp->left;
+                    continue;
+                }
+            }
+            if(temp->readed==1u){
+                //render
+                this->renderWireElementWithPointer(&temp->value);
                 temp->readed=2u;
                 if(temp->right){
                     temp = temp->right;
@@ -1914,6 +2269,30 @@ private:
             }
         }
     }
+    void drawNoRecursivelyWithPointer(BinaryLeaf<typeTemplate>* temp){
+        while(temp){
+            if(temp->readed==0u){
+                temp->readed=1u;
+                if(temp->left){
+                    temp = temp->left;
+                    continue;
+                }
+            }
+            if(temp->readed==1u){
+                //render
+                this->drawElementWithPointer(&temp->value);
+                temp->readed=2u;
+                if(temp->right){
+                    temp = temp->right;
+                    continue;
+                }
+            }
+            if(temp->readed==2u){
+                temp->readed=0u;
+                temp = temp->father;
+            }
+        }
+    }
     //recursively to drawWire
     void drawWireRecursively(BinaryLeaf<typeTemplate>* temp){
         if(temp){
@@ -1942,6 +2321,30 @@ private:
             if(temp->readed==1u){
                 //render
                 this->drawWireElement(temp->value);
+                temp->readed=2u;
+                if(temp->right){
+                    temp = temp->right;
+                    continue;
+                }
+            }
+            if(temp->readed==2u){
+                temp->readed=0u;
+                temp = temp->father;
+            }
+        }
+    }
+    void drawWireNoRecursivelyWithPointer(BinaryLeaf<typeTemplate>* temp){
+        while(temp){
+            if(temp->readed==0u){
+                temp->readed=1u;
+                if(temp->left){
+                    temp = temp->left;
+                    continue;
+                }
+            }
+            if(temp->readed==1u){
+                //render
+                this->drawWireElementWithPointer(&temp->value);
                 temp->readed=2u;
                 if(temp->right){
                     temp = temp->right;

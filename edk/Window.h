@@ -429,6 +429,113 @@ private:
     edk::size2ui32 windowSize;
 
     edk::WindowEvents events;
+    class SaveHolded{
+    public:
+        SaveHolded(){
+            this->id=0u;
+            this->count=0u;
+        }
+        SaveHolded(edk::uint32 id){
+            this->id=id;
+            this->count=0u;
+        }
+        ~SaveHolded(){}
+
+        inline bool operator==(edk::Window::SaveHolded position){
+            if(this->id == position.id){ return true; }
+            return false;
+        }
+        inline bool operator>(edk::Window::SaveHolded position){
+            if(this->id > position.id){ return true; }
+            return false;
+        }
+        inline edk::Window::SaveHolded operator=(edk::Window::SaveHolded position){
+            this->id = position.id;
+            this->count = position.count;
+            return *this;
+        }
+        edk::uint32 id;
+        edk::uint8 count;
+    };
+    class TreeSaveHolded: public edk::vector::BinaryTree<edk::Window::SaveHolded>{
+    public:
+        TreeSaveHolded(){}
+        ~TreeSaveHolded(){}
+        virtual bool firstBiggerSecond(edk::Window::SaveHolded first,edk::Window::SaveHolded second){
+            if(first.id>second.id){
+                return true;
+            }
+            return false;
+        }
+        //compare if the value is equal
+        virtual bool firstEqualSecond(edk::Window::SaveHolded first,edk::Window::SaveHolded second){
+            if(first.id==second.id){
+                return true;
+            }
+            return false;
+        }
+
+        //UPDATE
+        virtual void updateElementWithPointer(edk::Window::SaveHolded* value){
+            if(value->count){
+                value->count--;
+            }
+            else{
+                this->st.pushBack(value->id);
+            }
+        }
+        //update the elements
+        virtual void updateWithPointer(){
+            edk::vector::BinaryTree<edk::Window::SaveHolded>::updateWithPointer();
+            edk::uint32 size = this->st.size();
+            for(edk::uint32 i=0u;i<size;i++){
+                this->removeHolded(this->st.get(i));
+            }
+            this->st.clean();
+        }
+
+        bool addHolded(edk::Window::SaveHolded holded){
+            return this->add(holded);
+        }
+        bool addHolded(edk::uint32 id){
+            if(this->haveHolded(id)){
+                this->incrementHolded(id);
+                return true;
+            }
+            if(this->add(edk::Window::SaveHolded(id))){
+                this->incrementHolded(id);
+                return true;
+            }
+            return false;
+        }
+        bool removeHolded(edk::uint32 id){
+            return this->remove(edk::Window::SaveHolded(id));
+        }
+        bool haveHolded(edk::uint32 id){
+            edk::Window::SaveHolded temp(id);
+            return this->haveElement(temp);
+        }
+        edk::uint32 getHoldedCount(edk::uint32 id){
+            edk::Window::SaveHolded temp(id);
+            return this->getElement(temp).count;
+        }
+        bool incrementHolded(edk::uint32 id){
+            edk::Window::SaveHolded temp(id);
+            edk::Window::SaveHolded tempAdd;
+            tempAdd = this->haveElement(temp);
+            if(tempAdd.id == id){
+                if(this->remove(tempAdd)){
+                    tempAdd.count++;
+                    if(this->add(tempAdd)){
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+    private:
+        edk::vector::Stack<edk::uint32> st;
+    }saveMouseHolded, saveKeyHolded;
 #if defined(EDK_WINDOW_EVENTS_RW)
     edk::WindowEvents saveEvents;
     bool saveHaveEvents;

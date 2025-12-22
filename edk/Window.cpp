@@ -104,6 +104,8 @@ void edk::Window::Constructor(){
     if(this->classThis!=this){
         this->classThis=this;
 
+        this->saveMouseHolded.Constructor();
+        this->saveKeyHolded.Constructor();
         this->viewWindow.Constructor();
         this->time.Constructor();
         this->events.Constructor();
@@ -141,6 +143,10 @@ void edk::Window::Destructor(){
         //can destruct the class
         //clean the events
         this->cleanEvents();
+
+        this->saveMouseHolded.clean();
+        this->saveKeyHolded.clean();
+
 #if defined(EDK_WINDOW_EVENTS_RW)
         this->fileEvents.closeFile();
         this->treeEventTypes.clean();
@@ -1263,15 +1269,27 @@ bool edk::Window::loadEvents(){
             //printf("\nKey Pressed %d",event.key.code);
             if(event.key.code>=0&&event.key.code<26){
                 this->events.keyPressed.pushBack(event.key.code+'a') ;//2.0
+                if(!this->saveKeyHolded.haveHolded(event.key.code+'a')){
+                    this->saveKeyHolded.addHolded(event.key.code+'a');
+                }
             }
             else if(event.key.code>=26&&event.key.code<36){
                 this->events.keyPressed.pushBack(event.key.code+ '0' - 26) ;//2.0
+                if(!this->saveKeyHolded.haveHolded(event.key.code+ '0' - 26)){
+                    this->saveKeyHolded.addHolded(event.key.code+ '0' - 26);
+                }
             }
             else if(event.key.code>=75&&event.key.code<85){
                 this->events.keyPressed.pushBack(event.key.code+ '0' - 75) ;//2.0
+                if(!this->saveKeyHolded.haveHolded(event.key.code+ '0' - 75)){
+                    this->saveKeyHolded.addHolded(event.key.code+ '0' - 75);
+                }
             }
             else{
                 this->events.keyPressed.pushBack(event.key.code+256 - 36) ;//2.0
+                if(!this->saveKeyHolded.haveHolded(event.key.code+256 - 36)){
+                    this->saveKeyHolded.addHolded(event.key.code+256 - 36);
+                }
             }
         }
         //FIM PRESSIONOU TECLA
@@ -1285,15 +1303,19 @@ bool edk::Window::loadEvents(){
             //this->events.keyRelease.pushBack(event.Key.Code);//1.6
             if(event.key.code>=0&&event.key.code<26){
                 this->events.keyRelease.pushBack(event.key.code+'a') ;//2.0
+                this->saveKeyHolded.removeHolded(event.key.code+'a');
             }
             else if(event.key.code>=26&&event.key.code<36){
                 this->events.keyRelease.pushBack(event.key.code+ '0' - 26) ;//2.0
+                this->saveKeyHolded.removeHolded(event.key.code+ '0' - 26);
             }
             else if(event.key.code>=75&&event.key.code<85){
                 this->events.keyRelease.pushBack(event.key.code+ '0' - 75) ;//2.0
+                this->saveKeyHolded.removeHolded(event.key.code+ '0' - 75);
             }
             else{
                 this->events.keyRelease.pushBack(event.key.code+256 - 36) ;//2.0
+                this->saveKeyHolded.removeHolded(event.key.code+256 - 36);
             }
         }
         //FIM RETIROU DA PRESSAO A TECLA
@@ -1349,6 +1371,9 @@ bool edk::Window::loadEvents(){
         if(event.type == sf::Event::MouseButtonPressed){//2.0
             //
             //this->events.mousePressed.pushBack(event.MouseButton.Button+1u);//1.6
+            if(!this->saveMouseHolded.haveHolded(event.mouseButton.button+1u)){
+                this->saveMouseHolded.addHolded(event.mouseButton.button+1u);
+            }
             this->events.mousePressed.pushBack(event.mouseButton.button+1u);//2.0
 
             this->mouseInside=true;
@@ -1390,6 +1415,7 @@ bool edk::Window::loadEvents(){
             mouseButtonValue = event.mouseButton.button+1u;//2.0
             //this->events.mouseRelease.pushBack(event.MouseButton.Button+1u);//1.6
             this->events.mouseRelease.pushBack(mouseButtonValue);//2.0
+            this->saveMouseHolded.removeHolded(mouseButtonValue);
 
             //test the time distance from the last mouse button release
             if(mouseButtonValue < edk::mouse::mouseButtonsSize){
@@ -1568,13 +1594,31 @@ bool edk::Window::loadEvents(){
         for(edk::int32 i=sf::Keyboard::A;i<sf::Keyboard::KeyCount;i=i+1){
             if(sf::Keyboard::isKeyPressed((sf::Keyboard::Key)i)){
                 if(i>=0&&i<26){
-                    this->events.keyHolded.pushBack(i+'a') ;//2.0
+                    if(!this->saveKeyHolded.haveHolded(i+'a')
+                            ){
+                        this->events.keyHolded.pushBack(i+'a') ;//2.0
+                    }
+                    if(!this->saveKeyHolded.haveHolded(i+'a')){
+                        this->saveKeyHolded.addHolded(i+'a');
+                    }
                 }
                 else if(i>=26&&i<36){
-                    this->events.keyHolded.pushBack(i+ '0' - 26) ;//2.0
+                    if(!this->saveKeyHolded.haveHolded(i+ '0' - 26)
+                            ){
+                        this->events.keyHolded.pushBack(i+ '0' - 26) ;//2.0
+                    }
+                    if(!this->saveKeyHolded.haveHolded(i+ '0' - 26)){
+                        this->saveKeyHolded.addHolded(i+ '0' - 26);
+                    }
                 }
                 else{
-                    this->events.keyHolded.pushBack(i+256 - 36) ;//2.0
+                    if(!this->saveKeyHolded.haveHolded(i+256 - 36)
+                            ){
+                        this->events.keyHolded.pushBack(i+256 - 36) ;//2.0
+                    }
+                    if(!this->saveKeyHolded.haveHolded(i+256 - 36)){
+                        this->saveKeyHolded.addHolded(i+256 - 36);
+                    }
                 }
             }
         }
@@ -1582,6 +1626,13 @@ bool edk::Window::loadEvents(){
         for(edk::int32 i=sf::Mouse::Left ;i<sf::Mouse::ButtonCount;i=i+1){
             if(sf::Mouse::isButtonPressed((sf::Mouse::Button)i)){
                 this->events.mouseHolded.pushBack(i+1u);
+                if(!this->saveMouseHolded.haveHolded(i+1u)
+                        ){
+                    this->events.mousePressed.pushBack(i+1u);
+                }
+                if(!this->saveMouseHolded.haveHolded(i+1u)){
+                    this->saveMouseHolded.addHolded(i+1u);
+                }
             }
         }
         ret=true;
@@ -1606,8 +1657,10 @@ bool edk::Window::loadEvents(){
         }
 */
 
+    //this->printEvents();
+
 #if defined(EDK_WINDOW_EVENTS_RW)
-    //WRITE
+    //WRITEprintEvents
     //test if are writing or reading some events file
     if(this->playingWriteEvents && !this->pausedFileEvents){
         this->secondEvents+=this->events.secondPassed;
@@ -1648,6 +1701,9 @@ bool edk::Window::loadEvents(){
         }
     }
 #endif
+
+    this->saveMouseHolded.updateWithPointer();
+    this->saveKeyHolded.updateWithPointer();
 
     //senao retorna false
     return ret;
