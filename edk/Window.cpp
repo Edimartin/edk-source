@@ -1214,6 +1214,7 @@ edk::float32 edk::Window::eventGetSecondPassed(){
 }
 
 bool edk::Window::loadEvents(){
+    bool canAddHolded=true;
     edk::uint32 mouseButtonValue=0u;
     bool ret=false;
     this->updateControllerEvents();
@@ -1373,8 +1374,9 @@ bool edk::Window::loadEvents(){
             //this->events.mousePressed.pushBack(event.MouseButton.Button+1u);//1.6
             if(!this->saveMouseHolded.haveHolded(event.mouseButton.button+1u)){
                 this->saveMouseHolded.addHolded(event.mouseButton.button+1u);
+                this->events.mousePressed.pushBack(event.mouseButton.button+1u);//2.0
+                canAddHolded=false;
             }
-            this->events.mousePressed.pushBack(event.mouseButton.button+1u);//2.0
 
             this->mouseInside=true;
         }
@@ -1630,7 +1632,7 @@ bool edk::Window::loadEvents(){
                         ){
                     this->events.mousePressed.pushBack(i+1u);
                 }
-                if(!this->saveMouseHolded.haveHolded(i+1u)){
+                if(canAddHolded){
                     this->saveMouseHolded.addHolded(i+1u);
                 }
             }
