@@ -4505,6 +4505,9 @@ bool edk::Object2D::disconnectObjectBack(edk::Object2D* obj){
     }
     return false;
 }
+void edk::Object2D::disconnectAllObjectsBack(){
+    this->cleanConnectedObjectsBack();
+}
 void edk::Object2D::cleanConnectedObjectsBack(){
     edk::uint32 size = this->childremsBack.size();
     edk::Object2D* obj;
@@ -4617,6 +4620,9 @@ bool edk::Object2D::disconnectObjectFront(edk::Object2D* obj){
     }
     return false;
 }
+void edk::Object2D::disconnectAllObjectsFront(){
+    this->cleanConnectedObjectsFront();
+}
 void edk::Object2D::cleanConnectedObjectsFront(){
     edk::uint32 size = this->childremsFront.size();
     edk::Object2D* obj;
@@ -4692,6 +4698,70 @@ bool edk::Object2D::haveConnectedObject(edk::Object2D* obj){
 }
 bool edk::Object2D::disconnectObject(edk::Object2D* obj){
     return (this->disconnectObjectBack(obj) || this->disconnectObjectFront(obj));
+}
+void edk::Object2D::updateAllConnectedObjectValues(){
+    edk::uint32 size = 0u;
+    edk::Object2D* obj;
+    edk::shape::Mesh2D* mesh;
+    size = this->childremsBack.size();
+    for(edk::uint32 i=0u;i<size;i++){
+        obj = this->childremsBack.get(i);
+        if(obj){
+            //update the values
+            obj->matrixTransform.setIdentity();
+            obj->updateValuesFromFather(&obj->matrixTransform);
+
+            if(obj->meshes.size()){
+                mesh = obj->meshes.getMesh(0u);
+                if(mesh){
+                    //calculate the position
+                    obj->position = mesh->generateBoundingPoint(edk::vec2f32(0.f,0.f),&obj->matrixTransform);
+                    //calculate the angle
+                    obj->angle+=edk::Math::getAngle(mesh->generateBoundingPoint(edk::vec2f32(1.f,0.f),&obj->matrixTransform)-obj->position);
+                }
+            }
+            //update connected values
+            obj->connectedLoadIdentityValues();
+            obj->newSize = edk::size2f32(1.f / this->size.width,1.f / this->size.height);
+            //translate the object to be connected with the another
+            obj->connectedPosition=this->position*-1.f;
+            obj->connectedSize= edk::size2f32(1.f/this->size.width,1.f/this->size.height);
+            obj->connectedAngle=this->angle*-1.f;
+        }
+    }
+    size = this->childremsFront.size();
+    for(edk::uint32 i=0u;i<size;i++){
+        obj = this->childremsFront.get(i);
+        if(obj){
+            //update the values
+            obj->matrixTransform.setIdentity();
+            obj->updateValuesFromFather(&obj->matrixTransform);
+
+            if(obj->meshes.size()){
+                mesh = obj->meshes.getMesh(0u);
+                if(mesh){
+                    //calculate the position
+                    obj->position = mesh->generateBoundingPoint(edk::vec2f32(0.f,0.f),&obj->matrixTransform);
+                    //calculate the angle
+                    obj->angle+=edk::Math::getAngle(mesh->generateBoundingPoint(edk::vec2f32(1.f,0.f),&obj->matrixTransform)-obj->position);
+                }
+            }
+            //update connected values
+            obj->connectedLoadIdentityValues();
+            obj->newSize = edk::size2f32(1.f / this->size.width,1.f / this->size.height);
+            //translate the object to be connected with the another
+            obj->connectedPosition=this->position*-1.f;
+            obj->connectedSize= edk::size2f32(1.f/this->size.width,1.f/this->size.height);
+            obj->connectedAngle=this->angle*-1.f;
+        }
+    }
+}
+void edk::Object2D::disconnectAllObjects(){
+    this->disconnectAllObjectsBack();this->disconnectAllObjectsFront();
+}
+void edk::Object2D::updateAndDisconnectAllObjects(){
+    this->updateAllConnectedObjectValues();
+    this->disconnectAllObjects();
 }
 void edk::Object2D::cleanConnectedObjects(){
     this->cleanConnectedObjectsBack();

@@ -261,22 +261,42 @@ public:
     //connect another object into this
     virtual bool connectObjectBack(edk::Object2D* obj);
     virtual bool updateConnectedObjectBackValues(edk::Object2D* obj);
+    virtual inline bool applyConnectedObjectBackValues(edk::Object2D* obj){
+        return this->updateConnectedObjectBackValues(obj);
+    }
     virtual edk::vec2f32 getConnectedObjectBackWorldPosition(edk::Object2D* obj);
     virtual bool haveConnectedObjectBack(edk::Object2D* obj);
     virtual bool disconnectObjectBack(edk::Object2D* obj);
+    virtual void disconnectAllObjectsBack();
     virtual void cleanConnectedObjectsBack();
     virtual inline void removeConnectedObjectsBack(){this->cleanConnectedObjectsBack();}
     virtual bool connectObjectFront(edk::Object2D* obj);
     virtual bool updateConnectedObjectFrontValues(edk::Object2D* obj);
+    virtual inline bool applyConnectedObjectFrontValues(edk::Object2D* obj){
+        return this->updateConnectedObjectFrontValues(obj);
+    }
     virtual edk::vec2f32 getConnectedObjectFrontWorldPosition(edk::Object2D* obj);
     virtual bool haveConnectedObjectFront(edk::Object2D* obj);
     virtual bool disconnectObjectFront(edk::Object2D* obj);
+    virtual void disconnectAllObjectsFront();
     virtual void cleanConnectedObjectsFront();
     virtual void inline removeConnectedObjectsFront(){this->cleanConnectedObjectsFront();}
     virtual bool updateConnectedObjectValues(edk::Object2D* obj);
+    virtual inline bool applyConnectedObjectValues(edk::Object2D* obj){
+        return this->updateConnectedObjectValues(obj);
+    }
     virtual edk::vec2f32 getConnectedObjectWorldPosition(edk::Object2D* obj);
     virtual bool haveConnectedObject(edk::Object2D* obj);
     virtual bool disconnectObject(edk::Object2D* obj);
+    virtual void disconnectAllObjects();
+    virtual void updateAllConnectedObjectValues();
+    virtual inline void applyConnectedObjectsValues(){
+        return this->updateAllConnectedObjectValues();
+    }
+    virtual void updateAndDisconnectAllObjects();
+    virtual inline void applyAndDisconnectAllObjects(){
+        this->updateAndDisconnectAllObjects();
+    }
     virtual void cleanConnectedObjects();
     virtual void inline removeConnectedObjects(){this->cleanConnectedObjects();}
 
