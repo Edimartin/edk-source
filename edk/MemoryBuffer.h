@@ -153,6 +153,16 @@ public:
         return false;
     }
 
+    inline bool readFileFullToBuffer(edk::File* file){
+        return writeFileFullToBuffer(file);
+    }
+    inline bool readFileToBuffer(edk::File* file){
+        return writeFileToBuffer(file);
+    }
+    inline bool readFileToBuffer(edk::File* file,edk::uint64 size){
+        return writeFileToBuffer(file,size);
+    }
+
     //push some bytes into the buffer
     bool pushToBuffer(typeTemplate c){
         return this->pushToBuffer((typeTemplate*)&c,1u);

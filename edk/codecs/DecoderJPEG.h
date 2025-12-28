@@ -26,7 +26,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#pragma message "Inside DecoderImage"
+#pragma message "Inside DecoderJPEG"
 #endif
 
 #pragma once
@@ -35,7 +35,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "../../stb/stb_image.h"
 
 #ifdef printMessages
-#pragma message "    Compiling DecoderImage"
+#pragma message "    Compiling DecoderJPEG"
 #endif
 
 namespace edk{

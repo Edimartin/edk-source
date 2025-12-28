@@ -174,9 +174,9 @@ bool edk::codecs::DecoderPNG::decode(edk::uint8* encoded,edk::uint32 size){
                                     case 16u:
                                         for(edk::int32 y=0;y<h;y++){
                                             for(edk::int32 x=0;x<w;x++){
-                                                temp[0u]=temp[0u];
-                                                temp[1u]=temp[2u];
-                                                temp[2u]=temp[4u];
+                                                temp[0u]=source[0u];
+                                                temp[1u]=source[2u];
+                                                temp[2u]=source[4u];
                                                 //
                                                 source+=comp*2u;
                                                 temp+=comp;
@@ -191,9 +191,9 @@ bool edk::codecs::DecoderPNG::decode(edk::uint8* encoded,edk::uint32 size){
                                     case 8u:
                                         for(edk::int32 y=0;y<h;y++){
                                             for(edk::int32 x=0;x<w;x++){
-                                                temp[0u]=temp[2u];
-                                                temp[1u]=temp[1u];
-                                                temp[2u]=temp[0u];
+                                                temp[0u]=source[2u];
+                                                temp[1u]=source[1u];
+                                                temp[2u]=source[0u];
                                                 //
                                                 source+=comp;
                                                 temp+=comp;
@@ -203,9 +203,9 @@ bool edk::codecs::DecoderPNG::decode(edk::uint8* encoded,edk::uint32 size){
                                     case 16u:
                                         for(edk::int32 y=0;y<h;y++){
                                             for(edk::int32 x=0;x<w;x++){
-                                                temp[0u]=temp[4u];
-                                                temp[1u]=temp[2u];
-                                                temp[2u]=temp[0u];
+                                                temp[0u]=source[4u];
+                                                temp[1u]=source[2u];
+                                                temp[2u]=source[0u];
                                                 //
                                                 source+=comp*2u;
                                                 temp+=comp;

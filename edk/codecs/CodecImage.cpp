@@ -88,8 +88,12 @@ bool edk::codecs::CodecImage::newFrame(edk::size2ui32 size,edk::uint8 channels){
         this->deleteFrame();
 
         //set the size of the vector frame
-        edk::uint32 frameFullSize = this->vectorFrameSize = (edk::uint32)(size.width * size.height * channels);
-        this->vectorFrameFullSize = (edk::uint32)(1920u * 1080u * 4u);
+        edk::uint32 frameFullSize = this->vectorFrameSize = (edk::uint32)(size.width * size.height * channels
+                                                                          * this->getChannelByteSize()
+                                                                          );
+        this->vectorFrameFullSize = (edk::uint32)(1920u * 1080u * 4u
+                                                  * this->getChannelByteSize()
+                                                  );
         if(this->vectorFrameFullSize < frameFullSize){
             this->vectorFrameFullSize = frameFullSize;
         }
@@ -2178,6 +2182,58 @@ bool edk::codecs::CodecImage::i420Torgb(edk::uint8* y,edk::uint8* u,edk::uint8* 
                 y++;
 
             }
+        }
+        return true;
+    }
+    return false;
+}
+//RGB32toRGB8
+bool edk::codecs::CodecImage::rgb32Torgb8(edk::uint8* rgb32,edk::uint32 size,edk::uint8* rgb8){
+    if(rgb32 && rgb8 && size){
+        edk::uint8 incrementRGB32=sizeof(edk::float32),incrementRGB8=1u;
+        edk::float32 value=0.f;
+        for(edk::uint32 i=0u;i<size;i++){
+            edkMemCpy(&value,rgb32,sizeof(edk::float32));
+            if(value>1.f)value=1.f;
+            *rgb8 = (edk::uint8)(value*255.f);
+            rgb32+=incrementRGB32;
+            rgb8+=incrementRGB8;
+        }
+        return true;
+    }
+    return false;
+}
+bool edk::codecs::CodecImage::rgb32Torgb8(edk::uint8* rgb32,
+                        edk::uint32 size,
+                        edk::uint8* rgb8,
+                        edk::float32 min,
+                        edk::float32 max
+                                          ){
+    if(rgb32
+            && rgb8
+            && size
+            && min>=0.f
+            && max>=0.f
+            ){
+        edk::uint8 incrementRGB32=sizeof(edk::float32),incrementRGB8=1u;
+        edk::float32 value=0.f;
+        if(min > max){
+            //invert
+            value = min;
+            min=max;
+            max=value;
+        }
+        //calculate the lenght
+        max = max-min;
+        for(edk::uint32 i=0u;i<size;i++){
+            edkMemCpy(&value,rgb32,sizeof(edk::float32));
+            value -= min;
+            if(value<0.f) value = 0.f;
+            if(value>max) value = max;
+            value/=max;
+            *rgb8 = (edk::uint8)(value*255.f);
+            rgb32+=incrementRGB32;
+            rgb8+=incrementRGB8;
         }
         return true;
     }

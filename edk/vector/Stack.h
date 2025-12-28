@@ -382,10 +382,11 @@ public:
             edk::vector::StackCell* newCell;
 
             edk::uint32 searchPos;
+            edk::vector::Array<typeTemplate>* leaf = NULL;
 
             while(temp){
                 //test if the temp is a leaf
-                searchPos=0u;
+                searchPos=temp->position;
                 //search for the last position
                 while(temp->get(searchPos)){
                     ++searchPos;
@@ -400,8 +401,8 @@ public:
                         pos = ((*this->stackSizePointer))-pos;
                         rest = pos%(*this->stackArraySizePointer);
                         pos = searchPos;
-                        edk::vector::Array<typeTemplate>* leaf = (edk::vector::Array<typeTemplate>*)temp->get(pos);
-                        if(temp){
+                        leaf = (edk::vector::Array<typeTemplate>*)temp->get(pos);
+                        if(leaf){
                             leaf->set(rest,obj);
                             ret = (*this->stackSizePointer);
                             ((*this->stackSizePointer))++;

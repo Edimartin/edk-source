@@ -72,7 +72,8 @@ void edk::tiles::TileSet2D::deleteTiles(){
     //test if have tiles
     if(this->tiles.size()){
         edk::tiles::Tile2D* temp = NULL;
-        for(edk::uint32 i=0u;i<this->tiles.size();i++){
+        edk::uint32 size = this->tiles.size();
+        for(edk::uint32 i=0u;i<size;i++){
             if(this->tiles.havePos(i)){
                 temp = this->tiles.get(i);
                 if(temp){

@@ -138,7 +138,7 @@ public:
                         else{
                             for(edk::uint32 j=i+1u;i>0u;j--){
                                 //delete the matrix
-                                delete[] (*this->matrixPointer)[j];
+                                delete[] (*this->matrixPointer)[j-1u];
                             }
                             free((*this->matrixPointer));
                             return false;
@@ -160,7 +160,7 @@ public:
                         else{
                             for(edk::uint32 j=i+1u;i>0u;j--){
                                 //delete the matrix
-                                free((*this->matrixPointer)[j]);
+                                free((*this->matrixPointer)[j-1u]);
                             }
                             free((*this->matrixPointer));
                             return false;
