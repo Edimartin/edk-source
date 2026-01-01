@@ -2837,6 +2837,115 @@ edk::vec2f32 edk::Object2D::getConnectedWorldPosition(){
     }
     return ret;
 }
+edk::Object2DValues edk::Object2D::getConnectedWorldValues(){
+    edk::Object2DValues ret;
+    //multiply the matrix by
+    this->matrixTransform.setIdentity();
+    if(this->father){
+        //calculate the boundingBox from the father
+        this->father->loadFatherMatrix(&this->matrixTransform);
+
+        edk::Math::generateScaleMatrix(this->connectedSize,&this->matrixSize);
+        edk::Math::generateRotateMatrixZ(this->connectedAngle,&this->matrixAngle);
+        edk::Math::generateTranslateMatrix(this->connectedPosition,&this->matrixPosition);
+        edk::Math::generateTranslateMatrix(this->connectedPivo*-1.0f,&this->matrixPivo);
+        this->matrixTransform.multiplyThisWithMatrix(&this->matrixSize);
+        this->matrixTransform.multiplyThisWithMatrix(&this->matrixAngle);
+        this->matrixTransform.multiplyThisWithMatrix(&this->matrixPosition);
+        this->matrixTransform.multiplyThisWithMatrix(&this->matrixPivo);
+
+        //first copy the matrix
+        //generate transform matrices
+        edk::Math::generateTranslateMatrix(this->savePosition,&this->matrixPosition);
+        edk::Math::generateScaleMatrix(this->saveSize,&this->matrixSize);
+        edk::Math::generateRotateMatrix2DZ(this->saveAngle,&this->matrixAngle);
+        edk::Math::generateTranslateMatrix(this->savePivo*-1.0f,&this->matrixPivo);
+
+        edk::vector::Matrixf32<3u,3u> matrixTransformTEMP;
+        matrixTransformTEMP.cloneFrom(&this->matrixTransform);
+/*
+        //translate
+        this->matrixTransform.multiplyThisWithMatrix(&this->matrixPosition);
+        //angle
+        if(this->fixedRotation){
+            edk::Math::generateRotateMatrixZ(this->angle,&this->matrixAngle);
+            this->matrixTransform.multiplyThisWithMatrix(&this->matrixAngle);
+        }
+        //scale
+        this->matrixTransform.multiplyThisWithMatrix(&this->matrixSize);
+        //Pivo
+        this->matrixTransform.multiplyThisWithMatrix(&this->matrixPivo);
+*/
+        //transform all the vertices
+        if(this->matrixPosition.haveMatrix()){
+            matrixTransformTEMP.cloneFrom(&this->matrixTransform);
+            //translate
+            matrixTransformTEMP.multiplyThisWithMatrix(&this->matrixPosition);
+            ////angle
+            //if(!this->fixedRotation){
+            //    edk::Math::generateRotateMatrixZ(this->angle,&this->matrixAngle);
+            //    matrixTransformTEMP.multiplyThisWithMatrix(&this->matrixAngle);
+            //}
+            ////scale
+            //matrixTransformTEMP.multiplyThisWithMatrix(&this->matrixSize);
+            //Pivo
+            matrixTransformTEMP.multiplyThisWithMatrix(&this->matrixPivo);
+
+
+            //transform the point
+            this->matrixPosition.setIdentity();
+            this->matrixPosition.set(0u,0u,0.f);
+            this->matrixPosition.set(0u,1u,0.f);
+            this->matrixPosition.set(0u,2u,1.f);
+
+            //multiply the matrix
+            this->matrixPosition.multiplyMatrixWithThis(&matrixTransformTEMP);
+
+            ret.position.x = this->matrixPosition.getNoIF(0u,0u);
+            ret.position.y = this->matrixPosition.getNoIF(0u,1u);
+
+            edk::vec2f32 vecAngle = edk::Math::rotate(1.f,0.f,this->saveAngle);
+
+            //angle
+            this->matrixPosition.setIdentity();
+            this->matrixPosition.set(0u,0u,vecAngle.x);
+            this->matrixPosition.set(0u,1u,vecAngle.y);
+            this->matrixPosition.set(0u,2u,1.f);
+
+            //multiply the matrix
+            this->matrixPosition.multiplyMatrixWithThis(&matrixTransformTEMP);
+
+            ret.angle = edk::Math::getAngle(this->matrixPosition.getNoIF(0u,0u),
+                                            this->matrixPosition.getNoIF(0u,1u)
+                                            );
+
+            //size
+            //matrixTransformTEMP.cloneFrom(&this->matrixTransform);
+            //////translate
+            ////matrixTransformTEMP.multiplyThisWithMatrix(&this->matrixPosition);
+            ////scale
+            //matrixTransformTEMP.multiplyThisWithMatrix(&this->matrixSize);
+            ////Pivo
+            //matrixTransformTEMP.multiplyThisWithMatrix(&this->matrixPivo);
+
+            //transform the point
+            this->matrixPosition.setIdentity();
+            this->matrixPosition.set(0u,0u,this->saveSize.width);
+            this->matrixPosition.set(0u,1u,this->saveSize.height);
+            this->matrixPosition.set(0u,2u,1.f);
+
+            //multiply the matrix
+            this->matrixPosition.multiplyMatrixWithThis(&matrixTransformTEMP);
+
+            ret.size.width  = this->matrixPosition.getNoIF(0u,0u) - ret.position.x;
+            ret.size.height = this->matrixPosition.getNoIF(0u,1u) - ret.position.y;
+        }
+    }
+    else{
+        ret.cloneValuesFrom(this);
+    }
+    return ret;
+}
 
 //return a copy of the boundingBox
 edk::rectf32 edk::Object2D::getBoundingBox(){
@@ -4384,6 +4493,12 @@ bool edk::Object2D::readFromXMLFromPack(edk::pack::FilePackage* pack,edk::XML* x
 }
 
 //connect another object into this
+bool edk::Object2D::isConnected(){
+    if(this->father){
+        return true;
+    }
+    return false;
+}
 bool edk::Object2D::connectObjectBack(edk::Object2D* obj){
     if(obj){
         if(!obj->father){
@@ -4393,6 +4508,10 @@ bool edk::Object2D::connectObjectBack(edk::Object2D* obj){
                 obj->father=this;
 
                 obj->newSize = edk::size2f32(1.f / this->size.width,1.f / this->size.height);
+
+                obj->savePosition = obj->position;
+                obj->saveAngle = obj->angle;
+                obj->saveSize = obj->size;
 
                 //translate the object to be connected with the another
                 obj->connectedPosition=this->position*-1.f;
@@ -4532,6 +4651,10 @@ bool edk::Object2D::connectObjectFront(edk::Object2D* obj){
                 obj->father=this;
 
                 obj->newSize = edk::size2f32(1.f / this->size.width,1.f / this->size.height);
+
+                obj->savePosition = obj->position;
+                obj->saveAngle = obj->angle;
+                obj->saveSize = obj->size;
 
                 //translate the object to be connected with the another
                 obj->connectedPosition=this->position*-1.f;

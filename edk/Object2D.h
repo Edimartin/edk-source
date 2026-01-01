@@ -104,6 +104,7 @@ public:
     edk::rectf32 generateNewBoundingBoxNoChildrem(edk::vector::Matrixf32<3u,3u>* transformMat);
 
     edk::vec2f32 getConnectedWorldPosition();
+    edk::Object2DValues getConnectedWorldValues();
 
     //return a copy of the boundingBox
     edk::rectf32 getBoundingBox();
@@ -259,12 +260,14 @@ public:
     virtual bool readFromXMLFromPack(edk::pack::FilePackage* pack,edk::XML* xml,edk::uint32 id);
 
     //connect another object into this
+    virtual bool isConnected();
     virtual bool connectObjectBack(edk::Object2D* obj);
     virtual bool updateConnectedObjectBackValues(edk::Object2D* obj);
     virtual inline bool applyConnectedObjectBackValues(edk::Object2D* obj){
         return this->updateConnectedObjectBackValues(obj);
     }
     virtual edk::vec2f32 getConnectedObjectBackWorldPosition(edk::Object2D* obj);
+    virtual edk::size2f32 getConnectedObjectBackWorldSize(edk::Object2D* obj);
     virtual bool haveConnectedObjectBack(edk::Object2D* obj);
     virtual bool disconnectObjectBack(edk::Object2D* obj);
     virtual void disconnectAllObjectsBack();
