@@ -267,7 +267,6 @@ public:
         return this->updateConnectedObjectBackValues(obj);
     }
     virtual edk::vec2f32 getConnectedObjectBackWorldPosition(edk::Object2D* obj);
-    virtual edk::size2f32 getConnectedObjectBackWorldSize(edk::Object2D* obj);
     virtual bool haveConnectedObjectBack(edk::Object2D* obj);
     virtual bool disconnectObjectBack(edk::Object2D* obj);
     virtual void disconnectAllObjectsBack();
