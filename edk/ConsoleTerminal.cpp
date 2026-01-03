@@ -492,6 +492,8 @@ void edk::TTY::Constructor(){
         this->haveInitMouse=false;
         //init the terminal
         this->initTerminal();
+
+        edk::ConsoleTerminal::cleanFolderString();
     }
 }
 void edk::TTY::Destructor(){
@@ -565,6 +567,7 @@ edk::char8* edk::ConsoleTerminal::key=NULL;
 edk::uint32 edk::ConsoleTerminal::keyLenth=0u;
 edk::uint32 edk::ConsoleTerminal::keySize=0u;
 edk::uint32 edk::ConsoleTerminal::keyPos=0u;
+edk::char8 edk::ConsoleTerminal::strFolder[FOLDER_STR_SIZE];
 
 edk::ConsoleTerminal::ConsoleTerminal(){
     this->classThis=NULL;
@@ -581,6 +584,8 @@ void edk::ConsoleTerminal::Constructor(){
     }
     if(this->classThis!=this){
         this->classThis=this;
+
+        this->cleanFolderString();
     }
 }
 void edk::ConsoleTerminal::Destructor(){
@@ -590,6 +595,10 @@ void edk::ConsoleTerminal::Destructor(){
         edk::ConsoleTerminal::tty.Destructor();
     }
     edk::ConsoleTerminal::tty.Destructor();
+}
+
+void edk::ConsoleTerminal::cleanFolderString(){
+    memset(edk::ConsoleTerminal::strFolder,0u,sizeof(edk::ConsoleTerminal::strFolder));
 }
 
 void edk::ConsoleTerminal::enableMouse(){
@@ -827,4 +836,21 @@ edk::size2ui32 edk::ConsoleTerminal::getSize(){
     ret.height = w.ws_row;
 #endif
     return ret;
+}
+
+bool edk::ConsoleTerminal::goToFolder(edk::char8* str){
+    if(str){
+        if (chdir(str) == 0) {
+            return true;
+        }
+    }
+    return NULL;
+}
+bool edk::ConsoleTerminal::goToFolder(const edk::char8* str){
+    return edk::ConsoleTerminal::goToFolder((edk::char8*) str);
+}
+edk::char8* edk::ConsoleTerminal::getCurrentFolder(){
+    edk::ConsoleTerminal::cleanFolderString();
+    getcwd(edk::ConsoleTerminal::strFolder, sizeof(edk::ConsoleTerminal::strFolder));
+    return edk::ConsoleTerminal::strFolder;
 }

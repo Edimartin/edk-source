@@ -721,6 +721,67 @@ edk::int32 edk::String::strToInt32(const edk::char8 *str){
     return edk::String::strToInt32((edk::char8*)str);
 }
 
+edk::char8* edk::String::strShellToLine(edk::char8* str){
+    if(str){
+        edk::uint32 counter = edk::String::strSize(str);
+        edk::uint32 returns = edk::String::strReturnsSize(str);
+        if(counter){
+            //create a new string to return
+            edk::char8* ret = (edk::char8*)malloc(counter + (returns*3u) + 1u);
+            if(ret){
+                edk::char8* temp = ret;
+                bool haveCommand=false;
+                while(*str){
+                    if(*str=='#'){
+                        //go to end line
+                        str = edk::String::strGoToEndLine(str);
+                        str++;
+                        continue;
+                    }
+                    //copy the string into remove the lines adding " ; "
+                    if(edk::String::isCharReturn(*str)){
+                        str++;
+                        if(!edk::String::isCharReturn(*str)){
+                            if(haveCommand){
+                                temp[0u]=' ';temp[1u]=';';temp[2u]=' ';
+                                temp+=3u;
+                            }
+                        }
+                    }
+                    else{
+                        haveCommand=true;
+                        temp[0u]=str[0u];
+                        temp++;
+                        str++;
+                    }
+                }
+                *temp=0u;
+                return ret;
+                free(ret);
+            }
+        }
+    }
+    return NULL;
+}
+edk::char8* edk::String::strShellToLine(const edk::char8* str){
+    return edk::String::strShellToLine((edk::char8*) str);
+}
+
+edk::char8* edk::String::strGoToEndLine(edk::char8* str){
+    if(str){
+        while(*str){
+            if(edk::String::isCharEndLine(*str)){
+                break;
+            }
+            str++;
+        }
+    }
+    return str;
+}
+edk::char8* edk::String::strGoToEndLine(const edk::char8* str){
+    return edk::String::strGoToEndLine((edk::char8*) str);
+}
+
 #if defined(_WIN32) || defined(_WIN64)
 //Convert String to TCHAR from Windows
 TCHAR* edk::String::strToTCHAR(const edk::char8* str){
@@ -4584,6 +4645,22 @@ edk::uint64 edk::String::strLineSizeWithFilter(const edk::char8 *str,const edk::
     return strLineSizeWithFilter((edk::char8 *)str,(edk::char8*) filter);
 }
 
+edk::uint64 edk::String::strReturnsSize(edk::char8 *str){
+    edk::uint64 ret=0uL;
+    if(str){
+        while(*str){
+            if(*str == '\n' || *str == 10u){
+                ret++;
+            }
+            str++;
+        }
+    }
+    return ret;
+}
+edk::uint64 edk::String::strReturnsSize(const edk::char8 *str){
+    return edk::String::strReturnsSize((edk::char8*) str);
+}
+
 bool edk::String::strCut(edk::char8 *str,edk::char8 *dest, edk::char8 limit, bool use){
     if(str && dest && limit){
         while(*str){
@@ -6221,6 +6298,37 @@ bool edk::String::strFolderAndFileNameNoExtension(edk::char8* str,edk::char8* de
 bool edk::String::strFolderAndFileNameNoExtension(const edk::char8* str,edk::char8* dest){
     return edk::String::strFolderAndFileNameNoExtension((edk::char8*) str, dest);
 }
+//count the folders
+edk::uint32 edk::String::strFolderCounter(edk::char8* str){
+    if(str){
+        edk::int64 ret = 0;
+        bool checkBar=true;
+        if(str[0u] == '.' && str[1u] == '/'){
+            str+=2u;
+        }
+        if(str[0u] == '/'){
+            str++;
+        }
+        while(*str){
+            if(*str=='/'){
+                if(!checkBar){
+                    ret++;
+                }
+                checkBar=true;
+            }
+            else{
+                checkBar=false;
+            }
+            str++;
+        }
+        if(ret<0) ret=0;
+        return ret;
+    }
+    return 0u;
+}
+edk::uint32 edk::String::strFolderCounter(const edk::char8* str){
+    return edk::String::strFolderCounter((edk::char8*) str);
+}
 
 //BASE64
 const edk::char8 b64chars[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
@@ -6473,8 +6581,8 @@ bool edk::String::isCharEndLine(edk::char8 c){
     switch(c){
     case '\n':
         return true;
-    //case 10u:
-    //    return true;
+        //case 10u:
+        //    return true;
     case 13u:
         return true;
     }

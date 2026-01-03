@@ -109,6 +109,18 @@ public:
 
     static edk::int32 strToInt32(const edk::char8 *str);
 
+    static edk::char8* strShellToLine(edk::char8* str);
+    static edk::char8* strShellToLine(const edk::char8* str);
+    static inline edk::char8* strSHToLine(edk::char8* str){
+        return edk::String::strShellToLine(str);
+    }
+    static inline edk::char8* strSHToLine(const edk::char8* str){
+        return edk::String::strShellToLine(str);
+    }
+
+    static edk::char8* strGoToEndLine(edk::char8* str);
+    static edk::char8* strGoToEndLine(const edk::char8* str);
+
 #if defined(_WIN32) || defined(_WIN64)
     //Convert String to TCHAR from Windows
     static TCHAR* strToTCHAR(const edk::char8* str);
@@ -389,6 +401,9 @@ public:
     static edk::uint64 strLineSizeWithFilter(const edk::char8 *str,edk::char8* filter);
     static edk::uint64 strLineSizeWithFilter(const edk::char8 *str,const edk::char8 *filter);
 
+    static edk::uint64 strReturnsSize(edk::char8 *str);
+    static edk::uint64 strReturnsSize(const edk::char8 *str);
+
     static bool strCut(edk::char8 *str,edk::char8 *dest, edk::char8 limit, bool use=false);
 
     static bool strCut(const edk::char8 *str,edk::char8 *dest, edk::char8 limit, bool use=false);
@@ -507,6 +522,9 @@ public:
     static edk::char8* strFolderAndFileNameNoExtension(const edk::char8* str);
     static bool strFolderAndFileNameNoExtension(edk::char8* str,edk::char8* dest);
     static bool strFolderAndFileNameNoExtension(const edk::char8* str,edk::char8* dest);
+    //count the folders
+    static edk::uint32 strFolderCounter(edk::char8* str);
+    static edk::uint32 strFolderCounter(const edk::char8* str);
 
     //BASE64
     //encode
@@ -537,6 +555,9 @@ public:
     static edk::char8* uriUnescape(const edk::char8* str);
 
     static bool isCharEndLine(edk::char8 c);
+    static inline bool isCharReturn(edk::char8 c){
+        return edk::String::isCharEndLine(c);
+    }
 private:
     static edk::char8* int32ToMinusStr(edk::int32 value);
     static bool int32ToMinusStr(edk::int32 value,edk::char8* dest);

@@ -67,9 +67,20 @@ int edkGetch(void);
 int edkKbhit(void);
 #endif
 
+//to select the folder
+#ifdef _WIN32
+    #include <direct.h> // Para _chdir e _getcwd no Windows
+    #define chdir _chdir
+    #define getcwd _getcwd
+#else
+    #include <unistd.h>
+#endif
+
 #ifdef printMessages
 #pragma message "    Compiling ConsoleTerminal"
 #endif
+
+#define FOLDER_STR_SIZE 1024u
 
 namespace edk {
 class TTY{
@@ -98,6 +109,8 @@ public:
 
     void Constructor();
     void Destructor();
+
+    static void cleanFolderString();
 
     static void enableMouse();
     static void disableMouse();
@@ -138,6 +151,13 @@ public:
     //return the console size
     static edk::size2ui32 getSize();
 
+    static bool goToFolder(edk::char8* str);
+    static bool goToFolder(const edk::char8* str);
+
+    static edk::char8* getCurrentFolder();
+    static inline edk::char8* getPWD(){
+        return edk::ConsoleTerminal::getCurrentFolder();
+    }
 private:
     //TTY to construct and destruct
     static edk::TTY tty;
@@ -149,6 +169,7 @@ private:
     static edk::char8* buffer;
     static edk::uint32 bufferLenth;
     static edk::uint32 bufferSize;
+    static edk::char8 strFolder[FOLDER_STR_SIZE];
 private:
     edk::classID classThis;
 };
