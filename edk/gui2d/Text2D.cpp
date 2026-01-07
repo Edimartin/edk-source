@@ -73,6 +73,83 @@ bool edk::gui2d::Text2D::setBorderSize(edk::float32){
     return false;
 }
 
+//XML
+bool edk::gui2d::Text2D::writeToXML(edk::XML* xml,edk::uint32 id){
+    if(xml){
+        bool ret=false;
+        //create the nameID
+        edk::char8* nameID = edk::String::int64ToStr(id);
+        if(nameID){
+            //concat
+            edk::char8* name = edk::String::strCat((edk::char8*)EDK_GUI2D_XML_GUI2D_TEXT,nameID);
+            if(name){
+                //create the name
+                if(xml->addSelectedNextChild(name)){
+                    if(xml->selectChild(name)){
+                        //WRITE
+                        //write the mesh
+
+                        ret=true;
+                        xml->selectFather();
+                    }
+                }
+                free(name);
+            }
+            free(nameID);
+        }
+        return ret;
+    }
+    return false;
+}
+bool edk::gui2d::Text2D::readFromXML(edk::XML* xml,edk::uint32 id){
+    if(xml){
+        bool ret=false;
+        //create the nameID
+        edk::char8* nameID = edk::String::int64ToStr(id);
+        if(nameID){
+            //concat
+            edk::char8* name = edk::String::strCat((edk::char8*)EDK_GUI2D_XML_GUI2D_TEXT,nameID);
+            if(name){
+                //create the name
+                if(xml->selectChild(name)){
+                    //this->cleanMeshes();
+
+                    ret=true;
+                    xml->selectFather();
+                }
+                free(name);
+            }
+            free(nameID);
+        }
+        return ret;
+    }
+    return false;
+}
+bool edk::gui2d::Text2D::readFromXMLFromPack(edk::pack::FilePackage* pack,edk::XML* xml,edk::uint32 id){
+    if(xml && pack){
+        bool ret=false;
+        //create the nameID
+        edk::char8* nameID = edk::String::int64ToStr(id);
+        if(nameID){
+            //concat
+            edk::char8* name = edk::String::strCat((edk::char8*)EDK_GUI2D_XML_GUI2D_TEXT,nameID);
+            if(name){
+                //create the name
+                if(xml->selectChild(name)){
+                    //this->cleanMeshes();
+
+                    ret=true;
+                    xml->selectFather();
+                }
+                free(name);
+            }
+            free(nameID);
+        }
+        return ret;
+    }
+    return false;
+}
+
 //draw the button
 void edk::gui2d::Text2D::draw(){
     this->drawStart();

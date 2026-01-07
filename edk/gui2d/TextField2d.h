@@ -44,6 +44,8 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #pragma message "    Compiling gui2d::TextField2d"
 #endif
 
+#define EDK_GUI2D_XML_GUI2D_TEXTFIELD "gui2dTextfield_"
+
 //define the cursor second animation
 #define edkGU2dCursorSecond 1.f
 #define edkGU2dCursorWidthPercent 0.2f
@@ -141,6 +143,11 @@ public:
     edk::char8* getText();
     //get string size
     edk::uint32 getTextSize();
+
+    //XML
+    virtual bool writeToXML(edk::XML* xml,edk::uint32 id);
+    virtual bool readFromXML(edk::XML* xml,edk::uint32 id);
+    virtual bool readFromXMLFromPack(edk::pack::FilePackage* pack,edk::XML* xml,edk::uint32 id);
 
     //draw the button
     void draw();

@@ -45,6 +45,8 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #pragma message "    Compiling gui2d::BoxGui2d"
 #endif
 
+#define EDK_GUI2D_XML_GUI2D_BOX "gui2dBox_"
+
 namespace edk{
 namespace gui2d{
 class BoxGui2d: public edk::gui2d::ObjectGui2d{
@@ -88,6 +90,11 @@ public:
     void deleteText();
 
     virtual void update();
+
+    //XML
+    virtual bool writeToXML(edk::XML* xml,edk::uint32 id);
+    virtual bool readFromXML(edk::XML* xml,edk::uint32 id);
+    virtual bool readFromXMLFromPack(edk::pack::FilePackage* pack,edk::XML* xml,edk::uint32 id);
 
     //draw the button
     virtual void draw();

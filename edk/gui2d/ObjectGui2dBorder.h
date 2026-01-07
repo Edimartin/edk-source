@@ -40,7 +40,9 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #pragma message "    Compiling ObjectBorder"
 #endif
 
-
+#define EDK_GUI2D_XML_GUI2D_BORDER "gui2dBorder_"
+#define EDK_GUI2D_XML_BORDER "border"
+#define EDK_GUI2D_XML_GUI2D_COLOR "gui2dColor_"
 
 namespace edk{
 namespace gui2d{
@@ -128,6 +130,11 @@ public:
     void drawPressedUp();
     void drawSelection();
     bool calculateMeshBoundingBox(edk::rectf32* rect,edk::vector::Matrixf32<3u,3u>* transformMat);
+
+    //XML
+    virtual bool writeToXML(edk::XML* xml,edk::uint32 id);
+    virtual bool readFromXML(edk::XML* xml,edk::uint32 id);
+    virtual bool readFromXMLFromPack(edk::pack::FilePackage* pack,edk::XML* xml,edk::uint32 id);
 private:
     edk::shape::Mesh2D mesh;
     edk::shape::Rectangle2D center;

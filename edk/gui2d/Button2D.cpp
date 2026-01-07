@@ -29,7 +29,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endif
 
 edk::gui2d::Button2D::Button2D(){
-    this->classThis=NULL; 
+    this->classThis=NULL;
     this->Constructor();
 }
 edk::gui2d::Button2D::~Button2D(){
@@ -37,13 +37,13 @@ edk::gui2d::Button2D::~Button2D(){
 }
 
 void edk::gui2d::Button2D::Constructor(){
-        edk::gui2d::ObjectGui2d::Constructor(); 
+    edk::gui2d::ObjectGui2d::Constructor();
     if(this->classThis!=this){
         this->classThis=this;
 
         this->typeGUI = edk::gui2d::gui2dTypeButton;
         this->type=edk::TypeObject2DButton;
-        this->obj.setBorderSize(0.25f); 
+        this->obj.setBorderSize(0.25f);
     }
 }
 void edk::gui2d::Button2D::Destructor(){
@@ -64,19 +64,104 @@ bool edk::gui2d::Button2D::load(){
     return false;
 }
 void edk::gui2d::Button2D::unload(){
-    edk::gui2d::ObjectGui2d::unload(); 
+    edk::gui2d::ObjectGui2d::unload();
 }
 void edk::gui2d::Button2D::update(){
-    edk::gui2d::ObjectGui2d::update(); 
+    edk::gui2d::ObjectGui2d::update();
 }
 
 //set border size
 bool edk::gui2d::Button2D::setBorderSize(edk::float32 size){
-    return this->obj.setBorderSize(size); 
+    return this->obj.setBorderSize(size);
+}
+
+//XML
+bool edk::gui2d::Button2D::writeToXML(edk::XML* xml,edk::uint32 id){
+    if(xml){
+        bool ret=false;
+
+        //write the object type
+        if(edk::gui2d::ObjectGui2d::writeToXML(xml,id)){
+            //create the nameID
+            edk::char8* nameID = edk::String::int64ToStr(id);
+            if(nameID){
+                //concat
+                edk::char8* name = edk::String::strCat((edk::char8*)EDK_GUI2D_XML_GUI2D_BUTTON,nameID);
+                if(name){
+                    //create the name
+                    if(xml->addSelectedNextChild(name)){
+                        if(xml->selectChild(name)){
+                            //WRITE
+                            //write the mesh
+
+                            ret=true;
+                            xml->selectFather();
+                        }
+                    }
+                    free(name);
+                }
+                free(nameID);
+            }
+        }
+        return ret;
+    }
+    return false;
+}
+bool edk::gui2d::Button2D::readFromXML(edk::XML* xml,edk::uint32 id){
+    if(xml){
+        bool ret=false;
+        if(edk::gui2d::ObjectGui2d::readFromXML(xml,id)){
+            //create the nameID
+            edk::char8* nameID = edk::String::int64ToStr(id);
+            if(nameID){
+                //concat
+                edk::char8* name = edk::String::strCat((edk::char8*)EDK_GUI2D_XML_GUI2D_BUTTON,nameID);
+                if(name){
+                    //create the name
+                    if(xml->selectChild(name)){
+                        //this->cleanMeshes();
+
+                        ret=true;
+                        xml->selectFather();
+                    }
+                    free(name);
+                }
+                free(nameID);
+            }
+        }
+        return ret;
+    }
+    return false;
+}
+bool edk::gui2d::Button2D::readFromXMLFromPack(edk::pack::FilePackage* pack,edk::XML* xml,edk::uint32 id){
+    if(xml && pack){
+        bool ret=false;
+        if(edk::gui2d::ObjectGui2d::readFromXMLFromPack(pack,xml,id)){
+            //create the nameID
+            edk::char8* nameID = edk::String::int64ToStr(id);
+            if(nameID){
+                //concat
+                edk::char8* name = edk::String::strCat((edk::char8*)EDK_GUI2D_XML_GUI2D_BUTTON,nameID);
+                if(name){
+                    //create the name
+                    if(xml->selectChild(name)){
+                        //this->cleanMeshes();
+
+                        ret=true;
+                        xml->selectFather();
+                    }
+                    free(name);
+                }
+                free(nameID);
+            }
+        }
+        return ret;
+    }
+    return false;
 }
 
 //draw the button
 void edk::gui2d::Button2D::draw(){
-    edk::gui2d::ObjectGui2d::draw(); 
+    edk::gui2d::ObjectGui2d::draw();
 }
 

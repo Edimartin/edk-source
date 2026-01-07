@@ -28,6 +28,22 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #pragma message "            Inside ObjectGui2d.cpp"
 #endif
 
+edk::char8 gui2dTypeString[edk::gui2d::gui2dTypeSize][128u] = {
+    "gui2dTypeObject",
+    "gui2dTypeButton",
+    "gui2dTypeScrollBar",
+    "gui2dTypeMenu",
+    "gui2dTypeText",
+    "gui2dTypeTextField"
+};
+
+edk::char8 gui2dSymbolsString[edk::gui2d::gui2dTextureSize][128u] = {
+    "gui2dTextureNormal",
+    "gui2dTextureUp",
+    "gui2dTexturePressed",
+    "gui2dTexturePressedUp"
+};
+
 edk::gui2d::ObjectGui2d::ObjectGui2d(){
     this->classThis=NULL;
     this->Constructor();
@@ -327,6 +343,15 @@ void edk::gui2d::ObjectGui2d::updateTextSize(edk::size2f32 sizeText,edk::size2f3
 //get GUI type
 edk::gui2d::gui2dTypes edk::gui2d::ObjectGui2d::getTypeGUI(){
     return this->typeGUI;
+}
+edk::char8* edk::gui2d::ObjectGui2d::getStringTypeGUI(){
+    return (edk::char8*)gui2dTypeString[this->getTypeGUI()];
+}
+edk::char8* edk::gui2d::ObjectGui2d::getStringTypeGUI(edk::gui2d::gui2dTypes type){
+    if(type<edk::gui2d::gui2dTypeSize){
+        return (edk::char8*)gui2dTypeString[type];
+    }
+    return (edk::char8*)gui2dTypeString[gui2dTypeObject];
 }
 
 //LOAD SPRITES
@@ -745,6 +770,7 @@ bool edk::gui2d::ObjectGui2d::writeText(edk::char8* text,edk::size2f32 scale){
     if(text){
         //write the text
         if(this->text.createStringMapOneLine(text)){
+            this->textString.setName(text);
             this->calculateTextScale(scale);
             return true;
         }
@@ -752,6 +778,7 @@ bool edk::gui2d::ObjectGui2d::writeText(edk::char8* text,edk::size2f32 scale){
     return false;
 }
 void edk::gui2d::ObjectGui2d::cleanText(){
+    this->textString.cleanName();
     this->text.deleteMap();
 }
 
@@ -1067,6 +1094,343 @@ edk::rectf32 edk::gui2d::ObjectGui2d::getInsideRect(){
     edk::rectf32 ret = this->obj.getRectCenter();
     ret.origin+=this->position;
     return ret;
+}
+
+//XML
+bool edk::gui2d::ObjectGui2d::writeToXML(edk::XML* xml,edk::uint32 id){
+    if(xml){
+        bool ret=false;
+        //create the nameID
+        edk::char8* nameID = edk::String::int64ToStr(id);
+        if(nameID){
+            //concat
+            edk::char8* name = edk::String::strCat((edk::char8*)EDK_GUI2D_XML_GUI2D_OBJ,nameID);
+            if(name){
+                //create the name
+                if(xml->addSelectedNextChild(name)){
+                    if(xml->selectChild(name)){
+                        //WRITE
+                        //write the object type
+
+                        xml->setSelectedString(this->getStringTypeGUI());
+
+                        //
+                        edk::char8* tempID = NULL;
+                        edk::char8* strTemp = NULL;
+
+                        tempID = edk::String::int64ToStr(id);
+                        if(tempID){
+                            //concat
+                            strTemp = edk::String::strCat((edk::char8*)EDK_GUI2D_XML_GUI2D_POSITION,tempID);
+                            if(strTemp){
+                                if(xml->addSelectedNextChild(strTemp)){
+                                    if(xml->selectChild(strTemp)){
+                                        xml->addSelectedNextAttribute("X",this->position.x);
+                                        xml->addSelectedNextAttribute("Y",this->position.y);
+                                        xml->selectFather();
+                                    }
+                                }
+                                free(strTemp);
+                            }
+                        }
+                        tempID = edk::String::int64ToStr(id);
+                        if(tempID){
+                            //concat
+                            strTemp = edk::String::strCat((edk::char8*)EDK_GUI2D_XML_GUI2D_ANGLE,tempID);
+                            if(strTemp){
+                                if(xml->addSelectedNextChild(strTemp)){
+                                    if(xml->selectChild(strTemp)){
+                                        xml->addSelectedNextAttribute("A",this->angle);
+                                        xml->selectFather();
+                                    }
+                                }
+                                free(strTemp);
+                            }
+                        }
+                        tempID = edk::String::int64ToStr(id);
+                        if(tempID){
+                            //concat
+                            strTemp = edk::String::strCat((edk::char8*)EDK_GUI2D_XML_GUI2D_SIZE,tempID);
+                            if(strTemp){
+                                if(xml->addSelectedNextChild(strTemp)){
+                                    if(xml->selectChild(strTemp)){
+                                        xml->addSelectedNextAttribute("W",this->size.width);
+                                        xml->addSelectedNextAttribute("H",this->size.height);
+                                        xml->selectFather();
+                                    }
+                                }
+                                free(strTemp);
+                            }
+                        }
+
+
+                        //wrire the border values
+                        this->obj.writeToXML(xml,id);
+
+
+                        /*
+    //sprite size
+    edk::size2ui32 spriteSize[edk::gui2d::gui2dTextureSize];
+    //temp
+    edk::float32 percent1;
+    edk::float32 percent2;
+    edk::float32 resize;
+    //object status
+    edk::gui2d::gui2dTexture status;
+    //save the object status to compare in update function
+    edk::gui2d::gui2dTexture saveStatus;
+    //save the position to move the object
+    edk::vec2f32 savePosition;
+*/
+
+                        //gui2dTextureNormal;
+                        xml->addSelectedNextAttribute(gui2dSymbolsString[edk::gui2d::gui2dTextureNormal],
+                                this->sprite.material.getTextureName(edk::gui2d::gui2dTextureNormal)
+                                );
+                        //gui2dTextureUp;
+                        xml->addSelectedNextAttribute(gui2dSymbolsString[edk::gui2d::gui2dTextureUp],
+                                this->sprite.material.getTextureName(edk::gui2d::gui2dTextureUp)
+                                );
+                        //gui2dTexturePressed;
+                        xml->addSelectedNextAttribute(gui2dSymbolsString[edk::gui2d::gui2dTexturePressed],
+                                this->sprite.material.getTextureName(edk::gui2d::gui2dTexturePressed)
+                                );
+                        //gui2dTexturePressedUp;
+                        xml->addSelectedNextAttribute(gui2dSymbolsString[edk::gui2d::gui2dTexturePressedUp],
+                                this->sprite.material.getTextureName(edk::gui2d::gui2dTexturePressedUp)
+                                );
+
+                        xml->addSelectedNextAttribute(EDK_GUI2D_XML_GUI2D_STRING,this->textString.getName());
+
+                        ret=true;
+                        xml->selectFather();
+                    }
+                }
+                free(name);
+            }
+            free(nameID);
+        }
+        return ret;
+    }
+    return false;
+}
+bool edk::gui2d::ObjectGui2d::readFromXML(edk::XML* xml,edk::uint32 id){
+    if(xml){
+        bool ret=false;
+        //create the nameID
+        edk::char8* nameID = edk::String::int64ToStr(id);
+        if(nameID){
+            //concat
+            edk::char8* name = edk::String::strCat((edk::char8*)EDK_GUI2D_XML_GUI2D_OBJ,nameID);
+            if(name){
+                //create the name
+                if(xml->selectChild(name)){
+                    //this->cleanMeshes();
+
+                    edk::char8* tempID = NULL;
+                    edk::char8* strTemp = NULL;
+
+                    tempID = edk::String::int64ToStr(id);
+                    if(tempID){
+                        //concat
+                        strTemp = edk::String::strCat((edk::char8*)EDK_GUI2D_XML_GUI2D_POSITION,tempID);
+                        if(strTemp){
+                            if(xml->selectChild(strTemp)){
+                                if(xml->haveAttributeName("X")){
+                                    this->position.x = xml->getSelectedAttributeValueAsFloat32ByName("X");
+                                }
+                                if(xml->haveAttributeName("Y")){
+                                    this->position.y = xml->getSelectedAttributeValueAsFloat32ByName("Y");
+                                }
+                                xml->selectFather();
+                            }
+                            free(strTemp);
+                        }
+                    }
+                    tempID = edk::String::int64ToStr(id);
+                    if(tempID){
+                        //concat
+                        strTemp = edk::String::strCat((edk::char8*)EDK_GUI2D_XML_GUI2D_ANGLE,tempID);
+                        if(strTemp){
+                            if(xml->selectChild(strTemp)){
+                                if(xml->haveAttributeName("A")){
+                                    this->angle = xml->getSelectedAttributeValueAsFloat32ByName("A");
+                                }
+                                xml->selectFather();
+                            }
+                            free(strTemp);
+                        }
+                    }
+                    tempID = edk::String::int64ToStr(id);
+                    if(tempID){
+                        //concat
+                        strTemp = edk::String::strCat((edk::char8*)EDK_GUI2D_XML_GUI2D_SIZE,tempID);
+                        if(strTemp){
+                            if(xml->selectChild(strTemp)){
+                                if(xml->haveAttributeName("W")){
+                                    this->size.width = xml->getSelectedAttributeValueAsFloat32ByName("W");
+                                }
+                                if(xml->haveAttributeName("H")){
+                                    this->size.height = xml->getSelectedAttributeValueAsFloat32ByName("H");
+                                }
+                                xml->selectFather();
+                            }
+                            free(strTemp);
+                        }
+                    }
+
+                    edk::char8* str=NULL;
+
+                    //gui2dTextureNormal;
+                    str = xml->getSelectedAttributeValueByName(gui2dSymbolsString[edk::gui2d::gui2dTextureNormal]);
+                    if(str){
+                        this->loadSymbol(str);
+                        //free(str);
+                    }
+                    //gui2dTextureUp;
+                    str = xml->getSelectedAttributeValueByName(gui2dSymbolsString[edk::gui2d::gui2dTextureUp]);
+                    if(str){
+                        this->loadSymbolUp(str);
+                        //free(str);
+                    }
+                    //gui2dTexturePressed;
+                    str = xml->getSelectedAttributeValueByName(gui2dSymbolsString[edk::gui2d::gui2dTexturePressed]);
+                    if(str){
+                        this->loadSymbolPressed(str);
+                        //free(str);
+                    }
+                    //gui2dTexturePressedUp;
+                    str = xml->getSelectedAttributeValueByName(gui2dSymbolsString[edk::gui2d::gui2dTexturePressedUp]);
+                    if(str){
+                        this->loadSymbolPressedUp(str);
+                        //free(str);
+                    }
+
+                    str = xml->getSelectedAttributeValueByName(EDK_GUI2D_XML_GUI2D_STRING);
+                    if(str){
+                        this->writeText(str);
+                        //free(str);
+                    }
+
+                    ret=true;
+                    xml->selectFather();
+                }
+                free(name);
+            }
+            free(nameID);
+        }
+        return ret;
+    }
+    return false;
+}
+bool edk::gui2d::ObjectGui2d::readFromXMLFromPack(edk::pack::FilePackage* pack,edk::XML* xml,edk::uint32 id){
+    if(xml && pack){
+        bool ret=false;
+        //create the nameID
+        edk::char8* nameID = edk::String::int64ToStr(id);
+        if(nameID){
+            //concat
+            edk::char8* name = edk::String::strCat((edk::char8*)EDK_GUI2D_XML_GUI2D_OBJ,nameID);
+            if(name){
+                //create the name
+                if(xml->selectChild(name)){
+                    //this->cleanMeshes();
+
+                    edk::char8* tempID = NULL;
+                    edk::char8* strTemp = NULL;
+
+                    tempID = edk::String::int64ToStr(id);
+                    if(tempID){
+                        //concat
+                        strTemp = edk::String::strCat((edk::char8*)EDK_GUI2D_XML_GUI2D_POSITION,tempID);
+                        if(strTemp){
+                            if(xml->selectChild(strTemp)){
+                                if(xml->haveAttributeName("X")){
+                                    this->position.x = xml->getSelectedAttributeValueAsFloat32ByName("X");
+                                }
+                                if(xml->haveAttributeName("Y")){
+                                    this->position.y = xml->getSelectedAttributeValueAsFloat32ByName("Y");
+                                }
+                                xml->selectFather();
+                            }
+                            free(strTemp);
+                        }
+                    }
+                    tempID = edk::String::int64ToStr(id);
+                    if(tempID){
+                        //concat
+                        strTemp = edk::String::strCat((edk::char8*)EDK_GUI2D_XML_GUI2D_ANGLE,tempID);
+                        if(strTemp){
+                            if(xml->selectChild(strTemp)){
+                                if(xml->haveAttributeName("A")){
+                                    this->angle = xml->getSelectedAttributeValueAsFloat32ByName("A");
+                                }
+                                xml->selectFather();
+                            }
+                            free(strTemp);
+                        }
+                    }
+                    tempID = edk::String::int64ToStr(id);
+                    if(tempID){
+                        //concat
+                        strTemp = edk::String::strCat((edk::char8*)EDK_GUI2D_XML_GUI2D_SIZE,tempID);
+                        if(strTemp){
+                            if(xml->selectChild(strTemp)){
+                                if(xml->haveAttributeName("W")){
+                                    this->size.width = xml->getSelectedAttributeValueAsFloat32ByName("W");
+                                }
+                                if(xml->haveAttributeName("H")){
+                                    this->size.height = xml->getSelectedAttributeValueAsFloat32ByName("H");
+                                }
+                                xml->selectFather();
+                            }
+                            free(strTemp);
+                        }
+                    }
+
+                    edk::char8* str=NULL;
+
+                    //gui2dTextureNormal;
+                    str = xml->getSelectedAttributeValueByName(gui2dSymbolsString[edk::gui2d::gui2dTextureNormal]);
+                    if(str){
+                        this->loadSymbolFromPack(pack,str);
+                        //free(str);
+                    }
+                    //gui2dTextureUp;
+                    str = xml->getSelectedAttributeValueByName(gui2dSymbolsString[edk::gui2d::gui2dTextureUp]);
+                    if(str){
+                        this->loadSymbolUpFromPack(pack,str);
+                        //free(str);
+                    }
+                    //gui2dTexturePressed;
+                    str = xml->getSelectedAttributeValueByName(gui2dSymbolsString[edk::gui2d::gui2dTexturePressed]);
+                    if(str){
+                        this->loadSymbolPressedFromPack(pack,str);
+                        //free(str);
+                    }
+                    //gui2dTexturePressedUp;
+                    str = xml->getSelectedAttributeValueByName(gui2dSymbolsString[edk::gui2d::gui2dTexturePressedUp]);
+                    if(str){
+                        this->loadSymbolPressedUpFromPack(pack,str);
+                        //free(str);
+                    }
+
+                    str = xml->getSelectedAttributeValueByName(EDK_GUI2D_XML_GUI2D_STRING);
+                    if(str){
+                        this->writeText(str);
+                        //free(str);
+                    }
+
+                    ret=true;
+                    xml->selectFather();
+                }
+                free(name);
+            }
+            free(nameID);
+        }
+        return ret;
+    }
+    return false;
 }
 
 //draw the button

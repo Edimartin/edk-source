@@ -44,6 +44,8 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #pragma message "    Compiling gui2d::Text2D"
 #endif
 
+#define EDK_GUI2D_XML_GUI2D_TEXT "gui2dText_"
+
 namespace edk{
 namespace gui2d{
 class Text2D: public edk::gui2d::ObjectGui2d{
@@ -61,6 +63,11 @@ public:
 
     //set border size
     bool setBorderSize(edk::float32 size);
+
+    //XML
+    virtual bool writeToXML(edk::XML* xml,edk::uint32 id);
+    virtual bool readFromXML(edk::XML* xml,edk::uint32 id);
+    virtual bool readFromXMLFromPack(edk::pack::FilePackage* pack,edk::XML* xml,edk::uint32 id);
 
     //draw the button
     void draw();

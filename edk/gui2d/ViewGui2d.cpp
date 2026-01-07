@@ -244,6 +244,28 @@ void edk::gui2d::ViewGui2d::removeAllObjectGui2d(){
     }
     this->list.removeAll();
 }
+void edk::gui2d::ViewGui2d::deleteAllObjectGui2d(){
+    //test if the obj is the same pressed
+    this->objPressed=NULL;
+    if(this->objSelected){
+        this->objSelected->deselect();
+        this->objSelected = NULL;
+        this->idSelected = 0u;
+    }
+    this->list.deleteAll();
+}
+//get the size of objects inside the view
+edk::uint32 edk::gui2d::ViewGui2d::getObjectGui2dSize(){
+    return this->list.size();
+}
+//get the object
+edk::gui2d::ObjectGui2d* edk::gui2d::ViewGui2d::getObjectInPosition(edk::uint32 position){
+    edk::gui2d::ViewGui2d::ObjGui2dID* temp = this->list.getElementInPosition(position);
+    if(temp){
+        return temp->pointer;
+    }
+    return NULL;
+}
 
 //disable the mouse on the view (Can be used to have only one textField on the view).
 void edk::gui2d::ViewGui2d::enableMouse(){
@@ -561,6 +583,184 @@ void edk::gui2d::ViewGui2d::update(edk::WindowEvents* events){
             }
         }
     }
+}
+
+//XML
+bool edk::gui2d::ViewGui2d::writeToXML(edk::XML* xml,edk::uint32 id){
+    if(xml){
+        bool ret=false;
+        //create the nameID
+        edk::char8* nameID = edk::String::int64ToStr(id);
+        if(nameID){
+            //concat
+            edk::char8* name = edk::String::strCat((edk::char8*)EDK_GUI2D_XML_VIEW,nameID);
+            if(name){
+                //create the name
+                if(xml->addSelectedNextChild(name)){
+                    if(xml->selectChild(name)){
+                        //WRITE
+                        //write the mesh
+
+                        edk::gui2d::ObjectGui2d* obj=NULL;
+                        edk::uint32 size = this->list.size();
+                        for(edk::uint32 i=0u;i<size;i++){
+                            obj = this->list.getPointerInPosition(i);
+                            if(obj){
+                                //save the objects in the XML
+                                obj->writeToXML(xml,i);
+                            }
+                        }
+
+                        ret=true;
+                        xml->selectFather();
+                    }
+                }
+                free(name);
+            }
+            free(nameID);
+        }
+        return ret;
+    }
+    return false;
+}
+bool edk::gui2d::ViewGui2d::readFromXML(edk::XML* xml,edk::uint32 id){
+    if(xml){
+        bool ret=false;
+        //create the nameID
+        edk::char8* nameID = edk::String::int64ToStr(id);
+        if(nameID){
+            //concat
+            edk::char8* name = edk::String::strCat((edk::char8*)EDK_GUI2D_XML_VIEW,nameID);
+            if(name){
+                //create the name
+                if(xml->selectChild(name)){
+                    //this->cleanMeshes();
+
+                    bool haveObject=false;
+
+                    edk::char8* tempID = NULL;
+                    edk::char8* strTemp = NULL;
+                    edk::char8* strType = NULL;
+                    edk::gui2d::ObjectGui2d* obj=NULL;
+
+                    edk::gui2d::gui2dTypes type = edk::gui2d::gui2dTypeSize;
+                    edk::uint32 counterID = 0u;
+
+                    do{
+                        haveObject=false;
+                        tempID = NULL;
+                        strTemp = NULL;
+                        strType = NULL;
+                        type = edk::gui2d::gui2dTypeSize;
+                        tempID = edk::String::int64ToStr(counterID);
+                        if(tempID){
+                            //concat
+                            strTemp = edk::String::strCat((edk::char8*)EDK_GUI2D_XML_GUI2D_OBJ,tempID);
+                            if(strTemp){
+                                if(xml->selectChild(strTemp)){
+                                    haveObject=true;
+                                    //read the type
+                                    strType = xml->getSelectedString();
+                                    if(strType){
+                                        if(edk::String::strCompareInside(strType,edk::gui2d::ObjectGui2d::getStringTypeGUI(edk::gui2d::gui2dTypeObject))){
+                                            type = edk::gui2d::gui2dTypeObject;
+                                        }
+                                        else if(edk::String::strCompareInside(strType,edk::gui2d::ObjectGui2d::getStringTypeGUI(edk::gui2d::gui2dTypeButton))){
+                                            type = edk::gui2d::gui2dTypeButton;
+                                        }
+                                        else if(edk::String::strCompareInside(strType,edk::gui2d::ObjectGui2d::getStringTypeGUI(edk::gui2d::gui2dTypeScrollBar))){
+                                            type = edk::gui2d::gui2dTypeScrollBar;
+                                        }
+                                        else if(edk::String::strCompareInside(strType,edk::gui2d::ObjectGui2d::getStringTypeGUI(edk::gui2d::gui2dTypeMenu))){
+                                            type = edk::gui2d::gui2dTypeMenu;
+                                        }
+                                        else if(edk::String::strCompareInside(strType,edk::gui2d::ObjectGui2d::getStringTypeGUI(edk::gui2d::gui2dTypeText))){
+                                            type = edk::gui2d::gui2dTypeText;
+                                        }
+                                        else if(edk::String::strCompareInside(strType,edk::gui2d::ObjectGui2d::getStringTypeGUI(edk::gui2d::gui2dTypeTextField))){
+                                            type = edk::gui2d::gui2dTypeTextField;
+                                        }
+                                        //free(strType);
+                                    }
+
+                                    xml->selectFather();
+                                }
+                                free(strTemp);
+                            }
+                            free(tempID);
+                        }
+
+                        //create the object and add it into the list
+                        switch(type){
+                        case gui2dTypeObject:
+                            obj = new edk::gui2d::ObjectGui2d;
+                            break;
+                        case gui2dTypeButton:
+                            obj = new edk::gui2d::Button2D;
+                            break;
+                        case gui2dTypeScrollBar:
+                            obj = new edk::gui2d::ScrollBar2d;
+                            break;
+                        case gui2dTypeText:
+                            obj = new edk::gui2d::Text2D;
+                            break;
+                        case gui2dTypeTextField:
+                            obj = new edk::gui2d::TextField2d;
+                            break;
+                        default:
+                            obj = NULL;
+                            break;
+                        }
+
+                        if(obj){
+                            //load the object XML
+                            if(obj->readFromXML(xml,id)){
+                                if(!this->addObjectGui2d(obj)){
+                                    delete obj;
+                                }
+                            }
+                            else{
+                                delete obj;
+                            }
+                        }
+
+                        counterID++;
+                    }while(haveObject);
+
+                    ret=true;
+                    xml->selectFather();
+                }
+                free(name);
+            }
+            free(nameID);
+        }
+        return ret;
+    }
+    return false;
+}
+bool edk::gui2d::ViewGui2d::readFromXMLFromPack(edk::pack::FilePackage* pack,edk::XML* xml,edk::uint32 id){
+    if(xml && pack){
+        bool ret=false;
+        //create the nameID
+        edk::char8* nameID = edk::String::int64ToStr(id);
+        if(nameID){
+            //concat
+            edk::char8* name = edk::String::strCat((edk::char8*)EDK_GUI2D_XML_VIEW,nameID);
+            if(name){
+                //create the name
+                if(xml->selectChild(name)){
+                    //this->cleanMeshes();
+
+                    ret=true;
+                    xml->selectFather();
+                }
+                free(name);
+            }
+            free(nameID);
+        }
+        return ret;
+    }
+    return false;
 }
 
 //draw the GU scene

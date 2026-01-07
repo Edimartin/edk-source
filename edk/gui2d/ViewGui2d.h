@@ -36,11 +36,17 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "../vector/Array.h"
 #include "TextField2d.h"
 #include "../watch/Time.h"
+#include "Button2D.h"
+#include "ScrollBar2d.h"
+#include "Text2D.h"
+#include "TextField2d.h"
 
 #ifdef printMessages
 #pragma message "    Compiling gui2d::ViewGui2d"
 #endif
 
+//defines XML names
+#define EDK_GUI2D_XML_VIEW "gui2dView_"
 
 namespace edk{
 namespace gui2d{
@@ -73,6 +79,14 @@ public:
     bool removeObjectGui2d(edk::gui2d::ObjectGui2d* obj);
     //remove all objects
     void removeAllObjectGui2d();
+    void deleteAllObjectGui2d();
+    //get the size of objects inside the view
+    edk::uint32 getObjectGui2dSize();
+    inline edk::uint32 getSizeObjectsGui2d(){
+        return getObjectGui2dSize();
+    }
+    //get the object
+    edk::gui2d::ObjectGui2d* getObjectInPosition(edk::uint32 position);
 
     //disable the mouse on the view (Can be used to have only one textField on the view).
     void enableMouse();
@@ -86,6 +100,11 @@ public:
     edk::rectf32 getVolume();
 
     virtual void update(edk::WindowEvents* events);
+
+    //XML
+    virtual bool writeToXML(edk::XML* xml,edk::uint32 id);
+    virtual bool readFromXML(edk::XML* xml,edk::uint32 id);
+    virtual bool readFromXMLFromPack(edk::pack::FilePackage* pack,edk::XML* xml,edk::uint32 id);
 
     //draw the GU scene
     virtual void drawScene(edk::rectf32 outsideViewOrigin);
@@ -429,6 +448,20 @@ private:
                 obj = this->getElementInPosition(0u);
                 if(obj){
                     this->removeByPointer(obj->pointer);
+                }
+            }
+            this->clean();
+            this->tree.clean();
+        }
+        void deleteAll(){
+            edk::uint32 size = this->getSize();
+            edk::gui2d::ViewGui2d::ObjGui2dID* obj = NULL;
+            for(edk::uint32 i=0u;i<size;i++){
+                //
+                obj = this->getElementInPosition(0u);
+                if(obj){
+                    this->removeByPointer(obj->pointer);
+                    delete obj;
                 }
             }
             this->clean();

@@ -292,6 +292,7 @@ public:
 
     static bool strCompare(const edk::char8 *str1, const edk::char8 *str2);
 
+    //search the second string inside the first
     static bool strCompareInside(edk::char8 *str1, edk::char8 *str2);
 
     static bool strCompareInside(const edk::char8 *str1, edk::char8 *str2);

@@ -38,10 +38,18 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "../NameClass.h"
 #include "../pack/FilePackage.h"
 #include "ObjectGui2dBorder.h"
+#include "../xml/XML.h"
 
 #ifdef printMessages
 #pragma message "    Compiling gui2d::ObjectGui2d"
 #endif
+
+#define EDK_GUI2D_XML_GUI2D_OBJ      "gui2dOBJ_"
+#define EDK_GUI2D_XML_GUI2D_STRING   "gui2dString_"
+
+#define EDK_GUI2D_XML_GUI2D_POSITION "gui2dPosition_"
+#define EDK_GUI2D_XML_GUI2D_ANGLE    "gui2dAngle_"
+#define EDK_GUI2D_XML_GUI2D_SIZE     "gui2dSize_"
 
 namespace edk{
 namespace gui2d{
@@ -65,6 +73,8 @@ public:
 
     //get GUI type
     edk::gui2d::gui2dTypes getTypeGUI();
+    edk::char8* getStringTypeGUI();
+    static edk::char8* getStringTypeGUI(edk::gui2d::gui2dTypes type);
 
     //LOAD SPRITES
     bool loadSprite(const edk::char8* name,edk::uint32 minFilter = GU_LINEAR,edk::uint32 magFilter = GU_NEAREST);
@@ -207,6 +217,11 @@ public:
     //return the object rectangle inside
     edk::rectf32 getInsideRect();
 
+    //XML
+    virtual bool writeToXML(edk::XML* xml,edk::uint32 id);
+    virtual bool readFromXML(edk::XML* xml,edk::uint32 id);
+    virtual bool readFromXMLFromPack(edk::pack::FilePackage* pack,edk::XML* xml,edk::uint32 id);
+
     //draw the button
     virtual void draw();
     virtual void drawSelection();
@@ -240,6 +255,7 @@ protected:
     edk::shape::Rectangle2D spritePolygon;
     //text to be printed in front
     edk::fonts::FontMap text;
+    edk::Name textString;
     bool drawText;
     edk::size2f32 textSize;
     //sprite size

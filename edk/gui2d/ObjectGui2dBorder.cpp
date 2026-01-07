@@ -1667,6 +1667,13 @@ static edk::uchar8 EDKButtonPressedUpTemplate[8008] = {
     ,0x4e,0x44,0xae,0x42,0x60,0x82
 };
 
+edk::char8 gui2dTexturesString[edk::gui2d::gui2dTextureSize][128u] = {
+    "gui2dTextureNormal",
+    "gui2dTextureUp",
+    "gui2dTexturePressed",
+    "gui2dTexturePressedUp"
+};
+
 edk::gui2d::ObjectGui2dBorder::ObjectGui2dBorder(){
     this->classThis=NULL;
     this->Constructor();
@@ -1701,6 +1708,226 @@ bool edk::gui2d::ObjectGui2dBorder::calculateMeshBoundingBox(edk::rectf32* rect,
     if(this->mesh.getPolygonSize()){
         *rect = this->mesh.generateBoundingBox(transformMat);
         return true;
+    }
+    return false;
+}
+
+//XML
+bool edk::gui2d::ObjectGui2dBorder::writeToXML(edk::XML* xml,edk::uint32 id){
+    if(xml){
+        bool ret=false;
+        //create the nameID
+        edk::char8* nameID = edk::String::int64ToStr(id);
+        if(nameID){
+            //concat
+            edk::char8* name = edk::String::strCat((edk::char8*)EDK_GUI2D_XML_GUI2D_BORDER,nameID);
+            if(name){
+                //create the name
+                if(xml->addSelectedNextChild(name)){
+                    if(xml->selectChild(name)){
+                        //WRITE
+                        xml->addSelectedNextAttribute(EDK_GUI2D_XML_BORDER,this->border);
+                        //gui2dTextureNormal;
+                        xml->addSelectedNextAttribute(gui2dTexturesString[edk::gui2d::gui2dTextureNormal],
+                                                      this->mesh.material.getTextureName(edk::gui2d::gui2dTextureNormal)
+                                );
+                        //gui2dTextureUp;
+                        xml->addSelectedNextAttribute(gui2dTexturesString[edk::gui2d::gui2dTextureUp],
+                                                      this->mesh.material.getTextureName(edk::gui2d::gui2dTextureUp)
+                                );
+                        //gui2dTexturePressed;
+                        xml->addSelectedNextAttribute(gui2dTexturesString[edk::gui2d::gui2dTexturePressed],
+                                                      this->mesh.material.getTextureName(edk::gui2d::gui2dTexturePressed)
+                                );
+                        //gui2dTexturePressedUp;
+                        xml->addSelectedNextAttribute(gui2dTexturesString[edk::gui2d::gui2dTexturePressedUp],
+                                                      this->mesh.material.getTextureName(edk::gui2d::gui2dTexturePressedUp)
+                                );
+
+                        //create the nameID
+                        edk::char8* colorID = edk::String::int64ToStr(id);
+                        if(colorID){
+                            //concat
+                            edk::char8* strColor = edk::String::strCat((edk::char8*)EDK_GUI2D_XML_GUI2D_COLOR,colorID);
+                            if(strColor){
+                                if(xml->addSelectedNextChild(strColor)){
+                                    if(xml->selectChild(strColor)){
+                                        xml->addSelectedNextAttribute("R",this->mesh.material.getEmission().r);
+                                        xml->addSelectedNextAttribute("G",this->mesh.material.getEmission().g);
+                                        xml->addSelectedNextAttribute("B",this->mesh.material.getEmission().b);
+                                        xml->addSelectedNextAttribute("A",this->mesh.material.getEmission().a);
+                                        xml->selectFather();
+                                    }
+                                }
+                                free(strColor);
+                            }
+                        }
+
+                        ret=true;
+                        xml->selectFather();
+                    }
+                }
+                free(name);
+            }
+            free(nameID);
+        }
+        return ret;
+    }
+    return false;
+}
+bool edk::gui2d::ObjectGui2dBorder::readFromXML(edk::XML* xml,edk::uint32 id){
+    if(xml){
+        bool ret=false;
+        //create the nameID
+        edk::char8* nameID = edk::String::int64ToStr(id);
+        if(nameID){
+            //concat
+            edk::char8* name = edk::String::strCat((edk::char8*)EDK_GUI2D_XML_GUI2D_BORDER,nameID);
+            if(name){
+                //create the name
+                if(xml->selectChild(name)){
+                    //
+                    this->border = xml->getSelectedAttributeValueAsFloat32ByName(EDK_GUI2D_XML_BORDER);
+
+                    edk::char8* str=NULL;
+
+                    //gui2dTextureNormal;
+                    str = xml->getSelectedAttributeValueByName(gui2dTexturesString[edk::gui2d::gui2dTextureNormal]);
+                    if(str){
+                        this->loadSpriteNormal(str);
+                        //free(str);
+                    }
+                    //gui2dTextureUp;
+                    str = xml->getSelectedAttributeValueByName(gui2dTexturesString[edk::gui2d::gui2dTextureUp]);
+                    if(str){
+                        this->loadSpriteUp(str);
+                        //free(str);
+                    }
+                    //gui2dTexturePressed;
+                    str = xml->getSelectedAttributeValueByName(gui2dTexturesString[edk::gui2d::gui2dTexturePressed]);
+                    if(str){
+                        this->loadSpritePressed(str);
+                        //free(str);
+                    }
+                    //gui2dTexturePressedUp;
+                    str = xml->getSelectedAttributeValueByName(gui2dTexturesString[edk::gui2d::gui2dTexturePressedUp]);
+                    if(str){
+                        this->loadSpritePressedUp(str);
+                        //free(str);
+                    }
+
+                    edk::char8* colorID = edk::String::int64ToStr(id);
+                    if(colorID){
+                        //concat
+                        edk::char8* strColor = edk::String::strCat((edk::char8*)EDK_GUI2D_XML_GUI2D_COLOR,colorID);
+                        if(strColor){
+                            if(xml->selectChild(strColor)){
+                                edk::color4f32 color = edk::color4f32(1.f,1.f,1.f,1.f);
+                                if(xml->haveAttributeName("R")){
+                                    color.r = xml->getSelectedAttributeValueAsFloat32ByName("R");
+                                }
+                                if(xml->haveAttributeName("G")){
+                                    color.g = xml->getSelectedAttributeValueAsFloat32ByName("G");
+                                }
+                                if(xml->haveAttributeName("B")){
+                                    color.b = xml->getSelectedAttributeValueAsFloat32ByName("B");
+                                }
+                                if(xml->haveAttributeName("A")){
+                                    color.a = xml->getSelectedAttributeValueAsFloat32ByName("A");
+                                }
+                                this->setColor(color);
+                                xml->selectFather();
+                            }
+                            free(strColor);
+                        }
+                    }
+
+                    ret=true;
+                    xml->selectFather();
+                }
+                free(name);
+            }
+            free(nameID);
+        }
+        return ret;
+    }
+    return false;
+}
+bool edk::gui2d::ObjectGui2dBorder::readFromXMLFromPack(edk::pack::FilePackage* pack,edk::XML* xml,edk::uint32 id){
+    if(xml && pack){
+        bool ret=false;
+        //create the nameID
+        edk::char8* nameID = edk::String::int64ToStr(id);
+        if(nameID){
+            //concat
+            edk::char8* name = edk::String::strCat((edk::char8*)EDK_GUI2D_XML_GUI2D_BORDER,nameID);
+            if(name){
+                //create the name
+                if(xml->selectChild(name)){
+                    //
+                    this->border = xml->getSelectedAttributeValueAsFloat32ByName(EDK_GUI2D_XML_BORDER);
+
+                    edk::char8* str=NULL;
+
+                    //gui2dTextureNormal;
+                    str = xml->getSelectedAttributeValueByName(gui2dTexturesString[edk::gui2d::gui2dTextureNormal]);
+                    if(str){
+                        this->loadSpriteNormalFromPack(pack,str);
+                        //free(str);
+                    }
+                    //gui2dTextureUp;
+                    str = xml->getSelectedAttributeValueByName(gui2dTexturesString[edk::gui2d::gui2dTextureUp]);
+                    if(str){
+                        this->loadSpriteUpFromPack(pack,str);
+                        //free(str);
+                    }
+                    //gui2dTexturePressed;
+                    str = xml->getSelectedAttributeValueByName(gui2dTexturesString[edk::gui2d::gui2dTexturePressed]);
+                    if(str){
+                        this->loadSpritePressedFromPack(pack,str);
+                        //free(str);
+                    }
+                    //gui2dTexturePressedUp;
+                    str = xml->getSelectedAttributeValueByName(gui2dTexturesString[edk::gui2d::gui2dTexturePressedUp]);
+                    if(str){
+                        this->loadSpritePressedUpFromPack(pack,str);
+                        //free(str);
+                    }
+
+                    edk::char8* colorID = edk::String::int64ToStr(id);
+                    if(colorID){
+                        //concat
+                        edk::char8* strColor = edk::String::strCat((edk::char8*)EDK_GUI2D_XML_GUI2D_COLOR,colorID);
+                        if(strColor){
+                            if(xml->selectChild(strColor)){
+                                edk::color4f32 color = edk::color4f32(1.f,1.f,1.f,1.f);
+                                if(xml->haveAttributeName("R")){
+                                    color.r = xml->getSelectedAttributeValueAsFloat32ByName("R");
+                                }
+                                if(xml->haveAttributeName("G")){
+                                    color.g = xml->getSelectedAttributeValueAsFloat32ByName("G");
+                                }
+                                if(xml->haveAttributeName("B")){
+                                    color.b = xml->getSelectedAttributeValueAsFloat32ByName("B");
+                                }
+                                if(xml->haveAttributeName("A")){
+                                    color.a = xml->getSelectedAttributeValueAsFloat32ByName("A");
+                                }
+                                this->setColor(color);
+                                xml->selectFather();
+                            }
+                            free(strColor);
+                        }
+                    }
+
+                    ret=true;
+                    xml->selectFather();
+                }
+                free(name);
+            }
+            free(nameID);
+        }
+        return ret;
     }
     return false;
 }

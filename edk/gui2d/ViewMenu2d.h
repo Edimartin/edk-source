@@ -46,6 +46,8 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #pragma message "    Compiling gui2d::ViewMenu2d"
 #endif
 
+#define EDK_GUI2D_XML_GUI2D_VIEWMENU "gui2dViewMenu_"
+
 #define edkGui2dInsideHeight 0.75f
 #define edkGui2dInsideBorder 0.25f
 
@@ -84,6 +86,11 @@ public:
     void updateSizes();
     //set the status of the object to be draw
     bool setStatus(edk::gui2d::gui2dTexture status);
+
+    //XML
+    virtual bool writeToXML(edk::XML* xml,edk::uint32 id);
+    virtual bool readFromXML(edk::XML* xml,edk::uint32 id);
+    virtual bool readFromXMLFromPack(edk::pack::FilePackage* pack,edk::XML* xml,edk::uint32 id);
 
     void draw();
     void drawSelection();

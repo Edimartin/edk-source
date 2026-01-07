@@ -37,6 +37,8 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #pragma message "    Compiling gui2d::ScrollBar2d"
 #endif
 
+#define EDK_GUI2D_XML_GUI2D_SCROLL "gui2dScroll_"
+
 namespace edk{
 namespace gui2d{
 class ScrollBar2d : public edk::gui2d::ObjectGui2d{
@@ -87,6 +89,11 @@ public:
     void setForegroundColor(edk::float32 r,edk::float32 g,edk::float32 b);
     void setForegroundColor(edk::color4f32 color);
     void setForegroundColor(edk::color3f32 color);
+
+    //XML
+    virtual bool writeToXML(edk::XML* xml,edk::uint32 id);
+    virtual bool readFromXML(edk::XML* xml,edk::uint32 id);
+    virtual bool readFromXMLFromPack(edk::pack::FilePackage* pack,edk::XML* xml,edk::uint32 id);
 
     //draw the button
     void draw();
