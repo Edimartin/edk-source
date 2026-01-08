@@ -95,6 +95,9 @@ public:
     //function used to select an object on the view
     bool selectObject(edk::gui2d::ObjectGui2d* obj);
     void deselectObject();
+    inline void deselect(){
+        this->deselectObject();
+    }
 
     //get the volume rect inside the menu
     edk::rectf32 getVolume();

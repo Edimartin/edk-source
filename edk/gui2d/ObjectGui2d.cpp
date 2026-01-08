@@ -781,6 +781,9 @@ void edk::gui2d::ObjectGui2d::cleanText(){
     this->textString.cleanName();
     this->text.deleteMap();
 }
+edk::char8* edk::gui2d::ObjectGui2d::getText(){
+    return this->textString.getName();
+}
 
 //function to calculate boundingBox
 bool edk::gui2d::ObjectGui2d::calculateBoundingBox(){
@@ -1466,6 +1469,10 @@ bool edk::gui2d::ObjectGui2d::cloneFrom(edk::gui2d::ObjectGui2d* obj){
         this->loadSymbolUp(obj->sprite.material.getTextureName(edk::gui2d::gui2dTextureUp));
         this->loadSymbolPressed(obj->sprite.material.getTextureName(edk::gui2d::gui2dTexturePressed));
         this->loadSymbolPressedUp(obj->sprite.material.getTextureName(edk::gui2d::gui2dTexturePressedUp));
+
+        this->cleanText();
+        this->writeText(obj->textString.getName());
+
         return ret;
     }
     return false;

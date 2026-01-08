@@ -176,6 +176,7 @@ public:
     virtual bool writeText(const edk::char8* text,edk::size2f32 scale);
     virtual bool writeText(edk::char8* text,edk::size2f32 scale);
     virtual void cleanText();
+    virtual edk::char8* getText();
 
     //function to calculate boundingBox
     bool calculateBoundingBox();
