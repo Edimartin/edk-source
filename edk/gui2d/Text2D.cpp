@@ -159,3 +159,14 @@ void edk::gui2d::Text2D::draw(){
     }
     this->drawEnd();
 }
+
+//clone the gui object from
+bool edk::gui2d::Text2D::cloneFrom(edk::gui2d::ObjectGui2d* obj){
+    if(edk::gui2d::ObjectGui2d::cloneFrom(obj)){
+        return true;
+    }
+    return false;
+}
+bool edk::gui2d::Text2D::cloneFrom(edk::gui2d::Text2D* obj){
+    return this->cloneFrom((edk::gui2d::ObjectGui2d*)obj);
+}

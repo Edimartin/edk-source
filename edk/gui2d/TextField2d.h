@@ -152,6 +152,10 @@ public:
     //draw the button
     void draw();
     void drawSelection();
+
+    //clone the gui object from
+    virtual bool cloneFrom(edk::gui2d::ObjectGui2d* obj);
+    virtual bool cloneFrom(edk::gui2d::TextField2d* obj);
 private:
     void updateTextSize(edk::size2f32 sizeText,edk::size2f32 centerSize,edk::size2ui32 mapSize);
     void cleanTextVariables(edk::char8* newText);

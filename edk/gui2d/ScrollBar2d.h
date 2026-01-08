@@ -106,6 +106,10 @@ public:
     bool canMove();
     bool setStatus(edk::gui2d::gui2dTexture status);
     edk::gui2d::gui2dTexture getStatus();
+
+    //clone the gui object from
+    virtual bool cloneFrom(edk::gui2d::ObjectGui2d* obj);
+    virtual bool cloneFrom(edk::gui2d::ScrollBar2d* obj);
 private:
     void updateObjPosition();
     //function to calculate the percent values for X and Y

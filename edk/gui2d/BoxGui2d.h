@@ -99,6 +99,10 @@ public:
     //draw the button
     virtual void draw();
     virtual void drawSelection();
+
+    //clone the gui object from
+    virtual bool cloneFrom(edk::gui2d::ObjectGui2d* box);
+    virtual bool cloneFrom(edk::gui2d::BoxGui2d* box);
 private:
     //nexes objects
     edk::vector::Stack<edk::Object2DValues*> nextsBack;

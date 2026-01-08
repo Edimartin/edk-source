@@ -788,3 +788,14 @@ edk::gui2d::gui2dTexture edk::gui2d::ScrollBar2d::getStatus(){
     return this->statusInside;
 }
 
+//clone the gui object from
+bool edk::gui2d::ScrollBar2d::cloneFrom(edk::gui2d::ObjectGui2d* obj){
+    if(edk::gui2d::ObjectGui2d::cloneFrom(obj)){
+        return true;
+    }
+    return false;
+}
+bool edk::gui2d::ScrollBar2d::cloneFrom(edk::gui2d::ScrollBar2d* obj){
+    return this->cloneFrom((edk::gui2d::ObjectGui2d*)obj);
+}
+

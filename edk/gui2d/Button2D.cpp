@@ -165,3 +165,14 @@ void edk::gui2d::Button2D::draw(){
     edk::gui2d::ObjectGui2d::draw();
 }
 
+//clone the gui object from
+bool edk::gui2d::Button2D::cloneFrom(edk::gui2d::ObjectGui2d* obj){
+    if(edk::gui2d::ObjectGui2d::cloneFrom(obj)){
+        return true;
+    }
+    return false;
+}
+bool edk::gui2d::Button2D::cloneFrom(edk::gui2d::Button2D* obj){
+    return this->cloneFrom((edk::gui2d::ObjectGui2d*)obj);
+}
+

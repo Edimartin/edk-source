@@ -1457,3 +1457,17 @@ bool edk::gui2d::ObjectGui2d::canMove(){
     return false;
 }
 
+//clone the gui object from
+bool edk::gui2d::ObjectGui2d::cloneFrom(edk::gui2d::ObjectGui2d* obj){
+    if(obj){
+        this->obj.cloneFrom(&obj->obj);
+        bool ret = edk::Object2DValues::cloneValuesFrom((edk::Object2DValues*)obj);
+        this->loadSymbol(obj->sprite.material.getTextureName(edk::gui2d::gui2dTextureNormal));
+        this->loadSymbolUp(obj->sprite.material.getTextureName(edk::gui2d::gui2dTextureUp));
+        this->loadSymbolPressed(obj->sprite.material.getTextureName(edk::gui2d::gui2dTexturePressed));
+        this->loadSymbolPressedUp(obj->sprite.material.getTextureName(edk::gui2d::gui2dTexturePressedUp));
+        return ret;
+    }
+    return false;
+}
+

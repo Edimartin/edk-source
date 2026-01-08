@@ -1729,19 +1729,19 @@ bool edk::gui2d::ObjectGui2dBorder::writeToXML(edk::XML* xml,edk::uint32 id){
                         xml->addSelectedNextAttribute(EDK_GUI2D_XML_BORDER,this->border);
                         //gui2dTextureNormal;
                         xml->addSelectedNextAttribute(gui2dTexturesString[edk::gui2d::gui2dTextureNormal],
-                                                      this->mesh.material.getTextureName(edk::gui2d::gui2dTextureNormal)
+                                this->mesh.material.getTextureName(edk::gui2d::gui2dTextureNormal)
                                 );
                         //gui2dTextureUp;
                         xml->addSelectedNextAttribute(gui2dTexturesString[edk::gui2d::gui2dTextureUp],
-                                                      this->mesh.material.getTextureName(edk::gui2d::gui2dTextureUp)
+                                this->mesh.material.getTextureName(edk::gui2d::gui2dTextureUp)
                                 );
                         //gui2dTexturePressed;
                         xml->addSelectedNextAttribute(gui2dTexturesString[edk::gui2d::gui2dTexturePressed],
-                                                      this->mesh.material.getTextureName(edk::gui2d::gui2dTexturePressed)
+                                this->mesh.material.getTextureName(edk::gui2d::gui2dTexturePressed)
                                 );
                         //gui2dTexturePressedUp;
                         xml->addSelectedNextAttribute(gui2dTexturesString[edk::gui2d::gui2dTexturePressedUp],
-                                                      this->mesh.material.getTextureName(edk::gui2d::gui2dTexturePressedUp)
+                                this->mesh.material.getTextureName(edk::gui2d::gui2dTexturePressedUp)
                                 );
 
                         //create the nameID
@@ -1787,7 +1787,7 @@ bool edk::gui2d::ObjectGui2dBorder::readFromXML(edk::XML* xml,edk::uint32 id){
                 //create the name
                 if(xml->selectChild(name)){
                     //
-                    this->border = xml->getSelectedAttributeValueAsFloat32ByName(EDK_GUI2D_XML_BORDER);
+                    this->setBorderSize(xml->getSelectedAttributeValueAsFloat32ByName(EDK_GUI2D_XML_BORDER));
 
                     edk::char8* str=NULL;
 
@@ -1865,7 +1865,7 @@ bool edk::gui2d::ObjectGui2dBorder::readFromXMLFromPack(edk::pack::FilePackage* 
                 //create the name
                 if(xml->selectChild(name)){
                     //
-                    this->border = xml->getSelectedAttributeValueAsFloat32ByName(EDK_GUI2D_XML_BORDER);
+                    this->setBorderSize(xml->getSelectedAttributeValueAsFloat32ByName(EDK_GUI2D_XML_BORDER));
 
                     edk::char8* str=NULL;
 
@@ -1928,6 +1928,24 @@ bool edk::gui2d::ObjectGui2dBorder::readFromXMLFromPack(edk::pack::FilePackage* 
             free(nameID);
         }
         return ret;
+    }
+    return false;
+}
+
+bool edk::gui2d::ObjectGui2dBorder::cloneFrom(edk::gui2d::ObjectGui2dBorder* border){
+    if(border){
+        this->setBorderSize(border->border);
+        this->loadSpriteNormal(border->mesh.material.getTextureName(edk::gui2d::gui2dTextureNormal));
+        this->loadSpriteUp(border->mesh.material.getTextureName(edk::gui2d::gui2dTextureUp));
+        this->loadSpritePressed(border->mesh.material.getTextureName(edk::gui2d::gui2dTexturePressed));
+        this->loadSpritePressedUp(border->mesh.material.getTextureName(edk::gui2d::gui2dTexturePressedUp));
+        edk::color4f32 color = edk::color4f32(1.f,1.f,1.f,1.f);
+        color.r = border->mesh.material.getEmission().r;
+        color.g = border->mesh.material.getEmission().g;
+        color.b = border->mesh.material.getEmission().b;
+        color.a = border->mesh.material.getEmission().a;
+        this->setColor(color);
+        return true;
     }
     return false;
 }

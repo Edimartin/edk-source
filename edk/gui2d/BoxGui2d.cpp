@@ -377,3 +377,14 @@ void edk::gui2d::BoxGui2d::drawSelection(){
         }
     }
 }
+
+//clone the gui object from
+bool edk::gui2d::BoxGui2d::cloneFrom(edk::gui2d::ObjectGui2d* box){
+    if(edk::gui2d::ObjectGui2d::cloneFrom(box)){
+        return true;
+    }
+    return false;
+}
+bool edk::gui2d::BoxGui2d::cloneFrom(edk::gui2d::BoxGui2d* box){
+    return this->cloneFrom((edk::gui2d::ObjectGui2d*)box);
+}

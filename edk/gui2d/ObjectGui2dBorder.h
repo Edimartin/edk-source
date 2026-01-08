@@ -135,6 +135,8 @@ public:
     virtual bool writeToXML(edk::XML* xml,edk::uint32 id);
     virtual bool readFromXML(edk::XML* xml,edk::uint32 id);
     virtual bool readFromXMLFromPack(edk::pack::FilePackage* pack,edk::XML* xml,edk::uint32 id);
+
+    virtual bool cloneFrom(edk::gui2d::ObjectGui2dBorder* border);
 private:
     edk::shape::Mesh2D mesh;
     edk::shape::Rectangle2D center;

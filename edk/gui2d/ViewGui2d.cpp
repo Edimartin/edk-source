@@ -972,4 +972,12 @@ void edk::gui2d::ViewGui2d::cleanCallbacks(){
     this->listCallback.clean();
 }
 
+//clone the gui object from
+bool edk::gui2d::ViewGui2d::cloneFrom(edk::gui2d::ViewGui2d* obj){
+    if(obj){
+        //
+    }
+    return false;
+}
+
 

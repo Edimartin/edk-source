@@ -1870,3 +1870,14 @@ void edk::gui2d::TextField2d::drawSelection(){
     //
     this->drawEnd();
 }
+
+//clone the gui object from
+bool edk::gui2d::TextField2d::cloneFrom(edk::gui2d::ObjectGui2d* obj){
+    if(edk::gui2d::ObjectGui2d::cloneFrom(obj)){
+        return true;
+    }
+    return false;
+}
+bool edk::gui2d::TextField2d::cloneFrom(edk::gui2d::TextField2d* obj){
+    return this->cloneFrom((edk::gui2d::ObjectGui2d*)obj);
+}

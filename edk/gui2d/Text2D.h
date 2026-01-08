@@ -71,6 +71,10 @@ public:
 
     //draw the button
     void draw();
+
+    //clone the gui object from
+    virtual bool cloneFrom(edk::gui2d::ObjectGui2d* obj);
+    virtual bool cloneFrom(edk::gui2d::Text2D* obj);
 private:
     edk::classID classThis;
 };

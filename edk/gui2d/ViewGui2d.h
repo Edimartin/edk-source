@@ -113,6 +113,9 @@ public:
     bool addCallback(edk::gui2d::ObjectGui2dCallback* callback);
     bool removeCallback(edk::gui2d::ObjectGui2dCallback* callback);
     void cleanCallbacks();
+
+    //clone the gui object from
+    virtual bool cloneFrom(edk::gui2d::ViewGui2d* obj);
 protected:
 
     void drawSelectionScene();

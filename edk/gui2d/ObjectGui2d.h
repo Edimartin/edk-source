@@ -227,6 +227,10 @@ public:
     virtual void drawSelection();
     //return true if the object can be moved
     virtual bool canMove();
+
+    //clone the gui object from
+    virtual bool cloneFrom(edk::gui2d::ObjectGui2d* obj);
+
     //button frame in the world
     bool pressed;
 protected:
