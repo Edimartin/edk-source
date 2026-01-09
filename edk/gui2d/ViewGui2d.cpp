@@ -49,6 +49,8 @@ void edk::gui2d::ViewGui2d::Constructor(){
         this->listCallback.Constructor();
         this->list.Constructor();
 
+        this->setTablePoints(0.f,0.f,1.f,1.f);
+
         this->mouseMoving=false;
         this->objPressed=NULL;
         this->idCounter = 0u;
@@ -299,6 +301,46 @@ void edk::gui2d::ViewGui2d::deselectObject(){
         this->objSelected = NULL;
         this->idSelected = 0u;
     }
+}
+
+//set the table position and size
+bool edk::gui2d::ViewGui2d::setTableRectPoints(edk::rectf32 table){
+    if(table.size.width > table.origin.x
+            &&
+            table.size.height > table.origin.y
+            ){
+        this->table=table;
+        return true;
+    }
+    return false;
+}
+bool edk::gui2d::ViewGui2d::setTableRectPositionAndSize(edk::rectf32 table){
+    table.convertIntoPoints();
+    return this->setTableRectPoints(table);
+}
+bool edk::gui2d::ViewGui2d::setTablePositionAndSize(edk::vec2f32 position,edk::size2f32 size){
+    edk::rectf32 rect(position.x,position.y,size.width,size.height);
+    return this->setTableRectPositionAndSize(rect);
+}
+bool edk::gui2d::ViewGui2d::setTablePositionAndSize(edk::float32 x,edk::float32 y,edk::float32 width,edk::float32 height){
+    edk::rectf32 rect(x,y,width,height);
+    return this->setTableRectPositionAndSize(rect);
+}
+bool edk::gui2d::ViewGui2d::setTablePoints(edk::vec2f32 point1,edk::vec2f32 point2){
+    edk::rectf32 rect(point1.x,point1.y,point2.x,point2.y);
+    return this->setTableRectPoints(rect);
+}
+bool edk::gui2d::ViewGui2d::setTablePoints(edk::float32 p1x,edk::float32 p1Y,edk::float32 p2X,edk::float32 p2Y){
+    edk::rectf32 rect(p1x,p1Y,p2X,p2Y);
+    return this->setTableRectPoints(rect);
+}
+edk::rectf32 edk::gui2d::ViewGui2d::getTableRectPoints(){
+    return this->table;
+}
+edk::rectf32 edk::gui2d::ViewGui2d::getTableRectPostionAndSize(){
+    edk::rectf32 rect = this->table;
+    rect.convertIntoPositionAndSize();
+    return rect;
 }
 
 //get the volume rect inside the menu
@@ -599,7 +641,27 @@ bool edk::gui2d::ViewGui2d::writeToXML(edk::XML* xml,edk::uint32 id){
                 if(xml->addSelectedNextChild(name)){
                     if(xml->selectChild(name)){
                         //WRITE
-                        //write the mesh
+                        //write the table
+                        edk::char8* tempID = NULL;
+                        edk::char8* strTemp = NULL;
+
+                        tempID = edk::String::int64ToStr(id);
+                        if(tempID){
+                            //concat
+                            strTemp = edk::String::strCat((edk::char8*)EDK_GUI2D_XML_TABLE,tempID);
+                            if(strTemp){
+                                if(xml->addSelectedNextChild(strTemp)){
+                                    if(xml->selectChild(strTemp)){
+                                        xml->addSelectedNextAttribute("X",this->table.origin.x);
+                                        xml->addSelectedNextAttribute("Y",this->table.origin.y);
+                                        xml->addSelectedNextAttribute("W",this->table.size.width);
+                                        xml->addSelectedNextAttribute("H",this->table.size.height);
+                                        xml->selectFather();
+                                    }
+                                }
+                                free(strTemp);
+                            }
+                        }
 
                         edk::gui2d::ObjectGui2d* obj=NULL;
                         edk::uint32 size = this->list.size();
@@ -634,8 +696,7 @@ bool edk::gui2d::ViewGui2d::readFromXML(edk::XML* xml,edk::uint32 id){
             if(name){
                 //create the name
                 if(xml->selectChild(name)){
-                    //this->cleanMeshes();
-
+                    //READ
                     bool haveObject=false;
 
                     edk::char8* tempID = NULL;
@@ -645,6 +706,23 @@ bool edk::gui2d::ViewGui2d::readFromXML(edk::XML* xml,edk::uint32 id){
 
                     edk::gui2d::gui2dTypes type = edk::gui2d::gui2dTypeSize;
                     edk::uint32 counterID = 0u;
+
+                    //read the table
+                    tempID = edk::String::int64ToStr(id);
+                    if(tempID){
+                        //concat
+                        strTemp = edk::String::strCat((edk::char8*)EDK_GUI2D_XML_TABLE,tempID);
+                        if(strTemp){
+                                if(xml->selectChild(strTemp)){
+                                    this->table.origin.x = xml->getSelectedAttributeValueAsFloat32ByName("X");
+                                    this->table.origin.y = xml->getSelectedAttributeValueAsFloat32ByName("Y");
+                                    this->table.size.width = xml->getSelectedAttributeValueAsFloat32ByName("W");
+                                    this->table.size.height = xml->getSelectedAttributeValueAsFloat32ByName("H");
+                                    xml->selectFather();
+                            }
+                            free(strTemp);
+                        }
+                    }
 
                     do{
                         haveObject=false;
@@ -714,7 +792,7 @@ bool edk::gui2d::ViewGui2d::readFromXML(edk::XML* xml,edk::uint32 id){
 
                         if(obj){
                             //load the object XML
-                            if(obj->readFromXML(xml,id)){
+                            if(obj->readFromXML(xml,counterID)){
                                 if(!this->addObjectGui2d(obj)){
                                     delete obj;
                                 }

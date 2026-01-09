@@ -47,6 +47,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 //defines XML names
 #define EDK_GUI2D_XML_VIEW "gui2dView_"
+#define EDK_GUI2D_XML_TABLE "gui2dTable_"
 
 namespace edk{
 namespace gui2d{
@@ -99,6 +100,16 @@ public:
         this->deselectObject();
     }
 
+    //set the table position and size
+    bool setTableRectPoints(edk::rectf32 table);
+    bool setTableRectPositionAndSize(edk::rectf32 table);
+    bool setTablePositionAndSize(edk::vec2f32 position,edk::size2f32 size);
+    bool setTablePositionAndSize(edk::float32 x,edk::float32 y,edk::float32 width,edk::float32 height);
+    bool setTablePoints(edk::vec2f32 point1,edk::vec2f32 point2);
+    bool setTablePoints(edk::float32 p1x,edk::float32 p1Y,edk::float32 p2X,edk::float32 p2Y);
+    edk::rectf32 getTableRectPoints();
+    edk::rectf32 getTableRectPostionAndSize();
+
     //get the volume rect inside the menu
     edk::rectf32 getVolume();
 
@@ -140,6 +151,8 @@ private:
     //press quote
     bool pressQuote;
     bool pressTilde;
+
+    edk::rectf32 table;
 
     //volume object
     edk::Object2D volume;
