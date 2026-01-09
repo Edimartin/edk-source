@@ -77,25 +77,29 @@ bool edk::gui2d::Text2D::setBorderSize(edk::float32){
 bool edk::gui2d::Text2D::writeToXML(edk::XML* xml,edk::uint32 id){
     if(xml){
         bool ret=false;
-        //create the nameID
-        edk::char8* nameID = edk::String::int64ToStr(id);
-        if(nameID){
-            //concat
-            edk::char8* name = edk::String::strCat((edk::char8*)EDK_GUI2D_XML_GUI2D_TEXT,nameID);
-            if(name){
-                //create the name
-                if(xml->addSelectedNextChild(name)){
-                    if(xml->selectChild(name)){
-                        //WRITE
-                        //write the mesh
 
-                        ret=true;
-                        xml->selectFather();
+        //write the object type
+        if(edk::gui2d::ObjectGui2d::writeToXML(xml,id)){
+            //create the nameID
+            edk::char8* nameID = edk::String::int64ToStr(id);
+            if(nameID){
+                //concat
+                edk::char8* name = edk::String::strCat((edk::char8*)EDK_GUI2D_XML_GUI2D_TEXT,nameID);
+                if(name){
+                    //create the name
+                    if(xml->addSelectedNextChild(name)){
+                        if(xml->selectChild(name)){
+                            //WRITE
+                            //write the mesh
+
+                            ret=true;
+                            xml->selectFather();
+                        }
                     }
+                    free(name);
                 }
-                free(name);
+                free(nameID);
             }
-            free(nameID);
         }
         return ret;
     }
@@ -104,22 +108,24 @@ bool edk::gui2d::Text2D::writeToXML(edk::XML* xml,edk::uint32 id){
 bool edk::gui2d::Text2D::readFromXML(edk::XML* xml,edk::uint32 id){
     if(xml){
         bool ret=false;
-        //create the nameID
-        edk::char8* nameID = edk::String::int64ToStr(id);
-        if(nameID){
-            //concat
-            edk::char8* name = edk::String::strCat((edk::char8*)EDK_GUI2D_XML_GUI2D_TEXT,nameID);
-            if(name){
-                //create the name
-                if(xml->selectChild(name)){
-                    //this->cleanMeshes();
+        if(edk::gui2d::ObjectGui2d::readFromXML(xml,id)){
+            //create the nameID
+            edk::char8* nameID = edk::String::int64ToStr(id);
+            if(nameID){
+                //concat
+                edk::char8* name = edk::String::strCat((edk::char8*)EDK_GUI2D_XML_GUI2D_TEXT,nameID);
+                if(name){
+                    //create the name
+                    if(xml->selectChild(name)){
+                        //this->cleanMeshes();
 
-                    ret=true;
-                    xml->selectFather();
+                        ret=true;
+                        xml->selectFather();
+                    }
+                    free(name);
                 }
-                free(name);
+                free(nameID);
             }
-            free(nameID);
         }
         return ret;
     }
@@ -128,22 +134,24 @@ bool edk::gui2d::Text2D::readFromXML(edk::XML* xml,edk::uint32 id){
 bool edk::gui2d::Text2D::readFromXMLFromPack(edk::pack::FilePackage* pack,edk::XML* xml,edk::uint32 id){
     if(xml && pack){
         bool ret=false;
-        //create the nameID
-        edk::char8* nameID = edk::String::int64ToStr(id);
-        if(nameID){
-            //concat
-            edk::char8* name = edk::String::strCat((edk::char8*)EDK_GUI2D_XML_GUI2D_TEXT,nameID);
-            if(name){
-                //create the name
-                if(xml->selectChild(name)){
-                    //this->cleanMeshes();
+        if(edk::gui2d::ObjectGui2d::readFromXMLFromPack(pack,xml,id)){
+            //create the nameID
+            edk::char8* nameID = edk::String::int64ToStr(id);
+            if(nameID){
+                //concat
+                edk::char8* name = edk::String::strCat((edk::char8*)EDK_GUI2D_XML_GUI2D_TEXT,nameID);
+                if(name){
+                    //create the name
+                    if(xml->selectChild(name)){
+                        //this->cleanMeshes();
 
-                    ret=true;
-                    xml->selectFather();
+                        ret=true;
+                        xml->selectFather();
+                    }
+                    free(name);
                 }
-                free(name);
+                free(nameID);
             }
-            free(nameID);
         }
         return ret;
     }

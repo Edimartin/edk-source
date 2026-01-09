@@ -50,6 +50,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #define EDK_GUI2D_XML_GUI2D_POSITION "gui2dPosition_"
 #define EDK_GUI2D_XML_GUI2D_ANGLE    "gui2dAngle_"
 #define EDK_GUI2D_XML_GUI2D_SIZE     "gui2dSize_"
+#define EDK_GUI2D_XML_GUI2D_TEXT_SIZE "gui2dTextSize_"
 
 namespace edk{
 namespace gui2d{

@@ -253,7 +253,7 @@ void edk::gui2d::ObjectGui2d::calculateTextScale(edk::size2f32 scale){
 }
 //get the text scale template
 edk::size2f32 edk::gui2d::ObjectGui2d::getTextTemplateScale(){
-    return edk::size2f32(1.f,2.f);
+    return edk::size2f32(1.f,1.5f);
 }
 void edk::gui2d::ObjectGui2d::updateTextSize(edk::size2f32 sizeText,edk::size2f32 centerSize,edk::size2ui32 mapSize){
     if(centerSize.width>centerSize.height){
@@ -1165,26 +1165,25 @@ bool edk::gui2d::ObjectGui2d::writeToXML(edk::XML* xml,edk::uint32 id){
                                 free(strTemp);
                             }
                         }
-
+                        //textSize
+                        tempID = edk::String::int64ToStr(id);
+                        if(tempID){
+                            //concat
+                            strTemp = edk::String::strCat((edk::char8*)EDK_GUI2D_XML_GUI2D_TEXT_SIZE,tempID);
+                            if(strTemp){
+                                if(xml->addSelectedNextChild(strTemp)){
+                                    if(xml->selectChild(strTemp)){
+                                        xml->addSelectedNextAttribute("W",this->textSize.width);
+                                        xml->addSelectedNextAttribute("H",this->textSize.height);
+                                        xml->selectFather();
+                                    }
+                                }
+                                free(strTemp);
+                            }
+                        }
 
                         //wrire the border values
                         this->obj.writeToXML(xml,id);
-
-
-                        /*
-    //sprite size
-    edk::size2ui32 spriteSize[edk::gui2d::gui2dTextureSize];
-    //temp
-    edk::float32 percent1;
-    edk::float32 percent2;
-    edk::float32 resize;
-    //object status
-    edk::gui2d::gui2dTexture status;
-    //save the object status to compare in update function
-    edk::gui2d::gui2dTexture saveStatus;
-    //save the position to move the object
-    edk::vec2f32 savePosition;
-*/
 
                         //gui2dTextureNormal;
                         xml->addSelectedNextAttribute(gui2dSymbolsString[edk::gui2d::gui2dTextureNormal],
@@ -1233,6 +1232,32 @@ bool edk::gui2d::ObjectGui2d::readFromXML(edk::XML* xml,edk::uint32 id){
                     edk::char8* tempID = NULL;
                     edk::char8* strTemp = NULL;
 
+                    edk::char8* str=NULL;
+
+                    str = xml->getSelectedAttributeValueByName(EDK_GUI2D_XML_GUI2D_STRING);
+                    if(str){
+                        this->writeText(str);
+                        //free(str);
+                    }
+
+                    tempID = edk::String::int64ToStr(id);
+                    if(tempID){
+                        //concat
+                        strTemp = edk::String::strCat((edk::char8*)EDK_GUI2D_XML_GUI2D_TEXT_SIZE,tempID);
+                        if(strTemp){
+                            if(xml->selectChild(strTemp)){
+                                if(xml->haveAttributeName("W")){
+                                    this->textSize.width = xml->getSelectedAttributeValueAsFloat32ByName("W");
+                                }
+                                if(xml->haveAttributeName("H")){
+                                    this->textSize.height = xml->getSelectedAttributeValueAsFloat32ByName("H");
+                                }
+                                this->calculateTextScale(this->textSize);
+                                xml->selectFather();
+                            }
+                            free(strTemp);
+                        }
+                    }
                     tempID = edk::String::int64ToStr(id);
                     if(tempID){
                         //concat
@@ -1282,8 +1307,6 @@ bool edk::gui2d::ObjectGui2d::readFromXML(edk::XML* xml,edk::uint32 id){
                         }
                     }
 
-                    edk::char8* str=NULL;
-
                     //gui2dTextureNormal;
                     str = xml->getSelectedAttributeValueByName(gui2dSymbolsString[edk::gui2d::gui2dTextureNormal]);
                     if(str){
@@ -1306,12 +1329,6 @@ bool edk::gui2d::ObjectGui2d::readFromXML(edk::XML* xml,edk::uint32 id){
                     str = xml->getSelectedAttributeValueByName(gui2dSymbolsString[edk::gui2d::gui2dTexturePressedUp]);
                     if(str){
                         this->loadSymbolPressedUp(str);
-                        //free(str);
-                    }
-
-                    str = xml->getSelectedAttributeValueByName(EDK_GUI2D_XML_GUI2D_STRING);
-                    if(str){
-                        this->writeText(str);
                         //free(str);
                     }
 
@@ -1342,6 +1359,32 @@ bool edk::gui2d::ObjectGui2d::readFromXMLFromPack(edk::pack::FilePackage* pack,e
                     edk::char8* tempID = NULL;
                     edk::char8* strTemp = NULL;
 
+                    edk::char8* str=NULL;
+
+                    str = xml->getSelectedAttributeValueByName(EDK_GUI2D_XML_GUI2D_STRING);
+                    if(str){
+                        this->writeText(str);
+                        //free(str);
+                    }
+
+                    tempID = edk::String::int64ToStr(id);
+                    if(tempID){
+                        //concat
+                        strTemp = edk::String::strCat((edk::char8*)EDK_GUI2D_XML_GUI2D_TEXT_SIZE,tempID);
+                        if(strTemp){
+                            if(xml->selectChild(strTemp)){
+                                if(xml->haveAttributeName("W")){
+                                    this->textSize.width = xml->getSelectedAttributeValueAsFloat32ByName("W");
+                                }
+                                if(xml->haveAttributeName("H")){
+                                    this->textSize.height = xml->getSelectedAttributeValueAsFloat32ByName("H");
+                                }
+                                this->calculateTextScale(this->textSize);
+                                xml->selectFather();
+                            }
+                            free(strTemp);
+                        }
+                    }
                     tempID = edk::String::int64ToStr(id);
                     if(tempID){
                         //concat
@@ -1391,8 +1434,6 @@ bool edk::gui2d::ObjectGui2d::readFromXMLFromPack(edk::pack::FilePackage* pack,e
                         }
                     }
 
-                    edk::char8* str=NULL;
-
                     //gui2dTextureNormal;
                     str = xml->getSelectedAttributeValueByName(gui2dSymbolsString[edk::gui2d::gui2dTextureNormal]);
                     if(str){
@@ -1415,12 +1456,6 @@ bool edk::gui2d::ObjectGui2d::readFromXMLFromPack(edk::pack::FilePackage* pack,e
                     str = xml->getSelectedAttributeValueByName(gui2dSymbolsString[edk::gui2d::gui2dTexturePressedUp]);
                     if(str){
                         this->loadSymbolPressedUpFromPack(pack,str);
-                        //free(str);
-                    }
-
-                    str = xml->getSelectedAttributeValueByName(EDK_GUI2D_XML_GUI2D_STRING);
-                    if(str){
-                        this->writeText(str);
                         //free(str);
                     }
 
@@ -1463,15 +1498,18 @@ bool edk::gui2d::ObjectGui2d::canMove(){
 //clone the gui object from
 bool edk::gui2d::ObjectGui2d::cloneFrom(edk::gui2d::ObjectGui2d* obj){
     if(obj){
+        this->cleanText();
+        this->textSize = obj->textSize;
+        this->calculateTextScale(this->textSize);
+        this->writeText(obj->textString.getName());
+
         this->obj.cloneFrom(&obj->obj);
+
         bool ret = edk::Object2DValues::cloneValuesFrom((edk::Object2DValues*)obj);
         this->loadSymbol(obj->sprite.material.getTextureName(edk::gui2d::gui2dTextureNormal));
         this->loadSymbolUp(obj->sprite.material.getTextureName(edk::gui2d::gui2dTextureUp));
         this->loadSymbolPressed(obj->sprite.material.getTextureName(edk::gui2d::gui2dTexturePressed));
         this->loadSymbolPressedUp(obj->sprite.material.getTextureName(edk::gui2d::gui2dTexturePressedUp));
-
-        this->cleanText();
-        this->writeText(obj->textString.getName());
 
         return ret;
     }

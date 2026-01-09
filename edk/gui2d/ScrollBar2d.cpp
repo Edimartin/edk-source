@@ -369,6 +369,8 @@ void edk::gui2d::ScrollBar2d::Constructor(){
         //this->saveSize = 1.f;
         this->foregroundSize = 0.5f;
         this->saveSize = 0.f;
+        this->savePosition = 0.f;
+        this->saveAngle = 0.f;
         //set the percents
         this->setPercent(50.0f,50.0f);
 
@@ -531,8 +533,10 @@ edk::vec2f32 edk::gui2d::ScrollBar2d::getPercent(){
 //load the button textures and meshes
 bool edk::gui2d::ScrollBar2d::load(){
     if(edk::gui2d::ObjectGui2d::load()){
-        this->saveSize = this->size;
         this->objInside.load(edk::size2f32(this->foregroundSize * this->size));
+        this->saveSize = this->size;
+        this->savePosition = this->position;
+        this->saveAngle = this->angle;
         //update the obj position
         this->calculatePosition();
         this->updateObjPosition();
@@ -621,25 +625,77 @@ void edk::gui2d::ScrollBar2d::setForegroundColor(edk::color3f32 color){
 bool edk::gui2d::ScrollBar2d::writeToXML(edk::XML* xml,edk::uint32 id){
     if(xml){
         bool ret=false;
-        //create the nameID
-        edk::char8* nameID = edk::String::int64ToStr(id);
-        if(nameID){
-            //concat
-            edk::char8* name = edk::String::strCat((edk::char8*)EDK_GUI2D_XML_GUI2D_SCROLL,nameID);
-            if(name){
-                //create the name
-                if(xml->addSelectedNextChild(name)){
-                    if(xml->selectChild(name)){
-                        //WRITE
-                        //write the mesh
 
-                        ret=true;
-                        xml->selectFather();
+        //write the object type
+        if(edk::gui2d::ObjectGui2d::writeToXML(xml,id)){
+            //create the nameID
+            edk::char8* nameID = edk::String::int64ToStr(id);
+            if(nameID){
+                //concat
+                edk::char8* name = edk::String::strCat((edk::char8*)EDK_GUI2D_XML_GUI2D_SCROLL,nameID);
+                if(name){
+                    //create the name
+                    if(xml->addSelectedNextChild(name)){
+                        if(xml->selectChild(name)){
+                            //WRITE
+
+                            //
+                            edk::char8* tempID = NULL;
+                            edk::char8* strTemp = NULL;
+
+                            tempID = edk::String::int64ToStr(id);
+                            if(tempID){
+                                //concat
+                                strTemp = edk::String::strCat((edk::char8*)EDK_GUI2D_XML_GUI2D_SCROLL_FOREGROUND_INSIDE,tempID);
+                                if(strTemp){
+                                    if(xml->selectChild(strTemp)){
+                                        this->objInside.writeToXML(xml,id);
+                                        xml->selectFather();
+                                    }
+                                    free(strTemp);
+                                }
+                            }
+
+                            tempID = edk::String::int64ToStr(id);
+                            if(tempID){
+                                //concat
+                                strTemp = edk::String::strCat((edk::char8*)EDK_GUI2D_XML_GUI2D_SCROLL_FOREGROUND_SIZE,tempID);
+                                if(strTemp){
+                                    if(xml->addSelectedNextChild(strTemp)){
+                                        if(xml->selectChild(strTemp)){
+                                            xml->addSelectedNextAttribute("W",this->foregroundSize.width);
+                                            xml->addSelectedNextAttribute("H",this->foregroundSize.height);
+                                            xml->selectFather();
+                                        }
+                                    }
+                                    free(strTemp);
+                                }
+                            }
+
+                            tempID = edk::String::int64ToStr(id);
+                            if(tempID){
+                                //concat
+                                strTemp = edk::String::strCat((edk::char8*)EDK_GUI2D_XML_GUI2D_SCROLL_FOREGROUND_PERCENT,tempID);
+                                if(strTemp){
+                                    if(xml->addSelectedNextChild(strTemp)){
+                                        if(xml->selectChild(strTemp)){
+                                            xml->addSelectedNextAttribute("X",this->percent.x);
+                                            xml->addSelectedNextAttribute("Y",this->percent.y);
+                                            xml->selectFather();
+                                        }
+                                    }
+                                    free(strTemp);
+                                }
+                            }
+
+                            ret=true;
+                            xml->selectFather();
+                        }
                     }
+                    free(name);
                 }
-                free(name);
+                free(nameID);
             }
-            free(nameID);
         }
         return ret;
     }
@@ -650,20 +706,76 @@ bool edk::gui2d::ScrollBar2d::readFromXML(edk::XML* xml,edk::uint32 id){
         bool ret=false;
         //create the nameID
         edk::char8* nameID = edk::String::int64ToStr(id);
-        if(nameID){
-            //concat
-            edk::char8* name = edk::String::strCat((edk::char8*)EDK_GUI2D_XML_GUI2D_SCROLL,nameID);
-            if(name){
-                //create the name
-                if(xml->selectChild(name)){
-                    //this->cleanMeshes();
+        if(edk::gui2d::ObjectGui2d::readFromXML(xml,id)){
+            if(nameID){
+                //concat
+                edk::char8* name = edk::String::strCat((edk::char8*)EDK_GUI2D_XML_GUI2D_SCROLL,nameID);
+                if(name){
+                    //create the name
+                    if(xml->selectChild(name)){
+                        //READ
 
-                    ret=true;
-                    xml->selectFather();
+                        edk::char8* tempID = NULL;
+                        edk::char8* strTemp = NULL;
+
+                        tempID = edk::String::int64ToStr(id);
+                        if(tempID){
+                            //concat
+                            strTemp = edk::String::strCat((edk::char8*)EDK_GUI2D_XML_GUI2D_SCROLL_FOREGROUND_INSIDE,tempID);
+                            if(strTemp){
+                                if(xml->selectChild(strTemp)){
+                                    this->objInside.readFromXML(xml,id);
+                                    xml->selectFather();
+                                }
+                                free(strTemp);
+                            }
+                        }
+
+                        tempID = edk::String::int64ToStr(id);
+                        if(tempID){
+                            //concat
+                            strTemp = edk::String::strCat((edk::char8*)EDK_GUI2D_XML_GUI2D_SCROLL_FOREGROUND_SIZE,tempID);
+                            if(strTemp){
+                                if(xml->selectChild(strTemp)){
+                                    if(xml->haveAttributeName("W")){
+                                        this->foregroundSize.width = xml->getSelectedAttributeValueAsFloat32ByName("W");
+                                    }
+                                    if(xml->haveAttributeName("H")){
+                                        this->foregroundSize.height = xml->getSelectedAttributeValueAsFloat32ByName("H");
+                                    }
+                                    this->setForegroundSize(this->foregroundSize);
+                                    xml->selectFather();
+                                }
+                                free(strTemp);
+                            }
+                        }
+
+                        tempID = edk::String::int64ToStr(id);
+                        if(tempID){
+                            //concat
+                            strTemp = edk::String::strCat((edk::char8*)EDK_GUI2D_XML_GUI2D_SCROLL_FOREGROUND_PERCENT,tempID);
+                            if(strTemp){
+                                if(xml->selectChild(strTemp)){
+                                    if(xml->haveAttributeName("X")){
+                                        this->percent.x = xml->getSelectedAttributeValueAsFloat32ByName("X");
+                                    }
+                                    if(xml->haveAttributeName("Y")){
+                                        this->percent.y = xml->getSelectedAttributeValueAsFloat32ByName("Y");
+                                    }
+                                    this->setPercent(this->percent);
+                                    xml->selectFather();
+                                }
+                                free(strTemp);
+                            }
+                        }
+
+                        ret=true;
+                        xml->selectFather();
+                    }
+                    free(name);
                 }
-                free(name);
+                free(nameID);
             }
-            free(nameID);
         }
         return ret;
     }
@@ -672,22 +784,78 @@ bool edk::gui2d::ScrollBar2d::readFromXML(edk::XML* xml,edk::uint32 id){
 bool edk::gui2d::ScrollBar2d::readFromXMLFromPack(edk::pack::FilePackage* pack,edk::XML* xml,edk::uint32 id){
     if(xml && pack){
         bool ret=false;
-        //create the nameID
-        edk::char8* nameID = edk::String::int64ToStr(id);
-        if(nameID){
-            //concat
-            edk::char8* name = edk::String::strCat((edk::char8*)EDK_GUI2D_XML_GUI2D_SCROLL,nameID);
-            if(name){
-                //create the name
-                if(xml->selectChild(name)){
-                    //this->cleanMeshes();
+        if(edk::gui2d::ObjectGui2d::readFromXMLFromPack(pack,xml,id)){
+            //create the nameID
+            edk::char8* nameID = edk::String::int64ToStr(id);
+            if(nameID){
+                //concat
+                edk::char8* name = edk::String::strCat((edk::char8*)EDK_GUI2D_XML_GUI2D_SCROLL,nameID);
+                if(name){
+                    //create the name
+                    if(xml->selectChild(name)){
+                        //READ
 
-                    ret=true;
-                    xml->selectFather();
+                        edk::char8* tempID = NULL;
+                        edk::char8* strTemp = NULL;
+
+                        tempID = edk::String::int64ToStr(id);
+                        if(tempID){
+                            //concat
+                            strTemp = edk::String::strCat((edk::char8*)EDK_GUI2D_XML_GUI2D_SCROLL_FOREGROUND_INSIDE,tempID);
+                            if(strTemp){
+                                if(xml->selectChild(strTemp)){
+                                    this->objInside.readFromXMLFromPack(pack,xml,id);
+                                    xml->selectFather();
+                                }
+                                free(strTemp);
+                            }
+                        }
+
+                        tempID = edk::String::int64ToStr(id);
+                        if(tempID){
+                            //concat
+                            strTemp = edk::String::strCat((edk::char8*)EDK_GUI2D_XML_GUI2D_SCROLL_FOREGROUND_SIZE,tempID);
+                            if(strTemp){
+                                if(xml->selectChild(strTemp)){
+                                    if(xml->haveAttributeName("W")){
+                                        this->foregroundSize.width = xml->getSelectedAttributeValueAsFloat32ByName("W");
+                                    }
+                                    if(xml->haveAttributeName("H")){
+                                        this->foregroundSize.height = xml->getSelectedAttributeValueAsFloat32ByName("H");
+                                    }
+                                    this->setForegroundSize(this->foregroundSize);
+                                    xml->selectFather();
+                                }
+                                free(strTemp);
+                            }
+                        }
+
+                        tempID = edk::String::int64ToStr(id);
+                        if(tempID){
+                            //concat
+                            strTemp = edk::String::strCat((edk::char8*)EDK_GUI2D_XML_GUI2D_SCROLL_FOREGROUND_PERCENT,tempID);
+                            if(strTemp){
+                                if(xml->selectChild(strTemp)){
+                                    if(xml->haveAttributeName("X")){
+                                        this->percent.x = xml->getSelectedAttributeValueAsFloat32ByName("X");
+                                    }
+                                    if(xml->haveAttributeName("Y")){
+                                        this->percent.y = xml->getSelectedAttributeValueAsFloat32ByName("Y");
+                                    }
+                                    this->setPercent(this->percent);
+                                    xml->selectFather();
+                                }
+                                free(strTemp);
+                            }
+                        }
+
+                        ret=true;
+                        xml->selectFather();
+                    }
+                    free(name);
                 }
-                free(name);
+                free(nameID);
             }
-            free(nameID);
         }
         return ret;
     }
@@ -699,8 +867,15 @@ void edk::gui2d::ScrollBar2d::draw(){
     edk::gui2d::ObjectGui2d::draw();
 
     //test if the size is different
-    if(this->saveSize!=this->size){
+    if(this->saveSize!=this->size
+            ||
+            this->savePosition!=this->position
+            ||
+            this->saveAngle!=this->angle
+            ){
         this->saveSize=this->size;
+        this->savePosition=this->position;
+        this->saveAngle=this->angle;
         //update the obj position
         this->objInside.updatePolygons(this->foregroundSize * this->size);
         this->calculatePosition();
@@ -791,6 +966,12 @@ edk::gui2d::gui2dTexture edk::gui2d::ScrollBar2d::getStatus(){
 //clone the gui object from
 bool edk::gui2d::ScrollBar2d::cloneFrom(edk::gui2d::ObjectGui2d* obj){
     if(edk::gui2d::ObjectGui2d::cloneFrom(obj)){
+        if(obj->getTypeGUI() == edk::gui2d::gui2dTypeScrollBar){
+            edk::gui2d::ScrollBar2d* bar = (edk::gui2d::ScrollBar2d*)obj;
+            this->setForegroundSize(bar->foregroundSize);
+            this->setPercent(bar->percent);
+            this->objInside.cloneFrom(&bar->objInside);
+        }
         return true;
     }
     return false;

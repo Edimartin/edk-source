@@ -38,6 +38,9 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endif
 
 #define EDK_GUI2D_XML_GUI2D_SCROLL "gui2dScroll_"
+#define EDK_GUI2D_XML_GUI2D_SCROLL_FOREGROUND_SIZE "gui2dScrollForeSize_"
+#define EDK_GUI2D_XML_GUI2D_SCROLL_FOREGROUND_PERCENT "gui2dScrollForePercent_"
+#define EDK_GUI2D_XML_GUI2D_SCROLL_FOREGROUND_INSIDE "gui2dScrollForeInside_"
 
 namespace edk{
 namespace gui2d{
@@ -119,6 +122,8 @@ private:
     edk::gui2d::ObjectGui2dBorder objInside;
     edk::vec2f32 objPosition;
     edk::size2f32 saveSize;
+    edk::vec2f32 savePosition;
+    edk::float32 saveAngle;
     //foreground size
     edk::size2f32 foregroundSize;
     //position percent

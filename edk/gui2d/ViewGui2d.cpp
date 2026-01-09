@@ -752,11 +752,11 @@ bool edk::gui2d::ViewGui2d::readFromXML(edk::XML* xml,edk::uint32 id){
                                         else if(edk::String::strCompareInside(strType,edk::gui2d::ObjectGui2d::getStringTypeGUI(edk::gui2d::gui2dTypeMenu))){
                                             type = edk::gui2d::gui2dTypeMenu;
                                         }
-                                        else if(edk::String::strCompareInside(strType,edk::gui2d::ObjectGui2d::getStringTypeGUI(edk::gui2d::gui2dTypeText))){
-                                            type = edk::gui2d::gui2dTypeText;
-                                        }
                                         else if(edk::String::strCompareInside(strType,edk::gui2d::ObjectGui2d::getStringTypeGUI(edk::gui2d::gui2dTypeTextField))){
                                             type = edk::gui2d::gui2dTypeTextField;
+                                        }
+                                        else if(edk::String::strCompareInside(strType,edk::gui2d::ObjectGui2d::getStringTypeGUI(edk::gui2d::gui2dTypeText))){
+                                            type = edk::gui2d::gui2dTypeText;
                                         }
                                         //free(strType);
                                     }
