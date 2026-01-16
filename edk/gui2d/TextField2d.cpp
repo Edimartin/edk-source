@@ -1297,6 +1297,7 @@ void edk::gui2d::TextField2d::clickEnd(edk::uint32 name,bool mouseInside,bool do
     //select all text
     if(doubleClick){
         this->selectAll();
+        this->runTextSize();
     }
 }
 
@@ -1749,8 +1750,6 @@ bool edk::gui2d::TextField2d::writeToXML(edk::XML* xml,edk::uint32 id){
 bool edk::gui2d::TextField2d::readFromXML(edk::XML* xml,edk::uint32 id){
     if(xml){
         bool ret=false;
-        edk::char8* nameID = NULL;
-        edk::char8* name = NULL;
 
         //read the textScale
 

@@ -80,6 +80,8 @@ void edk::gui2d::ObjectGui2d::Constructor(){
         this->pressed = false;
         this->drawText = false;
         this->selected=false;
+
+        this->cleanName();
     }
 }
 void edk::gui2d::ObjectGui2d::Destructor(){
@@ -785,6 +787,40 @@ edk::char8* edk::gui2d::ObjectGui2d::getText(){
     return this->textString.getName();
 }
 
+bool edk::gui2d::ObjectGui2d::setName(const edk::char8* text){
+    return this->setName((edk::char8*) text);
+}
+bool edk::gui2d::ObjectGui2d::setName(edk::char8* text){
+    if(this->name.setName(text)){
+        return true;
+    }
+    else{
+        //else set the name as the memory position
+        this->cleanName();
+    }
+    return false;
+}
+void edk::gui2d::ObjectGui2d::cleanName(){
+    edk::char8* str = edk::String::uint64HexToStr((edk::uint64)this);
+    if(str){
+        edk::char8* temp = str;
+        //remove the zeros in the begin
+        while(*temp=='0'){
+            temp++;
+        }
+        if(*temp){
+            this->name.setName(temp);
+        }
+        else{
+            this->name.setName(str);
+        }
+        free(str);
+    }
+}
+edk::char8* edk::gui2d::ObjectGui2d::getName(){
+    return this->name.getName();
+}
+
 //function to calculate boundingBox
 bool edk::gui2d::ObjectGui2d::calculateBoundingBox(){
     return this->writeBoundingBox(&this->boundingBox);
@@ -1204,6 +1240,8 @@ bool edk::gui2d::ObjectGui2d::writeToXML(edk::XML* xml,edk::uint32 id){
 
                         xml->addSelectedNextAttribute(EDK_GUI2D_XML_GUI2D_STRING,this->textString.getName());
 
+                        xml->addSelectedNextAttribute(EDK_GUI2D_XML_GUI2D_NAME,this->name.getName());
+
                         ret=true;
                         xml->selectFather();
                     }
@@ -1237,6 +1275,11 @@ bool edk::gui2d::ObjectGui2d::readFromXML(edk::XML* xml,edk::uint32 id){
                     str = xml->getSelectedAttributeValueByName(EDK_GUI2D_XML_GUI2D_STRING);
                     if(str){
                         this->writeText(str);
+                        //free(str);
+                    }
+                    str = xml->getSelectedAttributeValueByName(EDK_GUI2D_XML_GUI2D_NAME);
+                    if(str){
+                        this->setName(str);
                         //free(str);
                     }
 
@@ -1364,6 +1407,11 @@ bool edk::gui2d::ObjectGui2d::readFromXMLFromPack(edk::pack::FilePackage* pack,e
                     str = xml->getSelectedAttributeValueByName(EDK_GUI2D_XML_GUI2D_STRING);
                     if(str){
                         this->writeText(str);
+                        //free(str);
+                    }
+                    str = xml->getSelectedAttributeValueByName(EDK_GUI2D_XML_GUI2D_NAME);
+                    if(str){
+                        this->setName(str);
                         //free(str);
                     }
 
@@ -1499,8 +1547,10 @@ bool edk::gui2d::ObjectGui2d::canMove(){
 bool edk::gui2d::ObjectGui2d::cloneFrom(edk::gui2d::ObjectGui2d* obj){
     if(obj){
         this->cleanText();
+        this->cleanName();
         this->textSize = obj->textSize;
         this->calculateTextScale(this->textSize);
+        this->setName(obj->getName());
         this->writeText(obj->textString.getName());
 
         this->obj.cloneFrom(&obj->obj);

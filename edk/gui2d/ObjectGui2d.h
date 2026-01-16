@@ -46,6 +46,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #define EDK_GUI2D_XML_GUI2D_OBJ      "gui2dOBJ_"
 #define EDK_GUI2D_XML_GUI2D_STRING   "gui2dString_"
+#define EDK_GUI2D_XML_GUI2D_NAME   "gui2dName_"
 
 #define EDK_GUI2D_XML_GUI2D_POSITION "gui2dPosition_"
 #define EDK_GUI2D_XML_GUI2D_ANGLE    "gui2dAngle_"
@@ -179,6 +180,11 @@ public:
     virtual void cleanText();
     virtual edk::char8* getText();
 
+    virtual bool setName(const edk::char8* text);
+    virtual bool setName(edk::char8* text);
+    virtual void cleanName();
+    virtual edk::char8* getName();
+
     //function to calculate boundingBox
     bool calculateBoundingBox();
     bool calculateBoundingBox(edk::vector::Matrixf32<3u,3u>* transformMat);
@@ -192,7 +198,6 @@ public:
 
     //return a copy of the boundingBox
     edk::rectf32 getBoundingBox();
-
 
     //load the button textures and meshes
     virtual bool load();
@@ -248,6 +253,7 @@ protected:
     //get the text scale template
     edk::size2f32 getTextTemplateScale();
     virtual void updateTextSize(edk::size2f32 sizeText,edk::size2f32 centerSize,edk::size2ui32 mapSize);
+    edk::Name name;
     edk::gui2d::ObjectGui2dBorder obj;
     //save if the obj is selected
     bool selected;

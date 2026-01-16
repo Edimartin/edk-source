@@ -201,6 +201,10 @@ public:
 
     static edk::uint32 int64ToStrSize(edk::int64 value);
 
+    static edk::uint32 uint32ToStrSize(edk::int32 value);
+
+    static edk::uint32 uint64ToStrSize(edk::int64 value);
+
     static edk::char8* int32ToStr(edk::int32 value);
 
     static edk::char8* int32ToStr(edk::int32 value,edk::uint32 digits);
@@ -272,6 +276,14 @@ public:
     static bool uint64ToStr(edk::uint64 value,edk::char8* dest);
 
     static bool uint64ToStr(edk::uint64 value,edk::char8* dest,edk::uint32 digits);
+
+    static edk::char8* uint32HexToStr(edk::uint32 value);
+
+    static bool uint32HexToStr(edk::uint32 value,edk::char8* dest);
+
+    static edk::char8* uint64HexToStr(edk::uint64 value);
+
+    static bool uint64HexToStr(edk::uint64 value,edk::char8* dest);
 
     static edk::char8* strCat(edk::char8 *str1, edk::char8 *str2);
 

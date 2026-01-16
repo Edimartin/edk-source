@@ -163,28 +163,28 @@ public:
         return false;
     }
     //set the neuron connection
-    bool setNeuronConnection(const edk::char8* name,const edk::char8* nName,const edk::char8* wName){
-        return this->setNeuronConnection((edk::char8*) name,(edk::char8*) nName,(edk::char8*) wName);
+    bool newNeuronConnection(const edk::char8* name,const edk::char8* nName,const edk::char8* wName){
+        return this->newNeuronConnection((edk::char8*) name,(edk::char8*) nName,(edk::char8*) wName);
     }
-    bool setNeuronConnection(const edk::char8* name,edk::char8* nName,edk::char8* wName){
-        return this->setNeuronConnection((edk::char8*) name,nName, wName);
+    bool newNeuronConnection(const edk::char8* name,edk::char8* nName,edk::char8* wName){
+        return this->newNeuronConnection((edk::char8*) name,nName, wName);
     }
-    bool setNeuronConnection(edk::char8* name,const edk::char8* nName,edk::char8* wName){
-        return this->setNeuronConnection(name,(edk::char8*) nName,wName);
+    bool newNeuronConnection(edk::char8* name,const edk::char8* nName,edk::char8* wName){
+        return this->newNeuronConnection(name,(edk::char8*) nName,wName);
     }
-    bool setNeuronConnection(edk::char8* name,edk::char8* nName,const edk::char8* wName){
-        return this->setNeuronConnection(name, nName,(edk::char8*) wName);
+    bool newNeuronConnection(edk::char8* name,edk::char8* nName,const edk::char8* wName){
+        return this->newNeuronConnection(name, nName,(edk::char8*) wName);
     }
-    bool setNeuronConnection(const edk::char8* name,const edk::char8* nName,edk::char8* wName){
-        return this->setNeuronConnection((edk::char8*) name,(edk::char8*) nName,wName);
+    bool newNeuronConnection(const edk::char8* name,const edk::char8* nName,edk::char8* wName){
+        return this->newNeuronConnection((edk::char8*) name,(edk::char8*) nName,wName);
     }
-    bool setNeuronConnection(edk::char8* name,const edk::char8* nName,const edk::char8* wName){
-        return this->setNeuronConnection( name,(edk::char8*) nName,(edk::char8*) wName);
+    bool newNeuronConnection(edk::char8* name,const edk::char8* nName,const edk::char8* wName){
+        return this->newNeuronConnection( name,(edk::char8*) nName,(edk::char8*) wName);
     }
-    bool setNeuronConnection(const edk::char8* name,edk::char8* nName,const edk::char8* wName){
-        return this->setNeuronConnection((edk::char8*) name, nName,(edk::char8*) wName);
+    bool newNeuronConnection(const edk::char8* name,edk::char8* nName,const edk::char8* wName){
+        return this->newNeuronConnection((edk::char8*) name, nName,(edk::char8*) wName);
     }
-    bool setNeuronConnection(edk::char8* name,edk::char8* nName,edk::char8* wName){
+    bool newNeuronConnection(edk::char8* name,edk::char8* nName,edk::char8* wName){
         if(name && nName && wName){
             //get the neuron
             edk::neural::Neuron<typeTemplate>* temp = (edk::neural::Neuron<typeTemplate>*)this->tree.getElementByName(name);
@@ -315,6 +315,12 @@ public:
                 if(on){
                     *on = temp->getBool();
                 }
+                return true;
+            }
+            else{
+                if(on){
+                    *on = false;
+                }
             }
         }
         return false;
@@ -402,7 +408,7 @@ public:
                             for(edk::uint32 j=0u;j<sizeW;j++){
                                 if((nameW = temp->getWeightNameInPosition(j))){
                                     if((connection = temp->getWeightConnection(nameW))){
-                                        this->setNeuronConnection(name,nameW,connection->getName());
+                                        this->newNeuronConnection(name,nameW,connection->getName());
                                     }
                                 }
                             }

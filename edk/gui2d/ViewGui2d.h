@@ -88,6 +88,9 @@ public:
     }
     //get the object
     edk::gui2d::ObjectGui2d* getObjectInPosition(edk::uint32 position);
+    //get object by name
+    edk::gui2d::ObjectGui2d* getObjectByName(const edk::char8* name);
+    edk::gui2d::ObjectGui2d* getObjectByName(edk::char8* name);
 
     //disable the mouse on the view (Can be used to have only one textField on the view).
     void enableMouse();
@@ -505,6 +508,59 @@ private:
     private:
         edk::classID classThis;
     }list;
+
+    //tree with object names
+    class TreeObjectNames: public edk::vector::BinaryTree<edk::gui2d::ObjectGui2d*>{
+    public:
+        TreeObjectNames(){}
+        ~TreeObjectNames(){}
+
+        //compare if the value is bigger
+        virtual bool firstBiggerSecond(edk::gui2d::ObjectGui2d* first,edk::gui2d::ObjectGui2d* second){
+            if(edk::String::strBiggerStr(first->getName(),second->getName())){
+                return true;
+            }
+            return false;
+        }
+        //compare if the value is equal
+        virtual bool firstEqualSecond(edk::gui2d::ObjectGui2d* first,edk::gui2d::ObjectGui2d* second){
+            if(edk::String::strCompare(first->getName(),second->getName())){
+                return true;
+            }
+            return false;
+        }
+
+        bool addName(edk::gui2d::ObjectGui2d* obj){
+            if(obj){
+                //add the object into the names
+                edk::uint32 counter = 1u;
+                edk::char8* strID=NULL;
+                edk::char8* strName=NULL;
+                edk::Name oldName = obj->getName();
+                //test if can add the object in the name tree
+                while(!this->add(obj)){
+                    strID = edk::String::uint32ToStr(counter);
+                    if(strID){
+                        strName = edk::String::strCatMulti(oldName.getName()," (",strID,")",NULL);
+                        if(strName){
+                            obj->setName(strName);
+                            free(strName);
+                        }
+                        else{
+                            free(strID);
+                            return false;
+                        }
+                        free(strID);
+                    }
+                    counter++;
+                }
+                return true;
+            }
+            return false;
+        }
+    }names;
+
+    edk::gui2d::ObjectGui2d nameTemplate;
 private:
     edk::classID classThis;
 };

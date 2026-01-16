@@ -193,29 +193,33 @@ void edk::gui2d::ViewGui2d::selectObject(edk::uint32 ,edk::int32 ,edk::float32 ,
 
 //add the object
 bool edk::gui2d::ViewGui2d::addObjectGui2d(edk::gui2d::ObjectGui2d* obj){
-    if(obj && !this->list.haveObjByPointer(obj)){
-        edk::uint32 counter = 0u;
-        //add the object to the tree
-        while(!this->list.addNewObj(obj,this->idCounter)){
-            this->idCounter+=9u;
-            counter++;
-            if(counter>0xFFFFFFFE){
-                return false;
-            }
-        }
-        this->idCounter+=1u;
-        obj->load();
+    if(obj){
+        if(this->names.addName(obj)){
+            if(!this->list.haveObjByPointer(obj)){
+                edk::uint32 counter = 0u;
+                //add the object to the tree
+                while(!this->list.addNewObj(obj,this->idCounter)){
+                    this->idCounter+=9u;
+                    counter++;
+                    if(counter>0xFFFFFFFE){
+                        return false;
+                    }
+                }
+                this->idCounter+=1u;
+                obj->load();
 
-        //load the volume object
-        if(!this->volume.getMeshSize()){
-            edk::shape::Mesh2D* mesh = this->volume.newMesh();
-            if(mesh){
-                edk::shape::Rectangle2D rect;
-                rect.setPolygonColor(1.f,1.f,1.f,0.5f);
-                mesh->addPolygon(rect);
+                //load the volume object
+                if(!this->volume.getMeshSize()){
+                    edk::shape::Mesh2D* mesh = this->volume.newMesh();
+                    if(mesh){
+                        edk::shape::Rectangle2D rect;
+                        rect.setPolygonColor(1.f,1.f,1.f,0.5f);
+                        mesh->addPolygon(rect);
+                    }
+                }
+                return true;
             }
         }
-        return true;
     }
     return false;
 }
@@ -231,6 +235,7 @@ bool edk::gui2d::ViewGui2d::removeObjectGui2d(edk::gui2d::ObjectGui2d* obj){
             this->objSelected = NULL;
             this->idSelected = 0u;
         }
+        this->names.remove(obj);
         return this->list.removeByPointer(obj);
     }
     return false;
@@ -244,6 +249,7 @@ void edk::gui2d::ViewGui2d::removeAllObjectGui2d(){
         this->objSelected = NULL;
         this->idSelected = 0u;
     }
+    this->names.clean();
     this->list.removeAll();
 }
 void edk::gui2d::ViewGui2d::deleteAllObjectGui2d(){
@@ -254,6 +260,7 @@ void edk::gui2d::ViewGui2d::deleteAllObjectGui2d(){
         this->objSelected = NULL;
         this->idSelected = 0u;
     }
+    this->names.clean();
     this->list.deleteAll();
 }
 //get the size of objects inside the view
@@ -267,6 +274,14 @@ edk::gui2d::ObjectGui2d* edk::gui2d::ViewGui2d::getObjectInPosition(edk::uint32 
         return temp->pointer;
     }
     return NULL;
+}
+//get object by name
+edk::gui2d::ObjectGui2d* edk::gui2d::ViewGui2d::getObjectByName(const edk::char8* name){
+    return this->edk::gui2d::ViewGui2d::getObjectByName((edk::char8*) name);
+}
+edk::gui2d::ObjectGui2d* edk::gui2d::ViewGui2d::getObjectByName(edk::char8* name){
+    this->nameTemplate.setName(name);
+    return this->names.getElement(&this->nameTemplate);
 }
 
 //disable the mouse on the view (Can be used to have only one textField on the view).
@@ -713,12 +728,12 @@ bool edk::gui2d::ViewGui2d::readFromXML(edk::XML* xml,edk::uint32 id){
                         //concat
                         strTemp = edk::String::strCat((edk::char8*)EDK_GUI2D_XML_TABLE,tempID);
                         if(strTemp){
-                                if(xml->selectChild(strTemp)){
-                                    this->table.origin.x = xml->getSelectedAttributeValueAsFloat32ByName("X");
-                                    this->table.origin.y = xml->getSelectedAttributeValueAsFloat32ByName("Y");
-                                    this->table.size.width = xml->getSelectedAttributeValueAsFloat32ByName("W");
-                                    this->table.size.height = xml->getSelectedAttributeValueAsFloat32ByName("H");
-                                    xml->selectFather();
+                            if(xml->selectChild(strTemp)){
+                                this->table.origin.x = xml->getSelectedAttributeValueAsFloat32ByName("X");
+                                this->table.origin.y = xml->getSelectedAttributeValueAsFloat32ByName("Y");
+                                this->table.size.width = xml->getSelectedAttributeValueAsFloat32ByName("W");
+                                this->table.size.height = xml->getSelectedAttributeValueAsFloat32ByName("H");
+                                xml->selectFather();
                             }
                             free(strTemp);
                         }
