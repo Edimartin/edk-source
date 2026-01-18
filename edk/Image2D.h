@@ -45,6 +45,8 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "codecs/EncoderJPEG.h"
 #include "codecs/DecoderPNG.h"
 #include "codecs/EncoderPNG.h"
+#include "codecs/DecoderHDR.h"
+#include "codecs/EncoderHDR.h"
 
 #ifdef printMessages
 #pragma message "    Compiling Image2D"
@@ -83,16 +85,56 @@ public:
     void clean();
 
     //create a new Image
-    bool newImage(edk::char8 *imageName,edk::size2ui32 size,edk::uint8 channels);
-    bool newImage(edk::char8 *imageName,edk::uint32 width,edk::uint32 height,edk::uint8 channels);
-    bool newImage(const edk::char8 *imageName,edk::size2ui32 size,edk::uint8 channels);
-    bool newImage(const edk::char8 *imageName,edk::uint32 width,edk::uint32 height,edk::uint8 channels);
+    bool newImage(edk::char8 *imageName,
+                  edk::size2ui32 size,
+                  edk::uint8 channels,
+                  edk::uint8 bytesPerChannel=1u
+            );
+    bool newImage(edk::char8 *imageName,
+                  edk::uint32 width,
+                  edk::uint32 height,
+                  edk::uint8 channels,
+                  edk::uint8 bytesPerChannel=1u
+            );
+    bool newImage(const edk::char8 *imageName,
+                  edk::size2ui32 size,
+                  edk::uint8 channels,
+                  edk::uint8 bytesPerChannel=1u
+            );
+    bool newImage(const edk::char8 *imageName,
+                  edk::uint32 width,
+                  edk::uint32 height,
+                  edk::uint8 channels,
+                  edk::uint8 bytesPerChannel=1u
+            );
 
     //create a new image with a palette
-    bool newImage(edk::char8 *imageName,edk::size2ui32 size,edk::uint8 channels,edk::uint32 paletteSize);
-    bool newImage(edk::char8 *imageName,edk::uint32 width,edk::uint32 height,edk::uint8 channels,edk::uint32 paletteSize);
-    bool newImage(const edk::char8 *imageName,edk::size2ui32 size,edk::uint8 channels,edk::uint32 paletteSize);
-    bool newImage(const edk::char8 *imageName,edk::uint32 width,edk::uint32 height,edk::uint8 channels,edk::uint32 paletteSize);
+    bool newImage(edk::char8 *imageName,
+                  edk::size2ui32 size,
+                  edk::uint8 channels,
+                  edk::uint32 paletteSize,
+                  edk::uint8 bytesPerChannel=1u
+            );
+    bool newImage(edk::char8 *imageName,
+                  edk::uint32 width,
+                  edk::uint32 height,
+                  edk::uint8 channels,
+                  edk::uint32 paletteSize,
+                  edk::uint8 bytesPerChannel=1u
+            );
+    bool newImage(const edk::char8 *imageName,
+                  edk::size2ui32 size,
+                  edk::uint8 channels,
+                  edk::uint32 paletteSize,
+                  edk::uint8 bytesPerChannel=1u
+            );
+    bool newImage(const edk::char8 *imageName,
+                  edk::uint32 width,
+                  edk::uint32 height,
+                  edk::uint8 channels,
+                  edk::uint32 paletteSize,
+                  edk::uint8 bytesPerChannel=1u
+            );
 
     bool loadFromFile(char8 *imageFileName);
 
@@ -183,6 +225,8 @@ public:
     edk::uint8 channels();
     //return the bytes per color to set the color values with the palette positions.
     edk::uint8 getBytesPerColor();
+    //return the bytes per pixel to have different images from normal RGB to RHB HDR
+    edk::uint8 getBytesPerChannel();
     //return the number of colors on the palette
     edk::uint32 getPaletteSize();
     //get the vector size
@@ -417,6 +461,8 @@ private:
     edk::uint8 channelsValue;
     //save the bits per colors
     edk::uint8 bytesPerColors;
+    //save the bits per colors
+    edk::uint8 bytesPerChannel;
     //Size of the image
     edk::size2ui32 size;
     //imageName of the image

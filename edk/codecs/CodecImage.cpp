@@ -64,9 +64,9 @@ void edk::codecs::CodecImage::Destructor(){
 }
 
 //create a new frame
-bool edk::codecs::CodecImage::newFrame(edk::size2ui32 size,edk::uint8 channels){
+bool edk::codecs::CodecImage::newFrame(edk::size2ui32 size,edk::uint8 channels,edk::uint8 bytesPerChannel){
     //test the size of the image
-    if(size.width && size.height && channels){
+    if(size.width && size.height && channels && bytesPerChannel){
         if(this->frame){
             //test if the size of the image is diferent then the last size
             if(this->frameSize.width == size.width &&
@@ -114,8 +114,8 @@ bool edk::codecs::CodecImage::newFrame(edk::size2ui32 size,edk::uint8 channels){
     //else return false
     return false;
 }
-bool edk::codecs::CodecImage::newFrame(edk::uint32 width,edk::uint32 height,edk::uint8 channels){
-    return this->newFrame(edk::size2ui32(width,height),channels);
+bool edk::codecs::CodecImage::newFrame(edk::uint32 width,edk::uint32 height,edk::uint8 channels,edk::uint8 bytesPerChannel){
+    return this->newFrame(edk::size2ui32(width,height),channels,bytesPerChannel);
 }
 //delete the frame
 void edk::codecs::CodecImage::deleteFrame(){
@@ -1281,7 +1281,7 @@ bool edk::codecs::CodecImage::grayToi420(edk::uint8* gray,edk::size2ui32 size,ed
 //YUV to RGB
 edk::color3ui8 edk::codecs::CodecImage::yuvTorgb(edk::uint8 y,edk::uint8 u,edk::uint8 v){
     edk::float32 r,g,b;
-    r = y + 1.4075 *                        (v - 128) ;
+    r = y + 1.4075 *                       (v - 128) ;
     g = y - 0.3455 * (u - 128) - (0.7169 * (v - 128));
     b = y + 1.7790 * (u - 128);
 
@@ -1309,6 +1309,43 @@ edk::color3ui8 edk::codecs::CodecImage::yuvTorgb(edk::uint8 y,edk::uint8 u,edk::
 }
 edk::color3ui8 edk::codecs::CodecImage::yuvTorgb(edk::vec3ui8 color){
     return edk::codecs::CodecImage::yuvTorgb(color.x,color.y,color.z);
+}
+bool edk::codecs::CodecImage::yuvTorgb(edk::uint8* yuv,edk::size2ui32 size,edk::uint8* rgb){
+    if(rgb && size.width && size.height && yuv){
+        edk::float32 r,g,b;
+        edk::uint32 vecSize = size.width * size.height;
+        for(edk::uint32 i=0u;i<vecSize;i++){
+            r = yuv[0u] + 1.4075 *                             (yuv[2u] - 128) ;
+            g = yuv[0u] - 0.3455 * (yuv[1u] - 128) - (0.7169 * (yuv[2u] - 128));
+            b = yuv[0u] + 1.7790 * (yuv[1u] - 128);
+
+            if(r<0){
+                r=0;
+            }
+            else if(r>255){
+                r=255;
+            }
+
+            if(g<0) g=0;
+            else if(g>255){
+                g=255;
+            }
+
+            if(b<0) b=0;
+            else if(b>255){
+                b=255;
+            }
+
+            rgb[0u]=(edk::uint8)(r);
+            rgb[1u]=(edk::uint8)(g);
+            rgb[2u]=(edk::uint8)(b);
+
+            rgb+=3u;
+            yuv+=3u;
+        }
+        return true;
+    }
+    return false;
 }
 bool edk::codecs::CodecImage::i420Torgb(edk::uint8* y,edk::uint8* u,edk::uint8* v,edk::size2ui32 size,edk::uint8* rgb){
     if(rgb && size.width && size.height && y && u && v){
@@ -2204,10 +2241,10 @@ bool edk::codecs::CodecImage::rgb32Torgb8(edk::uint8* rgb32,edk::uint32 size,edk
     return false;
 }
 bool edk::codecs::CodecImage::rgb32Torgb8(edk::uint8* rgb32,
-                        edk::uint32 size,
-                        edk::uint8* rgb8,
-                        edk::float32 min,
-                        edk::float32 max
+                                          edk::uint32 size,
+                                          edk::uint8* rgb8,
+                                          edk::float32 min,
+                                          edk::float32 max
                                           ){
     if(rgb32
             && rgb8
@@ -2231,6 +2268,86 @@ bool edk::codecs::CodecImage::rgb32Torgb8(edk::uint8* rgb32,
             if(value<0.f) value = 0.f;
             if(value>max) value = max;
             value/=max;
+            *rgb8 = (edk::uint8)(value*255.f);
+            rgb32+=incrementRGB32;
+            rgb8+=incrementRGB8;
+        }
+        return true;
+    }
+    return false;
+}
+//TONE MAP
+bool edk::codecs::CodecImage::rgb32ToneMapReinhardRGB8(edk::uint8* rgb32,edk::uint32 size,edk::uint8* rgb8){
+    return edk::codecs::CodecImage::rgb32ToneMapReinhardRGB8(rgb32,
+                                                             size,
+                                                             rgb8,
+                                                             2.2f
+                                                             );
+}
+bool edk::codecs::CodecImage::rgb32ToneMapReinhardRGB8(edk::uint8* rgb32,
+                                                       edk::uint32 size,
+                                                       edk::uint8* rgb8,
+                                                       edk::float32 gamma
+                                                       ){
+    if(rgb32
+            && rgb8
+            && size
+            ){
+        edk::uint8 incrementRGB32=sizeof(edk::float32),incrementRGB8=1u;
+        edk::float32 value=0.f;
+        for(edk::uint32 i=0u;i<size;i++){
+            edkMemCpy(&value,rgb32,sizeof(edk::float32));
+
+            value = value / (1.0f + value);
+            edk::float32 newGamma = 1.0f / gamma;
+            value = pow(value, newGamma);
+
+            //clamp
+            if (value < 0.0f) value = 0.0f;
+            if (value > 1.0f) value = 1.0f;
+
+            *rgb8 = (edk::uint8)(value*255.f);
+            rgb32+=incrementRGB32;
+            rgb8+=incrementRGB8;
+        }
+        return true;
+    }
+    return false;
+}
+bool edk::codecs::CodecImage::rgb32ToneMapACESFilmRGB8(edk::uint8* rgb32,edk::uint32 size,edk::uint8* rgb8){
+    return edk::codecs::CodecImage::rgb32ToneMapACESFilmRGB8(rgb32,
+                                                             size,
+                                                             rgb8,
+                                                             2.2f
+                                                             );
+}
+bool edk::codecs::CodecImage::rgb32ToneMapACESFilmRGB8(edk::uint8* rgb32,
+                                                       edk::uint32 size,
+                                                       edk::uint8* rgb8,
+                                                       edk::float32 gamma
+                                                       ){
+    if(rgb32
+            && rgb8
+            && size
+            ){
+        edk::uint8 incrementRGB32=sizeof(edk::float32),incrementRGB8=1u;
+        edk::float32 value=0.f;
+        edk::float32 a = 2.51f;
+        edk::float32 b = 0.03f;
+        edk::float32 c = 2.43f;
+        edk::float32 d = 0.59f;
+        edk::float32 e = 0.14f;
+        for(edk::uint32 i=0u;i<size;i++){
+            edkMemCpy(&value,rgb32,sizeof(edk::float32));
+
+            value = ((value * (a * value + b)) / (value * (c * value + d) + e));
+            edk::float32 newGamma = 1.0f / gamma;
+            value = pow(value, newGamma);
+
+            //clamp
+            if (value < 0.0f) value = 0.0f;
+            if (value > 1.0f) value = 1.0f;
+
             *rgb8 = (edk::uint8)(value*255.f);
             rgb32+=incrementRGB32;
             rgb8+=incrementRGB8;

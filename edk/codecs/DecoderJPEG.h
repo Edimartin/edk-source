@@ -54,7 +54,10 @@ public:
 
     //return the vector size
     edk::uint32 getVectorSize();
-protected:
+    //get the channel size
+    virtual inline edk::uint8 getChannelByteSize(){
+        return 1u;
+    }
 private:
     edk::classID classThis;
 };

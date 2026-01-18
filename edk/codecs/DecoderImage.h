@@ -65,6 +65,10 @@ public:
     virtual void deleteFrame();
     //clean the frame
     edk::uint8* cleanFrame();
+    //get the channel size
+    virtual inline edk::uint8 getChannelByteSize(){
+        return sizeof(edk::float32);
+    }
 protected:
     edk::File file;
 private:

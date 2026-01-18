@@ -54,8 +54,8 @@ public:
     void Destructor();
 protected:
     //create a new frame
-    bool newFrame(edk::size2ui32 size,edk::uint8 channels);
-    bool newFrame(edk::uint32 width,edk::uint32 height,edk::uint8 channels);
+    bool newFrame(edk::size2ui32 size,edk::uint8 channels,edk::uint8 frameBytesPerPixel=1u);
+    bool newFrame(edk::uint32 width,edk::uint32 height,edk::uint8 channels,edk::uint8 frameBytesPerPixel=1u);
     //delete the frame
     void deleteFrame();
     //alloc a new frameEncoded
@@ -92,7 +92,10 @@ protected:
     edk::uint32 getEncodedSize();
     edk::uint32* getEncodedSizePosition();
     edk::uint32 getQuality();
-
+    //get the channel size
+    virtual inline edk::uint8 getChannelByteSize(){
+        return sizeof(edk::float32);
+    }
 public:
     //Convertions
     //https://github.com/ratkins/RGBConverter/blob/master/RGBConverter.cpp
@@ -191,6 +194,10 @@ public:
     //YUV to RGB
     static edk::color3ui8 yuvTorgb(edk::uint8 y,edk::uint8 u,edk::uint8 v);
     static edk::color3ui8 yuvTorgb(edk::vec3ui8 color);
+    static bool yuvTorgb(edk::uint8* yuv,edk::size2ui32 size,edk::uint8* rgb);
+    static inline bool yuvTorgb(edk::uint8* yuv,edk::uint32 width,edk::uint32 height,edk::uint8* rgb){
+        return edk::codecs::CodecImage::yuvTorgb(yuv,edk::size2ui32(width,height),rgb);
+    }
     static bool i420Torgb(edk::uint8* y,edk::uint8* u,edk::uint8* v,edk::size2ui32 size,edk::uint8* rgb);
     //RGB32toRGB8
     static bool rgb32Torgb8(edk::uint8* rgb32,edk::uint32 size,edk::uint8* rgb8);
@@ -200,14 +207,23 @@ public:
                             edk::float32 min,
                             edk::float32 max
                             );
+    //TONE MAP
+    static bool rgb32ToneMapReinhardRGB8(edk::uint8* rgb32,edk::uint32 size,edk::uint8* rgb8);
+    static bool rgb32ToneMapReinhardRGB8(edk::uint8* rgb32,
+                            edk::uint32 size,
+                            edk::uint8* rgb8,
+                            edk::float32 gamma
+                            );
+    static bool rgb32ToneMapACESFilmRGB8(edk::uint8* rgb32,edk::uint32 size,edk::uint8* rgb8);
+    static bool rgb32ToneMapACESFilmRGB8(edk::uint8* rgb32,
+                            edk::uint32 size,
+                            edk::uint8* rgb8,
+                            edk::float32 gamma
+                            );
 protected:
     //save the size of the frame
     edk::size2ui32 frameSize;
 
-    //get the channel size
-    virtual inline edk::uint32 getChannelByteSize(){
-        return 1u;
-    }
 private:
     //image vector to encode
     edk::uint8* frame;

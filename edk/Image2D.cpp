@@ -59,6 +59,7 @@ void edk::Image2D::Constructor(){
         this->palette=NULL;
         this->paletteSize=0u;
         this->bytesPerColors=0u;
+        this->bytesPerChannel=0u;
     }
 }
 
@@ -74,6 +75,7 @@ void edk::Image2D::Constructor(char8 *imageFileName){
         this->palette=NULL;
         this->paletteSize=0u;
         this->bytesPerColors=0u;
+        this->bytesPerChannel=0u;
         //load the image
         this->loadFromFile(imageFileName);
     }
@@ -91,6 +93,7 @@ void edk::Image2D::Constructor(const char *imageFileName){
         this->palette=NULL;
         this->paletteSize=0u;
         this->bytesPerColors=0u;
+        this->bytesPerChannel=0u;
         //load the image
         this->loadFromFile(imageFileName);
     }
@@ -144,12 +147,35 @@ edk::uint8 edk::Image2D::getStreamType(edk::uint8* encoded){
                 return EDK_CODEC_JPEG;
             }
         }
+        else if(encoded[0u] == 0x89){
+            if(encoded[1u] == 0x50){
+                if(encoded[2u] == 0x4E){
+                    if(encoded[3u] == 0x47){
+                        return EDK_CODEC_PNG;
+                    }
+                }
+            }
+        }
         else{
-            if(encoded[0u] == 0x89){
-                if(encoded[1u] == 0x50){
-                    if(encoded[2u] == 0x4E){
-                        if(encoded[3u] == 0x47){
-                            return EDK_CODEC_PNG;
+            if(encoded[0u] == '#'){
+                if(encoded[1u] == '?'){
+                    if(encoded[2u] == 'R'){
+                        if(encoded[3u] == 'A'){
+                            if(encoded[4u] == 'D'){
+                                if(encoded[5u] == 'I'){
+                                    if(encoded[6u] == 'A'){
+                                        if(encoded[7u] == 'N'){
+                                            if(encoded[8u] == 'C'){
+                                                if(encoded[9u] == 'E'){
+                                                    if(encoded[10u] == 10u){
+                                                        return EDK_CODEC_HDR;
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
                         }
                     }
                 }
@@ -254,6 +280,21 @@ edk::uint8 edk::Image2D::getNameType(edk::char8* name){
                     }
                 }
             }
+            else if(*str == 'r'){
+                str--;
+                if(*str == 'd'){
+                    //test if it's png
+                    str--;
+                    if(*str == 'h'){
+                        //
+                        str--;
+                        if(*str == '.'){
+                            //it's a PNG name
+                            return EDK_CODEC_HDR;
+                        }
+                    }
+                }
+            }
         }
     }
     return EDK_CODEC_NO;
@@ -261,19 +302,24 @@ edk::uint8 edk::Image2D::getNameType(edk::char8* name){
 
 
 //create a new Image
-bool edk::Image2D::newImage(edk::char8 *imageName,edk::size2ui32 size,edk::uint8 channels){
+bool edk::Image2D::newImage(edk::char8 *imageName,
+                            edk::size2ui32 size,
+                            edk::uint8 channels,
+                            edk::uint8 bytesPerChannel
+                            ){
     //delete the last image
     this->deleteImage();
     //test the new image
-    if(imageName&&size.width&&size.height&&channels&&channels<=4u){
+    if(imageName&&size.width&&size.height&&channels&&channels<=4u&&bytesPerChannel&&bytesPerChannel<=4u){
         //set the name
         if(this->setName(imageName)){
             //set the size
             this->size = size;
             this->channelsValue=channels;
+            this->bytesPerChannel=bytesPerChannel;
             edk::uint32 imageSize = size.width*size.height;
             //create the new vector
-            this->vec = (edk::uint8*)malloc(sizeof(edk::uint8) * (imageSize * this->channelsValue));
+            this->vec = (edk::uint8*)malloc(sizeof(edk::uint8) * (imageSize * this->channelsValue * this->bytesPerChannel));
             if(this->vec){
                 //return true
                 return true;
@@ -283,33 +329,52 @@ bool edk::Image2D::newImage(edk::char8 *imageName,edk::size2ui32 size,edk::uint8
     this->deleteImage();
     return false;
 }
-bool edk::Image2D::newImage(edk::char8 *imageName,edk::uint32 width,edk::uint32 height,edk::uint8 channels){
-    return this->newImage(imageName,edk::size2ui32(width,height),channels);
+bool edk::Image2D::newImage(edk::char8 *imageName,
+                            edk::uint32 width,
+                            edk::uint32 height,
+                            edk::uint8 channels,
+                            edk::uint8 bytesPerPixels
+                            ){
+    return this->newImage(imageName,edk::size2ui32(width,height),channels,bytesPerPixels);
 }
-bool edk::Image2D::newImage(const edk::char8 *imageName,edk::size2ui32 size,edk::uint8 channels){
-    return this->newImage((edk::char8 *)imageName,size,channels);
+bool edk::Image2D::newImage(const edk::char8 *imageName,
+                            edk::size2ui32 size,
+                            edk::uint8 channels,
+                            edk::uint8 bytesPerPixels
+                            ){
+    return this->newImage((edk::char8 *)imageName,size,channels,bytesPerPixels);
 }
-bool edk::Image2D::newImage(const edk::char8 *imageName,edk::uint32 width,edk::uint32 height,edk::uint8 channels){
-    return this->newImage((edk::char8 *)imageName,width,height,channels);
+bool edk::Image2D::newImage(const edk::char8 *imageName,
+                            edk::uint32 width,
+                            edk::uint32 height,
+                            edk::uint8 channels,
+                            edk::uint8 bytesPerPixels){
+    return this->newImage((edk::char8 *)imageName,width,height,channels,bytesPerPixels);
 }
 
 //create a new image with a palette
-bool edk::Image2D::newImage(edk::char8 *imageName,edk::size2ui32 size,edk::uint8 channels,edk::uint32 paletteSize){
+bool edk::Image2D::newImage(edk::char8 *imageName,
+                            edk::size2ui32 size,
+                            edk::uint8 channels,
+                            edk::uint32 paletteSize,
+                            edk::uint8 bytesPerChannel
+                            ){
     if(!paletteSize){
         return this->newImage(imageName,size,channels);
     }
     //delete the last image
     this->deleteImage();
     //test the new image
-    if(imageName&&size.width&&size.height&&paletteSize&&channels&&channels<=4u){
+    if(imageName&&size.width&&size.height&&paletteSize&&channels&&channels<=4u&&bytesPerChannel&&bytesPerChannel<=4u){
         //set the name
         if(this->setName(imageName)){
             //set the size
             this->size = size;
             //clean the channels
             this->channelsValue=channels;
+            this->bytesPerChannel=bytesPerChannel;
             //create the palette
-            this->palette= (edk::uint8*)malloc(sizeof(edk::uint8) * (paletteSize * this->channelsValue));
+            this->palette= (edk::uint8*)malloc(sizeof(edk::uint8) * (paletteSize * this->channelsValue * this->bytesPerChannel));
             if(this->palette){
                 this->paletteSize=paletteSize;
 
@@ -342,18 +407,34 @@ bool edk::Image2D::newImage(edk::char8 *imageName,edk::size2ui32 size,edk::uint8
     this->deleteImage();
     return false;
 }
-bool edk::Image2D::newImage(edk::char8 *imageName,edk::uint32 width,edk::uint32 height,edk::uint8 channels,edk::uint32 paletteSize){
-    return this->newImage(imageName,edk::size2ui32(width,height),channels,paletteSize);
+bool edk::Image2D::newImage(edk::char8 *imageName,
+                            edk::uint32 width,
+                            edk::uint32 height,
+                            edk::uint8 channels,
+                            edk::uint32 paletteSize,
+                            edk::uint8 bytesPerPixels
+                            ){
+    return this->newImage(imageName,edk::size2ui32(width,height),channels,paletteSize,bytesPerPixels);
 }
-bool edk::Image2D::newImage(const edk::char8 *imageName,edk::size2ui32 size,edk::uint8 channels,edk::uint32 paletteSize){
-    return this->newImage((edk::char8 *)imageName,size,channels,paletteSize);
+bool edk::Image2D::newImage(const edk::char8 *imageName,
+                            edk::size2ui32 size,
+                            edk::uint8 channels,
+                            edk::uint32 paletteSize,
+                            edk::uint8 bytesPerPixels
+                            ){
+    return this->newImage((edk::char8 *)imageName,size,channels,paletteSize,bytesPerPixels);
 }
-bool edk::Image2D::newImage(const edk::char8 *imageName,edk::uint32 width,edk::uint32 height,edk::uint8 channels,edk::uint32 paletteSize){
-    return this->newImage((edk::char8 *)imageName,width,height,channels,paletteSize);
+bool edk::Image2D::newImage(const edk::char8 *imageName,
+                            edk::uint32 width,
+                            edk::uint32 height,
+                            edk::uint8 channels,
+                            edk::uint32 paletteSize,
+                            edk::uint8 bytesPerPixels
+                            ){
+    return this->newImage((edk::char8 *)imageName,width,height,channels,paletteSize,bytesPerPixels);
 }
 
-bool edk::Image2D::loadFromFile(char8 *imageFileName)
-{
+bool edk::Image2D::loadFromFile(char8 *imageFileName){
     //open the file
     edk::File file;
     if(file.openBinFile(imageFileName)){
@@ -482,6 +563,7 @@ bool edk::Image2D::loadFromMemory(uint8 *image, edk::uint32 vecSize){
                     this->size = edk::size2ui32(decoder.getFrameWidth(),decoder.getFrameHeight());
                     //get channels
                     this->channelsValue = decoder.getFrameChannels();
+                    this->bytesPerChannel = decoder.getChannelByteSize();
                     decoder.cleanFrame();
                     return true;
                 }
@@ -499,6 +581,25 @@ bool edk::Image2D::loadFromMemory(uint8 *image, edk::uint32 vecSize){
                     this->size = edk::size2ui32(decoder.getFrameWidth(),decoder.getFrameHeight());
                     //get channels
                     this->channelsValue = decoder.getFrameChannels();
+                    this->bytesPerChannel = decoder.getChannelByteSize();
+                    decoder.cleanFrame();
+                    return true;
+                }
+            }
+        }
+            break;
+        case EDK_CODEC_HDR:
+        {
+            //decode using jpegCodec
+            edk::codecs::DecoderHDR decoder;
+            if(decoder.decode(image,vecSize)){
+                this->vec = decoder.getFrame();
+                if(this->vec){
+                    //get size
+                    this->size = edk::size2ui32(decoder.getFrameWidth(),decoder.getFrameHeight());
+                    //get channels
+                    this->channelsValue = decoder.getFrameChannels();
+                    this->bytesPerChannel = decoder.getChannelByteSize();
                     decoder.cleanFrame();
                     return true;
                 }
@@ -529,6 +630,7 @@ bool edk::Image2D::loadFromMemoryToRGB(uint8 *image, edk::uint32 vecSize){
                     if(this->vec){
                         //get channels
                         this->channelsValue = decoder.getFrameChannels();
+                        this->bytesPerChannel = decoder.getChannelByteSize();
                         if(this->channelsValue==1u || this->channelsValue == 3u){
                             //get size
                             this->size = edk::size2ui32(decoder.getFrameWidth(),decoder.getFrameHeight());
@@ -576,6 +678,7 @@ bool edk::Image2D::loadFromMemoryToRGB(uint8 *image, edk::uint32 vecSize){
                     if(this->vec){
                         //get channels
                         this->channelsValue = decoder.getFrameChannels();
+                        this->bytesPerChannel = decoder.getChannelByteSize();
                         if(this->channelsValue==1u || this->channelsValue==2u || this->channelsValue == 4u){
                             //get size
                             this->size = edk::size2ui32(decoder.getFrameWidth(),decoder.getFrameHeight());
@@ -660,6 +763,7 @@ bool edk::Image2D::loadFromMemoryToRGBA(uint8 *image, edk::uint32 vecSize){
                     if(this->vec){
                         //get channels
                         this->channelsValue = decoder.getFrameChannels();
+                        this->bytesPerChannel = decoder.getChannelByteSize();
                         if(this->channelsValue==1u || this->channelsValue == 3u){
                             //get size
                             this->size = edk::size2ui32(decoder.getFrameWidth(),decoder.getFrameHeight());
@@ -711,6 +815,7 @@ bool edk::Image2D::loadFromMemoryToRGBA(uint8 *image, edk::uint32 vecSize){
                     if(this->vec){
                         //get channels
                         this->channelsValue = decoder.getFrameChannels();
+                        this->bytesPerChannel = decoder.getChannelByteSize();
                         if(this->channelsValue==1u || this->channelsValue==2u || this->channelsValue == 3u){
                             //get size
                             this->size = edk::size2ui32(decoder.getFrameWidth(),decoder.getFrameHeight());
@@ -921,11 +1026,13 @@ bool edk::Image2D::saveToFile(edk::char8 *fileName){
                 switch(nameType){
                 case EDK_CODEC_PNG:
                 {
-                    //save the encoder
-                    edk::codecs::EncoderPNG encoder;
-                    ret = encoder.encodeToFile(this->vec,this->size.width,this->size.height,this->channelsValue,9,fileName);
-                    if(deleteTempName){
-                        free(fileName);
+                    if(this->getBytesPerChannel() == 1u){
+                        //save the encoder
+                        edk::codecs::EncoderPNG encoder;
+                        ret = encoder.encodeToFile(this->vec,this->size.width,this->size.height,this->channelsValue,9,fileName);
+                        if(deleteTempName){
+                            free(fileName);
+                        }
                     }
                     break;
                 }
@@ -958,21 +1065,37 @@ bool edk::Image2D::saveToFile(edk::char8 *fileName){
                 switch(nameType){
                 case EDK_CODEC_JPEG:
                 {
-                    //save the encoder
-                    edk::codecs::EncoderJPEG encoder;
-                    ret = encoder.encodeToFile(this->vec,this->size.width,this->size.height,this->channelsValue,90,fileName);
-                    if(deleteTempName){
-                        free(fileName);
+                    if(this->getBytesPerChannel() == 1u){
+                        //save the encoder
+                        edk::codecs::EncoderJPEG encoder;
+                        ret = encoder.encodeToFile(this->vec,this->size.width,this->size.height,this->channelsValue,90,fileName);
+                        if(deleteTempName){
+                            free(fileName);
+                        }
                     }
                     break;
                 }
                 case EDK_CODEC_PNG:
                 {
-                    //save the encoder
-                    edk::codecs::EncoderPNG encoder;
-                    ret = encoder.encodeToFile(this->vec,this->size.width,this->size.height,this->channelsValue,9,fileName);
-                    if(deleteTempName){
-                        free(fileName);
+                    if(this->getBytesPerChannel() == 1u){
+                        //save the encoder
+                        edk::codecs::EncoderPNG encoder;
+                        ret = encoder.encodeToFile(this->vec,this->size.width,this->size.height,this->channelsValue,9,fileName);
+                        if(deleteTempName){
+                            free(fileName);
+                        }
+                    }
+                    break;
+                }
+                case EDK_CODEC_HDR:
+                {
+                    if(this->getBytesPerChannel() == 4u){
+                        //save the encoder
+                        edk::codecs::EncoderHDR encoder;
+                        ret = encoder.encodeToFile(this->vec,this->size.width,this->size.height,this->channelsValue,9,fileName);
+                        if(deleteTempName){
+                            free(fileName);
+                        }
                     }
                     break;
                 }
@@ -996,32 +1119,36 @@ bool edk::Image2D::saveToFile(edk::char8 *fileName){
                 switch(nameType){
                 case EDK_CODEC_PNG:
                 {
-                    //save the encoder
-                    edk::codecs::EncoderPNG encoder;
-                    ret = encoder.encodeToFile(this->vec,this->size.width,this->size.height,this->channelsValue,9,fileName);
-                    if(deleteTempName){
-                        free(fileName);
+                    if(this->getBytesPerChannel() == 1u){
+                        //save the encoder
+                        edk::codecs::EncoderPNG encoder;
+                        ret = encoder.encodeToFile(this->vec,this->size.width,this->size.height,this->channelsValue,9,fileName);
+                        if(deleteTempName){
+                            free(fileName);
+                        }
                     }
                     break;
                 }
                 case EDK_CODEC_JPEG:
                 {
-                    //create a new image and convert the frame to rgb
-                    edk::uint8* temp = (edk::uint8*)malloc(sizeof(edk::uint8) * (this->size.width * this->size.height * 3u));
-                    if(temp){
-                        //convert the image
-                        if(edk::Image2D::imageClone(this->vec,this->size.width,this->size.height,this->channelsValue,
-                                                    temp,this->size.width,this->size.height,3u,
-                                                    0u,0u
-                                                    )){
-                            //save the image as JPEG
-                            edk::codecs::EncoderJPEG encoder;
-                            ret = encoder.encodeToFile(temp,this->size.width,this->size.height,3u,90,fileName);
+                    if(this->getBytesPerChannel() == 1u){
+                        //create a new image and convert the frame to rgb
+                        edk::uint8* temp = (edk::uint8*)malloc(sizeof(edk::uint8) * (this->size.width * this->size.height * 3u));
+                        if(temp){
+                            //convert the image
+                            if(edk::Image2D::imageClone(this->vec,this->size.width,this->size.height,this->channelsValue,
+                                                        temp,this->size.width,this->size.height,3u,
+                                                        0u,0u
+                                                        )){
+                                //save the image as JPEG
+                                edk::codecs::EncoderJPEG encoder;
+                                ret = encoder.encodeToFile(temp,this->size.width,this->size.height,3u,90,fileName);
+                            }
+                            free(temp);
                         }
-                        free(temp);
-                    }
-                    if(deleteTempName){
-                        free(fileName);
+                        if(deleteTempName){
+                            free(fileName);
+                        }
                     }
                     break;
                 }
@@ -1413,7 +1540,11 @@ edk::uint8 edk::Image2D::channels(){
 edk::uint8 edk::Image2D::getBytesPerColor(){
     return this->bytesPerColors;
 }
-
+//return the bytes per pixel to have different images from normal RGB to RHB HDR
+edk::uint8 edk::Image2D::getBytesPerChannel(){
+    return this->bytesPerChannel;
+}
+//return the number of colors on the palette
 edk::uint32 edk::Image2D::getPaletteSize(){
     return this->paletteSize;
 }

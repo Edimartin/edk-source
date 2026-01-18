@@ -82,6 +82,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #define EDK_CODEC_NO   0x00
 #define EDK_CODEC_JPEG 0x21
 #define EDK_CODEC_PNG  0x22
+#define EDK_CODEC_HDR  0x32
 
 //AUDIO
 #define EDK_STOPPED                                 0x0000
