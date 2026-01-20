@@ -86,6 +86,7 @@ public:
                        edk::uint32 height,
                        edk::uint32 mode,
                        const edk::classID  data = NULL,
+                       edk::uint8 bytesPerChannel = 1u,
                        edk::uint32 minFilter = GU_NEAREST,
                        edk::uint32 magFilter = GU_LINEAR
             );
@@ -93,6 +94,7 @@ public:
                                   edk::uint32 height,
                                   edk::uint32 mode,
                                   const edk::classID  data = NULL,
+                                  edk::uint8 bytesPerChannel = 1u,
                                   edk::uint32 minFilter = GU_NEAREST,
                                   edk::uint32 magFilter = GU_LINEAR
             );
@@ -100,6 +102,7 @@ public:
                                   edk::uint32 height,
                                   edk::uint32 mode,
                                   const edk::classID  data = NULL,
+                                  edk::uint8 bytesPerChannel = 1u,
                                   edk::uint32 minFilter = GU_NEAREST,
                                   edk::uint32 magFilter = GU_LINEAR
             );
@@ -107,6 +110,7 @@ public:
                              edk::uint32 height,
                              edk::uint32 mode,
                              const edk::classID  data = NULL,
+                             edk::uint8 bytesPerChannel = 1u,
                              edk::uint32 minFilter = GU_NEAREST,
                              edk::uint32 magFilter = GU_LINEAR
             );
@@ -114,6 +118,7 @@ public:
                                         edk::uint32 height,
                                         edk::uint32 mode,
                                         const edk::classID  data = NULL,
+                                        edk::uint8 bytesPerChannel = 1u,
                                         edk::uint32 minFilter = GU_NEAREST,
                                         edk::uint32 magFilter = GU_LINEAR
             );
@@ -121,6 +126,7 @@ public:
                                         edk::uint32 height,
                                         edk::uint32 mode,
                                         const edk::classID  data = NULL,
+                                        edk::uint8 bytesPerChannel = 1u,
                                         edk::uint32 minFilter = GU_NEAREST,
                                         edk::uint32 magFilter = GU_LINEAR
             );
@@ -155,6 +161,7 @@ public:
     //return the texturePBO
     edk::uint32 getPBO();
     size2ui32 getSize();
+    edk::uint8 getBytesPerChannel();
     //EDK_LUMINANCE 1u
     //EDK_LUMINANCE_ALPHA 2u
     //EDK_RGB  3u
@@ -195,6 +202,7 @@ private:
     edk::uint32 pbo;
     //tamanho do sprite
     edk::size2ui32 size;
+    edk::uint8 bytesPerChannel;
     //save the mode
     edk::uint32 mode;
     edk::uint32 minFilter;

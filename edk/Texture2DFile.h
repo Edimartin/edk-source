@@ -140,6 +140,8 @@ private:
         this->writeDebug((edk::char8*) text,line,(edk::char8*) file,(edk::char8*) function);
     }
 #endif
+    //discover the imageType
+    edk::uint8 getNameType(edk::char8* name);
 private:
     edk::classID classThis;
 };

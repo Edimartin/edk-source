@@ -56,10 +56,6 @@ public:
     bool encode(edk::uint8* frame,edk::uint32 width,edk::uint32 height,edk::uint8 channels,edk::uint32 quality);
     //delete the encoded
     void deleteEncoded();
-    //get the channel size
-    virtual inline edk::uint8 getChannelByteSize(){
-        return sizeof(edk::float32);
-    }
 private:
     edk::vector::Stack<edk::uint8> stack;
     //Functions to write the data

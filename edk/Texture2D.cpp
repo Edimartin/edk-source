@@ -46,6 +46,7 @@ void edk::Texture2D::Constructor(){
         this->mode = 0u;
         this->minFilter = 0u;
         this->magFilter = 0u;
+        this->bytesPerChannel=0u;
     }
 }
 void edk::Texture2D::Destructor(){
@@ -62,6 +63,7 @@ bool edk::Texture2D::createTexture(edk::uint32 width,
                                    edk::uint32 height,
                                    edk::uint32 mode,
                                    const edk::classID  data,
+                                   edk::uint8 bytesPerChannel,
                                    edk::uint32 minFilter,
                                    edk::uint32 magFilter
                                    ){
@@ -99,10 +101,11 @@ bool edk::Texture2D::createTexture(edk::uint32 width,
     }
 
     //then alloc the texture
-    this->textureId = edk::GU::guAllocTexture2D(width, height, this->mode, minFilter,magFilter, data);
+    this->textureId = edk::GU::guAllocTexture2D(width, height, this->mode, minFilter,magFilter, data, bytesPerChannel);
     if(this->textureId){
         this->size.width = width;
         this->size.height = height;
+        this->bytesPerChannel=bytesPerChannel;
         this->minFilter = minFilter;
         this->magFilter = magFilter;
         //return true
@@ -115,6 +118,7 @@ bool edk::Texture2D::createTextureWithPBODraw(edk::uint32 width,
                                               edk::uint32 height,
                                               edk::uint32 mode,
                                               const edk::classID  data,
+                                              edk::uint8 bytesPerChannel,
                                               edk::uint32 minFilter,
                                               edk::uint32 magFilter
                                               ){
@@ -162,10 +166,11 @@ bool edk::Texture2D::createTextureWithPBODraw(edk::uint32 width,
     }
 
     //then alloc the texture
-    this->textureId = edk::GU::guAllocTexture2D(width, height, this->mode, minFilter,magFilter, data);
+    this->textureId = edk::GU::guAllocTexture2D(width, height, this->mode, minFilter,magFilter, data, bytesPerChannel);
     if(this->textureId){
         this->size.width = width;
         this->size.height = height;
+        this->bytesPerChannel=bytesPerChannel;
         this->minFilter = minFilter;
         this->magFilter = magFilter;
 
@@ -186,6 +191,7 @@ bool edk::Texture2D::createTextureWithPBORead(edk::uint32 width,
                                               edk::uint32 height,
                                               edk::uint32 mode,
                                               const edk::classID  data,
+                                              edk::uint8 bytesPerChannel,
                                               edk::uint32 minFilter,
                                               edk::uint32 magFilter
                                               ){
@@ -233,10 +239,11 @@ bool edk::Texture2D::createTextureWithPBORead(edk::uint32 width,
     }
 
     //then alloc the texture
-    this->textureId = edk::GU::guAllocTexture2D(width, height, this->mode, minFilter,magFilter, data);
+    this->textureId = edk::GU::guAllocTexture2D(width, height, this->mode, minFilter,magFilter, data, bytesPerChannel);
     if(this->textureId){
         this->size.width = width;
         this->size.height = height;
+        this->bytesPerChannel=bytesPerChannel;
         this->minFilter = minFilter;
         this->magFilter = magFilter;
 
@@ -257,6 +264,7 @@ bool edk::Texture2D::createTextureRepeat(edk::uint32 width,
                                          edk::uint32 height,
                                          edk::uint32 mode,
                                          const edk::classID  data,
+                                         edk::uint8 bytesPerChannel,
                                          edk::uint32 minFilter,
                                          edk::uint32 magFilter
                                          ){
@@ -294,10 +302,11 @@ bool edk::Texture2D::createTextureRepeat(edk::uint32 width,
     }
 
     //then alloc the texture
-    this->textureId = edk::GU::guAllocTexture2DRepeat(width, height, this->mode, minFilter,magFilter, data);
+    this->textureId = edk::GU::guAllocTexture2DRepeat(width, height, this->mode, minFilter,magFilter, data, bytesPerChannel);
     if(this->textureId){
         this->size.width = width;
         this->size.height = height;
+        this->bytesPerChannel=bytesPerChannel;
         this->minFilter = minFilter;
         this->magFilter = magFilter;
         //return true
@@ -310,6 +319,7 @@ bool edk::Texture2D::createTextureRepeatWithPBODraw(edk::uint32 width,
                                                     edk::uint32 height,
                                                     edk::uint32 mode,
                                                     const edk::classID  data,
+                                                    edk::uint8 bytesPerChannel,
                                                     edk::uint32 minFilter,
                                                     edk::uint32 magFilter
                                                     ){
@@ -357,10 +367,11 @@ bool edk::Texture2D::createTextureRepeatWithPBODraw(edk::uint32 width,
     }
 
     //then alloc the texture
-    this->textureId = edk::GU::guAllocTexture2DRepeat(width, height, this->mode, minFilter,magFilter, data);
+    this->textureId = edk::GU::guAllocTexture2DRepeat(width, height, this->mode, minFilter,magFilter, data, bytesPerChannel);
     if(this->textureId){
         this->size.width = width;
         this->size.height = height;
+        this->bytesPerChannel=bytesPerChannel;
         this->minFilter = minFilter;
         this->magFilter = magFilter;
 
@@ -381,6 +392,7 @@ bool edk::Texture2D::createTextureRepeatWithPBORead(edk::uint32 width,
                                                     edk::uint32 height,
                                                     edk::uint32 mode,
                                                     const edk::classID  data,
+                                                    edk::uint8 bytesPerChannel,
                                                     edk::uint32 minFilter,
                                                     edk::uint32 magFilter
                                                     ){
@@ -428,10 +440,11 @@ bool edk::Texture2D::createTextureRepeatWithPBORead(edk::uint32 width,
     }
 
     //then alloc the texture
-    this->textureId = edk::GU::guAllocTexture2DRepeat(width, height, this->mode, minFilter,magFilter, data);
+    this->textureId = edk::GU::guAllocTexture2DRepeat(width, height, this->mode, minFilter,magFilter, data, bytesPerChannel);
     if(this->textureId){
         this->size.width = width;
         this->size.height = height;
+        this->bytesPerChannel=bytesPerChannel;
         this->minFilter = minFilter;
         this->magFilter = magFilter;
 
@@ -528,6 +541,9 @@ edk::uint32 edk::Texture2D::getPBO(){
 }
 edk::size2ui32 edk::Texture2D::getSize(){
     return this->size;
+}
+edk::uint8 edk::Texture2D::getBytesPerChannel(){
+    return this->bytesPerChannel;
 }
 edk::uint32 edk::Texture2D::getModeEDK(){
     switch(this->mode){

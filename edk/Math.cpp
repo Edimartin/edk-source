@@ -1346,13 +1346,13 @@ edk::rectf32 edk::Math::fitInside(edk::size2f32 fill,edk::size2f32 inside){
             //resize using the height as ONE
             ret.size.height = fill.height;
             ret.size.width = fill.height *(inside.width / inside.height);
-            ret.origin.x = ((fill.width - ret.size.width) * 0.5f);
+            //ret.origin.x = ((fill.width - ret.size.width) * 0.5f);
         }
         else{
             //resize using the width as ONE
             ret.size.width = fill.width;
             ret.size.height = fill.width *(inside.height / inside.width);
-            ret.origin.y = ((fill.height - ret.size.height) * 0.5f);
+            //ret.origin.y = ((fill.height - ret.size.height) * 0.5f);
         }
     }
     else{
@@ -1361,13 +1361,13 @@ edk::rectf32 edk::Math::fitInside(edk::size2f32 fill,edk::size2f32 inside){
             //resize using the width as ONE
             ret.size.width = fill.width;
             ret.size.height = fill.width *(inside.height / inside.width);
-            ret.origin.y = ((fill.height - ret.size.height) * 0.5f);
+            //ret.origin.y = ((fill.height - ret.size.height) * 0.5f);
         }
         else{
             //resize using the height as ONE
             ret.size.height = fill.height;
             ret.size.width = fill.height *(inside.width / inside.height);
-            ret.origin.x = ((fill.width - ret.size.width) * 0.5f);
+            //ret.origin.x = ((fill.width - ret.size.width) * 0.5f);
         }
     }
     return ret;

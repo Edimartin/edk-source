@@ -50,6 +50,8 @@ void edk::codecs::CodecImage::Constructor(){
         this->frameChannels = 0.f;
         this->vectorFrameSize=0u;
         this->vectorFrameFullSize=0u;
+
+        this->frameBytesPerChannel = sizeof(edk::uint8);
     }
 }
 void edk::codecs::CodecImage::Destructor(){
@@ -69,9 +71,10 @@ bool edk::codecs::CodecImage::newFrame(edk::size2ui32 size,edk::uint8 channels,e
     if(size.width && size.height && channels && bytesPerChannel){
         if(this->frame){
             //test if the size of the image is diferent then the last size
-            if(this->frameSize.width == size.width &&
-                    this->frameSize.height == size.height &&
-                    this->frameChannels == channels
+            if(this->frameSize.width == size.width
+                    && this->frameSize.height == size.height
+                    && this->frameChannels == channels
+                    && this->frameBytesPerChannel == bytesPerChannel
                     ){
                 return true;
             }
@@ -87,12 +90,14 @@ bool edk::codecs::CodecImage::newFrame(edk::size2ui32 size,edk::uint8 channels,e
         //first delete the last frame
         this->deleteFrame();
 
+        this->frameBytesPerChannel = bytesPerChannel;
+
         //set the size of the vector frame
         edk::uint32 frameFullSize = this->vectorFrameSize = (edk::uint32)(size.width * size.height * channels
-                                                                          * this->getChannelByteSize()
+                                                                          * this->getFrameBytesPerChannel()
                                                                           );
         this->vectorFrameFullSize = (edk::uint32)(1920u * 1080u * 4u
-                                                  * this->getChannelByteSize()
+                                                  * this->getFrameBytesPerChannel()
                                                   );
         if(this->vectorFrameFullSize < frameFullSize){
             this->vectorFrameFullSize = frameFullSize;

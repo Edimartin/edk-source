@@ -1541,6 +1541,27 @@ edk::uint32 edk::Texture2DList::getTextureHeight(const edk::char8* name,edk::uin
 edk::uint32 edk::Texture2DList::getTextureHeight(edk::uint32 code){
     return this->getTextureSize(code).height;
 }
+edk::uint8 edk::Texture2DList::getTextureBytesPerChannel(edk::char8* name,edk::uint32 minFilter,edk::uint32 magFilter){
+    edk::uint8 ret = 0u;
+    //load the texture
+    edk::Texture2DList::TextureCode* temp = this->getTextureByName(name,minFilter,magFilter);
+    if(temp){
+        ret = temp->file->getBytesPerChannel();
+    }
+    return ret;
+}
+edk::uint8 edk::Texture2DList::getTextureBytesPerChannel(const edk::char8* name,edk::uint32 minFilter,edk::uint32 magFilter){
+    return this->getTextureBytesPerChannel((edk::char8*) name,minFilter,magFilter);
+}
+edk::uint8 edk::Texture2DList::getTextureBytesPerChannel(edk::uint32 code){
+    edk::uint8 ret = 0u;
+    //load the texture
+    edk::Texture2DList::TextureCode* temp = this->getTextureByCode(code);
+    if(temp){
+        ret = temp->file->getBytesPerChannel();
+    }
+    return ret;
+}
 //return the textureName
 edk::char8* edk::Texture2DList::getTextureName(edk::uint32 code){
     edk::Texture2DList::TextureCode* temp = this->getTextureByCode(code);

@@ -66,8 +66,8 @@ public:
     //clean the frame
     edk::uint8* cleanFrame();
     //get the channel size
-    virtual inline edk::uint8 getChannelByteSize(){
-        return sizeof(edk::float32);
+    virtual inline edk::uint8 getFrameBytesPerChannel(){
+        return this->frameBytesPerChannel;
     }
 protected:
     edk::File file;

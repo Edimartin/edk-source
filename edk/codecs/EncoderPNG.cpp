@@ -41,6 +41,8 @@ void edk::codecs::EncoderPNG::Constructor(){
     edk::codecs::EncoderImage::Constructor();
     if(this->classThis!=this){
         this->classThis=this;
+
+        this->frameBytesPerChannel = sizeof(edk::uint8);
     }
 }
 void edk::codecs::EncoderPNG::Destructor(){

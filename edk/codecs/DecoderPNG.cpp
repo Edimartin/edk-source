@@ -108,16 +108,24 @@ bool edk::codecs::DecoderPNG::decode(edk::uint8* encoded,edk::uint32 size){
         int h=0;
         int comp=0;
 
-
-
-
         //test if the encoded have the header
         if(stbi__png_test(&s)){
             //decode the jpeg image
             if((result = (unsigned char*)stbi__png_load(&s, &w, &h, &comp, 0, &ri))){
                 if(w && h && (comp == 1u || comp==2u || comp==3u || comp==4u)){
-                    //alloc the new image frame
-                    edk::codecs::CodecImage::newFrame(w,h,(edk::float32)comp);
+                    //alloc the image with bytes per channel
+                    switch(ri.bits_per_channel){
+                    default:
+                    case 8u:
+                        //alloc the new image frame
+                        edk::codecs::CodecImage::newFrame(w,h,(edk::float32)comp,1u);
+                        break;
+                    case 16u:
+                        //alloc the new image frame
+                        edk::codecs::CodecImage::newFrame(w,h,(edk::float32)comp,2u);
+                        break;
+                    }
+
                     if(edk::codecs::CodecImage::getFrame() &&
                             edk::codecs::CodecImage::getFrameWidth() &&
                             edk::codecs::CodecImage::getFrameHeight()
@@ -129,36 +137,24 @@ bool edk::codecs::DecoderPNG::decode(edk::uint8* encoded,edk::uint32 size){
                             case 1u:
                                 //test the bits per pixel
                                 switch(ri.bits_per_channel){
+                                default:
                                 case 8u:
                                     memcpy(temp,result,w*h);
                                     break;
                                 case 16u:
-                                    for(edk::int32 y=0;y<h;y++){
-                                        for(edk::int32 x=0;x<w;x++){
-                                            temp[0u]=source[0u];
-                                            //
-                                            source+=comp*2u;
-                                            temp+=comp;
-                                        }
-                                    }
+                                    memcpy(temp,result,w*h*comp*2u);
                                     break;
                                 }
                                 break;
                             case 2u:
                                 //test the bits per pixel
                                 switch(ri.bits_per_channel){
+                                default:
                                 case 8u:
                                     memcpy(temp,result,w*h*comp);
                                     break;
                                 case 16u:
-                                    for(edk::int32 y=0;y<h;y++){
-                                        for(edk::int32 x=0;x<w;x++){
-                                            temp[0u]=source[0u];
-                                            //
-                                            source+=comp*2u;
-                                            temp+=comp;
-                                        }
-                                    }
+                                    memcpy(temp,result,w*h*comp*2u);
                                     break;
                                 }
                                 break;
@@ -168,32 +164,25 @@ bool edk::codecs::DecoderPNG::decode(edk::uint8* encoded,edk::uint32 size){
                                 case STBI_ORDER_RGB:
                                     //test the bits per pixel
                                     switch(ri.bits_per_channel){
+                                    default:
                                     case 8u:
                                         memcpy(temp,result,w*h*comp);
                                         break;
                                     case 16u:
-                                        for(edk::int32 y=0;y<h;y++){
-                                            for(edk::int32 x=0;x<w;x++){
-                                                temp[0u]=source[0u];
-                                                temp[1u]=source[2u];
-                                                temp[2u]=source[4u];
-                                                //
-                                                source+=comp*2u;
-                                                temp+=comp;
-                                            }
-                                        }
+                                        memcpy(temp,result,w*h*comp*2u);
                                         break;
                                     }
                                     break;
                                 case STBI_ORDER_BGR:
                                     //test the bits per pixel
                                     switch(ri.bits_per_channel){
+                                    default:
                                     case 8u:
                                         for(edk::int32 y=0;y<h;y++){
                                             for(edk::int32 x=0;x<w;x++){
-                                                temp[0u]=source[2u];
-                                                temp[1u]=source[1u];
-                                                temp[2u]=source[0u];
+                                                edkMemCpy(&temp[0u],&source[2u],2u);
+                                                edkMemCpy(&temp[1u],&source[1u],2u);
+                                                edkMemCpy(&temp[2u],&source[0u],2u);
                                                 //
                                                 source+=comp;
                                                 temp+=comp;
@@ -203,12 +192,12 @@ bool edk::codecs::DecoderPNG::decode(edk::uint8* encoded,edk::uint32 size){
                                     case 16u:
                                         for(edk::int32 y=0;y<h;y++){
                                             for(edk::int32 x=0;x<w;x++){
-                                                temp[0u]=source[4u];
-                                                temp[1u]=source[2u];
-                                                temp[2u]=source[0u];
+                                                edkMemCpy(&temp[0u],&source[4u],2u);
+                                                edkMemCpy(&temp[2u],&source[2u],2u);
+                                                edkMemCpy(&temp[4u],&source[0u],2u);
                                                 //
                                                 source+=comp*2u;
-                                                temp+=comp;
+                                                temp+=comp*2u;
                                             }
                                         }
                                         break;
@@ -219,18 +208,12 @@ bool edk::codecs::DecoderPNG::decode(edk::uint8* encoded,edk::uint32 size){
                             case 4u:
                                 //test the bits per pixel
                                 switch(ri.bits_per_channel){
+                                default:
                                 case 8u:
                                     memcpy(temp,result,w*h*comp);
                                     break;
                                 case 16u:
-                                    for(edk::int32 y=0;y<h;y++){
-                                        for(edk::int32 x=0;x<w;x++){
-                                            temp[0u]=source[0u];
-                                            //
-                                            source+=comp*2u;
-                                            temp+=comp;
-                                        }
-                                    }
+                                    memcpy(temp,result,w*h*comp*2u);
                                     break;
                                 }
                                 break;

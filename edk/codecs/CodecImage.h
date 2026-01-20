@@ -92,11 +92,11 @@ protected:
     edk::uint32 getEncodedSize();
     edk::uint32* getEncodedSizePosition();
     edk::uint32 getQuality();
-    //get the channel size
-    virtual inline edk::uint8 getChannelByteSize(){
-        return sizeof(edk::float32);
-    }
 public:
+    //get the channel size
+    virtual inline edk::uint8 getFrameBytesPerChannel(){
+        return this->frameBytesPerChannel;
+    }
     //Convertions
     //https://github.com/ratkins/RGBConverter/blob/master/RGBConverter.cpp
     //RGB to HSV
@@ -223,6 +223,7 @@ public:
 protected:
     //save the size of the frame
     edk::size2ui32 frameSize;
+    edk::uint8 frameBytesPerChannel;
 
 private:
     //image vector to encode

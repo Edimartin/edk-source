@@ -148,6 +148,7 @@ public:
     edk::size2ui32 getTextureSize(edk::uint8 position);
     edk::uint32 getTextureWidth(edk::uint8 position);
     edk::uint32 getTextureHeight(edk::uint8 position);
+    edk::uint8 getTextureBytesPerChannel(edk::uint8 position);
 
     //remove the texture
     bool removeTexture(edk::uint8 position);

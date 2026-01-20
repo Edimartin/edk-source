@@ -169,6 +169,9 @@ public:
     edk::uint32 getTextureHeight(edk::char8* name,edk::uint32 minFilter = GU_LINEAR,edk::uint32 magFilter = GU_NEAREST);
     edk::uint32 getTextureHeight(const edk::char8* name,edk::uint32 minFilter = GU_LINEAR,edk::uint32 magFilter = GU_NEAREST);
     edk::uint32 getTextureHeight(edk::uint32 code);
+    edk::uint8 getTextureBytesPerChannel(edk::char8* name,edk::uint32 minFilter = GU_LINEAR,edk::uint32 magFilter = GU_NEAREST);
+    edk::uint8 getTextureBytesPerChannel(const edk::char8* name,edk::uint32 minFilter = GU_LINEAR,edk::uint32 magFilter = GU_NEAREST);
+    edk::uint8 getTextureBytesPerChannel(edk::uint32 code);
     //return the textureName
     edk::char8* getTextureName(edk::uint32 code);
     edk::uint32 getTextureMinFilter(edk::uint32 code);

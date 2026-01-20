@@ -429,6 +429,14 @@ edk::uint32 edk::material::Material::getTextureHeight(edk::uint8 position){
     }
     return ret;
 }
+edk::uint8 edk::material::Material::getTextureBytesPerChannel(edk::uint8 position){
+    edk::uint8 ret=0u;
+    if(position < materialTextureCount){
+        //
+        ret = this->list.getTextureBytesPerChannel(this->textures[position]);
+    }
+    return ret;
+}
 
 //remove the texture
 bool edk::material::Material::removeTexture(edk::uint8 position){

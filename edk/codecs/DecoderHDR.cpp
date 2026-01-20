@@ -115,36 +115,22 @@ bool edk::codecs::DecoderHDR::decode(edk::uint8* encoded,edk::uint32 size){
             if((result = (unsigned char*)stbi__hdr_load(&s, &w, &h, &comp, 0, &ri))){
                 if(w && h && (comp == 1u || comp==3u)){
                     //alloc the new image frame
-                    edk::codecs::CodecImage::newFrame(w,h,(edk::float32)comp);
+                    edk::codecs::CodecImage::newFrame(w,h,(edk::float32)comp,4u);
                     if(edk::codecs::CodecImage::getFrame() &&
                             edk::codecs::CodecImage::getFrameWidth() &&
                             edk::codecs::CodecImage::getFrameHeight()
                             ){
                         edk::uchar8* temp = edk::codecs::CodecImage::getFrame();
-                        edk::uchar8* source = result;
                         if(temp){
                             switch(comp){
                             case 1u:
-                                memcpy(temp,result,w*h*this->getChannelByteSize());
+                                memcpy(temp,result,w*h*this->getFrameBytesPerChannel());
                                 break;
                             case 3u:
                                 //test the pixel way
                                 switch(ri.channel_order){
                                 case STBI_ORDER_RGB:
-                                    memcpy(temp,result,w*h*comp*this->getChannelByteSize());
-                                    break;
-                                case STBI_ORDER_BGR:
-                                    comp*=this->getChannelByteSize();
-                                    for(edk::int32 y=0;y<h;y++){
-                                        for(edk::int32 x=0;x<w;x++){
-                                            temp[0u]=source[2u];
-                                            temp[1u]=source[1u];
-                                            temp[2u]=source[0u];
-                                            //
-                                            source+=comp;
-                                            temp+=comp;
-                                        }
-                                    }
+                                    memcpy(temp,result,w*h*comp*this->getFrameBytesPerChannel());
                                     break;
                                 }
                                 break;

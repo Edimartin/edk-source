@@ -50,6 +50,121 @@ edk::Texture2DFile::Texture2DFile(const char *textureFileName){
 edk::Texture2DFile::~Texture2DFile(){
     this->Destructor();
 }
+//discover the imageType
+edk::uint8 edk::Texture2DFile::getNameType(edk::char8* name){
+    //test the fileName
+    if(name){
+        //get the fileSize
+        edk::uint32 size = edk::String::strSize(name);
+        if(size>sizeof(".xxxx")){
+            //go to the last character
+            edk::char8* str = &name[size-1u];
+            if(*str == 'g'){
+                str--;
+                if(*str == 'e'){
+                    //
+                    str--;
+                    if(*str == 'p'){
+                        //
+                        str--;
+                        if(*str == 'j'){
+                            //
+                            str--;
+                            if(*str == '.'){
+                                //it's a JPEG name
+                                return EDK_CODEC_JPEG;
+                            }
+                        }
+                    }
+                }
+                else if(*str == 'p'){
+                    //
+                    str--;
+                    if(*str == 'j'){
+                        //
+                        str--;
+                        if(*str == '.'){
+                            //it's a JPEG name
+                            return EDK_CODEC_JPEG;
+                        }
+                    }
+                }
+                else if(*str == 'n'){
+                    //test if it's png
+                    str--;
+                    if(*str == 'p'){
+                        //
+                        str--;
+                        if(*str == '.'){
+                            //it's a PNG name
+                            return EDK_CODEC_PNG;
+                        }
+                    }
+                }
+            }
+            else if(*str == 'G'){
+                str--;
+                if(*str == 'E'){
+                    //
+                    str--;
+                    if(*str == 'P'){
+                        //
+                        str--;
+                        if(*str == 'J'){
+                            //
+                            str--;
+                            if(*str == '.'){
+                                //it's a JPEG name
+                                return EDK_CODEC_JPEG;
+                            }
+                        }
+                    }
+                }
+                else if(*str == 'P'){
+                    //
+                    str--;
+                    if(*str == 'J'){
+                        //
+                        str--;
+
+                        if(*str == '.'){
+                            //it's a JPEG name
+                            return EDK_CODEC_JPEG;
+                        }
+                    }
+                }
+                else if(*str == 'N'){
+                    //test if it's png
+                    str--;
+                    if(*str == 'P'){
+                        //
+                        str--;
+                        if(*str == '.'){
+                            //it's a PNG name
+                            return EDK_CODEC_PNG;
+                        }
+                    }
+                }
+            }
+            else if(*str == 'r'){
+                str--;
+                if(*str == 'd'){
+                    //test if it's png
+                    str--;
+                    if(*str == 'h'){
+                        //
+                        str--;
+                        if(*str == '.'){
+                            //it's a PNG name
+                            return EDK_CODEC_HDR;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return EDK_CODEC_NO;
+}
 
 void edk::Texture2DFile::Constructor(){
     edk::Texture2D::Constructor();
@@ -171,60 +286,117 @@ bool edk::Texture2DFile::loadFromFile(edk::char8 *fileName,edk::uint32 minFilter
         free(str);
     }
 #endif
-    if(this->image.loadFromFileToRGBA(fileName)){
-        //test the channels
-        switch(this->image.getChannels()){
-        case 1u://GRAYSCALE
-            //load the texture
-#if defined(EDK_TEX2DFILE_PRINT_DEBUG)
-            this->writeDebug("createTexture(GRAYSCALE)",__LINE__,__FILE__,__func__);
-#endif
-            this->createTexture(this->image.width(),
-                                this->image.height(),
-                                GU_LUMINANCE,
-                                (edk::classID)this->image.getPixels(),
-                                minFilter,
-                                magFilter
-                                );
+
+    if(fileName){
+        edk::uint8 nameType = this->getNameType(fileName);
+        switch(nameType){
+        case EDK_CODEC_HDR:
+            if(this->image.loadFromFile(fileName)){
+                //test the channels
+                switch(this->image.getChannels()){
+                case 3u://RGB
+                    //load the texture
+    #if defined(EDK_TEX2DFILE_PRINT_DEBUG)
+                    this->writeDebug("createTexture(RGB)",__LINE__,__FILE__,__func__);
+    #endif
+                    this->createTexture(this->image.width(),
+                                        this->image.height(),
+                                        GU_RGB,
+                                        (edk::classID)this->image.getPixels(),
+                                        this->image.getBytesPerChannel(),
+                                        minFilter,
+                                        magFilter
+                                        );
+                    break;
+                case 4u://RGBA
+                    //load the texture
+    #if defined(EDK_TEX2DFILE_PRINT_DEBUG)
+                    this->writeDebug("createTexture(RGBA)",__LINE__,__FILE__,__func__);
+    #endif
+                    this->createTexture(this->image.width(),
+                                        this->image.height(),
+                                        GU_RGBA,
+                                        (edk::classID)this->image.getPixels(),
+                                        this->image.getBytesPerChannel(),
+                                        minFilter,
+                                        magFilter
+                                        );
+                    break;
+                }
+
+                //test if create the texture
+                if(this->getID()){
+                    //set the textureName
+                    this->setName( this->image.getFileName() );
+
+                    //return true
+                    ret = true;
+                }
+                //delete the image
+                this->image.deleteImage();
+            }
             break;
-        case 3u://RGB
-            //load the texture
-#if defined(EDK_TEX2DFILE_PRINT_DEBUG)
-            this->writeDebug("createTexture(RGB)",__LINE__,__FILE__,__func__);
-#endif
-            this->createTexture(this->image.width(),
-                                this->image.height(),
-                                GU_RGB,
-                                (edk::classID)this->image.getPixels(),
-                                minFilter,
-                                magFilter
-                                );
-            break;
-        case 4u://RGBA
-            //load the texture
-#if defined(EDK_TEX2DFILE_PRINT_DEBUG)
-            this->writeDebug("createTexture(RGBA)",__LINE__,__FILE__,__func__);
-#endif
-            this->createTexture(this->image.width(),
-                                this->image.height(),
-                                GU_RGBA,
-                                (edk::classID)this->image.getPixels(),
-                                minFilter,
-                                magFilter
-                                );
+        default:
+            if(this->image.loadFromFileToRGBA(fileName)){
+                //test the channels
+                switch(this->image.getChannels()){
+                case 1u://GRAYSCALE
+                    //load the texture
+    #if defined(EDK_TEX2DFILE_PRINT_DEBUG)
+                    this->writeDebug("createTexture(GRAYSCALE)",__LINE__,__FILE__,__func__);
+    #endif
+                    this->createTexture(this->image.width(),
+                                        this->image.height(),
+                                        GU_LUMINANCE,
+                                        (edk::classID)this->image.getPixels(),
+                                        this->image.getBytesPerChannel(),
+                                        minFilter,
+                                        magFilter
+                                        );
+                    break;
+                case 3u://RGB
+                    //load the texture
+    #if defined(EDK_TEX2DFILE_PRINT_DEBUG)
+                    this->writeDebug("createTexture(RGB)",__LINE__,__FILE__,__func__);
+    #endif
+                    this->createTexture(this->image.width(),
+                                        this->image.height(),
+                                        GU_RGB,
+                                        (edk::classID)this->image.getPixels(),
+                                        this->image.getBytesPerChannel(),
+                                        minFilter,
+                                        magFilter
+                                        );
+                    break;
+                case 4u://RGBA
+                    //load the texture
+    #if defined(EDK_TEX2DFILE_PRINT_DEBUG)
+                    this->writeDebug("createTexture(RGBA)",__LINE__,__FILE__,__func__);
+    #endif
+                    this->createTexture(this->image.width(),
+                                        this->image.height(),
+                                        GU_RGBA,
+                                        (edk::classID)this->image.getPixels(),
+                                        this->image.getBytesPerChannel(),
+                                        minFilter,
+                                        magFilter
+                                        );
+                    break;
+                }
+
+                //test if create the texture
+                if(this->getID()){
+                    //set the textureName
+                    this->setName( this->image.getFileName() );
+
+                    //return true
+                    ret = true;
+                }
+                //delete the image
+                this->image.deleteImage();
+            }
             break;
         }
-
-        //test if create the texture
-        if(this->getID()){
-            //set the textureName
-            this->setName( this->image.getFileName() );
-
-            //return true
-            ret = true;
-        }
-        //delete the image
-        this->image.deleteImage();
     }
     //return true or false
 #if defined(EDK_TEX2DFILE_PRINT_DEBUG)

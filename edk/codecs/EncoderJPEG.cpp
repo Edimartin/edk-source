@@ -43,6 +43,8 @@ void edk::codecs::EncoderJPEG::Constructor(){
         this->classThis=this;
 
         this->stack.Constructor();
+
+        this->frameBytesPerChannel = sizeof(edk::uint8);
     }
 }
 void edk::codecs::EncoderJPEG::Destructor(){
