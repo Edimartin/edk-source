@@ -160,6 +160,29 @@ void edk::gui2d::ViewGui2d::processReturnPressed(edk::gui2d::ObjectGui2d* textFi
     }
 }
 
+//update the camera in view from the table
+void edk::gui2d::ViewGui2d::updateCameraFromTable(){
+    //
+    //this->camera.setRectPoints(this->table);
+
+    edk::rectf32 rect = this->frame;
+    rect.size.width+=rect.origin.x;
+    rect.size.height+=rect.origin.y;
+    rect.convertIntoPositionAndSize();
+    rect.origin = this->table.origin;
+
+    edk::rectf32 rectTable = this->table;
+    rectTable.convertIntoPositionAndSize();
+    edk::rectf32 rectTemp = edk::Math::aspectRatioCorrect(rect,rectTable.size);
+
+    rect.size.width = (rect.size.width / rectTemp.size.width) * rectTable.size.width;
+    rect.size.height = (rect.size.height / rectTemp.size.height) * rectTable.size.height;
+    rect.origin = rectTable.origin;
+
+    rect.convertIntoPoints();
+    this->camera.setRectPoints(rect);
+}
+
 void edk::gui2d::ViewGui2d::drawSelectionScene(){
     //
     this->list.print();
@@ -373,6 +396,10 @@ edk::rectf32 edk::gui2d::ViewGui2d::getTableRectPostionAndSize(){
 //get the volume rect inside the menu
 edk::rectf32 edk::gui2d::ViewGui2d::getVolume(){
     return this->list.volume;
+}
+
+void edk::gui2d::ViewGui2d::resize(edk::rectf32 /*outsideViewOrigin*/){
+    this->updateCameraFromTable();
 }
 
 void edk::gui2d::ViewGui2d::update(edk::WindowEvents* events){
@@ -836,7 +863,7 @@ bool edk::gui2d::ViewGui2d::readFromXML(edk::XML* xml,edk::uint32 id){
                     xml->selectFather();
 
                     //update the camera to have the table
-                    this->camera.setRectPoints(this->table);
+                    this->updateCameraFromTable();
                 }
                 free(name);
             }

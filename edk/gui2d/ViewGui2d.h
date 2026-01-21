@@ -119,6 +119,8 @@ public:
     //get the volume rect inside the menu
     edk::rectf32 getVolume();
 
+    void resize(edk::rectf32 outsideViewOrigin);
+
     virtual void update(edk::WindowEvents* events);
 
     //XML
@@ -189,6 +191,9 @@ private:
     void processMouseRelease(edk::gui2d::ObjectGui2d* button,edk::uint32 mouseButton,bool isInside);
     void processMouseHolded(edk::gui2d::ObjectGui2d* button,edk::uint32 mouseButton);
     void processReturnPressed(edk::gui2d::ObjectGui2d* textField);
+
+    //update the camera in view from the table
+    void updateCameraFromTable();
 
     class ObjGui2dID{
     public:
