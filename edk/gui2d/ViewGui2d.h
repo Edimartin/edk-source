@@ -74,6 +74,8 @@ public:
     void Constructor();
     void Destructor();
 
+    void clean();
+
     //add the object
     bool addObjectGui2d(edk::gui2d::ObjectGui2d* obj);
     //remove the object
@@ -91,6 +93,7 @@ public:
     //get object by name
     edk::gui2d::ObjectGui2d* getObjectByName(const edk::char8* name);
     edk::gui2d::ObjectGui2d* getObjectByName(edk::char8* name);
+    bool printAllObjectNames();
 
     //disable the mouse on the view (Can be used to have only one textField on the view).
     void enableMouse();
@@ -122,6 +125,10 @@ public:
     virtual bool writeToXML(edk::XML* xml,edk::uint32 id);
     virtual bool readFromXML(edk::XML* xml,edk::uint32 id);
     virtual bool readFromXMLFromPack(edk::pack::FilePackage* pack,edk::XML* xml,edk::uint32 id);
+    virtual bool writeToXML(const edk::char8* name,edk::uint32 id);
+    virtual bool writeToXML(edk::char8* name,edk::uint32 id);
+    virtual bool readFromXML(const edk::char8* name,edk::uint32 id);
+    virtual bool readFromXML(edk::char8* name,edk::uint32 id);
 
     //draw the GU scene
     virtual void drawScene(edk::rectf32 outsideViewOrigin);
@@ -528,6 +535,11 @@ private:
                 return true;
             }
             return false;
+        }
+
+        //Print
+        virtual void printElement(edk::gui2d::ObjectGui2d* value){
+            printf("\n%s",value->getName());
         }
 
         bool addName(edk::gui2d::ObjectGui2d* obj){

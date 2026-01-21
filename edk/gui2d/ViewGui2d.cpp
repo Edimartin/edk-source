@@ -92,6 +92,10 @@ void edk::gui2d::ViewGui2d::Destructor(){
     edk::ViewGU2D::Destructor();
 }
 
+void edk::gui2d::ViewGui2d::clean(){
+    //
+}
+
 //return true if have the element on the callback list
 bool edk::gui2d::ViewGui2d::haveCallback(edk::gui2d::ObjectGui2dCallback* callback){
     //test the callback
@@ -282,6 +286,14 @@ edk::gui2d::ObjectGui2d* edk::gui2d::ViewGui2d::getObjectByName(const edk::char8
 edk::gui2d::ObjectGui2d* edk::gui2d::ViewGui2d::getObjectByName(edk::char8* name){
     this->nameTemplate.setName(name);
     return this->names.getElement(&this->nameTemplate);
+}
+bool edk::gui2d::ViewGui2d::printAllObjectNames(){
+    if(this->names.size()){
+        printf("\nObjects[%u] names:",this->names.size());
+        this->names.print();
+        return true;
+    }
+    return false;
 }
 
 //disable the mouse on the view (Can be used to have only one textField on the view).
@@ -822,6 +834,9 @@ bool edk::gui2d::ViewGui2d::readFromXML(edk::XML* xml,edk::uint32 id){
 
                     ret=true;
                     xml->selectFather();
+
+                    //update the camera to have the table
+                    this->camera.setRectPoints(this->table);
                 }
                 free(name);
             }
@@ -852,6 +867,30 @@ bool edk::gui2d::ViewGui2d::readFromXMLFromPack(edk::pack::FilePackage* pack,edk
             free(nameID);
         }
         return ret;
+    }
+    return false;
+}
+bool edk::gui2d::ViewGui2d::writeToXML(const edk::char8* name,edk::uint32 id){
+    return this->writeToXML((edk::char8*) name,id);
+}
+bool edk::gui2d::ViewGui2d::writeToXML(edk::char8* name,edk::uint32 id){
+    if(name){
+        edk::XML xml;
+        if(this->writeToXML(&xml,id)){
+            return xml.saveToFile(name);
+        }
+    }
+    return false;
+}
+bool edk::gui2d::ViewGui2d::readFromXML(const edk::char8* name,edk::uint32 id){
+    return this->readFromXML((edk::char8*) name,id);
+}
+bool edk::gui2d::ViewGui2d::readFromXML(edk::char8* name,edk::uint32 id){
+    if(name){
+        edk::XML xml;
+        if(xml.loadFile(name)){
+            return this->readFromXML(&xml,id);
+        }
     }
     return false;
 }
