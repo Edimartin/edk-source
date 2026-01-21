@@ -122,6 +122,7 @@ private:
     edk::gui2d::ObjectGui2dBorder objInside;
     edk::vec2f32 objPosition;
     edk::size2f32 saveSize;
+    edk::vec2f32 saveMovePosition;
     edk::vec2f32 savePosition;
     edk::float32 saveAngle;
     //foreground size

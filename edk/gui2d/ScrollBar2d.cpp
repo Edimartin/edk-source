@@ -369,7 +369,7 @@ void edk::gui2d::ScrollBar2d::Constructor(){
         //this->saveSize = 1.f;
         this->foregroundSize = 0.5f;
         this->saveSize = 0.f;
-        this->savePosition = 0.f;
+        this->savePosition = this->saveMovePosition = 0.f;
         this->saveAngle = 0.f;
         //set the percents
         this->setPercent(50.0f,50.0f);
@@ -535,7 +535,7 @@ bool edk::gui2d::ScrollBar2d::load(){
     if(edk::gui2d::ObjectGui2d::load()){
         this->objInside.load(edk::size2f32(this->foregroundSize * this->size));
         this->saveSize = this->size;
-        this->savePosition = this->position;
+        this->savePosition = this->saveMovePosition = this->position;
         this->saveAngle = this->angle;
         //update the obj position
         this->calculatePosition();
@@ -869,12 +869,12 @@ void edk::gui2d::ScrollBar2d::draw(){
     //test if the size is different
     if(this->saveSize!=this->size
             ||
-            this->savePosition!=this->position
+            this->savePosition!=this->objPosition
             ||
             this->saveAngle!=this->angle
             ){
         this->saveSize=this->size;
-        this->savePosition=this->position;
+        this->savePosition=this->objPosition;
         this->saveAngle=this->angle;
         //update the obj position
         this->objInside.updatePolygons(this->foregroundSize * this->size);
@@ -921,16 +921,16 @@ void edk::gui2d::ScrollBar2d::startMove(edk::vec2f32 mousePosition){
     //update the inside position
     this->updateObjPosition();
     this->calculatePercents();
-    this->savePosition = this->objPosition;
+    this->saveMovePosition = this->objPosition;
 }
 void edk::gui2d::ScrollBar2d::moveTo(edk::vec2f32 position){
-    this->objPosition = this->savePosition + position;
+    this->objPosition = this->saveMovePosition + position;
     //update the inside position
     this->updateObjPosition();
     this->calculatePercents();
 }
 void edk::gui2d::ScrollBar2d::cancelMove(){
-    this->objPosition = this->savePosition;
+    this->objPosition = this->saveMovePosition;
 }
 //return true if the object can be moved
 bool edk::gui2d::ScrollBar2d::canMove(){
