@@ -353,6 +353,9 @@ void edk::gui2d::ViewGui2d::deselectObject(){
 }
 
 //set the table position and size
+bool edk::gui2d::ViewGui2d::setTableRectPointsFromCamera(){
+    return this->setTableRectPoints(this->camera.getRectPoints());
+}
 bool edk::gui2d::ViewGui2d::setTableRectPoints(edk::rectf32 table){
     if(table.size.width > table.origin.x
             &&

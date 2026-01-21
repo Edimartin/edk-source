@@ -107,6 +107,7 @@ public:
     }
 
     //set the table position and size
+    bool setTableRectPointsFromCamera();
     bool setTableRectPoints(edk::rectf32 table);
     bool setTableRectPositionAndSize(edk::rectf32 table);
     bool setTablePositionAndSize(edk::vec2f32 position,edk::size2f32 size);
