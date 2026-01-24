@@ -82,6 +82,9 @@ public:
     void disableBackground();
     bool haveDrawBackground();
 
+    void setPressReturn();
+    bool havePressReturn();
+
     //set the textLimit. Use zero to unlimited
     void setCharacterLimit(edk::uint32 limit);
 
@@ -164,6 +167,7 @@ private:
     //update the selection values with the cursor
     void updateSelection();
 
+    bool pressReturn;
     bool drawBackground;
     bool canCleanText;
     //save the fontColor

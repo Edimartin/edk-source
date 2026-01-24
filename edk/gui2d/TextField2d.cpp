@@ -864,6 +864,7 @@ void edk::gui2d::TextField2d::Constructor(){
     if(this->classThis!=this){
         this->classThis=this;
 
+        this->pressReturn=false;
         this->canCleanText=true;
         this->scaleText = edk::size2f32(1.0f,1.5f);
 
@@ -1143,6 +1144,7 @@ bool edk::gui2d::TextField2d::saveTemplate(edk::char8* folder){
 
 //load the button textures and meshes
 bool edk::gui2d::TextField2d::load(){
+    this->pressReturn=false;
     this->setBorderSize(0.2f);
     this->saveCursorSize = 0.f;
     if(edk::gui2d::ObjectGui2d::load()){
@@ -1215,6 +1217,17 @@ void edk::gui2d::TextField2d::disableBackground(){
 }
 bool edk::gui2d::TextField2d::haveDrawBackground(){
     return this->drawBackground;
+}
+
+void edk::gui2d::TextField2d::setPressReturn(){
+    this->pressReturn = true;
+}
+bool edk::gui2d::TextField2d::havePressReturn(){
+    if(this->pressReturn){
+        this->pressReturn = false;
+        return true;
+    }
+    return false;
 }
 
 //set the textLimit. Use zero to unlimited

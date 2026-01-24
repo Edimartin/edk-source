@@ -535,7 +535,7 @@ bool edk::gui2d::ScrollBar2d::load(){
     if(edk::gui2d::ObjectGui2d::load()){
         this->objInside.load(edk::size2f32(this->foregroundSize * this->size));
         this->saveSize = this->size;
-        this->savePosition = this->saveMovePosition = this->position;
+        this->saveGlobalPosition = this->savePosition = this->saveMovePosition = this->position;
         this->saveAngle = this->angle;
         //update the obj position
         this->calculatePosition();
@@ -871,10 +871,13 @@ void edk::gui2d::ScrollBar2d::draw(){
             ||
             this->savePosition!=this->objPosition
             ||
+            this->saveGlobalPosition!=this->position
+            ||
             this->saveAngle!=this->angle
             ){
         this->saveSize=this->size;
         this->savePosition=this->objPosition;
+        this->saveGlobalPosition = this->position;
         this->saveAngle=this->angle;
         //update the obj position
         this->objInside.updatePolygons(this->foregroundSize * this->size);

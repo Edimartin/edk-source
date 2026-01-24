@@ -206,6 +206,12 @@ public:
     virtual void startMove(edk::vec2f32 mousePosition);
     virtual void moveTo(edk::vec2f32 position);
     virtual void cancelMove();
+    /*
+    edk::gui2d::gui2dTextureNormal
+    edk::gui2d::gui2dTextureUp
+    edk::gui2d::gui2dTexturePressed
+    edk::gui2d::gui2dTexturePressedUp
+*/
     virtual bool setStatus(edk::gui2d::gui2dTexture status);
     void forceUpdate();
     virtual edk::gui2d::gui2dTexture getStatus();

@@ -124,6 +124,7 @@ private:
     edk::size2f32 saveSize;
     edk::vec2f32 saveMovePosition;
     edk::vec2f32 savePosition;
+    edk::vec2f32 saveGlobalPosition;
     edk::float32 saveAngle;
     //foreground size
     edk::size2f32 foregroundSize;

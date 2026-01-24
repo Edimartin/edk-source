@@ -646,6 +646,8 @@ void edk::gui2d::ViewGui2d::update(edk::WindowEvents* events){
                     case 0x0a:
                         if(this->objSelected){
                             if(this->objSelected->getTypeGUI() == edk::gui2d::gui2dTypeTextField){
+                                edk::gui2d::TextField2d* temp = (edk::gui2d::TextField2d*)this->objSelected;
+                                temp->setPressReturn();
                                 this->processReturnPressed(this->objSelected);
                             }
                         }
