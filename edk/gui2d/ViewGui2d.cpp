@@ -41,6 +41,8 @@ void edk::gui2d::ViewGui2d::Constructor(){
     if(this->classThis!=this){
         this->classThis=this;
 
+        this->scrollH.Constructor();
+        this->scrollV.Constructor();
         this->tree1.Constructor();
         this->tree2.Constructor();
         this->volume.Constructor();
@@ -69,6 +71,11 @@ void edk::gui2d::ViewGui2d::Constructor(){
         this->distanceDoubleClick.start();
         //run doubleClick
         this->doubleClick=false;
+        this->tableMove=edk::gui2d::gui2dTableMoveNoWay;
+
+        this->percentMoveCamera = 0.5f;
+        this->percentMoveSpeed = edk::vec2f32(1.f,1.f);
+        this->useScroll=0u;
 
         this->enableMouse();
     }
@@ -81,6 +88,8 @@ void edk::gui2d::ViewGui2d::Destructor(){
         this->tree2.clean();
         this->volume.cleanMeshes();
 
+        this->scrollH.Destructor();
+        this->scrollV.Destructor();
         this->tree1.Destructor();
         this->tree2.Destructor();
         this->volume.Destructor();
@@ -93,7 +102,29 @@ void edk::gui2d::ViewGui2d::Destructor(){
 }
 
 void edk::gui2d::ViewGui2d::clean(){
+    this->removeAllSubview();
+    this->removeAllObjectGui2d();
     //
+    this->setTablePoints(0.f,0.f,1.f,1.f);
+    this->mouseMoving=false;
+    this->objPressed=NULL;
+    this->idCounter = 0u;
+    this->mouseStatus = edk::gui2d::gui2dMouseNothing;
+    this->objPressed = NULL;
+    this->objSelected = NULL;
+    this->idSelected = 0u;
+    this->selectTree = &this->tree1;
+    this->selectTreeS = &this->tree2;
+    this->shift = false;
+    //press quote
+    this->pressQuote=false;
+    this->pressTilde=false;
+    //start the distances
+    this->distanceClick.start();
+    this->distanceDoubleClick.start();
+    //run doubleClick
+    this->doubleClick=false;
+    this->tableMove=edk::gui2d::gui2dTableMoveNoWay;
 }
 
 //return true if have the element on the callback list
@@ -162,25 +193,272 @@ void edk::gui2d::ViewGui2d::processReturnPressed(edk::gui2d::ObjectGui2d* textFi
 
 //update the camera in view from the table
 void edk::gui2d::ViewGui2d::updateCameraFromTable(){
+    this->percentMoveSpeed = 1.f;
+    this->rectMoveCamera = edk::rectf32(0.f,0.f,0.f,0.f);
+    edk::rectf32 rect;
+    edk::rectf32 rectTable;
+    edk::rectf32 rectTemp;
+    edk::float32 scrollPercent=0.05f;
+    edk::uint8 saveUseScroll = this->useScroll;
+    this->useScroll=0u;
     //
-    //this->camera.setRectPoints(this->table);
+    switch(this->tableMove){
+    default:
+    case edk::gui2d::gui2dTableMoveNoWay:
+        rect = this->frame;
+        rect.size.width+=rect.origin.x;
+        rect.size.height+=rect.origin.y;
+        rect.convertIntoPositionAndSize();
+        rect.origin = this->table.origin;
 
-    edk::rectf32 rect = this->frame;
-    rect.size.width+=rect.origin.x;
-    rect.size.height+=rect.origin.y;
-    rect.convertIntoPositionAndSize();
-    rect.origin = this->table.origin;
+        rectTable = this->table;
+        rectTable.convertIntoPositionAndSize();
+        rectTemp = edk::Math::aspectRatioCorrect(rect,rectTable.size);
 
-    edk::rectf32 rectTable = this->table;
-    rectTable.convertIntoPositionAndSize();
-    edk::rectf32 rectTemp = edk::Math::aspectRatioCorrect(rect,rectTable.size);
+        if(!edk::Math::equal(rectTemp.size.width,0.f)){
+            rect.size.width = (rect.size.width / rectTemp.size.width) * rectTable.size.width;
+        }
+        else return;
+        if(!edk::Math::equal(rectTemp.size.height,0.f)){
+            rect.size.height = (rect.size.height / rectTemp.size.height) * rectTable.size.height;
+        }
+        else return;
+        rect.origin = rectTable.origin;
 
-    rect.size.width = (rect.size.width / rectTemp.size.width) * rectTable.size.width;
-    rect.size.height = (rect.size.height / rectTemp.size.height) * rectTable.size.height;
-    rect.origin = rectTable.origin;
+        rect.convertIntoPoints();
+        this->camera.setRectPoints(rect);
+        break;
+    case edk::gui2d::gui2dTableMoveTwoWays:
+        rect = this->frame;
+        rect.size.width+=rect.origin.x;
+        rect.size.height+=rect.origin.y;
+        rect.convertIntoPositionAndSize();
+        rect.origin = this->table.origin;
 
-    rect.convertIntoPoints();
-    this->camera.setRectPoints(rect);
+        rectTable = this->table;
+        rectTable.convertIntoPositionAndSize();
+        rectTemp = edk::Math::aspectRatioCorrect(rect,rectTable.size);
+
+        if(!edk::Math::equal(rectTemp.size.width,0.f)){
+            rect.size.width = (rect.size.width / rectTemp.size.width) * rectTable.size.width;
+        }
+        else return;
+
+        if(!edk::Math::equal(rectTemp.size.height,0.f)){
+            rect.size.height = (rect.size.height / rectTemp.size.height) * rectTable.size.height;
+        }
+        else return;
+        rect.origin = rectTable.origin;
+
+        rect.convertIntoPoints();
+        this->camera.setRectPoints(rect);
+        break;
+    case edk::gui2d::gui2dTableMoveHorizontal:
+        rect = this->frame;
+        rect.size.width+=rect.origin.x;
+        rect.size.height+=rect.origin.y;
+        rect.convertIntoPositionAndSize();
+        rect.origin = this->table.origin;
+
+        rectTable = this->table;
+        rectTable.convertIntoPositionAndSize();
+
+        if(!edk::Math::equal(rect.size.height,0.f)){
+            scrollPercent = (rectTable.size.height / rect.size.height) * (edk::float32)scrollSizePixels;
+        }
+        else return;
+
+        if(!edk::Math::equal(rect.size.height,0.f)){
+            rectTemp.size.width = (rect.size.width/rect.size.height) * rectTable.size.height;
+        }
+        else return;
+        rectTemp.size.height = rectTable.size.height;
+
+        if(rectTemp.size.height < rectTable.size.height){
+            //calculate the move line
+            //X
+            this->rectMoveCamera.origin.x = rectTemp.origin.x
+                    - (rectTable.size.width*0.5f) + (rectTemp.size.width*0.5f)
+                    ;
+            this->rectMoveCamera.size.width = rectTemp.origin.x
+                    + (rectTable.size.width*0.5f) - (rectTemp.size.width*0.5f)
+                    ;
+            //Y
+            this->rectMoveCamera.origin.y = this->rectMoveCamera.size.height = rectTemp.origin.y
+                    - (rectTemp.size.height*scrollPercent * 0.5f)
+                    ;
+            rectTemp.size.height *= 1.f + scrollPercent;
+            this->useScroll=1u;
+        }
+        else{
+            //calculate the move line
+            //X
+            this->rectMoveCamera.origin.x = rectTemp.origin.x;
+            this->rectMoveCamera.size.width = rectTemp.origin.x;
+            //Y
+            this->rectMoveCamera.origin.y = rectTemp.origin.y;
+            this->rectMoveCamera.size.height = rectTemp.origin.y;
+        }
+
+        if(!edk::Math::equal(rectTemp.size.width,0.f)){
+            this->percentMoveSpeed.x = rectTable.size.width / rectTemp.size.width;
+        }
+
+        rectTemp.convertIntoPoints();
+        this->camera.setRectPoints(rectTemp);
+        break;
+    case edk::gui2d::gui2dTableMoveVertical:
+        rect = this->frame;
+        rect.size.width+=rect.origin.x;
+        rect.size.height+=rect.origin.y;
+        rect.convertIntoPositionAndSize();
+        rect.origin = this->table.origin;
+
+        rectTable = this->table;
+        rectTable.convertIntoPositionAndSize();
+
+        if(!edk::Math::equal(rect.size.width,0.f)){
+            scrollPercent = (rectTable.size.width / rect.size.width) * (edk::float32)scrollSizePixels;
+            scrollPercent = rectTable.size.width / rect.size.width;
+        }
+        else return;
+
+        rectTemp.size.width = rectTable.size.width;
+        if(!edk::Math::equal(rect.size.width,0.f)){
+            rectTemp.size.height = (rect.size.height/rect.size.width) * rectTable.size.width;
+        }
+        else return;
+        if(rectTemp.size.height < rectTable.size.height){
+            //calculate the move line
+            //X
+            this->rectMoveCamera.origin.x = this->rectMoveCamera.size.width = rectTemp.origin.x
+                    + (rectTemp.size.width * scrollPercent * 0.5f)
+                    ;
+            //Y
+            this->rectMoveCamera.origin.y = rectTemp.origin.y
+                    - (rectTable.size.height*0.5f) + (rectTemp.size.height*0.5f)
+                    ;
+            this->rectMoveCamera.size.height = rectTemp.origin.y
+                    + (rectTable.size.height*0.5f) - (rectTemp.size.height*0.5f)
+                    ;
+            rectTemp.size.width *= 1.f + scrollPercent;
+            this->useScroll=2u;
+        }
+        else{
+            //calculate the move line
+            //X
+            this->rectMoveCamera.origin.x = rectTemp.origin.x;
+            this->rectMoveCamera.size.width = rectTemp.origin.x;
+            //Y
+            this->rectMoveCamera.origin.y = rectTemp.origin.y;
+            this->rectMoveCamera.size.height = rectTemp.origin.y;
+        }
+
+        if(!edk::Math::equal(rectTemp.size.height,0.f)){
+            this->percentMoveSpeed.y = rectTable.size.height / rectTemp.size.height;
+        }
+
+        rectTemp.convertIntoPoints();
+        this->camera.setRectPoints(rectTemp);
+
+        break;
+    }
+    //update the view size
+    switch(this->useScroll){
+    default:
+        //continue
+        break;
+    case 1u:
+        //add horizontal
+        this->scrollH.frame = edk::rectf32(0.f,
+                                           this->frame.size.height - (edk::float32)scrollSizePixels,
+                                           this->frame.size.width,
+                                           (edk::float32)scrollSizePixels
+                                           );
+        this->scrollH.setBorderSize(scrollSizePixels*0.5f);
+        this->scrollH.setFrontColor(0.5f,0.5f,0.5f);
+        this->scrollH.setForegroundSize(this->camera.getSize().width / rectTable.size.width,1.f);
+        break;
+    case 2u:
+        //add vertical
+        this->scrollV.frame = edk::rectf32(this->frame.size.width - (edk::float32)scrollSizePixels,
+                                           0.f,
+                                           (edk::float32)scrollSizePixels,
+                                           this->frame.size.height
+                                           );
+        this->scrollV.setBorderSize(scrollSizePixels*0.5f);
+        this->scrollV.setFrontColor(0.5f,0.5f,0.5f);
+        this->scrollV.setForegroundSize(1.f,this->camera.getSize().height / rectTable.size.height);
+    }
+    //test if need put or remove the scroll
+    switch(saveUseScroll){
+    default:
+        //have norhing
+        switch(this->useScroll){
+        default:
+            //continue
+            break;
+        case 1u:
+            //add horizontal
+            this->addSubview(&this->scrollH);
+            break;
+        case 2u:
+            //add vertical
+            this->addSubview(&this->scrollV);
+            break;
+        }
+        break;
+    case 1u:
+        //have horizontal
+        switch(this->useScroll){
+        default:
+            //remove horizontal
+            this->removeSubview(&this->scrollH);
+            break;
+        case 1u:
+            //continue
+            break;
+        case 2u:
+            //remove horizontal
+            this->removeSubview(&this->scrollH);
+            //add vertical
+            this->addSubview(&this->scrollV);
+            break;
+        }
+        break;
+    case 2u:
+        //have vertical
+        switch(this->useScroll){
+        default:
+            //remove vertical
+            this->removeSubview(&this->scrollV);
+            break;
+        case 1u:
+            //remove vertical
+            this->removeSubview(&this->scrollV);
+            //add horizontal
+            this->addSubview(&this->scrollV);
+            break;
+        case 2u:
+            //continue
+            break;
+        }
+        break;
+    }
+
+    this->updateCameraPercentPosition();
+}
+void edk::gui2d::ViewGui2d::updateCameraPercentPosition(){
+    this->camera.position.x = ((this->rectMoveCamera.size.width - this->rectMoveCamera.origin.x)
+                               * this->percentMoveCamera.x) + this->rectMoveCamera.origin.x;
+    this->camera.position.y = ((this->rectMoveCamera.size.height - this->rectMoveCamera.origin.y)
+                               * this->percentMoveCamera.y) + this->rectMoveCamera.origin.y;
+    //update the scroll percents
+    //this->percentMoveCamera
+    this->scrollH.setPercentX((this->percentMoveCamera.x*-1.f)+1.f);
+    this->scrollV.setPercentY((this->percentMoveCamera.y*-1.f)+1.f);
+    this->savePercentV = this->scrollV.getPercentY();
+    this->savePercentH = this->scrollH.getPercentX();
 }
 
 void edk::gui2d::ViewGui2d::drawSelectionScene(){
@@ -362,6 +640,8 @@ bool edk::gui2d::ViewGui2d::setTableRectPoints(edk::rectf32 table){
             table.size.height > table.origin.y
             ){
         this->table=table;
+        table.convertIntoPositionAndSize();
+        this->tableSize=table.size;
         return true;
     }
     return false;
@@ -393,6 +673,80 @@ edk::rectf32 edk::gui2d::ViewGui2d::getTableRectPostionAndSize(){
     edk::rectf32 rect = this->table;
     rect.convertIntoPositionAndSize();
     return rect;
+}
+//set the table way
+bool edk::gui2d::ViewGui2d::setTableMoveWay(edk::gui2d::gui2dTableMove move){
+    switch(move){
+    case edk::gui2d::gui2dTableMoveNoWay:
+        this->tableMove = move;
+        return true;
+    case edk::gui2d::gui2dTableMoveTwoWays:
+        this->tableMove = move;
+        return true;
+    case edk::gui2d::gui2dTableMoveHorizontal:
+        this->tableMove = move;
+        return true;
+    case edk::gui2d::gui2dTableMoveVertical:
+        this->tableMove = move;
+        return true;
+    default:
+        this->tableMove = edk::gui2d::gui2dTableMoveNoWay;
+        break;
+    }
+    return false;
+}
+bool edk::gui2d::ViewGui2d::setTableMoveNoWay(){
+    return this->setTableMoveWay(edk::gui2d::gui2dTableMoveNoWay);
+}
+bool edk::gui2d::ViewGui2d::setTableMoveTwoWays(){
+    return this->setTableMoveWay(edk::gui2d::gui2dTableMoveTwoWays);
+}
+bool edk::gui2d::ViewGui2d::setTableMoveHorizontal(){
+    return this->setTableMoveWay(edk::gui2d::gui2dTableMoveHorizontal);
+}
+bool edk::gui2d::ViewGui2d::setTableMoveVertical(){
+    return this->setTableMoveWay(edk::gui2d::gui2dTableMoveVertical);
+}
+edk::gui2d::gui2dTableMove edk::gui2d::ViewGui2d::getTableMoveWay(){
+    return this->tableMove;
+}
+bool edk::gui2d::ViewGui2d::haveTableMoveNoWay(){
+    if(this->tableMove == edk::gui2d::gui2dTableMoveNoWay){
+        return true;
+    }
+    return false;
+}
+bool edk::gui2d::ViewGui2d::haveTableMoveTwoWays(){
+    if(this->tableMove == edk::gui2d::gui2dTableMoveTwoWays){
+        return true;
+    }
+    return false;
+}
+bool edk::gui2d::ViewGui2d::haveTableMoveHorizontal(){
+    if(this->tableMove == edk::gui2d::gui2dTableMoveHorizontal){
+        return true;
+    }
+    return false;
+}
+bool edk::gui2d::ViewGui2d::haveTableMoveVertical(){
+    if(this->tableMove == edk::gui2d::gui2dTableMoveVertical){
+        return true;
+    }
+    return false;
+}
+//move the camera over the table
+void edk::gui2d::ViewGui2d::moveCameraPercent(edk::vec2f32 percent){
+    this->percentMoveCamera = percent;
+    if(this->percentMoveCamera.x<0.f) this->percentMoveCamera.x=0.f;
+    if(this->percentMoveCamera.x>1.f) this->percentMoveCamera.x=1.f;
+    if(this->percentMoveCamera.y<0.f) this->percentMoveCamera.y=0.f;
+    if(this->percentMoveCamera.y>1.f) this->percentMoveCamera.y=1.f;
+}
+void edk::gui2d::ViewGui2d::moveCameraPercentVertical(edk::float32 percentY){
+    this->moveCameraPercent(edk::vec2f32(this->percentMoveCamera.x,percentY));
+}
+void edk::gui2d::ViewGui2d::moveCameraPercentHorizontal(edk::float32 percentX){
+    this->moveCameraPercent(edk::vec2f32(percentX,this->percentMoveCamera.y));
 }
 
 //get the volume rect inside the menu
@@ -549,6 +903,41 @@ void edk::gui2d::ViewGui2d::update(edk::WindowEvents* events){
     }
     else{
         this->selectionExec = false;
+    }
+
+    if(this->isMouseInside()){
+        //mouse scroll
+        if(events->mouseScrollWheelHorizontal){
+            //move the camera horizontal
+            if(!edk::Math::equal(this->tableSize.width,0.f)){
+                this->moveCameraPercentHorizontal(
+                            this->percentMoveCamera.x + (events->mouseScrollWheelHorizontal
+                                                         * (1.f / this->tableSize.width) * this->percentMoveSpeed.x
+                                                         )
+                            );
+            }
+            this->updateCameraPercentPosition();
+        }
+        if(events->mouseScrollWheelVertical){
+            //move the camera vertical
+            if(!edk::Math::equal(this->tableSize.height,0.f)){
+                this->moveCameraPercentVertical(
+                            this->percentMoveCamera.y + (events->mouseScrollWheelVertical
+                                                         * (1.f / this->tableSize.height) * this->percentMoveSpeed.y
+                                                         )
+                            );
+            }
+            this->updateCameraPercentPosition();
+        }
+    }
+    //test if move the scroll
+    if(!edk::Math::equal(this->savePercentV,this->scrollV.getPercentY())){
+        this->moveCameraPercentVertical((this->scrollV.getPercentY() * -1.f)+1.f);
+        this->updateCameraPercentPosition();
+    }
+    if(!edk::Math::equal(this->savePercentH,this->scrollH.getPercentX())){
+        this->moveCameraPercentHorizontal((this->scrollH.getPercentX() * -1.f)+1.f);
+        this->updateCameraPercentPosition();
     }
 
 
@@ -714,6 +1103,7 @@ bool edk::gui2d::ViewGui2d::writeToXML(edk::XML* xml,edk::uint32 id){
                                         xml->addSelectedNextAttribute("Y",this->table.origin.y);
                                         xml->addSelectedNextAttribute("W",this->table.size.width);
                                         xml->addSelectedNextAttribute("H",this->table.size.height);
+                                        xml->addSelectedNextAttribute(EDK_GUI2D_XML_TABLE_MOVE,(edk::uint8)this->tableMove);
                                         xml->selectFather();
                                     }
                                 }
@@ -754,6 +1144,7 @@ bool edk::gui2d::ViewGui2d::readFromXML(edk::XML* xml,edk::uint32 id){
             if(name){
                 //create the name
                 if(xml->selectChild(name)){
+                    this->clean();
                     //READ
                     bool haveObject=false;
 
@@ -765,6 +1156,8 @@ bool edk::gui2d::ViewGui2d::readFromXML(edk::XML* xml,edk::uint32 id){
                     edk::gui2d::gui2dTypes type = edk::gui2d::gui2dTypeSize;
                     edk::uint32 counterID = 0u;
 
+                    edk::rectf32 rect;
+
                     //read the table
                     tempID = edk::String::int64ToStr(id);
                     if(tempID){
@@ -772,14 +1165,37 @@ bool edk::gui2d::ViewGui2d::readFromXML(edk::XML* xml,edk::uint32 id){
                         strTemp = edk::String::strCat((edk::char8*)EDK_GUI2D_XML_TABLE,tempID);
                         if(strTemp){
                             if(xml->selectChild(strTemp)){
+                                edk::uint32 move=0u;
                                 this->table.origin.x = xml->getSelectedAttributeValueAsFloat32ByName("X");
                                 this->table.origin.y = xml->getSelectedAttributeValueAsFloat32ByName("Y");
                                 this->table.size.width = xml->getSelectedAttributeValueAsFloat32ByName("W");
                                 this->table.size.height = xml->getSelectedAttributeValueAsFloat32ByName("H");
+                                rect = this->table;
+                                rect.convertIntoPositionAndSize();
+                                this->tableSize = rect.size;
+                                move = xml->getSelectedAttributeValueAsUint32ByName(EDK_GUI2D_XML_TABLE_MOVE);
+                                switch(move){
+                                case (edk::uint32)edk::gui2d::gui2dTableMoveNoWay:
+                                    this->tableMove = edk::gui2d::gui2dTableMoveNoWay;
+                                    break;
+                                case (edk::uint32)edk::gui2d::gui2dTableMoveTwoWays:
+                                    this->tableMove = edk::gui2d::gui2dTableMoveTwoWays;
+                                    break;
+                                case (edk::uint32)edk::gui2d::gui2dTableMoveHorizontal:
+                                    this->tableMove = edk::gui2d::gui2dTableMoveHorizontal;
+                                    break;
+                                case (edk::uint32)edk::gui2d::gui2dTableMoveVertical:
+                                    this->tableMove = edk::gui2d::gui2dTableMoveVertical;
+                                    break;
+                                default:
+                                    this->tableMove = edk::gui2d::gui2dTableMoveNoWay;
+                                    break;
+                                }
                                 xml->selectFather();
                             }
                             free(strTemp);
                         }
+                        free(tempID);
                     }
 
                     do{
@@ -888,10 +1304,145 @@ bool edk::gui2d::ViewGui2d::readFromXMLFromPack(edk::pack::FilePackage* pack,edk
             if(name){
                 //create the name
                 if(xml->selectChild(name)){
-                    //this->cleanMeshes();
+                    this->clean();
+                    //READ
+                    bool haveObject=false;
+
+                    edk::char8* tempID = NULL;
+                    edk::char8* strTemp = NULL;
+                    edk::char8* strType = NULL;
+                    edk::gui2d::ObjectGui2d* obj=NULL;
+
+                    edk::gui2d::gui2dTypes type = edk::gui2d::gui2dTypeSize;
+                    edk::uint32 counterID = 0u;
+
+                    edk::rectf32 rect;
+
+                    //read the table
+                    tempID = edk::String::int64ToStr(id);
+                    if(tempID){
+                        //concat
+                        strTemp = edk::String::strCat((edk::char8*)EDK_GUI2D_XML_TABLE,tempID);
+                        if(strTemp){
+                            if(xml->selectChild(strTemp)){
+                                edk::uint32 move=0u;
+                                this->table.origin.x = xml->getSelectedAttributeValueAsFloat32ByName("X");
+                                this->table.origin.y = xml->getSelectedAttributeValueAsFloat32ByName("Y");
+                                this->table.size.width = xml->getSelectedAttributeValueAsFloat32ByName("W");
+                                this->table.size.height = xml->getSelectedAttributeValueAsFloat32ByName("H");
+                                rect = this->table;
+                                rect.convertIntoPositionAndSize();
+                                this->tableSize = rect.size;
+                                move = xml->getSelectedAttributeValueAsUint32ByName(EDK_GUI2D_XML_TABLE_MOVE);
+                                switch(move){
+                                case (edk::uint32)edk::gui2d::gui2dTableMoveNoWay:
+                                    this->tableMove = edk::gui2d::gui2dTableMoveNoWay;
+                                    break;
+                                case (edk::uint32)edk::gui2d::gui2dTableMoveTwoWays:
+                                    this->tableMove = edk::gui2d::gui2dTableMoveTwoWays;
+                                    break;
+                                case (edk::uint32)edk::gui2d::gui2dTableMoveHorizontal:
+                                    this->tableMove = edk::gui2d::gui2dTableMoveHorizontal;
+                                    break;
+                                case (edk::uint32)edk::gui2d::gui2dTableMoveVertical:
+                                    this->tableMove = edk::gui2d::gui2dTableMoveVertical;
+                                    break;
+                                default:
+                                    this->tableMove = edk::gui2d::gui2dTableMoveNoWay;
+                                    break;
+                                }
+                                xml->selectFather();
+                            }
+                            free(strTemp);
+                        }
+                    }
+
+                    do{
+                        haveObject=false;
+                        tempID = NULL;
+                        strTemp = NULL;
+                        strType = NULL;
+                        type = edk::gui2d::gui2dTypeSize;
+                        tempID = edk::String::int64ToStr(counterID);
+                        if(tempID){
+                            //concat
+                            strTemp = edk::String::strCat((edk::char8*)EDK_GUI2D_XML_GUI2D_OBJ,tempID);
+                            if(strTemp){
+                                if(xml->selectChild(strTemp)){
+                                    haveObject=true;
+                                    //read the type
+                                    strType = xml->getSelectedString();
+                                    if(strType){
+                                        if(edk::String::strCompareInside(strType,edk::gui2d::ObjectGui2d::getStringTypeGUI(edk::gui2d::gui2dTypeObject))){
+                                            type = edk::gui2d::gui2dTypeObject;
+                                        }
+                                        else if(edk::String::strCompareInside(strType,edk::gui2d::ObjectGui2d::getStringTypeGUI(edk::gui2d::gui2dTypeButton))){
+                                            type = edk::gui2d::gui2dTypeButton;
+                                        }
+                                        else if(edk::String::strCompareInside(strType,edk::gui2d::ObjectGui2d::getStringTypeGUI(edk::gui2d::gui2dTypeScrollBar))){
+                                            type = edk::gui2d::gui2dTypeScrollBar;
+                                        }
+                                        else if(edk::String::strCompareInside(strType,edk::gui2d::ObjectGui2d::getStringTypeGUI(edk::gui2d::gui2dTypeMenu))){
+                                            type = edk::gui2d::gui2dTypeMenu;
+                                        }
+                                        else if(edk::String::strCompareInside(strType,edk::gui2d::ObjectGui2d::getStringTypeGUI(edk::gui2d::gui2dTypeTextField))){
+                                            type = edk::gui2d::gui2dTypeTextField;
+                                        }
+                                        else if(edk::String::strCompareInside(strType,edk::gui2d::ObjectGui2d::getStringTypeGUI(edk::gui2d::gui2dTypeText))){
+                                            type = edk::gui2d::gui2dTypeText;
+                                        }
+                                        //free(strType);
+                                    }
+
+                                    xml->selectFather();
+                                }
+                                free(strTemp);
+                            }
+                            free(tempID);
+                        }
+
+                        //create the object and add it into the list
+                        switch(type){
+                        case gui2dTypeObject:
+                            obj = new edk::gui2d::ObjectGui2d;
+                            break;
+                        case gui2dTypeButton:
+                            obj = new edk::gui2d::Button2D;
+                            break;
+                        case gui2dTypeScrollBar:
+                            obj = new edk::gui2d::ScrollBar2d;
+                            break;
+                        case gui2dTypeText:
+                            obj = new edk::gui2d::Text2D;
+                            break;
+                        case gui2dTypeTextField:
+                            obj = new edk::gui2d::TextField2d;
+                            break;
+                        default:
+                            obj = NULL;
+                            break;
+                        }
+
+                        if(obj){
+                            //load the object XML
+                            if(obj->readFromXMLFromPack(pack,xml,counterID)){
+                                if(!this->addObjectGui2d(obj)){
+                                    delete obj;
+                                }
+                            }
+                            else{
+                                delete obj;
+                            }
+                        }
+
+                        counterID++;
+                    }while(haveObject);
 
                     ret=true;
                     xml->selectFather();
+
+                    //update the camera to have the table
+                    this->updateCameraFromTable();
                 }
                 free(name);
             }

@@ -1300,6 +1300,7 @@ bool edk::gui2d::ObjectGui2d::readFromXML(edk::XML* xml,edk::uint32 id){
                             }
                             free(strTemp);
                         }
+                        free(tempID);
                     }
                     tempID = edk::String::int64ToStr(id);
                     if(tempID){
@@ -1317,6 +1318,7 @@ bool edk::gui2d::ObjectGui2d::readFromXML(edk::XML* xml,edk::uint32 id){
                             }
                             free(strTemp);
                         }
+                        free(tempID);
                     }
                     tempID = edk::String::int64ToStr(id);
                     if(tempID){
@@ -1331,6 +1333,7 @@ bool edk::gui2d::ObjectGui2d::readFromXML(edk::XML* xml,edk::uint32 id){
                             }
                             free(strTemp);
                         }
+                        free(tempID);
                     }
                     tempID = edk::String::int64ToStr(id);
                     if(tempID){
@@ -1348,6 +1351,7 @@ bool edk::gui2d::ObjectGui2d::readFromXML(edk::XML* xml,edk::uint32 id){
                             }
                             free(strTemp);
                         }
+                        free(tempID);
                     }
 
                     //gui2dTextureNormal;
@@ -1432,6 +1436,7 @@ bool edk::gui2d::ObjectGui2d::readFromXMLFromPack(edk::pack::FilePackage* pack,e
                             }
                             free(strTemp);
                         }
+                        free(tempID);
                     }
                     tempID = edk::String::int64ToStr(id);
                     if(tempID){
@@ -1449,6 +1454,7 @@ bool edk::gui2d::ObjectGui2d::readFromXMLFromPack(edk::pack::FilePackage* pack,e
                             }
                             free(strTemp);
                         }
+                        free(tempID);
                     }
                     tempID = edk::String::int64ToStr(id);
                     if(tempID){
@@ -1480,6 +1486,7 @@ bool edk::gui2d::ObjectGui2d::readFromXMLFromPack(edk::pack::FilePackage* pack,e
                             }
                             free(strTemp);
                         }
+                        free(tempID);
                     }
 
                     //gui2dTextureNormal;

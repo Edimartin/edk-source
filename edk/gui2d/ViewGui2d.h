@@ -40,6 +40,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "ScrollBar2d.h"
 #include "Text2D.h"
 #include "TextField2d.h"
+#include "../ViewScrollBar.h"
 
 #ifdef printMessages
 #pragma message "    Compiling gui2d::ViewGui2d"
@@ -48,6 +49,9 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //defines XML names
 #define EDK_GUI2D_XML_VIEW "gui2dView_"
 #define EDK_GUI2D_XML_TABLE "gui2dTable_"
+#define EDK_GUI2D_XML_TABLE_MOVE "tableMove_"
+
+#define scrollSizePixels 20u
 
 namespace edk{
 namespace gui2d{
@@ -58,6 +62,14 @@ enum gui2dMouseStatus{
     gui2dMouseRelease,
     //
     gui2dMouseStatusSize,
+};
+enum gui2dTableMove{
+    gui2dTableMoveNoWay=0u,
+    gui2dTableMoveTwoWays,
+    gui2dTableMoveHorizontal,
+    gui2dTableMoveVertical,
+    //
+    gui2dTableMoveSize,
 };
 class ObjectGui2dCallback{
 public:
@@ -116,6 +128,21 @@ public:
     bool setTablePoints(edk::float32 p1x,edk::float32 p1Y,edk::float32 p2X,edk::float32 p2Y);
     edk::rectf32 getTableRectPoints();
     edk::rectf32 getTableRectPostionAndSize();
+    //set the table way
+    bool setTableMoveWay(edk::gui2d::gui2dTableMove move);
+    bool setTableMoveNoWay();
+    bool setTableMoveTwoWays();
+    bool setTableMoveHorizontal();
+    bool setTableMoveVertical();
+    edk::gui2d::gui2dTableMove getTableMoveWay();
+    bool haveTableMoveNoWay();
+    bool haveTableMoveTwoWays();
+    bool haveTableMoveHorizontal();
+    bool haveTableMoveVertical();
+    //move the camera over the table
+    void moveCameraPercent(edk::vec2f32 percent);
+    void moveCameraPercentVertical(edk::float32 percentY);
+    void moveCameraPercentHorizontal(edk::float32 percentX);
 
     //get the volume rect inside the menu
     edk::rectf32 getVolume();
@@ -166,6 +193,15 @@ private:
     bool pressTilde;
 
     edk::rectf32 table;
+    edk::size2f32 tableSize;
+    edk::gui2d::gui2dTableMove tableMove;
+    //camera move points
+    edk::rectf32 rectMoveCamera;
+    edk::vec2f32 percentMoveCamera;
+    edk::vec2f32 percentMoveSpeed;
+    edk::uint8 useScroll;
+    edk::ViewScrollBar scrollH,scrollV;
+    edk::float32 savePercentH,savePercentV;
 
     //volume object
     edk::Object2D volume;
@@ -195,6 +231,7 @@ private:
 
     //update the camera in view from the table
     void updateCameraFromTable();
+    void updateCameraPercentPosition();
 
     class ObjGui2dID{
     public:
