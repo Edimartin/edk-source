@@ -249,7 +249,7 @@ public:
     }
     //run the function update
     void runFunctionUpdateWithPointer(){
-        this->runUpdateFunction((void (edk::vector::BinaryTree<obj*>::*)(obj**))
+        this->runUpdateFunctionWithPointer((void (edk::vector::BinaryTree<obj*>::*)(obj**))
                                 &treeObj::functionUpdateWithPointer
                                 );
     }
@@ -663,7 +663,7 @@ public:
             this->updateNoRecursivelyWithPointer((*this->rootPointer));
         }
     }
-    void runUpdateFunctionWithPointer(void (edk::vector::BinaryTree<typeTemplate>::*functionPointer)(typeTemplate )){
+    void runUpdateFunctionWithPointer(void (edk::vector::BinaryTree<typeTemplate>::*functionPointer)(typeTemplate* )){
         //test if have root
         if((*this->rootPointer)){
             //then update

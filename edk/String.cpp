@@ -4261,7 +4261,6 @@ edk::char8* edk::String::uint64HexToStr(edk::uint64 value){
 }
 
 bool edk::String::uint64HexToStr(edk::uint64 value,edk::char8* dest){
-    edk::char8* str = NULL;
     edk::uint8 n=0u;
     edk::uint8* temp = (edk::uint8*)&value;
 

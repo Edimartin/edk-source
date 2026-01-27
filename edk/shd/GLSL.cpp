@@ -325,6 +325,9 @@ bool libStarted=false;
 bool fragmentLoaded=false,vertexLoaded=false,geometryLoaded=false;
 
 //create a new data
+bool edk::shd::GLSL::newData(const edk::char8* name){
+    return this->newData((edk::char8*) name);
+}
 bool edk::shd::GLSL::newData(edk::char8* name){
     //test if have one shaderProgram
     if(this->idTemp){

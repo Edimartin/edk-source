@@ -88,24 +88,24 @@ public:
     bool newImage(edk::char8 *imageName,
                   edk::size2ui32 size,
                   edk::uint8 channels,
-                  edk::uint8 bytesPerChannel=1u
+                  edk::uint8 bytesPerChannel
             );
     bool newImage(edk::char8 *imageName,
                   edk::uint32 width,
                   edk::uint32 height,
                   edk::uint8 channels,
-                  edk::uint8 bytesPerChannel=1u
+                  edk::uint8 bytesPerChannel
             );
     bool newImage(const edk::char8 *imageName,
                   edk::size2ui32 size,
                   edk::uint8 channels,
-                  edk::uint8 bytesPerChannel=1u
+                  edk::uint8 bytesPerChannel
             );
     bool newImage(const edk::char8 *imageName,
                   edk::uint32 width,
                   edk::uint32 height,
                   edk::uint8 channels,
-                  edk::uint8 bytesPerChannel=1u
+                  edk::uint8 bytesPerChannel
             );
 
     //create a new image with a palette
@@ -113,27 +113,27 @@ public:
                   edk::size2ui32 size,
                   edk::uint8 channels,
                   edk::uint32 paletteSize,
-                  edk::uint8 bytesPerChannel=1u
+                  edk::uint8 bytesPerChannel
             );
     bool newImage(edk::char8 *imageName,
                   edk::uint32 width,
                   edk::uint32 height,
                   edk::uint8 channels,
                   edk::uint32 paletteSize,
-                  edk::uint8 bytesPerChannel=1u
+                  edk::uint8 bytesPerChannel
             );
     bool newImage(const edk::char8 *imageName,
                   edk::size2ui32 size,
                   edk::uint8 channels,
                   edk::uint32 paletteSize,
-                  edk::uint8 bytesPerChannel=1u
+                  edk::uint8 bytesPerChannel
             );
     bool newImage(const edk::char8 *imageName,
                   edk::uint32 width,
                   edk::uint32 height,
                   edk::uint8 channels,
                   edk::uint32 paletteSize,
-                  edk::uint8 bytesPerChannel=1u
+                  edk::uint8 bytesPerChannel
             );
 
     bool loadFromFile(char8 *imageFileName);

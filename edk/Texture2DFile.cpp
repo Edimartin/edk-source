@@ -452,6 +452,7 @@ bool edk::Texture2DFile::loadFromMemory(edk::uint8* image,edk::uint32 size,edk::
                                     this->image.height(),
                                     GU_LUMINANCE,
                                     (edk::classID)this->image.getPixels(),
+                                    this->image.getBytesPerChannel(),
                                     minFilter,
                                     magFilter
                                     );
@@ -467,6 +468,7 @@ bool edk::Texture2DFile::loadFromMemory(edk::uint8* image,edk::uint32 size,edk::
                                     this->image.height(),
                                     GU_RGB,
                                     (edk::classID)this->image.getPixels(),
+                                    this->image.getBytesPerChannel(),
                                     minFilter,
                                     magFilter
                                     );
@@ -482,6 +484,7 @@ bool edk::Texture2DFile::loadFromMemory(edk::uint8* image,edk::uint32 size,edk::
                                     this->image.height(),
                                     GU_RGBA,
                                     (edk::classID)this->image.getPixels(),
+                                    this->image.getBytesPerChannel(),
                                     minFilter,
                                     magFilter
                                     );
@@ -683,6 +686,7 @@ bool edk::Texture2DFile::loadFromFileRepeat(edk::char8 *fileName,edk::uint32 min
                                       this->image.height(),
                                       GU_LUMINANCE,
                                       (edk::classID)this->image.getPixels(),
+                                      this->image.getBytesPerChannel(),
                                       minFilter,
                                       magFilter
                                       );
@@ -696,6 +700,7 @@ bool edk::Texture2DFile::loadFromFileRepeat(edk::char8 *fileName,edk::uint32 min
                                       this->image.height(),
                                       GU_RGB,
                                       (edk::classID)this->image.getPixels(),
+                                      this->image.getBytesPerChannel(),
                                       minFilter,
                                       magFilter
                                       );
@@ -709,6 +714,7 @@ bool edk::Texture2DFile::loadFromFileRepeat(edk::char8 *fileName,edk::uint32 min
                                       this->image.height(),
                                       GU_RGBA,
                                       (edk::classID)this->image.getPixels(),
+                                      this->image.getBytesPerChannel(),
                                       minFilter,
                                       magFilter
                                       );
@@ -780,6 +786,7 @@ bool edk::Texture2DFile::loadFromMemoryRepeat(edk::uint8* image,edk::uint32 size
                                           this->image.height(),
                                           GU_LUMINANCE,
                                           (edk::classID)this->image.getPixels(),
+                                          this->image.getBytesPerChannel(),
                                           minFilter,
                                           magFilter
                                           );
@@ -795,6 +802,7 @@ bool edk::Texture2DFile::loadFromMemoryRepeat(edk::uint8* image,edk::uint32 size
                                           this->image.height(),
                                           GU_RGB,
                                           (edk::classID)this->image.getPixels(),
+                                          this->image.getBytesPerChannel(),
                                           minFilter,
                                           magFilter
                                           );
@@ -810,6 +818,7 @@ bool edk::Texture2DFile::loadFromMemoryRepeat(edk::uint8* image,edk::uint32 size
                                           this->image.height(),
                                           GU_RGBA,
                                           (edk::classID)this->image.getPixels(),
+                                          this->image.getBytesPerChannel(),
                                           minFilter,
                                           magFilter
                                           );

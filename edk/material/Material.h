@@ -64,24 +64,24 @@ public:
     void Destructor();
 
     //create a new texture
-    bool newTexture(edk::char8* name,edk::size2ui32 size,edk::uint8 position=0u,edk::uint32 mode = GU_RGB,edk::uint32 minFilter = GU_LINEAR,edk::uint32 magFilter = GU_NEAREST);
-    bool newTexture(const edk::char8* name,edk::size2ui32 size,edk::uint8 position=0u,edk::uint32 mode = GU_RGB,edk::uint32 minFilter = GU_LINEAR,edk::uint32 magFilter = GU_NEAREST);
-    bool newTexture(edk::char8* name,edk::uint32 width,edk::uint32 height,edk::uint8 position=0u,edk::uint32 mode = GU_RGB,edk::uint32 minFilter = GU_LINEAR,edk::uint32 magFilter = GU_NEAREST);
-    bool newTexture(const edk::char8* name,edk::uint32 width,edk::uint32 height,edk::uint8 position=0u,edk::uint32 mode = GU_RGB,edk::uint32 minFilter = GU_LINEAR,edk::uint32 magFilter = GU_NEAREST);
-    bool newTextureWithPBODraw(edk::char8* name,edk::size2ui32 size,edk::uint8 position,edk::uint32 mode,edk::uint32 minFilter,edk::uint32 magFilter);
-    bool newTextureWithPBODraw(const edk::char8* name,edk::size2ui32 size,edk::uint8 position,edk::uint32 mode,edk::uint32 minFilter,edk::uint32 magFilter);
-    bool newTextureWithPBODraw(edk::char8* name,edk::uint32 width,edk::uint32 height,edk::uint8 position,edk::uint32 mode,edk::uint32 minFilter,edk::uint32 magFilter);
-    bool newTextureWithPBODraw(const edk::char8* name,edk::uint32 width,edk::uint32 height,edk::uint8 position,edk::uint32 mode,edk::uint32 minFilter,edk::uint32 magFilter);
+    bool newTexture(edk::char8* name,edk::size2ui32 size,edk::uint8 position=0u,edk::uint32 mode = GU_RGB,edk::uint32 minFilter = GU_LINEAR,edk::uint32 magFilter = GU_NEAREST,edk::uint8 bytesPerChannel = 1u);
+    bool newTexture(const edk::char8* name,edk::size2ui32 size,edk::uint8 position=0u,edk::uint32 mode = GU_RGB,edk::uint32 minFilter = GU_LINEAR,edk::uint32 magFilter = GU_NEAREST,edk::uint8 bytesPerChannel = 1u);
+    bool newTexture(edk::char8* name,edk::uint32 width,edk::uint32 height,edk::uint8 position=0u,edk::uint32 mode = GU_RGB,edk::uint32 minFilter = GU_LINEAR,edk::uint32 magFilter = GU_NEAREST,edk::uint8 bytesPerChannel = 1u);
+    bool newTexture(const edk::char8* name,edk::uint32 width,edk::uint32 height,edk::uint8 position=0u,edk::uint32 mode = GU_RGB,edk::uint32 minFilter = GU_LINEAR,edk::uint32 magFilter = GU_NEAREST,edk::uint8 bytesPerChannel = 1u);
+    bool newTextureWithPBODraw(edk::char8* name,edk::size2ui32 size,edk::uint8 position,edk::uint32 mode,edk::uint32 minFilter,edk::uint32 magFilter,edk::uint8 bytesPerChannel = 1u);
+    bool newTextureWithPBODraw(const edk::char8* name,edk::size2ui32 size,edk::uint8 position,edk::uint32 mode,edk::uint32 minFilter,edk::uint32 magFilter,edk::uint8 bytesPerChannel = 1u);
+    bool newTextureWithPBODraw(edk::char8* name,edk::uint32 width,edk::uint32 height,edk::uint8 position,edk::uint32 mode,edk::uint32 minFilter,edk::uint32 magFilter,edk::uint8 bytesPerChannel = 1u);
+    bool newTextureWithPBODraw(const edk::char8* name,edk::uint32 width,edk::uint32 height,edk::uint8 position,edk::uint32 mode,edk::uint32 minFilter,edk::uint32 magFilter,edk::uint8 bytesPerChannel = 1u);
     //create a new texture passing the buffer
-    bool newTextureAndDraw(edk::char8* name,edk::size2ui32 size,edk::uint8* image,edk::uint8 position=0u,edk::uint32 mode = GU_RGB,edk::uint32 minFilter = GU_LINEAR,edk::uint32 magFilter = GU_NEAREST);
-    bool newTextureAndDraw(const edk::char8* name,edk::size2ui32 size,edk::uint8* image,edk::uint8 position=0u,edk::uint32 mode = GU_RGB,edk::uint32 minFilter = GU_LINEAR,edk::uint32 magFilter = GU_NEAREST);
-    bool newTextureAndDraw(edk::char8* name,edk::uint32 width,edk::uint32 height,edk::uint8* image,edk::uint8 position=0u,edk::uint32 mode = GU_RGB,edk::uint32 minFilter = GU_LINEAR,edk::uint32 magFilter = GU_NEAREST);
-    bool newTextureAndDraw(const edk::char8* name,edk::uint32 width,edk::uint32 height,edk::uint8* image,edk::uint8 position=0u,edk::uint32 mode = GU_RGB,edk::uint32 minFilter = GU_LINEAR,edk::uint32 magFilter = GU_NEAREST);
+    bool newTextureAndDraw(edk::char8* name,edk::size2ui32 size,edk::uint8* image,edk::uint8 position=0u,edk::uint32 mode = GU_RGB,edk::uint32 minFilter = GU_LINEAR,edk::uint32 magFilter = GU_NEAREST,edk::uint8 bytesPerChannel = 1u);
+    bool newTextureAndDraw(const edk::char8* name,edk::size2ui32 size,edk::uint8* image,edk::uint8 position=0u,edk::uint32 mode = GU_RGB,edk::uint32 minFilter = GU_LINEAR,edk::uint32 magFilter = GU_NEAREST,edk::uint8 bytesPerChannel = 1u);
+    bool newTextureAndDraw(edk::char8* name,edk::uint32 width,edk::uint32 height,edk::uint8* image,edk::uint8 position=0u,edk::uint32 mode = GU_RGB,edk::uint32 minFilter = GU_LINEAR,edk::uint32 magFilter = GU_NEAREST,edk::uint8 bytesPerChannel = 1u);
+    bool newTextureAndDraw(const edk::char8* name,edk::uint32 width,edk::uint32 height,edk::uint8* image,edk::uint8 position=0u,edk::uint32 mode = GU_RGB,edk::uint32 minFilter = GU_LINEAR,edk::uint32 magFilter = GU_NEAREST,edk::uint8 bytesPerChannel = 1u);
     bool newTextureAndDraw(edk::Image2D* image,edk::uint8 position=0u,edk::uint32 mode = GU_RGB,edk::uint32 minFilter = GU_LINEAR,edk::uint32 magFilter = GU_NEAREST);
-    bool newTextureAndDrawWithPBODraw(edk::char8* name,edk::size2ui32 size,edk::uint8* image,edk::uint8 position,edk::uint32 mode,edk::uint32 minFilter,edk::uint32 magFilter);
-    bool newTextureAndDrawWithPBODraw(const edk::char8* name,edk::size2ui32 size,edk::uint8* image,edk::uint8 position,edk::uint32 mode,edk::uint32 minFilter,edk::uint32 magFilter);
-    bool newTextureAndDrawWithPBODraw(edk::char8* name,edk::uint32 width,edk::uint32 height,edk::uint8* image,edk::uint8 position,edk::uint32 mode,edk::uint32 minFilter,edk::uint32 magFilter);
-    bool newTextureAndDrawWithPBODraw(const edk::char8* name,edk::uint32 width,edk::uint32 height,edk::uint8* image,edk::uint8 position,edk::uint32 mode,edk::uint32 minFilter,edk::uint32 magFilter);
+    bool newTextureAndDrawWithPBODraw(edk::char8* name,edk::size2ui32 size,edk::uint8* image,edk::uint8 position,edk::uint32 mode,edk::uint32 minFilter,edk::uint32 magFilter,edk::uint8 bytesPerChannel = 1u);
+    bool newTextureAndDrawWithPBODraw(const edk::char8* name,edk::size2ui32 size,edk::uint8* image,edk::uint8 position,edk::uint32 mode,edk::uint32 minFilter,edk::uint32 magFilter,edk::uint8 bytesPerChannel = 1u);
+    bool newTextureAndDrawWithPBODraw(edk::char8* name,edk::uint32 width,edk::uint32 height,edk::uint8* image,edk::uint8 position,edk::uint32 mode,edk::uint32 minFilter,edk::uint32 magFilter,edk::uint8 bytesPerChannel = 1u);
+    bool newTextureAndDrawWithPBODraw(const edk::char8* name,edk::uint32 width,edk::uint32 height,edk::uint8* image,edk::uint8 position,edk::uint32 mode,edk::uint32 minFilter,edk::uint32 magFilter,edk::uint8 bytesPerChannel = 1u);
     bool newTextureAndDrawWithPBODraw(edk::Image2D* image,edk::uint8 position,edk::uint32 mode,edk::uint32 minFilter,edk::uint32 magFilter);
 
     //load the texture
@@ -99,8 +99,8 @@ public:
     bool loadTextureFromPack(edk::pack::FilePackage* pack,edk::char8* name,edk::uint8 position=0u,edk::uint32 minFilter = GU_LINEAR,edk::uint32 magFilter = GU_NEAREST);
     bool loadTextureFromPack(edk::pack::FilePackage* pack,const edk::char8* name,edk::uint8 position=0u,edk::uint32 minFilter = GU_LINEAR,edk::uint32 magFilter = GU_NEAREST);
     //set the texture
-    bool setTextureFromMemory(edk::char8* name,edk::uint8* image,edk::uint32 width,edk::uint32 height,edk::uint32 channels,edk::uint8 position=0u,edk::uint32 minFilter = GU_LINEAR,edk::uint32 magFilter = GU_NEAREST);
-    bool setTextureFromMemory(const edk::char8* name,edk::uint8* image,edk::uint32 width,edk::uint32 height,edk::uint32 channels,edk::uint8 position=0u,edk::uint32 minFilter = GU_LINEAR,edk::uint32 magFilter = GU_NEAREST);
+    bool setTextureFromMemory(edk::char8* name,edk::uint8* image,edk::uint32 width,edk::uint32 height,edk::uint32 channels,edk::uint8 position=0u,edk::uint32 minFilter = GU_LINEAR,edk::uint32 magFilter = GU_NEAREST,edk::uint8 bytesPerChannel = 1u);
+    bool setTextureFromMemory(const edk::char8* name,edk::uint8* image,edk::uint32 width,edk::uint32 height,edk::uint32 channels,edk::uint8 position=0u,edk::uint32 minFilter = GU_LINEAR,edk::uint32 magFilter = GU_NEAREST,edk::uint8 bytesPerChannel = 1u);
     bool setTextureFromMemory(edk::Image2D* image,edk::uint8 position=0u,edk::uint32 minFilter = GU_LINEAR,edk::uint32 magFilter = GU_NEAREST);
     //draw into a texture
     bool drawToTexture(edk::char8* name,edk::uint8* image,edk::uint32 minFilter = GU_LINEAR,edk::uint32 magFilter = GU_NEAREST);

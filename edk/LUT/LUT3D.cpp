@@ -497,7 +497,7 @@ bool edk::LUT3D::saveToImage(edk::char8* fileName){
             //create the image
             edk::Image2D image;
             edk::uint8* vec = NULL;
-            if(image.newImage(fileName,this->getImageSize(),3u)){
+            if(image.newImage(fileName,this->getImageSize(),3u,1u)){
                 if((vec = image.getPixels())){
                     //copy the pixels
                     for(edk::uint16 z = 0u;z<size;z++){

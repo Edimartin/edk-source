@@ -360,7 +360,7 @@ bool edk::Image2D::newImage(edk::char8 *imageName,
                             edk::uint8 bytesPerChannel
                             ){
     if(!paletteSize){
-        return this->newImage(imageName,size,channels);
+        return this->newImage(imageName,size,channels,1u);
     }
     //delete the last image
     this->deleteImage();

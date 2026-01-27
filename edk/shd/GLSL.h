@@ -52,6 +52,7 @@ public:
     void Destructor();
 
     //create a new data
+    bool newData(const edk::char8* name);
     bool newData(edk::char8* name);
 
     //start the shaderLib
