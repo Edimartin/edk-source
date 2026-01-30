@@ -119,6 +119,10 @@ public:
     }
 
     //set the table position and size
+    bool setTableColor(edk::color4f32 color);
+    bool setTableColor(edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a);
+    bool setTableColor(edk::color3f32 color);
+    bool setTableColor(edk::float32 r,edk::float32 g,edk::float32 b);
     bool setTableRectPointsFromCamera();
     bool setTableRectPoints(edk::rectf32 table);
     bool setTableRectPositionAndSize(edk::rectf32 table);
@@ -152,13 +156,13 @@ public:
     virtual void update(edk::WindowEvents* events);
 
     //XML
-    virtual bool writeToXML(edk::XML* xml,edk::uint32 id);
-    virtual bool readFromXML(edk::XML* xml,edk::uint32 id);
-    virtual bool readFromXMLFromPack(edk::pack::FilePackage* pack,edk::XML* xml,edk::uint32 id);
-    virtual bool writeToXML(const edk::char8* name,edk::uint32 id);
-    virtual bool writeToXML(edk::char8* name,edk::uint32 id);
-    virtual bool readFromXML(const edk::char8* name,edk::uint32 id);
-    virtual bool readFromXML(edk::char8* name,edk::uint32 id);
+    virtual bool writeToXML(edk::XML* xml,edk::uint32 id=0u);
+    virtual bool readFromXML(edk::XML* xml,edk::uint32 id=0u);
+    virtual bool readFromXMLFromPack(edk::pack::FilePackage* pack,edk::XML* xml,edk::uint32 id=0u);
+    virtual bool writeToXML(const edk::char8* name,edk::uint32 id=0u);
+    virtual bool writeToXML(edk::char8* name,edk::uint32 id=0u);
+    virtual bool readFromXML(const edk::char8* name,edk::uint32 id=0u);
+    virtual bool readFromXML(edk::char8* name,edk::uint32 id=0u);
 
     //draw the GU scene
     virtual void drawScene(edk::rectf32 outsideViewOrigin);
@@ -192,6 +196,7 @@ private:
     bool pressQuote;
     bool pressTilde;
 
+    edk::Object2D objTable;
     edk::rectf32 table;
     edk::size2f32 tableSize;
     edk::gui2d::gui2dTableMove tableMove;

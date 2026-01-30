@@ -54,6 +54,23 @@ public:
 protected:
     //draw the polygon on the scene
     void drawPolygon(edk::rectf32 outsideViewOrigin);
+    //change point position beetween screen and world
+    inline edk::vec2f32 convertPositionScreenToWorld(edk::vec2f32 position){
+        return this->positionScreenToWorld(position);
+    }
+    edk::vec2f32 positionScreenToWorld(edk::vec2f32 position);
+    inline edk::vec2f32 convertPositionScreenToWorld(edk::float32 x,edk::float32 y){
+        return this->positionScreenToWorld(x,y);
+    }
+    edk::vec2f32 positionScreenToWorld(edk::float32 x,edk::float32 y);
+    inline edk::vec2f32 convertPositionWorldToScreen(edk::vec2f32 position){
+        return positionWorldToScreen(position);
+    }
+    edk::vec2f32 positionWorldToScreen(edk::vec2f32 position);
+    inline edk::vec2f32 convertPositionWorldToScreen(edk::float32 x,edk::float32 y){
+        return positionWorldToScreen(x,y);
+    }
+    edk::vec2f32 positionWorldToScreen(edk::float32 x,edk::float32 y);
 private:
     //draw the 2Dcamera
     void drawCamera3D();

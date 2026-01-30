@@ -58,9 +58,21 @@ protected:
     //draw the polygon on the scene
     void drawPolygon(edk::rectf32 outsideViewOrigin);
     //change point position beetween screen and world
+    inline edk::vec2f32 convertPositionScreenToWorld(edk::vec2f32 position){
+        return this->positionScreenToWorld(position);
+    }
     edk::vec2f32 positionScreenToWorld(edk::vec2f32 position);
+    inline edk::vec2f32 convertPositionScreenToWorld(edk::float32 x,edk::float32 y){
+        return this->positionScreenToWorld(x,y);
+    }
     edk::vec2f32 positionScreenToWorld(edk::float32 x,edk::float32 y);
+    inline edk::vec2f32 convertPositionWorldToScreen(edk::vec2f32 position){
+        return positionWorldToScreen(position);
+    }
     edk::vec2f32 positionWorldToScreen(edk::vec2f32 position);
+    inline edk::vec2f32 convertPositionWorldToScreen(edk::float32 x,edk::float32 y){
+        return positionWorldToScreen(x,y);
+    }
     edk::vec2f32 positionWorldToScreen(edk::float32 x,edk::float32 y);
 private:
     //draw the 2Dcamera
@@ -77,27 +89,27 @@ private:
 /* EXAMPLE
 class example: edk::ViewGU2D{
     //construtor
-    example(); 
+    example();
     //destrutor
-    virtual ~example(); 
+    virtual ~example();
 
     //Load and Unload
-    void load(edk::rectf32 outsideViewOrigin); 
-    void unload(); 
+    void load(edk::rectf32 outsideViewOrigin);
+    void unload();
 
     //Mouse Events
-    void eventMousePressed(edk::vec2f32 point,edk::uint32 button); 
-    void eventMouseMoved(edk::vec2f32 point,edk::vec2f32 moved,edk::uint32 button); 
-    void eventMouseReleased(edk::vec2f32 point,edk::uint32 button); 
-    void eventMouseDoubleClicked(edk::vec2f32 point,edk::uint32 button); 
+    void eventMousePressed(edk::vec2f32 point,edk::uint32 button);
+    void eventMouseMoved(edk::vec2f32 point,edk::vec2f32 moved,edk::uint32 button);
+    void eventMouseReleased(edk::vec2f32 point,edk::uint32 button);
+    void eventMouseDoubleClicked(edk::vec2f32 point,edk::uint32 button);
     //Mouse go Inside Outside
-    void eventMouseEntryInsideView(edk::vec2f32 point); 
-    void eventMouseLeftView(edk::vec2f32 point); 
+    void eventMouseEntryInsideView(edk::vec2f32 point);
+    void eventMouseLeftView(edk::vec2f32 point);
 
     //Update the scene
-    void update(edk::WindowEvents* events); 
+    void update(edk::WindowEvents* events);
 
     //draw the GU scene
-    void drawScene(edk::rectf32 outsideViewOrigin); 
+    void drawScene(edk::rectf32 outsideViewOrigin);
 };
 */

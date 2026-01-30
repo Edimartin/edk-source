@@ -78,6 +78,17 @@ void edk::gui2d::ViewGui2d::Constructor(){
         this->useScroll=0u;
 
         this->enableMouse();
+
+        edk::shape::Mesh2D* mesh = this->objTable.newMesh(0u);
+        if(mesh){
+            edk::shape::Rectangle2D rect;
+            rect.setPivoToCenter();
+            mesh->addPolygon(rect);
+
+            mesh->material.setAmbient (1.f,1.f,1.f,0.f);
+            mesh->material.setEmission(1.f,1.f,1.f,0.f);
+            mesh->material.setDiffuse (1.f,1.f,1.f,0.f);
+        }
     }
 }
 void edk::gui2d::ViewGui2d::Destructor(){
@@ -97,6 +108,8 @@ void edk::gui2d::ViewGui2d::Destructor(){
         this->distanceDoubleClick.Destructor();
         this->listCallback.Destructor();
         this->list.Destructor();
+
+        this->objTable.clean();
     }
     edk::ViewGU2D::Destructor();
 }
@@ -201,6 +214,12 @@ void edk::gui2d::ViewGui2d::updateCameraFromTable(){
     edk::float32 scrollPercent=0.05f;
     edk::uint8 saveUseScroll = this->useScroll;
     this->useScroll=0u;
+
+    rectTable = this->table;
+    rectTable.convertIntoPositionAndSize();
+    this->objTable.position = rectTable.origin;
+    this->objTable.size = rectTable.size;
+
     //
     switch(this->tableMove){
     default:
@@ -213,6 +232,7 @@ void edk::gui2d::ViewGui2d::updateCameraFromTable(){
 
         rectTable = this->table;
         rectTable.convertIntoPositionAndSize();
+
         rectTemp = edk::Math::aspectRatioCorrect(rect,rectTable.size);
 
         if(!edk::Math::equal(rectTemp.size.width,0.f)){
@@ -224,6 +244,14 @@ void edk::gui2d::ViewGui2d::updateCameraFromTable(){
         }
         else return;
         rect.origin = rectTable.origin;
+
+        //calculate the move line
+        //X
+        this->rectMoveCamera.origin.x = rectTable.origin.x;
+        this->rectMoveCamera.size.width = rectTable.origin.x;
+        //Y
+        this->rectMoveCamera.origin.y = rectTable.origin.y;
+        this->rectMoveCamera.size.height = rectTable.origin.y;
 
         rect.convertIntoPoints();
         this->camera.setRectPoints(rect);
@@ -249,6 +277,14 @@ void edk::gui2d::ViewGui2d::updateCameraFromTable(){
         }
         else return;
         rect.origin = rectTable.origin;
+
+        //calculate the move line
+        //X
+        this->rectMoveCamera.origin.x = rectTable.origin.x;
+        this->rectMoveCamera.size.width = rectTable.origin.x;
+        //Y
+        this->rectMoveCamera.origin.y = rectTable.origin.y;
+        this->rectMoveCamera.size.height = rectTable.origin.y;
 
         rect.convertIntoPoints();
         this->camera.setRectPoints(rect);
@@ -631,6 +667,25 @@ void edk::gui2d::ViewGui2d::deselectObject(){
 }
 
 //set the table position and size
+bool edk::gui2d::ViewGui2d::setTableColor(edk::color4f32 color){
+    edk::shape::Mesh2D* mesh = this->objTable.getMesh(0u);
+    if(mesh){
+        mesh->material.setAmbient(color);
+        mesh->material.setDiffuse(color);
+        mesh->material.setEmission(color);
+        return true;
+    }
+    return false;
+}
+bool edk::gui2d::ViewGui2d::setTableColor(edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a){
+    return this->setTableColor(edk::color4f32(r,g,b,a));
+}
+bool edk::gui2d::ViewGui2d::setTableColor(edk::color3f32 color){
+    return this->setTableColor(edk::color4f32(color.r,color.g,color.b,1.f));
+}
+bool edk::gui2d::ViewGui2d::setTableColor(edk::float32 r,edk::float32 g,edk::float32 b){
+    return this->setTableColor(edk::color4f32(r,g,b,1.f));
+}
 bool edk::gui2d::ViewGui2d::setTableRectPointsFromCamera(){
     return this->setTableRectPoints(this->camera.getRectPoints());
 }
@@ -1072,6 +1127,9 @@ void edk::gui2d::ViewGui2d::update(edk::WindowEvents* events){
             }
         }
     }
+
+    //this->objTable.position = this->table.origin;
+    //this->objTable.size = this->table.size;
 }
 
 //XML
@@ -1482,6 +1540,10 @@ void edk::gui2d::ViewGui2d::drawScene(edk::rectf32){
     edk::uint32 size = 0u;
     edk::gui2d::ObjectGui2d* obj=NULL;
     edk::uint32 id=0u;
+
+    //draw the table
+    this->objTable.draw();
+
     if(this->selectionExec){
         //
 

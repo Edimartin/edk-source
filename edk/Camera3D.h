@@ -76,6 +76,9 @@ public:
     edk::float32 getWidth();
     edk::float32 getHeight();
     edk::float32 getSizePercent();
+    //return the camera rect
+    edk::rectf32 getRectPositionAndSize();
+    edk::rectf32 getRectPoints();
 
     //set near and far
     void setNearFar(edk::float32 near,edk::float32 far);
@@ -83,6 +86,9 @@ public:
     //Get near and far
     edk::float32 getNear();
     edk::float32 getFar();
+
+    //zoom the camera
+    bool runZoomPercent(edk::float32 percent);
 
     //get vectors
     edk::vec3f32 getPositionNear();

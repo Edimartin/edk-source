@@ -248,6 +248,17 @@ edk::float32 edk::Camera3D::getHeight(){
 edk::float32 edk::Camera3D::getSizePercent(){
     return this->sizePercent;
 }
+//return the camera rect
+edk::rectf32 edk::Camera3D::getRectPositionAndSize(){
+    return edk::rectf32(this->position.x,this->position.y,
+                        this->size.width*2.f,this->size.height*2.f
+                        );
+}
+edk::rectf32 edk::Camera3D::getRectPoints(){
+    return edk::rectf32(this->position.x - (this->size.width),this->position.y - (this->size.height),
+                        this->position.x + this->size.width,this->position.y + this->size.height
+                        );
+}
 
 //set near and far
 void edk::Camera3D::setNearFar(edk::float32 _near,edk::float32 _far){
@@ -269,6 +280,21 @@ edk::float32 edk::Camera3D::getNear(){
 }
 edk::float32 edk::Camera3D::getFar(){
     return this->_far;
+}
+
+//zoom the camera
+bool edk::Camera3D::runZoomPercent(edk::float32 percent){
+    if(percent<0.f){
+        if(edk::Math::pythagoras(this->position - this->lookAt) > 0.1f){
+            this->position = ((this->position - this->lookAt)*(1.f + percent))+this->lookAt;
+            return true;
+        }
+    }
+    else{
+        this->position = ((this->position - this->lookAt)*(1.f + percent))+this->lookAt;
+        return true;
+    }
+    return false;
 }
 
 //get vectors
