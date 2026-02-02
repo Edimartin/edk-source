@@ -631,6 +631,14 @@ bool edk::gui2d::ViewGui2d::printAllObjectNames(){
     }
     return false;
 }
+bool edk::gui2d::ViewGui2d::printAllObjectTypesAndNames(){
+    if(this->names.size()){
+        printf("\nObjects[%u] types : names:",this->names.size());
+        this->names.render();
+        return true;
+    }
+    return false;
+}
 
 //disable the mouse on the view (Can be used to have only one textField on the view).
 void edk::gui2d::ViewGui2d::enableMouse(){
@@ -834,7 +842,8 @@ void edk::gui2d::ViewGui2d::update(edk::WindowEvents* events){
                                               );
     size = events->mousePressed.size();
     for(edk::uint32 i = 0u;i<size;i++){
-        if(events->mousePressed.get(i) == edk::mouse::left){
+        switch(events->mousePressed.get(i)){
+        case edk::mouse::left:
             //start the click
             this->distanceClick.start();
 
@@ -844,8 +853,8 @@ void edk::gui2d::ViewGui2d::update(edk::WindowEvents* events){
             this->saveMousePosition = mousePosition;
 
             this->mouseMoving = true;
-        }
-        else if(events->mousePressed.get(i) == edk::mouse::right){
+            break;
+        case edk::mouse::right:
             //press the right button to cancel the oject move
             if(this->mouseMoving){
                 this->mouseMoving = false;
@@ -858,11 +867,13 @@ void edk::gui2d::ViewGui2d::update(edk::WindowEvents* events){
                     this->objPressed->forceUpdate();
                 }
             }
+            break;
         }
     }
     size = events->mouseHolded.size();
     for(edk::uint32 i = 0u;i<size;i++){
-        if(events->mouseHolded.get(i) == edk::mouse::left){
+        switch(events->mouseHolded.get(i)){
+        case edk::mouse::left:
             if(!runSelection){
                 this->mouseStatus = edk::gui2d::gui2dMouseHolded;
                 runSelection = true;
@@ -872,11 +883,13 @@ void edk::gui2d::ViewGui2d::update(edk::WindowEvents* events){
             if(events->mouseMoved && this->objPressed){
                 //update the object to be mouse moved (will be implemented in the future)
             }
+            break;
         }
     }
     size = events->mouseRelease.size();
     for(edk::uint32 i = 0u;i<size;i++){
-        if(events->mouseRelease.get(i) == edk::mouse::left){
+        switch(events->mouseRelease.get(i)){
+        case edk::mouse::left:
             //start the click
             if(this->distanceClick.getMicroseconds()<edk::watch::second*0.2){
                 //mouse click. Test if is doubleClick
@@ -922,6 +935,7 @@ void edk::gui2d::ViewGui2d::update(edk::WindowEvents* events){
                 //clean the objPressed pointer to receive another object when click the mouse again
                 this->objPressed->pressed = false;
             }
+            break;
         }
     }
     //calculate the mouse distance

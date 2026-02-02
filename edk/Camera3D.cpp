@@ -99,6 +99,10 @@ void edk::Camera3D::Constructor(edk::float32 pX,
         this->projection.Constructor();
         this->lookAtView.Constructor();
         this->matrixPosition.Constructor();
+
+        this->animPosition.Constructor();
+        this->animLookAt.Constructor();
+
         this->start();
         this->position = edk::vec3f32(pX,pY,pZ);
         this->lookAt = edk::vec3f32(lookX,lookY,lookZ);
@@ -120,6 +124,9 @@ void edk::Camera3D::Destructor(){
         this->projection.Destructor();
         this->lookAtView.Destructor();
         this->matrixPosition.Destructor();
+
+        this->animPosition.Destructor();
+        this->animLookAt.Destructor();
     }
 }
 

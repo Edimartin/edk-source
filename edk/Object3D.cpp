@@ -3262,6 +3262,28 @@ edk::cubef32 edk::Object3D::generateNewBoundingBoxNoChildrem(edk::vector::Matrix
     return ret;
 }
 
+bool edk::Object3D::calculateModelMatrix(edk::vector::Matrixf32<4u,4u>* dest){
+    if(dest){
+        dest->setIdentity(1.f,0.f);
+        edk::vector::Matrixf32<4u,4u> transformMat;
+
+        edk::Math::generateTranslateMatrix(this->position,&transformMat);
+        dest->multiplyThisWithMatrix(&transformMat);
+
+        edk::Math::generateRotateMatrixX(this->angle.x,&transformMat);
+        dest->multiplyThisWithMatrix(&transformMat);
+        edk::Math::generateRotateMatrixY(this->angle.y,&transformMat);
+        dest->multiplyThisWithMatrix(&transformMat);
+        edk::Math::generateRotateMatrixZ(this->angle.z,&transformMat);
+        dest->multiplyThisWithMatrix(&transformMat);
+
+        edk::Math::generateScaleMatrix(this->size,&transformMat);
+        dest->multiplyThisWithMatrix(&transformMat);
+        return true;
+    }
+    return false;
+}
+
 //set the drawStart function to set the textures in the shader
 bool edk::Object3D::setShaderPointer(edk::material::ShaderFunctionToMaterial* shader){
     if(shader){

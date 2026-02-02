@@ -217,6 +217,8 @@ private:
     edk::vec3f32 vecFarDownLeft;
     edk::vec3f32 vecFarDownRight;
 
+    edk::animation::Interpolation3DGroup animPosition,animLookAt;
+
     //camera 3D projection matrix
     edk::vector::Matrixf32<4u,4u> matrixTranslate;
     edk::vector::Matrixf32<4u,4u> matrixRotateX;

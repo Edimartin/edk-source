@@ -823,11 +823,11 @@ void edk::GU_GLSL::guUseProgram(edk::int32 programID){
                 edk::GU_GLSL::usingShaderProgram=true;
             }
             else{
-                //edk::GU_GLSL::usingShaderProgram=false;
+                edk::GU_GLSL::usingShaderProgram=false;
             }
         }
         else{
-            //edk::GU_GLSL::usingShaderProgram=false;
+            edk::GU_GLSL::usingShaderProgram=false;
         }
         edk::GU_GLSL::mut.unlock();
     }

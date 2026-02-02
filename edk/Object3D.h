@@ -101,6 +101,12 @@ public:
     edk::cubef32 generateNewBoundingBoxNoChildrem();
     edk::cubef32 generateNewBoundingBoxNoChildrem(edk::vector::Matrixf32<4u,4u>* transformMat);
 
+    //calculate the model matrix
+    inline bool generateModelMatrix(edk::vector::Matrixf32<4u,4u>* dest){
+        return this->calculateModelMatrix(dest);
+    }
+    bool calculateModelMatrix(edk::vector::Matrixf32<4u,4u>* dest);
+
     //set the drawStart function to set the textures in the shader
     bool setShaderPointer(edk::material::ShaderFunctionToMaterial* shader);
 

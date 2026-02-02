@@ -106,6 +106,7 @@ public:
     edk::gui2d::ObjectGui2d* getObjectByName(const edk::char8* name);
     edk::gui2d::ObjectGui2d* getObjectByName(edk::char8* name);
     bool printAllObjectNames();
+    bool printAllObjectTypesAndNames();
 
     //disable the mouse on the view (Can be used to have only one textField on the view).
     void enableMouse();
@@ -588,6 +589,10 @@ private:
         //Print
         virtual void printElement(edk::gui2d::ObjectGui2d* value){
             printf("\n%s",value->getName());
+        }
+        //Print
+        virtual void renderElement(edk::gui2d::ObjectGui2d* value){
+            printf("\nedk::gui2d::%s : %s",value->getStringTypeGUI(),value->getName());
         }
 
         bool addName(edk::gui2d::ObjectGui2d* obj){
