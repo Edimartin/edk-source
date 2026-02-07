@@ -38,6 +38,8 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #pragma message "    Compiling MemoryBuffer"
 #endif
 
+#define edkPrintCharacterPoint 0xdb //219u
+
 namespace edk{
 template <class typeTemplate>
 class MemoryBuffer{
@@ -528,7 +530,7 @@ protected:
             printf("%c",(edk::uint32)value);
         }
         else{
-            printf(".");
+            printf("%c",edkPrintCharacterPoint);
         }
     }
 

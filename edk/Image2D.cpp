@@ -1765,8 +1765,8 @@ bool edk::Image2D::saveToFile(edk::char8 *fileName){
                         edk::uint8* temp = (edk::uint8*)malloc(sizeof(edk::uint8) * (this->size.width * this->size.height * 3u));
                         if(temp){
                             //convert the image
-                            if(edk::Image2D::imageClone(this->vec,this->size.width,this->size.height,this->channelsValue,
-                                                        temp,this->size.width,this->size.height,3u,
+                            if(edk::Image2D::imageClone(this->vec,this->size.width,this->size.height,this->channelsValue,this->bytesPerChannel,
+                                                        temp,this->size.width,this->size.height,3u,this->bytesPerChannel,
                                                         0u,0u
                                                         )){
                                 //save the image as JPEG
@@ -2448,7 +2448,7 @@ void edk::Image2D::deleteName()
 
 //process the flip image in Y
 bool edk::Image2D::flipImageY(){
-    return edk::Image2D::flipY(this->vec,this->size.width,this->size.height,this->channelsValue);
+    return edk::Image2D::flipY(this->vec,this->size.width,this->size.height,this->channelsValue,this->bytesPerChannel);
     /*
     //test if have the image
     if(this->vec && this->size.width && this->size.height && this->channels){
@@ -2491,7 +2491,13 @@ edk::uint64 edk::Image2D::compareToUint64(edk::Image2D* compare){
                 && this->getPixels()
                 && compare->getPixels()
                 ){
-            return edk::Image2D::cmpToUint64(this->getPixels(),this->width(),this->height(),compare->getPixels(),this->channels());
+            return edk::Image2D::cmpToUint64(this->getPixels(),
+                                             this->width(),
+                                             this->height(),
+                                             compare->getPixels(),
+                                             this->channels(),
+                                             this->getBytesPerChannel()
+                                             );
         }
     }
     return ret;
@@ -2506,7 +2512,13 @@ edk::float64 edk::Image2D::compareToFloat64(edk::Image2D* compare){
                 && this->getPixels()
                 && compare->getPixels()
                 ){
-            return edk::Image2D::cmpToFloat64(this->getPixels(),this->width(),this->height(),compare->getPixels(),this->channels());
+            return edk::Image2D::cmpToFloat64(this->getPixels(),
+                                              this->width(),
+                                              this->height(),
+                                              compare->getPixels(),
+                                              this->channels(),
+                                              this->getBytesPerChannel()
+                                              );
         }
     }
     return ret;
@@ -2521,7 +2533,14 @@ edk::float64 edk::Image2D::compareLeftToFloat64(edk::Image2D* compare,edk::uint3
                 && this->getPixels()
                 && compare->getPixels()
                 ){
-            return edk::Image2D::cmpLeftToFloat64(this->getPixels(),this->width(),this->height(),lenght,compare->getPixels(),this->channels());
+            return edk::Image2D::cmpLeftToFloat64(this->getPixels(),
+                                                  this->width(),
+                                                  this->height(),
+                                                  lenght,
+                                                  compare->getPixels(),
+                                                  this->channels(),
+                                                  this->getBytesPerChannel()
+                                                  );
         }
     }
     return ret;
@@ -2536,7 +2555,14 @@ edk::float64 edk::Image2D::compareRightToFloat64(edk::Image2D* compare,edk::uint
                 && this->getPixels()
                 && compare->getPixels()
                 ){
-            return edk::Image2D::cmpRightToFloat64(this->getPixels(),this->width(),this->height(),lenght,compare->getPixels(),this->channels());
+            return edk::Image2D::cmpRightToFloat64(this->getPixels(),
+                                                   this->width(),
+                                                   this->height(),
+                                                   lenght,
+                                                   compare->getPixels(),
+                                                   this->channels(),
+                                                   this->getBytesPerChannel()
+                                                   );
         }
     }
     return ret;
@@ -2551,7 +2577,14 @@ edk::float64 edk::Image2D::compareUpToFloat64(edk::Image2D* compare,edk::uint32 
                 && this->getPixels()
                 && compare->getPixels()
                 ){
-            return edk::Image2D::cmpUpToFloat64(this->getPixels(),this->width(),this->height(),lenght,compare->getPixels(),this->channels());
+            return edk::Image2D::cmpUpToFloat64(this->getPixels(),
+                                                this->width(),
+                                                this->height(),
+                                                lenght,
+                                                compare->getPixels(),
+                                                this->channels(),
+                                                this->getBytesPerChannel()
+                                                );
         }
     }
     return ret;
@@ -2566,7 +2599,14 @@ edk::float64 edk::Image2D::compareDownToFloat64(edk::Image2D* compare,edk::uint3
                 && this->getPixels()
                 && compare->getPixels()
                 ){
-            return edk::Image2D::cmpDownToFloat64(this->getPixels(),this->width(),this->height(),lenght,compare->getPixels(),this->channels());
+            return edk::Image2D::cmpDownToFloat64(this->getPixels(),
+                                                  this->width(),
+                                                  this->height(),
+                                                  lenght,
+                                                  compare->getPixels(),
+                                                  this->channels(),
+                                                  this->getBytesPerChannel()
+                                                  );
         }
     }
     return ret;
@@ -2582,7 +2622,14 @@ edk::float64 edk::Image2D::compareDockableLeftToFloat64(edk::Image2D* compare,ed
                 && this->getPixels()
                 && compare->getPixels()
                 ){
-            return edk::Image2D::cmpDkbleLeftToFloat64(this->getPixels(),this->width(),this->height(),lenght,compare->getPixels(),this->channels());
+            return edk::Image2D::cmpDkbleLeftToFloat64(this->getPixels(),
+                                                       this->width(),
+                                                       this->height(),
+                                                       lenght,
+                                                       compare->getPixels(),
+                                                       this->channels(),
+                                                       this->getBytesPerChannel()
+                                                       );
         }
     }
     return ret;
@@ -2597,7 +2644,14 @@ edk::float64 edk::Image2D::compareDockableRightToFloat64(edk::Image2D* compare,e
                 && this->getPixels()
                 && compare->getPixels()
                 ){
-            return edk::Image2D::cmpDkbleRightToFloat64(this->getPixels(),this->width(),this->height(),lenght,compare->getPixels(),this->channels());
+            return edk::Image2D::cmpDkbleRightToFloat64(this->getPixels(),
+                                                        this->width(),
+                                                        this->height(),
+                                                        lenght,
+                                                        compare->getPixels(),
+                                                        this->channels(),
+                                                        this->getBytesPerChannel()
+                                                        );
         }
     }
     return ret;
@@ -2612,7 +2666,14 @@ edk::float64 edk::Image2D::compareDockableUpToFloat64(edk::Image2D* compare,edk:
                 && this->getPixels()
                 && compare->getPixels()
                 ){
-            return edk::Image2D::cmpDkbleUpToFloat64(this->getPixels(),this->width(),this->height(),lenght,compare->getPixels(),this->channels());
+            return edk::Image2D::cmpDkbleUpToFloat64(this->getPixels(),
+                                                     this->width(),
+                                                     this->height(),
+                                                     lenght,
+                                                     compare->getPixels(),
+                                                     this->channels(),
+                                                     this->getBytesPerChannel()
+                                                     );
         }
     }
     return ret;
@@ -2627,7 +2688,14 @@ edk::float64 edk::Image2D::compareDockableDownToFloat64(edk::Image2D* compare,ed
                 && this->getPixels()
                 && compare->getPixels()
                 ){
-            return edk::Image2D::cmpDkbleDownToFloat64(this->getPixels(),this->width(),this->height(),lenght,compare->getPixels(),this->channels());
+            return edk::Image2D::cmpDkbleDownToFloat64(this->getPixels(),
+                                                       this->width(),
+                                                       this->height(),
+                                                       lenght,
+                                                       compare->getPixels(),
+                                                       this->channels(),
+                                                       this->getBytesPerChannel()
+                                                       );
         }
     }
     return ret;
@@ -2952,10 +3020,16 @@ edk::uint8* edk::Image2D::lTorgba(edk::uint8* vector,edk::uint32 width,edk::uint
     return edk::Image2D::lTorgba(vector,edk::size2ui32(width,height));
 }
 //compare
-edk::uint64 edk::Image2D::cmpToUint64(edk::uint8* vector,edk::uint32 width,edk::uint32 height,edk::uint8* compare,edk::uint8 channels){
+edk::uint64 edk::Image2D::cmpToUint64(edk::uint8* vector,
+                                      edk::uint32 width,
+                                      edk::uint32 height,
+                                      edk::uint8* compare,
+                                      edk::uint8 channels,
+                                      edk::uint8 bytesPerChannel
+                                      ){
     edk::uint64 ret = 0xFFFFFFFFFFFFFFFF;
-    if(vector && compare && width && height && channels){
-        edk::uint32 size = width * height * channels;
+    if(vector && compare && width && height && channels && bytesPerChannel){
+        edk::uint32 size = width * height * channels * bytesPerChannel;
         edk::int32 cmp=0;
         ret=0u;
         for(edk::uint32 i=0u;i<size;i++){
@@ -2968,9 +3042,15 @@ edk::uint64 edk::Image2D::cmpToUint64(edk::uint8* vector,edk::uint32 width,edk::
     }
     return ret;
 }
-edk::float64 edk::Image2D::cmpToFloat64(edk::uint8* vector,edk::uint32 width,edk::uint32 height,edk::uint8* compare,edk::uint8 channels){
+edk::float64 edk::Image2D::cmpToFloat64(edk::uint8* vector,
+                                        edk::uint32 width,
+                                        edk::uint32 height,
+                                        edk::uint8* compare,
+                                        edk::uint8 channels,
+                                        edk::uint8 bytesPerChannel
+                                        ){
     edk::float64 ret = -1.f;
-    if(vector && compare && width && height && channels){
+    if(vector && compare && width && height && channels && bytesPerChannel){
         edk::int32 cmp;
         edk::uint64 cmpLine=0u,cmpLineColor;
         edk::float64 div = (edk::float64)width;
@@ -2984,8 +3064,8 @@ edk::float64 edk::Image2D::cmpToFloat64(edk::uint8* vector,edk::uint32 width,edk
                     cmpLineColor=cmp;
                     cmpLine+=cmpLineColor/1;
                     //increment
-                    vector+=1u;
-                    compare+=1u;
+                    vector+=1u*bytesPerChannel;
+                    compare+=1u*bytesPerChannel;
                 }
                 ret+=(edk::float64)cmpLine/div;
             }
@@ -3001,8 +3081,8 @@ edk::float64 edk::Image2D::cmpToFloat64(edk::uint8* vector,edk::uint32 width,edk
                     cmpLineColor+=cmp;
                     cmpLine+=cmpLineColor/2;
                     //increment
-                    vector+=2u;
-                    compare+=2u;
+                    vector+=2u*bytesPerChannel;
+                    compare+=2u*bytesPerChannel;
                 }
                 ret+=(edk::float64)cmpLine/div;
             }
@@ -3021,8 +3101,8 @@ edk::float64 edk::Image2D::cmpToFloat64(edk::uint8* vector,edk::uint32 width,edk
                     cmpLineColor+=cmp;
                     cmpLine+=cmpLineColor/3;
                     //increment
-                    vector+=3u;
-                    compare+=3u;
+                    vector+=3u*bytesPerChannel;
+                    compare+=3u*bytesPerChannel;
                 }
                 ret+=(edk::float64)cmpLine/div;
             }
@@ -3044,8 +3124,8 @@ edk::float64 edk::Image2D::cmpToFloat64(edk::uint8* vector,edk::uint32 width,edk
                     cmpLineColor+=cmp;
                     cmpLine+=cmpLineColor/4;
                     //increment
-                    vector+=4u;
-                    compare+=4u;
+                    vector+=4u*bytesPerChannel;
+                    compare+=4u*bytesPerChannel;
                 }
                 ret+=(edk::float64)cmpLine/div;
             }
@@ -3055,7 +3135,14 @@ edk::float64 edk::Image2D::cmpToFloat64(edk::uint8* vector,edk::uint32 width,edk
     }
     return ret;
 }
-edk::float64 edk::Image2D::cmpLeftToFloat64(edk::uint8* vector,edk::uint32 width,edk::uint32 height,edk::uint32 lenght,edk::uint8* compare,edk::uint8 channels){
+edk::float64 edk::Image2D::cmpLeftToFloat64(edk::uint8* vector,
+                                            edk::uint32 width,
+                                            edk::uint32 height,
+                                            edk::uint32 lenght,
+                                            edk::uint8* compare,
+                                            edk::uint8 channels,
+                                            edk::uint8 bytesPerChannel
+                                            ){
     edk::float64 ret = -1.f;
     if(vector && compare && width && height && channels && lenght && lenght<=width){
         edk::int32 cmp;
@@ -3072,8 +3159,8 @@ edk::float64 edk::Image2D::cmpLeftToFloat64(edk::uint8* vector,edk::uint32 width
                     cmpLineColor=cmp;
                     cmpLine+=cmpLineColor/1;
                     //increment
-                    compare+=1u;
-                    vector+=1u;
+                    compare+=1u*bytesPerChannel;
+                    vector+=1u*bytesPerChannel;
                 }
                 compare+=1u* increment;
                 vector+=1u* increment;
@@ -3091,8 +3178,8 @@ edk::float64 edk::Image2D::cmpLeftToFloat64(edk::uint8* vector,edk::uint32 width
                     cmpLineColor+=cmp;
                     cmpLine+=cmpLineColor/2;
                     //increment
-                    compare+=2u;
-                    vector+=2u;
+                    compare+=2u*bytesPerChannel;
+                    vector+=2u*bytesPerChannel;
                 }
                 compare+=2u* increment;
                 vector+=2u* increment;
@@ -3113,8 +3200,8 @@ edk::float64 edk::Image2D::cmpLeftToFloat64(edk::uint8* vector,edk::uint32 width
                     cmpLineColor+=cmp;
                     cmpLine+=cmpLineColor/3;
                     //increment
-                    compare+=3u;
-                    vector+=3u;
+                    compare+=3u*bytesPerChannel;
+                    vector+=3u*bytesPerChannel;
                 }
                 compare+=3u* increment;
                 vector+=3u* increment;
@@ -3138,8 +3225,8 @@ edk::float64 edk::Image2D::cmpLeftToFloat64(edk::uint8* vector,edk::uint32 width
                     cmpLineColor+=cmp;
                     cmpLine+=cmpLineColor/4;
                     //increment
-                    compare+=4u;
-                    vector+=4u;
+                    compare+=4u*bytesPerChannel;
+                    vector+=4u*bytesPerChannel;
                 }
                 compare+=4u* increment;
                 vector+=4u* increment;
@@ -3151,9 +3238,24 @@ edk::float64 edk::Image2D::cmpLeftToFloat64(edk::uint8* vector,edk::uint32 width
     }
     return ret;
 }
-edk::float64 edk::Image2D::cmpRightToFloat64(edk::uint8* vector,edk::uint32 width,edk::uint32 height,edk::uint32 lenght,edk::uint8* compare,edk::uint8 channels){
+edk::float64 edk::Image2D::cmpRightToFloat64(edk::uint8* vector,
+                                             edk::uint32 width,
+                                             edk::uint32 height,
+                                             edk::uint32 lenght,
+                                             edk::uint8* compare,
+                                             edk::uint8 channels,
+                                             edk::uint8 bytesPerChannel
+                                             ){
     edk::float64 ret = -1.f;
-    if(vector && compare && width && height && channels && lenght && lenght<=width){
+    if(vector
+            && compare
+            && width
+            && height
+            && channels
+            && bytesPerChannel
+            && lenght
+            && lenght<=width
+            ){
         edk::int32 cmp;
         edk::uint64 cmpLine=0u,cmpLineColor;
         edk::float64 div = (edk::float64)lenght;
@@ -3170,8 +3272,8 @@ edk::float64 edk::Image2D::cmpRightToFloat64(edk::uint8* vector,edk::uint32 widt
                     cmpLineColor=cmp;
                     cmpLine+=cmpLineColor/1;
                     //increment
-                    compare+=1u;
-                    vector+=1u;
+                    compare+=1u*bytesPerChannel;
+                    vector+=1u*bytesPerChannel;
                 }
                 ret+=(edk::float64)cmpLine/div;
             }
@@ -3189,8 +3291,8 @@ edk::float64 edk::Image2D::cmpRightToFloat64(edk::uint8* vector,edk::uint32 widt
                     cmpLineColor+=cmp;
                     cmpLine+=cmpLineColor/2;
                     //increment
-                    compare+=2u;
-                    vector+=2u;
+                    compare+=2u*bytesPerChannel;
+                    vector+=2u*bytesPerChannel;
                 }
                 ret+=(edk::float64)cmpLine/div;
             }
@@ -3211,8 +3313,8 @@ edk::float64 edk::Image2D::cmpRightToFloat64(edk::uint8* vector,edk::uint32 widt
                     cmpLineColor+=cmp;
                     cmpLine+=cmpLineColor/3;
                     //increment
-                    compare+=3u;
-                    vector+=3u;
+                    compare+=3u*bytesPerChannel;
+                    vector+=3u*bytesPerChannel;
                 }
                 ret+=(edk::float64)cmpLine/div;
             }
@@ -3236,8 +3338,8 @@ edk::float64 edk::Image2D::cmpRightToFloat64(edk::uint8* vector,edk::uint32 widt
                     cmpLineColor+=cmp;
                     cmpLine+=cmpLineColor/4;
                     //increment
-                    compare+=4u;
-                    vector+=4u;
+                    compare+=4u*bytesPerChannel;
+                    vector+=4u*bytesPerChannel;
                 }
                 ret+=(edk::float64)cmpLine/div;
             }
@@ -3247,9 +3349,23 @@ edk::float64 edk::Image2D::cmpRightToFloat64(edk::uint8* vector,edk::uint32 widt
     }
     return ret;
 }
-edk::float64 edk::Image2D::cmpUpToFloat64(edk::uint8* vector,edk::uint32 width,edk::uint32 height,edk::uint32 lenght,edk::uint8* compare,edk::uint8 channels){
+edk::float64 edk::Image2D::cmpUpToFloat64(edk::uint8* vector,
+                                          edk::uint32 width,
+                                          edk::uint32 height,
+                                          edk::uint32 lenght,
+                                          edk::uint8* compare,
+                                          edk::uint8 channels,
+                                          edk::uint8 bytesPerChannel
+                                          ){
     edk::float64 ret = -1.f;
-    if(vector && compare && width && height && channels && lenght && lenght<=height){
+    if(vector
+            && compare
+            && width
+            && height
+            && channels
+            && bytesPerChannel
+            && lenght
+            && lenght<=height){
         edk::int32 cmp;
         edk::uint64 cmpLine=0u,cmpLineColor;
         edk::float64 div = (edk::float64)width;
@@ -3264,8 +3380,8 @@ edk::float64 edk::Image2D::cmpUpToFloat64(edk::uint8* vector,edk::uint32 width,e
                     cmpLineColor=cmp;
                     cmpLine+=cmpLineColor/1;
                     //increment
-                    compare+=1u;
-                    vector+=1u;
+                    compare+=1u*bytesPerChannel;
+                    vector+=1u*bytesPerChannel;
                 }
                 ret+=(edk::float64)cmpLine/div;
             }
@@ -3282,8 +3398,8 @@ edk::float64 edk::Image2D::cmpUpToFloat64(edk::uint8* vector,edk::uint32 width,e
                     cmpLineColor+=cmp;
                     cmpLine+=cmpLineColor/2;
                     //increment
-                    compare+=2u;
-                    vector+=2u;
+                    compare+=2u*bytesPerChannel;
+                    vector+=2u*bytesPerChannel;
                 }
                 ret+=(edk::float64)cmpLine/div;
             }
@@ -3303,8 +3419,8 @@ edk::float64 edk::Image2D::cmpUpToFloat64(edk::uint8* vector,edk::uint32 width,e
                     cmpLineColor+=cmp;
                     cmpLine+=cmpLineColor/3;
                     //increment
-                    compare+=3u;
-                    vector+=3u;
+                    compare+=3u*bytesPerChannel;
+                    vector+=3u*bytesPerChannel;
                 }
                 ret+=(edk::float64)cmpLine/div;
             }
@@ -3327,8 +3443,8 @@ edk::float64 edk::Image2D::cmpUpToFloat64(edk::uint8* vector,edk::uint32 width,e
                     cmpLineColor+=cmp;
                     cmpLine+=cmpLineColor/4;
                     //increment
-                    compare+=4u;
-                    vector+=4u;
+                    compare+=4u*bytesPerChannel;
+                    vector+=4u*bytesPerChannel;
                 }
                 ret+=(edk::float64)cmpLine/div;
             }
@@ -3338,9 +3454,24 @@ edk::float64 edk::Image2D::cmpUpToFloat64(edk::uint8* vector,edk::uint32 width,e
     }
     return ret;
 }
-edk::float64 edk::Image2D::cmpDownToFloat64(edk::uint8* vector,edk::uint32 width,edk::uint32 height,edk::uint32 lenght,edk::uint8* compare,edk::uint8 channels){
+edk::float64 edk::Image2D::cmpDownToFloat64(edk::uint8* vector,
+                                            edk::uint32 width,
+                                            edk::uint32 height,
+                                            edk::uint32 lenght,
+                                            edk::uint8* compare,
+                                            edk::uint8 channels,
+                                            edk::uint8 bytesPerChannel
+                                            ){
     edk::float64 ret = -1.f;
-    if(vector && compare && width && height && channels && lenght && lenght<=height){
+    if(vector
+            && compare
+            && width
+            && height
+            && channels
+            && bytesPerChannel
+            && lenght
+            && lenght<=height
+            ){
         edk::int32 cmp;
         edk::uint64 cmpLine=0u,cmpLineColor;
         edk::float64 div = (edk::float64)width;
@@ -3358,8 +3489,8 @@ edk::float64 edk::Image2D::cmpDownToFloat64(edk::uint8* vector,edk::uint32 width
                     cmpLineColor=cmp;
                     cmpLine+=cmpLineColor/1;
                     //increment
-                    compare+=1u;
-                    vector+=1u;
+                    compare+=1u*bytesPerChannel;
+                    vector+=1u*bytesPerChannel;
                 }
                 ret+=(edk::float64)cmpLine/div;
             }
@@ -3378,8 +3509,8 @@ edk::float64 edk::Image2D::cmpDownToFloat64(edk::uint8* vector,edk::uint32 width
                     cmpLineColor+=cmp;
                     cmpLine+=cmpLineColor/2;
                     //increment
-                    compare+=2u;
-                    vector+=2u;
+                    compare+=2u*bytesPerChannel;
+                    vector+=2u*bytesPerChannel;
                 }
                 ret+=(edk::float64)cmpLine/div;
             }
@@ -3401,8 +3532,8 @@ edk::float64 edk::Image2D::cmpDownToFloat64(edk::uint8* vector,edk::uint32 width
                     cmpLineColor+=cmp;
                     cmpLine+=cmpLineColor/3;
                     //increment
-                    compare+=3u;
-                    vector+=3u;
+                    compare+=3u*bytesPerChannel;
+                    vector+=3u*bytesPerChannel;
                 }
                 ret+=(edk::float64)cmpLine/div;
             }
@@ -3427,8 +3558,8 @@ edk::float64 edk::Image2D::cmpDownToFloat64(edk::uint8* vector,edk::uint32 width
                     cmpLineColor+=cmp;
                     cmpLine+=cmpLineColor/4;
                     //increment
-                    compare+=4u;
-                    vector+=4u;
+                    compare+=4u*bytesPerChannel;
+                    vector+=4u*bytesPerChannel;
                 }
                 ret+=(edk::float64)cmpLine/div;
             }
@@ -3439,9 +3570,24 @@ edk::float64 edk::Image2D::cmpDownToFloat64(edk::uint8* vector,edk::uint32 width
     return ret;
 }
 //compare dockable
-edk::float64 edk::Image2D::cmpDkbleLeftToFloat64(edk::uint8* vector,edk::uint32 width,edk::uint32 height,edk::uint32 lenght,edk::uint8* compare,edk::uint8 channels){
+edk::float64 edk::Image2D::cmpDkbleLeftToFloat64(edk::uint8* vector,
+                                                 edk::uint32 width,
+                                                 edk::uint32 height,
+                                                 edk::uint32 lenght,
+                                                 edk::uint8* compare,
+                                                 edk::uint8 channels,
+                                                 edk::uint8 bytesPerChannel
+                                                 ){
     edk::float64 ret = -1.f;
-    if(vector && compare && width && height && channels && lenght && lenght<=width){
+    if(vector
+            && compare
+            && width
+            && height
+            && channels
+            && bytesPerChannel
+            && lenght
+            && lenght<=width
+            ){
         edk::int32 cmp;
         edk::uint64 cmpLine=0u,cmpLineColor;
         edk::float64 div = (edk::float64)lenght;
@@ -3459,8 +3605,8 @@ edk::float64 edk::Image2D::cmpDkbleLeftToFloat64(edk::uint8* vector,edk::uint32 
                     cmpLineColor=cmp;
                     cmpLine+=cmpLineColor/1;
                     //increment
-                    compare+=1u;
-                    vector-=1u;
+                    compare+=1u*bytesPerChannel;
+                    vector-=1u*bytesPerChannel;
                 }
                 vector+=1u* width;
                 ret+=(edk::float64)cmpLine/div;
@@ -3480,8 +3626,8 @@ edk::float64 edk::Image2D::cmpDkbleLeftToFloat64(edk::uint8* vector,edk::uint32 
                     cmpLineColor+=cmp;
                     cmpLine+=cmpLineColor/2;
                     //increment
-                    compare+=2u;
-                    vector-=2u;
+                    compare+=2u*bytesPerChannel;
+                    vector-=2u*bytesPerChannel;
                 }
                 vector+=2u* width;
                 ret+=(edk::float64)cmpLine/div;
@@ -3504,8 +3650,8 @@ edk::float64 edk::Image2D::cmpDkbleLeftToFloat64(edk::uint8* vector,edk::uint32 
                     cmpLineColor+=cmp;
                     cmpLine+=cmpLineColor/3;
                     //increment
-                    compare+=3u;
-                    vector-=3u;
+                    compare+=3u*bytesPerChannel;
+                    vector-=3u*bytesPerChannel;
                 }
                 vector+=3u* width;
                 ret+=(edk::float64)cmpLine/div;
@@ -3531,8 +3677,8 @@ edk::float64 edk::Image2D::cmpDkbleLeftToFloat64(edk::uint8* vector,edk::uint32 
                     cmpLineColor+=cmp;
                     cmpLine+=cmpLineColor/4;
                     //increment
-                    compare+=4u;
-                    vector-=4u;
+                    compare+=4u*bytesPerChannel;
+                    vector-=4u*bytesPerChannel;
                 }
                 vector+=4u* width;
                 ret+=(edk::float64)cmpLine/div;
@@ -3543,9 +3689,24 @@ edk::float64 edk::Image2D::cmpDkbleLeftToFloat64(edk::uint8* vector,edk::uint32 
     }
     return ret;
 }
-edk::float64 edk::Image2D::cmpDkbleRightToFloat64(edk::uint8* vector,edk::uint32 width,edk::uint32 height,edk::uint32 lenght,edk::uint8* compare,edk::uint8 channels){
+edk::float64 edk::Image2D::cmpDkbleRightToFloat64(edk::uint8* vector,
+                                                  edk::uint32 width,
+                                                  edk::uint32 height,
+                                                  edk::uint32 lenght,
+                                                  edk::uint8* compare,
+                                                  edk::uint8 channels,
+                                                  edk::uint8 bytesPerChannel
+                                                  ){
     edk::float64 ret = -1.f;
-    if(vector && compare && width && height && channels && lenght && lenght<=width){
+    if(vector
+            && compare
+            && width
+            && height
+            && channels
+            && bytesPerChannel
+            && lenght
+            && lenght<=width
+            ){
         edk::int32 cmp;
         edk::uint64 cmpLine=0u,cmpLineColor;
         edk::float64 div = (edk::float64)lenght;
@@ -3563,8 +3724,8 @@ edk::float64 edk::Image2D::cmpDkbleRightToFloat64(edk::uint8* vector,edk::uint32
                     cmpLineColor=cmp;
                     cmpLine+=cmpLineColor/1;
                     //increment
-                    vector+=1u;
-                    compare-=1u;
+                    vector+=1u*bytesPerChannel;
+                    compare-=1u*bytesPerChannel;
                 }
                 compare+=1u* width;
                 ret+=(edk::float64)cmpLine/div;
@@ -3584,8 +3745,8 @@ edk::float64 edk::Image2D::cmpDkbleRightToFloat64(edk::uint8* vector,edk::uint32
                     cmpLineColor+=cmp;
                     cmpLine+=cmpLineColor/2;
                     //increment
-                    vector+=2u;
-                    compare-=2u;
+                    vector+=2u*bytesPerChannel;
+                    compare-=2u*bytesPerChannel;
                 }
                 compare+=2u* width;
                 ret+=(edk::float64)cmpLine/div;
@@ -3608,8 +3769,8 @@ edk::float64 edk::Image2D::cmpDkbleRightToFloat64(edk::uint8* vector,edk::uint32
                     cmpLineColor+=cmp;
                     cmpLine+=cmpLineColor/3;
                     //increment
-                    vector+=3u;
-                    compare-=3u;
+                    vector+=3u*bytesPerChannel;
+                    compare-=3u*bytesPerChannel;
                 }
                 compare+=3u* width;
                 ret+=(edk::float64)cmpLine/div;
@@ -3635,8 +3796,8 @@ edk::float64 edk::Image2D::cmpDkbleRightToFloat64(edk::uint8* vector,edk::uint32
                     cmpLineColor+=cmp;
                     cmpLine+=cmpLineColor/4;
                     //increment
-                    vector+=4u;
-                    compare-=4u;
+                    vector+=4u*bytesPerChannel;
+                    compare-=4u*bytesPerChannel;
                 }
                 compare+=4u* width;
                 ret+=(edk::float64)cmpLine/div;
@@ -3647,9 +3808,23 @@ edk::float64 edk::Image2D::cmpDkbleRightToFloat64(edk::uint8* vector,edk::uint32
     }
     return ret;
 }
-edk::float64 edk::Image2D::cmpDkbleUpToFloat64(edk::uint8* vector,edk::uint32 width,edk::uint32 height,edk::uint32 lenght,edk::uint8* compare,edk::uint8 channels){
+edk::float64 edk::Image2D::cmpDkbleUpToFloat64(edk::uint8* vector,
+                                               edk::uint32 width,
+                                               edk::uint32 height,
+                                               edk::uint32 lenght,
+                                               edk::uint8* compare,
+                                               edk::uint8 channels,
+                                               edk::uint8 bytesPerChannel
+                                               ){
     edk::float64 ret = -1.f;
-    if(vector && compare && width && height && channels && lenght && lenght<=height){
+    if(vector
+            && compare
+            && width
+            && height
+            && channels
+            && lenght
+            && lenght<=height
+            ){
         edk::int32 cmp;
         edk::uint64 cmpLine=0u,cmpLineColor;
         edk::float64 div = (edk::float64)width;
@@ -3667,8 +3842,8 @@ edk::float64 edk::Image2D::cmpDkbleUpToFloat64(edk::uint8* vector,edk::uint32 wi
                     cmpLineColor=cmp;
                     cmpLine+=cmpLineColor/1;
                     //increment
-                    compare+=1u;
-                    vector+=1u;
+                    compare+=1u*bytesPerChannel;
+                    vector+=1u*bytesPerChannel;
                 }
                 vector-=1u * width;
                 ret+=(edk::float64)cmpLine/div;
@@ -3688,8 +3863,8 @@ edk::float64 edk::Image2D::cmpDkbleUpToFloat64(edk::uint8* vector,edk::uint32 wi
                     cmpLineColor+=cmp;
                     cmpLine+=cmpLineColor/2;
                     //increment
-                    compare+=2u;
-                    vector+=2u;
+                    compare+=2u*bytesPerChannel;
+                    vector+=2u*bytesPerChannel;
                 }
                 vector-=2u * width;
                 ret+=(edk::float64)cmpLine/div;
@@ -3712,8 +3887,8 @@ edk::float64 edk::Image2D::cmpDkbleUpToFloat64(edk::uint8* vector,edk::uint32 wi
                     cmpLineColor+=cmp;
                     cmpLine+=cmpLineColor/3;
                     //increment
-                    compare+=3u;
-                    vector+=3u;
+                    compare+=3u*bytesPerChannel;
+                    vector+=3u*bytesPerChannel;
                 }
                 vector-=3u * width;
                 ret+=(edk::float64)cmpLine/div;
@@ -3739,8 +3914,8 @@ edk::float64 edk::Image2D::cmpDkbleUpToFloat64(edk::uint8* vector,edk::uint32 wi
                     cmpLineColor+=cmp;
                     cmpLine+=cmpLineColor/4;
                     //increment
-                    compare+=4u;
-                    vector+=4u;
+                    compare+=4u*bytesPerChannel;
+                    vector+=4u*bytesPerChannel;
                 }
                 vector-=4u * width;
                 ret+=(edk::float64)cmpLine/div;
@@ -3751,9 +3926,23 @@ edk::float64 edk::Image2D::cmpDkbleUpToFloat64(edk::uint8* vector,edk::uint32 wi
     }
     return ret;
 }
-edk::float64 edk::Image2D::cmpDkbleDownToFloat64(edk::uint8* vector,edk::uint32 width,edk::uint32 height,edk::uint32 lenght,edk::uint8* compare,edk::uint8 channels){
+edk::float64 edk::Image2D::cmpDkbleDownToFloat64(edk::uint8* vector,
+                                                 edk::uint32 width,
+                                                 edk::uint32 height,
+                                                 edk::uint32 lenght,
+                                                 edk::uint8* compare,
+                                                 edk::uint8 channels,
+                                                 edk::uint8 bytesPerChannel
+                                                 ){
     edk::float64 ret = -1.f;
-    if(vector && compare && width && height && channels && lenght && lenght<=height){
+    if(vector
+            && compare
+            && width
+            && height
+            && channels
+            && lenght
+            && lenght<=height
+            ){
         edk::int32 cmp;
         edk::uint64 cmpLine=0u,cmpLineColor;
         edk::float64 div = (edk::float64)width;
@@ -3771,8 +3960,8 @@ edk::float64 edk::Image2D::cmpDkbleDownToFloat64(edk::uint8* vector,edk::uint32 
                     cmpLineColor=cmp;
                     cmpLine+=cmpLineColor/1;
                     //increment
-                    vector+=1u;
-                    compare+=1u;
+                    vector+=1u*bytesPerChannel;
+                    compare+=1u*bytesPerChannel;
                 }
                 compare-=1u * width;
                 ret+=(edk::float64)cmpLine/div;
@@ -3792,8 +3981,8 @@ edk::float64 edk::Image2D::cmpDkbleDownToFloat64(edk::uint8* vector,edk::uint32 
                     cmpLineColor+=cmp;
                     cmpLine+=cmpLineColor/2;
                     //increment
-                    vector+=2u;
-                    compare+=2u;
+                    vector+=2u*bytesPerChannel;
+                    compare+=2u*bytesPerChannel;
                 }
                 compare-=2u * width;
                 ret+=(edk::float64)cmpLine/div;
@@ -3816,8 +4005,8 @@ edk::float64 edk::Image2D::cmpDkbleDownToFloat64(edk::uint8* vector,edk::uint32 
                     cmpLineColor+=cmp;
                     cmpLine+=cmpLineColor/3;
                     //increment
-                    vector+=3u;
-                    compare+=3u;
+                    vector+=3u*bytesPerChannel;
+                    compare+=3u*bytesPerChannel;
                 }
                 compare-=3u * width;
                 ret+=(edk::float64)cmpLine/div;
@@ -3843,8 +4032,8 @@ edk::float64 edk::Image2D::cmpDkbleDownToFloat64(edk::uint8* vector,edk::uint32 
                     cmpLineColor+=cmp;
                     cmpLine+=cmpLineColor/4;
                     //increment
-                    vector+=4u;
-                    compare+=4u;
+                    vector+=4u*bytesPerChannel;
+                    compare+=4u*bytesPerChannel;
                 }
                 compare-=4u * width;
                 ret+=(edk::float64)cmpLine/div;
@@ -3857,10 +4046,20 @@ edk::float64 edk::Image2D::cmpDkbleDownToFloat64(edk::uint8* vector,edk::uint32 
 }
 
 //flip pixels
-bool edk::Image2D::flipY(edk::uint8* vector,edk::uint32 width,edk::uint32 height,edk::uint32 channels){
-    if(vector && width && height && channels){
+bool edk::Image2D::flipY(edk::uint8* vector,
+                         edk::uint32 width,
+                         edk::uint32 height,
+                         edk::uint32 channels,
+                         edk::uint8 bytesPerChannel
+                         ){
+    if(vector
+            && width
+            && height
+            && channels
+            && bytesPerChannel
+            ){
         //get the line size
-        edk::uint32 size = width * channels;
+        edk::uint32 size = width * channels * bytesPerChannel;
         //alloc a buffer to save the lines
         edk::uint8* line = (edk::uint8*)malloc(sizeof(edk::uint8) * (size));
         if(line){
@@ -3887,18 +4086,21 @@ bool edk::Image2D::flipY(edk::uint8* vector,edk::uint32 width,edk::uint32 height
     return false;
 }
 
-bool edk::Image2D::imageClone(edk::uint8* vector,edk::uint32 width,edk::uint32 height,edk::uint32 channels,
-                              edk::uint8* dest,edk::uint32 dWidth,edk::uint32 dHeight,edk::uint32 dChannels,
+bool edk::Image2D::imageClone(edk::uint8* vector,edk::uint32 width,edk::uint32 height,edk::uint32 channels,edk::uint32 bytesPerChannes,
+                              edk::uint8* dest,edk::uint32 dWidth,edk::uint32 dHeight,edk::uint32 dChannels,edk::uint32 dBytesPerChannes,
                               edk::uint32 positionX,edk::uint32 positionY
                               ){
     //test the vectors
-    if(vector && width && height && channels && dest && dWidth && dHeight && dChannels){
+    if(vector && width && height && channels && bytesPerChannes
+            && dest && dWidth && dHeight && dChannels && dBytesPerChannes
+            && bytesPerChannes == dBytesPerChannes
+            ){
         //test if can position the image inside the dest
         if(positionX <= dWidth - width && positionY <= dHeight - height){
             //then copy the image
-            dest+=positionY*dWidth * dChannels;
+            dest+=positionY*dWidth * dChannels * dBytesPerChannes;
             for(edk::uint32 y = 0u;y<height;y++){
-                dest+=positionX * dChannels;
+                dest+=positionX * dChannels * dBytesPerChannes;
                 //copy the channels
                 if(channels==1u){
                     if(dChannels==1u){
@@ -3906,8 +4108,8 @@ bool edk::Image2D::imageClone(edk::uint8* vector,edk::uint32 width,edk::uint32 h
                         for(edk::uint32 x = 0u;x<width;x++){
                             dest[0u] = vector[0u];
                             //increment the vectors
-                            dest+=dChannels;
-                            vector+=channels;
+                            dest+=dChannels*dBytesPerChannes;
+                            vector+=channels*bytesPerChannes;
                         }
                     }
                     else if(dChannels==2u){
@@ -3916,8 +4118,8 @@ bool edk::Image2D::imageClone(edk::uint8* vector,edk::uint32 width,edk::uint32 h
                             dest[0u] = vector[0u];
                             dest[1u] = 255u;
                             //increment the vectors
-                            dest+=dChannels;
-                            vector+=channels;
+                            dest+=dChannels*dBytesPerChannes;
+                            vector+=channels*bytesPerChannes;
                         }
                     }
                     else if(dChannels==3u){
@@ -3927,8 +4129,8 @@ bool edk::Image2D::imageClone(edk::uint8* vector,edk::uint32 width,edk::uint32 h
                             dest[2u] = vector[0u];
                             dest[3u] = vector[0u];
                             //increment the vectors
-                            dest+=dChannels;
-                            vector+=channels;
+                            dest+=dChannels*dBytesPerChannes;
+                            vector+=channels*bytesPerChannes;
                         }
                     }
                     else if(dChannels==4u){
@@ -3939,8 +4141,8 @@ bool edk::Image2D::imageClone(edk::uint8* vector,edk::uint32 width,edk::uint32 h
                             dest[3u] = vector[0u];
                             dest[4u] = 255u;
                             //increment the vectors
-                            dest+=dChannels;
-                            vector+=channels;
+                            dest+=dChannels*dBytesPerChannes;
+                            vector+=channels*bytesPerChannes;
                         }
                     }
                 }
@@ -3950,8 +4152,8 @@ bool edk::Image2D::imageClone(edk::uint8* vector,edk::uint32 width,edk::uint32 h
                         for(edk::uint32 x = 0u;x<width;x++){
                             dest[0u] = vector[0u];
                             //increment the vectors
-                            dest+=dChannels;
-                            vector+=channels;
+                            dest+=dChannels*dBytesPerChannes;
+                            vector+=channels*bytesPerChannes;
                         }
                     }
                     else if(dChannels==2u){
@@ -3960,8 +4162,8 @@ bool edk::Image2D::imageClone(edk::uint8* vector,edk::uint32 width,edk::uint32 h
                             dest[0u] = vector[0u];
                             dest[1u] = vector[1u];
                             //increment the vectors
-                            dest+=dChannels;
-                            vector+=channels;
+                            dest+=dChannels*dBytesPerChannes;
+                            vector+=channels*bytesPerChannes;
                         }
                     }
                     else if(dChannels==3u){
@@ -3971,8 +4173,8 @@ bool edk::Image2D::imageClone(edk::uint8* vector,edk::uint32 width,edk::uint32 h
                             dest[1u] = vector[0u];
                             dest[2u] = vector[0u];
                             //increment the vectors
-                            dest+=dChannels;
-                            vector+=channels;
+                            dest+=dChannels*dBytesPerChannes;
+                            vector+=channels*bytesPerChannes;
                         }
                     }
                     else if(dChannels==4u){
@@ -3983,8 +4185,8 @@ bool edk::Image2D::imageClone(edk::uint8* vector,edk::uint32 width,edk::uint32 h
                             dest[2u] = vector[0u];
                             dest[4u] = vector[1u];
                             //increment the vectors
-                            dest+=dChannels;
-                            vector+=channels;
+                            dest+=dChannels*dBytesPerChannes;
+                            vector+=channels*bytesPerChannes;
                         }
                     }
                 }
@@ -3994,8 +4196,8 @@ bool edk::Image2D::imageClone(edk::uint8* vector,edk::uint32 width,edk::uint32 h
                         for(edk::uint32 x = 0u;x<width;x++){
                             dest[0u] = edk::Image2D::rgbToL(vector[0u],vector[1u],vector[2u]);
                             //increment the vectors
-                            dest+=dChannels;
-                            vector+=channels;
+                            dest+=dChannels*dBytesPerChannes;
+                            vector+=channels*bytesPerChannes;
                         }
                     }
                     else if(dChannels==2u){
@@ -4004,8 +4206,8 @@ bool edk::Image2D::imageClone(edk::uint8* vector,edk::uint32 width,edk::uint32 h
                             dest[0u] = edk::Image2D::rgbToL(vector[0u],vector[1u],vector[2u]);
                             dest[1u] = 255;
                             //increment the vectors
-                            dest+=dChannels;
-                            vector+=channels;
+                            dest+=dChannels*dBytesPerChannes;
+                            vector+=channels*bytesPerChannes;
                         }
                     }
                     else if(dChannels==3u){
@@ -4015,8 +4217,8 @@ bool edk::Image2D::imageClone(edk::uint8* vector,edk::uint32 width,edk::uint32 h
                             dest[1u] = vector[1u];
                             dest[2u] = vector[2u];
                             //increment the vectors
-                            dest+=dChannels;
-                            vector+=channels;
+                            dest+=dChannels*dBytesPerChannes;
+                            vector+=channels*bytesPerChannes;
                         }
                     }
                     else if(dChannels==4u){
@@ -4027,8 +4229,8 @@ bool edk::Image2D::imageClone(edk::uint8* vector,edk::uint32 width,edk::uint32 h
                             dest[2u] = vector[2u];
                             dest[1u] = 255;
                             //increment the vectors
-                            dest+=dChannels;
-                            vector+=channels;
+                            dest+=dChannels*dBytesPerChannes;
+                            vector+=channels*bytesPerChannes;
                         }
                     }
                 }
@@ -4038,8 +4240,8 @@ bool edk::Image2D::imageClone(edk::uint8* vector,edk::uint32 width,edk::uint32 h
                         for(edk::uint32 x = 0u;x<width;x++){
                             dest[0u] = edk::Image2D::rgbToL(vector[0u],vector[1u],vector[2u]);
                             //increment the vectors
-                            dest+=dChannels;
-                            vector+=channels;
+                            dest+=dChannels*dBytesPerChannes;
+                            vector+=channels*bytesPerChannes;
                         }
                     }
                     else if(dChannels==2u){
@@ -4048,8 +4250,8 @@ bool edk::Image2D::imageClone(edk::uint8* vector,edk::uint32 width,edk::uint32 h
                             dest[0u] = edk::Image2D::rgbToL(vector[0u],vector[1u],vector[2u]);
                             dest[1u] = vector[1u];
                             //increment the vectors
-                            dest+=dChannels;
-                            vector+=channels;
+                            dest+=dChannels*dBytesPerChannes;
+                            vector+=channels*bytesPerChannes;
                         }
                     }
                     else if(dChannels==3u){
@@ -4057,8 +4259,8 @@ bool edk::Image2D::imageClone(edk::uint8* vector,edk::uint32 width,edk::uint32 h
                         for(edk::uint32 x = 0u;x<width;x++){
                             dest[0u] = edk::Image2D::rgbToL(vector[0u],vector[1u],vector[2u]);
                             //increment the vectors
-                            dest+=dChannels;
-                            vector+=channels;
+                            dest+=dChannels*dBytesPerChannes;
+                            vector+=channels*bytesPerChannes;
                         }
                     }
                     else if(dChannels==4u){
@@ -4069,12 +4271,12 @@ bool edk::Image2D::imageClone(edk::uint8* vector,edk::uint32 width,edk::uint32 h
                             dest[2u] = vector[2u];
                             dest[3u] = vector[3u];
                             //increment the vectors
-                            dest+=dChannels;
-                            vector+=channels;
+                            dest+=dChannels*dBytesPerChannes;
+                            vector+=channels*bytesPerChannes;
                         }
                     }
                 }
-                dest+=(dWidth - width - positionX) * dChannels;
+                dest+=(dWidth - width - positionX) * dChannels * dBytesPerChannes;
             }
             //then return true
             return true;
@@ -4088,11 +4290,15 @@ bool edk::Image2D::cloneFrom(edk::Image2D* image){
         //test if the image exist
         if(image->vec && image->channelsValue && image->size.width && image->size.height && image->imageName){
             //test if the characteristics are equal
-            if(!(this->vec && image->channelsValue == this->channelsValue && image->size == this->size)){
+            if(!(this->vec
+                 && image->channelsValue == this->channelsValue
+                 && image->bytesPerChannel == this->bytesPerChannel
+                 && image->size == this->size
+                 )){
                 //else delete the last image
                 this->deleteImage();
                 //create a new vec with the vecSize
-                if(!this->newImage(image->name(),image->size.width,image->size.height,image->channelsValue)){
+                if(!this->newImage(image->name(),image->size.width,image->size.height,image->channelsValue,image->bytesPerChannel)){
                     //return false because it can't create a new image
                     return false;
                 }
@@ -4106,9 +4312,14 @@ bool edk::Image2D::cloneFrom(edk::Image2D* image){
                 }
             }
             //test if create the image
-            if(this->vec && this->size.width && this->size.height && this->channelsValue){
+            if(this->vec
+                    && this->size.width
+                    && this->size.height
+                    && this->channelsValue
+                    && this->bytesPerChannel
+                    ){
                 //clean the image setting all zeros
-                memcpy(this->vec,image->vec,this->size.width * this->size.height * this->channelsValue);
+                memcpy(this->vec,image->vec,this->size.width * this->size.height * this->channelsValue * this->bytesPerChannel);
                 return true;
             }
         }
@@ -4120,13 +4331,23 @@ bool edk::Image2D::cloneFrom(edk::Image2D* image){
 bool edk::Image2D::newFrom(edk::Image2D* image){
     if(image){
         //test if the image exist
-        if(image->vec && image->channelsValue && image->size.width && image->size.height && image->imageName){
+        if(image->vec
+                && image->channelsValue
+                && image->bytesPerChannel
+                && image->size.width
+                && image->size.height
+                && image->imageName
+                ){
             //test if the characteristics are equal
-            if(!(this->vec && image->channelsValue == this->channelsValue && image->size == this->size)){
+            if(!(this->vec
+                 && image->channelsValue == this->channelsValue
+                 && image->bytesPerChannel == this->bytesPerChannel
+                 && image->size == this->size
+                 )){
                 //else delete the last image
                 this->deleteImage();
                 //create a new vec with the vecSize
-                if(!this->newImage(image->name(),image->size.width,image->size.height,image->channelsValue)){
+                if(!this->newImage(image->name(),image->size.width,image->size.height,image->channelsValue,image->bytesPerChannel)){
                     //return false because it can't create a new image
                     return false;
                 }
@@ -4140,9 +4361,9 @@ bool edk::Image2D::newFrom(edk::Image2D* image){
                 }
             }
             //test if create the image
-            if(this->vec && this->size.width && this->size.height && this->channelsValue){
+            if(this->vec && this->size.width && this->size.height && this->channelsValue && this->bytesPerChannel){
                 //clean the image setting all zeros
-                memset(this->vec,0u,this->size.width * this->size.height * this->channelsValue);
+                memset(this->vec,0u,this->size.width * this->size.height * this->channelsValue * this->bytesPerChannel);
                 return true;
             }
         }
@@ -4158,9 +4379,10 @@ bool edk::Image2D::copyImageToImage(edk::uint8* copy,
                                     edk::uint8* dest,
                                     edk::size2ui32 sizeDest,
                                     edk::vec2ui32 position,
-                                    edk::uint32 channels
+                                    edk::uint32 channels,
+                                    edk::uint8 bytesPerChannel
                                     ){
-    if(copy && dest && channels
+    if(copy && dest && channels && bytesPerChannel
             && sizeCopy.height && sizeCopy.width
             && sizeDest.height && sizeDest.width
             //
@@ -4169,13 +4391,13 @@ bool edk::Image2D::copyImageToImage(edk::uint8* copy,
             ){
         //can copy the image
         for(edk::uint32 y=0u;y<position.y;y++){
-            dest+=sizeDest.width * channels;
+            dest+=sizeDest.width * channels * bytesPerChannel;
         }
         for(edk::uint32 y=0u;y<sizeCopy.height;y++){
-            dest+=position.x*channels;
-            edkMemCpy(dest,copy,sizeCopy.width*channels);
-            copy+=sizeCopy.width*channels;
-            dest+=(sizeDest.width-position.x)*channels;
+            dest+=position.x*channels*bytesPerChannel;
+            edkMemCpy(dest,copy,sizeCopy.width*channels*bytesPerChannel);
+            copy+=sizeCopy.width*channels*bytesPerChannel;
+            dest+=(sizeDest.width-position.x)*channels*bytesPerChannel;
         }
         return true;
     }
@@ -4186,25 +4408,30 @@ bool edk::Image2D::copyImageToImage(edk::uint8* copy,
                                     edk::uint8* dest,
                                     edk::uint32 destSizeW,edk::uint32 destSizeH,
                                     edk::uint32 posX,edk::uint32 posY,
-                                    edk::uint32 channels
+                                    edk::uint32 channels,
+                                    edk::uint8 bytesPerChannel
                                     ){
     return copyImageToImage(copy,
                             edk::size2ui32(copySizeW,copySizeH),
                             dest,
                             edk::size2ui32(destSizeW,destSizeH),
                             edk::vec2ui32(posX,posY),
-                            channels
+                            channels,
+                            bytesPerChannel
                             );
 }
 bool edk::Image2D::copyImageToImage(edk::Image2D* copy,edk::Image2D* dest,edk::vec2ui32 position){
     if(copy && dest){
-        if(copy->getChannels() == dest->getChannels()){
+        if(copy->getChannels() == dest->getChannels()
+                && copy->getBytesPerChannel() == dest->getBytesPerChannel()
+                ){
             return edk::Image2D::copyImageToImage(copy->getPixels(),
                                                   copy->getSize(),
                                                   dest->getPixels(),
                                                   dest->getSize(),
                                                   position,
                                                   dest->getChannels()
+                                                  ,dest->getBytesPerChannel()
                                                   );
         }
     }

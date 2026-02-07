@@ -277,6 +277,7 @@ public:
     static void guColor4f32(edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a);
     static void guColor4f64(edk::float64 r,edk::float64 g,edk::float64 b,edk::float64 a);
 
+    static void guClearDepth(edk::float32 value);
     //clear some buffer
     //mask
     //GU_COLOR_BUFFER_BIT

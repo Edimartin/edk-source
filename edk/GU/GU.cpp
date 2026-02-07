@@ -458,6 +458,11 @@ void edk::GU::guColor4f64(edk::float64 r,edk::float64 g,edk::float64 b,edk::floa
     edk::GU_GLSL::mut.unlock();
 }
 
+void edk::GU::guClearDepth(edk::float32 value){
+    edk::GU_GLSL::mut.lock();
+    glClearDepth(value);
+    edk::GU_GLSL::mut.unlock();
+}
 //clear dome buffer
 void edk::GU::guClear(edk::uint32 mask){
     edk::GU_GLSL::mut.lock();

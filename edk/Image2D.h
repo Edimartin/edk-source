@@ -411,23 +411,96 @@ public:
     static bool lTorgba(edk::uint8* vector,edk::uint32 width,edk::uint32 height,edk::uint8* dest);
     static edk::uint8* lTorgba(edk::uint8* vector,edk::uint32 width,edk::uint32 height);
     //compare
-    static edk::uint64 cmpToUint64(edk::uint8* vector,edk::uint32 width,edk::uint32 height,edk::uint8* compare,edk::uint8 channels);
-    static edk::float64 cmpToFloat64(edk::uint8* vector,edk::uint32 width,edk::uint32 height,edk::uint8* compare,edk::uint8 channels);
-    static edk::float64 cmpLeftToFloat64(edk::uint8* vector,edk::uint32 width,edk::uint32 height,edk::uint32 lenght,edk::uint8* compare,edk::uint8 channels);
-    static edk::float64 cmpRightToFloat64(edk::uint8* vector,edk::uint32 width,edk::uint32 height,edk::uint32 lenght,edk::uint8* compare,edk::uint8 channels);
-    static edk::float64 cmpUpToFloat64(edk::uint8* vector,edk::uint32 width,edk::uint32 height,edk::uint32 lenght,edk::uint8* compare,edk::uint8 channels);
-    static edk::float64 cmpDownToFloat64(edk::uint8* vector,edk::uint32 width,edk::uint32 height,edk::uint32 lenght,edk::uint8* compare,edk::uint8 channels);
+    static edk::uint64 cmpToUint64(edk::uint8* vector,
+                                   edk::uint32 width,
+                                   edk::uint32 height,
+                                   edk::uint8* compare,
+                                   edk::uint8 channels,
+                                   edk::uint8 bytesPerChannel
+                                   );
+    static edk::float64 cmpToFloat64(edk::uint8* vector,
+                                     edk::uint32 width,
+                                     edk::uint32 height,
+                                     edk::uint8* compare,
+                                     edk::uint8 channels,
+                                     edk::uint8 bytesPerChannel
+                                     );
+    static edk::float64 cmpLeftToFloat64(edk::uint8* vector,
+                                         edk::uint32 width,
+                                         edk::uint32 height,
+                                         edk::uint32 lenght,
+                                         edk::uint8* compare,
+                                         edk::uint8 channels,
+                                         edk::uint8 bytesPerChannel
+                                         );
+    static edk::float64 cmpRightToFloat64(edk::uint8* vector,
+                                          edk::uint32 width,
+                                          edk::uint32 height,
+                                          edk::uint32 lenght,
+                                          edk::uint8* compare,
+                                          edk::uint8 channels,
+                                          edk::uint8 bytesPerChannel
+                                          );
+    static edk::float64 cmpUpToFloat64(edk::uint8* vector,
+                                       edk::uint32 width,
+                                       edk::uint32 height,
+                                       edk::uint32 lenght,
+                                       edk::uint8* compare,
+                                       edk::uint8 channels,
+                                       edk::uint8 bytesPerChannel
+                                       );
+    static edk::float64 cmpDownToFloat64(edk::uint8* vector,
+                                         edk::uint32 width,
+                                         edk::uint32 height,
+                                         edk::uint32 lenght,
+                                         edk::uint8* compare,
+                                         edk::uint8 channels,
+                                         edk::uint8 bytesPerChannel
+                                         );
     //compare dockable
-    static edk::float64 cmpDkbleLeftToFloat64(edk::uint8* vector,edk::uint32 width,edk::uint32 height,edk::uint32 lenght,edk::uint8* compare,edk::uint8 channels);
-    static edk::float64 cmpDkbleRightToFloat64(edk::uint8* vector,edk::uint32 width,edk::uint32 height,edk::uint32 lenght,edk::uint8* compare,edk::uint8 channels);
-    static edk::float64 cmpDkbleUpToFloat64(edk::uint8* vector,edk::uint32 width,edk::uint32 height,edk::uint32 lenght,edk::uint8* compare,edk::uint8 channels);
-    static edk::float64 cmpDkbleDownToFloat64(edk::uint8* vector,edk::uint32 width,edk::uint32 height,edk::uint32 lenght,edk::uint8* compare,edk::uint8 channels);
+    static edk::float64 cmpDkbleLeftToFloat64(edk::uint8* vector,
+                                              edk::uint32 width,
+                                              edk::uint32 height,
+                                              edk::uint32 lenght,
+                                              edk::uint8* compare,
+                                              edk::uint8 channels,
+                                              edk::uint8 bytesPerChannel
+                                              );
+    static edk::float64 cmpDkbleRightToFloat64(edk::uint8* vector,
+                                               edk::uint32 width,
+                                               edk::uint32 height,
+                                               edk::uint32 lenght,
+                                               edk::uint8* compare,
+                                               edk::uint8 channels,
+                                               edk::uint8 bytesPerChannel
+                                               );
+    static edk::float64 cmpDkbleUpToFloat64(edk::uint8* vector,
+                                            edk::uint32 width,
+                                            edk::uint32 height,
+                                            edk::uint32 lenght,
+                                            edk::uint8* compare,
+                                            edk::uint8 channels,
+                                            edk::uint8 bytesPerChannel
+                                            );
+    static edk::float64 cmpDkbleDownToFloat64(edk::uint8* vector,
+                                              edk::uint32 width,
+                                              edk::uint32 height,
+                                              edk::uint32 lenght,
+                                              edk::uint8* compare,
+                                              edk::uint8 channels,
+                                              edk::uint8 bytesPerChannel
+                                              );
 
     //flip pixels
-    static bool flipY(edk::uint8* vector,edk::uint32 width,edk::uint32 height,edk::uint32 channels);
+    static bool flipY(edk::uint8* vector,
+                      edk::uint32 width,
+                      edk::uint32 height,
+                      edk::uint32 channels,
+                      edk::uint8 bytesPerChannel
+                      );
 
-    static bool imageClone(edk::uint8* vector,edk::uint32 width,edk::uint32 height,edk::uint32 channels,
-                           edk::uint8* dest,edk::uint32 dWidth,edk::uint32 dHeight,edk::uint32 dChannels,
+    static bool imageClone(edk::uint8* vector,edk::uint32 width,edk::uint32 height,edk::uint32 channels,edk::uint32 bytesPerChannes,
+                           edk::uint8* dest,edk::uint32 dWidth,edk::uint32 dHeight,edk::uint32 dChannels,edk::uint32 dBytesPerChannes,
                            edk::uint32 positionX,edk::uint32 positionY
                            );
 
@@ -440,14 +513,16 @@ public:
                                  edk::uint8* dest,
                                  edk::size2ui32 sizeDest,
                                  edk::vec2ui32 position,
-                                 edk::uint32 channels
+                                 edk::uint32 channels,
+                                 edk::uint8 bytesPerChannel
                                  );
     static bool copyImageToImage(edk::uint8* copy,
                                  edk::uint32 copySizeW,edk::uint32 copySizeH,
                                  edk::uint8* dest,
                                  edk::uint32 destSizeW,edk::uint32 destSizeH,
                                  edk::uint32 posX,edk::uint32 posY,
-                                 edk::uint32 channels
+                                 edk::uint32 channels,
+                                 edk::uint8 bytesPerChannel
                                  );
     static bool copyImageToImage(edk::Image2D* copy,edk::Image2D* dest,edk::vec2ui32 position);
     static bool copyImageToImage(edk::Image2D* copy,edk::Image2D* dest,edk::uint32 posX,edk::uint32 posY);
