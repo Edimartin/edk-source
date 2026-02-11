@@ -499,11 +499,11 @@ private:
         }
         bool addHolded(edk::uint32 id){
             if(this->haveHolded(id)){
-                this->incrementHolded(id);
+                this->incrementHolded(id,20u);
                 return true;
             }
             if(this->add(edk::Window::SaveHolded(id))){
-                this->incrementHolded(id);
+                this->incrementHolded(id,50u);
                 return true;
             }
             return false;
@@ -519,15 +519,35 @@ private:
             edk::Window::SaveHolded temp(id);
             return this->getElement(temp).count;
         }
+        edk::uint32 getHoldedInPosition(edk::uint32 position){
+            edk::Window::SaveHolded temp = this->getElementInPosition(position);
+            return temp.id;
+        }
         bool incrementHolded(edk::uint32 id){
             edk::Window::SaveHolded temp(id);
             edk::Window::SaveHolded tempAdd;
-            tempAdd = this->haveElement(temp);
+            tempAdd = this->getElement(temp);
             if(tempAdd.id == id){
                 if(this->remove(tempAdd)){
                     tempAdd.count++;
                     if(this->add(tempAdd)){
                         return true;
+                    }
+                }
+            }
+            return false;
+        }
+        bool incrementHolded(edk::uint32 id,edk::uint32 value){
+            if(value){
+                edk::Window::SaveHolded temp(id);
+                edk::Window::SaveHolded tempAdd;
+                tempAdd = this->getElement(temp);
+                if(tempAdd.id == id){
+                    if(this->remove(tempAdd)){
+                        tempAdd.count=value;
+                        if(this->add(tempAdd)){
+                            return true;
+                        }
                     }
                 }
             }

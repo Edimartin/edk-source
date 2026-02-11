@@ -1270,27 +1270,27 @@ bool edk::Window::loadEvents(){
             //printf("\nKey Pressed %d",event.key.code);
             if(event.key.code>=0&&event.key.code<26){
                 this->events.keyPressed.pushBack(event.key.code+'a') ;//2.0
-                if(!this->saveKeyHolded.haveHolded(event.key.code+'a')){
+                //if(!this->saveKeyHolded.haveHolded(event.key.code+'a')){
                     this->saveKeyHolded.addHolded(event.key.code+'a');
-                }
+                //}
             }
             else if(event.key.code>=26&&event.key.code<36){
                 this->events.keyPressed.pushBack(event.key.code+ '0' - 26) ;//2.0
-                if(!this->saveKeyHolded.haveHolded(event.key.code+ '0' - 26)){
+                //if(!this->saveKeyHolded.haveHolded(event.key.code+ '0' - 26)){
                     this->saveKeyHolded.addHolded(event.key.code+ '0' - 26);
-                }
+                //}
             }
             else if(event.key.code>=75&&event.key.code<85){
                 this->events.keyPressed.pushBack(event.key.code+ '0' - 75) ;//2.0
-                if(!this->saveKeyHolded.haveHolded(event.key.code+ '0' - 75)){
+                //if(!this->saveKeyHolded.haveHolded(event.key.code+ '0' - 75)){
                     this->saveKeyHolded.addHolded(event.key.code+ '0' - 75);
-                }
+                //}
             }
             else{
                 this->events.keyPressed.pushBack(event.key.code+256 - 36) ;//2.0
-                if(!this->saveKeyHolded.haveHolded(event.key.code+256 - 36)){
+                //if(!this->saveKeyHolded.haveHolded(event.key.code+256 - 36)){
                     this->saveKeyHolded.addHolded(event.key.code+256 - 36);
-                }
+                //}
             }
         }
         //FIM PRESSIONOU TECLA
@@ -1592,37 +1592,9 @@ bool edk::Window::loadEvents(){
 
     //test if have focus
     if(this->windowFocus){
-        //load the holded keys
-        for(edk::int32 i=sf::Keyboard::A;i<sf::Keyboard::KeyCount;i=i+1){
-            if(sf::Keyboard::isKeyPressed((sf::Keyboard::Key)i)){
-                if(i>=0&&i<26){
-                    if(!this->saveKeyHolded.haveHolded(i+'a')
-                            ){
-                        this->events.keyHolded.pushBack(i+'a') ;//2.0
-                    }
-                    if(!this->saveKeyHolded.haveHolded(i+'a')){
-                        this->saveKeyHolded.addHolded(i+'a');
-                    }
-                }
-                else if(i>=26&&i<36){
-                    if(!this->saveKeyHolded.haveHolded(i+ '0' - 26)
-                            ){
-                        this->events.keyHolded.pushBack(i+ '0' - 26) ;//2.0
-                    }
-                    if(!this->saveKeyHolded.haveHolded(i+ '0' - 26)){
-                        this->saveKeyHolded.addHolded(i+ '0' - 26);
-                    }
-                }
-                else{
-                    if(!this->saveKeyHolded.haveHolded(i+256 - 36)
-                            ){
-                        this->events.keyHolded.pushBack(i+256 - 36) ;//2.0
-                    }
-                    if(!this->saveKeyHolded.haveHolded(i+256 - 36)){
-                        this->saveKeyHolded.addHolded(i+256 - 36);
-                    }
-                }
-            }
+        edk::uint32 sizeHold = this->saveKeyHolded.getSize();
+        for(edk::uint32 i=0u;i<sizeHold;i++){
+            this->events.keyHolded.pushBack(this->saveKeyHolded.getHoldedInPosition(i));
         }
         //load the holded mouse button
         for(edk::int32 i=sf::Mouse::Left ;i<sf::Mouse::ButtonCount;i=i+1){
