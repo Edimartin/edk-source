@@ -1304,6 +1304,9 @@ bool edk::gui2d::ViewGui2d::readFromXML(edk::XML* xml,edk::uint32 id){
                                         else if(edk::String::strCompareInside(strType,edk::gui2d::ObjectGui2d::getStringTypeGUI(edk::gui2d::gui2dTypeText))){
                                             type = edk::gui2d::gui2dTypeText;
                                         }
+                                        else if(edk::String::strCompareInside(strType,edk::gui2d::ObjectGui2d::getStringTypeGUI(edk::gui2d::gui2dTypeColorPicker))){
+                                            type = edk::gui2d::gui2dTypeColorPicker;
+                                        }
                                         //free(strType);
                                     }
 
@@ -1330,6 +1333,9 @@ bool edk::gui2d::ViewGui2d::readFromXML(edk::XML* xml,edk::uint32 id){
                             break;
                         case gui2dTypeTextField:
                             obj = new edk::gui2d::TextField2d;
+                            break;
+                        case gui2dTypeColorPicker:
+                            obj = new edk::gui2d::ColorPicker2d;
                             break;
                         default:
                             obj = NULL;

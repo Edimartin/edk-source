@@ -62,6 +62,7 @@ enum gui2dTypes{
     gui2dTypeMenu,
     gui2dTypeText,
     gui2dTypeTextField,
+    gui2dTypeColorPicker,
     //
     gui2dTypeSize,
 };
