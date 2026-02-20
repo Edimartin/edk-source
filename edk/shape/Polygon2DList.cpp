@@ -175,6 +175,101 @@ bool edk::shape::Polygon2DList::setPolygonsColorA(edk::float32 a){
     }
     return false;
 }
+//Set color into a polygon
+bool edk::shape::Polygon2DList::setPolygonColor(edk::uint32 position,edk::color4f32 color){
+    //test if have polygons
+    if(position < this->polygons.size()){
+        edk::shape::Polygon2D* polygon=NULL;
+        //set the polygonColors
+        polygon = this->polygons.get(position);
+        if(polygon){
+            polygon->setPolygonColor(color);
+            return true;
+        }
+    }
+    return false;
+}
+bool edk::shape::Polygon2DList::setPolygonColor(edk::uint32 position,edk::color3f32 color){
+    return setPolygonColor(position,color.r,color.g,color.b);
+}
+bool edk::shape::Polygon2DList::setPolygonColor(edk::uint32 position,edk::float32 r,edk::float32 g,edk::float32 b){
+    //test if have polygons
+    if(position < this->polygons.size()){
+        edk::shape::Polygon2D* polygon=NULL;
+        //set the polygonColors
+        polygon = this->polygons.get(position);
+        if(polygon){
+            polygon->setPolygonColor(r,g,b);
+            return true;
+        }
+    }
+    return false;
+}
+bool edk::shape::Polygon2DList::setPolygonColor(edk::uint32 position,edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a){
+    //test if have polygons
+    if(position < this->polygons.size()){
+        edk::shape::Polygon2D* polygon=NULL;
+        //set the polygonColors
+        polygon = this->polygons.get(position);
+        if(polygon){
+            polygon->setPolygonColor(r,g,b,a);
+            return true;
+        }
+    }
+    return false;
+}
+bool edk::shape::Polygon2DList::setPolygonColorR(edk::uint32 position,edk::float32 r){
+    //test if have polygons
+    if(position < this->polygons.size()){
+        edk::shape::Polygon2D* polygon=NULL;
+        //set the polygonColors
+        polygon = this->polygons.get(position);
+        if(polygon){
+            polygon->setPolygonColorR(r);
+            return true;
+        }
+    }
+    return false;
+}
+bool edk::shape::Polygon2DList::setPolygonColorG(edk::uint32 position,edk::float32 g){
+    //test if have polygons
+    if(position < this->polygons.size()){
+        edk::shape::Polygon2D* polygon=NULL;
+        //set the polygonColors
+        polygon = this->polygons.get(position);
+        if(polygon){
+            polygon->setPolygonColorG(g);
+            return true;
+        }
+    }
+    return false;
+}
+bool edk::shape::Polygon2DList::setPolygonColorB(edk::uint32 position,edk::float32 b){
+    //test if have polygons
+    if(position < this->polygons.size()){
+        edk::shape::Polygon2D* polygon=NULL;
+        //set the polygonColors
+        polygon = this->polygons.get(position);
+        if(polygon){
+            polygon->setPolygonColorB(b);
+            return true;
+        }
+    }
+    return false;
+}
+bool edk::shape::Polygon2DList::setPolygonColorA(edk::uint32 position,edk::float32 a){
+    //test if have polygons
+    if(position < this->polygons.size()){
+        edk::shape::Polygon2D* polygon=NULL;
+        //set the polygonColors
+        polygon = this->polygons.get(position);
+        if(polygon){
+            polygon->setPolygonColorA(a);
+            return true;
+        }
+    }
+    return false;
+}
 //set physics
 bool edk::shape::Polygon2DList::setPolygonDensity(edk::uint32 position,edk::float32 density){
     if(this->polygons.havePos(position)){
@@ -242,6 +337,97 @@ edk::float32 edk::shape::Polygon2DList::getPolygonRestitution(edk::uint32 positi
     }
     //return initial value
     return 0.f;
+}
+
+//set a vertex in the polygon
+bool edk::shape::Polygon2DList::setVertexColor(edk::uint32 polygon,edk::uint32 vertex,edk::color4f32 color){
+    //test if have polygons
+    if(polygon < this->polygons.size()){
+        edk::shape::Polygon2D* temp=NULL;
+        //set the polygonColors
+        temp = this->polygons.get(polygon);
+        if(temp){
+            return temp->setVertexColor(vertex,color);
+        }
+    }
+    return false;
+}
+bool edk::shape::Polygon2DList::setVertexColor(edk::uint32 polygon,edk::uint32 vertex,edk::color3f32 color){
+    return setVertexColor(polygon,vertex,color.r,color.g,color.b);
+}
+bool edk::shape::Polygon2DList::setVertexColor(edk::uint32 polygon,edk::uint32 vertex,
+                                               edk::float32 r,edk::float32 g,edk::float32 b){
+    //test if have polygons
+    if(polygon < this->polygons.size()){
+        edk::shape::Polygon2D* temp=NULL;
+        //set the polygonColors
+        temp = this->polygons.get(polygon);
+        if(temp){
+            return temp->setVertexColor(vertex,r,g,b);
+        }
+    }
+    return false;
+}
+bool edk::shape::Polygon2DList::setVertexColor(edk::uint32 polygon,edk::uint32 vertex,
+                                               edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a){
+    //test if have polygons
+    if(polygon < this->polygons.size()){
+        edk::shape::Polygon2D* temp=NULL;
+        //set the polygonColors
+        temp = this->polygons.get(polygon);
+        if(temp){
+            return temp->setVertexColor(vertex,r,g,b,a);
+        }
+    }
+    return false;
+}
+bool edk::shape::Polygon2DList::setVertexColorR(edk::uint32 polygon,edk::uint32 vertex,edk::float32 r){
+    //test if have polygons
+    if(polygon < this->polygons.size()){
+        edk::shape::Polygon2D* temp=NULL;
+        //set the polygonColors
+        temp = this->polygons.get(polygon);
+        if(temp){
+            return temp->setVertexColorR(vertex,r);
+        }
+    }
+    return false;
+}
+bool edk::shape::Polygon2DList::setVertexColorG(edk::uint32 polygon,edk::uint32 vertex,edk::float32 g){
+    //test if have polygons
+    if(polygon < this->polygons.size()){
+        edk::shape::Polygon2D* temp=NULL;
+        //set the polygonColors
+        temp = this->polygons.get(polygon);
+        if(temp){
+            return temp->setVertexColorG(vertex,g);
+        }
+    }
+    return false;
+}
+bool edk::shape::Polygon2DList::setVertexColorB(edk::uint32 polygon,edk::uint32 vertex,edk::float32 b){
+    //test if have polygons
+    if(polygon < this->polygons.size()){
+        edk::shape::Polygon2D* temp=NULL;
+        //set the polygonColors
+        temp = this->polygons.get(polygon);
+        if(temp){
+            return temp->setVertexColorB(vertex,b);
+        }
+    }
+    return false;
+}
+bool edk::shape::Polygon2DList::setVertexColorA(edk::uint32 polygon,edk::uint32 vertex,edk::float32 a){
+    //test if have polygons
+    if(polygon < this->polygons.size()){
+        edk::shape::Polygon2D* temp=NULL;
+        //set the polygonColors
+        temp = this->polygons.get(polygon);
+        if(temp){
+            return temp->setVertexColorA(vertex,a);
+        }
+    }
+    return false;
 }
 
 //function to calculate boundingBox

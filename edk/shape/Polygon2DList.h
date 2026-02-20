@@ -64,6 +64,15 @@ public:
     bool setPolygonsColorG(edk::float32 g);
     bool setPolygonsColorB(edk::float32 b);
     bool setPolygonsColorA(edk::float32 a);
+    //Set color into a polygon
+    bool setPolygonColor(edk::uint32 position,edk::color4f32 color);
+    bool setPolygonColor(edk::uint32 position,edk::color3f32 color);
+    bool setPolygonColor(edk::uint32 position,edk::float32 r,edk::float32 g,edk::float32 b);
+    bool setPolygonColor(edk::uint32 position,edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a);
+    bool setPolygonColorR(edk::uint32 position,edk::float32 r);
+    bool setPolygonColorG(edk::uint32 position,edk::float32 g);
+    bool setPolygonColorB(edk::uint32 position,edk::float32 b);
+    bool setPolygonColorA(edk::uint32 position,edk::float32 a);
     //set physics
     bool setPolygonDensity(edk::uint32 position,edk::float32 density);
     void setDensity(edk::float32 density);
@@ -75,6 +84,16 @@ public:
     edk::float32 getPolygonDensity(edk::uint32 position);
     edk::float32 getPolygonFriction(edk::uint32 position);
     edk::float32 getPolygonRestitution(edk::uint32 position);
+
+    //set a vertex in the polygon
+    bool setVertexColor(edk::uint32 polygon,edk::uint32 vertex,edk::color4f32 color);
+    bool setVertexColor(edk::uint32 polygon,edk::uint32 vertex,edk::color3f32 color);
+    bool setVertexColor(edk::uint32 polygon,edk::uint32 vertex,edk::float32 r,edk::float32 g,edk::float32 b);
+    bool setVertexColor(edk::uint32 polygon,edk::uint32 vertex,edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a);
+    bool setVertexColorR(edk::uint32 polygon,edk::uint32 vertex,edk::float32 r);
+    bool setVertexColorG(edk::uint32 polygon,edk::uint32 vertex,edk::float32 g);
+    bool setVertexColorB(edk::uint32 polygon,edk::uint32 vertex,edk::float32 b);
+    bool setVertexColorA(edk::uint32 polygon,edk::uint32 vertex,edk::float32 a);
 
     //function to calculate boundingBox
     bool calculateBoundingBox(edk::rectf32* rectangle,edk::vector::Matrixf32<3u,3u>* transformMat);

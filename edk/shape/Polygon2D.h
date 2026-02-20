@@ -101,6 +101,10 @@ public:
     bool setVertexColor(edk::uint32 vertex,edk::color4f32 color);
     bool setVertexColor(edk::uint32 vertex,edk::float32 r,edk::float32 g,edk::float32 b);
     bool setVertexColor(edk::uint32 vertex,edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a);
+    bool setVertexColorR(edk::uint32 vertex,edk::float32 r);
+    bool setVertexColorG(edk::uint32 vertex,edk::float32 g);
+    bool setVertexColorB(edk::uint32 vertex,edk::float32 b);
+    bool setVertexColorA(edk::uint32 vertex,edk::float32 a);
     //Set polygon color
     bool setPolygonColor(edk::color4f32 color);
     bool setPolygonColor(edk::color3f32 color);

@@ -123,7 +123,6 @@ void edk::gui2d::ViewGui2d::clean(){
     this->objPressed=NULL;
     this->idCounter = 0u;
     this->mouseStatus = edk::gui2d::gui2dMouseNothing;
-    this->objPressed = NULL;
     this->objSelected = NULL;
     this->idSelected = 0u;
     this->selectTree = &this->tree1;
@@ -649,23 +648,23 @@ void edk::gui2d::ViewGui2d::disableMouse(){
 }
 
 //function used to select an object on the view
-bool edk::gui2d::ViewGui2d::selectObject(edk::gui2d::ObjectGui2d* obj){
+bool edk::gui2d::ViewGui2d::selectObject(edk::gui2d::ObjectGui2d* obj,edk::vec2f32 position){
     //delelect the object
-    this->deselectObject();
+    this->deselectObject(position);
     if(obj){
         obj->select();
-        obj->clickStart(this->idSelected);
+        obj->clickStart(this->idSelected,position);
         //select the object
         this->objSelected = obj;
         this->endSelect = true;
     }
     return false;
 }
-void edk::gui2d::ViewGui2d::deselectObject(){
+void edk::gui2d::ViewGui2d::deselectObject(edk::vec2f32 position){
     if(this->objSelected){
         this->objSelected->deselect();
         if(this->endSelect){
-            this->objSelected->clickEnd(this->idSelected,false,this->doubleClick);
+            this->objSelected->clickEnd(this->idSelected,position,false,this->doubleClick);
         }
         this->endSelect = false;
 
@@ -840,6 +839,7 @@ void edk::gui2d::ViewGui2d::update(edk::WindowEvents* events){
                                               - (this->camera.getSize().height*0.5f)
                                               + this->camera.position.y
                                               );
+    this->mousePositionInside = mousePosition;
     size = events->mousePressed.size();
     for(edk::uint32 i = 0u;i<size;i++){
         switch(events->mousePressed.get(i)){
@@ -1600,11 +1600,11 @@ void edk::gui2d::ViewGui2d::drawScene(edk::rectf32){
                         //remove the selection
                         this->objSelected->deselect();
                         if(this->endSelect){
-                            this->objSelected->clickEnd(this->idSelected,false,this->doubleClick);
+                            this->objSelected->clickEnd(this->idSelected,this->mousePositionInside,false,this->doubleClick);
                         }
                     }
                     obj->select();
-                    obj->clickStart(this->idSelected);
+                    obj->clickStart(this->idSelected,this->mousePositionInside);
                     //select the object
                     this->objSelected = obj;
                     this->endSelect = true;
@@ -1627,20 +1627,20 @@ void edk::gui2d::ViewGui2d::drawScene(edk::rectf32){
                     }
                     //test if have the object selected
                     if(this->objSelected == obj){
-                        obj->clickMove(this->idSelected,true);
+                        obj->clickMove(this->idSelected,this->mousePositionInside,true);
                     }
                     else if(this->objSelected){
-                        obj->clickMove(this->idSelected,false);
+                        obj->clickMove(this->idSelected,this->mousePositionInside,false);
                     }
                     this->endSelect = true;
                 }
                 else if(this->mouseStatus == edk::gui2d::gui2dMouseRelease){
                     //test if have the object selected
                     if(this->objSelected == obj && this->endSelect){
-                        obj->clickEnd(this->idSelected,true,this->doubleClick);
+                        obj->clickEnd(this->idSelected,this->mousePositionInside,true,this->doubleClick);
                     }
                     else if(this->objSelected){
-                        obj->clickEnd(this->idSelected,false,this->doubleClick);
+                        obj->clickEnd(this->idSelected,this->mousePositionInside,false,this->doubleClick);
                     }
                     this->endSelect = false;
                     obj->pressed=false;
@@ -1657,7 +1657,7 @@ void edk::gui2d::ViewGui2d::drawScene(edk::rectf32){
                 //test if the mouse is pressed
                 if(this->mouseStatus == edk::gui2d::gui2dMousePressed){
                     //
-                    this->deselectObject();
+                    this->deselectObject(this->mousePositionInside);
                 }
             }
         }
@@ -1665,11 +1665,11 @@ void edk::gui2d::ViewGui2d::drawScene(edk::rectf32){
             //test if the mouse is pressed
             if(this->mouseStatus == edk::gui2d::gui2dMousePressed){
                 //
-                this->deselectObject();
+                this->deselectObject(this->mousePositionInside);
             }
             else if(this->mouseStatus == edk::gui2d::gui2dMouseHolded){
                 if(this->objSelected){
-                    this->objSelected->clickMove(this->idSelected,false);
+                    this->objSelected->clickMove(this->idSelected,this->mousePositionInside,false);
                 }
             }
         }

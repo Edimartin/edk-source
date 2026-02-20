@@ -221,9 +221,9 @@ public:
     virtual void deselect();
     bool isSelected();
     //click to select an polygon inside the object
-    virtual void clickStart(edk::uint32 name);
-    virtual void clickMove(edk::uint32 name,bool mouseInside);
-    virtual void clickEnd(edk::uint32 name,bool mouseInside,bool doubleClick);
+    virtual void clickStart(edk::uint32 name,edk::vec2f32 position);
+    virtual void clickMove(edk::uint32 name,edk::vec2f32 position,bool mouseInside);
+    virtual void clickEnd(edk::uint32 name,edk::vec2f32 position,bool mouseInside,bool doubleClick);
 
     //set border size
     virtual bool setBorderSize(edk::float32 size);

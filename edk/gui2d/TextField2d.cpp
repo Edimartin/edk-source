@@ -1278,8 +1278,8 @@ void edk::gui2d::TextField2d::deselect(){
 }
 edk::uint32 counterID = 0u;
 //click to select an polygon inside the object
-void edk::gui2d::TextField2d::clickStart(edk::uint32 name){
-    edk::gui2d::ObjectGui2d::clickStart(name);
+void edk::gui2d::TextField2d::clickStart(edk::uint32 name,edk::vec2f32 position){
+    edk::gui2d::ObjectGui2d::clickStart(name,position);
     if(name>= this->text.getMapSizeWidth()){
         this->cursorID = this->endID+1u;
         this->selectionMiddle = this->selectionEnd = this->selectionStart = this->cursorID;
@@ -1302,11 +1302,11 @@ void edk::gui2d::TextField2d::clickStart(edk::uint32 name){
         }
     }
 }
-void edk::gui2d::TextField2d::clickMove(edk::uint32 name,bool mouseInside){
-    edk::gui2d::ObjectGui2d::clickMove(name,mouseInside);
+void edk::gui2d::TextField2d::clickMove(edk::uint32 name,edk::vec2f32 position,bool mouseInside){
+    edk::gui2d::ObjectGui2d::clickMove(name,position,mouseInside);
 }
-void edk::gui2d::TextField2d::clickEnd(edk::uint32 name,bool mouseInside,bool doubleClick){
-    edk::gui2d::ObjectGui2d::clickEnd(name,mouseInside,doubleClick);
+void edk::gui2d::TextField2d::clickEnd(edk::uint32 name,edk::vec2f32 position,bool mouseInside,bool doubleClick){
+    edk::gui2d::ObjectGui2d::clickEnd(name,position,mouseInside,doubleClick);
     //select all text
     if(doubleClick){
         this->selectAll();

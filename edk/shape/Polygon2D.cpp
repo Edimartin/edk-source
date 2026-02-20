@@ -8382,6 +8382,94 @@ bool edk::shape::Polygon2D::setVertexColor(edk::uint32 vertex,edk::float32 r,edk
     //
     return this->setVertexColor(vertex,edk::color4f32(r,g,b,a));
 }
+bool edk::shape::Polygon2D::setVertexColorR(edk::uint32 vertex,edk::float32 r){
+    bool ret=false;
+    //load the polygon
+    edk::shape::Vertex2D* vTemp = this->getVertexPointer(vertex);
+    edk::shape::Vertex2D* voTemp = this->getVertexOriginalPointer(vertex);
+    edk::color4f32  color;
+    if(vTemp && voTemp){
+        //then set the position of the vertex
+        vTemp->color.r = r;
+        voTemp->color.r = r;
+        color = vTemp->color;
+        //return true
+        ret=true;
+    }
+
+    //set the vertex position in vertexBuffer
+    if(ret){
+        this->setVBOVertexColor(vertex,color);
+    }
+
+    return ret;
+}
+bool edk::shape::Polygon2D::setVertexColorG(edk::uint32 vertex,edk::float32 g){
+    bool ret=false;
+    //load the polygon
+    edk::shape::Vertex2D* vTemp = this->getVertexPointer(vertex);
+    edk::shape::Vertex2D* voTemp = this->getVertexOriginalPointer(vertex);
+    edk::color4f32  color;
+    if(vTemp && voTemp){
+        //then set the position of the vertex
+        vTemp->color.r = g;
+        voTemp->color.r = g;
+        color = vTemp->color;
+        //return true
+        ret=true;
+    }
+
+    //set the vertex position in vertexBuffer
+    if(ret){
+        this->setVBOVertexColor(vertex,color);
+    }
+
+    return ret;
+}
+bool edk::shape::Polygon2D::setVertexColorB(edk::uint32 vertex,edk::float32 b){
+    bool ret=false;
+    //load the polygon
+    edk::shape::Vertex2D* vTemp = this->getVertexPointer(vertex);
+    edk::shape::Vertex2D* voTemp = this->getVertexOriginalPointer(vertex);
+    edk::color4f32  color;
+    if(vTemp && voTemp){
+        //then set the position of the vertex
+        vTemp->color.r = b;
+        voTemp->color.r = b;
+        color = vTemp->color;
+        //return true
+        ret=true;
+    }
+
+    //set the vertex position in vertexBuffer
+    if(ret){
+        this->setVBOVertexColor(vertex,color);
+    }
+
+    return ret;
+}
+bool edk::shape::Polygon2D::setVertexColorA(edk::uint32 vertex,edk::float32 a){
+    bool ret=false;
+    //load the polygon
+    edk::shape::Vertex2D* vTemp = this->getVertexPointer(vertex);
+    edk::shape::Vertex2D* voTemp = this->getVertexOriginalPointer(vertex);
+    edk::color4f32  color;
+    if(vTemp && voTemp){
+        //then set the position of the vertex
+        vTemp->color.r = a;
+        voTemp->color.r = a;
+        color = vTemp->color;
+        //return true
+        ret=true;
+    }
+
+    //set the vertex position in vertexBuffer
+    if(ret){
+        this->setVBOVertexColor(vertex,color);
+    }
+
+    return ret;
+}
 //Set polygon color
 bool edk::shape::Polygon2D::setPolygonColor(edk::color4f32 color){
     bool ret = false;

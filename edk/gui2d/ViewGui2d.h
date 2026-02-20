@@ -114,10 +114,10 @@ public:
     void disableMouse();
 
     //function used to select an object on the view
-    bool selectObject(edk::gui2d::ObjectGui2d* obj);
-    void deselectObject();
-    inline void deselect(){
-        this->deselectObject();
+    bool selectObject(edk::gui2d::ObjectGui2d* obj,edk::vec2f32 position);
+    void deselectObject(edk::vec2f32 position);
+    inline void deselect(edk::vec2f32 position){
+        this->deselectObject(position);
     }
 
     //set the table position and size
@@ -225,6 +225,7 @@ private:
     edk::watch::Time distanceClick;
     edk::watch::Time distanceDoubleClick;
     bool doubleClick;
+    edk::vec2f32 mousePositionInside;
 
     //mouse callback
     edk::vector::Stack<edk::gui2d::ObjectGui2dCallback*> listCallback;

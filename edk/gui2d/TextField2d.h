@@ -98,9 +98,9 @@ public:
     void select();
     void deselect();
     //click to select an polygon inside the object
-    void clickStart(edk::uint32 name);
-    void clickMove(edk::uint32 name,bool mouseInside);
-    void clickEnd(edk::uint32 name,bool mouseInside,bool doubleClick);
+    void clickStart(edk::uint32 name,edk::vec2f32 position);
+    void clickMove(edk::uint32 name,edk::vec2f32 position,bool mouseInside);
+    void clickEnd(edk::uint32 name,edk::vec2f32 position,bool mouseInside,bool doubleClick);
 
     //set the case
     void setUpperAndLowerCase();
