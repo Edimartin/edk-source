@@ -1,8 +1,8 @@
-#ifndef COLORPICKER2D_H
-#define COLORPICKER2D_H
+#ifndef COLORSHOW2D_H
+#define COLORSHOW2D_H
 
 /*
-ColorPicker2d - ColorPicker for the GUI 2D library
+ColorShow2d - ColorShow for the GUI 2D library
 Copyright 2013 Eduardo Moura Sales Martins (edimartin@gmail.com)
 
 Permission is hereby granted, free of charge, to any person obtaining
@@ -26,7 +26,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#pragma message "Inside gui2d::ColorPicker2d"
+#pragma message "Inside gui2d::ColorShow2d"
 #endif
 
 #pragma once
@@ -34,41 +34,28 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "ObjectGui2d.h"
 
 #ifdef printMessages
-#pragma message "    Compiling gui2d::ColorPicker2d"
+#pragma message "    Compiling gui2d::ColorShow2d"
 #endif
 
-#define EDK_GUI2D_XML_GUI2D_COLORPICKER "gui2dColorPicker_"
-
-
-#define EDK_GUI2D_HUE_PERCENT_BEGIN_X 0.91f
-#define EDK_GUI2D_HUE_PERCENT_END_X 0.99f
-#define EDK_GUI2D_SATURATION_PERCENT_BEGIN_X 0.0f
-#define EDK_GUI2D_SATURATION_PERCENT_END_X 0.90f
+#define EDK_GUI2D_XML_GUI2D_COLORSHOW "gui2dColorShow_"
 
 namespace edk{
 namespace gui2d{
 
-enum ColorType{
-    colorTypeNothing=0u,
-    colorTypeRGB,
-    colorTypeHLV,
-    colorTypeSize
-};
-
-class ColorPicker2d : public edk::gui2d::ObjectGui2d{
+class ColorShow2d : public edk::gui2d::ObjectGui2d{
 public:
-    ColorPicker2d();
-    virtual ~ColorPicker2d();
+    ColorShow2d();
+    virtual ~ColorShow2d();
 
     void Constructor();
     void Destructor();
 
-    //set the draw type
-    bool setColorType(edk::gui2d::ColorType type);
-
-    //return the color picked
-    edk::color3ui8 getColorRGB8();
-    edk::color3f32 getColorRGB32();
+    bool setColorRGB(edk::color3f32 colorRGB);
+    bool setColorR(edk::float32 r);
+    bool setColorG(edk::float32 g);
+    bool setColorB(edk::float32 b);
+    bool setColorRGBA(edk::color4f32 colorRGBA);
+    bool setColorA(edk::float32 a);
 
     //load the button textures and meshes
     bool load();
@@ -84,33 +71,21 @@ public:
     virtual void draw();
     virtual void drawSelection();
 
-    //click to select an polygon inside the object
-    virtual void clickStart(edk::uint32 name,edk::vec2f32 position);
-    virtual void clickMove(edk::uint32 name,edk::vec2f32 position,bool mouseInside);
-    virtual void clickEnd(edk::uint32 name,edk::vec2f32 position,bool mouseInside,bool doubleClick);
+    ////click to select an polygon inside the object
+    //virtual void clickStart(edk::uint32 name,edk::vec2f32 position);
+    //virtual void clickMove(edk::uint32 name,edk::vec2f32 position,bool mouseInside);
+    //virtual void clickEnd(edk::uint32 name,edk::vec2f32 position,bool mouseInside,bool doubleClick);
 
     //clone the gui object from
     virtual bool cloneFrom(edk::gui2d::ObjectGui2d* obj);
-    virtual bool cloneFrom(edk::gui2d::ColorPicker2d* obj);
+    virtual bool cloneFrom(edk::gui2d::ColorShow2d* obj);
 private:
-    edk::gui2d::ColorType typeColor;
     //object to draw the color
     edk::Object2D objColor;
-    edk::Object2D objColor2;
-
-    bool controllingHue;
-    bool controllingSaturation;
-    edk::float32 valueHue,valueSaturation,valueValue;
-
-    //create the object to draw
-    void createColor();
-
-    void processClick(edk::vec2f32 position,bool start);
-
-    bool updatePolygonColorValue(edk::color3f32 color32);
 private:
     edk::classID classThis;
 };
 }
 }
-#endif // COLORPICKER2D_H
+
+#endif // COLORSHOW2D_H

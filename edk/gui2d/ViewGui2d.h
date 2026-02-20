@@ -39,6 +39,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "Button2D.h"
 #include "ScrollBar2d.h"
 #include "ColorPicker2d.h"
+#include "ColorShow2d.h"
 #include "Text2D.h"
 #include "TextField2d.h"
 #include "../ViewScrollBar.h"

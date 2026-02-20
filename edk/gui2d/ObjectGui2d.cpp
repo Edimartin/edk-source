@@ -35,7 +35,8 @@ edk::char8 gui2dTypeString[edk::gui2d::gui2dTypeSize][128u] = {
     "gui2dTypeMenu",
     "gui2dTypeText",
     "gui2dTypeTextField",
-    "gui2dTypeColorPicker"
+    "gui2dTypeColorPicker",
+    "gui2dTypeColorShow"
 };
 
 edk::char8 gui2dSymbolsString[edk::gui2d::gui2dTextureSize][128u] = {

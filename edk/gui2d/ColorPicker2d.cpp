@@ -480,7 +480,8 @@ void edk::gui2d::ColorPicker2d::createColor(){
 
 void edk::gui2d::ColorPicker2d::processClick(edk::vec2f32 position,bool start){
     if(start){
-        this->controlling=false;
+        this->controllingHue=false;
+        this->controllingSaturation=false;
     }
     edk::rectf32 rect = edk::rectf32(this->objColor.position.x,
                                      this->objColor.position.y,
@@ -499,22 +500,21 @@ void edk::gui2d::ColorPicker2d::processClick(edk::vec2f32 position,bool start){
         case edk::gui2d::colorTypeRGB:
             break;
         case edk::gui2d::colorTypeHLV:
-            if(start || this->controlling){
-                //EDK_GUI2D_HUE_PERCENT_BEGIN_X
-                //EDK_GUI2D_HUE_PERCENT_END_X
-                //test if the mouse is inside the hue value
-                rectTemp = rect;
-                rectTemp.origin.x = ((rect.size.width - rect.origin.x) * EDK_GUI2D_HUE_PERCENT_BEGIN_X)
-                        + rect.origin.x;
-                rectTemp.size.width = ((rect.size.width - rect.origin.x) * EDK_GUI2D_HUE_PERCENT_END_X)
-                        + rect.origin.x;
-                if(position.x >= rectTemp.origin.x
-                        && position.x < rectTemp.size.width
-                        ){
+            //test if the mouse is inside the hue value
+            rectTemp = rect;
+            rectTemp.origin.x = ((rect.size.width - rect.origin.x) * EDK_GUI2D_HUE_PERCENT_BEGIN_X)
+                    + rect.origin.x;
+            rectTemp.size.width = ((rect.size.width - rect.origin.x) * EDK_GUI2D_HUE_PERCENT_END_X)
+                    + rect.origin.x;
+            if(position.x >= rectTemp.origin.x
+                    && position.x < rectTemp.size.width
+                    ){
+                if(start || this->controllingHue){
                     //INSIDE HUE
                     percentX=0.5f;
                     percentY = (position.y - rect.origin.y) / (this->objColor.size.height);
-                    edk::color3ui8 color8 = edk::Image2D::hsvTorgb(percentY*360.f,1.f,1.0);
+                    this->valueHue=percentY*360.f;
+                    edk::color3ui8 color8 = edk::Image2D::hsvTorgb(this->valueHue,1.f,1.0);
                     edk::color3f32 color32;
                     color32.r = (edk::float32)color8.r/255.f;
                     color32.g = (edk::float32)color8.g/255.f;
@@ -525,7 +525,28 @@ void edk::gui2d::ColorPicker2d::processClick(edk::vec2f32 position,bool start){
 
                     if(start){
                         //
-                        this->controlling=true;
+                        this->controllingHue=true;
+                    }
+                }
+            }
+            else{
+                //else test the value/saturation polygon
+                rectTemp.origin.x = ((rect.size.width - rect.origin.x) * EDK_GUI2D_SATURATION_PERCENT_BEGIN_X)
+                        + rect.origin.x;
+                rectTemp.size.width = ((rect.size.width - rect.origin.x) * EDK_GUI2D_SATURATION_PERCENT_END_X)
+                        + rect.origin.x;
+                if(position.x >= rectTemp.origin.x
+                        && position.x < rectTemp.size.width
+                        ){
+                    //INSIDE SATURATION/VALUE
+                    if(start || this->controllingSaturation){
+                        //
+                        this->valueSaturation = (position.x - rectTemp.origin.x) / (rectTemp.size.width-rectTemp.origin.x);
+                        this->valueValue = (position.y - rectTemp.origin.y) / (rectTemp.size.height-rectTemp.origin.y);
+                        if(start){
+                            //
+                            this->controllingSaturation=true;
+                        }
                     }
                 }
             }
@@ -551,7 +572,11 @@ void edk::gui2d::ColorPicker2d::Constructor(){
 
         this->typeGUI = edk::gui2d::gui2dTypeColorPicker;
         this->type=edk::TypeObject2DColorPicker;
-        this->controlling=false;
+        this->controllingHue=false;
+        this->controllingSaturation=false;
+        this->valueHue=360.f;
+        this->valueSaturation=1.f;
+        this->valueValue=1.f;
     }
 }
 void edk::gui2d::ColorPicker2d::Destructor(){
@@ -571,6 +596,7 @@ bool edk::gui2d::ColorPicker2d::setColorType(edk::gui2d::ColorType type){
     case edk::gui2d::colorTypeHLV:
         this->typeColor = type;
         ret=true;
+        break;
     default:
         this->typeColor = edk::gui2d::colorTypeHLV;
         break;
@@ -579,248 +605,37 @@ bool edk::gui2d::ColorPicker2d::setColorType(edk::gui2d::ColorType type){
     return ret;
 }
 
+//return the color picked
+edk::color3ui8 edk::gui2d::ColorPicker2d::getColorRGB8(){
+    return edk::Image2D::hsvTorgb(this->valueHue,this->valueSaturation,this->valueValue);
+}
+edk::color3f32 edk::gui2d::ColorPicker2d::getColorRGB32(){
+    edk::color3ui8 color8 = this->getColorRGB8();
+    return edk::color3f32((edk::float32)color8.r/255.f,
+                          (edk::float32)color8.g/255.f,
+                          (edk::float32)color8.b/255.f
+                          );
+}
+
 //load the button textures and meshes
 bool edk::gui2d::ColorPicker2d::load(){
-    this->controlling=false;
+    this->controllingHue=false;
+    this->controllingSaturation=false;
+    this->valueHue=360.f;
+    this->valueSaturation=1.f;
+    this->valueValue=1.f;
     if(edk::gui2d::ObjectGui2d::load()){
         this->setColorType(edk::gui2d::colorTypeHLV);
-        /*
-        //create the mesh
-        edk::shape::Mesh2D* mesh = this->objColor.newMesh(0u);
-        if(mesh){
-            //edk::shape::Rectangle2D rect;
-            //rect.setPivoToCenter();
-            //rect.setPolygonColor(1.f,0.f,0.f,1.0f);
-            //mesh->addPolygon(rect);
-
-            edk::shape::Quadrangle2D quad1;
-
-            //FRAME1
-            quad1.setVertexPosition(0u,
-                                    ((1.f/6.f)*0.f)-0.5f,
-                                    0.f-0.5f
-                                    );
-            quad1.setVertexColor(0u,1.f,0.f,0.f,
-                                 1.f);
-            quad1.setVertexPosition(1u,
-                                    ((1.f/6.f)*1.f)-0.5f,
-                                    0.f-0.5f
-                                    );
-            quad1.setVertexColor(1u,1.f,1.f,0.f,
-                                 1.f);
-            quad1.setVertexPosition(2u,
-                                    ((1.f/6.f)*1.f)-0.5f,
-                                    1.f-0.5f
-                                    );
-            quad1.setVertexColor(2u,1.f,1.f,0.f,
-                                 1.f);
-            quad1.setVertexPosition(3u,
-                                    ((1.f/6.f)*0.f)-0.5f,
-                                    1.f-0.5f
-                                    );
-            quad1.setVertexColor(3u,1.f,0.f,0.f,
-                                 1.f);
-            mesh->addPolygon(quad1);
-
-            //FRAME2
-            quad1.setVertexPosition(0u,
-                                    ((1.f/6.f)*1.f)-0.5f,
-                                    0.f-0.5f
-                                    );
-            quad1.setVertexColor(0u,1.f,1.f,0.f,
-                                 1.f);
-            quad1.setVertexPosition(1u,
-                                    ((1.f/6.f)*2.f)-0.5f,
-                                    0.f-0.5f
-                                    );
-            quad1.setVertexColor(1u,0.f,1.f,0.f,
-                                 1.f);
-            quad1.setVertexPosition(2u,
-                                    ((1.f/6.f)*2.f)-0.5f,
-                                    1.f-0.5f
-                                    );
-            quad1.setVertexColor(2u,0.f,1.f,0.f,
-                                 1.f);
-            quad1.setVertexPosition(3u,
-                                    ((1.f/6.f)*1.f)-0.5f,
-                                    1.f-0.5f
-                                    );
-            quad1.setVertexColor(3u,1.f,1.f,0.f,
-                                 1.f);
-            mesh->addPolygon(quad1);
-
-            //FRAME3
-            quad1.setVertexPosition(0u,
-                                    ((1.f/6.f)*2.f)-0.5f,
-                                    0.f-0.5f
-                                    );
-            quad1.setVertexColor(0u,0.f,1.f,0.f,
-                                 1.f);
-            quad1.setVertexPosition(1u,
-                                    ((1.f/6.f)*3.f)-0.5f,
-                                    0.f-0.5f
-                                    );
-            quad1.setVertexColor(1u,0.f,1.f,1.f,
-                                 1.f);
-            quad1.setVertexPosition(2u,
-                                    ((1.f/6.f)*3.f)-0.5f,
-                                    1.f-0.5f
-                                    );
-            quad1.setVertexColor(2u,0.f,1.f,1.f,
-                                 1.f);
-            quad1.setVertexPosition(3u,
-                                    ((1.f/6.f)*2.f)-0.5f,
-                                    1.f-0.5f
-                                    );
-            quad1.setVertexColor(3u,0.f,1.f,0.f,
-                                 1.f);
-            mesh->addPolygon(quad1);
-
-            //FRAME4
-            quad1.setVertexPosition(0u,
-                                    ((1.f/6.f)*3.f)-0.5f,
-                                    0.f-0.5f
-                                    );
-            quad1.setVertexColor(0u,0.f,1.f,1.f,
-                                 1.f);
-            quad1.setVertexPosition(1u,
-                                    ((1.f/6.f)*4.f)-0.5f,
-                                    0.f-0.5f
-                                    );
-            quad1.setVertexColor(1u,0.f,0.f,1.f,
-                                 1.f);
-            quad1.setVertexPosition(2u,
-                                    ((1.f/6.f)*4.f)-0.5f,
-                                    1.f-0.5f
-                                    );
-            quad1.setVertexColor(2u,0.f,0.f,1.f,
-                                 1.f);
-            quad1.setVertexPosition(3u,
-                                    ((1.f/6.f)*3.f)-0.5f,
-                                    1.f-0.5f
-                                    );
-            quad1.setVertexColor(3u,0.f,1.f,1.f,
-                                 1.f);
-            mesh->addPolygon(quad1);
-
-            //FRAME5
-            quad1.setVertexPosition(0u,
-                                    ((1.f/6.f)*4.f)-0.5f,
-                                    0.f-0.5f
-                                    );
-            quad1.setVertexColor(0u,0.f,0.f,1.f,
-                                 1.f);
-            quad1.setVertexPosition(1u,
-                                    ((1.f/6.f)*5.f)-0.5f,
-                                    0.f-0.5f
-                                    );
-            quad1.setVertexColor(1u,1.f,0.f,1.f,
-                                 1.f);
-            quad1.setVertexPosition(2u,
-                                    ((1.f/6.f)*5.f)-0.5f,
-                                    1.f-0.5f
-                                    );
-            quad1.setVertexColor(2u,1.f,0.f,1.f,
-                                 1.f);
-            quad1.setVertexPosition(3u,
-                                    ((1.f/6.f)*4.f)-0.5f,
-                                    1.f-0.5f
-                                    );
-            quad1.setVertexColor(3u,0.f,0.f,1.f,
-                                 1.f);
-            mesh->addPolygon(quad1);
-
-            //FRAME6
-            quad1.setVertexPosition(0u,
-                                    ((1.f/6.f)*5.f)-0.5f,
-                                    0.f-0.5f
-                                    );
-            quad1.setVertexColor(0u,1.f,0.f,1.f,
-                                 1.f);
-            quad1.setVertexPosition(1u,
-                                    ((1.f/6.f)*6.f)-0.5f,
-                                    0.f-0.5f
-                                    );
-            quad1.setVertexColor(1u,1.f,0.f,0.f,
-                                 1.f);
-            quad1.setVertexPosition(2u,
-                                    ((1.f/6.f)*6.f)-0.5f,
-                                    1.f-0.5f
-                                    );
-            quad1.setVertexColor(2u,1.f,0.f,0.f,
-                                 1.f);
-            quad1.setVertexPosition(3u,
-                                    ((1.f/6.f)*5.f)-0.5f,
-                                    1.f-0.5f
-                                    );
-            quad1.setVertexColor(3u,1.f,0.f,1.f,
-                                 1.f);
-            mesh->addPolygon(quad1);
-
-
-
-
-
-
-            //LIGHT
-            quad1.setVertexPosition(0u,
-                                    0.f-0.5f,
-                                    0.f-0.5f
-                                    );
-            quad1.setVertexColor(0u,0.f,0.f,0.f,
-                                 1.f);
-            quad1.setVertexPosition(1u,
-                                    1.f-0.5f,
-                                    0.f-0.5f
-                                    );
-            quad1.setVertexColor(1u,0.f,0.f,0.f,
-                                 1.f);
-            quad1.setVertexPosition(2u,
-                                    1.f-0.5f,
-                                    0.5f-0.5f
-                                    );
-            quad1.setVertexColor(2u,0.f,0.f,0.f,
-                                 0.f);
-            quad1.setVertexPosition(3u,
-                                    0.f-0.5f,
-                                    0.5f-0.5f
-                                    );
-            quad1.setVertexColor(3u,0.f,0.f,0.f,
-                                 0.f);
-            mesh->addPolygon(quad1);
-            quad1.setVertexPosition(0u,
-                                    0.f-0.5f,
-                                    0.5f-0.5f
-                                    );
-            quad1.setVertexColor(0u,1.f,1.f,1.f,
-                                 0.f);
-            quad1.setVertexPosition(1u,
-                                    1.f-0.5f,
-                                    0.5f-0.5f
-                                    );
-            quad1.setVertexColor(1u,1.f,1.f,1.f,
-                                 0.f);
-            quad1.setVertexPosition(2u,
-                                    1.f-0.5f,
-                                    1.f-0.5f
-                                    );
-            quad1.setVertexColor(2u,1.f,1.f,1.f,
-                                 1.f);
-            quad1.setVertexPosition(3u,
-                                    0.f-0.5f,
-                                    1.f-0.5f
-                                    );
-            quad1.setVertexColor(3u,1.f,1.f,1.f,
-                                 1.f);
-            mesh->addPolygon(quad1);
-        }
-        */
         return true;
     }
     return false;
 }
 void edk::gui2d::ColorPicker2d::unload(){
-    this->controlling=false;
+    this->controllingHue=false;
+    this->controllingSaturation=false;
+    this->valueHue=360.f;
+    this->valueSaturation=1.f;
+    this->valueValue=1.f;
     this->objColor.clean();
     this->objColor2.clean();
     this->obj.unload();
@@ -938,7 +753,7 @@ void edk::gui2d::ColorPicker2d::clickMove(edk::uint32,edk::vec2f32 position,bool
 }
 void edk::gui2d::ColorPicker2d::clickEnd(edk::uint32,edk::vec2f32 position,bool,bool){
     this->processClick(position,false);
-    this->controlling=false;
+    this->controllingHue=false;
 }
 
 //clone the gui object from
