@@ -97,6 +97,8 @@ public:
     //set the position of a vertex
     bool setVertexPosition(edk::uint32 vertex,edk::vec2f32 position);
     bool setVertexPosition(edk::uint32 vertex,edk::float32 x,edk::float32 y);
+    bool setVertexPositionX(edk::uint32 vertex,edk::float32 x);
+    bool setVertexPositionY(edk::uint32 vertex,edk::float32 y);
     //set the color of a vertex
     bool setVertexColor(edk::uint32 vertex,edk::color4f32 color);
     bool setVertexColor(edk::uint32 vertex,edk::float32 r,edk::float32 g,edk::float32 b);

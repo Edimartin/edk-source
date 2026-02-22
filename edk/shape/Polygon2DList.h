@@ -85,6 +85,12 @@ public:
     edk::float32 getPolygonFriction(edk::uint32 position);
     edk::float32 getPolygonRestitution(edk::uint32 position);
 
+    //set vertex positions in the mesh
+    bool setVertexPosition(edk::uint32 polygon,edk::uint32 vertex,edk::vec2f32 position);
+    bool setVertexPosition(edk::uint32 polygon,edk::uint32 vertex,edk::float32 x,edk::float32 y);
+    bool setVertexPositionX(edk::uint32 polygon,edk::uint32 vertex,edk::float32 x);
+    bool setVertexPositionY(edk::uint32 polygon,edk::uint32 vertex,edk::float32 y);
+
     //set a vertex in the polygon
     bool setVertexColor(edk::uint32 polygon,edk::uint32 vertex,edk::color4f32 color);
     bool setVertexColor(edk::uint32 polygon,edk::uint32 vertex,edk::color3f32 color);

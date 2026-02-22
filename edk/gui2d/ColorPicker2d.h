@@ -44,6 +44,15 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #define EDK_GUI2D_HUE_PERCENT_END_X 0.99f
 #define EDK_GUI2D_SATURATION_PERCENT_BEGIN_X 0.0f
 #define EDK_GUI2D_SATURATION_PERCENT_END_X 0.90f
+#define EDK_GUI2D_SATURATION_PERCENT_BEGIN_Y 0.11f
+#define EDK_GUI2D_SHOW_PERCENT_END_Y 0.1f
+
+#define EDK_GUI2D_SHOW_R_BEGIN_Y 0.71f
+#define EDK_GUI2D_SHOW_R_END_Y   1.0f
+#define EDK_GUI2D_SHOW_G_BEGIN_Y 0.41f
+#define EDK_GUI2D_SHOW_G_END_Y   0.7f
+#define EDK_GUI2D_SHOW_B_BEGIN_Y 0.11f
+#define EDK_GUI2D_SHOW_B_END_Y   0.4f
 
 namespace edk{
 namespace gui2d{
@@ -51,7 +60,7 @@ namespace gui2d{
 enum ColorType{
     colorTypeNothing=0u,
     colorTypeRGB,
-    colorTypeHLV,
+    colorTypeHSV,
     colorTypeSize
 };
 
@@ -69,6 +78,11 @@ public:
     //return the color picked
     edk::color3ui8 getColorRGB8();
     edk::color3f32 getColorRGB32();
+
+    bool setColorRGB32(edk::color3f32 color);
+    bool setColorRGB32(edk::float32 r,edk::float32 g,edk::float32 b);
+    bool setColorHSV32(edk::color3f32 color);
+    bool setColorHSV32(edk::float32 h,edk::float32 s,edk::float32 v);
 
     //load the button textures and meshes
     bool load();
@@ -95,12 +109,23 @@ public:
 private:
     edk::gui2d::ColorType typeColor;
     //object to draw the color
-    edk::Object2D objColor;
+    edk::Object2D objColor1;
     edk::Object2D objColor2;
+    edk::Object2D objColor3;
+    edk::Object2D objColorFinal;
+
+    //objects controllers
+    edk::Object2D objController1;
+    edk::Object2D objController2;
+    edk::Object2D objController3;
 
     bool controllingHue;
     bool controllingSaturation;
-    edk::float32 valueHue,valueSaturation,valueValue;
+    bool controllingR;
+    bool controllingG;
+    bool controllingB;
+    edk::float32 channelHue,channelSaturation,channelValue;
+    edk::float32 channelR,channelG,channelB;
 
     //create the object to draw
     void createColor();
@@ -108,6 +133,10 @@ private:
     void processClick(edk::vec2f32 position,bool start);
 
     bool updatePolygonColorValue(edk::color3f32 color32);
+
+    bool updatePolygonColorRGB(edk::color3f32 color32);
+
+    bool updateShowColor(edk::color3f32 color32);
 private:
     edk::classID classThis;
 };

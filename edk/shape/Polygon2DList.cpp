@@ -339,6 +339,44 @@ edk::float32 edk::shape::Polygon2DList::getPolygonRestitution(edk::uint32 positi
     return 0.f;
 }
 
+//set vertex positions in the mesh
+bool edk::shape::Polygon2DList::setVertexPosition(edk::uint32 polygon,edk::uint32 vertex,edk::vec2f32 position){
+    //test if have polygons
+    if(polygon < this->polygons.size()){
+        edk::shape::Polygon2D* temp=NULL;
+        temp = this->polygons.get(polygon);
+        if(temp){
+            return temp->setVertexPosition(vertex,position);
+        }
+    }
+    return false;
+}
+bool edk::shape::Polygon2DList::setVertexPosition(edk::uint32 polygon,edk::uint32 vertex,edk::float32 x,edk::float32 y){
+    return this->setVertexPosition(polygon,vertex,edk::vec2f32(x,y));
+}
+bool edk::shape::Polygon2DList::setVertexPositionX(edk::uint32 polygon,edk::uint32 vertex,edk::float32 x){
+    //test if have polygons
+    if(polygon < this->polygons.size()){
+        edk::shape::Polygon2D* temp=NULL;
+        temp = this->polygons.get(polygon);
+        if(temp){
+            return temp->setVertexPositionX(vertex,x);
+        }
+    }
+    return false;
+}
+bool edk::shape::Polygon2DList::setVertexPositionY(edk::uint32 polygon,edk::uint32 vertex,edk::float32 y){
+    //test if have polygons
+    if(polygon < this->polygons.size()){
+        edk::shape::Polygon2D* temp=NULL;
+        temp = this->polygons.get(polygon);
+        if(temp){
+            return temp->setVertexPositionY(vertex,y);
+        }
+    }
+    return false;
+}
+
 //set a vertex in the polygon
 bool edk::shape::Polygon2DList::setVertexColor(edk::uint32 polygon,edk::uint32 vertex,edk::color4f32 color){
     //test if have polygons
