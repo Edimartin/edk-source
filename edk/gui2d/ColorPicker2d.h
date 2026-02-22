@@ -38,6 +38,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endif
 
 #define EDK_GUI2D_XML_GUI2D_COLORPICKER "gui2dColorPicker_"
+#define EDK_GUI2D_XML_GUI2D_COLORPICKER_TYPE "gui2dColorPickerType_"
 
 
 #define EDK_GUI2D_HUE_PERCENT_BEGIN_X 0.91f
@@ -71,6 +72,11 @@ public:
 
     void Constructor();
     void Destructor();
+
+    //get GUI type
+    edk::gui2d::ColorType getColorType();
+    edk::char8* getStringColorType();
+    static edk::char8* getStringColorType(edk::gui2d::ColorType type);
 
     //set the draw type
     bool setColorType(edk::gui2d::ColorType type);
@@ -113,6 +119,8 @@ private:
     edk::Object2D objColor2;
     edk::Object2D objColor3;
     edk::Object2D objColorFinal;
+
+    bool loaded;
 
     //objects controllers
     edk::Object2D objController1;

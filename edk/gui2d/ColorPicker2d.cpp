@@ -28,6 +28,12 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #pragma message "            Inside ColorPicker2d.cpp"
 #endif
 
+edk::char8 gui2dColorPickerString[edk::gui2d::colorTypeSize][128u] = {
+    "colorTypeNothing",
+    "colorTypeRGB",
+    "colorTypeHSV"
+};
+
 edk::gui2d::ColorPicker2d::ColorPicker2d(){
     this->classThis=NULL;
     this->Constructor();
@@ -851,6 +857,7 @@ void edk::gui2d::ColorPicker2d::Constructor(){
     if(this->classThis!=this){
         this->classThis=this;
 
+        this->loaded=false;
         this->typeGUI = edk::gui2d::gui2dTypeColorPicker;
         this->type=edk::TypeObject2DColorPicker;
         this->controllingHue=false;
@@ -872,6 +879,20 @@ void edk::gui2d::ColorPicker2d::Destructor(){
     }
 }
 
+//get GUI type
+edk::gui2d::ColorType edk::gui2d::ColorPicker2d::getColorType(){
+    return this->typeColor;
+}
+edk::char8* edk::gui2d::ColorPicker2d::getStringColorType(){
+    return (edk::char8*)gui2dColorPickerString[this->getColorType()];
+}
+edk::char8* edk::gui2d::ColorPicker2d::getStringColorType(edk::gui2d::ColorType type){
+    if(type<edk::gui2d::gui2dTypeSize){
+        return (edk::char8*)gui2dColorPickerString[type];
+    }
+    return (edk::char8*)gui2dColorPickerString[gui2dTypeObject];
+}
+
 //set the draw type
 bool edk::gui2d::ColorPicker2d::setColorType(edk::gui2d::ColorType type){
     bool ret=false;
@@ -888,7 +909,9 @@ bool edk::gui2d::ColorPicker2d::setColorType(edk::gui2d::ColorType type){
         this->typeColor = edk::gui2d::colorTypeHSV;
         break;
     }
-    this->createColor();
+    if(this->loaded){
+        this->createColor();
+    }
     return ret;
 }
 
@@ -1057,14 +1080,24 @@ bool edk::gui2d::ColorPicker2d::load(){
     this->channelG = 0.f;
     this->channelB = 0.f;
     if(edk::gui2d::ObjectGui2d::load()){
-        this->setColorType(edk::gui2d::colorTypeHSV);
+        this->loaded=true;
+        //this->setColorType(edk::gui2d::colorTypeHSV);
         //this->setColorType(edk::gui2d::colorTypeRGB);
+        if(this->typeColor == colorTypeRGB
+                || this->typeColor == colorTypeHSV
+                ){
+            this->createColor();
+        }
+        else{
+            this->setColorType(edk::gui2d::colorTypeHSV);
+        }
         this->setColorRGB32(0.f,0.f,0.f);
         return true;
     }
     return false;
 }
 void edk::gui2d::ColorPicker2d::unload(){
+    this->loaded=false;
     this->controllingHue=false;
     this->controllingSaturation=false;
     this->controllingR=false;
@@ -1122,6 +1155,23 @@ bool edk::gui2d::ColorPicker2d::writeToXML(edk::XML* xml,edk::uint32 id){
                     if(xml->addSelectedNextChild(name)){
                         if(xml->selectChild(name)){
                             //WRITE
+                            edk::char8* tempID = NULL;
+                            edk::char8* strTemp = NULL;
+
+                            tempID = edk::String::int64ToStr(id);
+                            if(tempID){
+                                //concat
+                                strTemp = edk::String::strCat((edk::char8*)EDK_GUI2D_XML_GUI2D_COLORPICKER_TYPE,tempID);
+                                if(strTemp){
+                                    if(xml->addSelectedNextChild(strTemp)){
+                                        if(xml->selectChild(strTemp)){
+                                            xml->setSelectedString(this->getStringColorType());
+                                            xml->selectFather();
+                                        }
+                                    }
+                                    free(strTemp);
+                                }
+                            }
 
                             ret=true;
                             xml->selectFather();
@@ -1150,6 +1200,34 @@ bool edk::gui2d::ColorPicker2d::readFromXML(edk::XML* xml,edk::uint32 id){
                     if(xml->selectChild(name)){
                         //READ
 
+                        edk::char8* tempID = NULL;
+                        edk::char8* strTemp = NULL;
+
+                        tempID = edk::String::int64ToStr(id);
+                        if(tempID){
+                            //concat
+                            strTemp = edk::String::strCat((edk::char8*)EDK_GUI2D_XML_GUI2D_COLORPICKER_TYPE,tempID);
+                            if(strTemp){
+                                if(xml->selectChild(strTemp)){
+                                    if(edk::String::strCompare(xml->getSelectedString(),
+                                                               edk::gui2d::ColorPicker2d::getStringColorType(edk::gui2d::colorTypeHSV)
+                                                               )
+                                            ){
+                                        this->setColorType(edk::gui2d::colorTypeHSV);
+                                    }
+                                    else if(edk::String::strCompare(xml->getSelectedString(),
+                                                                    edk::gui2d::ColorPicker2d::getStringColorType(edk::gui2d::colorTypeRGB)
+                                                                    )
+                                            ){
+                                        this->setColorType(edk::gui2d::colorTypeRGB);
+                                    }
+                                    xml->selectFather();
+                                }
+                                free(strTemp);
+                            }
+                            free(tempID);
+                        }
+
                         ret=true;
                         xml->selectFather();
                     }
@@ -1175,6 +1253,34 @@ bool edk::gui2d::ColorPicker2d::readFromXMLFromPack(edk::pack::FilePackage* pack
                     //create the name
                     if(xml->selectChild(name)){
                         //READ
+
+                        edk::char8* tempID = NULL;
+                        edk::char8* strTemp = NULL;
+
+                        tempID = edk::String::int64ToStr(id);
+                        if(tempID){
+                            //concat
+                            strTemp = edk::String::strCat((edk::char8*)EDK_GUI2D_XML_GUI2D_COLORPICKER_TYPE,tempID);
+                            if(strTemp){
+                                if(xml->selectChild(strTemp)){
+                                    if(edk::String::strCompare(xml->getSelectedString(),
+                                                               edk::gui2d::ColorPicker2d::getStringColorType(edk::gui2d::colorTypeHSV)
+                                                               )
+                                            ){
+                                        this->setColorType(edk::gui2d::colorTypeHSV);
+                                    }
+                                    else if(edk::String::strCompare(xml->getSelectedString(),
+                                                                    edk::gui2d::ColorPicker2d::getStringColorType(edk::gui2d::colorTypeRGB)
+                                                                    )
+                                            ){
+                                        this->setColorType(edk::gui2d::colorTypeRGB);
+                                    }
+                                    xml->selectFather();
+                                }
+                                free(strTemp);
+                            }
+                            free(tempID);
+                        }
 
                         ret=true;
                         xml->selectFather();
