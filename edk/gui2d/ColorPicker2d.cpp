@@ -954,6 +954,9 @@ edk::color3f32 edk::gui2d::ColorPicker2d::getColorRGB32(){
     }
     return edk::color3f32(0.f,0.f,0.f);
 }
+edk::color3f32 edk::gui2d::ColorPicker2d::getColorHSV32(){
+    return edk::color3f32(this->channelHue,this->channelSaturation,this->channelValue);
+}
 
 bool edk::gui2d::ColorPicker2d::setColorRGB32(edk::color3f32 color){
     bool ret=true;
@@ -1331,6 +1334,17 @@ bool edk::gui2d::ColorPicker2d::cloneFrom(edk::gui2d::ObjectGui2d* obj){
     if(edk::gui2d::ObjectGui2d::cloneFrom(obj)){
         if(obj->getTypeGUI() == edk::gui2d::gui2dTypeColorPicker){
             edk::gui2d::ColorPicker2d* colorPick = (edk::gui2d::ColorPicker2d*)obj;
+            switch (colorPick->getColorType()){
+            case edk::gui2d::colorTypeRGB:
+                this->setColorRGB32(colorPick->getColorRGB32());
+                break;
+            case edk::gui2d::colorTypeHSV:
+                this->setColorHSV32(colorPick->getColorHSV32());
+                break;
+            default:
+                break;
+            }
+            this->setColorType(colorPick->getColorType());
         }
         return true;
     }

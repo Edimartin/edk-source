@@ -456,6 +456,7 @@ bool edk::gui2d::ObjectGui2d::loadSymbol(edk::char8* name,edk::uint32 minFilter,
     if(this->sprite.material.loadTexture(name,edk::gui2d::gui2dTextureNormal,minFilter,magFilter)){
         //get the texture size
         this->spriteSize[edk::gui2d::gui2dTextureNormal] = this->sprite.material.getTextureSize(edk::gui2d::gui2dTextureNormal);
+        this->forceUpdate();
         return true;
     }
     return false;
@@ -467,6 +468,7 @@ bool edk::gui2d::ObjectGui2d::loadSymbolFromMemory(edk::char8* name,edk::uint8* 
     if(this->sprite.material.loadTextureFromMemory(name,sprite,size,edk::gui2d::gui2dTextureNormal,minFilter,magFilter)){
         //get the texture size
         this->spriteSize[edk::gui2d::gui2dTextureNormal] = this->sprite.material.getTextureSize(edk::gui2d::gui2dTextureNormal);
+        this->forceUpdate();
         return true;
     }
     return false;
@@ -478,6 +480,7 @@ bool edk::gui2d::ObjectGui2d::loadSymbolFromPack(edk::pack::FilePackage* pack,ed
     if(this->sprite.material.loadTextureFromPack(pack,name,edk::gui2d::gui2dTextureNormal,minFilter,magFilter)){
         //get the texture size
         this->spriteSize[edk::gui2d::gui2dTextureNormal] = this->sprite.material.getTextureSize(edk::gui2d::gui2dTextureNormal);
+        this->forceUpdate();
         return true;
     }
     return false;
@@ -485,6 +488,7 @@ bool edk::gui2d::ObjectGui2d::loadSymbolFromPack(edk::pack::FilePackage* pack,ed
 void edk::gui2d::ObjectGui2d::removeSymbol(){
     this->sprite.material.removeTexture(edk::gui2d::gui2dTextureNormal);
     this->spriteSize[edk::gui2d::gui2dTextureNormal].width = this->spriteSize[edk::gui2d::gui2dTextureNormal].height = 0.f;
+    this->forceUpdate();
 }
 //Load button symbol pressed
 bool edk::gui2d::ObjectGui2d::loadSymbolPressed(const edk::char8* name,edk::uint32 minFilter,edk::uint32 magFilter){
@@ -494,6 +498,7 @@ bool edk::gui2d::ObjectGui2d::loadSymbolPressed(edk::char8* name,edk::uint32 min
     if(this->sprite.material.loadTexture(name,edk::gui2d::gui2dTexturePressed,minFilter,magFilter)){
         //get the texture size
         this->spriteSize[edk::gui2d::gui2dTexturePressed] = this->sprite.material.getTextureSize(edk::gui2d::gui2dTexturePressed);
+        this->forceUpdate();
         return true;
     }
     return false;
@@ -505,6 +510,7 @@ bool edk::gui2d::ObjectGui2d::loadSymbolPressedFromMemory(edk::char8* name,edk::
     if(this->sprite.material.loadTextureFromMemory(name,sprite,size,edk::gui2d::gui2dTexturePressed,minFilter,magFilter)){
         //get the texture size
         this->spriteSize[edk::gui2d::gui2dTexturePressed] = this->sprite.material.getTextureSize(edk::gui2d::gui2dTexturePressed);
+        this->forceUpdate();
         return true;
     }
     return false;
@@ -516,6 +522,7 @@ bool edk::gui2d::ObjectGui2d::loadSymbolPressedFromPack(edk::pack::FilePackage* 
     if(this->sprite.material.loadTextureFromPack(pack,name,edk::gui2d::gui2dTexturePressed,minFilter,magFilter)){
         //get the texture size
         this->spriteSize[edk::gui2d::gui2dTexturePressed] = this->sprite.material.getTextureSize(edk::gui2d::gui2dTexturePressed);
+        this->forceUpdate();
         return true;
     }
     return false;
@@ -523,6 +530,7 @@ bool edk::gui2d::ObjectGui2d::loadSymbolPressedFromPack(edk::pack::FilePackage* 
 void edk::gui2d::ObjectGui2d::removeSymbolPressed(){
     this->sprite.material.removeTexture(edk::gui2d::gui2dTexturePressed);
     this->spriteSize[edk::gui2d::gui2dTexturePressed].width = this->spriteSize[edk::gui2d::gui2dTexturePressed].height = 0.f;
+    this->forceUpdate();
 }
 //Load button symbol up
 bool edk::gui2d::ObjectGui2d::loadSymbolUp(const edk::char8* name,edk::uint32 minFilter,edk::uint32 magFilter){
@@ -532,6 +540,7 @@ bool edk::gui2d::ObjectGui2d::loadSymbolUp(edk::char8* name,edk::uint32 minFilte
     if(this->sprite.material.loadTexture(name,edk::gui2d::gui2dTextureUp,minFilter,magFilter)){
         //get the texture size
         this->spriteSize[edk::gui2d::gui2dTextureUp] = this->sprite.material.getTextureSize(edk::gui2d::gui2dTextureUp);
+        this->forceUpdate();
         return true;
     }
     return false;
@@ -543,6 +552,7 @@ bool edk::gui2d::ObjectGui2d::loadSymbolUpFromMemory(edk::char8* name,edk::uint8
     if(this->sprite.material.loadTextureFromMemory(name,sprite,size,edk::gui2d::gui2dTextureUp,minFilter,magFilter)){
         //get the texture size
         this->spriteSize[edk::gui2d::gui2dTextureUp] = this->sprite.material.getTextureSize(edk::gui2d::gui2dTextureUp);
+        this->forceUpdate();
         return true;
     }
     return false;
@@ -554,6 +564,7 @@ bool edk::gui2d::ObjectGui2d::loadSymbolUpFromPack(edk::pack::FilePackage* pack,
     if(this->sprite.material.loadTextureFromPack(pack,name,edk::gui2d::gui2dTextureUp,minFilter,magFilter)){
         //get the texture size
         this->spriteSize[edk::gui2d::gui2dTextureUp] = this->sprite.material.getTextureSize(edk::gui2d::gui2dTextureUp);
+        this->forceUpdate();
         return true;
     }
     return false;
@@ -561,6 +572,7 @@ bool edk::gui2d::ObjectGui2d::loadSymbolUpFromPack(edk::pack::FilePackage* pack,
 void edk::gui2d::ObjectGui2d::removeSymbolUp(){
     this->sprite.material.removeTexture(edk::gui2d::gui2dTextureUp);
     this->spriteSize[edk::gui2d::gui2dTextureUp].width = this->spriteSize[edk::gui2d::gui2dTextureUp].height = 0.f;
+    this->forceUpdate();
 }
 //Load button symbol pressedUp
 bool edk::gui2d::ObjectGui2d::loadSymbolPressedUp(const edk::char8* name,edk::uint32 minFilter,edk::uint32 magFilter){
@@ -570,6 +582,7 @@ bool edk::gui2d::ObjectGui2d::loadSymbolPressedUp(edk::char8* name,edk::uint32 m
     if(this->sprite.material.loadTexture(name,edk::gui2d::gui2dTexturePressedUp,minFilter,magFilter)){
         //get the texture size
         this->spriteSize[edk::gui2d::gui2dTexturePressedUp] = this->sprite.material.getTextureSize(edk::gui2d::gui2dTexturePressedUp);
+        this->forceUpdate();
         return true;
     }
     return false;
@@ -581,6 +594,7 @@ bool edk::gui2d::ObjectGui2d::loadSymbolPressedUpFromMemory(edk::char8* name,edk
     if(this->sprite.material.loadTextureFromMemory(name,sprite,size,edk::gui2d::gui2dTexturePressedUp,minFilter,magFilter)){
         //get the texture size
         this->spriteSize[edk::gui2d::gui2dTexturePressedUp] = this->sprite.material.getTextureSize(edk::gui2d::gui2dTexturePressedUp);
+        this->forceUpdate();
         return true;
     }
     return false;
@@ -592,6 +606,7 @@ bool edk::gui2d::ObjectGui2d::loadSymbolPressedUpFromPack(edk::pack::FilePackage
     if(this->sprite.material.loadTextureFromPack(pack,name,edk::gui2d::gui2dTexturePressedUp,minFilter,magFilter)){
         //get the texture size
         this->spriteSize[edk::gui2d::gui2dTexturePressedUp] = this->sprite.material.getTextureSize(edk::gui2d::gui2dTexturePressedUp);
+        this->forceUpdate();
         return true;
     }
     return false;
@@ -599,9 +614,11 @@ bool edk::gui2d::ObjectGui2d::loadSymbolPressedUpFromPack(edk::pack::FilePackage
 void edk::gui2d::ObjectGui2d::removeSymbolPressedUp(){
     this->sprite.material.removeTexture(edk::gui2d::gui2dTexturePressedUp);
     this->spriteSize[edk::gui2d::gui2dTexturePressedUp].width = this->spriteSize[edk::gui2d::gui2dTexturePressedUp].height = 0.f;
+    this->forceUpdate();
 }
 //Load button symbolAllStatus
 bool edk::gui2d::ObjectGui2d::loadSymbolAllStatus(const edk::char8* name,edk::uint32 minFilter,edk::uint32 magFilter){
+    this->forceUpdate();
     return this->loadSymbolAllStatus((edk::char8*) name,minFilter,magFilter);
 }
 bool edk::gui2d::ObjectGui2d::loadSymbolAllStatus(edk::char8* name,edk::uint32 minFilter,edk::uint32 magFilter){
@@ -618,6 +635,7 @@ bool edk::gui2d::ObjectGui2d::loadSymbolAllStatus(edk::char8* name,edk::uint32 m
     if(!this->loadSymbolPressedUp(name,minFilter,magFilter)){
         ret = false;
     }
+    this->forceUpdate();
     return ret;
 }
 bool edk::gui2d::ObjectGui2d::loadSymbolAllStatusFromMemory(const edk::char8* name,edk::uint8* sprite,edk::uint32 size,edk::uint32 minFilter,edk::uint32 magFilter){
@@ -637,6 +655,7 @@ bool edk::gui2d::ObjectGui2d::loadSymbolAllStatusFromMemory(edk::char8* name,edk
     if(!this->loadSymbolPressedUpFromMemory(name,sprite,size,minFilter,magFilter)){
         ret = false;
     }
+    this->forceUpdate();
     return ret;
 }
 bool edk::gui2d::ObjectGui2d::loadSymbolAllStatusFromPack(edk::pack::FilePackage* pack,const edk::char8* name,edk::uint32 minFilter,edk::uint32 magFilter){
@@ -656,6 +675,7 @@ bool edk::gui2d::ObjectGui2d::loadSymbolAllStatusFromPack(edk::pack::FilePackage
     if(!this->loadSymbolPressedUpFromPack(pack,name,minFilter,magFilter)){
         ret = false;
     }
+    this->forceUpdate();
     return ret;
 }
 //Load button symbolAllUPStatus
@@ -670,6 +690,7 @@ bool edk::gui2d::ObjectGui2d::loadSymbolAllUPStatus(edk::char8* name,edk::uint32
     if(!this->loadSymbolPressedUp(name,minFilter,magFilter)){
         ret = false;
     }
+    this->forceUpdate();
     return ret;
 }
 bool edk::gui2d::ObjectGui2d::loadSymbolAllUPStatusFromMemory(const edk::char8* name,edk::uint8* sprite,edk::uint32 size,edk::uint32 minFilter,edk::uint32 magFilter){
@@ -683,6 +704,7 @@ bool edk::gui2d::ObjectGui2d::loadSymbolAllUPStatusFromMemory(edk::char8* name,e
     if(!this->loadSymbolPressedUpFromMemory(name,sprite,size,minFilter,magFilter)){
         ret = false;
     }
+    this->forceUpdate();
     return ret;
 }
 bool edk::gui2d::ObjectGui2d::loadSymbolAllUPStatusFromPack(edk::pack::FilePackage* pack,const edk::char8* name,edk::uint32 minFilter,edk::uint32 magFilter){
@@ -696,6 +718,7 @@ bool edk::gui2d::ObjectGui2d::loadSymbolAllUPStatusFromPack(edk::pack::FilePacka
     if(!this->loadSymbolPressedUpFromPack(pack,name,minFilter,magFilter)){
         ret = false;
     }
+    this->forceUpdate();
     return ret;
 }
 //Load button symbolAllNormalAndPressedStatus
@@ -710,6 +733,7 @@ bool edk::gui2d::ObjectGui2d::loadSymbolAllNormalAndPressedStatus(edk::char8* na
     if(!this->loadSymbolPressed(name,minFilter,magFilter)){
         ret = false;
     }
+    this->forceUpdate();
     return ret;
 }
 bool edk::gui2d::ObjectGui2d::loadSymbolAllNormalAndPressedStatusFromMemory(const edk::char8* name,edk::uint8* sprite,edk::uint32 size,edk::uint32 minFilter,edk::uint32 magFilter){
@@ -723,6 +747,7 @@ bool edk::gui2d::ObjectGui2d::loadSymbolAllNormalAndPressedStatusFromMemory(edk:
     if(!this->loadSymbolPressedFromMemory(name,sprite,size,minFilter,magFilter)){
         ret = false;
     }
+    this->forceUpdate();
     return ret;
 }
 bool edk::gui2d::ObjectGui2d::loadSymbolAllNormalAndPressedStatusFromPack(edk::pack::FilePackage* pack,const edk::char8* name,edk::uint32 minFilter,edk::uint32 magFilter){
@@ -736,6 +761,7 @@ bool edk::gui2d::ObjectGui2d::loadSymbolAllNormalAndPressedStatusFromPack(edk::p
     if(!this->loadSymbolPressedFromPack(pack,name,minFilter,magFilter)){
         ret = false;
     }
+    this->forceUpdate();
     return ret;
 }
 
@@ -1224,21 +1250,29 @@ bool edk::gui2d::ObjectGui2d::writeToXML(edk::XML* xml,edk::uint32 id){
                         this->obj.writeToXML(xml,id);
 
                         //gui2dTextureNormal;
+                        if(this->sprite.material.getTextureName(edk::gui2d::gui2dTextureNormal)){
                         xml->addSelectedNextAttribute(gui2dSymbolsString[edk::gui2d::gui2dTextureNormal],
                                 this->sprite.material.getTextureName(edk::gui2d::gui2dTextureNormal)
                                 );
+                        }
                         //gui2dTextureUp;
+                        if(this->sprite.material.getTextureName(edk::gui2d::gui2dTextureUp)){
                         xml->addSelectedNextAttribute(gui2dSymbolsString[edk::gui2d::gui2dTextureUp],
                                 this->sprite.material.getTextureName(edk::gui2d::gui2dTextureUp)
                                 );
+                        }
                         //gui2dTexturePressed;
-                        xml->addSelectedNextAttribute(gui2dSymbolsString[edk::gui2d::gui2dTexturePressed],
-                                this->sprite.material.getTextureName(edk::gui2d::gui2dTexturePressed)
-                                );
+                        if(this->sprite.material.getTextureName(edk::gui2d::gui2dTexturePressed)){
+                            xml->addSelectedNextAttribute(gui2dSymbolsString[edk::gui2d::gui2dTexturePressed],
+                                    this->sprite.material.getTextureName(edk::gui2d::gui2dTexturePressed)
+                                    );
+                        }
                         //gui2dTexturePressedUp;
-                        xml->addSelectedNextAttribute(gui2dSymbolsString[edk::gui2d::gui2dTexturePressedUp],
-                                this->sprite.material.getTextureName(edk::gui2d::gui2dTexturePressedUp)
-                                );
+                        if(this->sprite.material.getTextureName(edk::gui2d::gui2dTexturePressedUp)){
+                            xml->addSelectedNextAttribute(gui2dSymbolsString[edk::gui2d::gui2dTexturePressedUp],
+                                    this->sprite.material.getTextureName(edk::gui2d::gui2dTexturePressedUp)
+                                    );
+                        }
 
                         xml->addSelectedNextAttribute(EDK_GUI2D_XML_GUI2D_STRING,this->textString.getName());
 

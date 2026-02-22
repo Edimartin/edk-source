@@ -84,6 +84,7 @@ public:
     //return the color picked
     edk::color3ui8 getColorRGB8();
     edk::color3f32 getColorRGB32();
+    edk::color3f32 getColorHSV32();
 
     bool setColorRGB32(edk::color3f32 color);
     bool setColorRGB32(edk::float32 r,edk::float32 g,edk::float32 b);

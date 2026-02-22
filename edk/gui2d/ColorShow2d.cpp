@@ -39,6 +39,7 @@ void edk::gui2d::ColorShow2d::Constructor(){
 
         this->typeGUI = edk::gui2d::gui2dTypeColorShow;
         this->type=edk::TypeObject2DColorShow;
+        this->colorRGBA = edk::color4f32(0.f,0.f,0.f,1.f);
     }
 }
 void edk::gui2d::ColorShow2d::Destructor(){
@@ -53,6 +54,7 @@ bool edk::gui2d::ColorShow2d::setColorRGB(edk::color3f32 colorRGB){
 bool edk::gui2d::ColorShow2d::setColorR(edk::float32 r){
     edk::shape::Mesh2D* mesh = this->objColor.getMesh(0u);
     if(mesh){
+        this->colorRGBA.r=r;
         return mesh->setPolygonColorR(0u,r);
     }
     return false;
@@ -60,6 +62,7 @@ bool edk::gui2d::ColorShow2d::setColorR(edk::float32 r){
 bool edk::gui2d::ColorShow2d::setColorG(edk::float32 g){
     edk::shape::Mesh2D* mesh = this->objColor.getMesh(0u);
     if(mesh){
+        this->colorRGBA.g=g;
         return mesh->setPolygonColorG(0u,g);
     }
     return false;
@@ -67,6 +70,7 @@ bool edk::gui2d::ColorShow2d::setColorG(edk::float32 g){
 bool edk::gui2d::ColorShow2d::setColorB(edk::float32 b){
     edk::shape::Mesh2D* mesh = this->objColor.getMesh(0u);
     if(mesh){
+        this->colorRGBA.b=b;
         return mesh->setPolygonColorB(0u,b);
     }
     return false;
@@ -74,6 +78,7 @@ bool edk::gui2d::ColorShow2d::setColorB(edk::float32 b){
 bool edk::gui2d::ColorShow2d::setColorRGBA(edk::color4f32 colorRGBA){
     edk::shape::Mesh2D* mesh = this->objColor.getMesh(0u);
     if(mesh){
+        this->colorRGBA=colorRGBA;
         return mesh->setPolygonColor(0u,colorRGBA);
     }
     return false;
@@ -81,9 +86,16 @@ bool edk::gui2d::ColorShow2d::setColorRGBA(edk::color4f32 colorRGBA){
 bool edk::gui2d::ColorShow2d::setColorA(edk::float32 a){
     edk::shape::Mesh2D* mesh = this->objColor.getMesh(0u);
     if(mesh){
+        this->colorRGBA.a=a;
         return mesh->setPolygonColorA(0u,a);
     }
     return false;
+}
+edk::color3f32 edk::gui2d::ColorShow2d::getColorRGB(){
+    return edk::color3f32(this->colorRGBA.r,this->colorRGBA.g,this->colorRGBA.b);
+}
+edk::color4f32 edk::gui2d::ColorShow2d::getColorRGBA(){
+    return this->colorRGBA;
 }
 
 //load the button textures and meshes
@@ -93,7 +105,7 @@ bool edk::gui2d::ColorShow2d::load(){
         if(mesh){
             edk::shape::Rectangle2D rect;
             rect.setPivoToCenter();
-            rect.setPolygonColor(0.f,0.f,0.f,1.f);
+            rect.setPolygonColor(this->colorRGBA);
             mesh->addPolygon(rect);
         }
         return true;
@@ -218,6 +230,7 @@ bool edk::gui2d::ColorShow2d::cloneFrom(edk::gui2d::ObjectGui2d* obj){
     if(edk::gui2d::ObjectGui2d::cloneFrom(obj)){
         if(obj->getTypeGUI() == edk::gui2d::gui2dTypeColorShow){
             edk::gui2d::ColorShow2d* colorShow = (edk::gui2d::ColorShow2d*)obj;
+            this->setColorRGBA(colorShow->getColorRGBA());
         }
         return true;
     }

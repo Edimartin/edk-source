@@ -56,6 +56,8 @@ public:
     bool setColorB(edk::float32 b);
     bool setColorRGBA(edk::color4f32 colorRGBA);
     bool setColorA(edk::float32 a);
+    edk::color3f32 getColorRGB();
+    edk::color4f32 getColorRGBA();
 
     //load the button textures and meshes
     bool load();
@@ -82,6 +84,7 @@ public:
 private:
     //object to draw the color
     edk::Object2D objColor;
+    edk::color4f32 colorRGBA;
 private:
     edk::classID classThis;
 };
