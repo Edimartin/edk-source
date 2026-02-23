@@ -68,6 +68,10 @@ public:
     edk::size2ui32 getImageSize();
     edk::uint32 getImageWidth();
     edk::uint32 getImageHeight();
+    //return the size of the image in square format in pixels
+    edk::size2ui32 getImageSquareSize();
+    edk::uint32 getImageSquareWidth();
+    edk::uint32 getImageSquareHeight();
 
     //save the table into a .cube file
     bool saveTo(edk::char8* fileName);
@@ -78,9 +82,15 @@ public:
     //save to an image file
     bool saveToImage(edk::char8* fileName);
     bool saveToImage(const edk::char8* fileName);
-    //load from an imageFile
+    //load from an image file
     bool loadFromImage(edk::uint16 size,edk::char8* fileName);
     bool loadFromImage(edk::uint16 size,const edk::char8* fileName);
+    //save to an imageSquare file
+    bool saveToImageSquare(edk::char8* fileName);
+    bool saveToImageSquare(const edk::char8* fileName);
+    //load from an imageSquare file
+    bool loadFromImageSquare(edk::uint16 size,edk::char8* fileName);
+    bool loadFromImageSquare(edk::uint16 size,const edk::char8* fileName);
 private:
     edk::color3ui8*** cube;
     edk::uint16 size;

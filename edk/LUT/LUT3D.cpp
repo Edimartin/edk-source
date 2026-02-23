@@ -242,6 +242,19 @@ edk::uint32 edk::LUT3D::getImageWidth(){
 edk::uint32 edk::LUT3D::getImageHeight(){
     return this->imageSize.height;
 }
+//return the size of the image in square format in pixels
+edk::size2ui32 edk::LUT3D::getImageSquareSize(){
+    edk::uint32 square = (edk::uint32)edk::Math::squareRoot(this->size);
+    return edk::size2ui32(square * this->size,
+                          (this->size/square+((this->size%square)?1u:0u)) * this->size
+                          );
+}
+edk::uint32 edk::LUT3D::getImageSquareWidth(){
+    return getImageSquareSize().width;
+}
+edk::uint32 edk::LUT3D::getImageSquareHeight(){
+    return getImageSquareSize().height;
+}
 
 //save the table into a .cube file
 bool edk::LUT3D::saveTo(edk::char8* fileName){
@@ -494,7 +507,7 @@ bool edk::LUT3D::saveToImage(edk::char8* fileName){
     if(this->cube && this->size){
         //test the fileName
         if(fileName){
-            //create the image
+            //create the image lines
             edk::Image2D image;
             edk::uint8* vec = NULL;
             if(image.newImage(fileName,this->getImageSize(),3u,1u)){
@@ -526,7 +539,7 @@ bool edk::LUT3D::saveToImage(edk::char8* fileName){
 bool edk::LUT3D::saveToImage(const edk::char8* fileName){
     return this->saveToImage((edk::char8*) fileName);
 }
-//load from an imageFile
+//load from an image file
 bool edk::LUT3D::loadFromImage(edk::uint16 size,edk::char8* fileName){
     //create the new table
     if(this->newTable(size)){
@@ -574,5 +587,130 @@ bool edk::LUT3D::loadFromImage(edk::uint16 size,edk::char8* fileName){
 }
 bool edk::LUT3D::loadFromImage(edk::uint16 size,const edk::char8* fileName){
     return this->loadFromImage(size,(edk::char8*) fileName);
+}
+//save to an imageSquare file
+bool edk::LUT3D::saveToImageSquare(edk::char8* fileName){
+    if(this->cube && this->size){
+        //test the fileName
+        if(fileName){
+            //create the image squares
+            edk::Image2D image;
+            edk::uint8* vec = NULL;
+            edk::uint8* vecTEMP = NULL;
+            edk::uint8 channels = 3u;
+            edk::uint32 jump=0u;
+            edk::size2ui32 sizeImage = this->getImageSquareSize();
+            if(image.newImage(fileName,sizeImage,3u,1u)){
+                if((vec = image.getPixels())){
+                    sizeImage.width/=this->size;
+                    sizeImage.height/=this->size;
+                    jump = (sizeImage.width-1u)*this->size;
+                    edk::uint32 z=0u;
+                    for(edk::uint32 h = 0u;h<sizeImage.height;h++){
+                        for(edk::uint32 w = 0u;w<sizeImage.width;w++){
+                            vecTEMP = &vec[(w*this->size*channels)
+                                    +(h
+                                      *(sizeImage.width*this->size)
+                                      *(this->size)
+                                      *channels)
+                                    ];
+                            for(edk::uint16 y = 0u;y<this->size;y++){
+                                for(edk::uint16 x = 0u;x<this->size;x++){
+                                    //get the value percent
+                                    vecTEMP[0u] = this->cube[x][y][z].r;
+                                    vecTEMP[1u] = this->cube[x][y][z].g;
+                                    vecTEMP[2u] = this->cube[x][y][z].b;
+                                    vecTEMP+=channels;
+                                }
+                                vecTEMP+=jump*channels;
+                            }
+                            z++;
+                            if(z>=this->size){
+                                break;
+                            }
+                        }
+                    }
+                    //save the image
+                    if(image.saveToFile(fileName)){
+                        image.deleteImage();
+                        return true;
+                    }
+                }
+                image.deleteImage();
+            }
+        }
+    }
+    return false;
+}
+bool edk::LUT3D::saveToImageSquare(const edk::char8* fileName){
+    return this->saveToImageSquare((edk::char8*) fileName);
+}
+//load from an imageSquare file
+bool edk::LUT3D::loadFromImageSquare(edk::uint16 size,edk::char8* fileName){
+    //create the new table
+    if(this->newTable(size)){
+        if(this->cube && this->size){
+            //test the fileName
+            if(fileName){
+                //create the image squares
+                edk::Image2D image;
+                edk::uint8* vec = NULL;
+                edk::uint8* vecTEMP = NULL;
+                edk::uint8 channels = 3u;
+                edk::uint32 jump=0u;
+                edk::size2ui32 sizeImage = this->getImageSquareSize();
+                if(image.loadFromFile(fileName)){
+                    if((vec = image.getPixels())){
+                        //get the channels
+                        channels = image.getChannels();
+                        if(channels==3u || channels==4u){
+                            if(sizeImage.width == image.getWidth()
+                                    &&
+                                    sizeImage.height == image.getHeight()
+                                    ){
+                                sizeImage.width/=this->size;
+                                sizeImage.height/=this->size;
+                                jump = (sizeImage.width-1u)*this->size;
+                                edk::uint32 z=0u;
+                                for(edk::uint32 h = 0u;h<sizeImage.height;h++){
+                                    for(edk::uint32 w = 0u;w<sizeImage.width;w++){
+                                        vecTEMP = &vec[(w*this->size*channels)
+                                                +(h
+                                                  *(sizeImage.width*this->size)
+                                                  *(this->size)
+                                                  *channels)
+                                                ];
+                                        for(edk::uint16 y = 0u;y<this->size;y++){
+                                            for(edk::uint16 x = 0u;x<this->size;x++){
+                                                //get the value percent
+                                                this->cube[x][y][z].r = vecTEMP[0u];
+                                                this->cube[x][y][z].g = vecTEMP[1u];
+                                                this->cube[x][y][z].b = vecTEMP[2u];
+                                                vecTEMP+=channels;
+                                            }
+                                            vecTEMP+=jump*channels;
+                                        }
+                                        z++;
+                                        if(z>=this->size){
+                                            break;
+                                        }
+                                    }
+                                }
+                                image.deleteImage();
+                                return true;
+                            }
+                        }
+                    }
+                    image.deleteImage();
+                }
+            }
+        }
+        //else delete the table
+        this->deleteTable();
+    }
+    return false;
+}
+bool edk::LUT3D::loadFromImageSquare(edk::uint16 size,const edk::char8* fileName){
+    return this->loadFromImageSquare(size,(edk::char8*) fileName);
 }
 
