@@ -691,7 +691,7 @@ bool edk::ConsoleTerminal::keyPressed(){
                 //read the buffer
                 do{
                     edk::char8* temp = edk::ConsoleTerminal::buffer;
-                    edk::uint32 lenght=0u;
+                    edk::uint32 length=0u;
                     if(!temp){
                         edk::ConsoleTerminal::bufferLenth=10u;
                         edk::ConsoleTerminal::bufferSize=0u;
@@ -699,13 +699,13 @@ bool edk::ConsoleTerminal::keyPressed(){
                     }
                     if(temp){
                         if(edk::ConsoleTerminal::bufferSize>=edk::ConsoleTerminal::bufferLenth){
-                            lenght = edk::ConsoleTerminal::bufferLenth;
+                            length = edk::ConsoleTerminal::bufferLenth;
                             edk::ConsoleTerminal::bufferLenth+=10u;
                             //copy the memory
                             edk::ConsoleTerminal::buffer=(edk::char8*)malloc(sizeof(edk::char8) * edk::ConsoleTerminal::bufferLenth);
                             if(edk::ConsoleTerminal::buffer){
                                 //copy the buffer
-                                memcpy(edk::ConsoleTerminal::buffer,temp,sizeof(edk::char8)*lenght);
+                                memcpy(edk::ConsoleTerminal::buffer,temp,sizeof(edk::char8)*length);
                                 free(temp);
                                 temp = edk::ConsoleTerminal::buffer;
                             }
@@ -731,7 +731,7 @@ bool edk::ConsoleTerminal::keyPressed(){
                 //read the keys
                 do{
                     edk::char8* temp = edk::ConsoleTerminal::key;
-                    edk::uint32 lenght=0u;
+                    edk::uint32 length=0u;
                     if(!temp){
                         edk::ConsoleTerminal::keyLenth=10u;
                         edk::ConsoleTerminal::keySize=0u;
@@ -741,13 +741,13 @@ bool edk::ConsoleTerminal::keyPressed(){
                     }
                     if(temp){
                         if(edk::ConsoleTerminal::keySize>=edk::ConsoleTerminal::keyLenth){
-                            lenght = edk::ConsoleTerminal::keyLenth;
+                            length = edk::ConsoleTerminal::keyLenth;
                             edk::ConsoleTerminal::keyLenth+=10u;
                             //copy the memory
                             edk::ConsoleTerminal::key=(edk::char8*)malloc(sizeof(edk::char8) * edk::ConsoleTerminal::keyLenth);
                             if(edk::ConsoleTerminal::key){
                                 //copy the key
-                                memcpy(edk::ConsoleTerminal::key,temp,sizeof(edk::char8)*lenght);
+                                memcpy(edk::ConsoleTerminal::key,temp,sizeof(edk::char8)*length);
                                 free(temp);
                                 temp = edk::ConsoleTerminal::key;
                             }

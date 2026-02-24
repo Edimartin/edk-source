@@ -147,7 +147,7 @@ void edk::Camera3D::start(){
 //update the camera vectors
 void edk::Camera3D::updateVectors(){
     //multiply the vectors
-    //for some reazon it must be a giant lenght to work
+    //for some reazon it must be a giant length to work
     this->vecLeft=  edk::Math::normalise(this->multiplyPointWithMatrix(edk::vec3f32(-10000.f, 0.f, 0.f)));
     this->vecRight= edk::Math::normalise(this->multiplyPointWithMatrix(edk::vec3f32( 10000.f, 0.f, 0.f)));
     this->vecUp=    edk::Math::normalise(this->multiplyPointWithMatrix(edk::vec3f32( 0.f, 10000.f, 0.f)));

@@ -83,9 +83,9 @@ public:
     Pointer();
     ~Pointer();
     template <class typeTemplate>
-    static bool newVec(typeTemplate** pointer,edk::uint64 lenght){
-        if(pointer && lenght){
-            typeTemplate* temp = (typeTemplate*)malloc(sizeof(typeTemplate)*lenght);
+    static bool newVec(typeTemplate** pointer,edk::uint64 length){
+        if(pointer && length){
+            typeTemplate* temp = (typeTemplate*)malloc(sizeof(typeTemplate)*length);
             if(temp){
                 edk::PointerObject* tempObj = new edk::PointerObject(temp);
                 if(tempObj){

@@ -437,13 +437,13 @@ bool edk::gui2d::TextField2d::TextVec::write(edk::char8* str){
     this->clean();
     //test the string
     if(str){
-        //get the strng lenght
-        edk::uint32 lenght = edk::String::strSize(str);
+        //get the strng length
+        edk::uint32 length = edk::String::strSize(str);
         edk::char32 c;
         edk::uint8 increment=0u;
-        if(lenght){
+        if(length){
             //populate the vector
-            for(edk::uint32 i=0u;i<lenght;){
+            for(edk::uint32 i=0u;i<length;){
                 if(str[i]==13
                         ||
                         str[i]==10
@@ -457,7 +457,7 @@ bool edk::gui2d::TextField2d::TextVec::write(edk::char8* str){
                 if(increment){
                     i+=increment;
 
-                    //test if the lenght exceede the limit
+                    //test if the length exceede the limit
                     if(this->vec.size()>=this->limit && this->limit){
                         return true;
                     }
@@ -497,14 +497,14 @@ bool edk::gui2d::TextField2d::TextVec::write(edk::char8* str){
 edk::uint32 edk::gui2d::TextField2d::TextVec::add(edk::char8* str,edk::uint32 position){
     //test the string
     if(str){
-        //get the strng lenght
-        edk::uint32 lenght = edk::String::strSize(str);
+        //get the strng length
+        edk::uint32 length = edk::String::strSize(str);
         edk::char32 c;
         edk::uint32 ret = 0u;
         edk::uint8 increment=0u;
-        if(lenght){
+        if(length){
             //populate the vector
-            for(edk::uint32 i=0u;i<lenght;){
+            for(edk::uint32 i=0u;i<length;){
                 if(str[i]==13
                         ||
                         str[i]==10
@@ -558,7 +558,7 @@ edk::uint32 edk::gui2d::TextField2d::TextVec::add(edk::char16 c,edk::uint32 posi
 }
 edk::uint32 edk::gui2d::TextField2d::TextVec::add(edk::char32 c,edk::uint32 position){
     edk::uint32 size = this->vec.size();
-    //test if the lenght exceede the limit
+    //test if the length exceede the limit
     if(size>=this->limit && this->limit){
         return 0u;
     }
@@ -712,14 +712,14 @@ edk::uint32 edk::gui2d::TextField2d::TextVec::getSize(){
 bool edk::gui2d::TextField2d::TextVec::addFilterIn(edk::char8* str){
     //test the string
     if(str){
-        //get the strng lenght
-        edk::uint32 lenght = edk::String::strSize(str);
+        //get the strng length
+        edk::uint32 length = edk::String::strSize(str);
         edk::char32 c;
         edk::uint32 increment;
         bool ret = false;
-        if(lenght){
+        if(length){
             //populate the vector
-            for(edk::uint32 i=0u;i<lenght;){
+            for(edk::uint32 i=0u;i<length;){
                 if(str[i]==13
                         ||
                         str[i]==10
@@ -778,14 +778,14 @@ void edk::gui2d::TextField2d::TextVec::cleanFilterIn(){
 bool edk::gui2d::TextField2d::TextVec::addFilterOut(edk::char8* str){
     //test the string
     if(str){
-        //get the strng lenght
-        edk::uint32 lenght = edk::String::strSize(str);
+        //get the strng length
+        edk::uint32 length = edk::String::strSize(str);
         edk::char32 c;
         edk::uint32 increment;
         bool ret = false;
-        if(lenght){
+        if(length){
             //populate the vector
-            for(edk::uint32 i=0u;i<lenght;){
+            for(edk::uint32 i=0u;i<length;){
                 if(str[i]==13
                         ||
                         str[i]==10
@@ -1480,9 +1480,9 @@ bool edk::gui2d::TextField2d::addCharacter(edk::char8 c){
     return false;
 }
 bool edk::gui2d::TextField2d::addString(edk::char8* str){
-    edk::uint32 lenght=0u;
-    if((lenght = this->textVec.add(str,this->cursorID))){
-        this->cursorID+=lenght;
+    edk::uint32 length=0u;
+    if((length = this->textVec.add(str,this->cursorID))){
+        this->cursorID+=length;
         this->forceUpdate();
         this->cursor.animationSize.stop();
         this->cursor.animationSize.playForward();

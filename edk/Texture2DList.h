@@ -75,6 +75,14 @@ public:
     edk::uint32 createAndDrawTexture(const char8* name,edk::size2ui32 size,edk::uint8* image,edk::uint32 mode = GU_RGB,edk::uint32 minFilter = GU_LINEAR,edk::uint32 magFilter = GU_NEAREST,edk::uint8 bytesPerChannel = 1u);
     edk::uint32 createAndDrawTextureWithPBODraw(edk::char8* name,edk::size2ui32 size,edk::uint8* image,edk::uint32 mode,edk::uint32 minFilter,edk::uint32 magFilter,edk::uint8 bytesPerChannel = 1u);
     edk::uint32 createAndDrawTextureWithPBODraw(const char8* name,edk::size2ui32 size,edk::uint8* image,edk::uint32 mode,edk::uint32 minFilter,edk::uint32 magFilter,edk::uint8 bytesPerChannel = 1u);
+    edk::uint32 createTexture(edk::char8* name,edk::size3ui32 size,edk::uint32 mode = GU_RGB,edk::uint32 minFilter = GU_LINEAR,edk::uint32 magFilter = GU_NEAREST,edk::uint8 bytesPerChannel = 1u);
+    edk::uint32 createTexture(const char8* name,edk::size3ui32 size,edk::uint32 mode = GU_RGB,edk::uint32 minFilter = GU_LINEAR,edk::uint32 magFilter = GU_NEAREST,edk::uint8 bytesPerChannel = 1u);
+    edk::uint32 createTextureWithPBODraw(edk::char8* name,edk::size3ui32 size,edk::uint32 mode,edk::uint32 minFilter,edk::uint32 magFilter,edk::uint8 bytesPerChannel = 1u);
+    edk::uint32 createTextureWithPBODraw(const char8* name,edk::size3ui32 size,edk::uint32 mode,edk::uint32 minFilter,edk::uint32 magFilter,edk::uint8 bytesPerChannel = 1u);
+    edk::uint32 createAndDrawTexture(edk::char8* name,edk::size3ui32 size,edk::uint8* image,edk::uint32 mode = GU_RGB,edk::uint32 minFilter = GU_LINEAR,edk::uint32 magFilter = GU_NEAREST,edk::uint8 bytesPerChannel = 1u);
+    edk::uint32 createAndDrawTexture(const char8* name,edk::size3ui32 size,edk::uint8* image,edk::uint32 mode = GU_RGB,edk::uint32 minFilter = GU_LINEAR,edk::uint32 magFilter = GU_NEAREST,edk::uint8 bytesPerChannel = 1u);
+    edk::uint32 createAndDrawTextureWithPBODraw(edk::char8* name,edk::size3ui32 size,edk::uint8* image,edk::uint32 mode,edk::uint32 minFilter,edk::uint32 magFilter,edk::uint8 bytesPerChannel = 1u);
+    edk::uint32 createAndDrawTextureWithPBODraw(const char8* name,edk::size3ui32 size,edk::uint8* image,edk::uint32 mode,edk::uint32 minFilter,edk::uint32 magFilter,edk::uint8 bytesPerChannel = 1u);
     //create a new textureRepeat
     edk::uint32 createTextureRepeat(edk::char8* name,edk::size2ui32 size,edk::uint32 mode = GU_RGB,edk::uint32 minFilter = GU_LINEAR,edk::uint32 magFilter = GU_NEAREST,edk::uint8 bytesPerChannel = 1u);
     edk::uint32 createTextureRepeat(const char8* name,edk::size2ui32 size,edk::uint32 mode = GU_RGB,edk::uint32 minFilter = GU_LINEAR,edk::uint32 magFilter = GU_NEAREST,edk::uint8 bytesPerChannel = 1u);
@@ -84,6 +92,14 @@ public:
     edk::uint32 createAndDrawTextureRepeat(const char8* name,edk::size2ui32 size,edk::uint8* image,edk::uint32 mode = GU_RGB,edk::uint32 minFilter = GU_LINEAR,edk::uint32 magFilter = GU_NEAREST,edk::uint8 bytesPerChannel = 1u);
     edk::uint32 createAndDrawTextureWithPBODrawRepeat(edk::char8* name,edk::size2ui32 size,edk::uint8* image,edk::uint32 mode,edk::uint32 minFilter,edk::uint32 magFilter,edk::uint8 bytesPerChannel = 1u);
     edk::uint32 createAndDrawTextureWithPBODrawRepeat(const char8* name,edk::size2ui32 size,edk::uint8* image,edk::uint32 mode,edk::uint32 minFilter,edk::uint32 magFilter,edk::uint8 bytesPerChannel = 1u);
+    edk::uint32 createTextureRepeat(edk::char8* name,edk::size3ui32 size,edk::uint32 mode = GU_RGB,edk::uint32 minFilter = GU_LINEAR,edk::uint32 magFilter = GU_NEAREST,edk::uint8 bytesPerChannel = 1u);
+    edk::uint32 createTextureRepeat(const char8* name,edk::size3ui32 size,edk::uint32 mode = GU_RGB,edk::uint32 minFilter = GU_LINEAR,edk::uint32 magFilter = GU_NEAREST,edk::uint8 bytesPerChannel = 1u);
+    edk::uint32 createTextureWithPBODrawRepeat(edk::char8* name,edk::size3ui32 size,edk::uint32 mode,edk::uint32 minFilter,edk::uint32 magFilter,edk::uint8 bytesPerChannel = 1u);
+    edk::uint32 createTextureWithPBODrawRepeat(const char8* name,edk::size3ui32 size,edk::uint32 mode,edk::uint32 minFilter,edk::uint32 magFilter,edk::uint8 bytesPerChannel = 1u);
+    edk::uint32 createAndDrawTextureRepeat(edk::char8* name,edk::size3ui32 size,edk::uint8* image,edk::uint32 mode = GU_RGB,edk::uint32 minFilter = GU_LINEAR,edk::uint32 magFilter = GU_NEAREST,edk::uint8 bytesPerChannel = 1u);
+    edk::uint32 createAndDrawTextureRepeat(const char8* name,edk::size3ui32 size,edk::uint8* image,edk::uint32 mode = GU_RGB,edk::uint32 minFilter = GU_LINEAR,edk::uint32 magFilter = GU_NEAREST,edk::uint8 bytesPerChannel = 1u);
+    edk::uint32 createAndDrawTextureWithPBODrawRepeat(edk::char8* name,edk::size3ui32 size,edk::uint8* image,edk::uint32 mode,edk::uint32 minFilter,edk::uint32 magFilter,edk::uint8 bytesPerChannel = 1u);
+    edk::uint32 createAndDrawTextureWithPBODrawRepeat(const char8* name,edk::size3ui32 size,edk::uint8* image,edk::uint32 mode,edk::uint32 minFilter,edk::uint32 magFilter,edk::uint8 bytesPerChannel = 1u);
     //draw on a texture
     bool drawTexture(edk::char8* name,edk::uint8* image,edk::uint32 minFilter = GU_LINEAR,edk::uint32 magFilter = GU_NEAREST);
     bool drawTexture(const char8* name,edk::uint8* image,edk::uint32 minFilter = GU_LINEAR,edk::uint32 magFilter = GU_NEAREST);
@@ -131,9 +147,13 @@ public:
     //set Texture from memory
     edk::uint32 setTextureFromMemory(edk::char8* name,edk::uint8* image,edk::uint32 width,edk::uint32 height,edk::uint32 channels,edk::uint32 minFilter = GU_LINEAR,edk::uint32 magFilter = GU_NEAREST);
     edk::uint32 setTextureFromMemory(const edk::char8* name,edk::uint8* image,edk::uint32 width,edk::uint32 height,edk::uint32 channels,edk::uint32 minFilter = GU_LINEAR,edk::uint32 magFilter = GU_NEAREST);
+    edk::uint32 setTexture3DFromMemory(edk::char8* name,edk::uint8* image,edk::uint32 width,edk::uint32 height,edk::uint32 length,edk::uint32 channels,edk::uint32 minFilter = GU_LINEAR,edk::uint32 magFilter = GU_NEAREST);
+    edk::uint32 setTexture3DFromMemory(const edk::char8* name,edk::uint8* image,edk::uint32 width,edk::uint32 height,edk::uint32 length,edk::uint32 channels,edk::uint32 minFilter = GU_LINEAR,edk::uint32 magFilter = GU_NEAREST);
     //set TextureRepeat from memory
     edk::uint32 setTextureRepeatFromMemory(edk::char8* name,edk::uint8* image,edk::uint32 width,edk::uint32 height,edk::uint32 channels,edk::uint32 minFilter = GU_LINEAR,edk::uint32 magFilter = GU_NEAREST);
     edk::uint32 setTextureRepeatFromMemory(const edk::char8* name,edk::uint8* image,edk::uint32 width,edk::uint32 height,edk::uint32 channels,edk::uint32 minFilter = GU_LINEAR,edk::uint32 magFilter = GU_NEAREST);
+    edk::uint32 setTexture3DRepeatFromMemory(edk::char8* name,edk::uint8* image,edk::uint32 width,edk::uint32 height,edk::uint32 length,edk::uint32 channels,edk::uint32 minFilter = GU_LINEAR,edk::uint32 magFilter = GU_NEAREST);
+    edk::uint32 setTexture3DRepeatFromMemory(const edk::char8* name,edk::uint8* image,edk::uint32 width,edk::uint32 height,edk::uint32 length,edk::uint32 channels,edk::uint32 minFilter = GU_LINEAR,edk::uint32 magFilter = GU_NEAREST);
     //load the texture from a file package
     edk::uint32 loadTextureFromPack(edk::pack::FilePackage* pack,edk::char8* name,edk::uint32 minFilter = GU_LINEAR,edk::uint32 magFilter = GU_NEAREST);
     edk::uint32 loadTextureFromPack(edk::pack::FilePackage* pack,const edk::char8* name,edk::uint32 minFilter = GU_LINEAR,edk::uint32 magFilter = GU_NEAREST);
@@ -160,15 +180,18 @@ public:
     //GU_NEAREST_MIPMAP_LINEAR
     //GU_LINEAR_MIPMAP_NEAREST
     //GU_LINEAR_MIPMAP_LINEAR
-    edk::size2ui32 getTextureSize(edk::char8* name,edk::uint32 minFilter = GU_LINEAR,edk::uint32 magFilter = GU_NEAREST);
-    edk::size2ui32 getTextureSize(const edk::char8* name,edk::uint32 minFilter = GU_LINEAR,edk::uint32 magFilter = GU_NEAREST);
-    edk::size2ui32 getTextureSize(edk::uint32 code);
+    edk::size3ui32 getTextureSize(edk::char8* name,edk::uint32 minFilter = GU_LINEAR,edk::uint32 magFilter = GU_NEAREST);
+    edk::size3ui32 getTextureSize(const edk::char8* name,edk::uint32 minFilter = GU_LINEAR,edk::uint32 magFilter = GU_NEAREST);
+    edk::size3ui32 getTextureSize(edk::uint32 code);
     edk::uint32 getTextureWidth(edk::char8* name,edk::uint32 minFilter = GU_LINEAR,edk::uint32 magFilter = GU_NEAREST);
     edk::uint32 getTextureWidth(const edk::char8* name,edk::uint32 minFilter = GU_LINEAR,edk::uint32 magFilter = GU_NEAREST);
     edk::uint32 getTextureWidth(edk::uint32 code);
     edk::uint32 getTextureHeight(edk::char8* name,edk::uint32 minFilter = GU_LINEAR,edk::uint32 magFilter = GU_NEAREST);
     edk::uint32 getTextureHeight(const edk::char8* name,edk::uint32 minFilter = GU_LINEAR,edk::uint32 magFilter = GU_NEAREST);
     edk::uint32 getTextureHeight(edk::uint32 code);
+    edk::uint32 getTextureLength(edk::char8* name,edk::uint32 minFilter = GU_LINEAR,edk::uint32 magFilter = GU_NEAREST);
+    edk::uint32 getTextureLength(const edk::char8* name,edk::uint32 minFilter = GU_LINEAR,edk::uint32 magFilter = GU_NEAREST);
+    edk::uint32 getTextureLength(edk::uint32 code);
     edk::uint8 getTextureBytesPerChannel(edk::char8* name,edk::uint32 minFilter = GU_LINEAR,edk::uint32 magFilter = GU_NEAREST);
     edk::uint8 getTextureBytesPerChannel(const edk::char8* name,edk::uint32 minFilter = GU_LINEAR,edk::uint32 magFilter = GU_NEAREST);
     edk::uint8 getTextureBytesPerChannel(edk::uint32 code);
@@ -294,6 +317,86 @@ private:
                 this->file = new edk::Texture2DFile;
                 if(this->file){
                     if(this->file->createTextureWithPBODraw(size.width,size.height,mode,image,bytesPerChannel,minFilter,magFilter)){
+                        //save the name
+                        if(this->setName(name)){
+                            //save the code
+                            this->code=this->file->getID();
+                            this->minFilter = minFilter;
+                            this->magFilter = magFilter;
+                            return true;
+                        }
+                    }
+                }
+            }
+            this->deleteTexture();
+            return false;
+        }
+        bool createTexture(edk::char8* name,edk::size3ui32 size,edk::uint32 mode,edk::uint32 minFilter,edk::uint32 magFilter,edk::uint8 bytesPerChannel){
+            this->deleteTexture();
+            if(name){
+                this->file = new edk::Texture2DFile;
+                if(this->file){
+                    if(this->file->createTexture(size.width,size.height,size.length,mode,NULL,bytesPerChannel,minFilter,magFilter)){
+                        //save the name
+                        if(this->setName(name)){
+                            //save the code
+                            this->code=this->file->getID();
+                            this->minFilter = minFilter;
+                            this->magFilter = magFilter;
+                            return true;
+                        }
+                    }
+                }
+            }
+            this->deleteTexture();
+            return false;
+        }
+        bool createTextureWithPBODraw(edk::char8* name,edk::size3ui32 size,edk::uint32 mode,edk::uint32 minFilter,edk::uint32 magFilter,edk::uint8 bytesPerChannel){
+            this->deleteTexture();
+            if(name){
+                this->file = new edk::Texture2DFile;
+                if(this->file){
+                    if(this->file->createTextureWithPBODraw(size.width,size.height,size.length,mode,NULL,bytesPerChannel,minFilter,magFilter)){
+                        //save the name
+                        if(this->setName(name)){
+                            //save the code
+                            this->code=this->file->getID();
+                            this->minFilter = minFilter;
+                            this->magFilter = magFilter;
+                            return true;
+                        }
+                    }
+                }
+            }
+            this->deleteTexture();
+            return false;
+        }
+        bool createAndDrawTexture(edk::char8* name,edk::size3ui32 size,edk::uint8* image,edk::uint32 mode,edk::uint32 minFilter,edk::uint32 magFilter,edk::uint8 bytesPerChannel){
+            this->deleteTexture();
+            if(name){
+                this->file = new edk::Texture2DFile;
+                if(this->file){
+                    if(this->file->createTexture(size.width,size.height,size.length,mode,image,bytesPerChannel,minFilter,magFilter)){
+                        //save the name
+                        if(this->setName(name)){
+                            //save the code
+                            this->code=this->file->getID();
+                            this->minFilter = minFilter;
+                            this->magFilter = magFilter;
+                            return true;
+                        }
+                    }
+                }
+            }
+            this->deleteTexture();
+            return false;
+        }
+        bool createAndDrawTextureWithPBODraw(edk::char8* name,edk::size3ui32 size,edk::uint8* image,edk::uint32 mode,edk::uint32 minFilter,edk::uint32 magFilter,edk::uint8 bytesPerChannel){
+            this->deleteTexture();
+            if(name){
+                this->file = new edk::Texture2DFile;
+                if(this->file){
+                    if(this->file->createTextureWithPBODraw(size.width,size.height,size.length,mode,image,bytesPerChannel,minFilter,magFilter)){
                         //save the name
                         if(this->setName(name)){
                             //save the code
@@ -443,6 +546,46 @@ private:
                 this->file = new edk::Texture2DFile;
                 if(this->file){
                     if(this->file->setFromMemoryRepeat(/*name,*/image,width,height,channels,minFilter,magFilter)){
+                        //save the name
+                        if(this->setName(name)){
+                            //save the code
+                            this->code=this->file->getID();
+                            this->minFilter = minFilter;
+                            this->magFilter = magFilter;
+                            return true;
+                        }
+                    }
+                }
+            }
+            this->deleteTexture();
+            return false;
+        }
+        bool setFromMemory(edk::char8* name,edk::uint8* image,edk::uint32 width,edk::uint32 height,edk::uint32 length,edk::uint32 channels,edk::uint32 minFilter,edk::uint32 magFilter){
+            this->deleteTexture();
+            if(name){
+                this->file = new edk::Texture2DFile;
+                if(this->file){
+                    if(this->file->set3DFromMemory(/*name,*/image,width,height,length,channels,minFilter,magFilter)){
+                        //save the name
+                        if(this->setName(name)){
+                            //save the code
+                            this->code=this->file->getID();
+                            this->minFilter = minFilter;
+                            this->magFilter = magFilter;
+                            return true;
+                        }
+                    }
+                }
+            }
+            this->deleteTexture();
+            return false;
+        }
+        bool setFromMemoryRepeat(edk::char8* name,edk::uint8* image,edk::uint32 width,edk::uint32 height,edk::uint32 length,edk::uint32 channels,edk::uint32 minFilter,edk::uint32 magFilter){
+            this->deleteTexture();
+            if(name){
+                this->file = new edk::Texture2DFile;
+                if(this->file){
+                    if(this->file->set3DFromMemoryRepeat(/*name,*/image,width,height,length,channels,minFilter,magFilter)){
                         //save the name
                         if(this->setName(name)){
                             //save the code

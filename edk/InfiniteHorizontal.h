@@ -55,7 +55,7 @@ public:
     void clean();
 
     //create the buffer
-    bool newBuffer(edk::uint32 lenght);
+    bool newBuffer(edk::uint32 length);
 
     //add new wallpaper
     //filters

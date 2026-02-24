@@ -887,7 +887,7 @@ edk::char8* edk::gui2d::ColorPicker2d::getStringColorType(){
     return (edk::char8*)gui2dColorPickerString[this->getColorType()];
 }
 edk::char8* edk::gui2d::ColorPicker2d::getStringColorType(edk::gui2d::ColorType type){
-    if(type<edk::gui2d::gui2dTypeSize){
+    if(type<edk::gui2d::colorTypeSize){
         return (edk::char8*)gui2dColorPickerString[type];
     }
     return (edk::char8*)gui2dColorPickerString[gui2dTypeObject];

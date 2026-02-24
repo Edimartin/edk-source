@@ -4947,12 +4947,12 @@ edk::physics2D::PulleyJoint2D* edk::physics2D::World2D::createPulleyJoint(edk::p
                                                                           ,
                                                                           edk::float32
                                                                           #if defined(EDK_USE_BOX2D)
-                                                                          lenghtA
+                                                                          lengthA
                                                                           #endif
                                                                           ,
                                                                           edk::float32
                                                                           #if defined(EDK_USE_BOX2D)
-                                                                          lenghtB
+                                                                          lengthB
                                                                           #endif
                                                                           ,
                                                                           bool
@@ -4984,8 +4984,8 @@ edk::physics2D::PulleyJoint2D* edk::physics2D::World2D::createPulleyJoint(edk::p
                 jointDef.groundAnchorA = b2Vec2((pulleyPositionA.x * this->percentIn) + (objectA->position.x * this->percentIn),(pulleyPositionA.y * this->percentIn) + (objectA->position.y * this->percentIn));
                 jointDef.groundAnchorB = b2Vec2((pulleyPositionB.x * this->percentIn) + (objectB->position.x * this->percentIn),(pulleyPositionB.y * this->percentIn) + (objectB->position.y * this->percentIn));
 
-                jointDef.lengthA = lenghtA;
-                jointDef.lengthB = lenghtB;
+                jointDef.lengthA = lengthA;
+                jointDef.lengthB = lengthB;
 
                 //create the edkJoint
                 edkJoint = new edk::physics2D::PulleyJoint2D(collide);
@@ -5103,12 +5103,12 @@ edk::physics2D::PulleyJoint2D* edk::physics2D::World2D::createPulleyWorldJoint(e
                                                                                ,
                                                                                edk::float32
                                                                                #if defined(EDK_USE_BOX2D)
-                                                                               lenghtA
+                                                                               lengthA
                                                                                #endif
                                                                                ,
                                                                                edk::float32
                                                                                #if defined(EDK_USE_BOX2D)
-                                                                               lenghtB
+                                                                               lengthB
                                                                                #endif
                                                                                ,
                                                                                bool
@@ -5125,7 +5125,7 @@ edk::physics2D::PulleyJoint2D* edk::physics2D::World2D::createPulleyWorldJoint(e
                           objectB,
                           edk::physics2D::World2D::JointTreeObject::getJointPosition(objectB,worldPositionB),
                           edk::physics2D::World2D::JointTreeObject::getJointPosition(objectB,pulleyWorldPositionB),
-                          lenghtA,lenghtB,
+                          lengthA,lengthB,
                           collide
                           );
 #endif

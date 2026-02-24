@@ -746,6 +746,8 @@ public:
         this->length=length;
         return edk::size3i8((edk::int8)this->width,(edk::int8)this->height,(edk::int8)this->length);
     }
+
+    edk::size2i8 widthHeight(){return edk::size2i8(this->width,this->height);}
 };
 
 //size3i16
@@ -1512,6 +1514,8 @@ public:
         this->length=length;
         return edk::size3i16((edk::int16)this->width,(edk::int16)this->height,(edk::int16)this->length);
     }
+
+    edk::size2i16 widthHeight(){return edk::size2i16(this->width,this->height);}
 };
 
 //size3i32
@@ -2335,6 +2339,8 @@ public:
         this->length=length;
         return edk::size3i32((edk::int32)this->width,(edk::int32)this->height,(edk::int32)this->length);
     }
+
+    edk::size2i32 widthHeight(){return edk::size2i32(this->width,this->height);}
 };
 
 //size3i64
@@ -3215,6 +3221,8 @@ public:
         this->length=length;
         return edk::size3i64((edk::int64)this->width,(edk::int64)this->height,(edk::int64)this->length);
     }
+
+    edk::size2i64 widthHeight(){return edk::size2i64(this->width,this->height);}
 };
 
 //size3ui8
@@ -3652,6 +3660,8 @@ public:
         this->length=length;
         return edk::size3ui8((edk::uint8)this->width,(edk::uint8)this->height,(edk::uint8)this->length);
     }
+
+    edk::size2ui8 widthHeight(){return edk::size2ui8(this->width,this->height);}
 };
 
 //size3ui16
@@ -4146,6 +4156,8 @@ public:
         this->length=length;
         return edk::size3ui16((edk::uint16)this->width,(edk::uint16)this->height,(edk::uint16)this->length);
     }
+
+    edk::size2ui16 widthHeight(){return edk::size2ui16(this->width,this->height);}
 };
 
 //size3ui32
@@ -4697,6 +4709,8 @@ public:
         this->length=length;
         return edk::size3ui32((edk::uint32)this->width,(edk::uint32)this->height,(edk::uint32)this->length);
     }
+
+    edk::size2ui32 widthHeight(){return edk::size2ui32(this->width,this->height);}
 };
 
 //size3ui64
@@ -5305,6 +5319,8 @@ public:
         this->length=length;
         return edk::size3ui64((edk::uint64)this->width,(edk::uint64)this->height,(edk::uint64)this->length);
     }
+
+    edk::size2ui64 widthHeight(){return edk::size2ui64(this->width,this->height);}
 };
 
 //size3f32
@@ -6320,6 +6336,8 @@ public:
         this->length=length;
         return edk::size3f32((edk::float32)this->width,(edk::float32)this->height,(edk::float32)this->length);
     }
+
+    edk::size2f32 widthHeight(){return edk::size2f32(this->width,this->height);}
 };
 
 //size3f64
@@ -7335,6 +7353,8 @@ public:
         this->length=length;
         return edk::size3f64((edk::float64)this->width,(edk::float64)this->height,(edk::float64)this->length);
     }
+
+    edk::size2f64 widthHeight(){return edk::size2f64(this->width,this->height);}
 };
 
 }//end namespace

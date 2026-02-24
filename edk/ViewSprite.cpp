@@ -71,7 +71,7 @@ bool edk::ViewSprite::createSprite(edk::char8* name,edk::size2ui32 size, edk::ui
         this->spriteMinFilter=minFilter;
         this->spriteMagFilter=magFilter;
         if(this->spriteCode){
-            this->spriteSize = this->list.getTextureSize(this->spriteCode);
+            this->spriteSize = this->list.getTextureSize(this->spriteCode).widthHeight();
             return true;
         }
     }
@@ -99,7 +99,7 @@ bool edk::ViewSprite::createSpriteRepeat(edk::char8* name,edk::size2ui32 size, e
         this->spriteMinFilter=minFilter;
         this->spriteMagFilter=magFilter;
         if(this->spriteCode){
-            this->spriteSize = this->list.getTextureSize(this->spriteCode);
+            this->spriteSize = this->list.getTextureSize(this->spriteCode).widthHeight();
             return true;
         }
     }
@@ -137,7 +137,7 @@ bool edk::ViewSprite::loadSprite(edk::char8* name,edk::uint32 minFilter,edk::uin
         this->spriteMinFilter = minFilter;
         this->spriteMagFilter = magFilter;
         if(this->spriteCode){
-            this->spriteSize = this->list.getTextureSize(this->spriteCode);
+            this->spriteSize = this->list.getTextureSize(this->spriteCode).widthHeight();
             return true;
         }
     }
@@ -162,7 +162,7 @@ bool edk::ViewSprite::loadSpriteRepeat(edk::char8* name,edk::uint32 minFilter,ed
         this->spriteMinFilter = minFilter;
         this->spriteMagFilter = magFilter;
         if(this->spriteCode){
-            this->spriteSize = this->list.getTextureSize(this->spriteCode);
+            this->spriteSize = this->list.getTextureSize(this->spriteCode).widthHeight();
             return true;
         }
     }
@@ -186,7 +186,7 @@ bool edk::ViewSprite::loadSpriteFromMemory(edk::char8* name,edk::uint8* sprite,e
         this->spriteMinFilter = minFilter;
         this->spriteMagFilter = magFilter;
         if(this->spriteCode){
-            this->spriteSize = this->list.getTextureSize(this->spriteCode);
+            this->spriteSize = this->list.getTextureSize(this->spriteCode).widthHeight();
             return true;
         }
     }
@@ -210,7 +210,7 @@ bool edk::ViewSprite::loadSpriteRepeatFromMemory(edk::char8* name,edk::uint8* sp
         this->spriteMinFilter = minFilter;
         this->spriteMagFilter = magFilter;
         if(this->spriteCode){
-            this->spriteSize = this->list.getTextureSize(this->spriteCode);
+            this->spriteSize = this->list.getTextureSize(this->spriteCode).widthHeight();
             return true;
         }
     }
@@ -231,7 +231,7 @@ bool edk::ViewSprite::setSpriteFromMemory(edk::char8* name,edk::uint8* sprite,ed
         this->spriteMinFilter = minFilter;
         this->spriteMagFilter = magFilter;
         if(this->spriteCode){
-            this->spriteSize = this->list.getTextureSize(this->spriteCode);
+            this->spriteSize = this->list.getTextureSize(this->spriteCode).widthHeight();
             return true;
         }
     }
@@ -255,7 +255,7 @@ bool edk::ViewSprite::setSpriteRepeatFromMemory(edk::char8* name,edk::uint8* spr
         this->spriteMinFilter = minFilter;
         this->spriteMagFilter = magFilter;
         if(this->spriteCode){
-            this->spriteSize = this->list.getTextureSize(this->spriteCode);
+            this->spriteSize = this->list.getTextureSize(this->spriteCode).widthHeight();
             return true;
         }
     }
@@ -282,7 +282,7 @@ bool edk::ViewSprite::loadSpriteFromPack(edk::pack::FilePackage* pack,edk::char8
         this->spriteMinFilter = minFilter;
         this->spriteMagFilter = magFilter;
         if(this->spriteCode){
-            this->spriteSize = this->list.getTextureSize(this->spriteCode);
+            this->spriteSize = this->list.getTextureSize(this->spriteCode).widthHeight();
             return true;
         }
     }
@@ -306,7 +306,7 @@ bool edk::ViewSprite::loadSpriteRepeatFromPack(edk::pack::FilePackage* pack,edk:
         this->spriteMinFilter = minFilter;
         this->spriteMagFilter = magFilter;
         if(this->spriteCode){
-            this->spriteSize = this->list.getTextureSize(this->spriteCode);
+            this->spriteSize = this->list.getTextureSize(this->spriteCode).widthHeight();
             return true;
         }
     }

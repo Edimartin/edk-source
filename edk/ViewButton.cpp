@@ -1549,7 +1549,7 @@ bool edk::ViewButton::loadSymbol(edk::char8* name,edk::uint32 minFilter,edk::uin
     if(name){
         this->symbolCode = this->list.loadTexture(name,minFilter,magFilter);
         if(this->symbolCode){
-            this->symbolSize = this->list.getTextureSize(this->symbolCode);
+            this->symbolSize = this->list.getTextureSize(this->symbolCode).widthHeight();
             return true;
         }
     }
@@ -1564,7 +1564,7 @@ bool edk::ViewButton::loadSymbolFromMemory(edk::char8* name,edk::uint8* sprite,e
     if(name){
         this->symbolCode = this->list.loadTextureFromMemory(name,sprite,size,minFilter,magFilter);
         if(this->symbolCode){
-            this->symbolSize = this->list.getTextureSize(this->symbolCode);
+            this->symbolSize = this->list.getTextureSize(this->symbolCode).widthHeight();
             return true;
         }
     }
@@ -1579,7 +1579,7 @@ bool edk::ViewButton::loadSymbolFromPack(edk::pack::FilePackage* pack,edk::char8
     if(name && pack){
         this->symbolCode = this->list.loadTextureFromPack(pack,name,minFilter,magFilter);
         if(this->symbolCode){
-            this->symbolSize = this->list.getTextureSize(this->symbolCode);
+            this->symbolSize = this->list.getTextureSize(this->symbolCode).widthHeight();
             return true;
         }
     }

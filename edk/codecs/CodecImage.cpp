@@ -871,7 +871,7 @@ bool edk::codecs::CodecImage::grayToyuv(edk::uint8* gray,edk::size2ui32 size,edk
 }
 bool edk::codecs::CodecImage::rgbToi420(edk::uint8* rgb,edk::size2ui32 size,edk::uint8* y,edk::uint8* u,edk::uint8* v){
     if(rgb && size.width && size.height && y && u && v){
-        //test the lenght (even or odd)
+        //test the length (even or odd)
         if(!(size.width<<((sizeof(size.width)*8u)-1u))){
             //even
             if(!(size.height<<((sizeof(size.height)*8u)-1u))){
@@ -1078,7 +1078,7 @@ bool edk::codecs::CodecImage::rgbToi420(edk::uint8* rgb,edk::size2ui32 size,edk:
 }
 bool edk::codecs::CodecImage::grayToi420(edk::uint8* gray,edk::size2ui32 size,edk::uint8* y,edk::uint8* u,edk::uint8* v){
     if(gray && size.width && size.height && y && u && v){
-        //test the lenght (even or odd)
+        //test the length (even or odd)
         if(!(size.width<<((sizeof(size.width)*8u)-1u))){
             //even
             if(!(size.height<<((sizeof(size.height)*8u)-1u))){
@@ -1355,7 +1355,7 @@ bool edk::codecs::CodecImage::yuvTorgb(edk::uint8* yuv,edk::size2ui32 size,edk::
 bool edk::codecs::CodecImage::i420Torgb(edk::uint8* y,edk::uint8* u,edk::uint8* v,edk::size2ui32 size,edk::uint8* rgb){
     if(rgb && size.width && size.height && y && u && v){
         edk::float32 r,g,b;
-        //test the lenght (even or odd)
+        //test the length (even or odd)
         if(!(size.width<<((sizeof(size.width)*8u)-1u))){
             //even
             if(!(size.height<<((sizeof(size.height)*8u)-1u))){
@@ -2265,7 +2265,7 @@ bool edk::codecs::CodecImage::rgb32Torgb8(edk::uint8* rgb32,
             min=max;
             max=value;
         }
-        //calculate the lenght
+        //calculate the length
         max = max-min;
         for(edk::uint32 i=0u;i<size;i++){
             edkMemCpy(&value,rgb32,sizeof(edk::float32));

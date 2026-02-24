@@ -312,7 +312,7 @@ bool edk::Video::writeFrame(edk::uint8* vector,bool keyFrame){
                                  keyFrame
                                  )
                     ){
-                //write the lenght and then the buffer
+                //write the length and then the buffer
                 this->file.writeBin(this->frameLenght);
                 this->file.writeBin(this->buffer.getSize());
                 this->file.writeBin(this->buffer.getPointer(),this->buffer.getSize());
@@ -335,8 +335,8 @@ bool edk::Video::readNextFrame(edk::float32 seconds){
         //copy the packages to be decoded by the threads
         edk::uint32 size = this->threads.size();
         edk::ThreadVideo* thread=NULL;
-        edk::uint64 lenght = 0uL;
-        edk::float64 lenghtFrame = 0.f;
+        edk::uint64 length = 0uL;
+        edk::float64 lengthFrame = 0.f;
         if(!this->file.endOfFile()){
             for(edk::uint32 i=0u;i<size;i++){
                 thread=(edk::ThreadVideo*)this->threads.get(i);
@@ -353,16 +353,16 @@ bool edk::Video::readNextFrame(edk::float32 seconds){
                 //copy the frame into the thread
                 thread->mutVideo.lock();
                 if(!this->file.endOfFile()){
-                    this->file.readBin(&lenghtFrame,sizeof(lenghtFrame));
-                    this->file.readBin(&lenght,sizeof(thread->buffer.getSize()));
-                    if(lenght){
+                    this->file.readBin(&lengthFrame,sizeof(lengthFrame));
+                    this->file.readBin(&length,sizeof(thread->buffer.getSize()));
+                    if(length){
                         //read the next encoded frame
-                        if(thread->buffer.writeFileToBuffer(&this->file,lenght)){
+                        if(thread->buffer.writeFileToBuffer(&this->file,length)){
                             //
                             thread->haveEncoded=true;
                             thread->haveDecoded=false;
                             thread->frameID=this->frameID;
-                            thread->frameLenght=lenghtFrame;
+                            thread->frameLenght=lengthFrame;
                             this->frameID++;
 
                             //add into the queue

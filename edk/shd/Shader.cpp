@@ -90,9 +90,9 @@ bool edk::shd::Shader::checkCompilationStatus(edk::uint32 id){
         //status is error
         edk::int32 infologLength = 0;
         edk::int32 charsWritten  = 0;
-        //load the information lenght
+        //load the information length
         edk::GU_GLSL::guGetShaderiv(id, GU_INFO_LOG_LENGTH, &infologLength);
-        //if the information lenght is true
+        //if the information length is true
         if(infologLength > 0){
             //alloca the string
             this->log = (edk::char8*)malloc(sizeof(edk::char8) * (infologLength));

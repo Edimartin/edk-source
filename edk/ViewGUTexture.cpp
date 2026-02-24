@@ -86,7 +86,7 @@ bool edk::ViewGUTexture::setTextureSize(edk::uint32 width,edk::uint32 height){
 }
 //return the textureSize
 edk::size2ui32 edk::ViewGUTexture::getTextureSize(){
-    return this->render.getSize();
+    return this->render.getSize().widthHeight();
 }
 edk::uint32 edk::ViewGUTexture::getTextureWidth(){
     return this->render.getSize().width;

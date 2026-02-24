@@ -130,6 +130,60 @@ public:
                                         edk::uint32 minFilter = GU_NEAREST,
                                         edk::uint32 magFilter = GU_LINEAR
             );
+    bool createTexture(edk::uint32 width,
+                       edk::uint32 height,
+                       edk::uint32 length,
+                       edk::uint32 mode,
+                       const edk::classID  data = NULL,
+                       edk::uint8 bytesPerChannel = 1u,
+                       edk::uint32 minFilter = GU_NEAREST,
+                       edk::uint32 magFilter = GU_LINEAR
+            );
+    bool createTextureWithPBODraw(edk::uint32 width,
+                                  edk::uint32 height,
+                                  edk::uint32 length,
+                                  edk::uint32 mode,
+                                  const edk::classID  data = NULL,
+                                  edk::uint8 bytesPerChannel = 1u,
+                                  edk::uint32 minFilter = GU_NEAREST,
+                                  edk::uint32 magFilter = GU_LINEAR
+            );
+    bool createTextureWithPBORead(edk::uint32 width,
+                                  edk::uint32 height,
+                                  edk::uint32 length,
+                                  edk::uint32 mode,
+                                  const edk::classID  data = NULL,
+                                  edk::uint8 bytesPerChannel = 1u,
+                                  edk::uint32 minFilter = GU_NEAREST,
+                                  edk::uint32 magFilter = GU_LINEAR
+            );
+    bool createTextureRepeat(edk::uint32 width,
+                             edk::uint32 height,
+                             edk::uint32 length,
+                             edk::uint32 mode,
+                             const edk::classID  data = NULL,
+                             edk::uint8 bytesPerChannel = 1u,
+                             edk::uint32 minFilter = GU_NEAREST,
+                             edk::uint32 magFilter = GU_LINEAR
+            );
+    bool createTextureRepeatWithPBODraw(edk::uint32 width,
+                                        edk::uint32 height,
+                                        edk::uint32 length,
+                                        edk::uint32 mode,
+                                        const edk::classID  data = NULL,
+                                        edk::uint8 bytesPerChannel = 1u,
+                                        edk::uint32 minFilter = GU_NEAREST,
+                                        edk::uint32 magFilter = GU_LINEAR
+            );
+    bool createTextureRepeatWithPBORead(edk::uint32 width,
+                                        edk::uint32 height,
+                                        edk::uint32 length,
+                                        edk::uint32 mode,
+                                        const edk::classID  data = NULL,
+                                        edk::uint8 bytesPerChannel = 1u,
+                                        edk::uint32 minFilter = GU_NEAREST,
+                                        edk::uint32 magFilter = GU_LINEAR
+            );
     //draw to the texture
     bool drawToTexture(const edk::classID  data);
     bool drawToTextureRepeat(const edk::classID  data);
@@ -160,7 +214,7 @@ public:
     edk::uint32 getID();
     //return the texturePBO
     edk::uint32 getPBO();
-    size2ui32 getSize();
+    size3ui32 getSize();
     edk::uint8 getBytesPerChannel();
     //EDK_LUMINANCE 1u
     //EDK_LUMINANCE_ALPHA 2u
@@ -174,6 +228,7 @@ public:
     edk::uint32 getModeGU();
     uint32 width();
     uint32 height();
+    uint32 length();
     edk::uint32 textureID();
 
     //DELETE
@@ -201,7 +256,7 @@ private:
     //Texture ID
     edk::uint32 pbo;
     //tamanho do sprite
-    edk::size2ui32 size;
+    edk::size3ui32 size;
     edk::uint8 bytesPerChannel;
     //save the mode
     edk::uint32 mode;

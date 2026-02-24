@@ -301,7 +301,7 @@ bool edk::bones::Bone2D::generateScaleMatrix(edk::size2f32 size,edk::float32 mat
     return false;
 }
 
-//calculate the lenght
+//calculate the length
 edk::float32 edk::bones::Bone2D::calculateLenght(edk::bones::Bone2D* bone,edk::uint32 tail,edk::uint32* counter,bool* found){
     edk::float32 ret=0.f;
     if(bone){

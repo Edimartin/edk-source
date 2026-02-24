@@ -1,8 +1,8 @@
-#ifndef EDK_IMAGE2D_h
-#define EDK_IMAGE2D_h
+#ifndef IMAGE3D_H
+#define IMAGE3D_H
 
 /*
-Library Image2D - Load a 2D Image using SFML
+Library Image3D - Create a 3D Image in EDK
 Copyright 2013 Eduardo Moura Sales Martins (edimartin@gmail.com)
 
 Permission is hereby granted, free of charge, to any person obtaining
@@ -25,60 +25,31 @@ OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-/*LIBS WINDOWS LINUX MAC
-
--lsfml-graphics
-
-*/
-
 #ifdef printMessages
-#pragma message "Inside Image2D"
+#pragma message "Inside Image3D"
 #endif
 
 #pragma once
 //#include "Types.h"
 #include "TypeColor.h"
+#include "DebugFile.h"
 #include "TypeDefines.h"
-#include "File.h"
 #include "String.h"
-#include "codecs/DecoderJPEG.h"
-#include "codecs/EncoderJPEG.h"
-#include "codecs/DecoderPNG.h"
-#include "codecs/EncoderPNG.h"
-#include "codecs/DecoderHDR.h"
-#include "codecs/EncoderHDR.h"
+#include "TypeSize3.h"
 
 #ifdef printMessages
-#pragma message "    Compiling Image2D"
+#pragma message "    Compiling Image3D"
 #endif
 
-/*
-//CODECS
-EDK_CODEC_NO
-EDK_CODEC_JPEG
-EDK_CODEC_PNG
-*/
-
-
 namespace edk {
-
-class Image2D {
-
+class Image3D
+{
 public:
+    Image3D();
 
-    Image2D();
-
-    Image2D(char8 *imageFileName);
-
-    Image2D(const char *imageFileName);
-
-    virtual ~Image2D();
+    ~Image3D();
 
     void Constructor();
-
-    void Constructor(char8 *imageFileName);
-
-    void Constructor(const char *imageFileName);
 
     void Destructor();
 
@@ -86,80 +57,62 @@ public:
 
     //create a new Image
     bool newImage(edk::char8 *imageName,
-                  edk::size2ui32 size,
+                  edk::size3ui32 size,
                   edk::uint8 channels,
                   edk::uint8 bytesPerChannel
-            );
+                  );
     bool newImage(edk::char8 *imageName,
                   edk::uint32 width,
                   edk::uint32 height,
+                  edk::uint32 length,
                   edk::uint8 channels,
                   edk::uint8 bytesPerChannel
-            );
+                  );
     bool newImage(const edk::char8 *imageName,
-                  edk::size2ui32 size,
+                  edk::size3ui32 size,
                   edk::uint8 channels,
                   edk::uint8 bytesPerChannel
-            );
+                  );
     bool newImage(const edk::char8 *imageName,
                   edk::uint32 width,
                   edk::uint32 height,
+                  edk::uint32 length,
                   edk::uint8 channels,
                   edk::uint8 bytesPerChannel
-            );
+                  );
 
     //create a new image with a palette
     bool newImage(edk::char8 *imageName,
-                  edk::size2ui32 size,
+                  edk::size3ui32 size,
                   edk::uint8 channels,
                   edk::uint32 paletteSize,
                   edk::uint8 bytesPerChannel
-            );
+                  );
     bool newImage(edk::char8 *imageName,
                   edk::uint32 width,
                   edk::uint32 height,
+                  edk::uint32 length,
                   edk::uint8 channels,
                   edk::uint32 paletteSize,
                   edk::uint8 bytesPerChannel
-            );
+                  );
     bool newImage(const edk::char8 *imageName,
-                  edk::size2ui32 size,
+                  edk::size3ui32 size,
                   edk::uint8 channels,
                   edk::uint32 paletteSize,
                   edk::uint8 bytesPerChannel
-            );
+                  );
     bool newImage(const edk::char8 *imageName,
                   edk::uint32 width,
                   edk::uint32 height,
+                  edk::uint32 length,
                   edk::uint8 channels,
                   edk::uint32 paletteSize,
                   edk::uint8 bytesPerChannel
-            );
-
-    bool loadFromFile(char8 *imageFileName);
-
-    bool loadFromFile(const char *imageFileName);
-
-    bool loadFromFileToRGB(char8 *imageFileName);
-
-    bool loadFromFileToRGB(const char *imageFileName);
-
-    bool loadFromFileToRGBA(char8 *imageFileName);
-
-    bool loadFromFileToRGBA(const char *imageFileName);
-
-    bool loadFromMemory(uint8 *image, edk::uint32 vecSize);
-
-    bool loadFromMemoryToRGB(uint8 *image, edk::uint32 vecSize);
-
-    bool loadFromMemoryToRGBA(uint8 *image, edk::uint32 vecSize);
+                  );
 
     //function used to generate the pixels from colors palette
     bool generatePixelsFromColors();
-
-    //save the image
-    bool saveToFile(edk::char8 *fileName = NULL);
-    bool saveToFile(const char *fileName);
 
     bool setName(char8 *imageName);
 
@@ -176,16 +129,16 @@ public:
     bool drawColorBlack();
     bool drawColorWhite();
     //draw a color in the image vector
-    bool drawPosition(edk::vec2ui32 position,edk::uint8* color);
-    bool drawPosition(edk::vec2ui32 position,edk::uint8 g);
-    bool drawPosition(edk::vec2ui32 position,edk::uint8 g,edk::uint8 a);
-    bool drawPosition(edk::vec2ui32 position,edk::uint8 r,edk::uint8 g,edk::uint8 b);
-    bool drawPosition(edk::vec2ui32 position,edk::uint8 r,edk::uint8 g,edk::uint8 b,edk::uint8 a);
-    bool drawPosition(edk::uint32 positionX,edk::uint32 positionY,edk::uint8* color);
-    bool drawPosition(edk::uint32 positionX,edk::uint32 positionY,edk::uint8 g);
-    bool drawPosition(edk::uint32 positionX,edk::uint32 positionY,edk::uint8 g,edk::uint8 a);
-    bool drawPosition(edk::uint32 positionX,edk::uint32 positionY,edk::uint8 r,edk::uint8 g,edk::uint8 b);
-    bool drawPosition(edk::uint32 positionX,edk::uint32 positionY,edk::uint8 r,edk::uint8 g,edk::uint8 b,edk::uint8 a);
+    bool drawPosition(edk::vec3ui32 position,edk::uint8* color);
+    bool drawPosition(edk::vec3ui32 position,edk::uint8 g);
+    bool drawPosition(edk::vec3ui32 position,edk::uint8 g,edk::uint8 a);
+    bool drawPosition(edk::vec3ui32 position,edk::uint8 r,edk::uint8 g,edk::uint8 b);
+    bool drawPosition(edk::vec3ui32 position,edk::uint8 r,edk::uint8 g,edk::uint8 b,edk::uint8 a);
+    bool drawPosition(edk::uint32 positionX,edk::uint32 positionY,edk::uint32 positionZ,edk::uint8* color);
+    bool drawPosition(edk::uint32 positionX,edk::uint32 positionY,edk::uint32 positionZ,edk::uint8 g);
+    bool drawPosition(edk::uint32 positionX,edk::uint32 positionY,edk::uint32 positionZ,edk::uint8 g,edk::uint8 a);
+    bool drawPosition(edk::uint32 positionX,edk::uint32 positionY,edk::uint32 positionZ,edk::uint8 r,edk::uint8 g,edk::uint8 b);
+    bool drawPosition(edk::uint32 positionX,edk::uint32 positionY,edk::uint32 positionZ,edk::uint8 r,edk::uint8 g,edk::uint8 b,edk::uint8 a);
     bool drawPosition(edk::uint32 position,edk::uint8* color);
     bool drawPosition(edk::uint32 position,edk::uint8 g);
     bool drawPosition(edk::uint32 position,edk::uint8 g,edk::uint8 a);
@@ -202,24 +155,28 @@ public:
     //draw the colorIDs in the image using the palette positions. The user need to know the colors size which is the paletteSize multiply by bytesPerColor
     bool drawColors(edk::uint8* colors);
     //draw a color position from the palette in colors vector.
-    bool drawColorsPosition(edk::vec2ui32 position,edk::uint8* colorID);
-    bool drawColorsPosition(edk::vec2ui32 position,edk::uint8 colorID);
-    bool drawColorsPosition(edk::vec2ui32 position,edk::uint16 colorID);
-    bool drawColorsPosition(edk::vec2ui32 position,edk::uint32 colorID);
-    bool drawColorsPosition(edk::uint32 positionX,edk::uint32 positionY,edk::uint8* colorID);
-    bool drawColorsPosition(edk::uint32 positionX,edk::uint32 positionY,edk::uint8 colorID);
-    bool drawColorsPosition(edk::uint32 positionX,edk::uint32 positionY,edk::uint16 colorID);
-    bool drawColorsPosition(edk::uint32 positionX,edk::uint32 positionY,edk::uint32 colorID);
+    bool drawColorsPosition(edk::vec3ui32 position,edk::uint8* colorID);
+    bool drawColorsPosition(edk::vec3ui32 position,edk::uint8 colorID);
+    bool drawColorsPosition(edk::vec3ui32 position,edk::uint16 colorID);
+    bool drawColorsPosition(edk::vec3ui32 position,edk::uint32 colorID);
+    bool drawColorsPosition(edk::uint32 positionX,edk::uint32 positionY,edk::uint32 positionZ,edk::uint8* colorID);
+    bool drawColorsPosition(edk::uint32 positionX,edk::uint32 positionY,edk::uint32 positionZ,edk::uint8 colorID);
+    bool drawColorsPosition(edk::uint32 positionX,edk::uint32 positionY,edk::uint32 positionZ,edk::uint16 colorID);
+    bool drawColorsPosition(edk::uint32 positionX,edk::uint32 positionY,edk::uint32 positionZ,edk::uint32 colorID);
 
-    size2ui32 getSize();
+    size3ui32 getSize();
 
     uint32 getWidth();
 
     uint32 getHeight();
 
+    uint32 getLength();
+
     uint32 width();
 
     uint32 height();
+
+    uint32 length();
     //return the channels of the image
     edk::uint8 getChannels();
     edk::uint8 channels();
@@ -256,20 +213,20 @@ public:
 
     //return the pixels of the image to use in videoBoard
     edk::uint8* getPixels();
-    edk::uint8 getPixelR(edk::vec2ui32 position);
-    edk::uint8 getPixelR(edk::uint32 x,edk::uint32 y);
-    edk::uint8 getPixelG(edk::vec2ui32 position);
-    edk::uint8 getPixelG(edk::uint32 x,edk::uint32 y);
-    edk::uint8 getPixelB(edk::vec2ui32 position);
-    edk::uint8 getPixelB(edk::uint32 x,edk::uint32 y);
-    edk::uint8 getPixelGray(edk::vec2ui32 position);
-    edk::uint8 getPixelGray(edk::uint32 x,edk::uint32 y);
-    edk::uint8 getPixelA(edk::vec2ui32 position);
-    edk::uint8 getPixelA(edk::uint32 x,edk::uint32 y);
-    edk::color3ui8 getPixelRGB(edk::vec2ui32 position);
-    edk::color3ui8 getPixelRGB(edk::uint32 x,edk::uint32 y);
-    edk::color4ui8 getPixelRGBA(edk::vec2ui32 position);
-    edk::color4ui8 getPixelRGBA(edk::uint32 x,edk::uint32 y);
+    edk::uint8 getPixelR(edk::vec3ui32 position);
+    edk::uint8 getPixelR(edk::uint32 x,edk::uint32 y,edk::uint32 z);
+    edk::uint8 getPixelG(edk::vec3ui32 position);
+    edk::uint8 getPixelG(edk::uint32 x,edk::uint32 y,edk::uint32 z);
+    edk::uint8 getPixelB(edk::vec3ui32 position);
+    edk::uint8 getPixelB(edk::uint32 x,edk::uint32 y,edk::uint32 z);
+    edk::uint8 getPixelGray(edk::vec3ui32 position);
+    edk::uint8 getPixelGray(edk::uint32 x,edk::uint32 y,edk::uint32 z);
+    edk::uint8 getPixelA(edk::vec3ui32 position);
+    edk::uint8 getPixelA(edk::uint32 x,edk::uint32 y,edk::uint32 z);
+    edk::color3ui8 getPixelRGB(edk::vec3ui32 position);
+    edk::color3ui8 getPixelRGB(edk::uint32 x,edk::uint32 y,edk::uint32 z);
+    edk::color4ui8 getPixelRGBA(edk::vec3ui32 position);
+    edk::color4ui8 getPixelRGBA(edk::uint32 x,edk::uint32 y,edk::uint32 z);
     //return the colors vector with all the palette codes
     edk::uint8* getColors();
 
@@ -287,17 +244,17 @@ public:
     bool flipImageY();
 
     //Compare with other image
-    edk::uint64 compareToUint64(edk::Image2D* compare);
-    edk::float64 compareToFloat64(edk::Image2D* compare);
-    edk::float64 compareLeftToFloat64(edk::Image2D* compare,edk::uint32 length);
-    edk::float64 compareRightToFloat64(edk::Image2D* compare,edk::uint32 length);
-    edk::float64 compareUpToFloat64(edk::Image2D* compare,edk::uint32 length);
-    edk::float64 compareDownToFloat64(edk::Image2D* compare,edk::uint32 length);
+    edk::uint64 compareToUint64(edk::Image3D* compare);
+    edk::float64 compareToFloat64(edk::Image3D* compare);
+    edk::float64 compareLeftToFloat64(edk::Image3D* compare,edk::uint32 length);
+    edk::float64 compareRightToFloat64(edk::Image3D* compare,edk::uint32 length);
+    edk::float64 compareUpToFloat64(edk::Image3D* compare,edk::uint32 length);
+    edk::float64 compareDownToFloat64(edk::Image3D* compare,edk::uint32 length);
     //compare dockable with other image
-    edk::float64 compareDockableLeftToFloat64(edk::Image2D* compare,edk::uint32 length);
-    edk::float64 compareDockableRightToFloat64(edk::Image2D* compare,edk::uint32 length);
-    edk::float64 compareDockableUpToFloat64(edk::Image2D* compare,edk::uint32 length);
-    edk::float64 compareDockableDownToFloat64(edk::Image2D* compare,edk::uint32 length);
+    edk::float64 compareDockableLeftToFloat64(edk::Image3D* compare,edk::uint32 length);
+    edk::float64 compareDockableRightToFloat64(edk::Image3D* compare,edk::uint32 length);
+    edk::float64 compareDockableUpToFloat64(edk::Image3D* compare,edk::uint32 length);
+    edk::float64 compareDockableDownToFloat64(edk::Image3D* compare,edk::uint32 length);
 
     //Convertions
     //https://github.com/ratkins/RGBConverter/blob/master/RGBConverter.cpp
@@ -322,40 +279,40 @@ public:
     static edk::uint8 rgbaToA(edk::color4ui8 rgba,edk::color3ui8 compareRGB);
     static edk::uint8 rgbaToA(edk::color4ui8 rgba,edk::color3ui8 compareRGB,edk::uint8 min,edk::uint8 max);
     //vector
-    static bool rgbToV(edk::uint8* vector,edk::size2ui32 size,edk::uint8* dest);
-    static edk::uint8* rgbToV(edk::uint8* vector,edk::size2ui32 size);
-    static bool rgbToV(edk::uint8* vector,edk::uint32 width,edk::uint32 height,edk::uint8* dest);
-    static edk::uint8* rgbToV(edk::uint8* vector,edk::uint32 width,edk::uint32 height);
-    static bool rgbaToV(edk::uint8* vector,edk::size2ui32 size,edk::uint8* dest);
-    static edk::uint8* rgbaToV(edk::uint8* vector,edk::size2ui32 size);
-    static bool rgbaToV(edk::uint8* vector,edk::uint32 width,edk::uint32 height,edk::uint8* dest);
-    static edk::uint8* rgbaToV(edk::uint8* vector,edk::uint32 width,edk::uint32 height);
+    static bool rgbToV(edk::uint8* vector,edk::size3ui32 size,edk::uint8* dest);
+    static edk::uint8* rgbToV(edk::uint8* vector,edk::size3ui32 size);
+    static bool rgbToV(edk::uint8* vector,edk::uint32 width,edk::uint32 height,edk::uint32 length,edk::uint8* dest);
+    static edk::uint8* rgbToV(edk::uint8* vector,edk::uint32 width,edk::uint32 height,edk::uint32 length);
+    static bool rgbaToV(edk::uint8* vector,edk::size3ui32 size,edk::uint8* dest);
+    static edk::uint8* rgbaToV(edk::uint8* vector,edk::size3ui32 size);
+    static bool rgbaToV(edk::uint8* vector,edk::uint32 width,edk::uint32 height,edk::uint32 length,edk::uint8* dest);
+    static edk::uint8* rgbaToV(edk::uint8* vector,edk::uint32 width,edk::uint32 height,edk::uint32 length);
     //RGB to Alpha
-    static bool rgbaToAlpha(edk::uint8* vector,edk::size2ui32 size
+    static bool rgbaToAlpha(edk::uint8* vector,edk::size3ui32 size
                             ,edk::uint8 compareR,edk::uint8 compareG,edk::uint8 compareB
                             );
-    static bool rgbaToAlpha(edk::uint8* vector,edk::size2ui32 size
-                            ,edk::uint8 compareR,edk::uint8 compareG,edk::uint8 compareB
-                            ,edk::uint8 min,edk::uint8 max
-                            );
-    static bool rgbaToAlpha(edk::uint8* vector,edk::size2ui32 size
-                            ,edk::color3ui8 compareRGB
-                            );
-    static bool rgbaToAlpha(edk::uint8* vector,edk::size2ui32 size
-                            ,edk::color3ui8 compareRGB
-                            ,edk::uint8 min,edk::uint8 max
-                            );
-    static bool rgbaToAlpha(edk::uint8* vector,edk::uint32 width,edk::uint32 height
-                            ,edk::uint8 compareR,edk::uint8 compareG,edk::uint8 compareB
-                            );
-    static bool rgbaToAlpha(edk::uint8* vector,edk::uint32 width,edk::uint32 height
+    static bool rgbaToAlpha(edk::uint8* vector,edk::size3ui32 size
                             ,edk::uint8 compareR,edk::uint8 compareG,edk::uint8 compareB
                             ,edk::uint8 min,edk::uint8 max
                             );
-    static bool rgbaToAlpha(edk::uint8* vector,edk::uint32 width,edk::uint32 height
+    static bool rgbaToAlpha(edk::uint8* vector,edk::size3ui32 size
                             ,edk::color3ui8 compareRGB
                             );
-    static bool rgbaToAlpha(edk::uint8* vector,edk::uint32 width,edk::uint32 height
+    static bool rgbaToAlpha(edk::uint8* vector,edk::size3ui32 size
+                            ,edk::color3ui8 compareRGB
+                            ,edk::uint8 min,edk::uint8 max
+                            );
+    static bool rgbaToAlpha(edk::uint8* vector,edk::uint32 width,edk::uint32 height,edk::uint32 length
+                            ,edk::uint8 compareR,edk::uint8 compareG,edk::uint8 compareB
+                            );
+    static bool rgbaToAlpha(edk::uint8* vector,edk::uint32 width,edk::uint32 height,edk::uint32 length
+                            ,edk::uint8 compareR,edk::uint8 compareG,edk::uint8 compareB
+                            ,edk::uint8 min,edk::uint8 max
+                            );
+    static bool rgbaToAlpha(edk::uint8* vector,edk::uint32 width,edk::uint32 height,edk::uint32 length
+                            ,edk::color3ui8 compareRGB
+                            );
+    static bool rgbaToAlpha(edk::uint8* vector,edk::uint32 width,edk::uint32 height,edk::uint32 length
                             ,edk::color3ui8 compareRGB
                             ,edk::uint8 min,edk::uint8 max
                             );
@@ -373,14 +330,14 @@ public:
     static edk::uint8 rgbToLui8(edk::color3ui8 rgb);
     static edk::uint8 rgbaToLui8(edk::color4ui8 rgba);
     //vector
-    static bool rgbToLui8(edk::uint8* vector,edk::size2ui32 size,edk::uint8* dest);
-    static edk::uint8* rgbToLui8(edk::uint8* vector,edk::size2ui32 size);
-    static bool rgbToLui8(edk::uint8* vector,edk::uint32 width,edk::uint32 height,edk::uint8* dest);
-    static edk::uint8* rgbToLui8(edk::uint8* vector,edk::uint32 width,edk::uint32 height);
-    static bool rgbaToLui8(edk::uint8* vector,edk::size2ui32 size,edk::uint8* dest);
-    static edk::uint8* rgbaToLui8(edk::uint8* vector,edk::size2ui32 size);
-    static bool rgbaToLui8(edk::uint8* vector,edk::uint32 width,edk::uint32 height,edk::uint8* dest);
-    static edk::uint8* rgbaToLui8(edk::uint8* vector,edk::uint32 width,edk::uint32 height);
+    static bool rgbToLui8(edk::uint8* vector,edk::size3ui32 size,edk::uint8* dest);
+    static edk::uint8* rgbToLui8(edk::uint8* vector,edk::size3ui32 size);
+    static bool rgbToLui8(edk::uint8* vector,edk::uint32 width,edk::uint32 height,edk::uint32 length,edk::uint8* dest);
+    static edk::uint8* rgbToLui8(edk::uint8* vector,edk::uint32 width,edk::uint32 height,edk::uint32 length);
+    static bool rgbaToLui8(edk::uint8* vector,edk::size3ui32 size,edk::uint8* dest);
+    static edk::uint8* rgbaToLui8(edk::uint8* vector,edk::size3ui32 size);
+    static bool rgbaToLui8(edk::uint8* vector,edk::uint32 width,edk::uint32 height,edk::uint32 length,edk::uint8* dest);
+    static edk::uint8* rgbaToLui8(edk::uint8* vector,edk::uint32 width,edk::uint32 height,edk::uint32 length);
     //HSL to RGB
     static edk::color3ui8 hslTorgb(edk::float32 h,edk::float32 s,edk::float32 l);
     static edk::color3ui8 hslTorgb(edk::color3f32 hsl);
@@ -390,30 +347,31 @@ public:
     static edk::color4f32 rgbTorgba(edk::float32 r,edk::float32 g,edk::float32 b);
     static edk::color4f32 rgbTorgba(edk::color3f32 rgb);
     //vector
-    static bool rgbTorgba(edk::uint8* vector,edk::size2ui32 size,edk::uint8* dest);
-    static edk::uint8* rgbTorgba(edk::uint8* vector,edk::size2ui32 size);
-    static bool rgbTorgba(edk::uint8* vector,edk::uint32 width,edk::uint32 height,edk::uint8* dest);
-    static edk::uint8* rgbTorgba(edk::uint8* vector,edk::uint32 width,edk::uint32 height);
+    static bool rgbTorgba(edk::uint8* vector,edk::size3ui32 size,edk::uint8* dest);
+    static edk::uint8* rgbTorgba(edk::uint8* vector,edk::size3ui32 size);
+    static bool rgbTorgba(edk::uint8* vector,edk::uint32 width,edk::uint32 height,edk::uint32 length,edk::uint8* dest);
+    static edk::uint8* rgbTorgba(edk::uint8* vector,edk::uint32 width,edk::uint32 height,edk::uint32 length);
     //LA to RGBA
     static edk::color4ui8 laTorgba(edk::uint8 l,edk::uint8 a);
     static edk::color4f32 laTorgba(edk::float32 l,edk::float32 a);
     //vector
-    static bool laTorgba(edk::uint8* vector,edk::size2ui32 size,edk::uint8* dest);
-    static edk::uint8* laTorgba(edk::uint8* vector,edk::size2ui32 size);
-    static bool laTorgba(edk::uint8* vector,edk::uint32 width,edk::uint32 height,edk::uint8* dest);
-    static edk::uint8* laTorgba(edk::uint8* vector,edk::uint32 width,edk::uint32 height);
+    static bool laTorgba(edk::uint8* vector,edk::size3ui32 size,edk::uint8* dest);
+    static edk::uint8* laTorgba(edk::uint8* vector,edk::size3ui32 size);
+    static bool laTorgba(edk::uint8* vector,edk::uint32 width,edk::uint32 height,edk::uint32 length,edk::uint8* dest);
+    static edk::uint8* laTorgba(edk::uint8* vector,edk::uint32 width,edk::uint32 height,edk::uint32 length);
     //L to RGBA
     static edk::color4ui8 lTorgba(edk::uint8 l);
     static edk::color4f32 lTorgba(edk::float32 l);
     //vector
-    static bool lTorgba(edk::uint8* vector,edk::size2ui32 size,edk::uint8* dest);
-    static edk::uint8* lTorgba(edk::uint8* vector,edk::size2ui32 size);
-    static bool lTorgba(edk::uint8* vector,edk::uint32 width,edk::uint32 height,edk::uint8* dest);
-    static edk::uint8* lTorgba(edk::uint8* vector,edk::uint32 width,edk::uint32 height);
+    static bool lTorgba(edk::uint8* vector,edk::size3ui32 size,edk::uint8* dest);
+    static edk::uint8* lTorgba(edk::uint8* vector,edk::size3ui32 size);
+    static bool lTorgba(edk::uint8* vector,edk::uint32 width,edk::uint32 height,edk::uint32 length,edk::uint8* dest);
+    static edk::uint8* lTorgba(edk::uint8* vector,edk::uint32 width,edk::uint32 height,edk::uint32 length);
     //compare
     static edk::uint64 cmpToUint64(edk::uint8* vector,
                                    edk::uint32 width,
                                    edk::uint32 height,
+                                   edk::uint32 length,
                                    edk::uint8* compare,
                                    edk::uint8 channels,
                                    edk::uint8 bytesPerChannel
@@ -421,6 +379,7 @@ public:
     static edk::float64 cmpToFloat64(edk::uint8* vector,
                                      edk::uint32 width,
                                      edk::uint32 height,
+                                     edk::uint32 length,
                                      edk::uint8* compare,
                                      edk::uint8 channels,
                                      edk::uint8 bytesPerChannel
@@ -495,39 +454,40 @@ public:
     static bool flipY(edk::uint8* vector,
                       edk::uint32 width,
                       edk::uint32 height,
+                      edk::uint32 length,
                       edk::uint32 channels,
                       edk::uint8 bytesPerChannel
                       );
 
-    static bool imageClone(edk::uint8* vector,edk::uint32 width,edk::uint32 height,edk::uint32 channels,edk::uint32 bytesPerChannes,
-                           edk::uint8* dest,edk::uint32 dWidth,edk::uint32 dHeight,edk::uint32 dChannels,edk::uint32 dBytesPerChannes,
+    static bool imageClone(edk::uint8* vector,edk::uint32 width,edk::uint32 height,edk::uint32 length,edk::uint32 channels,edk::uint32 bytesPerChannes,
+                           edk::uint8* dest,edk::uint32 dWidth,edk::uint32 dHeight,edk::uint32 dLength,edk::uint32 dChannels,edk::uint32 dBytesPerChannes,
                            edk::uint32 positionX,edk::uint32 positionY
                            );
 
-    bool cloneFrom(edk::Image2D* image);
-    bool newFrom(edk::Image2D* image);
+    bool cloneFrom(edk::Image3D* image);
+    bool newFrom(edk::Image3D* image);
 
     //copy one image into nother image
     static bool copyImageToImage(edk::uint8* copy,
-                                 edk::size2ui32 sizeCopy,
+                                 edk::size3ui32 sizeCopy,
                                  edk::uint8* dest,
-                                 edk::size2ui32 sizeDest,
-                                 edk::vec2ui32 position,
+                                 edk::size3ui32 sizeDest,
+                                 edk::vec3ui32 position,
                                  edk::uint32 channels,
                                  edk::uint8 bytesPerChannel
                                  );
     static bool copyImageToImage(edk::uint8* copy,
-                                 edk::uint32 copySizeW,edk::uint32 copySizeH,
+                                 edk::uint32 copySizeW,edk::uint32 copySizeH,edk::uint32 copySizeL,
                                  edk::uint8* dest,
-                                 edk::uint32 destSizeW,edk::uint32 destSizeH,
-                                 edk::uint32 posX,edk::uint32 posY,
+                                 edk::uint32 destSizeW,edk::uint32 destSizeH,edk::uint32 destSizeL,
+                                 edk::uint32 posX,edk::uint32 posY,edk::uint32 posZ,
                                  edk::uint32 channels,
                                  edk::uint8 bytesPerChannel
                                  );
-    static bool copyImageToImage(edk::Image2D* copy,edk::Image2D* dest,edk::vec2ui32 position);
-    static bool copyImageToImage(edk::Image2D* copy,edk::Image2D* dest,edk::uint32 posX,edk::uint32 posY);
+    static bool copyImageToImage(edk::Image3D* copy,edk::Image3D* dest,edk::vec3ui32 position);
+    static bool copyImageToImage(edk::Image3D* copy,edk::Image3D* dest,edk::uint32 posX,edk::uint32 posY,edk::uint32 posZ);
 private:
-    edk::Image2D operator=(edk::Image2D){return *this;}
+    edk::Image3D operator=(edk::Image3D){return *this;}
     //pixel vector
     edk::uint8* vec;
     //color id vector
@@ -539,7 +499,7 @@ private:
     //save the bits per colors
     edk::uint8 bytesPerChannel;
     //Size of the image
-    edk::size2ui32 size;
+    edk::size3ui32 size;
     //imageName of the image
     edk::char8* imageName;
     //imageName of the file
@@ -560,7 +520,6 @@ private:
 private:
     edk::classID classThis;
 };
+}
 
-}//End of namespace edk
-
-#endif // edk_Image2D_h
+#endif // IMAGE3D_H

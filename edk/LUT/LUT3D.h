@@ -33,9 +33,10 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "../TypeColor.h"
 #include "../TypeSize2.h"
 #include <stdio.h>
-#include "edk/Math.h"
-#include "edk/File.h"
-#include "edk/Image2D.h"
+#include "../Math.h"
+#include "../File.h"
+#include "../Image2D.h"
+#include "../Image3D.h"
 
 #ifdef printMessages
 #pragma message "    Compiling LUT3D"
@@ -68,11 +69,24 @@ public:
     edk::size2ui32 getImageSize();
     edk::uint32 getImageWidth();
     edk::uint32 getImageHeight();
+    edk::size3ui32 getImage3DSize();
+    edk::uint32 getImage3DWidth();
+    edk::uint32 getImage3DHeight();
+    edk::uint32 getImage3DLength();
     //return the size of the image in square format in pixels
     edk::size2ui32 getImageSquareSize();
     edk::uint32 getImageSquareWidth();
     edk::uint32 getImageSquareHeight();
 
+    //write and read from image 2d
+    bool writeToImage(edk::Image2D* image);
+    bool readFromImate(edk::uint16 size,edk::Image2D* image);
+    bool writeToImageSquare(edk::Image2D* image);
+    bool readFromImageSquare(edk::uint16 size,edk::Image2D* image);
+    //write and read from image 3d
+    bool writeToImage(edk::Image3D* image);
+    bool writeToImageWithAlpha(edk::Image3D* image);
+    bool readFromImate(edk::uint16 size,edk::Image3D* image);
     //save the table into a .cube file
     bool saveTo(edk::char8* fileName);
     bool saveTo(const edk::char8* fileName);

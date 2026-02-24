@@ -4915,12 +4915,12 @@ bool edk::Cenario2D::writeToXML(edk::XML* xml,edk::uint32 id){
                                                                         xml->addSelectedNextAttribute((edk::char8*)"pulleyPositionBY",temp);
                                                                         free(temp);
                                                                     }
-                                                                    temp = edk::String::float32ToStr(pulleyJoint->lenghtA);
+                                                                    temp = edk::String::float32ToStr(pulleyJoint->lengthA);
                                                                     if(temp){
                                                                         xml->addSelectedNextAttribute((edk::char8*)"lenghtA",temp);
                                                                         free(temp);
                                                                     }
-                                                                    temp = edk::String::float32ToStr(pulleyJoint->lenghtB);
+                                                                    temp = edk::String::float32ToStr(pulleyJoint->lengthB);
                                                                     if(temp){
                                                                         xml->addSelectedNextAttribute((edk::char8*)"lenghtB",temp);
                                                                         free(temp);

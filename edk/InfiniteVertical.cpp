@@ -128,16 +128,16 @@ void edk::InfiniteVertical::clean(){
 }
 
 //create the buffer
-bool edk::InfiniteVertical::newBuffer(edk::uint32 lenght){
+bool edk::InfiniteVertical::newBuffer(edk::uint32 length){
     this->time.start();
     //this->buffer.clean();
-    if(lenght){
-        edk::InfiniteVertical::tileWorldObject2D** temp = (edk::InfiniteVertical::tileWorldObject2D**)malloc(sizeof(edk::InfiniteVertical::tileWorldObject2D*)*lenght);
+    if(length){
+        edk::InfiniteVertical::tileWorldObject2D** temp = (edk::InfiniteVertical::tileWorldObject2D**)malloc(sizeof(edk::InfiniteVertical::tileWorldObject2D*)*length);
         if(temp){
             bool ret=true;
-            edkMemSet(temp,0u,sizeof(edk::InfiniteVertical::tileWorldObject2D*)*lenght);
+            edkMemSet(temp,0u,sizeof(edk::InfiniteVertical::tileWorldObject2D*)*length);
             //create a new objects
-            for(edk::uint32 i=0u;i<lenght;i++){
+            for(edk::uint32 i=0u;i<length;i++){
                 //create a new tileWorldObject
                 temp[i]=new edk::InfiniteVertical::tileWorldObject2D;
                 if(!temp[i]){
@@ -146,11 +146,11 @@ bool edk::InfiniteVertical::newBuffer(edk::uint32 lenght){
                 }
             }
             if(ret){
-                this->buffer.writeToBuffer(temp,lenght);
+                this->buffer.writeToBuffer(temp,length);
             }
             else{
                 //clean all memory
-                for(edk::uint32 i=0u;i<lenght;i++){
+                for(edk::uint32 i=0u;i<length;i++){
                     //create a new tileWorldObject
                     if(temp[i]){
                         delete temp[i];

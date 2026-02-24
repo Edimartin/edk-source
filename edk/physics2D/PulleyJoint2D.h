@@ -49,8 +49,8 @@ public:
 
     edk::vec2f32 pulleyPositionA;
     edk::vec2f32 pulleyPositionB;
-    edk::float32 lenghtA;
-    edk::float32 lenghtB;
+    edk::float32 lengthA;
+    edk::float32 lengthB;
 
     //draw the joint in debug mode
     virtual void draw(edk::size2f32 size,edk::color3f32 color);

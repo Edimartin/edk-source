@@ -455,7 +455,7 @@ bool edk::gui2d::ObjectGui2d::loadSymbol(const edk::char8* name,edk::uint32 minF
 bool edk::gui2d::ObjectGui2d::loadSymbol(edk::char8* name,edk::uint32 minFilter,edk::uint32 magFilter){
     if(this->sprite.material.loadTexture(name,edk::gui2d::gui2dTextureNormal,minFilter,magFilter)){
         //get the texture size
-        this->spriteSize[edk::gui2d::gui2dTextureNormal] = this->sprite.material.getTextureSize(edk::gui2d::gui2dTextureNormal);
+        this->spriteSize[edk::gui2d::gui2dTextureNormal] = this->sprite.material.getTextureSize(edk::gui2d::gui2dTextureNormal).widthHeight();
         this->forceUpdate();
         return true;
     }
@@ -467,7 +467,7 @@ bool edk::gui2d::ObjectGui2d::loadSymbolFromMemory(const edk::char8* name,edk::u
 bool edk::gui2d::ObjectGui2d::loadSymbolFromMemory(edk::char8* name,edk::uint8* sprite,edk::uint32 size,edk::uint32 minFilter,edk::uint32 magFilter){
     if(this->sprite.material.loadTextureFromMemory(name,sprite,size,edk::gui2d::gui2dTextureNormal,minFilter,magFilter)){
         //get the texture size
-        this->spriteSize[edk::gui2d::gui2dTextureNormal] = this->sprite.material.getTextureSize(edk::gui2d::gui2dTextureNormal);
+        this->spriteSize[edk::gui2d::gui2dTextureNormal] = this->sprite.material.getTextureSize(edk::gui2d::gui2dTextureNormal).widthHeight();
         this->forceUpdate();
         return true;
     }
@@ -479,7 +479,7 @@ bool edk::gui2d::ObjectGui2d::loadSymbolFromPack(edk::pack::FilePackage* pack,co
 bool edk::gui2d::ObjectGui2d::loadSymbolFromPack(edk::pack::FilePackage* pack,edk::char8* name,edk::uint32 minFilter,edk::uint32 magFilter){
     if(this->sprite.material.loadTextureFromPack(pack,name,edk::gui2d::gui2dTextureNormal,minFilter,magFilter)){
         //get the texture size
-        this->spriteSize[edk::gui2d::gui2dTextureNormal] = this->sprite.material.getTextureSize(edk::gui2d::gui2dTextureNormal);
+        this->spriteSize[edk::gui2d::gui2dTextureNormal] = this->sprite.material.getTextureSize(edk::gui2d::gui2dTextureNormal).widthHeight();
         this->forceUpdate();
         return true;
     }
@@ -497,7 +497,7 @@ bool edk::gui2d::ObjectGui2d::loadSymbolPressed(const edk::char8* name,edk::uint
 bool edk::gui2d::ObjectGui2d::loadSymbolPressed(edk::char8* name,edk::uint32 minFilter,edk::uint32 magFilter){
     if(this->sprite.material.loadTexture(name,edk::gui2d::gui2dTexturePressed,minFilter,magFilter)){
         //get the texture size
-        this->spriteSize[edk::gui2d::gui2dTexturePressed] = this->sprite.material.getTextureSize(edk::gui2d::gui2dTexturePressed);
+        this->spriteSize[edk::gui2d::gui2dTexturePressed] = this->sprite.material.getTextureSize(edk::gui2d::gui2dTexturePressed).widthHeight();
         this->forceUpdate();
         return true;
     }
@@ -509,7 +509,7 @@ bool edk::gui2d::ObjectGui2d::loadSymbolPressedFromMemory(const edk::char8* name
 bool edk::gui2d::ObjectGui2d::loadSymbolPressedFromMemory(edk::char8* name,edk::uint8* sprite,edk::uint32 size,edk::uint32 minFilter,edk::uint32 magFilter){
     if(this->sprite.material.loadTextureFromMemory(name,sprite,size,edk::gui2d::gui2dTexturePressed,minFilter,magFilter)){
         //get the texture size
-        this->spriteSize[edk::gui2d::gui2dTexturePressed] = this->sprite.material.getTextureSize(edk::gui2d::gui2dTexturePressed);
+        this->spriteSize[edk::gui2d::gui2dTexturePressed] = this->sprite.material.getTextureSize(edk::gui2d::gui2dTexturePressed).widthHeight();
         this->forceUpdate();
         return true;
     }
@@ -521,7 +521,7 @@ bool edk::gui2d::ObjectGui2d::loadSymbolPressedFromPack(edk::pack::FilePackage* 
 bool edk::gui2d::ObjectGui2d::loadSymbolPressedFromPack(edk::pack::FilePackage* pack,edk::char8* name,edk::uint32 minFilter,edk::uint32 magFilter){
     if(this->sprite.material.loadTextureFromPack(pack,name,edk::gui2d::gui2dTexturePressed,minFilter,magFilter)){
         //get the texture size
-        this->spriteSize[edk::gui2d::gui2dTexturePressed] = this->sprite.material.getTextureSize(edk::gui2d::gui2dTexturePressed);
+        this->spriteSize[edk::gui2d::gui2dTexturePressed] = this->sprite.material.getTextureSize(edk::gui2d::gui2dTexturePressed).widthHeight();
         this->forceUpdate();
         return true;
     }
@@ -539,7 +539,7 @@ bool edk::gui2d::ObjectGui2d::loadSymbolUp(const edk::char8* name,edk::uint32 mi
 bool edk::gui2d::ObjectGui2d::loadSymbolUp(edk::char8* name,edk::uint32 minFilter,edk::uint32 magFilter){
     if(this->sprite.material.loadTexture(name,edk::gui2d::gui2dTextureUp,minFilter,magFilter)){
         //get the texture size
-        this->spriteSize[edk::gui2d::gui2dTextureUp] = this->sprite.material.getTextureSize(edk::gui2d::gui2dTextureUp);
+        this->spriteSize[edk::gui2d::gui2dTextureUp] = this->sprite.material.getTextureSize(edk::gui2d::gui2dTextureUp).widthHeight();
         this->forceUpdate();
         return true;
     }
@@ -551,7 +551,7 @@ bool edk::gui2d::ObjectGui2d::loadSymbolUpFromMemory(const edk::char8* name,edk:
 bool edk::gui2d::ObjectGui2d::loadSymbolUpFromMemory(edk::char8* name,edk::uint8* sprite,edk::uint32 size,edk::uint32 minFilter,edk::uint32 magFilter){
     if(this->sprite.material.loadTextureFromMemory(name,sprite,size,edk::gui2d::gui2dTextureUp,minFilter,magFilter)){
         //get the texture size
-        this->spriteSize[edk::gui2d::gui2dTextureUp] = this->sprite.material.getTextureSize(edk::gui2d::gui2dTextureUp);
+        this->spriteSize[edk::gui2d::gui2dTextureUp] = this->sprite.material.getTextureSize(edk::gui2d::gui2dTextureUp).widthHeight();
         this->forceUpdate();
         return true;
     }
@@ -563,7 +563,7 @@ bool edk::gui2d::ObjectGui2d::loadSymbolUpFromPack(edk::pack::FilePackage* pack,
 bool edk::gui2d::ObjectGui2d::loadSymbolUpFromPack(edk::pack::FilePackage* pack,edk::char8* name,edk::uint32 minFilter,edk::uint32 magFilter){
     if(this->sprite.material.loadTextureFromPack(pack,name,edk::gui2d::gui2dTextureUp,minFilter,magFilter)){
         //get the texture size
-        this->spriteSize[edk::gui2d::gui2dTextureUp] = this->sprite.material.getTextureSize(edk::gui2d::gui2dTextureUp);
+        this->spriteSize[edk::gui2d::gui2dTextureUp] = this->sprite.material.getTextureSize(edk::gui2d::gui2dTextureUp).widthHeight();
         this->forceUpdate();
         return true;
     }
@@ -581,7 +581,7 @@ bool edk::gui2d::ObjectGui2d::loadSymbolPressedUp(const edk::char8* name,edk::ui
 bool edk::gui2d::ObjectGui2d::loadSymbolPressedUp(edk::char8* name,edk::uint32 minFilter,edk::uint32 magFilter){
     if(this->sprite.material.loadTexture(name,edk::gui2d::gui2dTexturePressedUp,minFilter,magFilter)){
         //get the texture size
-        this->spriteSize[edk::gui2d::gui2dTexturePressedUp] = this->sprite.material.getTextureSize(edk::gui2d::gui2dTexturePressedUp);
+        this->spriteSize[edk::gui2d::gui2dTexturePressedUp] = this->sprite.material.getTextureSize(edk::gui2d::gui2dTexturePressedUp).widthHeight();
         this->forceUpdate();
         return true;
     }
@@ -593,7 +593,7 @@ bool edk::gui2d::ObjectGui2d::loadSymbolPressedUpFromMemory(const edk::char8* na
 bool edk::gui2d::ObjectGui2d::loadSymbolPressedUpFromMemory(edk::char8* name,edk::uint8* sprite,edk::uint32 size,edk::uint32 minFilter,edk::uint32 magFilter){
     if(this->sprite.material.loadTextureFromMemory(name,sprite,size,edk::gui2d::gui2dTexturePressedUp,minFilter,magFilter)){
         //get the texture size
-        this->spriteSize[edk::gui2d::gui2dTexturePressedUp] = this->sprite.material.getTextureSize(edk::gui2d::gui2dTexturePressedUp);
+        this->spriteSize[edk::gui2d::gui2dTexturePressedUp] = this->sprite.material.getTextureSize(edk::gui2d::gui2dTexturePressedUp).widthHeight();
         this->forceUpdate();
         return true;
     }
@@ -605,7 +605,7 @@ bool edk::gui2d::ObjectGui2d::loadSymbolPressedUpFromPack(edk::pack::FilePackage
 bool edk::gui2d::ObjectGui2d::loadSymbolPressedUpFromPack(edk::pack::FilePackage* pack,edk::char8* name,edk::uint32 minFilter,edk::uint32 magFilter){
     if(this->sprite.material.loadTextureFromPack(pack,name,edk::gui2d::gui2dTexturePressedUp,minFilter,magFilter)){
         //get the texture size
-        this->spriteSize[edk::gui2d::gui2dTexturePressedUp] = this->sprite.material.getTextureSize(edk::gui2d::gui2dTexturePressedUp);
+        this->spriteSize[edk::gui2d::gui2dTexturePressedUp] = this->sprite.material.getTextureSize(edk::gui2d::gui2dTexturePressedUp).widthHeight();
         this->forceUpdate();
         return true;
     }

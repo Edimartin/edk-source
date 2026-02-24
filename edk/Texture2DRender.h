@@ -47,9 +47,16 @@ public:
     void Destructor();
 
     //Load the renderTexture
-    bool createRender(edk::size2ui32 size,edk::uint32 minFilter = GU_LINEAR,edk::uint32 magFilter = GU_NEAREST);
-    bool createRender(edk::uint32 width,edk::uint32 height,edk::uint32 minFilter = GU_LINEAR,edk::uint32 magFilter = GU_NEAREST);
-    bool createRender(edk::int32 width,edk::int32 height,edk::uint32 minFilter = GU_LINEAR,edk::uint32 magFilter = GU_NEAREST);
+    //filter
+    //GU_NEAREST
+    //GU_LINEAR
+    //GU_NEAREST_MIPMAP_NEAREST
+    //GU_NEAREST_MIPMAP_LINEAR
+    //GU_LINEAR_MIPMAP_NEAREST
+    //GU_LINEAR_MIPMAP_LINEAR
+    bool createRender(edk::size2ui32 size,edk::uint32 minFilter = GU_NEAREST,edk::uint32 magFilter = GU_NEAREST);
+    bool createRender(edk::uint32 width,edk::uint32 height,edk::uint32 minFilter = GU_NEAREST,edk::uint32 magFilter = GU_NEAREST);
+    bool createRender(edk::int32 width,edk::int32 height,edk::uint32 minFilter = GU_NEAREST,edk::uint32 magFilter = GU_NEAREST);
     //delete render
     void deleteRender();
 

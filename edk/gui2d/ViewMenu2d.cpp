@@ -132,7 +132,7 @@ bool edk::gui2d::MenuObj::loadObject(edk::uint32 id,edk::char8* spriteName,edk::
             mesh->addPolygon(rect);
             //load the texture
             if(mesh->material.loadTexture(spriteName,0u)){
-                edk::size2ui32 texSize = mesh->material.getTextureSize(0u);
+                edk::size2ui32 texSize = mesh->material.getTextureSize(0u).widthHeight();
                 if(texSize.width && texSize.height){
                     //test the size to set the sprite new size
                     if(texSize.width > texSize.height){
@@ -228,7 +228,7 @@ bool edk::gui2d::MenuObj::loadObjectFromPack(edk::pack::FilePackage* pack,edk::u
             mesh->addPolygon(rect);
             //load the texture
             if(mesh->material.loadTextureFromPack(pack,spriteName,0u)){
-                edk::size2ui32 texSize = mesh->material.getTextureSize(0u);
+                edk::size2ui32 texSize = mesh->material.getTextureSize(0u).widthHeight();
                 if(texSize.width && texSize.height){
                     //test the size to set the sprite new size
                     if(texSize.width > texSize.height){

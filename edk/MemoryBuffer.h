@@ -59,7 +59,7 @@ public:
             this->buffer=NULL;
             this->bufferSize=0u;
             this->bufferWritedSize=0u;
-            this->lenghtToReturn=8u;
+            this->lengthToReturn=8u;
         }
     }
     void Destructor(){
@@ -233,11 +233,11 @@ public:
     }
 
     //lenght to return
-    void setLenghtToReturn(edk::uint8 lenght){
-        this->lenghtToReturn=lenght;
+    void setLenghtToReturn(edk::uint8 length){
+        this->lengthToReturn=length;
     }
     edk::uint8 getLenghtToReturn(){
-        return this->lenghtToReturn;
+        return this->lengthToReturn;
     }
 
     //return true if have the buffer
@@ -306,16 +306,16 @@ public:
     bool printHex(edk::uint64 size){
         if(size && size<=this->bufferWritedSize && this->haveBuffer()){
             typeTemplate temp;
-            edk::uint8 lenght = 0u;
+            edk::uint8 length = 0u;
             for(edk::uint64 i=0u;i<size;i++){
                 edkMemCpy(&temp,&this->buffer[i],sizeof(typeTemplate));
                 this->printElementHEX(temp);
-                if(lenght>=this->lenghtToReturn){
-                    lenght=0u;
+                if(length>=this->lengthToReturn){
+                    length=0u;
                     printf("\n");
                 }
                 else{
-                    lenght++;
+                    length++;
                 }
             }
             fflush(stdout);
@@ -329,17 +329,17 @@ public:
     bool printHexFromPosition(edk::uint64 position,edk::uint64 size){
         if(size && (size+position)<=this->bufferWritedSize && this->haveBuffer()){
             typeTemplate temp;
-            edk::uint8 lenght = 0u;
+            edk::uint8 length = 0u;
             size += position;
             for(edk::uint64 i=position;i<size;i++){
                 edkMemCpy(&temp,&this->buffer[i],sizeof(typeTemplate));
                 this->printElementHEX(temp);
-                if(lenght>=this->lenghtToReturn){
-                    lenght=0u;
+                if(length>=this->lengthToReturn){
+                    length=0u;
                     printf("\n");
                 }
                 else{
-                    lenght++;
+                    length++;
                 }
             }
             fflush(stdout);
@@ -347,13 +347,13 @@ public:
         }
         else if((position)<=this->bufferWritedSize && this->haveBuffer()){
             typeTemplate temp;
-            edk::uint8 lenght = 0u;
+            edk::uint8 length = 0u;
             size += position;
             edk::uint64 i=position;
             for(;i<this->bufferWritedSize;i++){
                 edkMemCpy(&temp,&this->buffer[i],sizeof(typeTemplate));
                 this->printElementHEX(temp);
-                lenght++;
+                length++;
             }
             for(;i<size;i++){
                 printf("   ");
@@ -372,16 +372,16 @@ public:
     bool printChar(edk::uint64 size){
         if(size && size<=this->bufferWritedSize && this->haveBuffer()){
             typeTemplate temp;
-            edk::uint8 lenght = 0u;
+            edk::uint8 length = 0u;
             for(edk::uint64 i=0u;i<size;i++){
                 edkMemCpy(&temp,&this->buffer[i],sizeof(typeTemplate));
                 this->printElementChar(temp);
-                if(lenght>=this->lenghtToReturn){
-                    lenght=0u;
+                if(length>=this->lengthToReturn){
+                    length=0u;
                     printf("\n");
                 }
                 else{
-                    lenght++;
+                    length++;
                 }
             }
             fflush(stdout);
@@ -395,17 +395,17 @@ public:
     bool printCharFromPosition(edk::uint64 position,edk::uint64 size){
         if(size && (size+position)<=this->bufferWritedSize && this->haveBuffer()){
             typeTemplate temp;
-            edk::uint8 lenght = 0u;
+            edk::uint8 length = 0u;
             size += position;
             for(edk::uint64 i=position;i<size;i++){
                 edkMemCpy(&temp,&this->buffer[i],sizeof(typeTemplate));
                 this->printElementChar(temp);
-                if(lenght>=this->lenghtToReturn){
-                    lenght=0u;
+                if(length>=this->lengthToReturn){
+                    length=0u;
                     printf("\n");
                 }
                 else{
-                    lenght++;
+                    length++;
                 }
             }
             fflush(stdout);
@@ -419,16 +419,16 @@ public:
     bool printLetters(edk::uint64 size){
         if(size && size<=this->bufferWritedSize && this->haveBuffer()){
             typeTemplate temp;
-            edk::uint8 lenght = 0u;
+            edk::uint8 length = 0u;
             for(edk::uint64 i=0u;i<size;i++){
                 edkMemCpy(&temp,&this->buffer[i],sizeof(typeTemplate));
                 this->printElementLetter(temp);
-                if(lenght>=this->lenghtToReturn){
-                    lenght=0u;
+                if(length>=this->lengthToReturn){
+                    length=0u;
                     printf("\n");
                 }
                 else{
-                    lenght++;
+                    length++;
                 }
             }
             fflush(stdout);
@@ -442,17 +442,17 @@ public:
     bool printLettersFromPosition(edk::uint64 position,edk::uint64 size){
         if(size && (size+position)<=this->bufferWritedSize && this->haveBuffer()){
             typeTemplate temp;
-            edk::uint8 lenght = 0u;
+            edk::uint8 length = 0u;
             size += position;
             for(edk::uint64 i=position;i<size;i++){
                 edkMemCpy(&temp,&this->buffer[i],sizeof(typeTemplate));
                 this->printElementLetter(temp);
-                if(lenght>=this->lenghtToReturn){
-                    lenght=0u;
+                if(length>=this->lengthToReturn){
+                    length=0u;
                     printf("\n");
                 }
                 else{
-                    lenght++;
+                    length++;
                 }
             }
             fflush(stdout);
@@ -536,7 +536,7 @@ protected:
 
 private:
     //lenghtToReturn
-    edk::uint8 lenghtToReturn;
+    edk::uint8 lengthToReturn;
 
     //function to alloc or realloc the buffer
     void allocBuffer(edk::uint64 size){

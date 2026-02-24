@@ -1267,11 +1267,11 @@ public:
     //scale matrix
     static bool generateScaleMatrix(edk::size3f32 size,edk::vector::Matrixf32<3u,3u>* dest);
     static bool generateScaleMatrix(edk::size3f32 size,edk::vector::Matrixf32<4u,4u>* dest);
-    static inline bool generateScaleMatrix3D(edk::float32 width,edk::float32 height,edk::float32 lenght,edk::vector::Matrixf32<3u,3u>* dest){
-        return edk::Math::generateScaleMatrix(edk::size3f32(width,height,lenght),dest);
+    static inline bool generateScaleMatrix3D(edk::float32 width,edk::float32 height,edk::float32 length,edk::vector::Matrixf32<3u,3u>* dest){
+        return edk::Math::generateScaleMatrix(edk::size3f32(width,height,length),dest);
     }
-    static inline bool generateScaleMatrix3D(edk::float32 width,edk::float32 height,edk::float32 lenght,edk::vector::Matrixf32<4u,4u>* dest){
-        return edk::Math::generateScaleMatrix(edk::size3f32(width,height,lenght),dest);
+    static inline bool generateScaleMatrix3D(edk::float32 width,edk::float32 height,edk::float32 length,edk::vector::Matrixf32<4u,4u>* dest){
+        return edk::Math::generateScaleMatrix(edk::size3f32(width,height,length),dest);
     }
     //lookat matrix
     static bool generateLookAtMatrix(edk::vec3f32 position,edk::vec3f32 look,edk::vec3f32 up,edk::vector::Matrixf32<4u,4u>* dest);

@@ -3257,10 +3257,10 @@ bool edk::fonts::FontMap::writeString(const edk::char8* str,edk::uint32 x,edk::u
     return this->writeString((edk::char8*) str,x,y,width);
 }
 bool edk::fonts::FontMap::writeString(edk::char8* str,edk::uint32 x,edk::uint8 y,edk::uint32 width){
-    edk::uint32 lenght=x+width;
-    if(lenght>=this->map.getMapSize().width){
-        lenght = this->map.getMapSize().width;
-        width = lenght-x;
+    edk::uint32 length=x+width;
+    if(length>=this->map.getMapSize().width){
+        length = this->map.getMapSize().width;
+        width = length-x;
     }
     if(str && width
             && x<this->map.getMapSize().width
@@ -3282,7 +3282,7 @@ bool edk::fonts::FontMap::writeString(edk::char8* str,edk::uint32 x,edk::uint8 y
         while(*str){
             size = this->wordSize(str);
             //test if the word fit inside the line
-            if(size>=lenght-headX){
+            if(size>=length-headX){
                 newLine=true;
                 //test if the headX is in the beggining
                 if(headX==x){
@@ -3290,7 +3290,7 @@ bool edk::fonts::FontMap::writeString(edk::char8* str,edk::uint32 x,edk::uint8 y
                 }
                 else{
                     //clean the last characters of the line
-                    for(;headX<lenght;headX++){
+                    for(;headX<length;headX++){
                         this->map.setTile(space+1u,headX,headY);
                     }
 
@@ -3321,7 +3321,7 @@ bool edk::fonts::FontMap::writeString(edk::char8* str,edk::uint32 x,edk::uint8 y
                     }
                     else{
                         //clean the last characters of the line
-                        for(;headX<lenght;headX++){
+                        for(;headX<length;headX++){
                             this->map.setTile(space+1u,headX,headY);
                         }
 
@@ -3369,10 +3369,10 @@ bool edk::fonts::FontMap::writeString(const edk::char8* str,edk::uint32 x,
 }
 
 bool edk::fonts::FontMap::writeString(edk::char8* str,edk::uint32 x,edk::uint8 y,edk::uint32 width,edk::uint32 height){
-    edk::uint32 lenght=x+width;
-    if(lenght>=this->map.getMapSize().width){
-        lenght = this->map.getMapSize().width;
-        width = lenght-x;
+    edk::uint32 length=x+width;
+    if(length>=this->map.getMapSize().width){
+        length = this->map.getMapSize().width;
+        width = length-x;
     }
     edk::uint32 up=y+height;
     if(up>=this->map.getMapSize().height){
@@ -3400,7 +3400,7 @@ bool edk::fonts::FontMap::writeString(edk::char8* str,edk::uint32 x,edk::uint8 y
         while(*str){
             size = this->wordSize(str);
             //test if the word fit inside the line
-            if(size>=lenght-headX){
+            if(size>=length-headX){
                 newLine=true;
                 //test if the headX is in the beggining
                 if(headX==x){
@@ -3408,7 +3408,7 @@ bool edk::fonts::FontMap::writeString(edk::char8* str,edk::uint32 x,edk::uint8 y
                 }
                 else{
                     //clean the last characters of the line
-                    for(;headX<lenght;headX++){
+                    for(;headX<length;headX++){
                         this->map.setTile(space+1u,headX,headY);
                     }
 
@@ -3439,7 +3439,7 @@ bool edk::fonts::FontMap::writeString(edk::char8* str,edk::uint32 x,edk::uint8 y
                     }
                     else{
                         //clean the last characters of the line
-                        for(;headX<lenght;headX++){
+                        for(;headX<length;headX++){
                             this->map.setTile(space+1u,headX,headY);
                         }
 
@@ -3519,10 +3519,10 @@ bool edk::fonts::FontMap::writeStringColor(edk::char8* str,
                                            edk::float32 b,
                                            edk::float32 a
                                            ){
-    edk::uint32 lenght=x+width;
-    if(lenght>=this->map.getMapSize().width){
-        lenght = this->map.getMapSize().width;
-        width = lenght-x;
+    edk::uint32 length=x+width;
+    if(length>=this->map.getMapSize().width){
+        length = this->map.getMapSize().width;
+        width = length-x;
     }
     if(str && width
             && x<this->map.getMapSize().width
@@ -3545,7 +3545,7 @@ bool edk::fonts::FontMap::writeStringColor(edk::char8* str,
         while(*str){
             size = this->wordSize(str);
             //test if the word fit inside the line
-            if(size>=lenght-headX){
+            if(size>=length-headX){
                 newLine=true;
                 //test if the headX is in the beggining
                 if(headX==x){
@@ -3553,7 +3553,7 @@ bool edk::fonts::FontMap::writeStringColor(edk::char8* str,
                 }
                 else{
                     //clean the last characters of the line
-                    for(;headX<lenght;headX++){
+                    for(;headX<length;headX++){
                         this->map.setTile(space+1u,headX,headY);
                         this->map.setTileColor(r,g,b,a,headX,headY);
                     }
@@ -3586,7 +3586,7 @@ bool edk::fonts::FontMap::writeStringColor(edk::char8* str,
                     }
                     else{
                         //clean the last characters of the line
-                        for(;headX<lenght;headX++){
+                        for(;headX<length;headX++){
                             this->map.setTile(space+1u,headX,headY);
                             this->map.setTileColor(r,g,b,a,headX,headY);
                         }
@@ -3664,10 +3664,10 @@ bool edk::fonts::FontMap::writeStringColor(edk::char8* str,
                                            edk::float32 b,
                                            edk::float32 a
                                            ){
-    edk::uint32 lenght=x+width;
-    if(lenght>=this->map.getMapSize().width){
-        lenght = this->map.getMapSize().width;
-        width = lenght-x;
+    edk::uint32 length=x+width;
+    if(length>=this->map.getMapSize().width){
+        length = this->map.getMapSize().width;
+        width = length-x;
     }
     edk::uint32 up=y+height;
     if(up>=this->map.getMapSize().height){
@@ -3695,7 +3695,7 @@ bool edk::fonts::FontMap::writeStringColor(edk::char8* str,
         while(*str){
             size = this->wordSize(str);
             //test if the word fit inside the line
-            if(size>=lenght-headX){
+            if(size>=length-headX){
                 newLine=true;
                 //test if the headX is in the beggining
                 if(headX==x){
@@ -3703,7 +3703,7 @@ bool edk::fonts::FontMap::writeStringColor(edk::char8* str,
                 }
                 else{
                     //clean the last characters of the line
-                    for(;headX<lenght;headX++){
+                    for(;headX<length;headX++){
                         this->map.setTile(space+1u,headX,headY);
                         this->map.setTileColor(r,g,b,a,headX,headY);
                     }
@@ -3736,7 +3736,7 @@ bool edk::fonts::FontMap::writeStringColor(edk::char8* str,
                     }
                     else{
                         //clean the last characters of the line
-                        for(;headX<lenght;headX++){
+                        for(;headX<length;headX++){
                             this->map.setTile(space+1u,headX,headY);
                             this->map.setTileColor(r,g,b,a,headX,headY);
                         }
@@ -4184,10 +4184,10 @@ bool edk::fonts::FontMap::writeSpaces(const edk::char8* str,edk::uint32 x,edk::u
     return this->writeSpaces((edk::char8*) str,x,y,width);
 }
 bool edk::fonts::FontMap::writeSpaces(edk::char8* str,edk::uint32 x,edk::uint8 y,edk::uint32 width){
-    edk::uint32 lenght=x+width;
-    if(lenght>=this->map.getMapSize().width){
-        lenght = this->map.getMapSize().width;
-        width = lenght-x;
+    edk::uint32 length=x+width;
+    if(length>=this->map.getMapSize().width){
+        length = this->map.getMapSize().width;
+        width = length-x;
     }
     if(str && width
             && x<this->map.getMapSize().width
@@ -4209,7 +4209,7 @@ bool edk::fonts::FontMap::writeSpaces(edk::char8* str,edk::uint32 x,edk::uint8 y
         while(*str){
             size = this->wordSize(str);
             //test if the word fit inside the line
-            if(size>=lenght-headX){
+            if(size>=length-headX){
                 newLine=true;
                 //test if the headX is in the beggining
                 if(headX==x){
@@ -4217,7 +4217,7 @@ bool edk::fonts::FontMap::writeSpaces(edk::char8* str,edk::uint32 x,edk::uint8 y
                 }
                 else{
                     //clean the last characters of the line
-                    for(;headX<lenght;headX++){
+                    for(;headX<length;headX++){
                         this->map.setTile(space+1u,headX,headY);
                     }
 
@@ -4246,7 +4246,7 @@ bool edk::fonts::FontMap::writeSpaces(edk::char8* str,edk::uint32 x,edk::uint8 y
                     }
                     else{
                         //clean the last characters of the line
-                        for(;headX<lenght;headX++){
+                        for(;headX<length;headX++){
                             this->map.setTile(space+1u,headX,headY);
                         }
 
@@ -4275,8 +4275,8 @@ bool edk::fonts::FontMap::writeSpaces(edk::char8* str,edk::uint32 x,edk::uint8 y
         }
 
         //test if reach the end of the limit
-        if(headX<lenght){
-            for(;headX<lenght;headX++){
+        if(headX<length){
+            for(;headX<length;headX++){
                 this->map.setTile(space+1u,headX,headY);
             }
             headX = x;
@@ -4301,10 +4301,10 @@ bool edk::fonts::FontMap::writeSpaces(const edk::char8* str,edk::uint32 x,
 }
 
 bool edk::fonts::FontMap::writeSpaces(edk::char8* str,edk::uint32 x,edk::uint8 y,edk::uint32 width,edk::uint32 height){
-    edk::uint32 lenght=x+width;
-    if(lenght>=this->map.getMapSize().width){
-        lenght = this->map.getMapSize().width;
-        width = lenght-x;
+    edk::uint32 length=x+width;
+    if(length>=this->map.getMapSize().width){
+        length = this->map.getMapSize().width;
+        width = length-x;
     }
     edk::uint32 up=y+height;
     if(up>=this->map.getMapSize().height){
@@ -4331,7 +4331,7 @@ bool edk::fonts::FontMap::writeSpaces(edk::char8* str,edk::uint32 x,edk::uint8 y
         while(*str){
             size = this->wordSize(str);
             //test if the word fit inside the line
-            if(size>=lenght-headX){
+            if(size>=length-headX){
                 newLine=true;
                 //test if the headX is in the beggining
                 if(headX==x){
@@ -4339,7 +4339,7 @@ bool edk::fonts::FontMap::writeSpaces(edk::char8* str,edk::uint32 x,edk::uint8 y
                 }
                 else{
                     //clean the last characters of the line
-                    for(;headX<lenght;headX++){
+                    for(;headX<length;headX++){
                         this->map.setTile(space+1u,headX,headY);
                     }
 
@@ -4368,7 +4368,7 @@ bool edk::fonts::FontMap::writeSpaces(edk::char8* str,edk::uint32 x,edk::uint8 y
                     }
                     else{
                         //clean the last characters of the line
-                        for(;headX<lenght;headX++){
+                        for(;headX<length;headX++){
                             this->map.setTile(space+1u,headX,headY);
                         }
 
@@ -4399,9 +4399,9 @@ bool edk::fonts::FontMap::writeSpaces(edk::char8* str,edk::uint32 x,edk::uint8 y
         }
 
         //test if reach the end of the limit
-        if(headX<lenght){
+        if(headX<length){
             if(headY<up){
-                for(;headX<lenght;headX++){
+                for(;headX<length;headX++){
                     this->map.setTile(space+1u,headX,headY);
                 }
                 headX = x;
@@ -4410,7 +4410,7 @@ bool edk::fonts::FontMap::writeSpaces(edk::char8* str,edk::uint32 x,edk::uint8 y
         }
         if(headY<up){
             for(;headY<up;headY++){
-                for(headX=x;headX<lenght;headX++){
+                for(headX=x;headX<length;headX++){
                     this->map.setTile(space+1u,headX,headY);
                 }
             }
@@ -4466,10 +4466,10 @@ bool edk::fonts::FontMap::writeSpacesColor(edk::char8* str,
                                            edk::float32 b,
                                            edk::float32 a
                                            ){
-    edk::uint32 lenght=x+width;
-    if(lenght>=this->map.getMapSize().width){
-        lenght = this->map.getMapSize().width;
-        width = lenght-x;
+    edk::uint32 length=x+width;
+    if(length>=this->map.getMapSize().width){
+        length = this->map.getMapSize().width;
+        width = length-x;
     }
     if(str && width
             && x<this->map.getMapSize().width
@@ -4491,7 +4491,7 @@ bool edk::fonts::FontMap::writeSpacesColor(edk::char8* str,
         while(*str){
             size = this->wordSize(str);
             //test if the word fit inside the line
-            if(size>=lenght-headX){
+            if(size>=length-headX){
                 newLine=true;
                 //test if the headX is in the beggining
                 if(headX==x){
@@ -4499,7 +4499,7 @@ bool edk::fonts::FontMap::writeSpacesColor(edk::char8* str,
                 }
                 else{
                     //clean the last characters of the line
-                    for(;headX<lenght;headX++){
+                    for(;headX<length;headX++){
                         this->map.setTile(space+1u,headX,headY);
                         this->map.setTileColor(r,g,b,a,headX,headY);
                     }
@@ -4531,7 +4531,7 @@ bool edk::fonts::FontMap::writeSpacesColor(edk::char8* str,
                     }
                     else{
                         //clean the last characters of the line
-                        for(;headX<lenght;headX++){
+                        for(;headX<length;headX++){
                             this->map.setTile(space+1u,headX,headY);
                             this->map.setTileColor(r,g,b,a,headX,headY);
                         }
@@ -4564,8 +4564,8 @@ bool edk::fonts::FontMap::writeSpacesColor(edk::char8* str,
         }
 
         //test if reach the end of the limit
-        if(headX<lenght){
-            for(;headX<lenght;headX++){
+        if(headX<length){
+            for(;headX<length;headX++){
                 this->map.setTile(space+1u,headX,headY);
                 this->map.setTileColor(r,g,b,a,headX,headY);
             }
@@ -4619,10 +4619,10 @@ bool edk::fonts::FontMap::writeSpacesColor(edk::char8* str,
                                            edk::float32 b,
                                            edk::float32 a
                                            ){
-    edk::uint32 lenght=x+width;
-    if(lenght>=this->map.getMapSize().width){
-        lenght = this->map.getMapSize().width;
-        width = lenght-x;
+    edk::uint32 length=x+width;
+    if(length>=this->map.getMapSize().width){
+        length = this->map.getMapSize().width;
+        width = length-x;
     }
     edk::uint32 up=y+height;
     if(up>=this->map.getMapSize().height){
@@ -4649,7 +4649,7 @@ bool edk::fonts::FontMap::writeSpacesColor(edk::char8* str,
         while(*str){
             size = this->wordSize(str);
             //test if the word fit inside the line
-            if(size>=lenght-headX){
+            if(size>=length-headX){
                 newLine=true;
                 //test if the headX is in the beggining
                 if(headX==x){
@@ -4657,7 +4657,7 @@ bool edk::fonts::FontMap::writeSpacesColor(edk::char8* str,
                 }
                 else{
                     //clean the last characters of the line
-                    for(;headX<lenght;headX++){
+                    for(;headX<length;headX++){
                         this->map.setTile(space+1u,headX,headY);
                         this->map.setTileColor(r,g,b,a,headX,headY);
                     }
@@ -4689,7 +4689,7 @@ bool edk::fonts::FontMap::writeSpacesColor(edk::char8* str,
                     }
                     else{
                         //clean the last characters of the line
-                        for(;headX<lenght;headX++){
+                        for(;headX<length;headX++){
                             this->map.setTile(space+1u,headX,headY);
                             this->map.setTileColor(r,g,b,a,headX,headY);
                         }
@@ -4721,9 +4721,9 @@ bool edk::fonts::FontMap::writeSpacesColor(edk::char8* str,
         }
 
         //test if reach the end of the limit
-        if(headX<lenght){
+        if(headX<length){
             if(headY<up){
-                for(;headX<lenght;headX++){
+                for(;headX<length;headX++){
                     this->map.setTile(space+1u,headX,headY);
                     this->map.setTileColor(r,g,b,a,headX,headY);
                 }
@@ -4733,7 +4733,7 @@ bool edk::fonts::FontMap::writeSpacesColor(edk::char8* str,
         }
         if(headY<up){
             for(;headY<up;headY++){
-                for(headX=x;headX<lenght;headX++){
+                for(headX=x;headX<length;headX++){
                     this->map.setTile(space+1u,headX,headY);
                     this->map.setTileColor(r,g,b,a,headX,headY);
                 }

@@ -224,7 +224,7 @@ public:
     bool calculateInverseKinematic(edk::char8* name,edk::vec2f32 worldPoint,edk::uint32 tail,edk::uint32 times);
     bool calculateInverseKinematic(edk::bones::Bone2D* bone,edk::vec2f32 worldPoint,edk::uint32 tail,edk::uint32 times);
 
-    //calculate the bones lenght
+    //calculate the bones length
     edk::float32 calculateLenght(edk::bones::Bone2D* bone,edk::uint32 tail);
 
 private:

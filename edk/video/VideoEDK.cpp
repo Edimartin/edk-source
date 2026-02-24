@@ -60,13 +60,13 @@ bool edk::video::VideoEDK::startEncoderH264(edk::uint32 width,
     return false;
 }
 bool edk::video::VideoEDK::encodeFrameH264(edk::uint8* vector,
-                                           edk::uint64 lenght,
+                                           edk::uint64 length,
                                            edk::uint8 channels,
                                            edk::MemoryBuffer<edk::uint8>* bufferWrite,
                                            bool keyFrame
                                            ){
     if(this->haveEncH264){
-        if(vector && lenght && channels && bufferWrite){
+        if(vector && length && channels && bufferWrite){
             //encode the frame
             if(keyFrame){
                 this->encH264.setNextKeyframe();
@@ -153,12 +153,12 @@ bool edk::video::VideoEDK::startEncoderJPEG(edk::uint32 width,
     return false;
 }
 bool edk::video::VideoEDK::encodeFrameJPEG(edk::uint8* vector,
-                                           edk::uint64 lenght,
+                                           edk::uint64 length,
                                            edk::uint8 channels,
                                            edk::MemoryBuffer<edk::uint8>* bufferWrite,
                                            bool /*keyFrame*/
                                            ){
-    if(vector && lenght && channels && bufferWrite){
+    if(vector && length && channels && bufferWrite){
         //encode the frame
         this->mutDecoder.lock();
         if(this->encJPEG.encode(vector,
@@ -234,14 +234,14 @@ bool edk::video::VideoEDK::startEncoderRGB(edk::uint32 width,
     return false;
 }
 bool edk::video::VideoEDK::encodeFrameRGB(edk::uint8* vector,
-                                          edk::uint64 lenght,
+                                          edk::uint64 length,
                                           edk::uint8 channels,
                                           edk::MemoryBuffer<edk::uint8>* bufferWrite,
                                           bool /*keyFrame*/
                                           ){
-    if(vector && lenght && channels && bufferWrite){
+    if(vector && length && channels && bufferWrite){
         //encode the frame
-        bufferWrite->pushToBuffer(vector,lenght);
+        bufferWrite->pushToBuffer(vector,length);
         return true;
     }
     return false;
@@ -315,13 +315,13 @@ bool edk::video::VideoEDK::startEncoder(edk::uint32 width,edk::uint32 height,edk
 }
 //encode a frame
 bool edk::video::VideoEDK::encodeFrame(edk::uint8* vector,
-                                       edk::uint64 lenght,
+                                       edk::uint64 length,
                                        edk::uint8 channels,
                                        edk::MemoryBuffer<edk::uint8>* bufferWrite,
                                        bool keyFrame
                                        ){
     return (this->*functionEncodeFrame)(vector,
-                                        lenght,
+                                        length,
                                         channels,
                                         bufferWrite,
                                         keyFrame);

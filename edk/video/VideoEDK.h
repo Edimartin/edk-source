@@ -69,7 +69,7 @@ protected:
     virtual bool startEncoder(edk::uint32 width,edk::uint32 height,edk::uint32 channels,edk::float32 fps);
     //encode a frame
     virtual bool encodeFrame(edk::uint8* vector,
-                             edk::uint64 lenght,
+                             edk::uint64 length,
                              edk::uint8 channels,
                              edk::MemoryBuffer<edk::uint8>* bufferWrite,
                              bool keyFrame
@@ -220,7 +220,7 @@ private:
                                                        edk::float32 fps
                                                        );
     bool (edk::video::VideoEDK::*functionEncodeFrame)(edk::uint8* vector,
-                                                      edk::uint64 lenght,
+                                                      edk::uint64 length,
                                                       edk::uint8 channels,
                                                       edk::MemoryBuffer<edk::uint8>* bufferWrite,
                                                       bool keyFrame

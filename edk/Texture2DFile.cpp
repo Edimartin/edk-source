@@ -296,9 +296,9 @@ bool edk::Texture2DFile::loadFromFile(edk::char8 *fileName,edk::uint32 minFilter
                 switch(this->image.getChannels()){
                 case 3u://RGB
                     //load the texture
-    #if defined(EDK_TEX2DFILE_PRINT_DEBUG)
+#if defined(EDK_TEX2DFILE_PRINT_DEBUG)
                     this->writeDebug("createTexture(RGB)",__LINE__,__FILE__,__func__);
-    #endif
+#endif
                     this->createTexture(this->image.width(),
                                         this->image.height(),
                                         GU_RGB,
@@ -310,9 +310,9 @@ bool edk::Texture2DFile::loadFromFile(edk::char8 *fileName,edk::uint32 minFilter
                     break;
                 case 4u://RGBA
                     //load the texture
-    #if defined(EDK_TEX2DFILE_PRINT_DEBUG)
+#if defined(EDK_TEX2DFILE_PRINT_DEBUG)
                     this->writeDebug("createTexture(RGBA)",__LINE__,__FILE__,__func__);
-    #endif
+#endif
                     this->createTexture(this->image.width(),
                                         this->image.height(),
                                         GU_RGBA,
@@ -342,9 +342,9 @@ bool edk::Texture2DFile::loadFromFile(edk::char8 *fileName,edk::uint32 minFilter
                 switch(this->image.getChannels()){
                 case 1u://GRAYSCALE
                     //load the texture
-    #if defined(EDK_TEX2DFILE_PRINT_DEBUG)
+#if defined(EDK_TEX2DFILE_PRINT_DEBUG)
                     this->writeDebug("createTexture(GRAYSCALE)",__LINE__,__FILE__,__func__);
-    #endif
+#endif
                     this->createTexture(this->image.width(),
                                         this->image.height(),
                                         GU_LUMINANCE,
@@ -356,9 +356,9 @@ bool edk::Texture2DFile::loadFromFile(edk::char8 *fileName,edk::uint32 minFilter
                     break;
                 case 3u://RGB
                     //load the texture
-    #if defined(EDK_TEX2DFILE_PRINT_DEBUG)
+#if defined(EDK_TEX2DFILE_PRINT_DEBUG)
                     this->writeDebug("createTexture(RGB)",__LINE__,__FILE__,__func__);
-    #endif
+#endif
                     this->createTexture(this->image.width(),
                                         this->image.height(),
                                         GU_RGB,
@@ -370,9 +370,9 @@ bool edk::Texture2DFile::loadFromFile(edk::char8 *fileName,edk::uint32 minFilter
                     break;
                 case 4u://RGBA
                     //load the texture
-    #if defined(EDK_TEX2DFILE_PRINT_DEBUG)
+#if defined(EDK_TEX2DFILE_PRINT_DEBUG)
                     this->writeDebug("createTexture(RGBA)",__LINE__,__FILE__,__func__);
-    #endif
+#endif
                     this->createTexture(this->image.width(),
                                         this->image.height(),
                                         GU_RGBA,
@@ -632,6 +632,156 @@ bool edk::Texture2DFile::setFromMemory(edk::uint8* image,
 #endif
             this->createTexture(width,
                                 height,
+                                GU_RGBA,
+                                (edk::classID)image,
+                                minFilter,
+                                magFilter
+                                );
+        }
+            break;
+        }
+
+        //test if create the texture
+        if(this->getID()){
+            //set the textureName
+            this->setName("");
+
+            //return true
+            ret = true;
+        }
+        //delete the image
+        this->image.deleteImage();
+    }
+#if defined(EDK_TEX2DFILE_PRINT_DEBUG)
+    this->writeDebug(ret?"RETURN TRUE":"RETURN FALSE",__LINE__,__FILE__,__func__);
+#endif
+    return ret;
+}
+bool edk::Texture2DFile::set3DFromMemory(edk::uint8* image,
+                                         edk::uint32 width,
+                                         edk::uint32 height,
+                                         edk::uint32 length,
+                                         edk::uint32 channels,
+                                         edk::uint32 minFilter,
+                                         edk::uint32 magFilter
+                                         ){
+#if defined(EDK_TEX2DFILE_PRINT_DEBUG)
+    edk::char8* strWidth = edk::String::uint32ToStr(width);
+    if(strWidth){
+        edk::char8* strHeight = edk::String::uint32ToStr(height);
+        if(strHeight){
+            edk::char8* strChannels = edk::String::uint32ToStr(channels);
+            if(strChannels){
+                edk::char8* str = edk::String::strCatMulti("Size[",strWidth,",",strWidth,"] channels[",strChannels,"]",NULL);
+                if(str){
+                    this->writeDebug(str,__LINE__,__FILE__,__func__);
+                    free(str);
+                }
+                free(strChannels);
+            }
+            free(strHeight);
+        }
+        free(strWidth);
+    }
+#endif
+    //return
+    bool ret=false;
+    //delete the last texture
+    this->deleteTexture();
+    //test the image
+    if(image && width && height && length && channels){
+        //process the decode
+        //test the channels
+        switch(channels){
+        case 1u://GRAYSCALE
+        {
+            //load the texture
+#if defined(EDK_TEX2DFILE_PRINT_DEBUG)
+            edk::char8* strWidth = edk::String::uint32ToStr(width);
+            if(strWidth){
+                edk::char8* strHeight = edk::String::uint32ToStr(height);
+                if(strHeight){
+                    edk::char8* strChannels = edk::String::uint32ToStr(channels);
+                    if(strChannels){
+                        edk::char8* str = edk::String::strCatMulti("createTexture(GRAYSCALE,Size[",strWidth,",",strWidth,"] channels[",strChannels,"])",NULL);
+                        if(str){
+                            this->writeDebug(str,__LINE__,__FILE__,__func__);
+                            free(str);
+                        }
+                        free(strChannels);
+                    }
+                    free(strHeight);
+                }
+                free(strWidth);
+            }
+#endif
+            this->createTexture(width,
+                                height,
+                                length,
+                                GU_LUMINANCE,
+                                (edk::classID)image,
+                                minFilter,
+                                magFilter
+                                );
+        }
+            break;
+        case 3u://RGB
+        {
+            //load the texture
+#if defined(EDK_TEX2DFILE_PRINT_DEBUG)
+            edk::char8* strWidth = edk::String::uint32ToStr(width);
+            if(strWidth){
+                edk::char8* strHeight = edk::String::uint32ToStr(height);
+                if(strHeight){
+                    edk::char8* strChannels = edk::String::uint32ToStr(channels);
+                    if(strChannels){
+                        edk::char8* str = edk::String::strCatMulti("createTexture(RGB,Size[",strWidth,",",strWidth,"] channels[",strChannels,"])",NULL);
+                        if(str){
+                            this->writeDebug(str,__LINE__,__FILE__,__func__);
+                            free(str);
+                        }
+                        free(strChannels);
+                    }
+                    free(strHeight);
+                }
+                free(strWidth);
+            }
+#endif
+            this->createTexture(width,
+                                height,
+                                length,
+                                GU_RGB,
+                                (edk::classID)image,
+                                minFilter,
+                                magFilter
+                                );
+        }
+            break;
+        case 4u://RGBA
+        {
+            //load the texture
+#if defined(EDK_TEX2DFILE_PRINT_DEBUG)
+            edk::char8* strWidth = edk::String::uint32ToStr(width);
+            if(strWidth){
+                edk::char8* strHeight = edk::String::uint32ToStr(height);
+                if(strHeight){
+                    edk::char8* strChannels = edk::String::uint32ToStr(channels);
+                    if(strChannels){
+                        edk::char8* str = edk::String::strCatMulti("createTexture(RGBA,Size[",strWidth,",",strWidth,"] channels[",strChannels,"])",NULL);
+                        if(str){
+                            this->writeDebug(str,__LINE__,__FILE__,__func__);
+                            free(str);
+                        }
+                        free(strChannels);
+                    }
+                    free(strHeight);
+                }
+                free(strWidth);
+            }
+#endif
+            this->createTexture(width,
+                                height,
+                                length,
                                 GU_RGBA,
                                 (edk::classID)image,
                                 minFilter,
@@ -966,6 +1116,156 @@ bool edk::Texture2DFile::setFromMemoryRepeat(edk::uint8* image,
 #endif
             this->createTextureRepeat(width,
                                       height,
+                                      GU_RGBA,
+                                      (edk::classID)image,
+                                      minFilter,
+                                      magFilter
+                                      );
+        }
+            break;
+        }
+
+        //test if create the texture
+        if(this->getID()){
+            //set the textureName
+            this->setName("");
+
+            //return true
+            ret = true;
+        }
+        //delete the image
+        this->image.deleteImage();
+    }
+#if defined(EDK_TEX2DFILE_PRINT_DEBUG)
+    this->writeDebug(ret?"RETURN TRUE":"RETURN FALSE",__LINE__,__FILE__,__func__);
+#endif
+    return ret;
+}
+bool edk::Texture2DFile::set3DFromMemoryRepeat(edk::uint8* image,
+                                               edk::uint32 width,
+                                               edk::uint32 height,
+                                               edk::uint32 length,
+                                               edk::uint32 channels,
+                                               edk::uint32 minFilter,
+                                               edk::uint32 magFilter
+                                               ){
+#if defined(EDK_TEX2DFILE_PRINT_DEBUG)
+    edk::char8* strWidth = edk::String::uint32ToStr(width);
+    if(strWidth){
+        edk::char8* strHeight = edk::String::uint32ToStr(height);
+        if(strHeight){
+            edk::char8* strChannels = edk::String::uint32ToStr(channels);
+            if(strChannels){
+                edk::char8* str = edk::String::strCatMulti("Size[",strWidth,",",strWidth,"] channels[",strChannels,"]",NULL);
+                if(str){
+                    this->writeDebug(str,__LINE__,__FILE__,__func__);
+                    free(str);
+                }
+                free(strChannels);
+            }
+            free(strHeight);
+        }
+        free(strWidth);
+    }
+#endif
+    //return
+    bool ret=false;
+    //delete the last texture
+    this->deleteTexture();
+    //test the image
+    if(image && width && height && length && channels){
+        //process the decode
+        //test the channels
+        switch(channels){
+        case 1u://GRAYSCALE
+        {
+            //load the texture
+#if defined(EDK_TEX2DFILE_PRINT_DEBUG)
+            edk::char8* strWidth = edk::String::uint32ToStr(width);
+            if(strWidth){
+                edk::char8* strHeight = edk::String::uint32ToStr(height);
+                if(strHeight){
+                    edk::char8* strChannels = edk::String::uint32ToStr(channels);
+                    if(strChannels){
+                        edk::char8* str = edk::String::strCatMulti("createTexture(GRAYSCALE,Size[",strWidth,",",strWidth,"] channels[",strChannels,"])",NULL);
+                        if(str){
+                            this->writeDebug(str,__LINE__,__FILE__,__func__);
+                            free(str);
+                        }
+                        free(strChannels);
+                    }
+                    free(strHeight);
+                }
+                free(strWidth);
+            }
+#endif
+            this->createTextureRepeat(width,
+                                      height,
+                                      length,
+                                      GU_LUMINANCE,
+                                      (edk::classID)image,
+                                      minFilter,
+                                      magFilter
+                                      );
+        }
+            break;
+        case 3u://RGB
+        {
+            //load the texture
+#if defined(EDK_TEX2DFILE_PRINT_DEBUG)
+            edk::char8* strWidth = edk::String::uint32ToStr(width);
+            if(strWidth){
+                edk::char8* strHeight = edk::String::uint32ToStr(height);
+                if(strHeight){
+                    edk::char8* strChannels = edk::String::uint32ToStr(channels);
+                    if(strChannels){
+                        edk::char8* str = edk::String::strCatMulti("createTexture(RGB,Size[",strWidth,",",strWidth,"] channels[",strChannels,"])",NULL);
+                        if(str){
+                            this->writeDebug(str,__LINE__,__FILE__,__func__);
+                            free(str);
+                        }
+                        free(strChannels);
+                    }
+                    free(strHeight);
+                }
+                free(strWidth);
+            }
+#endif
+            this->createTextureRepeat(width,
+                                      height,
+                                      length,
+                                      GU_RGB,
+                                      (edk::classID)image,
+                                      minFilter,
+                                      magFilter
+                                      );
+        }
+            break;
+        case 4u://RGBA
+        {
+            //load the texture
+#if defined(EDK_TEX2DFILE_PRINT_DEBUG)
+            edk::char8* strWidth = edk::String::uint32ToStr(width);
+            if(strWidth){
+                edk::char8* strHeight = edk::String::uint32ToStr(height);
+                if(strHeight){
+                    edk::char8* strChannels = edk::String::uint32ToStr(channels);
+                    if(strChannels){
+                        edk::char8* str = edk::String::strCatMulti("createTexture(RGBA,Size[",strWidth,",",strWidth,"] channels[",strChannels,"])",NULL);
+                        if(str){
+                            this->writeDebug(str,__LINE__,__FILE__,__func__);
+                            free(str);
+                        }
+                        free(strChannels);
+                    }
+                    free(strHeight);
+                }
+                free(strWidth);
+            }
+#endif
+            this->createTextureRepeat(width,
+                                      height,
+                                      length,
                                       GU_RGBA,
                                       (edk::classID)image,
                                       minFilter,

@@ -1668,10 +1668,10 @@ bool edk::collision::MathCollision::boundingBox2DPointsFirstInsideSecond(edk::re
     return false;
 }
 //test if a bounsingBox3D is inside other boundingBox3D
-bool edk::collision::MathCollision::boundingBox3DFirstInsideSecond(edk::float32 x1,edk::float32 y1,edk::float32 z1,edk::float32 width1,edk::float32 height1,edk::float32 lenght1,
-                                                                   edk::float32 x2,edk::float32 y2,edk::float32 z2,edk::float32 width2,edk::float32 height2,edk::float32 lenght2
+bool edk::collision::MathCollision::boundingBox3DFirstInsideSecond(edk::float32 x1,edk::float32 y1,edk::float32 z1,edk::float32 width1,edk::float32 height1,edk::float32 length1,
+                                                                   edk::float32 x2,edk::float32 y2,edk::float32 z2,edk::float32 width2,edk::float32 height2,edk::float32 length2
                                                                    ){
-    return edk::collision::MathCollision::boundingBox3DFirstInsideSecond(edk::vec3f32(x1,y1,z1),edk::size3f32(width1,height1,lenght1),edk::vec3f32(x2,y2,z2),edk::size3f32(width2,height2,lenght2));
+    return edk::collision::MathCollision::boundingBox3DFirstInsideSecond(edk::vec3f32(x1,y1,z1),edk::size3f32(width1,height1,length1),edk::vec3f32(x2,y2,z2),edk::size3f32(width2,height2,length2));
 }
 bool edk::collision::MathCollision::boundingBox3DFirstInsideSecond(edk::vec3f32 position1,edk::size3f32 size1,edk::vec3f32 position2,edk::size3f32 size2){
     return edk::collision::MathCollision::boundingBox3DFirstInsideSecond(edk::cubef32(position1,size1),edk::cubef32(position2,size2));

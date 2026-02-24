@@ -242,6 +242,18 @@ edk::uint32 edk::LUT3D::getImageWidth(){
 edk::uint32 edk::LUT3D::getImageHeight(){
     return this->imageSize.height;
 }
+edk::size3ui32 edk::LUT3D::getImage3DSize(){
+    return edk::size3ui32(this->size,this->size,this->size);
+}
+edk::uint32 edk::LUT3D::getImage3DWidth(){
+    return this->size;
+}
+edk::uint32 edk::LUT3D::getImage3DHeight(){
+    return this->size;
+}
+edk::uint32 edk::LUT3D::getImage3DLength(){
+    return this->size;
+}
 //return the size of the image in square format in pixels
 edk::size2ui32 edk::LUT3D::getImageSquareSize(){
     edk::uint32 square = (edk::uint32)edk::Math::squareRoot(this->size);
@@ -254,6 +266,260 @@ edk::uint32 edk::LUT3D::getImageSquareWidth(){
 }
 edk::uint32 edk::LUT3D::getImageSquareHeight(){
     return getImageSquareSize().height;
+}
+
+//write and read from image 2d
+bool edk::LUT3D::writeToImage(edk::Image2D* image){
+    if(this->cube && this->size){
+        if(image){
+            edk::uint8* vec = NULL;
+            if(image->newImage("lutTEMP",this->getImageSize(),3u,1u)){
+                if((vec = image->getPixels())){
+                    //copy the pixels
+                    for(edk::uint16 z = 0u;z<size;z++){
+                        for(edk::uint16 y = 0u;y<size;y++){
+                            for(edk::uint16 x = 0u;x<size;x++){
+                                //get the value percent
+                                vec[0u] = this->cube[x][y][z].r;
+                                vec[1u] = this->cube[x][y][z].g;
+                                vec[2u] = this->cube[x][y][z].b;
+                                vec+=3u;
+                            }
+                        }
+                    }
+                    return true;
+                }
+            }
+        }
+    }
+    return false;
+}
+bool edk::LUT3D::readFromImate(edk::uint16 size,edk::Image2D* image){
+    //create the new table
+    if(this->newTable(size)){
+        if(this->cube && this->size){
+            if(image){
+                edk::uint8* vec = NULL;
+                edk::uint8 channels = 0u;
+                if((vec = image->getPixels())){
+                    //get the channels
+                    channels = image->getChannels();
+                    if(channels==3u){
+                        if(this->imageSize.width == image->getWidth()
+                                &&
+                                this->imageSize.height == image->getHeight()
+                                ){
+                            //copy the pixels
+                            for(edk::uint16 z = 0u;z<size;z++){
+                                for(edk::uint16 y = 0u;y<size;y++){
+                                    for(edk::uint16 x = 0u;x<size;x++){
+                                        //get the value percent
+                                        this->cube[x][y][z].r = vec[0u];
+                                        this->cube[x][y][z].g = vec[1u];
+                                        this->cube[x][y][z].b = vec[2u];
+                                        vec+=channels;
+                                    }
+                                }
+                            }
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return false;
+}
+bool edk::LUT3D::writeToImageSquare(edk::Image2D* image){
+    if(this->cube && this->size){
+        if(image){
+            edk::uint8* vec = NULL;
+            edk::uint8* vecTEMP = NULL;
+            edk::uint8 channels = 3u;
+            edk::uint32 jump=0u;
+            edk::size2ui32 sizeImage = this->getImageSquareSize();
+            if(image->newImage("lutTEMP",sizeImage,3u,1u)){
+                if((vec = image->getPixels())){
+                    sizeImage.width/=this->size;
+                    sizeImage.height/=this->size;
+                    jump = (sizeImage.width-1u)*this->size;
+                    edk::uint32 z=0u;
+                    for(edk::uint32 h = 0u;h<sizeImage.height;h++){
+                        for(edk::uint32 w = 0u;w<sizeImage.width;w++){
+                            vecTEMP = &vec[(w*this->size*channels)
+                                    +(h
+                                      *(sizeImage.width*this->size)
+                                      *(this->size)
+                                      *channels)
+                                    ];
+                            for(edk::uint16 y = 0u;y<this->size;y++){
+                                for(edk::uint16 x = 0u;x<this->size;x++){
+                                    //get the value percent
+                                    vecTEMP[0u] = this->cube[x][y][z].r;
+                                    vecTEMP[1u] = this->cube[x][y][z].g;
+                                    vecTEMP[2u] = this->cube[x][y][z].b;
+                                    vecTEMP+=channels;
+                                }
+                                vecTEMP+=jump*channels;
+                            }
+                            z++;
+                            if(z>=this->size){
+                                break;
+                            }
+                        }
+                    }
+                    return true;
+                }
+            }
+        }
+    }
+    return false;
+}
+bool edk::LUT3D::readFromImageSquare(edk::uint16 size,edk::Image2D* image){
+    //create the new table
+    if(this->newTable(size)){
+        if(this->cube && this->size){
+            if(image){
+                //create the image squares
+                edk::uint8* vec = NULL;
+                edk::uint8* vecTEMP = NULL;
+                edk::uint8 channels = 3u;
+                edk::uint32 jump=0u;
+                edk::size2ui32 sizeImage = this->getImageSquareSize();
+                if((vec = image->getPixels())){
+                    //get the channels
+                    channels = image->getChannels();
+                    if(channels==3u){
+                        if(sizeImage.width == image->getWidth()
+                                &&
+                                sizeImage.height == image->getHeight()
+                                ){
+                            sizeImage.width/=this->size;
+                            sizeImage.height/=this->size;
+                            jump = (sizeImage.width-1u)*this->size;
+                            edk::uint32 z=0u;
+                            for(edk::uint32 h = 0u;h<sizeImage.height;h++){
+                                for(edk::uint32 w = 0u;w<sizeImage.width;w++){
+                                    vecTEMP = &vec[(w*this->size*channels)
+                                            +(h
+                                              *(sizeImage.width*this->size)
+                                              *(this->size)
+                                              *channels)
+                                            ];
+                                    for(edk::uint16 y = 0u;y<this->size;y++){
+                                        for(edk::uint16 x = 0u;x<this->size;x++){
+                                            //get the value percent
+                                            this->cube[x][y][z].r = vecTEMP[0u];
+                                            this->cube[x][y][z].g = vecTEMP[1u];
+                                            this->cube[x][y][z].b = vecTEMP[2u];
+                                            vecTEMP+=channels;
+                                        }
+                                        vecTEMP+=jump*channels;
+                                    }
+                                    z++;
+                                    if(z>=this->size){
+                                        break;
+                                    }
+                                }
+                            }
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return false;
+}
+//write and read from image 3d
+bool edk::LUT3D::writeToImage(edk::Image3D* image){
+    if(this->cube && this->size){
+        if(image){
+            edk::uint8* vec = NULL;
+            if(image->newImage("lutTEMP",this->getImage3DSize(),3u,1u)){
+                if((vec = image->getPixels())){
+                    //copy the pixels
+                    for(edk::uint16 z = 0u;z<size;z++){
+                        for(edk::uint16 y = 0u;y<size;y++){
+                            for(edk::uint16 x = 0u;x<size;x++){
+                                //get the value percent
+                                vec[0u] = this->cube[x][y][z].r;
+                                vec[1u] = this->cube[x][y][z].g;
+                                vec[2u] = this->cube[x][y][z].b;
+                                vec+=3u;
+                            }
+                        }
+                    }
+                    return true;
+                }
+            }
+        }
+    }
+    return false;
+}
+bool edk::LUT3D::writeToImageWithAlpha(edk::Image3D* image){
+    if(this->cube && this->size){
+        if(image){
+            edk::uint8* vec = NULL;
+            if(image->newImage("lutTEMP",this->getImage3DSize(),4u,1u)){
+                if((vec = image->getPixels())){
+                    //copy the pixels
+                    for(edk::uint16 z = 0u;z<size;z++){
+                        for(edk::uint16 y = 0u;y<size;y++){
+                            for(edk::uint16 x = 0u;x<size;x++){
+                                //get the value percent
+                                vec[0u] = this->cube[x][y][z].r;
+                                vec[1u] = this->cube[x][y][z].g;
+                                vec[2u] = this->cube[x][y][z].b;
+                                vec[3u] = 255u;
+                                vec+=4u;
+                            }
+                        }
+                    }
+                    return true;
+                }
+            }
+        }
+    }
+    return false;
+}
+bool edk::LUT3D::readFromImate(edk::uint16 size,edk::Image3D* image){
+    //create the new table
+    if(this->newTable(size)){
+        if(this->cube && this->size){
+            if(image){
+                edk::uint8* vec = NULL;
+                edk::uint8 channels = 0u;
+                if((vec = image->getPixels())){
+                    //get the channels
+                    channels = image->getChannels();
+                    if(channels==3u){
+                        if(this->size == image->getWidth()
+                                &&
+                                this->size == image->getHeight()
+                                &&
+                                this->size == image->getLength()
+                                ){
+                            //copy the pixels
+                            for(edk::uint16 z = 0u;z<size;z++){
+                                for(edk::uint16 y = 0u;y<size;y++){
+                                    for(edk::uint16 x = 0u;x<size;x++){
+                                        //get the value percent
+                                        this->cube[x][y][z].r = vec[0u];
+                                        this->cube[x][y][z].g = vec[1u];
+                                        this->cube[x][y][z].b = vec[2u];
+                                        vec+=channels;
+                                    }
+                                }
+                            }
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return false;
 }
 
 //save the table into a .cube file
@@ -427,16 +693,16 @@ bool edk::LUT3D::loadFrom(edk::char8* fileName){
                                             if((position2 = edk::String::stringHaveChar(line,' '))){
                                                 //read the x
                                                 percent = edk::String::strToFloat32(line);
-                                                this->cube[x][y][z].r = (edk::uint8)(percent*255.f)+1u;
+                                                this->cube[x][y][z].r = (edk::uint8)(percent*255.f);
                                                 if((position3 = edk::String::stringHaveChar(&line[position2],' '))){
                                                     //
                                                     position3 += position2;
                                                     //read the y
                                                     percent = edk::String::strToFloat32(&line[position2]);
-                                                    this->cube[x][y][z].g = (edk::uint8)(percent*255.f)+1u;
+                                                    this->cube[x][y][z].g = (edk::uint8)(percent*255.f);
                                                     //read the z
                                                     percent = edk::String::strToFloat32(&line[position3]);
-                                                    this->cube[x][y][z].b = (edk::uint8)(percent*255.f)+1u;
+                                                    this->cube[x][y][z].b = (edk::uint8)(percent*255.f);
                                                 }
                                                 else{
                                                     haveEnd=true;
@@ -554,7 +820,7 @@ bool edk::LUT3D::loadFromImage(edk::uint16 size,edk::char8* fileName){
                     if((vec = image.getPixels())){
                         //get the channels
                         channels = image.getChannels();
-                        if(channels==3u || channels==4u){
+                        if(channels==3u){
                             if(this->imageSize.width == image.getWidth()
                                     &&
                                     this->imageSize.height == image.getHeight()
@@ -663,7 +929,7 @@ bool edk::LUT3D::loadFromImageSquare(edk::uint16 size,edk::char8* fileName){
                     if((vec = image.getPixels())){
                         //get the channels
                         channels = image.getChannels();
-                        if(channels==3u || channels==4u){
+                        if(channels==3u){
                             if(sizeImage.width == image.getWidth()
                                     &&
                                     sizeImage.height == image.getHeight()

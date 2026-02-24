@@ -87,7 +87,7 @@ bool edk::Texture2DRender::loadFrameBuffer(){
 //Load the renderTexture
 bool edk::Texture2DRender::createRender(edk::size2ui32 size,edk::uint32 minFilter,edk::uint32 magFilter){
     //first load make the texture
-    if(this->createTexture(size.width, size.height, EDK_RGB, NULL,minFilter,magFilter)){
+    if(this->createTexture(size.width, size.height, EDK_RGB, NULL,1u,minFilter,magFilter)){
         //create the buffer
         if(this->loadFrameBuffer()){
             this->useThisBuffer();

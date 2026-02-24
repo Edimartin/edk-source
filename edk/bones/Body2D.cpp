@@ -1594,10 +1594,10 @@ bool edk::bones::Body2D::calculateInverseKinematic(edk::bones::Bone2D* bone,edk:
     return ret;
 }
 
-//calculate the bones lenght
+//calculate the bones length
 edk::float32 edk::bones::Body2D::calculateLenght(edk::bones::Bone2D* bone,edk::uint32 tail){
     if(bone){
-        //search for the bone and calculate the lenght
+        //search for the bone and calculate the length
         edk::uint32 counter=0u;
         bool found=false;
         return this->root.calculateLenght(bone,tail,&counter,&found);

@@ -156,10 +156,10 @@ public:
     void cleanUsage();
 
     template <class typeTemplate>
-    bool newVec(typeTemplate** pointer,edk::uint64 lenght){
-        return this->newVec((edk::classID*)pointer,lenght);
+    bool newVec(typeTemplate** pointer,edk::uint64 length){
+        return this->newVec((edk::classID*)pointer,length);
     }
-    bool newVec(edk::classID* pointer,edk::uint64 lenght);
+    bool newVec(edk::classID* pointer,edk::uint64 length);
     template <class typeTemplate>
     bool newObject(typeTemplate** pointer){
         if(pointer){

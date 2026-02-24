@@ -44,8 +44,8 @@ void edk::physics2D::PulleyJoint2D::Constructor(bool collide){
     if(this->classThis!=this){
         this->classThis=this;
         this->type = EDK_PULLEY_JOINT;
-        this->lenghtA=0.f;
-        this->lenghtB=0.f;
+        this->lengthA=0.f;
+        this->lengthB=0.f;
     }
 }
 void edk::physics2D::PulleyJoint2D::Destructor(){

@@ -97,7 +97,7 @@ public:
     bool loadFromFile(const char *fileName,edk::uint32 minFilter = GU_LINEAR,edk::uint32 magFilter = GU_NEAREST);
     //LOAD from memory
     bool loadFromMemory(edk::uint8* image,edk::uint32 size,edk::uint32 minFilter = GU_LINEAR,edk::uint32 magFilter = GU_NEAREST);
-    //SERT from memory
+    //SET from memory
     bool setFromMemory(edk::uint8* image,
                        edk::uint32 width,
                        edk::uint32 height,
@@ -105,18 +105,34 @@ public:
                        edk::uint32 minFilter = GU_LINEAR,
                        edk::uint32 magFilter = GU_NEAREST
             );
+    bool set3DFromMemory(edk::uint8* image,
+                         edk::uint32 width,
+                         edk::uint32 height,
+                         edk::uint32 length,
+                         edk::uint32 channels,
+                         edk::uint32 minFilter = GU_LINEAR,
+                         edk::uint32 magFilter = GU_NEAREST
+            );
     //LOAD
     bool loadFromFileRepeat(edk::char8 *fileName,edk::uint32 minFilter = GU_LINEAR,edk::uint32 magFilter = GU_NEAREST);
     bool loadFromFileRepeat(const char *fileName,edk::uint32 minFilter = GU_LINEAR,edk::uint32 magFilter = GU_NEAREST);
     //LOAD from memory
     bool loadFromMemoryRepeat(edk::uint8* image,edk::uint32 size,edk::uint32 minFilter = GU_LINEAR,edk::uint32 magFilter = GU_NEAREST);
-    //SERT from memory
+    //SET from memory
     bool setFromMemoryRepeat(edk::uint8* image,
                              edk::uint32 width,
                              edk::uint32 height,
                              edk::uint32 channels,
                              edk::uint32 minFilter = GU_LINEAR,
                              edk::uint32 magFilter = GU_NEAREST
+            );
+    bool set3DFromMemoryRepeat(edk::uint8* image,
+                               edk::uint32 width,
+                               edk::uint32 height,
+                               edk::uint32 length,
+                               edk::uint32 channels,
+                               edk::uint32 minFilter = GU_LINEAR,
+                               edk::uint32 magFilter = GU_NEAREST
             );
 
 protected:

@@ -109,11 +109,11 @@ public:
     //function to calculate boundingBox from polygon positions
     bool calculateBoundingBoxFromPolygons(edk::rectf32* rectangle,
                                           edk::vector::Matrixf32<3u,3u>* transformMat,
-                                          edk::uint32 lenght,
+                                          edk::uint32 length,
                                           edk::uint32* positions
                                           );
     edk::rectf32 generateBoundingBoxFromPolygons(edk::vector::Matrixf32<3u,3u>* transformMat,
-                                                 edk::uint32 lenght,
+                                                 edk::uint32 length,
                                                  edk::uint32* positions
                                                  );
     bool getWorldPolygon(edk::shape::Polygon2D* dest,edk::uint32 polygonPosition,edk::vector::Matrixf32<3u,3u>* transformMat);
@@ -124,7 +124,7 @@ public:
                                );
     bool generateWorldPolygons(edk::shape::Polygon2DList* dest,
                                edk::vector::Matrixf32<3u,3u>* transformMat,
-                               edk::uint32 lenght,
+                               edk::uint32 length,
                                edk::uint32* positions
                                );
 

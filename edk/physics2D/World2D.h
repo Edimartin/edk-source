@@ -298,7 +298,7 @@ public:
     //PULLEY
     edk::physics2D::PulleyJoint2D* createPulleyJoint(edk::physics2D::PhysicObject2D* objectA,edk::vec2f32 positionA, edk::vec2f32 pulleyPositionA,
                                                      edk::physics2D::PhysicObject2D* objectB,edk::vec2f32 positionB, edk::vec2f32 pulleyPositionB,
-                                                     edk::float32 lenghtA,edk::float32 lenghtB,
+                                                     edk::float32 lengthA,edk::float32 lengthB,
                                                      bool collide=false
             );
     edk::physics2D::PulleyJoint2D* createPulleyJoint(edk::physics2D::PhysicObject2D* objectA,edk::vec2f32 positionA, edk::vec2f32 pulleyPositionA,
@@ -307,7 +307,7 @@ public:
             );
     edk::physics2D::PulleyJoint2D* createPulleyWorldJoint(edk::physics2D::PhysicObject2D* objectA,edk::vec2f32 worldPositionA, edk::vec2f32 pulleyWorldPositionA,
                                                           edk::physics2D::PhysicObject2D* objectB,edk::vec2f32 worldPositionB, edk::vec2f32 pulleyWorldPositionB,
-                                                          edk::float32 lenghtA,edk::float32 lenghtB,
+                                                          edk::float32 lengthA,edk::float32 lengthB,
                                                           bool collide=false
             );
     edk::physics2D::PulleyJoint2D* createPulleyWorldJoint(edk::physics2D::PhysicObject2D* objectA,edk::vec2f32 worldPositionA, edk::vec2f32 pulleyWorldPositionA,

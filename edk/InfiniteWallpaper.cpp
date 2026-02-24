@@ -1043,50 +1043,50 @@ void edk::InfiniteWallpaper::update(edk::vec2f32 runMove){
 //draw the wallpaper
 void edk::InfiniteWallpaper::drawInsideRect(edk::rectf32 rect){
     //
-    edk::vec2i32 lenght = edk::vec2i32((edk::int32)(rect.size.width / this->size.width),
+    edk::vec2i32 length = edk::vec2i32((edk::int32)(rect.size.width / this->size.width),
                                        (edk::int32)(rect.size.height / this->size.height)
                                        ) + 1;
-    edk::vec2i32 lenghtDouble;
-    if(lenght.x<0){
-        lenght.x*=-1;
+    edk::vec2i32 lengthDouble;
+    if(length.x<0){
+        length.x*=-1;
     }
-    if(lenght.y<0){
-        lenght.y*=-1;
+    if(length.y<0){
+        length.y*=-1;
     }
 
-    lenghtDouble = lenght +2;
+    lengthDouble = length +2;
 
-    //test if lenght is bigger than the sizeLimit
+    //test if length is bigger than the sizeLimit
     if(this->sizeLimit.width != 0u){
         //test the X
-        if(lenghtDouble.x > (edk::int32)this->sizeLimit.width){
+        if(lengthDouble.x > (edk::int32)this->sizeLimit.width){
             //
-            lenghtDouble.x = (edk::int32)this->sizeLimit.width;
-            lenght.x = lenghtDouble.x/2u;
-            if(!lenght.x){
-                lenght.x=1;
+            lengthDouble.x = (edk::int32)this->sizeLimit.width;
+            length.x = lengthDouble.x/2u;
+            if(!length.x){
+                length.x=1;
             }
         }
     }
     if(this->sizeLimit.height != 0u){
         //test the Y
-        if(lenghtDouble.y > (edk::int32)this->sizeLimit.height){
+        if(lengthDouble.y > (edk::int32)this->sizeLimit.height){
             //
-            lenghtDouble.y = (edk::int32)this->sizeLimit.height;
-            lenght.y = lenghtDouble.y/2u;
-            if(!lenght.y){
-                lenght.y=1;
+            lengthDouble.y = (edk::int32)this->sizeLimit.height;
+            length.y = lengthDouble.y/2u;
+            if(!length.y){
+                length.y=1;
             }
         }
     }
 
 
-    if(this->matrix.width()!=(edk::uint32)lenghtDouble.x
+    if(this->matrix.width()!=(edk::uint32)lengthDouble.x
             ||
-            this->matrix.height()!=(edk::uint32)lenghtDouble.y
+            this->matrix.height()!=(edk::uint32)lengthDouble.y
             ){
         //change the matrix
-        this->matrix.createMatrix(lenghtDouble.x,lenghtDouble.y);
+        this->matrix.createMatrix(lengthDouble.x,lengthDouble.y);
 
         edk::size2ui32 size = this->matrix.size();
         //fill the matrix with the wallpapers in X (temporary)
@@ -1094,7 +1094,7 @@ void edk::InfiniteWallpaper::drawInsideRect(edk::rectf32 rect){
 
         //decrement value
         if(this->stack.size()){
-            for(edk::uint32 i=0u;i<(edk::uint32)lenght.x;i++){
+            for(edk::uint32 i=0u;i<(edk::uint32)length.x;i++){
                 if(value){
                     value--;
                 }
@@ -1125,16 +1125,16 @@ void edk::InfiniteWallpaper::drawInsideRect(edk::rectf32 rect){
             edk::int32 posX,posY;
             this->obj.size = this->size;
             this->obj.addMesh(temp->obj.getMesh(0u));
-            if(lenghtDouble.x==1){
-                lenght.x=0;
+            if(lengthDouble.x==1){
+                length.x=0;
             }
-            if(lenghtDouble.y==1){
-                lenght.y=0;
+            if(lengthDouble.y==1){
+                length.y=0;
             }
-            posY=lenght.y*-1;
+            posY=length.y*-1;
             for(edk::uint32 y=0u;y<size.height;y++){
                 this->obj.position.y = this->position.y + (this->translate.y * -1.f) + (posY * this->size.height);
-                posX=lenght.x*-1;
+                posX=length.x*-1;
                 for(edk::uint32 x=0u;x<size.width;x++){
                     this->obj.position.x = this->position.x + this->translate.x + (posX * this->size.width);
                     //test if need change the mesh

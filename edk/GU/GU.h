@@ -396,6 +396,10 @@ public:
     //filters
     //GU_NEAREST
     //GU_LINEAR
+    //GU_NEAREST_MIPMAP_NEAREST
+    //GU_NEAREST_MIPMAP_LINEAR
+    //GU_LINEAR_MIPMAP_NEAREST
+    //GU_LINEAR_MIPMAP_LINEAR
     static bool guDrawToTexture2D(edk::uint32 ID,
                                   edk::uint32 width,
                                   edk::uint32 height,
@@ -426,6 +430,46 @@ public:
     static bool guDrawToTexture2DRepeatAndGenerateMipmap(edk::uint32 ID,
                                                          edk::uint32 width,
                                                          edk::uint32 height,
+                                                         edk::uint32 mode,
+                                                         edk::uint32 minFilter,
+                                                         edk::uint32 magFilter,
+                                                         const edk::classID  data,
+                                                         edk::uint8 bytesPerChannel=1u
+                                                         );
+    static bool guDrawToTexture3D(edk::uint32 ID,
+                                  edk::uint32 width,
+                                  edk::uint32 height,
+                                  edk::uint32 length,
+                                  edk::uint32 mode,
+                                  edk::uint32 minFilter,
+                                  edk::uint32 magFilter,
+                                  const edk::classID  data,
+                                  edk::uint8 bytesPerChannel=1u
+                                  );
+    static bool guDrawToTexture3DRepeat(edk::uint32 ID,
+                                        edk::uint32 width,
+                                        edk::uint32 height,
+                                        edk::uint32 length,
+                                        edk::uint32 mode,
+                                        edk::uint32 minFilter,
+                                        edk::uint32 magFilter,
+                                        const edk::classID  data,
+                                        edk::uint8 bytesPerChannel=1u
+                                        );
+    static bool guDrawToTexture3DAndGenerateMipmap(edk::uint32 ID,
+                                                   edk::uint32 width,
+                                                   edk::uint32 height,
+                                                   edk::uint32 length,
+                                                   edk::uint32 mode,
+                                                   edk::uint32 minFilter,
+                                                   edk::uint32 magFilter,
+                                                   const edk::classID  data,
+                                                   edk::uint8 bytesPerChannel=1u
+                                                   );
+    static bool guDrawToTexture3DRepeatAndGenerateMipmap(edk::uint32 ID,
+                                                         edk::uint32 width,
+                                                         edk::uint32 height,
+                                                         edk::uint32 length,
                                                          edk::uint32 mode,
                                                          edk::uint32 minFilter,
                                                          edk::uint32 magFilter,
@@ -464,54 +508,42 @@ public:
                                                             const edk::classID  data,
                                                             edk::uint8 bytesPerChannel=1u
                                                             );
-    //mode
-    //GU_RGB
-    //GU_RGBA
-    //GU_LUMINANCE
-    //GU_LUMINANCE_ALPHA
-    //filters
-    //GU_NEAREST
-    //GU_LINEAR
-    static bool guDrawToTexture3D(edk::uint32 ID,
-                                  edk::uint32 width,
-                                  edk::uint32 height,
-                                  edk::uint32 depth,
-                                  edk::uint32 mode,
-                                  edk::uint32 minFilter,
-                                  edk::uint32 magFilter,
-                                  const edk::classID  data,
-                                  edk::uint8 bytesPerChannel=1u
-                                  );
-    static bool guDrawToTexture3DRepeat(edk::uint32 ID,
-                                        edk::uint32 width,
-                                        edk::uint32 height,
-                                        edk::uint32 depth,
-                                        edk::uint32 mode,
-                                        edk::uint32 minFilter,
-                                        edk::uint32 magFilter,
-                                        const edk::classID  data,
-                                        edk::uint8 bytesPerChannel=1u
-                                        );
-    static bool guDrawToTexture3DAndGenerateMipmap(edk::uint32 ID,
-                                                   edk::uint32 width,
-                                                   edk::uint32 height,
-                                                   edk::uint32 depth,
-                                                   edk::uint32 mode,
-                                                   edk::uint32 minFilter,
-                                                   edk::uint32 magFilter,
-                                                   const edk::classID  data,
-                                                   edk::uint8 bytesPerChannel=1u
-                                                   );
-    static bool guDrawToTexture3DRepeatAndGenerateMipmap(edk::uint32 ID,
-                                                         edk::uint32 width,
-                                                         edk::uint32 height,
-                                                         edk::uint32 depth,
-                                                         edk::uint32 mode,
-                                                         edk::uint32 minFilter,
-                                                         edk::uint32 magFilter,
-                                                         const edk::classID  data,
-                                                         edk::uint8 bytesPerChannel=1u
-                                                         );
+    static bool guDrawPBOToTexture3D(edk::uint32 pbo,
+                                     edk::uint32 ID,
+                                     edk::uint32 width,
+                                     edk::uint32 height,
+                                     edk::uint32 length,
+                                     edk::uint32 mode,
+                                     const edk::classID  data,
+                                     edk::uint8 bytesPerChannel=1u
+                                     );
+    static bool guDrawPBOToTexture3DRepeat(edk::uint32 pbo,
+                                           edk::uint32 ID,
+                                           edk::uint32 width,
+                                           edk::uint32 height,
+                                           edk::uint32 length,
+                                           edk::uint32 mode,
+                                           const edk::classID  data,
+                                           edk::uint8 bytesPerChannel=1u
+                                           );
+    static bool guDrawPBOToTexture3DAndGenerateMipmap(edk::uint32 pbo,
+                                                      edk::uint32 ID,
+                                                      edk::uint32 width,
+                                                      edk::uint32 height,
+                                                      edk::uint32 length,
+                                                      edk::uint32 mode,
+                                                      const edk::classID  data,
+                                                      edk::uint8 bytesPerChannel=1u
+                                                      );
+    static bool guDrawPBOToTexture3DRepeatAndGenerateMipmap(edk::uint32 pbo,
+                                                            edk::uint32 ID,
+                                                            edk::uint32 width,
+                                                            edk::uint32 height,
+                                                            edk::uint32 length,
+                                                            edk::uint32 mode,
+                                                            const edk::classID  data,
+                                                            edk::uint8 bytesPerChannel=1u
+                                                            );
     //delete texture
     static void guDeleteTexture(edk::uint32 ID);
 

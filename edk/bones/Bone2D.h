@@ -229,7 +229,7 @@ public:
     static bool generateRotationMatrix(edk::float32 angle,edk::float32 mat[][3u][3u]);
     static bool generateScaleMatrix(edk::size2f32 size,edk::float32 mat[][3u][3u]);
 
-    //calculate the lenght
+    //calculate the length
     edk::float32 calculateLenght(edk::bones::Bone2D* bone,edk::uint32 tail,edk::uint32* counter,bool* found);
 
     virtual bool cloneFrom(edk::bones::Bone2D* bone){

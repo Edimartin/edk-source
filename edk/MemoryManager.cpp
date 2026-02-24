@@ -103,8 +103,8 @@ void edk::MemoryManager::cleanUsage(){
     this->treeFree.cleanMemorys();
 }
 
-bool edk::MemoryManager::newVec(edk::classID* pointer,edk::uint64 lenght){
-    if(pointer && lenght){
+bool edk::MemoryManager::newVec(edk::classID* pointer,edk::uint64 length){
+    if(pointer && length){
         //get the memoryFree first in the positions
         edk::MemoryPiece* memFirst = NULL;
         edk::MemoryPiece* memSecond = NULL;
@@ -116,11 +116,11 @@ bool edk::MemoryManager::newVec(edk::classID* pointer,edk::uint64 lenght){
             memFirst = this->treeFree.getElementInPosition(position);
             memSecond = NULL;
             if(memFirst){
-                if(lenght<memFirst->bufferSize){
+                if(length<memFirst->bufferSize){
                     //can divide vemory
                     memTemp1.bufferStart = memFirst->bufferStart;
-                    memTemp1.bufferEnd = memFirst->bufferStart + lenght;
-                    memTemp2.bufferStart = memFirst->bufferStart + lenght;
+                    memTemp1.bufferEnd = memFirst->bufferStart + length;
+                    memTemp2.bufferStart = memFirst->bufferStart + length;
                     memTemp2.bufferEnd = memFirst->bufferEnd;
 
                     this->treeFree.deleteMemory(memFirst);
@@ -130,7 +130,7 @@ bool edk::MemoryManager::newVec(edk::classID* pointer,edk::uint64 lenght){
                         memFirst = this->treeFree.newMemory(memTemp1.bufferStart,memTemp1.bufferEnd,this);
                     }
                 }
-                if(lenght==memFirst->bufferSize){
+                if(length==memFirst->bufferSize){
                     //can use the memory
                     memSecond = this->treeUsing.newMemory(memFirst->bufferStart,memFirst->bufferEnd,pointer);
                     if(memSecond){

@@ -323,14 +323,14 @@ public:
     //write a scroll bar in the console
     bool writeScrollBarVertical(edk::uint32 x,
                                 edk::uint32 y,
-                                edk::uint32 lenght,
+                                edk::uint32 length,
                                 edk::uint32 barPosition,
                                 edk::uint32 barLenght,
                                 edk::ConsoleColors color,
                                 edk::ConsoleColors backgroundColor
                                 );
     bool writeScrollBarVertical(edk::vec2ui32 position,
-                                edk::uint32 lenght,
+                                edk::uint32 length,
                                 edk::uint32 barPosition,
                                 edk::uint32 barLenght,
                                 edk::ConsoleColors color,
@@ -338,14 +338,14 @@ public:
                                 );
     bool writeScrollBarHorizontal(edk::uint32 x,
                                   edk::uint32 y,
-                                  edk::uint32 lenght,
+                                  edk::uint32 length,
                                   edk::uint32 barPosition,
                                   edk::uint32 barLenght,
                                   edk::ConsoleColors color,
                                   edk::ConsoleColors backgroundColor
                                   );
     bool writeScrollBarHorizontal(edk::vec2ui32 position,
-                                  edk::uint32 lenght,
+                                  edk::uint32 length,
                                   edk::uint32 barPosition,
                                   edk::uint32 barLenght,
                                   edk::ConsoleColors color,
@@ -354,14 +354,14 @@ public:
     //write a scroll bar in the console with percent
     bool writeScrollBarVertical(edk::uint32 x,
                                 edk::uint32 y,
-                                edk::uint32 lenght,
+                                edk::uint32 length,
                                 edk::float32 barPosition,
                                 edk::float32 barLenght,
                                 edk::ConsoleColors color,
                                 edk::ConsoleColors backgroundColor
                                 );
     bool writeScrollBarVertical(edk::vec2ui32 position,
-                                edk::uint32 lenght,
+                                edk::uint32 length,
                                 edk::float32 barPosition,
                                 edk::float32 barLenght,
                                 edk::ConsoleColors color,
@@ -369,14 +369,14 @@ public:
                                 );
     bool writeScrollBarHorizontal(edk::uint32 x,
                                   edk::uint32 y,
-                                  edk::uint32 lenght,
+                                  edk::uint32 length,
                                   edk::float32 barPosition,
                                   edk::float32 barLenght,
                                   edk::ConsoleColors color,
                                   edk::ConsoleColors backgroundColor
                                   );
     bool writeScrollBarHorizontal(edk::vec2ui32 position,
-                                  edk::uint32 lenght,
+                                  edk::uint32 length,
                                   edk::float32 barPosition,
                                   edk::float32 barLenght,
                                   edk::ConsoleColors color,

@@ -426,8 +426,8 @@ public:
     static bool boundingBox2DPointsFirstInsideSecond(edk::vec2f32 position1_1,edk::vec2f32 position1_2,edk::vec2f32 position2_1,edk::vec2f32 position2_2);
     static bool boundingBox2DPointsFirstInsideSecond(edk::rectf32 rect1,edk::rectf32 rect2);
     //test if a bounsingBox3D is inside other boundingBox3D
-    static bool boundingBox3DFirstInsideSecond(edk::float32 x1,edk::float32 y1,edk::float32 z1,edk::float32 width1,edk::float32 height1,edk::float32 lenght1,
-                                               edk::float32 x2,edk::float32 y2,edk::float32 z2,edk::float32 width2,edk::float32 height2,edk::float32 lenght2
+    static bool boundingBox3DFirstInsideSecond(edk::float32 x1,edk::float32 y1,edk::float32 z1,edk::float32 width1,edk::float32 height1,edk::float32 length1,
+                                               edk::float32 x2,edk::float32 y2,edk::float32 z2,edk::float32 width2,edk::float32 height2,edk::float32 length2
                                                );
     static bool boundingBox3DFirstInsideSecond(edk::vec3f32 position1,edk::size3f32 size1,edk::vec3f32 position2,edk::size3f32 size2);
     static bool boundingBox3DFirstInsideSecond(edk::cubef32 cube1,edk::cubef32 cube2);
