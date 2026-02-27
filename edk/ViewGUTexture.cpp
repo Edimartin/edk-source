@@ -28,6 +28,60 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #pragma message "            Inside ViewGUTexture.cpp"
 #endif
 
+edk::int64 edk::ViewGUTexture::nameCounter=1uL;
+
+edk::char8 uniformLUTStrings[materialTextureCount][32u] = {
+    "iChannel0",
+    "iChannelLUT1",
+    "iChannelLUT2",
+    "iChannelLUT3",
+    "iChannelLUT4",
+    "iChannelLUT5",
+    "iChannelLUT6",
+    "iChannelLUT7",
+    "iChannelLUT8",
+    "iChannelLUT9",
+    "iChannelLUT10",
+    "iChannelLUT11",
+    "iChannelLUT12",
+    "iChannelLUT13",
+    "iChannelLUT14",
+    "iChannelLUT15",
+    "iChannelLUT16",
+    "iChannelLUT17",
+    "iChannelLUT18",
+    "iChannelLUT19",
+    "iChannelLUT20",
+    "iChannelLUT21",
+    "iChannelLUT22",
+    "iChannelLUT23",
+    "iChannelLUT24",
+    "iChannelLUT25",
+    "iChannelLUT26",
+    "iChannelLUT27",
+    "iChannelLUT28",
+    "iChannelLUT29",
+    "iChannelLUT30",
+    "iChannelLUT31",
+};
+
+const char* LUT_FsSrc = R"(
+                        //LUT FRAG GLSL
+                        #version 330 core
+                        uniform vec2      iResolution;
+                        uniform sampler2D iChannel0;
+                        uniform sampler3D iChannelLUT1;
+
+                        void main(){
+                            vec2 fragCoord = gl_FragCoord.xy;
+                            vec2 uv = fragCoord.xy/iResolution.xy;
+                            //uv.y = (uv.y * - 1.0)+1.0;
+                            vec4 img = texture(iChannel0,uv);
+                            vec4 lut = texture(iChannelLUT1,img.rgb);
+                        gl_FragColor = vec4(lut.rgb, 1.0);
+                        }
+                        )";
+
 edk::ViewGUTexture::ViewGUTexture(edk::size2ui32 size){
     this->classThis=NULL;
     this->Constructor(size);
@@ -47,6 +101,12 @@ void edk::ViewGUTexture::Constructor(edk::size2ui32 size){
 
         this->shader.Constructor();
         this->render.Constructor();
+        this->material.Constructor();
+        this->lut.Constructor();
+
+        this->material.setAmbient(1.f,1.f,1.f,1.f);
+        this->material.setDiffuse(1.f,1.f,1.f,1.f);
+        this->material.setEmission(1.f,1.f,1.f,1.f);
 
         //load the texture
         this->render.createRender(size);
@@ -59,6 +119,8 @@ void edk::ViewGUTexture::Constructor(edk::uint32 width,edk::uint32 height){
 
         this->shader.Constructor();
         this->render.Constructor();
+        this->material.Constructor();
+        this->lut.Constructor();
 
         this->render.createRender(width,height);
     }
@@ -72,8 +134,42 @@ void edk::ViewGUTexture::Destructor(){
 
         this->shader.Destructor();
         this->render.Destructor();
+        this->material.Destructor();
+        this->lut.Destructor();
     }
     edk::ViewGU::Destructor();
+}
+
+//print the uniform values
+void edk::ViewGUTexture::printUniformTextures(){
+    printf("\nUniforms:");
+    for(edk::uint8 i=0u;i<materialTextureCount;i++){
+        printf("\n    %s",uniformLUTStrings[i]);fflush(stdout);
+    }
+}
+
+//load the shader
+bool edk::ViewGUTexture::loadShader(){
+    this->shader.start();
+    this->shader.deleteProgram();
+    this->shader.deleteShaders();
+    if(this->shader.loadShaderFromMemory("lut.frag",(edk::uint8*)LUT_FsSrc,edk::String::strSize(LUT_FsSrc),EDK_SHADER_FRAGMENT)){
+        //printf("\n%u %s %s LOAD FRAGMENT OK",__LINE__,__FILE__,__func__);fflush(stdout);
+        if(this->shader.createProgram("lut.prog")){
+            //printf("\n%u %s %s CREATE PROGRAM OK",__LINE__,__FILE__,__func__);fflush(stdout);
+        }
+        else{
+            printf("\n%u %s %s CREATE PROGRAM ERROR: %s",__LINE__,__FILE__,__func__
+                   ,this->shader.getCompilationLog()
+                   );fflush(stdout);
+        }
+    }
+    else{
+        printf("\n%u %s %s LOAD FRAGMENT ERROR: %s",__LINE__,__FILE__,__func__
+               ,this->shader.getCompilationLog()
+               );fflush(stdout);
+    }
+    return false;
 }
 
 //set the new size of the texture
@@ -144,6 +240,8 @@ void edk::ViewGUTexture::draw(rectf32 outsideViewOrigin){
         //use the shader program
         this->shader.useThisShader();
 
+        //update the shader uniforms
+
         //set the camera position
         edk::GU::guUseMatrix(GU_PROJECTION);
         //Load the identity
@@ -153,12 +251,25 @@ void edk::ViewGUTexture::draw(rectf32 outsideViewOrigin){
 
         //set the matrix before draw the scene
         edk::GU::guUseMatrix(GU_MODELVIEW);
-        //use texture
-        edk::GU::guEnable(GU_TEXTURE_2D);
+
+        //start the material
+        this->material.drawStartWithMultiTexture();
+
         //set the texture
         edk::GU::guUseTexture2D(this->render.getID());
 
         //render the polygon
+        //iResolution
+        this->shader.setData2f("iResolution",this->frame.size.width,this->frame.size.height);
+        this->shader.updateData("iResolution");
+        this->shader.setData1i(uniformLUTStrings[0],0);
+        this->shader.updateData(uniformLUTStrings[0]);
+        for(edk::uint8 i=1u;i<materialTextureCount;i++){
+            if(this->material.haveTexture(i)){
+                this->shader.setData1i(uniformLUTStrings[i],i);
+                this->shader.updateData(uniformLUTStrings[i]);
+            }
+        }
 
         //Draw a quadrangle
         edk::GU::guBegin(GU_QUADS);
@@ -177,7 +288,7 @@ void edk::ViewGUTexture::draw(rectf32 outsideViewOrigin){
 
         edk::GU::guUseTexture2D(0u);
 
-        edk::GU::guDisable(GU_TEXTURE_2D);
+        this->material.drawEndWithTexture();
 
         //remove the shader program
         this->shader.useNoShader();
@@ -191,4 +302,35 @@ void edk::ViewGUTexture::draw(rectf32 outsideViewOrigin){
 //read from the texture
 bool edk::ViewGUTexture::read(const edk::classID  data,edk::uint32 format){
     return this->render.readFromTexture(data,format);
+}
+
+//LUT3D
+bool edk::ViewGUTexture::newLutTextureFromFile(const edk::char8* fileName,edk::uint32 position){
+    return this->newLutTextureFromFile((edk::char8*) fileName,position);
+}
+bool edk::ViewGUTexture::newLutTextureFromFile(edk::char8* fileName,edk::uint32 position){
+    if(position>0u){
+        if(this->lut.loadFrom(fileName)){
+            //create the texture
+            edk::Image3D img;
+            if(this->lut.writeToImage(&img)){
+                //set the image name
+                edk::char8* strValue = edk::String::uint64ToStr(edk::ViewGUTexture::nameCounter);
+                if(strValue){
+                    edk::char8* name = edk::String::strCat("lutTexture_",strValue);
+                    if(name){
+                        img.setName(name);
+                        free(name);
+                    }
+                    free(strValue);
+                }
+                if(this->material.newTextureAndDraw(&img,position,GU_LINEAR,GU_LINEAR)){
+                    img.deleteImage();
+                    return true;
+                }
+                img.deleteImage();
+            }
+        }
+    }
+    return false;
 }

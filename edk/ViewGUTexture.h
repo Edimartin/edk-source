@@ -36,6 +36,8 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "Camera2D.h"
 
 #include "shd/GLSL.h"
+#include "edk/material/Material.h"
+#include "edk/LUT/LUT3D.h"
 
 #ifdef printMessages
 #pragma message "    Compiling ViewGUTexture"
@@ -52,6 +54,12 @@ public:
     void Constructor(edk::size2ui32 size);
     void Constructor(edk::uint32 width,edk::uint32 height);
     void Destructor();
+
+    //print the uniform values
+    void printUniformTextures();
+
+    //load the shader
+    bool loadShader();
 
     //set the new size of the texture
     bool setTextureSize(edk::size2ui32 size);
@@ -88,11 +96,24 @@ public:
     //GU_BGR
     //GU_BGRA
     bool read(const edk::classID  data,edk::uint32 format = GU_RGB);
+
+    //LUT3D
+    bool newLutTextureFromFile(const edk::char8* fileName,edk::uint32 position=1u);
+    bool newLutTextureFromFile(edk::char8* fileName,edk::uint32 position=1u);
+    inline bool loadLutTextureFromFile(const edk::char8* fileName,edk::uint32 position=1u){
+        return this->newLutTextureFromFile(fileName,position);
+    }
+    inline bool loadLutTextureFromFile(edk::char8* fileName,edk::uint32 position=1u){
+        return this->newLutTextureFromFile(fileName,position);
+    }
 protected:
     //shader program
     edk::shd::GLSL shader;
 private:
     edk::Texture2DRender render;
+    edk::material::Material material;
+    edk::LUT3D lut;
+    static edk::int64 nameCounter;
 private:
     edk::classID classThis;
 };

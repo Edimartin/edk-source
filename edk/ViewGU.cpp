@@ -46,11 +46,11 @@ void edk::ViewGU::Constructor(){
     }
 }
 void edk::ViewGU::Destructor(){
+    edk::ViewSpriteController::Destructor();
     if(this->classThis==this){
         this->classThis=NULL;
         //can destruct the class
     }
-    edk::ViewSpriteController::Destructor();
 }
 
 //return true if is a GU View
