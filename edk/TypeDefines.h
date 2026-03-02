@@ -256,6 +256,7 @@ enum byteSize{
 namespace key{
 enum code{
     nothing = 0u,
+    capsLock = 219u,
     num0 = '0',
     num1 = '1',
     num2 = '2',

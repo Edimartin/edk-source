@@ -140,6 +140,10 @@ public:
         return (n1>=n2-distance && n1<=n2+distance);
     }
 
+    //test if the value is Not A Number
+    static inline bool isNAN(edk::float32 value){return isnan(value);}
+    static inline bool isNAN(edk::float64 value){return isnan(value);}
+
     static inline bool isEven(edk::char8  n){
         if(EDK_MATH_EVEN(n)){
             return  true;

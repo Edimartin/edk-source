@@ -1267,7 +1267,7 @@ bool edk::Window::loadEvents(){
         if(event.type == sf::Event::KeyPressed){//2.0
             //carrega a tecla pressionada
             //this->events.keyPressed.pushBack(event.Key.Code);//1.6
-            //printf("\nKey Pressed %d",event.key.code);
+            //printf("\nKey Pressed %d",event.key.code);fflush(stdout);
             if(event.key.code>=0&&event.key.code<26){
                 this->events.keyPressed.pushBack(event.key.code+'a') ;//2.0
                 //if(!this->saveKeyHolded.haveHolded(event.key.code+'a')){
@@ -1302,6 +1302,7 @@ bool edk::Window::loadEvents(){
         if(event.type == sf::Event::KeyReleased){//2.0
             //carrega a tecla pressionada
             //this->events.keyRelease.pushBack(event.Key.Code);//1.6
+            //printf("\nKey Release %d",event.key.code);fflush(stdout);
             if(event.key.code>=0&&event.key.code<26){
                 this->events.keyRelease.pushBack(event.key.code+'a') ;//2.0
                 this->saveKeyHolded.removeHolded(event.key.code+'a');
@@ -1593,7 +1594,20 @@ bool edk::Window::loadEvents(){
     //test if have focus
     if(this->windowFocus){
         edk::uint32 sizeHold = this->saveKeyHolded.getSize();
+        edk::uint32 idHold=0u;
         for(edk::uint32 i=0u;i<sizeHold;i++){
+            idHold = this->saveKeyHolded.getHoldedInPosition(i);
+            switch(this->saveKeyHolded.getHoldedInPosition(i)){
+            case edk::key::lShift:
+            case edk::key::rShift:
+            case edk::key::lAlt:
+            case edk::key::rAlt:
+            case edk::key::capsLock:
+                this->saveKeyHolded.incrementHolded(idHold,1u);
+                break;
+            default:
+                break;
+            }
             this->events.keyHolded.pushBack(this->saveKeyHolded.getHoldedInPosition(i));
         }
         //load the holded mouse button

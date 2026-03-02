@@ -529,7 +529,7 @@ private:
             tempAdd = this->getElement(temp);
             if(tempAdd.id == id){
                 if(this->remove(tempAdd)){
-                    tempAdd.count++;
+                    if(tempAdd.count<100u) tempAdd.count++;
                     if(this->add(tempAdd)){
                         return true;
                     }
@@ -544,7 +544,7 @@ private:
                 tempAdd = this->getElement(temp);
                 if(tempAdd.id == id){
                     if(this->remove(tempAdd)){
-                        tempAdd.count=value;
+                        if(tempAdd.count<100u) tempAdd.count=value;
                         if(this->add(tempAdd)){
                             return true;
                         }
