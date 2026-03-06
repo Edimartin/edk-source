@@ -56,7 +56,7 @@ void edk::View::Constructor(){
         //set color to white
         this->backgroundColor = edk::color4f32(1,1,1,1);
         //set to show view
-        this->canUpdate=true;
+        this->canUpdateThis=true;
         this->hide=false;
         this->paused=false;
         this->mouseInside=false;
@@ -829,6 +829,17 @@ bool edk::View::isThisAnimationPosition(edk::animation::InterpolationGroup* anim
     return false;
 }
 
+//set if can update the view
+void edk::View::setCanUpdate(bool canUpdate){
+    this->canUpdateThis = canUpdate;
+}
+void edk::View::canUpdate(){
+    this->setCanUpdate(true);
+}
+void edk::View::cantUpdate(){
+    this->setCanUpdate(false);
+}
+
 //test if a point is inside the view
 bool edk::View::pointInside(edk::vec2f32 point){
     //create a tempRectangleShape
@@ -873,5 +884,5 @@ bool edk::View::isPaused(){
 }
 
 bool edk::View::canUpdateView(){
-    return this->canUpdate;
+    return this->canUpdateThis;
 }

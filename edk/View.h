@@ -313,6 +313,11 @@ public:
     //test the animationPointer
     bool isThisAnimationPosition(edk::animation::InterpolationGroup* animation);
 
+    //set if can update the view
+    void setCanUpdate(bool canUpdate);
+    void canUpdate();
+    void cantUpdate();
+
     //test if a point is inside the view
     virtual bool pointInside(edk::vec2f32 point);
 
@@ -354,7 +359,7 @@ protected:
     edk::float32 borderTemp;
     //save if it's paused
     bool paused;
-    bool canUpdate;
+    bool canUpdateThis;
 
     //Draw Functions
     //draw viewPort

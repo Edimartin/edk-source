@@ -1251,15 +1251,15 @@ bool edk::gui2d::ObjectGui2d::writeToXML(edk::XML* xml,edk::uint32 id){
 
                         //gui2dTextureNormal;
                         if(this->sprite.material.getTextureName(edk::gui2d::gui2dTextureNormal)){
-                        xml->addSelectedNextAttribute(gui2dSymbolsString[edk::gui2d::gui2dTextureNormal],
-                                this->sprite.material.getTextureName(edk::gui2d::gui2dTextureNormal)
-                                );
+                            xml->addSelectedNextAttribute(gui2dSymbolsString[edk::gui2d::gui2dTextureNormal],
+                                    this->sprite.material.getTextureName(edk::gui2d::gui2dTextureNormal)
+                                    );
                         }
                         //gui2dTextureUp;
                         if(this->sprite.material.getTextureName(edk::gui2d::gui2dTextureUp)){
-                        xml->addSelectedNextAttribute(gui2dSymbolsString[edk::gui2d::gui2dTextureUp],
-                                this->sprite.material.getTextureName(edk::gui2d::gui2dTextureUp)
-                                );
+                            xml->addSelectedNextAttribute(gui2dSymbolsString[edk::gui2d::gui2dTextureUp],
+                                    this->sprite.material.getTextureName(edk::gui2d::gui2dTextureUp)
+                                    );
                         }
                         //gui2dTexturePressed;
                         if(this->sprite.material.getTextureName(edk::gui2d::gui2dTexturePressed)){
@@ -1274,7 +1274,27 @@ bool edk::gui2d::ObjectGui2d::writeToXML(edk::XML* xml,edk::uint32 id){
                                     );
                         }
 
-                        xml->addSelectedNextAttribute(EDK_GUI2D_XML_GUI2D_STRING,this->textString.getName());
+                        if(this->getTypeGUI() == gui2dTypeTextField){
+                            strTemp = edk::String::strCopy(this->textString.getName());
+                            if(strTemp){
+                                edk::uint32 strSize = edk::String::strSize(strTemp);
+                                if(strSize){
+                                    strTemp[strSize-1u] = 0u;
+                                    xml->addSelectedNextAttribute(EDK_GUI2D_XML_GUI2D_STRING,strTemp);
+                                    strTemp[strSize-1u] = ' ';
+                                }
+                                else{
+                                    xml->addSelectedNextAttribute(EDK_GUI2D_XML_GUI2D_STRING,this->textString.getName());
+                                }
+                                free(strTemp);
+                            }
+                            else{
+                                xml->addSelectedNextAttribute(EDK_GUI2D_XML_GUI2D_STRING,this->textString.getName());
+                            }
+                        }
+                        else{
+                            xml->addSelectedNextAttribute(EDK_GUI2D_XML_GUI2D_STRING,this->textString.getName());
+                        }
 
                         xml->addSelectedNextAttribute(EDK_GUI2D_XML_GUI2D_NAME,this->name.getName());
 

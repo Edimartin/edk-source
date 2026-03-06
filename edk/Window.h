@@ -396,7 +396,7 @@ private:
             this->frame=outsideViewOrigin;
         }
         void load(edk::rectf32 /*outsideViewOrigin*/){
-            this->canUpdate=false;
+            this->canUpdateThis=false;
             //
             this->backgroundColor = edk::color4f32(1.f,1.f,1.f,0.25f);
         }
