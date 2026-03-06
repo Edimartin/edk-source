@@ -39,6 +39,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include <stdlib.h>
 #include <stdarg.h>
 #include "BinaryConverter.h"
+#include "./String.h"
 
 #if defined(_WIN32) || defined(_WIN64)
 #include <conio.h>
@@ -158,6 +159,12 @@ public:
     static inline edk::char8* getPWD(){
         return edk::ConsoleTerminal::getCurrentFolder();
     }
+
+    //generate the exec folder
+    static inline edk::char8* generateExecFolder(const edk::char8* argv0){
+        return edk::ConsoleTerminal::generateExecFolder((edk::char8*) argv0);
+    }
+    static edk::char8* generateExecFolder(edk::char8* argv0);
 private:
     //TTY to construct and destruct
     static edk::TTY tty;

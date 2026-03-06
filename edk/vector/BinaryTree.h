@@ -2918,13 +2918,11 @@ protected:
         return false;
     }
     //Print
-    void printElement(edk::char8* value){
-        //
-        edk::Name* temp = (edk::Name*)value;
-        if(temp){
+    void printElement(edk::Name* value){
+        if(value){
             //
             printf("\nString '%s'"
-                   ,temp->getName()
+                   ,value->getName()
                    );
         }
         else{

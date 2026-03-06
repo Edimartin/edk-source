@@ -145,11 +145,16 @@ public:
     edk::float32 getObjectDepthInPosition(edk::uint32 levelPosition,edk::uint32 position);
     edk::float32 getObjectDepthInPosition(edk::uint32 levelPosition,edk::Object2D* obj);
     //delete the object
+    bool deleteObject(edk::Object2D* obj);
     bool deleteObject(edk::uint32 levelPosition,edk::Object2D* obj);
     void deleteAllObjects(edk::uint32 levelPosition);
     void deleteAllObjects();
     //dont delete the object
+    bool removeObject(edk::Object2D* obj);
     bool removeObject(edk::uint32 levelPosition,edk::Object2D* obj);
+    //clone object
+    edk::Object2D* cloneObject(edk::Object2D* obj);
+    edk::Object2D* cloneObject(edk::uint32 levelPosition,edk::Object2D* obj);
     //set object to be animated
     bool setObjectAnimated(edk::uint32 levelPosition,edk::Object2D* obj);
     bool setObjectAnimated(edk::uint32 levelPosition,edk::uint32 position);
@@ -192,13 +197,18 @@ public:
     bool unloadPhysicObjectsFromWorld(edk::uint32 levelPosition);
     bool unloadPhysicObjectsFromWorld();
     //delete the object
+    bool deletePhysicObject(edk::physics2D::PhysicObject2D* obj);
     bool deletePhysicObject(edk::uint32 levelPosition,edk::physics2D::PhysicObject2D* obj);
     void deleteAllPhysicObjects(edk::uint32 levelPosition);
     void deleteAllPhysicObjects();
     //remove the object
+    bool removePhysicObject(edk::physics2D::PhysicObject2D* obj);
     bool removePhysicObject(edk::uint32 levelPosition,edk::physics2D::PhysicObject2D* obj);
     bool removePhysicObjects(edk::uint32 levelPosition);
     void removePhysicObjects();
+    //clone physicObject
+    edk::physics2D::PhysicObject2D* clonePhysicObject(edk::physics2D::PhysicObject2D* obj);
+    edk::physics2D::PhysicObject2D* clonePhysicObject(edk::uint32 levelPosition,edk::physics2D::PhysicObject2D* obj);
     //set physic object to be animated
     bool setPhysicObjectAnimated(edk::uint32 levelPosition,edk::physics2D::PhysicObject2D* obj);
     bool setPhysicObjectAnimated(edk::uint32 levelPosition,edk::uint32 position);

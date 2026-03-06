@@ -4047,6 +4047,20 @@ public:
         }
         return false;
     }
+    virtual bool cloneFrom(edk::vector::Stack<edk::Name*>* ret){
+        //clean the vector
+        this->clean();
+        if(ret){
+            //copy the types from the ret
+            for(edk::uint32 i=0u;i<ret->size();i++){
+                //copy
+                this->pushBack(ret->get(i));
+            }
+            return true;
+        }
+        return false;
+    }
+
 private:
     void _deleteAllNames(){
         //remove all the names on the stack

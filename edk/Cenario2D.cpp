@@ -2356,6 +2356,33 @@ edk::float32 edk::Cenario2D::getObjectDepthInPosition(edk::uint32 levelPosition,
 }
 
 //delete the object
+bool edk::Cenario2D::deleteObject(edk::Object2D* obj){
+    //find the object
+    edk::uint32 size = this->levels.size();
+    if(size){
+        edk::Cenario2D::LevelObj* level = NULL;
+        for(edk::uint32 i=0u;i<size;i++){
+            level = this->levels.get(i);
+            if(level){
+                if(level->tileMap){
+                    //
+                    continue;
+                }
+                if(level->objs){
+                    //test if have the object
+                    if(level->objs->haveObject(obj)){
+                        //remove the object
+                        return this->deleteObject(i+1u,obj);
+                    }
+                }
+                if(level->objsPhys){
+                    continue;
+                }
+            }
+        }
+    }
+    return false;
+}
 bool edk::Cenario2D::deleteObject(edk::uint32 levelPosition,edk::Object2D* obj){
     if(obj){
         //load the level
@@ -2428,6 +2455,33 @@ void edk::Cenario2D::deleteAllObjects(){
     }
 }
 //dont delete the object
+bool edk::Cenario2D::removeObject(edk::Object2D* obj){
+    //find the object
+    edk::uint32 size = this->levels.size();
+    if(size){
+        edk::Cenario2D::LevelObj* level = NULL;
+        for(edk::uint32 i=0u;i<size;i++){
+            level = this->levels.get(i);
+            if(level){
+                if(level->tileMap){
+                    //
+                    continue;
+                }
+                if(level->objs){
+                    //test if have the object
+                    if(level->objs->haveObject(obj)){
+                        //remove the object
+                        return this->removeObject(i+1u,obj);
+                    }
+                }
+                if(level->objsPhys){
+                    continue;
+                }
+            }
+        }
+    }
+    return false;
+}
 bool edk::Cenario2D::removeObject(edk::uint32 levelPosition,edk::Object2D* obj){
     if(obj){
         //load the level
@@ -2460,6 +2514,55 @@ bool edk::Cenario2D::removeObject(edk::uint32 levelPosition,edk::Object2D* obj){
         }
     }
     return false;
+}
+//clone object
+edk::Object2D* edk::Cenario2D::cloneObject(edk::Object2D* obj){
+    //find the object
+    edk::uint32 size = this->levels.size();
+    if(size){
+        edk::Cenario2D::LevelObj* level = NULL;
+        for(edk::uint32 i=0u;i<size;i++){
+            level = this->levels.get(i);
+            if(level){
+                if(level->tileMap){
+                    continue;
+                }
+                if(level->objs){
+                    //test if have the object
+                    if(level->objs->haveObject(obj)){
+                        //remove the object
+                        return this->cloneObject(i+1u,obj);
+                    }
+                }
+                if(level->objsPhys){
+                    continue;
+                }
+            }
+        }
+    }
+    return NULL;
+}
+edk::Object2D* edk::Cenario2D::cloneObject(edk::uint32 levelPosition,edk::Object2D* obj){
+    if(obj){
+        //load the level
+        if(levelPosition){
+            levelPosition--;
+            if(this->levels.havePos(levelPosition)){
+                edk::Cenario2D::LevelObj* level =this->levels.get(levelPosition);
+                if(level){
+                    if(level->objs){
+                        //create a new object
+                        edk::Object2D* objTEMP = this->newObject(levelPosition+1u);
+                        if(objTEMP){
+                            objTEMP->cloneFrom(obj);
+                            return objTEMP;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return NULL;
 }
 //set object to be animated
 bool edk::Cenario2D::setObjectAnimated(edk::uint32 levelPosition,edk::Object2D* obj){
@@ -2979,6 +3082,33 @@ bool edk::Cenario2D::unloadPhysicObjectsFromWorld(){
 }
 
 //delete the object
+bool edk::Cenario2D::deletePhysicObject(edk::physics2D::PhysicObject2D* obj){
+    //find the object
+    edk::uint32 size = this->levels.size();
+    if(size){
+        edk::Cenario2D::LevelObj* level = NULL;
+        for(edk::uint32 i=0u;i<size;i++){
+            level = this->levels.get(i);
+            if(level){
+                if(level->tileMap){
+                    //
+                    continue;
+                }
+                if(level->objs){
+                    continue;
+                }
+                if(level->objsPhys){
+                    //test if have the object
+                    if(level->objsPhys->haveObject(obj)){
+                        //remove the object
+                        return this->deletePhysicObject(i+1u,obj);
+                    }
+                }
+            }
+        }
+    }
+    return false;
+}
 bool edk::Cenario2D::deletePhysicObject(edk::uint32 levelPosition,edk::physics2D::PhysicObject2D* obj){
     if(levelPosition){
         levelPosition--;
@@ -3062,6 +3192,33 @@ void edk::Cenario2D::deleteAllPhysicObjects(){
     }
 }
 //remove the object
+bool edk::Cenario2D::removePhysicObject(edk::physics2D::PhysicObject2D* obj){
+    //find the object
+    edk::uint32 size = this->levels.size();
+    if(size){
+        edk::Cenario2D::LevelObj* level = NULL;
+        for(edk::uint32 i=0u;i<size;i++){
+            level = this->levels.get(i);
+            if(level){
+                if(level->tileMap){
+                    //
+                    continue;
+                }
+                if(level->objs){
+                    continue;
+                }
+                if(level->objsPhys){
+                    //test if have the object
+                    if(level->objsPhys->haveObject(obj)){
+                        //remove the object
+                        return this->removePhysicObject(i+1u,obj);
+                    }
+                }
+            }
+        }
+    }
+    return false;
+}
 bool edk::Cenario2D::removePhysicObject(edk::uint32 levelPosition,edk::physics2D::PhysicObject2D* obj){
     if(levelPosition){
         levelPosition--;
@@ -3145,6 +3302,55 @@ void edk::Cenario2D::removePhysicObjects(){
             }
         }
     }
+}
+//clone physicObject
+edk::physics2D::PhysicObject2D* edk::Cenario2D::clonePhysicObject(edk::physics2D::PhysicObject2D* obj){
+    //find the object
+    edk::uint32 size = this->levels.size();
+    if(size){
+        edk::Cenario2D::LevelObj* level = NULL;
+        for(edk::uint32 i=0u;i<size;i++){
+            level = this->levels.get(i);
+            if(level){
+                if(level->tileMap){
+                    continue;
+                }
+                if(level->objs){
+                    //test if have the object
+                    if(level->objs->haveObject(obj)){
+                        //remove the object
+                        return this->clonePhysicObject(i+1u,obj);
+                    }
+                }
+                if(level->objsPhys){
+                    continue;
+                }
+            }
+        }
+    }
+    return NULL;
+}
+edk::physics2D::PhysicObject2D* edk::Cenario2D::clonePhysicObject(edk::uint32 levelPosition,edk::physics2D::PhysicObject2D* obj){
+    if(obj){
+        //load the level
+        if(levelPosition){
+            levelPosition--;
+            if(this->levels.havePos(levelPosition)){
+                edk::Cenario2D::LevelObj* level =this->levels.get(levelPosition);
+                if(level){
+                    if(level->objsPhys){
+                        //create a new object
+                        edk::physics2D::PhysicObject2D* objTEMP = (edk::physics2D::PhysicObject2D*)this->newPhysicObject(levelPosition,obj->getType());
+                        if(objTEMP){
+                            objTEMP->cloneFrom(obj);
+                            return objTEMP;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return NULL;
 }
 //set physic object to be animated
 bool edk::Cenario2D::setPhysicObjectAnimated(edk::uint32 levelPosition,edk::physics2D::PhysicObject2D* obj){

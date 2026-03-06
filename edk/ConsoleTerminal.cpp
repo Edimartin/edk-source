@@ -854,3 +854,32 @@ edk::char8* edk::ConsoleTerminal::getCurrentFolder(){
     getcwd(edk::ConsoleTerminal::strFolder, sizeof(edk::ConsoleTerminal::strFolder));
     return edk::ConsoleTerminal::strFolder;
 }
+
+//generate the exec folder
+edk::char8* edk::ConsoleTerminal::generateExecFolder(edk::char8* argv0){
+    if(argv0){
+        if(argv0[0u]){
+            if(argv0[0u]=='.'){
+                argv0+=2u;
+                if(argv0[0u]){
+                    //cat the names
+                    edk::char8* strPWD = edk::ConsoleTerminal::getPWD();
+                    if(strPWD){
+                        return edk::String::strCat(strPWD,argv0);
+                    }
+                }
+            }
+            else if(argv0[0u]!='/'){
+                //cat the names
+                edk::char8* strPWD = edk::ConsoleTerminal::getPWD();
+                if(strPWD){
+                    return edk::String::strCat(strPWD,argv0);
+                }
+            }
+            else{
+                return edk::String::strCopy(argv0);
+            }
+        }
+    }
+    return NULL;
+}
