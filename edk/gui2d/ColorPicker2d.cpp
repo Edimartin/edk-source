@@ -47,9 +47,11 @@ void edk::gui2d::ColorPicker2d::createColor(){
     this->objColor1.clean();
     this->objColor2.clean();
     this->objColor3.clean();
+    this->objColor4.clean();
     this->objController1.clean();
     this->objController2.clean();
     this->objController3.clean();
+    this->objController4.clean();
     this->objColorFinal.clean();
     switch(this->typeColor){
     case edk::gui2d::colorTypeRGB:
@@ -72,7 +74,7 @@ void edk::gui2d::ColorPicker2d::createColor(){
                                    );
             quad.setVertexColor(1u,0.f,0.f,0.f,
                                 1.f);
-            //RUGHT
+            //RIGHT
             quad.setVertexPosition(2u,
                                    1.f-0.5f,
                                    EDK_GUI2D_SHOW_R_END_Y-0.5f
@@ -100,7 +102,7 @@ void edk::gui2d::ColorPicker2d::createColor(){
                                    );
             quad.setVertexColor(1u,0.f,0.f,0.f,
                                 1.f);
-            //RUGHT
+            //RIGHT
             quad.setVertexPosition(2u,
                                    1.f-0.5f,
                                    EDK_GUI2D_SHOW_G_END_Y-0.5f
@@ -128,7 +130,7 @@ void edk::gui2d::ColorPicker2d::createColor(){
                                    );
             quad.setVertexColor(1u,0.f,0.f,0.f,
                                 1.f);
-            //RUGHT
+            //RIGHT
             quad.setVertexPosition(2u,
                                    1.f-0.5f,
                                    EDK_GUI2D_SHOW_B_END_Y-0.5f
@@ -142,6 +144,36 @@ void edk::gui2d::ColorPicker2d::createColor(){
             quad.setVertexColor(3u,0.f,0.f,1.f,
                                 1.f);
             mesh->addPolygon(quad);
+
+            //FRAME A
+            //LEFT
+            quad.setVertexPosition(0u,
+                                   0.f-0.5f,
+                                   EDK_GUI2D_SHOW_A_BEGIN_Y-0.5f
+                                   );
+            quad.setVertexColor(0u,0.f,0.f,0.f,
+                                1.f);
+            quad.setVertexPosition(1u,
+                                   0.f-0.5f,
+                                   EDK_GUI2D_SHOW_A_END_Y-0.5f
+                                   );
+            quad.setVertexColor(1u,0.f,0.f,0.f,
+                                1.f);
+            //RIGHT
+            quad.setVertexPosition(2u,
+                                   1.f-0.5f,
+                                   EDK_GUI2D_SHOW_A_END_Y-0.5f
+                                   );
+            quad.setVertexColor(2u,0.f,0.f,1.f,
+                                1.f);
+            quad.setVertexPosition(3u,
+                                   1.f-0.5f,
+                                   EDK_GUI2D_SHOW_A_BEGIN_Y-0.5f
+                                   );
+            quad.setVertexColor(3u,0.f,0.f,1.f,
+                                1.f);
+            mesh->addPolygon(quad);
+
         }
         mesh = this->objColorFinal.newMesh(0u);
         if(mesh){
@@ -246,6 +278,31 @@ void edk::gui2d::ColorPicker2d::createColor(){
             rect.setVertexPosition(1u,
                                    (rgb32.b + 0.005f)-0.5f,
                                    EDK_GUI2D_SHOW_B_END_Y-0.5f
+                                   );
+            rect.setPolygonColor(1.f,1.f,1.f,1.f);
+            mesh->addPolygon(rect);
+        }
+        //A
+        mesh = this->objController4.newMesh(0u);
+        if(mesh){
+            edk::shape::Rectangle2D rect;
+            rect.setVertexPosition(0u,
+                                   (rgb32.b - 0.01f)-0.5f,
+                                   EDK_GUI2D_SHOW_A_BEGIN_Y-0.5f
+                                   );
+            rect.setVertexPosition(1u,
+                                   (rgb32.b + 0.01f)-0.5f,
+                                   EDK_GUI2D_SHOW_A_END_Y-0.5f
+                                   );
+            rect.setPolygonColor(0.f,0.f,0.f,0.f);
+            mesh->addPolygon(rect);
+            rect.setVertexPosition(0u,
+                                   (rgb32.b - 0.005f)-0.5f,
+                                   EDK_GUI2D_SHOW_A_BEGIN_Y-0.5f
+                                   );
+            rect.setVertexPosition(1u,
+                                   (rgb32.b + 0.005f)-0.5f,
+                                   EDK_GUI2D_SHOW_A_END_Y-0.5f
                                    );
             rect.setPolygonColor(1.f,1.f,1.f,1.f);
             mesh->addPolygon(rect);
@@ -454,6 +511,38 @@ void edk::gui2d::ColorPicker2d::createColor(){
             mesh->addPolygon(quad);
         }
 
+        mesh = this->objColor3.newMesh(0u);
+        if(mesh){
+            edk::shape::Quadrangle2D quad;
+
+            //FRAME1
+            quad.setVertexPosition(0u,
+                                   EDK_GUI2D_ALPHA_PERCENT_BEGIN_X-0.5f,
+                                   0.f-0.5f
+                                   );
+            quad.setVertexColor(0u,0.f,0.f,0.f,
+                                0.f);
+            quad.setVertexPosition(1u,
+                                   EDK_GUI2D_ALPHA_PERCENT_BEGIN_X-0.5f,
+                                   1.f-0.5f
+                                   );
+            quad.setVertexColor(1u,1.f,0.f,0.f,
+                                1.f);
+            quad.setVertexPosition(2u,
+                                   EDK_GUI2D_ALPHA_PERCENT_END_X-0.5f,
+                                   1.f-0.5f
+                                   );
+            quad.setVertexColor(2u,1.f,0.f,0.f,
+                                1.f);
+            quad.setVertexPosition(3u,
+                                   EDK_GUI2D_ALPHA_PERCENT_END_X-0.5f,
+                                   0.f-0.5f
+                                   );
+            quad.setVertexColor(3u,0.f,0.f,0.f,
+                                0.f);
+            mesh->addPolygon(quad);
+        }
+
         mesh = this->objColorFinal.newMesh(0u);
         if(mesh){
             edk::shape::Quadrangle2D quad;
@@ -538,7 +627,7 @@ void edk::gui2d::ColorPicker2d::createColor(){
             rect.setPolygonColor(1.f,1.f,1.f,1.f);
             mesh->addPolygon(rect);
         }
-        //S
+        //A
         mesh = this->objController3.newMesh(0u);
         percentSize = EDK_GUI2D_SATURATION_PERCENT_END_X-EDK_GUI2D_SATURATION_PERCENT_BEGIN_X;
         percent = (this->channelSaturation * percentSize) + EDK_GUI2D_SATURATION_PERCENT_BEGIN_X;
@@ -552,7 +641,7 @@ void edk::gui2d::ColorPicker2d::createColor(){
                                    (percent + 0.01f)-0.5f,
                                    1.f-0.5f
                                    );
-            rect.setPolygonColor(0.f,0.f,0.f,1.f);
+            rect.setPolygonColor(0.f,0.f,0.f,0.f);
             mesh->addPolygon(rect);
             rect.setVertexPosition(0u,
                                    (percent - 0.005f)-0.5f,
@@ -561,6 +650,32 @@ void edk::gui2d::ColorPicker2d::createColor(){
             rect.setVertexPosition(1u,
                                    (percent + 0.005f)-0.5f,
                                    1.f-0.5f
+                                   );
+            rect.setPolygonColor(1.f,1.f,1.f,1.f);
+            mesh->addPolygon(rect);
+        }
+        //ALPHA
+        mesh = this->objController4.newMesh(0u);
+        percent = this->channelA/360.f;
+        if(mesh){
+            edk::shape::Rectangle2D rect;
+            rect.setVertexPosition(0u,
+                                   EDK_GUI2D_ALPHA_PERCENT_BEGIN_X-0.5f,
+                                   (percent - 0.01f)-0.5f
+                                   );
+            rect.setVertexPosition(1u,
+                                   EDK_GUI2D_ALPHA_PERCENT_END_X-0.5f,
+                                   (percent + 0.01f)-0.5f
+                                   );
+            rect.setPolygonColor(0.f,0.f,0.f,1.f);
+            mesh->addPolygon(rect);
+            rect.setVertexPosition(0u,
+                                   EDK_GUI2D_ALPHA_PERCENT_BEGIN_X-0.5f,
+                                   (percent - 0.005f)-0.5f
+                                   );
+            rect.setVertexPosition(1u,
+                                   EDK_GUI2D_ALPHA_PERCENT_END_X-0.5f,
+                                   (percent + 0.005f)-0.5f
                                    );
             rect.setPolygonColor(1.f,1.f,1.f,1.f);
             mesh->addPolygon(rect);
@@ -578,6 +693,7 @@ void edk::gui2d::ColorPicker2d::processClick(edk::vec2f32 position,bool start){
         this->controllingR=false;
         this->controllingG=false;
         this->controllingB=false;
+        this->controllingA=false;
     }
     edk::rectf32 rect = edk::rectf32(this->objColor1.position.x,
                                      this->objColor1.position.y,
@@ -607,10 +723,10 @@ void edk::gui2d::ColorPicker2d::processClick(edk::vec2f32 position,bool start){
                     //INSIDE HUE
                     percent = (position.x - rect.origin.x) / (this->objColor1.size.width);
                     //change the rgb color
-                    edk::color3f32 rgb32 = this->getColorRGB32();
+                    edk::color4f32 rgb32 = this->getColorRGBA32();
                     rgb32.r = percent;
 
-                    this->setColorRGB32(rgb32);
+                    this->setColorRGBA32(rgb32);
 
                     if(start){
                         this->controllingR=true;
@@ -629,10 +745,10 @@ void edk::gui2d::ColorPicker2d::processClick(edk::vec2f32 position,bool start){
                         //INSIDE HUE
                         percent = (position.x - rect.origin.x) / (this->objColor2.size.width);
                         //change the rgb color
-                        edk::color3f32 rgb32 = this->getColorRGB32();
+                        edk::color4f32 rgb32 = this->getColorRGBA32();
                         rgb32.g = percent;
 
-                        this->setColorRGB32(rgb32);
+                        this->setColorRGBA32(rgb32);
 
                         if(start){
                             this->controllingG=true;
@@ -651,13 +767,35 @@ void edk::gui2d::ColorPicker2d::processClick(edk::vec2f32 position,bool start){
                             //INSIDE HUE
                             percent = (position.x - rect.origin.x) / (this->objColor3.size.width);
                             //change the rgb color
-                            edk::color3f32 rgb32 = this->getColorRGB32();
+                            edk::color4f32 rgb32 = this->getColorRGBA32();
                             rgb32.b = percent;
 
-                            this->setColorRGB32(rgb32);
+                            this->setColorRGBA32(rgb32);
 
                             if(start){
                                 this->controllingB=true;
+                            }
+                        }
+                    }else{
+                        rectTemp.origin.y = ((rect.size.height - rect.origin.y) * EDK_GUI2D_SHOW_A_BEGIN_Y)
+                                + rect.origin.y;
+                        rectTemp.size.height = ((rect.size.height - rect.origin.y) * EDK_GUI2D_SHOW_A_END_Y)
+                                + rect.origin.y;
+                        if(position.y >= rectTemp.origin.y
+                                && position.y < rectTemp.size.height
+                                ){
+                            if(start || this->controllingA){
+                                //INSIDE HUE
+                                percent = (position.x - rect.origin.x) / (this->objColor4.size.width);
+                                //change the rgb color
+                                edk::color4f32 rgb32 = this->getColorRGBA32();
+                                rgb32.a = percent;
+
+                                this->setColorRGBA32(rgb32);
+
+                                if(start){
+                                    this->controllingA=true;
+                                }
                             }
                         }
                     }
@@ -680,7 +818,7 @@ void edk::gui2d::ColorPicker2d::processClick(edk::vec2f32 position,bool start){
                     this->channelHue=percent*360.f;
 
                     //update the color in saturation and value
-                    this->setColorHSV32(this->channelHue,this->channelSaturation,this->channelValue);
+                    this->setColorHSVA32(this->channelHue,this->channelSaturation,this->channelValue,this->channelA);
 
                     if(start){
                         this->controllingHue=true;
@@ -705,22 +843,44 @@ void edk::gui2d::ColorPicker2d::processClick(edk::vec2f32 position,bool start){
                         this->channelSaturation = (position.x - rectTemp.origin.x) / (rectTemp.size.width-rectTemp.origin.x);
                         this->channelValue = (position.y - rectTemp.origin.y) / (rectTemp.size.height-rectTemp.origin.y);
 
-                        this->setColorHSV32(this->channelHue,this->channelSaturation,this->channelValue);
+                        this->setColorHSVA32(this->channelHue,this->channelSaturation,this->channelValue,this->channelA);
 
                         if(start){
                             this->controllingSaturation=true;
                         }
                     }
                 }
-            }
+                else{
+                    rectTemp = rect;
+                    rectTemp.origin.x = ((rect.size.width - rect.origin.x) * EDK_GUI2D_ALPHA_PERCENT_BEGIN_X)
+                            + rect.origin.x;
+                    rectTemp.size.width = ((rect.size.width - rect.origin.x) * EDK_GUI2D_ALPHA_PERCENT_END_X)
+                            + rect.origin.x;
+                    if(position.x >= rectTemp.origin.x
+                            && position.x < rectTemp.size.width
+                            ){
+                        if(start || this->controllingHue){
+                            //INSIDE HUE
+                            percent = (position.y - rect.origin.y) / (this->objColor1.size.height);
+                            this->channelA=percent;
 
+                            //update the color in saturation and value
+                            this->setColorHSVA32(this->channelHue,this->channelSaturation,this->channelValue,this->channelA);
+
+                            if(start){
+                                this->controllingHue=true;
+                            }
+                        }
+                    }
+                }
+            }
             break;
         default:
             break;
         }
     }
 }
-bool edk::gui2d::ColorPicker2d::updatePolygonColorValue(edk::color3f32 color32){
+bool edk::gui2d::ColorPicker2d::updatePolygonColorValue(edk::color4f32 color32){
     bool ret = true;
     edk::shape::Mesh2D *mesh = this->objColor2.getMesh(0u);
     if(mesh){
@@ -747,7 +907,7 @@ bool edk::gui2d::ColorPicker2d::updatePolygonColorValue(edk::color3f32 color32){
         mesh->setVertexPositionY(1u,0u,(percent - 0.005f)-0.5f);
         mesh->setVertexPositionY(1u,1u,(percent + 0.005f)-0.5f);
     }
-    //S
+    //A
     mesh = this->objController3.getMesh(0u);
     percentSize = EDK_GUI2D_SATURATION_PERCENT_END_X-EDK_GUI2D_SATURATION_PERCENT_BEGIN_X;
     percent = (this->channelSaturation * percentSize) + EDK_GUI2D_SATURATION_PERCENT_BEGIN_X;
@@ -757,10 +917,19 @@ bool edk::gui2d::ColorPicker2d::updatePolygonColorValue(edk::color3f32 color32){
         mesh->setVertexPositionX(1u,0u,(percent - 0.005f)-0.5f);
         mesh->setVertexPositionX(1u,1u,(percent + 0.005f)-0.5f);
     }
+    //Alpha
+    mesh = this->objController4.getMesh(0u);
+     percent = this->channelA;
+    if(mesh){
+        mesh->setVertexPositionY(0u,0u,(percent - 0.01f)-0.5f);
+        mesh->setVertexPositionY(0u,1u,(percent + 0.01f)-0.5f);
+        mesh->setVertexPositionY(1u,0u,(percent - 0.005f)-0.5f);
+        mesh->setVertexPositionY(1u,1u,(percent + 0.005f)-0.5f);
+    }
     return ret;
 }
 
-bool edk::gui2d::ColorPicker2d::updatePolygonColorRGB(edk::color3f32 color32){
+bool edk::gui2d::ColorPicker2d::updatePolygonColorRGBA(edk::color4f32 color32){
     bool ret = true;
     edk::shape::Mesh2D *mesh = NULL;
     mesh = this->objColor1.getMesh(0u);
@@ -840,16 +1009,67 @@ bool edk::gui2d::ColorPicker2d::updatePolygonColorRGB(edk::color3f32 color32){
             mesh->setVertexPositionX(1u,0u,(color32.b - 0.005f)-0.5f);
             mesh->setVertexPositionX(1u,1u,(color32.b + 0.005f)-0.5f);
         }
+        //A
+        mesh = this->objController4.getMesh(0u);
+        if(mesh){
+            mesh->setVertexPositionX(0u,0u,(color32.a - 0.01f)-0.5f);
+            mesh->setVertexPositionX(0u,1u,(color32.a + 0.01f)-0.5f);
+            mesh->setVertexPositionX(1u,0u,(color32.a - 0.005f)-0.5f);
+            mesh->setVertexPositionX(1u,1u,(color32.a + 0.005f)-0.5f);
+        }
     }
     return ret;
 }
 
-bool edk::gui2d::ColorPicker2d::updateShowColor(edk::color3f32 color32){
+bool edk::gui2d::ColorPicker2d::updateShowColor(edk::color4f32 color32){
+    bool ret = true;
+    switch(this->typeColor){
+    case edk::gui2d::colorTypeRGB:
+    {
+        edk::shape::Mesh2D *mesh = this->objColor1.getMesh(0u);
+        //A
+        //LEFT
+        if(!mesh->setVertexColor(3u,0u,color32.r,color32.g,color32.b,0.f)){
+            ret=false;
+        }
+        if(!mesh->setVertexColor(3u,1u,color32.r,color32.g,color32.b,0.f)
+                ){
+            ret=false;
+        }
+        //RIGHT
+        if(!mesh->setVertexColor(3u,2u,color32.r,color32.g,color32.b,1.f)){
+            ret=false;
+        }
+        if(!mesh->setVertexColor(3u,3u,color32.r,color32.g,color32.b,1.f)
+                ){
+            ret=false;
+        }
+    }
+        break;
+    case edk::gui2d::colorTypeHSV:
+    {
+
+        //Alpha
+        edk::shape::Mesh2D *mesh = this->objColor3.getMesh(0u);
+        if(mesh){
+            if(!mesh->setVertexColor(0u,1u,color32.r,color32.g,color32.b,1.f)){
+                ret = false;
+            }
+            if(!mesh->setVertexColor(0u,2u,color32.r,color32.g,color32.b,1.f)){
+                ret = false;
+            }
+        }
+    }
+        break;
+    default:
+        break;
+    }
+
     edk::shape::Mesh2D* mesh = this->objColorFinal.getMesh(0u);
     if(mesh){
         return mesh->setPolygonsColor(color32);
     }
-    return false;
+    return ret;
 }
 
 void edk::gui2d::ColorPicker2d::Constructor(){
@@ -865,6 +1085,7 @@ void edk::gui2d::ColorPicker2d::Constructor(){
         this->controllingR=false;
         this->controllingG=false;
         this->controllingB=false;
+        this->controllingA=false;
         this->channelHue=360.f;
         this->channelSaturation=1.f;
         this->channelValue=1.f;
@@ -916,6 +1137,30 @@ bool edk::gui2d::ColorPicker2d::setColorType(edk::gui2d::ColorType type){
 }
 
 //return the color picked
+edk::color4ui8 edk::gui2d::ColorPicker2d::getColorRGBA8(){
+    edk::color4ui8 ret = edk::color4ui8((edk::uint8)0u,
+                                        (edk::uint8)0u,
+                                        (edk::uint8)0u,
+                                        (edk::uint8)(this->channelA*255.f));
+    switch(this->typeColor){
+    case edk::gui2d::colorTypeRGB:
+        ret.r = (edk::uint8)(this->channelR*255.f);
+        ret.g = (edk::uint8)(this->channelG*255.f);
+        ret.b = (edk::uint8)(this->channelB*255.f);
+        break;
+    case edk::gui2d::colorTypeHSV:
+    {
+        edk::color3ui8 temp = edk::Image2D::hsvTorgb(this->channelHue,this->channelSaturation,this->channelValue);
+        ret.r = temp.r;
+        ret.g = temp.g;
+        ret.b = temp.b;
+    }
+        break;
+    default:
+        break;
+    }
+    return ret;
+}
 edk::color3ui8 edk::gui2d::ColorPicker2d::getColorRGB8(){
     switch(this->typeColor){
     case edk::gui2d::colorTypeRGB:
@@ -931,6 +1176,30 @@ edk::color3ui8 edk::gui2d::ColorPicker2d::getColorRGB8(){
         break;
     }
     return edk::color3ui8(0u,0u,0u);
+}
+edk::color4f32 edk::gui2d::ColorPicker2d::getColorRGBA32(){
+    switch(this->typeColor){
+    case edk::gui2d::colorTypeRGB:
+        return edk::color4f32(this->channelR,
+                              this->channelG,
+                              this->channelB,
+                              this->channelA
+                              );
+        break;
+    case edk::gui2d::colorTypeHSV:
+    {
+        edk::color3ui8 color8 = this->getColorRGB8();
+        return edk::color4f32((edk::float32)color8.r/255.f,
+                              (edk::float32)color8.g/255.f,
+                              (edk::float32)color8.b/255.f,
+                              this->channelA
+                              );
+    }
+        break;
+    default:
+        break;
+    }
+    return edk::color4f32(0.f,0.f,0.f,this->channelA);
 }
 edk::color3f32 edk::gui2d::ColorPicker2d::getColorRGB32(){
     switch(this->typeColor){
@@ -954,15 +1223,19 @@ edk::color3f32 edk::gui2d::ColorPicker2d::getColorRGB32(){
     }
     return edk::color3f32(0.f,0.f,0.f);
 }
+edk::color4f32 edk::gui2d::ColorPicker2d::getColorHSVA32(){
+    return edk::color4f32(this->channelHue,this->channelSaturation,this->channelValue,this->channelA);
+}
 edk::color3f32 edk::gui2d::ColorPicker2d::getColorHSV32(){
     return edk::color3f32(this->channelHue,this->channelSaturation,this->channelValue);
 }
 
-bool edk::gui2d::ColorPicker2d::setColorRGB32(edk::color3f32 color){
+bool edk::gui2d::ColorPicker2d::setColorRGBA32(edk::color4f32 color){
     bool ret=true;
-    edk::color3ui8 newColor8 = edk::color3ui8((edk::uint8)(color.r*255.f),
+    edk::color4ui8 newColor8 = edk::color4ui8((edk::uint8)(color.r*255.f),
                                               (edk::uint8)(color.g*255.f),
-                                              (edk::uint8)(color.b*255.f)
+                                              (edk::uint8)(color.b*255.f),
+                                              (edk::uint8)(color.a*255.f)
                                               );
     edk::color3f32 newColor= edk::Image2D::rgbTohsv(newColor8);
     this->channelHue = newColor.r;
@@ -975,8 +1248,9 @@ bool edk::gui2d::ColorPicker2d::setColorRGB32(edk::color3f32 color){
         this->channelR=color.r;
         this->channelG=color.g;
         this->channelB=color.b;
+        this->channelA=color.a;
         //update the RGB polygon
-        if(!this->updatePolygonColorRGB(color)){
+        if(!this->updatePolygonColorRGBA(color)){
             ret=false;
         }
     }
@@ -985,10 +1259,11 @@ bool edk::gui2d::ColorPicker2d::setColorRGB32(edk::color3f32 color){
     {
         //update the saturation/value polygon
         edk::color3ui8 color8 = edk::Image2D::hsvTorgb(this->channelHue,1.f,1.0);
-        edk::color3f32 color32;
+        edk::color4f32 color32;
         this->channelR = color32.r = (edk::float32)color8.r/255.f;
         this->channelG = color32.g = (edk::float32)color8.g/255.f;
         this->channelB = color32.b = (edk::float32)color8.b/255.f;
+        this->channelA = color32.a = (edk::float32)newColor8.a/255.f;
         if(!this->updatePolygonColorValue(color32)){
             ret=false;
         }
@@ -1006,10 +1281,16 @@ bool edk::gui2d::ColorPicker2d::setColorRGB32(edk::color3f32 color){
 
     return ret;
 }
-bool edk::gui2d::ColorPicker2d::setColorRGB32(edk::float32 r,edk::float32 g,edk::float32 b){
-    return this->setColorRGB32(edk::color3f32(r,g,b));
+bool edk::gui2d::ColorPicker2d::setColorRGBA32(edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a){
+    return this->setColorRGBA32(edk::color4f32(r,g,b,a));
 }
-bool edk::gui2d::ColorPicker2d::setColorHSV32(edk::color3f32 color){
+bool edk::gui2d::ColorPicker2d::setColorRGB32(edk::color3f32 color){
+    return this->setColorRGBA32(edk::color4f32(color.r,color.g,color.b,1.f));
+}
+bool edk::gui2d::ColorPicker2d::setColorRGB32(edk::float32 r,edk::float32 g,edk::float32 b){
+    return this->setColorRGBA32(edk::color4f32(r,g,b,1.f));
+}
+bool edk::gui2d::ColorPicker2d::setColorHSVA32(edk::color4f32 color){
     bool ret=true;
     this->channelHue = color.r;
     this->channelSaturation = color.g;
@@ -1022,11 +1303,12 @@ bool edk::gui2d::ColorPicker2d::setColorHSV32(edk::color3f32 color){
     {
         //update the RGB polygon
         edk::color3ui8 color8 = edk::Image2D::hsvTorgb(this->channelHue,this->channelSaturation,this->channelValue);
-        edk::color3f32 color32;
+        edk::color4f32 color32;
         this->channelR = color32.r = (edk::float32)color8.r/255.f;
         this->channelG = color32.g = (edk::float32)color8.g/255.f;
         this->channelB = color32.b = (edk::float32)color8.b/255.f;
-        if(!this->updatePolygonColorRGB(color32)){
+        this->channelA = color32.b = color.a;
+        if(!this->updatePolygonColorRGBA(color32)){
             ret=false;
         }
     }
@@ -1035,14 +1317,16 @@ bool edk::gui2d::ColorPicker2d::setColorHSV32(edk::color3f32 color){
     {
         //update the saturation/value polygon
         edk::color3ui8 color8 = edk::Image2D::hsvTorgb(this->channelHue,this->channelSaturation,this->channelValue);
-        edk::color3f32 color32;
+        edk::color4f32 color32;
         this->channelR = color32.r = (edk::float32)color8.r/255.f;
         this->channelG = color32.g = (edk::float32)color8.g/255.f;
         this->channelB = color32.b = (edk::float32)color8.b/255.f;
+        this->channelA = color32.b = color.a;
         color8 = edk::Image2D::hsvTorgb(this->channelHue,1.f,1.0);
         color32.r = (edk::float32)color8.r/255.f;
         color32.g = (edk::float32)color8.g/255.f;
         color32.b = (edk::float32)color8.b/255.f;
+        color32.a = color.a;
         if(!this->updatePolygonColorValue(color32)){
             ret=false;
         }
@@ -1052,10 +1336,11 @@ bool edk::gui2d::ColorPicker2d::setColorHSV32(edk::color3f32 color){
         break;
     }
 
-    edk::color3f32 newColor;
+    edk::color4f32 newColor;
     newColor.r = this->channelR;
     newColor.g = this->channelG;
     newColor.b = this->channelB;
+    newColor.a = this->channelA;
 
     if(!this->updateShowColor(newColor)){
         ret=false;
@@ -1065,8 +1350,14 @@ bool edk::gui2d::ColorPicker2d::setColorHSV32(edk::color3f32 color){
 
     return ret;
 }
+bool edk::gui2d::ColorPicker2d::setColorHSVA32(edk::float32 h,edk::float32 s,edk::float32 v,edk::float32 a){
+    return this->setColorHSVA32(edk::color4f32(h,s,v,a));
+}
+bool edk::gui2d::ColorPicker2d::setColorHSV32(edk::color3f32 color){
+    return this->setColorHSVA32(edk::color4f32(color.r,color.g,color.b,1.f));
+}
 bool edk::gui2d::ColorPicker2d::setColorHSV32(edk::float32 h,edk::float32 s,edk::float32 v){
-    return this->setColorHSV32(edk::color3f32(h,s,v));
+    return this->setColorHSVA32(edk::color4f32(h,s,v,1.f));
 }
 
 //load the button textures and meshes
@@ -1076,6 +1367,7 @@ bool edk::gui2d::ColorPicker2d::load(){
     this->controllingR=false;
     this->controllingG=false;
     this->controllingB=false;
+    this->controllingA=false;
     this->channelHue=360.f;
     this->channelSaturation=1.f;
     this->channelValue=1.f;
@@ -1106,6 +1398,7 @@ void edk::gui2d::ColorPicker2d::unload(){
     this->controllingR=false;
     this->controllingG=false;
     this->controllingB=false;
+    this->controllingA=false;
     this->channelHue=360.f;
     this->channelSaturation=1.f;
     this->channelValue=1.f;
@@ -1115,9 +1408,11 @@ void edk::gui2d::ColorPicker2d::unload(){
     this->objColor1.clean();
     this->objColor2.clean();
     this->objColor3.clean();
+    this->objColor4.clean();
     this->objController1.clean();
     this->objController2.clean();
     this->objController3.clean();
+    this->objController4.clean();
     this->objColorFinal.clean();
     this->obj.unload();
     edk::gui2d::ObjectGui2d::unload();
@@ -1131,12 +1426,16 @@ void edk::gui2d::ColorPicker2d::update(){
     this->objColor2.size = rectInside.size;
     this->objColor3.position = this->position;
     this->objColor3.size = rectInside.size;
+    this->objColor4.position = this->position;
+    this->objColor4.size = rectInside.size;
     this->objController1.position = this->position;
     this->objController1.size = rectInside.size;
     this->objController2.position = this->position;
     this->objController2.size = rectInside.size;
     this->objController3.position = this->position;
     this->objController3.size = rectInside.size;
+    this->objController4.position = this->position;
+    this->objController4.size = rectInside.size;
     this->objColorFinal.position = this->position;
     this->objColorFinal.size = rectInside.size;
 }
@@ -1304,9 +1603,11 @@ void edk::gui2d::ColorPicker2d::draw(){
     this->objColor1.drawWithoutMaterial();
     this->objColor2.drawWithoutMaterial();
     this->objColor3.drawWithoutMaterial();
+    this->objColor4.drawWithoutMaterial();
     this->objController1.drawWithoutMaterial();
     this->objController2.drawWithoutMaterial();
     this->objController3.drawWithoutMaterial();
+    this->objController4.drawWithoutMaterial();
     this->objColorFinal.drawWithoutMaterial();
 }
 void edk::gui2d::ColorPicker2d::drawSelection(){
@@ -1327,6 +1628,7 @@ void edk::gui2d::ColorPicker2d::clickEnd(edk::uint32,edk::vec2f32 position,bool,
     this->controllingR=false;
     this->controllingG=false;
     this->controllingB=false;
+    this->controllingA=false;
 }
 
 //clone the gui object from
