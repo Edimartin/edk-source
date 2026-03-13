@@ -2290,6 +2290,34 @@ edk::Object2D* edk::Cenario2D::getObjectInPosition(edk::uint32 levelPosition,edk
     }
     return NULL;
 }
+edk::uint32 edk::Cenario2D::getObjectLevel(edk::Object2D* obj){
+    if(obj){
+        edk::uint32 size = this->levels.size();
+        if(size){
+            edk::Cenario2D::LevelObj* level = NULL;
+            for(edk::uint32 i=0u;i<size;i++){
+                level = this->levels.get(i);
+                if(level){
+                    if(level->tileMap){
+                        //
+                        continue;
+                    }
+                    if(level->objs){
+                        //test if have the object
+                        if(level->objs->haveObject(obj)){
+                            //remove the object
+                            return i+1u;
+                        }
+                    }
+                    if(level->objsPhys){
+                        continue;
+                    }
+                }
+            }
+        }
+    }
+    return 0u;
+}
 edk::uint32 edk::Cenario2D::getObjectPosition(edk::uint32 levelPosition,edk::Object2D* obj){
     if(obj){
         //load the level
@@ -2881,6 +2909,35 @@ edk::physics2D::PhysicObject2D* edk::Cenario2D::getPhysicObjectInPosition(edk::u
         }
     }
     return NULL;
+}
+edk::uint32 edk::Cenario2D::getPhysicObjectLevel(edk::physics2D::PhysicObject2D* obj){
+    if(obj){
+        //find the object
+        edk::uint32 size = this->levels.size();
+        if(size){
+            edk::Cenario2D::LevelObj* level = NULL;
+            for(edk::uint32 i=0u;i<size;i++){
+                level = this->levels.get(i);
+                if(level){
+                    if(level->tileMap){
+                        //
+                        continue;
+                    }
+                    if(level->objs){
+                        continue;
+                    }
+                    if(level->objsPhys){
+                        //test if have the object
+                        if(level->objsPhys->haveObject(obj)){
+                            //remove the object
+                            return i+1u;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return 0u;
 }
 edk::uint32 edk::Cenario2D::getPhysicObjectPosition(edk::uint32 levelPosition,edk::physics2D::PhysicObject2D* obj){
     if(levelPosition){

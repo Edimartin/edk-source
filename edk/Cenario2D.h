@@ -112,8 +112,8 @@ public:
     bool selectedTileMapSetTile(edk::uint32 tileID,edk::vec2ui32 position);
     bool selectedTileMapSetTile(edk::uint32 tileID,edk::uint32 positionX,edk::uint32 positionY);
     //set the tileMap position
-    bool  selectedTileMapSetPosition(edk::vec2f32 position);
-    bool  selectedTileMapSetPosition(edk::float32 positionX,edk::float32 positionY);
+    bool selectedTileMapSetPosition(edk::vec2f32 position);
+    bool selectedTileMapSetPosition(edk::float32 positionX,edk::float32 positionY);
     edk::vec2f32 selectedTileMapGetTileWorldPosition(edk::vec2ui32 position);
     edk::vec2f32 selectedTileMapGetTileWorldPosition(edk::uint32 positionX,edk::uint32 positionY);
     //Set scale the map
@@ -139,6 +139,7 @@ public:
     //get the object
     edk::Object2D* getObject(edk::uint32 levelPosition,edk::float32 depth);
     edk::Object2D* getObjectInPosition(edk::uint32 levelPosition,edk::uint32 position);
+    edk::uint32 getObjectLevel(edk::Object2D* obj);
     edk::uint32 getObjectPosition(edk::uint32 levelPosition,edk::Object2D* obj);
     edk::uint32 getObjectPositionFromDepth(edk::uint32 levelPosition,edk::float32 depth);
     //get the objectDepth
@@ -183,6 +184,7 @@ public:
     //get the object
     edk::physics2D::PhysicObject2D* getPhysicObject(edk::uint32 levelPosition,edk::float32 depth);
     edk::physics2D::PhysicObject2D* getPhysicObjectInPosition(edk::uint32 levelPosition,edk::uint32 position);
+    edk::uint32 getPhysicObjectLevel(edk::physics2D::PhysicObject2D* obj);
     edk::uint32 getPhysicObjectPosition(edk::uint32 levelPosition,edk::physics2D::PhysicObject2D* obj);
     edk::uint32 getPhysicObjectPositionFromDepth(edk::uint32 levelPosition,edk::float32 depth);
     //return the depth of the physic object
