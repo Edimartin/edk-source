@@ -1602,6 +1602,8 @@ bool edk::Window::loadEvents(){
             case edk::key::rShift:
             case edk::key::lAlt:
             case edk::key::rAlt:
+            case edk::key::lControl:
+            case edk::key::rControl:
             case edk::key::capsLock:
                 this->saveKeyHolded.incrementHolded(idHold,1u);
                 break;
