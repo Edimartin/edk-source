@@ -639,6 +639,38 @@ bool edk::gui2d::ViewGui2d::printAllObjectTypesAndNames(){
     return false;
 }
 
+//return true if an object is selected
+bool edk::gui2d::ViewGui2d::isSelectedSomeone(){
+    bool ret = false;
+    edk::uint32 size = this->list.size();
+    edk::gui2d::ObjectGui2d* obj=NULL;
+    for(edk::uint32 i=0u;i<size;i++){
+        obj=this->list.getPointerInPosition(i);
+        if(obj){
+            if(obj->isSelected()){
+                return true;
+            }
+        }
+    }
+    return ret;
+}
+bool edk::gui2d::ViewGui2d::isEditingSomeText(){
+    bool ret = false;
+    edk::uint32 size = this->list.size();
+    edk::gui2d::ObjectGui2d* obj=NULL;
+    for(edk::uint32 i=0u;i<size;i++){
+        obj=this->list.getPointerInPosition(i);
+        if(obj){
+            if(obj->getType() == edk::TypeObject2DTextField){
+                if(obj->isSelected()){
+                    return true;
+                }
+            }
+        }
+    }
+    return ret;
+}
+
 //disable the mouse on the view (Can be used to have only one textField on the view).
 void edk::gui2d::ViewGui2d::enableMouse(){
     this->mouseOn = true;
@@ -823,6 +855,7 @@ void edk::gui2d::ViewGui2d::resize(edk::rectf32 /*outsideViewOrigin*/){
 void edk::gui2d::ViewGui2d::update(edk::WindowEvents* events){
     //
     bool runSelection=false;
+    bool runPress=false;
     this->list.update();
     edk::uint32 size = 0u;
 
@@ -853,6 +886,8 @@ void edk::gui2d::ViewGui2d::update(edk::WindowEvents* events){
             this->saveMousePosition = mousePosition;
 
             this->mouseMoving = true;
+
+            runPress=true;
             break;
         case edk::mouse::right:
             //press the right button to cancel the oject move
@@ -867,6 +902,11 @@ void edk::gui2d::ViewGui2d::update(edk::WindowEvents* events){
                     this->objPressed->forceUpdate();
                 }
             }
+
+            runPress=true;
+            break;
+        case edk::mouse::middle:
+            runPress=true;
             break;
         }
     }
@@ -997,6 +1037,15 @@ void edk::gui2d::ViewGui2d::update(edk::WindowEvents* events){
                             );
             }
             this->updateCameraPercentPosition();
+        }
+    }
+    else if(runPress){
+        if(this->objSelected){
+            //remove the selection
+            this->objSelected->deselect();
+            if(this->endSelect){
+                this->objSelected->clickEnd(this->idSelected,this->mousePositionInside,false,this->doubleClick);
+            }
         }
     }
     //test if move the scroll

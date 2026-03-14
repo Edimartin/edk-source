@@ -580,7 +580,7 @@ void edk::Object2D::writeFatherBoundingBox(edk::rectf32* rect,edk::vector::Matri
         //translate
         transformMat->multiplyThisWithMatrix(&this->matrixPosition);
         //angle
-        if(this->fixedRotation){
+        if(!this->fixedRotation){
             edk::Math::generateRotateMatrixZ(this->angle,&this->matrixAngle);
             transformMat->multiplyThisWithMatrix(&this->matrixAngle);
         }
@@ -598,7 +598,7 @@ void edk::Object2D::writeFatherBoundingBox(edk::rectf32* rect,edk::vector::Matri
         //translate
         transformMat->multiplyThisWithMatrix(&this->matrixPosition);
         //angle
-        if(this->fixedRotation){
+        if(!this->fixedRotation){
             edk::Math::generateRotateMatrixZ(this->angle,&this->matrixAngle);
             transformMat->multiplyThisWithMatrix(&this->matrixAngle);
         }
@@ -632,7 +632,7 @@ bool edk::Object2D::writeBoundingBox(edk::rectf32* rect){
         //translate
         this->matrixTransform.multiplyThisWithMatrix(&this->matrixPosition);
         //angle
-        if(this->fixedRotation){
+        if(!this->fixedRotation){
             edk::Math::generateRotateMatrixZ(this->angle,&this->matrixAngle);
             this->matrixTransform.multiplyThisWithMatrix(&this->matrixAngle);
         }
@@ -650,7 +650,7 @@ bool edk::Object2D::writeBoundingBox(edk::rectf32* rect){
         //translate
         this->matrixTransform.multiplyThisWithMatrix(&this->matrixPosition);
         //angle
-        if(this->fixedRotation){
+        if(!this->fixedRotation){
             edk::Math::generateRotateMatrixZ(this->angle,&this->matrixAngle);
             this->matrixTransform.multiplyThisWithMatrix(&this->matrixAngle);
         }
@@ -713,7 +713,7 @@ bool edk::Object2D::writeBoundingBox(edk::rectf32* rect,edk::vector::Matrixf32<3
             //translate
             this->matrixTransform.multiplyThisWithMatrix(&this->matrixPosition);
             //angle
-            if(this->fixedRotation){
+            if(!this->fixedRotation){
                 edk::Math::generateRotateMatrixZ(this->angle,&this->matrixAngle);
                 this->matrixTransform.multiplyThisWithMatrix(&this->matrixAngle);
             }
@@ -731,7 +731,7 @@ bool edk::Object2D::writeBoundingBox(edk::rectf32* rect,edk::vector::Matrixf32<3
             //translate
             this->matrixTransform.multiplyThisWithMatrix(&this->matrixPosition);
             //angle
-            if(this->fixedRotation){
+            if(!this->fixedRotation){
                 edk::Math::generateRotateMatrixZ(this->angle,&this->matrixAngle);
                 this->matrixTransform.multiplyThisWithMatrix(&this->matrixAngle);
             }
@@ -798,7 +798,7 @@ bool edk::Object2D::writeChildremBoundingBox(edk::rectf32* rect){
         //translate
         this->matrixTransform.multiplyThisWithMatrix(&this->matrixPosition);
         //angle
-        if(this->fixedRotation){
+        if(!this->fixedRotation){
             edk::Math::generateRotateMatrixZ(this->angle,&this->matrixAngle);
             this->matrixTransform.multiplyThisWithMatrix(&this->matrixAngle);
         }
@@ -816,7 +816,7 @@ bool edk::Object2D::writeChildremBoundingBox(edk::rectf32* rect){
         //translate
         this->matrixTransform.multiplyThisWithMatrix(&this->matrixPosition);
         //angle
-        if(this->fixedRotation){
+        if(!this->fixedRotation){
             edk::Math::generateRotateMatrixZ(this->angle,&this->matrixAngle);
             this->matrixTransform.multiplyThisWithMatrix(&this->matrixAngle);
         }
@@ -880,7 +880,7 @@ bool edk::Object2D::writeChildremBoundingBox(edk::rectf32* rect,edk::vector::Mat
             //translate
             this->matrixTransform.multiplyThisWithMatrix(&this->matrixPosition);
             //angle
-            if(this->fixedRotation){
+            if(!this->fixedRotation){
                 edk::Math::generateRotateMatrixZ(this->angle,&this->matrixAngle);
                 this->matrixTransform.multiplyThisWithMatrix(&this->matrixAngle);
             }
@@ -898,7 +898,7 @@ bool edk::Object2D::writeChildremBoundingBox(edk::rectf32* rect,edk::vector::Mat
             //translate
             this->matrixTransform.multiplyThisWithMatrix(&this->matrixPosition);
             //angle
-            if(this->fixedRotation){
+            if(!this->fixedRotation){
                 edk::Math::generateRotateMatrixZ(this->angle,&this->matrixAngle);
                 this->matrixTransform.multiplyThisWithMatrix(&this->matrixAngle);
             }
@@ -959,7 +959,7 @@ void edk::Object2D::loadFatherMatrix(edk::vector::Matrixf32<3u,3u>* transformMat
         //translate
         transformMat->multiplyThisWithMatrix(&this->matrixPosition);
         //angle
-        if(this->fixedRotation){
+        if(!this->fixedRotation){
             edk::Math::generateRotateMatrixZ(this->angle,&this->matrixAngle);
             transformMat->multiplyThisWithMatrix(&this->matrixAngle);
         }
@@ -977,7 +977,7 @@ void edk::Object2D::loadFatherMatrix(edk::vector::Matrixf32<3u,3u>* transformMat
         //translate
         transformMat->multiplyThisWithMatrix(&this->matrixPosition);
         //angle
-        if(this->fixedRotation){
+        if(!this->fixedRotation){
             edk::Math::generateRotateMatrixZ(this->angle,&this->matrixAngle);
             transformMat->multiplyThisWithMatrix(&this->matrixAngle);
         }
@@ -2808,7 +2808,7 @@ edk::vec2f32 edk::Object2D::getConnectedWorldPosition(){
         //translate
         this->matrixTransform.multiplyThisWithMatrix(&this->matrixPosition);
         //angle
-        if(this->fixedRotation){
+        if(!this->fixedRotation){
             edk::Math::generateRotateMatrixZ(this->angle,&this->matrixAngle);
             this->matrixTransform.multiplyThisWithMatrix(&this->matrixAngle);
         }
@@ -2867,7 +2867,7 @@ edk::Object2DValues edk::Object2D::getConnectedWorldValues(){
         //translate
         this->matrixTransform.multiplyThisWithMatrix(&this->matrixPosition);
         //angle
-        if(this->fixedRotation){
+        if(!this->fixedRotation){
             edk::Math::generateRotateMatrixZ(this->angle,&this->matrixAngle);
             this->matrixTransform.multiplyThisWithMatrix(&this->matrixAngle);
         }
@@ -3060,7 +3060,7 @@ bool edk::Object2D::getWorldPolygon(edk::shape::Polygon2D* dest,edk::uint32 mesh
         //translate
         this->matrixTransform.multiplyThisWithMatrix(&this->matrixPosition);
         //angle
-        if(this->fixedRotation){
+        if(!this->fixedRotation){
             edk::Math::generateRotateMatrixZ(this->angle,&this->matrixAngle);
             this->matrixTransform.multiplyThisWithMatrix(&this->matrixAngle);
         }
@@ -3090,7 +3090,7 @@ bool edk::Object2D::getWorldPolygon(edk::shape::Polygon2D* dest,edk::uint32 mesh
             //translate
             this->matrixTransform.multiplyThisWithMatrix(&this->matrixPosition);
             //angle
-            if(this->fixedRotation){
+            if(!this->fixedRotation){
                 edk::Math::generateRotateMatrixZ(this->angle,&this->matrixAngle);
                 this->matrixTransform.multiplyThisWithMatrix(&this->matrixAngle);
             }

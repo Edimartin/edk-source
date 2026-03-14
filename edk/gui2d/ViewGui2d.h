@@ -110,6 +110,10 @@ public:
     bool printAllObjectNames();
     bool printAllObjectTypesAndNames();
 
+    //return true if an object is selected
+    bool isSelectedSomeone();
+    bool isEditingSomeText();
+
     //disable the mouse on the view (Can be used to have only one textField on the view).
     void enableMouse();
     void disableMouse();
