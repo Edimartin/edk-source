@@ -1332,11 +1332,11 @@ public:
     static edk::vec3f32 rotatePlusZ(edk::float32 x,edk::float32 y,edk::float32 z,edk::float32 angle);
     static edk::vec3f32 rotatePlusZ(edk::vec3f32 vec,edk::float32 angle);
     static edk::vec3f32 rotatePlusXYZ(edk::float32 x,edk::float32 y,edk::float32 z,
-                                    edk::float32 angleX,edk::float32 angleY,edk::float32 angleZ
-                                    );
+                                      edk::float32 angleX,edk::float32 angleY,edk::float32 angleZ
+                                      );
     static edk::vec3f32 rotatePlusXYZ(edk::vec3f32 vec,
-                                     edk::float32 angleX,edk::float32 angleY,edk::float32 angleZ
-                                     );
+                                      edk::float32 angleX,edk::float32 angleY,edk::float32 angleZ
+                                      );
 
     //Normal of the triangle
     static edk::vec3f32 normalTriangle(edk::float32 x1,edk::float32 y1,edk::float32 z1,
@@ -1394,6 +1394,28 @@ private:
         edk::int64 temp = (edk::int64)angle;
         angle -= temp;
         return angle + (temp%360);
+    }
+    static inline edk::float32 filterAngle(edk::float32 angle){
+        //filter the angle
+        edk::int32 temp = (edk::int32)angle;
+        angle -= (edk::float32)temp;
+        temp%=360;
+        angle += (edk::float32)temp;
+        if(angle<0){
+            angle+=360.f;
+        }
+        return angle;
+    }
+    static inline edk::float64 filterAngle(edk::float64 angle){
+        //filter the angle
+        edk::int64 temp = (edk::int64)angle;
+        angle -= (edk::float64)temp;
+        temp%=360;
+        angle += (edk::float64)temp;
+        if(angle<0){
+            angle+=360.f;
+        }
+        return angle;
     }
 private:
     edk::classID classThis;

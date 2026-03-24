@@ -105,6 +105,7 @@ public:
 
     edk::vec2f32 getConnectedWorldPosition();
     edk::Object2DValues getConnectedWorldValues();
+    bool cloneConnectedToObject(edk::Object2D* source,edk::Object2D* dest);
 
     //return a copy of the boundingBox
     edk::rectf32 getBoundingBox();
@@ -303,6 +304,7 @@ public:
     virtual void inline removeConnectedObjects(){this->cleanConnectedObjects();}
 
     virtual bool cloneFrom(edk::Object2D* obj);
+    virtual bool clonePolygonsFrom(edk::Object2D* obj);
     virtual bool addMeshFrom(edk::Object2D* obj);
     virtual bool addMeshFrom(edk::shape::Mesh2D* mesh);
 

@@ -971,10 +971,12 @@ bool edk::Math::generateOrthoMatrix(edk::float32 left,
 //Rotate de vector
 edk::float32 edk::Math::rotateXAxis(edk::float32 radius, edk::float32 angle){
     //
+    angle = edk::Math::filterAngle(angle);
     return edk::Math::getCosin(angle)*radius;
 }
 edk::float32 edk::Math::rotateYAxis(edk::float32 radius, edk::float32 angle){
     //
+    angle = edk::Math::filterAngle(angle);
     return edk::Math::getSin(angle)*radius;
 }
 edk::vec2f32 edk::Math::rotate(edk::float32 x,edk::float32 y,edk::float32 angle){
@@ -991,13 +993,7 @@ edk::vec2f32 edk::Math::rotatePlus(edk::float32 x,edk::float32 y,edk::float32 an
 edk::vec2f32 edk::Math::rotatePlus(edk::vec2f32 vec,edk::float32 angle){
     //find the angle
     angle += edk::Math::getAngle(vec);
-    //filter the angle
-    if(angle>360.0){
-        angle-=360.f;
-    }
-    if(angle<0){
-        angle+=360.f;
-    }
+    angle = edk::Math::filterAngle(angle);
     //
     return edk::Math::rotate(vec,angle);
 }
@@ -1047,7 +1043,6 @@ edk::vec3f32 edk::Math::rotateXYZ(edk::float32 x,edk::float32 y,edk::float32 z,
 edk::vec3f32 edk::Math::rotateXYZ(edk::vec3f32 vec,
                                          edk::float32 angleX,edk::float32 angleY,edk::float32 angleZ
                                          ){
-
     edk::vector::Matrixf32<4u,4u> mat;
     edk::vector::Matrixf32<4u,4u> matTemp;
     edk::vector::MatrixDynamic<edk::float32> matPosition;

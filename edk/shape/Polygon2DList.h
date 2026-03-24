@@ -136,6 +136,8 @@ public:
     edk::uint32 getPolygonSize();
     //return true if have a polygon selected
     bool haveSelected();
+    //return true if have all rectangle polygons
+    bool haveAllRect();
 
     //test if have a polygon in a position
     bool havePolygon(edk::uint32 position);
@@ -307,29 +309,12 @@ protected:
     edk::shape::Rectangle2D tempP;
     //mesh selected
     edk::shape::Polygon2D* selected;
+
+    //ave if have all rectangles
+    bool allRects;
 private:
     //Operator
     edk::shape::Polygon2DList operator=(edk::shape::Polygon2DList list){
-        //delete the polygons
-        this->cleanPolygons();
-        //read the polygons
-#if defined(edkCPPversion17)
-        edk::uint32 size = list.polygons.size();
-#else
-        register edk::uint32 size = list.polygons.size();
-#endif
-        edk::uint32 select=0u;
-        edk::shape::Polygon2D* temp = NULL;
-        for(edk::uint32 i=0u;i<size;i++){
-            temp=list.polygons.get(i);
-            if(temp){
-                if(temp==list.selected){
-                    select=i;
-                }
-                this->addPolygon(*temp);
-            }
-        }
-        this->selectPolygon(select);
         return list;
     }
 private:

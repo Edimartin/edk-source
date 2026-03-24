@@ -46,6 +46,7 @@ void edk::shape::Polygon2DList::Constructor(){
         //clean the selected
         this->freeSelected();
 
+        this->allRects=false;
         this->tempP.Constructor();
         this->tempP.setTranslate(0.f,0.f);
         this->tempP.setScale(1.f,1.f);
@@ -636,6 +637,7 @@ edk::uint32 edk::shape::Polygon2DList::addPolygon(edk::shape::Polygon2D polygon)
     //test if it's a line
     if(polygon.isLine()){
         temp=new edk::shape::Lines2D;
+        this->allRects=false;
     }
     //test al much vertex have the polygon. Test if are a polygon or Rectangle.
     else if(polygon.getVertexCount()>=2u){
@@ -644,6 +646,7 @@ edk::uint32 edk::shape::Polygon2DList::addPolygon(edk::shape::Polygon2D polygon)
                 //it's circle
 
                 //create the circle
+                this->allRects=false;
                 temp=(edk::shape::Polygon2D*)new edk::shape::Circle2D;
             }
             else{
@@ -651,6 +654,7 @@ edk::uint32 edk::shape::Polygon2DList::addPolygon(edk::shape::Polygon2D polygon)
 
                 //create the polygon
                 temp=new edk::shape::Polygon2D;
+                this->allRects=false;
             }
         }
         else{
@@ -658,6 +662,10 @@ edk::uint32 edk::shape::Polygon2DList::addPolygon(edk::shape::Polygon2D polygon)
 
             //create a rectangle
             temp=(edk::shape::Polygon2D*) new edk::shape::Rectangle2D;
+
+            if(!this->polygons.size()){
+                this->allRects=true;
+            }
         }
     }
 
@@ -683,7 +691,13 @@ edk::uint32 edk::shape::Polygon2DList::addPolygon(edk::shape::Polygon2D polygon)
             delete temp;
             //clean the ret
             ret=0u;
+            if(!this->polygons.size()){
+                this->allRects=false;
+            }
         }
+    }
+    else if(!this->polygons.size()){
+        this->allRects=false;
     }
     //set temp NULL
     temp=NULL;
@@ -701,6 +715,10 @@ edk::uint32 edk::shape::Polygon2DList::getPolygonSize(){
 bool edk::shape::Polygon2DList::haveSelected(){
     //
     return (bool) this->selected;
+}
+//return true if have all rectangle polygons
+bool edk::shape::Polygon2DList::haveAllRect(){
+    return this->allRects;
 }
 
 //test if have a polygon in a position
@@ -997,6 +1015,7 @@ void edk::shape::Polygon2DList::cleanPolygons(){
         this->removePolygon(i-1u);
     }
     this->polygons.clean();
+    this->allRects=false;
 }
 //delete the polygon
 bool edk::shape::Polygon2DList::removePolygon(edk::uint32 position){
@@ -1010,6 +1029,9 @@ bool edk::shape::Polygon2DList::removePolygon(edk::uint32 position){
             delete temp;
         }
         temp=NULL;
+        if(!this->polygons.size()){
+            this->allRects=false;
+        }
         //return true
         return true;
     }
@@ -1685,6 +1707,8 @@ bool edk::shape::Polygon2DList::cloneFrom(edk::shape::Polygon2DList* list){
 #else
         register edk::uint32 size = list->polygons.size();
 #endif
+        this->allRects = list->allRects;
+
         edk::uint32 select=0u;
         edk::shape::Polygon2D* temp = NULL;
         for(edk::uint32 i=0u;i<size;i++){
