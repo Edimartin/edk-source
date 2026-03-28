@@ -245,16 +245,16 @@ public:
         return (this->buffer && this->bufferSize);
     }
     //return the buffer pointer
-    edk::classID getPointer(){
-        return (edk::classID)this->buffer;
+    typeTemplate* getPointer(){
+        return this->buffer;
     }
-    edk::classID pointer(){
-        return (edk::classID)this->buffer;
+    typeTemplate* pointer(){
+        return this->buffer;
     }
-    typeTemplate* getPointerStr(){
+    edk::char8* getPointerStr(){
         return (edk::char8*)this->buffer;
     }
-    typeTemplate* pointerStr(){
+    edk::char8* pointerStr(){
         return (edk::char8*)this->buffer;
     }
     //return the size of the buffer writed
