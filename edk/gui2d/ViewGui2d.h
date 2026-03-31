@@ -37,9 +37,11 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "TextField2d.h"
 #include "../watch/Time.h"
 #include "Button2D.h"
+#include "ButtonMenu2d.h"
 #include "ScrollBar2d.h"
 #include "ColorPicker2d.h"
 #include "ColorShow2d.h"
+#include "Rect2d.h"
 #include "Text2D.h"
 #include "TextField2d.h"
 #include "../ViewScrollBar.h"
@@ -231,6 +233,7 @@ private:
     edk::watch::Time distanceDoubleClick;
     bool doubleClick;
     edk::vec2f32 mousePositionInside;
+    edk::vec2f32 saveMousePositionInside;
 
     //mouse callback
     edk::vector::Stack<edk::gui2d::ObjectGui2dCallback*> listCallback;

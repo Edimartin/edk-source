@@ -50,6 +50,10 @@ public:
     void Constructor();
     void Destructor();
 
+    //set and get the creator pointer
+    bool setCreator(edk::classID creator);
+    edk::classID getCreator();
+
     //print the values
     virtual void print();
 
@@ -106,6 +110,9 @@ public:
     edk::TypeObject getType();
     edk::uint8 getTypeValue();
 protected:
+    //pointer to the creator of the object
+    edk::classID creator;
+
     edk::TypeObject type;
 
     //connected translations

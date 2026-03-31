@@ -31,12 +31,14 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 edk::char8 gui2dTypeString[edk::gui2d::gui2dTypeSize][128u] = {
     "gui2dTypeObject",
     "gui2dTypeButton",
+    "gui2dTypeButtonMenu",
     "gui2dTypeScrollBar",
     "gui2dTypeMenu",
     "gui2dTypeText",
     "gui2dTypeTextField",
     "gui2dTypeColorPicker",
-    "gui2dTypeColorShow"
+    "gui2dTypeColorShow",
+    "gui2dTypeRect"
 };
 
 edk::char8 gui2dSymbolsString[edk::gui2d::gui2dTextureSize][128u] = {
@@ -1127,6 +1129,9 @@ bool edk::gui2d::ObjectGui2d::isSelected(){
     return this->selected;
 }
 //click to select an polygon inside the object
+void edk::gui2d::ObjectGui2d::mouseMove(edk::vec2f32 position,bool mouseInside){
+    //
+}
 void edk::gui2d::ObjectGui2d::clickStart(edk::uint32,edk::vec2f32){
     //
 }

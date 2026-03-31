@@ -433,9 +433,11 @@ enum TypeObject{
 
     TypeObject2DGui=0xF0,
     TypeObject2DButton,
+    TypeObject2DButtonMenu,
     TypeObject2DScrollBar,
     TypeObject2DColorPicker,
     TypeObject2DColorShow,
+    TypeObject2DRect,
     TypeObject2DMenu,
     TypeObject2DText,
     TypeObject2DTextField,

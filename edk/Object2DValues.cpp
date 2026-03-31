@@ -40,6 +40,7 @@ void edk::Object2DValues::Constructor(){
     if(this->classThis!=this){
         this->classThis=this;
 
+        this->creator=this;
         this->animationPosition.Constructor();
         this->animationRotation.Constructor();
         this->animationSize.Constructor();
@@ -61,6 +62,19 @@ void edk::Object2DValues::Destructor(){
         this->animationRotation.Destructor();
         this->animationSize.Destructor();
     }
+}
+
+//set and get the creator pointer
+bool edk::Object2DValues::setCreator(edk::classID creator){
+    if(creator){
+        this->creator=creator;
+        return true;
+    }
+    this->creator=this;
+    return false;
+}
+edk::classID edk::Object2DValues::getCreator(){
+    return this->creator;
 }
 
 //print the values

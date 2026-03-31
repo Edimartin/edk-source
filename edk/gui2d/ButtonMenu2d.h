@@ -1,8 +1,8 @@
-#ifndef COLORSHOW2D_H
-#define COLORSHOW2D_H
+#ifndef BUTTONMENU2D_H
+#define BUTTONMENU2D_H
 
 /*
-ColorShow2d - ColorShow for the GUI 2D library
+ButtonMenu2d - Button to create a menu in the GUI 2D library
 Copyright 2013 Eduardo Moura Sales Martins (edimartin@gmail.com)
 
 Permission is hereby granted, free of charge, to any person obtaining
@@ -26,42 +26,42 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#pragma message "Inside gui2d::ColorShow2d"
+#pragma message "Inside gui2d::ButtonMenu2d"
 #endif
 
 #pragma once
+#include "../Object2DValues.h"
+#include "../TypeDefines.h"
+#include "../GU/GU.h"
+#include "../vector/BinaryTree.h"
+#include "../fonts/FontMap.h"
+#include "../NameClass.h"
 #include "ObjectGui2dBorder.h"
 #include "ObjectGui2d.h"
 
 #ifdef printMessages
-#pragma message "    Compiling gui2d::ColorShow2d"
+#pragma message "    Compiling gui2d::ButtonMenu2d"
 #endif
 
-#define EDK_GUI2D_XML_GUI2D_COLORSHOW "gui2dColorShow_"
+#define EDK_GUI2D_XML_GUI2D_BUTTON_MENU "gui2dButtonMenu_"
 
 namespace edk{
 namespace gui2d{
-class ColorShow2d : public edk::gui2d::ObjectGui2d{
+class ButtonMenu2d: public edk::gui2d::ObjectGui2d{
 public:
-    ColorShow2d();
-    virtual ~ColorShow2d();
+    ButtonMenu2d();
+    virtual ~ButtonMenu2d();
 
     void Constructor();
     void Destructor();
-
-    bool setColorRGB(edk::color3f32 colorRGB);
-    bool setColorR(edk::float32 r);
-    bool setColorG(edk::float32 g);
-    bool setColorB(edk::float32 b);
-    bool setColorRGBA(edk::color4f32 colorRGBA);
-    bool setColorA(edk::float32 a);
-    edk::color3f32 getColorRGB();
-    edk::color4f32 getColorRGBA();
 
     //load the button textures and meshes
     bool load();
     void unload();
     void update();
+
+    //set border size
+    bool setBorderSize(edk::float32 size);
 
     //XML
     virtual bool writeToXML(edk::XML* xml,edk::uint32 id);
@@ -69,25 +69,17 @@ public:
     virtual bool readFromXMLFromPack(edk::pack::FilePackage* pack,edk::XML* xml,edk::uint32 id);
 
     //draw the button
-    virtual void draw();
-    virtual void drawSelection();
-
-    ////click to select an polygon inside the object
-    //virtual void clickStart(edk::uint32 name,edk::vec2f32 position);
-    //virtual void clickMove(edk::uint32 name,edk::vec2f32 position,bool mouseInside);
-    //virtual void clickEnd(edk::uint32 name,edk::vec2f32 position,bool mouseInside,bool doubleClick);
+    void draw();
 
     //clone the gui object from
     virtual bool cloneFrom(edk::gui2d::ObjectGui2d* obj);
-    virtual bool cloneFrom(edk::gui2d::ColorShow2d* obj);
+    virtual bool cloneFrom(edk::gui2d::ButtonMenu2d* obj);
 private:
-    //object to draw the color
-    edk::Object2D objColor;
-    edk::color4f32 colorRGBA;
+    edk::Object2D objBorder;
 private:
     edk::classID classThis;
 };
-}
-}
+}//end namespace gui2d
+}//end namespace edk
 
-#endif // COLORSHOW2D_H
+#endif // BUTTONMENU2D_H

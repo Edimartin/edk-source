@@ -1193,8 +1193,38 @@ void edk::gui2d::ViewGui2d::update(edk::WindowEvents* events){
         }
     }
 
+    //test if move the mouse
+    if(!edk::Math::equal(this->mousePositionInside.y,this->saveMousePositionInside.y)
+            || !edk::Math::equal(this->mousePositionInside.y,this->saveMousePositionInside.y)
+            ){
+        //mouse moved
+        edk::uint32 size = this->list.size();
+        edk::gui2d::ViewGui2d::ObjGui2dID* temp=NULL;
+        bool posInside=false;
+        edk::rectf32 rect;
+        for(edk::uint32 i=0u;i<size;i++){
+            temp = this->list.getElementInPosition(i);
+            if(temp){
+                temp->pointer->calculateBoundingBox();
+                rect = temp->pointer->getBoundingBox();
+                if(this->mousePositionInside.x >= rect.origin.x
+                        && this->mousePositionInside.x < rect.size.width
+                        && this->mousePositionInside.y >= rect.origin.y
+                        && this->mousePositionInside.y < rect.size.height
+                        ){
+                    posInside=true;
+                }
+                else{
+                    posInside=false;
+                }
+                temp->pointer->mouseMove(this->mousePositionInside,posInside);
+            }
+        }
+    }
+
     //this->objTable.position = this->table.origin;
     //this->objTable.size = this->table.size;
+    this->saveMousePositionInside = this->mousePositionInside;
 }
 
 //XML
@@ -1336,12 +1366,16 @@ bool edk::gui2d::ViewGui2d::readFromXML(edk::XML* xml,edk::uint32 id){
                                     haveObject=true;
                                     //read the type
                                     strType = xml->getSelectedString();
+                                    printf("\n%u %s %s strType(%s)",__LINE__,__FILE__,__func__,strType);fflush(stdout);
                                     if(strType){
                                         if(edk::String::strCompareInside(strType,edk::gui2d::ObjectGui2d::getStringTypeGUI(edk::gui2d::gui2dTypeObject))){
                                             type = edk::gui2d::gui2dTypeObject;
                                         }
                                         else if(edk::String::strCompareInside(strType,edk::gui2d::ObjectGui2d::getStringTypeGUI(edk::gui2d::gui2dTypeButton))){
                                             type = edk::gui2d::gui2dTypeButton;
+                                        }
+                                        else if(edk::String::strCompareInside(strType,edk::gui2d::ObjectGui2d::getStringTypeGUI(edk::gui2d::gui2dTypeButtonMenu))){
+                                            type = edk::gui2d::gui2dTypeButtonMenu;
                                         }
                                         else if(edk::String::strCompareInside(strType,edk::gui2d::ObjectGui2d::getStringTypeGUI(edk::gui2d::gui2dTypeScrollBar))){
                                             type = edk::gui2d::gui2dTypeScrollBar;
@@ -1361,6 +1395,9 @@ bool edk::gui2d::ViewGui2d::readFromXML(edk::XML* xml,edk::uint32 id){
                                         else if(edk::String::strCompareInside(strType,edk::gui2d::ObjectGui2d::getStringTypeGUI(edk::gui2d::gui2dTypeColorShow))){
                                             type = edk::gui2d::gui2dTypeColorShow;
                                         }
+                                        else if(edk::String::strCompareInside(strType,edk::gui2d::ObjectGui2d::getStringTypeGUI(edk::gui2d::gui2dTypeRect))){
+                                            type = edk::gui2d::gui2dTypeRect;
+                                        }
                                         //free(strType);
                                     }
 
@@ -1379,6 +1416,9 @@ bool edk::gui2d::ViewGui2d::readFromXML(edk::XML* xml,edk::uint32 id){
                         case gui2dTypeButton:
                             obj = new edk::gui2d::Button2D;
                             break;
+                        case gui2dTypeButtonMenu:
+                            obj = new edk::gui2d::ButtonMenu2d;
+                            break;
                         case gui2dTypeScrollBar:
                             obj = new edk::gui2d::ScrollBar2d;
                             break;
@@ -1393,6 +1433,9 @@ bool edk::gui2d::ViewGui2d::readFromXML(edk::XML* xml,edk::uint32 id){
                             break;
                         case gui2dTypeColorShow:
                             obj = new edk::gui2d::ColorShow2d;
+                            break;
+                        case gui2dTypeRect:
+                            obj = new edk::gui2d::Rect2d;
                             break;
                         default:
                             obj = NULL;
@@ -1514,6 +1557,9 @@ bool edk::gui2d::ViewGui2d::readFromXMLFromPack(edk::pack::FilePackage* pack,edk
                                         else if(edk::String::strCompareInside(strType,edk::gui2d::ObjectGui2d::getStringTypeGUI(edk::gui2d::gui2dTypeButton))){
                                             type = edk::gui2d::gui2dTypeButton;
                                         }
+                                        else if(edk::String::strCompareInside(strType,edk::gui2d::ObjectGui2d::getStringTypeGUI(edk::gui2d::gui2dTypeButtonMenu))){
+                                            type = edk::gui2d::gui2dTypeButtonMenu;
+                                        }
                                         else if(edk::String::strCompareInside(strType,edk::gui2d::ObjectGui2d::getStringTypeGUI(edk::gui2d::gui2dTypeScrollBar))){
                                             type = edk::gui2d::gui2dTypeScrollBar;
                                         }
@@ -1525,6 +1571,15 @@ bool edk::gui2d::ViewGui2d::readFromXMLFromPack(edk::pack::FilePackage* pack,edk
                                         }
                                         else if(edk::String::strCompareInside(strType,edk::gui2d::ObjectGui2d::getStringTypeGUI(edk::gui2d::gui2dTypeText))){
                                             type = edk::gui2d::gui2dTypeText;
+                                        }
+                                        else if(edk::String::strCompareInside(strType,edk::gui2d::ObjectGui2d::getStringTypeGUI(edk::gui2d::gui2dTypeColorPicker))){
+                                            type = edk::gui2d::gui2dTypeColorPicker;
+                                        }
+                                        else if(edk::String::strCompareInside(strType,edk::gui2d::ObjectGui2d::getStringTypeGUI(edk::gui2d::gui2dTypeColorShow))){
+                                            type = edk::gui2d::gui2dTypeColorShow;
+                                        }
+                                        else if(edk::String::strCompareInside(strType,edk::gui2d::ObjectGui2d::getStringTypeGUI(edk::gui2d::gui2dTypeRect))){
+                                            type = edk::gui2d::gui2dTypeRect;
                                         }
                                         //free(strType);
                                     }
@@ -1544,6 +1599,9 @@ bool edk::gui2d::ViewGui2d::readFromXMLFromPack(edk::pack::FilePackage* pack,edk
                         case gui2dTypeButton:
                             obj = new edk::gui2d::Button2D;
                             break;
+                        case gui2dTypeButtonMenu:
+                            obj = new edk::gui2d::ButtonMenu2d;
+                            break;
                         case gui2dTypeScrollBar:
                             obj = new edk::gui2d::ScrollBar2d;
                             break;
@@ -1552,6 +1610,15 @@ bool edk::gui2d::ViewGui2d::readFromXMLFromPack(edk::pack::FilePackage* pack,edk
                             break;
                         case gui2dTypeTextField:
                             obj = new edk::gui2d::TextField2d;
+                            break;
+                        case gui2dTypeColorPicker:
+                            obj = new edk::gui2d::ColorPicker2d;
+                            break;
+                        case gui2dTypeColorShow:
+                            obj = new edk::gui2d::ColorShow2d;
+                            break;
+                        case gui2dTypeRect:
+                            obj = new edk::gui2d::Rect2d;
                             break;
                         default:
                             obj = NULL;
