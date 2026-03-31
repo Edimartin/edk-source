@@ -29,10 +29,11 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endif
 
 edk::UndoManager::UndoManager(){
-    //
+    this->classThis=NULL;
+    this->Constructor();
 }
 edk::UndoManager::~UndoManager(){
-    //
+    this->Destructor();
 }
 //remove all values in the front stack
 bool edk::UndoManager::cleanAllFront(){
@@ -53,6 +54,90 @@ bool edk::UndoManager::cleanAllFront(){
         return true;
     }
     return false;
+}
+bool edk::UndoManager::cleanBackAndFrontSize(){
+    edk::uint32 size = this->back.size();
+    if(size > this->limitSize){
+        size-=this->limitSize;
+        edk::UndoManagerFunctions* temp = NULL;
+        for(edk::uint32 i=0u;i<size;i++){
+            this->back.bringPositionToEnd(0u);
+            temp = this->back.popBack();
+            if(temp){
+                if(temp == this->selected){
+                    this->selected=NULL;
+                }
+                temp->processDelete();
+                delete temp;
+            }
+        }
+        return true;
+    }
+    return false;
+}
+
+void edk::UndoManager::Constructor(){
+    if(this->classThis!=this){
+        this->classThis=this;
+
+        this->back.Constructor();
+        this->front.Constructor();
+        this->setLimitSize(0u);
+    }
+}
+void edk::UndoManager::Destructor(){
+    if(this->classThis==this){
+        this->classThis=NULL;
+        //can destruct the class
+        this->cleanAll();
+    }
+}
+
+void edk::UndoManager::cleanAll(){
+    edk::uint32 size = this->front.size();
+    if(size){
+        edk::UndoManagerFunctions* temp = NULL;
+        for(edk::uint32 i=0u;i<size;i++){
+            temp = this->front.get(i);
+            if(temp){
+                if(temp == this->selected){
+                    this->selected=NULL;
+                }
+                temp->processDelete();
+                delete temp;
+            }
+        }
+        this->front.clean();
+    }
+    size = this->back.size();
+    if(size){
+        edk::UndoManagerFunctions* temp = NULL;
+        for(edk::uint32 i=0u;i<size;i++){
+            temp = this->back.get(i);
+            if(temp){
+                if(temp == this->selected){
+                    this->selected=NULL;
+                }
+                temp->processDelete();
+                delete temp;
+            }
+        }
+        this->back.clean();
+    }
+}
+
+bool edk::UndoManager::setLimitSize(edk::uint32 size){
+    bool ret;
+    if(size){
+        this->limitSize=size;
+        ret=true;
+    }
+    else{
+        this->limitSize=LIMIT_SIZE_UNDO;
+        ret=false;
+    }
+    this->cleanBackAndFrontSize();
+    return ret;
 }
 
 //add the new functions

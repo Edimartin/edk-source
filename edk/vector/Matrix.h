@@ -51,7 +51,7 @@ public:
         this->classThis=NULL;
         this->Constructor();
     }
-    MatrixDynamic(edk::size2f32 size){
+    MatrixDynamic(edk::size2ui32 size){
         this->classThis=NULL;
         this->Constructor(size);
     }
@@ -77,7 +77,7 @@ public:
             this->matrixSizePointer = &this->matrixSize;
         }
     }
-    void Constructor(edk::size2f32 size){
+    void Constructor(edk::size2ui32 size){
         if(this->classThis!=this){
             this->classThis=this;
             this->isClass = edk::ID<typeTemplate>::isClass();

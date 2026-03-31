@@ -626,6 +626,9 @@ edk::color4f32 edk::material::Material::getEmission(){
 edk::float32 edk::material::Material::getShininess(){
     return this->shininess;
 }
+edk::uint32 edk::material::Material::getAllTexturePositions(){
+    return materialTextureCount;
+}
 
 //GETERS
 edk::uint32 edk::material::Material::getTexture(edk::uint8 position){

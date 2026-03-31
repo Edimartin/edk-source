@@ -38,6 +38,8 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #pragma message "    Compiling UndoManager"
 #endif
 
+#define LIMIT_SIZE_UNDO 30u
+
 namespace edk{
 class UndoManagerFunctions{
 public:
@@ -223,6 +225,13 @@ public:
     UndoManager();
     ~UndoManager();
 
+    void Constructor();
+    void Destructor();
+
+    void cleanAll();
+
+    bool setLimitSize(edk::uint32 size);
+
     //add the new functions
     bool newFunction(void (edk::UndoManagerFunctions::*functionPointerUndo)(edk::UndoManagerFunctions::TreeValues* tree),
                      void (edk::UndoManagerFunctions::*functionPointerRedo)(edk::UndoManagerFunctions::TreeValues* tree),
@@ -239,8 +248,13 @@ public:
 private:
     edk::vector::Stack<edk::UndoManagerFunctions*> back,front;
     edk::UndoManagerFunctions* selected;
+    //size limit for the stack
+    edk::uint32 limitSize;
     //remove all values in the front stack
     bool cleanAllFront();
+    bool cleanBackAndFrontSize();
+private:
+    edk::classID classThis;
 };
 }//end namespace edk
 

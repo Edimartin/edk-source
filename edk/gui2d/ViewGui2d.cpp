@@ -76,6 +76,8 @@ void edk::gui2d::ViewGui2d::Constructor(){
         this->percentMoveCamera = 0.5f;
         this->percentMoveSpeed = edk::vec2f32(1.f,1.f);
         this->useScroll=0u;
+        this->savePercentV=0.f;
+        this->savePercentH=0.f;
 
         this->enableMouse();
 

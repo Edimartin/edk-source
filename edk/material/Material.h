@@ -162,6 +162,7 @@ public:
     edk::color4f32 getSpecular();
     edk::color4f32 getEmission();
     edk::float32 getShininess();
+    edk::uint32 getAllTexturePositions();
 
     //GETERS
     edk::uint32 getTexture(edk::uint8 position);
