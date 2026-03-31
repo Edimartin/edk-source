@@ -1366,7 +1366,6 @@ bool edk::gui2d::ViewGui2d::readFromXML(edk::XML* xml,edk::uint32 id){
                                     haveObject=true;
                                     //read the type
                                     strType = xml->getSelectedString();
-                                    printf("\n%u %s %s strType(%s)",__LINE__,__FILE__,__func__,strType);fflush(stdout);
                                     if(strType){
                                         if(edk::String::strCompareInside(strType,edk::gui2d::ObjectGui2d::getStringTypeGUI(edk::gui2d::gui2dTypeObject))){
                                             type = edk::gui2d::gui2dTypeObject;
