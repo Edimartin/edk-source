@@ -1373,8 +1373,8 @@ bool edk::gui2d::ViewGui2d::readFromXML(edk::XML* xml,edk::uint32 id){
                                         else if(edk::String::strCompareInside(strType,edk::gui2d::ObjectGui2d::getStringTypeGUI(edk::gui2d::gui2dTypeButton))){
                                             type = edk::gui2d::gui2dTypeButton;
                                         }
-                                        else if(edk::String::strCompareInside(strType,edk::gui2d::ObjectGui2d::getStringTypeGUI(edk::gui2d::gui2dTypeButtonMenu))){
-                                            type = edk::gui2d::gui2dTypeButtonMenu;
+                                        else if(edk::String::strCompareInside(strType,edk::gui2d::ObjectGui2d::getStringTypeGUI(edk::gui2d::gui2dTypeBMenu))){
+                                            type = edk::gui2d::gui2dTypeBMenu;
                                         }
                                         else if(edk::String::strCompareInside(strType,edk::gui2d::ObjectGui2d::getStringTypeGUI(edk::gui2d::gui2dTypeScrollBar))){
                                             type = edk::gui2d::gui2dTypeScrollBar;
@@ -1415,7 +1415,7 @@ bool edk::gui2d::ViewGui2d::readFromXML(edk::XML* xml,edk::uint32 id){
                         case gui2dTypeButton:
                             obj = new edk::gui2d::Button2D;
                             break;
-                        case gui2dTypeButtonMenu:
+                        case gui2dTypeBMenu:
                             obj = new edk::gui2d::ButtonMenu2d;
                             break;
                         case gui2dTypeScrollBar:
@@ -1556,8 +1556,8 @@ bool edk::gui2d::ViewGui2d::readFromXMLFromPack(edk::pack::FilePackage* pack,edk
                                         else if(edk::String::strCompareInside(strType,edk::gui2d::ObjectGui2d::getStringTypeGUI(edk::gui2d::gui2dTypeButton))){
                                             type = edk::gui2d::gui2dTypeButton;
                                         }
-                                        else if(edk::String::strCompareInside(strType,edk::gui2d::ObjectGui2d::getStringTypeGUI(edk::gui2d::gui2dTypeButtonMenu))){
-                                            type = edk::gui2d::gui2dTypeButtonMenu;
+                                        else if(edk::String::strCompareInside(strType,edk::gui2d::ObjectGui2d::getStringTypeGUI(edk::gui2d::gui2dTypeBMenu))){
+                                            type = edk::gui2d::gui2dTypeBMenu;
                                         }
                                         else if(edk::String::strCompareInside(strType,edk::gui2d::ObjectGui2d::getStringTypeGUI(edk::gui2d::gui2dTypeScrollBar))){
                                             type = edk::gui2d::gui2dTypeScrollBar;
@@ -1598,7 +1598,7 @@ bool edk::gui2d::ViewGui2d::readFromXMLFromPack(edk::pack::FilePackage* pack,edk
                         case gui2dTypeButton:
                             obj = new edk::gui2d::Button2D;
                             break;
-                        case gui2dTypeButtonMenu:
+                        case gui2dTypeBMenu:
                             obj = new edk::gui2d::ButtonMenu2d;
                             break;
                         case gui2dTypeScrollBar:

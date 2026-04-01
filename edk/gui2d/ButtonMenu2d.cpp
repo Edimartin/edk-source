@@ -41,7 +41,7 @@ void edk::gui2d::ButtonMenu2d::Constructor(){
     if(this->classThis!=this){
         this->classThis=this;
 
-        this->typeGUI = edk::gui2d::gui2dTypeButtonMenu;
+        this->typeGUI = edk::gui2d::gui2dTypeBMenu;
         this->type=edk::TypeObject2DButtonMenu;
         this->obj.setBorderSize(0.25f);
     }

@@ -31,7 +31,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 edk::char8 gui2dTypeString[edk::gui2d::gui2dTypeSize][128u] = {
     "gui2dTypeObject",
     "gui2dTypeButton",
-    "gui2dTypeButtonMenu",
+    "gui2dTypeBMenu",
     "gui2dTypeScrollBar",
     "gui2dTypeMenu",
     "gui2dTypeText",

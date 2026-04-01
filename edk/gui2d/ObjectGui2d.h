@@ -58,7 +58,7 @@ namespace gui2d{
 enum gui2dTypes{
     gui2dTypeObject=0u,
     gui2dTypeButton,
-    gui2dTypeButtonMenu,
+    gui2dTypeBMenu,
     gui2dTypeScrollBar,
     gui2dTypeMenu,
     gui2dTypeText,
