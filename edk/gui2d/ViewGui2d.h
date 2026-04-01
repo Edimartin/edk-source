@@ -96,6 +96,8 @@ public:
     bool addObjectGui2d(edk::gui2d::ObjectGui2d* obj);
     //remove the object
     bool removeObjectGui2d(edk::gui2d::ObjectGui2d* obj);
+    //return true if habe some object
+    bool haveObjectGui2d(edk::gui2d::ObjectGui2d* obj);
     //remove all objects
     void removeAllObjectGui2d();
     void deleteAllObjectGui2d();
@@ -111,6 +113,10 @@ public:
     edk::gui2d::ObjectGui2d* getObjectByName(edk::char8* name);
     bool printAllObjectNames();
     bool printAllObjectTypesAndNames();
+
+    //get the object BoundingBox
+    edk::rectf32 getObjectBoundingBoxWorld(edk::gui2d::ObjectGui2d* obj);
+    edk::rectf32 getObjectBoundingBoxScreen(edk::gui2d::ObjectGui2d* obj);
 
     //return true if an object is selected
     bool isSelectedSomeone();
@@ -495,6 +501,14 @@ private:
             edk::gui2d::ViewGui2d::ObjGui2dID search(obj,0u);
             return this->tree.getElement(&search);
         }
+        bool haveObjectByID(edk::uint64 id){
+            edk::gui2d::ViewGui2d::ObjGui2dID search(NULL,id);
+            return this->haveElement(&search);
+        }
+        bool haveObjectByPointer(edk::gui2d::ObjectGui2d* obj){
+            edk::gui2d::ViewGui2d::ObjGui2dID search(obj,0u);
+            return this->tree.haveElement(&search);
+        }
         //get pointer and id
         edk::gui2d::ObjectGui2d* getPointerByID(edk::uint64 id){
             edk::gui2d::ViewGui2d::ObjGui2dID search(NULL,id);
@@ -526,6 +540,13 @@ private:
         }
         bool removeByID(edk::uint64 id){
             return this->removeObj(this->getObjectByID(id));
+        }
+        //have the object
+        bool haveByPointer(edk::gui2d::ObjectGui2d* obj){
+            return this->haveObjectByPointer(obj);
+        }
+        bool haveByID(edk::uint64 id){
+            return this->getObjectByID(id);
         }
         //remove all objectID's
         void removeAll(){

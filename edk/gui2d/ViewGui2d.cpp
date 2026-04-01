@@ -567,17 +567,26 @@ bool edk::gui2d::ViewGui2d::addObjectGui2d(edk::gui2d::ObjectGui2d* obj){
 //remove the object
 bool edk::gui2d::ViewGui2d::removeObjectGui2d(edk::gui2d::ObjectGui2d* obj){
     if(obj){
-        //test if the obj is the same pressed
-        if(this->objPressed == obj){
-            this->objPressed=NULL;
+        if(this->haveObjectGui2d(obj)){
+            //test if the obj is the same pressed
+            if(this->objPressed == obj){
+                this->objPressed=NULL;
+            }
+            if(this->objSelected == obj){
+                this->objSelected->deselect();
+                this->objSelected = NULL;
+                this->idSelected = 0u;
+            }
+            this->names.remove(obj);
+            return this->list.removeByPointer(obj);
         }
-        if(this->objSelected == obj){
-            this->objSelected->deselect();
-            this->objSelected = NULL;
-            this->idSelected = 0u;
-        }
-        this->names.remove(obj);
-        return this->list.removeByPointer(obj);
+    }
+    return false;
+}
+//return true if habe some object
+bool edk::gui2d::ViewGui2d::haveObjectGui2d(edk::gui2d::ObjectGui2d* obj){
+    if(obj){
+        return this->list.haveByPointer(obj);
     }
     return false;
 }
@@ -639,6 +648,47 @@ bool edk::gui2d::ViewGui2d::printAllObjectTypesAndNames(){
         return true;
     }
     return false;
+}
+
+//get the object BoundingBox
+edk::rectf32 edk::gui2d::ViewGui2d::getObjectBoundingBoxWorld(edk::gui2d::ObjectGui2d* obj){
+    edk::rectf32 ret = edk::rectf32(0.f,0.f,0.f,0.f);
+    if(obj){
+        //test if have the object
+        if(this->haveObjectGui2d(obj)){
+            //get the boundingBox
+            //ret = obj->calculateNewBoundingBox();
+            ret.origin = obj->position;
+            ret.size = obj->size;
+            ret.convertIntoPoints();
+        }
+    }
+    return ret;
+}
+
+edk::rectf32 edk::gui2d::ViewGui2d::getObjectBoundingBoxScreen(edk::gui2d::ObjectGui2d* obj){
+    edk::rectf32 ret = edk::rectf32(0.f,0.f,0.f,0.f);
+    if(obj){
+        //test if have the object
+        if(this->haveObjectGui2d(obj)){
+            edk::rectf32 rect;
+            //get the boundingBox
+            //ret = obj->calculateNewBoundingBox();
+            rect.origin = obj->position;
+            rect.size = obj->size;
+            rect.convertIntoPoints();
+
+            //convert the ret into screen position
+            edk::vec2f32 temp;
+            temp = this->positionWorldToScreen(rect.origin.x,rect.size.height);
+            ret.origin.x = temp.x;
+            ret.origin.y = temp.y;
+            temp = this->positionWorldToScreen(rect.size.width,rect.origin.y);
+            ret.size.width = temp.x;
+            ret.size.height = temp.y;
+        }
+    }
+    return ret;
 }
 
 //return true if an object is selected
