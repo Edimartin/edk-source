@@ -381,6 +381,24 @@ bool edk::gui2d::MenuObj::setStatus(edk::gui2d::gui2dTexture status){
     return false;
 }
 
+bool edk::gui2d::MenuObj::calculateBoundingBox(){
+    return this->obj.calculateBoundingBox();
+}
+bool edk::gui2d::MenuObj::calculateBoundingBox(edk::vector::Matrixf32<3u,3u>* transformMat){
+    return this->obj.calculateBoundingBox(transformMat);
+}
+bool edk::gui2d::MenuObj::generateBoundingBox(){
+    return this->obj.generateBoundingBox();
+}
+bool edk::gui2d::MenuObj::generateBoundingBox(edk::vector::Matrixf32<3u,3u>* transformMat){
+    return this->obj.generateBoundingBox(transformMat);
+}
+
+//return a copy of the boundingBox
+edk::rectf32 edk::gui2d::MenuObj::getBoundingBox(){
+    return this->obj.getBoundingBox();
+}
+
 //XML
 bool edk::gui2d::MenuObj::writeToXML(edk::XML* xml,edk::uint32 id){
     if(xml){
@@ -502,6 +520,8 @@ void edk::gui2d::ViewMenu2d::Constructor(){
         this->listCallback.Constructor();
         this->objs.Constructor();
 
+        this->percentCamera=0.f;
+        this->setBarPercent(0u);
         this->xOrder = true;
         this->positions = edk::vec2f32(0,0);
         this->mouseActivate = this->mouseOn = false;
@@ -582,27 +602,113 @@ void edk::gui2d::ViewMenu2d::processDisable(edk::gui2d::MenuObj* obj){
 }
 //update camera size and position to have all the objects
 void edk::gui2d::ViewMenu2d::updateCamera(){
-    //
+    edk::size2f32 sizeCamera;
+    bool useBar=false;
     if(this->positions.x!= 0.f && this->positions.y!=0.f){
         if(this->xOrder){
             //
+            sizeCamera = edk::size2f32(this->positions.y *
+                                       (edk::float32)this->frame.size.width / (edk::float32)this->frame.size.height,
+                                       this->positions.y
+                                       );
+
+            //test if the box is bigger than camera
+            if(sizeCamera.width < this->box.size.width){
+                useBar=true;
+                //increment the height
+                sizeCamera.height*=1.0f + (this->percentBar*2.0f);
+                if(!this->haveSubview(&this->bar)){
+                    this->addSubview(&this->bar);
+                }
+                //update the bar size
+                this->bar.frame = edk::rectf32(-2.f,//X
+                                               (this->frame.size.height-(this->frame.size.height * this->percentBar * 1.75f)),//Y
+                                               this->frame.size.width-2.f,//W
+                                               (this->frame.size.height * this->percentBar * 1.75f)//H
+                                               );
+                //set the bar orientation
+                this->bar.setBorderSize(1.f);
+                this->bar.setForegroundSize(sizeCamera.width / this->box.size.width,1.f);
+                this->bar.setBackColor(0.f,0.f,0.f,0.f);
+                this->bar.setFrontColor(0.5,0.5,0.5,1.0);
+                this->bar.setPercentX(this->percentCamera);
+            }
+            else{
+                if(this->haveSubview(&this->bar)){
+                    this->removeSubview(&this->bar);
+                }
+            }
+
             //this->frame.size;
             this->camera.setRectPoints(0,0
-                                       ,this->positions.y * (edk::float32)this->frame.size.width / (edk::float32)this->frame.size.height
-                                       ,this->positions.y
+                                       ,sizeCamera.width
+                                       ,sizeCamera.height
                                        );
+            this->cameraStartPos=0.f;
+            if(useBar){
+                this->cameraEndPos = this->cameraStartPos + (this->box.size.width - sizeCamera.width);
+            }
+            else{
+                this->cameraEndPos = this->cameraStartPos;
+            }
         }
         else{
-            //
-            this->camera.setRectPoints(0
-                                       ,0
-                                       ,this->positions.x
-                                       ,(this->positions.x * (edk::float32)this->frame.size.height / (edk::float32)this->frame.size.width)
+            sizeCamera = edk::size2f32(this->positions.x,
+                                       (this->positions.x *
+                                        (edk::float32)this->frame.size.height / (edk::float32)this->frame.size.width)
                                        );
-            //this->camera.setRectPoints(0,0,this->positions.x,this->positions.y);
-            //update the objects be on top
-            this->camera.position.y = 0.f + this->positions.y - this->camera.getSize().height*0.5f;
+
+            //test if the box is bigger than camera
+            if(sizeCamera.height < this->box.size.height){
+                useBar=true;
+                //increment the width
+                sizeCamera.width*=1.0f + (this->percentBar*2.0f);
+                if(!this->haveSubview(&this->bar)){
+                    this->addSubview(&this->bar);
+                }
+                //update the bar size
+                this->bar.frame = edk::rectf32((this->frame.size.width-(this->frame.size.width * this->percentBar * 1.75f)),//X
+                                               -2.f,//Y
+                                               (this->frame.size.width * this->percentBar * 1.75f),//W
+                                               this->frame.size.height-2.f //H
+                                               );
+                //set the bar orientation
+                this->bar.setBorderSize(1.f);
+                this->bar.setForegroundSize(1.f,sizeCamera.height / this->box.size.height);
+                this->bar.setBackColor(0.f,0.f,0.f,0.f);
+                this->bar.setFrontColor(0.5,0.5,0.5,1.0);
+                this->bar.setPercentY(this->percentCamera);
+            }
+            else{
+                if(this->haveSubview(&this->bar)){
+                    this->removeSubview(&this->bar);
+                }
+            }
+
+            //
+            this->camera.setRectPoints(0,0
+                                       ,sizeCamera.width
+                                       ,sizeCamera.height
+                                       );
+            this->cameraStartPos = 0.f + this->positions.y - this->camera.getSize().height*0.5f;
+            if(useBar){
+                this->cameraEndPos = this->cameraStartPos - (this->box.size.height - sizeCamera.height);
+            }
+            else{
+                this->cameraEndPos = this->cameraStartPos;
+            }
         }
+    }
+    this->moveCamera(this->percentCamera);
+}
+void edk::gui2d::ViewMenu2d::moveCamera(edk::float32 percent){
+    if(this->xOrder){
+        //X
+        this->camera.position.x = ((this->cameraEndPos - this->cameraStartPos) * percent) + this->cameraStartPos;
+    }
+    else{
+        //Y
+        this->camera.position.y = ((this->cameraEndPos - this->cameraStartPos) * percent) + this->cameraStartPos;
     }
 }
 //update the objects positions
@@ -662,6 +768,30 @@ void edk::gui2d::ViewMenu2d::updatePositions(){
             }
         }
     }
+
+    //update the box
+    this->box = this->updateBoundingBox();
+}
+//update the scene boundingBox
+edk::rectf32 edk::gui2d::ViewMenu2d::updateBoundingBox(){
+    edk::rectf32 ret;
+    edk::uint32 size = this->objs.size();
+    edk::gui2d::MenuObj* obj = NULL;
+    if(size){
+        obj = this->objs.get(0u);
+        if(obj){
+            obj->calculateBoundingBox();
+            ret = obj->getBoundingBox();
+        }
+        for(edk::uint32 i=1u;i<size;i++){
+            obj = this->objs.get(i);
+            if(obj){
+                obj->calculateBoundingBox();
+                ret.merge(obj->getBoundingBox());
+            }
+        }
+    }
+    return ret;
 }
 //process the selection
 void edk::gui2d::ViewMenu2d::selectObject(edk::uint32 ,edk::int32 ,edk::float32 ,edk::float32 ,edk::vector::Stack<edk::uint32>* names){
@@ -749,6 +879,15 @@ bool edk::gui2d::ViewMenu2d::isOrderX(){
 }
 bool edk::gui2d::ViewMenu2d::iOrderY(){
     return xOrder;
+}
+
+bool edk::gui2d::ViewMenu2d::setBarPercent(edk::float32 percent){
+    if(percent){
+        this->percentBar = percent;
+        return true;
+    }
+    this->percentBar = edkGui2dPercentBar;
+    return false;
 }
 
 //set the menu colors
@@ -929,6 +1068,46 @@ void edk::gui2d::ViewMenu2d::update(edk::WindowEvents* events){
         //
         this->runSelection = true;
         this->testSelection(events->mousePosView);
+    }
+
+
+    //process the scroll
+    if(events->mouseScrollWheelVertical){
+        if(this->haveSubview(&this->bar)){
+            if(this->isMouseInside() || this->bar.isMouseInside()){
+                this->percentCamera+=(events->mouseScrollWheelVertical * -0.1f);
+                if(this->percentCamera<0.f){this->percentCamera=0.f;}
+                if(this->percentCamera>1.f){this->percentCamera=1.f;}
+                //set the bar percent
+                if(this->xOrder){
+                    this->bar.setPercentX(this->percentCamera);
+                }
+                else{
+                    this->bar.setPercentY(this->percentCamera);
+                }
+                this->moveCamera(this->percentCamera);
+            }
+        }
+    }
+
+
+    //update the camera position using the percent
+
+    if(this->haveSubview(&this->bar)){
+        if(this->xOrder){
+            if(!edk::Math::equal(this->percentCamera,this->bar.getPercentX())){
+                //move camera
+                this->percentCamera = this->bar.getPercentX();
+                this->moveCamera(this->percentCamera);
+            }
+        }
+        else{
+            if(!edk::Math::equal(this->percentCamera,this->bar.getPercentY())){
+                //move camera
+                this->percentCamera = this->bar.getPercentY();
+                this->moveCamera(this->percentCamera);
+            }
+        }
     }
 }
 void edk::gui2d::ViewMenu2d::drawSelectionScene(){

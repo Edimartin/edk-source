@@ -50,6 +50,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #define edkGui2dInsideHeight 0.75f
 #define edkGui2dInsideBorder 0.25f
+#define edkGui2dPercentBar 0.05f
 
 namespace edk{
 namespace gui2d{
@@ -86,6 +87,14 @@ public:
     void updateSizes();
     //set the status of the object to be draw
     bool setStatus(edk::gui2d::gui2dTexture status);
+
+    bool calculateBoundingBox();
+    bool calculateBoundingBox(edk::vector::Matrixf32<3u,3u>* transformMat);
+    bool generateBoundingBox();
+    bool generateBoundingBox(edk::vector::Matrixf32<3u,3u>* transformMat);
+
+    //return a copy of the boundingBox
+    edk::rectf32 getBoundingBox();
 
     //XML
     virtual bool writeToXML(edk::XML* xml,edk::uint32 id);
@@ -155,6 +164,8 @@ public:
     bool isOrderX();
     bool iOrderY();
 
+    bool setBarPercent(edk::float32 percent);
+
     //set the menu colors
     void setColorNormal(edk::color3f32 color);
     void setColorNormal(edk::color4f32 color);
@@ -186,6 +197,8 @@ public:
 private:
     //save if the menu is ordered on X
     bool xOrder;
+    edk::float32 cameraStartPos;
+    edk::float32 cameraEndPos;
     //obj positions
     edk::vec2f32 positions;
 
@@ -220,10 +233,21 @@ private:
     //save the frame
     edk::rectf32 saveFrame;
 
+    //boundinhBox
+    edk::rectf32 box;
+
+    //scrollBar
+    edk::ViewScrollBar bar;
+    edk::float32 percentBar;
+    edk::float32 percentCamera;
+
     //update camera size and position to have all the objects
     void updateCamera();
+    void moveCamera(edk::float32 percent);
     //update the objects positions
     void updatePositions();
+    //update the scene boundingBox
+    edk::rectf32 updateBoundingBox();
     //process the selection
     void selectObject(edk::uint32 position,edk::int32 objects,edk::float32 near,edk::float32 far,edk::vector::Stack<edk::uint32>* names);
 private:
