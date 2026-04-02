@@ -88,6 +88,27 @@ public:
     //set the status of the object to be draw
     bool setStatus(edk::gui2d::gui2dTexture status);
 
+    //set hide or show
+    void setBackgroundHide();
+    void setBackgroundUnhide();
+    inline void setBackgroundShow(){
+        this->setBackgroundUnhide();
+    }
+    bool getBackgroundHided();
+    void setBackgroundColor(edk::color4f32 color);
+    void setBackgroundColor(edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a);
+    void setBackgroundColor(edk::float32 r,edk::float32 g,edk::float32 b);
+    void setBackgroundAlpha(edk::float32 alpha);
+    void setTextColor(edk::color4f32 color);
+    void setTextColor(edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a);
+    void setTextColor(edk::float32 r,edk::float32 g,edk::float32 b);
+    void setTextAlpha(edk::float32 alpha);
+
+    void setActivate(bool can);
+    void setCanActivate();
+    void setCantActivate();
+    bool getActivate();
+
     bool calculateBoundingBox();
     bool calculateBoundingBox(edk::vector::Matrixf32<3u,3u>* transformMat);
     bool generateBoundingBox();
@@ -124,6 +145,8 @@ private:
     edk::gui2d::gui2dTexture status;
     edk::gui2d::gui2dTexture saveStatus;
 
+    bool activate;
+
     void updatePositions();
 
 public:
@@ -136,7 +159,7 @@ class ViewMenu2d;
 class Menu2dCallback{
 public:
     virtual void enable(edk::gui2d::ViewMenu2d* menu, edk::gui2d::MenuObj* obj)=0;
-    virtual void exec(edk::gui2d::ViewMenu2d* menu, edk::gui2d::MenuObj* obj)=0;
+    virtual void exec(edk::gui2d::ViewMenu2d* menu, edk::gui2d::MenuObj* obj,edk::uint32 mouseButton)=0;
     virtual void disable(edk::gui2d::ViewMenu2d* menu, edk::gui2d::MenuObj* obj)=0;
 };
 
@@ -188,6 +211,7 @@ public:
     virtual void unload();
     virtual void update(edk::WindowEvents* events);
     void drawSelectionScene();
+    void finishSelection();
     void drawScene(edk::rectf32 outsideViewOrigin);
 
     //callback
@@ -216,6 +240,7 @@ private:
     edk::vector::BinaryTree<edk::uint32>* selectTreeS;
     edk::vector::BinaryTree<edk::uint32> tree1;
     edk::vector::BinaryTree<edk::uint32> tree2;
+    edk::vector::BinaryTree<edk::uint32> treeButtonsMouse;
 
     edk::gui2d::MenuObj* objSelected;
 
@@ -225,7 +250,7 @@ private:
     bool haveCallback(edk::gui2d::Menu2dCallback* callback);
     //process the callbacks
     void processEnable(edk::gui2d::MenuObj* obj);
-    void processExec(edk::gui2d::MenuObj* obj);
+    void processExec(edk::gui2d::MenuObj* obj,edk::uint32 mouseButton);
     void processDisable(edk::gui2d::MenuObj* obj);
 
     //
