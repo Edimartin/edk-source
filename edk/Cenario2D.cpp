@@ -4711,6 +4711,17 @@ bool edk::Cenario2D::getShowLevel(edk::uint32 levelPosition){
     }
     return false;
 }
+bool edk::Cenario2D::getHideLevel(edk::uint32 levelPosition){
+    //draw the levelPosition
+    if(levelPosition){
+        levelPosition--;
+        if(this->levels.havePos(levelPosition)){
+            edk::Cenario2D::LevelObj* level=this->levels.get(levelPosition);
+            return !level->show;
+        }
+    }
+    return false;
+}
 
 //CAN_SELECT/CANT_SELECT LEVEL
 bool edk::Cenario2D::cantSelectLevel(edk::uint32 levelPosition){

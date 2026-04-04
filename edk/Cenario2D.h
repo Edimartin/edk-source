@@ -347,6 +347,13 @@ public:
     bool showLevel(edk::uint32 levelPosition);
     bool setShowLevel(edk::uint32 levelPosition,bool show);
     bool getShowLevel(edk::uint32 levelPosition);
+    bool getHideLevel(edk::uint32 levelPosition);
+    inline bool isLevelShow(edk::uint32 levelPosition){
+        return this->getShowLevel(levelPosition);
+    }
+    inline bool isLevelHide(edk::uint32 levelPosition){
+        return this->getHideLevel(levelPosition);
+    }
 
     //CAN_SELECT/CANT_SELECT LEVEL
     bool cantSelectLevel(edk::uint32 levelPosition);

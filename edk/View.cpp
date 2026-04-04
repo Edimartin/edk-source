@@ -163,6 +163,7 @@ void edk::View::runLoad(edk::rectf32 outsideViewOrigin){
 }
 void edk::View::runUnload(){
     this->paused=false;
+    this->mouseInside=false;
     this->unload();
 }
 void edk::View::runUpdate(edk::WindowEvents* events){

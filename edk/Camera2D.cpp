@@ -50,6 +50,7 @@ void edk::Camera2D::Constructor(){
     if(this->classThis!=this){
         this->classThis=this;
         //construct the variables
+        this->size = edk::size2f32(1.f,1.f);
         this->shakePosition=edk::vec2f32(0.f,0.f);
         this->shakeAngle=0.f;
         this->shakeDistance=0.f;
@@ -73,6 +74,7 @@ void edk::Camera2D::Constructor(edk::vec2f32 position){
     //
     if(this->classThis!=this){
         this->classThis=this;
+        this->size = edk::size2f32(1.f,1.f);
         this->shakePosition=edk::vec2f32(0.f,0.f);
         this->shakeAngle=0.f;
         this->shakeDistance=0.f;
@@ -97,6 +99,7 @@ void edk::Camera2D::Constructor(edk::float32 posX,edk::float32 posY){
     //
     if(this->classThis!=this){
         this->classThis=this;
+        this->size = edk::size2f32(1.f,1.f);
         this->shakePosition=edk::vec2f32(0.f,0.f);
         this->shakeAngle=0.f;
         this->shakeDistance=0.f;

@@ -601,12 +601,26 @@ void edk::gui2d::ViewMenu2d::Destructor(){
         this->classThis=NULL;
         //can destruct the class
 
+        this->cleanObjects();
+
         this->tree1.Destructor();
         this->tree2.Destructor();
         this->listCallback.Destructor();
         this->objs.Destructor();
     }
     edk::ViewGU2D::Destructor();
+}
+
+void edk::gui2d::ViewMenu2d::cleanObjects(){
+    edk::uint32 size = this->objs.size();
+    edk::gui2d::MenuObj* obj = NULL;
+    for(edk::uint32 i=0u;i<size;i++){
+        obj = this->objs.get(i);
+        if(obj){
+            delete obj;
+        }
+    }
+    this->objs.clean();
 }
 
 //return true if have the element on the callback list
@@ -664,7 +678,11 @@ void edk::gui2d::ViewMenu2d::processDisable(edk::gui2d::MenuObj* obj){
 void edk::gui2d::ViewMenu2d::updateCamera(){
     edk::size2f32 sizeCamera;
     bool useBar=false;
-    if(this->positions.x!= 0.f && this->positions.y!=0.f){
+    if(!edk::Math::equal(0.f,this->positions.x)
+            && !edk::Math::equal(0.f,this->positions.y)
+            && !edk::Math::equal(0.f,this->frame.size.width)
+            && !edk::Math::equal(0.f,this->frame.size.height)
+            ){
         if(this->xOrder){
             //
             sizeCamera = edk::size2f32(this->positions.y *
@@ -715,7 +733,7 @@ void edk::gui2d::ViewMenu2d::updateCamera(){
         else{
             sizeCamera = edk::size2f32(this->positions.x,
                                        (this->positions.x *
-                                        (edk::float32)this->frame.size.height / (edk::float32)this->frame.size.width)
+                                        this->frame.size.height / this->frame.size.width)
                                        );
 
             //test if the box is bigger than camera
@@ -758,6 +776,7 @@ void edk::gui2d::ViewMenu2d::updateCamera(){
                 this->cameraEndPos = this->cameraStartPos;
             }
         }
+
     }
     this->moveCamera(this->percentCamera);
 }
@@ -920,6 +939,18 @@ edk::uint32 edk::gui2d::ViewMenu2d::getObjectsSize(){
     //
     return this->objs.size();
 }
+//get the bounding box size in screen
+edk::rectf32 edk::gui2d::ViewMenu2d::getBoxScreen(){
+    edk::rectf32 ret;
+    edk::vec2f32 vec;
+    vec = this->convertPositionWorldToScreen(this->box.origin.x,this->box.origin.y);
+    ret.origin.x = vec.x;
+    ret.origin.y = vec.y;
+    vec = this->convertPositionWorldToScreen(this->box.size.width,this->box.size.height);
+    ret.size.width  = vec.x;
+    ret.size.height = vec.y;
+    return ret;
+}
 //set the order to X
 void edk::gui2d::ViewMenu2d::setOrderX(){
     this->xOrder = true;
@@ -940,6 +971,11 @@ bool edk::gui2d::ViewMenu2d::isOrderX(){
 }
 bool edk::gui2d::ViewMenu2d::iOrderY(){
     return xOrder;
+}
+
+//get the object in position
+edk::gui2d::MenuObj* edk::gui2d::ViewMenu2d::getObjectInPosition(edk::uint32 position){
+    return this->objs.get(position);
 }
 
 bool edk::gui2d::ViewMenu2d::setBarPercent(edk::float32 percent){
@@ -1120,7 +1156,7 @@ void edk::gui2d::ViewMenu2d::update(edk::WindowEvents* events){
         case edk::mouse::left:
             this->mouseStatus = edk::gui2d::gui2dMouseRelease;
             this->runSelection = true;
-            if(!this->xOrder && this->objSelected){
+            if(!this->xOrder && this->objSelected && this->isMouseInside()){
                 //then activate button
                 this->processExec(this->objSelected,edk::mouse::left);
             }
@@ -1129,7 +1165,7 @@ void edk::gui2d::ViewMenu2d::update(edk::WindowEvents* events){
         case edk::mouse::right:
             this->mouseStatus = edk::gui2d::gui2dMouseRelease;
             this->runSelection = true;
-            if(!this->xOrder && this->objSelected){
+            if(!this->xOrder && this->objSelected && this->isMouseInside()){
                 //then activate button
                 this->processExec(this->objSelected,edk::mouse::right);
             }
@@ -1138,7 +1174,7 @@ void edk::gui2d::ViewMenu2d::update(edk::WindowEvents* events){
         case edk::mouse::middle:
             this->mouseStatus = edk::gui2d::gui2dMouseRelease;
             this->runSelection = true;
-            if(!this->xOrder && this->objSelected){
+            if(!this->xOrder && this->objSelected && this->isMouseInside()){
                 //then activate button
                 this->processExec(this->objSelected,edk::mouse::middle);
             }
@@ -1147,7 +1183,7 @@ void edk::gui2d::ViewMenu2d::update(edk::WindowEvents* events){
         case edk::mouse::xButton1:
             this->mouseStatus = edk::gui2d::gui2dMouseRelease;
             this->runSelection = true;
-            if(!this->xOrder && this->objSelected){
+            if(!this->xOrder && this->objSelected && this->isMouseInside()){
                 //then activate button
                 this->processExec(this->objSelected,edk::mouse::xButton1);
             }
@@ -1156,7 +1192,7 @@ void edk::gui2d::ViewMenu2d::update(edk::WindowEvents* events){
         case edk::mouse::xButton2:
             this->mouseStatus = edk::gui2d::gui2dMouseRelease;
             this->runSelection = true;
-            if(!this->xOrder && this->objSelected){
+            if(!this->xOrder && this->objSelected && this->isMouseInside()){
                 //then activate button
                 this->processExec(this->objSelected,edk::mouse::xButton2);
             }

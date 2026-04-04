@@ -171,6 +171,8 @@ public:
     void Constructor();
     void Destructor();
 
+    void cleanObjects();
+
     //create a new object
     edk::uint32 newObject(edk::char8* spriteName,edk::char8* text1,edk::char8* text2,edk::uint32 id=0u);
     edk::uint32 newObject(const edk::char8* spriteName,const edk::char8* text1,const edk::char8* text2,edk::uint32 id=0u);
@@ -179,6 +181,8 @@ public:
     edk::char8* getObjectStr2(edk::uint32 position);
     //return the size of objects inside the stack
     edk::uint32 getObjectsSize();
+    //get the bounding box size in screen
+    edk::rectf32 getBoxScreen();
     //set the order to X
     void setOrderX();
     //set the order to Y
@@ -186,6 +190,9 @@ public:
     //return if is orderX
     bool isOrderX();
     bool iOrderY();
+
+    //get the object in position
+    edk::gui2d::MenuObj* getObjectInPosition(edk::uint32 position);
 
     bool setBarPercent(edk::float32 percent);
 
