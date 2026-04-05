@@ -370,7 +370,7 @@ protected:
     virtual void drawPolygon(edk::rectf32 outsideViewOrigin);
     //those functions run the other functions
     virtual void runDraw(edk::rectf32 outsideViewOrigin);
-    virtual void runLoad(edk::rectf32 outsideViewOrigin);
+    virtual void runLoad(edk::rectf32 outsideViewOrigin,edk::vec2f32 mousePosition);
     virtual void runUnload();
     virtual void runUpdate(edk::WindowEvents* events);
     //run the pause function

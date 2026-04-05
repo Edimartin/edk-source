@@ -84,6 +84,7 @@ void edk::gui2d::ObjectGui2d::Constructor(){
         this->pressed = false;
         this->drawText = false;
         this->selected=false;
+        this->showing=true;
 
         this->cleanName();
     }
@@ -889,6 +890,26 @@ edk::rectf32 edk::gui2d::ObjectGui2d::generateNewBoundingBox(edk::vector::Matrix
 //return a copy of the boundingBox
 edk::rectf32 edk::gui2d::ObjectGui2d::getBoundingBox(){
     return this->boundingBox;
+}
+
+//setter and getter to hide
+void edk::gui2d::ObjectGui2d::setShow(bool show){
+    this->showing=show;
+}
+void edk::gui2d::ObjectGui2d::setHide(bool hide){
+    this->showing=!hide;
+}
+void edk::gui2d::ObjectGui2d::show(){
+    this->showing=true;
+}
+void edk::gui2d::ObjectGui2d::hide(){
+    this->showing=false;
+}
+bool edk::gui2d::ObjectGui2d::getShow(){
+    return this->showing;
+}
+bool edk::gui2d::ObjectGui2d::getHide(){
+    return !this->showing;
 }
 
 //load the button textures and meshes

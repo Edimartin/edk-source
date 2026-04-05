@@ -407,15 +407,19 @@ private:
         //Print
         virtual void printElement(edk::gui2d::ViewGui2d::ObjGui2dID* value){
             if(value->pointer->getTypeGUI() != edk::gui2d::gui2dTypeText){
-                //draw the element for selection
-                edk::GU::guPushName(value->id);
-                value->pointer->drawSelection();
-                edk::GU::guPopName();
+                if(value->pointer->getShow()){
+                    //draw the element for selection
+                    edk::GU::guPushName(value->id);
+                    value->pointer->drawSelection();
+                    edk::GU::guPopName();
+                }
             }
         }
         virtual void renderElement(edk::gui2d::ViewGui2d::ObjGui2dID* value){
             //
-            value->pointer->draw();
+            if(value->pointer->getShow()){
+                value->pointer->draw();
+            }
         }
         //UPDATE
         virtual void updateElement(edk::gui2d::ViewGui2d::ObjGui2dID* value){

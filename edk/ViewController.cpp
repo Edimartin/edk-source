@@ -168,10 +168,10 @@ bool edk::ViewController::addSubview(edk::View *addView){
                                 rectTemp.size.height - (edk::float32)this->borderSize
                                 );
 
-                    addView->runLoad(this->rectInside);
+                    addView->runLoad(this->rectInside,this->mousePos);
                 }
                 else{
-                    addView->runLoad(this->frame);
+                    addView->runLoad(this->frame,this->mousePos);
                 }
                 //have added the view
                 return true;

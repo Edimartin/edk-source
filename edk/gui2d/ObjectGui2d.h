@@ -210,6 +210,14 @@ public:
     //return a copy of the boundingBox
     edk::rectf32 getBoundingBox();
 
+    //setter and getter to hide
+    void setShow(bool show);
+    void setHide(bool hide);
+    void show();
+    void hide();
+    bool getShow();
+    bool getHide();
+
     //load the button textures and meshes
     virtual bool load();
     virtual void unload();
@@ -312,6 +320,7 @@ protected:
     edk::rectf32 boundingBox;
 
     edk::gui2d::gui2dTypes typeGUI;
+    bool showing;
 
     bool writeBoundingBox(edk::rectf32* rect);
     bool writeBoundingBox(edk::rectf32* rect,edk::vector::Matrixf32<3u,3u>* transformMat);

@@ -104,10 +104,10 @@ void edk::View::drawViewport(edk::rectf32 outsideViewOrigin){
     }
     //First create the view in GU
     this->rectTemp = edk::rectf32((edk::int32)(outsideViewOrigin.origin.x + this->animatedFrame.origin.x)
-                            ,(edk::int32)( outsideViewOrigin.origin.y + outsideViewOrigin.size.height - this->animatedFrame.origin.y - this->animatedFrame.size.height)
-                            ,(edk::int32)this->animatedFrame.size.width
-                            ,(edk::int32)this->animatedFrame.size.height
-                            );
+                                  ,(edk::int32)( outsideViewOrigin.origin.y + outsideViewOrigin.size.height - this->animatedFrame.origin.y - this->animatedFrame.size.height)
+                                  ,(edk::int32)this->animatedFrame.size.width
+                                  ,(edk::int32)this->animatedFrame.size.height
+                                  );
     //Set the viewport
     edk::GU::guSetViewport((edk::uint32)rectTemp.origin.x
                            ,(edk::uint32)rectTemp.origin.y
@@ -152,7 +152,7 @@ void edk::View::runDraw(edk::rectf32 outsideViewOrigin){
     }
     this->draw(outsideViewOrigin);
 }
-void edk::View::runLoad(edk::rectf32 outsideViewOrigin){
+void edk::View::runLoad(edk::rectf32 outsideViewOrigin,edk::vec2f32 mousePosition){
     this->paused=false;
     //save the first outsideViewOrigin
     this->saveOutsideFrame = outsideViewOrigin;
@@ -160,6 +160,23 @@ void edk::View::runLoad(edk::rectf32 outsideViewOrigin){
     this->load(outsideViewOrigin);
     //run the resize function
     this->resize(outsideViewOrigin);
+    if(mousePosition.x>this->frame.origin.x
+            && mousePosition.x<=this->frame.origin.x+this->frame.size.width
+            && mousePosition.y>this->frame.origin.y
+            && mousePosition.y<=this->frame.origin.y+this->frame.size.height
+            ){
+        this->mousePos = mousePosition - this->frame.origin;
+        //test if the mouse is not on the view
+        if(!this->mouseInside){
+            //run the function
+            this->eventMouseEntryInsideView(this->mousePos);
+        }
+        else{
+            eventMouseMovingInsideView(this->mousePos);
+        }
+        //set the mouse inside
+        this->mouseInside=true;
+    }
 }
 void edk::View::runUnload(){
     this->paused=false;

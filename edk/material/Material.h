@@ -163,6 +163,7 @@ public:
     edk::color4f32 getEmission();
     edk::float32 getShininess();
     edk::uint32 getAllTexturePositions();
+    static edk::uint32 getTextureCount();
 
     //GETERS
     edk::uint32 getTexture(edk::uint8 position);
