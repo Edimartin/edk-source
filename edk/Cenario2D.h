@@ -220,6 +220,8 @@ public:
     bool removePhysicObjectAnimated(edk::uint32 levelPosition,edk::uint32 position);
     bool removePhysicObjectAnimated(edk::uint32 levelPosition,edk::float32 depth);
 
+    //swap objects
+    bool swapObjects(edk::uint32 levelPosition,edk::uint32 position1,edk::uint32 position2);
 
     //DELETE ALL LEVELS
     void deleteLevel(edk::uint32 levelPosition);

@@ -3575,6 +3575,52 @@ bool edk::Cenario2D::removePhysicObjectAnimated(edk::uint32 levelPosition,edk::f
     return false;
 }
 
+//swap objects
+bool edk::Cenario2D::swapObjects(edk::uint32 levelPosition,edk::uint32 position1,edk::uint32 position2){//test the level position
+    if(levelPosition){
+        levelPosition--;
+        //load the level
+        edk::Cenario2D::LevelObj* level = this->levels.get(levelPosition);
+        edk::float32 depth;
+        if(level){
+            //test if have objects
+            if(level->objs){
+                //load the object
+                edk::Cenario2D::ObjClass* temp1 = level->objs->getElementInPosition(position1);
+                edk::Cenario2D::ObjClass* temp2 = level->objs->getElementInPosition(position2);
+                if(temp1 && temp2){
+                    //first remove the object
+                    level->objs->remove(temp1);
+                    level->objs->remove(temp2);
+                    depth = temp1->depth;
+                    temp1->depth = temp2->depth;
+                    temp2->depth = depth;
+                    level->objs->add(temp1);
+                    level->objs->add(temp2);
+                    return true;
+                }
+            }
+            else if(level->objsPhys){
+                //load the object
+                edk::Cenario2D::ObjClass* temp1 = level->objsPhys->getElementInPosition(position1);
+                edk::Cenario2D::ObjClass* temp2 = level->objsPhys->getElementInPosition(position2);
+                if(temp1 && temp2){
+                    //first remove the object
+                    level->objsPhys->remove(temp1);
+                    level->objsPhys->remove(temp2);
+                    depth = temp1->depth;
+                    temp1->depth = temp2->depth;
+                    temp2->depth = depth;
+                    level->objsPhys->add(temp1);
+                    level->objsPhys->add(temp2);
+                    return true;
+                }
+            }
+        }
+    }
+    return false;
+}
+
 //DELETE ALL LEVELS
 void edk::Cenario2D::deleteLevel(edk::uint32 levelPosition){
     if(levelPosition){
