@@ -31,6 +31,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #pragma once
 //#include "Types.h"
+#include "Math.h"
 #include "TypeColor.h"
 #include "DebugFile.h"
 #include "TypeDefines.h"

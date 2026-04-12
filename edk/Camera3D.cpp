@@ -137,7 +137,12 @@ void edk::Camera3D::start(){
 
     this->up = edk::vec3f32(0.f,1.f,0.f);
     this->size = edk::size2f32(1.f,1.f);
-    this->sizePercent = this->size.width/this->size.height;
+    if(edk::Math::equal(0.f,this->size.height)){
+        this->sizePercent = this->size.width/(this->size.height+0.001f);
+    }
+    else{
+        this->sizePercent = this->size.width/this->size.height;
+    }
     this->distancePercent = edk::Math::pythagoras(this->size.width*0.5f,this->size.height*0.5f);
     this->_near = 0.0001f;
     this->_far = 1.f;
@@ -179,7 +184,13 @@ void edk::Camera3D::updateVectors(){
                                                                                 )
                                                   )*this->distancePercent);// + this->positionNear;
     //
-    edk::float32 percent = this->_far/this->_near;
+    edk::float32 percent = 0.f;
+    if(edk::Math::equal(0.f,this->_near)){
+        percent = this->_far/(this->_near+0.001f);
+    }
+    else{
+        percent = this->_far/this->_near;
+    }
     this->vecFarUpLeft= (this->vecNearUpLeft * percent
                          )+this->positionFar;
     this->vecFarUpRight= (this->vecNearUpRight * percent
@@ -225,7 +236,12 @@ void edk::Camera3D::useOrtho(){
 void edk::Camera3D::setSize(edk::size2f32 size){
     //
     this->size=size*0.5f;
-    this->sizePercent = this->size.width/this->size.height;
+    if(edk::Math::equal(0.f,this->size.height)){
+        this->sizePercent = this->size.width/(this->size.height+0.001f);
+    }
+    else{
+        this->sizePercent = this->size.width/this->size.height;
+    }
     this->distancePercent = edk::Math::pythagoras(this->size.width*0.5f,this->size.height*0.5f);
 }
 void edk::Camera3D::setSize(edk::float32 sizeW,edk::float32 sizeH){
@@ -234,12 +250,22 @@ void edk::Camera3D::setSize(edk::float32 sizeW,edk::float32 sizeH){
 }
 void edk::Camera3D::setSizeW(edk::float32 width){
     this->size.width = width*0.5f;
-    this->sizePercent = this->size.width/this->size.height;
+    if(edk::Math::equal(0.f,this->size.height)){
+        this->sizePercent = this->size.width/(this->size.height+0.001f);
+    }
+    else{
+        this->sizePercent = this->size.width/this->size.height;
+    }
     this->distancePercent = edk::Math::pythagoras(this->size.width*0.5f,this->size.height*0.5f);
 }
 void edk::Camera3D::setSizeH(edk::float32 height){
     this->size.height = height*0.5f;
-    this->sizePercent = this->size.width/this->size.height;
+    if(edk::Math::equal(0.f,this->size.height)){
+        this->sizePercent = this->size.width/(this->size.height+0.001f);
+    }
+    else{
+        this->sizePercent = this->size.width/this->size.height;
+    }
     this->distancePercent = edk::Math::pythagoras(this->size.width*0.5f,this->size.height*0.5f);
 }
 //return the size
@@ -372,7 +398,13 @@ edk::float32 edk::Camera3D::getDistance(){
 //set the distance
 bool edk::Camera3D::setDistance(edk::float32 distance){
     if(distance>0.f){
-        edk::float32 percent = distance / this->getDistance();
+        edk::float32 percent = 0.f;
+        if(edk::Math::equal(0.f,this->getDistance())){
+            percent = distance / (this->getDistance()+0.001f);
+        }
+        else{
+            percent = distance / this->getDistance();
+        }
         //set the distance
         if(this->firstPerson){
             //

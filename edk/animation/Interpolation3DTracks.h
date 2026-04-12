@@ -168,7 +168,12 @@ protected:
                         this->z*=group->getClockZ();
                     }
                     else if(value.number & EDK_TRACK_DIVIDE_Z){
-                        this->z/=group->getClockZ();
+                        if(edk::Math::equal(0.f,group->getClockZ())){
+                            this->z/=(group->getClockZ()+0.001f);
+                        }
+                        else{
+                            this->z/=group->getClockZ();
+                        }
                     }
                     else if(value.number & EDK_TRACK_REPLACE_Z){
                         this->z=group->getClockZ();

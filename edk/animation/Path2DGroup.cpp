@@ -194,7 +194,7 @@ edk::float32 edk::animation::Path2DGroup::updateClockAnimation(){
     edk::animation::Frame2D* last = (edk::animation::Frame2D*)this->getLastFrame();
     if(last){
         //calculate the new position
-        if(temp->second==0.f){
+        if(edk::Math::equal(0.f,temp->second)){
             this->saveStep = 1.f;
         }
         else{
@@ -216,7 +216,7 @@ edk::float32 edk::animation::Path2DGroup::updateClockAnimation(edk::float32 dist
     edk::animation::Frame2D* last = (edk::animation::Frame2D*)this->getLastFrame();
     if(last){
         //calculate the new position
-        if(temp->second==0.f){
+        if(edk::Math::equal(0.f,temp->second)){
             this->saveStep = 1.f;
         }
         else{

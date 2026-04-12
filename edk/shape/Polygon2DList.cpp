@@ -340,6 +340,193 @@ edk::float32 edk::shape::Polygon2DList::getPolygonRestitution(edk::uint32 positi
     return 0.f;
 }
 
+//hide / unhide
+bool edk::shape::Polygon2DList::setShowPolygon(edk::uint32 position,bool show){
+    //test if have polygons
+    if(position < this->polygons.size()){
+        edk::shape::Polygon2D* polygon=NULL;
+        //set the polygonColors
+        polygon = this->polygons.get(position);
+        if(polygon){
+            polygon->setShow(show);
+            return true;
+        }
+    }
+    return false;
+}
+bool edk::shape::Polygon2DList::hidePolygon(edk::uint32 position){
+    //test if have polygons
+    if(position < this->polygons.size()){
+        edk::shape::Polygon2D* polygon=NULL;
+        //set the polygonColors
+        polygon = this->polygons.get(position);
+        if(polygon){
+            polygon->hide();
+            return true;
+        }
+    }
+    return false;
+}
+bool edk::shape::Polygon2DList::unhidePolygon(edk::uint32 position){
+    //test if have polygons
+    if(position < this->polygons.size()){
+        edk::shape::Polygon2D* polygon=NULL;
+        //set the polygonColors
+        polygon = this->polygons.get(position);
+        if(polygon){
+            polygon->unhide();
+            return true;
+        }
+    }
+    return false;
+}
+bool edk::shape::Polygon2DList::showPolygon(edk::uint32 position){
+    //test if have polygons
+    if(position < this->polygons.size()){
+        edk::shape::Polygon2D* polygon=NULL;
+        //set the polygonColors
+        polygon = this->polygons.get(position);
+        if(polygon){
+            polygon->show();
+            return true;
+        }
+    }
+    return false;
+}
+bool edk::shape::Polygon2DList::unshowPolygon(edk::uint32 position){
+    //test if have polygons
+    if(position < this->polygons.size()){
+        edk::shape::Polygon2D* polygon=NULL;
+        //set the polygonColors
+        polygon = this->polygons.get(position);
+        if(polygon){
+            polygon->unshow();
+            return true;
+        }
+    }
+    return false;
+}
+
+bool edk::shape::Polygon2DList::setShowPolygons(bool show){
+    edk::uint32 size = this->polygons.size();
+    if(size){
+        edk::shape::Polygon2D* polygon=NULL;
+        for(edk::uint32 i=0u;i<size;i++){
+            polygon = this->polygons.get(i);
+            if(polygon){
+                polygon->setShow(show);
+            }
+        }
+        return true;
+    }
+    return false;
+}
+bool edk::shape::Polygon2DList::hidePolygons(){
+    edk::uint32 size = this->polygons.size();
+    if(size){
+        edk::shape::Polygon2D* polygon=NULL;
+        for(edk::uint32 i=0u;i<size;i++){
+            polygon = this->polygons.get(i);
+            if(polygon){
+                polygon->hide();
+            }
+        }
+        return true;
+    }
+    return false;
+}
+bool edk::shape::Polygon2DList::unhidePolygons(){
+    edk::uint32 size = this->polygons.size();
+    if(size){
+        edk::shape::Polygon2D* polygon=NULL;
+        for(edk::uint32 i=0u;i<size;i++){
+            polygon = this->polygons.get(i);
+            if(polygon){
+                polygon->unhide();
+            }
+        }
+        return true;
+    }
+    return false;
+}
+bool edk::shape::Polygon2DList::showPolygons(){
+    edk::uint32 size = this->polygons.size();
+    if(size){
+        edk::shape::Polygon2D* polygon=NULL;
+        for(edk::uint32 i=0u;i<size;i++){
+            polygon = this->polygons.get(i);
+            if(polygon){
+                polygon->show();
+            }
+        }
+        return true;
+    }
+    return false;
+}
+bool edk::shape::Polygon2DList::unshowPolygons(){
+    edk::uint32 size = this->polygons.size();
+    if(size){
+        edk::shape::Polygon2D* polygon=NULL;
+        for(edk::uint32 i=0u;i<size;i++){
+            polygon = this->polygons.get(i);
+            if(polygon){
+                polygon->unshow();
+            }
+        }
+        return true;
+    }
+    return false;
+}
+
+bool edk::shape::Polygon2DList::isShowingPolygon(edk::uint32 position){
+    //test if have polygons
+    if(position < this->polygons.size()){
+        edk::shape::Polygon2D* polygon=NULL;
+        //set the polygonColors
+        polygon = this->polygons.get(position);
+        if(polygon){
+            return polygon->isShowing();
+        }
+    }
+    return false;
+}
+bool edk::shape::Polygon2DList::isHidedPolygon(edk::uint32 position){
+    //test if have polygons
+    if(position < this->polygons.size()){
+        edk::shape::Polygon2D* polygon=NULL;
+        //set the polygonColors
+        polygon = this->polygons.get(position);
+        if(polygon){
+            return polygon->isHided();
+        }
+    }
+    return false;
+}
+bool edk::shape::Polygon2DList::getShowingPolygon(edk::uint32 position){
+    //test if have polygons
+    if(position < this->polygons.size()){
+        edk::shape::Polygon2D* polygon=NULL;
+        //set the polygonColors
+        polygon = this->polygons.get(position);
+        if(polygon){
+            polygon->isShowing();
+        }
+    }
+    return false;
+}
+bool edk::shape::Polygon2DList::getHidedPolygon(edk::uint32 position){
+    //test if have polygons
+    if(position < this->polygons.size()){
+        edk::shape::Polygon2D* polygon=NULL;
+        //set the polygonColors
+        polygon = this->polygons.get(position);
+        if(polygon){
+            polygon->isHided();
+        }
+    }
+    return false;
+}
+
 //set vertex positions in the mesh
 bool edk::shape::Polygon2DList::setVertexPosition(edk::uint32 polygon,edk::uint32 vertex,edk::vec2f32 position){
     //test if have polygons
@@ -1059,12 +1246,88 @@ bool edk::shape::Polygon2DList::selectPolygon(edk::uint32 position){
     //else return false
     return false;
 }
+//hide / unhide
+bool edk::shape::Polygon2DList::selectedSetShow(bool show){
+    //test if have selected
+    if(this->selected){
+        this->selected->setShow(show);
+        return true;
+    }
+    //else return false
+    return false;
+}
+bool edk::shape::Polygon2DList::selectedHide(){
+    //test if have selected
+    if(this->selected){
+        this->selected->hide();
+        return true;
+    }
+    //else return false
+    return false;
+}
+bool edk::shape::Polygon2DList::selectedUnhide(){
+    //test if have selected
+    if(this->selected){
+        this->selected->unhide();
+        return true;
+    }
+    //else return false
+    return false;
+}
+bool edk::shape::Polygon2DList::selectedShow(){
+    //test if have selected
+    if(this->selected){
+        this->selected->show();
+        return true;
+    }
+    //else return false
+    return false;
+}
+bool edk::shape::Polygon2DList::selectedUnshow(){
+    //test if have selected
+    if(this->selected){
+        this->selected->unshow();
+        return true;
+    }
+    //else return false
+    return false;
+}
+bool edk::shape::Polygon2DList::selectedIsShowing(){
+    //test if have selected
+    if(this->selected){
+        return this->selected->isShowing();
+    }
+    //else return false
+    return false;
+}
+bool edk::shape::Polygon2DList::selectedIsHided(){
+    //test if have selected
+    if(this->selected){
+        return this->selected->isHided();
+    }
+    //else return false
+    return false;
+}
+bool edk::shape::Polygon2DList::selectedGetShowing(){
+    //test if have selected
+    if(this->selected){
+        return this->selected->isShowing();
+    }
+    //else return false
+    return false;
+}
+bool edk::shape::Polygon2DList::selectedGetHided(){
+    //test if have selected
+    if(this->selected){
+        return this->selected->isHided();
+    }
+    //else return false
+    return false;
+}
 //set the position of a vertex
 bool edk::shape::Polygon2DList::selectedSetVertexPosition(edk::uint32 vertex,edk::vec2f32 position){
     //test if have selected
     if(this->selected){
-        //
-
         //return true
         return this->selected->setVertexPosition(vertex,position);
     }
@@ -1533,6 +1796,16 @@ edk::float32 edk::shape::Polygon2DList::selectedGetAngle(){
     }
     //else return zero
     return 0u;
+}
+//get type
+edk::shape::EDKpolygon2DType edk::shape::Polygon2DList::selectedGetType(){
+    //test if have selected
+    if(this->selected){
+        //
+        return this->selected->getType();
+    }
+    //else return zero
+    return edk::shape::typeUnknow;
 }
 //return if is a circle
 bool edk::shape::Polygon2DList::selectedIsCircle(){

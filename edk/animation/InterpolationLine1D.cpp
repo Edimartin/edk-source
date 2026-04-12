@@ -251,7 +251,13 @@ edk::float32 edk::animation::InterpolationLine1D::getPositionX(edk::float32 seco
     }
     //else test the linear or curve
 
-    edk::float32 percent = ((second - retStart->second)/ distance);
+    edk::float32 percent = 0.f;
+    if(edk::Math::equal(0.f,this->distance)){
+        percent = ((second - retStart->second)/ (this->distance+0.001f));
+    }
+    else{
+        percent = ((second - retStart->second)/ this->distance);
+    }
     if(percent>=1.f){
         return retEnd->x;
     }
@@ -265,13 +271,6 @@ edk::float32 edk::animation::InterpolationLine1D::getPositionX(edk::float32 seco
                                     edk::vec2f32(this->p2X.width,this->p2X.height),
                                     edk::vec2f32(retEnd->second,retEnd->x)
                                     );
-        /*
-        printf("\npercent == %.2f bezier percent %.2f position %.2f"
-               ,percent
-               ,((bezier.getPoint(percent).x - retStart->second)/ distance)
-               ,bezier.getPoint(percent).y
-               );
-*/
         return bezier.getPoint(percent).y;
     }
     edk::float32 ret =  retStart->x+(((retEnd->x-retStart->x) *

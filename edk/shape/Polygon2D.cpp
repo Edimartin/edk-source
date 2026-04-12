@@ -77,6 +77,8 @@ void edk::shape::Polygon2D::Constructor(){
         this->matrixTransform.Constructor();
         this->matrixPosition.Constructor();
 
+        this->needUpdateVBO=false;
+        this->showPolygon=true;
         this->vboType = edk::GU::vbo_NULL;
         this->vbo=0u;
         this->vboCount=0u;
@@ -123,6 +125,8 @@ void edk::shape::Polygon2D::Constructor(edk::uint32 vertexCount){
         this->matrixTransform.Constructor();
         this->matrixPosition.Constructor();
 
+        this->needUpdateVBO=false;
+        this->showPolygon=true;
         this->vboType = edk::GU::vbo_NULL;
         this->vbo=0u;
         this->vboCount=0u;
@@ -4577,155 +4581,187 @@ bool edk::shape::Polygon2D::haveVBO(){
 }
 //set the vboFunction pointers
 bool edk::shape::Polygon2D::updateVBOFunctions(){
+    this->needUpdateVBO=false;
     if(this->haveVBO()){
-        switch(this->vboType){
-        case edk::GU::vbo_XY:
-            this->vboPrint = &edk::shape::Polygon2D::print_XY;
-            this->vboDraw = &edk::shape::Polygon2D::drawUpdate_XY;
-            break;
-        case edk::GU::vbo_XY_NxNyNz:
-            this->vboPrint = &edk::shape::Polygon2D::print_XY_NxNyNz;
-            this->vboDraw = &edk::shape::Polygon2D::drawUpdate_XY_NxNyNz;
-            break;
-        case edk::GU::vbo_XY_RGB:
-            this->vboPrint = &edk::shape::Polygon2D::print_XY_RGB;
-            this->vboDraw = &edk::shape::Polygon2D::drawUpdate_XY_RGB;
-            break;
-        case edk::GU::vbo_XY_RGBA:
-            this->vboPrint = &edk::shape::Polygon2D::print_XY_RGBA;
-            this->vboDraw = &edk::shape::Polygon2D::drawUpdate_XY_RGBA;
-            break;
-        case edk::GU::vbo_XY_RGB_NxNyNz:
-            this->vboPrint = &edk::shape::Polygon2D::print_XY_RGB_NxNyNz;
-            this->vboDraw = &edk::shape::Polygon2D::drawUpdate_XY_RGB_NxNyNz;
-            break;
-        case edk::GU::vbo_XY_RGBA_NxNyNz:
-            this->vboPrint = &edk::shape::Polygon2D::print_XY_RGBA_NxNyNz;
-            this->vboDraw = &edk::shape::Polygon2D::drawUpdate_XY_RGBA_NxNyNz;
-            break;
-        case edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy:
-            this->vboPrint = &edk::shape::Polygon2D::print_XY_RGB_NxNyNz_UVxUVy;
-            this->vboDraw = &edk::shape::Polygon2D::drawUpdate_XY_RGB_NxNyNz_UVxUVy;
-            break;
-        case edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy:
-            this->vboPrint = &edk::shape::Polygon2D::print_XY_RGBA_NxNyNz_UVxUVy;
-            this->vboDraw = &edk::shape::Polygon2D::drawUpdate_XY_RGBA_NxNyNz_UVxUVy;
-            break;
-        case edk::GU::vbo_XYZ:
-            this->vboPrint = &edk::shape::Polygon2D::print_XYZ;
-            this->vboDraw = &edk::shape::Polygon2D::drawUpdate_XYZ;
-            break;
-        case edk::GU::vbo_XYZ_NxNyNz:
-            this->vboPrint = &edk::shape::Polygon2D::print_XYZ_NxNyNz;
-            this->vboDraw = &edk::shape::Polygon2D::drawUpdate_XYZ_NxNyNz;
-            break;
-        case edk::GU::vbo_XYZ_RGB:
-            this->vboPrint = &edk::shape::Polygon2D::print_XYZ_RGB;
-            this->vboDraw = &edk::shape::Polygon2D::drawUpdate_XYZ_RGB;
-            break;
-        case edk::GU::vbo_XYZ_RGBA:
-            this->vboPrint = &edk::shape::Polygon2D::print_XYZ_RGBA;
-            this->vboDraw = &edk::shape::Polygon2D::drawUpdate_XYZ_RGBA;
-            break;
-        case edk::GU::vbo_XYZ_RGB_NxNyNz:
-            this->vboPrint = &edk::shape::Polygon2D::print_XYZ_RGB_NxNyNz;
-            this->vboDraw = &edk::shape::Polygon2D::drawUpdate_XYZ_RGB_NxNyNz;
-            break;
-        case edk::GU::vbo_XYZ_RGBA_NxNyNz:
-            this->vboPrint = &edk::shape::Polygon2D::print_XYZ_RGBA_NxNyNz;
-            this->vboDraw = &edk::shape::Polygon2D::drawUpdate_XYZ_RGBA_NxNyNz;
-            break;
-        case edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy:
-            this->vboPrint = &edk::shape::Polygon2D::print_XYZ_RGB_NxNyNz_UVxUVy;
-            this->vboDraw = &edk::shape::Polygon2D::drawUpdate_XYZ_RGB_NxNyNz_UVxUVy;
-            break;
-        case edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
-            this->vboPrint = &edk::shape::Polygon2D::print_XYZ_RGBA_NxNyNz_UVxUVy;
-            this->vboDraw = &edk::shape::Polygon2D::drawUpdate_XYZ_RGBA_NxNyNz_UVxUVy;
-            break;
-        default:
+        if(this->isShowing()){
+            switch(this->vboType){
+            case edk::GU::vbo_XY:
+                this->vboPrint = &edk::shape::Polygon2D::print_XY;
+                this->vboDraw = &edk::shape::Polygon2D::drawUpdate_XY;
+                break;
+            case edk::GU::vbo_XY_NxNyNz:
+                this->vboPrint = &edk::shape::Polygon2D::print_XY_NxNyNz;
+                this->vboDraw = &edk::shape::Polygon2D::drawUpdate_XY_NxNyNz;
+                break;
+            case edk::GU::vbo_XY_RGB:
+                this->vboPrint = &edk::shape::Polygon2D::print_XY_RGB;
+                this->vboDraw = &edk::shape::Polygon2D::drawUpdate_XY_RGB;
+                break;
+            case edk::GU::vbo_XY_RGBA:
+                this->vboPrint = &edk::shape::Polygon2D::print_XY_RGBA;
+                this->vboDraw = &edk::shape::Polygon2D::drawUpdate_XY_RGBA;
+                break;
+            case edk::GU::vbo_XY_RGB_NxNyNz:
+                this->vboPrint = &edk::shape::Polygon2D::print_XY_RGB_NxNyNz;
+                this->vboDraw = &edk::shape::Polygon2D::drawUpdate_XY_RGB_NxNyNz;
+                break;
+            case edk::GU::vbo_XY_RGBA_NxNyNz:
+                this->vboPrint = &edk::shape::Polygon2D::print_XY_RGBA_NxNyNz;
+                this->vboDraw = &edk::shape::Polygon2D::drawUpdate_XY_RGBA_NxNyNz;
+                break;
+            case edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy:
+                this->vboPrint = &edk::shape::Polygon2D::print_XY_RGB_NxNyNz_UVxUVy;
+                this->vboDraw = &edk::shape::Polygon2D::drawUpdate_XY_RGB_NxNyNz_UVxUVy;
+                break;
+            case edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy:
+                this->vboPrint = &edk::shape::Polygon2D::print_XY_RGBA_NxNyNz_UVxUVy;
+                this->vboDraw = &edk::shape::Polygon2D::drawUpdate_XY_RGBA_NxNyNz_UVxUVy;
+                break;
+            case edk::GU::vbo_XYZ:
+                this->vboPrint = &edk::shape::Polygon2D::print_XYZ;
+                this->vboDraw = &edk::shape::Polygon2D::drawUpdate_XYZ;
+                break;
+            case edk::GU::vbo_XYZ_NxNyNz:
+                this->vboPrint = &edk::shape::Polygon2D::print_XYZ_NxNyNz;
+                this->vboDraw = &edk::shape::Polygon2D::drawUpdate_XYZ_NxNyNz;
+                break;
+            case edk::GU::vbo_XYZ_RGB:
+                this->vboPrint = &edk::shape::Polygon2D::print_XYZ_RGB;
+                this->vboDraw = &edk::shape::Polygon2D::drawUpdate_XYZ_RGB;
+                break;
+            case edk::GU::vbo_XYZ_RGBA:
+                this->vboPrint = &edk::shape::Polygon2D::print_XYZ_RGBA;
+                this->vboDraw = &edk::shape::Polygon2D::drawUpdate_XYZ_RGBA;
+                break;
+            case edk::GU::vbo_XYZ_RGB_NxNyNz:
+                this->vboPrint = &edk::shape::Polygon2D::print_XYZ_RGB_NxNyNz;
+                this->vboDraw = &edk::shape::Polygon2D::drawUpdate_XYZ_RGB_NxNyNz;
+                break;
+            case edk::GU::vbo_XYZ_RGBA_NxNyNz:
+                this->vboPrint = &edk::shape::Polygon2D::print_XYZ_RGBA_NxNyNz;
+                this->vboDraw = &edk::shape::Polygon2D::drawUpdate_XYZ_RGBA_NxNyNz;
+                break;
+            case edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy:
+                this->vboPrint = &edk::shape::Polygon2D::print_XYZ_RGB_NxNyNz_UVxUVy;
+                this->vboDraw = &edk::shape::Polygon2D::drawUpdate_XYZ_RGB_NxNyNz_UVxUVy;
+                break;
+            case edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
+                this->vboPrint = &edk::shape::Polygon2D::print_XYZ_RGBA_NxNyNz_UVxUVy;
+                this->vboDraw = &edk::shape::Polygon2D::drawUpdate_XYZ_RGBA_NxNyNz_UVxUVy;
+                break;
+            default:
+                this->vboPrint = &edk::shape::Polygon2D::print_NULL;
+                this->vboDraw = &edk::shape::Polygon2D::drawUpdate_NULL;
+                break;
+            }
+        }
+        else{
+            this->needUpdateVBO=true;
             this->vboPrint = &edk::shape::Polygon2D::print_NULL;
-            this->vboDraw = &edk::shape::Polygon2D::drawUpdate_NULL;
-            break;
+            this->vboDraw = &edk::shape::Polygon2D::drawUpdate_HIDE;
         }
         return true;
+    }
+    else{
+        if(this->isHided()){
+            this->needUpdateVBO=true;
+            this->vboPrint = &edk::shape::Polygon2D::print_NULL;
+            this->vboDraw = &edk::shape::Polygon2D::drawUpdate_HIDE;
+            return true;
+        }
     }
     this->setVBOFunctionUpdateNULL();
     return false;
 }
 bool edk::shape::Polygon2D::setAutomaticallyVBOFunctions(){
+    if(this->needUpdateVBO){
+        return this->updateVBOFunctions();
+    }
     if(this->haveVBO()){
-        switch(this->vboType){
-        case edk::GU::vbo_XY:
-            this->vboPrint = &edk::shape::Polygon2D::print_XY;
-            this->vboDraw = &edk::shape::Polygon2D::draw_XY;
-            break;
-        case edk::GU::vbo_XY_NxNyNz:
-            this->vboPrint = &edk::shape::Polygon2D::print_XY_NxNyNz;
-            this->vboDraw = &edk::shape::Polygon2D::draw_XY_NxNyNz;
-            break;
-        case edk::GU::vbo_XY_RGB:
-            this->vboPrint = &edk::shape::Polygon2D::print_XY_RGB;
-            this->vboDraw = &edk::shape::Polygon2D::draw_XY_RGB;
-            break;
-        case edk::GU::vbo_XY_RGBA:
-            this->vboPrint = &edk::shape::Polygon2D::print_XY_RGBA;
-            this->vboDraw = &edk::shape::Polygon2D::draw_XY_RGBA;
-            break;
-        case edk::GU::vbo_XY_RGB_NxNyNz:
-            this->vboPrint = &edk::shape::Polygon2D::print_XY_RGB_NxNyNz;
-            this->vboDraw = &edk::shape::Polygon2D::draw_XY_RGB_NxNyNz;
-            break;
-        case edk::GU::vbo_XY_RGBA_NxNyNz:
-            this->vboPrint = &edk::shape::Polygon2D::print_XY_RGBA_NxNyNz;
-            this->vboDraw = &edk::shape::Polygon2D::draw_XY_RGBA_NxNyNz;
-            break;
-        case edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy:
-            this->vboPrint = &edk::shape::Polygon2D::print_XY_RGB_NxNyNz_UVxUVy;
-            this->vboDraw = &edk::shape::Polygon2D::draw_XY_RGB_NxNyNz_UVxUVy;
-            break;
-        case edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy:
-            this->vboPrint = &edk::shape::Polygon2D::print_XY_RGBA_NxNyNz_UVxUVy;
-            this->vboDraw = &edk::shape::Polygon2D::draw_XY_RGBA_NxNyNz_UVxUVy;
-            break;
-        case edk::GU::vbo_XYZ:
-            this->vboPrint = &edk::shape::Polygon2D::print_XYZ;
-            this->vboDraw = &edk::shape::Polygon2D::draw_XYZ;
-            break;
-        case edk::GU::vbo_XYZ_NxNyNz:
-            this->vboPrint = &edk::shape::Polygon2D::print_XYZ_NxNyNz;
-            this->vboDraw = &edk::shape::Polygon2D::draw_XYZ_NxNyNz;
-            break;
-        case edk::GU::vbo_XYZ_RGB:
-            this->vboPrint = &edk::shape::Polygon2D::print_XYZ_RGB;
-            this->vboDraw = &edk::shape::Polygon2D::draw_XYZ_RGB;
-            break;
-        case edk::GU::vbo_XYZ_RGBA:
-            this->vboPrint = &edk::shape::Polygon2D::print_XYZ_RGBA;
-            this->vboDraw = &edk::shape::Polygon2D::draw_XYZ_RGBA;
-            break;
-        case edk::GU::vbo_XYZ_RGB_NxNyNz:
-            this->vboPrint = &edk::shape::Polygon2D::print_XYZ_RGB_NxNyNz;
-            this->vboDraw = &edk::shape::Polygon2D::draw_XYZ_RGB_NxNyNz;
-            break;
-        case edk::GU::vbo_XYZ_RGBA_NxNyNz:
-            this->vboPrint = &edk::shape::Polygon2D::print_XYZ_RGBA_NxNyNz;
-            this->vboDraw = &edk::shape::Polygon2D::draw_XYZ_RGBA_NxNyNz;
-            break;
-        case edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy:
-            this->vboPrint = &edk::shape::Polygon2D::print_XYZ_RGB_NxNyNz_UVxUVy;
-            this->vboDraw = &edk::shape::Polygon2D::draw_XYZ_RGB_NxNyNz_UVxUVy;
-            break;
-        case edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
-            this->vboPrint = &edk::shape::Polygon2D::print_XYZ_RGBA_NxNyNz_UVxUVy;
-            this->vboDraw = &edk::shape::Polygon2D::draw_XYZ_RGBA_NxNyNz_UVxUVy;
-            break;
-        default:
+        if(this->isShowing()){
+            switch(this->vboType){
+            case edk::GU::vbo_XY:
+                this->vboPrint = &edk::shape::Polygon2D::print_XY;
+                this->vboDraw = &edk::shape::Polygon2D::draw_XY;
+                break;
+            case edk::GU::vbo_XY_NxNyNz:
+                this->vboPrint = &edk::shape::Polygon2D::print_XY_NxNyNz;
+                this->vboDraw = &edk::shape::Polygon2D::draw_XY_NxNyNz;
+                break;
+            case edk::GU::vbo_XY_RGB:
+                this->vboPrint = &edk::shape::Polygon2D::print_XY_RGB;
+                this->vboDraw = &edk::shape::Polygon2D::draw_XY_RGB;
+                break;
+            case edk::GU::vbo_XY_RGBA:
+                this->vboPrint = &edk::shape::Polygon2D::print_XY_RGBA;
+                this->vboDraw = &edk::shape::Polygon2D::draw_XY_RGBA;
+                break;
+            case edk::GU::vbo_XY_RGB_NxNyNz:
+                this->vboPrint = &edk::shape::Polygon2D::print_XY_RGB_NxNyNz;
+                this->vboDraw = &edk::shape::Polygon2D::draw_XY_RGB_NxNyNz;
+                break;
+            case edk::GU::vbo_XY_RGBA_NxNyNz:
+                this->vboPrint = &edk::shape::Polygon2D::print_XY_RGBA_NxNyNz;
+                this->vboDraw = &edk::shape::Polygon2D::draw_XY_RGBA_NxNyNz;
+                break;
+            case edk::GU::vbo_XY_RGB_NxNyNz_UVxUVy:
+                this->vboPrint = &edk::shape::Polygon2D::print_XY_RGB_NxNyNz_UVxUVy;
+                this->vboDraw = &edk::shape::Polygon2D::draw_XY_RGB_NxNyNz_UVxUVy;
+                break;
+            case edk::GU::vbo_XY_RGBA_NxNyNz_UVxUVy:
+                this->vboPrint = &edk::shape::Polygon2D::print_XY_RGBA_NxNyNz_UVxUVy;
+                this->vboDraw = &edk::shape::Polygon2D::draw_XY_RGBA_NxNyNz_UVxUVy;
+                break;
+            case edk::GU::vbo_XYZ:
+                this->vboPrint = &edk::shape::Polygon2D::print_XYZ;
+                this->vboDraw = &edk::shape::Polygon2D::draw_XYZ;
+                break;
+            case edk::GU::vbo_XYZ_NxNyNz:
+                this->vboPrint = &edk::shape::Polygon2D::print_XYZ_NxNyNz;
+                this->vboDraw = &edk::shape::Polygon2D::draw_XYZ_NxNyNz;
+                break;
+            case edk::GU::vbo_XYZ_RGB:
+                this->vboPrint = &edk::shape::Polygon2D::print_XYZ_RGB;
+                this->vboDraw = &edk::shape::Polygon2D::draw_XYZ_RGB;
+                break;
+            case edk::GU::vbo_XYZ_RGBA:
+                this->vboPrint = &edk::shape::Polygon2D::print_XYZ_RGBA;
+                this->vboDraw = &edk::shape::Polygon2D::draw_XYZ_RGBA;
+                break;
+            case edk::GU::vbo_XYZ_RGB_NxNyNz:
+                this->vboPrint = &edk::shape::Polygon2D::print_XYZ_RGB_NxNyNz;
+                this->vboDraw = &edk::shape::Polygon2D::draw_XYZ_RGB_NxNyNz;
+                break;
+            case edk::GU::vbo_XYZ_RGBA_NxNyNz:
+                this->vboPrint = &edk::shape::Polygon2D::print_XYZ_RGBA_NxNyNz;
+                this->vboDraw = &edk::shape::Polygon2D::draw_XYZ_RGBA_NxNyNz;
+                break;
+            case edk::GU::vbo_XYZ_RGB_NxNyNz_UVxUVy:
+                this->vboPrint = &edk::shape::Polygon2D::print_XYZ_RGB_NxNyNz_UVxUVy;
+                this->vboDraw = &edk::shape::Polygon2D::draw_XYZ_RGB_NxNyNz_UVxUVy;
+                break;
+            case edk::GU::vbo_XYZ_RGBA_NxNyNz_UVxUVy:
+                this->vboPrint = &edk::shape::Polygon2D::print_XYZ_RGBA_NxNyNz_UVxUVy;
+                this->vboDraw = &edk::shape::Polygon2D::draw_XYZ_RGBA_NxNyNz_UVxUVy;
+                break;
+            default:
+                this->vboPrint = &edk::shape::Polygon2D::print_NULL;
+                this->vboDraw = &edk::shape::Polygon2D::draw_NULL;
+                break;
+            }
+        }
+        else{
             this->vboPrint = &edk::shape::Polygon2D::print_NULL;
-            this->vboDraw = &edk::shape::Polygon2D::draw_NULL;
-            break;
+            this->vboDraw = &edk::shape::Polygon2D::draw_HIDE;
         }
         return true;
+    }
+    else{
+        if(this->isHided()){
+            this->vboPrint = &edk::shape::Polygon2D::print_NULL;
+            this->vboDraw = &edk::shape::Polygon2D::draw_HIDE;
+            return true;
+        }
     }
     this->setVBOFunctionUpdateNULL();
     return false;
@@ -7289,6 +7325,9 @@ void edk::shape::Polygon2D::draw_NULL(edk::uint32 mode){
     this->drawVertexs();
     edk::GU::guEnd();
 }
+void edk::shape::Polygon2D::draw_HIDE(edk::uint32 /*mode*/){
+    //
+}
 void edk::shape::Polygon2D::draw_XY(edk::uint32 mode){
     edk::GU_GLSL::guUseBuffer(GU_ARRAY_BUFFER,this->vbo);
     //draw only the positions
@@ -7745,6 +7784,11 @@ void edk::shape::Polygon2D::drawUpdate_NULL(edk::uint32 mode){
     edk::GU::guEnd();
     //change the drawFunction
     this->setVBOFunctionNULL();
+}
+void edk::shape::Polygon2D::drawUpdate_HIDE(edk::uint32 /*mode*/){
+    this->updateVBO();
+    //change the drawFunction
+    this->vboDraw = &edk::shape::Polygon2D::draw_HIDE;
 }
 void edk::shape::Polygon2D::drawUpdate_XY(edk::uint32 mode){
     this->updateVBO();
@@ -8230,6 +8274,30 @@ edk::shape::Vertex2D* edk::shape::Polygon2D::getVertexOriginalPointer(edk::uint3
 
 void edk::shape::Polygon2D::clean(){
     this->deletePolygon();
+}
+
+//set hide
+void edk::shape::Polygon2D::setShow(bool hide){
+    this->showPolygon=hide;
+    this->setAutomaticallyVBOFunctions();
+}
+void edk::shape::Polygon2D::hide(){
+    this->setShow(false);
+}
+void edk::shape::Polygon2D::unhide(){
+    this->setShow(true);
+}
+void edk::shape::Polygon2D::show(){
+    this->setShow(true);
+}
+void edk::shape::Polygon2D::unshow(){
+    this->setShow(false);
+}
+bool edk::shape::Polygon2D::isHided(){
+    return !this->showPolygon;
+}
+bool edk::shape::Polygon2D::isShowing(){
+    return this->showPolygon;
 }
 
 //create the polygon
@@ -9513,6 +9581,10 @@ edk::float32 edk::shape::Polygon2D::getFriction(){
 }
 edk::float32 edk::shape::Polygon2D::getRestitution(){
     return this->restitution;
+}
+
+edk::shape::EDKpolygon2DType edk::shape::Polygon2D::getType(){
+    return this->type;
 }
 
 //return true if the polygon is a circle

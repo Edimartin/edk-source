@@ -174,7 +174,12 @@ protected:
                         this->y*=group->getClockY();
                     }
                     else if(value.number & EDK_TRACK_DIVIDE_Y){
-                        this->y/=group->getClockY();
+                        if(edk::Math::equal(0.f,group->getClockY())){
+                            this->y/=(group->getClockY()+0.001f);
+                        }
+                        else{
+                            this->y/=group->getClockY();
+                        }
                     }
                     else if(value.number & EDK_TRACK_REPLACE_Y){
                         this->y=group->getClockY();

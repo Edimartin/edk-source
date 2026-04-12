@@ -62,7 +62,13 @@ edk::size2ui32 edk::LUT3D::calcImageSize(edk::uint16 size){
     if(vecSize%result){
         increment=1u;
     }
-    edk::size2ui32 ret = edk::size2ui32(result,(vecSize/result) + increment);
+    edk::size2ui32 ret = edk::size2ui32(0u,0u);
+    if(result){
+        ret = edk::size2ui32(result,(vecSize/result) + increment);
+    }
+    else{
+        ret = edk::size2ui32(result,vecSize + increment);
+    }
     return ret;
 }
 
@@ -169,31 +175,33 @@ bool edk::LUT3D::deleteTable(){
 //clean the table values
 bool edk::LUT3D::cleanTable(){
     //test if have the table
-    edk::uint16 multiply = 256/(this->size - 1);
-    edk::uint16 value = 0u;
-    if(this->cube && this->size){
-        for(edk::uint16 x = 0u;x<size;x++){
-            for(edk::uint16 y = 0u;y<size;y++){
-                for(edk::uint16 z = 0u;z<size;z++){
-                    value = x * multiply;
-                    if(value>=255){
-                        value=255;
+    if(this->size>1){
+        edk::uint16 multiply = 256/(this->size - 1);
+        edk::uint16 value = 0u;
+        if(this->cube && this->size){
+            for(edk::uint16 x = 0u;x<size;x++){
+                for(edk::uint16 y = 0u;y<size;y++){
+                    for(edk::uint16 z = 0u;z<size;z++){
+                        value = x * multiply;
+                        if(value>=255){
+                            value=255;
+                        }
+                        this->cube[x][y][z].r = value;
+                        value = y * multiply;
+                        if(value>=255){
+                            value=255;
+                        }
+                        this->cube[x][y][z].g = value;
+                        value = z * multiply;
+                        if(value>=255){
+                            value=255;
+                        }
+                        this->cube[x][y][z].b = value;
                     }
-                    this->cube[x][y][z].r = value;
-                    value = y * multiply;
-                    if(value>=255){
-                        value=255;
-                    }
-                    this->cube[x][y][z].g = value;
-                    value = z * multiply;
-                    if(value>=255){
-                        value=255;
-                    }
-                    this->cube[x][y][z].b = value;
                 }
             }
+            return true;
         }
-        return true;
     }
     return false;
 }

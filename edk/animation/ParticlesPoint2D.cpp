@@ -725,7 +725,13 @@ bool edk::animation::ParticlesPoint2D::isPlaying(){
 }
 
 void edk::animation::ParticlesPoint2D::update(){
-    edk::float32 second = (edk::float32)this->time.getMicroseconds() / (edk::float32)edk::watch::second;
+    edk::float32 second = 0.f;
+    if(edk::Math::equal(0.f,(edk::float32)edk::watch::second)){
+        second = (edk::float32)this->time.getMicroseconds() / ((edk::float32)edk::watch::second+0.001f);
+    }
+    else{
+        second = (edk::float32)this->time.getMicroseconds() / (edk::float32)edk::watch::second;
+    }
     this->update(second);
     this->time.start();
 }

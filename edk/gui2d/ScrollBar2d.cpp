@@ -424,7 +424,12 @@ void edk::gui2d::ScrollBar2d::calculatePercents(){
     else{
         edk::float32 startX = this->position.x - (this->size.width*0.5f) + (this->foregroundSize.width*this->size.width*0.5f);
         edk::float32 endX = this->position.x + (this->size.width*0.5f) - (this->foregroundSize.width*this->size.width*0.5f);
-        this->percent.x = (this->objPosition.x - startX) / (endX - startX);
+        if(edk::Math::equal(0.f,(endX - startX))){
+            this->percent.x = (this->objPosition.x - startX) / ((endX - startX)+0.001f);
+        }
+        else{
+            this->percent.x = (this->objPosition.x - startX) / (endX - startX);
+        }
     }
     div = this->size.height - (this->foregroundSize.height*this->size.height);
     if(div==0.f){
@@ -433,7 +438,12 @@ void edk::gui2d::ScrollBar2d::calculatePercents(){
     else{
         edk::float32 startY = this->position.y - (this->size.height * 0.5f) + (this->foregroundSize.height*this->size.height*0.5f);
         edk::float32 endY = this->position.y + (this->size.height * 0.5f) - (this->foregroundSize.height*this->size.height*0.5f);
-        this->percent.y = (this->objPosition.y - startY) / (endY - startY);
+        if(edk::Math::equal(0.f,endY - startY)){
+            this->percent.y = (this->objPosition.y - startY) / ((endY - startY)+0.001f);
+        }
+        else{
+            this->percent.y = (this->objPosition.y - startY) / (endY - startY);
+        }
     }
     //change the percent to 0.f to 100.f
     this->percent.x *= 100.f;

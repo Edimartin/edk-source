@@ -85,6 +85,24 @@ public:
     edk::float32 getPolygonFriction(edk::uint32 position);
     edk::float32 getPolygonRestitution(edk::uint32 position);
 
+    //hide / unhide
+    bool setShowPolygon(edk::uint32 position,bool show);
+    bool hidePolygon(edk::uint32 position);
+    bool unhidePolygon(edk::uint32 position);
+    bool showPolygon(edk::uint32 position);
+    bool unshowPolygon(edk::uint32 position);
+
+    bool setShowPolygons(bool show);
+    bool hidePolygons();
+    bool unhidePolygons();
+    bool showPolygons();
+    bool unshowPolygons();
+
+    bool isShowingPolygon(edk::uint32 position);
+    bool isHidedPolygon(edk::uint32 position);
+    bool getShowingPolygon(edk::uint32 position);
+    bool getHidedPolygon(edk::uint32 position);
+
     //set vertex positions in the mesh
     bool setVertexPosition(edk::uint32 polygon,edk::uint32 vertex,edk::vec2f32 position);
     bool setVertexPosition(edk::uint32 polygon,edk::uint32 vertex,edk::float32 x,edk::float32 y);
@@ -189,6 +207,16 @@ public:
 
     //SELECTED
     bool selectPolygon(edk::uint32 position);
+    //hide / unhide
+    bool selectedSetShow(bool show);
+    bool selectedHide();
+    bool selectedUnhide();
+    bool selectedShow();
+    bool selectedUnshow();
+    bool selectedIsShowing();
+    bool selectedIsHided();
+    bool selectedGetShowing();
+    bool selectedGetHided();
     //set the position of a vertex
     bool selectedSetVertexPosition(edk::uint32 vertex,edk::vec2f32 position);
     bool selectedSetVertexPosition(edk::uint32 vertex,edk::float32 x,edk::float32 y);
@@ -261,6 +289,8 @@ public:
     edk::size2f32 selectedGetScale();
     //get angle
     edk::float32 selectedGetAngle();
+    //get type
+    edk::shape::EDKpolygon2DType selectedGetType();
     //return if is a circle
     bool selectedIsCircle();
     //return if is a line

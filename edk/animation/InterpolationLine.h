@@ -83,7 +83,7 @@ protected:
 
     //frames of the interpolation
     edk::animation::Frame *start,*end;
-    //set true if are using alloc frames/ set false if are using other frames
+    //set true if are using alloc frames// set false if are using other frames
     bool startAlloc,endAlloc;
     //distance betwet the frames
     edk::float32 distance;

@@ -160,7 +160,15 @@ bool edk::gui2d::BoxGui2d::createMapHeight(edk::uint32 height,edk::size2f32 scal
     if(height){
         edk::size2f32 size = this->getInsideRect().size;
         //calculate the text width
-        edk::uint32 width = (edk::uint32)((size.width / size.height) / (scale.width / (scale.height * height)));
+        edk::uint32 width = 0.f;
+        if(edk::Math::equal(0.f,size.height)
+                || edk::Math::equal(0.f,scale.height * height)
+                ){
+            width = (edk::uint32)((size.width / (size.height+0.001f)) / (scale.width / ((scale.height * height)+0.001f)));
+        }
+        else{
+            width = (edk::uint32)((size.width / size.height) / (scale.width / (scale.height * height)));
+        }
         if(width){
             //create the map
             bool ret = this->createMap(width,height);

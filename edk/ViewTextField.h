@@ -55,6 +55,12 @@ public:
     //create a string
     bool createString(const edk::char8* string);
     bool createString(edk::char8* string);
+    inline bool writeString(const edk::char8* string){
+        return this->createString((edk::char8*)string);
+    }
+    inline bool writeString(edk::char8* string){
+        return this->createString(string);
+    }
     //get the string
     edk::char8* getString();
     //return the size of the string

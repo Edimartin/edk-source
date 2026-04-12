@@ -721,7 +721,12 @@ void edk::gui2d::ColorPicker2d::processClick(edk::vec2f32 position,bool start){
                     ){
                 if(start || this->controllingR){
                     //INSIDE HUE
-                    percent = (position.x - rect.origin.x) / (this->objColor1.size.width);
+                    if(edk::Math::equal(0.f,this->objColor1.size.width)){
+                        percent = (position.x - rect.origin.x) / (this->objColor1.size.width+0.001f);
+                    }
+                    else{
+                        percent = (position.x - rect.origin.x) / (this->objColor1.size.width);
+                    }
                     //change the rgb color
                     edk::color4f32 rgb32 = this->getColorRGBA32();
                     rgb32.r = percent;
@@ -743,7 +748,12 @@ void edk::gui2d::ColorPicker2d::processClick(edk::vec2f32 position,bool start){
                         ){
                     if(start || this->controllingG){
                         //INSIDE HUE
-                        percent = (position.x - rect.origin.x) / (this->objColor2.size.width);
+                        if(edk::Math::equal(0.f,this->objColor2.size.width)){
+                            percent = (position.x - rect.origin.x) / (this->objColor2.size.width+0.001f);
+                        }
+                        else{
+                            percent = (position.x - rect.origin.x) / (this->objColor2.size.width);
+                        }
                         //change the rgb color
                         edk::color4f32 rgb32 = this->getColorRGBA32();
                         rgb32.g = percent;
@@ -765,7 +775,12 @@ void edk::gui2d::ColorPicker2d::processClick(edk::vec2f32 position,bool start){
                             ){
                         if(start || this->controllingB){
                             //INSIDE HUE
-                            percent = (position.x - rect.origin.x) / (this->objColor3.size.width);
+                            if(edk::Math::equal(0.f,this->objColor3.size.width)){
+                                percent = (position.x - rect.origin.x) / (this->objColor3.size.width+0.001f);
+                            }
+                            else{
+                                percent = (position.x - rect.origin.x) / (this->objColor3.size.width);
+                            }
                             //change the rgb color
                             edk::color4f32 rgb32 = this->getColorRGBA32();
                             rgb32.b = percent;
@@ -786,7 +801,12 @@ void edk::gui2d::ColorPicker2d::processClick(edk::vec2f32 position,bool start){
                                 ){
                             if(start || this->controllingA){
                                 //INSIDE HUE
-                                percent = (position.x - rect.origin.x) / (this->objColor4.size.width);
+                                if(edk::Math::equal(0.f,this->objColor4.size.width)){
+                                    percent = (position.x - rect.origin.x) / (this->objColor4.size.width+0.001f);
+                                }
+                                else{
+                                    percent = (position.x - rect.origin.x) / (this->objColor4.size.width);
+                                }
                                 //change the rgb color
                                 edk::color4f32 rgb32 = this->getColorRGBA32();
                                 rgb32.a = percent;
@@ -814,7 +834,12 @@ void edk::gui2d::ColorPicker2d::processClick(edk::vec2f32 position,bool start){
                     ){
                 if(start || this->controllingHue){
                     //INSIDE HUE
-                    percent = (position.y - rect.origin.y) / (this->objColor1.size.height);
+                    if(edk::Math::equal(0.f,this->objColor1.size.height)){
+                        percent = (position.y - rect.origin.y) / (this->objColor1.size.height+0.001f);
+                    }
+                    else{
+                        percent = (position.y - rect.origin.y) / (this->objColor1.size.height);
+                    }
                     this->channelHue=percent*360.f;
 
                     //update the color in saturation and value
@@ -840,8 +865,18 @@ void edk::gui2d::ColorPicker2d::processClick(edk::vec2f32 position,bool start){
                     //INSIDE SATURATION/VALUE
                     if(start || this->controllingSaturation){
                         //
-                        this->channelSaturation = (position.x - rectTemp.origin.x) / (rectTemp.size.width-rectTemp.origin.x);
-                        this->channelValue = (position.y - rectTemp.origin.y) / (rectTemp.size.height-rectTemp.origin.y);
+                        if(edk::Math::equal(0.f,(rectTemp.size.width-rectTemp.origin.x))){
+                            this->channelSaturation = (position.x - rectTemp.origin.x) / ((rectTemp.size.width-rectTemp.origin.x)+0.001f);
+                        }
+                        else{
+                            this->channelSaturation = (position.x - rectTemp.origin.x) / (rectTemp.size.width-rectTemp.origin.x);
+                        }
+                        if(edk::Math::equal(0.f,(rectTemp.size.height-rectTemp.origin.y))){
+                            this->channelValue = (position.y - rectTemp.origin.y) / ((rectTemp.size.height-rectTemp.origin.y)+0.001f);
+                        }
+                        else{
+                            this->channelValue = (position.y - rectTemp.origin.y) / (rectTemp.size.height-rectTemp.origin.y);
+                        }
 
                         this->setColorHSVA32(this->channelHue,this->channelSaturation,this->channelValue,this->channelA);
 
@@ -861,7 +896,12 @@ void edk::gui2d::ColorPicker2d::processClick(edk::vec2f32 position,bool start){
                             ){
                         if(start || this->controllingHue){
                             //INSIDE HUE
-                            percent = (position.y - rect.origin.y) / (this->objColor1.size.height);
+                            if(edk::Math::equal(0.f,this->objColor1.size.height)){
+                                percent = (position.y - rect.origin.y) / (this->objColor1.size.height+0.001f);
+                            }
+                            else{
+                                percent = (position.y - rect.origin.y) / (this->objColor1.size.height);
+                            }
                             this->channelA=percent;
 
                             //update the color in saturation and value

@@ -5379,12 +5379,27 @@ bool edk::Object3D::connectObjectBack(edk::Object3D* obj){
             this->childremsBack.pushBack(obj);
             if(size<this->childremsBack.size()){
                 obj->father=this;
-
-                obj->newSize = edk::size3f32(1.f / this->size.width,1.f / this->size.height,1.f / this->size.length);
+                if(edk::Math::equal(0.f,this->size.width)
+                        || edk::Math::equal(0.f,this->size.height)
+                        || edk::Math::equal(0.f,this->size.length)
+                        ){
+                    obj->newSize = edk::size3f32(1.f / (this->size.width+0.001f),1.f / (this->size.height+0.001f),1.f / (this->size.length+0.001f));
+                }
+                else{
+                    obj->newSize = edk::size3f32(1.f / this->size.width,1.f / this->size.height,1.f / this->size.length);
+                }
 
                 //translate the object to be connected with the another
                 obj->connectedPosition=this->position*-1.f;
-                obj->connectedSize= edk::size3f32(1.f/this->size.width,1.f/this->size.height,1.f/this->size.length);
+                if(edk::Math::equal(0.f,this->size.width)
+                        || edk::Math::equal(0.f,this->size.height)
+                        || edk::Math::equal(0.f,this->size.length)
+                        ){
+                    obj->connectedSize= edk::size3f32(1.f/(this->size.width+0.001f),1.f/(this->size.height+0.001f),1.f/(this->size.length+0.001f));
+                }
+                else{
+                    obj->connectedSize= edk::size3f32(1.f/this->size.width,1.f/this->size.height,1.f/this->size.length);
+                }
                 obj->connectedAngle=this->angle*-1.f;
 
                 //save the position
@@ -5514,12 +5529,27 @@ bool edk::Object3D::connectObjectFront(edk::Object3D* obj){
             this->childremsFront.pushBack(obj);
             if(size<this->childremsFront.size()){
                 obj->father=this;
-
-                obj->newSize = edk::size3f32(1.f / this->size.width,1.f / this->size.height,1.f / this->size.length);
+                if(edk::Math::equal(0.f,this->size.width)
+                        || edk::Math::equal(0.f,this->size.height)
+                        || edk::Math::equal(0.f,this->size.length)
+                        ){
+                    obj->newSize = edk::size3f32(1.f / (this->size.width+0.001f),1.f / (this->size.height+0.001f),1.f / (this->size.length+0.001f));
+                }
+                else{
+                    obj->newSize = edk::size3f32(1.f / this->size.width,1.f / this->size.height,1.f / this->size.length);
+                }
 
                 //translate the object to be connected with the another
                 obj->connectedPosition=this->position*-1.f;
-                obj->connectedSize= edk::size3f32(1.f/this->size.width,1.f/this->size.height,1.f/this->size.length);
+                if(edk::Math::equal(0.f,this->size.width)
+                        || edk::Math::equal(0.f,this->size.height)
+                        || edk::Math::equal(0.f,this->size.length)
+                        ){
+                    obj->connectedSize= edk::size3f32(1.f/(this->size.width+0.001f),1.f/(this->size.height+0.001f),1.f/(this->size.length+0.001f));
+                }
+                else{
+                    obj->connectedSize= edk::size3f32(1.f/this->size.width,1.f/this->size.height,1.f/this->size.length);
+                }
                 obj->connectedAngle=this->angle*-1.f;
 
                 //save the position

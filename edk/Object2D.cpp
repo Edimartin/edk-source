@@ -4601,8 +4601,14 @@ bool edk::Object2D::connectObjectBack(edk::Object2D* obj){
             this->childremsBack.pushBack(obj);
             if(size<this->childremsBack.size()){
                 obj->father=this;
-
-                obj->newSize = edk::size2f32(1.f / this->size.width,1.f / this->size.height);
+                if(edk::Math::equal(0.f,this->size.width)
+                        || edk::Math::equal(0.f,this->size.height)
+                        ){
+                    obj->newSize = edk::size2f32(1.f / (this->size.width+0.001f),1.f / (this->size.height+0.001f));
+                }
+                else{
+                    obj->newSize = edk::size2f32(1.f / this->size.width,1.f / this->size.height);
+                }
 
                 obj->savePosition = obj->position;
                 obj->saveAngle = obj->angle;
@@ -4610,7 +4616,14 @@ bool edk::Object2D::connectObjectBack(edk::Object2D* obj){
 
                 //translate the object to be connected with the another
                 obj->connectedPosition=this->position*-1.f;
-                obj->connectedSize= edk::size2f32(1.f/this->size.width,1.f/this->size.height);
+                if(edk::Math::equal(0.f,this->size.width)
+                        || edk::Math::equal(0.f,this->size.height)
+                        ){
+                    obj->connectedSize= edk::size2f32(1.f/(this->size.width+0.001f),1.f/(this->size.height+0.001f));
+                }
+                else{
+                    obj->connectedSize= edk::size2f32(1.f/this->size.width,1.f/this->size.height);
+                }
                 obj->connectedAngle=this->angle*-1.f;
 
                 //save the position
@@ -4745,7 +4758,14 @@ bool edk::Object2D::connectObjectFront(edk::Object2D* obj){
             if(size < this->childremsFront.size()){
                 obj->father=this;
 
-                obj->newSize = edk::size2f32(1.f / this->size.width,1.f / this->size.height);
+                if(edk::Math::equal(0.f,this->size.width)
+                        || edk::Math::equal(0.f,this->size.height)
+                        ){
+                    obj->newSize = edk::size2f32(1.f / (this->size.width+0.001f),1.f / (this->size.height+0.001f));
+                }
+                else{
+                    obj->newSize = edk::size2f32(1.f / this->size.width,1.f / this->size.height);
+                }
 
                 obj->savePosition = obj->position;
                 obj->saveAngle = obj->angle;
@@ -4753,7 +4773,14 @@ bool edk::Object2D::connectObjectFront(edk::Object2D* obj){
 
                 //translate the object to be connected with the another
                 obj->connectedPosition=this->position*-1.f;
-                obj->connectedSize= edk::size2f32(1.f/this->size.width,1.f/this->size.height);
+                if(edk::Math::equal(0.f,this->size.width)
+                        || edk::Math::equal(0.f,this->size.height)
+                        ){
+                    obj->connectedSize= edk::size2f32(1.f/(this->size.width+0.001f),1.f/(this->size.height+0.001f));
+                }
+                else{
+                    obj->connectedSize= edk::size2f32(1.f/this->size.width,1.f/this->size.height);
+                }
                 obj->connectedAngle=this->angle*-1.f;
 
                 //save the position
@@ -4940,10 +4967,24 @@ void edk::Object2D::updateAllConnectedObjectValues(){
             }
             //update connected values
             obj->connectedLoadIdentityValues();
-            obj->newSize = edk::size2f32(1.f / this->size.width,1.f / this->size.height);
+            if(edk::Math::equal(0.f,this->size.width)
+                    || edk::Math::equal(0.f,this->size.height)
+                    ){
+                obj->newSize = edk::size2f32(1.f / (this->size.width+0.001f),1.f / (this->size.height+0.001f));
+            }
+            else{
+                obj->newSize = edk::size2f32(1.f / this->size.width,1.f / this->size.height);
+            }
             //translate the object to be connected with the another
             obj->connectedPosition=this->position*-1.f;
-            obj->connectedSize= edk::size2f32(1.f/this->size.width,1.f/this->size.height);
+            if(edk::Math::equal(0.f,this->size.width)
+                    || edk::Math::equal(0.f,this->size.height)
+                    ){
+                obj->connectedSize= edk::size2f32(1.f/(this->size.width+0.001f),1.f/(this->size.height+0.001f));
+            }
+            else{
+                obj->connectedSize= edk::size2f32(1.f/this->size.width,1.f/this->size.height);
+            }
             obj->connectedAngle=this->angle*-1.f;
         }
     }
@@ -4966,10 +5007,24 @@ void edk::Object2D::updateAllConnectedObjectValues(){
             }
             //update connected values
             obj->connectedLoadIdentityValues();
-            obj->newSize = edk::size2f32(1.f / this->size.width,1.f / this->size.height);
+            if(edk::Math::equal(0.f,this->size.width)
+                    || edk::Math::equal(0.f,this->size.height)
+                    ){
+                obj->newSize = edk::size2f32(1.f / (this->size.width+0.001f),1.f / (this->size.height+0.001f));
+            }
+            else{
+                obj->newSize = edk::size2f32(1.f / this->size.width,1.f / this->size.height);
+            }
             //translate the object to be connected with the another
             obj->connectedPosition=this->position*-1.f;
-            obj->connectedSize= edk::size2f32(1.f/this->size.width,1.f/this->size.height);
+            if(edk::Math::equal(0.f,this->size.width)
+                    || edk::Math::equal(0.f,this->size.height)
+                    ){
+                obj->connectedSize= edk::size2f32(1.f/(this->size.width+0.001f),1.f/(this->size.height+0.001f));
+            }
+            else{
+                obj->connectedSize= edk::size2f32(1.f/this->size.width,1.f/this->size.height);
+            }
             obj->connectedAngle=this->angle*-1.f;
         }
     }

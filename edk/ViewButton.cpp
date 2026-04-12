@@ -2176,11 +2176,26 @@ void edk::ViewButton::drawPolygon(rectf32 outsideViewOrigin){
     edk::GU::guVertex3f32(tempSize.width, this->borderTemp, 0.f);
 
     edk::GU::guEnd();
-
-    edk::size2f32 sizeTemp = edk::size2f32((tempSize.width)/this->frame.size.width,
-                                           (tempSize.height)/this->frame.size.height
-                                           );
-    edk::float32 proportionInside = (edk::float32)insideSize.width/(edk::float32)insideSize.height;
+    edk::size2f32 sizeTemp = edk::size2f32(1.f,1.f);
+    if(edk::Math::equal(0.f,this->frame.size.width)
+            || edk::Math::equal(0.f,this->frame.size.height)
+            ){
+        edk::size2f32((tempSize.width)/(this->frame.size.width+0.001f),
+                      (tempSize.height)/(this->frame.size.height+0.001f)
+                      );
+    }
+    else{
+        edk::size2f32((tempSize.width)/this->frame.size.width,
+                      (tempSize.height)/this->frame.size.height
+                      );
+    }
+    edk::float32 proportionInside = 0.f;
+    if(edk::Math::equal(0.f,(edk::float32)insideSize.height)){
+        proportionInside = (edk::float32)insideSize.width/((edk::float32)insideSize.height+0.001f);
+    }
+    else{
+        proportionInside = (edk::float32)insideSize.width/(edk::float32)insideSize.height;
+    }
     edk::float32 proportionSymbol;
 
     if(symbolCodeTemp){
@@ -2203,15 +2218,33 @@ void edk::ViewButton::drawPolygon(rectf32 outsideViewOrigin){
         proportionSymbol = (edk::float32)this->symbolSize.width/(edk::float32)this->symbolSize.height;
         if(proportionInside >= proportionSymbol){
             //then it fits with the height
-            sizeTemp = edk::size2f32((((edk::float32)insideSize.height / this->symbolSize.height ) * this->symbolSize.width) / (edk::float32)insideSize.width,
-                                     1.f
-                                     );
+            if(this->symbolSize.height
+                    || insideSize.width
+                    ){
+                sizeTemp = edk::size2f32((((edk::float32)insideSize.height / (this->symbolSize.height+0.001f) ) * this->symbolSize.width) / (edk::float32)(insideSize.width+0.001f),
+                                         1.f
+                                         );
+            }
+            else{
+                sizeTemp = edk::size2f32((((edk::float32)insideSize.height / this->symbolSize.height ) * this->symbolSize.width) / (edk::float32)insideSize.width,
+                                         1.f
+                                         );
+            }
         }
         else{
             //then it fits with the witdh
-            sizeTemp = edk::size2f32(1.f,
-                                     (((edk::float32)insideSize.width / this->symbolSize.width) * this->symbolSize.height) / (edk::float32)insideSize.height
-                                     );
+            if(this->symbolSize.width
+                    || insideSize.height
+                    ){
+                sizeTemp = edk::size2f32(1.f,
+                                         (((edk::float32)insideSize.width / (this->symbolSize.width+0.001f)) * this->symbolSize.height) / ((edk::float32)insideSize.height+0.001f)
+                                         );
+            }
+            else{
+                sizeTemp = edk::size2f32(1.f,
+                                         (((edk::float32)insideSize.width / this->symbolSize.width) * this->symbolSize.height) / (edk::float32)insideSize.height
+                                         );
+            }
         }
 
         edk::GU::guScale2f32(sizeTemp);
@@ -2251,8 +2284,12 @@ void edk::ViewButton::drawPolygon(rectf32 outsideViewOrigin){
                                     );
 
         this->camTemp.draw();
-
-        proportionSymbol = textSize.width/textSize.height;
+        if(edk::Math::equal(0.f,textSize.height)){
+            proportionSymbol = textSize.width/(textSize.height+0.001f);
+        }
+        else{
+            proportionSymbol = textSize.width/textSize.height;
+        }
         if(!insideSize.height){
             insideSize.height=1u;
         }
@@ -2260,20 +2297,38 @@ void edk::ViewButton::drawPolygon(rectf32 outsideViewOrigin){
             insideSize.width=1u;
         }
         if(proportionInside > proportionSymbol){
-            this->camTemp.setRectPoints(-0.5f,
-                                        -0.5f,
-                                        insideSize.width / insideSize.height,
-                                        textSize.height
-                                        );
+            if(insideSize.height){
+                this->camTemp.setRectPoints(-0.5f,
+                                            -0.5f,
+                                            insideSize.width / (insideSize.height+0.001f),
+                                            textSize.height
+                                            );
+            }
+            else{
+                this->camTemp.setRectPoints(-0.5f,
+                                            -0.5f,
+                                            insideSize.width / insideSize.height,
+                                            textSize.height
+                                            );
+            }
             this->camTemp.position.x -= ((this->camTemp.getSize().width - textSize.width) * 0.5f);
         }
         else{
             //
-            this->camTemp.setRectPoints(-0.5f,
-                                        0.0f,
-                                        textSize.width,
-                                        insideSize.height / ((textSize.height / textSize.width) * insideSize.width)
-                                        );
+            if(edk::Math::equal(0.f,textSize.width)){
+                this->camTemp.setRectPoints(-0.5f,
+                                            0.0f,
+                                            textSize.width,
+                                            insideSize.height / ((textSize.height / (textSize.width+0.001f)) * insideSize.width)
+                                            );
+            }
+            else{
+                this->camTemp.setRectPoints(-0.5f,
+                                            0.0f,
+                                            textSize.width,
+                                            insideSize.height / ((textSize.height / textSize.width) * insideSize.width)
+                                            );
+            }
             this->camTemp.position.y -= (this->camTemp.getSize().height*0.5);
         }
         if(!edk::GU::guUsingMatrix(GU_MODELVIEW)){

@@ -1046,6 +1046,18 @@ void edk::InfiniteWallpaper::drawInsideRect(edk::rectf32 rect){
     edk::vec2i32 length = edk::vec2i32((edk::int32)(rect.size.width / this->size.width),
                                        (edk::int32)(rect.size.height / this->size.height)
                                        ) + 1;
+    if(edk::Math::equal(0.f,this->size.width)
+            || edk::Math::equal(0.f,this->size.height)
+            ){
+        length = edk::vec2i32((edk::int32)(rect.size.width / (this->size.width+0.001f)),
+                                               (edk::int32)(rect.size.height / (this->size.height+0.001f))
+                                               ) + 1;
+    }
+    else{
+        length = edk::vec2i32((edk::int32)(rect.size.width / this->size.width),
+                                               (edk::int32)(rect.size.height / this->size.height)
+                                               ) + 1;
+    }
     edk::vec2i32 lengthDouble;
     if(length.x<0){
         length.x*=-1;

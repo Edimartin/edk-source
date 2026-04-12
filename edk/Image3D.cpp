@@ -1792,7 +1792,13 @@ edk::float64 edk::Image3D::cmpToFloat64(edk::uint8* vector,
     if(vector && compare && width && height && length && channels && bytesPerChannel){
         edk::int32 cmp;
         edk::uint64 cmpLine=0u,cmpLineColor;
-        edk::float64 div = (edk::float64)width;
+        edk::float64 div = 0.f;
+        if(width){
+            div = (edk::float64)width+0.001f;
+        }
+        else{
+            div = (edk::float64)width;
+        }
         ret=0.;
         switch(channels){
         case 1u:
@@ -1886,7 +1892,13 @@ edk::float64 edk::Image3D::cmpLeftToFloat64(edk::uint8* vector,
     if(vector && compare && width && height && channels && length && length<=width){
         edk::int32 cmp;
         edk::uint64 cmpLine=0u,cmpLineColor;
-        edk::float64 div = (edk::float64)length;
+        edk::float64 div = 0.f;
+        if(length){
+            div = (edk::float64)length+0.001f;
+        }
+        else{
+            div = (edk::float64)length;
+        }
         edk::uint32 increment = width - length;
         ret=0.;
         switch(channels){
@@ -1997,7 +2009,13 @@ edk::float64 edk::Image3D::cmpRightToFloat64(edk::uint8* vector,
             ){
         edk::int32 cmp;
         edk::uint64 cmpLine=0u,cmpLineColor;
-        edk::float64 div = (edk::float64)length;
+        edk::float64 div = 0.f;
+        if(length){
+            div = (edk::float64)length+0.001f;
+        }
+        else{
+            div = (edk::float64)length;
+        }
         edk::uint32 increment = width - length;
         ret=0.;
         switch(channels){
@@ -2107,7 +2125,13 @@ edk::float64 edk::Image3D::cmpUpToFloat64(edk::uint8* vector,
             && length<=height){
         edk::int32 cmp;
         edk::uint64 cmpLine=0u,cmpLineColor;
-        edk::float64 div = (edk::float64)width;
+        edk::float64 div = 0.f;
+        if(width){
+            div = (edk::float64)width+0.001f;
+        }
+        else{
+            div = (edk::float64)width;
+        }
         ret=0.;
         switch(channels){
         case 1u:
@@ -2213,7 +2237,13 @@ edk::float64 edk::Image3D::cmpDownToFloat64(edk::uint8* vector,
             ){
         edk::int32 cmp;
         edk::uint64 cmpLine=0u,cmpLineColor;
-        edk::float64 div = (edk::float64)width;
+        edk::float64 div = 0.f;
+        if(width){
+            div = (edk::float64)width+0.001f;
+        }
+        else{
+            div = (edk::float64)width;
+        }
         edk::uint32 increment = height - length;
         ret=0.;
         switch(channels){
@@ -2329,7 +2359,13 @@ edk::float64 edk::Image3D::cmpDkbleLeftToFloat64(edk::uint8* vector,
             ){
         edk::int32 cmp;
         edk::uint64 cmpLine=0u,cmpLineColor;
-        edk::float64 div = (edk::float64)length;
+        edk::float64 div = 0.f;
+        if(length){
+            div = (edk::float64)length+0.001f;
+        }
+        else{
+            div = (edk::float64)length;
+        }
         edk::uint32 increment = width - length;
         ret=0.;
         switch(channels){
@@ -2448,7 +2484,13 @@ edk::float64 edk::Image3D::cmpDkbleRightToFloat64(edk::uint8* vector,
             ){
         edk::int32 cmp;
         edk::uint64 cmpLine=0u,cmpLineColor;
-        edk::float64 div = (edk::float64)length;
+        edk::float64 div = 0.f;
+        if(length){
+            div = (edk::float64)length+0.001f;
+        }
+        else{
+            div = (edk::float64)length;
+        }
         edk::uint32 increment = width - length;
         ret=0.;
         switch(channels){
@@ -2566,7 +2608,13 @@ edk::float64 edk::Image3D::cmpDkbleUpToFloat64(edk::uint8* vector,
             ){
         edk::int32 cmp;
         edk::uint64 cmpLine=0u,cmpLineColor;
-        edk::float64 div = (edk::float64)width;
+        edk::float64 div = 0.f;
+        if(width){
+            div = (edk::float64)width+0.001f;
+        }
+        else{
+            div = (edk::float64)width;
+        }
         edk::uint32 increment = height - length;
         ret=0.;
         switch(channels){
@@ -2684,7 +2732,13 @@ edk::float64 edk::Image3D::cmpDkbleDownToFloat64(edk::uint8* vector,
             ){
         edk::int32 cmp;
         edk::uint64 cmpLine=0u,cmpLineColor;
-        edk::float64 div = (edk::float64)width;
+        edk::float64 div = 0.f;
+        if(width){
+            div = (edk::float64)width+0.001f;
+        }
+        else{
+            div = (edk::float64)width;
+        }
         edk::uint32 increment = height - length;
         ret=0.;
         switch(channels){

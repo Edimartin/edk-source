@@ -101,7 +101,12 @@ bool edk::codecs::EncoderH264::startEncoder(edk::size2ui32 size, edk::uint32 fps
 
                 this->param.iRCMode = RC_BITRATE_MODE;
                 //use the FPS
-                this->param.fMaxFrameRate = (edk::float32)1/fps;  //!=0
+                if(fps){
+                    this->param.fMaxFrameRate = (edk::float32)1/fps;  //!=0
+                }
+                else{
+                    this->param.fMaxFrameRate = (edk::float32)1;  //!=0
+                }
 
                 //start the encoder
                 if(!encoder->Initialize(&param)){

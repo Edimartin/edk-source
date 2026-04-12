@@ -74,19 +74,37 @@ void edk::ViewText::drawScene(edk::rectf32){
 
         if(this->textLine){
             //resize the camera
-            this->camera.setRectPoints(0.f,
-                                 0.f - (this->textLine - 1u),
-                                 this->rectSave.size.width / (this->rectSave.size.height / this->textLine),
-                                 1 + (this->textLine - 1u)
-                                 );
+            if(this->textLine){
+                this->camera.setRectPoints(0.f,
+                                     0.f - (this->textLine - 1u),
+                                     this->rectSave.size.width / (this->rectSave.size.height / (this->textLine+0.001f)),
+                                     1 + (this->textLine - 1u)
+                                     );
+            }
+            else{
+                this->camera.setRectPoints(0.f,
+                                     0.f - (this->textLine - 1u),
+                                     this->rectSave.size.width / (this->rectSave.size.height / this->textLine),
+                                     1 + (this->textLine - 1u)
+                                     );
+            }
         }
         else if(this->frame.size.height){
             //update the camera size
-            this->camera.setRectPoints(0,
-                                 0,
-                                 this->frame.size.width/this->frame.size.height,
-                                 1
-                                 );
+            if(edk::Math::equal(0.f,this->frame.size.height)){
+                this->camera.setRectPoints(0,
+                                     0,
+                                     this->frame.size.width/(this->frame.size.height+0.001f),
+                                     1
+                                     );
+            }
+            else{
+                this->camera.setRectPoints(0,
+                                     0,
+                                     this->frame.size.width/this->frame.size.height,
+                                     1
+                                     );
+            }
         }
         else{
             //update the camera size
@@ -158,14 +176,26 @@ void edk::ViewText::setAlpha(edk::uint8 value){
 //update the width
 void edk::ViewText::updateWidth(){
     if(this->text.getMapSizeHeight()){
-        this->frame.size.width = (
-                    (
-                        (this->text.getMapSizeWidth() / this->text.getMapSizeHeight())
-                        * this->frame.size.height
+        if(this->text.getMapSizeHeight()){
+            this->frame.size.width = (
+                        (
+                            (this->text.getMapSizeWidth() / (this->text.getMapSizeHeight()+0.001f))
+                            * this->frame.size.height
+                            )
+                        * this->text.getMapScaleWidth()
                         )
-                    * this->text.getMapScaleWidth()
-                    )
-                ;
+                    ;
+        }
+        else{
+            this->frame.size.width = (
+                        (
+                            (this->text.getMapSizeWidth() / this->text.getMapSizeHeight())
+                            * this->frame.size.height
+                            )
+                        * this->text.getMapScaleWidth()
+                        )
+                    ;
+        }
     }
 }
 void edk::ViewText::setScale(edk::size2f32 scale){

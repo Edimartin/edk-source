@@ -30,6 +30,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endif
 
 #pragma once
+#include "../Math.h"
 #include "InterpolationLine.h"
 #include "Frame1D.h"
 #include "../TypeSize2.h"

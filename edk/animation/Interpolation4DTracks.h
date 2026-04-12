@@ -169,7 +169,12 @@ protected:
                         this->w*=group->getClockW();
                     }
                     else if(value.number & EDK_TRACK_DIVIDE_W){
-                        this->w/=group->getClockW();
+                        if(edk::Math::equal(0.f,group->getClockW())){
+                            this->w/=(group->getClockW()+0.001f);
+                        }
+                        else{
+                            this->w/=group->getClockW();
+                        }
                     }
                     else if(value.number & EDK_TRACK_REPLACE_W){
                         this->w=group->getClockW();

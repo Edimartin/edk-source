@@ -105,6 +105,16 @@ bool edk::ViewTextField::TextField::setEntryPosition(edk::float32 x){
     edk::rectf32 cameraRect = this->camera.getRectPoints();
     edk::float32 worldPositionX = cameraRect.origin.x + ((x/this->frame.size.width) * cameraRect.size.width)
             -((this->borderSize/this->frame.size.width)* cameraRect.size.width);
+    if(edk::Math::equal(0.f,this->frame.size.width)
+            || edk::Math::equal(0.f,this->frame.size.width)
+            ){
+        worldPositionX = cameraRect.origin.x + ((x/(this->frame.size.width+0.001f)) * cameraRect.size.width)
+                    -((this->borderSize/(this->frame.size.width+0.001f))* cameraRect.size.width);
+    }
+    else{
+        worldPositionX = cameraRect.origin.x + ((x/this->frame.size.width) * cameraRect.size.width)
+                    -((this->borderSize/this->frame.size.width)* cameraRect.size.width);
+    }
 
     if(worldPositionX<0.f){
         worldPositionX=0.f;

@@ -467,14 +467,20 @@ void edk::ViewScrollBar::ForegroundButton::setPercentY(edk::float32 y){
 edk::float32 edk::ViewScrollBar::ForegroundButton::getPercentX(){
     //test the polygon position
     edk::float32 div = (this->frame.size.width - this->polygonRect.size.width);
-    if(div){
+    if(edk::Math::equal(0.f,div)){
+        return this->polygonRect.origin.x / (div+0.001f);
+    }
+    else{
         return this->polygonRect.origin.x / div;
     }
     return div;
 }
 edk::float32 edk::ViewScrollBar::ForegroundButton::getPercentY(){
     edk::float32 div = (this->frame.size.height - this->polygonRect.size.height);
-    if(div){
+    if(edk::Math::equal(0.f,div)){
+        return ((this->polygonRect.origin.y / (div+0.001f))*-1.f)+1.f;
+    }
+    else{
         return ((this->polygonRect.origin.y / div)*-1.f)+1.f;
     }
     return div;

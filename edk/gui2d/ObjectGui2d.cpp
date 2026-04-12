@@ -247,11 +247,21 @@ void edk::gui2d::ObjectGui2d::calculateTextScale(edk::size2f32 scale){
     //filter the texSize
     if(this->textSize.width>0.f && this->textSize.height>0.f){
         if(this->textSize.width>this->textSize.height){
-            this->textSize.height = this->textSize.height/this->textSize.width;
+            if(edk::Math::equal(0.f,this->textSize.width)){
+                this->textSize.height = this->textSize.height/(this->textSize.width+0.001f);
+            }
+            else{
+                this->textSize.height = this->textSize.height/this->textSize.width;
+            }
             this->textSize.width = 1.f;
         }
         else{
-            this->textSize.width = this->textSize.width/this->textSize.height;
+            if(edk::Math::equal(0.f,this->textSize.height)){
+                this->textSize.width = this->textSize.width/(this->textSize.height+0.001f);
+            }
+            else{
+                this->textSize.width = this->textSize.width/this->textSize.height;
+            }
             this->textSize.height = 1.f;
         }
     }
@@ -265,73 +275,191 @@ edk::size2f32 edk::gui2d::ObjectGui2d::getTextTemplateScale(){
 void edk::gui2d::ObjectGui2d::updateTextSize(edk::size2f32 sizeText,edk::size2f32 centerSize,edk::size2ui32 mapSize){
     if(centerSize.width>centerSize.height){
         //center size width bigger than height
-        this->percent1 = (edk::float32)centerSize.width/(edk::float32)centerSize.height;
-        this->percent2 = sizeText.width/sizeText.height;
+        if(edk::Math::equal(0.f,(edk::float32)centerSize.height)){
+            this->percent1 = (edk::float32)centerSize.width/((edk::float32)centerSize.height+0.001f);
+        }
+        else{
+            this->percent1 = (edk::float32)centerSize.width/(edk::float32)centerSize.height;
+        }
+        if(edk::Math::equal(0.f,sizeText.height)){
+            this->percent2 = sizeText.width/(sizeText.height+0.001f);
+        }
+        else{
+            this->percent2 = sizeText.width/sizeText.height;
+        }
         if(this->percent1>this->percent2){
             //
-            this->text.setScale((centerSize.height * (this->percent2))/(edk::float32)mapSize.width,
-                                (centerSize.height)/(edk::float32)mapSize.height
-                                );
+            if(edk::Math::equal(0.f,(edk::float32)mapSize.width)
+                    || edk::Math::equal(0.f,(edk::float32)mapSize.height)
+                    ){
+                this->text.setScale((centerSize.height * (this->percent2))/((edk::float32)mapSize.width+0.001f),
+                                    (centerSize.height)/((edk::float32)mapSize.height+0.001f)
+                                    );
+            }
+            else{
+                this->text.setScale((centerSize.height * (this->percent2))/(edk::float32)mapSize.width,
+                                    (centerSize.height)/(edk::float32)mapSize.height
+                                    );
+            }
         }
         else if(this->percent2>this->percent1){
             //
-            this->percent2 = sizeText.height/sizeText.width;
-            this->text.setScale(centerSize.width/(edk::float32)mapSize.width,
-                                (centerSize.width * this->percent2)/(edk::float32)mapSize.height
-                                );
+            if(edk::Math::equal(0.f,sizeText.width)){
+                this->percent2 = sizeText.height/(sizeText.width+0.001f);
+            }
+            else{
+                this->percent2 = sizeText.height/sizeText.width;
+            }
+            if(edk::Math::equal(0.f,(edk::float32)mapSize.width)
+                    || edk::Math::equal(0.f,(edk::float32)mapSize.height)
+                    ){
+                this->text.setScale(centerSize.width/((edk::float32)mapSize.width+0.001f),
+                                    (centerSize.width * this->percent2)/((edk::float32)mapSize.height+0.001f)
+                                    );
+            }
+            else{
+                this->text.setScale(centerSize.width/(edk::float32)mapSize.width,
+                                    (centerSize.width * this->percent2)/(edk::float32)mapSize.height
+                                    );
+            }
         }
         else{
             //
-            this->text.setScale(centerSize.width/(edk::float32)mapSize.width,
-                                centerSize.height/(edk::float32)mapSize.height
-                                );
+            if(edk::Math::equal(0.f,(edk::float32)mapSize.width)
+                    || edk::Math::equal(0.f,(edk::float32)mapSize.height)
+                    ){
+                this->text.setScale(centerSize.width/((edk::float32)mapSize.width+0.001f),
+                                    centerSize.height/((edk::float32)mapSize.height+0.001f)
+                                    );
+            }
+            else{
+                this->text.setScale(centerSize.width/(edk::float32)mapSize.width,
+                                    centerSize.height/(edk::float32)mapSize.height
+                                    );
+            }
         }
     }
     else if(centerSize.height>centerSize.width){
         //center size height bigger than width
-        this->percent1 = (edk::float32)centerSize.height/(edk::float32)centerSize.width;
-        this->percent2 = sizeText.height/sizeText.width;
+        if(edk::Math::equal(0.f,(edk::float32)centerSize.width)){
+            this->percent1 = (edk::float32)centerSize.height/((edk::float32)centerSize.width+0.001f);
+        }
+        else{
+            this->percent1 = (edk::float32)centerSize.height/(edk::float32)centerSize.width;
+        }
+        if(edk::Math::equal(0.f,sizeText.width)){
+            this->percent2 = sizeText.height/(sizeText.width+0.001f);
+        }
+        else{
+            this->percent2 = sizeText.height/sizeText.width;
+        }
         if(this->percent1>this->percent2){
             //
-            this->text.setScale((centerSize.width)/(edk::float32)mapSize.width,
-                                (centerSize.width * this->percent2)/(edk::float32)mapSize.height
-                                );
+            if(edk::Math::equal(0.f,(edk::float32)mapSize.width)
+                    || edk::Math::equal(0.f,(edk::float32)mapSize.height)
+                    ){
+                this->text.setScale((centerSize.width)/((edk::float32)mapSize.width+0.001f),
+                                    (centerSize.width * this->percent2)/((edk::float32)mapSize.height+0.001f)
+                                    );
+            }
+            else{
+                this->text.setScale((centerSize.width)/(edk::float32)mapSize.width,
+                                    (centerSize.width * this->percent2)/(edk::float32)mapSize.height
+                                    );
+            }
         }
         else if(this->percent2>this->percent1){
             //
-            this->percent2 = sizeText.width/sizeText.height;
-            this->text.setScale((centerSize.height * this->percent2)/(edk::float32)mapSize.width,
-                                centerSize.height/(edk::float32)mapSize.height
+            if(edk::Math::equal(0.f,sizeText.height)){
+                this->percent2 = sizeText.width/(sizeText.height+0.001f);
+            }
+            else{
+                this->percent2 = sizeText.width/sizeText.height;
+            }
+            if(edk::Math::equal(0.f,(edk::float32)mapSize.width)
+                    || edk::Math::equal(0.f,(edk::float32)mapSize.height)
+                    ){
+            }
+            else{
+            }
+            this->text.setScale((centerSize.height * this->percent2)/((edk::float32)mapSize.width+0.001f),
+                                centerSize.height/((edk::float32)mapSize.height+0.001f)
                                 );
         }
         else{
             //
-            this->text.setScale(centerSize.height/(edk::float32)mapSize.height,
-                                centerSize.width/(edk::float32)mapSize.width
-                                );
+            if(edk::Math::equal(0.f,(edk::float32)mapSize.height)
+                    || edk::Math::equal(0.f,(edk::float32)mapSize.width)
+                    ){
+                this->text.setScale(centerSize.height/((edk::float32)mapSize.height+0.001f),
+                                    centerSize.width/((edk::float32)mapSize.width+0.001f)
+                                    );
+            }
+            else{
+                this->text.setScale(centerSize.height/(edk::float32)mapSize.height,
+                                    centerSize.width/(edk::float32)mapSize.width
+                                    );
+            }
         }
     }
     else{
         //center size equal
         if(sizeText.width>sizeText.height){
-            this->percent2 = sizeText.height/sizeText.width;
+            if(edk::Math::equal(0.f,sizeText.width)){
+                this->percent2 = sizeText.height/(sizeText.width+0.001f);
+            }
+            else{
+                this->percent2 = sizeText.height/sizeText.width;
+            }
             //
-            this->text.setScale((centerSize.width)/(edk::float32)mapSize.width,
-                                (centerSize.width * this->percent2)/(edk::float32)mapSize.height
-                                );
+            if(edk::Math::equal(0.f,(edk::float32)mapSize.width)
+                    || edk::Math::equal(0.f,(edk::float32)mapSize.height)
+                    ){
+                this->text.setScale((centerSize.width)/((edk::float32)mapSize.width+0.001f),
+                                    (centerSize.width * this->percent2)/((edk::float32)mapSize.height+0.001f)
+                                    );
+            }
+            else{
+                this->text.setScale((centerSize.width)/(edk::float32)mapSize.width,
+                                    (centerSize.width * this->percent2)/(edk::float32)mapSize.height
+                                    );
+            }
         }
         else if(sizeText.height>sizeText.width){
-            this->percent2 = sizeText.width/sizeText.height;
+            if(edk::Math::equal(0.f,sizeText.height)){
+                this->percent2 = sizeText.width/(sizeText.height+0.001f);
+            }
+            else{
+                this->percent2 = sizeText.width/sizeText.height;
+            }
             //
-            this->text.setScale((centerSize.height * this->percent2)/(edk::float32)mapSize.width,
-                                (centerSize.height)/(edk::float32)mapSize.height
-                                );
+            if(edk::Math::equal(0.f,(edk::float32)mapSize.width)
+                    || edk::Math::equal(0.f,(edk::float32)mapSize.height)
+                    ){
+                this->text.setScale((centerSize.height * this->percent2)/((edk::float32)mapSize.width+0.001f),
+                                    (centerSize.height)/((edk::float32)mapSize.height+0.001f)
+                                    );
+            }
+            else{
+                this->text.setScale((centerSize.height * this->percent2)/(edk::float32)mapSize.width,
+                                    (centerSize.height)/(edk::float32)mapSize.height
+                                    );
+            }
         }
         else{
             //
-            this->text.setScale(centerSize.height/(edk::float32)mapSize.height,
-                                centerSize.width/(edk::float32)mapSize.width
-                                );
+            if(edk::Math::equal(0.f,(edk::float32)mapSize.height)
+                    || edk::Math::equal(0.f,(edk::float32)mapSize.width)
+                    ){
+                this->text.setScale(centerSize.height/((edk::float32)mapSize.height+0.001f),
+                                    centerSize.width/((edk::float32)mapSize.width+0.001f)
+                                    );
+            }
+            else{
+                this->text.setScale(centerSize.height/(edk::float32)mapSize.height,
+                                    centerSize.width/(edk::float32)mapSize.width
+                                    );
+            }
         }
     }
     //set the text position
@@ -970,9 +1098,20 @@ void edk::gui2d::ObjectGui2d::update(){
             //test the button size
             if(centerSize.width>centerSize.height){
                 //width>height
-                this->percent1 = (edk::float32)centerSize.width / (edk::float32)centerSize.height;
-                this->percent2 = (edk::float32)this->spriteSize[this->status].width /
-                        (edk::float32)this->spriteSize[this->status].height;
+                if(edk::Math::equal(0.f,(edk::float32)centerSize.height)){
+                    this->percent1 = (edk::float32)centerSize.width / ((edk::float32)centerSize.height+0.001f);
+                }
+                else{
+                    this->percent1 = (edk::float32)centerSize.width / (edk::float32)centerSize.height;
+                }
+                if(edk::Math::equal(0.f,(edk::float32)this->spriteSize[this->status].height)){
+                    this->percent2 = (edk::float32)this->spriteSize[this->status].width /
+                            ((edk::float32)this->spriteSize[this->status].height+0.001f);
+                }
+                else{
+                    this->percent2 = (edk::float32)this->spriteSize[this->status].width /
+                            (edk::float32)this->spriteSize[this->status].height;
+                }
                 this->resize = 0.f;
                 if(this->percent1>this->percent2){
                     //resize height
@@ -982,8 +1121,14 @@ void edk::gui2d::ObjectGui2d::update(){
                 }
                 else if(this->percent2>this->percent1){
                     //resize width
-                    this->percent2 = (edk::float32)this->spriteSize[this->status].height /
-                            (edk::float32)this->spriteSize[this->status].width;
+                    if(edk::Math::equal(0.f,(edk::float32)this->spriteSize[this->status].width)){
+                        this->percent2 = (edk::float32)this->spriteSize[this->status].height /
+                                ((edk::float32)this->spriteSize[this->status].width+0.001f);
+                    }
+                    else{
+                        this->percent2 = (edk::float32)this->spriteSize[this->status].height /
+                                (edk::float32)this->spriteSize[this->status].width;
+                    }
                     this->resize = this->percent2 * centerSize.width * 0.5;
                     this->spritePolygon.setVertexPosition(0u,this->spritePolygon.getVertexPosition(0u).x,+this->resize);
                     this->spritePolygon.setVertexPosition(1u,this->spritePolygon.getVertexPosition(1u).x,-this->resize);
@@ -996,8 +1141,14 @@ void edk::gui2d::ObjectGui2d::update(){
                 //height>width
 
                 //resize height
-                this->percent2 = (edk::float32)this->spriteSize[this->status].height /
-                        (edk::float32)this->spriteSize[this->status].width;
+                if(edk::Math::equal(0.f,(edk::float32)this->spriteSize[this->status].width)){
+                    this->percent2 = (edk::float32)this->spriteSize[this->status].height /
+                            ((edk::float32)this->spriteSize[this->status].width+0.001f);
+                }
+                else{
+                    this->percent2 = (edk::float32)this->spriteSize[this->status].height /
+                            (edk::float32)this->spriteSize[this->status].width;
+                }
                 this->resize = this->percent2 * centerSize.width * 0.5;
                 this->spritePolygon.setVertexPosition(0u,this->spritePolygon.getVertexPosition(0u).x,+this->resize);
                 this->spritePolygon.setVertexPosition(1u,this->spritePolygon.getVertexPosition(1u).x,-this->resize);
@@ -1006,8 +1157,14 @@ void edk::gui2d::ObjectGui2d::update(){
                 //height==width
 
                 //resize height
-                this->percent2 = (edk::float32)this->spriteSize[this->status].height /
-                        (edk::float32)this->spriteSize[this->status].width;
+                if(edk::Math::equal(0.f,(edk::float32)this->spriteSize[this->status].width)){
+                    this->percent2 = (edk::float32)this->spriteSize[this->status].height /
+                            ((edk::float32)this->spriteSize[this->status].width+0.001f);
+                }
+                else{
+                    this->percent2 = (edk::float32)this->spriteSize[this->status].height /
+                            (edk::float32)this->spriteSize[this->status].width;
+                }
                 this->resize = this->percent2 * centerSize.width * 0.5;
                 this->spritePolygon.setVertexPosition(0u,this->spritePolygon.getVertexPosition(0u).x,+this->resize);
                 this->spritePolygon.setVertexPosition(1u,this->spritePolygon.getVertexPosition(1u).x,-this->resize);
@@ -1019,17 +1176,34 @@ void edk::gui2d::ObjectGui2d::update(){
                 //width>height
 
                 //resize width
-                this->percent2 = (edk::float32)this->spriteSize[this->status].width /
-                        (edk::float32)this->spriteSize[this->status].height;
+                if(edk::Math::equal(0.f,(edk::float32)this->spriteSize[this->status].height)){
+                    this->percent2 = (edk::float32)this->spriteSize[this->status].width /
+                            ((edk::float32)this->spriteSize[this->status].height+0.001f);
+                }
+                else{
+                    this->percent2 = (edk::float32)this->spriteSize[this->status].width /
+                            (edk::float32)this->spriteSize[this->status].height;
+                }
                 this->resize = this->percent2 * centerSize.height * 0.5;
                 this->spritePolygon.setVertexPosition(0u,-this->resize,this->spritePolygon.getVertexPosition(0u).y);
                 this->spritePolygon.setVertexPosition(1u,+this->resize,this->spritePolygon.getVertexPosition(1u).y);
             }
             else if(centerSize.height>centerSize.width){
                 //height>width
-                this->percent1 = (edk::float32)centerSize.height / (edk::float32)centerSize.width;
-                this->percent2 = (edk::float32)this->spriteSize[this->status].height /
-                        (edk::float32)this->spriteSize[this->status].width;
+                if(edk::Math::equal(0.f,(edk::float32)centerSize.width)){
+                    this->percent1 = (edk::float32)centerSize.height / ((edk::float32)centerSize.width+0.001f);
+                }
+                else{
+                    this->percent1 = (edk::float32)centerSize.height / (edk::float32)centerSize.width;
+                }
+                if(edk::Math::equal(0.f,(edk::float32)this->spriteSize[this->status].width)){
+                    this->percent2 = (edk::float32)this->spriteSize[this->status].height /
+                            ((edk::float32)this->spriteSize[this->status].width+0.001f);
+                }
+                else{
+                    this->percent2 = (edk::float32)this->spriteSize[this->status].height /
+                            (edk::float32)this->spriteSize[this->status].width;
+                }
                 this->resize = 0.f;
                 if(this->percent1>this->percent2){
                     //resize height
@@ -1039,8 +1213,14 @@ void edk::gui2d::ObjectGui2d::update(){
                 }
                 else if(this->percent2>this->percent1){
                     //resize width
-                    this->percent2 = (edk::float32)this->spriteSize[this->status].width /
-                            (edk::float32)this->spriteSize[this->status].height;
+                    if(edk::Math::equal(0.f,(edk::float32)this->spriteSize[this->status].height)){
+                        this->percent2 = (edk::float32)this->spriteSize[this->status].width /
+                                ((edk::float32)this->spriteSize[this->status].height+0.001f);
+                    }
+                    else{
+                        this->percent2 = (edk::float32)this->spriteSize[this->status].width /
+                                (edk::float32)this->spriteSize[this->status].height;
+                    }
                     this->resize = this->percent2 * centerSize.height * 0.5;
                     this->spritePolygon.setVertexPosition(0u,-this->resize,this->spritePolygon.getVertexPosition(0u).y);
                     this->spritePolygon.setVertexPosition(1u,+this->resize,this->spritePolygon.getVertexPosition(1u).y);
@@ -1054,8 +1234,14 @@ void edk::gui2d::ObjectGui2d::update(){
                 //height==width
 
                 //resize width
-                this->percent2 = (edk::float32)this->spriteSize[this->status].width /
-                        (edk::float32)this->spriteSize[this->status].height;
+                if(edk::Math::equal(0.f,(edk::float32)this->spriteSize[this->status].height)){
+                    this->percent2 = (edk::float32)this->spriteSize[this->status].width /
+                            ((edk::float32)this->spriteSize[this->status].height+0.001f);
+                }
+                else{
+                    this->percent2 = (edk::float32)this->spriteSize[this->status].width /
+                            (edk::float32)this->spriteSize[this->status].height;
+                }
                 this->resize = this->percent2 * centerSize.height * 0.5;
                 this->spritePolygon.setVertexPosition(0u,-this->resize,this->spritePolygon.getVertexPosition(0u).y);
                 this->spritePolygon.setVertexPosition(1u,+this->resize,this->spritePolygon.getVertexPosition(1u).y);
@@ -1067,8 +1253,14 @@ void edk::gui2d::ObjectGui2d::update(){
                 //width>height
 
                 //resize width
-                this->percent2 = (edk::float32)this->spriteSize[this->status].width /
-                        (edk::float32)this->spriteSize[this->status].height;
+                if(edk::Math::equal(0.f,(edk::float32)this->spriteSize[this->status].height)){
+                    this->percent2 = (edk::float32)this->spriteSize[this->status].width /
+                            ((edk::float32)this->spriteSize[this->status].height+0.001f);
+                }
+                else{
+                    this->percent2 = (edk::float32)this->spriteSize[this->status].width /
+                            (edk::float32)this->spriteSize[this->status].height;
+                }
                 this->resize = this->percent2 * centerSize.height * 0.5;
                 this->spritePolygon.setVertexPosition(0u,-this->resize,this->spritePolygon.getVertexPosition(0u).y);
                 this->spritePolygon.setVertexPosition(1u,+this->resize,this->spritePolygon.getVertexPosition(1u).y);
@@ -1077,8 +1269,14 @@ void edk::gui2d::ObjectGui2d::update(){
                 //height>width
 
                 //resize height
-                this->percent2 = (edk::float32)this->spriteSize[this->status].height /
-                        (edk::float32)this->spriteSize[this->status].width;
+                if(edk::Math::equal(0.f,(edk::float32)this->spriteSize[this->status].width)){
+                    this->percent2 = (edk::float32)this->spriteSize[this->status].height /
+                            ((edk::float32)this->spriteSize[this->status].width+0.001f);
+                }
+                else{
+                    this->percent2 = (edk::float32)this->spriteSize[this->status].height /
+                            (edk::float32)this->spriteSize[this->status].width;
+                }
                 this->resize = this->percent2 * centerSize.width * 0.5;
                 this->spritePolygon.setVertexPosition(0u,this->spritePolygon.getVertexPosition(0u).x,+this->resize);
                 this->spritePolygon.setVertexPosition(1u,this->spritePolygon.getVertexPosition(1u).x,-this->resize);

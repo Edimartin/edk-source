@@ -266,7 +266,13 @@ edk::float32 edk::animation::InterpolationLine2D::getPositionY(edk::float32 seco
     }
     //else test the linear or curve
 
-    edk::float32 percent = ((second - retStart->second)/ distance);
+    edk::float32 percent = 0.f;
+    if(edk::Math::equal(0.f,this->distance)){
+        percent = ((second - retStart->second)/ (this->distance+0.001f));
+    }
+    else{
+        percent = ((second - retStart->second)/ this->distance);
+    }
     if(percent>=1.f){
         return retEnd->y;
     }

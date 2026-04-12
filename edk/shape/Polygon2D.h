@@ -59,6 +59,7 @@ enum collisionCode{
 };
 //polygon type
 enum EDKpolygon2DType{
+    typeUnknow = 0u,
     typePolygon2D = 1u,
     typeLine2D,
     typeRectangle2D,
@@ -80,6 +81,15 @@ public:
     void Destructor();
 
     void clean();
+
+    //set hide
+    void setShow(bool hide);
+    void hide();
+    void unhide();
+    void show();
+    void unshow();
+    bool isHided();
+    bool isShowing();
 
     //create the polygon
     virtual bool createPolygon(edk::uint32 vertexCount);
@@ -223,6 +233,8 @@ public:
     edk::float32 getDensity();
     edk::float32 getFriction();
     edk::float32 getRestitution();
+
+    edk::shape::EDKpolygon2DType getType();
 
     //return true if the polygon is a circle
     virtual bool isCircle();
@@ -380,6 +392,8 @@ protected:
     //DRAW
     void (edk::shape::Polygon2D::*vboDraw)(edk::uint32);
 
+    bool needUpdateVBO;
+
     //draw functions
     //PRINT
     void print_NULL();
@@ -401,6 +415,7 @@ protected:
     void print_XYZ_RGBA_NxNyNz_UVxUVy();
     //DRAW
     virtual void draw_NULL(edk::uint32 mode);
+    void draw_HIDE(edk::uint32 mode);
     void draw_XY(edk::uint32 mode);
     void draw_XYZ(edk::uint32 mode);
     void draw_XY_NxNyNz(edk::uint32 mode);
@@ -419,6 +434,7 @@ protected:
     void draw_XYZ_RGBA_NxNyNz_UVxUVy(edk::uint32 mode);
     //DRAW UPDATE
     virtual void drawUpdate_NULL(edk::uint32 mode);
+    void drawUpdate_HIDE(edk::uint32 mode);
     void drawUpdate_XY(edk::uint32 mode);
     void drawUpdate_XYZ(edk::uint32 mode);
     void drawUpdate_XY_NxNyNz(edk::uint32 mode);
@@ -442,6 +458,8 @@ protected:
     edk::size2f32 scale;
     //polygon translation
     edk::vec2f32 translate;
+
+    bool showPolygon;
 
     bool polygonCircle;
     edk::float32 radius;

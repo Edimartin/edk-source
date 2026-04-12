@@ -917,9 +917,18 @@ void edk::gui2d::TextField2d::updateTextSize(edk::size2f32 sizeText,edk::size2f3
     }
 
     if(mapWidth){
-        this->text.setScale((centerSize.height * (sizeText.width/sizeText.height))/(edk::float32)mapSize.width,
-                            centerSize.height
-                            );
+        if(edk::Math::equal(0.f,sizeText.height)
+                || edk::Math::equal(0.f,(edk::float32)mapSize.width)
+                ){
+            this->text.setScale((centerSize.height * (sizeText.width/(sizeText.height+0.001f)))/((edk::float32)mapSize.width+0.001f),
+                                centerSize.height
+                                );
+        }
+        else{
+            this->text.setScale((centerSize.height * (sizeText.width/sizeText.height))/(edk::float32)mapSize.width,
+                                centerSize.height
+                                );
+        }
         //save the cursor size
         this->cursor.size = edk::size2f32(this->text.getMapScaleWidth() * edkGU2dCursorWidthPercent,this->text.getMapScaleHeight());
 
@@ -946,7 +955,13 @@ void edk::gui2d::TextField2d::updateTextSize(edk::size2f32 sizeText,edk::size2f3
         }
 
         //get the size of characters inside the field
-        edk::uint32 chSize = (edk::uint32)(centerSize.width/this->text.getMapScaleWidth());
+        edk::uint32 chSize = 0u;
+        if(edk::Math::equal(0.f,this->text.getMapScaleWidth())){
+            chSize = (edk::uint32)(centerSize.width/(this->text.getMapScaleWidth()+0.001f));
+        }
+        else{
+            chSize = (edk::uint32)(centerSize.width/this->text.getMapScaleWidth());
+        }
         edk::uint32 selection1=0u,selection2=0u;
 
         if(this->cursorID>mapWidth){

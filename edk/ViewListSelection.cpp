@@ -258,7 +258,12 @@ void edk::ViewListSelection::testScroll(){
 
         //set the insideSize
         if(this->cells.size()){
-            this->scroll.setForegroundSize(1.f,(edk::float32)this->cameraHeight / (edk::float32)this->cells.size());
+            if(edk::Math::equal(0.f,(edk::float32)this->cells.size())){
+                this->scroll.setForegroundSize(1.f,(edk::float32)this->cameraHeight / ((edk::float32)this->cells.size()+0.001f));
+            }
+            else{
+                this->scroll.setForegroundSize(1.f,(edk::float32)this->cameraHeight / (edk::float32)this->cells.size());
+            }
         }
         else{
             this->scroll.setForegroundSize(1.f,1.f);
