@@ -309,10 +309,12 @@ public:
     virtual void draw();
     //Draw the polygons with lines
     virtual void drawWire();
+    virtual void drawWireNoColor();
     //Draw the polygons with lines without using matrices
     virtual void drawWireWorld();
     //draw vertexs
     virtual void drawPolygonVertexs(edk::color4f32 color=edk::color4f32(1,1,1,1));
+    virtual void drawPolygonVertexsSelection();
     virtual void drawPolygonVertexsWorld(edk::color4f32 color=edk::color4f32(1,1,1,1));
 
     //Write to XML
@@ -380,6 +382,8 @@ protected:
     bool setVertexUVFrames(edk::uint32 vertex,edk::vec2ui32 frames);
     //Draw the polygon
     virtual void drawVertexs();
+    virtual void drawVertexsSelecton();
+    virtual void drawVertexsNoColor();
     virtual void drawVertexsWithColor(edk::color4f32 color);
     //update framesSize
     void updateFramesSize();
@@ -415,6 +419,7 @@ protected:
     void print_XYZ_RGBA_NxNyNz_UVxUVy();
     //DRAW
     virtual void draw_NULL(edk::uint32 mode);
+    virtual void draw_NULLnoColor(edk::uint32 mode);
     void draw_HIDE(edk::uint32 mode);
     void draw_XY(edk::uint32 mode);
     void draw_XYZ(edk::uint32 mode);
@@ -434,6 +439,7 @@ protected:
     void draw_XYZ_RGBA_NxNyNz_UVxUVy(edk::uint32 mode);
     //DRAW UPDATE
     virtual void drawUpdate_NULL(edk::uint32 mode);
+    virtual void drawUpdate_NULLnoColor(edk::uint32 mode);
     void drawUpdate_HIDE(edk::uint32 mode);
     void drawUpdate_XY(edk::uint32 mode);
     void drawUpdate_XYZ(edk::uint32 mode);

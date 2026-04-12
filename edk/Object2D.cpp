@@ -59,6 +59,9 @@ bool edk::Object2D::drawHideMeshWithoutMaterialWithLight(bool /*haveLight*/,edk:
 bool edk::Object2D::drawHidePolygonWithoutMaterialWithLight(bool /*haveLight*/,edk::uint32 ,edk::uint32 ){return true;}
 bool edk::Object2D::drawHideMeshWire(edk::uint32 ){return true;}
 bool edk::Object2D::drawHidePolygonWire(edk::uint32 ,edk::uint32 ){return true;}
+bool edk::Object2D::drawHidePolygonWireNoColor(edk::uint32 /*meshPosition*/,edk::uint32 /*polygon*/){return true;}
+bool edk::Object2D::drawHidePolygonVertexes(edk::uint32 /*meshPosition*/,edk::uint32 /*polygon*/,edk::color3f32 /*color*/){return true;}
+bool edk::Object2D::drawHidePolygonVertexesSelection(edk::uint32 /*meshPosition*/,edk::uint32 /*polygon*/){return true;}
 //UNHIDE
 void edk::Object2D::drawUnhideBoundingBox(){
     edk::GU::guBegin(GU_LINE_LOOP);
@@ -417,6 +420,45 @@ bool edk::Object2D::drawUnhidePolygonWire(edk::uint32 meshPosition,edk::uint32 p
         mesh = this->meshes.getMesh(meshPosition);
         if(mesh){
             ret = mesh->drawWirePolygon(polygon);
+        }
+    }
+    return ret;
+}
+bool edk::Object2D::drawUnhidePolygonWireNoColor(edk::uint32 meshPosition,edk::uint32 polygon){
+    bool ret=false;
+
+    edk::shape::Mesh2D* mesh;
+    //print all polygonList
+    if(meshPosition<this->meshes.size()){
+        mesh = this->meshes.getMesh(meshPosition);
+        if(mesh){
+            ret = mesh->drawWirePolygonNoColor(polygon);
+        }
+    }
+    return ret;
+}
+bool edk::Object2D::drawUnhidePolygonVertexes(edk::uint32 meshPosition,edk::uint32 polygon,edk::color3f32 color){
+    bool ret=false;
+
+    edk::shape::Mesh2D* mesh;
+    //print all polygonList
+    if(meshPosition<this->meshes.size()){
+        mesh = this->meshes.getMesh(meshPosition);
+        if(mesh){
+            ret = mesh->drawPolygonVertexs(polygon,color);
+        }
+    }
+    return ret;
+}
+bool edk::Object2D::drawUnhidePolygonVertexesSelection(edk::uint32 meshPosition,edk::uint32 polygon){
+    bool ret=false;
+
+    edk::shape::Mesh2D* mesh;
+    //print all polygonList
+    if(meshPosition<this->meshes.size()){
+        mesh = this->meshes.getMesh(meshPosition);
+        if(mesh){
+            ret = mesh->drawPolygonVertexsSelection(polygon);
         }
     }
     return ret;
@@ -3262,6 +3304,9 @@ bool edk::Object2D::hide(){
         this->functionDrawPolygonWithoutMaterialWithLight = &edk::Object2D::drawHidePolygonWithoutMaterialWithLight;
         this->functionDrawMeshWire = &edk::Object2D::drawHideMeshWire;
         this->functionDrawPolygonWire = &edk::Object2D::drawHidePolygonWire;
+        this->functionDrawPolygonWireNoColor = &edk::Object2D::drawHidePolygonWireNoColor;
+        this->functionDrawPolygonVertexes = &edk::Object2D::drawHidePolygonVertexes;
+        this->functionDrawPolygonVertexesSelection = &edk::Object2D::drawHidePolygonVertexesSelection;
 
         this->hided=true;
 
@@ -3293,6 +3338,9 @@ bool edk::Object2D::unhide(){
         this->functionDrawPolygonWithoutMaterialWithLight = &edk::Object2D::drawUnhidePolygonWithoutMaterialWithLight;
         this->functionDrawMeshWire = &edk::Object2D::drawUnhideMeshWire;
         this->functionDrawPolygonWire = &edk::Object2D::drawUnhidePolygonWire;
+        this->functionDrawPolygonWireNoColor = &edk::Object2D::drawUnhidePolygonWireNoColor;
+        this->functionDrawPolygonVertexes = &edk::Object2D::drawUnhidePolygonVertexes;
+        this->functionDrawPolygonVertexesSelection = &edk::Object2D::drawUnhidePolygonVertexesSelection;
 
         this->hided=false;
 
@@ -4262,6 +4310,82 @@ bool edk::Object2D::drawPolygonWire(edk::uint32 meshPosition,edk::uint32 polygon
     edk::GU::guTranslate2f32(this->pivo*-1.0f);
 
     ret = (this->*functionDrawPolygonWire)(meshPosition,polygon);
+
+    edk::GU::guPopMatrix();
+    return ret;
+}
+bool edk::Object2D::drawPolygonWireInColor(edk::uint32 meshPosition,edk::uint32 polygon,
+                                           edk::color3f32 color
+                                           ){
+    bool ret=false;
+    //put the transformation on a stack
+    edk::GU::guPushMatrix();
+    //add translate
+    edk::GU::guTranslate2f32(this->position);
+    //add rotation
+    edk::GU::guRotateZf32(this->angle);
+    //add scale
+    edk::GU::guScale2f32(this->size);
+    //set the pivo
+    edk::GU::guTranslate2f32(this->pivo*-1.0f);
+
+    edk::GU::guColor3f32(color);
+
+    ret = (this->*functionDrawPolygonWireNoColor)(meshPosition,polygon);
+
+    edk::GU::guPopMatrix();
+    return ret;
+}
+bool edk::Object2D::drawPolygonWireInColor(edk::uint32 meshPosition,edk::uint32 polygon,
+                                           edk::float32 r,edk::float32 g,edk::float32 b
+                                           ){
+    return this->drawPolygonWireInColor(meshPosition,polygon,
+                                        edk::color3f32(r,g,b)
+                                        );
+}
+bool edk::Object2D::drawPolygonVertexesInColor(edk::uint32 meshPosition,edk::uint32 polygon,
+                                               edk::color3f32 color
+                                               ){
+    bool ret=false;
+    //put the transformation on a stack
+    edk::GU::guPushMatrix();
+    //add translate
+    edk::GU::guTranslate2f32(this->position);
+    //add rotation
+    edk::GU::guRotateZf32(this->angle);
+    //add scale
+    edk::GU::guScale2f32(this->size);
+    //set the pivo
+    edk::GU::guTranslate2f32(this->pivo*-1.0f);
+
+    edk::GU::guColor3f32(color);
+
+    ret = (this->*functionDrawPolygonVertexes)(meshPosition,polygon,color);
+
+    edk::GU::guPopMatrix();
+    return ret;
+}
+bool edk::Object2D::drawPolygonVertexesInColor(edk::uint32 meshPosition,edk::uint32 polygon,
+                                               edk::float32 r,edk::float32 g,edk::float32 b
+                                               ){
+    return this->drawPolygonVertexesInColor(meshPosition,polygon,
+                                            edk::color3f32(r,g,b)
+                                            );
+}
+bool edk::Object2D::drawPolygonVertexesSelection(edk::uint32 meshPosition,edk::uint32 polygon){
+    bool ret=false;
+    //put the transformation on a stack
+    edk::GU::guPushMatrix();
+    //add translate
+    edk::GU::guTranslate2f32(this->position);
+    //add rotation
+    edk::GU::guRotateZf32(this->angle);
+    //add scale
+    edk::GU::guScale2f32(this->size);
+    //set the pivo
+    edk::GU::guTranslate2f32(this->pivo*-1.0f);
+
+    ret = (this->*functionDrawPolygonVertexesSelection)(meshPosition,polygon);
 
     edk::GU::guPopMatrix();
     return ret;

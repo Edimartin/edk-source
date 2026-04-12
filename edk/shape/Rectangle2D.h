@@ -62,6 +62,7 @@ public:
     bool drawWithLight(edk::float32 lightPositions[][EDK_LIGHT_LIMIT][4u],edk::float32 lightDirections[][EDK_LIGHT_LIMIT][4u],bool lightIsOn[][EDK_LIGHT_LIMIT]);
     //
     void drawWire();
+    void drawWireNoColor();
 
     virtual bool cloneFrom(edk::shape::Polygon2D* poly);
 
@@ -81,8 +82,10 @@ protected:
 
     //DRAW
     virtual void draw_NULL(edk::uint32 mode);
+    virtual void draw_NULLnoColor(edk::uint32 mode);
     //DRAW UPDATE
     virtual void drawUpdate_NULL(edk::uint32 mode);
+    virtual void drawUpdate_NULLnoColor(edk::uint32 mode);
 private:
     //createPolygon
     bool createPolygon();

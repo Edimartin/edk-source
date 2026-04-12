@@ -325,8 +325,10 @@ public:
     //draw the polygons in wireframe
     virtual void drawWirePolygons();
     virtual bool drawWirePolygon(edk::uint32 polygon);
+    virtual bool drawWirePolygonNoColor(edk::uint32 polygon);
     virtual void drawVertexs(edk::color3f32 color = edk::color3f32(1,1,1));
     virtual bool drawPolygonVertexs(edk::uint32 polygon,edk::color3f32 color = edk::color3f32(1,1,1));
+    virtual bool drawPolygonVertexsSelection(edk::uint32 polygon);
     //draw the polygons in wireframe in world points
     virtual void drawWirePolygonsWorld();
     virtual bool drawWirePolygonWorld(edk::uint32 polygon);

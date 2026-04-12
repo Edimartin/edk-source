@@ -59,6 +59,7 @@ public:
     //Draw the triangle
     void draw();
     void drawWire();
+    void drawWireNoColor();
 protected:
 private:
     //createPolygon

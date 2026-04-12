@@ -2064,6 +2064,16 @@ bool edk::shape::Polygon2DList::drawWirePolygon(edk::uint32 polygon){
     }
     return false;
 }
+bool edk::shape::Polygon2DList::drawWirePolygonNoColor(edk::uint32 polygon){
+    //draw the polygons
+    if(polygon<this->polygons.size()){
+        if(this->polygons.havePos(polygon)){
+            this->polygons.get(polygon)->drawWireNoColor();
+            return true;
+        }
+    }
+    return false;
+}
 void edk::shape::Polygon2DList::drawVertexs(edk::color3f32 color){
     edk::GU::guColor3f32(color);
     //draw the polygons
@@ -2079,6 +2089,16 @@ bool edk::shape::Polygon2DList::drawPolygonVertexs(edk::uint32 polygon,edk::colo
         if(this->polygons.havePos(polygon)){
             edk::GU::guColor3f32(color);
             this->polygons.get(polygon)->drawPolygonVertexs(edk::color4f32(color.r,color.g,color.b,1.f));
+            return true;
+        }
+    }
+    return false;
+}
+bool edk::shape::Polygon2DList::drawPolygonVertexsSelection(edk::uint32 polygon){
+    //draw the polygons
+    if(polygon<this->polygons.size()){
+        if(this->polygons.havePos(polygon)){
+            this->polygons.get(polygon)->drawPolygonVertexsSelection();
             return true;
         }
     }

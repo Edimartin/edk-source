@@ -151,3 +151,7 @@ void edk::shape::Circle2D::drawWire(){
 
     edk::shape::Polygon2D::drawWire();
 }
+void edk::shape::Circle2D::drawWireNoColor(){
+
+    edk::shape::Polygon2D::drawWireNoColor();
+}

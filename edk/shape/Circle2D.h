@@ -72,6 +72,7 @@ public:
     //Draw the polygon
     void draw();
     void drawWire();
+    void drawWireNoColor();
 protected:
 private:
     edk::classID classThis;

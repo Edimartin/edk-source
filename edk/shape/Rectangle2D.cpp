@@ -415,6 +415,83 @@ void edk::shape::Rectangle2D::draw_NULL(edk::uint32 mode){
     }
     edk::GU::guEnd();
 }
+void edk::shape::Rectangle2D::draw_NULLnoColor(edk::uint32 mode){
+    edk::GU::guBegin(mode);
+    if(this->vertexs.getNoIF(0u)->getType() != EDK_SHAPE_NOUV
+            &&
+            this->vertexs.getNoIF(1u)->getType() != EDK_SHAPE_NOUV
+            ){
+        edk::shape::Vertex2DWithUV* vTemp0 = (edk::shape::Vertex2DWithUV*)this->vertexs.getNoIF(0u);
+        edk::shape::Vertex2DWithUV* vTemp1 = (edk::shape::Vertex2DWithUV*)this->vertexs.getNoIF(1u);
+
+        //draw the normal
+        edk::GU::guVertexNormal3f32(0.f,0.f,1.f);
+        //draw the textureUV
+        edk::GU::guVertexTex2f32(vTemp0->getUVX(), vTemp0->getUVY());
+        //glMultiTexCoord2f(GL_TEXTURE0,vTemp0->getUVX(), vTemp1->getUVY());
+        //draw the vertex
+        edk::GU::guVertex3f32( this->vertexs.getNoIF(0u)->position.x, this->vertexs.getNoIF(0u)->position.y, 0.0f);
+
+        //draw the normal
+        //edk::GU::guVertexNormal3f32(0.f,0.f,1.f);
+        //draw the textureUV
+        edk::GU::guVertexTex2f32(vTemp0->getUVX(), vTemp1->getUVY());
+        //glMultiTexCoord2f(GL_TEXTURE0,vTemp0->getUVX(), vTemp0->getUVY());
+        //draw the vertex
+        edk::GU::guVertex3f32( this->vertexs.getNoIF(0u)->position.x, this->vertexs.getNoIF(1u)->position.y, 0.0f);
+
+        //draw the normal
+        //edk::GU::guVertexNormal3f32(0.f,0.f,1.f);
+        //draw the textureUV
+        edk::GU::guVertexTex2f32(vTemp1->getUVX(), vTemp1->getUVY());
+        //glMultiTexCoord2f(GL_TEXTURE0,vTemp1->getUVX(), vTemp0->getUVY());
+        //draw the vertex
+        edk::GU::guVertex3f32( this->vertexs.getNoIF(1u)->position.x, this->vertexs.getNoIF(1u)->position.y, 0.0f);
+
+        //draw the normal
+        //edk::GU::guVertexNormal3f32(0.f,0.f,1.f);
+        //draw the textureUV
+        edk::GU::guVertexTex2f32(vTemp1->getUVX(), vTemp0->getUVY());
+        //glMultiTexCoord2f(GL_TEXTURE0,vTemp1->getUVX(), vTemp1->getUVY());
+        //draw the vertex
+        edk::GU::guVertex3f32( this->vertexs.getNoIF(1u)->position.x, this->vertexs.getNoIF(0u)->position.y, 0.0f);
+    }
+    else{
+
+        //draw the normal
+        edk::GU::guVertexNormal3f32(0,0,1);
+        //draw the textureUV
+        edk::GU::guVertexTex2f32(0.f, 1.f);
+        //glMultiTexCoord2f(GL_TEXTURE0,0.f, 1.f);
+        //draw the vertex
+        edk::GU::guVertex3f32( this->vertexs.getNoIF(0u)->position.x, this->vertexs.getNoIF(0u)->position.y, 0.0f);
+
+        //draw the normal
+        //edk::GU::guVertexNormal3f32(0,0,1);
+        //draw the textureUV
+        edk::GU::guVertexTex2f32(0.f, 0.f);
+        //glMultiTexCoord2f(GL_TEXTURE0,0.f, 0.f);
+        //draw the vertex
+        edk::GU::guVertex3f32( this->vertexs.getNoIF(0u)->position.x, this->vertexs.getNoIF(1u)->position.y, 0.0f);
+
+        //draw the normal
+        //edk::GU::guVertexNormal3f32(0,0,1);
+        //draw the textureUV
+        edk::GU::guVertexTex2f32(1.f, 0.f);
+        //glMultiTexCoord2f(GL_TEXTURE0,1.f, 0.f);
+        //draw the vertex
+        edk::GU::guVertex3f32( this->vertexs.getNoIF(1u)->position.x, this->vertexs.getNoIF(1u)->position.y, 0.0f);
+
+        //draw the normal
+        //edk::GU::guVertexNormal3f32(0,0,1);
+        //draw the textureUV
+        edk::GU::guVertexTex2f32(1.f, 1.f);
+        //glMultiTexCoord2f(GL_TEXTURE0,1.f, 1.f);
+        //draw the vertex
+        edk::GU::guVertex3f32( this->vertexs.getNoIF(1u)->position.x, this->vertexs.getNoIF(0u)->position.y, 0.0f);
+    }
+    edk::GU::guEnd();
+}
 //DRAW UPDATE
 void edk::shape::Rectangle2D::drawUpdate_NULL(edk::uint32 mode){
     edk::GU::guBegin(mode);
@@ -495,6 +572,85 @@ void edk::shape::Rectangle2D::drawUpdate_NULL(edk::uint32 mode){
                              this->vertexs.getNoIF(1u)->color.b,
                              this->vertexs.getNoIF(1u)->color.a
                              );
+
+        //draw the normal
+        //edk::GU::guVertexNormal3f32(0,0,1);
+        //draw the textureUV
+        edk::GU::guVertexTex2f32(1.f, 0.f);
+        //glMultiTexCoord2f(GL_TEXTURE0,1.f, 0.f);
+        //draw the vertex
+        edk::GU::guVertex3f32( this->vertexs.getNoIF(1u)->position.x, this->vertexs.getNoIF(1u)->position.y, 0.0f);
+
+        //draw the normal
+        //edk::GU::guVertexNormal3f32(0,0,1);
+        //draw the textureUV
+        edk::GU::guVertexTex2f32(1.f, 1.f);
+        //glMultiTexCoord2f(GL_TEXTURE0,1.f, 1.f);
+        //draw the vertex
+        edk::GU::guVertex3f32( this->vertexs.getNoIF(1u)->position.x, this->vertexs.getNoIF(0u)->position.y, 0.0f);
+    }
+    edk::GU::guEnd();
+    //change the drawFunction
+    this->setVBOFunctionNULL();
+}
+void edk::shape::Rectangle2D::drawUpdate_NULLnoColor(edk::uint32 mode){
+    edk::GU::guBegin(mode);
+    if(this->vertexs.getNoIF(0u)->getType() != EDK_SHAPE_NOUV
+            &&
+            this->vertexs.getNoIF(1u)->getType() != EDK_SHAPE_NOUV
+            ){
+        edk::shape::Vertex2DWithUV* vTemp0 = (edk::shape::Vertex2DWithUV*)this->vertexs.getNoIF(0u);
+        edk::shape::Vertex2DWithUV* vTemp1 = (edk::shape::Vertex2DWithUV*)this->vertexs.getNoIF(1u);
+
+        //draw the normal
+        edk::GU::guVertexNormal3f32(0.f,0.f,1.f);
+        //draw the textureUV
+        edk::GU::guVertexTex2f32(vTemp0->getUVX(), vTemp0->getUVY());
+        //glMultiTexCoord2f(GL_TEXTURE0,vTemp0->getUVX(), vTemp1->getUVY());
+        //draw the vertex
+        edk::GU::guVertex3f32( this->vertexs.getNoIF(0u)->position.x, this->vertexs.getNoIF(0u)->position.y, 0.0f);
+
+        //draw the normal
+        //edk::GU::guVertexNormal3f32(0.f,0.f,1.f);
+        //draw the textureUV
+        edk::GU::guVertexTex2f32(vTemp0->getUVX(), vTemp1->getUVY());
+        //glMultiTexCoord2f(GL_TEXTURE0,vTemp0->getUVX(), vTemp0->getUVY());
+        //draw the vertex
+        edk::GU::guVertex3f32( this->vertexs.getNoIF(0u)->position.x, this->vertexs.getNoIF(1u)->position.y, 0.0f);
+
+        //draw the normal
+        //edk::GU::guVertexNormal3f32(0.f,0.f,1.f);
+        //draw the textureUV
+        edk::GU::guVertexTex2f32(vTemp1->getUVX(), vTemp1->getUVY());
+        //glMultiTexCoord2f(GL_TEXTURE0,vTemp1->getUVX(), vTemp0->getUVY());
+        //draw the vertex
+        edk::GU::guVertex3f32( this->vertexs.getNoIF(1u)->position.x, this->vertexs.getNoIF(1u)->position.y, 0.0f);
+
+        //draw the normal
+        //edk::GU::guVertexNormal3f32(0.f,0.f,1.f);
+        //draw the textureUV
+        edk::GU::guVertexTex2f32(vTemp1->getUVX(), vTemp0->getUVY());
+        //glMultiTexCoord2f(GL_TEXTURE0,vTemp1->getUVX(), vTemp1->getUVY());
+        //draw the vertex
+        edk::GU::guVertex3f32( this->vertexs.getNoIF(1u)->position.x, this->vertexs.getNoIF(0u)->position.y, 0.0f);
+    }
+    else{
+
+        //draw the normal
+        edk::GU::guVertexNormal3f32(0,0,1);
+        //draw the textureUV
+        edk::GU::guVertexTex2f32(0.f, 1.f);
+        //glMultiTexCoord2f(GL_TEXTURE0,0.f, 1.f);
+        //draw the vertex
+        edk::GU::guVertex3f32( this->vertexs.getNoIF(0u)->position.x, this->vertexs.getNoIF(0u)->position.y, 0.0f);
+
+        //draw the normal
+        edk::GU::guVertexNormal3f32(0,0,1);
+        //draw the textureUV
+        //edk::GU::guVertexTex2f32(0.f, 0.f);
+        //glMultiTexCoord2f(GL_TEXTURE0,0.f, 0.f);
+        //draw the vertex
+        edk::GU::guVertex3f32( this->vertexs.getNoIF(0u)->position.x, this->vertexs.getNoIF(1u)->position.y, 0.0f);
 
         //draw the normal
         //edk::GU::guVertexNormal3f32(0,0,1);
@@ -701,6 +857,20 @@ void edk::shape::Rectangle2D::drawWire(){
         edk::GU::guScale2f32(this->scale);
         //drawVBO
         (this->*vboDraw)(GU_LINE_LOOP);
+        edk::GU::guPopMatrix();
+    }
+}
+void edk::shape::Rectangle2D::drawWireNoColor(){
+    //draw the vertexs
+    if(this->vertexs.size()>=2u){
+        edk::GU::guPushMatrix();
+
+        edk::GU::guTranslate2f32(this->translate);
+        edk::GU::guRotateZf32(this->angle);
+        edk::GU::guScale2f32(this->scale);
+        //drawVBO
+        //(this->*vboDraw)(GU_LINE_LOOP);
+        this->draw_NULLnoColor(GU_LINE_LOOP);
         edk::GU::guPopMatrix();
     }
 }

@@ -48,6 +48,7 @@ public:
     virtual void print();
     //Draw the polygon
     virtual void draw();
+    virtual void drawNoColor();
     //set collisionID
     void setCollisionID(edk::uint8 collisionID);
 };

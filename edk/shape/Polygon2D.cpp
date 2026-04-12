@@ -6932,6 +6932,26 @@ void edk::shape::Polygon2D::drawVertexs(){
         }
     }
 }
+void edk::shape::Polygon2D::drawVertexsSelecton(){
+    //
+    for(edk::uint32 i=0u;i<this->getVertexCount();i++){
+        //
+        if(vertexs.getNoIF(i)){
+            edk::GU::guPushName(i);
+            vertexs.getNoIF(i)->drawNoColor();
+            edk::GU::guPopName();
+        }
+    }
+}
+void edk::shape::Polygon2D::drawVertexsNoColor(){
+    //
+    for(edk::uint32 i=0u;i<this->getVertexCount();i++){
+        //
+        if(vertexs.getNoIF(i)){
+            vertexs.getNoIF(i)->draw();
+        }
+    }
+}
 void edk::shape::Polygon2D::drawVertexsWithColor(edk::color4f32 color){
     //
     for(edk::uint32 i=0u;i<this->getVertexCount();i++){
@@ -7322,7 +7342,12 @@ void edk::shape::Polygon2D::draw_NULL(edk::uint32 mode){
     edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);
 */
     edk::GU::guBegin(mode);
-    this->drawVertexs();
+    this->drawVertexsNoColor();
+    edk::GU::guEnd();
+}
+void edk::shape::Polygon2D::draw_NULLnoColor(edk::uint32 mode){
+    edk::GU::guBegin(mode);
+    this->drawVertexsNoColor();
     edk::GU::guEnd();
 }
 void edk::shape::Polygon2D::draw_HIDE(edk::uint32 /*mode*/){
@@ -7780,7 +7805,14 @@ void edk::shape::Polygon2D::drawUpdate_NULL(edk::uint32 mode){
     edk::GU_GLSL::guDontUseBuffer(GU_ARRAY_BUFFER);
 */
     edk::GU::guBegin(mode);
-    this->drawVertexs();
+    this->drawVertexsNoColor();
+    edk::GU::guEnd();
+    //change the drawFunction
+    this->setVBOFunctionNULL();
+}
+void edk::shape::Polygon2D::drawUpdate_NULLnoColor(edk::uint32 mode){
+    edk::GU::guBegin(mode);
+    this->drawVertexsNoColor();
     edk::GU::guEnd();
     //change the drawFunction
     this->setVBOFunctionNULL();
@@ -9996,6 +10028,17 @@ void edk::shape::Polygon2D::drawWire(){
 
     edk::GU::guPopMatrix();
 }
+void edk::shape::Polygon2D::drawWireNoColor(){
+    edk::GU::guPushMatrix();
+    edk::GU::guTranslate2f32(this->translate);
+    edk::GU::guRotateZf32(this->angle);
+    edk::GU::guScale2f32(this->scale);
+    //drawVBO
+    //(this->*vboDraw)(GU_LINE_LOOP);
+    this->draw_NULLnoColor(GU_LINE_LOOP);
+
+    edk::GU::guPopMatrix();
+}
 //Draw the polygons with lines without using matrices
 void edk::shape::Polygon2D::drawWireWorld(){
     //drawVBO
@@ -10006,6 +10049,14 @@ void edk::shape::Polygon2D::drawPolygonVertexs(edk::color4f32 color){
     edk::GU::guBegin(GL_POINTS);
     //edk::GU::guBegin(GU_LINE_LOOP);
     this->drawVertexsWithColor(color);
+    edk::GU::guEnd();
+    //drawVBO
+    //(this->*vboDrawPolygonVertexes)(color);
+}
+void edk::shape::Polygon2D::drawPolygonVertexsSelection(){
+    edk::GU::guBegin(GL_POINTS);
+    //edk::GU::guBegin(GU_LINE_LOOP);
+    this->drawVertexsSelecton();
     edk::GU::guEnd();
     //drawVBO
     //(this->*vboDrawPolygonVertexes)(color);

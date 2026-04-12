@@ -147,4 +147,17 @@ void edk::shape::Triangle2D::drawWire(){
 
     edk::GU::guPopMatrix();
 }
+void edk::shape::Triangle2D::drawWireNoColor(){
+    //draw the polygon
+    edk::GU::guPushMatrix();
+    edk::GU::guTranslate2f32(this->translate);
+    edk::GU::guRotateZf32(this->angle);
+    edk::GU::guScale2f32(this->scale);
+
+    //drawVBO
+    //(this->*vboDraw)(GU_LINES);
+    this->draw_NULLnoColor(GU_LINES);
+
+    edk::GU::guPopMatrix();
+}
 

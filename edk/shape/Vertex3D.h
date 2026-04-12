@@ -357,6 +357,18 @@ public:
         //draw the vertex
         edk::GU::guVertex3f32( this->position.x, this->position.y, this->position.z);
     }
+    virtual void drawNoColor(){
+        //Draw
+
+        //draw the normal
+        edk::GU::guVertexNormal3f32(this->normal.x,
+                                    this->normal.y,
+                                    this->normal.z
+                                    );
+
+        //draw the vertex
+        edk::GU::guVertex3f32( this->position.x, this->position.y, this->position.z);
+    }
     virtual void drawNormal(){
         //Draw
 
@@ -689,6 +701,13 @@ public:
         //draw the vector3D
         edk::shape::Vertex3D::draw();
     }
+    virtual void drawNoColor(){
+        //Add the UV
+        edk::GU::guVertexTex2f32(this->uv.x,this->uv.y);
+        //glMultiTexCoord2f(GL_TEXTURE0,this->uv.x,this->uv.y);
+        //draw the vector3D
+        edk::shape::Vertex3D::drawNoColor();
+    }
     //print function
     virtual void print(){
         edk::shape::Vertex3D::print();
@@ -897,6 +916,10 @@ public:
     virtual void draw(){
         //draw the vector3D
         edk::shape::Vertex3DWithUV::draw();
+    }
+    virtual void drawNoColor(){
+        //draw the vector3D
+        edk::shape::Vertex3DWithUV::drawNoColor();
     }
     //print function
     virtual void print(){

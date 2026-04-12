@@ -39,20 +39,37 @@ void edk::shape::Lines2D::print(){
 }
 //Draw the polygon
 void edk::shape::Lines2D::draw(){
-    edk::GU::guPushMatrix(); 
-    edk::GU::guTranslate2f32(this->translate); 
-    edk::GU::guRotateZf32(this->angle); 
-    edk::GU::guScale2f32(this->scale); 
+    edk::GU::guPushMatrix();
+    edk::GU::guTranslate2f32(this->translate);
+    edk::GU::guRotateZf32(this->angle);
+    edk::GU::guScale2f32(this->scale);
     /*
-    edk::GU::guBegin(GU_LINE_STRIP); 
-        this->drawVertexs(); 
-    edk::GU::guEnd(); 
+    edk::GU::guBegin(GU_LINE_STRIP);
+        this->drawVertexs();
+    edk::GU::guEnd();
     */
 
     //drawVBO
     (this->*vboDraw)(GU_LINE_STRIP);
 
-    edk::GU::guPopMatrix(); 
+    edk::GU::guPopMatrix();
+}
+void edk::shape::Lines2D::drawNoColor(){
+    edk::GU::guPushMatrix();
+    edk::GU::guTranslate2f32(this->translate);
+    edk::GU::guRotateZf32(this->angle);
+    edk::GU::guScale2f32(this->scale);
+    /*
+    edk::GU::guBegin(GU_LINE_STRIP);
+        this->drawVertexs();
+    edk::GU::guEnd();
+    */
+
+    //drawVBO
+    //(this->*vboDraw)(GU_LINE_STRIP);
+    this->draw_NULLnoColor(GU_LINE_STRIP);
+
+    edk::GU::guPopMatrix();
 }
 //set collisionID
 void edk::shape::Lines2D::setCollisionID(edk::uint8 collisionID){
