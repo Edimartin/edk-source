@@ -3245,6 +3245,53 @@ bool edk::Object2D::getWorldPolygon(edk::shape::Polygon2D* dest,edk::uint32 mesh
     }
     return ret;
 }
+bool edk::Object2D::setWorldPolygon(edk::shape::Polygon2D polygon,edk::uint32 meshPosition,edk::uint32 polygonPosition){
+    if(polygon.getVertexCount()){
+        //first copy the matrix
+        //generate transform matrices
+        edk::Math::generateTranslateMatrix(this->position*-1.f,&this->matrixPosition);
+        if(edk::Math::equal(0.f,this->size.width)
+                || edk::Math::equal(0.f,this->size.height)
+                ){
+            edk::Math::generateScaleMatrix(edk::size3f32(1.f/(this->size.width +0.001f),
+                                                         1.f/(this->size.height+0.001f),
+                                                         1.f
+                                                         ),
+                                           &this->matrixSize
+                                           );
+        }
+        else{
+            edk::Math::generateScaleMatrix(edk::size3f32(1.f/this->size.width,
+                                                         1.f/this->size.height,
+                                                         1.f
+                                                         ),
+                                           &this->matrixSize
+                                           );
+        }
+        edk::Math::generateTranslateMatrix(this->pivo,&this->matrixPivo);
+        //multiply the matrix by
+
+        this->matrixTransform.setIdentity();
+
+        //Pivo
+        this->matrixTransform.multiplyThisWithMatrix(&this->matrixPivo);
+        //scale
+        this->matrixTransform.multiplyThisWithMatrix(&this->matrixSize);
+        //angle
+        if(!this->fixedRotation){
+            edk::Math::generateRotateMatrixZ(this->angle*-1.f,&this->matrixAngle);
+            this->matrixTransform.multiplyThisWithMatrix(&this->matrixAngle);
+        }
+        //translate
+        this->matrixTransform.multiplyThisWithMatrix(&this->matrixPosition);
+
+        edk::shape::Mesh2D* mesh = this->meshes.getMesh(meshPosition);
+        if(mesh){
+            return mesh->setWorldPolygon(&polygon,polygonPosition,&this->matrixTransform);
+        }
+    }
+    return false;
+}
 
 //LIGHT
 //EDK_LIGHT_LIMIT

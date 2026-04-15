@@ -135,6 +135,7 @@ public:
     //get world polygon
     bool getWorldPolygon(edk::shape::Polygon2D* dest,edk::uint32 meshPosition,edk::uint32 polygonPosition);
     bool getWorldPolygon(edk::shape::Polygon2D* dest,edk::uint32 meshPosition,edk::uint32 polygonPosition,edk::vector::Matrixf32<3u,3u>* transformMat);
+    bool setWorldPolygon(edk::shape::Polygon2D polygon,edk::uint32 meshPosition,edk::uint32 polygonPosition);
 
     //LIGHT
     bool setLight(edk::uint32 position,edk::light::Light light);

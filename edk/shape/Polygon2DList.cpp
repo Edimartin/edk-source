@@ -770,6 +770,18 @@ bool edk::shape::Polygon2DList::getWorldPolygon(edk::shape::Polygon2D* dest,edk:
     }
     return ret;
 }
+bool edk::shape::Polygon2DList::setWorldPolygon(edk::shape::Polygon2D* polygon,edk::uint32 polygonPosition,edk::vector::Matrixf32<3u,3u>* transformMat){
+    bool ret=false;
+    if(polygon){
+        if(transformMat){
+            //copy the first rectangle
+            if(this->polygons.havePos(polygonPosition)){
+                ret = this->polygons.get(polygonPosition)->setWorldPolygon(polygon,transformMat);
+            }
+        }
+    }
+    return ret;
+}
 
 //generate world polygons from list into another list
 bool edk::shape::Polygon2DList::generateWorldPolygons(edk::shape::Polygon2DList* dest,

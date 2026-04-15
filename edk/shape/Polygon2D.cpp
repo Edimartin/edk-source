@@ -6937,9 +6937,9 @@ void edk::shape::Polygon2D::drawVertexsSelecton(){
     for(edk::uint32 i=0u;i<this->getVertexCount();i++){
         //
         if(vertexs.getNoIF(i)){
-            edk::GU::guPushName(i);
-            vertexs.getNoIF(i)->drawNoColor();
-            edk::GU::guPopName();
+            //edk::GU::guPushName(i);
+            vertexs.getNoIF(i)->drawSelection(i,true);
+            //edk::GU::guPopName();
         }
     }
 }
@@ -9307,6 +9307,68 @@ bool edk::shape::Polygon2D::getWorldPolygonCopy(edk::shape::Polygon2D* dest,edk:
     }
     return ret;
 }
+bool edk::shape::Polygon2D::setWorldPolygon(edk::shape::Polygon2D* polygon,edk::vector::Matrixf32<3u,3u>* transformMat){
+    bool ret=false;
+    if(polygon){
+        edk::uint32 size = this->getVertexCount();
+        if(size){
+            //first copy the matrix
+            if(this->matrixTransform.cloneFrom(transformMat)){
+                //generate transform matrices
+                edk::Math::generateTranslateMatrix(this->translate*-1.f,&this->matrixTranslate);
+                edk::Math::generateRotateMatrixZ(this->angle*-1.f,&this->matrixRotate);
+                if(edk::Math::equal(0.f,this->scale.width)
+                        || edk::Math::equal(0.f,this->scale.height)
+                        ){
+                    edk::Math::generateScaleMatrix(edk::size3f32(1.f/(this->scale.width +0.001f),
+                                                                 1.f/(this->scale.height+0.001f),
+                                                                 1.f
+                                                                 ),
+                                                   &this->matrixScale
+                                                   );
+                }
+                else{
+                    edk::Math::generateScaleMatrix(edk::size3f32(1.f/this->scale.width,
+                                                                 1.f/this->scale.height,
+                                                                 1.f
+                                                                 ),
+                                                   &this->matrixScale
+                                                   );
+                }
+
+                //multiply the matrix by
+                //scale
+                this->matrixTransform.multiplyThisWithMatrix(&this->matrixScale);
+                //angle
+                this->matrixTransform.multiplyThisWithMatrix(&this->matrixRotate);
+                //translate
+                this->matrixTransform.multiplyThisWithMatrix(&this->matrixTranslate);
+
+                //transform all the vertices
+                if(this->matrixPosition.haveMatrix()){
+                    //clone the polygon
+                    if(polygon->getVertexCount() == size){
+                        //move the vertexes
+                        for(edk::uint32 i=0u;i<size;i++){
+                            if(polygon->vertexs.get(i)){
+                                this->matrixPosition.set(0u,0u,polygon->vertexs.getNoIF(i)->position.x);
+                                this->matrixPosition.set(0u,1u,polygon->vertexs.getNoIF(i)->position.y);
+                                this->matrixPosition.set(0u,2u,1.f);
+
+                                //multiply the matrix
+                                this->matrixPosition.multiplyMatrixWithThis((edk::vector::MatrixDynamic<edk::float32>*)&this->matrixTransform);
+
+                                this->setVertexPosition(i,this->matrixPosition.getNoIF(0u,0u),this->matrixPosition.getNoIF(0u,1u));
+                                ret=true;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return ret;
+}
 
 //delete the polygonVertex
 void edk::shape::Polygon2D::deletePolygon(){
@@ -10054,10 +10116,10 @@ void edk::shape::Polygon2D::drawPolygonVertexs(edk::color4f32 color){
     //(this->*vboDrawPolygonVertexes)(color);
 }
 void edk::shape::Polygon2D::drawPolygonVertexsSelection(){
-    edk::GU::guBegin(GL_POINTS);
+    //edk::GU::guBegin(GL_POINTS);
     //edk::GU::guBegin(GU_LINE_LOOP);
     this->drawVertexsSelecton();
-    edk::GU::guEnd();
+    //edk::GU::guEnd();
     //drawVBO
     //(this->*vboDrawPolygonVertexes)(color);
 }

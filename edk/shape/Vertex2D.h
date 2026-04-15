@@ -213,6 +213,42 @@ public:
         //draw the vertex
         edk::GU::guVertex3f32( this->position.x, this->position.y, 0.0f);
     }
+    virtual void drawSelection(edk::uint32 id,bool init){
+        //Draw
+        if(init){
+            edk::GU::guPushName(id);
+            edk::GU::guBegin(GU_POINTS);
+            //set the color of the vertex
+            edk::GU::guColor4f32(this->color.r,
+                                 this->color.g,
+                                 this->color.b,
+                                 this->color.a
+                                 );
+
+            //draw the normal
+            edk::GU::guVertexNormal3f32(0.f, 0.f,1.f);
+
+            //draw the vertex
+            edk::GU::guVertex3f32( this->position.x, this->position.y, 0.0f);
+            edk::GU::guEnd();
+            edk::GU::guPopName();
+            init=false;
+        }
+        else{
+            //set the color of the vertex
+            edk::GU::guColor4f32(this->color.r,
+                                 this->color.g,
+                                 this->color.b,
+                                 this->color.a
+                                 );
+
+            //draw the normal
+            edk::GU::guVertexNormal3f32(0.f, 0.f,1.f);
+
+            //draw the vertex
+            edk::GU::guVertex3f32( this->position.x, this->position.y, 0.0f);
+        }
+    }
     //print function
     virtual void print(){
         //
@@ -483,6 +519,28 @@ public:
         //draw the vector2D
         edk::shape::Vertex2D::drawNoColor();
     }
+    virtual void drawSelection(edk::uint32 id,bool init){
+        //Draw
+        if(init){
+            init=false;
+            edk::GU::guPushName(id);
+            edk::GU::guBegin(GU_POINTS);
+            //Add the UV
+            edk::GU::guVertexTex2f32(this->uv.x,this->uv.y);
+            //glMultiTexCoord2f(GL_TEXTURE0,this->uv.x,this->uv.y);
+            //draw the vector2D
+            edk::shape::Vertex2D::drawSelection(id,init);
+            edk::GU::guEnd();
+            edk::GU::guPopName();
+        }
+        else{
+            //Add the UV
+            edk::GU::guVertexTex2f32(this->uv.x,this->uv.y);
+            //glMultiTexCoord2f(GL_TEXTURE0,this->uv.x,this->uv.y);
+            //draw the vector2D
+            edk::shape::Vertex2D::drawSelection(id,init);
+        }
+    }
     //print function
     virtual void print(){
         edk::shape::Vertex2D::print();
@@ -695,6 +753,22 @@ public:
     virtual void drawNoColor(){
         //draw the vector2D
         edk::shape::Vertex2DWithUV::drawNoColor();
+    }
+    virtual void drawSelection(edk::uint32 id,bool init){
+        //Draw
+        if(init){
+            init=false;
+            edk::GU::guPushName(id);
+            edk::GU::guBegin(GU_POINTS);
+            //draw the vector2D
+            edk::shape::Vertex2DWithUV::drawSelection(id,init);
+            edk::GU::guEnd();
+            edk::GU::guPopName();
+        }
+        else{
+            //draw the vector2D
+            edk::shape::Vertex2DWithUV::drawSelection(id,init);
+        }
     }
     //print function
     virtual void print(){

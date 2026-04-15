@@ -135,6 +135,7 @@ public:
                                                  edk::uint32* positions
                                                  );
     bool getWorldPolygon(edk::shape::Polygon2D* dest,edk::uint32 polygonPosition,edk::vector::Matrixf32<3u,3u>* transformMat);
+    bool setWorldPolygon(edk::shape::Polygon2D* polygon,edk::uint32 polygonPosition,edk::vector::Matrixf32<3u,3u>* transformMat);
 
     //generate world polygons from list into another list
     bool generateWorldPolygons(edk::shape::Polygon2DList* dest,

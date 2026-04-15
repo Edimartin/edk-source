@@ -164,6 +164,7 @@ public:
     edk::vec2f32 generateBoundingPoint(edk::vector::Matrixf32<3u,3u>* transformMat);
     bool getWorldPolygonClone(edk::shape::Polygon2D* dest,edk::vector::Matrixf32<3u,3u>* transformMat);
     bool getWorldPolygonCopy(edk::shape::Polygon2D* dest,edk::vector::Matrixf32<3u,3u>* transformMat);
+    bool setWorldPolygon(edk::shape::Polygon2D* polygon,edk::vector::Matrixf32<3u,3u>* transformMat);
 
     //delete the polygonVertex
     virtual void deletePolygon();
