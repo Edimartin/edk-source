@@ -79,12 +79,37 @@ void edk::material::Material::Constructor(){
 void edk::material::Material::Destructor(){
     if(this->classThis==this){
         this->classThis=NULL;
-        //can destruct the class
-        //remove all the textures
-        this->removeAllTextures();
+
+        this->clean();
 
         this->list.Destructor();
     }
+}
+
+void edk::material::Material::clean(){
+    this->removeAllTextures();
+    //ambient
+    this->ambient[0] = 0.2f;
+    this->ambient[1] = 0.2f;
+    this->ambient[2] = 0.2f;
+    this->ambient[3] = 1.0f;
+    //diffuse
+    this->diffuse[0] = 0.8f;
+    this->diffuse[1] = 0.8f;
+    this->diffuse[2] = 0.8f;
+    this->diffuse[3] = 1.0f;
+    //specular
+    this->specular[0] = 0.0f;
+    this->specular[1] = 0.0f;
+    this->specular[2] = 0.0f;
+    this->specular[3] = 1.0f;
+    //emission
+    this->emission[0] = 1.0f;
+    this->emission[1] = 1.0f;
+    this->emission[2] = 1.0f;
+    this->emission[3] = 1.0f;
+    //shinines
+    this->shininess = 50.0f;
 }
 
 //draw the material parameters
