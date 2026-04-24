@@ -904,6 +904,23 @@ edk::uint32 edk::shape::Polygon2DList::addPolygon(edk::shape::Polygon2D polygon)
     //else return 0u;
     return ret;
 }
+//delete a polygon
+bool edk::shape::Polygon2DList::deletePolygon(edk::uint32 position){
+    if(this->havePolygon(position)){
+        //move the polygon to last and delete it
+        if(this->polygons.bringPositionToEnd(position)){
+            position = this->polygons.size()-1u;
+            edk::shape::Polygon2D* poly = this->polygons.get(position);
+            if(poly){
+                if(this->polygons.remove(position)){
+                    delete poly;
+                    return true;
+                }
+            }
+        }
+    }
+    return false;
+}
 //GETERS
 //return the polygonSize
 edk::uint32 edk::shape::Polygon2DList::getPolygonSize(){
@@ -1201,6 +1218,25 @@ bool edk::shape::Polygon2DList::usePolygonsUVFrameY(edk::uint32 y){
         return true;
     }
     return false;
+}
+
+//SWAP THE POLYGONS
+bool edk::shape::Polygon2DList::swapPolygons(edk::uint32 pos1,edk::uint32 pos2){
+    return this->polygons.swap(pos1,pos2);
+}
+bool edk::shape::Polygon2DList::movePolygon(edk::uint32 pos1,edk::int32 steps){
+    if(steps<0){
+        if(steps < -(edk::int32)(pos1)){
+            return false;
+        }
+    }
+    return this->polygons.swap(pos1,pos1 + steps);
+}
+bool edk::shape::Polygon2DList::movePolygonSub(edk::uint32 pos1,edk::uint32 steps){
+    return this->movePolygon(pos1,-((edk::int32)steps));
+}
+bool edk::shape::Polygon2DList::movePolygonAdd(edk::uint32 pos1,edk::uint32 steps){
+    return this->movePolygon(pos1,steps);
 }
 
 //DELETE

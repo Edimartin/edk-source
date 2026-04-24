@@ -150,6 +150,8 @@ public:
     //ADD
     //add a polygon to the mesh
     virtual edk::uint32 addPolygon(edk::shape::Polygon2D polygon);
+    //delete a polygon
+    bool deletePolygon(edk::uint32 position);
     //GETERS
     //return the polygonSize
     edk::uint32 getPolygonSize();
@@ -197,6 +199,12 @@ public:
     bool usePolygonsUVFramePosition(edk::uint32 position);
     bool usePolygonsUVFrameX(edk::uint32 x);
     bool usePolygonsUVFrameY(edk::uint32 y);
+
+    //SWAP THE POLYGONS
+    bool swapPolygons(edk::uint32 pos1,edk::uint32 pos2);
+    bool movePolygon(edk::uint32 pos1,edk::int32 steps);
+    bool movePolygonSub(edk::uint32 pos1,edk::uint32 steps=1u);
+    bool movePolygonAdd(edk::uint32 pos1,edk::uint32 steps=1u);
 
     //DELETE
     //clean the polygons

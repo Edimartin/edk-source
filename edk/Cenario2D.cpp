@@ -2738,6 +2738,10 @@ bool edk::Cenario2D::removeObjectAnimated(edk::uint32 levelPosition,edk::float32
 
 //OBJECTS_PHYSICS
 //add a object to the tree
+//TypeObject2DPhysic
+//TypeObject2DDynamic
+//TypeObject2DStatic
+//TypeObject2DKinematic
 edk::physics2D::PhysicObject2D* edk::Cenario2D::newPhysicObject(edk::uint32 levelPosition,edk::TypeObject physicType){
     return this->newPhysicObject(levelPosition,physicType,this->getHigherLevel(levelPosition) + 1.0);
 }

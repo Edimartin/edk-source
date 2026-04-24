@@ -977,6 +977,19 @@ bool edk::gui2d::ViewMenu2d::iOrderY(){
 edk::gui2d::MenuObj* edk::gui2d::ViewMenu2d::getObjectInPosition(edk::uint32 position){
     return this->objs.get(position);
 }
+edk::gui2d::MenuObj* edk::gui2d::ViewMenu2d::getObjectById(edk::uint32 id){
+    edk::gui2d::MenuObj* obj = NULL;
+    edk::uint32 size = this->objs.size();
+    for(edk::uint32 i=0u;i<size;i++){
+        obj = this->objs.get(i);
+        if(obj){
+            if(obj->id == id){
+                return obj;
+            }
+        }
+    }
+    return NULL;
+}
 
 bool edk::gui2d::ViewMenu2d::setBarPercent(edk::float32 percent){
     if(percent){
@@ -1083,6 +1096,16 @@ void edk::gui2d::ViewMenu2d::setColorPressedUp(edk::float32 r,edk::float32 g,edk
 void edk::gui2d::ViewMenu2d::setColorPressedUp(edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a){
     //
     this->setColorPressedUp(edk::color4f32(r,g,b,a));
+}
+
+bool edk::gui2d::ViewMenu2d::isMouseInside(){
+    if(edk::View::isMouseInside()){
+        return true;
+    }
+    else if(this->bar.isMouseInside()){
+        return true;
+    }
+    return false;
 }
 
 void edk::gui2d::ViewMenu2d::load(edk::rectf32){

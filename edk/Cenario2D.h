@@ -167,6 +167,10 @@ public:
 
     //OBJECTS_PHYSICS
     //add a object to the tree
+    //TypeObject2DPhysic
+    //TypeObject2DDynamic
+    //TypeObject2DStatic
+    //TypeObject2DKinematic
     edk::physics2D::PhysicObject2D* newPhysicObject(edk::uint32 levelPosition,edk::TypeObject physicType);
     edk::physics2D::PhysicObject2D* newPhysicObject(edk::uint32 levelPosition,edk::TypeObject physicType,edk::float32 depth);
     edk::physics2D::PhysicObject2D* newPhysicSensor(edk::uint32 levelPosition,edk::TypeObject physicType);

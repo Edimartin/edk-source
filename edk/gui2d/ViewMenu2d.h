@@ -193,6 +193,7 @@ public:
 
     //get the object in position
     edk::gui2d::MenuObj* getObjectInPosition(edk::uint32 position);
+    edk::gui2d::MenuObj* getObjectById(edk::uint32 id);
 
     bool setBarPercent(edk::float32 percent);
 
@@ -213,6 +214,8 @@ public:
     void setColorPressedUp(edk::color4f32 color);
     void setColorPressedUp(edk::float32 r,edk::float32 g,edk::float32 b);
     void setColorPressedUp(edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a);
+
+    virtual bool isMouseInside();
 
     virtual void load(edk::rectf32 outsideViewOrigin);
     virtual void unload();

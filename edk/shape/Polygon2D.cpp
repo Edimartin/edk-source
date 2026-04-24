@@ -10108,12 +10108,14 @@ void edk::shape::Polygon2D::drawWireWorld(){
 }
 //draw vertexs
 void edk::shape::Polygon2D::drawPolygonVertexs(edk::color4f32 color){
+    edk::GU::guPushMatrix();
+    edk::GU::guTranslate2f32(this->translate);
+    edk::GU::guRotateZf32(this->angle);
+    edk::GU::guScale2f32(this->scale);
     edk::GU::guBegin(GL_POINTS);
-    //edk::GU::guBegin(GU_LINE_LOOP);
     this->drawVertexsWithColor(color);
     edk::GU::guEnd();
-    //drawVBO
-    //(this->*vboDrawPolygonVertexes)(color);
+    edk::GU::guPopMatrix();
 }
 void edk::shape::Polygon2D::drawPolygonVertexsSelection(){
     //edk::GU::guBegin(GL_POINTS);
