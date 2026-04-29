@@ -1570,6 +1570,50 @@ bool edk::physics2D::PhysicObject2D::getWorldPolygonPhysic(edk::shape::Polygon2D
     }
     return ret;
 }
+bool edk::physics2D::PhysicObject2D::setWorldPolygonPhysic(edk::shape::Polygon2D polygon,edk::uint32 polygonPosition){
+    if(polygon.getVertexCount()){
+        //first copy the matrix
+        //generate transform matrices
+        edk::Math::generateTranslateMatrix(this->position*-1.f,&this->matrixPosition);
+        if(edk::Math::equal(0.f,this->size.width)
+                || edk::Math::equal(0.f,this->size.height)
+                ){
+            edk::Math::generateScaleMatrix(edk::size3f32(1.f/(this->size.width +0.001f),
+                                                         1.f/(this->size.height+0.001f),
+                                                         1.f
+                                                         ),
+                                           &this->matrixSize
+                                           );
+        }
+        else{
+            edk::Math::generateScaleMatrix(edk::size3f32(1.f/this->size.width,
+                                                         1.f/this->size.height,
+                                                         1.f
+                                                         ),
+                                           &this->matrixSize
+                                           );
+        }
+        edk::Math::generateTranslateMatrix(this->pivo,&this->matrixPivo);
+        //multiply the matrix by
+
+        this->matrixTransform.setIdentity();
+
+        //Pivo
+        this->matrixTransform.multiplyThisWithMatrix(&this->matrixPivo);
+        //scale
+        this->matrixTransform.multiplyThisWithMatrix(&this->matrixSize);
+        //angle
+        if(!this->fixedRotation){
+            edk::Math::generateRotateMatrixZ(this->angle*-1.f,&this->matrixAngle);
+            this->matrixTransform.multiplyThisWithMatrix(&this->matrixAngle);
+        }
+        //translate
+        this->matrixTransform.multiplyThisWithMatrix(&this->matrixPosition);
+
+        return this->physicMesh.setWorldPolygon(&polygon,polygonPosition,&this->matrixTransform);
+    }
+    return false;
+}
 
 void edk::physics2D::PhysicObject2D::drawPhysics(){
     //put the transformation on a stack
@@ -1650,6 +1694,82 @@ void edk::physics2D::PhysicObject2D::drawPolygonWirePhysics(edk::uint32 position
     this->physicMesh.drawWirePolygon(position);
 
     edk::GU::guPopMatrix();
+}
+bool edk::physics2D::PhysicObject2D::drawPolygonWirePhysicInColor(edk::uint32 polygon,
+                                                                  edk::color3f32 color
+                                                                  ){
+    bool ret=false;
+    //put the transformation on a stack
+    edk::GU::guPushMatrix();
+    //add translate
+    edk::GU::guTranslate2f32(this->position);
+    //add rotation
+    edk::GU::guRotateZf32(this->angle);
+    //add scale
+    edk::GU::guScale2f32(this->size);
+    //set the pivo
+    edk::GU::guTranslate2f32(this->pivo*-1.0f);
+
+    edk::GU::guColor3f32(color);
+
+    this->physicMesh.drawWirePolygonNoColor(polygon);
+
+    edk::GU::guPopMatrix();
+    return ret;
+}
+bool edk::physics2D::PhysicObject2D::drawPolygonWirePhysicInColor(edk::uint32 polygon,
+                                                                  edk::float32 r,edk::float32 g,edk::float32 b
+                                                                  ){
+    return this->drawPolygonWirePhysicInColor(polygon,
+                                              edk::color3f32(r,g,b)
+                                              );
+}
+bool edk::physics2D::PhysicObject2D::drawPolygonVertexesPhysicInColor(edk::uint32 polygon,
+                                                                      edk::color3f32 color
+                                                                      ){
+    bool ret=false;
+    //put the transformation on a stack
+    edk::GU::guPushMatrix();
+    //add translate
+    edk::GU::guTranslate2f32(this->position);
+    //add rotation
+    edk::GU::guRotateZf32(this->angle);
+    //add scale
+    edk::GU::guScale2f32(this->size);
+    //set the pivo
+    edk::GU::guTranslate2f32(this->pivo*-1.0f);
+
+    edk::GU::guColor3f32(color);
+
+    this->physicMesh.drawPolygonVertexs(polygon,color);
+
+    edk::GU::guPopMatrix();
+    return ret;
+}
+bool edk::physics2D::PhysicObject2D::drawPolygonVertexesPhysicInColor(edk::uint32 polygon,
+                                                                      edk::float32 r,edk::float32 g,edk::float32 b
+                                                                      ){
+    return this->drawPolygonVertexesPhysicInColor(polygon,
+                                                  edk::color3f32(r,g,b)
+                                                  );
+}
+bool edk::physics2D::PhysicObject2D::drawPolygonVertexesPhysicSelection(edk::uint32 polygon){
+    bool ret=false;
+    //put the transformation on a stack
+    edk::GU::guPushMatrix();
+    //add translate
+    edk::GU::guTranslate2f32(this->position);
+    //add rotation
+    edk::GU::guRotateZf32(this->angle);
+    //add scale
+    edk::GU::guScale2f32(this->size);
+    //set the pivo
+    edk::GU::guTranslate2f32(this->pivo*-1.0f);
+
+    this->physicMesh.drawPolygonVertexsSelection(polygon);
+
+    edk::GU::guPopMatrix();
+    return ret;
 }
 void edk::physics2D::PhysicObject2D::drawLinearVelocity(edk::color3f32 color,edk::vec2f32 position,edk::float32 scale){
     edk::GU::guColor3f32(color);

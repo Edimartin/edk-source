@@ -505,6 +505,8 @@ protected:
 private:
     //Tree Static Vector
     edk::light::Light lights[EDK_LIGHT_LIMIT];
+
+protected:
     /*
     //action group
     edk::animation::ActionGroup actions;
@@ -522,8 +524,6 @@ private:
     edk::size2f32 saveSize;
     edk::vec2f32  savePivo;
     edk::size2f32 newSize;
-
-protected:
 
     //connected objects tree
     edk::vector::Stack<edk::Object2D*> childremsFront;

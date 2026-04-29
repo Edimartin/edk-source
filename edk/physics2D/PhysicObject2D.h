@@ -208,6 +208,7 @@ public:
     //get world polygon
     bool getWorldPolygonPhysic(edk::shape::Polygon2D* dest,edk::uint32 polygonPosition);
     bool getWorldPolygonPhysic(edk::shape::Polygon2D* dest,edk::uint32 polygonPosition,edk::vector::Matrixf32<3u,3u>* transformMat);
+    bool setWorldPolygonPhysic(edk::shape::Polygon2D polygon,edk::uint32 polygonPosition);
 
     void drawPhysics();
     void drawWirePhysics();
@@ -216,6 +217,19 @@ public:
     inline void drawPhysicsPolygon(edk::uint32 position){return this->drawPolygonPhysics(position);}
     void drawPolygonWirePhysics(edk::uint32 position);
     inline void drawWirePhysicsPolygon(edk::uint32 position){return this->drawPolygonWirePhysics(position);}
+    bool drawPolygonWirePhysicInColor(edk::uint32 polygon,
+                                      edk::color3f32 color
+                                      );
+    bool drawPolygonWirePhysicInColor(edk::uint32 polygon,
+                                      edk::float32 r,edk::float32 g,edk::float32 b
+                                      );
+    bool drawPolygonVertexesPhysicInColor(edk::uint32 polygon,
+                                          edk::color3f32 color
+                                          );
+    bool drawPolygonVertexesPhysicInColor(edk::uint32 polygon,
+                                          edk::float32 r,edk::float32 g,edk::float32 b
+                                          );
+    bool drawPolygonVertexesPhysicSelection(edk::uint32 polygon);
     void drawLinearVelocity(edk::color3f32 color,edk::vec2f32 position,edk::float32 scale=1.f);
     void drawLinearVelocity(edk::color3f32 color,edk::float32 scale=1.f);
     void drawLinearVelocity(edk::float32 r,
@@ -320,17 +334,17 @@ private:
 
     virtual edk::physics2D::PhysicObject2D operator=(edk::physics2D::PhysicObject2D obj){
         //copy the object
-        this->cloneFrom(&obj); 
+        this->cloneFrom(&obj);
         //copy the mesh
-        //this->physicMesh=obj.physicMesh; 
-        this->physicMesh.cloneFrom(&obj.physicMesh); 
-        this->canSleep = obj.canSleep; 
-        this->fixedRotation = obj.fixedRotation; 
-        //this->animationPosition = obj.animationPosition; 
-        this->animationPosition.cloneFrom(&obj.animationPosition); 
-        //this->animationRotation = obj.animationRotation; 
-        this->animationRotation.cloneFrom(&obj.animationRotation); 
-        return obj; 
+        //this->physicMesh=obj.physicMesh;
+        this->physicMesh.cloneFrom(&obj.physicMesh);
+        this->canSleep = obj.canSleep;
+        this->fixedRotation = obj.fixedRotation;
+        //this->animationPosition = obj.animationPosition;
+        this->animationPosition.cloneFrom(&obj.animationPosition);
+        //this->animationRotation = obj.animationRotation;
+        this->animationRotation.cloneFrom(&obj.animationRotation);
+        return obj;
     }
 
 protected:
