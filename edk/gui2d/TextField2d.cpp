@@ -1557,35 +1557,21 @@ void edk::gui2d::TextField2d::cleanFilterOut(){
 
 //write text to clean the originID and cursorID
 bool edk::gui2d::TextField2d::writeText(const edk::char8* text){
-    bool ret = false;
     this->cleanTextVariables((edk::char8*)text);
-    //get the string
-    edk::char8* str = this->textVec.getStringWithLastSpace();
-    if(str){
-        this->canCleanText=false;
-        if(edk::gui2d::ObjectGui2d::writeText(str)){
-            ret = true;
-        }
-        this->canCleanText=true;
-        free(str);
-        return ret;
+    this->selectAll();
+    this->deleteCharacter();
+    if(this->addString(text)){
+        return true;
     }
     this->cleanTextVariables(NULL);
     return false;
 }
 bool edk::gui2d::TextField2d::writeText(edk::char8* text){
-    bool ret = false;
     this->cleanTextVariables(text);
-    //get the string
-    edk::char8* str = this->textVec.getStringWithLastSpace();
-    if(str){
-        this->canCleanText=false;
-        if(edk::gui2d::ObjectGui2d::writeText(str,this->scaleText)){
-            ret = true;
-        }
-        this->canCleanText=true;
-        free(str);
-        return ret;
+    this->selectAll();
+    this->deleteCharacter();
+    if(this->addString(text)){
+        return true;
     }
     this->cleanTextVariables(NULL);
     return false;
@@ -1594,7 +1580,7 @@ bool edk::gui2d::TextField2d::writeText(const edk::char8* text,edk::float32 scal
     bool ret = false;
     this->cleanTextVariables((edk::char8*)text);
     //get the string
-    edk::char8* str = this->textVec.getStringWithLastSpace();
+    edk::char8* str = this->textVec.getString();
     if(str){
         this->canCleanText=false;
         if(edk::gui2d::ObjectGui2d::writeText(str,edk::size2f32(scaleWidth,scaleHeight))){
@@ -1612,7 +1598,7 @@ bool edk::gui2d::TextField2d::writeText(edk::char8* text,edk::float32 scaleWidth
     bool ret = false;
     this->cleanTextVariables(text);
     //get the string
-    edk::char8* str = this->textVec.getStringWithLastSpace();
+    edk::char8* str = this->textVec.getString();
     if(str){
         this->canCleanText=false;
         if(edk::gui2d::ObjectGui2d::writeText(str,edk::size2f32(scaleWidth,scaleHeight))){
@@ -1630,7 +1616,7 @@ bool edk::gui2d::TextField2d::writeText(const edk::char8* text,edk::size2f32 sca
     bool ret = false;
     this->cleanTextVariables((edk::char8*)text);
     //get the string
-    edk::char8* str = this->textVec.getStringWithLastSpace();
+    edk::char8* str = this->textVec.getString();
     if(str){
         this->canCleanText=false;
         if(edk::gui2d::ObjectGui2d::writeText(str,scale)){
@@ -1648,7 +1634,7 @@ bool edk::gui2d::TextField2d::writeText(edk::char8* text,edk::size2f32 scale){
     bool ret = false;
     this->cleanTextVariables(text);
     //get the string
-    edk::char8* str = this->textVec.getStringWithLastSpace();
+    edk::char8* str = this->textVec.getString();
     if(str){
         this->canCleanText=false;
         if(edk::gui2d::ObjectGui2d::writeText(str,scale)){
