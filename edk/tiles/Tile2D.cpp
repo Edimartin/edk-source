@@ -273,6 +273,26 @@ edk::float32 edk::tiles::Tile2D::getPositionX(){
 edk::float32 edk::tiles::Tile2D::getPositionY(){
     return this->obj.position.y;
 }
+edk::rectf32 edk::tiles::Tile2D::getBox(edk::float32 angle,edk::size2f32 size){
+    edk::rectf32 ret;
+    this->obj.angle = angle;
+    this->tileSize = this->obj.size;
+    this->obj.size = size;
+    ret = this->obj.calculateNewBoundingBoxNoChildrem();
+    this->obj.angle = 0.f;
+    this->obj.size = this->tileSize;
+    return ret;
+}
+edk::rectf32 edk::tiles::Tile2D::getBox(edk::float32 angle,edk::size2f32 size,edk::vector::Matrixf32<3u,3u>* transformMat){
+    edk::rectf32 ret;
+    this->obj.angle = angle;
+    this->tileSize = this->obj.size;
+    this->obj.size = size;
+    ret = this->obj.calculateNewBoundingBoxNoChildrem(transformMat);
+    this->obj.angle = 0.f;
+    this->obj.size = this->tileSize;
+    return ret;
+}
 
 //callback to start and end draw tile
 bool edk::tiles::Tile2D::addDrawCallback(edk::tiles::DrawTile2DCallback* callback){

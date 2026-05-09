@@ -1963,6 +1963,53 @@ bool edk::tiles::TileSet2D::isTilePhysics(edk::uint32 tile){
     return NULL;
 }
 
+//get the tile bounding box in the world
+edk::rectf32 edk::tiles::TileSet2D::getTileBox(edk::vec2f32 position,
+                                               edk::float32 angle,
+                                               edk::size2f32 size
+                                               ){
+    edk::rectf32 ret;
+
+    this->tileTemp.setPosition(position.x * this->tileTemp.getWidth(),position.y * this->tileTemp.getHeight());
+    ret = this->tileTemp.getBox(angle,size);
+
+    return ret;
+}
+edk::rectf32 edk::tiles::TileSet2D::getTileBox(edk::float32 positionX,
+                                               edk::float32 positionY,
+                                               edk::float32 angle,
+                                               edk::size2f32 size
+                                               ){
+    return this->getTileBox(edk::vec2f32(positionX,positionY),
+                            angle,
+                            size
+                            );
+}
+edk::rectf32 edk::tiles::TileSet2D::getTileBox(edk::vec2f32 position,
+                                               edk::vector::Matrixf32<3u,3u>* transformMat,
+                                               edk::float32 angle,
+                                               edk::size2f32 size
+                                               ){
+    edk::rectf32 ret;
+
+    this->tileTemp.setPosition(position.x * this->tileTemp.getWidth(),position.y * this->tileTemp.getHeight());
+    this->tileTemp.getBox(angle,size,transformMat);
+
+    return ret;
+}
+edk::rectf32 edk::tiles::TileSet2D::getTileBox(edk::float32 positionX,
+                                               edk::float32 positionY,
+                                               edk::vector::Matrixf32<3u,3u>* transformMat,
+                                               edk::float32 angle,
+                                               edk::size2f32 size
+                                               ){
+    return this->getTileBox(edk::vec2f32(positionX,positionY),
+                            transformMat,
+                            angle,
+                            size
+                            );
+}
+
 //Draw the tile from the tileSet
 bool edk::tiles::TileSet2D::drawTile(edk::uint32 tile,
                                      edk::vec2f32 position,

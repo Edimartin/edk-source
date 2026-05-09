@@ -1845,6 +1845,85 @@ edk::vec2ui32 edk::tiles::TileMap2D::getPointPosition(edk::vec2f32 point,bool* i
     return edk::vec2ui32(0u,0u);
 }
 
+//function to calculate boundingBox
+bool edk::tiles::TileMap2D::calculateBoundingBox(){
+    if(this->tileSet){
+        //test the position
+        if(this->sizeMap.width && this->sizeMap.height){
+            edk::vec2f32 position;
+            //draw the tile
+            edk::vec2f32 positionTemp = this->getPosition();
+            edk::int64 y2;
+
+            //calculate the rect fom the first tile
+            position.x = position .y = 0u;
+            //set the transformation
+            y2 = (position.y*-1) + this->sizeMap.height-1u;
+            //draw the tile
+            this->boundingBox = this->tileSet->getTileBox((position.x*this->scaleMap.width) + positionTemp.x
+                                      ,(y2*this->scaleMap.height) + positionTemp.y
+                                      ,0.f,this->scaleMap
+                                      );
+
+            //calculate the rect fom the last tile
+            position.x = this->sizeMap.width - 1u;
+            position .y = this->sizeMap.height - 1u;
+            //set the transformation
+            y2 = (position.y*-1) + this->sizeMap.height-1u;
+            //draw the tile
+            this->boundingBox.merge(this->tileSet->getTileBox((position.x*this->scaleMap.width) + positionTemp.x
+                                      ,(y2*this->scaleMap.height) + positionTemp.y
+                                      ,0.f,this->scaleMap
+                                      ));
+            //then return true
+            return true;
+        }
+    }
+    //else return false
+    return false;
+}
+bool edk::tiles::TileMap2D::calculateBoundingBox(edk::vector::Matrixf32<3u,3u>* transformMat){
+    if(this->tileSet && transformMat){
+        //test the position
+        if(this->sizeMap.width && this->sizeMap.height){
+            edk::vec2f32 position;
+            //draw the tile
+            edk::vec2f32 positionTemp = this->getPosition();
+            edk::int64 y2;
+
+            //calculate the rect fom the first tile
+            position.x = position .y = 0u;
+            //set the transformation
+            y2 = (position.y*-1) + this->sizeMap.height-1u;
+            //draw the tile
+            this->boundingBox = this->tileSet->getTileBox((position.x*this->scaleMap.width) + positionTemp.x
+                                      ,(y2*this->scaleMap.height) + positionTemp.y,transformMat
+                                      ,0.f,this->scaleMap
+                                      );
+
+            //calculate the rect fom the last tile
+            position.x = this->sizeMap.width - 1u;
+            position .y = this->sizeMap.height - 1u;
+            //set the transformation
+            y2 = (position.y*-1) + this->sizeMap.height-1u;
+            //draw the tile
+            this->boundingBox.merge(this->tileSet->getTileBox((position.x*this->scaleMap.width) + positionTemp.x
+                                      ,(y2*this->scaleMap.height) + positionTemp.y,transformMat
+                                      ,0.f,this->scaleMap
+                                      ));
+            //then return true
+            return true;
+        }
+    }
+    //else return false
+    return false;
+}
+
+//return a copy of the boundingBox
+edk::rectf32 edk::tiles::TileMap2D::getBoundingBox(){
+    return this->boundingBox;
+}
+
 //Desenha o tileMap
 void edk::tiles::TileMap2D::draw(edk::color4f32 color){
     if(this->tileSet){
@@ -3168,11 +3247,15 @@ void edk::tiles::TileMap2D::drawSelectionWithID(edk::uint8 id){
         for(edk::uint32 y=0u,y2=this->sizeMap.height-1u;y<this->sizeMap.height;y++,y2--){
             for(edk::uint32 x=0u;x<this->sizeMap.width;x++){
                 //draw the tile
-                edk::GU::guPushName(edk::BinaryConverter::joinBits(id,((this->sizeMap.width * y) + x)+1u,24));
+                edk::GU::guPushName(id);
+                edk::GU::guPushName(x);
+                edk::GU::guPushName(y);
                 this->tileSet->drawTileSelection( (x*this->scaleMap.width) + positionTemp.x
                                                   ,(y2*this->scaleMap.height) + positionTemp.y
                                                   ,0.f,this->scaleMap
                                                   );
+                edk::GU::guPopName();
+                edk::GU::guPopName();
                 edk::GU::guPopName();
             }
         }
@@ -3204,11 +3287,15 @@ void edk::tiles::TileMap2D::drawSelectionWithID(edk::vec2ui32 origin,edk::size2u
             for(edk::uint32 y=origin.y,y2=this->sizeMap.height-origin.y-1u;y<last.height;y++,y2--){
                 for(edk::uint32 x=origin.x;x<last.width;x++){
                     //draw the tile
-                    edk::GU::guPushName(edk::BinaryConverter::joinBits(id,((this->sizeMap.width * y) + x)+1u,24));
+                    edk::GU::guPushName(id);
+                    edk::GU::guPushName(x);
+                    edk::GU::guPushName(y);
                     this->tileSet->drawTileSelection( (x*this->scaleMap.width) + positionTemp.x
                                                       ,(y2*this->scaleMap.height) + positionTemp.y
                                                       ,0.f,this->scaleMap
                                                       );
+                    edk::GU::guPopName();
+                    edk::GU::guPopName();
                     edk::GU::guPopName();
                 }
             }
@@ -3229,11 +3316,13 @@ void edk::tiles::TileMap2D::drawSelection(){
         for(edk::uint32 y=0u,y2=this->sizeMap.height-1u;y<this->sizeMap.height;y++,y2--){
             for(edk::uint32 x=0u;x<this->sizeMap.width;x++){
                 //draw the tile
-                edk::GU::guPushName(((this->sizeMap.width * y) + x)+1u);
+                edk::GU::guPushName(x);
+                edk::GU::guPushName(y);
                 this->tileSet->drawTileSelection( (x*this->scaleMap.width) + positionTemp.x
                                                   ,(y2*this->scaleMap.height) + positionTemp.y
                                                   ,0.f,this->scaleMap
                                                   );
+                edk::GU::guPopName();
                 edk::GU::guPopName();
             }
         }
@@ -3265,11 +3354,13 @@ void edk::tiles::TileMap2D::drawSelection(edk::vec2ui32 origin,edk::size2ui32 la
             for(edk::uint32 y=origin.y,y2=this->sizeMap.height-origin.y-1u;y<last.height;y++,y2--){
                 for(edk::uint32 x=origin.x;x<last.width;x++){
                     //draw the tile
-                    edk::GU::guPushName(((this->sizeMap.width * y) + x)+1u);
+                    edk::GU::guPushName(x);
+                    edk::GU::guPushName(y);
                     this->tileSet->drawTileSelection( (x*this->scaleMap.width) + positionTemp.x
                                                       ,(y2*this->scaleMap.height) + positionTemp.y
                                                       ,0.f,this->scaleMap
                                                       );
+                    edk::GU::guPopName();
                     edk::GU::guPopName();
                 }
             }
@@ -3306,12 +3397,15 @@ void edk::tiles::TileMap2D::drawIsometricSelectionWithID(edk::uint8 id){
         for(edk::uint32 y=0u,y2=this->sizeMap.height-1u;y<this->sizeMap.height;y++,y2--){
             for(edk::uint32 x=0u;x<this->sizeMap.width;x++){
                 //draw the tile
-                edk::GU::guPushName(edk::BinaryConverter::joinBits(id,((this->sizeMap.width * y) + x)+1u,24));
+                edk::GU::guPushName(id);
+                edk::GU::guPushName(x);
+                edk::GU::guPushName(y);
                 this->tileSet->drawTileSelection( (x*this->scaleMap.width) + positionTemp.x + ((y%2u)*this->scaleMap.width*0.5f)
                                                   ,((y2*this->scaleMap.height)*0.25f) + positionTemp.y
                                                   ,0.f,this->scaleMap
                                                   );
-
+                edk::GU::guPopName();
+                edk::GU::guPopName();
                 edk::GU::guPopName();
             }
         }
@@ -3343,12 +3437,15 @@ void edk::tiles::TileMap2D::drawIsometricSelectionWithID(edk::vec2ui32 origin,ed
             for(edk::uint32 y=origin.y,y2=this->sizeMap.height-origin.y-1u;y<last.height;y++,y2--){
                 for(edk::uint32 x=origin.x;x<last.width;x++){
                     //draw the tile
-                    edk::GU::guPushName(edk::BinaryConverter::joinBits(id,((this->sizeMap.width * y) + x)+1u,24));
+                    edk::GU::guPushName(id);
+                    edk::GU::guPushName(x);
+                    edk::GU::guPushName(y);
                     this->tileSet->drawTileSelection( (x*this->scaleMap.width) + positionTemp.x + ((y%2u)*this->scaleMap.width*0.5f)
                                                       ,((y2*this->scaleMap.height)*0.25f) + positionTemp.y
                                                       ,0.f,this->scaleMap
                                                       );
-
+                    edk::GU::guPopName();
+                    edk::GU::guPopName();
                     edk::GU::guPopName();
                 }
             }
@@ -3369,11 +3466,13 @@ void edk::tiles::TileMap2D::drawIsometricSelection(){
         for(edk::uint32 y=0u,y2=this->sizeMap.height-1u;y<this->sizeMap.height;y++,y2--){
             for(edk::uint32 x=0u;x<this->sizeMap.width;x++){
                 //draw the tile
-                edk::GU::guPushName(((this->sizeMap.width * y) + x)+1u);
+                edk::GU::guPushName(x);
+                edk::GU::guPushName(y);
                 this->tileSet->drawTileSelection( (x*this->scaleMap.width) + positionTemp.x + ((y%2u)*this->scaleMap.width*0.5f)
                                                   ,((y2*this->scaleMap.height)*0.25f) + positionTemp.y
                                                   ,0.f,this->scaleMap
                                                   );
+                edk::GU::guPopName();
                 edk::GU::guPopName();
             }
         }
@@ -3406,11 +3505,13 @@ void edk::tiles::TileMap2D::drawIsometricSelection(edk::vec2ui32 origin,edk::siz
             for(edk::uint32 y=origin.y,y2=this->sizeMap.height-origin.y-1u;y<last.height;y++,y2--){
                 for(edk::uint32 x=origin.x;x<last.width;x++){
                     //draw the tile
-                    edk::GU::guPushName(((this->sizeMap.width * y) + x)+1u);
+                    edk::GU::guPushName(x);
+                    edk::GU::guPushName(y);
                     this->tileSet->drawTileSelection( (x*this->scaleMap.width) + positionTemp.x + ((y%2u)*this->scaleMap.width*0.5f)
                                                       ,((y2*this->scaleMap.height)*0.25f) + positionTemp.y
                                                       ,0.f,this->scaleMap
                                                       );
+                    edk::GU::guPopName();
                     edk::GU::guPopName();
                 }
             }

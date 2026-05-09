@@ -1557,7 +1557,7 @@ void edk::gui2d::TextField2d::cleanFilterOut(){
 
 //write text to clean the originID and cursorID
 bool edk::gui2d::TextField2d::writeText(const edk::char8* text){
-    this->cleanTextVariables((edk::char8*)text);
+    this->cleanTextVariables(NULL);
     this->selectAll();
     this->deleteCharacter();
     if(this->addString(text)){
@@ -1567,7 +1567,7 @@ bool edk::gui2d::TextField2d::writeText(const edk::char8* text){
     return false;
 }
 bool edk::gui2d::TextField2d::writeText(edk::char8* text){
-    this->cleanTextVariables(text);
+    this->cleanTextVariables(NULL);
     this->selectAll();
     this->deleteCharacter();
     if(this->addString(text)){
@@ -1722,7 +1722,14 @@ void edk::gui2d::TextField2d::removeCharacter(){
 }
 //get string writed
 edk::char8* edk::gui2d::TextField2d::getText(){
-    return this->textVec.getString();
+    edk::char8* ret = this->textVec.getString();
+    if(ret){
+        edk::uint32 lenght = edk::String::strSize(ret);
+        if(lenght){
+            ret[lenght-1u]='\0';
+        }
+    }
+    return ret;
 }
 //get string size
 edk::uint32 edk::gui2d::TextField2d::getTextSize(){

@@ -216,6 +216,13 @@ public:
     //get the tile position in the position
     edk::vec2ui32 getPointPosition(edk::vec2f32 point,bool* inside=NULL);
 
+    //function to calculate boundingBox
+    bool calculateBoundingBox();
+    bool calculateBoundingBox(edk::vector::Matrixf32<3u,3u>* transformMat);
+
+    //return a copy of the boundingBox
+    edk::rectf32 getBoundingBox();
+
     //Draw the tileMap
     void draw(edk::color4f32 color);
     void draw(edk::vec2ui32 origin,edk::size2ui32 last,edk::color4f32 color);
@@ -322,6 +329,9 @@ public:
     bool writeToXML(edk::XML* xml,edk::uint32 id);
     bool readFromXML(edk::XML* xml,edk::uint32 id);
 private:
+    //object boundingBox
+    edk::rectf32 boundingBox;
+
     //tileSet
     edk::tiles::TileSet2D* tileSet;
     //World pointer

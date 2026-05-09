@@ -493,6 +493,28 @@ public:
     //return true if the tile is physics
     bool isTilePhysics(edk::uint32 tile);
 
+    //get the tile bounding box in the world
+    edk::rectf32 getTileBox(edk::vec2f32 position,
+                            edk::float32 angle=0.f,
+                            edk::size2f32 size = edk::size2f32(1,1)
+            );
+    edk::rectf32 getTileBox(edk::float32 positionX,
+                            edk::float32 positionY,
+                            edk::float32 angle=0.f,
+                            edk::size2f32 size = edk::size2f32(1,1)
+            );
+    edk::rectf32 getTileBox(edk::vec2f32 position,
+                            edk::vector::Matrixf32<3u,3u>* transformMat,
+                            edk::float32 angle=0.f,
+                            edk::size2f32 size = edk::size2f32(1,1)
+            );
+    edk::rectf32 getTileBox(edk::float32 positionX,
+                            edk::float32 positionY,
+                            edk::vector::Matrixf32<3u,3u>* transformMat,
+                            edk::float32 angle=0.f,
+                            edk::size2f32 size = edk::size2f32(1,1)
+            );
+
     //Draw the tile from the tileSet
     bool drawTile(edk::uint32 tile,
                   edk::vec2f32 position,

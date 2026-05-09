@@ -128,6 +128,10 @@ public:
     edk::float32 getPositionX();
     edk::float32 getPositionY();
 
+    //get the tile boundingBox in the world
+    edk::rectf32 getBox(edk::float32 angle,edk::size2f32 size);
+    edk::rectf32 getBox(edk::float32 angle,edk::size2f32 size,edk::vector::Matrixf32<3u,3u>* transformMat);
+
     //callback to start and end draw tile
     bool addDrawCallback(edk::tiles::DrawTile2DCallback* callback);
     bool removeDrawCallback(edk::tiles::DrawTile2DCallback* callback);
