@@ -333,6 +333,9 @@ public:
     bool drawLevelInsideRectPoints(edk::uint32 levelPosition,edk::rectf32 rect);
     bool drawLevelWireInsideRect(edk::uint32 levelPosition,edk::rectf32 rect);
     bool drawLevelWireInsideRectPoints(edk::uint32 levelPosition,edk::rectf32 rect);
+    //draw one position in the tileMap
+    bool drawLevelMapWirePosition(edk::uint32 levelPosition,edk::uint32 x,edk::uint32 y);
+    bool drawLevelMapWirePosition(edk::uint32 levelPosition,edk::vec2ui32 origin,edk::size2ui32 last);
     //draw levels from start and end
     bool drawLevels(edk::uint32 startPosition,edk::uint32 endPosition);
     bool drawLevelsWire(edk::uint32 startPosition,edk::uint32 endPosition);
@@ -1673,6 +1676,22 @@ private:
                     //add scale
                     edk::GU::guScale2f32(this->transform.size);
                     this->tileMap->drawWire();
+                    edk::GU::guPopMatrix();
+                }
+            }
+        }
+        void drawWireMap(edk::vec2ui32 origin,edk::size2ui32 last){
+            if(this->show){
+                if(this->tileMap){
+                    //apply tranformations
+                    edk::GU::guPushMatrix();
+                    //add translate
+                    edk::GU::guTranslate2f32(this->transform.position);
+                    //add rotation
+                    edk::GU::guRotateZf32(this->transform.angle);
+                    //add scale
+                    edk::GU::guScale2f32(this->transform.size);
+                    this->tileMap->drawWire(origin,last);
                     edk::GU::guPopMatrix();
                 }
             }

@@ -918,6 +918,12 @@ void edk::tiles::TileMap2D::setPosition(edk::float32 positionX,edk::float32 posi
     //
     this->setPosition(edk::vec2f32(positionX,positionY));
 }
+void edk::tiles::TileMap2D::setPositionX(edk::float32 position){
+    this->setPosition(edk::vec2f32(position,this->getPositionY()));
+}
+void edk::tiles::TileMap2D::setPositionY(edk::float32 position){
+    this->setPosition(edk::vec2f32(this->getPositionX(),position));
+}
 edk::vec2f32 edk::tiles::TileMap2D::getTileWorldPosition(edk::vec2ui32 position){
     return edk::vec2f32(((edk::float32)position.x + this->positionMap.x) * this->scaleMap.width,
                         ((this->sizeMap.height-1 - (edk::float32)position.y) + this->positionMap.y) * this->scaleMap.height
@@ -973,8 +979,14 @@ bool edk::tiles::TileMap2D::setScaleMap(edk::size2f32 scale){
     }
     return false;
 }
-bool edk::tiles::TileMap2D::setScaleMap(edk::float32 width,edk::float32 height ){
+bool edk::tiles::TileMap2D::setScaleMap(edk::float32 width,edk::float32 height){
     return this->setScaleMap(edk::size2f32(width,height));
+}
+bool edk::tiles::TileMap2D::setScaleMapW(edk::float32 width){
+    return this->setScaleMap(edk::size2f32(width,this->getScaleMapH()));
+}
+bool edk::tiles::TileMap2D::setScaleMapH(edk::float32 height){
+    return this->setScaleMap(edk::size2f32(this->getScaleMapW(),height));
 }
 //Set World pointer
 bool edk::tiles::TileMap2D::setWorld(edk::physics2D::World2D* world){
@@ -1802,6 +1814,12 @@ edk::size2ui32 edk::tiles::TileMap2D::getMapSize(){
 //return the scale of the map
 edk::size2f32 edk::tiles::TileMap2D::getScaleMap(){
     return this->scaleMap;
+}
+edk::float32 edk::tiles::TileMap2D::getScaleMapW(){
+    return this->scaleMap.width;
+}
+edk::float32 edk::tiles::TileMap2D::getScaleMapH(){
+    return this->scaleMap.height;
 }
 //return the position
 edk::vec2f32 edk::tiles::TileMap2D::getPosition(){

@@ -158,11 +158,15 @@ public:
     //set the tileMap position
     void setPosition(edk::vec2f32 position);
     void setPosition(edk::float32 positionX,edk::float32 positionY);
+    void setPositionX(edk::float32 position);
+    void setPositionY(edk::float32 position);
     edk::vec2f32 getTileWorldPosition(edk::vec2ui32 position);
     edk::vec2f32 getTileWorldPosition(edk::uint32 positionX,edk::uint32 positionY);
     //Set scale the map
     bool setScaleMap(edk::size2f32 scale);
-    bool setScaleMap(edk::float32 width,edk::float32 height );
+    bool setScaleMap(edk::float32 width,edk::float32 height);
+    bool setScaleMapW(edk::float32 width);
+    bool setScaleMapH(edk::float32 height);
     //Set World pointer
     bool setWorld(edk::physics2D::World2D* world);
     void cleanWorldPointer();
@@ -209,6 +213,8 @@ public:
     edk::size2ui32 getMapSize();
     //return the scale of the map
     edk::size2f32 getScaleMap();
+    edk::float32 getScaleMapW();
+    edk::float32 getScaleMapH();
     //return the position
     edk::vec2f32 getPosition();
     edk::float32 getPositionX();

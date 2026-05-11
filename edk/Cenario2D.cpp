@@ -4307,6 +4307,35 @@ bool edk::Cenario2D::drawLevelWireInsideRectPoints(edk::uint32 levelPosition,edk
     }
     return false;
 }
+//draw one position in the tileMap
+bool edk::Cenario2D::drawLevelMapWirePosition(edk::uint32 levelPosition,edk::uint32 x,edk::uint32 y){
+    //draw the levelPosition
+    if(levelPosition){
+        levelPosition--;
+        if(this->levels.havePos(levelPosition)){
+            this->transformBeggin();
+            edk::Cenario2D::LevelObj* level=this->levels.get(levelPosition);
+            level->drawWireMap(edk::vec2ui32(x,y),edk::size2ui32(x+1u,y+1u));
+            this->transformEnd();
+            return true;
+        }
+    }
+    return false;
+}
+bool edk::Cenario2D::drawLevelMapWirePosition(edk::uint32 levelPosition,edk::vec2ui32 origin,edk::size2ui32 last){
+    //draw the levelPosition
+    if(levelPosition){
+        levelPosition--;
+        if(this->levels.havePos(levelPosition)){
+            this->transformBeggin();
+            edk::Cenario2D::LevelObj* level=this->levels.get(levelPosition);
+            level->drawWireMap(origin,last+1u);
+            this->transformEnd();
+            return true;
+        }
+    }
+    return false;
+}
 //draw levels from start and end
 bool edk::Cenario2D::drawLevels(edk::uint32 startPosition,edk::uint32 endPosition){
     bool ret=true;
