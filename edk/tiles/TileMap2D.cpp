@@ -2005,7 +2005,7 @@ void edk::tiles::TileMap2D::draw(edk::vec2ui32 origin,edk::size2ui32 last,edk::c
 
             if(last.width){
                 last.width--;
-                for(edk::uint32 y=origin.y+1u,y2=this->sizeMap.height-origin.y-1u;y<last.height;y++,y2--){
+                for(edk::uint32 y=origin.y,y2=this->sizeMap.height-origin.y-1u;y<last.height;y++,y2--){
                     for(edk::uint32 x=origin.x;x<last.width;x++){
                         //draw the tile
                         this->tileSet->drawTile(this->tileMap[y][x]
@@ -2102,7 +2102,7 @@ void edk::tiles::TileMap2D::drawWithoutMaterial(edk::vec2ui32 origin,edk::size2u
 
             if(last.width){
                 last.width--;
-                for(edk::uint32 y=origin.y+1u,y2=this->sizeMap.height-origin.y-1u;y<last.height;y++,y2--){
+                for(edk::uint32 y=origin.y,y2=this->sizeMap.height-origin.y-1u;y<last.height;y++,y2--){
                     for(edk::uint32 x=origin.x;x<last.width;x++){
                         //draw the tile
                         this->tileSet->drawTileWithoutMaterial(this->tileMap[y][x]
@@ -2336,7 +2336,7 @@ void edk::tiles::TileMap2D::draw(edk::vec2ui32 origin,edk::size2ui32 last){
 
             if(last.width){
                 last.width--;
-                for(edk::uint32 y=origin.y+1u,y2=this->sizeMap.height-origin.y-1u;y<last.height;y++,y2--){
+                for(edk::uint32 y=origin.y,y2=this->sizeMap.height-origin.y-1u;y<last.height;y++,y2--){
                     for(edk::uint32 x=origin.x;x<last.width;x++){
                         //draw the tile
                         this->tileSet->drawTile(this->tileMap[y][x]
@@ -2434,7 +2434,7 @@ void edk::tiles::TileMap2D::drawWithoutMaterial(edk::vec2ui32 origin,edk::size2u
 
             if(last.width){
                 last.width--;
-                for(edk::uint32 y=origin.y+1u,y2=this->sizeMap.height-origin.y-1u;y<last.height;y++,y2--){
+                for(edk::uint32 y=origin.y,y2=this->sizeMap.height-origin.y-1u;y<last.height;y++,y2--){
                     for(edk::uint32 x=origin.x;x<last.width;x++){
                         //draw the tile
                         this->tileSet->drawTileWithoutMaterial(this->tileMap[y][x]

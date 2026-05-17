@@ -181,6 +181,8 @@ public:
     void setColor(edk::float32 r,edk::float32 g,edk::float32 b);
     void setColor(edk::color4f32 color);
     void setColor(edk::color3f32 color);
+    edk::color4f32 getColor4f();
+    edk::color3f32 getColor3f();
 
     virtual bool writeText(const edk::char8* text);
     virtual bool writeText(edk::char8* text);

@@ -909,6 +909,12 @@ void edk::gui2d::ObjectGui2d::setColor(edk::color4f32 color){
 void edk::gui2d::ObjectGui2d::setColor(edk::color3f32 color){
     this->obj.setColor(color);
 }
+edk::color4f32 edk::gui2d::ObjectGui2d::getColor4f(){
+    return this->obj.getColor4f();
+}
+edk::color3f32 edk::gui2d::ObjectGui2d::getColor3f(){
+    return this->obj.getColor3f();
+}
 
 bool edk::gui2d::ObjectGui2d::writeText(const edk::char8* text){
     return this->writeText((edk::char8*) text);

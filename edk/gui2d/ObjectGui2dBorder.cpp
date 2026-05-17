@@ -2129,6 +2129,12 @@ void edk::gui2d::ObjectGui2dBorder::setColor(edk::color4f32 color){
 void edk::gui2d::ObjectGui2dBorder::setColor(edk::color3f32 color){
     this->mesh.material.setEmission(color);
 }
+edk::color4f32 edk::gui2d::ObjectGui2dBorder::getColor4f(){
+    return this->mesh.material.getEmission();
+}
+edk::color3f32 edk::gui2d::ObjectGui2dBorder::getColor3f(){
+    return edk::color3f32(this->mesh.material.getEmission().r,this->mesh.material.getEmission().g,this->mesh.material.getEmission().b);
+}
 
 //load the polygons
 bool edk::gui2d::ObjectGui2dBorder::updatePolygons(edk::size2f32 size){
