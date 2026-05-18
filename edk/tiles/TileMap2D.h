@@ -140,6 +140,11 @@ public:
     bool setTile(edk::uint32 tileID,edk::vec2ui32 position);
     bool setTile(edk::uint32 tileID,edk::uint32 positionX,edk::uint32 positionY);
     bool setTile(edk::uint32 tileID,edk::uint32 position);
+    bool setTiles(edk::uint32 tileID,edk::vec2ui32 origin,edk::size2ui32 last);
+    bool setTiles(edk::uint32 tileID,
+                 edk::uint32 originX,edk::uint32 originY,
+                 edk::uint32 lastX,edk::uint32 lastY
+                 );
     //set a color in the colorMap
     bool setTileColor(edk::color4f32 color,edk::vec2ui32 position);
     bool setTileColor(edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a,edk::vec2ui32 position);

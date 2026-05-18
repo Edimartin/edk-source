@@ -812,6 +812,42 @@ bool edk::tiles::TileMap2D::setTile(edk::uint32 tileID,edk::uint32 position){
     }
     return false;
 }
+bool edk::tiles::TileMap2D::setTiles(edk::uint32 tileID,edk::vec2ui32 origin,edk::size2ui32 last){
+    if(this->tileSet){
+        last.width++;
+        last.height++;
+
+        if(last.width>this->sizeMap.width){
+            last.width=this->sizeMap.width;
+        }
+        if(last.height>this->sizeMap.height){
+            last.height=this->sizeMap.height;
+        }
+        if(origin.x < this->sizeMap.width
+                &&
+                origin.y < this->sizeMap.height
+                &&
+                origin.x<=last.width
+                &&
+                origin.y<=last.height
+                ){
+            for(edk::uint32 y=origin.y,y2=this->sizeMap.height-origin.y-1u;y<last.height;y++,y2--){
+                for(edk::uint32 x=origin.x;x<last.width;x++){
+                    //draw the tile
+                    this->tileMap[y][x] = tileID;
+                }
+            }
+        }
+        return true;
+    }
+    return false;
+}
+bool edk::tiles::TileMap2D::setTiles(edk::uint32 tileID,
+                                    edk::uint32 originX,edk::uint32 originY,
+                                    edk::uint32 lastX,edk::uint32 lastY
+                                    ){
+    return this->setTiles(tileID,edk::vec2ui32(originX,originY),edk::size2ui32(lastX,lastY));
+}
 //set a color in the colorMap
 bool edk::tiles::TileMap2D::setTileColor(edk::color4f32 color,edk::vec2ui32 position){
     //test the position
@@ -1879,9 +1915,9 @@ bool edk::tiles::TileMap2D::calculateBoundingBox(){
             y2 = (position.y*-1) + this->sizeMap.height-1u;
             //draw the tile
             this->boundingBox = this->tileSet->getTileBox((position.x*this->scaleMap.width) + positionTemp.x
-                                      ,(y2*this->scaleMap.height) + positionTemp.y
-                                      ,0.f,this->scaleMap
-                                      );
+                                                          ,(y2*this->scaleMap.height) + positionTemp.y
+                                                          ,0.f,this->scaleMap
+                                                          );
 
             //calculate the rect fom the last tile
             position.x = this->sizeMap.width - 1u;
@@ -1890,9 +1926,9 @@ bool edk::tiles::TileMap2D::calculateBoundingBox(){
             y2 = (position.y*-1) + this->sizeMap.height-1u;
             //draw the tile
             this->boundingBox.merge(this->tileSet->getTileBox((position.x*this->scaleMap.width) + positionTemp.x
-                                      ,(y2*this->scaleMap.height) + positionTemp.y
-                                      ,0.f,this->scaleMap
-                                      ));
+                                                              ,(y2*this->scaleMap.height) + positionTemp.y
+                                                              ,0.f,this->scaleMap
+                                                              ));
             //then return true
             return true;
         }
@@ -1915,9 +1951,9 @@ bool edk::tiles::TileMap2D::calculateBoundingBox(edk::vector::Matrixf32<3u,3u>* 
             y2 = (position.y*-1) + this->sizeMap.height-1u;
             //draw the tile
             this->boundingBox = this->tileSet->getTileBox((position.x*this->scaleMap.width) + positionTemp.x
-                                      ,(y2*this->scaleMap.height) + positionTemp.y,transformMat
-                                      ,0.f,this->scaleMap
-                                      );
+                                                          ,(y2*this->scaleMap.height) + positionTemp.y,transformMat
+                                                          ,0.f,this->scaleMap
+                                                          );
 
             //calculate the rect fom the last tile
             position.x = this->sizeMap.width - 1u;
@@ -1926,9 +1962,9 @@ bool edk::tiles::TileMap2D::calculateBoundingBox(edk::vector::Matrixf32<3u,3u>* 
             y2 = (position.y*-1) + this->sizeMap.height-1u;
             //draw the tile
             this->boundingBox.merge(this->tileSet->getTileBox((position.x*this->scaleMap.width) + positionTemp.x
-                                      ,(y2*this->scaleMap.height) + positionTemp.y,transformMat
-                                      ,0.f,this->scaleMap
-                                      ));
+                                                              ,(y2*this->scaleMap.height) + positionTemp.y,transformMat
+                                                              ,0.f,this->scaleMap
+                                                              ));
             //then return true
             return true;
         }
