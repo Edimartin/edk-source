@@ -275,6 +275,7 @@ private:
     edk::ViewScrollBar bar;
     edk::float32 percentBar;
     edk::float32 percentCamera;
+    edk::float32 incrementCamera;
 
     //update camera size and position to have all the objects
     void updateCamera();

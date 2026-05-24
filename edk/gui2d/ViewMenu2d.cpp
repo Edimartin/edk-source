@@ -589,6 +589,8 @@ void edk::gui2d::ViewMenu2d::Constructor(){
         this->selectTree = &this->tree1;
         this->selectTreeS = &this->tree2;
 
+        this->incrementCamera=0.1f;
+
         //set the obj paramerets
         this->color[edk::gui2d::gui2dTextureNormal] = edk::color4f32(0.5f,0.5f,0.5f,1.f);
         this->color[edk::gui2d::gui2dTextureUp] = edk::color4f32(0.75f,0.75f,0.75f,1.f);
@@ -850,6 +852,14 @@ void edk::gui2d::ViewMenu2d::updatePositions(){
 
     //update the box
     this->box = this->updateBoundingBox();
+    //update incrementCamera
+    if(edk::Math::equal(0.f,this->box.size.height)){
+        this->incrementCamera = 0.1f;
+    }
+    else{
+        this->incrementCamera = this->camera.getSize().height / this->box.size.height;
+    }
+    edkEnd();
 }
 //update the scene boundingBox
 edk::rectf32 edk::gui2d::ViewMenu2d::updateBoundingBox(){
@@ -1235,7 +1245,7 @@ void edk::gui2d::ViewMenu2d::update(edk::WindowEvents* events){
     if(events->mouseScrollWheelVertical){
         if(this->haveSubview(&this->bar)){
             if(this->isMouseInside() || this->bar.isMouseInside()){
-                this->percentCamera+=(events->mouseScrollWheelVertical * -0.1f);
+                this->percentCamera+=(events->mouseScrollWheelVertical * -0.25f * this->incrementCamera);
                 if(this->percentCamera<0.f){this->percentCamera=0.f;}
                 if(this->percentCamera>1.f){this->percentCamera=1.f;}
                 //set the bar percent

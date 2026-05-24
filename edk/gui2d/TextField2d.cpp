@@ -1476,7 +1476,7 @@ bool edk::gui2d::TextField2d::addCharacter(edk::char8 c){
         this->forceUpdate();
         this->cursor.animationSize.stop();
         this->cursor.animationSize.playForward();
-        edk::char8* str = this->textVec.getStringWithLastSpace();
+        edk::char8* str = this->textVec.getString();
         if(str){
             this->cursorID++;
             this->selectionMiddle = this->selectionEnd = this->selectionStart = this->cursorID;
@@ -1665,7 +1665,7 @@ void edk::gui2d::TextField2d::deleteCharacter(){
     else{
         this->textVec.remove(this->cursorID);
     }
-    edk::char8* str = this->textVec.getStringWithLastSpace();
+    edk::char8* str = this->textVec.getString();
     if(str){
         this->canCleanText=false;
         edk::gui2d::ObjectGui2d::writeText(str,this->scaleText);
@@ -1700,7 +1700,7 @@ void edk::gui2d::TextField2d::removeCharacter(){
         }
     }
     if(remove){
-        edk::char8* str = this->textVec.getStringWithLastSpace();
+        edk::char8* str = this->textVec.getString();
         if(str){
             this->canCleanText=false;
             edk::gui2d::ObjectGui2d::writeText(str,this->scaleText);
@@ -1733,7 +1733,11 @@ edk::char8* edk::gui2d::TextField2d::getText(){
 }
 //get string size
 edk::uint32 edk::gui2d::TextField2d::getTextSize(){
-    return this->textVec.getSize();
+    edk::uint32 ret = this->textVec.getSize();
+    if(ret){
+        ret--;
+    }
+    return ret;
 }
 
 //XML
