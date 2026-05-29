@@ -1286,6 +1286,14 @@ public:
                                             ){
         return edk::Math::generateLookAtMatrix(edk::vec3f32(x,y,z),edk::vec3f32(lookX,lookY,lookZ),edk::vec3f32(upX,upY,upZ),dest);
     }
+    static bool generateLookAtMatrixInverse(edk::vec3f32 position,edk::vec3f32 look,edk::vec3f32 up,edk::vector::Matrixf32<4u,4u>* dest);
+    static inline bool generateLookAtMatrixInverse(edk::float32 x,edk::float32 y,edk::float32 z,
+                                                   edk::float32 lookX,edk::float32 lookY,edk::float32 lookZ,
+                                                   edk::float32 upX,edk::float32 upY,edk::float32 upZ,
+                                                   edk::vector::Matrixf32<4u,4u>* dest
+                                                   ){
+        return edk::Math::generateLookAtMatrixInverse(edk::vec3f32(x,y,z),edk::vec3f32(lookX,lookY,lookZ),edk::vec3f32(upX,upY,upZ),dest);
+    }
     //perspective matrix
     static bool generatePerspectiveMatrix(edk::float32 fieldOfView,
                                           edk::float32 aspectRatio,
@@ -1293,6 +1301,12 @@ public:
                                           edk::float32 farPlane,
                                           edk::vector::Matrixf32<4u,4u>* dest
                                           );
+    static bool generatePerspectiveMatrixInverse(edk::float32 fieldOfView,
+                                                 edk::float32 aspectRatio,
+                                                 edk::float32 nearPlane,
+                                                 edk::float32 farPlane,
+                                                 edk::vector::Matrixf32<4u,4u>* dest
+                                                 );
     //ortho matrix
     static bool generateOrthoMatrix(edk::float32 left,
                                     edk::float32 right,
@@ -1302,6 +1316,14 @@ public:
                                     edk::float32 zFar,
                                     edk::vector::Matrixf32<4u,4u>* dest
                                     );
+    static bool generateOrthoMatrixInverse(edk::float32 left,
+                                           edk::float32 right,
+                                           edk::float32 bottom,
+                                           edk::float32 top,
+                                           edk::float32 zNear,
+                                           edk::float32 zFar,
+                                           edk::vector::Matrixf32<4u,4u>* dest
+                                           );
     //Rotate de vectors
     static edk::float32 rotateXAxis(edk::float32 radius, edk::float32 angle);
     static edk::float32 rotateYAxis(edk::float32 radius, edk::float32 angle);

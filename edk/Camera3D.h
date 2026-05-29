@@ -33,6 +33,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "Math.h"
 #include "GU/GU.h"
 #include <stdio.h>
+#include "Object3DValues.h"
 #include "Object.h"
 #include "TypeVec3.h"
 #include "TypeRect.h"
@@ -183,11 +184,46 @@ public:
     void drawVectors(edk::color3f32 color);
     void drawVectors(edk::float32 r,edk::float32 g,edk::float32 b);
 
+    //pause the animations
+    void pauseAnim();
+    void pauseAnimOn();
+    void pauseAnimOff();
+    bool isPausedAnim();
+    //update all animations
+    void updateAnimations();
+    void updateAnimations(edk::float32 seconds);
+
+    //start and end shakking
+    bool startShakeAngle(edk::float32 angle,
+                         edk::float32 randomPercent,
+                         edk::float32 secondsInit=0.5f,
+                         edk::float32 interpolationDistance=0.05f
+            );
+    bool stopShakeAngle(edk::float32 secondsEnd=0.5f);
+    bool stopShakeAngle();
+    bool isShakingAngle();
+    bool isShakingAnglePause();
+    bool startShakePosition(edk::vec2f32 position,
+                            edk::float32 randomPercent,
+                            edk::float32 secondsInit=0.5f,
+                            edk::float32 interpolationDistance=0.05f
+            );
+    bool stopShakePosition(edk::float32 secondsEnd);
+    bool stopShakePosition();
+    bool isShakingPosition();
+    bool isShakingPositionPause();
+
     //operator to copy the cameras
     bool cloneFrom(edk::Camera3D* cam);
 
     edk::vec3f32 position;
     edk::vec3f32 lookAt;
+
+    //animated position
+    edk::animation::Interpolation3DGroup animPosition;
+    edk::animation::Interpolation3DGroup animLookAt;
+    //animated angle
+    edk::animation::Interpolation1DGroup animAngleUp;
 private:
     edk::Camera3D operator=(edk::Camera3D){return *this;}
     bool perspective;
@@ -197,6 +233,10 @@ private:
     edk::float32 distancePercent;
     edk::float32 _near;
     edk::float32 _far;
+    edk::vec3f32 tempPosition;
+    edk::vec3f32 tempLookAt;
+    edk::vec3f32 tempUp;
+    edk::float32 tempAngle;
     bool firstPerson;
     //calculate translate vectors
     edk::vec3f32 vecLeft;
@@ -217,8 +257,6 @@ private:
     edk::vec3f32 vecFarDownLeft;
     edk::vec3f32 vecFarDownRight;
 
-    edk::animation::Interpolation3DGroup animPosition,animLookAt;
-
     //camera 3D projection matrix
     edk::vector::Matrixf32<4u,4u> matrixTranslate;
     edk::vector::Matrixf32<4u,4u> matrixRotateX;
@@ -228,6 +266,25 @@ private:
     edk::vector::Matrixf32<4u,4u> projection;
     edk::vector::Matrixf32<4u,4u> lookAtView;
     edk::vector::MatrixDynamic<edk::float32> matrixPosition;
+
+    //shaking position to shake with not animation
+    edk::vec2f32 shakePosition;
+    edk::float32 shakeAngle;
+    edk::float32 shakeDistance;
+    bool runningShakePosition;
+    bool pauseShakePosition;
+    bool runningShakeAngle;
+    bool pauseShakeAngle;
+    edk::float32 shakeSecondsInit;
+    edk::float32 shakeRandomPercent;
+    edk::float32 shakeInterpolationDistance;
+    edk::animation::Interpolation1DGroup animShakeInitPosition;
+    edk::animation::Interpolation1DGroup animShakeInitAngle;
+    edk::float32 secondPercentShake;
+
+    //seconds to animation
+    edk::float32 secondPassed;
+    edk::watch::Time clock;
 
     void start();
     //update the camera vectors

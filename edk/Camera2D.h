@@ -56,9 +56,6 @@ public:
     void Constructor(edk::float32 posX,edk::float32 posY);
     void Destructor();
 
-    //Position of the camera 2D
-    edk::vec2f32 position;
-
     //SETTERS
     //set the size
     void setSize(edk::size2f32 size);
@@ -126,7 +123,6 @@ public:
     void pauseAnimOff();
     bool isPausedAnim();
 
-
     void updateAnimations();
     void updateAnimations(edk::float32 seconds);
 
@@ -162,6 +158,10 @@ public:
 
     //operator to copy the cameras
     bool cloneFrom(edk::Camera2D* cam);
+
+    //Position of the camera 2D
+    edk::vec2f32 position;
+
     //animated position
     edk::animation::Interpolation2DGroup animPosition;
     //animated angle

@@ -175,6 +175,8 @@ public:
 
     edk::uint32 getHeight();
 
+    edk::vec2i32 getPos();
+
     edk::vec2i32 getMousePos();
 
     edk::vec2i32 eventGetMouseMoved();

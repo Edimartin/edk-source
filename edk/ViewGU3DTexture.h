@@ -1,8 +1,8 @@
-#ifndef VIEWGU2DTEXTURE_H
-#define VIEWGU2DTEXTURE_H
+#ifndef VIEWGU3DTEXTURE_H
+#define VIEWGU3DTEXTURE_H
 
 /*
-Library C++ ViewGU2DTexture - View Texture using a 2D Camera.
+Library C++ ViewGU3DTexture - View Texture using a 3D Camera.
 Copyright 2013 Eduardo Moura Sales Martins (edimartin@gmail.com)
 
 Permission is hereby granted, free of charge, to any person obtaining
@@ -31,18 +31,18 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #pragma once
 #include "ViewGUTexture.h"
+#include "Camera3D.h"
 
 #ifdef printMessages
 #pragma message "    Compiling ViewGU2DTexture"
 #endif
 
-
 namespace edk{
-class ViewGU2DTexture : public edk::ViewGUTexture{
+class ViewGU3DTexture : public edk::ViewGUTexture{
 public:
-    ViewGU2DTexture(edk::size2ui32 size);
-    ViewGU2DTexture(edk::uint32 width,edk::uint32 height);
-    virtual ~ViewGU2DTexture();
+    ViewGU3DTexture(edk::size2ui32 size);
+    ViewGU3DTexture(edk::uint32 width,edk::uint32 height);
+    virtual ~ViewGU3DTexture();
 
     void Constructor(edk::size2ui32 size);
     void Constructor(edk::uint32 width,edk::uint32 height);
@@ -52,7 +52,7 @@ public:
     virtual void updateAnimations(edk::float32 seconds);
 
     //the edkGU 2D camera
-    edk::Camera2D camera;
+    edk::Camera3D camera;
 protected:
     //draw the polygon on the scene
     void drawPolygon(edk::rectf32 outsideViewOrigin);
@@ -75,7 +75,7 @@ protected:
     edk::vec2f32 positionWorldToScreen(edk::float32 x,edk::float32 y);
 private:
     //draw the 2Dcamera
-    void drawCamera2D();
+    void drawCamera3D();
     //draw selection camera
     void drawSelectionCamera();
 private:
@@ -83,4 +83,4 @@ private:
 };
 }//end namespace edk
 
-#endif // VIEWGU2DTEXTURE_H
+#endif // VIEWGU3DTEXTURE_H

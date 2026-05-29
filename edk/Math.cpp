@@ -842,60 +842,65 @@ bool edk::Math::generateScaleMatrix(edk::size3f32 size,edk::vector::Matrixf32<4u
 //lookat matrix
 bool edk::Math::generateLookAtMatrix(edk::vec3f32 position,edk::vec3f32 look,edk::vec3f32 up,edk::vector::Matrixf32<4u,4u>* dest){
     if(dest){
-        /*
-        edk::vec3f32 forward = look - position;
-        forward = edk::Math::normalise(forward);
-        edk::vec3f32 right = edk::Math::crossProduct(forward,up);
-        right = edk::Math::normalise(right);
-        edk::vec3f32 newUP = edk::Math::crossProduct(right,forward);
-
-        //set the values
-        dest->set(0u,0u,right.x);
-        dest->set(0u,1u,right.y);
-        dest->set(0u,2u,right.z);
-        dest->set(0u,3u,0.f);
-        //
-        dest->set(1u,0u,newUP.x);
-        dest->set(1u,1u,newUP.y);
-        dest->set(1u,2u,newUP.z);
-        dest->set(1u,3u,0.f);
-        //
-        dest->set(2u,0u,forward.x);
-        dest->set(2u,1u,forward.y);
-        dest->set(2u,2u,forward.z);
-        dest->set(2u,3u,0.f);
-        //
-        dest->set(3u,0u,0.f);
-        dest->set(3u,1u,0.f);
-        dest->set(3u,2u,0.f);
-        dest->set(3u,2u,1.f);
-*/
-        edk::vec3f32 f = look - position;
+        edk::vec3f32 f = position - look;
         f = edk::Math::normalise(f);
 
-        edk::vec3f32 s = edk::Math::crossProduct(f,up);
+        edk::vec3f32 s = edk::Math::crossProduct(up, f);
         s = edk::Math::normalise(s);
 
-        edk::vec3f32 u = edk::Math::crossProduct(s,f);
+        edk::vec3f32 u = edk::Math::crossProduct(f, s);
         //
         dest->set(0u,0u,s.x);
         dest->set(0u,1u,u.x);
-        dest->set(0u,2u,-f.x);
+        dest->set(0u,2u,f.x);
         dest->set(0u,3u,0.f);
         //
-        dest->set(1u,0u,s.y);
+        dest->set(1u, 0u, s.y);
+        dest->set(1u, 1u, u.y);
+        dest->set(1u, 2u, f.y);
+        dest->set(1u, 3u, 0.f);
+        //
+        dest->set(2u, 0u, s.z);
+        dest->set(2u, 1u, u.z);
+        dest->set(2u, 2u, f.z);
+        dest->set(2u, 3u, 0.f);
+        //
+        dest->set(3u,0u,-edk::Math::dotProduct(s, position));
+        dest->set(3u,1u,-edk::Math::dotProduct(u, position));
+        dest->set(3u,2u,-edk::Math::dotProduct(f, position));
+        dest->set(3u,3u,1.f);
+        return true;
+    }
+    return false;
+}
+bool edk::Math::generateLookAtMatrixInverse(edk::vec3f32 position,edk::vec3f32 look,edk::vec3f32 up,edk::vector::Matrixf32<4u,4u>* dest){
+    if(dest){
+        edk::vec3f32 f = position - look;
+        f = edk::Math::normalise(f);
+
+        edk::vec3f32 s = edk::Math::crossProduct(up, f);
+        s = edk::Math::normalise(s);
+
+        edk::vec3f32 u = edk::Math::crossProduct(f, s);
+        //
+        dest->set(0u,0u,s.x);
+        dest->set(0u,1u,s.y);
+        dest->set(0u,2u,s.z);
+        dest->set(0u,3u,0.f);
+        //
+        dest->set(1u,0u,u.x);
         dest->set(1u,1u,u.y);
-        dest->set(1u,2u,-f.y);
+        dest->set(1u,2u,u.z);
         dest->set(1u,3u,0.f);
         //
-        dest->set(2u,0u,s.z);
-        dest->set(2u,1u,u.z);
-        dest->set(2u,2u,-f.z);
+        dest->set(2u,0u,f.x);
+        dest->set(2u,1u,f.y);
+        dest->set(2u,2u,f.z);
         dest->set(2u,3u,0.f);
         //
-        dest->set(3u,0u,-edk::Math::dotProduct(s,position));
-        dest->set(3u,1u,-edk::Math::dotProduct(u,position));
-        dest->set(3u,2u,edk::Math::dotProduct(f,position));
+        dest->set(3u,0u,position.x);
+        dest->set(3u,1u,position.y);
+        dest->set(3u,2u,position.z);
         dest->set(3u,3u,1.f);
         return true;
     }
@@ -928,8 +933,43 @@ bool edk::Math::generatePerspectiveMatrix(edk::float32 fieldOfView,
         //
         dest->set(3u,0u,0.f);
         dest->set(3u,1u,0.f);
-        dest->set(3u,2u,-(farPlane * nearPlane) / (farPlane - nearPlane));
+        dest->set(3u,2u,-(2 * farPlane * nearPlane) / (farPlane - nearPlane));
         dest->set(3u,3u,0.f);
+        return true;
+    }
+    return false;
+}
+bool edk::Math::generatePerspectiveMatrixInverse(edk::float32 fieldOfView,
+                                                 edk::float32 aspectRatio,
+                                                 edk::float32 nearPlane,
+                                                 edk::float32 farPlane,
+                                                 edk::vector::Matrixf32<4u,4u>* dest
+                                                 ){
+    if(dest){
+        edk::float32 tanHalfFovy = tan(fieldOfView / 2.f);
+
+        edk::float32 m23 = -(farPlane - nearPlane) / (2.f * farPlane * nearPlane);
+        edk::float32 m33 = (farPlane + nearPlane) / (2.f * farPlane * nearPlane);
+
+        dest->set(0u, 0u, aspectRatio * tanHalfFovy);
+        dest->set(0u, 1u, 0.f);
+        dest->set(0u, 2u, 0.f);
+        dest->set(0u, 3u, 0.f);
+
+        dest->set(1u, 0u, 0.f);
+        dest->set(1u, 1u, tanHalfFovy);
+        dest->set(1u, 2u, 0.f);
+        dest->set(1u, 3u, 0.f);
+
+        dest->set(2u, 0u, 0.f);
+        dest->set(2u, 1u, 0.f);
+        dest->set(2u, 2u, 0.f);
+        dest->set(2u, 3u, m23);
+
+        dest->set(3u, 0u, 0.f);
+        dest->set(3u, 1u, 0.f);
+        dest->set(3u, 2u, -1.f);
+        dest->set(3u, 3u, m33);
         return true;
     }
     return false;
@@ -963,6 +1003,38 @@ bool edk::Math::generateOrthoMatrix(edk::float32 left,
         dest->set(3u,1u,-(top+bottom)/(top-bottom));
         dest->set(3u,2u,-(zFar+zNear)/(zFar-zNear));
         dest->set(3u,3u,1.f);
+        return true;
+    }
+    return false;
+}
+bool edk::Math::generateOrthoMatrixInverse(edk::float32 left,
+                                           edk::float32 right,
+                                           edk::float32 bottom,
+                                           edk::float32 top,
+                                           edk::float32 zNear,
+                                           edk::float32 zFar,
+                                           edk::vector::Matrixf32<4u,4u>* dest
+                                           ){
+    if(dest){
+        dest->set(0u, 0u, (right - left) / 2.f);
+        dest->set(0u, 1u, 0.f);
+        dest->set(0u, 2u, 0.f);
+        dest->set(0u, 3u, 0.f);
+
+        dest->set(1u, 0u, 0.f);
+        dest->set(1u, 1u, (top - bottom) / 2.f);
+        dest->set(1u, 2u, 0.f);
+        dest->set(1u, 3u, 0.f);
+
+        dest->set(2u, 0u, 0.f);
+        dest->set(2u, 1u, 0.f);
+        dest->set(2u, 2u, (zFar - zNear) / 2.f);
+        dest->set(2u, 3u, 0.f);
+
+        dest->set(3u, 0u, (right + left) / 2.f);
+        dest->set(3u, 1u, (top + bottom) / 2.f);
+        dest->set(3u, 2u, -(zFar + zNear) / 2.f);
+        dest->set(3u, 3u, 1.f);
         return true;
     }
     return false;
@@ -1036,13 +1108,13 @@ edk::vec3f32 edk::Math::rotateZY(edk::vec3f32 vec,edk::float32 angleZ,edk::float
     return edk::Math::rotateY(vec,angleY);
 }
 edk::vec3f32 edk::Math::rotateXYZ(edk::float32 x,edk::float32 y,edk::float32 z,
-                                         edk::float32 angleX,edk::float32 angleY,edk::float32 angleZ
-                                         ){
+                                  edk::float32 angleX,edk::float32 angleY,edk::float32 angleZ
+                                  ){
     return edk::Math::rotateXYZ(edk::vec3f32(x,y,z),angleX,angleY,angleZ);
 }
 edk::vec3f32 edk::Math::rotateXYZ(edk::vec3f32 vec,
-                                         edk::float32 angleX,edk::float32 angleY,edk::float32 angleZ
-                                         ){
+                                  edk::float32 angleX,edk::float32 angleY,edk::float32 angleZ
+                                  ){
     edk::vector::Matrixf32<4u,4u> mat;
     edk::vector::Matrixf32<4u,4u> matTemp;
     edk::vector::MatrixDynamic<edk::float32> matPosition;
@@ -1094,13 +1166,13 @@ edk::vec3f32 edk::Math::rotatePlusZ(edk::vec3f32 vec,edk::float32 angle){
     return edk::Math::rotateZ(vec,angle + edk::Math::getAngle(vec.y,vec.y));
 }
 edk::vec3f32 edk::Math::rotatePlusXYZ(edk::float32 x,edk::float32 y,edk::float32 z,
-                                     edk::float32 angleX,edk::float32 angleY,edk::float32 angleZ
-                                     ){
+                                      edk::float32 angleX,edk::float32 angleY,edk::float32 angleZ
+                                      ){
     return edk::Math::rotatePlusXYZ(edk::vec3f32(x,y,z),angleX,angleY,angleZ);
 }
 edk::vec3f32 edk::Math::rotatePlusXYZ(edk::vec3f32 vec,
-                                     edk::float32 angleX,edk::float32 angleY,edk::float32 angleZ
-                                     ){
+                                      edk::float32 angleX,edk::float32 angleY,edk::float32 angleZ
+                                      ){
     edk::vector::Matrixf32<4u,4u> mat;
     edk::vector::Matrixf32<4u,4u> matTemp;
     edk::vector::MatrixDynamic<edk::float32> matPosition;

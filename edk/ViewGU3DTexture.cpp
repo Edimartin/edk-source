@@ -1,7 +1,7 @@
-#include "ViewGU2DTexture.h"
+#include "ViewGU3DTexture.h"
 
 /*
-Library C++ ViewGU2DTexture - View Texture using a 2D Camera.
+Library C++ ViewGU3DTexture - View Texture using a 3D Camera.
 Copyright 2013 Eduardo Moura Sales Martins (edimartin@gmail.com)
 
 Permission is hereby granted, free of charge, to any person obtaining
@@ -25,36 +25,36 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#pragma message "            Inside ViewGU2DTexture.cpp"
+#pragma message "            Inside ViewGU3DTexture.cpp"
 #endif
 
-edk::ViewGU2DTexture::ViewGU2DTexture(edk::size2ui32 size)
+edk::ViewGU3DTexture::ViewGU3DTexture(edk::size2ui32 size)
     :edk::ViewGUTexture(size)
 {
     this->classThis=NULL;
     this->Constructor(size);
 }
-edk::ViewGU2DTexture::ViewGU2DTexture(edk::uint32 width,edk::uint32 height)
+edk::ViewGU3DTexture::ViewGU3DTexture(edk::uint32 width,edk::uint32 height)
     :edk::ViewGUTexture(width,height)
 {
     this->classThis=NULL;
     this->Constructor(width,height);
 }
-edk::ViewGU2DTexture::~ViewGU2DTexture(){
+edk::ViewGU3DTexture::~ViewGU3DTexture(){
     this->Destructor();
 }
 
-void edk::ViewGU2DTexture::Constructor(edk::size2ui32 size){
+void edk::ViewGU3DTexture::Constructor(edk::size2ui32 size){
     edk::ViewGUTexture::Constructor(size);
     if(this->classThis!=this){
         this->classThis=this;
 
         this->camera.Constructor();
 
-        this->camera.position=edk::vec2f32(0u,0u);
+        this->camera.position=edk::vec3f32(0u,0u,0u);
     }
 }
-void edk::ViewGU2DTexture::Constructor(edk::uint32 width,edk::uint32 height){
+void edk::ViewGU3DTexture::Constructor(edk::uint32 width,edk::uint32 height){
     edk::ViewGUTexture::Constructor(width,height);
     if(this->classThis!=this){
         this->classThis=this;
@@ -63,7 +63,7 @@ void edk::ViewGU2DTexture::Constructor(edk::uint32 width,edk::uint32 height){
 
     }
 }
-void edk::ViewGU2DTexture::Destructor(){
+void edk::ViewGU3DTexture::Destructor(){
     if(this->classThis==this){
         this->classThis=NULL;
         //can destruct the class
@@ -73,31 +73,32 @@ void edk::ViewGU2DTexture::Destructor(){
     edk::ViewGUTexture::Destructor();
 }
 
-void edk::ViewGU2DTexture::updateAnimations(){
+void edk::ViewGU3DTexture::updateAnimations(){
     this->camera.updateAnimations();
     edk::View::updateAnimations();
 }
-void edk::ViewGU2DTexture::updateAnimations(edk::float32 seconds){
+void edk::ViewGU3DTexture::updateAnimations(edk::float32 seconds){
     this->camera.updateAnimations(seconds);
     edk::View::updateAnimations(seconds);
 }
 
 //draw the 2Dcamera
-void edk::ViewGU2DTexture::drawCamera2D(){
+void edk::ViewGU3DTexture::drawCamera3D(){
     //
     edk::GU::guUseMatrix(GU_PROJECTION);
     //draw the camera2D
     this->camera.draw();
 }
 //draw selection camera
-void edk::ViewGU2DTexture::drawSelectionCamera(){
-    this->camera.drawOrthoOnly();
+void edk::ViewGU3DTexture::drawSelectionCamera(){
+    //
+    this->camera.drawAxisOnly();
 }
 //draw the polygon on the scene
-void edk::ViewGU2DTexture::drawPolygon(rectf32 outsideViewOrigin){
+void edk::ViewGU3DTexture::drawPolygon(rectf32 outsideViewOrigin){
     //
     edk::ViewSpriteController::drawPolygon(outsideViewOrigin);
-    this->drawCamera2D();
+    this->drawCamera3D();
 
     //set the matrix before draw the scene
     edk::GU::guUseMatrix(GU_MODELVIEW);
@@ -105,8 +106,9 @@ void edk::ViewGU2DTexture::drawPolygon(rectf32 outsideViewOrigin){
     //draw the GU scene
     this->drawScene(outsideViewOrigin);
 }
+
 //change point position beetween screen and world
-edk::vec2f32 edk::ViewGU2DTexture::positionScreenToWorld(edk::vec2f32 position){
+edk::vec2f32 edk::ViewGU3DTexture::positionScreenToWorld(edk::vec2f32 position){
     edk::rectf32 rectCam = this->camera.getRectPoints();
     if(edk::Math::equal(0.f,this->frame.size.width)
             || edk::Math::equal(0.f,this->frame.size.height)
@@ -127,32 +129,30 @@ edk::vec2f32 edk::ViewGU2DTexture::positionScreenToWorld(edk::vec2f32 position){
                             );
     }
 }
-edk::vec2f32 edk::ViewGU2DTexture::positionScreenToWorld(edk::float32 x,edk::float32 y){
+edk::vec2f32 edk::ViewGU3DTexture::positionScreenToWorld(edk::float32 x,edk::float32 y){
     return this->positionScreenToWorld(edk::vec2f32(x,y));
 }
-edk::vec2f32 edk::ViewGU2DTexture::positionWorldToScreen(edk::vec2f32 position){
+edk::vec2f32 edk::ViewGU3DTexture::positionWorldToScreen(edk::vec2f32 position){
     edk::rectf32 rectCam = this->camera.getRectPoints();
     if(edk::Math::equal(0.f,this->camera.getSize().width)
             || edk::Math::equal(0.f,this->camera.getSize().height)
             ){
         return edk::vec2f32((((position.x - rectCam.origin.x) / (this->camera.getSize().width+0.001f))
-                             * this->frame.size.width)// + this->frame.origin.x
+                             * (this->frame.size.width - this->frame.origin.x))
                             ,
                             (((((position.y - rectCam.origin.y) / (this->camera.getSize().height+0.001f)) * -1.f)+1.f)
-                             * this->frame.size.height)// + this->frame.origin.y
+                             * (this->frame.size.height - this->frame.origin.y))
                             );
     }
     else{
         return edk::vec2f32((((position.x - rectCam.origin.x) / this->camera.getSize().width)
-                             * this->frame.size.width)// + this->frame.origin.x
+                             * (this->frame.size.width - this->frame.origin.x))
                             ,
                             (((((position.y - rectCam.origin.y) / this->camera.getSize().height) * -1.f)+1.f)
-                             * this->frame.size.height)// + this->frame.origin.y
+                             * (this->frame.size.height - this->frame.origin.y))
                             );
     }
 }
-edk::vec2f32 edk::ViewGU2DTexture::positionWorldToScreen(edk::float32 x,edk::float32 y){
+edk::vec2f32 edk::ViewGU3DTexture::positionWorldToScreen(edk::float32 x,edk::float32 y){
     return this->positionWorldToScreen(edk::vec2f32(x,y));
 }
-
-

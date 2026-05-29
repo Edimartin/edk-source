@@ -1354,7 +1354,7 @@ bool edk::gui2d::ObjectGui2d::isSelected(){
     return this->selected;
 }
 //click to select an polygon inside the object
-void edk::gui2d::ObjectGui2d::mouseMove(edk::vec2f32 position,bool mouseInside){
+void edk::gui2d::ObjectGui2d::mouseMove(edk::vec2f32 /*position*/,bool /*mouseInside*/){
     //
 }
 void edk::gui2d::ObjectGui2d::clickStart(edk::uint32,edk::vec2f32){

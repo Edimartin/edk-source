@@ -770,6 +770,17 @@ edk::uint32 edk::Window::getHeight(){
     return 0u;
 }
 
+edk::vec2i32 edk::Window::getPos(){
+    //
+    if(this->isOpened()){
+        //
+        //return this->window.GetHeight();//1.6
+        return edk::vec2i32(this->window.getPosition().x,this->window.getPosition().y);//2.0
+    }
+    //senao retorna 0u
+    return edk::vec2i32(0u,0u);
+}
+
 edk::vec2i32 edk::Window::getMousePos(){
     //
     //senao retorna uma posicao zerada

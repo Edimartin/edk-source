@@ -57,6 +57,23 @@ void edk::Camera3D::Constructor(){
         this->projection.Constructor();
         this->lookAtView.Constructor();
         this->matrixPosition.Constructor();
+        this->animPosition.Constructor();
+        this->animLookAt.Constructor();
+        this->animAngleUp.Constructor();
+        this->animShakeInitPosition.Constructor();
+        this->animShakeInitAngle.Constructor();
+        this->tempPosition = edk::vec3f32(0.f,0.f,0.f);
+        this->shakePosition = edk::vec2f32(0.f,0.f);
+        this->shakeAngle=0.f;
+        this->shakeDistance=0.f;
+        this->runningShakePosition=false;
+        this->pauseShakePosition=false;
+        this->runningShakeAngle=false;
+        this->pauseShakeAngle=false;
+        this->shakeSecondsInit=0.f;
+        this->shakeRandomPercent=0.f;
+        this->shakeInterpolationDistance=0.f;
+
         this->start();
         this->perspective = true;
         this->firstPerson=false;
@@ -74,6 +91,23 @@ void edk::Camera3D::Constructor(edk::vec3f32 position,edk::vec3f32 lookAt){
         this->projection.Constructor();
         this->lookAtView.Constructor();
         this->matrixPosition.Constructor();
+        this->animPosition.Constructor();
+        this->animLookAt.Constructor();
+        this->animAngleUp.Constructor();
+        this->animShakeInitPosition.Constructor();
+        this->animShakeInitAngle.Constructor();
+        this->tempPosition = edk::vec3f32(0.f,0.f,0.f);
+        this->shakePosition = edk::vec2f32(0.f,0.f);
+        this->shakeAngle=0.f;
+        this->shakeDistance=0.f;
+        this->runningShakePosition=false;
+        this->pauseShakePosition=false;
+        this->runningShakeAngle=false;
+        this->pauseShakeAngle=false;
+        this->shakeSecondsInit=0.f;
+        this->shakeRandomPercent=0.f;
+        this->shakeInterpolationDistance=0.f;
+
         this->start();
         this->position = position;
         this->lookAt = lookAt;
@@ -99,9 +133,22 @@ void edk::Camera3D::Constructor(edk::float32 pX,
         this->projection.Constructor();
         this->lookAtView.Constructor();
         this->matrixPosition.Constructor();
-
         this->animPosition.Constructor();
         this->animLookAt.Constructor();
+        this->animAngleUp.Constructor();
+        this->animShakeInitPosition.Constructor();
+        this->animShakeInitAngle.Constructor();
+        this->tempPosition = edk::vec3f32(0.f,0.f,0.f);
+        this->shakePosition = edk::vec2f32(0.f,0.f);
+        this->shakeAngle=0.f;
+        this->shakeDistance=0.f;
+        this->runningShakePosition=false;
+        this->pauseShakePosition=false;
+        this->runningShakeAngle=false;
+        this->pauseShakeAngle=false;
+        this->shakeSecondsInit=0.f;
+        this->shakeRandomPercent=0.f;
+        this->shakeInterpolationDistance=0.f;
 
         this->start();
         this->position = edk::vec3f32(pX,pY,pZ);
@@ -124,9 +171,11 @@ void edk::Camera3D::Destructor(){
         this->projection.Destructor();
         this->lookAtView.Destructor();
         this->matrixPosition.Destructor();
-
         this->animPosition.Destructor();
         this->animLookAt.Destructor();
+        this->animAngleUp.Destructor();
+        this->animShakeInitPosition.Destructor();
+        this->animShakeInitAngle.Destructor();
     }
 }
 
@@ -153,33 +202,33 @@ void edk::Camera3D::start(){
 void edk::Camera3D::updateVectors(){
     //multiply the vectors
     //for some reazon it must be a giant length to work
-    this->vecLeft=  edk::Math::normalise(this->multiplyPointWithMatrix(edk::vec3f32(-10000.f, 0.f, 0.f)));
-    this->vecRight= edk::Math::normalise(this->multiplyPointWithMatrix(edk::vec3f32( 10000.f, 0.f, 0.f)));
-    this->vecUp=    edk::Math::normalise(this->multiplyPointWithMatrix(edk::vec3f32( 0.f, 10000.f, 0.f)));
-    this->vecDown=  edk::Math::normalise(this->multiplyPointWithMatrix(edk::vec3f32( 0.f,-10000.f, 0.f)));
-    this->vecFront= edk::Math::normalise(this->multiplyPointWithMatrix(edk::vec3f32( 0.f, 0.f, 10000.f)));
-    this->vecBack=  edk::Math::normalise(this->multiplyPointWithMatrix(edk::vec3f32( 0.f, 0.f,-10000.f)));
+    this->vecLeft=  edk::Math::normalise(this->multiplyPointWithMatrix(edk::vec3f32(-1.f, 0.f, 0.f)));
+    this->vecRight= edk::Math::normalise(this->multiplyPointWithMatrix(edk::vec3f32( 1.f, 0.f, 0.f)));
+    this->vecUp=    edk::Math::normalise(this->multiplyPointWithMatrix(edk::vec3f32( 0.f, 1.f, 0.f)));
+    this->vecDown=  edk::Math::normalise(this->multiplyPointWithMatrix(edk::vec3f32( 0.f,-1.f, 0.f)));
+    this->vecFront= edk::Math::normalise(this->multiplyPointWithMatrix(edk::vec3f32( 0.f, 0.f, 1.f)));
+    this->vecBack=  edk::Math::normalise(this->multiplyPointWithMatrix(edk::vec3f32( 0.f, 0.f,-1.f)));
     //
     this->positionNear =    (edk::Math::normalise(this->lookAt - this->position) * this->_near) + this->position;
     this->positionFar =     (edk::Math::normalise(this->lookAt - this->position) * this->_far) + this->position;
     //
-    this->vecNearUpLeft=    (edk::Math::normalise(this->multiplyPointWithMatrix(edk::vec3f32(-10000.f * this->size.width,
-                                                                                             10000.f  * this->size.height,
+    this->vecNearUpLeft=    (edk::Math::normalise(this->multiplyPointWithMatrix(edk::vec3f32(-1.f * this->size.width,
+                                                                                             1.f  * this->size.height,
                                                                                              0.f)
                                                                                 )
                                                   )*this->distancePercent);// + this->positionNear;
-    this->vecNearUpRight=   (edk::Math::normalise(this->multiplyPointWithMatrix(edk::vec3f32( 10000.f * this->size.width,
-                                                                                              10000.f * this->size.height,
+    this->vecNearUpRight=   (edk::Math::normalise(this->multiplyPointWithMatrix(edk::vec3f32( 1.f * this->size.width,
+                                                                                              1.f * this->size.height,
                                                                                               0.f)
                                                                                 )
                                                   )*this->distancePercent);// + this->positionNear;
-    this->vecNearDownLeft=  (edk::Math::normalise(this->multiplyPointWithMatrix(edk::vec3f32(-10000.f * this->size.width,
-                                                                                             -10000.f * this->size.height,
+    this->vecNearDownLeft=  (edk::Math::normalise(this->multiplyPointWithMatrix(edk::vec3f32(-1.f * this->size.width,
+                                                                                             -1.f * this->size.height,
                                                                                              0.f)
                                                                                 )
                                                   )*this->distancePercent);// + this->positionNear;
-    this->vecNearDownRight= (edk::Math::normalise(this->multiplyPointWithMatrix(edk::vec3f32( 10000.f  * this->size.width,
-                                                                                              -10000.f * this->size.height,
+    this->vecNearDownRight= (edk::Math::normalise(this->multiplyPointWithMatrix(edk::vec3f32( 1.f  * this->size.width,
+                                                                                              -1.f * this->size.height,
                                                                                               0.f)
                                                                                 )
                                                   )*this->distancePercent);// + this->positionNear;
@@ -209,17 +258,28 @@ void edk::Camera3D::updateVectors(){
 edk::vec3f32 edk::Camera3D::multiplyPointWithMatrix(edk::vec3f32 point){
     if(this->matrixPosition.haveMatrix()){
         //
+        this->matrixPosition.setIdentity(1.f,0.f);
         this->matrixPosition.set(0u,0u,point.x);
         this->matrixPosition.set(0u,1u,point.y);
         this->matrixPosition.set(0u,2u,point.z);
         this->matrixPosition.set(0u,3u,1.f);
 
         //multiply the matrix
-        this->matrixPosition.multiplyMatrixWithThis((edk::vector::MatrixDynamic<edk::float32>*)&this->projection);
+        this->matrixPosition.multiplyMatrixWithThis((edk::vector::MatrixDynamic<edk::float32>*)&this->lookAtView);
 
         point.x = this->matrixPosition.getNoIF(0u,0u);
         point.y = this->matrixPosition.getNoIF(0u,1u);
         point.z = this->matrixPosition.getNoIF(0u,2u);
+
+        return point;
+
+        //this->matrixPosition.multiplyMatrixWithThis((edk::vector::MatrixDynamic<edk::float32>*)&this->projection);
+        //
+        //edk::float32 w_final = this->matrixPosition.getNoIF(0u, 3u);
+        //
+        //point.x = this->matrixPosition.getNoIF(0u,0u) / w_final;
+        //point.y = this->matrixPosition.getNoIF(0u,1u) / w_final;
+        //point.z = this->matrixPosition.getNoIF(0u,2u) / w_final;
     }
     return point;
 }
@@ -565,7 +625,8 @@ void edk::Camera3D::calculateProjectionMatrix(){
                                              this->getSizePercent(),
                                              this->getNear(),
                                              this->getFar(),
-                                             &this->projection);
+                                             &this->projection
+                                             );
     }
     else{
         edk::Math::generateOrthoMatrix(-this->size.width,
@@ -579,11 +640,13 @@ void edk::Camera3D::calculateProjectionMatrix(){
 }
 void edk::Camera3D::calculateLookAtMatrix(){
     this->lookAtView.setIdentity(1.f,0.f);
-    edk::Math::generateLookAtMatrix(this->position.x,this->position.y,this->position.z,
-                                    this->lookAt.x,this->lookAt.y,this->lookAt.z,
-                                    this->up.x,this->up.y,this->up.z,
-                                    &this->lookAtView
-                                    );
+    edk::Math::generateLookAtMatrixInverse(0.f,0.f,0.f,
+                                           this->lookAt.x - this->position.x,
+                                           this->lookAt.y - this->position.y,
+                                           this->lookAt.z - this->position.z,
+                                           this->up.x,this->up.y,this->up.z,
+                                           &this->lookAtView
+                                           );
 }
 edk::vector::Matrixf32<4u,4u>* edk::Camera3D::getProjection(){
     return &this->projection;
@@ -617,14 +680,134 @@ void edk::Camera3D::drawAxisOnly(){
                             this->_far//far
                             );
     }
+    //update the shaking animations
 
-    edk::GU::guLookAt(this->position.x,this->position.y,this->position.z,
-                      this->lookAt.x,this->lookAt.y,this->lookAt.z,
-                      this->up.x,this->up.y,0.f
-                      );
+    //shake angle
+    this->animShakeInitAngle.updateClockAnimation(this->secondPassed);
+
+    if(this->runningShakeAngle || this->animShakeInitAngle.isPlaying()){
+        this->updateProjection();
+        this->shakeAngle = edk::Math::getAngle(edk::vec2f32(this->up.x,this->up.y));
+        if(!this->pauseShakeAngle){
+            this->secondPercentShake=1.f;
+            if(this->animShakeInitAngle.isPlaying()){
+                this->secondPercentShake = this->animShakeInitAngle.getClockX();
+            }
+
+            this->tempAngle = (edk::Random::getStaticRandPercent() * 180.f);
+        }
+
+        //rotate the angle
+        edk::vec2f32 newUP = edk::Math::rotatePlus(edk::vec2f32(1.f,0.f),this->shakeAngle
+                                                   + (this->tempAngle * this->shakeRandomPercent*this->secondPercentShake));
+
+        //move into the vectors
+        if(newUP.x<0.f){
+            this->tempUp = ((this->vecLeft)*newUP.x);
+        }
+        else{
+            this->tempUp = ((this->vecRight)*(newUP.x*-1.f));
+        }
+        if(newUP.y<0.f){
+            this->tempUp = ((this->vecUp)*newUP.y)+this->tempUp;
+        }
+        else{
+            this->tempUp = ((this->vecDown)*(newUP.y*-1.f))+this->tempUp;
+        }
+/*
+        this->tempUp.x = newUP.x;
+        this->tempUp.y = newUP.y;
+        this->tempUp.z = 0.f;
+*/
+    }
+    else{
+        this->tempUp = this->up;
+    }
+
+
+    //shake position
+    this->animShakeInitPosition.updateClockAnimation(this->secondPassed);
+
+    if(this->runningShakePosition || this->animShakeInitPosition.isPlaying()){
+        this->updateProjection();
+        if(!this->pauseShakePosition){
+            if(this->animShakeInitPosition.isPlaying()){
+                this->secondPercentShake = this->animShakeInitPosition.getClockX();
+            }
+            else{
+                this->secondPercentShake=1.f;
+            }
+            //rotate the angle
+            this->shakePosition = edk::Math::rotatePlus(this->shakePosition,180.f + (this->shakeAngle * this->shakeRandomPercent));
+        }
+
+        edk::float32 percentX = this->shakePosition.x*this->secondPercentShake;
+        edk::float32 percentY = this->shakePosition.y*this->secondPercentShake;
+
+        //move into the vectors
+        if(percentX<0.f){
+            this->tempPosition = ((this->vecLeft)*percentX)+this->position;
+            this->tempLookAt = ((this->vecLeft)*percentX)+this->lookAt;
+        }
+        else{
+            this->tempPosition = ((this->vecRight)*(percentX*-1.f))+this->position;
+            this->tempLookAt = ((this->vecRight)*(percentX*-1.f))+this->lookAt;
+        }
+        if(percentY<0.f){
+            this->tempPosition = ((this->vecUp)*percentY)+this->tempPosition;
+            this->tempLookAt = ((this->vecUp)*percentY)+this->tempLookAt;
+        }
+        else{
+            this->tempPosition = ((this->vecDown)*(percentY*-1.f))+this->tempPosition;
+            this->tempLookAt = ((this->vecDown)*(percentY*-1.f))+this->tempLookAt;
+        }
+
+        edk::GU::guLookAt(this->tempPosition.x,this->tempPosition.y,this->tempPosition.z,
+                          this->tempLookAt.x,this->tempLookAt.y,this->tempLookAt.z,
+                          this->tempUp.x,this->tempUp.y,0.f
+                          );
+
+    }
+    else{
+        edk::GU::guLookAt(this->position.x,this->position.y,this->position.z,
+                          this->lookAt.x,this->lookAt.y,this->lookAt.z,
+                          this->tempUp.x,this->tempUp.y,0.f
+                          );
+
+    }
+
+    this->secondPassed=0.f;
 }
 void edk::Camera3D::drawAxisOnly(edk::float32 /*seconds*/){
+    /*
     //
+    //update the shaking animations
+    this->animAngleUp.updateClockAnimation(seconds);
+    if(this->animAngleUp.isPlaying()){
+        //calculate the angle of shaking
+        //this->up = edk::Math::rotate(edk::vec2f32(1,0),(((this->getAngleUp() + this->animAngleUp.getClockX())*-1)+360.f)+90);
+    }
+    else{
+        //this->up = edk::Math::rotate(edk::vec2f32(1,0),((this->getAngleUp()*-1)+360.f)+90);
+    }
+
+    //shake position
+    this->animPosition.updateClockAnimation(seconds);
+    if(this->animPosition.isPlaying()){
+        this->tempPosition.x = this->position.x+this->animPosition.getClockX();
+        this->tempPosition.y = this->position.y+this->animPosition.getClockY();
+        edk::GU::guLookAt(this->tempPosition.x,this->tempPosition.y,1.f,
+                          this->tempPosition.x,this->tempPosition.y,0.f,
+                          this->up.x,this->up.y,0.f
+                          );
+    }
+    else{
+        edk::GU::guLookAt(this->position.x,this->position.y,1.f,
+                          this->position.x,this->position.y,0.f,
+                          this->up.x,this->up.y,0.f
+                          );
+    }
+    */
 }
 
 //draw a wire camera in the world
@@ -944,20 +1127,214 @@ void edk::Camera3D::drawVectors(edk::float32 r,edk::float32 g,edk::float32 b){
     return this->drawVectors(edk::color3f32(r,g,b));
 }
 
+//pause the animations
+void edk::Camera3D::pauseAnim(){
+    this->animAngleUp.pause();
+    this->animPosition.pause();
+    this->animShakeInitPosition.pause();
+    this->animShakeInitAngle.pause();
+    this->pauseShakePosition=!this->pauseShakePosition;
+    this->pauseShakeAngle=!this->pauseShakePosition;
+}
+void edk::Camera3D::pauseAnimOn(){
+    this->animAngleUp.pauseOn();
+    this->animPosition.pauseOn();
+    this->animShakeInitPosition.pauseOn();
+    this->animShakeInitAngle.pauseOn();
+    this->pauseShakePosition=true;
+    this->pauseShakeAngle=true;
+}
+void edk::Camera3D::pauseAnimOff(){
+    this->animAngleUp.pauseOff();
+    this->animPosition.pauseOff();
+    this->animShakeInitPosition.pauseOff();
+    this->animShakeInitAngle.pauseOff();
+    this->pauseShakePosition=false;
+    this->pauseShakeAngle=false;
+}
+bool edk::Camera3D::isPausedAnim(){
+    return this->animAngleUp.isPaused();
+}
+//update all animations
+void edk::Camera3D::updateAnimations(){
+    this->secondPassed = this->clock.getSeconds();
+    this->clock.start();
+    this->animPosition.updateClockAnimation(this->secondPassed);
+    this->animLookAt.updateClockAnimation(this->secondPassed);
+    this->animAngleUp.updateClockAnimation(this->secondPassed);
+    if(this->animPosition.isPlaying()){
+        this->position.x = this->animPosition.getClockX();
+        this->position.y = this->animPosition.getClockY();
+    }
+    if(this->animAngleUp.isPlaying()){
+        this->setAngleUp(this->animAngleUp.getClockX());
+    }
+}
+void edk::Camera3D::updateAnimations(edk::float32 seconds){
+    this->animPosition.updateClockAnimation(seconds);
+    this->animLookAt.updateClockAnimation(seconds);
+    this->animAngleUp.updateClockAnimation(seconds);
+    if(this->animPosition.isPlaying()){
+        this->position.x = this->animPosition.getClockX();
+        this->position.y = this->animPosition.getClockY();
+    }
+    if(this->animAngleUp.isPlaying()){
+        this->setAngleUp(this->animAngleUp.getClockX());
+    }
+    this->secondPassed = seconds;
+    this->clock.start();
+}
+
+//start and end shakking
+bool edk::Camera3D::startShakeAngle(edk::float32 /*angle*/,
+                                    edk::float32 randomPercent,
+                                    edk::float32 secondsInit,
+                                    edk::float32 interpolationDistance
+                                    ){
+    this->shakeAngle = edk::Math::getAngle(edk::vec2f32(this->tempUp.x,this->tempUp.y));
+    this->shakeInterpolationDistance=interpolationDistance;
+    this->shakeRandomPercent=randomPercent;
+    this->animShakeInitAngle.clean();
+    this->animShakeInitAngle.addFirstInterpolationLine(0.f,0.f,secondsInit,1.f);
+    this->animShakeInitAngle.restartForward();
+    this->shakeDistance = edk::Math::pythagoras(position);
+    if(!this->runningShakeAngle){
+        this->runningShakeAngle=true;
+        this->pauseShakeAngle=false;
+        return true;
+    }
+    return false;
+}
+bool edk::Camera3D::stopShakeAngle(edk::float32 secondsEnd){
+    //test if are running
+    if(this->runningShakeAngle){
+        this->runningShakeAngle=false;
+        this->pauseShakeAngle=false;
+        this->animShakeInitAngle.clean();
+        this->animShakeInitAngle.addFirstInterpolationLine(0.f,0.f,secondsEnd,1.f);
+        this->animShakeInitAngle.restartRewind();
+        /*
+        //add a new shake position
+        return this->addShakingAngle(this->shakeAngle,
+                                     0.9f,
+                                     this->shakeInterpolationDistance
+                                     );
+*/
+    }
+    return false;
+}
+bool edk::Camera3D::stopShakeAngle(){
+    //test if are running
+    if(this->runningShakeAngle){
+        this->runningShakeAngle=false;
+        this->pauseShakeAngle=false;
+        this->animShakeInitAngle.restartRewind();
+        return true;
+    }
+    return false;
+}
+bool edk::Camera3D::isShakingAngle(){
+    return (this->runningShakeAngle || this->animShakeInitAngle.isPlaying() || this->animShakeInitAngle.isPaused());
+}
+bool edk::Camera3D::isShakingAnglePause(){
+    return this->pauseShakeAngle;
+}
+bool edk::Camera3D::startShakePosition(edk::vec2f32 position,
+                                       edk::float32 randomPercent,
+                                       edk::float32 secondsInit,
+                                       edk::float32 interpolationDistance
+                                       ){
+    this->shakeAngle = edk::Math::getAngle(position);
+    this->shakePosition=position;
+    this->shakeRandomPercent=randomPercent;
+    this->shakeInterpolationDistance=interpolationDistance;
+    this->animShakeInitPosition.clean();
+    this->animShakeInitPosition.addFirstInterpolationLine(0.f,0.f,secondsInit,1.f);
+    this->animShakeInitPosition.restartForward();
+    if(!this->runningShakePosition){
+        this->runningShakePosition=true;
+        this->pauseShakePosition=false;
+        return true;
+    }
+    return false;
+}
+bool edk::Camera3D::stopShakePosition(edk::float32 secondsEnd){
+    //test if are running
+    if(this->runningShakePosition){
+        this->runningShakePosition=false;
+        this->pauseShakePosition=false;
+        this->animShakeInitPosition.clean();
+        this->animShakeInitPosition.addFirstInterpolationLine(0.f,0.f,secondsEnd,1.f);
+        this->animShakeInitPosition.restartRewind();
+        return true;
+    }
+    return false;
+}
+bool edk::Camera3D::stopShakePosition(){
+    //test if are running
+    if(this->runningShakePosition){
+        this->runningShakePosition=false;
+        this->pauseShakePosition=false;
+        this->animShakeInitPosition.restartRewind();
+        return true;
+    }
+    return false;
+}
+bool edk::Camera3D::isShakingPosition(){
+    return (this->runningShakePosition || this->animShakeInitPosition.isPlaying() || this->animShakeInitPosition.isPaused());
+}
+bool edk::Camera3D::isShakingPositionPause(){
+    return this->pauseShakePosition;
+}
+
 //operator to copy the cameras
 bool edk::Camera3D::cloneFrom(edk::Camera3D* cam){
     if(cam){
-        this->position = cam->position;
-        this->lookAt = cam->lookAt;
-        this->perspective = cam->perspective;
-        this->up = cam->up;
-        this->size = cam->size;
-        this->sizePercent = cam->sizePercent;
-        this->_near = cam->_near;
-        this->_far = cam->_far;
-        this->firstPerson = cam->firstPerson;
-        this->projection.cloneFrom(&cam->projection);
-        this->lookAtView.cloneFrom(&cam->lookAtView);
+        this->position=cam->position;
+        this->lookAt=cam->lookAt;
+        this->animPosition.cloneFrom(&cam->animPosition);
+        this->animLookAt.cloneFrom(&cam->animLookAt);
+        this->animAngleUp.cloneFrom(&cam->animAngleUp);
+        //
+        this->perspective=cam->perspective;
+        this->up=cam->up;
+        this->size=cam->size;
+        this->sizePercent=cam->sizePercent;
+        this->distancePercent=cam->distancePercent;
+        this->_near=cam->_near;
+        this->_far=cam->_far;
+        this->firstPerson=cam->firstPerson;
+        //
+        this->vecLeft=cam->vecLeft;
+        this->vecRight=cam->vecRight;
+        this->vecUp=cam->vecUp;
+        this->vecDown=cam->vecDown;
+        this->vecFront=cam->vecFront;
+        this->vecBack=cam->vecBack;
+        //
+        this->positionNear=cam->positionNear;
+        this->positionFar=cam->positionFar;
+        this->vecNearUpLeft=cam->vecNearUpLeft;
+        this->vecNearUpRight=cam->vecNearUpRight;
+        this->vecNearDownLeft=cam->vecNearDownLeft;
+        this->vecNearDownRight=cam->vecNearDownRight;
+        this->vecFarUpLeft=cam->vecFarUpLeft;
+        this->vecFarUpRight=cam->vecFarUpRight;
+        this->vecFarDownLeft=cam->vecFarDownLeft;
+        this->vecFarDownRight=cam->vecFarDownRight;
+        //
+        this->shakePosition=cam->shakePosition;
+        this->shakeAngle=cam->shakeAngle;
+        this->shakeDistance=cam->shakeDistance;
+        this->runningShakePosition=cam->runningShakePosition;
+        this->pauseShakePosition=cam->pauseShakePosition;
+        this->runningShakeAngle=cam->runningShakeAngle;
+        this->pauseShakeAngle=cam->pauseShakeAngle;
+        this->shakeSecondsInit=cam->shakeSecondsInit;
+        this->shakeRandomPercent=cam->shakeRandomPercent;
+        this->shakeInterpolationDistance=cam->shakeInterpolationDistance;
+        this->animShakeInitPosition.cloneFrom(&cam->animShakeInitPosition);
+        this->animShakeInitAngle.cloneFrom(&cam->animShakeInitAngle);
         return true;
     }
     return false;
