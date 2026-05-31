@@ -714,11 +714,11 @@ void edk::Camera3D::drawAxisOnly(){
         else{
             this->tempUp = ((this->vecDown)*(newUP.y*-1.f))+this->tempUp;
         }
-/*
+
         this->tempUp.x = newUP.x;
         this->tempUp.y = newUP.y;
         this->tempUp.z = 0.f;
-*/
+
     }
     else{
         this->tempUp = this->up;
