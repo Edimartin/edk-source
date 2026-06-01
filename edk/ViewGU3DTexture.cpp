@@ -103,8 +103,27 @@ void edk::ViewGU3DTexture::drawPolygon(rectf32 outsideViewOrigin){
     //set the matrix before draw the scene
     edk::GU::guUseMatrix(GU_MODELVIEW);
 
+    //Load the identity
+    edk::GU::guLoadIdentity();
+
+    edk::GU::guEnable(GU_CULL_FACE);
+    edk::GU::guEnable(GU_DEPTH_TEST);
+
+    //edk::GU::guCullFace(GU_FRONT_AND_BACK);
+    edk::GU::guCullFace(GU_BACK);
+
+    edk::GU::guDepthFunc(GU_LEQUAL);
+
+    edk::GU::guDepthRange(0.0f, 1.0f);
+
+    edk::GU::guClear(GU_DEPTH_BUFFER_BIT);
     //draw the GU scene
     this->drawScene(outsideViewOrigin);
+
+    edk::GU::guDisable(GU_DEPTH_TEST);
+    edk::GU::guDisable(GU_CULL_FACE);
+
+    edk::GU::guDisableAllLights();
 }
 
 //change point position beetween screen and world

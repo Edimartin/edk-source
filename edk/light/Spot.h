@@ -48,12 +48,6 @@ public:
     void Constructor();
     void Destructor();
 
-    //DRAW THE LIGH USING THE LIGHT NUMBER
-    void draw(edk::uint32 lightNumber);
-    //draw the pivo
-    void drawPivo(edk::float32 size,edk::color3f32 color);
-    void drawPivo(edk::float32 size,edk::float32 r,edk::float32 g,edk::float32 b);
-
     //Set the position of the light
     void setPosition(edk::float32 x,edk::float32 y,edk::float32 z);
     void setPosition(edk::float32 x,edk::float32 y);
@@ -88,6 +82,10 @@ public:
     edk::float32 getConstantAttenuation();
     edk::float32 getLinearAttenuation();
     edk::float32 getQuadraticAttenuation();
+protected:
+    //functions to draw the light
+    void drawSpotFunction(edk::uint32 lightNumber);
+    void drawSpotPivoFunction(edk::float32 size,edk::color3f32 color);
 private:
     edk::classID classThis;
 };

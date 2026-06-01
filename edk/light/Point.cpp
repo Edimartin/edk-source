@@ -36,10 +36,21 @@ edk::light::Point::~Point(){
     this->Destructor();
 }
 
+//functions to draw the light
+void edk::light::Point::drawPointFunction(edk::uint32 lightNumber){
+    edk::light::Light::drawFunction(lightNumber);
+}
+void edk::light::Point::drawPointPivoFunction(edk::float32 size,edk::color3f32 color){
+    edk::light::Light::drawPivoFunction(size,color);
+}
+
 void edk::light::Point::Constructor(){
     edk::light::Light::Constructor();
     if(this->classThis!=this){
         this->classThis=this;
+
+        this->drawPointer = (void (edk::light::Light::*)(edk::uint32))&edk::light::Point::drawPointFunction;
+        this->drawPivoPointer = (void (edk::light::Light::*)(edk::float32,edk::color3f32))&edk::light::Point::drawPointPivoFunction;
     }
 }
 void edk::light::Point::Destructor(){

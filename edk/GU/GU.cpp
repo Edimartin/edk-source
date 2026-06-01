@@ -584,7 +584,12 @@ edk::uint32 edk::GU::guAllocTexture2D(edk::uint32 width,
                                       edk::uint8 bytesPerChannel
                                       ){
     //test if it's NOT the main thread
-    if(mode==GU_RGB || mode==GU_RGBA || mode==GU_LUMINANCE || mode==GU_LUMINANCE_ALPHA){
+    if(mode==GU_RGB
+            || mode==GU_RGBA
+            || mode==GU_LUMINANCE
+            || mode==GU_LUMINANCE_ALPHA
+            || mode==GU_DEPTH_COMPONENT
+            ){
         if(edk::multi::Thread::isThisThreadMain()){
             if(bytesPerChannel){
                 edk::uint32 modePerChannel;
@@ -628,6 +633,9 @@ edk::uint32 edk::GU::guAllocTexture2D(edk::uint32 width,
                         case GU_LUMINANCE_ALPHA:
                             modePerChannel = GL_LUMINANCE_ALPHA16UI_EXT;
                             break;
+                        case GU_DEPTH_COMPONENT:
+                            modePerChannel = GL_DEPTH_COMPONENT16;
+                            break;
                         }
                         glTexImage2D(GL_TEXTURE_2D,
                                      0,
@@ -637,6 +645,23 @@ edk::uint32 edk::GU::guAllocTexture2D(edk::uint32 width,
                                      0,
                                      mode,
                                      GL_UNSIGNED_SHORT,
+                                     data
+                                     );
+                        break;
+                    case 3u:
+                        switch(mode){
+                        case GU_DEPTH_COMPONENT:
+                            modePerChannel = GL_DEPTH_COMPONENT24;
+                            break;
+                        }
+                        glTexImage2D(GL_TEXTURE_2D,
+                                     0,
+                                     modePerChannel,
+                                     width,
+                                     height,
+                                     0,
+                                     mode,
+                                     GL_FLOAT,
                                      data
                                      );
                         break;
@@ -654,6 +679,9 @@ edk::uint32 edk::GU::guAllocTexture2D(edk::uint32 width,
                             break;
                         case GU_LUMINANCE_ALPHA:
                             modePerChannel = GL_LUMINANCE_ALPHA32F_ARB;
+                            break;
+                        case GU_DEPTH_COMPONENT:
+                            modePerChannel = GL_DEPTH_COMPONENT32;
                             break;
                         }
                         glTexImage2D(GL_TEXTURE_2D,

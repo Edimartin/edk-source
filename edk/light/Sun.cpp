@@ -36,22 +36,7 @@ edk::light::Sun::~Sun(){
     this->Destructor();
 }
 
-void edk::light::Sun::Constructor(){
-    edk::light::Light::Constructor();
-    if(this->classThis!=this){
-        this->classThis=this;
-    }
-}
-void edk::light::Sun::Destructor(){
-    if(this->classThis==this){
-        this->classThis=NULL;
-        //can destruct the class
-    }
-    edk::light::Light::Destructor();
-}
-
-//DRAW THE LIGH USING THE LIGHT NUMBER
-void edk::light::Sun::draw(edk::uint32 lightNumber){
+void edk::light::Sun::drawSunFunction(edk::uint32 lightNumber){
     edk::GU::guLightfv32(GU_LIGHT0+lightNumber,GU_POSITION,this->direction);
     edk::GU::guLightfv32(GU_LIGHT0+lightNumber,GU_DIFFUSE,this->diffuse);
     edk::GU::guLightfv32(GU_LIGHT0+lightNumber,GU_AMBIENT,this->ambient);
@@ -63,12 +48,25 @@ void edk::light::Sun::draw(edk::uint32 lightNumber){
     edk::GU::guLightf32(GU_LIGHT0+lightNumber,GU_LINEAR_ATTENUATION,this->linearAttenuation);
     edk::GU::guLightf32(GU_LIGHT0+lightNumber,GU_QUADRATIC_ATTENUATION,this->quadraticAttenuation);
 }
-//draw the pivo
-void edk::light::Sun::drawPivo(edk::float32 size,edk::color3f32 color){
-    edk::light::Light::drawPivo(size,color);
+void edk::light::Sun::drawSunPivoFunction(edk::float32 size,edk::color3f32 color){
+    edk::light::Light::drawPivoFunction(size,color);
 }
-void edk::light::Sun::drawPivo(edk::float32 size,edk::float32 r,edk::float32 g,edk::float32 b){
-    this->drawPivo(size,edk::color3f32(r,g,b));
+
+void edk::light::Sun::Constructor(){
+    edk::light::Light::Constructor();
+    if(this->classThis!=this){
+        this->classThis=this;
+
+        this->drawPointer = (void (edk::light::Light::*)(edk::uint32))&edk::light::Sun::drawSunFunction;
+        this->drawPivoPointer = (void (edk::light::Light::*)(edk::float32,edk::color3f32))&edk::light::Sun::drawSunPivoFunction;
+    }
+}
+void edk::light::Sun::Destructor(){
+    if(this->classThis==this){
+        this->classThis=NULL;
+        //can destruct the class
+    }
+    edk::light::Light::Destructor();
 }
 
 //Set the position of the light
@@ -85,9 +83,9 @@ void edk::light::Sun::setPosition(edk::vec2f32 position){
     edk::light::Light::setPosition(position);
 }
 void edk::light::Sun::setDirection(edk::float32 x,edk::float32 y,edk::float32 z){
-    this->direction[0u]=x;
-    this->direction[1u]=y;
-    this->direction[2u]=z;
+    this->direction[0u]=x*-1.f;
+    this->direction[1u]=y*-1.f;
+    this->direction[2u]=z*-1.f;
     this->direction[3u]=0.f;
 }
 void edk::light::Sun::setDirection(edk::float32 x,edk::float32 y){
@@ -117,17 +115,17 @@ edk::vec3f32 edk::light::Sun::getPosition3f(){
     return edk::light::Light::getPosition3f();
 }
 edk::float32 edk::light::Sun::getDirectionX(){
-    return edk::light::Light::getDirectionX();
+    return edk::light::Light::getDirectionX()*-1.f;
 }
 edk::float32 edk::light::Sun::getDirectionY(){
-    return edk::light::Light::getDirectionY();
+    return edk::light::Light::getDirectionY()*-1.f;
 }
 edk::float32 edk::light::Sun::getDirectionZ(){
-    return edk::light::Light::getDirectionZ();
+    return edk::light::Light::getDirectionZ()*-1.f;
 }
 edk::vec2f32 edk::light::Sun::getDirection2f(){
-    return edk::light::Light::getDirection2f();
+    return edk::light::Light::getDirection2f()*-1.f;
 }
 edk::vec3f32 edk::light::Sun::getDirection3f(){
-    return edk::light::Light::getDirection3f();
+    return edk::light::Light::getDirection3f()*-1.f;
 }

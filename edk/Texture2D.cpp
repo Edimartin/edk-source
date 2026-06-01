@@ -84,6 +84,9 @@ bool edk::Texture2D::createTexture(edk::uint32 width,
     case EDK_LUMINANCE_ALPHA:
         this->mode = GU_LUMINANCE_ALPHA;
         break;
+    case EDK_DEPTH_COMPONENT:
+        this->mode = GU_DEPTH_COMPONENT;
+        break;
     case GU_RGB:
         this->mode = GU_RGB;
         break;
@@ -95,6 +98,9 @@ bool edk::Texture2D::createTexture(edk::uint32 width,
         break;
     case GU_LUMINANCE_ALPHA:
         this->mode = GU_LUMINANCE_ALPHA;
+        break;
+    case GU_DEPTH_COMPONENT:
+        this->mode = GU_DEPTH_COMPONENT;
         break;
     default:
         return false;

@@ -105,6 +105,8 @@ public:
         this->constantAttenuation = newLight.constantAttenuation; 
         this->linearAttenuation = newLight.linearAttenuation; 
         this->quadraticAttenuation = newLight.quadraticAttenuation; 
+        this->drawPointer = newLight.drawPointer;
+        this->drawPivoPointer = newLight.drawPivoPointer;
         return newLight; 
     }
     //set light on off
@@ -124,6 +126,13 @@ protected:
     edk::float32 constantAttenuation; //GU_CONSTANT_ATTENUATION 1.0 constant attenuation factor
     edk::float32 linearAttenuation; //GU_LINEAR_ATTENUATION 0.0 linear attenuation factor
     edk::float32 quadraticAttenuation; //GU_QUADRATIC_ATTENUATION 0.0 quadratic attenuation factor
+
+    //function to draw the light
+    void (edk::light::Light::*drawPointer)(edk::uint32 lightNumber);
+    void (edk::light::Light::*drawPivoPointer)(edk::float32 size,edk::color3f32 color);
+    void drawFunction(edk::uint32 lightNumber);
+    void drawPivoFunction(edk::float32 size,edk::color3f32 color);
+
     //Set Vectors
     void setPosition(edk::float32 x,edk::float32 y,edk::float32 z,edk::float32 w);
     void setPosition(edk::float32 x,edk::float32 y,edk::float32 z);

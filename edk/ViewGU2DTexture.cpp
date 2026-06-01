@@ -104,6 +104,8 @@ void edk::ViewGU2DTexture::drawPolygon(rectf32 outsideViewOrigin){
 
     //draw the GU scene
     this->drawScene(outsideViewOrigin);
+
+    edk::GU::guDisableAllLights();
 }
 //change point position beetween screen and world
 edk::vec2f32 edk::ViewGU2DTexture::positionScreenToWorld(edk::vec2f32 position){

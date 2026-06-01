@@ -265,6 +265,7 @@ private:
     edk::vector::Matrixf32<4u,4u> matrixScale;
     edk::vector::Matrixf32<4u,4u> projection;
     edk::vector::Matrixf32<4u,4u> lookAtView;
+    edk::vector::Matrixf32<4u,4u> lookAtViewInverse;
     edk::vector::MatrixDynamic<edk::float32> matrixPosition;
 
     //shaking position to shake with not animation

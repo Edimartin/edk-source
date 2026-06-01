@@ -2043,9 +2043,36 @@ void edk::GU_GLSL::guDeleteFrameBuffer(edk::uint32 ID){
     edk::GU_GLSL::mut.unlock();
 }
 //use the frameBuffer to the texture
-void edk::GU_GLSL::guFrameBufferTexture(edk::uint32 target, edk::uint32 attachment, edk::uint32 texture, edk::uint32 mipmapLevel){
+void edk::GU_GLSL::guFrameBufferTexture(edk::uint32 target,
+                                        edk::uint32 attachment,
+                                        edk::uint32 texture,
+                                        edk::uint32 mipmapLevel
+                                        ){
     edk::GU_GLSL::mut.lock();
     glFramebufferTexture(target,attachment,texture,mipmapLevel);
+    edk::GU_GLSL::mut.unlock();
+}
+//use the frameBuffer to the texture 2D
+void edk::GU_GLSL::guFrameBufferTexture2D(edk::uint32 target,
+                                          edk::uint32 attachment,
+                                          edk::uint32 textTarget,
+                                          edk::uint32 texture,
+                                          edk::uint32 level
+                                          ){
+    edk::GU_GLSL::mut.lock();
+    glFramebufferTexture2D(target,attachment,textTarget,texture,level);
+    edk::GU_GLSL::mut.unlock();
+}
+//use the frameBuffer to the texture 3D
+void edk::GU_GLSL::guFrameBufferTexture3D(edk::uint32 target,
+                                          edk::uint32 attachment,
+                                          edk::uint32 textTarget,
+                                          edk::uint32 texture,
+                                          edk::uint32 level,
+                                          edk::uint32 layer
+                                          ){
+    edk::GU_GLSL::mut.lock();
+    glFramebufferTexture3D(target,attachment,textTarget,texture,level,layer);
     edk::GU_GLSL::mut.unlock();
 }
 //Set list of drawBuffers

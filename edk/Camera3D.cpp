@@ -56,6 +56,7 @@ void edk::Camera3D::Constructor(){
         this->matrixScale.Constructor();
         this->projection.Constructor();
         this->lookAtView.Constructor();
+        this->lookAtViewInverse.Constructor();
         this->matrixPosition.Constructor();
         this->animPosition.Constructor();
         this->animLookAt.Constructor();
@@ -90,6 +91,7 @@ void edk::Camera3D::Constructor(edk::vec3f32 position,edk::vec3f32 lookAt){
         this->matrixScale.Constructor();
         this->projection.Constructor();
         this->lookAtView.Constructor();
+        this->lookAtViewInverse.Constructor();
         this->matrixPosition.Constructor();
         this->animPosition.Constructor();
         this->animLookAt.Constructor();
@@ -132,6 +134,7 @@ void edk::Camera3D::Constructor(edk::float32 pX,
         this->matrixScale.Constructor();
         this->projection.Constructor();
         this->lookAtView.Constructor();
+        this->lookAtViewInverse.Constructor();
         this->matrixPosition.Constructor();
         this->animPosition.Constructor();
         this->animLookAt.Constructor();
@@ -170,6 +173,7 @@ void edk::Camera3D::Destructor(){
         this->matrixScale.Destructor();
         this->projection.Destructor();
         this->lookAtView.Destructor();
+        this->lookAtViewInverse.Destructor();
         this->matrixPosition.Destructor();
         this->animPosition.Destructor();
         this->animLookAt.Destructor();
@@ -258,14 +262,13 @@ void edk::Camera3D::updateVectors(){
 edk::vec3f32 edk::Camera3D::multiplyPointWithMatrix(edk::vec3f32 point){
     if(this->matrixPosition.haveMatrix()){
         //
-        this->matrixPosition.setIdentity(1.f,0.f);
         this->matrixPosition.set(0u,0u,point.x);
         this->matrixPosition.set(0u,1u,point.y);
         this->matrixPosition.set(0u,2u,point.z);
         this->matrixPosition.set(0u,3u,1.f);
 
         //multiply the matrix
-        this->matrixPosition.multiplyMatrixWithThis((edk::vector::MatrixDynamic<edk::float32>*)&this->lookAtView);
+        this->matrixPosition.multiplyMatrixWithThis((edk::vector::MatrixDynamic<edk::float32>*)&this->lookAtViewInverse);
 
         point.x = this->matrixPosition.getNoIF(0u,0u);
         point.y = this->matrixPosition.getNoIF(0u,1u);
@@ -640,12 +643,18 @@ void edk::Camera3D::calculateProjectionMatrix(){
 }
 void edk::Camera3D::calculateLookAtMatrix(){
     this->lookAtView.setIdentity(1.f,0.f);
+    edk::Math::generateLookAtMatrix(this->position.x,this->position.y,this->position.z,
+                                    this->lookAt.x,this->lookAt.y,this->lookAt.z,
+                                    this->up.x,this->up.y,this->up.z,
+                                    &this->lookAtView
+                                    );
+    this->lookAtViewInverse.setIdentity(1.f,0.f);
     edk::Math::generateLookAtMatrixInverse(0.f,0.f,0.f,
                                            this->lookAt.x - this->position.x,
                                            this->lookAt.y - this->position.y,
                                            this->lookAt.z - this->position.z,
                                            this->up.x,this->up.y,this->up.z,
-                                           &this->lookAtView
+                                           &this->lookAtViewInverse
                                            );
 }
 edk::vector::Matrixf32<4u,4u>* edk::Camera3D::getProjection(){

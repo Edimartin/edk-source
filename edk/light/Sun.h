@@ -48,12 +48,6 @@ public:
     void Constructor();
     void Destructor();
 
-    //DRAW THE LIGH USING THE LIGHT NUMBER
-    void draw(edk::uint32 lightNumber);
-    //draw the pivo
-    void drawPivo(edk::float32 size,edk::color3f32 color);
-    void drawPivo(edk::float32 size,edk::float32 r,edk::float32 g,edk::float32 b);
-
     //Set the position of the light
     void setPosition(edk::float32 x,edk::float32 y,edk::float32 z);
     void setPosition(edk::float32 x,edk::float32 y);
@@ -75,6 +69,10 @@ public:
     edk::float32 getDirectionZ();
     edk::vec2f32 getDirection2f();
     edk::vec3f32 getDirection3f();
+protected:
+    //functions to draw the light
+    void drawSunFunction(edk::uint32 lightNumber);
+    void drawSunPivoFunction(edk::float32 size,edk::color3f32 color);
 private:
     edk::classID classThis;
 };

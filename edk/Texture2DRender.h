@@ -38,7 +38,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endif
 
 namespace edk{
-class Texture2DRender: public edk::Texture2D{
+class Texture2DRender{
 public:
     Texture2DRender();
     virtual ~Texture2DRender();
@@ -63,6 +63,12 @@ public:
     //return the ID
     edk::uint32 getBufferID();
 
+    edk::size3ui32 getSize();
+    edk::uint32 getModeEDK();
+    edk::uint32 getModeGU();
+    edk::uint32 getID();
+    bool readFromTexture(const edk::classID  data,edk::uint32 format);
+
     //use this frameBuffer
     void useThisBuffer();
     //dont use frameBuffer
@@ -76,6 +82,9 @@ private:
     edk::uint32 frameBuffer;
     //depthBuffer
     edk::uint32 depthBuffer;
+
+    edk::Texture2D tex;
+    edk::Texture2D depth;
 
     //delete the frameBuffer
     void deleteFrameBuffer();

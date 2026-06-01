@@ -589,7 +589,26 @@ public:
     //delete the frameBuffer
     static void guDeleteFrameBuffer(edk::uint32 ID);
     //use the frameBuffer to the texture
-    static void guFrameBufferTexture(edk::uint32 target, edk::uint32 attachment, edk::uint32 texture, edk::uint32 mipmapLevel);
+    static void guFrameBufferTexture(edk::uint32 target,
+                                     edk::uint32 attachment,
+                                     edk::uint32 texture,
+                                     edk::uint32 mipmapLevel
+                                     );
+    //use the frameBuffer to the texture 2D
+    static void guFrameBufferTexture2D(edk::uint32 target,
+                                       edk::uint32 attachment,
+                                       edk::uint32 textTarget,
+                                       edk::uint32 texture,
+                                       edk::uint32 level
+                                       );
+    //use the frameBuffer to the texture 3D
+    static void guFrameBufferTexture3D(edk::uint32 target,
+                                       edk::uint32 attachment,
+                                       edk::uint32 textTarget,
+                                       edk::uint32 texture,
+                                       edk::uint32 level,
+                                       edk::uint32 layer
+                                       );
     //Set list of drawBuffers
     static bool guSetDrawBuffers(edk::uint32 size,const edk::uint32 *buffers);
     //set one drawBuffer

@@ -36,22 +36,8 @@ edk::light::Spot::~Spot(){
     this->Destructor();
 }
 
-void edk::light::Spot::Constructor(){
-    edk::light::Light::Constructor();
-    if(this->classThis!=this){
-        this->classThis=this;
-    }
-}
-void edk::light::Spot::Destructor(){
-    if(this->classThis==this){
-        this->classThis=NULL;
-        //can destruct the class
-    }
-    edk::light::Light::Destructor();
-}
-
-//DRAW THE LIGH USING THE LIGHT NUMBER
-void edk::light::Spot::draw(edk::uint32 lightNumber){
+//functions to draw the light
+void edk::light::Spot::drawSpotFunction(edk::uint32 lightNumber){
     edk::GU::guLightfv32(GU_LIGHT0+lightNumber,GU_POSITION,this->position);
     edk::GU::guLightfv32(GU_LIGHT0+lightNumber,GU_DIFFUSE,this->diffuse);
     edk::GU::guLightfv32(GU_LIGHT0+lightNumber,GU_AMBIENT,this->ambient);
@@ -63,12 +49,25 @@ void edk::light::Spot::draw(edk::uint32 lightNumber){
     edk::GU::guLightf32(GU_LIGHT0+lightNumber,GU_LINEAR_ATTENUATION,this->linearAttenuation);
     edk::GU::guLightf32(GU_LIGHT0+lightNumber,GU_QUADRATIC_ATTENUATION,this->quadraticAttenuation);
 }
-//draw the pivo
-void edk::light::Spot::drawPivo(edk::float32 size,edk::color3f32 color){
-    edk::light::Light::drawPivo(size,color);
+void edk::light::Spot::drawSpotPivoFunction(edk::float32 size,edk::color3f32 color){
+    edk::light::Light::drawPivoFunction(size,color);
 }
-void edk::light::Spot::drawPivo(edk::float32 size,edk::float32 r,edk::float32 g,edk::float32 b){
-    this->drawPivo(size,edk::color3f32(r,g,b));
+
+void edk::light::Spot::Constructor(){
+    edk::light::Light::Constructor();
+    if(this->classThis!=this){
+        this->classThis=this;
+
+        this->drawPointer = (void (edk::light::Light::*)(edk::uint32))&edk::light::Spot::drawSpotFunction;
+        this->drawPivoPointer = (void (edk::light::Light::*)(edk::float32,edk::color3f32))&edk::light::Spot::drawSpotPivoFunction;
+    }
+}
+void edk::light::Spot::Destructor(){
+    if(this->classThis==this){
+        this->classThis=NULL;
+        //can destruct the class
+    }
+    edk::light::Light::Destructor();
 }
 
 //Set the position of the light

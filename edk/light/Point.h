@@ -62,6 +62,10 @@ public:
     edk::float32 getPositionZ();
     edk::vec2f32 getPosition2f();
     edk::vec3f32 getPosition3f();
+protected:
+    //functions to draw the light
+    void drawPointFunction(edk::uint32 lightNumber);
+    void drawPointPivoFunction(edk::float32 size,edk::color3f32 color);
 private:
     edk::classID classThis;
 };
