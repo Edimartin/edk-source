@@ -133,6 +133,9 @@ edk::uint32 edk::Texture2DRender::getModeGU(){
 edk::uint32 edk::Texture2DRender::getID(){
     return this->tex.getID();
 }
+edk::uint32 edk::Texture2DRender::getDepthID(){
+    return this->depth.getID();
+}
 bool edk::Texture2DRender::readFromTexture(const edk::classID  data,edk::uint32 format){
     return this->tex.readFromTexture(data,format);
 }

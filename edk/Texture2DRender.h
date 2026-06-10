@@ -67,6 +67,7 @@ public:
     edk::uint32 getModeEDK();
     edk::uint32 getModeGU();
     edk::uint32 getID();
+    edk::uint32 getDepthID();
     bool readFromTexture(const edk::classID  data,edk::uint32 format);
 
     //use this frameBuffer

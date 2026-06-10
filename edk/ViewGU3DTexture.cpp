@@ -97,7 +97,7 @@ void edk::ViewGU3DTexture::drawSelectionCamera(){
 //draw the polygon on the scene
 void edk::ViewGU3DTexture::drawPolygon(rectf32 outsideViewOrigin){
     //
-    edk::ViewSpriteController::drawPolygon(outsideViewOrigin);
+    //edk::ViewSpriteController::drawPolygon(outsideViewOrigin);
     this->drawCamera3D();
 
     //set the matrix before draw the scene

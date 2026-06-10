@@ -175,6 +175,21 @@ public:
     bool generateVBO();
     bool generateVBOWire();
     bool generateVBOTangentAndBiTangent();
+    inline bool loadVBO(edk::uint32 meshPosition){
+        return this->generateVBO(meshPosition);
+    }
+    inline bool loadVBOWire(edk::uint32 meshPosition){
+        return this->generateVBOWire(meshPosition);
+    }
+    inline bool loadVBO(){
+        return this->generateVBO();
+    }
+    inline bool loadVBOWire(){
+        return this->generateVBOWire();
+    }
+    inline bool loadVBOTangentAndBiTangent(){
+        return this->generateVBOTangentAndBiTangent();
+    }
 
     //HIDE
     virtual bool hide();

@@ -32,40 +32,74 @@ edk::int64 edk::ViewGUTexture::nameCounter=1uL;
 
 edk::char8 uniformLUTStrings[materialTextureCount][32u] = {
     "iChannel0",
-    "iChannelLUT1",
-    "iChannelLUT2",
-    "iChannelLUT3",
-    "iChannelLUT4",
-    "iChannelLUT5",
-    "iChannelLUT6",
-    "iChannelLUT7",
-    "iChannelLUT8",
-    "iChannelLUT9",
-    "iChannelLUT10",
-    "iChannelLUT11",
-    "iChannelLUT12",
-    "iChannelLUT13",
-    "iChannelLUT14",
-    "iChannelLUT15",
-    "iChannelLUT16",
-    "iChannelLUT17",
-    "iChannelLUT18",
-    "iChannelLUT19",
-    "iChannelLUT20",
-    "iChannelLUT21",
-    "iChannelLUT22",
-    "iChannelLUT23",
-    "iChannelLUT24",
-    "iChannelLUT25",
-    "iChannelLUT26",
-    "iChannelLUT27",
-    "iChannelLUT28",
-    "iChannelLUT29",
-    "iChannelLUT30",
     "iChannelLUT31",
+    "iChannelLUT30",
+    "iChannelLUT29",
+    "iChannelLUT28",
+    "iChannelLUT27",
+    "iChannelLUT26",
+    "iChannelLUT25",
+    "iChannelLUT24",
+    "iChannelLUT23",
+    "iChannelLUT22",
+    "iChannelLUT21",
+    "iChannelLUT20",
+    "iChannelLUT19",
+    "iChannelLUT18",
+    "iChannelLUT17",
+    "iChannelLUT16",
+    "iChannelLUT15",
+    "iChannelLUT14",
+    "iChannelLUT13",
+    "iChannelLUT12",
+    "iChannelLUT11",
+    "iChannelLUT10",
+    "iChannelLUT9",
+    "iChannelLUT8",
+    "iChannelLUT7",
+    "iChannelLUT6",
+    "iChannelLUT5",
+    "iChannelLUT4",
+    "iChannelLUT3",
+    "iChannelLUT2",
+    "iChannelLUT1",
+};
+edk::char8 uniformLUTSPositions[materialTextureCount] = {
+    0,
+    31u,
+    30u,
+    29u,
+    28u,
+    27u,
+    26u,
+    25u,
+    24u,
+    23u,
+    22u,
+    21u,
+    20u,
+    19u,
+    18u,
+    17u,
+    16u,
+    15u,
+    14u,
+    13u,
+    12u,
+    11u,
+    10u,
+    9u,
+    8u,
+    7u,
+    6u,
+    5u,
+    4u,
+    3u,
+    2u,
+    1u,
 };
 
-const char* LUT_FsSrc = R"(
+const edk::char8* LUT_FsSrc = R"(
                         //LUT FRAG GLSL
                         #version 330 core
                         uniform vec2      iResolution;
@@ -209,6 +243,15 @@ void edk::ViewGUTexture::draw(rectf32 outsideViewOrigin){
         //use the renderBuffer
         this->render.useThisBuffer();
 
+        //clean the depth buffer in the frame buffer
+        edk::GU::guEnable(GU_DEPTH_TEST);
+        edk::GU::guClearColor4f32(this->backgroundColor);
+        edk::GU::guClear(GU_COLOR_BUFFER_BIT | GU_DEPTH_BUFFER_BIT);
+
+        edk::GU::guClearDepth(1.0);
+
+        edk::GU::guDisable(GU_DEPTH_TEST);
+
         //draw bufferViewPort
         edk::GU::guSetViewport(0u
                                ,0u
@@ -256,7 +299,10 @@ void edk::ViewGUTexture::draw(rectf32 outsideViewOrigin){
         this->material.drawStartWithMultiTexture();
 
         //set the texture
+        edk::GU_GLSL::guActiveTexture(GU_TEXTURE0);
         edk::GU::guUseTexture2D(this->render.getID());
+        edk::GU_GLSL::guActiveTexture(GU_TEXTURE1);
+        edk::GU::guUseTexture2D(this->render.getDepthID());
 
         //render the polygon
         //iResolution
@@ -270,6 +316,9 @@ void edk::ViewGUTexture::draw(rectf32 outsideViewOrigin){
                 this->shader.updateData(uniformLUTStrings[i]);
             }
         }
+        //iDepth
+        this->shader.setData1i("iDepth",1);
+        this->shader.updateData("iDepth");
 
         //Draw a quadrangle
         edk::GU::guBegin(GU_QUADS);
@@ -324,7 +373,7 @@ bool edk::ViewGUTexture::newLutTextureFromFile(edk::char8* fileName,edk::uint32 
                     }
                     free(strValue);
                 }
-                if(this->material.newTextureAndDraw(&img,position,GU_LINEAR,GU_LINEAR)){
+                if(this->material.newTextureAndDraw(&img,uniformLUTSPositions[position],GU_LINEAR,GU_LINEAR)){
                     img.deleteImage();
                     return true;
                 }
