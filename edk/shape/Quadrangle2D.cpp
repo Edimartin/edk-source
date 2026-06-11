@@ -45,7 +45,7 @@ void edk::shape::Quadrangle2D::Constructor(){
         //ctor
         this->polygonColor.a=1.f;
         //create a new polygon with 3 vertex
-        edk::shape::Polygon2D::createPolygon(4u);
+        this->createPolygon(4u);
     }
 }
 void edk::shape::Quadrangle2D::Destructor(){
@@ -68,7 +68,18 @@ bool edk::shape::Quadrangle2D::createPolygon(){
 bool edk::shape::Quadrangle2D::createPolygon(edk::uint32 vertexCount){
     //the fundtion do nothing
     if(vertexCount){
-        return true;
+        if(edk::shape::Polygon2D::createPolygon(4u)){
+            //set the positions
+            this->setVertexPosition(0u,-0.5f,+0.5f);
+            this->setVertexUV(0u,0.f,1.f);
+            this->setVertexPosition(1u,-0.5f,-0.5f);
+            this->setVertexUV(1u,0.f,0.f);
+            this->setVertexPosition(2u,+0.5f,-0.5f);
+            this->setVertexUV(2u,1.f,0.f);
+            this->setVertexPosition(3u,+0.5f,+0.5f);
+            this->setVertexUV(3u,1.f,1.f);
+            return true;
+        }
     }
     return false;
 }

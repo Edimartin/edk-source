@@ -904,6 +904,267 @@ edk::uint32 edk::shape::Polygon2DList::addPolygon(edk::shape::Polygon2D polygon)
     //else return 0u;
     return ret;
 }
+edk::uint32 edk::shape::Polygon2DList::addPolygons(edk::shape::Polygon2D polygon,edk::uint32 cutX,edk::uint32 cutY){
+    edk::uint32 ret = 0u;
+    if(cutX && cutY){
+        edk::float32
+                incrementX = 1.f/(edk::float32)cutX,
+                incrementY = 1.f/(edk::float32)cutY;
+        edk::float32 percentX=0.f,percentY=0.f;
+        edk::vec2f32 v1,v2,v3,v4;
+        edk::vec2f32 lx1,lx2,lx3,lx4;
+        switch(polygon.getVertexCount()){
+        case 2u:
+            if(polygon.isRect()){
+                edk::shape::Rectangle2D rect;
+                v1 = polygon.getVertexPosition(0u);
+                v2 = polygon.getVertexPosition(1u);
+                for(edk::uint32 y=0u;y<cutY;y++){
+                    percentX=0.f;
+                    for(edk::uint32 x=0u;x<cutX;x++){
+                        //
+
+                        rect.setVertexPosition(0u,
+                                               ((v2.x - v1.x)*percentX)+v1.x,
+                                               ((v2.y - v1.y)*percentY)+v1.y
+                                               );
+                        rect.setVertexPosition(1u,
+                                               ((v2.x - v1.x)*(percentX+incrementX))+v1.x,
+                                               ((v2.y - v1.y)*(percentY+incrementY))+v1.y
+                                               );
+
+                        this->addPolygon(rect);
+                        percentX+=incrementX;
+                    }
+                    percentY+=incrementY;
+                }
+            }
+            break;
+        case 3u:
+        {
+            edk::shape::Quadrangle2D quad;
+            v1 = polygon.getVertexPosition(0u);
+            v2 = polygon.getVertexPosition(1u);
+            v3 = polygon.getVertexPosition(2u);
+            v4 = polygon.getVertexPosition(0u);
+            for(edk::uint32 y=0u;y<cutY;y++){
+                percentX=0.f;
+                for(edk::uint32 x=0u;x<cutX;x++){
+                    //first calculate the lines
+                    lx1 = edk::vec2f32(((v2.x - v1.x)*percentY)+v1.x,
+                                       ((v2.y - v1.y)*percentY)+v1.y
+                                       );
+                    lx2 = edk::vec2f32(((v3.x - v4.x)*percentY)+v4.x,
+                                       ((v3.y - v4.y)*percentY)+v4.y
+                                       );
+                    lx3 = edk::vec2f32(((v2.x - v1.x)*(percentY+incrementY))+v1.x,
+                                       ((v2.y - v1.y)*(percentY+incrementY))+v1.y
+                                       );
+                    lx4 = edk::vec2f32(((v3.x - v4.x)*(percentY+incrementY))+v4.x,
+                                       ((v3.y - v4.y)*(percentY+incrementY))+v4.y
+                                       );
+
+                    quad.setVertexPosition(0u,
+                                           ((lx2.x - lx1.x)*percentX)+lx1.x,
+                                           ((lx2.y - lx1.y)*percentX)+lx1.y
+                                           );
+                    quad.setVertexPosition(3u,
+                                           ((lx2.x - lx1.x)*(percentX+incrementX))+lx1.x,
+                                           ((lx2.y - lx1.y)*(percentX+incrementX))+lx1.y
+                                           );
+
+                    quad.setVertexPosition(1u,
+                                           ((lx4.x - lx3.x)*percentX)+lx3.x,
+                                           ((lx4.y - lx3.y)*percentX)+lx3.y
+                                           );
+                    quad.setVertexPosition(2u,
+                                           ((lx4.x - lx3.x)*(percentX+incrementX))+lx3.x,
+                                           ((lx4.y - lx3.y)*(percentX+incrementX))+lx3.y
+                                           );
+
+                    this->addPolygon(quad);
+                    percentX+=incrementX;
+                }
+                percentY+=incrementY;
+            }
+        }
+            break;
+        case 4u:
+        {
+            edk::shape::Quadrangle2D quad;
+            v1 = polygon.getVertexPosition(0u);
+            v2 = polygon.getVertexPosition(1u);
+            v3 = polygon.getVertexPosition(2u);
+            v4 = polygon.getVertexPosition(3u);
+            for(edk::uint32 y=0u;y<cutY;y++){
+                percentX=0.f;
+                for(edk::uint32 x=0u;x<cutX;x++){
+                    //first calculate the lines
+                    lx1 = edk::vec2f32(((v2.x - v1.x)*percentY)+v1.x,
+                                       ((v2.y - v1.y)*percentY)+v1.y
+                                       );
+                    lx2 = edk::vec2f32(((v3.x - v4.x)*percentY)+v4.x,
+                                       ((v3.y - v4.y)*percentY)+v4.y
+                                       );
+                    lx3 = edk::vec2f32(((v2.x - v1.x)*(percentY+incrementY))+v1.x,
+                                       ((v2.y - v1.y)*(percentY+incrementY))+v1.y
+                                       );
+                    lx4 = edk::vec2f32(((v3.x - v4.x)*(percentY+incrementY))+v4.x,
+                                       ((v3.y - v4.y)*(percentY+incrementY))+v4.y
+                                       );
+
+                    quad.setVertexPosition(0u,
+                                           ((lx2.x - lx1.x)*percentX)+lx1.x,
+                                           ((lx2.y - lx1.y)*percentX)+lx1.y
+                                           );
+                    quad.setVertexPosition(3u,
+                                           ((lx2.x - lx1.x)*(percentX+incrementX))+lx1.x,
+                                           ((lx2.y - lx1.y)*(percentX+incrementX))+lx1.y
+                                           );
+
+                    quad.setVertexPosition(1u,
+                                           ((lx4.x - lx3.x)*percentX)+lx3.x,
+                                           ((lx4.y - lx3.y)*percentX)+lx3.y
+                                           );
+                    quad.setVertexPosition(2u,
+                                           ((lx4.x - lx3.x)*(percentX+incrementX))+lx3.x,
+                                           ((lx4.y - lx3.y)*(percentX+incrementX))+lx3.y
+                                           );
+
+                    this->addPolygon(quad);
+                    percentX+=incrementX;
+                }
+                percentY+=incrementY;
+            }
+        }
+            break;
+        }
+    }
+    return ret;
+}
+edk::uint32 edk::shape::Polygon2DList::addPolygonInPosition(edk::shape::Polygon2D polygon,
+                                                            edk::uint32 cutX,edk::uint32 cutY,
+                                                            edk::uint32 posX,edk::uint32 posY
+                                                            ){
+    edk::uint32 ret = 0u;
+    if(cutX && cutY
+            && posX<cutX && posY<cutY
+            ){
+        edk::float32
+                incrementX = 1.f/(edk::float32)cutX,
+                incrementY = 1.f/(edk::float32)cutY;
+        edk::float32 percentX=posX*incrementX,
+                percentY=posY*incrementY;
+        edk::vec2f32 v1,v2,v3,v4;
+        edk::vec2f32 lx1,lx2,lx3,lx4;
+        switch(polygon.getVertexCount()){
+        case 2u:
+            if(polygon.isRect()){
+                edk::shape::Rectangle2D rect;
+                v1 = polygon.getVertexPosition(0u);
+                v2 = polygon.getVertexPosition(1u);
+
+                rect.setVertexPosition(0u,
+                                       ((v2.x - v1.x)*percentX)+v1.x,
+                                       ((v2.y - v1.y)*percentY)+v1.y
+                                       );
+                rect.setVertexPosition(1u,
+                                       ((v2.x - v1.x)*(percentX+incrementX))+v1.x,
+                                       ((v2.y - v1.y)*(percentY+incrementY))+v1.y
+                                       );
+
+                this->addPolygon(rect);
+            }
+            break;
+        case 3u:
+        {
+            edk::shape::Quadrangle2D quad;
+            v1 = polygon.getVertexPosition(0u);
+            v2 = polygon.getVertexPosition(1u);
+            v3 = polygon.getVertexPosition(2u);
+            v4 = polygon.getVertexPosition(0u);
+
+            //first calculate the lines
+            lx1 = edk::vec2f32(((v2.x - v1.x)*percentY)+v1.x,
+                               ((v2.y - v1.y)*percentY)+v1.y
+                               );
+            lx2 = edk::vec2f32(((v3.x - v4.x)*percentY)+v4.x,
+                               ((v3.y - v4.y)*percentY)+v4.y
+                               );
+            lx3 = edk::vec2f32(((v2.x - v1.x)*(percentY+incrementY))+v1.x,
+                               ((v2.y - v1.y)*(percentY+incrementY))+v1.y
+                               );
+            lx4 = edk::vec2f32(((v3.x - v4.x)*(percentY+incrementY))+v4.x,
+                               ((v3.y - v4.y)*(percentY+incrementY))+v4.y
+                               );
+
+            quad.setVertexPosition(0u,
+                                   ((lx2.x - lx1.x)*percentX)+lx1.x,
+                                   ((lx2.y - lx1.y)*percentX)+lx1.y
+                                   );
+            quad.setVertexPosition(3u,
+                                   ((lx2.x - lx1.x)*(percentX+incrementX))+lx1.x,
+                                   ((lx2.y - lx1.y)*(percentX+incrementX))+lx1.y
+                                   );
+
+            quad.setVertexPosition(1u,
+                                   ((lx4.x - lx3.x)*percentX)+lx3.x,
+                                   ((lx4.y - lx3.y)*percentX)+lx3.y
+                                   );
+            quad.setVertexPosition(2u,
+                                   ((lx4.x - lx3.x)*(percentX+incrementX))+lx3.x,
+                                   ((lx4.y - lx3.y)*(percentX+incrementX))+lx3.y
+                                   );
+
+            this->addPolygon(quad);
+        }
+            break;
+        case 4u:
+        {
+            edk::shape::Quadrangle2D quad;
+            v1 = polygon.getVertexPosition(0u);
+            v2 = polygon.getVertexPosition(1u);
+            v3 = polygon.getVertexPosition(2u);
+            v4 = polygon.getVertexPosition(3u);
+            //first calculate the lines
+            lx1 = edk::vec2f32(((v2.x - v1.x)*percentY)+v1.x,
+                               ((v2.y - v1.y)*percentY)+v1.y
+                               );
+            lx2 = edk::vec2f32(((v3.x - v4.x)*percentY)+v4.x,
+                               ((v3.y - v4.y)*percentY)+v4.y
+                               );
+            lx3 = edk::vec2f32(((v2.x - v1.x)*(percentY+incrementY))+v1.x,
+                               ((v2.y - v1.y)*(percentY+incrementY))+v1.y
+                               );
+            lx4 = edk::vec2f32(((v3.x - v4.x)*(percentY+incrementY))+v4.x,
+                               ((v3.y - v4.y)*(percentY+incrementY))+v4.y
+                               );
+
+            quad.setVertexPosition(0u,
+                                   ((lx2.x - lx1.x)*percentX)+lx1.x,
+                                   ((lx2.y - lx1.y)*percentX)+lx1.y
+                                   );
+            quad.setVertexPosition(3u,
+                                   ((lx2.x - lx1.x)*(percentX+incrementX))+lx1.x,
+                                   ((lx2.y - lx1.y)*(percentX+incrementX))+lx1.y
+                                   );
+
+            quad.setVertexPosition(1u,
+                                   ((lx4.x - lx3.x)*percentX)+lx3.x,
+                                   ((lx4.y - lx3.y)*percentX)+lx3.y
+                                   );
+            quad.setVertexPosition(2u,
+                                   ((lx4.x - lx3.x)*(percentX+incrementX))+lx3.x,
+                                   ((lx4.y - lx3.y)*(percentX+incrementX))+lx3.y
+                                   );
+
+            this->addPolygon(quad);
+        }
+            break;
+        }
+    }
+    return ret;
+}
 //delete a polygon
 bool edk::shape::Polygon2DList::deletePolygon(edk::uint32 position){
     if(this->havePolygon(position)){

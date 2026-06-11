@@ -150,6 +150,11 @@ public:
     //ADD
     //add a polygon to the mesh
     virtual edk::uint32 addPolygon(edk::shape::Polygon2D polygon);
+    virtual edk::uint32 addPolygons(edk::shape::Polygon2D polygon,edk::uint32 cutX,edk::uint32 cutY);
+    virtual edk::uint32 addPolygonInPosition(edk::shape::Polygon2D polygon,
+                                             edk::uint32 cutX,edk::uint32 cutY,
+                                             edk::uint32 posX,edk::uint32 posY
+                                             );
     //delete a polygon
     bool deletePolygon(edk::uint32 position);
     //GETERS

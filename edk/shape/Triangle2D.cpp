@@ -44,7 +44,8 @@ void edk::shape::Triangle2D::Constructor(){
         this->type = edk::shape::typeTriangle2D;
         this->polygonColor.a=1.f;
         //create a new polygon with 3 vertex
-        edk::shape::Polygon2D::createPolygon(3u);
+        this->createPolygon(3u);
+        this->calculateCounterClockwise();
     }
 }
 void edk::shape::Triangle2D::Destructor(){
@@ -67,7 +68,23 @@ bool edk::shape::Triangle2D::createPolygon(){
 bool edk::shape::Triangle2D::createPolygon(edk::uint32 vertexCount){
     //set the function no do nothing
     if(vertexCount){
-        return true;
+        if(edk::shape::Polygon2D::createPolygon(3u)){
+            //set the vertex positions
+            //divide the angles
+            edk::float32 angles = 360.f/3u;
+            //vecTemp
+            edk::vec2f32 temp(0,0);
+            edk::vec2f32 translateUV(0.5f,0.5f);
+            for(edk::uint32 i=0u;i<3u;i++){
+                temp = edk::Math::rotate(edk::vec2f32(0.5f,0.0f),angles*i);
+                //set the position of the vertex
+                edk::shape::Polygon2D::setVertexPosition(i,(temp*0.5f)*2.f);
+                //set the same position to the UV
+                edk::shape::Polygon2D::setVertexUV(i,temp + translateUV);
+            }
+            //
+            return true;
+        }
     }
     return false;
 }
