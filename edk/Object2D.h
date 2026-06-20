@@ -225,6 +225,11 @@ public:
     bool actionPlayNameFor(edk::float32 second,edk::float32 duration,edk::uint32 id,edk::char8* name);
     bool actionPlayNameFor(edk::float32 second,edk::float32 duration,edk::uint32 id,const edk::char8* name);
 
+    //PIVO
+    bool MovePivoToPositionWorld(edk::vec2f32 position);
+    bool MovePivoToPolygonCenter(edk::uint32 meshPosition,edk::uint32 polygonPosition);
+    bool MovePivoToObjectCenter();
+
     //DRAW
     //print the mesh
     virtual void print();
@@ -237,6 +242,7 @@ public:
     virtual void drawWithoutMaterialWithLight();
     virtual void drawWire();
     virtual void drawWirePolygon(edk::uint32 meshPosition,edk::uint32 polygon);
+    virtual void drawCutsPolygon(edk::uint32 meshPosition,edk::uint32 polygon,edk::color3f32 color);
     virtual bool drawMesh(edk::uint32 meshPosition);
     virtual bool drawPolygon(edk::uint32 meshPosition,edk::uint32 polygon);
     virtual bool drawMeshOneTexture(edk::uint32 meshPosition);
@@ -544,6 +550,7 @@ protected:
     bool writeChildremBoundingBox(edk::rectf32* rect,edk::vector::Matrixf32<3u,3u>* transformMat);
 
     void loadFatherMatrix(edk::vector::Matrixf32<3u,3u>* transformMat);
+    void loadFatherMatrixInverse(edk::vector::Matrixf32<3u,3u>* transformMat);
 
 private:
 
@@ -943,6 +950,7 @@ private:
     void drawHideWithoutMaterialWithLight(bool haveLight);
     void drawHideWire();
     void drawHideWirePolygon(edk::uint32 meshPosition,edk::uint32 polygon);
+    void drawHideCutsPolygon(edk::uint32 meshPosition,edk::uint32 polygon,edk::color3f32 color);
     bool drawHideMesh(bool haveLight,edk::uint32 meshPosition);
     bool drawHidePolygon(bool haveLight,edk::uint32 meshPosition,edk::uint32 polygon);
     bool drawHideMeshOneTexture(edk::uint32 meshPosition);
@@ -967,6 +975,7 @@ private:
     void drawUnhideWithoutMaterialWithLight(bool haveLight);
     void drawUnhideWire();
     void drawUnhideWirePolygon(edk::uint32 meshPosition,edk::uint32 polygon);
+    void drawUnhideCutsPolygon(edk::uint32 meshPosition,edk::uint32 polygon,edk::color3f32 color);
     bool drawUnhideMesh(bool haveLight,edk::uint32 meshPosition);
     bool drawUnhidePolygon(bool haveLight,edk::uint32 meshPosition,edk::uint32 polygon);
     bool drawUnhideMeshOneTexture(edk::uint32 meshPosition);
@@ -991,6 +1000,7 @@ private:
     void (edk::Object2D::*functionDrawWithoutMaterialWithLight)(bool );
     void (edk::Object2D::*functionDrawWire)();
     void (edk::Object2D::*functionDrawWirePolygon)(edk::uint32 ,edk::uint32 );
+    void (edk::Object2D::*functionDrawCutsPolygon)(edk::uint32 ,edk::uint32 ,edk::color3f32);
     bool (edk::Object2D::*functionDrawMesh)(bool ,edk::uint32 );
     bool (edk::Object2D::*functionDrawPolygon)(bool ,edk::uint32 ,edk::uint32 );
     bool (edk::Object2D::*functionDrawMeshOneTexture)(edk::uint32 );

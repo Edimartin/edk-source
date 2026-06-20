@@ -47,6 +47,7 @@ void edk::Object2D::drawHideWithoutMaterial(){}
 void edk::Object2D::drawHideWithoutMaterialWithLight(bool ){}
 void edk::Object2D::drawHideWire(){}
 void edk::Object2D::drawHideWirePolygon(edk::uint32 ,edk::uint32 ){}
+void edk::Object2D::drawHideCutsPolygon(edk::uint32 ,edk::uint32 ,edk::color3f32){}
 bool edk::Object2D::drawHideMesh(bool /*haveLight*/,edk::uint32 ){return true;}
 bool edk::Object2D::drawHidePolygon(bool /*haveLight*/,edk::uint32 ,edk::uint32 ){return true;}
 bool edk::Object2D::drawHideMeshOneTexture(edk::uint32 ){return true;}
@@ -190,6 +191,12 @@ void edk::Object2D::drawUnhideWirePolygon(edk::uint32 meshPosition,edk::uint32 p
     edk::shape::Mesh2D* mesh = this->meshes.getMesh(meshPosition);
     if(mesh){
         mesh->drawWirePolygon(polygon);
+    }
+}
+void edk::Object2D::drawUnhideCutsPolygon(edk::uint32 meshPosition,edk::uint32 polygon,edk::color3f32 color){
+    edk::shape::Mesh2D* mesh = this->meshes.getMesh(meshPosition);
+    if(mesh){
+        mesh->drawCutsPolygon(polygon,color);
     }
 }
 bool edk::Object2D::drawUnhideMesh(bool haveLight,edk::uint32 meshPosition){
@@ -1027,6 +1034,38 @@ void edk::Object2D::loadFatherMatrix(edk::vector::Matrixf32<3u,3u>* transformMat
         transformMat->multiplyThisWithMatrix(&this->matrixSize);
         //Pivo
         transformMat->multiplyThisWithMatrix(&this->matrixPivo);
+    }
+}
+void edk::Object2D::loadFatherMatrixInverse(edk::vector::Matrixf32<3u,3u>* transformMat){
+    //first copy the matrix
+    //generate transform matrices
+    edk::Math::generateTranslateMatrixInverse(this->position,&this->matrixPosition);
+    edk::Math::generateScaleMatrixInverse(this->size,&this->matrixSize);
+    edk::Math::generateTranslateMatrixInverse(this->pivo*-1.0f,&this->matrixPivo);
+
+    //Pivo
+    transformMat->multiplyThisWithMatrix(&this->matrixPivo);
+    //scale
+    transformMat->multiplyThisWithMatrix(&this->matrixSize);
+    //angle
+    if(!this->fixedRotation){
+        edk::Math::generateRotateMatrixZInverse(this->angle,&this->matrixAngle);
+        transformMat->multiplyThisWithMatrix(&this->matrixAngle);
+    }
+    //translate
+    transformMat->multiplyThisWithMatrix(&this->matrixPosition);
+    if(this->father){
+        edk::Math::generateScaleMatrixInverse(this->connectedSize,&this->matrixSize);
+        edk::Math::generateRotateMatrixZInverse(this->connectedAngle,&this->matrixAngle);
+        edk::Math::generateTranslateMatrixInverse(this->connectedPosition,&this->matrixPosition);
+        edk::Math::generateTranslateMatrixInverse(this->connectedPivo*-1.0f,&this->matrixPivo);
+
+        transformMat->multiplyThisWithMatrix(&this->matrixPivo);
+        transformMat->multiplyThisWithMatrix(&this->matrixPosition);
+        transformMat->multiplyThisWithMatrix(&this->matrixAngle);
+        transformMat->multiplyThisWithMatrix(&this->matrixSize);
+        //calculate the boundingBox from the father
+        this->father->loadFatherMatrixInverse(transformMat);
     }
 }
 
@@ -3339,6 +3378,7 @@ bool edk::Object2D::hide(){
         this->functionDrawWithoutMaterialWithLight = &edk::Object2D::drawHideWithoutMaterialWithLight;
         this->functionDrawWire = &edk::Object2D::drawHideWire;
         this->functionDrawWirePolygon = &edk::Object2D::drawHideWirePolygon;
+        this->functionDrawCutsPolygon = &edk::Object2D::drawHideCutsPolygon;
         this->functionDrawMesh = &edk::Object2D::drawHideMesh;
         this->functionDrawPolygon = &edk::Object2D::drawHidePolygon;
         this->functionDrawMeshOneTexture = &edk::Object2D::drawHideMeshOneTexture;
@@ -3373,6 +3413,7 @@ bool edk::Object2D::unhide(){
         this->functionDrawWithoutMaterialWithLight = &edk::Object2D::drawUnhideWithoutMaterialWithLight;
         this->functionDrawWire = &edk::Object2D::drawUnhideWire;
         this->functionDrawWirePolygon = &edk::Object2D::drawUnhideWirePolygon;
+        this->functionDrawCutsPolygon = &edk::Object2D::drawUnhideCutsPolygon;
         this->functionDrawMesh = &edk::Object2D::drawUnhideMesh;
         this->functionDrawPolygon = &edk::Object2D::drawUnhidePolygon;
         this->functionDrawMeshOneTexture = &edk::Object2D::drawUnhideMeshOneTexture;
@@ -3782,6 +3823,282 @@ bool edk::Object2D::actionPlayNameFor(edk::float32 /*second*/,edk::float32 /*dur
     return false;
 }
 
+//PIVO
+bool edk::Object2D::MovePivoToPositionWorld(edk::vec2f32 position){
+    //this->position = position;
+    //multiply the matrix by
+    this->matrixTransform.setIdentity();
+
+    //first copy the matrix
+    //generate transform matrices
+    edk::Math::generateTranslateMatrixInverse(this->position,&this->matrixPosition);
+    edk::Math::generateScaleMatrixInverse(this->size,&this->matrixSize);
+    edk::Math::generateTranslateMatrixInverse(this->pivo*-1.0f,&this->matrixPivo);
+
+    //Pivo
+    this->matrixTransform.multiplyThisWithMatrix(&this->matrixPivo);
+    //scale
+    this->matrixTransform.multiplyThisWithMatrix(&this->matrixSize);
+    //angle
+    if(!this->fixedRotation){
+        edk::Math::generateRotateMatrixZInverse(this->angle,&this->matrixAngle);
+        this->matrixTransform.multiplyThisWithMatrix(&this->matrixAngle);
+    }
+    //translate
+    this->matrixTransform.multiplyThisWithMatrix(&this->matrixPosition);
+
+    if(this->father){
+        edk::Math::generateScaleMatrixInverse(this->connectedSize,&this->matrixSize);
+        edk::Math::generateRotateMatrixZInverse(this->connectedAngle,&this->matrixAngle);
+        edk::Math::generateTranslateMatrixInverse(this->connectedPosition,&this->matrixPosition);
+        edk::Math::generateTranslateMatrixInverse(this->connectedPivo*-1.0f,&this->matrixPivo);
+        this->matrixTransform.multiplyThisWithMatrix(&this->matrixPivo);
+        this->matrixTransform.multiplyThisWithMatrix(&this->matrixPosition);
+        this->matrixTransform.multiplyThisWithMatrix(&this->matrixAngle);
+        this->matrixTransform.multiplyThisWithMatrix(&this->matrixSize);
+
+        this->father->loadFatherMatrixInverse(&this->matrixTransform);
+    }
+
+    //calculate the world point in the object
+    if(this->matrixPosition.haveMatrix()){
+        //transform the point
+        //
+        this->matrixPosition.set(0u,0u,position.x);
+        this->matrixPosition.set(0u,1u,position.y);
+        this->matrixPosition.set(0u,2u,1.f);
+
+        //multiply the matrix
+        this->matrixPosition.multiplyMatrixWithThis(&this->matrixTransform);
+
+        position.x = this->matrixPosition.getNoIF(0u,0u);
+        position.y = this->matrixPosition.getNoIF(0u,1u);
+
+        this->position+=position;
+
+        position*=-1.f;
+
+        //move all polygons
+        edk::shape::Mesh2D* mesh = NULL;
+        edk::uint32 sizeMesh = this->meshes.getSize();
+        edk::uint32 sizePoly = 0u;
+        edk::uint32 size = 0u;
+        edk::vec2f32 temp;
+        if(sizeMesh){
+            for(edk::uint32 i=0u;i<sizeMesh;i++){
+                mesh = this->meshes.getMesh(i);
+                if(mesh){
+                    sizePoly = mesh->getPolygonSize();
+                    if(sizePoly){
+                        for(edk::uint32 j=0u;j<sizePoly;j++){
+                            if(mesh->selectPolygon(j)){
+                                size = mesh->selectedGetVertexCount();
+                                if(size){
+                                    for(edk::uint32 k=0u;k<size;k++){
+                                        temp = mesh->selectedGetVertexPosition(k);
+                                        temp+=position;
+                                        mesh->selectedSetVertexPosition(k,temp);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return true;
+    }
+
+    return false;
+}
+bool edk::Object2D::MovePivoToPolygonCenter(edk::uint32 meshPosition,edk::uint32 polygonPosition){
+    edk::shape::Polygon2D poly;
+    //multiply the matrix by
+    this->matrixTransform.setIdentity();
+    if(this->father){
+        //calculate the boundingBox from the father
+        this->father->loadFatherMatrix(&this->matrixTransform);
+
+        edk::Math::generateScaleMatrix(this->connectedSize,&this->matrixSize);
+        edk::Math::generateRotateMatrixZ(this->connectedAngle,&this->matrixAngle);
+        edk::Math::generateTranslateMatrix(this->connectedPosition,&this->matrixPosition);
+        edk::Math::generateTranslateMatrix(this->connectedPivo*-1.0f,&this->matrixPivo);
+        this->matrixTransform.multiplyThisWithMatrix(&this->matrixSize);
+        this->matrixTransform.multiplyThisWithMatrix(&this->matrixAngle);
+        this->matrixTransform.multiplyThisWithMatrix(&this->matrixPosition);
+        this->matrixTransform.multiplyThisWithMatrix(&this->matrixPivo);
+
+        //first copy the matrix
+        //generate transform matrices
+        edk::Math::generateTranslateMatrix(this->position,&this->matrixPosition);
+        edk::Math::generateScaleMatrix(this->size,&this->matrixSize);
+        edk::Math::generateTranslateMatrix(this->pivo*-1.0f,&this->matrixPivo);
+        //translate
+        this->matrixTransform.multiplyThisWithMatrix(&this->matrixPosition);
+        //angle
+        if(!this->fixedRotation){
+            edk::Math::generateRotateMatrixZ(this->angle,&this->matrixAngle);
+            this->matrixTransform.multiplyThisWithMatrix(&this->matrixAngle);
+        }
+        //scale
+        this->matrixTransform.multiplyThisWithMatrix(&this->matrixSize);
+        //Pivo
+        this->matrixTransform.multiplyThisWithMatrix(&this->matrixPivo);
+    }
+    else{
+        //first copy the matrix
+        //generate transform matrices
+        edk::Math::generateTranslateMatrix(this->position,&this->matrixPosition);
+        edk::Math::generateScaleMatrix(this->size,&this->matrixSize);
+        edk::Math::generateTranslateMatrix(this->pivo*-1.0f,&this->matrixPivo);
+        //translate
+        this->matrixTransform.multiplyThisWithMatrix(&this->matrixPosition);
+        //angle
+        if(!this->fixedRotation){
+            edk::Math::generateRotateMatrixZ(this->angle,&this->matrixAngle);
+            this->matrixTransform.multiplyThisWithMatrix(&this->matrixAngle);
+        }
+        //scale
+        this->matrixTransform.multiplyThisWithMatrix(&this->matrixSize);
+        //Pivo
+        this->matrixTransform.multiplyThisWithMatrix(&this->matrixPivo);
+    }
+
+    edk::shape::Mesh2D* mesh = this->meshes.getMesh(meshPosition);
+    if(mesh){
+        if(mesh->getWorldPolygon(&poly,polygonPosition,&this->matrixTransform)){
+            //calculate the polygon center
+            edk::uint32 size = poly.getVertexCount();
+            if(size){
+                edk::vec2f32 smaller,bigger,center,temp;
+                bigger = smaller = poly.getVertexPosition(0u);
+                for(edk::uint32 i=1u;i<size;i++){
+                    temp = poly.getVertexPosition(i);
+                    if(temp.x<smaller.x){
+                        temp.x=smaller.x;
+                    }
+                    if(temp.y<bigger.y){
+                        temp.y=smaller.y;
+                    }
+                    if(temp.x>bigger.x){
+                        temp.x=smaller.x;
+                    }
+                    if(temp.y>bigger.y){
+                        temp.y=bigger.y;
+                    }
+                }
+                center = ((bigger - smaller)*0.5f)+smaller;
+                return this->MovePivoToPositionWorld(center);
+            }
+        }
+    }
+    return false;
+}
+bool edk::Object2D::MovePivoToObjectCenter(){
+    edk::shape::Polygon2D poly;
+    edk::shape::Polygon2DList polys;
+    //multiply the matrix by
+    this->matrixTransform.setIdentity();
+    if(this->father){
+        //calculate the boundingBox from the father
+        this->father->loadFatherMatrix(&this->matrixTransform);
+
+        edk::Math::generateScaleMatrix(this->connectedSize,&this->matrixSize);
+        edk::Math::generateRotateMatrixZ(this->connectedAngle,&this->matrixAngle);
+        edk::Math::generateTranslateMatrix(this->connectedPosition,&this->matrixPosition);
+        edk::Math::generateTranslateMatrix(this->connectedPivo*-1.0f,&this->matrixPivo);
+        this->matrixTransform.multiplyThisWithMatrix(&this->matrixSize);
+        this->matrixTransform.multiplyThisWithMatrix(&this->matrixAngle);
+        this->matrixTransform.multiplyThisWithMatrix(&this->matrixPosition);
+        this->matrixTransform.multiplyThisWithMatrix(&this->matrixPivo);
+
+        //first copy the matrix
+        //generate transform matrices
+        edk::Math::generateTranslateMatrix(this->position,&this->matrixPosition);
+        edk::Math::generateScaleMatrix(this->size,&this->matrixSize);
+        edk::Math::generateTranslateMatrix(this->pivo*-1.0f,&this->matrixPivo);
+        //translate
+        this->matrixTransform.multiplyThisWithMatrix(&this->matrixPosition);
+        //angle
+        if(!this->fixedRotation){
+            edk::Math::generateRotateMatrixZ(this->angle,&this->matrixAngle);
+            this->matrixTransform.multiplyThisWithMatrix(&this->matrixAngle);
+        }
+        //scale
+        this->matrixTransform.multiplyThisWithMatrix(&this->matrixSize);
+        //Pivo
+        this->matrixTransform.multiplyThisWithMatrix(&this->matrixPivo);
+    }
+    else{
+        //first copy the matrix
+        //generate transform matrices
+        edk::Math::generateTranslateMatrix(this->position,&this->matrixPosition);
+        edk::Math::generateScaleMatrix(this->size,&this->matrixSize);
+        edk::Math::generateTranslateMatrix(this->pivo*-1.0f,&this->matrixPivo);
+        //translate
+        this->matrixTransform.multiplyThisWithMatrix(&this->matrixPosition);
+        //angle
+        if(!this->fixedRotation){
+            edk::Math::generateRotateMatrixZ(this->angle,&this->matrixAngle);
+            this->matrixTransform.multiplyThisWithMatrix(&this->matrixAngle);
+        }
+        //scale
+        this->matrixTransform.multiplyThisWithMatrix(&this->matrixSize);
+        //Pivo
+        this->matrixTransform.multiplyThisWithMatrix(&this->matrixPivo);
+    }
+
+    edk::uint32 sizeMesh = this->meshes.getSize();
+    edk::shape::Mesh2D* mesh = NULL;
+    if(sizeMesh){
+        bool firstPolygon=true;
+        edk::vec2f32 smaller,bigger,center,temp;
+        for(edk::uint32 i=0u;i<sizeMesh;i++){
+            mesh = this->meshes.getMesh(i);
+            if(mesh){
+                polys.cloneFrom(mesh);
+                if(mesh->generateWorldPolygons(&polys,&this->matrixTransform)){
+                    edk::uint32 sizePoly = polys.getPolygonSize();
+                    if(sizePoly){
+                        for(edk::uint32 j=0u;j<sizePoly;j++){
+                            if(polys.getPolygon(j,&poly)){
+                                //calculate the polygon center
+                                edk::uint32 size = poly.getVertexCount();
+                                if(size){
+                                    if(firstPolygon){
+                                        bigger = smaller = poly.getVertexPosition(0u);
+                                        firstPolygon=false;
+                                    }
+                                    for(edk::uint32 k=0u;k<size;k++){
+                                        temp = poly.getVertexPosition(k);
+                                        if(smaller.x>temp.x){
+                                            smaller.x=temp.x;
+                                        }
+                                        if(bigger.x<temp.x){
+                                            bigger.x=temp.x;
+                                        }
+                                        if(smaller.y>temp.y){
+                                            smaller.y=temp.y;
+                                        }
+                                        if(bigger.y<temp.y){
+                                            bigger.y=temp.y;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        if(!firstPolygon){
+            center = ((bigger - smaller)*0.5f)+smaller;
+            return this->MovePivoToPositionWorld(center);
+        }
+    }
+    return false;
+}
+
 //DRAW
 //print the mesh
 void edk::Object2D::print(){
@@ -4026,6 +4343,22 @@ void edk::Object2D::drawWirePolygon(edk::uint32 meshPosition,edk::uint32 polygon
     edk::GU::guTranslate2f32(this->pivo*-1.0f);
 
     (this->*functionDrawWirePolygon)(meshPosition,polygon);
+
+    edk::GU::guPopMatrix();
+}
+void edk::Object2D::drawCutsPolygon(edk::uint32 meshPosition,edk::uint32 polygon,edk::color3f32 color){
+    //put the transformation on a stack
+    edk::GU::guPushMatrix();
+    //add translate
+    edk::GU::guTranslate2f32(this->position);
+    //add rotation
+    edk::GU::guRotateZf32(this->angle);
+    //add scale
+    edk::GU::guScale2f32(this->size);
+    //set the pivo
+    edk::GU::guTranslate2f32(this->pivo*-1.0f);
+
+    (this->*functionDrawCutsPolygon)(meshPosition,polygon,color);
 
     edk::GU::guPopMatrix();
 }

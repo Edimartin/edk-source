@@ -696,9 +696,35 @@ bool edk::Math::generateTranslateMatrix(edk::vec2f32 position,edk::vector::Matri
     }
     return false;
 }
+bool edk::Math::generateTranslateMatrixInverse(edk::vec2f32 position,edk::vector::Matrixf32<3u,3u>* dest){
+    if(dest){
+        position*=-1.f;
+        //clean the matrix
+        dest->setIdentity(1.f,0.f);
+        //set the values
+        dest->set(2u,0u,position.x);
+        dest->set(2u,1u,position.y);
+        return true;
+    }
+    return false;
+}
 //rotate matrix
 bool edk::Math::generateRotateMatrixX(edk::float32 angle,edk::vector::Matrixf32<3u,3u>* dest){
     if(dest){
+        //clean the matrix
+        dest->setIdentity(1.f,0.f);
+        //set the values
+        dest->set(1u,1u,edk::Math::getCosin(angle)); //cos
+        dest->set(2u,1u,edk::Math::getSin(angle)*-1.f); //-sin
+        dest->set(1u,2u,edk::Math::getSin(angle)); //sin
+        dest->set(2u,2u,edk::Math::getCosin(angle)); //cos
+        return true;
+    }
+    return false;
+}
+bool edk::Math::generateRotateMatrixXInverse(edk::float32 angle,edk::vector::Matrixf32<3u,3u>* dest){
+    if(dest){
+        angle*=-1.f;
         //clean the matrix
         dest->setIdentity(1.f,0.f);
         //set the values
@@ -723,8 +749,36 @@ bool edk::Math::generateRotateMatrixY(edk::float32 angle,edk::vector::Matrixf32<
     }
     return false;
 }
+bool edk::Math::generateRotateMatrixYInverse(edk::float32 angle,edk::vector::Matrixf32<3u,3u>* dest){
+    if(dest){
+        angle*=-1.f;
+        //clean the matrix
+        dest->setIdentity(1.f,0.f);
+        //set the values
+        dest->set(0u,0u,edk::Math::getCosin(angle)); //cos
+        dest->set(2u,0u,edk::Math::getSin(angle)); //sin
+        dest->set(0u,2u,edk::Math::getSin(angle)*-1.f); //-sin
+        dest->set(2u,2u,edk::Math::getCosin(angle)); //cos
+        return true;
+    }
+    return false;
+}
 bool edk::Math::generateRotateMatrixZ(edk::float32 angle,edk::vector::Matrixf32<3u,3u>* dest){
     if(dest){
+        //clean the matrix
+        dest->setIdentity(1.f,0.f);
+        //set the values
+        dest->set(0u,0u,edk::Math::getCosin(angle)); //cos
+        dest->set(1u,0u,edk::Math::getSin(angle)*-1.f); //-sin
+        dest->set(0u,1u,edk::Math::getSin(angle)); //sin
+        dest->set(1u,1u,edk::Math::getCosin(angle)); //cos
+        return true;
+    }
+    return false;
+}
+bool edk::Math::generateRotateMatrixZInverse(edk::float32 angle,edk::vector::Matrixf32<3u,3u>* dest){
+    if(dest){
+        angle*=-1.f;
         //clean the matrix
         dest->setIdentity(1.f,0.f);
         //set the values
@@ -741,9 +795,30 @@ bool edk::Math::generateScaleMatrix(edk::size2f32 size,edk::vector::Matrixf32<3u
     if(dest){
         //clean the matrix
         dest->setIdentity(1.f,0.f);
-        //set the values
+
         dest->set(0u,0u,size.width);
         dest->set(1u,1u,size.height);
+        return true;
+    }
+    return false;
+}
+bool edk::Math::generateScaleMatrixInverse(edk::size2f32 size,edk::vector::Matrixf32<3u,3u>* dest){
+    if(dest){
+        //clean the matrix
+        dest->setIdentity(1.f,0.f);
+        //set the values
+        if(edk::Math::equal(0.f,size.width)){
+            dest->set(0u,0u,0.f);
+        }
+        else{
+            dest->set(0u,0u,1.f/size.width);
+        }
+        if(edk::Math::equal(0.f,size.height)){
+            dest->set(1u,1u,0.f);
+        }
+        else{
+            dest->set(1u,1u,1.f/size.height);
+        }
         return true;
     }
     return false;
@@ -774,9 +849,49 @@ bool edk::Math::generateTranslateMatrix(edk::vec3f32 position,edk::vector::Matri
     }
     return false;
 }
+bool edk::Math::generateTranslateMatrixInverse(edk::vec3f32 position,edk::vector::Matrixf32<3u,3u>* dest){
+    if(dest){
+        position*=-1.f;
+        //clean the matrix
+        dest->setIdentity(1.f,0.f);
+        //set the values
+        dest->set(2u,0u,position.x);
+        dest->set(2u,1u,position.y);
+        dest->set(2u,2u,position.z);
+        return true;
+    }
+    return false;
+}
+bool edk::Math::generateTranslateMatrixInverse(edk::vec3f32 position,edk::vector::Matrixf32<4u,4u>* dest){
+    if(dest){
+        position*=-1.f;
+        //clean the matrix
+        dest->setIdentity(1.f,0.f);
+        //set the values
+        dest->set(3u,0u,position.x);
+        dest->set(3u,1u,position.y);
+        dest->set(3u,2u,position.z);
+        return true;
+    }
+    return false;
+}
 //rotate matrix
 bool edk::Math::generateRotateMatrixX(edk::float32 angle,edk::vector::Matrixf32<4u,4u>* dest){
     if(dest){
+        //clean the matrix
+        dest->setIdentity(1.f,0.f);
+        //set the values
+        dest->set(1u,1u,edk::Math::getCosin(angle)); //cos
+        dest->set(2u,1u,edk::Math::getSin(angle)*-1.f); //-sin
+        dest->set(1u,2u,edk::Math::getSin(angle)); //sin
+        dest->set(2u,2u,edk::Math::getCosin(angle)); //cos
+        return true;
+    }
+    return false;
+}
+bool edk::Math::generateRotateMatrixXInverse(edk::float32 angle,edk::vector::Matrixf32<4u,4u>* dest){
+    if(dest){
+        angle*=-1.f;
         //clean the matrix
         dest->setIdentity(1.f,0.f);
         //set the values
@@ -801,8 +916,36 @@ bool edk::Math::generateRotateMatrixY(edk::float32 angle,edk::vector::Matrixf32<
     }
     return false;
 }
+bool edk::Math::generateRotateMatrixYInverse(edk::float32 angle,edk::vector::Matrixf32<4u,4u>* dest){
+    if(dest){
+        angle*=-1.f;
+        //clean the matrix
+        dest->setIdentity(1.f,0.f);
+        //set the values
+        dest->set(0u,0u,edk::Math::getCosin(angle)); //cos
+        dest->set(2u,0u,edk::Math::getSin(angle)); //sin
+        dest->set(0u,2u,edk::Math::getSin(angle)*-1.f); //-sin
+        dest->set(2u,2u,edk::Math::getCosin(angle)); //cos
+        return true;
+    }
+    return false;
+}
 bool edk::Math::generateRotateMatrixZ(edk::float32 angle,edk::vector::Matrixf32<4u,4u>* dest){
     if(dest){
+        //clean the matrix
+        dest->setIdentity(1.f,0.f);
+        //set the values
+        dest->set(0u,0u,edk::Math::getCosin(angle)); //cos
+        dest->set(1u,0u,edk::Math::getSin(angle)*-1.f); //-sin
+        dest->set(0u,1u,edk::Math::getSin(angle)); //sin
+        dest->set(1u,1u,edk::Math::getCosin(angle)); //cos
+        return true;
+    }
+    return false;
+}
+bool edk::Math::generateRotateMatrixZInverse(edk::float32 angle,edk::vector::Matrixf32<4u,4u>* dest){
+    if(dest){
+        angle*=-1.f;
         //clean the matrix
         dest->setIdentity(1.f,0.f);
         //set the values
@@ -835,6 +978,60 @@ bool edk::Math::generateScaleMatrix(edk::size3f32 size,edk::vector::Matrixf32<4u
         dest->set(0u,0u,size.width);
         dest->set(1u,1u,size.height);
         dest->set(2u,2u,size.length);
+        return true;
+    }
+    return false;
+}
+bool edk::Math::generateScaleMatrixInverse(edk::size3f32 size,edk::vector::Matrixf32<3u,3u>* dest){
+    if(dest){
+        //clean the matrix
+        dest->setIdentity(1.f,0.f);
+        //set the values
+        if(edk::Math::equal(0.f,size.width)){
+            dest->set(0u,0u,0.f);
+        }
+        else{
+            dest->set(0u,0u,1.f/size.width);
+        }
+        if(edk::Math::equal(0.f,size.height)){
+            dest->set(1u,1u,0.f);
+        }
+        else{
+            dest->set(1u,1u,1.f/size.height);
+        }
+        if(edk::Math::equal(0.f,size.length)){
+            dest->set(2u,2u,0.f);
+        }
+        else{
+            dest->set(2u,2u,1.f/size.length);
+        }
+        return true;
+    }
+    return false;
+}
+bool edk::Math::generateScaleMatrixInverse(edk::size3f32 size,edk::vector::Matrixf32<4u,4u>* dest){
+    if(dest){
+        //clean the matrix
+        dest->setIdentity(1.f,0.f);
+        //set the values
+        if(edk::Math::equal(0.f,size.width)){
+            dest->set(0u,0u,0.f);
+        }
+        else{
+            dest->set(0u,0u,1.f/size.width);
+        }
+        if(edk::Math::equal(0.f,size.height)){
+            dest->set(1u,1u,0.f);
+        }
+        else{
+            dest->set(1u,1u,1.f/size.height);
+        }
+        if(edk::Math::equal(0.f,size.length)){
+            dest->set(2u,2u,0.f);
+        }
+        else{
+            dest->set(2u,2u,1.f/size.length);
+        }
         return true;
     }
     return false;

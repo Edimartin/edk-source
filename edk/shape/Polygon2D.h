@@ -94,6 +94,16 @@ public:
     //create the polygon
     virtual bool createPolygon(edk::uint32 vertexCount);
 
+    //set the cuts
+    bool setCuts(edk::uint32 cutX,edk::uint32 cutY);
+    bool setCuts(edk::vec2ui32 cuts);
+    bool setCutX(edk::uint32 x);
+    bool setCutY(edk::uint32 y);
+    //get the cuts
+    edk::vec2ui32 getCuts();
+    edk::uint32 getCutX();
+    edk::uint32 getCutY();
+
     //test if the polygon is Counterclockwise
     bool isCounterclockwise();
 
@@ -314,6 +324,7 @@ public:
     //Draw the polygons with lines without using matrices
     virtual void drawWireWorld();
     //draw vertexs
+    virtual void drawPolygonCuts(edk::color3f32 color=edk::color3f32(1,1,1));
     virtual void drawPolygonVertexs(edk::color4f32 color=edk::color4f32(1,1,1,1));
     virtual void drawPolygonVertexsSelection();
     virtual void drawPolygonVertexsWorld(edk::color4f32 color=edk::color4f32(1,1,1,1));
@@ -327,6 +338,9 @@ public:
 protected:
     edk::vector::Array<edk::shape::Vertex2D*> vertexs;
     edk::vector::Array<edk::shape::Vertex2D*> vertexsOriginal;
+
+    //cuts
+    edk::vec2ui32 cuts;
 
     //Polygon VBO
     edk::uint32 vbo;

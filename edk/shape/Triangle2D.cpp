@@ -45,7 +45,6 @@ void edk::shape::Triangle2D::Constructor(){
         this->polygonColor.a=1.f;
         //create a new polygon with 3 vertex
         this->createPolygon(3u);
-        this->calculateCounterClockwise();
     }
 }
 void edk::shape::Triangle2D::Destructor(){

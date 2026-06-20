@@ -205,6 +205,16 @@ public:
     bool usePolygonsUVFrameX(edk::uint32 x);
     bool usePolygonsUVFrameY(edk::uint32 y);
 
+    //SET POLYGON CUTS
+    bool setPolygonCuts(edk::uint32 polygonID,edk::uint32 cutX,edk::uint32 cutY);
+    bool setPolygonCuts(edk::uint32 polygonID,edk::vec2ui32 cuts);
+    bool setPolygonCutX(edk::uint32 polygonID,edk::uint32 x);
+    bool setPolygonCutY(edk::uint32 polygonID,edk::uint32 y);
+    //GET POLYGON CUTS
+    edk::vec2ui32 getPolygonCuts(edk::uint32 polygonID);
+    edk::uint32 getPolygonCutX(edk::uint32 polygonID);
+    edk::uint32 getPolygonCutY(edk::uint32 polygonID);
+
     //SWAP THE POLYGONS
     bool swapPolygons(edk::uint32 pos1,edk::uint32 pos2);
     bool movePolygon(edk::uint32 pos1,edk::int32 steps);
@@ -273,6 +283,15 @@ public:
     bool selectedSetScale(edk::float32 scale);
     bool selectedSetScale(edk::float32 width,edk::float32 height);
     bool selectedSetAngle(edk::float32 angle);
+    //set cuts
+    bool selectedSetCuts(edk::uint32 cutX,edk::uint32 cutY);
+    bool selectedSetCuts(edk::vec2ui32 cuts);
+    bool selectedSetCutX(edk::uint32 x);
+    bool selectedSetCutY(edk::uint32 y);
+    //get cuts
+    edk::vec2ui32 selectedGetCuts();
+    edk::uint32 selectedGetCutX();
+    edk::uint32 selectedGetCutY();
 
     //CLEANS
     //remove the UV of one vertex
@@ -340,6 +359,7 @@ public:
     virtual void drawWirePolygons();
     virtual bool drawWirePolygon(edk::uint32 polygon);
     virtual bool drawWirePolygonNoColor(edk::uint32 polygon);
+    virtual bool drawCutsPolygon(edk::uint32 polygon,edk::color3f32 color = edk::color3f32(1,1,1));
     virtual void drawVertexs(edk::color3f32 color = edk::color3f32(1,1,1));
     virtual bool drawPolygonVertexs(edk::uint32 polygon,edk::color3f32 color = edk::color3f32(1,1,1));
     virtual bool drawPolygonVertexsSelection(edk::uint32 polygon);

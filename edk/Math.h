@@ -1227,23 +1227,43 @@ public:
     static inline bool generateTranslateMatrix2D(edk::float32 x,edk::float32 y,edk::vector::Matrixf32<3u,3u>* dest){
         return edk::Math::generateTranslateMatrix(edk::vec2f32(x,y),dest);
     }
+    static bool generateTranslateMatrixInverse(edk::vec2f32 position,edk::vector::Matrixf32<3u,3u>* dest);
+    static inline bool generateTranslateMatrix2DInverse(edk::float32 x,edk::float32 y,edk::vector::Matrixf32<3u,3u>* dest){
+        return edk::Math::generateTranslateMatrixInverse(edk::vec2f32(x,y),dest);
+    }
     //rotate matrix
     static bool generateRotateMatrixX(edk::float32 angle,edk::vector::Matrixf32<3u,3u>* dest);
     static inline bool generateRotateMatrix2DX(edk::float32 angle,edk::vector::Matrixf32<3u,3u>* dest){
         return edk::Math::generateRotateMatrixX(angle,dest);
     }
+    static bool generateRotateMatrixXInverse(edk::float32 angle,edk::vector::Matrixf32<3u,3u>* dest);
+    static inline bool generateRotateMatrix2DXInverse(edk::float32 angle,edk::vector::Matrixf32<3u,3u>* dest){
+        return edk::Math::generateRotateMatrixXInverse(angle,dest);
+    }
     static bool generateRotateMatrixY(edk::float32 angle,edk::vector::Matrixf32<3u,3u>* dest);
     static inline bool generateRotateMatrix2DY(edk::float32 angle,edk::vector::Matrixf32<3u,3u>* dest){
         return edk::Math::generateRotateMatrixY(angle,dest);
+    }
+    static bool generateRotateMatrixYInverse(edk::float32 angle,edk::vector::Matrixf32<3u,3u>* dest);
+    static inline bool generateRotateMatrix2DYInverse(edk::float32 angle,edk::vector::Matrixf32<3u,3u>* dest){
+        return edk::Math::generateRotateMatrixYInverse(angle,dest);
     }
     static bool generateRotateMatrixZ(edk::float32 angle,edk::vector::Matrixf32<3u,3u>* dest);
     static inline bool generateRotateMatrix2DZ(edk::float32 angle,edk::vector::Matrixf32<3u,3u>* dest){
         return edk::Math::generateRotateMatrixZ(angle,dest);
     }
+    static bool generateRotateMatrixZInverse(edk::float32 angle,edk::vector::Matrixf32<3u,3u>* dest);
+    static inline bool generateRotateMatrix2DZInverse(edk::float32 angle,edk::vector::Matrixf32<3u,3u>* dest){
+        return edk::Math::generateRotateMatrixZInverse(angle,dest);
+    }
     //scale matrix
     static bool generateScaleMatrix(edk::size2f32 size,edk::vector::Matrixf32<3u,3u>* dest);
     static inline bool generateScaleMatrix2D(edk::float32 width,edk::float32 height,edk::vector::Matrixf32<3u,3u>* dest){
         return edk::Math::generateScaleMatrix(edk::size2f32(width,height),dest);
+    }
+    static bool generateScaleMatrixInverse(edk::size2f32 size,edk::vector::Matrixf32<3u,3u>* dest);
+    static inline bool generateScaleMatrix2DInverse(edk::float32 width,edk::float32 height,edk::vector::Matrixf32<3u,3u>* dest){
+        return edk::Math::generateScaleMatrixInverse(edk::size2f32(width,height),dest);
     }
     //3D
     //translate matrix
@@ -1255,18 +1275,38 @@ public:
     static inline bool generateTranslateMatrix3D(edk::float32 x,edk::float32 y,edk::float32 z,edk::vector::Matrixf32<4u,4u>* dest){
         return edk::Math::generateTranslateMatrix(edk::vec3f32(x,y,z),dest);
     }
+    static bool generateTranslateMatrixInverse(edk::vec3f32 position,edk::vector::Matrixf32<3u,3u>* dest);
+    static bool generateTranslateMatrixInverse(edk::vec3f32 position,edk::vector::Matrixf32<4u,4u>* dest);
+    static inline bool generateTranslateMatrix3DInverse(edk::float32 x,edk::float32 y,edk::float32 z,edk::vector::Matrixf32<3u,3u>* dest){
+        return edk::Math::generateTranslateMatrixInverse(edk::vec3f32(x,y,z),dest);
+    }
+    static inline bool generateTranslateMatrix3DInverse(edk::float32 x,edk::float32 y,edk::float32 z,edk::vector::Matrixf32<4u,4u>* dest){
+        return edk::Math::generateTranslateMatrixInverse(edk::vec3f32(x,y,z),dest);
+    }
     //rotate matrix
     static bool generateRotateMatrixX(edk::float32 angle,edk::vector::Matrixf32<4u,4u>* dest);
     static inline bool generateRotateMatrix3DX(edk::float32 angle,edk::vector::Matrixf32<4u,4u>* dest){
         return edk::Math::generateRotateMatrixX(angle,dest);
     }
+    static bool generateRotateMatrixXInverse(edk::float32 angle,edk::vector::Matrixf32<4u,4u>* dest);
+    static inline bool generateRotateMatrix3DXInverse(edk::float32 angle,edk::vector::Matrixf32<4u,4u>* dest){
+        return edk::Math::generateRotateMatrixXInverse(angle,dest);
+    }
     static bool generateRotateMatrixY(edk::float32 angle,edk::vector::Matrixf32<4u,4u>* dest);
     static inline bool generateRotateMatrix3DY(edk::float32 angle,edk::vector::Matrixf32<4u,4u>* dest){
         return edk::Math::generateRotateMatrixY(angle,dest);
     }
+    static bool generateRotateMatrixYInverse(edk::float32 angle,edk::vector::Matrixf32<4u,4u>* dest);
+    static inline bool generateRotateMatrix3DYInverse(edk::float32 angle,edk::vector::Matrixf32<4u,4u>* dest){
+        return edk::Math::generateRotateMatrixYInverse(angle,dest);
+    }
     static bool generateRotateMatrixZ(edk::float32 angle,edk::vector::Matrixf32<4u,4u>* dest);
     static inline bool generateRotateMatrix3DZ(edk::float32 angle,edk::vector::Matrixf32<4u,4u>* dest){
         return edk::Math::generateRotateMatrixZ(angle,dest);
+    }
+    static bool generateRotateMatrixZInverse(edk::float32 angle,edk::vector::Matrixf32<4u,4u>* dest);
+    static inline bool generateRotateMatrix3DZInverse(edk::float32 angle,edk::vector::Matrixf32<4u,4u>* dest){
+        return edk::Math::generateRotateMatrixZInverse(angle,dest);
     }
     //scale matrix
     static bool generateScaleMatrix(edk::size3f32 size,edk::vector::Matrixf32<3u,3u>* dest);
@@ -1276,6 +1316,14 @@ public:
     }
     static inline bool generateScaleMatrix3D(edk::float32 width,edk::float32 height,edk::float32 length,edk::vector::Matrixf32<4u,4u>* dest){
         return edk::Math::generateScaleMatrix(edk::size3f32(width,height,length),dest);
+    }
+    static bool generateScaleMatrixInverse(edk::size3f32 size,edk::vector::Matrixf32<3u,3u>* dest);
+    static bool generateScaleMatrixInverse(edk::size3f32 size,edk::vector::Matrixf32<4u,4u>* dest);
+    static inline bool generateScaleMatrix3DInverse(edk::float32 width,edk::float32 height,edk::float32 length,edk::vector::Matrixf32<3u,3u>* dest){
+        return edk::Math::generateScaleMatrixInverse(edk::size3f32(width,height,length),dest);
+    }
+    static inline bool generateScaleMatrix3DInverse(edk::float32 width,edk::float32 height,edk::float32 length,edk::vector::Matrixf32<4u,4u>* dest){
+        return edk::Math::generateScaleMatrixInverse(edk::size3f32(width,height,length),dest);
     }
     //lookat matrix
     static bool generateLookAtMatrix(edk::vec3f32 position,edk::vec3f32 look,edk::vec3f32 up,edk::vector::Matrixf32<4u,4u>* dest);

@@ -77,6 +77,8 @@ void edk::shape::Polygon2D::Constructor(){
         this->matrixTransform.Constructor();
         this->matrixPosition.Constructor();
 
+        this->cuts=edk::vec2ui32(1u,1u);
+
         this->needUpdateVBO=false;
         this->showPolygon=true;
         this->vboType = edk::GU::vbo_NULL;
@@ -124,6 +126,8 @@ void edk::shape::Polygon2D::Constructor(edk::uint32 vertexCount){
         this->matrixScale.Constructor();
         this->matrixTransform.Constructor();
         this->matrixPosition.Constructor();
+
+        this->cuts=edk::vec2ui32(1u,1u);
 
         this->needUpdateVBO=false;
         this->showPolygon=true;
@@ -8373,6 +8377,50 @@ bool edk::shape::Polygon2D::createPolygon(edk::uint32 vertexCount){
     return ret;
 }
 
+//set the cuts
+bool edk::shape::Polygon2D::setCuts(edk::uint32 cutX,edk::uint32 cutY){
+    if(cutX && cutY){
+        this->cuts = edk::vec2ui32(cutX,cutY);
+        return true;
+    }
+    this->cuts = edk::vec2ui32(1u,1u);
+    return false;
+}
+bool edk::shape::Polygon2D::setCuts(edk::vec2ui32 cuts){
+    if(cuts.x && cuts.y){
+        this->cuts = cuts;
+        return true;
+    }
+    this->cuts = edk::vec2ui32(1u,1u);
+    return false;
+}
+bool edk::shape::Polygon2D::setCutX(edk::uint32 x){
+    if(x){
+        this->cuts.x = x;
+        return true;
+    }
+    this->cuts.x = 1u;
+    return false;
+}
+bool edk::shape::Polygon2D::setCutY(edk::uint32 y){
+    if(y){
+        this->cuts.y = y;
+        return true;
+    }
+    this->cuts.y = 1u;
+    return false;
+}
+//get the cuts
+edk::vec2ui32 edk::shape::Polygon2D::getCuts(){
+    return this->cuts;
+}
+edk::uint32 edk::shape::Polygon2D::getCutX(){
+    return this->cuts.x;
+}
+edk::uint32 edk::shape::Polygon2D::getCutY(){
+    return this->cuts.y;
+}
+
 //test if the polygon is Counterclockwise
 bool edk::shape::Polygon2D::isCounterclockwise(){
     //test the polygon size
@@ -10107,6 +10155,201 @@ void edk::shape::Polygon2D::drawWireWorld(){
     (this->*vboDraw)(GU_LINE_LOOP);
 }
 //draw vertexs
+void edk::shape::Polygon2D::drawPolygonCuts(edk::color3f32 color){
+    edk::GU::guPushMatrix();
+    edk::GU::guTranslate2f32(this->translate);
+    edk::GU::guRotateZf32(this->angle);
+    edk::GU::guScale2f32(this->scale);
+    edk::GU::guBegin(GL_LINES);
+    edk::GU::guColor4f32(color.r,color.g,color.b,1.f);
+
+    edk::uint32 cutX = this->cuts.x,
+            cutY = this->cuts.y
+            ;
+    edk::float32
+            incrementX = 1.f/(edk::float32)cutX,
+            incrementY = 1.f/(edk::float32)cutY;
+    edk::float32 percentX=0.f;
+    edk::vec2f32 v1,v2,v3,v4;
+    edk::vec2f32 lx1,lx2;
+
+    switch(this->getVertexCount()){
+    case 2u:
+        if(this->isRect()){
+            v1 = this->getVertexPosition(0u);
+            v2 = edk::vec2f32(this->getVertexPosition(1u).x,this->getVertexPosition(0u).y);
+            v3 = this->getVertexPosition(1u);
+            v4 = edk::vec2f32(this->getVertexPosition(0u).x,this->getVertexPosition(1u).y);
+
+            //draw the rectangle
+            edk::GU::guVertex2f32(v1.x,v1.y);
+            edk::GU::guVertex2f32(v2.x,v2.y);
+            //
+            edk::GU::guVertex2f32(v2.x,v2.y);
+            edk::GU::guVertex2f32(v3.x,v3.y);
+            //
+            edk::GU::guVertex2f32(v3.x,v3.y);
+            edk::GU::guVertex2f32(v4.x,v4.y);
+            //
+            edk::GU::guVertex2f32(v4.x,v4.y);
+            edk::GU::guVertex2f32(v1.x,v1.y);
+
+            percentX=0.f;
+            for(edk::uint32 x=0u;x<cutX;x++){
+                //first calculate the lines
+                lx1 = edk::vec2f32(((v2.x - v1.x)*percentX)+v1.x,
+                                   ((v2.y - v1.y)*percentX)+v1.y
+                                   );
+                lx2 = edk::vec2f32(((v3.x - v4.x)*percentX)+v4.x,
+                                   ((v3.y - v4.y)*percentX)+v4.y
+                                   );
+
+                edk::GU::guVertex2f32(lx1.x,
+                                      lx1.y
+                                      );
+                edk::GU::guVertex2f32(lx2.x,
+                                      lx2.y
+                                      );
+                percentX+=incrementX;
+            }
+            percentX=0.f;
+            for(edk::uint32 x=0u;x<cutY;x++){
+                //first calculate the lines
+                lx1 = edk::vec2f32(((v4.x - v1.x)*percentX)+v1.x,
+                                   ((v4.y - v1.y)*percentX)+v1.y
+                                   );
+                lx2 = edk::vec2f32(((v3.x - v2.x)*percentX)+v2.x,
+                                   ((v3.y - v2.y)*percentX)+v2.y
+                                   );
+
+                edk::GU::guVertex2f32(lx1.x,
+                                      lx1.y
+                                      );
+                edk::GU::guVertex2f32(lx2.x,
+                                      lx2.y
+                                      );
+                percentX+=incrementY;
+            }
+        }
+        break;
+    case 3u:
+    {
+        v1 = this->getVertexPosition(0u);
+        v2 = this->getVertexPosition(1u);
+        v3 = this->getVertexPosition(2u);
+        v4 = this->getVertexPosition(0u);
+
+        //draw the rectangle
+        edk::GU::guVertex2f32(v1.x,v1.y);
+        edk::GU::guVertex2f32(v2.x,v2.y);
+        //
+        edk::GU::guVertex2f32(v2.x,v2.y);
+        edk::GU::guVertex2f32(v3.x,v3.y);
+        //
+        edk::GU::guVertex2f32(v3.x,v3.y);
+        edk::GU::guVertex2f32(v1.x,v1.y);
+
+        percentX=0.f;
+        for(edk::uint32 x=0u;x<cutX;x++){
+            //first calculate the lines
+            lx1 = edk::vec2f32(((v4.x - v1.x)*percentX)+v1.x,
+                               ((v4.y - v1.y)*percentX)+v1.y
+                               );
+            lx2 = edk::vec2f32(((v3.x - v2.x)*percentX)+v2.x,
+                               ((v3.y - v2.y)*percentX)+v2.y
+                               );
+
+            edk::GU::guVertex2f32(lx1.x,
+                                  lx1.y
+                                  );
+            edk::GU::guVertex2f32(lx2.x,
+                                  lx2.y
+                                  );
+            percentX+=incrementX;
+        }
+        percentX=0.f;
+        for(edk::uint32 x=0u;x<cutY;x++){
+            //first calculate the lines
+            lx1 = edk::vec2f32(((v2.x - v1.x)*percentX)+v1.x,
+                               ((v2.y - v1.y)*percentX)+v1.y
+                               );
+            lx2 = edk::vec2f32(((v3.x - v4.x)*percentX)+v4.x,
+                               ((v3.y - v4.y)*percentX)+v4.y
+                               );
+
+            edk::GU::guVertex2f32(lx1.x,
+                                  lx1.y
+                                  );
+            edk::GU::guVertex2f32(lx2.x,
+                                  lx2.y
+                                  );
+            percentX+=incrementY;
+        }
+    }
+        break;
+    case 4u:
+    {
+        v1 = this->getVertexPosition(0u);
+        v2 = this->getVertexPosition(1u);
+        v3 = this->getVertexPosition(2u);
+        v4 = this->getVertexPosition(3u);
+
+        //draw the rectangle
+        edk::GU::guVertex2f32(v1.x,v1.y);
+        edk::GU::guVertex2f32(v2.x,v2.y);
+        //
+        edk::GU::guVertex2f32(v2.x,v2.y);
+        edk::GU::guVertex2f32(v3.x,v3.y);
+        //
+        edk::GU::guVertex2f32(v3.x,v3.y);
+        edk::GU::guVertex2f32(v4.x,v4.y);
+        //
+        edk::GU::guVertex2f32(v4.x,v4.y);
+        edk::GU::guVertex2f32(v1.x,v1.y);
+
+        percentX=0.f;
+        for(edk::uint32 x=0u;x<cutX;x++){
+            //first calculate the lines
+            lx1 = edk::vec2f32(((v2.x - v1.x)*percentX)+v1.x,
+                               ((v2.y - v1.y)*percentX)+v1.y
+                               );
+            lx2 = edk::vec2f32(((v3.x - v4.x)*percentX)+v4.x,
+                               ((v3.y - v4.y)*percentX)+v4.y
+                               );
+
+            edk::GU::guVertex2f32(lx1.x,
+                                  lx1.y
+                                  );
+            edk::GU::guVertex2f32(lx2.x,
+                                  lx2.y
+                                  );
+            percentX+=incrementX;
+        }
+        percentX=0.f;
+        for(edk::uint32 x=0u;x<cutY;x++){
+            //first calculate the lines
+            lx1 = edk::vec2f32(((v4.x - v1.x)*percentX)+v1.x,
+                               ((v4.y - v1.y)*percentX)+v1.y
+                               );
+            lx2 = edk::vec2f32(((v3.x - v2.x)*percentX)+v2.x,
+                               ((v3.y - v2.y)*percentX)+v2.y
+                               );
+
+            edk::GU::guVertex2f32(lx1.x,
+                                  lx1.y
+                                  );
+            edk::GU::guVertex2f32(lx2.x,
+                                  lx2.y
+                                  );
+            percentX+=incrementY;
+        }
+    }
+        break;
+    }
+
+    edk::GU::guEnd();
+    edk::GU::guPopMatrix();
+}
 void edk::shape::Polygon2D::drawPolygonVertexs(edk::color4f32 color){
     edk::GU::guPushMatrix();
     edk::GU::guTranslate2f32(this->translate);
@@ -10257,6 +10500,22 @@ bool edk::shape::Polygon2D::writeToXML(edk::XML* xml,edk::uint32 polygonID){
                                 temp = edk::String::float32ToStr(this->frameUsing.y);
                                 if(temp){
                                     xml->addSelectedNextAttribute((edk::char8*)"frameUsingY",temp);
+                                    free(temp);
+                                }
+                                xml->selectFather();
+                            }
+                        }
+                        if(xml->addSelectedNextChild("cuts")){
+                            if(xml->selectChild("cuts")){
+                                //write cuts
+                                temp = edk::String::float32ToStr(this->getCuts().x);
+                                if(temp){
+                                    xml->addSelectedNextAttribute((edk::char8*)"cutX",temp);
+                                    free(temp);
+                                }
+                                temp = edk::String::float32ToStr(this->getCuts().y);
+                                if(temp){
+                                    xml->addSelectedNextAttribute((edk::char8*)"cutY",temp);
                                     free(temp);
                                 }
                                 xml->selectFather();
@@ -10503,6 +10762,20 @@ bool edk::shape::Polygon2D::readFromXML(edk::XML* xml,edk::uint32 polygonID){
                             xml->selectFather();
                         }
 
+                        //read cuts
+                        if(xml->selectChild("cuts")){
+                            //write cuts
+                            edk::uint32 cutX = (edk::uint32)edk::String::strToInt64(xml->getSelectedAttributeValueByName("cutX"));
+                            edk::uint32 cutY = (edk::uint32)edk::String::strToInt64(xml->getSelectedAttributeValueByName("cutY"));
+                            //set cuts
+                            this->setCuts(edk::vec2ui32(cutX,cutY));
+
+                            xml->selectFather();
+                        }
+                        else{
+                            this->setCuts(edk::vec2ui32(1u,1u));
+                        }
+
                         //read transformation
                         if(xml->selectChild("transformation")){
                             this->translate.x = edk::String::strToFloat32(xml->getSelectedAttributeValueByName("translateX"));
@@ -10689,6 +10962,8 @@ bool edk::shape::Polygon2D::cloneFrom(edk::shape::Polygon2D* poly){
         this->matrixRotate.cloneFrom(&poly->matrixRotate);
         this->matrixScale.cloneFrom(&poly->matrixScale);
         this->matrixTransform.cloneFrom(&poly->matrixTransform);
+        //
+        this->cuts=poly->cuts;
         //
         return true;
     }
