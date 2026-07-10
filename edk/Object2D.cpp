@@ -3825,7 +3825,6 @@ bool edk::Object2D::actionPlayNameFor(edk::float32 /*second*/,edk::float32 /*dur
 
 //PIVO
 bool edk::Object2D::MovePivoToPositionWorld(edk::vec2f32 position){
-    //this->position = position;
     //multiply the matrix by
     this->matrixTransform.setIdentity();
 
@@ -3862,21 +3861,20 @@ bool edk::Object2D::MovePivoToPositionWorld(edk::vec2f32 position){
 
     //calculate the world point in the object
     if(this->matrixPosition.haveMatrix()){
+        edk::vec2f32 positionTemp = position;
         //transform the point
         //
-        this->matrixPosition.set(0u,0u,position.x);
-        this->matrixPosition.set(0u,1u,position.y);
+        this->matrixPosition.set(0u,0u,positionTemp.x);
+        this->matrixPosition.set(0u,1u,positionTemp.y);
         this->matrixPosition.set(0u,2u,1.f);
 
         //multiply the matrix
         this->matrixPosition.multiplyMatrixWithThis(&this->matrixTransform);
 
-        position.x = this->matrixPosition.getNoIF(0u,0u);
-        position.y = this->matrixPosition.getNoIF(0u,1u);
+        positionTemp.x = this->matrixPosition.getNoIF(0u,0u);
+        positionTemp.y = this->matrixPosition.getNoIF(0u,1u);
 
-        this->position+=position;
-
-        position*=-1.f;
+        positionTemp*=-1.f;
 
         //move all polygons
         edk::shape::Mesh2D* mesh = NULL;
@@ -3896,7 +3894,7 @@ bool edk::Object2D::MovePivoToPositionWorld(edk::vec2f32 position){
                                 if(size){
                                     for(edk::uint32 k=0u;k<size;k++){
                                         temp = mesh->selectedGetVertexPosition(k);
-                                        temp+=position;
+                                        temp+=positionTemp;
                                         mesh->selectedSetVertexPosition(k,temp);
                                     }
                                 }
@@ -3906,6 +3904,7 @@ bool edk::Object2D::MovePivoToPositionWorld(edk::vec2f32 position){
                 }
             }
         }
+        this->position=position;
         return true;
     }
 
@@ -3974,17 +3973,17 @@ bool edk::Object2D::MovePivoToPolygonCenter(edk::uint32 meshPosition,edk::uint32
                 bigger = smaller = poly.getVertexPosition(0u);
                 for(edk::uint32 i=1u;i<size;i++){
                     temp = poly.getVertexPosition(i);
-                    if(temp.x<smaller.x){
-                        temp.x=smaller.x;
+                    if(smaller.x>temp.x){
+                        smaller.x=temp.x;
                     }
-                    if(temp.y<bigger.y){
-                        temp.y=smaller.y;
+                    if(bigger.x<temp.x){
+                        bigger.x=temp.x;
                     }
-                    if(temp.x>bigger.x){
-                        temp.x=smaller.x;
+                    if(smaller.y>temp.y){
+                        smaller.y=temp.y;
                     }
-                    if(temp.y>bigger.y){
-                        temp.y=bigger.y;
+                    if(bigger.y<temp.y){
+                        bigger.y=temp.y;
                     }
                 }
                 center = ((bigger - smaller)*0.5f)+smaller;
