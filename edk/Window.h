@@ -43,21 +43,55 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "edk/Object2D.h"
 #include "edk/ViewGU2D.h"
 
-//EDK WINDOW usa SFML
+//USING LIBRARIES
+#if defined(_WIN32) || defined(_WIN64)
+//Windows 32/64
+#define EDK_USE_SFML
+#undef EDK_USE_X11
+#endif
+#ifdef __linux__
+//#define EDK_USE_X11
+//#undef EDK_USE_SFML
+/////////////////////////
+#define EDK_USE_SFML
+#undef EDK_USE_X11
+/////////////////////////
+#define X11_BUFFER_SIZE 12u
+#endif
+#ifdef __APPLE__
+//MACOS
+#endif
+
+#if defined(EDK_USE_SFML)
+//Windows 32/64
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
 #include <SFML/Window/Mouse.hpp>
+/*LIBS
+-lsfml-window
+-lsfml-graphics
+*/
+#endif
+#if defined(EDK_USE_X11)
+//X11
+#include <GL/glx.h>
+#include <X11/X.h>
+#include <X11/Xlib.h>
+#include <X11/Xutil.h>
+#include <X11/keysym.h>
+#include <X11/Xatom.h>
+//get monitors
+#include <X11/extensions/Xrandr.h>
+//joystick
+#include <linux/joystick.h>
+/*LIBS
+-lX11
+*/
+#endif
 
 #ifdef printMessages
 #pragma message "    Compiling Window"
 #endif
-
-/*LIBS
-
--lsfml-window
--lsfml-graphics
-
-*/
 
 //Classe para gerenciamento de janelas EDK
 
@@ -82,13 +116,48 @@ public:
     void Constructor();
     void Destructor();
 
-    bool createWindow(edk::uint32 width, edk::uint32 height/*, edk::uint32 bitsPerPixel*/, char8 *name, typeID design, edk::uint32 depth, edk::uint32 stencil, edk::uint32 antialiasing);
+    //useOpenGL
+    static bool setUseOpenGL();
+    static inline bool useOpenGL(){
+        return edk::Window::setUseOpenGL();
+    }
+    //dontUseOpenGL
+    static bool setDontUseOpenGL();
+    static inline bool dontUseOpenGL(){
+        return edk::Window::setDontUseOpenGL();
+    }
+    //finishUseOpenGL
+    static bool setFinishUseOpenGL();
+    static inline bool finishUseOpenGL(){
+        return edk::Window::setFinishUseOpenGL();
+    }
 
-    bool createWindow(edk::uint32 width, edk::uint32 height/*, edk::uint32 bitsPerPixel*/, const char *name, typeID design, edk::uint32 depth, edk::uint32 stencil, edk::uint32 antialiasing);
+    bool createWindowWithAliasing(edk::uint32 width, edk::uint32 height, edk::char8 *name, edk::typeID design, edk::uint32 depth, edk::uint32 stencil, edk::uint8 aliasing);
 
-    bool createWindow(edk::uint32  width, edk::uint32  height/*, edk::uint32  bitsPerPixel*/, char8 *name, typeID design);
+    bool createWindowWithAliasing(edk::uint32 width, edk::uint32 height, const char *name, edk::typeID design, edk::uint32 depth, edk::uint32 stencil, edk::uint8 aliasing);
 
-    bool createWindow(edk::uint32  width, edk::uint32  height/*, edk::uint32  bitsPerPixel*/, const char *name, typeID  design);
+    bool createWindowWithAliasing(edk::uint32  width, edk::uint32  height, edk::char8 *name, edk::typeID design, edk::uint8 aliasing);
+
+    bool createWindowWithAliasing(edk::uint32  width, edk::uint32  height, const edk::char8 *name, edk::typeID  design, edk::uint8 aliasing);
+
+    bool createWindow(edk::uint32 width, edk::uint32 height, edk::char8 *name, edk::typeID design, edk::uint32 depth, edk::uint32 stencil);
+
+    bool createWindow(edk::uint32 width, edk::uint32 height, const edk::char8 *name, edk::typeID design, edk::uint32 depth, edk::uint32 stencil);
+
+    bool createWindow(edk::uint32  width, edk::uint32  height, edk::char8 *name, edk::typeID design);
+
+    bool createWindow(edk::uint32  width, edk::uint32  height, const char *name, edk::typeID  design);
+
+    //useOpenGL
+    bool setUseOpenGLInWindow();
+    inline bool useOpenGLInWindow(){
+        return edk::Window::setUseOpenGLInWindow();
+    }
+    //dontUseOpenGL
+    bool setDontUseOpenGLInWindow();
+    inline bool dontUseOpenGLInWindow(){
+        return edk::Window::setDontUseOpenGLInWindow();
+    }
 
     bool setWindowName(const edk::char8 *name);
     bool setWindowName(edk::char8 *name);
@@ -98,6 +167,7 @@ public:
     bool isShowing();
 
     bool haveFocus();
+    bool isMinimized();
 
     void closeWindow();
 
@@ -126,6 +196,14 @@ public:
 
     void hideWindow();
 
+    //set full screen
+    void setFullscreen(bool fullscreen);
+    void setFullscreenOn();
+    void setFullscreenOff();
+
+    //change the design of the window
+    void changeDesign(typeID design);
+
     void mouseRender(bool show);
 
     void showMouse();
@@ -135,6 +213,10 @@ public:
     bool setMousePosition(edk::vec2i32 pos);
 
     bool setMousePosition(edk::int32 x, edk::int32 y);
+
+    static bool setMousePositionGlobal(edk::vec2i32 pos);
+
+    static bool setMousePositionGlobal(edk::int32 x, edk::int32 y);
 
     bool setWindowPosition(edk::vec2i32 pos);
 
@@ -323,6 +405,11 @@ public:
 
     static edk::uint32 getDesktopBitsPerPixel();
 
+    //get the size of connected controllers
+    static edk::uint32 getControllersSize();
+    //get the size of connected controllers
+    static edk::uint32 getControllerIdInPosition(edk::uint32 position);
+
     //test if have a controller
     static bool haveController(edk::uint32 controller);
     //return the number of buttons of a controller
@@ -357,7 +444,12 @@ public:
     float32 eventGetControllerAxisMovedByID(edk::uint32 controller, edk::uint32 id);
 
 public:
+#if defined(EDK_USE_SFML)
     color3f32 cleanColor;
+#endif
+#if defined(EDK_USE_X11)
+    edk::color4f32 cleanColor;
+#endif
     //
 private:
     //update the viewGU
@@ -366,6 +458,28 @@ private:
     void mousePressView(edk::ViewController* view, edk::vec2i32 point, edk::vector::Stack<edk::uint32> buttons);
     void mouseReleaseView(edk::ViewController* view, edk::vec2i32 point, edk::vector::Stack<edk::uint32> buttons);
     void mouseDoubleClickView(edk::ViewController* view, edk::vec2i32 point, edk::vector::Stack<edk::uint32> buttons);
+
+#if defined(EDK_USE_SFML)
+#endif
+#if defined(EDK_USE_X11)
+    //create a new GC
+    bool newGC();
+    //set the window colors
+    void setColorForeground(edk::color4f32 color);
+    void setColorForegroundF32(edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a=1.f);
+    void setColorForegroundUI8(edk::uint8 r,edk::uint8 g,edk::uint8 b,edk::uint8 a=255u);
+    void setColorForeground(edk::uint32 color);
+    void setColorBackground(edk::color4f32 color);
+    void setColorBackgroundF32(edk::float32 r,edk::float32 g,edk::float32 b,edk::float32 a=1.f);
+    void setColorBackgroundUI8(edk::uint8 r,edk::uint8 g,edk::uint8 b,edk::uint8 a=255u);
+    void setColorBackground(edk::uint32 color);
+    //update the position and size
+    void updatePositionAndSize();
+    //load the window attributes
+    void loadWindowAttributes(bool* resize=NULL, edk::size2i32* resizePosition=NULL
+            ,bool* move=NULL, edk::vec2i32* movePosition=NULL
+            );
+#endif
 
     //Atualiza o tamanho da view
     void updateViewSize();
@@ -376,15 +490,98 @@ private:
     void updateControllerEvents();
     //save focus
     bool windowFocus;
+    //save minimized
+    bool windowMinimized;
+    //save grab window
+    bool windowGrab;
     //saveMouseinside
     bool mouseInside;
     //save the mousePosition
     edk::vec2i32 saveMousePos;
 
+#if defined(EDK_USE_SFML)
     //janela SFML
     sf::RenderWindow window;
     //sf::Window window;
+#endif
 
+    //window aliasing value 2, 4, 8 or 16.
+    edk::uint8 aliasing;
+    edk::size2i32 windowSizeIncrement;
+
+#if defined(EDK_USE_X11)
+    //save the mousePositionGlobal
+    edk::vec2i32 saveMousePosGlobal;
+    //save the design of the window to change in the future
+    edk::typeID saveDesign;
+
+    //X11
+    //display status
+    static edk::uint64 displayBlack;
+    static edk::uint64 displayWhite;
+    static edk::int32 displayNumberOfScreens;
+    static edk::int32 displayScreen;
+    static edk::int32 displayDepth;
+    static edk::size2ui32 displaySize;
+
+    static XRRMonitorInfo	*m;
+
+    edk::char8 buffer[X11_BUFFER_SIZE];
+    KeySym keysym;
+    Status status;
+    //X11 Window
+    XID window;
+    XIM xim;
+    XIC xic;
+    //GC
+    GC gc;
+    //Image
+    XImage *image;
+    //pixmap
+    Pixmap pixmap;
+    //configuration of openGL in the window
+    GLXFBConfig fb_config;
+    GLXContext context;
+
+    //MOUSE BUTTONS
+    //KEYS
+    edk::uchar8 keyCodesBits1[32u];
+    edk::uchar8 keyCodesBits2[32u];
+    edk::uchar8* keyCodesBitsNow;
+    edk::uchar8* keyCodesBitsLast;
+    edk::uchar8* keyCodesBitsChange;
+
+    struct XlibHints{
+        edk::uint64 flags;
+        edk::uint64 functions;
+        edk::uint64 decorations;
+    }hints;
+
+    //save if the window is open
+    bool opened;
+
+    //windows name
+    edk::Name windowName;
+
+    //window position
+    edk::vec2i32 windowPosition;
+    edk::vec2i32 viewPosition;
+
+    //save the size of the window
+    edk::size2ui32 windowRealSize;
+    edk::size2ui32 viewSize;
+
+    //window depth
+    edk::uint32 windowDepth;
+
+    bool haveSaveWindowDesign;
+    edk::vec2i32 saveWindowDesignPosition;
+    edk::size2ui32 saveWindowDesignSize;
+
+#endif
+    //save the controller holded
+    edk::WindowEvents::ControllerButtonsEvent saveControllerHolded;
+    edk::size2ui32 windowSize;
     bool vsync;
 
     //View principal
@@ -426,9 +623,6 @@ private:
 
     //edkTime to count the passed time since the last frame
     edk::watch::Time time;
-
-    //save the size of the window
-    edk::size2ui32 windowSize;
 
     edk::WindowEvents events;
     class SaveHolded{
