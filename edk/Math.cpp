@@ -1645,6 +1645,9 @@ edk::rectf32 edk::Math::fitInside(edk::float32 fillWidth,edk::float32 fillHeight
 edk::rectf32 edk::Math::fitInside(edk::rectf32 fill,edk::size2f32 inside){
     edk::rectf32 ret = fitInside(fill.size,inside);
     ret.origin+=fill.origin;
+    //pu on the center
+    ret.origin.x+=(fill.size.width*0.5f)-(ret.size.width*0.5f);
+    ret.origin.y+=(fill.size.height*0.5f)-(ret.size.height*0.5f);
     return ret;
 }
 edk::rectf32 edk::Math::fitInside(edk::vec2f32 fillOrigin,edk::size2f32 fillSize,edk::size2f32 insideSize){

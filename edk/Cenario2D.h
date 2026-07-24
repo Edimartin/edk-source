@@ -307,6 +307,8 @@ public:
     bool updateLevelQuadsInsideRectPoints(edk::uint32 levelPosition,edk::rectf32 rect);
     bool updateLevelsQuadsInsideRect(edk::uint32 startPosition,edk::uint32 endPosition,edk::rectf32 rect);
     bool updateLevelsQuadsInsideRectPoints(edk::uint32 startPosition,edk::uint32 endPosition,edk::rectf32 rect);
+    //play objects animations
+    bool playForwardAnimations();
     //update animations
     bool updateAnimation(edk::uint32 position);
     bool updateAnimation(edk::uint32 position,edk::float32 seconds);
@@ -2534,6 +2536,19 @@ private:
             this->time.start();
             return ret;
         }
+        //
+        void functionPlayForward(edk::Object2D* value){
+            //update the value
+            value->animationPosition.playForwardAllTracks();
+            value->animationRotation.playForward();
+            value->animationSize.playForward();
+        }
+        //run the function update
+        void playForward(){
+            this->runUpdateFunction((void (edk::vector::BinaryTree<edk::Object2D*>::*)(edk::Object2D*))
+                                    &edk::Cenario2D::TreeAnim::functionPlayForward
+                                    );
+        }
         //UPDATE
         virtual void updateElement(edk::Object2D* value){
             //update the value
@@ -2593,6 +2608,18 @@ private:
             bool ret = this->setSeconds(this->time.getSeconds());
             this->time.start();
             return ret;
+        }
+        void functionPlayForward(edk::physics2D::PhysicObject2D* value){
+            //update the value
+            value->animationPosition.playForwardAllTracks();
+            value->animationRotation.playForward();
+            value->animationSize.playForward();
+        }
+        //run the function update
+        void playForward(){
+            this->runUpdateFunction((void (edk::vector::BinaryTree<edk::physics2D::PhysicObject2D*>::*)(edk::physics2D::PhysicObject2D*))
+                                    &edk::Cenario2D::TreeAnimPhys::functionPlayForward
+                                    );
         }
         //UPDATE
         virtual void updateElement(edk::physics2D::PhysicObject2D* value){

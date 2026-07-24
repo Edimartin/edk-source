@@ -3997,6 +3997,12 @@ bool edk::Cenario2D::updateLevelsQuadsInsideRectPoints(edk::uint32 startPosition
     }
     return false;
 }
+//play objects animations
+bool edk::Cenario2D::playForwardAnimations(){
+    this->treeAnim.playForward();
+    this->treeAnimPhys.playForward();
+    return true;
+}
 //update animations
 bool edk::Cenario2D::updateAnimation(edk::uint32 position){
     //test if have the level
