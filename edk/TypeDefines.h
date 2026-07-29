@@ -438,6 +438,7 @@ enum TypeObject{
     TypeObject2DColorPicker,
     TypeObject2DColorShow,
     TypeObject2DRect,
+    TypeObject2DTimeline,
     TypeObject2DMenu,
     TypeObject2DText,
     TypeObject2DTextField,

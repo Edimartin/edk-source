@@ -43,6 +43,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "ColorShow2d.h"
 #include "Rect2d.h"
 #include "Text2D.h"
+#include "Timeline2d.h"
 #include "TextField2d.h"
 #include "../ViewScrollBar.h"
 
@@ -202,6 +203,7 @@ private:
     edk::vector::BinaryTree<edk::uint32> tree2;
     edk::gui2d::ObjectGui2d* objPressed;
     edk::gui2d::ObjectGui2d* objSelected;
+    edk::gui2d::ObjectGui2d* objOver;
     edk::uint32 idSelected;
     bool endSelect;
     edk::gui2d::gui2dMouseStatus mouseStatus;

@@ -170,5 +170,3 @@ bool edk::gui2d::Rect2d::cloneFrom(edk::gui2d::ObjectGui2d* obj){
 bool edk::gui2d::Rect2d::cloneFrom(edk::gui2d::Rect2d* obj){
     return this->cloneFrom((edk::gui2d::ObjectGui2d*)obj);
 }
-
-

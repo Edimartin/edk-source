@@ -38,7 +38,8 @@ edk::char8 gui2dTypeString[edk::gui2d::gui2dTypeSize][128u] = {
     "gui2dTypeTextField",
     "gui2dTypeColorPicker",
     "gui2dTypeColorShow",
-    "gui2dTypeRect"
+    "gui2dTypeRect",
+    "gui2dTypeTimeline"
 };
 
 edk::char8 gui2dSymbolsString[edk::gui2d::gui2dTextureSize][128u] = {
@@ -1061,18 +1062,7 @@ void edk::gui2d::ObjectGui2d::unload(){
     this->obj.unload();
 }
 void edk::gui2d::ObjectGui2d::update(){
-    //test if the size os different
-    if(this->sizeS!=this->size
-            ||
-            this->borderSizeS!=this->obj.getBorderSize()
-            ){
-        //save the size
-        this->sizeS = this->size;
-        this->borderSizeS=this->obj.getBorderSize();
-
-        //update the polygons
-        this->obj.updatePolygons(this->size);
-    }
+    this->inlineCompareAndUpdate();
 
     //get the center rectangle from obj
     //this->center = this->obj.getCenter();
@@ -1366,6 +1356,12 @@ void edk::gui2d::ObjectGui2d::clickMove(edk::uint32,edk::vec2f32,bool){
 void edk::gui2d::ObjectGui2d::clickEnd(edk::uint32,edk::vec2f32,bool,bool){
     //
 }
+void edk::gui2d::ObjectGui2d::mouseScrollVertical(edk::uint32 name,edk::int32 scroll,bool mouseInside){
+    //
+}
+void edk::gui2d::ObjectGui2d::mouseScrollHorizontal(edk::uint32 name,edk::int32 scroll,bool mouseInside){
+    //
+}
 
 //set border size
 bool edk::gui2d::ObjectGui2d::setBorderSize(edk::float32 size){
@@ -1375,21 +1371,27 @@ bool edk::gui2d::ObjectGui2d::setBorderSize(edk::float32 size){
 
 //return the object rectangle inside
 edk::rectf32 edk::gui2d::ObjectGui2d::getInsideRect(){
-    //test if the size os different
-    if(this->sizeS!=this->size
-            ||
-            this->borderSizeS!=this->obj.getBorderSize()
-            ){
-        //save the size
-        this->sizeS = this->size;
-        this->borderSizeS=this->obj.getBorderSize();
-
-        //update the polygons
-        this->obj.updatePolygons(this->size);
-    }
+    this->inlineCompareAndUpdate();
 
     edk::rectf32 ret = this->obj.getRectCenter();
     ret.origin+=this->position;
+    return ret;
+}
+edk::rectf32 edk::gui2d::ObjectGui2d::getInsideRectPositionAndSize(){
+    this->inlineCompareAndUpdate();
+
+    edk::rectf32 ret = this->obj.getRectCenter();
+    ret.origin.x+=this->position.x + (ret.size.width*0.5f);
+    ret.origin.y+=this->position.y + (ret.size.height*0.5f);
+    return ret;
+}
+edk::rectf32 edk::gui2d::ObjectGui2d::getInsideRectPoints(){
+    this->inlineCompareAndUpdate();
+
+    edk::rectf32 ret = this->obj.getRectCenter();
+    ret.origin+=this->position;
+    ret.size.width += ret.origin.x;
+    ret.size.height+= ret.origin.y;
     return ret;
 }
 

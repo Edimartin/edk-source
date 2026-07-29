@@ -66,6 +66,7 @@ enum gui2dTypes{
     gui2dTypeColorPicker,
     gui2dTypeColorShow,
     gui2dTypeRect,
+    gui2dTypeTimeline,
     //
     gui2dTypeSize,
 };
@@ -245,12 +246,16 @@ public:
     virtual void clickStart(edk::uint32 name,edk::vec2f32 position);
     virtual void clickMove(edk::uint32 name,edk::vec2f32 position,bool mouseInside);
     virtual void clickEnd(edk::uint32 name,edk::vec2f32 position,bool mouseInside,bool doubleClick);
+    virtual void mouseScrollVertical(edk::uint32 name,edk::int32 scroll,bool mouseInside);
+    virtual void mouseScrollHorizontal(edk::uint32 name,edk::int32 scroll,bool mouseInside);
 
     //set border size
     virtual bool setBorderSize(edk::float32 size);
 
     //return the object rectangle inside
     edk::rectf32 getInsideRect();
+    edk::rectf32 getInsideRectPositionAndSize();
+    edk::rectf32 getInsideRectPoints();
 
     //XML
     virtual bool writeToXML(edk::XML* xml,edk::uint32 id);
@@ -326,6 +331,22 @@ protected:
 
     bool writeBoundingBox(edk::rectf32* rect);
     bool writeBoundingBox(edk::rectf32* rect,edk::vector::Matrixf32<3u,3u>* transformMat);
+private:
+    //inline functions
+    inline void inlineCompareAndUpdate(){
+        //test if the size os different
+        if(this->sizeS!=this->size
+                ||
+                this->borderSizeS!=this->obj.getBorderSize()
+                ){
+            //save the size
+            this->sizeS = this->size;
+            this->borderSizeS=this->obj.getBorderSize();
+
+            //update the polygons
+            this->obj.updatePolygons(this->size);
+        }
+    }
 private:
     edk::classID classThis;
 };

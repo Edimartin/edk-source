@@ -78,6 +78,7 @@ void edk::gui2d::ViewGui2d::Constructor(){
         this->useScroll=0u;
         this->savePercentV=0.f;
         this->savePercentH=0.f;
+        this->objOver=NULL;
 
         this->enableMouse();
 
@@ -1078,6 +1079,10 @@ void edk::gui2d::ViewGui2d::update(edk::WindowEvents* events){
                             );
             }
             this->updateCameraPercentPosition();
+
+            if(this->objOver){
+                this->objOver->mouseScrollHorizontal(this->idSelected,events->mouseScrollWheelHorizontal,true);
+            }
         }
         if(events->mouseScrollWheelVertical){
             //move the camera vertical
@@ -1089,9 +1094,14 @@ void edk::gui2d::ViewGui2d::update(edk::WindowEvents* events){
                             );
             }
             this->updateCameraPercentPosition();
+
+            if(this->objOver){
+                this->objOver->mouseScrollVertical(this->idSelected,events->mouseScrollWheelVertical,true);
+            }
         }
     }
     else if(runPress){
+        this->objOver=NULL;
         if(this->objSelected){
             //remove the selection
             this->objSelected->deselect();
@@ -1447,6 +1457,9 @@ bool edk::gui2d::ViewGui2d::readFromXML(edk::XML* xml,edk::uint32 id){
                                         else if(edk::String::strCompareInside(strType,edk::gui2d::ObjectGui2d::getStringTypeGUI(edk::gui2d::gui2dTypeRect))){
                                             type = edk::gui2d::gui2dTypeRect;
                                         }
+                                        else if(edk::String::strCompareInside(strType,edk::gui2d::ObjectGui2d::getStringTypeGUI(edk::gui2d::gui2dTypeTimeline))){
+                                            type = edk::gui2d::gui2dTypeTimeline;
+                                        }
                                         //free(strType);
                                     }
 
@@ -1485,6 +1498,9 @@ bool edk::gui2d::ViewGui2d::readFromXML(edk::XML* xml,edk::uint32 id){
                             break;
                         case gui2dTypeRect:
                             obj = new edk::gui2d::Rect2d;
+                            break;
+                        case gui2dTypeTimeline:
+                            obj = new edk::gui2d::Timeline2d;
                             break;
                         default:
                             obj = NULL;
@@ -1630,6 +1646,9 @@ bool edk::gui2d::ViewGui2d::readFromXMLFromPack(edk::pack::FilePackage* pack,edk
                                         else if(edk::String::strCompareInside(strType,edk::gui2d::ObjectGui2d::getStringTypeGUI(edk::gui2d::gui2dTypeRect))){
                                             type = edk::gui2d::gui2dTypeRect;
                                         }
+                                        else if(edk::String::strCompareInside(strType,edk::gui2d::ObjectGui2d::getStringTypeGUI(edk::gui2d::gui2dTypeTimeline))){
+                                            type = edk::gui2d::gui2dTypeTimeline;
+                                        }
                                         //free(strType);
                                     }
 
@@ -1668,6 +1687,9 @@ bool edk::gui2d::ViewGui2d::readFromXMLFromPack(edk::pack::FilePackage* pack,edk
                             break;
                         case gui2dTypeRect:
                             obj = new edk::gui2d::Rect2d;
+                            break;
+                        case gui2dTypeTimeline:
+                            obj = new edk::gui2d::Timeline2d;
                             break;
                         default:
                             obj = NULL;
@@ -1739,6 +1761,7 @@ void edk::gui2d::ViewGui2d::drawScene(edk::rectf32){
 
     if(this->selectionExec){
         //
+        this->objOver=NULL;
 
         //process the first tree with selectec objects
         size = this->selectTree->size();
@@ -1759,6 +1782,7 @@ void edk::gui2d::ViewGui2d::drawScene(edk::rectf32){
 
             obj = this->list.getPointerByID(id);
             if(obj){
+                this->objOver=obj;
                 //test if the mouse is pressed
                 if(this->mouseStatus == edk::gui2d::gui2dMousePressed){
                     obj->setStatus(edk::gui2d::gui2dTexturePressedUp);
