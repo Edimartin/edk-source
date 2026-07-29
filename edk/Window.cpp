@@ -3921,17 +3921,35 @@ bool edk::Window::loadEvents(){
 
         ///////////////////////////////////////////////////////////
         //MOUSE SCROLL
+        /*
         //if(event.Type == sf::Event::MouseWheelMoved){//1.6
         if(event.type == sf::Event::MouseWheelMoved){//2.0
             //
-            /*
-                printf("\nScrool %d"
-                       ,event.MouseWheel.Delta
-                       );
-                */
+//                printf("\n%u %s %s Scrool %d",__LINE__,__FILE__,__func__
+//                       ,event.mouseWheel.delta
+//                       );fflush(stdout);
             //this->events.mouseScrollWheel=event.MouseWheel.Delta;//1.6
             this->events.mouseScrollWheelVertical=event.mouseWheel.delta;//2.0
 
+            this->mouseInside=true;
+        }
+*/
+        if(event.type == sf::Event::MouseWheelScrolled){//2.0
+            //
+//            printf("\n%u %s %s type %d Scrool  %.2f x %d y %d",__LINE__,__FILE__,__func__
+//                   ,event.mouseWheel.delta
+//                   ,event.mouseWheelScroll.delta
+//                   ,event.mouseWheelScroll.x
+//                   ,event.mouseWheelScroll.y
+//                   );fflush(stdout);
+            if(event.mouseWheel.delta){
+                //horizontal
+                this->events.mouseScrollWheelHorizontal=event.mouseWheelScroll.delta;
+            }
+            else{
+                //vertical
+                this->events.mouseScrollWheelVertical=event.mouseWheelScroll.delta;
+            }
             this->mouseInside=true;
         }
         //FIM MOUSE SCROLL

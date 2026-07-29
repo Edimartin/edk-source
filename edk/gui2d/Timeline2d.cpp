@@ -263,8 +263,14 @@ void edk::gui2d::Timeline2d::mouseScrollVertical(edk::uint32,edk::int32 scroll,b
         this->inlineUpdateCameraLenght();
     }
 }
-void edk::gui2d::Timeline2d::mouseScrollHorizontal(edk::uint32,edk::int32,bool){
-    //
+void edk::gui2d::Timeline2d::mouseScrollHorizontal(edk::uint32,edk::int32 scroll,bool mouseInside){
+    if(mouseInside){
+        //zoom on the camera
+        edk::float32 newLenght = (this->camLenght*(0.05f*scroll))*0.5f;
+        this->camStart+=newLenght;
+        this->camEnd+=newLenght;
+        this->inlineUpdateCameraLenght();
+    }
 }
 
 //clone the gui object from
