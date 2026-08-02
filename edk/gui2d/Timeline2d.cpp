@@ -49,6 +49,8 @@ void edk::gui2d::Timeline2d::Constructor(){
         this->timeEnd=100.f;
         this->camStart=-50.f;
         this->camEnd=150.f;
+        this->setSlices(10u);
+
         this->inlineUpdateCameraLenght();
     }
 }
@@ -56,6 +58,18 @@ void edk::gui2d::Timeline2d::Destructor(){
     if(this->classThis==this){
         this->classThis=NULL;
     }
+}
+
+//SETTERS
+bool edk::gui2d::Timeline2d::setSlices(edk::uint32 slices){
+    if(slices){
+        this->worldSlices = slices;
+        this->worldPercent=1.f/(edk::float32)slices;
+        return true;
+    }
+    this->worldSlices = 10u;
+    this->worldPercent=1.f/(edk::float32)slices;
+    return false;
 }
 
 //load the button textures and meshes
@@ -238,6 +252,49 @@ void edk::gui2d::Timeline2d::draw(){
     edk::gui2d::ObjectGui2d::draw();
     this->objBack.draw();
     this->objFront.draw();
+
+    //calculte the lines
+    edk::rectf32 rectInside;
+    edk::float32 increment=0.f;
+    edk::float32 worldIncrement=0.f;
+    edk::float32 worldPosition=0.f;
+    edk::float32 worldPercentNew=this->worldPercent;
+
+    //test if need ajust the percent
+    if(this->camLenght<(this->worldSlices*DEF_EDK_WORLD_SLICES_PERCENT)){
+        worldPercentNew = 1.f/(edk::float32)(this->worldSlices*DEF_EDK_WORLD_SLICES_PERCENT);
+    }
+
+    rectInside = this->getInsideRectPoints();
+
+    //draw a line in the beginning of the timeline
+    edk::float32 position = 0;
+    position = (edk::float32)((edk::int32)this->camStart);
+    if(position>0.f){
+        position+=1.f;
+    }
+    if(position<this->camEnd){
+        //draw the line
+        worldPosition = ((rectInside.size.width - rectInside.origin.x)*
+                         ((position - this->camStart)/this->camLenght))
+                + rectInside.origin.x;
+
+        increment = worldPercentNew;
+        increment = (edk::float32)((edk::int32)(increment * this->camLenght));
+        increment+=1.f;
+        worldIncrement = ((rectInside.size.width - rectInside.origin.x)*
+                          (increment/this->camLenght));
+        for(;worldPosition<rectInside.size.width;
+            worldPosition+=worldIncrement,position+=increment
+            ){
+            edk::GU::guColor3f32(0.f,0.f,0.f);
+            edk::GU::guBegin(GU_LINES);
+            edk::GU::guVertex2f32(worldPosition,rectInside.origin.y);
+            edk::GU::guVertex2f32(worldPosition,rectInside.size.height);
+            edk::GU::guEnd();
+        }
+
+    }
 }
 void edk::gui2d::Timeline2d::drawSelection(){
     edk::gui2d::ObjectGui2d::drawSelection();
@@ -257,9 +314,14 @@ void edk::gui2d::Timeline2d::mouseScrollVertical(edk::uint32,edk::int32 scroll,b
     if(mouseInside){
         scroll*=-1;
         //zoom on the camera
+        edk::float32 saveStart=this->camStart,saveEnd=this->camEnd;
         edk::float32 newLenght = (this->camLenght*(0.05f*scroll))*0.5f;
         this->camStart-=newLenght;
         this->camEnd+=newLenght;
+        if(this->camEnd<(this->camStart+1.f)){
+            this->camStart = saveStart;
+            this->camEnd=saveEnd;
+        }
         this->inlineUpdateCameraLenght();
     }
 }

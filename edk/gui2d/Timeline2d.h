@@ -39,6 +39,8 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #define EDK_GUI2D_XML_GUI2D_TIMELINE "gui2dTimeline2d_"
 
+#define DEF_EDK_WORLD_SLICES_PERCENT 1.25f
+
 namespace edk{
 namespace gui2d{
 class Timeline2d : public edk::gui2d::ObjectGui2d{
@@ -48,6 +50,9 @@ public:
 
     void Constructor();
     void Destructor();
+
+    //SETTERS
+    bool setSlices(edk::uint32 slices);
 
     //load the button textures and meshes
     bool load();
@@ -83,6 +88,10 @@ private:
     edk::float32 timeStart,timeEnd;
     //timeline inside camera
     edk::float32 camStart,camEnd,camLenght;
+
+    //World size
+    edk::float32 worldPercent;
+    edk::uint32 worldSlices;
 
     //inline functions
     inline bool inlineSetObjColor(edk::Object2D* obj,edk::color3f32 color){
