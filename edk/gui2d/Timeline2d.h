@@ -30,6 +30,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endif
 
 #pragma once
+#include "../thread/Mutex.h"
 #include "ObjectGui2dBorder.h"
 #include "ObjectGui2d.h"
 
@@ -39,7 +40,10 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #define EDK_GUI2D_XML_GUI2D_TIMELINE "gui2dTimeline2d_"
 
-#define DEF_EDK_WORLD_SLICES_PERCENT 1.25f
+#define DEF_EDK_WORLD_SLICES_PERCENT 1.25f // size of the max slices when show only linear numbers
+#define DEF_EDK_SCREEN_NUMBERS_PERCENT 0.1f // size of the bar to draw the numbers
+#define DEF_EDK_SCREEN_NUMBERS_HEIGHT_PERCENT 0.5f // size of the numbers inside the bar
+#define DEF_EDK_NUMBER_FILTER GU_LINEAR
 
 namespace edk{
 namespace gui2d{
@@ -53,6 +57,8 @@ public:
 
     //SETTERS
     bool setSlices(edk::uint32 slices);
+    //set the numbers size percent
+    bool setNumbersSizePercent(edk::float32 percent);
 
     //load the button textures and meshes
     bool load();
@@ -93,6 +99,10 @@ private:
     edk::float32 worldPercent;
     edk::uint32 worldSlices;
 
+    //object to draw the numbers
+    edk::Object2D objNumber;
+    edk::float32 percentNumbers;
+
     //inline functions
     inline bool inlineSetObjColor(edk::Object2D* obj,edk::color3f32 color){
         if(obj){
@@ -109,6 +119,16 @@ private:
     inline void inlineUpdateCameraLenght(){
         this->camLenght = this->camEnd - this->camStart;
     }
+
+    //draw the number into a position
+    bool drawNumber(edk::float32 position,edk::int64 value);
+
+    static edk::Texture2DList list;
+    static edk::uint64 listCounter;
+    static edk::multi::Mutex mut;
+    //load and unload the texture from the list
+    void privateLoadNumbers();
+    void privateUnloadNumbers();
 private:
     edk::classID classThis;
 };
