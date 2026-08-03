@@ -42,7 +42,8 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #define DEF_EDK_WORLD_SLICES_PERCENT 1.25f // size of the max slices when show only linear numbers
 #define DEF_EDK_SCREEN_NUMBERS_PERCENT 0.1f // size of the bar to draw the numbers
-#define DEF_EDK_SCREEN_NUMBERS_HEIGHT_PERCENT 0.5f // size of the numbers inside the bar
+#define DEF_EDK_SCREEN_NUMBERS_HEIGHT_PERCENT 0.75f // size of the numbers inside the bar
+#define DEF_EDK_SCREEN_BAR_PERCENT 0.05f // size of the down bar to draw the numbers
 #define DEF_EDK_NUMBER_FILTER GU_LINEAR
 
 namespace edk{
@@ -59,6 +60,10 @@ public:
     bool setSlices(edk::uint32 slices);
     //set the numbers size percent
     bool setNumbersSizePercent(edk::float32 percent);
+    bool setBarSizePercent(edk::float32 percent);
+
+    //select a frame
+    void selectFrame(edk::int32 frame);
 
     //load the button textures and meshes
     bool load();
@@ -75,6 +80,7 @@ public:
     virtual void drawSelection();
 
     //click to select an polygon inside the object
+    virtual void mouseMove(edk::vec2f32 position,bool mouseInside);
     virtual void clickStart(edk::uint32 name,edk::vec2f32 position);
     virtual void clickMove(edk::uint32 name,edk::vec2f32 position,bool mouseInside);
     virtual void clickEnd(edk::uint32 name,edk::vec2f32 position,bool mouseInside,bool doubleClick);
@@ -100,8 +106,18 @@ private:
     edk::uint32 worldSlices;
 
     //object to draw the numbers
+    edk::Object2D objNumberBack;
     edk::Object2D objNumber;
+    edk::Object2D objFrame;
+    edk::Object2D objFrameKey;
     edk::float32 percentNumbers;
+    edk::float32 percentBar;
+
+    edk::vec2f32 mousePosition;
+    edk::int32 mouseFrame;
+    bool isMouseMoved;
+
+    bool canEdit;
 
     //inline functions
     inline bool inlineSetObjColor(edk::Object2D* obj,edk::color3f32 color){
@@ -121,7 +137,7 @@ private:
     }
 
     //draw the number into a position
-    bool drawNumber(edk::float32 position,edk::int64 value);
+    bool drawNumber(edk::vec2f32 sizeLimit,edk::float32 position,edk::int64 value,bool drawBack);
 
     static edk::Texture2DList list;
     static edk::uint64 listCounter;

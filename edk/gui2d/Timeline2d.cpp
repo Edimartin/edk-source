@@ -505,7 +505,7 @@ edk::gui2d::Timeline2d::~Timeline2d(){
 }
 
 //draw the number into a position
-bool edk::gui2d::Timeline2d::drawNumber(edk::float32 position,edk::int64 value){
+bool edk::gui2d::Timeline2d::drawNumber(edk::vec2f32 sizeLimit,edk::float32 position,edk::int64 value,bool drawBack){
     edk::shape::Mesh2D* mesh = this->objNumber.getMesh(0u);
     if(mesh){
         //calculate the size of the number
@@ -524,28 +524,58 @@ bool edk::gui2d::Timeline2d::drawNumber(edk::float32 position,edk::int64 value){
             }
             this->objNumber.position.x = position
                     + (size*this->objNumber.size.width*0.5f)
-                    - this->objNumber.size.width*0.5f
-                    ;
-            while(temp2){
-                temp=temp2%10;
-                temp2/=10;
-                mesh->selectedUsePolygonUVFramePosition(temp);
-                this->objNumber.draw();
-                this->objNumber.position.x-=this->objNumber.size.width;
-            }
-            if(minus){
-                mesh->selectedUsePolygonUVFramePosition(11u);
-                this->objNumber.draw();
+                    - this->objNumber.size.width*0.5f;
+            if((position - (size*this->objNumber.size.width*0.5f)) >= sizeLimit.x
+                    &&
+                    (position + (size*this->objNumber.size.width*0.5f)) <= sizeLimit.y
+                    ){
+
+                if(drawBack){
+                    this->objNumberBack.size.height = this->objNumber.size.height;
+                    this->objNumberBack.size.width = this->objNumber.size.width*size * -1.f;
+                    this->objNumberBack.position.x = this->objNumber.position.x + (this->objNumber.size.width*0.5f);
+                    this->objNumberBack.position.y = this->objNumber.position.y - (this->objNumber.size.height*0.5f);
+                    this->objNumberBack.draw();
+                    this->objNumberBack.drawWire();
+                }
+
+                while(temp2){
+                    temp=temp2%10;
+                    temp2/=10;
+                    mesh->selectedUsePolygonUVFramePosition(temp);
+                    this->objNumber.draw();
+                    this->objNumber.position.x-=this->objNumber.size.width;
+                }
+                if(minus){
+                    mesh->selectedUsePolygonUVFramePosition(11u);
+                    this->objNumber.draw();
+                }
+
+                return true;
             }
         }
         else{
-            //draw zero
-            mesh->selectedUsePolygonUVFramePosition(0u);
-            this->objNumber.position.x = position;
-            this->objNumber.draw();
-        }
+            if((position - (this->objNumber.size.width*0.5f)) >= sizeLimit.x
+                    &&
+                    (position + (this->objNumber.size.width*0.5f)) <= sizeLimit.y
+                    ){
+                if(drawBack){
+                    this->objNumberBack.size.height = this->objNumber.size.height;
+                    this->objNumberBack.size.width = this->objNumber.size.width*-1.f;
+                    this->objNumberBack.position.x = this->objNumber.position.x + (this->objNumber.size.width*0.5f);
+                    this->objNumberBack.position.y = this->objNumber.position.y - (this->objNumberBack.size.height*0.5f);
+                    this->objNumberBack.draw();
+                    this->objNumberBack.drawWire();
+                }
 
-        return true;
+                //draw zero
+                mesh->selectedUsePolygonUVFramePosition(0u);
+                this->objNumber.position.x = position;
+                this->objNumber.draw();
+
+                return true;
+            }
+        }
     }
     return false;
 }
@@ -577,6 +607,8 @@ void edk::gui2d::Timeline2d::Constructor(){
     if(this->classThis!=this){
         this->classThis=this;
 
+        this->canEdit=false;
+        this->isMouseMoved=false;
         this->colorBackLight = edk::color3f32(0.75f,0.75f,0.75f);
         this->colorBackDark = edk::color3f32(0.25f,0.25f,0.25f);
         this->typeGUI = edk::gui2d::gui2dTypeTimeline;
@@ -593,28 +625,12 @@ void edk::gui2d::Timeline2d::Constructor(){
         this->privateLoadNumbers();
 
         this->objNumber.Constructor();
-
-        //load the time numbers
-        edk::shape::Mesh2D* mesh = NULL;
-        mesh = this->objNumber.newMesh();
-        if(mesh){
-            edk::shape::Rectangle2D rect;
-            rect.setPivoToCenter();
-            mesh->addPolygon(rect);
-
-            mesh->material.loadTextureFromMemory(EDKTimeNumbersTemplateName,EDKTimeNumbersTemplate,EDKTimeNumbersTemplateSize,0u,DEF_EDK_NUMBER_FILTER,DEF_EDK_NUMBER_FILTER);
-            mesh->material.setAmbient(0.f,0.f,0.f,1.f);
-            mesh->material.setDiffuse(0.f,0.f,0.f,1.f);
-            mesh->material.setEmission(0.f,0.f,0.f,1.f);
-
-            //set the cuts
-            mesh->selectPolygon(0u);
-            mesh->selectedSetPolygonUVFrames(3u,4u);
-            mesh->selectedUsePolygonUVFramePosition(0u);
-            mesh->selectedUsePolygonUVFramePosition(1u);
-        }
+        this->objNumberBack.Constructor();
+        this->objFrame.Constructor();
+        this->objFrameKey.Constructor();
 
         this->setNumbersSizePercent(-1.f);
+        this->setBarSizePercent(-1.f);
     }
 }
 void edk::gui2d::Timeline2d::Destructor(){
@@ -645,10 +661,25 @@ bool edk::gui2d::Timeline2d::setNumbersSizePercent(edk::float32 percent){
     this->percentNumbers=DEF_EDK_SCREEN_NUMBERS_PERCENT;
     return false;
 }
+bool edk::gui2d::Timeline2d::setBarSizePercent(edk::float32 percent){
+    if(percent>0.f){
+        this->percentBar=percent;
+        return true;
+    }
+    this->percentBar=DEF_EDK_SCREEN_BAR_PERCENT;
+    return false;
+}
+
+//select a frame
+void edk::gui2d::Timeline2d::selectFrame(edk::int32 frame){
+    this->mouseFrame = frame;
+}
 
 //load the button textures and meshes
 bool edk::gui2d::Timeline2d::load(){
     if(edk::gui2d::ObjectGui2d::load()){
+        this->canEdit=false;
+        this->isMouseMoved=false;
         //set the border width
         this->setBorderSize(0.01f);
 
@@ -669,6 +700,66 @@ bool edk::gui2d::Timeline2d::load(){
             mesh->addPolygon(rect);
         }
         this->inlineSetObjColor(&this->objFront,this->colorBackLight);
+
+        //load the time numbers
+        mesh = NULL;
+        mesh = this->objNumber.newMesh();
+        if(mesh){
+            edk::shape::Rectangle2D rect;
+            rect.setPivoToCenter();
+            mesh->addPolygon(rect);
+
+            mesh->material.loadTextureFromMemory(EDKTimeNumbersTemplateName,EDKTimeNumbersTemplate,EDKTimeNumbersTemplateSize,0u,DEF_EDK_NUMBER_FILTER,DEF_EDK_NUMBER_FILTER);
+            mesh->material.setAmbient (0.f,0.f,0.f,1.f);
+            mesh->material.setDiffuse (0.f,0.f,0.f,1.f);
+            mesh->material.setEmission(0.f,0.f,0.f,1.f);
+
+            //set the cuts
+            mesh->selectPolygon(0u);
+            mesh->selectedSetPolygonUVFrames(3u,4u);
+            mesh->selectedUsePolygonUVFramePosition(0u);
+            mesh->selectedUsePolygonUVFramePosition(1u);
+        }
+
+        mesh = this->objNumberBack.newMesh();
+        if(mesh){
+            edk::shape::Rectangle2D rect;
+            //rect.setPivoToCenter();
+            rect.setPolygonColor(0.f,0.f,0.f,1.f);
+            mesh->addPolygon(rect);
+
+            mesh->material.setAmbient (1.f,1.f,1.f,1.f);
+            mesh->material.setDiffuse (1.f,1.f,1.f,1.f);
+            mesh->material.setEmission(1.f,1.f,1.f,1.f);
+        }
+
+        //load the frame objects
+        mesh = this->objFrame.newMesh();
+        if(mesh){
+            edk::shape::Rectangle2D rect;
+            rect.setPivoToCenter();
+            rect.setVertexPositionY(0u,0.f);
+            rect.setVertexPositionY(1u,1.f);
+            rect.setPolygonColor(0.f,0.f,0.f,1.f);
+            mesh->addPolygon(rect);
+
+            mesh->material.setAmbient (0.f,0.f,0.f,1.0f);
+            mesh->material.setDiffuse (0.f,0.f,0.f,1.0f);
+            mesh->material.setEmission(0.f,0.f,0.f,1.0f);
+        }
+        mesh = this->objFrameKey.newMesh();
+        if(mesh){
+            edk::shape::Rectangle2D rect;
+            rect.setPivoToCenter();
+            rect.setVertexPositionY(0u,0.f);
+            rect.setVertexPositionY(1u,1.f);
+            rect.setPolygonColor(0.f,0.f,0.f,1.f);
+            mesh->addPolygon(rect);
+
+            mesh->material.setAmbient (0.75f,0.75f,0.f,1.0f);
+            mesh->material.setDiffuse (0.75f,0.75f,0.f,1.0f);
+            mesh->material.setEmission(0.75f,0.75f,0.f,1.0f);
+        }
         return true;
     }
     return false;
@@ -676,6 +767,10 @@ bool edk::gui2d::Timeline2d::load(){
 void edk::gui2d::Timeline2d::unload(){
     edk::gui2d::ObjectGui2d::unload();
     this->objBack.clean();
+    this->objFront.clean();
+    this->objNumber.clean();
+    this->objFrame.clean();
+    this->objFrameKey.clean();
 }
 void edk::gui2d::Timeline2d::update(){
     edk::gui2d::ObjectGui2d::update();
@@ -830,14 +925,17 @@ void edk::gui2d::Timeline2d::draw(){
     //calculte the lines
     edk::rectf32 rectInside;
     edk::float32 increment=0.f;
+    edk::float32 position = 0;
     edk::float32 worldIncrement=0.f;
     edk::float32 worldPosition=0.f;
+    edk::float32 percent=0.f;
 
     edk::float32 savePosition=0.f;
     edk::float32 saveWorldPosition=0.f;
 
     edk::float32 worldPercentNew=this->worldPercent;
-    edk::float32 worldNewY = 0.f;
+    edk::float32 worldNewY1 = 0.f;
+    edk::float32 worldNewY2 = 0.f;
 
     //test if need ajust the percent
     if(this->camLenght<(this->worldSlices*DEF_EDK_WORLD_SLICES_PERCENT)){
@@ -846,15 +944,17 @@ void edk::gui2d::Timeline2d::draw(){
 
     rectInside = this->getInsideRectPoints();
 
-    worldNewY = ((rectInside.origin.y - rectInside.size.height)*this->percentNumbers)
+    worldNewY2 = ((rectInside.origin.y - rectInside.size.height)*this->percentNumbers)
             + rectInside.size.height;
-    this->objNumber.position.y = ((worldNewY - rectInside.size.height)*0.5f)
+    this->objNumber.position.y = ((worldNewY2 - rectInside.size.height)*0.5f)
             + rectInside.size.height;
-    this->objNumber.size.height = edk::Math::module(worldNewY - rectInside.size.height) * DEF_EDK_SCREEN_NUMBERS_HEIGHT_PERCENT;
+    this->objNumber.size.height = edk::Math::module(worldNewY2 - rectInside.size.height) * DEF_EDK_SCREEN_NUMBERS_HEIGHT_PERCENT;
     this->objNumber.size.width = this->objNumber.size.height*0.5f;
 
+    worldNewY1 = ((rectInside.origin.y - rectInside.size.height)*(1.0-this->percentBar))
+            + rectInside.size.height;
+
     //draw a line in the beginning of the timeline
-    edk::float32 position = 0;
     position = (edk::float32)((edk::int32)this->camStart);
     if(position>0.f){
         position+=1.f;
@@ -873,7 +973,7 @@ void edk::gui2d::Timeline2d::draw(){
 
         savePosition = position;
         saveWorldPosition = worldPosition;
-
+        /*
         edk::GU::guColor3f32(0.f,0.f,0.f);
         edk::GU::guBegin(GU_LINES);
 
@@ -884,7 +984,7 @@ void edk::gui2d::Timeline2d::draw(){
             edk::GU::guVertex2f32(worldPosition,worldNewY);
         }
         edk::GU::guEnd();
-
+*/
         //draw the numbers
         position = savePosition;
         worldPosition = saveWorldPosition;
@@ -895,9 +995,61 @@ void edk::gui2d::Timeline2d::draw(){
             ){
             this->objNumber.position.x = worldPosition;
             //draw the numbers
-            this->drawNumber(worldPosition,(edk::int64)position);
+            if(this->drawNumber(edk::vec2f32(rectInside.origin.x,rectInside.size.width),worldPosition,(edk::int64)position,false)){
+                edk::GU::guColor3f32(0.f,0.f,0.f);
+                edk::GU::guBegin(GU_LINES);
+                edk::GU::guVertex2f32(worldPosition,worldNewY1);
+                edk::GU::guVertex2f32(worldPosition,worldNewY2);
+                edk::GU::guEnd();
+            }
         }
+    }
 
+    this->objFrame.size.height = worldNewY2 - worldNewY1;
+    this->objFrame.size.width = (rectInside.size.width - rectInside.origin.x)*0.005f;
+    this->objFrame.position.y = worldNewY1;
+    if(this->isMouseMoved){
+        if(this->mousePosition.y >= worldNewY1
+                && this->mousePosition.y <= worldNewY2
+                ){
+            this->objFrame.position.x = this->mousePosition.x;
+        }
+        this->isMouseMoved=false;
+
+        percent = (this->objFrame.position.x-rectInside.origin.x)/(rectInside.size.width - rectInside.origin.x);
+        this->mouseFrame = (edk::int32)(((this->camEnd - this->camStart)*percent)+this->camStart);
+    }
+
+    this->objFrame.position.x = ((rectInside.size.width - rectInside.origin.x)*
+                                 (((edk::float32)this->mouseFrame - this->camStart)/this->camLenght))
+            + rectInside.origin.x;
+
+    //copy to the frameKey
+    this->objFrameKey.size.width = this->objFrame.size.width;
+    this->objFrameKey.size.height = this->objFrame.size.height*0.5f;
+    //draw the frame
+    if(this->objFrame.position.x>rectInside.origin.x
+            && this->objFrame.position.x<rectInside.size.width
+            ){
+        this->objFrame.draw();
+
+        this->objNumber.position.x = this->objFrame.position.x;
+        //draw the numbers
+        this->drawNumber(edk::vec2f32(rectInside.origin.x,rectInside.size.width),
+                         this->objFrame.position.x,
+                         (edk::int64)this->mouseFrame,
+                         true
+                         );
+
+////////////////////////////////////////////////////////////////
+        this->objFrameKey.position = this->objFrame.position;
+        this->objFrameKey.draw();
+////////////////////////////////////////////////////////////////
+
+        this->canEdit=true;
+    }
+    else{
+        this->canEdit=false;
     }
 
 }
@@ -906,11 +1058,18 @@ void edk::gui2d::Timeline2d::drawSelection(){
 }
 
 //click to select an polygon inside the object
+void edk::gui2d::Timeline2d::mouseMove(edk::vec2f32 /*position*/,bool /*mouseInside*/){
+    //
+}
 void edk::gui2d::Timeline2d::clickStart(edk::uint32,edk::vec2f32){
     //
 }
-void edk::gui2d::Timeline2d::clickMove(edk::uint32,edk::vec2f32,bool){
+void edk::gui2d::Timeline2d::clickMove(edk::uint32,edk::vec2f32 position,bool mouseInside){
     //
+    if(mouseInside){
+        this->mousePosition = position;
+        this->isMouseMoved=true;
+    }
 }
 void edk::gui2d::Timeline2d::clickEnd(edk::uint32,edk::vec2f32,bool,bool){
     //

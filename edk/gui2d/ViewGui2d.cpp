@@ -907,6 +907,7 @@ void edk::gui2d::ViewGui2d::resize(edk::rectf32 /*outsideViewOrigin*/){
 
 void edk::gui2d::ViewGui2d::update(edk::WindowEvents* events){
     //
+    edk::gui2d::ObjectGui2d* saveOver=NULL;
     bool runSelection=false;
     bool runPress=false;
     this->list.update();
@@ -1068,6 +1069,13 @@ void edk::gui2d::ViewGui2d::update(edk::WindowEvents* events){
     }
 
     if(this->isMouseInside()){
+        if(events->mouseMoved){
+            //set mouse move inside an object
+            if(this->objOver){
+                this->objOver->mouseMove(this->mousePositionInside,true);
+                saveOver = this->objOver;
+            }
+        }
         //mouse scroll
         if(events->mouseScrollWheelHorizontal){
             //move the camera horizontal
@@ -1267,6 +1275,7 @@ void edk::gui2d::ViewGui2d::update(edk::WindowEvents* events){
             if(temp){
                 temp->pointer->calculateBoundingBox();
                 rect = temp->pointer->getBoundingBox();
+/*
                 if(this->mousePositionInside.x >= rect.origin.x
                         && this->mousePositionInside.x < rect.size.width
                         && this->mousePositionInside.y >= rect.origin.y
@@ -1277,7 +1286,10 @@ void edk::gui2d::ViewGui2d::update(edk::WindowEvents* events){
                 else{
                     posInside=false;
                 }
-                temp->pointer->mouseMove(this->mousePositionInside,posInside);
+*/
+                if(temp->pointer != saveOver){
+                    temp->pointer->mouseMove(this->mousePositionInside,posInside);
+                }
             }
         }
     }
