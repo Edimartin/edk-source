@@ -1242,7 +1242,8 @@ public:
                                 goRight=false;
                             }
                             else{
-                                goFather=true;
+                                goLeft=true;
+                                goRight=false;
                             }
                         }
                         else if(!goRight){
@@ -1323,7 +1324,8 @@ public:
                             goRight=false;
                         }
                         else{
-                            goFather=true;
+                            goLeft=true;
+                            goRight=false;
                         }
                     }
                     else if(!goRight){
