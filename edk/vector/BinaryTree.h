@@ -1206,6 +1206,80 @@ public:
 #endif
         return ret;
     }
+    //return the element in the Position
+    bool getElementsFrom(edk::vector::Array<typeTemplate>* array,typeTemplate smaller,typeTemplate bigger){
+        if(array){
+            BinaryLeaf<typeTemplate>* after = this->findAfter(smaller);
+            if(after){
+                bool goLeft=true,goRight=false,goFather=false;
+                edk::uint32 position = 0u;
+                edk::uint32 positionFirst = 0u;
+                //search for other values
+                BinaryLeaf<typeTemplate>* temp = after;
+                if(temp){
+                    positionFirst = position = temp->position;
+#if defined(EDK_DEBUG_VECTOR)
+                    edkWriteClassDebugNoPosition(this,this->generateDebugValue(&ret->value),true);
+#endif
+                    array->set(position - positionFirst,temp->value);
+                }
+                while(temp){
+                    //compare if is inside the smaller and bigger
+                    if(this->firstBiggerSecond(temp->value,smaller)
+                            && this->firstBiggerSecond(bigger,temp->value)
+                            ){
+                        if(temp->position == (position+1u)){
+                            position = temp->position;
+#if defined(EDK_DEBUG_VECTOR)
+                    edkWriteClassDebugNoPosition(this,this->generateDebugValue(&ret->value),true);
+#endif
+                            array->set(position - positionFirst,temp->value);
+                        }
+                        if(!goLeft){
+                            if(temp->left){
+                                temp = temp->left;
+                                goLeft=false;
+                                goRight=false;
+                            }
+                            else{
+                                goFather=true;
+                            }
+                        }
+                        else if(!goRight){
+                            if(temp->right){
+                                temp = temp->right;
+                                goLeft=false;
+                                goRight=false;
+                            }
+                            else{
+                                goFather=true;
+                            }
+                        }
+                        if(goFather){
+                            goFather=false;
+                            if(temp->father){
+                                if(temp->father->left == temp){
+                                    goLeft=true;
+                                    goRight=false;
+                                }
+                                else if(temp->father->right == temp){
+                                    goLeft=true;
+                                    goRight=true;
+                                    goFather=true;
+                                }
+                            }
+                            temp = temp->father;
+                        }
+                    }
+                    else{
+                        temp=NULL;
+                    }
+                }
+                return true;
+            }
+        }
+        return false;
+    }
     //force update positions
     void updatePositions(){
         if(!(*this->updateElementsPositionsPointer)){
@@ -1215,6 +1289,77 @@ public:
     }
 
     //return the size
+    edk::uint32 getSizeFrom(typeTemplate smaller,typeTemplate bigger){
+        BinaryLeaf<typeTemplate>* after = this->findAfter(smaller);
+        if(after){
+            edk::uint32 size = 0u;
+            bool goLeft=true,goRight=false,goFather=false;
+            edk::uint32 position = 0u;
+            //search for other values
+            BinaryLeaf<typeTemplate>* temp = after;
+            if(temp){
+                position = temp->position;
+                size++;
+#if defined(EDK_DEBUG_VECTOR)
+                    edkWriteClassDebugNoPosition(this,this->generateDebugValue(&ret->value),true);
+#endif
+            }
+            while(temp){
+                //compare if is inside the smaller and bigger
+                if(this->firstBiggerSecond(temp->value,smaller)
+                        && this->firstBiggerSecond(bigger,temp->value)
+                        ){
+                    if(temp->position == (position+1u)){
+                        position = temp->position;
+                        size++;
+#if defined(EDK_DEBUG_VECTOR)
+                    edkWriteClassDebugNoPosition(this,this->generateDebugValue(&ret->value),true);
+#endif
+                    }
+                    if(!goLeft){
+                        if(temp->left){
+                            temp = temp->left;
+                            goLeft=false;
+                            goRight=false;
+                        }
+                        else{
+                            goFather=true;
+                        }
+                    }
+                    else if(!goRight){
+                        if(temp->right){
+                            temp = temp->right;
+                            goLeft=false;
+                            goRight=false;
+                        }
+                        else{
+                            goFather=true;
+                        }
+                    }
+                    if(goFather){
+                        goFather=false;
+                        if(temp->father){
+                            if(temp->father->left == temp){
+                                goLeft=true;
+                                goRight=false;
+                            }
+                            else if(temp->father->right == temp){
+                                goLeft=true;
+                                goRight=true;
+                                goFather=true;
+                            }
+                        }
+                        temp = temp->father;
+                    }
+                }
+                else{
+                    temp=NULL;
+                }
+            }
+            return size;
+        }
+        return 0u;
+    }
     inline edk::uint32 getSize(){
         //
         return (*this->sizeTreePointer);
@@ -2012,8 +2157,8 @@ private:
         }
     }
     void updateFunctionNoRecursivelyWithPointer(BinaryLeaf<typeTemplate>* temp,
-                                     void (edk::vector::BinaryTree<typeTemplate>::*functionPointerWithPointer)(typeTemplate* )
-                                     ){
+                                                void (edk::vector::BinaryTree<typeTemplate>::*functionPointerWithPointer)(typeTemplate* )
+                                                ){
         while(temp){
             if(temp->readed==0u){
                 temp->readed=1u;
