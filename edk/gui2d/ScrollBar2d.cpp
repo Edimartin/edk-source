@@ -457,7 +457,7 @@ void edk::gui2d::ScrollBar2d::calculatePosition(){
 
     edk::float32 startY = this->position.y - (this->size.height * 0.5f) + (this->foregroundSize.height*this->size.height*0.5f);
     edk::float32 endY = this->position.y + (this->size.height * 0.5f) - (this->foregroundSize.height*this->size.height*0.5f);
-    this->objPosition.y = ((endY - startY) * this->percent.y) + startY;
+    this->objPosition.y = ((endY - startY) * this->percent.y * 0.01f) + startY;
 }
 
 //save the FontTemplate
@@ -567,6 +567,7 @@ bool edk::gui2d::ScrollBar2d::load(){
         this->loadSpriteUpFromMemory(borderScrollUpName,borderScrollUp,borderScrollUpSize);
         this->loadSpritePressedUpFromMemory(borderScrollUpName,borderScrollUp,borderScrollUpSize);
 
+        this->setForegroundSize(0.5f,0.5f);
         return true;
     }
     return false;
@@ -613,6 +614,7 @@ bool edk::gui2d::ScrollBar2d::setForegroundSize(edk::float32 width,edk::float32 
     this->foregroundSize.height = height;
 
     this->saveSize.width = this->saveSize.width+1.f;
+    this->saveSize.height = this->saveSize.height+1.f;
 
     return ret;
 }

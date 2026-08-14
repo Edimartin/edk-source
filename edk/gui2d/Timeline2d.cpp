@@ -631,6 +631,9 @@ void edk::gui2d::Timeline2d::Constructor(){
 
         this->setNumbersSizePercent(-1.f);
         this->setBarSizePercent(-1.f);
+
+        this->tree.Constructor();
+        this->array.Constructor();
     }
 }
 void edk::gui2d::Timeline2d::Destructor(){
@@ -638,6 +641,13 @@ void edk::gui2d::Timeline2d::Destructor(){
         this->classThis=NULL;
 
         this->privateUnloadNumbers();
+
+        this->objNumber.Destructor();
+        this->objNumberBack.Destructor();
+        this->objFrame.Destructor();
+        this->objFrameKey.Destructor();
+        this->tree.Destructor();
+        this->array.Destructor();
     }
 }
 
@@ -673,6 +683,44 @@ bool edk::gui2d::Timeline2d::setBarSizePercent(edk::float32 percent){
 //select a frame
 void edk::gui2d::Timeline2d::selectFrame(edk::int32 frame){
     this->mouseFrame = frame;
+}
+
+//keyframes
+bool edk::gui2d::Timeline2d::addKeyframe(edk::int32 keyframe){
+    bool ret = this->tree.add(keyframe);
+    this->tree.updatePositions();
+/*
+    printf("\nFRAMES:\n");
+    this->printKeyframes();
+*/
+    this->inlineUpdateCameraLenght();
+    return ret;
+}
+bool edk::gui2d::Timeline2d::removeKeyframe(edk::int32 keyframe){
+    bool ret = this->tree.remove(keyframe);
+    this->tree.updatePositions();
+    this->inlineUpdateCameraLenght();
+    return ret;
+}
+bool edk::gui2d::Timeline2d::haveKeyframe(edk::int32 keyframe){
+    return this->tree.haveElement(keyframe);
+}
+edk::int32 edk::gui2d::Timeline2d::getKeyframeInPosition(edk::uint32 position){
+    if(this->tree.getSize() > position){
+        return this->tree.getElementInPosition(position);
+    }
+    return 0u;
+}
+void edk::gui2d::Timeline2d::printKeyframes(){
+    edk::uint32 size = this->tree.size();
+    if(size){
+        size--;
+        for(edk::uint32  i=0u;i<size;i++){
+            printf("%d,",this->tree.getElementInPosition(i));
+        }
+        printf("%d,",this->tree.getElementInPosition(size));
+    }
+    fflush(stdout);
 }
 
 //load the button textures and meshes
@@ -760,6 +808,7 @@ bool edk::gui2d::Timeline2d::load(){
             mesh->material.setDiffuse (0.75f,0.75f,0.f,1.0f);
             mesh->material.setEmission(0.75f,0.75f,0.f,1.0f);
         }
+        this->inlineUpdateCameraLenght();
         return true;
     }
     return false;
@@ -1041,15 +1090,35 @@ void edk::gui2d::Timeline2d::draw(){
                          true
                          );
 
-////////////////////////////////////////////////////////////////
-        this->objFrameKey.position = this->objFrame.position;
-        this->objFrameKey.draw();
-////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////
+        //this->objFrameKey.position = this->objFrame.position;
+        //this->objFrameKey.draw();
+        ////////////////////////////////////////////////////////////////
 
         this->canEdit=true;
     }
     else{
         this->canEdit=false;
+    }
+
+    //draw the keyframes
+    this->objFrameKey.position = this->objFrame.position;
+    if(this->array.size()){
+        edk::uint32 size = this->array.size();
+        edk::int32 keyframe = 0;
+        for(edk::uint32 i=0u;i<size;i++){
+            keyframe = this->array.get(i);
+
+            this->objFrameKey.position.x = ((rectInside.size.width - rectInside.origin.x)*
+                                            (((edk::float32)keyframe - this->camStart)/this->camLenght))
+                    + rectInside.origin.x;
+            if(this->objFrameKey.position.x>=rectInside.origin.x
+                    &&
+                    this->objFrameKey.position.x<=rectInside.size.width
+                    ){
+                this->objFrameKey.draw();
+            }
+        }
     }
 
 }

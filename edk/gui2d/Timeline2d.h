@@ -33,6 +33,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "../thread/Mutex.h"
 #include "ObjectGui2dBorder.h"
 #include "ObjectGui2d.h"
+#include "../vector/BinaryTree.h"
 
 #ifdef printMessages
 #pragma message "    Compiling gui2d::Timeline2d"
@@ -64,6 +65,13 @@ public:
 
     //select a frame
     void selectFrame(edk::int32 frame);
+
+    //keyframes
+    bool addKeyframe(edk::int32 keyframe);
+    bool removeKeyframe(edk::int32 keyframe);
+    bool haveKeyframe(edk::int32 keyframe);
+    edk::int32 getKeyframeInPosition(edk::uint32 position);
+    void printKeyframes();
 
     //load the button textures and meshes
     bool load();
@@ -117,6 +125,10 @@ private:
     edk::int32 mouseFrame;
     bool isMouseMoved;
 
+    //tree with the keyframes
+    edk::vector::BinaryTree<edk::int32> tree;
+    edk::vector::Array<edk::int32> array;
+
     bool canEdit;
 
     //inline functions
@@ -134,6 +146,32 @@ private:
     }
     inline void inlineUpdateCameraLenght(){
         this->camLenght = this->camEnd - this->camStart;
+
+        this->array.clean();
+        //update the keyframes to be showed
+        edk::uint32 size = this->tree.getSizeFrom(((edk::int32)this->camStart)-1,((edk::int32)this->camEnd)+1);
+/*
+        printf("\n%u %s %s sizeFrom(%.2f,%.2f)[%u]",__LINE__,__FILE__,__func__
+               ,this->camStart,this->camEnd
+               ,size
+               );fflush(stdout);
+*/
+        if(size){
+            if(this->array.createArray(size)){
+                this->tree.getElementsFrom(&this->array,((edk::int32)this->camStart)-1,((edk::int32)this->camEnd)+1);
+/*
+                if(this->array.size()){
+                    edk::uint32 size = this->array.size();
+                    edk::int32 keyframe = 0;
+                    printf("\n");
+                    for(edk::uint32 i=0u;i<size;i++){
+                        keyframe = this->array.get(i);
+                        printf("%d,",keyframe);fflush(stdout);
+                    }
+                }
+*/
+            }
+        }
     }
 
     //draw the number into a position

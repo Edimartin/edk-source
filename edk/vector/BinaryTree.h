@@ -1104,7 +1104,7 @@ public:
 #endif
         return retZero;
     }
-    typeTemplate getElementBefore(typeTemplate value){
+    typeTemplate getElementBefore(typeTemplate value, bool* success=NULL){
         //find the element pointer
         BinaryLeaf<typeTemplate>* ret = this->findBefore(value);
         //test if the element is founded
@@ -1113,7 +1113,13 @@ public:
 #if defined(EDK_DEBUG_VECTOR)
             edkWriteClassDebugNoPosition(this,this->generateDebugValue(&value),true);
 #endif
+            if(success){
+                *success=true;
+            }
             return ret->value;
+        }
+        if(success){
+            *success=false;
         }
         //else return zero
         typeTemplate retZero;
@@ -1123,7 +1129,7 @@ public:
 #endif
         return retZero;
     }
-    typeTemplate getElementAfter(typeTemplate value){
+    typeTemplate getElementAfter(typeTemplate value, bool* success=NULL){
         //find the element pointer
         BinaryLeaf<typeTemplate>* ret = this->findAfter(value);
         //test if the element is founded
@@ -1132,7 +1138,13 @@ public:
 #if defined(EDK_DEBUG_VECTOR)
             edkWriteClassDebugNoPosition(this,this->generateDebugValue(&value),true);
 #endif
+            if(success){
+                *success=true;
+            }
             return ret->value;
+        }
+        if(success){
+            *success=false;
         }
         //else return zero
         typeTemplate retZero;
@@ -1225,55 +1237,53 @@ public:
                 }
                 while(temp){
                     //compare if is inside the smaller and bigger
-                    if(this->firstBiggerSecond(temp->value,smaller)
+                    if(temp->position == (position+1u)
                             && this->firstBiggerSecond(bigger,temp->value)
                             ){
-                        if(temp->position == (position+1u)){
-                            position = temp->position;
+                        position = temp->position;
 #if defined(EDK_DEBUG_VECTOR)
-                    edkWriteClassDebugNoPosition(this,this->generateDebugValue(&ret->value),true);
+                        edkWriteClassDebugNoPosition(this,this->generateDebugValue(&ret->value),true);
 #endif
-                            array->set(position - positionFirst,temp->value);
+                        array->set(position - positionFirst,temp->value);
+                    }
+                    if(!goLeft && this->firstBiggerSecond(temp->value,smaller)){
+                        if(temp->left){
+                            temp = temp->left;
+                            goLeft=false;
+                            goRight=false;
                         }
-                        if(!goLeft){
-                            if(temp->left){
-                                temp = temp->left;
-                                goLeft=false;
-                                goRight=false;
-                            }
-                            else{
-                                goLeft=true;
-                                goRight=false;
-                            }
+                        else{
+                            goLeft=true;
+                            goRight=false;
                         }
-                        else if(!goRight){
-                            if(temp->right){
-                                temp = temp->right;
-                                goLeft=false;
-                                goRight=false;
-                            }
-                            else{
-                                goFather=true;
-                            }
+                    }
+                    else if(!goRight && this->firstBiggerSecond(bigger,temp->value)){
+                        if(temp->right){
+                            temp = temp->right;
+                            goLeft=false;
+                            goRight=false;
                         }
-                        if(goFather){
-                            goFather=false;
-                            if(temp->father){
-                                if(temp->father->left == temp){
-                                    goLeft=true;
-                                    goRight=false;
-                                }
-                                else if(temp->father->right == temp){
-                                    goLeft=true;
-                                    goRight=true;
-                                    goFather=true;
-                                }
-                            }
-                            temp = temp->father;
+                        else{
+                            goFather=true;
                         }
                     }
                     else{
-                        temp=NULL;
+                        goFather=true;
+                    }
+                    if(goFather){
+                        goFather=false;
+                        if(temp->father){
+                            if(temp->father->left == temp){
+                                goLeft=true;
+                                goRight=false;
+                            }
+                            else if(temp->father->right == temp){
+                                goLeft=true;
+                                goRight=true;
+                                goFather=true;
+                            }
+                        }
+                        temp = temp->father;
                     }
                 }
                 return true;
@@ -1302,60 +1312,58 @@ public:
                 position = temp->position;
                 size++;
 #if defined(EDK_DEBUG_VECTOR)
-                    edkWriteClassDebugNoPosition(this,this->generateDebugValue(&ret->value),true);
+                edkWriteClassDebugNoPosition(this,this->generateDebugValue(&ret->value),true);
 #endif
             }
             while(temp){
                 //compare if is inside the smaller and bigger
-                if(this->firstBiggerSecond(temp->value,smaller)
+                if(temp->position == (position+1u)
                         && this->firstBiggerSecond(bigger,temp->value)
                         ){
-                    if(temp->position == (position+1u)){
-                        position = temp->position;
-                        size++;
+                    position = temp->position;
+                    size++;
 #if defined(EDK_DEBUG_VECTOR)
                     edkWriteClassDebugNoPosition(this,this->generateDebugValue(&ret->value),true);
 #endif
+                }
+                if(!goLeft && this->firstBiggerSecond(temp->value,smaller)){
+                    if(temp->left){
+                        temp = temp->left;
+                        goLeft=false;
+                        goRight=false;
                     }
-                    if(!goLeft){
-                        if(temp->left){
-                            temp = temp->left;
-                            goLeft=false;
-                            goRight=false;
-                        }
-                        else{
-                            goLeft=true;
-                            goRight=false;
-                        }
+                    else{
+                        goLeft=true;
+                        goRight=false;
                     }
-                    else if(!goRight){
-                        if(temp->right){
-                            temp = temp->right;
-                            goLeft=false;
-                            goRight=false;
-                        }
-                        else{
-                            goFather=true;
-                        }
+                }
+                else if(!goRight && this->firstBiggerSecond(bigger,temp->value)){
+                    if(temp->right){
+                        temp = temp->right;
+                        goLeft=false;
+                        goRight=false;
                     }
-                    if(goFather){
-                        goFather=false;
-                        if(temp->father){
-                            if(temp->father->left == temp){
-                                goLeft=true;
-                                goRight=false;
-                            }
-                            else if(temp->father->right == temp){
-                                goLeft=true;
-                                goRight=true;
-                                goFather=true;
-                            }
-                        }
-                        temp = temp->father;
+                    else{
+                        goFather=true;
                     }
                 }
                 else{
-                    temp=NULL;
+                    goFather=true;
+                }
+                if(goFather){
+                    goFather=false;
+                    if(temp->father){
+                        if(temp->father->left == temp){
+                            goLeft=true;
+                            goRight=false;
+                        }
+                        else if(temp->father->right == temp){
+                            goLeft=true;
+                            goRight=true;
+                            goFather=true;
+                        }
+                    }
+                    temp = temp->father;
                 }
             }
             return size;
@@ -1581,6 +1589,120 @@ private:
         //else return NULL
         return NULL;
     }
+    BinaryLeaf<typeTemplate>* returnBefore(BinaryLeaf<typeTemplate>* temp){
+        if(temp){
+            bool goRight=true,goLeft=false,goUp=false;
+            bool first=true;
+            while(temp){
+                if(!goRight){
+                    if(temp->right){
+                        temp = temp->right;
+                        first=false;
+                        goRight=false;
+                        goLeft=false;
+                        continue;
+                    }
+                    else{
+                        return temp;
+                    }
+                }
+                if(!goLeft){
+                    if(first){
+                        if(temp->left){
+                            temp = temp->left;
+                            first=false;
+                            goRight=false;
+                            goLeft=false;
+                            continue;
+                        }
+                        else{
+                            goUp=true;
+                        }
+                    }
+                    else{
+                        return temp;
+                    }
+                }
+                else{
+                    goUp=true;
+                }
+                if(goUp){
+                    goUp=false;
+                    if(temp->father){
+                        if(temp->father->right == temp){
+                            goRight=true;
+                            goLeft=false;
+                        }
+                        else if(temp->father->left == temp){
+                            goRight=true;
+                            goLeft=true;
+                        }
+                    }
+                    temp = temp->father;
+                    first=false;
+                }
+            }
+            return temp;
+        }
+        return NULL;
+    }
+    BinaryLeaf<typeTemplate>* returnNext(BinaryLeaf<typeTemplate>* temp){
+        if(temp){
+            bool goLeft=true,goRight=false,goUp=false;
+            bool first=true;
+            while(temp){
+                if(!goLeft){
+                    if(temp->left){
+                        temp = temp->left;
+                        first=false;
+                        goLeft=false;
+                        goRight=false;
+                        continue;
+                    }
+                    else{
+                        return temp;
+                    }
+                }
+                if(!goRight){
+                    if(first){
+                        if(temp->right){
+                            temp = temp->right;
+                            first=false;
+                            goLeft=false;
+                            goRight=false;
+                            continue;
+                        }
+                        else{
+                            goUp=true;
+                        }
+                    }
+                    else{
+                        return temp;
+                    }
+                }
+                else{
+                    goUp=true;
+                }
+                if(goUp){
+                    goUp=false;
+                    if(temp->father){
+                        if(temp->father->left == temp){
+                            goLeft=true;
+                            goRight=false;
+                        }
+                        else if(temp->father->right == temp){
+                            goLeft=true;
+                            goRight=true;
+                        }
+                    }
+                    temp = temp->father;
+                    first=false;
+                }
+            }
+            return temp;
+        }
+        return NULL;
+    }
     BinaryLeaf<typeTemplate>* findBefore(typeTemplate value){
         //test if habe a root
         if((*this->rootPointer)){
@@ -1589,19 +1711,21 @@ private:
             memcpy((void*)&element.value,(void*)&value,sizeof(typeTemplate));
             //element.value=value;
             //find the mother
-            BinaryLeaf<typeTemplate>* temp = this->findMotherBefore(value);
+            BinaryLeaf<typeTemplate>* temp = this->tryFind(value);
             if(temp){
                 //test if the mother is the element
                 if(this->firstEqualSecond(temp->value,element.value)){
-                    if(temp->left){
-                        return temp->left;
-                    }
+                    //return the next
+                    return this->returnBefore(temp);
                 }
                 else{
                     //test if the element is the left or right
                     if(this->firstBiggerSecond(element.value,temp->value)){
-                        //return this left
                         return temp;
+                    }
+                    else{
+                        //return the before
+                        return this->returnBefore(temp);
                     }
                 }
             }
@@ -1617,19 +1741,21 @@ private:
             memcpy((void*)&element.value,(void*)&value,sizeof(typeTemplate));
             //element.value=value;
             //find the mother
-            BinaryLeaf<typeTemplate>* temp = this->findMotherAfter(value);
+            BinaryLeaf<typeTemplate>* temp = this->tryFind(value);
             if(temp){
                 //test if the mother is the element
                 if(this->firstEqualSecond(temp->value,element.value)){
-                    if(temp->right){
-                        return temp->right;
-                    }
+                    //return the next
+                    return this->returnNext(temp);
                 }
                 else{
                     //test if the element is the left or right
                     if(this->firstBiggerSecond(temp->value,element.value)){
-                        //return this left
                         return temp;
+                    }
+                    else{
+                        //return the next
+                        return this->returnNext(temp);
                     }
                 }
             }
@@ -1696,132 +1822,35 @@ private:
         //else return NULL
         return NULL;
     }
-    BinaryLeaf<typeTemplate>* findMotherBefore(typeTemplate value){
+    BinaryLeaf<typeTemplate>* tryFind(typeTemplate value){
         //first test if have a root
         if((*this->rootPointer)){
             //then create a temporary element
             BinaryLeaf<typeTemplate> element;
             memcpy((void*)&element.value,(void*)&value,sizeof(typeTemplate));
-            //element.value=value;
-            //tets if is equal root
-            if(this->firstEqualSecond((*this->rootPointer)->value,element.value)){
-
-                //then return root->left
-                return (*this->rootPointer)->left;
-            }
             //else search the element mother
             BinaryLeaf<typeTemplate>* temp = (*this->rootPointer);
-            BinaryLeaf<typeTemplate>* tempFather = (*this->rootPointer);
             while(temp){
-                //tets if the value is bigger the temp
-                if(this->firstBiggerSecond(element.value,temp->value)){
-                    //then the next maybe is the RIGHT
-                    if(temp->right){
-                        //test if the value is equal
-                        if(this->firstEqualSecond(temp->right->value,element.value)){
-                            if(temp->left){
-                                return temp->left;
-                            }
-                            else{
-                                return tempFather;
-                            }
-                        }
-                        else{
-                            //else the temp'receive the right
-                            tempFather=temp;
-                            temp = temp->right;
-                        }
-                    }
-                    else{
-                        return temp;
-                    }
+                //first test if reach the value
+                if(this->firstEqualSecond(temp->value,element.value)){
+                    return temp;
                 }
                 else{
-                    //then the next maybe is the LEFT
-                    //test if the left exist
-                    if(temp->left){
-                        //test if the value is equal
-                        if(this->firstEqualSecond(temp->left->value,element.value)){
-                            if(temp->left){
-                                return temp->left;
-                            }
-                            else{
-                                return tempFather;
-                            }
-                        }
-                        else{
-                            //else the temp receive the left
-                            temp=temp->left;
-                        }
-                    }
-                    else{
-                        return tempFather;
-                    }
-                }
-            }
-        }
-        //else return NULL
-        return NULL;
-    }
-    BinaryLeaf<typeTemplate>* findMotherAfter(typeTemplate value){
-        //first test if have a root
-        if((*this->rootPointer)){
-            //then create a temporary element
-            BinaryLeaf<typeTemplate> element;
-            memcpy((void*)&element.value,(void*)&value,sizeof(typeTemplate));
-            //element.value=value;
-            //tets if is equal root
-            if(this->firstEqualSecond((*this->rootPointer)->value,element.value)){
-                //the return root
-                return (*this->rootPointer)->right;
-            }
-            //else search the element mother
-            BinaryLeaf<typeTemplate>* temp = (*this->rootPointer);
-            BinaryLeaf<typeTemplate>* tempFather = (*this->rootPointer);
-            while(temp){
-                //tets if the value is bigger the temp
-                if(this->firstBiggerSecond(element.value,temp->value)){
-                    //then the next maybe is the RIGHT
-                    if(temp->right){
-                        //test if the value is equal
-                        if(this->firstEqualSecond(temp->right->value,element.value)){
-                            if(temp->right){
-                                return temp->right;
-                            }
-                            else{
-                                return tempFather;
-                            }
-                        }
-                        else{
-                            //else the temp'receive the right
+                    if(this->firstBiggerSecond(element.value,temp->value)){
+                        if(temp->right){
                             temp = temp->right;
                         }
+                        else{
+                            return temp;
+                        }
                     }
                     else{
-                        return tempFather;
-                    }
-                }
-                else{
-                    //then the next maybe is the LEFT
-                    //test if the left exist
-                    if(temp->left){
-                        //test if the value is equal
-                        if(this->firstEqualSecond(temp->left->value,element.value)){
-                            if(temp->right){
-                                return temp->right;
-                            }
-                            else{
-                                return tempFather;
-                            }
+                        if(temp->left){
+                            temp = temp->left;
                         }
                         else{
-                            //else the temp receive the left
-                            tempFather=temp;
-                            temp=temp->left;
+                            return temp;
                         }
-                    }
-                    else{
-                        return temp;
                     }
                 }
             }
