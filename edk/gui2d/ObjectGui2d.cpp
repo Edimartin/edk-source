@@ -1356,10 +1356,10 @@ void edk::gui2d::ObjectGui2d::clickMove(edk::uint32,edk::vec2f32,bool){
 void edk::gui2d::ObjectGui2d::clickEnd(edk::uint32,edk::vec2f32,bool,bool){
     //
 }
-void edk::gui2d::ObjectGui2d::mouseScrollVertical(edk::uint32 name,edk::int32 scroll,bool mouseInside){
+void edk::gui2d::ObjectGui2d::mouseScrollVertical(edk::uint32 name,edk::vec2f32 position,edk::int32 scroll,bool mouseInside){
     //
 }
-void edk::gui2d::ObjectGui2d::mouseScrollHorizontal(edk::uint32 name,edk::int32 scroll,bool mouseInside){
+void edk::gui2d::ObjectGui2d::mouseScrollHorizontal(edk::uint32 name,edk::vec2f32 position,edk::int32 scroll,bool mouseInside){
     //
 }
 

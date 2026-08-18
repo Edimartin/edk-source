@@ -33,6 +33,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "../thread/Mutex.h"
 #include "ObjectGui2dBorder.h"
 #include "ObjectGui2d.h"
+#include "ScrollBar2d.h"
 #include "../vector/BinaryTree.h"
 
 #ifdef printMessages
@@ -87,13 +88,18 @@ public:
     virtual void draw();
     virtual void drawSelection();
 
+    //move functions
+    void startMove(edk::vec2f32 mousePosition);
+    void moveTo(edk::vec2f32 position);
+    void cancelMove();
+    bool canMove();
     //click to select an polygon inside the object
-    virtual void mouseMove(edk::vec2f32 position,bool mouseInside);
-    virtual void clickStart(edk::uint32 name,edk::vec2f32 position);
-    virtual void clickMove(edk::uint32 name,edk::vec2f32 position,bool mouseInside);
-    virtual void clickEnd(edk::uint32 name,edk::vec2f32 position,bool mouseInside,bool doubleClick);
-    virtual void mouseScrollVertical(edk::uint32 name,edk::int32 scroll,bool mouseInside);
-    virtual void mouseScrollHorizontal(edk::uint32 name,edk::int32 scroll,bool mouseInside);
+    void mouseMove(edk::vec2f32 position,bool mouseInside);
+    void clickStart(edk::uint32 name,edk::vec2f32 position);
+    void clickMove(edk::uint32 name,edk::vec2f32 position,bool mouseInside);
+    void clickEnd(edk::uint32 name,edk::vec2f32 position,bool mouseInside,bool doubleClick);
+    void mouseScrollVertical(edk::uint32 name,edk::vec2f32 position,edk::int32 scroll,bool mouseInside);
+    void mouseScrollHorizontal(edk::uint32 name,edk::vec2f32 position,edk::int32 scroll,bool mouseInside);
 
     //clone the gui object from
     virtual bool cloneFrom(edk::gui2d::ObjectGui2d* obj);
@@ -130,6 +136,10 @@ private:
     edk::vector::Array<edk::int32> array;
 
     bool canEdit;
+
+    //scroll
+    edk::gui2d::ScrollBar2d bar;
+    bool insideBar;
 
     //inline functions
     inline bool inlineSetObjColor(edk::Object2D* obj,edk::color3f32 color){

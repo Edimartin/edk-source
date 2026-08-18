@@ -606,7 +606,9 @@ void edk::gui2d::Timeline2d::Constructor(){
     edk::gui2d::ObjectGui2d::Constructor();
     if(this->classThis!=this){
         this->classThis=this;
+        this->bar.Constructor();
 
+        this->insideBar = false;
         this->canEdit=false;
         this->isMouseMoved=false;
         this->colorBackLight = edk::color3f32(0.75f,0.75f,0.75f);
@@ -639,6 +641,7 @@ void edk::gui2d::Timeline2d::Constructor(){
 void edk::gui2d::Timeline2d::Destructor(){
     if(this->classThis==this){
         this->classThis=NULL;
+        this->bar.Destructor();
 
         this->privateUnloadNumbers();
 
@@ -689,7 +692,7 @@ void edk::gui2d::Timeline2d::selectFrame(edk::int32 frame){
 bool edk::gui2d::Timeline2d::addKeyframe(edk::int32 keyframe){
     bool ret = this->tree.add(keyframe);
     this->tree.updatePositions();
-/*
+    /*
     printf("\nFRAMES:\n");
     this->printKeyframes();
 */
@@ -726,6 +729,7 @@ void edk::gui2d::Timeline2d::printKeyframes(){
 //load the button textures and meshes
 bool edk::gui2d::Timeline2d::load(){
     if(edk::gui2d::ObjectGui2d::load()){
+        this->insideBar = false;
         this->canEdit=false;
         this->isMouseMoved=false;
         //set the border width
@@ -809,12 +813,23 @@ bool edk::gui2d::Timeline2d::load(){
             mesh->material.setEmission(0.75f,0.75f,0.f,1.0f);
         }
         this->inlineUpdateCameraLenght();
+
+
+        //loa the bar
+        this->bar.load();
+        this->bar.setBorderSize(0.01f);
+        this->bar.setForegroundSize(0.5f,1.f);
+        //this->bar.position = edk::vec2f32(0.f,0.f);
+        //this->bar.size = edk::size2f32(1.f,1.f);
+
         return true;
     }
     return false;
 }
 void edk::gui2d::Timeline2d::unload(){
     edk::gui2d::ObjectGui2d::unload();
+    this->insideBar = false;
+    this->bar.unload();
     this->objBack.clean();
     this->objFront.clean();
     this->objNumber.clean();
@@ -823,6 +838,7 @@ void edk::gui2d::Timeline2d::unload(){
 }
 void edk::gui2d::Timeline2d::update(){
     edk::gui2d::ObjectGui2d::update();
+    this->bar.update();
     edk::rectf32 rectInside;
     rectInside = this->getInsideRectPositionAndSize();
     this->objBack.position = rectInside.origin;
@@ -878,6 +894,12 @@ void edk::gui2d::Timeline2d::update(){
         rectInside.convertIntoPositionAndSize();
         this->objFront.position = rectInside.origin;
         this->objFront.size = rectInside.size;
+        //update the bar to be inside the rect
+        edk::rectf32 rectInside2 = this->getInsideRectPoints();
+        rectInside2.size.height = ((rectInside2.size.height - rectInside2.origin.y)*DEF_EDK_SCREEN_BAR_PERCENT)+rectInside2.origin.y;
+        rectInside2.convertIntoPositionAndSize();
+        this->bar.position = rectInside2.origin;
+        this->bar.size = rectInside2.size;
     }
 }
 
@@ -1121,11 +1143,40 @@ void edk::gui2d::Timeline2d::draw(){
         }
     }
 
+    //draw the bar
+    this->bar.draw();
 }
 void edk::gui2d::Timeline2d::drawSelection(){
     edk::gui2d::ObjectGui2d::drawSelection();
 }
 
+//move functions
+void edk::gui2d::Timeline2d::startMove(edk::vec2f32 mousePosition){
+    if(mousePosition.x >= this->bar.position.x - (this->bar.size.width*0.5f)
+            && mousePosition.x < this->bar.position.x + (this->bar.size.width*0.5f)
+            &&
+            mousePosition.y >= this->bar.position.y - (this->bar.size.height*0.5f)
+            && mousePosition.y < this->bar.position.y + (this->bar.size.height*0.5f)
+            ){
+        this->bar.startMove(mousePosition);
+        this->insideBar = true;
+    }
+    else{
+        this->insideBar = false;
+    }
+}
+void edk::gui2d::Timeline2d::moveTo(edk::vec2f32 position){
+    if(this->insideBar){
+        this->bar.moveTo(position);
+    }
+}
+void edk::gui2d::Timeline2d::cancelMove(){
+    this->insideBar = false;
+    this->bar.cancelMove();
+}
+bool edk::gui2d::Timeline2d::canMove(){
+    return this->bar.canMove();
+}
 //click to select an polygon inside the object
 void edk::gui2d::Timeline2d::mouseMove(edk::vec2f32 /*position*/,bool /*mouseInside*/){
     //
@@ -1135,7 +1186,7 @@ void edk::gui2d::Timeline2d::clickStart(edk::uint32,edk::vec2f32){
 }
 void edk::gui2d::Timeline2d::clickMove(edk::uint32,edk::vec2f32 position,bool mouseInside){
     //
-    if(mouseInside){
+    if(mouseInside && !this->insideBar){
         this->mousePosition = position;
         this->isMouseMoved=true;
     }
@@ -1143,8 +1194,20 @@ void edk::gui2d::Timeline2d::clickMove(edk::uint32,edk::vec2f32 position,bool mo
 void edk::gui2d::Timeline2d::clickEnd(edk::uint32,edk::vec2f32,bool,bool){
     //
 }
-void edk::gui2d::Timeline2d::mouseScrollVertical(edk::uint32,edk::int32 scroll,bool mouseInside){
-    if(mouseInside){
+void edk::gui2d::Timeline2d::mouseScrollVertical(edk::uint32,edk::vec2f32 position,edk::int32 scroll,bool mouseInside){
+    //test if the mouse is inside the bar to test if need move the bar or move the world
+    if(position.x >= this->bar.position.x - (this->bar.size.width*0.5f)
+            && position.x < this->bar.position.x + (this->bar.size.width*0.5f)
+            &&
+            position.y >= this->bar.position.y - (this->bar.size.height*0.5f)
+            && position.y < this->bar.position.y + (this->bar.size.height*0.5f)
+            ){
+        this->insideBar = true;
+    }
+    else{
+        this->insideBar = false;
+    }
+    if(mouseInside && !this->insideBar){
         scroll*=-1;
         //zoom on the camera
         edk::float32 saveStart=this->camStart,saveEnd=this->camEnd;
@@ -1158,8 +1221,20 @@ void edk::gui2d::Timeline2d::mouseScrollVertical(edk::uint32,edk::int32 scroll,b
         this->inlineUpdateCameraLenght();
     }
 }
-void edk::gui2d::Timeline2d::mouseScrollHorizontal(edk::uint32,edk::int32 scroll,bool mouseInside){
-    if(mouseInside){
+void edk::gui2d::Timeline2d::mouseScrollHorizontal(edk::uint32,edk::vec2f32 position,edk::int32 scroll,bool mouseInside){
+    //test if the mouse is inside the bar to test if need move the bar or move the world
+    if(position.x >= this->bar.position.x - (this->bar.size.width*0.5f)
+            && position.x < this->bar.position.x + (this->bar.size.width*0.5f)
+            &&
+            position.y >= this->bar.position.y - (this->bar.size.height*0.5f)
+            && position.y < this->bar.position.y + (this->bar.size.height*0.5f)
+            ){
+        this->insideBar = true;
+    }
+    else{
+        this->insideBar = false;
+    }
+    if(mouseInside && !this->insideBar){
         //zoom on the camera
         edk::float32 newLenght = (this->camLenght*(0.05f*scroll))*0.5f;
         this->camStart+=newLenght;

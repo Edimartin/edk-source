@@ -246,8 +246,8 @@ public:
     virtual void clickStart(edk::uint32 name,edk::vec2f32 position);
     virtual void clickMove(edk::uint32 name,edk::vec2f32 position,bool mouseInside);
     virtual void clickEnd(edk::uint32 name,edk::vec2f32 position,bool mouseInside,bool doubleClick);
-    virtual void mouseScrollVertical(edk::uint32 name,edk::int32 scroll,bool mouseInside);
-    virtual void mouseScrollHorizontal(edk::uint32 name,edk::int32 scroll,bool mouseInside);
+    virtual void mouseScrollVertical(edk::uint32 name,edk::vec2f32 position,edk::int32 scroll,bool mouseInside);
+    virtual void mouseScrollHorizontal(edk::uint32 name,edk::vec2f32 position,edk::int32 scroll,bool mouseInside);
 
     //set border size
     virtual bool setBorderSize(edk::float32 size);

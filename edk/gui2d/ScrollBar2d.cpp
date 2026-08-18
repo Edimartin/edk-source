@@ -941,8 +941,24 @@ void edk::gui2d::ScrollBar2d::draw(){
 
 //move functions
 void edk::gui2d::ScrollBar2d::startMove(edk::vec2f32 mousePosition){
+    edk::vec2f32 translatePosition;
+    //test if the mouse is inside the object
+    edk::size2f32 sizeTemp = edk::size2f32(this->foregroundSize.width * this->size.width * 0.5f
+                                           ,this->foregroundSize.height * this->size.height * 0.5f
+                                           );
+    if(mousePosition.x >= (this->objPosition.x - sizeTemp.width)
+            && mousePosition.x < (this->objPosition.x + sizeTemp.width)
+            &&
+            mousePosition.y >= (this->objPosition.y - sizeTemp.height)
+            && mousePosition.y < (this->objPosition.y + sizeTemp.height)
+            ){
+        translatePosition = mousePosition - this->objPosition ;
+    }
+    else{
+        translatePosition = 0.f;
+    }
     //move the objPosition to mousePosition
-    this->objPosition = mousePosition;
+    this->objPosition = mousePosition - translatePosition;
     //update the inside position
     this->updateObjPosition();
     this->calculatePercents();

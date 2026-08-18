@@ -1089,7 +1089,7 @@ void edk::gui2d::ViewGui2d::update(edk::WindowEvents* events){
             this->updateCameraPercentPosition();
 
             if(this->objOver){
-                this->objOver->mouseScrollHorizontal(this->idSelected,events->mouseScrollWheelHorizontal,true);
+                this->objOver->mouseScrollHorizontal(this->idSelected,this->mousePositionInside,events->mouseScrollWheelHorizontal,true);
             }
         }
         if(events->mouseScrollWheelVertical){
@@ -1104,7 +1104,7 @@ void edk::gui2d::ViewGui2d::update(edk::WindowEvents* events){
             this->updateCameraPercentPosition();
 
             if(this->objOver){
-                this->objOver->mouseScrollVertical(this->idSelected,events->mouseScrollWheelVertical,true);
+                this->objOver->mouseScrollVertical(this->idSelected,this->mousePositionInside,events->mouseScrollWheelVertical,true);
             }
         }
     }
