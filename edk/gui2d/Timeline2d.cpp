@@ -609,19 +609,19 @@ void edk::gui2d::Timeline2d::Constructor(){
         this->bar.Constructor();
 
         this->insideBar = false;
+        this->savePercentBar=0.f;
         this->canEdit=false;
         this->isMouseMoved=false;
         this->colorBackLight = edk::color3f32(0.75f,0.75f,0.75f);
         this->colorBackDark = edk::color3f32(0.25f,0.25f,0.25f);
         this->typeGUI = edk::gui2d::gui2dTypeTimeline;
         this->type=edk::TypeObject2DTimeline;
-        this->timeStart=0.f;
-        this->timeEnd=100.f;
-        this->camStart=-50.f;
-        this->camEnd=150.f;
+        this->setTimeStartEnd(0.f,100.f);
+        this->setCameraStartEnd(-50.f,150.f);
         this->setSlices(10u);
 
         this->inlineUpdateCameraLenght();
+        this->inlineUpdateBar();
 
         //load the texture for the statis list
         this->privateLoadNumbers();
@@ -655,6 +655,61 @@ void edk::gui2d::Timeline2d::Destructor(){
 }
 
 //SETTERS
+//set the camera start and end
+bool edk::gui2d::Timeline2d::setCameraStart(edk::int32 frame){
+    return this->setCameraStartEnd((edk::float32)frame,this->camEnd);
+}
+bool edk::gui2d::Timeline2d::setCameraEnd(edk::int32 frame){
+    return this->setCameraStartEnd(this->camStart,(edk::float32)frame);
+}
+bool edk::gui2d::Timeline2d::setCameraStartEnd(edk::int32 start,edk::int32 end){
+    return this->setCameraStartEnd((edk::float32)start,(edk::float32)end);
+}
+bool edk::gui2d::Timeline2d::setCameraStartEnd(edk::float32 start,edk::float32 end){
+    bool ret = true;
+    if(start > end){
+        edk::float32 temp = start;
+        start = end;
+        end = temp;
+        ret = false;
+    }
+
+    this->camStart = start;
+    this->camEnd = end;
+
+    this->inlineUpdateCameraLenght();
+    this->inlineUpdateBar();
+
+    return ret;
+}
+
+//set the time inside
+bool edk::gui2d::Timeline2d::setTimeStart(edk::int32 frame){
+    return this->setTimeStartEnd((edk::float32) frame,(edk::float32) this->timeEnd);
+}
+bool edk::gui2d::Timeline2d::setTimeEnd(edk::int32 frame){
+    return this->setTimeStartEnd((edk::float32) this->timeStart,(edk::float32) frame);
+}
+bool edk::gui2d::Timeline2d::setTimeStartEnd(edk::int32 start,edk::int32 end){
+    return this->setTimeStartEnd((edk::float32) start,(edk::float32) end);
+}
+bool edk::gui2d::Timeline2d::setTimeStartEnd(edk::float32 start,edk::float32 end){
+    bool ret = true;
+    if(start > end){
+        edk::float32 temp = start;
+        start = end;
+        end = temp;
+        ret = false;
+    }
+
+    this->timeStart = start;
+    this->timeEnd = end;
+
+    this->inlineUpdateBar();
+
+    return ret;
+}
+
 bool edk::gui2d::Timeline2d::setSlices(edk::uint32 slices){
     if(slices){
         this->worldSlices = slices;
@@ -697,12 +752,14 @@ bool edk::gui2d::Timeline2d::addKeyframe(edk::int32 keyframe){
     this->printKeyframes();
 */
     this->inlineUpdateCameraLenght();
+    this->inlineUpdateBar();
     return ret;
 }
 bool edk::gui2d::Timeline2d::removeKeyframe(edk::int32 keyframe){
     bool ret = this->tree.remove(keyframe);
     this->tree.updatePositions();
     this->inlineUpdateCameraLenght();
+    this->inlineUpdateBar();
     return ret;
 }
 bool edk::gui2d::Timeline2d::haveKeyframe(edk::int32 keyframe){
@@ -813,6 +870,7 @@ bool edk::gui2d::Timeline2d::load(){
             mesh->material.setEmission(0.75f,0.75f,0.f,1.0f);
         }
         this->inlineUpdateCameraLenght();
+        this->inlineUpdateBar();
 
 
         //loa the bar
@@ -839,6 +897,15 @@ void edk::gui2d::Timeline2d::unload(){
 void edk::gui2d::Timeline2d::update(){
     edk::gui2d::ObjectGui2d::update();
     this->bar.update();
+
+    //test if move the bar
+    if(!edk::Math::equal(this->bar.getPercentX(),this->savePercentBar)){
+        //bar has moved
+        this->savePercentBar = this->bar.getPercentX();
+        this->inlineSetCamFromBar();
+        this->inlineUpdateCameraLenght();
+    }
+
     edk::rectf32 rectInside;
     rectInside = this->getInsideRectPositionAndSize();
     this->objBack.position = rectInside.origin;
@@ -1219,6 +1286,7 @@ void edk::gui2d::Timeline2d::mouseScrollVertical(edk::uint32,edk::vec2f32 positi
             this->camEnd=saveEnd;
         }
         this->inlineUpdateCameraLenght();
+        this->inlineUpdateBar();
     }
 }
 void edk::gui2d::Timeline2d::mouseScrollHorizontal(edk::uint32,edk::vec2f32 position,edk::int32 scroll,bool mouseInside){
@@ -1240,6 +1308,7 @@ void edk::gui2d::Timeline2d::mouseScrollHorizontal(edk::uint32,edk::vec2f32 posi
         this->camStart+=newLenght;
         this->camEnd+=newLenght;
         this->inlineUpdateCameraLenght();
+        this->inlineUpdateBar();
     }
 }
 

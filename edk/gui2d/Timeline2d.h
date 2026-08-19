@@ -59,6 +59,18 @@ public:
     void Destructor();
 
     //SETTERS
+    //set the camera start and end
+    bool setCameraStart(edk::int32 frame);
+    bool setCameraEnd(edk::int32 frame);
+    bool setCameraStartEnd(edk::int32 start,edk::int32 end);
+    bool setCameraStartEnd(edk::float32 start,edk::float32 end);
+
+    //set the time inside
+    bool setTimeStart(edk::int32 frame);
+    bool setTimeEnd(edk::int32 frame);
+    bool setTimeStartEnd(edk::int32 start,edk::int32 end);
+    bool setTimeStartEnd(edk::float32 start,edk::float32 end);
+
     bool setSlices(edk::uint32 slices);
     //set the numbers size percent
     bool setNumbersSizePercent(edk::float32 percent);
@@ -140,6 +152,7 @@ private:
     //scroll
     edk::gui2d::ScrollBar2d bar;
     bool insideBar;
+    edk::float32 savePercentBar;
 
     //inline functions
     inline bool inlineSetObjColor(edk::Object2D* obj,edk::color3f32 color){
@@ -160,7 +173,7 @@ private:
         this->array.clean();
         //update the keyframes to be showed
         edk::uint32 size = this->tree.getSizeFrom(((edk::int32)this->camStart)-1,((edk::int32)this->camEnd)+1);
-/*
+        /*
         printf("\n%u %s %s sizeFrom(%.2f,%.2f)[%u]",__LINE__,__FILE__,__func__
                ,this->camStart,this->camEnd
                ,size
@@ -169,7 +182,7 @@ private:
         if(size){
             if(this->array.createArray(size)){
                 this->tree.getElementsFrom(&this->array,((edk::int32)this->camStart)-1,((edk::int32)this->camEnd)+1);
-/*
+                /*
                 if(this->array.size()){
                     edk::uint32 size = this->array.size();
                     edk::int32 keyframe = 0;
@@ -182,6 +195,32 @@ private:
 */
             }
         }
+    }
+    inline void inlineUpdateBar(){
+        //
+        if(this->camStart < this->timeStart
+                && this->camEnd > this->timeEnd
+                ){
+            this->bar.setForegroundSize(1.f,1.f);
+            this->savePercentBar = this->bar.getPercentX();
+        }
+        else{
+            edk::float32 positionBar = (((this->camEnd - this->camStart)*0.5f)+this->camStart);
+            edk::float32 middle = positionBar / (this->timeEnd - this->timeStart)
+                    ,lenght = (this->camEnd - this->camStart) / (this->timeEnd - this->timeStart)
+                    ;
+            this->savePercentBar = middle*100.f;
+            this->bar.setForegroundSize(lenght,1.f);
+            this->bar.setPercentX(this->savePercentBar);
+            this->savePercentBar = this->bar.getPercentX();
+        }
+    }
+    inline void inlineSetCamFromBar(){
+        edk::float32 lenght = (this->timeEnd - this->timeStart);
+        edk::float32 size = this->bar.getForegroundWidth();
+        edk::float32 position = this->savePercentBar*0.01f;
+        this->camStart = (position * (1.f - size))*lenght;
+        this->camEnd = this->camStart + (size*lenght);
     }
 
     //draw the number into a position
