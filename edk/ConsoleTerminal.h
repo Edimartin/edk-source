@@ -70,11 +70,11 @@ int edkKbhit(void);
 
 //to select the folder
 #ifdef _WIN32
-    #include <direct.h> // Para _chdir e _getcwd no Windows
-    #define chdir _chdir
-    #define getcwd _getcwd
+#include <direct.h> // Para _chdir e _getcwd no Windows
+#define chdir _chdir
+#define getcwd _getcwd
 #else
-    #include <unistd.h>
+#include <unistd.h>
 #endif
 
 #ifdef printMessages
@@ -82,6 +82,7 @@ int edkKbhit(void);
 #endif
 
 #define FOLDER_STR_SIZE 1024u
+#define PATH_STR_SIZE 1024u*4u
 
 namespace edk {
 class TTY{
@@ -112,6 +113,7 @@ public:
     void Destructor();
 
     static void cleanFolderString();
+    static void cleanPathString();
 
     static void enableMouse();
     static void disableMouse();
@@ -160,6 +162,12 @@ public:
         return edk::ConsoleTerminal::getCurrentFolder();
     }
 
+    //return the command path
+    static edk::char8* getCommandPath(edk::char8* command);
+    inline static edk::char8* getCommandPath(const edk::char8* command){
+        return edk::ConsoleTerminal::getCommandPath((edk::char8*) command);
+    }
+
     //generate the exec folder
     static inline edk::char8* generateExecFolder(const edk::char8* argv0){
         return edk::ConsoleTerminal::generateExecFolder((edk::char8*) argv0);
@@ -177,6 +185,7 @@ private:
     static edk::uint32 bufferLenth;
     static edk::uint32 bufferSize;
     static edk::char8 strFolder[FOLDER_STR_SIZE];
+    static edk::char8 strPath[PATH_STR_SIZE];
 private:
     edk::classID classThis;
 };

@@ -123,6 +123,33 @@ public:
         }
         return false;
     }
+    bool writeFileFullToBufferNoEndReturn(edk::File* file){
+        if(file){
+            edk::uint64 size = file->getFileSize();
+            if(size){
+                //test the last character
+                edk::uint64 seekTEMP = file->getSeek64();
+                edk::char8 c;
+                file->seek(seekTEMP + size-1u);
+                c =file->readTextChar();
+                if(c == '\n' || c == 10u){
+                    size --;
+                }
+                file->seek(seekTEMP);
+                if(size){
+                    edk::uint64 seek = file->getSeek64();
+                    bool ret=false;
+                    file->seekStart64();
+                    if(this->writeFileToBuffer(file,size)){
+                        ret=true;
+                    }
+                    file->seek(seek);
+                    return ret;
+                }
+            }
+        }
+        return false;
+    }
     bool writeFileToBuffer(edk::File* file){
         if(file){
             edk::uint64 size = file->getFileSize() - file->getSeek64();

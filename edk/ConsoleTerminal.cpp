@@ -568,6 +568,7 @@ edk::uint32 edk::ConsoleTerminal::keyLenth=0u;
 edk::uint32 edk::ConsoleTerminal::keySize=0u;
 edk::uint32 edk::ConsoleTerminal::keyPos=0u;
 edk::char8 edk::ConsoleTerminal::strFolder[FOLDER_STR_SIZE];
+edk::char8 edk::ConsoleTerminal::strPath[PATH_STR_SIZE];
 
 edk::ConsoleTerminal::ConsoleTerminal(){
     this->classThis=NULL;
@@ -599,6 +600,9 @@ void edk::ConsoleTerminal::Destructor(){
 
 void edk::ConsoleTerminal::cleanFolderString(){
     memset(edk::ConsoleTerminal::strFolder,0u,sizeof(edk::ConsoleTerminal::strFolder));
+}
+void edk::ConsoleTerminal::cleanPathString(){
+    memset(edk::ConsoleTerminal::strPath,0u,sizeof(edk::ConsoleTerminal::strPath));
 }
 
 void edk::ConsoleTerminal::enableMouse(){
@@ -853,6 +857,35 @@ edk::char8* edk::ConsoleTerminal::getCurrentFolder(){
     edk::ConsoleTerminal::cleanFolderString();
     getcwd(edk::ConsoleTerminal::strFolder, sizeof(edk::ConsoleTerminal::strFolder));
     return edk::ConsoleTerminal::strFolder;
+}
+
+//return the command path
+edk::char8* edk::ConsoleTerminal::getCommandPath(edk::char8* command){
+    if(command){
+        edk::ConsoleTerminal::cleanPathString();
+        //get the path values
+        edk::char8* path = getenv("PATH");
+        if (path == NULL) {
+            return NULL;
+        }
+        edk::char8* path_copy = strdup(path);
+        if (path_copy == NULL) {
+            return NULL;
+        }
+        edk::char8* dir = strtok(path_copy, ":");
+        while (dir != NULL) {
+            snprintf(edk::ConsoleTerminal::strPath, sizeof(edk::ConsoleTerminal::strPath), "%s/%s", dir, command);
+
+            if (access(edk::ConsoleTerminal::strPath, X_OK) == 0) {
+                free(path_copy);
+                return (edk::char8*)edk::ConsoleTerminal::strPath;
+            }
+
+            dir = strtok(NULL, ":");
+        }
+        free(path_copy);
+    }
+    return NULL;
 }
 
 //generate the exec folder
