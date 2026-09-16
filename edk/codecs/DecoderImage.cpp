@@ -107,6 +107,9 @@ bool edk::codecs::DecoderImage::decodeFromFile(edk::char8* fileName){
 edk::uint8* edk::codecs::DecoderImage::getFrame(){
     return edk::codecs::CodecImage::getFrame();
 }
+edk::uint8* edk::codecs::DecoderImage::getPalette(){
+    return edk::codecs::CodecImage::getPalette();
+}
 edk::size2ui32 edk::codecs::DecoderImage::getFrameSize(){
     return edk::codecs::CodecImage::getFrameSize();
 }
@@ -119,9 +122,21 @@ edk::uint32 edk::codecs::DecoderImage::getFrameHeight(){
 edk::uint32 edk::codecs::DecoderImage::getFrameChannels(){
     return edk::codecs::CodecImage::getFrameChannels();
 }
+edk::uint32 edk::codecs::DecoderImage::getPaletteSize(){
+    return edk::codecs::CodecImage::getPaletteSize();
+}
+edk::uint32 edk::codecs::DecoderImage::getPaletteChannels(){
+    return edk::codecs::CodecImage::getPaletteChannels();
+}
+edk::uint32 edk::codecs::DecoderImage::getPaletteBytesPerChannel(){
+    return edk::codecs::CodecImage::getPaletteBytesPerChannel();
+}
 //delete the frame
 void edk::codecs::DecoderImage::deleteFrame(){
     edk::codecs::CodecImage::deleteFrame();
+}
+bool edk::codecs::DecoderImage::havePalette(){
+    return edk::codecs::CodecImage::havePalette();
 }
 //clean the frame
 edk::uint8* edk::codecs::DecoderImage::cleanFrame(){

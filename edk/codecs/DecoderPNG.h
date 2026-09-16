@@ -34,6 +34,13 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //Add the stb to decode the JPEG
 #include "../../stb/stb_image.h"
 
+
+
+#define LODEPNG_COMPILE_ZLIB
+
+
+#include "../../lodepng/lodepng.h"
+
 #ifdef printMessages
 #pragma message "    Compiling DecoderImage"
 #endif

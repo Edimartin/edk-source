@@ -353,12 +353,12 @@ bool edk::Image2D::newImage(const edk::char8 *imageName,
 }
 
 //create a new image with a palette
-bool edk::Image2D::newImage(edk::char8 *imageName,
-                            edk::size2ui32 size,
-                            edk::uint8 channels,
-                            edk::uint32 paletteSize,
-                            edk::uint8 bytesPerChannel
-                            ){
+bool edk::Image2D::newImageWithPalette(edk::char8 *imageName,
+                                       edk::size2ui32 size,
+                                       edk::uint8 channels,
+                                       edk::uint32 paletteSize,
+                                       edk::uint8 bytesPerChannel
+                                       ){
     if(!paletteSize){
         return this->newImage(imageName,size,channels,1u);
     }
@@ -407,46 +407,47 @@ bool edk::Image2D::newImage(edk::char8 *imageName,
     this->deleteImage();
     return false;
 }
-bool edk::Image2D::newImage(edk::char8 *imageName,
-                            edk::uint32 width,
-                            edk::uint32 height,
-                            edk::uint8 channels,
-                            edk::uint32 paletteSize,
-                            edk::uint8 bytesPerPixels
-                            ){
-    return this->newImage(imageName,edk::size2ui32(width,height),channels,paletteSize,bytesPerPixels);
+bool edk::Image2D::newImageWithPalette(edk::char8 *imageName,
+                                       edk::uint32 width,
+                                       edk::uint32 height,
+                                       edk::uint8 channels,
+                                       edk::uint32 paletteSize,
+                                       edk::uint8 bytesPerPixels
+                                       ){
+    return this->newImageWithPalette(imageName,edk::size2ui32(width,height),channels,paletteSize,bytesPerPixels);
 }
-bool edk::Image2D::newImage(const edk::char8 *imageName,
-                            edk::size2ui32 size,
-                            edk::uint8 channels,
-                            edk::uint32 paletteSize,
-                            edk::uint8 bytesPerPixels
-                            ){
-    return this->newImage((edk::char8 *)imageName,size,channels,paletteSize,bytesPerPixels);
+bool edk::Image2D::newImageWithPalette(const edk::char8 *imageName,
+                                       edk::size2ui32 size,
+                                       edk::uint8 channels,
+                                       edk::uint32 paletteSize,
+                                       edk::uint8 bytesPerPixels
+                                       ){
+    return this->newImageWithPalette((edk::char8 *)imageName,size,channels,paletteSize,bytesPerPixels);
 }
-bool edk::Image2D::newImage(const edk::char8 *imageName,
-                            edk::uint32 width,
-                            edk::uint32 height,
-                            edk::uint8 channels,
-                            edk::uint32 paletteSize,
-                            edk::uint8 bytesPerPixels
-                            ){
-    return this->newImage((edk::char8 *)imageName,width,height,channels,paletteSize,bytesPerPixels);
+bool edk::Image2D::newImageWithPalette(const edk::char8 *imageName,
+                                       edk::uint32 width,
+                                       edk::uint32 height,
+                                       edk::uint8 channels,
+                                       edk::uint32 paletteSize,
+                                       edk::uint8 bytesPerPixels
+                                       ){
+    return this->newImageWithPalette((edk::char8 *)imageName,width,height,channels,paletteSize,bytesPerPixels);
 }
 
 bool edk::Image2D::loadFromFile(char8 *imageFileName){
     //open the file
     edk::File file;
     if(file.openBinFile(imageFileName)){
-        if(file.getFileSize()){
+        edk::uint64 sizeFile = file.getFileSize();
+        if(sizeFile){
             bool ret=false;
             //copy the file
-            edk::uint8* fileVector = (edk::uint8*)malloc(sizeof(edk::uint8) * (file.getFileSize()));
+            edk::uint8* fileVector = (edk::uint8*)malloc(sizeof(edk::uint8) * (sizeFile));
             if(fileVector){
                 //copy the file
-                if(file.readBin(fileVector,file.getFileSize())){
+                if(file.readBin(fileVector,sizeFile)){
                     //process the decoder
-                    ret = this->loadFromMemory(fileVector,file.getFileSize());
+                    ret = this->loadFromMemory(fileVector,sizeFile);
                 }
                 free(fileVector);
                 //test if neet delete the name
@@ -575,15 +576,33 @@ bool edk::Image2D::loadFromMemory(uint8 *image, edk::uint32 vecSize){
             //decode using jpegCodec
             edk::codecs::DecoderPNG decoder;
             if(decoder.decode(image,vecSize)){
-                this->vec = decoder.getFrame();
-                if(this->vec){
-                    //get size
-                    this->size = edk::size2ui32(decoder.getFrameWidth(),decoder.getFrameHeight());
-                    //get channels
-                    this->channelsValue = decoder.getFrameChannels();
-                    this->bytesPerChannel = decoder.getFrameBytesPerChannel();
-                    decoder.cleanFrame();
-                    return true;
+                if(decoder.havePalette()){
+                    this->colors = decoder.getFrame();
+                    if(this->colors){
+                        this->palette = decoder.getPalette();
+                        if(this->palette){
+                            this->paletteSize = decoder.getPaletteSize();
+                            this->channelsValue = decoder.getPaletteChannels();
+                            this->bytesPerChannel = decoder.getPaletteBytesPerChannel();
+                            this->bytesPerColors = decoder.getFrameBytesPerChannel();
+                            //get size
+                            this->size = edk::size2ui32(decoder.getFrameWidth(),decoder.getFrameHeight());
+                            decoder.cleanFrame();
+                            return true;
+                        }
+                    }
+                }
+                else{
+                    this->vec = decoder.getFrame();
+                    if(this->vec){
+                        //get size
+                        this->size = edk::size2ui32(decoder.getFrameWidth(),decoder.getFrameHeight());
+                        //get channels
+                        this->channelsValue = decoder.getFrameChannels();
+                        this->bytesPerChannel = decoder.getFrameBytesPerChannel();
+                        decoder.cleanFrame();
+                        return true;
+                    }
                 }
             }
         }
@@ -1210,299 +1229,393 @@ bool edk::Image2D::loadFromMemoryToRGBA(uint8 *image, edk::uint32 vecSize){
             //decode using jpegCodec
             edk::codecs::DecoderPNG decoder;
             if(decoder.decode(image,vecSize)){
-                this->bytesPerChannel = decoder.getFrameBytesPerChannel();
-                edk::uint32 imageSize = decoder.getFrameWidth()*decoder.getFrameHeight();
-                if(imageSize){
-                    this->vec = (edk::uint8*)malloc(sizeof(edk::uint8) * (imageSize*4u * this->bytesPerChannel));
-                    if(this->vec){
-                        //get channels
-                        this->channelsValue = decoder.getFrameChannels();
-                        if(this->channelsValue==1u || this->channelsValue==2u || this->channelsValue == 3u){
-                            //get size
-                            this->size = edk::size2ui32(decoder.getFrameWidth(),decoder.getFrameHeight());
+                if(decoder.havePalette()){
+                    this->bytesPerChannel = decoder.getPaletteBytesPerChannel();
+                    edk::uint32 imageSize = decoder.getFrameWidth()*decoder.getFrameHeight();
+                    if(imageSize){
+                        this->vec = (edk::uint8*)malloc(sizeof(edk::uint8) * (imageSize*4u * this->bytesPerChannel));
+                        if(this->vec){
                             //Convert the frame to RGBA
                             edk::uint8* rgbaTemp = this->vec;
                             edk::uint8* frameTemp = decoder.getFrame();
-                            switch(this->channelsValue){
-                            case 1:
-                                switch(this->bytesPerChannel){
-                                default:
-                                case 1u:
-                                    for(edk::uint32 i=0u;i<imageSize;i++){
-                                        rgbaTemp[0u]=frameTemp[0u];
+                            edk::uint8* paletteTemp = decoder.getPalette();
+                            edk::uint64 position;
+                            edk::uint8 frameBytesPerPixel = decoder.getFrameBytesPerChannel();
+                            this->channelsValue=4u;
+                            switch(decoder.getPaletteChannels()){
+                            case 1u:
+                                //palette grayscale
+                                for(edk::uint32 i=0u;i<imageSize;i++){
+                                    position = 0uL;
+                                    edkMemCpy(&position,&frameTemp[0u],frameBytesPerPixel);
+                                    position*=this->bytesPerChannel;
+                                    rgbaTemp[0u]=paletteTemp[position];
+                                    rgbaTemp[1u]=paletteTemp[position];
+                                    rgbaTemp[2u]=paletteTemp[position];
+                                    rgbaTemp[3u]=opaque;
 
-                                        rgbaTemp[1u]=frameTemp[0u];
-
-                                        rgbaTemp[2u]=frameTemp[0u];
-
-                                        rgbaTemp[3u]=opaque;
-
-                                        rgbaTemp+=4u*1u;
-                                        frameTemp+=1u*1u;
-                                    }
-                                    break;
-                                case 2u:
-                                    for(edk::uint32 i=0u;i<imageSize;i++){
-                                        rgbaTemp[0u]=frameTemp[0u];
-                                        rgbaTemp[1u]=frameTemp[1u];
-
-                                        rgbaTemp[2u]=frameTemp[0u];
-                                        rgbaTemp[3u]=frameTemp[1u];
-
-                                        rgbaTemp[4u]=frameTemp[0u];
-                                        rgbaTemp[5u]=frameTemp[1u];
-
-                                        rgbaTemp[6u]=opaque;
-                                        rgbaTemp[7u]=opaque;
-
-                                        rgbaTemp+=4u*2u;
-                                        frameTemp+=1u*2u;
-                                    }
-                                    break;
-                                case 3u:
-                                    for(edk::uint32 i=0u;i<imageSize;i++){
-                                        rgbaTemp[0u]=frameTemp[0u];
-                                        rgbaTemp[1u]=frameTemp[1u];
-                                        rgbaTemp[2u]=frameTemp[2u];
-
-                                        rgbaTemp[3u]=frameTemp[0u];
-                                        rgbaTemp[4u]=frameTemp[1u];
-                                        rgbaTemp[5u]=frameTemp[2u];
-
-                                        rgbaTemp[6u]=frameTemp[0u];
-                                        rgbaTemp[7u]=frameTemp[1u];
-                                        rgbaTemp[8u]=frameTemp[2u];
-
-
-                                        rgbaTemp[9u]=opaque;
-                                        rgbaTemp[10u]=opaque;
-                                        rgbaTemp[11u]=opaque;
-
-                                        rgbaTemp+=4u*3u;
-                                        frameTemp+=1u*3u;
-                                    }
-                                    break;
-                                case 4u:
-                                    for(edk::uint32 i=0u;i<imageSize;i++){
-                                        rgbaTemp[0u]=frameTemp[0u];
-                                        rgbaTemp[1u]=frameTemp[1u];
-                                        rgbaTemp[2u]=frameTemp[2u];
-                                        rgbaTemp[3u]=frameTemp[3u];
-
-                                        rgbaTemp[4u]=frameTemp[0u];
-                                        rgbaTemp[5u]=frameTemp[1u];
-                                        rgbaTemp[6u]=frameTemp[2u];
-                                        rgbaTemp[7u]=frameTemp[3u];
-
-                                        rgbaTemp[8u]=frameTemp [0u];
-                                        rgbaTemp[9u]=frameTemp [1u];
-                                        rgbaTemp[10u]=frameTemp[2u];
-                                        rgbaTemp[11u]=frameTemp[3u];
-
-                                        rgbaTemp[12u]=opaque;
-                                        rgbaTemp[13u]=opaque;
-                                        rgbaTemp[14u]=opaque;
-                                        rgbaTemp[15u]=opaque;
-
-                                        rgbaTemp+=4u*4u;
-                                        frameTemp+=1u*4u;
-                                    }
-                                    break;
+                                    rgbaTemp+=this->channelsValue*frameBytesPerPixel;
+                                    frameTemp+=frameBytesPerPixel;
                                 }
-                                decoder.deleteFrame();
-                                this->channelsValue=4u;
-                                return true;
-                            case 2:
-                                switch(this->bytesPerChannel){
-                                default:
-                                case 1u:
-                                    for(edk::uint32 i=0u;i<imageSize;i++){
-                                        rgbaTemp[0u]=frameTemp[0u];
-
-                                        rgbaTemp[1u]=frameTemp[0u];
-
-                                        rgbaTemp[2u]=frameTemp[0u];
-
-                                        rgbaTemp[3u]=frameTemp[1u];
-
-                                        rgbaTemp+=4u*1u;
-                                        frameTemp+=2u*1u;
-                                    }
-                                    break;
-                                case 2u:
-                                    for(edk::uint32 i=0u;i<imageSize;i++){
-                                        rgbaTemp[0u]=frameTemp[0u];
-                                        rgbaTemp[1u]=frameTemp[1u];
-
-                                        rgbaTemp[2u]=frameTemp[0u];
-                                        rgbaTemp[3u]=frameTemp[1u];
-
-                                        rgbaTemp[4u]=frameTemp[0u];
-                                        rgbaTemp[5u]=frameTemp[1u];
-
-                                        rgbaTemp[6u]=frameTemp[2u];
-                                        rgbaTemp[7u]=frameTemp[3u];
-
-                                        rgbaTemp+=4u*2u;
-                                        frameTemp+=2u*2u;
-                                    }
-                                    break;
-                                case 3u:
-                                    for(edk::uint32 i=0u;i<imageSize;i++){
-                                        rgbaTemp[0u]=frameTemp[0u];
-                                        rgbaTemp[1u]=frameTemp[1u];
-                                        rgbaTemp[2u]=frameTemp[2u];
-
-                                        rgbaTemp[3u]=frameTemp[0u];
-                                        rgbaTemp[4u]=frameTemp[1u];
-                                        rgbaTemp[5u]=frameTemp[2u];
-
-                                        rgbaTemp[6u]=frameTemp[0u];
-                                        rgbaTemp[7u]=frameTemp[1u];
-                                        rgbaTemp[8u]=frameTemp[2u];
-
-
-                                        rgbaTemp[9u] =frameTemp[3u];
-                                        rgbaTemp[10u]=frameTemp[4u];
-                                        rgbaTemp[11u]=frameTemp[5u];
-
-                                        rgbaTemp+=4u*3u;
-                                        frameTemp+=2u*3u;
-                                    }
-                                    break;
-                                case 4u:
-                                    for(edk::uint32 i=0u;i<imageSize;i++){
-                                        rgbaTemp[0u]=frameTemp[0u];
-                                        rgbaTemp[1u]=frameTemp[1u];
-                                        rgbaTemp[2u]=frameTemp[2u];
-                                        rgbaTemp[3u]=frameTemp[3u];
-
-                                        rgbaTemp[4u]=frameTemp[0u];
-                                        rgbaTemp[5u]=frameTemp[1u];
-                                        rgbaTemp[6u]=frameTemp[2u];
-                                        rgbaTemp[7u]=frameTemp[3u];
-
-                                        rgbaTemp[8u] =frameTemp[0u];
-                                        rgbaTemp[9u] =frameTemp[1u];
-                                        rgbaTemp[10u]=frameTemp[2u];
-                                        rgbaTemp[11u]=frameTemp[3u];
-
-                                        rgbaTemp[12u]=frameTemp[4u];
-                                        rgbaTemp[13u]=frameTemp[5u];
-                                        rgbaTemp[14u]=frameTemp[6u];
-                                        rgbaTemp[15u]=frameTemp[7u];
-
-                                        rgbaTemp+=4u*4u;
-                                        frameTemp+=2u*4u;
-                                    }
-                                    break;
-                                }
-                                decoder.deleteFrame();
-                                this->channelsValue=4u;
-                                return true;
-                            case 3:
-                                switch(this->bytesPerChannel){
-                                default:
-                                case 1u:
-                                    for(edk::uint32 i=0u;i<imageSize;i++){
-                                        rgbaTemp[0u]=frameTemp[0u];
-
-                                        rgbaTemp[1u]=frameTemp[1u];
-
-                                        rgbaTemp[2u]=frameTemp[2u];
-
-                                        rgbaTemp[3u]=opaque;
-
-                                        rgbaTemp+=4u*1u;
-                                        frameTemp+=3u*1u;
-                                    }
-                                    break;
-                                case 2u:
-                                    for(edk::uint32 i=0u;i<imageSize;i++){
-                                        rgbaTemp[0u]=frameTemp[0u];
-                                        rgbaTemp[1u]=frameTemp[1u];
-
-                                        rgbaTemp[2u]=frameTemp[2u];
-                                        rgbaTemp[3u]=frameTemp[3u];
-
-                                        rgbaTemp[4u]=frameTemp[4u];
-                                        rgbaTemp[5u]=frameTemp[5u];
-
-                                        rgbaTemp[6u]=opaque;
-                                        rgbaTemp[7u]=opaque;
-
-                                        rgbaTemp+=4u*2u;
-                                        frameTemp+=3u*2u;
-                                    }
-                                    break;
-                                case 3u:
-                                    for(edk::uint32 i=0u;i<imageSize;i++){
-                                        rgbaTemp[0u]=frameTemp[0u];
-                                        rgbaTemp[1u]=frameTemp[1u];
-                                        rgbaTemp[2u]=frameTemp[2u];
-
-                                        rgbaTemp[3u]=frameTemp[3u];
-                                        rgbaTemp[4u]=frameTemp[4u];
-                                        rgbaTemp[5u]=frameTemp[5u];
-
-                                        rgbaTemp[6u]=frameTemp[6u];
-                                        rgbaTemp[7u]=frameTemp[7u];
-                                        rgbaTemp[8u]=frameTemp[8u];
-
-
-                                        rgbaTemp[9u]=opaque;
-                                        rgbaTemp[10u]=opaque;
-                                        rgbaTemp[11u]=opaque;
-
-                                        rgbaTemp+=4u*3u;
-                                        frameTemp+=3u*3u;
-                                    }
-                                    break;
-                                case 4u:
-                                    for(edk::uint32 i=0u;i<imageSize;i++){
-                                        rgbaTemp[0u]=frameTemp[0u];
-                                        rgbaTemp[1u]=frameTemp[1u];
-                                        rgbaTemp[2u]=frameTemp[2u];
-                                        rgbaTemp[3u]=frameTemp[3u];
-
-                                        rgbaTemp[4u]=frameTemp[4u];
-                                        rgbaTemp[5u]=frameTemp[5u];
-                                        rgbaTemp[6u]=frameTemp[6u];
-                                        rgbaTemp[7u]=frameTemp[7u];
-
-                                        rgbaTemp[8u]=frameTemp [8u];
-                                        rgbaTemp[9u]=frameTemp [9u];
-                                        rgbaTemp[10u]=frameTemp[10u];
-                                        rgbaTemp[11u]=frameTemp[11u];
-
-                                        rgbaTemp[12u]=opaque;
-                                        rgbaTemp[13u]=opaque;
-                                        rgbaTemp[14u]=opaque;
-                                        rgbaTemp[15u]=opaque;
-
-                                        rgbaTemp+=4u*4u;
-                                        frameTemp+=3u*4u;
-                                    }
-                                    break;
-                                }
-                                decoder.deleteFrame();
-                                this->channelsValue=4u;
-                                return true;
-                            }
-                        }
-                        else if(this->channelsValue==4u){
-                            //The image aready have 4 channels
-                            if(this->vec){
                                 this->size = edk::size2ui32(decoder.getFrameWidth(),decoder.getFrameHeight());
-                                //just copy the frame in to the vec
-                                memcpy(this->vec,decoder.getFrame(),imageSize*4u);
                                 decoder.deleteFrame();
-                                this->channelsValue=4u;
                                 return true;
+                                break;
+                            case 2u:
+                                //palette grayscale alpha
+                                for(edk::uint32 i=0u;i<imageSize;i++){
+                                    position = 0uL;
+                                    edkMemCpy(&position,&frameTemp[0u],frameBytesPerPixel);
+                                    position*=2u * this->bytesPerChannel;
+                                    rgbaTemp[0u]=paletteTemp[position];
+                                    rgbaTemp[1u]=paletteTemp[position];
+                                    rgbaTemp[2u]=paletteTemp[position];
+                                    rgbaTemp[3u]=paletteTemp[position+(1u*this->bytesPerChannel)];
+
+                                    rgbaTemp+=this->channelsValue*frameBytesPerPixel;
+                                    frameTemp+=frameBytesPerPixel;
+                                }
+                                this->size = edk::size2ui32(decoder.getFrameWidth(),decoder.getFrameHeight());
+                                decoder.deleteFrame();
+                                return true;
+                                break;
+                            case 3u:
+                                //palette RGB
+                                for(edk::uint32 i=0u;i<imageSize;i++){
+                                    position = 0uL;
+                                    edkMemCpy(&position,&frameTemp[0u],frameBytesPerPixel);
+                                    position*=3u * this->bytesPerChannel;
+                                    rgbaTemp[0u]=paletteTemp[position];
+                                    rgbaTemp[1u]=paletteTemp[position+(1u*this->bytesPerChannel)];
+                                    rgbaTemp[2u]=paletteTemp[position+(2u*this->bytesPerChannel)];
+                                    rgbaTemp[3u]=opaque;
+
+                                    rgbaTemp+=this->channelsValue*frameBytesPerPixel;
+                                    frameTemp+=frameBytesPerPixel;
+                                }
+                                this->size = edk::size2ui32(decoder.getFrameWidth(),decoder.getFrameHeight());
+                                decoder.deleteFrame();
+                                return true;
+                                break;
+                            case 4u:
+                                //palette RGBA
+                                for(edk::uint32 i=0u;i<imageSize;i++){
+                                    position = 0uL;
+                                    edkMemCpy(&position,&frameTemp[0u],frameBytesPerPixel);
+                                    position*=(4u * this->bytesPerChannel);
+                                    rgbaTemp[0u]=paletteTemp[position];
+                                    rgbaTemp[1u]=paletteTemp[position+(1u*this->bytesPerChannel)];
+                                    rgbaTemp[2u]=paletteTemp[position+(2u*this->bytesPerChannel)];
+                                    rgbaTemp[3u]=paletteTemp[position+(3u*this->bytesPerChannel)];
+                                    rgbaTemp+=this->channelsValue*frameBytesPerPixel;
+                                    frameTemp+=frameBytesPerPixel;
+                                }
+                                this->size = edk::size2ui32(decoder.getFrameWidth(),decoder.getFrameHeight());
+                                decoder.deleteFrame();
+                                return true;
+                                break;
                             }
+
+                            delete this->vec;
+                            this->vec=NULL;
                         }
-                        delete this->vec;
-                        this->vec=NULL;
+                    }
+                }
+                else{
+                    this->bytesPerChannel = decoder.getFrameBytesPerChannel();
+                    edk::uint32 imageSize = decoder.getFrameWidth()*decoder.getFrameHeight();
+                    if(imageSize){
+                        this->vec = (edk::uint8*)malloc(sizeof(edk::uint8) * (imageSize*4u * this->bytesPerChannel));
+                        if(this->vec){
+                            //get channels
+                            this->channelsValue = decoder.getFrameChannels();
+                            if(this->channelsValue==1u || this->channelsValue==2u || this->channelsValue == 3u){
+                                //get size
+                                this->size = edk::size2ui32(decoder.getFrameWidth(),decoder.getFrameHeight());
+                                //Convert the frame to RGBA
+                                edk::uint8* rgbaTemp = this->vec;
+                                edk::uint8* frameTemp = decoder.getFrame();
+                                switch(this->channelsValue){
+                                case 1:
+                                    switch(this->bytesPerChannel){
+                                    default:
+                                    case 1u:
+                                        for(edk::uint32 i=0u;i<imageSize;i++){
+                                            rgbaTemp[0u]=frameTemp[0u];
+
+                                            rgbaTemp[1u]=frameTemp[0u];
+
+                                            rgbaTemp[2u]=frameTemp[0u];
+
+                                            rgbaTemp[3u]=opaque;
+
+                                            rgbaTemp+=4u*1u;
+                                            frameTemp+=1u*1u;
+                                        }
+                                        break;
+                                    case 2u:
+                                        for(edk::uint32 i=0u;i<imageSize;i++){
+                                            rgbaTemp[0u]=frameTemp[0u];
+                                            rgbaTemp[1u]=frameTemp[1u];
+
+                                            rgbaTemp[2u]=frameTemp[0u];
+                                            rgbaTemp[3u]=frameTemp[1u];
+
+                                            rgbaTemp[4u]=frameTemp[0u];
+                                            rgbaTemp[5u]=frameTemp[1u];
+
+                                            rgbaTemp[6u]=opaque;
+                                            rgbaTemp[7u]=opaque;
+
+                                            rgbaTemp+=4u*2u;
+                                            frameTemp+=1u*2u;
+                                        }
+                                        break;
+                                    case 3u:
+                                        for(edk::uint32 i=0u;i<imageSize;i++){
+                                            rgbaTemp[0u]=frameTemp[0u];
+                                            rgbaTemp[1u]=frameTemp[1u];
+                                            rgbaTemp[2u]=frameTemp[2u];
+
+                                            rgbaTemp[3u]=frameTemp[0u];
+                                            rgbaTemp[4u]=frameTemp[1u];
+                                            rgbaTemp[5u]=frameTemp[2u];
+
+                                            rgbaTemp[6u]=frameTemp[0u];
+                                            rgbaTemp[7u]=frameTemp[1u];
+                                            rgbaTemp[8u]=frameTemp[2u];
+
+
+                                            rgbaTemp[9u]=opaque;
+                                            rgbaTemp[10u]=opaque;
+                                            rgbaTemp[11u]=opaque;
+
+                                            rgbaTemp+=4u*3u;
+                                            frameTemp+=1u*3u;
+                                        }
+                                        break;
+                                    case 4u:
+                                        for(edk::uint32 i=0u;i<imageSize;i++){
+                                            rgbaTemp[0u]=frameTemp[0u];
+                                            rgbaTemp[1u]=frameTemp[1u];
+                                            rgbaTemp[2u]=frameTemp[2u];
+                                            rgbaTemp[3u]=frameTemp[3u];
+
+                                            rgbaTemp[4u]=frameTemp[0u];
+                                            rgbaTemp[5u]=frameTemp[1u];
+                                            rgbaTemp[6u]=frameTemp[2u];
+                                            rgbaTemp[7u]=frameTemp[3u];
+
+                                            rgbaTemp[8u]=frameTemp [0u];
+                                            rgbaTemp[9u]=frameTemp [1u];
+                                            rgbaTemp[10u]=frameTemp[2u];
+                                            rgbaTemp[11u]=frameTemp[3u];
+
+                                            rgbaTemp[12u]=opaque;
+                                            rgbaTemp[13u]=opaque;
+                                            rgbaTemp[14u]=opaque;
+                                            rgbaTemp[15u]=opaque;
+
+                                            rgbaTemp+=4u*4u;
+                                            frameTemp+=1u*4u;
+                                        }
+                                        break;
+                                    }
+                                    decoder.deleteFrame();
+                                    this->channelsValue=4u;
+                                    return true;
+                                case 2:
+                                    switch(this->bytesPerChannel){
+                                    default:
+                                    case 1u:
+                                        for(edk::uint32 i=0u;i<imageSize;i++){
+                                            rgbaTemp[0u]=frameTemp[0u];
+
+                                            rgbaTemp[1u]=frameTemp[0u];
+
+                                            rgbaTemp[2u]=frameTemp[0u];
+
+                                            rgbaTemp[3u]=frameTemp[1u];
+
+                                            rgbaTemp+=4u*1u;
+                                            frameTemp+=2u*1u;
+                                        }
+                                        break;
+                                    case 2u:
+                                        for(edk::uint32 i=0u;i<imageSize;i++){
+                                            rgbaTemp[0u]=frameTemp[0u];
+                                            rgbaTemp[1u]=frameTemp[1u];
+
+                                            rgbaTemp[2u]=frameTemp[0u];
+                                            rgbaTemp[3u]=frameTemp[1u];
+
+                                            rgbaTemp[4u]=frameTemp[0u];
+                                            rgbaTemp[5u]=frameTemp[1u];
+
+                                            rgbaTemp[6u]=frameTemp[2u];
+                                            rgbaTemp[7u]=frameTemp[3u];
+
+                                            rgbaTemp+=4u*2u;
+                                            frameTemp+=2u*2u;
+                                        }
+                                        break;
+                                    case 3u:
+                                        for(edk::uint32 i=0u;i<imageSize;i++){
+                                            rgbaTemp[0u]=frameTemp[0u];
+                                            rgbaTemp[1u]=frameTemp[1u];
+                                            rgbaTemp[2u]=frameTemp[2u];
+
+                                            rgbaTemp[3u]=frameTemp[0u];
+                                            rgbaTemp[4u]=frameTemp[1u];
+                                            rgbaTemp[5u]=frameTemp[2u];
+
+                                            rgbaTemp[6u]=frameTemp[0u];
+                                            rgbaTemp[7u]=frameTemp[1u];
+                                            rgbaTemp[8u]=frameTemp[2u];
+
+
+                                            rgbaTemp[9u] =frameTemp[3u];
+                                            rgbaTemp[10u]=frameTemp[4u];
+                                            rgbaTemp[11u]=frameTemp[5u];
+
+                                            rgbaTemp+=4u*3u;
+                                            frameTemp+=2u*3u;
+                                        }
+                                        break;
+                                    case 4u:
+                                        for(edk::uint32 i=0u;i<imageSize;i++){
+                                            rgbaTemp[0u]=frameTemp[0u];
+                                            rgbaTemp[1u]=frameTemp[1u];
+                                            rgbaTemp[2u]=frameTemp[2u];
+                                            rgbaTemp[3u]=frameTemp[3u];
+
+                                            rgbaTemp[4u]=frameTemp[0u];
+                                            rgbaTemp[5u]=frameTemp[1u];
+                                            rgbaTemp[6u]=frameTemp[2u];
+                                            rgbaTemp[7u]=frameTemp[3u];
+
+                                            rgbaTemp[8u] =frameTemp[0u];
+                                            rgbaTemp[9u] =frameTemp[1u];
+                                            rgbaTemp[10u]=frameTemp[2u];
+                                            rgbaTemp[11u]=frameTemp[3u];
+
+                                            rgbaTemp[12u]=frameTemp[4u];
+                                            rgbaTemp[13u]=frameTemp[5u];
+                                            rgbaTemp[14u]=frameTemp[6u];
+                                            rgbaTemp[15u]=frameTemp[7u];
+
+                                            rgbaTemp+=4u*4u;
+                                            frameTemp+=2u*4u;
+                                        }
+                                        break;
+                                    }
+                                    decoder.deleteFrame();
+                                    this->channelsValue=4u;
+                                    return true;
+                                case 3:
+                                    switch(this->bytesPerChannel){
+                                    default:
+                                    case 1u:
+                                        for(edk::uint32 i=0u;i<imageSize;i++){
+                                            rgbaTemp[0u]=frameTemp[0u];
+
+                                            rgbaTemp[1u]=frameTemp[1u];
+
+                                            rgbaTemp[2u]=frameTemp[2u];
+
+                                            rgbaTemp[3u]=opaque;
+
+                                            rgbaTemp+=4u*1u;
+                                            frameTemp+=3u*1u;
+                                        }
+                                        break;
+                                    case 2u:
+                                        for(edk::uint32 i=0u;i<imageSize;i++){
+                                            rgbaTemp[0u]=frameTemp[0u];
+                                            rgbaTemp[1u]=frameTemp[1u];
+
+                                            rgbaTemp[2u]=frameTemp[2u];
+                                            rgbaTemp[3u]=frameTemp[3u];
+
+                                            rgbaTemp[4u]=frameTemp[4u];
+                                            rgbaTemp[5u]=frameTemp[5u];
+
+                                            rgbaTemp[6u]=opaque;
+                                            rgbaTemp[7u]=opaque;
+
+                                            rgbaTemp+=4u*2u;
+                                            frameTemp+=3u*2u;
+                                        }
+                                        break;
+                                    case 3u:
+                                        for(edk::uint32 i=0u;i<imageSize;i++){
+                                            rgbaTemp[0u]=frameTemp[0u];
+                                            rgbaTemp[1u]=frameTemp[1u];
+                                            rgbaTemp[2u]=frameTemp[2u];
+
+                                            rgbaTemp[3u]=frameTemp[3u];
+                                            rgbaTemp[4u]=frameTemp[4u];
+                                            rgbaTemp[5u]=frameTemp[5u];
+
+                                            rgbaTemp[6u]=frameTemp[6u];
+                                            rgbaTemp[7u]=frameTemp[7u];
+                                            rgbaTemp[8u]=frameTemp[8u];
+
+
+                                            rgbaTemp[9u]=opaque;
+                                            rgbaTemp[10u]=opaque;
+                                            rgbaTemp[11u]=opaque;
+
+                                            rgbaTemp+=4u*3u;
+                                            frameTemp+=3u*3u;
+                                        }
+                                        break;
+                                    case 4u:
+                                        for(edk::uint32 i=0u;i<imageSize;i++){
+                                            rgbaTemp[0u]=frameTemp[0u];
+                                            rgbaTemp[1u]=frameTemp[1u];
+                                            rgbaTemp[2u]=frameTemp[2u];
+                                            rgbaTemp[3u]=frameTemp[3u];
+
+                                            rgbaTemp[4u]=frameTemp[4u];
+                                            rgbaTemp[5u]=frameTemp[5u];
+                                            rgbaTemp[6u]=frameTemp[6u];
+                                            rgbaTemp[7u]=frameTemp[7u];
+
+                                            rgbaTemp[8u]=frameTemp [8u];
+                                            rgbaTemp[9u]=frameTemp [9u];
+                                            rgbaTemp[10u]=frameTemp[10u];
+                                            rgbaTemp[11u]=frameTemp[11u];
+
+                                            rgbaTemp[12u]=opaque;
+                                            rgbaTemp[13u]=opaque;
+                                            rgbaTemp[14u]=opaque;
+                                            rgbaTemp[15u]=opaque;
+
+                                            rgbaTemp+=4u*4u;
+                                            frameTemp+=3u*4u;
+                                        }
+                                        break;
+                                    }
+                                    decoder.deleteFrame();
+                                    this->channelsValue=4u;
+                                    return true;
+                                }
+                            }
+                            else if(this->channelsValue==4u){
+                                //The image aready have 4 channels
+                                if(this->vec){
+                                    this->size = edk::size2ui32(decoder.getFrameWidth(),decoder.getFrameHeight());
+                                    //just copy the frame in to the vec
+                                    memcpy(this->vec,decoder.getFrame(),imageSize*4u);
+                                    decoder.deleteFrame();
+                                    this->channelsValue=4u;
+                                    return true;
+                                }
+                            }
+                            delete this->vec;
+                            this->vec=NULL;
+                        }
                     }
                 }
             }
@@ -1523,7 +1636,7 @@ bool edk::Image2D::generatePixelsFromColors(){
     edk::uint8* palette = this->palette;
     edk::uint32 paletteSize = this->paletteSize;
 
-    if(this->haveImage() && width && height && channels && this->haveColors() && bytes && palette && paletteSize){
+    if(width && height && channels && this->haveColors() && bytes && palette && paletteSize){
         //delete the last vector
         if(this->vec){
             free(this->vec);
@@ -1551,10 +1664,13 @@ bool edk::Image2D::generatePixelsFromColors(){
                         mempcpy(&colorID,colors,sizeof(colorID));
                         if(colorID < paletteSize){
                             //convert the color ID to the pixel channel
-                            memcpy(vector,&palette[colorID*channels],channels);
+                            memcpy(vector,
+                                   &palette[colorID*channels*bytes],
+                                    channels*bytes
+                                    );
                         }
                         //increment the vectors and colors
-                        vector+=channels;
+                        vector+=bytes*channels;
                         colors+=bytes;
                     }
                 }
@@ -1570,10 +1686,13 @@ bool edk::Image2D::generatePixelsFromColors(){
                         mempcpy(&colorID,colors,sizeof(colorID));
                         if(colorID < paletteSize){
                             //convert the color ID to the pixel channel
-                            memcpy(vector,&palette[colorID*channels],channels);
+                            memcpy(vector,
+                                   &palette[colorID*channels*bytes],
+                                    channels*bytes
+                                    );
                         }
                         //increment the vectors and colors
-                        vector+=channels;
+                        vector+=bytes*channels;
                         colors+=bytes;
                     }
                 }
@@ -1589,10 +1708,13 @@ bool edk::Image2D::generatePixelsFromColors(){
                         mempcpy(&colorID,colors,/*sizeof(colorID)*/3u);
                         if(colorID < paletteSize){
                             //convert the color ID to the pixel channel
-                            memcpy(vector,&palette[colorID*channels],channels);
+                            memcpy(vector,
+                                   &palette[colorID*channels*bytes],
+                                    channels*bytes
+                                    );
                         }
                         //increment the vectors and colors
-                        vector+=channels;
+                        vector+=bytes*channels;
                         colors+=bytes;
                     }
                 }
@@ -1608,10 +1730,13 @@ bool edk::Image2D::generatePixelsFromColors(){
                         mempcpy(&colorID,colors,sizeof(colorID));
                         if(colorID < paletteSize){
                             //convert the color ID to the pixel channel
-                            memcpy(vector,&palette[colorID*channels],channels);
+                            memcpy(vector,
+                                   &palette[colorID*channels*bytes],
+                                    channels*bytes
+                                    );
                         }
                         //increment the vectors and colors
-                        vector+=channels;
+                        vector+=bytes*channels;
                         colors+=bytes;
                     }
                 }

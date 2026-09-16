@@ -103,6 +103,8 @@ public:
     bool removeTrack(edk::uint32 position);
     //return true if have a track in a position
     bool haveTrack(edk::uint32 position);
+    //return true if have at least one track
+    bool haveTracks();
 
     //move tracks
     bool squapTrack(edk::uint32 position1,edk::uint32 position2);
@@ -138,11 +140,23 @@ public:
     //set the animationStartFrame
     bool setAllTracksStartInterpolation(edk::uint32 animationInterpolation);
     bool setAllTracksStartSecond(edk::float32 second);
+    inline bool setAnimationStartInterpolationAllTracks(edk::uint32 animationInterpolation){
+        return this->setAllTracksStartInterpolation(animationInterpolation);
+    }
+    inline bool setAnimationStartSecondAllTracks(edk::float32 second){
+        return this->setAllTracksStartSecond(second);
+    }
     bool setAnimationStartInterpolation(edk::uint32 trackPosition,edk::uint32 animationInterpolation);
     bool setAnimationStartSecond(edk::uint32 trackPosition,edk::float32 second);
     //set the animationEndFrame
     bool setAllTracksEndInterpolation(edk::uint32 animationInterpolation);
     bool setAllTracksEndSecond(edk::float32 second);
+    inline bool setAnimationEndInterpolationAllTracks(edk::uint32 animationInterpolation){
+        return this->setAllTracksEndInterpolation(animationInterpolation);
+    }
+    inline bool setAnimationEndSecondAllTracks(edk::float32 second){
+        return this->setAllTracksEndSecond(second);
+    }
     bool setAnimationEndInterpolation(edk::uint32 trackPosition,edk::uint32 animationInterpolation);
     bool setAnimationEndSecond(edk::uint32 trackPosition,edk::float32 second);
 
@@ -236,6 +250,9 @@ public:
     bool incrementOn(edk::uint32 trackPosition);
     bool incrementAllTracksOff();
     bool incrementOff(edk::uint32 trackPosition);
+    inline bool incrementOffAllTracks(){
+        return this->incrementAllTracksOff();
+    }
 
     //GETERS
     //return the number of animations

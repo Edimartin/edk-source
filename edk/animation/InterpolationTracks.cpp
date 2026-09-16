@@ -160,6 +160,13 @@ bool edk::animation::InterpolationTracks::removeTrack(edk::uint32 position){
 bool edk::animation::InterpolationTracks::haveTrack(edk::uint32 position){
     return this->tracks->havePos(position);
 }
+//return true if have at least one track
+bool edk::animation::InterpolationTracks::haveTracks(){
+    if(this->tracks->size()){
+        return true;
+    }
+    return false;
+}
 
 //move tracks
 bool edk::animation::InterpolationTracks::squapTrack(edk::uint32 position1,edk::uint32 position2){

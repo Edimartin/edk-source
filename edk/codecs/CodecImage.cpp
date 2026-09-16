@@ -52,6 +52,13 @@ void edk::codecs::CodecImage::Constructor(){
         this->vectorFrameFullSize=0u;
 
         this->frameBytesPerChannel = sizeof(edk::uint8);
+
+        this->palette=NULL;
+        this->paletteSize=0u;
+        this->paletteChannels = 0.f;
+        this->vectorPaletteSize=0u;
+
+        this->paletteBytesPerChannel = sizeof(edk::uint8);
     }
 }
 void edk::codecs::CodecImage::Destructor(){
@@ -122,8 +129,102 @@ bool edk::codecs::CodecImage::newFrame(edk::size2ui32 size,edk::uint8 channels,e
 bool edk::codecs::CodecImage::newFrame(edk::uint32 width,edk::uint32 height,edk::uint8 channels,edk::uint8 bytesPerChannel){
     return this->newFrame(edk::size2ui32(width,height),channels,bytesPerChannel);
 }
+//create a new frame with palette
+bool edk::codecs::CodecImage::newFrameWithPalette(edk::size2ui32 size,edk::uint32 sizePalette,edk::uint8 channelsPalette,edk::uint8 paletteBytesPerChannel){
+    if(size.width && size.height && sizePalette && channelsPalette && paletteBytesPerChannel){
+        //calculate the channels
+        edk::uint32 channels=1u;
+        edk::uint32 bytesPerChannel=1u;
+        if(sizePalette > 0xFF){
+            bytesPerChannel=2u;
+        }
+        if(sizePalette > 0xFFFF){
+            bytesPerChannel=3u;
+        }
+        if(sizePalette > 0xFFFFFF){
+            bytesPerChannel=4u;
+        }
+        //test if don't need create a new image
+        if(this->frame && this->palette){
+            //test if the size of the image is diferent then the last size
+            if(this->frameSize.width == size.width
+                    && this->frameSize.height == size.height
+                    && this->frameChannels == channels
+                    && this->frameBytesPerChannel == bytesPerChannel
+                    && this->paletteSize == sizePalette
+                    && this->paletteBytesPerChannel == paletteBytesPerChannel
+                    ){
+                return true;
+            }
+            else if(this->vectorFrameFullSize>= (edk::uint32)(size.width * size.height * channels)){
+                this->vectorFrameSize = (edk::uint32)(size.width * size.height * channels);
+                this->frameChannels = channels;
+                this->frameSize = size;
+                this->paletteSize = sizePalette;
+                this->paletteBytesPerChannel = paletteBytesPerChannel;
+                return true;
+            }
+        }
+        //else create a new frame
+
+        //first delete the last frame
+        this->deleteFrame();
+
+        //create first the palette
+        this->vectorPaletteSize = sizePalette* channelsPalette * paletteBytesPerChannel;
+        this->palette = (edk::uint8*) malloc(this->vectorPaletteSize);
+        if(this->palette){
+            //
+            this->frameBytesPerChannel = bytesPerChannel;
+
+            //set the size of the vector frame
+            edk::uint32 frameFullSize = this->vectorFrameSize = (edk::uint32)(size.width * size.height * channels
+                                                                              * this->getFrameBytesPerChannel()
+                                                                              );
+            this->vectorFrameFullSize = (edk::uint32)(1920u * 1080u * 4u
+                                                      * this->getFrameBytesPerChannel()
+                                                      );
+            if(this->vectorFrameFullSize < frameFullSize){
+                this->vectorFrameFullSize = frameFullSize;
+            }
+
+            //create the new frame
+            if(this->vectorFrameFullSize){
+                if( ( this->frame = (edk::uint8*)malloc(sizeof(edk::uint8) * (this->vectorFrameFullSize)) ) ){
+                    //save the new size
+                    this->frameSize = size;
+                    this->frameChannels = channels;
+                    //palette
+                    this->paletteChannels = channelsPalette;
+                    this->paletteBytesPerChannel = paletteBytesPerChannel;
+                    this->paletteSize = sizePalette;
+                    //return true
+                    return true;
+                }
+            }
+
+            free(this->palette);
+            this->palette=NULL;
+        }
+    }
+    return false;
+}
+bool edk::codecs::CodecImage::newFrameWithPalette(edk::uint32 width,edk::uint32 height,edk::uint32 sizePalette,edk::uint8 channelsPalette,edk::uint8 paletteBytesPerPixel){
+    return this->newFrameWithPalette(edk::size2ui32(width,height),sizePalette,channelsPalette,paletteBytesPerPixel);
+}
 //delete the frame
 void edk::codecs::CodecImage::deleteFrame(){
+    //delete the palette if have it
+    if(this->palette
+            && this->paletteSize
+            ){
+        free(this->palette);
+    }
+    this->palette=NULL;
+    this->paletteSize=0u;
+    this->paletteChannels=0u;
+    this->paletteBytesPerChannel = sizeof(edk::uint8);
+
     //test if have the frame
     if(this->frame
             && this->vectorFrameSize
@@ -138,6 +239,8 @@ void edk::codecs::CodecImage::deleteFrame(){
     this->frameSize = edk::size2ui32(0u,0u);
     this->frameChannels=0.f;
     this->vectorFrameSize=0u;
+
+    this->frameBytesPerChannel = sizeof(edk::uint8);
 }
 //alloc a new frameEncoded
 bool edk::codecs::CodecImage::newFrameEncoded(edk::uint32 size){
@@ -175,19 +278,43 @@ void edk::codecs::CodecImage::deleteEncoded(){
     this->encodedSize = 0u;
 }
 
+bool edk::codecs::CodecImage::havePalette(){
+    if(this->palette){
+        return true;
+    }
+    return false;
+}
+
 //draw a image in the frame
 bool edk::codecs::CodecImage::drawFrame(edk::uint8* frame,edk::size2ui32 size,edk::uint8 channels){
     //create a new frame
-    if(this->newFrame(size,channels)){
-        //copy the frame
-        memcpy(this->frame,frame,this->vectorFrameSize);
-        //then return true
-        return true;
+    if(frame && size.width && size.height && channels){
+        if(this->newFrame(size,channels)){
+            //copy the frame
+            memcpy(this->frame,frame,this->vectorFrameSize);
+            //then return true
+            return true;
+        }
     }
     return false;
 }
 bool edk::codecs::CodecImage::drawFrame(edk::uint8* frame,edk::uint32 width,edk::uint32 height,edk::uint8 channels){
     return this->drawFrame(frame,edk::size2ui32(width,height),channels);
+}
+bool edk::codecs::CodecImage::drawFrameAndPalette(edk::uint8* frame,edk::size2ui32 size,
+                                                  edk::uint8* palette,edk::uint32 sizePalette,edk::uint8 channelsPalette
+                                                  ){
+    if(frame && size.width && size.height && palette && sizePalette && channelsPalette){
+        if(this->newFrameWithPalette(size,sizePalette,channelsPalette)){
+            //copy the palette
+            memcpy(this->palette,palette,this->vectorPaletteSize);
+            //copy the frame
+            memcpy(this->frame,frame,this->vectorFrameSize);
+            //then return true
+            return true;
+        }
+    }
+    return false;
 }
 //write in the frame encoded
 bool edk::codecs::CodecImage::writeEncoded(edk::uint8* frame){
@@ -213,6 +340,9 @@ bool edk::codecs::CodecImage::setQuality(edk::uint32 quality){
 edk::uint8* edk::codecs::CodecImage::getFrame(){
     return this->frame;
 }
+edk::uint8* edk::codecs::CodecImage::getPalette(){
+    return this->palette;
+}
 edk::uint8* edk::codecs::CodecImage::getEncoded(){
     return this->encoded;
 }
@@ -230,6 +360,23 @@ edk::uint8* edk::codecs::CodecImage::cleanFrame(){
     this->frameChannels=0u;
     this->vectorFrameSize=0u;
     this->vectorFrameFullSize=0u;
+
+    if(this->havePalette()){
+        this->cleanPalette();
+    }
+
+    return ret;
+}
+edk::uint8* edk::codecs::CodecImage::cleanPalette(){
+    edk::uint8* ret = this->palette;
+
+    this->palette=NULL;
+    //clean the size
+    this->paletteSize = 0u;
+    this->paletteChannels=0u;
+    this->vectorPaletteSize=0u;
+
+    this->paletteBytesPerChannel = sizeof(edk::uint8);
 
     return ret;
 }
@@ -258,6 +405,15 @@ edk::uint32 edk::codecs::CodecImage::getFrameChannels(){
 }
 edk::uint32 edk::codecs::CodecImage::getFrameVectorSize(){
     return this->vectorFrameSize;
+}
+edk::uint32 edk::codecs::CodecImage::getPaletteSize(){
+    return this->paletteSize;
+}
+edk::uint32 edk::codecs::CodecImage::getPaletteChannels(){
+    return this->paletteChannels;
+}
+edk::uint32 edk::codecs::CodecImage::getPaletteBytesPerChannel(){
+    return this->paletteBytesPerChannel;
 }
 //return the size of the encoded
 edk::uint32 edk::codecs::CodecImage::getEncodedSize(){

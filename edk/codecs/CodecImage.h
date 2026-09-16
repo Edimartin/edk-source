@@ -54,8 +54,11 @@ public:
     void Destructor();
 protected:
     //create a new frame
-    bool newFrame(edk::size2ui32 size,edk::uint8 channels,edk::uint8 frameBytesPerPixel=1u);
-    bool newFrame(edk::uint32 width,edk::uint32 height,edk::uint8 channels,edk::uint8 frameBytesPerPixel=1u);
+    bool newFrame(edk::size2ui32 size,edk::uint8 channels,edk::uint8 frameBytesPerChannel=1u);
+    bool newFrame(edk::uint32 width,edk::uint32 height,edk::uint8 channels,edk::uint8 frameBytesPerChannel=1u);
+    //create a new frame with palette
+    bool newFrameWithPalette(edk::size2ui32 size,edk::uint32 sizePalette,edk::uint8 channelsPalette,edk::uint8 paletteBytesPerChannel=1u);
+    bool newFrameWithPalette(edk::uint32 width,edk::uint32 height,edk::uint32 sizePalette,edk::uint8 channelsPalette,edk::uint8 paletteBytesPerChannel=1u);
     //delete the frame
     void deleteFrame();
     //alloc a new frameEncoded
@@ -63,9 +66,14 @@ protected:
     //delete the encoded
     void deleteEncoded();
 
+    bool havePalette();
+
     //draw a image in the frame
     bool drawFrame(edk::uint8* frame,edk::size2ui32 size,edk::uint8 channels);
     bool drawFrame(edk::uint8* frame,edk::uint32 width,edk::uint32 height,edk::uint8 channels);
+    bool drawFrameAndPalette(edk::uint8* frame,edk::size2ui32 size,
+                             edk::uint8* palette,edk::uint32 sizePalette,edk::uint8 channelsPalette
+                             );
 
     //write in the frame encoded
     bool writeEncoded(edk::uint8* frame);
@@ -75,11 +83,13 @@ protected:
 
     //get the frames
     edk::uint8* getFrame();
+    edk::uint8* getPalette();
     edk::uint8* getEncoded();
     edk::uint8** getEncodedPosition();
 
     //clean the pointers
     edk::uint8* cleanFrame();
+    edk::uint8* cleanPalette();
     edk::uint8* cleanEncoded();
 
     //return the size of the frame
@@ -88,6 +98,9 @@ protected:
     edk::uint32 getFrameHeight();
     edk::uint32 getFrameChannels();
     edk::uint32 getFrameVectorSize();
+    edk::uint32 getPaletteSize();
+    edk::uint32 getPaletteChannels();
+    edk::uint32 getPaletteBytesPerChannel();
     //return the size of the encoded
     edk::uint32 getEncodedSize();
     edk::uint32* getEncodedSizePosition();
@@ -210,34 +223,42 @@ public:
     //TONE MAP
     static bool rgb32ToneMapReinhardRGB8(edk::uint8* rgb32,edk::uint32 size,edk::uint8* rgb8);
     static bool rgb32ToneMapReinhardRGB8(edk::uint8* rgb32,
-                            edk::uint32 size,
-                            edk::uint8* rgb8,
-                            edk::float32 gamma
-                            );
+                                         edk::uint32 size,
+                                         edk::uint8* rgb8,
+                                         edk::float32 gamma
+                                         );
     static bool rgb32ToneMapACESFilmRGB8(edk::uint8* rgb32,edk::uint32 size,edk::uint8* rgb8);
     static bool rgb32ToneMapACESFilmRGB8(edk::uint8* rgb32,
-                            edk::uint32 size,
-                            edk::uint8* rgb8,
-                            edk::float32 gamma
-                            );
+                                         edk::uint32 size,
+                                         edk::uint8* rgb8,
+                                         edk::float32 gamma
+                                         );
 protected:
     //save the size of the frame
     edk::size2ui32 frameSize;
     edk::uint8 frameBytesPerChannel;
+    edk::uint32 paletteSize;
+    edk::uint8 paletteBytesPerChannel;
 
 private:
     //image vector to encode
     edk::uint8* frame;
     edk::uint32 vectorFrameSize;
     edk::uint32 vectorFrameFullSize;
+    edk::uint32 vectorPaletteSize;
     //save the type of the frame
-    edk::float32 frameChannels;
+    edk::uint8 frameChannels;
+    edk::uint8 paletteChannels;
     //save the frame encoded
     edk::uint8* encoded;
     //size of the frame encoded
     edk::uint32 encodedSize;
     //save the quality of the frame encoded
     edk::uint32 encodedQuality;
+    //save the frame palette
+    edk::uint8* palette;
+    //size of the frame palette
+    edk::uint32 paletteLenght;
 private:
     edk::classID classThis;
 };

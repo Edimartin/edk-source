@@ -57,6 +57,208 @@ bool edk::codecs::DecoderPNG::decode(edk::uint8* encoded,edk::uint32 size){
     if(edk::codecs::DecoderImage::decode(encoded,size)){
         //process the decoder
         bool ret=false;
+        bool usingPalette = false;
+
+        edk::uint32 width=0;
+        edk::uint32 height=0;
+        edk::uint32 channels=0;
+
+        lodepng::State state;
+        lodepng_state_init(&state);
+
+        edk::uint32 error = lodepng_inspect(
+                    &width,
+                    &height,
+                    &state,
+                    encoded,
+                    size
+                    );
+        if(error){
+            //std::cerr << "Erro ao decodificar o PNG da memoria: " << lodepng_error_text(error) << std::endl;
+            return false;
+        }
+
+        state.info_raw.colortype = state.info_png.color.colortype;
+
+        edk::uchar8* image_buffer=NULL;
+
+        //state.info_raw.colortype = LCT_PALETTE;
+        //state.info_raw.bitdepth = 8;
+
+        error = lodepng_decode(&image_buffer, &width, &height,
+                               &state,
+                               encoded, size);
+
+        if(error){
+            //std::cerr << "Erro ao decodificar o PNG da memoria: " << lodepng_error_text(error) << std::endl;
+            return false;
+        }
+
+        if(image_buffer){
+            switch(state.info_png.color.colortype){
+            case LCT_PALETTE:
+                channels=1u;
+                ret = edk::codecs::CodecImage::newFrameWithPalette(width,height,
+                                                                   state.info_png.color.palettesize,
+                                                                   4u,
+                                                                   1u
+                                                                   );
+                if(ret){
+                    //copy the palette
+                    edk::uchar8* temp = edk::codecs::CodecImage::getPalette();
+                    edk::uchar8* source = state.info_png.color.palette;
+                    if(temp && source){
+                        edkMemCpy(temp,source,state.info_png.color.palettesize*4u);
+                    }
+                    else{
+                        ret=false;
+                    }
+                    usingPalette = true;
+                }
+                break;
+            case LCT_GREY:
+                channels=1u;
+                //alloc the image with bytes per channel
+                switch(state.info_raw.bitdepth){
+                default:
+                case 8u:
+                    //alloc the new image frame
+                    ret = edk::codecs::CodecImage::newFrame(width,height,1u,1u);
+                    break;
+                case 16u:
+                    //alloc the new image frame
+                    ret = edk::codecs::CodecImage::newFrame(width,height,1u,2u);
+                    break;
+                }
+                break;
+            case LCT_GREY_ALPHA:
+                channels=2u;
+                //alloc the image with bytes per channel
+                switch(state.info_raw.bitdepth){
+                default:
+                case 8u:
+                    //alloc the new image frame
+                    ret = edk::codecs::CodecImage::newFrame(width,height,2u,1u);
+                    break;
+                case 16u:
+                    //alloc the new image frame
+                    ret = edk::codecs::CodecImage::newFrame(width,height,2u,2u);
+                    break;
+                }
+                break;
+            case LCT_RGB:
+                channels=3u;
+                //alloc the image with bytes per channel
+                switch(state.info_raw.bitdepth){
+                default:
+                case 8u:
+                    //alloc the new image frame
+                    ret = edk::codecs::CodecImage::newFrame(width,height,3u,1u);
+                    break;
+                case 16u:
+                    //alloc the new image frame
+                    ret = edk::codecs::CodecImage::newFrame(width,height,3u,2u);
+                    break;
+                }
+                break;
+            case LCT_RGBA:
+                channels=4u;
+                //alloc the image with bytes per channel
+                switch(state.info_raw.bitdepth){
+                default:
+                case 8u:
+                    //alloc the new image frame
+                    ret = edk::codecs::CodecImage::newFrame(width,height,4u,1u);
+                    break;
+                case 16u:
+                    //alloc the new image frame
+                    ret = edk::codecs::CodecImage::newFrame(width,height,4u,2u);
+                    break;
+                }
+                break;
+            default:
+                break;
+            }
+
+            if(ret &&
+                    edk::codecs::CodecImage::getFrame() &&
+                    edk::codecs::CodecImage::getFrameWidth() &&
+                    edk::codecs::CodecImage::getFrameHeight()
+                    ){
+                edk::uchar8* temp = edk::codecs::CodecImage::getFrame();
+                edk::uchar8* source = image_buffer;
+                if(temp){
+                    if(usingPalette){
+                        edkMemCpy(temp,source,width * height * this->getFrameBytesPerChannel());
+                    }
+                    else{
+                        switch(channels){
+                        case 1u:
+                            //test the bits per pixel
+                            switch(state.info_raw.bitdepth){
+                            default:
+                            case 8u:
+                                edkMemCpy(temp,source,width*height);
+                                break;
+                            case 16u:
+                                edkMemCpy(temp,source,width*height*channels*2u);
+                                break;
+                            }
+                            break;
+                        case 2u:
+                            //test the bits per pixel
+                            switch(state.info_raw.bitdepth){
+                            default:
+                            case 8u:
+                                edkMemCpy(temp,source,width*height*channels);
+                                break;
+                            case 16u:
+                                edkMemCpy(temp,source,width*height*channels*2u);
+                                break;
+                            }
+                            break;
+                        case 3u:
+                            //test the bits per pixel
+                            switch(state.info_raw.bitdepth){
+                            default:
+                            case 8u:
+                                edkMemCpy(temp,source,width*height*channels);
+                                break;
+                            case 16u:
+                                edkMemCpy(temp,source,width*height*channels*2u);
+                                break;
+                            }
+                            break;
+                        case 4u:
+                            //test the bits per pixel
+                            switch(state.info_raw.bitdepth){
+                            default:
+                            case 8u:
+                                edkMemCpy(temp,source,width*height*channels);
+                                break;
+                            case 16u:
+                                edkMemCpy(temp,source,width*height*channels*2u);
+                                break;
+                            }
+                            break;
+                        default:
+                            break;
+                        }
+                    }
+                    //return true
+                    ret=true;
+                }
+            }
+            else{
+                ret=false;
+            }
+            free(image_buffer);
+            return ret;
+        }
+
+        edk::int32 w=0;
+        edk::int32 h=0;
+        edk::int32 comp=0;
 
         //create the context to be decode
         stbi__context s;
@@ -104,10 +306,6 @@ bool edk::codecs::DecoderPNG::decode(edk::uint8* encoded,edk::uint32 size){
         //alloc the result pointer
         unsigned char* result=NULL;
 
-        int w=0;
-        int h=0;
-        int comp=0;
-
         //test if the encoded have the header
         if(stbi__png_test(&s)){
             //decode the jpeg image
@@ -118,11 +316,11 @@ bool edk::codecs::DecoderPNG::decode(edk::uint8* encoded,edk::uint32 size){
                     default:
                     case 8u:
                         //alloc the new image frame
-                        edk::codecs::CodecImage::newFrame(w,h,(edk::float32)comp,1u);
+                        edk::codecs::CodecImage::newFrame(w,h,comp,1u);
                         break;
                     case 16u:
                         //alloc the new image frame
-                        edk::codecs::CodecImage::newFrame(w,h,(edk::float32)comp,2u);
+                        edk::codecs::CodecImage::newFrame(w,h,comp,2u);
                         break;
                     }
 
@@ -139,10 +337,10 @@ bool edk::codecs::DecoderPNG::decode(edk::uint8* encoded,edk::uint32 size){
                                 switch(ri.bits_per_channel){
                                 default:
                                 case 8u:
-                                    memcpy(temp,result,w*h);
+                                    edkMemCpy(temp,result,w*h);
                                     break;
                                 case 16u:
-                                    memcpy(temp,result,w*h*comp*2u);
+                                    edkMemCpy(temp,result,w*h*comp*2u);
                                     break;
                                 }
                                 break;
@@ -151,10 +349,10 @@ bool edk::codecs::DecoderPNG::decode(edk::uint8* encoded,edk::uint32 size){
                                 switch(ri.bits_per_channel){
                                 default:
                                 case 8u:
-                                    memcpy(temp,result,w*h*comp);
+                                    edkMemCpy(temp,result,w*h*comp);
                                     break;
                                 case 16u:
-                                    memcpy(temp,result,w*h*comp*2u);
+                                    edkMemCpy(temp,result,w*h*comp*2u);
                                     break;
                                 }
                                 break;
@@ -166,10 +364,10 @@ bool edk::codecs::DecoderPNG::decode(edk::uint8* encoded,edk::uint32 size){
                                     switch(ri.bits_per_channel){
                                     default:
                                     case 8u:
-                                        memcpy(temp,result,w*h*comp);
+                                        edkMemCpy(temp,result,w*h*comp);
                                         break;
                                     case 16u:
-                                        memcpy(temp,result,w*h*comp*2u);
+                                        edkMemCpy(temp,result,w*h*comp*2u);
                                         break;
                                     }
                                     break;
@@ -210,10 +408,10 @@ bool edk::codecs::DecoderPNG::decode(edk::uint8* encoded,edk::uint32 size){
                                 switch(ri.bits_per_channel){
                                 default:
                                 case 8u:
-                                    memcpy(temp,result,w*h*comp);
+                                    edkMemCpy(temp,result,w*h*comp);
                                     break;
                                 case 16u:
-                                    memcpy(temp,result,w*h*comp*2u);
+                                    edkMemCpy(temp,result,w*h*comp*2u);
                                     break;
                                 }
                                 break;

@@ -57,10 +57,15 @@ public:
 
     //Return the frame
     edk::uint8* getFrame();
+    edk::uint8* getPalette();
     edk::size2ui32 getFrameSize();
     edk::uint32 getFrameWidth();
     edk::uint32 getFrameHeight();
     edk::uint32 getFrameChannels();
+    edk::uint32 getPaletteSize();
+    edk::uint32 getPaletteChannels();
+    edk::uint32 getPaletteBytesPerChannel();
+    bool havePalette();
     //delete the frame
     virtual void deleteFrame();
     //clean the frame
