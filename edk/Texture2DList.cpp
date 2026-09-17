@@ -1488,7 +1488,7 @@ edk::uint32 edk::Texture2DList::loadTextureRepeatFromMemory(const edk::char8* na
     return this->loadTextureRepeatFromMemory((edk::char8*) name,image,size,minFilter,magFilter);
 }
 //set Texture from memory
-edk::uint32 edk::Texture2DList::setTextureFromMemory(edk::char8* name,edk::uint8* image,edk::uint32 width,edk::uint32 height,edk::uint32 channels,edk::uint32 minFilter,edk::uint32 magFilter){
+edk::uint32 edk::Texture2DList::setTextureFromMemory(edk::char8* name,edk::uint8* image,edk::uint32 width,edk::uint32 height,edk::uint32 channels,edk::uint32 minFilter,edk::uint32 magFilter,edk::uint8 bytesPerChannel){
     edk::uint32 ret=0u;
     //test the pointers and size
     if(name && image && width && height && channels){
@@ -1502,7 +1502,7 @@ edk::uint32 edk::Texture2DList::setTextureFromMemory(edk::char8* name,edk::uint8
                 temp = new edk::Texture2DList::TextureCode;
                 if(temp){
                     //load the texture
-                    if(temp->setFromMemory(name,image,width,height,channels,minFilter,magFilter)){
+                    if(temp->setFromMemory(name,image,width,height,channels,minFilter,magFilter,bytesPerChannel)){
                         //add the texture to the tree's
 
                         this->mutNameTree.lock();
@@ -1550,10 +1550,10 @@ edk::uint32 edk::Texture2DList::setTextureFromMemory(edk::char8* name,edk::uint8
     }
     return ret;
 }
-edk::uint32 edk::Texture2DList::setTextureFromMemory(const edk::char8* name,edk::uint8* image,edk::uint32 width,edk::uint32 height,edk::uint32 channels,edk::uint32 minFilter,edk::uint32 magFilter){
-    return this->setTextureFromMemory((edk::char8*) name,image,width,height,channels,minFilter,magFilter);
+edk::uint32 edk::Texture2DList::setTextureFromMemory(const edk::char8* name,edk::uint8* image,edk::uint32 width,edk::uint32 height,edk::uint32 channels,edk::uint32 minFilter,edk::uint32 magFilter,edk::uint8 bytesPerChannel){
+    return this->setTextureFromMemory((edk::char8*) name,image,width,height,channels,minFilter,magFilter,bytesPerChannel);
 }
-edk::uint32 edk::Texture2DList::setTexture3DFromMemory(edk::char8* name,edk::uint8* image,edk::uint32 width,edk::uint32 height,edk::uint32 length,edk::uint32 channels,edk::uint32 minFilter,edk::uint32 magFilter){
+edk::uint32 edk::Texture2DList::setTexture3DFromMemory(edk::char8* name,edk::uint8* image,edk::uint32 width,edk::uint32 height,edk::uint32 length,edk::uint32 channels,edk::uint32 minFilter,edk::uint32 magFilter,edk::uint8 bytesPerChannel){
     edk::uint32 ret=0u;
     //test the pointers and size
     if(name && image && width && height && length && channels){
@@ -1615,11 +1615,11 @@ edk::uint32 edk::Texture2DList::setTexture3DFromMemory(edk::char8* name,edk::uin
     }
     return ret;
 }
-edk::uint32 edk::Texture2DList::setTexture3DFromMemory(const edk::char8* name,edk::uint8* image,edk::uint32 width,edk::uint32 height,edk::uint32 length,edk::uint32 channels,edk::uint32 minFilter,edk::uint32 magFilter){
-    return this->setTexture3DFromMemory((edk::char8*) name,image,width,height,length,channels,minFilter,magFilter);
+edk::uint32 edk::Texture2DList::setTexture3DFromMemory(const edk::char8* name,edk::uint8* image,edk::uint32 width,edk::uint32 height,edk::uint32 length,edk::uint32 channels,edk::uint32 minFilter,edk::uint32 magFilter,edk::uint8 bytesPerChannel){
+    return this->setTexture3DFromMemory((edk::char8*) name,image,width,height,length,channels,minFilter,magFilter,bytesPerChannel);
 }
 //set TextureRepeat from memory
-edk::uint32 edk::Texture2DList::setTextureRepeatFromMemory(edk::char8* name,edk::uint8* image,edk::uint32 width,edk::uint32 height,edk::uint32 channels,edk::uint32 minFilter,edk::uint32 magFilter){
+edk::uint32 edk::Texture2DList::setTextureRepeatFromMemory(edk::char8* name,edk::uint8* image,edk::uint32 width,edk::uint32 height,edk::uint32 channels,edk::uint32 minFilter,edk::uint32 magFilter,edk::uint8 bytesPerChannel){
     edk::uint32 ret=0u;
     //test the pointers and size
     if(name && image && width && height && channels){
@@ -1633,7 +1633,7 @@ edk::uint32 edk::Texture2DList::setTextureRepeatFromMemory(edk::char8* name,edk:
                 temp = new edk::Texture2DList::TextureCode;
                 if(temp){
                     //load the texture
-                    if(temp->setFromMemory(name,image,width,height,channels,minFilter,magFilter)){
+                    if(temp->setFromMemory(name,image,width,height,channels,minFilter,magFilter,bytesPerChannel)){
                         //add the texture to the tree's
 
                         this->mutNameTree.lock();
@@ -1681,10 +1681,10 @@ edk::uint32 edk::Texture2DList::setTextureRepeatFromMemory(edk::char8* name,edk:
     }
     return ret;
 }
-edk::uint32 edk::Texture2DList::setTextureRepeatFromMemory(const edk::char8* name,edk::uint8* image,edk::uint32 width,edk::uint32 height,edk::uint32 channels,edk::uint32 minFilter,edk::uint32 magFilter){
-    return this->setTextureRepeatFromMemory((edk::char8*) name,image,width,height,channels,minFilter,magFilter);
+edk::uint32 edk::Texture2DList::setTextureRepeatFromMemory(const edk::char8* name,edk::uint8* image,edk::uint32 width,edk::uint32 height,edk::uint32 channels,edk::uint32 minFilter,edk::uint32 magFilter,edk::uint8 bytesPerChannel){
+    return this->setTextureRepeatFromMemory((edk::char8*) name,image,width,height,channels,minFilter,magFilter,bytesPerChannel);
 }
-edk::uint32 edk::Texture2DList::setTexture3DRepeatFromMemory(edk::char8* name,edk::uint8* image,edk::uint32 width,edk::uint32 height,edk::uint32 length,edk::uint32 channels,edk::uint32 minFilter,edk::uint32 magFilter){
+edk::uint32 edk::Texture2DList::setTexture3DRepeatFromMemory(edk::char8* name,edk::uint8* image,edk::uint32 width,edk::uint32 height,edk::uint32 length,edk::uint32 channels,edk::uint32 minFilter,edk::uint32 magFilter,edk::uint8 bytesPerChannel){
     edk::uint32 ret=0u;
     //test the pointers and size
     if(name && image && width && height && length && channels){
@@ -1746,8 +1746,8 @@ edk::uint32 edk::Texture2DList::setTexture3DRepeatFromMemory(edk::char8* name,ed
     }
     return ret;
 }
-edk::uint32 edk::Texture2DList::setTexture3DRepeatFromMemory(const edk::char8* name,edk::uint8* image,edk::uint32 width,edk::uint32 height,edk::uint32 length,edk::uint32 channels,edk::uint32 minFilter,edk::uint32 magFilter){
-    return this->setTexture3DRepeatFromMemory((edk::char8*) name,image,width,height,length,channels,minFilter,magFilter);
+edk::uint32 edk::Texture2DList::setTexture3DRepeatFromMemory(const edk::char8* name,edk::uint8* image,edk::uint32 width,edk::uint32 height,edk::uint32 length,edk::uint32 channels,edk::uint32 minFilter,edk::uint32 magFilter,edk::uint8 bytesPerChannel){
+    return this->setTexture3DRepeatFromMemory((edk::char8*) name,image,width,height,length,channels,minFilter,magFilter,bytesPerChannel);
 }
 //load the texture from a file package
 edk::uint32 edk::Texture2DList::loadTextureFromPack(edk::pack::FilePackage* pack,edk::char8* name,edk::uint32 minFilter,edk::uint32 magFilter){

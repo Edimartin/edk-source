@@ -65,6 +65,7 @@ enum gui2dTypes{
     gui2dTypeTextField,
     gui2dTypeColorPicker,
     gui2dTypeColorShow,
+    gui2dTypePixelEdit,
     gui2dTypeRect,
     gui2dTypeTimeline,
     //

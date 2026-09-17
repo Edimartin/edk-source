@@ -52,6 +52,7 @@ edk::vector::Queue<edk::uint32> edk::GU::delTextures;
 edk::multi::Mutex edk::GU::mutGetTextures;
 edk::multi::Mutex edk::GU::mutDelTextures;
 edk::vector::Queue<edk::GU::MipmapClass> edk::GU::genMipmaps;
+edk::uint32 edk::GU::texturesWrap=GU_CLAMP_TO_EDGE;
 //a boolean if can still running load the texture
 bool edk::GU::canLoadTexture=true;
 
@@ -574,6 +575,36 @@ void edk::GU::guUsePerspective(edk::float32 a, edk::float32 b, edk::float32 c, e
     edk::GU_GLSL::mut.unlock();
 }
 
+//set the textures wrap
+//GU_CLAMP_TO_EDGE
+//GU_CLAMP_TO_BORDER
+//GU_MIRRORED_REPEAT
+//GU_REPEAT
+//GU_MIRROR_CLAMP_TO_EDGE
+void edk::GU::guSetTexturesWrap(edk::uint32 mode){
+    edk::GU_GLSL::mut.lock();
+    switch(mode){
+    case GU_CLAMP_TO_EDGE:
+        edk::GU::texturesWrap=GU_CLAMP_TO_EDGE;
+        break;
+    case GU_CLAMP_TO_BORDER:
+        edk::GU::texturesWrap=GU_CLAMP_TO_BORDER;
+        break;
+    case GU_MIRRORED_REPEAT:
+        edk::GU::texturesWrap=GU_MIRRORED_REPEAT;
+        break;
+    case GU_REPEAT:
+        edk::GU::texturesWrap=GU_REPEAT;
+        break;
+    case GU_MIRROR_CLAMP_TO_EDGE:
+        edk::GU::texturesWrap=GU_MIRROR_CLAMP_TO_EDGE;
+        break;
+    default:
+        edk::GU::texturesWrap=GU_CLAMP_TO_EDGE;
+    }
+    edk::GU_GLSL::mut.unlock();
+}
+
 //Create a textures
 edk::uint32 edk::GU::guAllocTexture2D(edk::uint32 width,
                                       edk::uint32 height,
@@ -603,7 +634,6 @@ edk::uint32 edk::GU::guAllocTexture2D(edk::uint32 width,
                 if(ID){
                     //Set using texture
                     glBindTexture(GL_TEXTURE_2D,ID);
-
                     //Copy the texture
                     switch(bytesPerChannel){
                     case 1u:
@@ -699,8 +729,8 @@ edk::uint32 edk::GU::guAllocTexture2D(edk::uint32 width,
 
                     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, minFilter);
                     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, magFilter);
-                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, edk::GU::texturesWrap);
+                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, edk::GU::texturesWrap);
 
                     if(minFilter == GU_NEAREST_MIPMAP_LINEAR
                             || minFilter == GU_NEAREST_MIPMAP_NEAREST
@@ -1007,9 +1037,9 @@ edk::uint32 edk::GU::guAllocTexture3D(edk::uint32 width,
 
                     glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MIN_FILTER, minFilter);
                     glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MAG_FILTER, magFilter);
-                    glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-                    glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-                    glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
+                    glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_S, edk::GU::texturesWrap);
+                    glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_T, edk::GU::texturesWrap);
+                    glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_R, edk::GU::texturesWrap);
 
                     if(magFilter == GU_NEAREST_MIPMAP_LINEAR || magFilter == GU_NEAREST_MIPMAP_NEAREST || magFilter == GU_LINEAR_MIPMAP_LINEAR || magFilter == GU_LINEAR_MIPMAP_NEAREST
                             || minFilter == GU_NEAREST_MIPMAP_LINEAR || minFilter == GU_NEAREST_MIPMAP_NEAREST || minFilter == GU_LINEAR_MIPMAP_LINEAR || minFilter == GU_LINEAR_MIPMAP_NEAREST
@@ -1334,8 +1364,8 @@ bool edk::GU::guDrawToTexture2D(edk::uint32 ID,
 
                 glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, minFilter);
                 glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, magFilter);
-                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, edk::GU::texturesWrap);
+                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, edk::GU::texturesWrap);
 
                 if(minFilter == GU_NEAREST_MIPMAP_LINEAR || minFilter == GU_NEAREST_MIPMAP_NEAREST || minFilter == GU_LINEAR_MIPMAP_LINEAR || minFilter == GU_LINEAR_MIPMAP_NEAREST
                         || magFilter == GU_NEAREST_MIPMAP_LINEAR || magFilter == GU_NEAREST_MIPMAP_NEAREST || magFilter == GU_LINEAR_MIPMAP_LINEAR || magFilter == GU_LINEAR_MIPMAP_NEAREST
@@ -1560,8 +1590,8 @@ bool edk::GU::guDrawToTexture2DAndGenerateMipmap(edk::uint32 ID,
 
                 glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, minFilter);
                 glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, magFilter);
-                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, edk::GU::texturesWrap);
+                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, edk::GU::texturesWrap);
 
                 //generate mipmap
                 glGenerateMipmap(GL_TEXTURE_2D);
@@ -1782,8 +1812,8 @@ bool edk::GU::guDrawToTexture3D(edk::uint32 ID,
 
                 glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, minFilter);
                 glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, magFilter);
-                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, edk::GU::texturesWrap);
+                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, edk::GU::texturesWrap);
 
                 if(minFilter == GU_NEAREST_MIPMAP_LINEAR || minFilter == GU_NEAREST_MIPMAP_NEAREST || minFilter == GU_LINEAR_MIPMAP_LINEAR || minFilter == GU_LINEAR_MIPMAP_NEAREST
                         || magFilter == GU_NEAREST_MIPMAP_LINEAR || magFilter == GU_NEAREST_MIPMAP_NEAREST || magFilter == GU_LINEAR_MIPMAP_LINEAR || magFilter == GU_LINEAR_MIPMAP_NEAREST
@@ -2016,8 +2046,8 @@ bool edk::GU::guDrawToTexture3DAndGenerateMipmap(edk::uint32 ID,
 
                 glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, minFilter);
                 glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, magFilter);
-                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, edk::GU::texturesWrap);
+                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, edk::GU::texturesWrap);
 
                 //generate mipmap
                 glGenerateMipmap(GL_TEXTURE_2D);

@@ -41,6 +41,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "ScrollBar2d.h"
 #include "ColorPicker2d.h"
 #include "ColorShow2d.h"
+#include "PixelEdit2d.h"
 #include "Rect2d.h"
 #include "Text2D.h"
 #include "Timeline2d.h"

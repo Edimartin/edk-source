@@ -38,6 +38,7 @@ edk::char8 gui2dTypeString[edk::gui2d::gui2dTypeSize][128u] = {
     "gui2dTypeTextField",
     "gui2dTypeColorPicker",
     "gui2dTypeColorShow",
+    "gui2dTypePixelEdit",
     "gui2dTypeRect",
     "gui2dTypeTimeline"
 };
@@ -61,6 +62,8 @@ void edk::gui2d::ObjectGui2d::Constructor(){
     edk::Object2DValues::Constructor();
     if(this->classThis!=this){
         this->classThis=this;
+
+        this->typeGUI = gui2dTypeObject;
 
         this->obj.Constructor();
         this->sprite.Constructor();

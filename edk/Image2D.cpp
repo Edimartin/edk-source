@@ -2063,7 +2063,12 @@ bool edk::Image2D::drawColorWhite(){
 //draw a color in the image vector
 bool edk::Image2D::drawPosition(edk::vec2ui32 position,edk::uint8* color){
     if(position.x < this->getWidth() && position.y<this->getHeight() && color){
-        memcpy(&this->vec[(position.x + (position.y*this->getHeight())) * this->channelsValue],color,this->channelsValue);
+        memcpy(&this->vec[(position.x * this->channelsValue * this->bytesPerChannel)
+                + (position.y*this->getWidth() * this->channelsValue * this->bytesPerChannel)
+                ],
+                color,
+                this->channelsValue
+                );
         return true;
     }
     return false;

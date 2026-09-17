@@ -493,7 +493,7 @@ bool edk::material::Material::setTextureFromMemory(edk::char8* name,edk::uint8* 
         //remove the texture
         this->removeTexture(position);
         //then load the new texture
-        this->textures[position] = this->list.setTextureFromMemory(name,image,width,height,channels,minFilter,magFilter);
+        this->textures[position] = this->list.setTextureFromMemory(name,image,width,height,channels,minFilter,magFilter,bytesPerChannel);
         if(this->textures[position]){
             this->axis[position]=2u;
             this->countTextures++;
@@ -507,7 +507,7 @@ bool edk::material::Material::setTextureFromMemory(const edk::char8* name,edk::u
 }
 bool edk::material::Material::setTextureFromMemory(edk::Image2D* image,edk::uint8 position,edk::uint32 minFilter,edk::uint32 magFilter){
     if(image){
-        return this->setTextureFromMemory(image->getName(),image->getPixels(),image->getSize().width,image->getSize().height,image->getChannels(),position,minFilter,magFilter);
+        return this->setTextureFromMemory(image->getName(),image->getPixels(),image->getSize().width,image->getSize().height,image->getChannels(),position,minFilter,magFilter,image->getBytesPerChannel());
     }
     return false;
 }
@@ -517,7 +517,7 @@ bool edk::material::Material::setTexture3DFromMemory(edk::char8* name,edk::uint8
         //remove the texture
         this->removeTexture(position);
         //then load the new texture
-        this->textures[position] = this->list.setTexture3DFromMemory(name,image,width,height,length,channels,minFilter,magFilter);
+        this->textures[position] = this->list.setTexture3DFromMemory(name,image,width,height,length,channels,minFilter,magFilter,bytesPerChannel);
         if(this->textures[position]){
             this->axis[position]=3u;
             this->countTextures++;

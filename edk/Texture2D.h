@@ -87,103 +87,103 @@ public:
                        edk::uint32 height,
                        edk::uint32 mode,
                        const edk::classID  data = NULL,
-                       edk::uint8 bytesPerChannel = 1u,
                        edk::uint32 minFilter = GU_NEAREST,
-                       edk::uint32 magFilter = GU_LINEAR
+                       edk::uint32 magFilter = GU_LINEAR,
+                       edk::uint8 bytesPerChannel = 1u
             );
     bool createTextureWithPBODraw(edk::uint32 width,
                                   edk::uint32 height,
                                   edk::uint32 mode,
                                   const edk::classID  data = NULL,
-                                  edk::uint8 bytesPerChannel = 1u,
                                   edk::uint32 minFilter = GU_NEAREST,
-                                  edk::uint32 magFilter = GU_LINEAR
+                                  edk::uint32 magFilter = GU_LINEAR,
+                                  edk::uint8 bytesPerChannel = 1u
             );
     bool createTextureWithPBORead(edk::uint32 width,
                                   edk::uint32 height,
                                   edk::uint32 mode,
                                   const edk::classID  data = NULL,
-                                  edk::uint8 bytesPerChannel = 1u,
                                   edk::uint32 minFilter = GU_NEAREST,
-                                  edk::uint32 magFilter = GU_LINEAR
+                                  edk::uint32 magFilter = GU_LINEAR,
+                                  edk::uint8 bytesPerChannel = 1u
             );
     bool createTextureRepeat(edk::uint32 width,
                              edk::uint32 height,
                              edk::uint32 mode,
                              const edk::classID  data = NULL,
-                             edk::uint8 bytesPerChannel = 1u,
                              edk::uint32 minFilter = GU_NEAREST,
-                             edk::uint32 magFilter = GU_LINEAR
+                             edk::uint32 magFilter = GU_LINEAR,
+                             edk::uint8 bytesPerChannel = 1u
             );
     bool createTextureRepeatWithPBODraw(edk::uint32 width,
                                         edk::uint32 height,
                                         edk::uint32 mode,
                                         const edk::classID  data = NULL,
-                                        edk::uint8 bytesPerChannel = 1u,
                                         edk::uint32 minFilter = GU_NEAREST,
-                                        edk::uint32 magFilter = GU_LINEAR
+                                        edk::uint32 magFilter = GU_LINEAR,
+                                        edk::uint8 bytesPerChannel = 1u
             );
     bool createTextureRepeatWithPBORead(edk::uint32 width,
                                         edk::uint32 height,
                                         edk::uint32 mode,
                                         const edk::classID  data = NULL,
-                                        edk::uint8 bytesPerChannel = 1u,
                                         edk::uint32 minFilter = GU_NEAREST,
-                                        edk::uint32 magFilter = GU_LINEAR
+                                        edk::uint32 magFilter = GU_LINEAR,
+                                        edk::uint8 bytesPerChannel = 1u
             );
     bool createTexture(edk::uint32 width,
                        edk::uint32 height,
                        edk::uint32 length,
                        edk::uint32 mode,
                        const edk::classID  data = NULL,
-                       edk::uint8 bytesPerChannel = 1u,
                        edk::uint32 minFilter = GU_NEAREST,
-                       edk::uint32 magFilter = GU_LINEAR
+                       edk::uint32 magFilter = GU_LINEAR,
+                       edk::uint8 bytesPerChannel = 1u
             );
     bool createTextureWithPBODraw(edk::uint32 width,
                                   edk::uint32 height,
                                   edk::uint32 length,
                                   edk::uint32 mode,
                                   const edk::classID  data = NULL,
-                                  edk::uint8 bytesPerChannel = 1u,
                                   edk::uint32 minFilter = GU_NEAREST,
-                                  edk::uint32 magFilter = GU_LINEAR
+                                  edk::uint32 magFilter = GU_LINEAR,
+                                  edk::uint8 bytesPerChannel = 1u
             );
     bool createTextureWithPBORead(edk::uint32 width,
                                   edk::uint32 height,
                                   edk::uint32 length,
                                   edk::uint32 mode,
                                   const edk::classID  data = NULL,
-                                  edk::uint8 bytesPerChannel = 1u,
                                   edk::uint32 minFilter = GU_NEAREST,
-                                  edk::uint32 magFilter = GU_LINEAR
+                                  edk::uint32 magFilter = GU_LINEAR,
+                                  edk::uint8 bytesPerChannel = 1u
             );
     bool createTextureRepeat(edk::uint32 width,
                              edk::uint32 height,
                              edk::uint32 length,
                              edk::uint32 mode,
                              const edk::classID  data = NULL,
-                             edk::uint8 bytesPerChannel = 1u,
                              edk::uint32 minFilter = GU_NEAREST,
-                             edk::uint32 magFilter = GU_LINEAR
+                             edk::uint32 magFilter = GU_LINEAR,
+                             edk::uint8 bytesPerChannel = 1u
             );
     bool createTextureRepeatWithPBODraw(edk::uint32 width,
                                         edk::uint32 height,
                                         edk::uint32 length,
                                         edk::uint32 mode,
                                         const edk::classID  data = NULL,
-                                        edk::uint8 bytesPerChannel = 1u,
                                         edk::uint32 minFilter = GU_NEAREST,
-                                        edk::uint32 magFilter = GU_LINEAR
+                                        edk::uint32 magFilter = GU_LINEAR,
+                                        edk::uint8 bytesPerChannel = 1u
             );
     bool createTextureRepeatWithPBORead(edk::uint32 width,
                                         edk::uint32 height,
                                         edk::uint32 length,
                                         edk::uint32 mode,
                                         const edk::classID  data = NULL,
-                                        edk::uint8 bytesPerChannel = 1u,
                                         edk::uint32 minFilter = GU_NEAREST,
-                                        edk::uint32 magFilter = GU_LINEAR
+                                        edk::uint32 magFilter = GU_LINEAR,
+                                        edk::uint8 bytesPerChannel = 1u
             );
     //draw to the texture
     bool drawToTexture(const edk::classID  data);

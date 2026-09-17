@@ -63,9 +63,9 @@ bool edk::Texture2D::createTexture(edk::uint32 width,
                                    edk::uint32 height,
                                    edk::uint32 mode,
                                    const edk::classID  data,
-                                   edk::uint8 bytesPerChannel,
                                    edk::uint32 minFilter,
-                                   edk::uint32 magFilter
+                                   edk::uint32 magFilter,
+                                   edk::uint8 bytesPerChannel
                                    ){
     //alloc the texture
     //first delete the texture
@@ -125,9 +125,9 @@ bool edk::Texture2D::createTextureWithPBODraw(edk::uint32 width,
                                               edk::uint32 height,
                                               edk::uint32 mode,
                                               const edk::classID  data,
-                                              edk::uint8 bytesPerChannel,
                                               edk::uint32 minFilter,
-                                              edk::uint32 magFilter
+                                              edk::uint32 magFilter,
+                                              edk::uint8 bytesPerChannel
                                               ){
     //alloc the texture
     //first delete the texture
@@ -199,9 +199,9 @@ bool edk::Texture2D::createTextureWithPBORead(edk::uint32 width,
                                               edk::uint32 height,
                                               edk::uint32 mode,
                                               const edk::classID  data,
-                                              edk::uint8 bytesPerChannel,
                                               edk::uint32 minFilter,
-                                              edk::uint32 magFilter
+                                              edk::uint32 magFilter,
+                                              edk::uint8 bytesPerChannel
                                               ){
     //alloc the texture
     //first delete the texture
@@ -273,9 +273,9 @@ bool edk::Texture2D::createTextureRepeat(edk::uint32 width,
                                          edk::uint32 height,
                                          edk::uint32 mode,
                                          const edk::classID  data,
-                                         edk::uint8 bytesPerChannel,
                                          edk::uint32 minFilter,
-                                         edk::uint32 magFilter
+                                         edk::uint32 magFilter,
+                                         edk::uint8 bytesPerChannel
                                          ){
     //alloc the texture
     //first delete the texture
@@ -329,9 +329,9 @@ bool edk::Texture2D::createTextureRepeatWithPBODraw(edk::uint32 width,
                                                     edk::uint32 height,
                                                     edk::uint32 mode,
                                                     const edk::classID  data,
-                                                    edk::uint8 bytesPerChannel,
                                                     edk::uint32 minFilter,
-                                                    edk::uint32 magFilter
+                                                    edk::uint32 magFilter,
+                                                    edk::uint8 bytesPerChannel
                                                     ){
     //alloc the texture
     //first delete the texture
@@ -403,9 +403,9 @@ bool edk::Texture2D::createTextureRepeatWithPBORead(edk::uint32 width,
                                                     edk::uint32 height,
                                                     edk::uint32 mode,
                                                     const edk::classID  data,
-                                                    edk::uint8 bytesPerChannel,
                                                     edk::uint32 minFilter,
-                                                    edk::uint32 magFilter
+                                                    edk::uint32 magFilter,
+                                                    edk::uint8 bytesPerChannel
                                                     ){
     //alloc the texture
     //first delete the texture
@@ -478,9 +478,9 @@ bool edk::Texture2D::createTexture(edk::uint32 width,
                                    edk::uint32 length,
                                    edk::uint32 mode,
                                    const edk::classID  data,
-                                   edk::uint8 bytesPerChannel,
                                    edk::uint32 minFilter,
-                                   edk::uint32 magFilter
+                                   edk::uint32 magFilter,
+                                   edk::uint8 bytesPerChannel
                                    ){
     //alloc the texture
     //first delete the texture
@@ -535,9 +535,9 @@ bool edk::Texture2D::createTextureWithPBODraw(edk::uint32 width,
                                               edk::uint32 length,
                                               edk::uint32 mode,
                                               const edk::classID  data,
-                                              edk::uint8 bytesPerChannel,
                                               edk::uint32 minFilter,
-                                              edk::uint32 magFilter
+                                              edk::uint32 magFilter,
+                                              edk::uint8 bytesPerChannel
                                               ){
     //alloc the texture
     //first delete the texture
@@ -610,9 +610,9 @@ bool edk::Texture2D::createTextureWithPBORead(edk::uint32 width,
                                               edk::uint32 length,
                                               edk::uint32 mode,
                                               const edk::classID  data,
-                                              edk::uint8 bytesPerChannel,
                                               edk::uint32 minFilter,
-                                              edk::uint32 magFilter
+                                              edk::uint32 magFilter,
+                                              edk::uint8 bytesPerChannel
                                               ){
     //alloc the texture
     //first delete the texture
@@ -685,9 +685,9 @@ bool edk::Texture2D::createTextureRepeat(edk::uint32 width,
                                          edk::uint32 length,
                                          edk::uint32 mode,
                                          const edk::classID  data,
-                                         edk::uint8 bytesPerChannel,
                                          edk::uint32 minFilter,
-                                         edk::uint32 magFilter
+                                         edk::uint32 magFilter,
+                                         edk::uint8 bytesPerChannel
                                          ){
     //alloc the texture
     //first delete the texture
@@ -742,9 +742,9 @@ bool edk::Texture2D::createTextureRepeatWithPBODraw(edk::uint32 width,
                                                     edk::uint32 length,
                                                     edk::uint32 mode,
                                                     const edk::classID  data,
-                                                    edk::uint8 bytesPerChannel,
                                                     edk::uint32 minFilter,
-                                                    edk::uint32 magFilter
+                                                    edk::uint32 magFilter,
+                                                    edk::uint8 bytesPerChannel
                                                     ){
     //alloc the texture
     //first delete the texture
@@ -817,9 +817,9 @@ bool edk::Texture2D::createTextureRepeatWithPBORead(edk::uint32 width,
                                                     edk::uint32 length,
                                                     edk::uint32 mode,
                                                     const edk::classID  data,
-                                                    edk::uint8 bytesPerChannel,
                                                     edk::uint32 minFilter,
-                                                    edk::uint32 magFilter
+                                                    edk::uint32 magFilter,
+                                                    edk::uint8 bytesPerChannel
                                                     ){
     //alloc the texture
     //first delete the texture

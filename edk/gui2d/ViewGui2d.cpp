@@ -1466,6 +1466,9 @@ bool edk::gui2d::ViewGui2d::readFromXML(edk::XML* xml,edk::uint32 id){
                                         else if(edk::String::strCompareInside(strType,edk::gui2d::ObjectGui2d::getStringTypeGUI(edk::gui2d::gui2dTypeColorShow))){
                                             type = edk::gui2d::gui2dTypeColorShow;
                                         }
+                                        else if(edk::String::strCompareInside(strType,edk::gui2d::ObjectGui2d::getStringTypeGUI(edk::gui2d::gui2dTypePixelEdit))){
+                                            type = edk::gui2d::gui2dTypePixelEdit;
+                                        }
                                         else if(edk::String::strCompareInside(strType,edk::gui2d::ObjectGui2d::getStringTypeGUI(edk::gui2d::gui2dTypeRect))){
                                             type = edk::gui2d::gui2dTypeRect;
                                         }
@@ -1507,6 +1510,9 @@ bool edk::gui2d::ViewGui2d::readFromXML(edk::XML* xml,edk::uint32 id){
                             break;
                         case gui2dTypeColorShow:
                             obj = new edk::gui2d::ColorShow2d;
+                            break;
+                        case gui2dTypePixelEdit:
+                            obj = new edk::gui2d::PixelEdit2d;
                             break;
                         case gui2dTypeRect:
                             obj = new edk::gui2d::Rect2d;
@@ -1655,6 +1661,9 @@ bool edk::gui2d::ViewGui2d::readFromXMLFromPack(edk::pack::FilePackage* pack,edk
                                         else if(edk::String::strCompareInside(strType,edk::gui2d::ObjectGui2d::getStringTypeGUI(edk::gui2d::gui2dTypeColorShow))){
                                             type = edk::gui2d::gui2dTypeColorShow;
                                         }
+                                        else if(edk::String::strCompareInside(strType,edk::gui2d::ObjectGui2d::getStringTypeGUI(edk::gui2d::gui2dTypePixelEdit))){
+                                            type = edk::gui2d::gui2dTypePixelEdit;
+                                        }
                                         else if(edk::String::strCompareInside(strType,edk::gui2d::ObjectGui2d::getStringTypeGUI(edk::gui2d::gui2dTypeRect))){
                                             type = edk::gui2d::gui2dTypeRect;
                                         }
@@ -1696,6 +1705,9 @@ bool edk::gui2d::ViewGui2d::readFromXMLFromPack(edk::pack::FilePackage* pack,edk
                             break;
                         case gui2dTypeColorShow:
                             obj = new edk::gui2d::ColorShow2d;
+                            break;
+                        case gui2dTypePixelEdit:
+                            obj = new edk::gui2d::PixelEdit2d;
                             break;
                         case gui2dTypeRect:
                             obj = new edk::gui2d::Rect2d;

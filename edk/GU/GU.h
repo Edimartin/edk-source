@@ -242,6 +242,12 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #define GU_TEXTURE_CUBE_MAP_SEAMLESS            GL_TEXTURE_CUBE_MAP_SEAMLESS
 #define GU_PROGRAM_POINT_SIZE                   GL_PROGRAM_POINT_SIZE
 
+#define GU_CLAMP_TO_EDGE                        GL_CLAMP_TO_EDGE
+#define GU_CLAMP_TO_BORDER                      GL_CLAMP_TO_BORDER
+#define GU_MIRRORED_REPEAT                      GL_MIRRORED_REPEAT
+#define GU_REPEAT                               GL_REPEAT
+#define GU_MIRROR_CLAMP_TO_EDGE                 GL_MIRROR_CLAMP_TO_EDGE
+
 #define EDK_GU_TEXTURE_LOAD_SIZE_LIMIT 8u
 
 //library
@@ -325,6 +331,14 @@ public:
     static void guLookAt(edk::float32 eyeX, edk::float32 eyeY, edk::float32 eyeZ, edk::float32 centerX, edk::float32 centerY, edk::float32 centerZ, edk::float32 upX, edk::float32 upY, edk::float32 upZ);
     static void guUseOrtho(edk::float32 left, edk::float32 right, edk::float32 botton, edk::float32 top, edk::float32 near, edk::float32 far);
     static void guUsePerspective(edk::float32 fovy, edk::float32 aspect, edk::float32 near, edk::float32 far);
+
+    //set the textures wrap
+    //GU_CLAMP_TO_EDGE
+    //GU_CLAMP_TO_BORDER
+    //GU_MIRRORED_REPEAT
+    //GU_REPEAT
+    //GU_MIRROR_CLAMP_TO_EDGE
+    static void guSetTexturesWrap(edk::uint32 mode);
 
     //create a textures
     //mode
@@ -1067,6 +1081,8 @@ private:
         edk::classID classThis;
     };
     static edk::vector::Queue<edk::GU::MipmapClass> genMipmaps;
+
+    static edk::uint32 texturesWrap;
 private:
     edk::classID classThis;
 };

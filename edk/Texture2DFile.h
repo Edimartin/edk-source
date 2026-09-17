@@ -103,7 +103,8 @@ public:
                        edk::uint32 height,
                        edk::uint32 channels,
                        edk::uint32 minFilter = GU_LINEAR,
-                       edk::uint32 magFilter = GU_NEAREST
+                       edk::uint32 magFilter = GU_NEAREST,
+                       edk::uint8 bytesPerChannel = 1u
             );
     bool set3DFromMemory(edk::uint8* image,
                          edk::uint32 width,
@@ -111,7 +112,8 @@ public:
                          edk::uint32 length,
                          edk::uint32 channels,
                          edk::uint32 minFilter = GU_LINEAR,
-                         edk::uint32 magFilter = GU_NEAREST
+                         edk::uint32 magFilter = GU_NEAREST,
+                         edk::uint8 bytesPerChannel = 1u
             );
     //LOAD
     bool loadFromFileRepeat(edk::char8 *fileName,edk::uint32 minFilter = GU_LINEAR,edk::uint32 magFilter = GU_NEAREST);
@@ -124,7 +126,8 @@ public:
                              edk::uint32 height,
                              edk::uint32 channels,
                              edk::uint32 minFilter = GU_LINEAR,
-                             edk::uint32 magFilter = GU_NEAREST
+                             edk::uint32 magFilter = GU_NEAREST,
+                             edk::uint8 bytesPerChannel = 1u
             );
     bool set3DFromMemoryRepeat(edk::uint8* image,
                                edk::uint32 width,
@@ -132,7 +135,8 @@ public:
                                edk::uint32 length,
                                edk::uint32 channels,
                                edk::uint32 minFilter = GU_LINEAR,
-                               edk::uint32 magFilter = GU_NEAREST
+                               edk::uint32 magFilter = GU_NEAREST,
+                               edk::uint8 bytesPerChannel = 1u
             );
 
 protected:

@@ -303,9 +303,9 @@ bool edk::Texture2DFile::loadFromFile(edk::char8 *fileName,edk::uint32 minFilter
                                         this->image.height(),
                                         GU_RGB,
                                         (edk::classID)this->image.getPixels(),
-                                        this->image.getBytesPerChannel(),
                                         minFilter,
-                                        magFilter
+                                        magFilter,
+                                        this->image.getBytesPerChannel()
                                         );
                     break;
                 case 4u://RGBA
@@ -317,9 +317,9 @@ bool edk::Texture2DFile::loadFromFile(edk::char8 *fileName,edk::uint32 minFilter
                                         this->image.height(),
                                         GU_RGBA,
                                         (edk::classID)this->image.getPixels(),
-                                        this->image.getBytesPerChannel(),
                                         minFilter,
-                                        magFilter
+                                        magFilter,
+                                        this->image.getBytesPerChannel()
                                         );
                     break;
                 }
@@ -349,9 +349,9 @@ bool edk::Texture2DFile::loadFromFile(edk::char8 *fileName,edk::uint32 minFilter
                                         this->image.height(),
                                         GU_LUMINANCE,
                                         (edk::classID)this->image.getPixels(),
-                                        this->image.getBytesPerChannel(),
                                         minFilter,
-                                        magFilter
+                                        magFilter,
+                                        this->image.getBytesPerChannel()
                                         );
                     break;
                 case 3u://RGB
@@ -363,9 +363,9 @@ bool edk::Texture2DFile::loadFromFile(edk::char8 *fileName,edk::uint32 minFilter
                                         this->image.height(),
                                         GU_RGB,
                                         (edk::classID)this->image.getPixels(),
-                                        this->image.getBytesPerChannel(),
                                         minFilter,
-                                        magFilter
+                                        magFilter,
+                                        this->image.getBytesPerChannel()
                                         );
                     break;
                 case 4u://RGBA
@@ -377,9 +377,9 @@ bool edk::Texture2DFile::loadFromFile(edk::char8 *fileName,edk::uint32 minFilter
                                         this->image.height(),
                                         GU_RGBA,
                                         (edk::classID)this->image.getPixels(),
-                                        this->image.getBytesPerChannel(),
                                         minFilter,
-                                        magFilter
+                                        magFilter,
+                                        this->image.getBytesPerChannel()
                                         );
                     break;
                 }
@@ -452,9 +452,9 @@ bool edk::Texture2DFile::loadFromMemory(edk::uint8* image,edk::uint32 size,edk::
                                     this->image.height(),
                                     GU_LUMINANCE,
                                     (edk::classID)this->image.getPixels(),
-                                    this->image.getBytesPerChannel(),
                                     minFilter,
-                                    magFilter
+                                    magFilter,
+                                    this->image.getBytesPerChannel()
                                     );
             }
                 break;
@@ -468,9 +468,9 @@ bool edk::Texture2DFile::loadFromMemory(edk::uint8* image,edk::uint32 size,edk::
                                     this->image.height(),
                                     GU_RGB,
                                     (edk::classID)this->image.getPixels(),
-                                    this->image.getBytesPerChannel(),
                                     minFilter,
-                                    magFilter
+                                    magFilter,
+                                    this->image.getBytesPerChannel()
                                     );
             }
                 break;
@@ -484,9 +484,9 @@ bool edk::Texture2DFile::loadFromMemory(edk::uint8* image,edk::uint32 size,edk::
                                     this->image.height(),
                                     GU_RGBA,
                                     (edk::classID)this->image.getPixels(),
-                                    this->image.getBytesPerChannel(),
                                     minFilter,
-                                    magFilter
+                                    magFilter,
+                                    this->image.getBytesPerChannel()
                                     );
             }
                 break;
@@ -516,7 +516,8 @@ bool edk::Texture2DFile::setFromMemory(edk::uint8* image,
                                        edk::uint32 height,
                                        edk::uint32 channels,
                                        edk::uint32 minFilter,
-                                       edk::uint32 magFilter
+                                       edk::uint32 magFilter,
+                                       edk::uint8 bytesPerChannel
                                        ){
 #if defined(EDK_TEX2DFILE_PRINT_DEBUG)
     edk::char8* strWidth = edk::String::uint32ToStr(width);
@@ -573,7 +574,8 @@ bool edk::Texture2DFile::setFromMemory(edk::uint8* image,
                                 GU_LUMINANCE,
                                 (edk::classID)image,
                                 minFilter,
-                                magFilter
+                                magFilter,
+                                bytesPerChannel
                                 );
         }
             break;
@@ -604,7 +606,8 @@ bool edk::Texture2DFile::setFromMemory(edk::uint8* image,
                                 GU_RGB,
                                 (edk::classID)image,
                                 minFilter,
-                                magFilter
+                                magFilter,
+                                bytesPerChannel
                                 );
         }
             break;
@@ -635,7 +638,8 @@ bool edk::Texture2DFile::setFromMemory(edk::uint8* image,
                                 GU_RGBA,
                                 (edk::classID)image,
                                 minFilter,
-                                magFilter
+                                magFilter,
+                                bytesPerChannel
                                 );
         }
             break;
@@ -663,7 +667,8 @@ bool edk::Texture2DFile::set3DFromMemory(edk::uint8* image,
                                          edk::uint32 length,
                                          edk::uint32 channels,
                                          edk::uint32 minFilter,
-                                         edk::uint32 magFilter
+                                         edk::uint32 magFilter,
+                                         edk::uint8 bytesPerChannel
                                          ){
 #if defined(EDK_TEX2DFILE_PRINT_DEBUG)
     edk::char8* strWidth = edk::String::uint32ToStr(width);
@@ -721,7 +726,8 @@ bool edk::Texture2DFile::set3DFromMemory(edk::uint8* image,
                                 GU_LUMINANCE,
                                 (edk::classID)image,
                                 minFilter,
-                                magFilter
+                                magFilter,
+                                bytesPerChannel
                                 );
         }
             break;
@@ -753,7 +759,8 @@ bool edk::Texture2DFile::set3DFromMemory(edk::uint8* image,
                                 GU_RGB,
                                 (edk::classID)image,
                                 minFilter,
-                                magFilter
+                                magFilter,
+                                bytesPerChannel
                                 );
         }
             break;
@@ -785,7 +792,8 @@ bool edk::Texture2DFile::set3DFromMemory(edk::uint8* image,
                                 GU_RGBA,
                                 (edk::classID)image,
                                 minFilter,
-                                magFilter
+                                magFilter,
+                                bytesPerChannel
                                 );
         }
             break;
@@ -1000,7 +1008,8 @@ bool edk::Texture2DFile::setFromMemoryRepeat(edk::uint8* image,
                                              edk::uint32 height,
                                              edk::uint32 channels,
                                              edk::uint32 minFilter,
-                                             edk::uint32 magFilter
+                                             edk::uint32 magFilter,
+                                             edk::uint8 bytesPerChannel
                                              ){
 #if defined(EDK_TEX2DFILE_PRINT_DEBUG)
     edk::char8* strWidth = edk::String::uint32ToStr(width);
@@ -1057,7 +1066,8 @@ bool edk::Texture2DFile::setFromMemoryRepeat(edk::uint8* image,
                                       GU_LUMINANCE,
                                       (edk::classID)image,
                                       minFilter,
-                                      magFilter
+                                      magFilter,
+                                      bytesPerChannel
                                       );
         }
             break;
@@ -1088,7 +1098,8 @@ bool edk::Texture2DFile::setFromMemoryRepeat(edk::uint8* image,
                                       GU_RGB,
                                       (edk::classID)image,
                                       minFilter,
-                                      magFilter
+                                      magFilter,
+                                      bytesPerChannel
                                       );
         }
             break;
@@ -1119,7 +1130,8 @@ bool edk::Texture2DFile::setFromMemoryRepeat(edk::uint8* image,
                                       GU_RGBA,
                                       (edk::classID)image,
                                       minFilter,
-                                      magFilter
+                                      magFilter,
+                                      bytesPerChannel
                                       );
         }
             break;
@@ -1147,7 +1159,8 @@ bool edk::Texture2DFile::set3DFromMemoryRepeat(edk::uint8* image,
                                                edk::uint32 length,
                                                edk::uint32 channels,
                                                edk::uint32 minFilter,
-                                               edk::uint32 magFilter
+                                               edk::uint32 magFilter,
+                                               edk::uint8 bytesPerChannel
                                                ){
 #if defined(EDK_TEX2DFILE_PRINT_DEBUG)
     edk::char8* strWidth = edk::String::uint32ToStr(width);
@@ -1205,7 +1218,8 @@ bool edk::Texture2DFile::set3DFromMemoryRepeat(edk::uint8* image,
                                       GU_LUMINANCE,
                                       (edk::classID)image,
                                       minFilter,
-                                      magFilter
+                                      magFilter,
+                                      bytesPerChannel
                                       );
         }
             break;
@@ -1237,7 +1251,8 @@ bool edk::Texture2DFile::set3DFromMemoryRepeat(edk::uint8* image,
                                       GU_RGB,
                                       (edk::classID)image,
                                       minFilter,
-                                      magFilter
+                                      magFilter,
+                                      bytesPerChannel
                                       );
         }
             break;
@@ -1269,7 +1284,8 @@ bool edk::Texture2DFile::set3DFromMemoryRepeat(edk::uint8* image,
                                       GU_RGBA,
                                       (edk::classID)image,
                                       minFilter,
-                                      magFilter
+                                      magFilter,
+                                      bytesPerChannel
                                       );
         }
             break;
