@@ -235,6 +235,8 @@ public:
     edk::uint32 getPaletteLenght();
     //get the colors length returh the colors vector length with the palette ID's
     edk::uint32 getColorsLenght();
+    //return the palette pointer
+    edk::uint8* getPalette();
 
     bool haveImage();
 

@@ -2319,6 +2319,10 @@ edk::uint32 edk::Image2D::getPaletteLenght(){
 edk::uint32 edk::Image2D::getColorsLenght(){
     return this->getBytesPerColor() * this->getWidth() * this->getHeight();
 }
+//return the palette pointer
+edk::uint8* edk::Image2D::getPalette(){
+    return this->palette;
+}
 
 bool edk::Image2D::haveImage()
 {

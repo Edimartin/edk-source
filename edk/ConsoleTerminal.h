@@ -117,6 +117,7 @@ public:
 
     static void enableMouse();
     static void disableMouse();
+    static void forceTTYDestructor();
 
     static void push();
 

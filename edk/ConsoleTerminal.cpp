@@ -611,6 +611,9 @@ void edk::ConsoleTerminal::enableMouse(){
 void edk::ConsoleTerminal::disableMouse(){
     edk::ConsoleTerminal::tty.disableMouse();
 }
+void edk::ConsoleTerminal::forceTTYDestructor(){
+    edk::ConsoleTerminal::tty.Destructor();
+}
 
 void edk::ConsoleTerminal::push(){
     printf("\n\033[?47h");fflush(stdout);
