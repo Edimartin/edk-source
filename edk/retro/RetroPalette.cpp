@@ -1625,6 +1625,34 @@ edk::color4ui16 edk::retro::RetroPalette::getColor4ui16(edk::uint32 position){
     return ret;
 }
 
+bool edk::retro::RetroPalette::equal(edk::retro::RetroPalette* palette){
+    if(palette){
+        //compare palette
+        if(this->havePalette() && palette->havePalette()){
+            if(this->size == palette->size
+                    && this->channels == palette->channels
+                    && this->bytesPerChannel == palette->bytesPerChannel
+                    ){
+                if(!edkMemCmp(this->vec,palette->vec,this->lenght)){
+                    return true;
+                }
+            }
+        }
+    }
+    return false;
+}
+bool edk::retro::RetroPalette::clone(edk::retro::RetroPalette* palette){
+    if(palette){
+        //compare palette
+        if(palette->havePalette()){
+            if(this->copyPalette(palette->vec,palette->size,palette->channels,palette->bytesPerChannel)){
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
 void edk::retro::RetroPalette::printPosition(edk::uint32 position){
     if(this->havePalette()){
         if(position <= this->size){

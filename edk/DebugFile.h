@@ -597,7 +597,7 @@ private:
 #if defined(EDK_DEBUG_MEMCMP)
 #define edkMemCmp(dest,vec,size) \
     \
-    bool ret = memcmp(dest,vec,size); \
+    edk::uint32 ret = memcmp(dest,vec,size); \
     edk::DebugFile::writeMemCmpDebug(__LINE__,__FILE__,__func__,size); \
     edk::NothingClass::edk_nothing() \
     return ret
