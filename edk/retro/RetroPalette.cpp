@@ -1,4 +1,31 @@
 #include "RetroPalette.h"
+/*
+Library C++ RetroPalette - Retro Palette used in EDK
+Copyright 2013 Eduardo Moura Sales Martins (edimartin@gmail.com)
+
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of this software and associated documentation files (the
+"Software"), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:
+
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+*/
+
+#ifdef printMessages
+#pragma message "            Inside RetroPalette.cpp"
+#endif
 
 edk::retro::RetroPalette::RetroPalette(){
     this->classThis=NULL;
@@ -76,6 +103,13 @@ edk::uint8 edk::retro::RetroPalette::getChannels(){
 }
 edk::uint8 edk::retro::RetroPalette::getBytesPerChannel(){
     return this->bytesPerChannel;
+}
+
+bool edk::retro::RetroPalette::havePosition(edk::uint32 position){
+    if(position <= this->size){
+        return true;
+    }
+    return false;
 }
 
 //copy palette
@@ -525,6 +559,246 @@ bool edk::retro::RetroPalette::setColor(edk::uint32 position,edk::uint16 g,edk::
     return false;
 }
 bool edk::retro::RetroPalette::setColor(edk::uint32 position,edk::uint16 g){
+    if(this->havePalette()){
+        if(position < this->size){
+            edk::uint8* temp=&this->vec[position * this->channels * this->bytesPerChannel];
+            edk::uint32 color;
+            //set the palette inside the color
+            switch(this->channels){
+            case 1u:
+            {
+                color = 0u;
+                color = g;
+                edkMemCpy(temp,&color,this->bytesPerChannel);
+            }
+                break;
+            case 2u:
+            {
+                color = 0u;
+                color = g;
+                edkMemCpy(temp,&color,this->bytesPerChannel);
+                color = 0u;
+                color = 0xFF*sizeof(color);
+                temp+=this->bytesPerChannel;
+                edkMemCpy(temp,&color,this->bytesPerChannel);
+            }
+                break;
+            case 3u:
+            {
+                color = 0u;
+                color = g;
+                edkMemCpy(temp,&color,this->bytesPerChannel);
+                temp+=this->bytesPerChannel;
+                edkMemCpy(temp,&color,this->bytesPerChannel);
+                temp+=this->bytesPerChannel;
+                edkMemCpy(temp,&color,this->bytesPerChannel);
+            }
+                break;
+            case 4u:
+            {
+                color = 0u;
+                color = g;
+                edkMemCpy(temp,&color,this->bytesPerChannel);
+                temp+=this->bytesPerChannel;
+                edkMemCpy(temp,&color,this->bytesPerChannel);
+                temp+=this->bytesPerChannel;
+                edkMemCpy(temp,&color,this->bytesPerChannel);
+                color = 0u;
+                color = 0xFF*sizeof(color);
+                temp+=this->bytesPerChannel;
+                edkMemCpy(temp,&color,this->bytesPerChannel);
+            }
+                break;
+            }
+        }
+    }
+    return false;
+}
+bool edk::retro::RetroPalette::setColor(edk::uint32 position,edk::uint32 r,edk::uint32 g,edk::uint32 b,edk::uint32 a){
+    if(this->havePalette()){
+        if(position < this->size){
+            edk::uint8* temp=&this->vec[position * this->channels * this->bytesPerChannel];
+            edk::uint32 color;
+            //set the palette inside the color
+            switch(this->channels){
+            case 1u:
+            {
+                color = 0u;
+                color = r;
+                edkMemCpy(temp,&color,this->bytesPerChannel);
+            }
+                break;
+            case 2u:
+            {
+                color = 0u;
+                color = r;
+                edkMemCpy(temp,&color,this->bytesPerChannel);
+                color = 0u;
+                color = a;
+                temp+=this->bytesPerChannel;
+                edkMemCpy(temp,&color,this->bytesPerChannel);
+            }
+                break;
+            case 3u:
+            {
+                color = 0u;
+                color = r;
+                edkMemCpy(temp,&color,this->bytesPerChannel);
+                color = 0u;
+                color = g;
+                temp+=this->bytesPerChannel;
+                edkMemCpy(temp,&color,this->bytesPerChannel);
+                color = 0u;
+                color = b;
+                temp+=this->bytesPerChannel;
+                edkMemCpy(temp,&color,this->bytesPerChannel);
+            }
+                break;
+            case 4u:
+            {
+                color = 0u;
+                color = r;
+                edkMemCpy(temp,&color,this->bytesPerChannel);
+                color = 0u;
+                color = g;
+                temp+=this->bytesPerChannel;
+                edkMemCpy(temp,&color,this->bytesPerChannel);
+                color = 0u;
+                color = b;
+                temp+=this->bytesPerChannel;
+                edkMemCpy(temp,&color,this->bytesPerChannel);
+                color = 0u;
+                color = a;
+                temp+=this->bytesPerChannel;
+                edkMemCpy(temp,&color,this->bytesPerChannel);
+            }
+                break;
+            }
+        }
+    }
+    return false;
+}
+bool edk::retro::RetroPalette::setColor(edk::uint32 position,edk::uint32 r,edk::uint32 g,edk::uint32 b){
+    if(this->havePalette()){
+        if(position < this->size){
+            edk::uint8* temp=&this->vec[position * this->channels * this->bytesPerChannel];
+            edk::uint32 color;
+            //set the palette inside the color
+            switch(this->channels){
+            case 1u:
+            {
+                color = 0u;
+                color = r;
+                edkMemCpy(temp,&color,this->bytesPerChannel);
+            }
+                break;
+            case 2u:
+            {
+                color = 0u;
+                color = r;
+                edkMemCpy(temp,&color,this->bytesPerChannel);
+                color = 0u;
+                color = 0xFF*sizeof(color);
+                temp+=this->bytesPerChannel;
+                edkMemCpy(temp,&color,this->bytesPerChannel);
+            }
+                break;
+            case 3u:
+            {
+                color = 0u;
+                color = r;
+                edkMemCpy(temp,&color,this->bytesPerChannel);
+                color = 0u;
+                color = g;
+                temp+=this->bytesPerChannel;
+                edkMemCpy(temp,&color,this->bytesPerChannel);
+                color = 0u;
+                color = b;
+                temp+=this->bytesPerChannel;
+                edkMemCpy(temp,&color,this->bytesPerChannel);
+            }
+                break;
+            case 4u:
+            {
+                color = 0u;
+                color = r;
+                edkMemCpy(temp,&color,this->bytesPerChannel);
+                color = 0u;
+                color = g;
+                temp+=this->bytesPerChannel;
+                edkMemCpy(temp,&color,this->bytesPerChannel);
+                color = 0u;
+                color = b;
+                temp+=this->bytesPerChannel;
+                edkMemCpy(temp,&color,this->bytesPerChannel);
+                color = 0u;
+                color = 0xFF*sizeof(color);
+                temp+=this->bytesPerChannel;
+                edkMemCpy(temp,&color,this->bytesPerChannel);
+            }
+                break;
+            }
+        }
+    }
+    return false;
+}
+bool edk::retro::RetroPalette::setColor(edk::uint32 position,edk::uint32 g,edk::uint32 a){
+    if(this->havePalette()){
+        if(position < this->size){
+            edk::uint8* temp=&this->vec[position * this->channels * this->bytesPerChannel];
+            edk::uint32 color;
+            //set the palette inside the color
+            switch(this->channels){
+            case 1u:
+            {
+                color = 0u;
+                color = g;
+                edkMemCpy(temp,&color,this->bytesPerChannel);
+            }
+                break;
+            case 2u:
+            {
+                color = 0u;
+                color = g;
+                edkMemCpy(temp,&color,this->bytesPerChannel);
+                color = 0u;
+                color = a;
+                temp+=this->bytesPerChannel;
+                edkMemCpy(temp,&color,this->bytesPerChannel);
+            }
+                break;
+            case 3u:
+            {
+                color = 0u;
+                color = g;
+                edkMemCpy(temp,&color,this->bytesPerChannel);
+                temp+=this->bytesPerChannel;
+                edkMemCpy(temp,&color,this->bytesPerChannel);
+                temp+=this->bytesPerChannel;
+                edkMemCpy(temp,&color,this->bytesPerChannel);
+            }
+                break;
+            case 4u:
+            {
+                color = 0u;
+                color = g;
+                edkMemCpy(temp,&color,this->bytesPerChannel);
+                temp+=this->bytesPerChannel;
+                edkMemCpy(temp,&color,this->bytesPerChannel);
+                temp+=this->bytesPerChannel;
+                edkMemCpy(temp,&color,this->bytesPerChannel);
+                color = 0u;
+                color = a;
+                temp+=this->bytesPerChannel;
+                edkMemCpy(temp,&color,this->bytesPerChannel);
+            }
+                break;
+            }
+        }
+    }
+    return false;
+}
+bool edk::retro::RetroPalette::setColor(edk::uint32 position,edk::uint32 g){
     if(this->havePalette()){
         if(position < this->size){
             edk::uint8* temp=&this->vec[position * this->channels * this->bytesPerChannel];
@@ -1349,4 +1623,161 @@ edk::color4ui16 edk::retro::RetroPalette::getColor4ui16(edk::uint32 position){
         }
     }
     return ret;
+}
+
+void edk::retro::RetroPalette::printPosition(edk::uint32 position){
+    if(this->havePalette()){
+        if(position <= this->size){
+            edk::uint8* temp=&this->vec[position * this->channels * this->bytesPerChannel];
+            edk::uint32 color;
+            //
+            switch(this->channels){
+            case 1u:
+            {
+                color=0u;
+                edkMemCpy(&color,temp,this->bytesPerChannel);
+                printf("[%u]",color);
+            }
+                break;
+            case 2u:
+            {
+                color=0u;
+                edkMemCpy(&color,temp,this->bytesPerChannel);
+                printf("[%u,",color);
+                temp+=this->bytesPerChannel;
+                color=0u;
+                edkMemCpy(&color,temp,this->bytesPerChannel);
+                printf("%u]",color);
+            }
+                break;
+            case 3u:
+            {
+                color=0u;
+                edkMemCpy(&color,temp,this->bytesPerChannel);
+                printf("[%u,",color);
+                temp+=this->bytesPerChannel;
+                color=0u;
+                edkMemCpy(&color,temp,this->bytesPerChannel);
+                printf("%u,",color);
+                temp+=this->bytesPerChannel;
+                color=0u;
+                edkMemCpy(&color,temp,this->bytesPerChannel);
+                printf("%u]",color);
+            }
+                break;
+            case 4u:
+            {
+                color=0u;
+                edkMemCpy(&color,temp,this->bytesPerChannel);
+                printf("[%u,",color);
+                temp+=this->bytesPerChannel;
+                color=0u;
+                edkMemCpy(&color,temp,this->bytesPerChannel);
+                printf("%u,",color);
+                temp+=this->bytesPerChannel;
+                color=0u;
+                edkMemCpy(&color,temp,this->bytesPerChannel);
+                printf("%u,",color);
+                temp+=this->bytesPerChannel;
+                color=0u;
+                edkMemCpy(&color,temp,this->bytesPerChannel);
+                printf("%u]",color);
+            }
+                break;
+            }
+        }
+    }
+}
+void edk::retro::RetroPalette::print(){
+    if(this->havePalette()){
+        edk::uint8* temp=this->vec;
+        edk::uint32 color;
+        //
+        switch(this->channels){
+        case 1u:
+        {
+            for(edk::uint32 i=0u;i<this->size;i++){
+                color=0u;
+                edkMemCpy(&color,temp,this->bytesPerChannel);
+                if(i==(this->size-1u)){
+                    printf("[%u]",color);
+                }
+                else{
+                    printf("[%u],",color);
+                }
+                temp+=this->bytesPerChannel;
+            }
+        }
+            break;
+        case 2u:
+        {
+            for(edk::uint32 i=0u;i<this->size;i++){
+                color=0u;
+                edkMemCpy(&color,temp,this->bytesPerChannel);
+                printf("[%u,",color);
+                temp+=this->bytesPerChannel;
+                color=0u;
+                edkMemCpy(&color,temp,this->bytesPerChannel);
+                if(i==(this->size-1u)){
+                    printf("%u]",color);
+                }
+                else{
+                    printf("%u],",color);
+                }
+                temp+=this->bytesPerChannel;
+            }
+        }
+            break;
+        case 3u:
+        {
+            for(edk::uint32 i=0u;i<this->size;i++){
+                color=0u;
+                edkMemCpy(&color,temp,this->bytesPerChannel);
+                printf("[%u,",color);
+                temp+=this->bytesPerChannel;
+                color=0u;
+                edkMemCpy(&color,temp,this->bytesPerChannel);
+                printf("%u,",color);
+                temp+=this->bytesPerChannel;
+                color=0u;
+                edkMemCpy(&color,temp,this->bytesPerChannel);
+                if(i==(this->size-1u)){
+                    printf("%u]",color);
+                }
+                else{
+                    printf("%u],",color);
+                }
+                temp+=this->bytesPerChannel;
+            }
+        }
+            break;
+        case 4u:
+        {
+            for(edk::uint32 i=0u;i<this->size;i++){
+                color=0u;
+                edkMemCpy(&color,temp,this->bytesPerChannel);
+                printf("[%u,",color);
+                temp+=this->bytesPerChannel;
+                color=0u;
+                edkMemCpy(&color,temp,this->bytesPerChannel);
+                printf("%u,",color);
+                temp+=this->bytesPerChannel;
+                color=0u;
+                edkMemCpy(&color,temp,this->bytesPerChannel);
+                printf("%u,",color);
+                temp+=this->bytesPerChannel;
+                color=0u;
+                edkMemCpy(&color,temp,this->bytesPerChannel);
+                if(i==(this->size-1u)){
+                    printf("%u]",color);
+                }
+                else{
+                    printf("%u],",color);
+                }
+                temp+=this->bytesPerChannel;
+            }
+        }
+            break;
+        }
+    }
 }

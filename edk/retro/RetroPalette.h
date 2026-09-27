@@ -1,11 +1,44 @@
 #ifndef RETROPALETTE_H
 #define RETROPALETTE_H
 
+/*
+Library C++ RetroPalette - Retro Palette used in EDK
+Copyright 2013 Eduardo Moura Sales Martins (edimartin@gmail.com)
+
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of this software and associated documentation files (the
+"Software"), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:
+
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+*/
+
+#ifdef printMessages
+#pragma message "Inside RetroPalette"
+#endif
+
+#pragma once
 #include <stdlib.h>
 #include "edk/TypeDefines.h"
 #include "edk/TypeVars.h"
 #include "edk/TypeColor.h"
 #include "edk/DebugFile.h"
+
+#ifdef printMessages
+#pragma message "    Compiling RetroPalette"
+#endif
 
 namespace edk{
 namespace retro{
@@ -32,6 +65,8 @@ public:
     edk::uint8 getChannels();
     edk::uint8 getBytesPerChannel();
 
+    bool havePosition(edk::uint32 position);
+
     //copy palette
     bool setPalette(edk::uint8* palette);
     bool copyPalette(edk::uint8* palette,edk::uint32 size,edk::uint8 channels,edk::uint8 bytesPerChannel);
@@ -45,6 +80,10 @@ public:
     bool setColor(edk::uint32 position,edk::uint16 r,edk::uint16 g,edk::uint16 b);
     bool setColor(edk::uint32 position,edk::uint16 g,edk::uint16 a);
     bool setColor(edk::uint32 position,edk::uint16 g);
+    bool setColor(edk::uint32 position,edk::uint32 r,edk::uint32 g,edk::uint32 b,edk::uint32 a);
+    bool setColor(edk::uint32 position,edk::uint32 r,edk::uint32 g,edk::uint32 b);
+    bool setColor(edk::uint32 position,edk::uint32 g,edk::uint32 a);
+    bool setColor(edk::uint32 position,edk::uint32 g);
     //set from colors
     inline bool setColor(edk::uint32 position,edk::color4ui8 color){
         return this->setColor(position,color.r,color.g,color.b,color.a);
@@ -88,6 +127,9 @@ public:
     edk::color2ui16 getColor2ui16(edk::uint32 position);
     edk::color3ui16 getColor3ui16(edk::uint32 position);
     edk::color4ui16 getColor4ui16(edk::uint32 position);
+
+    void printPosition(edk::uint32 position);
+    void print();
 private:
     edk::uint8* vec;
     edk::uint32 size;
