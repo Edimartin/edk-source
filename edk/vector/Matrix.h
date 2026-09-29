@@ -229,7 +229,7 @@ public:
     inline edk::uint32 height(){
         return (*this->matrixSizePointer).height;
     }
-    inline edk::size2ui32  getSize(){
+    inline edk::size2ui32 getSize(){
         return (*this->matrixSizePointer);
     }
     inline edk::uint32 getWidth(){

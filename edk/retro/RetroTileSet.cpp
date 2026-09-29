@@ -1,0 +1,93 @@
+#include "RetroTileSet.h"
+/*
+Library C++ RetroTileSet - Retro TileSet used in EDK
+Copyright 2013 Eduardo Moura Sales Martins (edimartin@gmail.com)
+
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of this software and associated documentation files (the
+"Software"), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:
+
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+*/
+
+#ifdef printMessages
+#pragma message "            Inside RetroTileSet.cpp"
+#endif
+
+edk::uint32 edk::retro::RetroTileSet::staticPosition=0u;
+
+edk::retro::RetroTileSet::RetroTileSet(){
+    this->classThis=NULL;
+    this->Constructor();
+}
+edk::retro::RetroTileSet::~RetroTileSet(){
+    this->Destructor();
+}
+
+void edk::retro::RetroTileSet::Constructor(){
+    if(this->classThis!=this){
+        this->classThis=this;
+    }
+}
+void edk::retro::RetroTileSet::Destructor(){
+    if(this->classThis==this){
+        this->classThis=NULL;
+    }
+}
+
+//search for equal tiles
+bool edk::retro::RetroTileSet::haveEqualTile(edk::retro::RetroTile tile){
+    edk::retro::RetroTile temp;
+    edk::uint32 size = this->size();
+    for(edk::uint32 i=0u;i<size;i++){
+        temp = this->get(i);
+        if(temp == tile){
+            return true;
+        }
+    }
+    return false;
+}
+
+bool edk::retro::RetroTileSet::addTile(edk::retro::RetroTile tile,
+                                       edk::uint32* position
+                                       ){
+    if(!this->haveEqualTile(tile)){
+        edk::uint32 size = this->size();
+        *position = this->pushBack(tile);
+        if(size>this->size()){
+            return true;
+        }
+    }
+    return false;
+}
+bool edk::retro::RetroTileSet::addTileNoTest(edk::retro::RetroTile tile,
+                                             edk::uint32* position
+                                             ){
+    edk::uint32 size = this->size();
+    *position = this->pushBack(tile);
+    if(size>this->size()){
+        return true;
+    }
+    return false;
+}
+
+//update the tile in position
+bool edk::retro::RetroTileSet::updateTile(edk::uint32 position,edk::retro::RetroTile tile){
+    if(this->havePos(position)){
+        return this->set(position,tile);
+    }
+    return false;
+}

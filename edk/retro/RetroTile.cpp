@@ -216,6 +216,55 @@ edk::color3ui16 edk::retro::RetroTile::getPaletteColor3ui16(edk::uint32 position
 edk::color4ui16 edk::retro::RetroTile::getPaletteColor4ui16(edk::uint32 position){
     return this->palette->getColor4ui16(position);
 }
+//get the color of a pixel
+edk::uint8 edk::retro::RetroTile::getPixelColorR8(edk::uint8 x,edk::uint8 y){
+    return this->getPaletteColorR8(this->getPixel(x,y));
+}
+edk::uint8 edk::retro::RetroTile::getPixelColorG8(edk::uint8 x,edk::uint8 y){
+    return this->getPaletteColorG8(this->getPixel(x,y));
+}
+edk::uint8 edk::retro::RetroTile::getPixelColorB8(edk::uint8 x,edk::uint8 y){
+    return this->getPaletteColorB8(this->getPixel(x,y));
+}
+edk::uint8 edk::retro::RetroTile::getPixelColorA8(edk::uint8 x,edk::uint8 y){
+    return this->getPaletteColorA8(this->getPixel(x,y));
+}
+edk::uint16 edk::retro::RetroTile::getPixelColorR16(edk::uint8 x,edk::uint8 y){
+    return this->getPaletteColorR16(this->getPixel(x,y));
+}
+edk::uint16 edk::retro::RetroTile::getPixelColorG16(edk::uint8 x,edk::uint8 y){
+    return this->getPaletteColorG16(this->getPixel(x,y));
+}
+edk::uint16 edk::retro::RetroTile::getPixelColorB16(edk::uint8 x,edk::uint8 y){
+    return this->getPaletteColorB16(this->getPixel(x,y));
+}
+edk::uint16 edk::retro::RetroTile::getPixelColorA16(edk::uint8 x,edk::uint8 y){
+    return this->getPaletteColorA16(this->getPixel(x,y));
+}
+edk::color1ui8 edk::retro::RetroTile::getPixelColor1ui8(edk::uint8 x,edk::uint8 y){
+return this->getPaletteColor1ui8(this->getPixel(x,y));
+}
+edk::color2ui8 edk::retro::RetroTile::getPixelColor2ui8(edk::uint8 x,edk::uint8 y){
+return this->getPaletteColor2ui8(this->getPixel(x,y));
+}
+edk::color3ui8 edk::retro::RetroTile::getPixelColor3ui8(edk::uint8 x,edk::uint8 y){
+return this->getPaletteColor3ui8(this->getPixel(x,y));
+}
+edk::color4ui8 edk::retro::RetroTile::getPixelColor4ui8(edk::uint8 x,edk::uint8 y){
+return this->getPaletteColor4ui8(this->getPixel(x,y));
+}
+edk::color1ui16 edk::retro::RetroTile::getPixelColor1ui16(edk::uint8 x,edk::uint8 y){
+return this->getPaletteColor1ui16(this->getPixel(x,y));
+}
+edk::color2ui16 edk::retro::RetroTile::getPixelColor2ui16(edk::uint8 x,edk::uint8 y){
+return this->getPaletteColor2ui16(this->getPixel(x,y));
+}
+edk::color3ui16 edk::retro::RetroTile::getPixelColor3ui16(edk::uint8 x,edk::uint8 y){
+return this->getPaletteColor3ui16(this->getPixel(x,y));
+}
+edk::color4ui16 edk::retro::RetroTile::getPixelColor4ui16(edk::uint8 x,edk::uint8 y){
+return this->getPaletteColor4ui16(this->getPixel(x,y));
+}
 
 //compare
 bool edk::retro::RetroTile::isEqual(edk::retro::RetroTile* tile){
@@ -237,14 +286,14 @@ bool edk::retro::RetroTile::isEqual(edk::retro::RetroTile* tile){
 }
 bool edk::retro::RetroTile::isEqualID(edk::retro::RetroTile* tile){
     bool ret = true;
-        for(edk::uint32 y=0u;y<8u;y++){
-            for(edk::uint32 x=0u;x<8u;x++){
-                if(this->vec[x][y] != tile->vec[x][y]){
-                    ret=false;
-                    break;
-                }
+    for(edk::uint32 y=0u;y<8u;y++){
+        for(edk::uint32 x=0u;x<8u;x++){
+            if(this->vec[x][y] != tile->vec[x][y]){
+                ret=false;
+                break;
             }
         }
+    }
     return ret;
 }
 bool edk::retro::RetroTile::clone(edk::retro::RetroTile* tile){

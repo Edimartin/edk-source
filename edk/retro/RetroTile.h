@@ -92,6 +92,23 @@ public:
     edk::color2ui16 getPaletteColor2ui16(edk::uint32 position);
     edk::color3ui16 getPaletteColor3ui16(edk::uint32 position);
     edk::color4ui16 getPaletteColor4ui16(edk::uint32 position);
+    //get the color of a pixel
+    edk::uint8 getPixelColorR8(edk::uint8 x,edk::uint8 y);
+    edk::uint8 getPixelColorG8(edk::uint8 x,edk::uint8 y);
+    edk::uint8 getPixelColorB8(edk::uint8 x,edk::uint8 y);
+    edk::uint8 getPixelColorA8(edk::uint8 x,edk::uint8 y);
+    edk::uint16 getPixelColorR16(edk::uint8 x,edk::uint8 y);
+    edk::uint16 getPixelColorG16(edk::uint8 x,edk::uint8 y);
+    edk::uint16 getPixelColorB16(edk::uint8 x,edk::uint8 y);
+    edk::uint16 getPixelColorA16(edk::uint8 x,edk::uint8 y);
+    edk::color1ui8 getPixelColor1ui8(edk::uint8 x,edk::uint8 y);
+    edk::color2ui8 getPixelColor2ui8(edk::uint8 x,edk::uint8 y);
+    edk::color3ui8 getPixelColor3ui8(edk::uint8 x,edk::uint8 y);
+    edk::color4ui8 getPixelColor4ui8(edk::uint8 x,edk::uint8 y);
+    edk::color1ui16 getPixelColor1ui16(edk::uint8 x,edk::uint8 y);
+    edk::color2ui16 getPixelColor2ui16(edk::uint8 x,edk::uint8 y);
+    edk::color3ui16 getPixelColor3ui16(edk::uint8 x,edk::uint8 y);
+    edk::color4ui16 getPixelColor4ui16(edk::uint8 x,edk::uint8 y);
 
     //compare
     bool isEqual(edk::retro::RetroTile* tile);
