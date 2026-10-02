@@ -184,7 +184,7 @@ edk::uint32 edk::Texture2DList::createTexture(edk::char8* name,edk::size2ui32 si
     return ret;
 }
 edk::uint32 edk::Texture2DList::createTexture(const char8* name,edk::size2ui32 size,edk::uint32 mode,edk::uint32 minFilter,edk::uint32 magFilter,edk::uint8 bytesPerChannel){
-    return this->createTexture((edk::char8*) name,size,mode,minFilter,magFilter);
+    return this->createTexture((edk::char8*) name,size,mode,minFilter,magFilter,bytesPerChannel);
 }
 edk::uint32 edk::Texture2DList::createTextureWithPBODraw(edk::char8* name,edk::size2ui32 size,edk::uint32 mode,edk::uint32 minFilter,edk::uint32 magFilter,edk::uint8 bytesPerChannel){
     edk::uint32 ret=0u;
@@ -444,7 +444,7 @@ edk::uint32 edk::Texture2DList::createTexture(edk::char8* name,edk::size3ui32 si
     return ret;
 }
 edk::uint32 edk::Texture2DList::createTexture(const char8* name,edk::size3ui32 size,edk::uint32 mode,edk::uint32 minFilter,edk::uint32 magFilter,edk::uint8 bytesPerChannel){
-    return this->createTexture((edk::char8*) name,size,mode,minFilter,magFilter);
+    return this->createTexture((edk::char8*) name,size,mode,minFilter,magFilter,bytesPerChannel);
 }
 edk::uint32 edk::Texture2DList::createTextureWithPBODraw(edk::char8* name,edk::size3ui32 size,edk::uint32 mode,edk::uint32 minFilter,edk::uint32 magFilter,edk::uint8 bytesPerChannel){
     edk::uint32 ret=0u;
@@ -1567,7 +1567,7 @@ edk::uint32 edk::Texture2DList::setTexture3DFromMemory(edk::char8* name,edk::uin
                 temp = new edk::Texture2DList::TextureCode;
                 if(temp){
                     //load the texture
-                    if(temp->setFromMemory(name,image,width,height,length,channels,minFilter,magFilter)){
+                    if(temp->setFromMemory(name,image,width,height,length,channels,minFilter,magFilter,bytesPerChannel)){
                         //add the texture to the tree's
 
                         this->mutNameTree.lock();
@@ -1698,7 +1698,7 @@ edk::uint32 edk::Texture2DList::setTexture3DRepeatFromMemory(edk::char8* name,ed
                 temp = new edk::Texture2DList::TextureCode;
                 if(temp){
                     //load the texture
-                    if(temp->setFromMemory(name,image,width,height,length,channels,minFilter,magFilter)){
+                    if(temp->setFromMemory(name,image,width,height,length,channels,minFilter,magFilter,bytesPerChannel)){
                         //add the texture to the tree's
 
                         this->mutNameTree.lock();

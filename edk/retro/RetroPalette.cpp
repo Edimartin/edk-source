@@ -1625,6 +1625,24 @@ edk::color4ui16 edk::retro::RetroPalette::getColor4ui16(edk::uint32 position){
     return ret;
 }
 
+bool edk::retro::RetroPalette::swapColor(edk::uint32 start,edk::uint32 end){
+    if(this->havePalette() && this->havePosition(start) && this->havePosition(end)){
+        edk::uint8* tempStart=&this->vec[start * this->channels * this->bytesPerChannel];
+        edk::uint8* tempEnd=&this->vec[end* this->channels * this->bytesPerChannel];
+        edk::uint32 color;
+        for(edk::uint8 i=0u;i<this->channels;i++){
+            color=0u;
+            edkMemCpy(&color,tempStart,this->bytesPerChannel);
+            edkMemCpy(tempStart,tempEnd,this->bytesPerChannel);
+            edkMemCpy(tempEnd,&color,this->bytesPerChannel);
+            tempStart+=this->bytesPerChannel;
+            tempEnd+=this->bytesPerChannel;
+        }
+        return true;
+    }
+    return false;
+}
+
 bool edk::retro::RetroPalette::equal(edk::retro::RetroPalette* palette){
     if(palette){
         //compare palette

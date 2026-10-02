@@ -67,7 +67,7 @@ bool edk::retro::RetroTileSet::addTile(edk::retro::RetroTile tile,
     if(!this->haveEqualTile(tile)){
         edk::uint32 size = this->size();
         *position = this->pushBack(tile);
-        if(size>this->size()){
+        if(size<this->size()){
             return true;
         }
     }
@@ -78,16 +78,74 @@ bool edk::retro::RetroTileSet::addTileNoTest(edk::retro::RetroTile tile,
                                              ){
     edk::uint32 size = this->size();
     *position = this->pushBack(tile);
-    if(size>this->size()){
+    if(size<this->size()){
         return true;
     }
     return false;
+}
+edk::retro::RetroPalette* edk::retro::RetroTileSet::getPalette(edk::uint32 position){
+    if(this->havePos(position)){
+        edk::retro::RetroTile tile = this->get(position);
+        return tile.getPalette();
+    }
+    return NULL;
+}
+
+bool edk::retro::RetroTileSet::haveTile(edk::retro::RetroTile tile){
+    edk::retro::RetroTile temp;
+    edk::uint32 size = this->size();
+    for(edk::uint32 i=0u;i<size;i++){
+        temp = this->get(i);
+        if(temp == tile){
+            return true;
+        }
+    }
+    return false;
+}
+edk::uint32 edk::retro::RetroTileSet::getID(edk::retro::RetroTile tile){
+    edk::retro::RetroTile temp;
+    edk::uint32 size = this->size();
+    for(edk::uint32 i=0u;i<size;i++){
+        temp = this->get(i);
+        if(temp == tile){
+            return i;
+        }
+    }
+    return 0u;
 }
 
 //update the tile in position
 bool edk::retro::RetroTileSet::updateTile(edk::uint32 position,edk::retro::RetroTile tile){
     if(this->havePos(position)){
         return this->set(position,tile);
+    }
+    return false;
+}
+
+//convert a color ID form a palette
+bool edk::retro::RetroTileSet::swapColorID(edk::retro::RetroPalette* palette,edk::uint32 start,edk::uint32 end){
+    if(palette){
+        edk::uint32 id;
+        edk::retro::RetroTile temp;
+        edk::uint32 size = this->size();
+        for(edk::uint32 i=0u;i<size;i++){
+            if(this->havePos(i)){
+                temp = this->get(i);
+                for(edk::uint8 y=0u;y<8u;y++){
+                    for(edk::uint8 x=0u;x<8u;x++){
+                        id = temp.getPixel(x,y);
+                        if(id == start){
+                            temp.setPixel(x,y,end);
+                        }
+                        else if(id==end){
+                            temp.setPixel(x,y,start);
+                        }
+                    }
+                }
+                this->set(i,temp);
+            }
+        }
+        return true;
     }
     return false;
 }

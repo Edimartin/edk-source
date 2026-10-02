@@ -48,6 +48,10 @@ public:
     void Constructor();
     void Destructor();
 
+    void clean(){
+        edk::vector::Stack<edk::retro::RetroTile>::clean();
+    }
+
     inline bool havePos(edk::uint32 position){
         return this->edk::vector::Stack<edk::retro::RetroTile>::havePos(position);
     }
@@ -69,9 +73,16 @@ public:
     edk::retro::RetroTile get(edk::uint32 position){
         return this->edk::vector::Stack<edk::retro::RetroTile>::get(position);
     }
+    edk::retro::RetroPalette* getPalette(edk::uint32 position);
+
+    bool haveTile(edk::retro::RetroTile tile);
+    edk::uint32 getID(edk::retro::RetroTile tile);
 
     //update the tile in position
     bool updateTile(edk::uint32 position,edk::retro::RetroTile tile);
+
+    //convert a color ID form a palette
+    bool swapColorID(edk::retro::RetroPalette* palette,edk::uint32 start,edk::uint32 end);
 private:
     //search for equal tiles
     bool haveEqualTile(edk::retro::RetroTile tile);

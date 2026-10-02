@@ -128,6 +128,8 @@ public:
     edk::color3ui16 getColor3ui16(edk::uint32 position);
     edk::color4ui16 getColor4ui16(edk::uint32 position);
 
+    bool swapColor(edk::uint32 start,edk::uint32 end);
+
     bool equal(edk::retro::RetroPalette* palette);
     bool clone(edk::retro::RetroPalette* palette);
 

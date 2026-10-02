@@ -6730,6 +6730,7 @@ bool edk::String::strFileNameNoExtension(const edk::char8* str,edk::char8* dest)
 edk::char8* edk::String::strFileExtensionNoName(edk::char8* str){
     edk::char8* ret = NULL;
     if(str){
+        bool havePointer=false;
         edk::uint32 size = 0u;
         //create a pointer to read the string
         edk::char8* temp = str;
@@ -6743,28 +6744,31 @@ edk::char8* edk::String::strFileExtensionNoName(edk::char8* str){
             //search for the last point '.'
             if(*temp2=='.'){
                 //temp = temp2-1u;
+                havePointer=true;
                 break;
             }
             temp2--;
             size++;
         }
-        if(temp2!=temp){
-            temp = temp2;
-        }
-        if(size){
-            temp++;
-            if(temp){
-                //create a new string with the size
-                ret = (edk::char8*)malloc(sizeof(edk::char8) * (size+1u));
-                if(ret){
-                    //set the string end
-                    ret[size]='\0';
-                    //copy the name of the file to the return
-                    for(edk::uint32 i = 0u;i<size;i++){
-                        ret[i] = *temp;
-                        temp++;
-                        if(!*temp){
-                            break;
+        if(havePointer){
+            if(temp2!=temp){
+                temp = temp2;
+            }
+            if(size){
+                temp++;
+                if(temp){
+                    //create a new string with the size
+                    ret = (edk::char8*)malloc(sizeof(edk::char8) * (size+1u));
+                    if(ret){
+                        //set the string end
+                        ret[size]='\0';
+                        //copy the name of the file to the return
+                        for(edk::uint32 i = 0u;i<size;i++){
+                            ret[i] = *temp;
+                            temp++;
+                            if(!*temp){
+                                break;
+                            }
                         }
                     }
                 }
