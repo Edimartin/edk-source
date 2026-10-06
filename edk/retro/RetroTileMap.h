@@ -69,11 +69,122 @@ public:
     bool setID(edk::uint32 x,edk::uint32 y,edk::uint32 id);
     edk::uint32 getID(edk::vec2ui32 position);
     edk::uint32 getID(edk::uint32 x,edk::uint32 y);
+    edk::uint16 getValueSMS(edk::vec2ui32 position);
+    edk::uint16 getValueSMS(edk::uint32 x,edk::uint32 y);
+
+    //bits
+    bool setFlipH(edk::vec2ui32 position,bool flipH);
+    bool setFlipH(edk::uint32 x,edk::uint32 y,bool flipH);
+    bool setFlipV(edk::vec2ui32 position,bool flipV);
+    bool setFlipV(edk::uint32 x,edk::uint32 y,bool flipV);
+    bool setUsingPalette(edk::vec2ui32 position,bool usingPalette);
+    bool setUsingPalette(edk::uint32 x,edk::uint32 y,bool usingPalette);
+    bool setUsingPriority(edk::vec2ui32 position,bool priority);
+    bool setUsingPriority(edk::uint32 x,edk::uint32 y,bool priority);
+    bool getFlipH(edk::vec2ui32 position);
+    bool getFlipH(edk::uint32 x,edk::uint32 y);
+    bool getFlipV(edk::vec2ui32 position);
+    bool getFlipV(edk::uint32 x,edk::uint32 y);
+    bool getUsingPalette(edk::vec2ui32 position);
+    bool getUsingPalette(edk::uint32 x,edk::uint32 y);
+    bool getUsingPriority(edk::vec2ui32 position);
+    bool getUsingPriority(edk::uint32 x,edk::uint32 y);
+
 
     //set the tileSet
     bool setTileSet(edk::retro::RetroTileSet* set);
 private:
-    edk::vector::MatrixDynamic<edk::uint32> map;
+
+    //change it to SMS
+    /*
+    Bit:  15  14  13  12  11  10   9   8   7   6   5   4   3   2   1   0
+          ┌───┬───┬───┬───┬───┴───┴───────────────────────────────────────┐
+          │ - │ P │ C │ V │ H │             TILE NUMBER                  │
+          └───┴───┴───┴───┴───┴───────────────────────────────────────────┘
+           3    1   1   1   1                    9 bits
+
+    Bits	Function
+    0–8	    ID of tile — 9 bits
+    9	    Flip horizontal
+    10	    Flip vertical
+    11	    Select palette
+    12	    Priority over sprites (background tile will be draw in front of the sprites. Like a TREE on the front)
+    13–15	Não usados/reservados
+    */
+    class TileInsideMap{
+    public:
+        TileInsideMap(){
+            this->value=0u;
+            this->flipH=false;
+            this->flipV=false;
+            this->usingPalette=false;
+            this->priority=false;
+        }
+        ~TileInsideMap(){}
+        inline bool operator==(edk::retro::RetroTileMap::TileInsideMap tile){
+            if(this->value==tile.value
+                    && this->flipH==tile.flipH
+                    && this->flipV==tile.flipV
+                    && this->usingPalette==tile.usingPalette
+                    && this->priority==tile.priority
+                    ){
+                return true;
+            }
+            return false;
+        }
+        inline edk::retro::RetroTileMap::TileInsideMap operator=(edk::retro::RetroTileMap::TileInsideMap tile){
+            this->value=tile.value;
+            this->flipH=tile.flipH;
+            this->flipV=tile.flipV;
+            this->usingPalette=tile.usingPalette;
+            this->priority=tile.priority;
+            return *this;
+        }
+
+        //get the tileValue for sms
+        edk::uint16 getValueSMS(){
+            edk::uint16 ret = (this->value<<6u)>>6u;
+            if(this->flipH){
+                //pos 9
+                ret |= 0b0000000100000000;
+            }
+            if(this->flipV){
+                //pos 10
+                ret |= 0b0000001000000000;
+            }
+            if(this->usingPalette){
+                //pos 11
+                ret |= 0b0000010000000000;
+            }
+            if(this->priority){
+                //pos 12
+                ret |= 0b0000100000000000;
+            }
+            return ret;
+        }
+        inline edk::retro::RetroTileMap::TileInsideMap operator*(edk::retro::RetroTileMap::TileInsideMap /*tile*/){
+            return *this;
+        }
+        inline edk::retro::RetroTileMap::TileInsideMap operator*(edk::int32 /*value*/){
+            return *this;
+        }
+        inline edk::retro::RetroTileMap::TileInsideMap operator+(edk::retro::RetroTileMap::TileInsideMap /*tile*/){
+            return *this;
+        }
+        inline edk::retro::RetroTileMap::TileInsideMap operator-(edk::retro::RetroTileMap::TileInsideMap /*tile*/){
+            return *this;
+        }
+        inline edk::retro::RetroTileMap::TileInsideMap operator/(edk::retro::RetroTileMap::TileInsideMap /*tile*/){
+            return *this;
+        }
+
+        edk::uint32 value;
+        bool flipH,flipV;
+        bool usingPalette;
+        bool priority;
+    };
+
+    edk::vector::MatrixDynamic<edk::retro::RetroTileMap::TileInsideMap> map;
 
     edk::retro::RetroTileSet* set;
 

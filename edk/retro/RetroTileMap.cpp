@@ -75,10 +75,13 @@ void edk::retro::RetroTileMap::clean(){
 
 void edk::retro::RetroTileMap::cleanIDs(){
     if(this->map.haveMatrix()){
+        edk::retro::RetroTileMap::TileInsideMap tile;
         edk::uint32 width=this->map.getWidth(),height=this->map.getHeight();
         for(edk::uint32 y=0u;y<height;y++){
             for(edk::uint32 x=0u;x<width;x++){
-                this->map.set(x,y,0xFF*sizeof(edk::uint32));
+                tile = this->map.get(x,y);
+                tile.value = 0xFF*sizeof(edk::uint32);
+                this->map.set(x,y,tile);
             }
         }
     }
@@ -109,7 +112,9 @@ edk::uint32 edk::retro::RetroTileMap::getHeight(){
 //set and get
 bool edk::retro::RetroTileMap::setID(edk::vec2ui32 position,edk::uint32 id){
     if(this->map.have(position)){
-        return this->map.set(position,id);
+        edk::retro::RetroTileMap::TileInsideMap tile = this->map.get(position);
+        tile.value = id;
+        return this->map.set(position,tile);
     }
     return false;
 }
@@ -118,12 +123,109 @@ bool edk::retro::RetroTileMap::setID(edk::uint32 x,edk::uint32 y,edk::uint32 id)
 }
 edk::uint32 edk::retro::RetroTileMap::getID(edk::vec2ui32 position){
     if(this->map.haveMatrix()){
-        return this->map.get(position);
+        edk::retro::RetroTileMap::TileInsideMap tile = this->map.get(position);
+        return tile.value;
     }
     return 0u;
 }
 edk::uint32 edk::retro::RetroTileMap::getID(edk::uint32 x,edk::uint32 y){
     return this->getID(edk::vec2ui32(x,y));
+}
+edk::uint16 edk::retro::RetroTileMap::getValueSMS(edk::vec2ui32 position){
+    if(this->map.haveMatrix()){
+        edk::retro::RetroTileMap::TileInsideMap tile = this->map.get(position);
+        return tile.getValueSMS();
+    }
+    return 0u;
+}
+edk::uint16 edk::retro::RetroTileMap::getValueSMS(edk::uint32 x,edk::uint32 y){
+    return this->getValueSMS(edk::vec2ui32(x,y));
+}
+
+//bits
+bool edk::retro::RetroTileMap::setFlipH(edk::vec2ui32 position,bool flipH){
+    if(this->map.have(position)){
+        edk::retro::RetroTileMap::TileInsideMap tile = this->map.get(position);
+        tile.flipH = flipH;
+        return this->map.set(position,tile);
+    }
+    return false;
+}
+bool edk::retro::RetroTileMap::setFlipH(edk::uint32 x,edk::uint32 y,bool flipH){
+    return this->setFlipH(edk::vec2ui32(x,y),flipH);
+}
+bool edk::retro::RetroTileMap::setFlipV(edk::vec2ui32 position,bool flipV){
+    if(this->map.have(position)){
+        edk::retro::RetroTileMap::TileInsideMap tile = this->map.get(position);
+        tile.flipV = flipV;
+        return this->map.set(position,tile);
+    }
+    return false;
+}
+bool edk::retro::RetroTileMap::setFlipV(edk::uint32 x,edk::uint32 y,bool flipV){
+    return this->setFlipV(edk::vec2ui32(x,y),flipV);
+}
+bool edk::retro::RetroTileMap::setUsingPalette(edk::vec2ui32 position,bool usingPalette){
+    if(this->map.have(position)){
+        edk::retro::RetroTileMap::TileInsideMap tile = this->map.get(position);
+        tile.usingPalette = usingPalette;
+        return this->map.set(position,tile);
+    }
+    return false;
+}
+bool edk::retro::RetroTileMap::setUsingPalette(edk::uint32 x,edk::uint32 y,bool usingPalette){
+    return this->setUsingPalette(edk::vec2ui32(x,y),usingPalette);
+}
+bool edk::retro::RetroTileMap::setUsingPriority(edk::vec2ui32 position,bool priority){
+    if(this->map.have(position)){
+        edk::retro::RetroTileMap::TileInsideMap tile = this->map.get(position);
+        tile.priority = priority;
+        return this->map.set(position,tile);
+    }
+    return false;
+}
+bool edk::retro::RetroTileMap::setUsingPriority(edk::uint32 x,edk::uint32 y,bool priority){
+    return this->setUsingPriority(edk::vec2ui32(x,y),priority);
+}
+bool edk::retro::RetroTileMap::getFlipH(edk::vec2ui32 position){
+    if(this->map.haveMatrix()){
+        edk::retro::RetroTileMap::TileInsideMap tile = this->map.get(position);
+        return tile.flipH;
+    }
+    return false;
+}
+bool edk::retro::RetroTileMap::getFlipH(edk::uint32 x,edk::uint32 y){
+    return this->getFlipH(edk::vec2ui32(x,y));
+}
+bool edk::retro::RetroTileMap::getFlipV(edk::vec2ui32 position){
+    if(this->map.haveMatrix()){
+        edk::retro::RetroTileMap::TileInsideMap tile = this->map.get(position);
+        return tile.flipV;
+    }
+    return false;
+}
+bool edk::retro::RetroTileMap::getFlipV(edk::uint32 x,edk::uint32 y){
+    return this->getFlipV(edk::vec2ui32(x,y));
+}
+bool edk::retro::RetroTileMap::getUsingPalette(edk::vec2ui32 position){
+    if(this->map.haveMatrix()){
+        edk::retro::RetroTileMap::TileInsideMap tile = this->map.get(position);
+        return tile.usingPalette;
+    }
+    return false;
+}
+bool edk::retro::RetroTileMap::getUsingPalette(edk::uint32 x,edk::uint32 y){
+    return this->getUsingPalette(edk::vec2ui32(x,y));
+}
+bool edk::retro::RetroTileMap::getUsingPriority(edk::vec2ui32 position){
+    if(this->map.haveMatrix()){
+        edk::retro::RetroTileMap::TileInsideMap tile = this->map.get(position);
+        return tile.priority;
+    }
+    return false;
+}
+bool edk::retro::RetroTileMap::getUsingPriority(edk::uint32 x,edk::uint32 y){
+    return this->getUsingPriority(edk::vec2ui32(x,y));
 }
 
 //set the tileSet

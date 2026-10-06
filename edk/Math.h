@@ -362,6 +362,13 @@ public:
         return  true;
     }
 
+    static inline edk::float32 roundValue(edk::float32 value){
+        return round(value);
+    }
+    static inline edk::float64 roundValue(edk::float64 value){
+        return round(value);
+    }
+
 
     //SquareRoot of the number
     static edk::float32 squareRoot(edk::float32 n);

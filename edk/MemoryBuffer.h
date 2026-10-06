@@ -92,6 +92,12 @@ public:
     bool writeToBuffer(typeTemplate c){
         return this->writeToBuffer((typeTemplate*)&c,1u);
     }
+    inline bool writeToBuffer(const edk::char8* str){
+        return writeToBuffer((typeTemplate*) str,edk::String::strSize(str));
+    }
+    bool writeToBuffer(edk::char8* str){
+        return writeToBuffer((typeTemplate*) str,edk::String::strSize(str));
+    }
     bool writeToBuffer(typeTemplate* vector,edk::uint64 size){
         if(vector && size){
             this->allocBuffer(size);
@@ -195,6 +201,12 @@ public:
     //push some bytes into the buffer
     bool pushToBuffer(typeTemplate c){
         return this->pushToBuffer((typeTemplate*)&c,1u);
+    }
+    inline bool pushToBuffer(const edk::char8* str){
+        return pushToBuffer((typeTemplate*) str,edk::String::strSize(str));
+    }
+    bool pushToBuffer(edk::char8* str){
+        return pushToBuffer((typeTemplate*) str,edk::String::strSize(str));
     }
     bool pushToBuffer(typeTemplate* vector,edk::uint64 size){
         if(vector && size){
