@@ -145,22 +145,22 @@ private:
 
         //get the tileValue for sms
         edk::uint16 getValueSMS(){
-            edk::uint16 ret = (this->value<<6u)>>6u;
+            edk::uint16 ret = (this->value<<9u)>>9u;
             if(this->flipH){
                 //pos 9
-                ret |= 0b0000000100000000;
+                ret |= 0b0000001000000000;
             }
             if(this->flipV){
                 //pos 10
-                ret |= 0b0000001000000000;
+                ret |= 0b0000010000000000;
             }
             if(this->usingPalette){
                 //pos 11
-                ret |= 0b0000010000000000;
+                ret |= 0b0000100000000000;
             }
             if(this->priority){
                 //pos 12
-                ret |= 0b0000100000000000;
+                ret |= 0b0001000000000000;
             }
             return ret;
         }
