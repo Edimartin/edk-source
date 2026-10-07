@@ -71,6 +71,8 @@ public:
     edk::uint32 getID(edk::uint32 x,edk::uint32 y);
     edk::uint16 getValueSMS(edk::vec2ui32 position);
     edk::uint16 getValueSMS(edk::uint32 x,edk::uint32 y);
+    edk::retro::RetroTileSpecs getSpecs(edk::vec2ui32 position);
+    edk::retro::RetroTileSpecs getSpecs(edk::uint32 x,edk::uint32 y);
 
     //bits
     bool setFlipH(edk::vec2ui32 position,bool flipH);
@@ -111,7 +113,7 @@ private:
     12	    Priority over sprites (background tile will be draw in front of the sprites. Like a TREE on the front)
     13–15	Não usados/reservados
     */
-    class TileInsideMap{
+    class TileInsideMap : public edk::retro::RetroTileSpecs{
     public:
         TileInsideMap(){
             this->value=0u;
@@ -177,9 +179,6 @@ private:
         inline edk::retro::RetroTileMap::TileInsideMap operator/(edk::retro::RetroTileMap::TileInsideMap /*tile*/){
             return *this;
         }
-
-        edk::uint32 value;
-        bool flipH,flipV;
         bool usingPalette;
         bool priority;
     };

@@ -27,7 +27,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #pragma message "            Inside RetroTileSet.cpp"
 #endif
 
-edk::uint32 edk::retro::RetroTileSet::staticPosition=0u;
+edk::retro::RetroTileSpecs edk::retro::RetroTileSet::staticSpecs;
 
 edk::retro::RetroTileSet::RetroTileSet(){
     this->classThis=NULL;
@@ -49,12 +49,33 @@ void edk::retro::RetroTileSet::Destructor(){
 }
 
 //search for equal tiles
-bool edk::retro::RetroTileSet::haveEqualTile(edk::retro::RetroTile tile){
+bool edk::retro::RetroTileSet::haveEqualTile(edk::retro::RetroTile tile,edk::retro::RetroTileSpecs* specs){
     edk::retro::RetroTile temp;
     edk::uint32 size = this->size();
     for(edk::uint32 i=0u;i<size;i++){
         temp = this->get(i);
         if(temp == tile){
+            specs->clean();
+            specs->value = i;
+            return true;
+        }
+        else if(temp.equalFlipH(tile)){
+            specs->clean();
+            specs->flipH=true;
+            specs->value = i;
+            return true;
+        }
+        else if(temp.equalFlipV(tile)){
+            specs->clean();
+            specs->flipV=true;
+            specs->value = i;
+            return true;
+        }
+        else if(temp.equalFlipHV(tile)){
+            specs->clean();
+            specs->flipH=true;
+            specs->flipV=true;
+            specs->value = i;
             return true;
         }
     }
@@ -62,11 +83,11 @@ bool edk::retro::RetroTileSet::haveEqualTile(edk::retro::RetroTile tile){
 }
 
 bool edk::retro::RetroTileSet::addTile(edk::retro::RetroTile tile,
-                                       edk::uint32* position
+                                       edk::retro::RetroTileSpecs* specs
                                        ){
-    if(!this->haveEqualTile(tile)){
+    if(!this->haveEqualTile(tile,specs)){
         edk::uint32 size = this->size();
-        *position = this->pushBack(tile);
+        specs->value = this->pushBack(tile);
         if(size<this->size()){
             return true;
         }
@@ -74,10 +95,10 @@ bool edk::retro::RetroTileSet::addTile(edk::retro::RetroTile tile,
     return false;
 }
 bool edk::retro::RetroTileSet::addTileNoTest(edk::retro::RetroTile tile,
-                                             edk::uint32* position
+                                             edk::retro::RetroTileSpecs* specs
                                              ){
     edk::uint32 size = this->size();
-    *position = this->pushBack(tile);
+    specs->value = this->pushBack(tile);
     if(size<this->size()){
         return true;
     }
@@ -108,6 +129,39 @@ edk::uint32 edk::retro::RetroTileSet::getID(edk::retro::RetroTile tile){
     for(edk::uint32 i=0u;i<size;i++){
         temp = this->get(i);
         if(temp == tile){
+            return i;
+        }
+    }
+    return 0u;
+}
+edk::uint32 edk::retro::RetroTileSet::getIDFlipH(edk::retro::RetroTile tile){
+    edk::retro::RetroTile temp;
+    edk::uint32 size = this->size();
+    for(edk::uint32 i=0u;i<size;i++){
+        temp = this->get(i);
+        if(temp.equalFlipH(tile)){
+            return i;
+        }
+    }
+    return 0u;
+}
+edk::uint32 edk::retro::RetroTileSet::getIDFlipV(edk::retro::RetroTile tile){
+    edk::retro::RetroTile temp;
+    edk::uint32 size = this->size();
+    for(edk::uint32 i=0u;i<size;i++){
+        temp = this->get(i);
+        if(temp.equalFlipV(tile)){
+            return i;
+        }
+    }
+    return 0u;
+}
+edk::uint32 edk::retro::RetroTileSet::getIDFlipHV(edk::retro::RetroTile tile){
+    edk::retro::RetroTile temp;
+    edk::uint32 size = this->size();
+    for(edk::uint32 i=0u;i<size;i++){
+        temp = this->get(i);
+        if(temp.equalFlipHV(tile)){
             return i;
         }
     }

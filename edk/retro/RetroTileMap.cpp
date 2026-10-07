@@ -141,6 +141,16 @@ edk::uint16 edk::retro::RetroTileMap::getValueSMS(edk::vec2ui32 position){
 edk::uint16 edk::retro::RetroTileMap::getValueSMS(edk::uint32 x,edk::uint32 y){
     return this->getValueSMS(edk::vec2ui32(x,y));
 }
+edk::retro::RetroTileSpecs edk::retro::RetroTileMap::getSpecs(edk::vec2ui32 position){
+    edk::retro::RetroTileSpecs ret;
+    if(this->map.haveMatrix()){
+        ret = this->map.get(position);
+    }
+    return ret;
+}
+edk::retro::RetroTileSpecs edk::retro::RetroTileMap::getSpecs(edk::uint32 x,edk::uint32 y){
+    return this->getSpecs(edk::vec2ui32(x,y));
+}
 
 //bits
 bool edk::retro::RetroTileMap::setFlipH(edk::vec2ui32 position,bool flipH){

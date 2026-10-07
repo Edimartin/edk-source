@@ -119,6 +119,25 @@ public:
     void print();
     void printPixels();
 
+    //function equal
+    bool equal(edk::retro::RetroTile* tile);
+    inline bool equal(edk::retro::RetroTile tile){
+        return this->equal(&tile);
+    }
+    bool equalFlipH(edk::retro::RetroTile* tile);
+    inline bool equalFlipH(edk::retro::RetroTile tile){
+        return this->equalFlipH(&tile);
+    }
+    bool equalFlipV(edk::retro::RetroTile* tile);
+    inline bool equalFlipV(edk::retro::RetroTile tile){
+        return this->equalFlipV(&tile);
+    }
+    bool equalFlipHV(edk::retro::RetroTile* tile);
+    inline bool equalFlipHV(edk::retro::RetroTile tile){
+        return this->equalFlipHV(&tile);
+    }
+
+
     //operators
     inline bool operator==(edk::retro::RetroTile tile){
         bool ret = true;

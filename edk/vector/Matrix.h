@@ -126,9 +126,9 @@ public:
         //Test the size
         if(size.width && size.height){
             if(this->isClass){
-                (*this->matrixPointer) = (typeTemplate**)malloc(sizeof(typeTemplate*)*size.height);
+                (*this->matrixPointer) = new typeTemplate*[size.height];
                 if((*this->matrixPointer)){
-                    memset((*this->matrixPointer),0u,sizeof(typeTemplate)*size.height);
+                    //memset((*this->matrixPointer),0u,sizeof(typeTemplate)*size.height);
                     for(edk::uint32 i=0u;i<size.height;i++){
                         (*this->matrixPointer)[i] = new typeTemplate[size.width];
                         if((*this->matrixPointer)[i]){
@@ -155,7 +155,7 @@ public:
                     for(edk::uint32 i=0u;i<size.height;i++){
                         (*this->matrixPointer)[i] = (typeTemplate*)malloc(sizeof(typeTemplate)*size.width);
                         if((*this->matrixPointer)[i]){
-                            memset((*this->matrixPointer)[i],0u,sizeof(typeTemplate)*size.width);
+                            memset((void*)(*this->matrixPointer)[i],0u,sizeof(typeTemplate)*size.width);
                         }
                         else{
                             for(edk::uint32 j=i+1u;i>0u;j--){
@@ -759,7 +759,7 @@ public:
                 for(edk::uint32 i=0u;i<(*this->matrixSizePointer).height;i++){
                     delete[] (*this->matrixPointer)[i];
                 }
-                free((*this->matrixPointer));
+                delete[] ((*this->matrixPointer));
             }
             else{
                 for(edk::uint32 i=0u;i<(*this->matrixSizePointer).height;i++){

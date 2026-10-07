@@ -40,6 +40,42 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 namespace edk{
 namespace retro{
+class RetroTileSpecs{
+public:
+    RetroTileSpecs(){
+        this->clean();
+    }
+    ~RetroTileSpecs(){}
+
+    inline void clean(){
+        this->flipH=this->flipV=false;
+        this->value = 0u;
+    }
+
+    inline bool operator==(edk::retro::RetroTileSpecs tile){
+        if(this->flipH==tile.flipH
+                && this->flipV==tile.flipV
+                && this->value==tile.value
+                ){
+            return true;
+        }
+        return false;
+    }
+    inline edk::retro::RetroTileSpecs operator=(edk::retro::RetroTileSpecs tile){
+        this->flipH=tile.flipH;
+        this->flipV=tile.flipV;
+        this->value=tile.value;
+        return *this;
+    }
+    inline edk::retro::RetroTileSpecs operator=(edk::uint32 value){
+        this->flipH=false;
+        this->flipV=false;
+        this->value=value;
+        return *this;
+    }
+    bool flipH,flipV;
+    edk::uint32 value;
+};
 class RetroTileSet: private edk::vector::Stack<edk::retro::RetroTile>{
 public:
     RetroTileSet();
@@ -64,10 +100,10 @@ public:
     }
 
     bool addTile(edk::retro::RetroTile tile,
-                 edk::uint32* position=&edk::retro::RetroTileSet::staticPosition
+                 edk::retro::RetroTileSpecs* specs=&edk::retro::RetroTileSet::staticSpecs
             );
     bool addTileNoTest(edk::retro::RetroTile tile,
-                       edk::uint32* position=&edk::retro::RetroTileSet::staticPosition
+                       edk::retro::RetroTileSpecs* specs=&edk::retro::RetroTileSet::staticSpecs
             );
 
     edk::retro::RetroTile get(edk::uint32 position){
@@ -77,6 +113,9 @@ public:
 
     bool haveTile(edk::retro::RetroTile tile);
     edk::uint32 getID(edk::retro::RetroTile tile);
+    edk::uint32 getIDFlipH(edk::retro::RetroTile tile);
+    edk::uint32 getIDFlipV(edk::retro::RetroTile tile);
+    edk::uint32 getIDFlipHV(edk::retro::RetroTile tile);
 
     //update the tile in position
     bool updateTile(edk::uint32 position,edk::retro::RetroTile tile);
@@ -85,9 +124,9 @@ public:
     bool swapColorID(edk::retro::RetroPalette* palette,edk::uint32 start,edk::uint32 end);
 private:
     //search for equal tiles
-    bool haveEqualTile(edk::retro::RetroTile tile);
+    bool haveEqualTile(edk::retro::RetroTile tile,edk::retro::RetroTileSpecs* specs);
 
-    static edk::uint32 staticPosition;
+    static edk::retro::RetroTileSpecs staticSpecs;
 private:
     edk::classID classThis;
 };

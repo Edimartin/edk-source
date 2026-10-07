@@ -83,6 +83,10 @@ void edk::View::Constructor(edk::rectf32 frame){
         this->mouseInside=false;
         this->borderSize=0.0;
         this->borderTemp=0.f;
+        this->mouseInside=false;
+        this->mousePos=0.f;
+        this->rectTemp=0.f;
+        this->canUpdateThis=false;
     }
 }
 void edk::View::Destructor(){

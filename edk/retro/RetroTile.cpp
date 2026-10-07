@@ -242,28 +242,28 @@ edk::uint16 edk::retro::RetroTile::getPixelColorA16(edk::uint8 x,edk::uint8 y){
     return this->getPaletteColorA16(this->getPixel(x,y));
 }
 edk::color1ui8 edk::retro::RetroTile::getPixelColor1ui8(edk::uint8 x,edk::uint8 y){
-return this->getPaletteColor1ui8(this->getPixel(x,y));
+    return this->getPaletteColor1ui8(this->getPixel(x,y));
 }
 edk::color2ui8 edk::retro::RetroTile::getPixelColor2ui8(edk::uint8 x,edk::uint8 y){
-return this->getPaletteColor2ui8(this->getPixel(x,y));
+    return this->getPaletteColor2ui8(this->getPixel(x,y));
 }
 edk::color3ui8 edk::retro::RetroTile::getPixelColor3ui8(edk::uint8 x,edk::uint8 y){
-return this->getPaletteColor3ui8(this->getPixel(x,y));
+    return this->getPaletteColor3ui8(this->getPixel(x,y));
 }
 edk::color4ui8 edk::retro::RetroTile::getPixelColor4ui8(edk::uint8 x,edk::uint8 y){
-return this->getPaletteColor4ui8(this->getPixel(x,y));
+    return this->getPaletteColor4ui8(this->getPixel(x,y));
 }
 edk::color1ui16 edk::retro::RetroTile::getPixelColor1ui16(edk::uint8 x,edk::uint8 y){
-return this->getPaletteColor1ui16(this->getPixel(x,y));
+    return this->getPaletteColor1ui16(this->getPixel(x,y));
 }
 edk::color2ui16 edk::retro::RetroTile::getPixelColor2ui16(edk::uint8 x,edk::uint8 y){
-return this->getPaletteColor2ui16(this->getPixel(x,y));
+    return this->getPaletteColor2ui16(this->getPixel(x,y));
 }
 edk::color3ui16 edk::retro::RetroTile::getPixelColor3ui16(edk::uint8 x,edk::uint8 y){
-return this->getPaletteColor3ui16(this->getPixel(x,y));
+    return this->getPaletteColor3ui16(this->getPixel(x,y));
 }
 edk::color4ui16 edk::retro::RetroTile::getPixelColor4ui16(edk::uint8 x,edk::uint8 y){
-return this->getPaletteColor4ui16(this->getPixel(x,y));
+    return this->getPaletteColor4ui16(this->getPixel(x,y));
 }
 
 //compare
@@ -351,4 +351,86 @@ void edk::retro::RetroTile::printPixels(){
             }
         }
     }
+}
+
+//function equal
+bool edk::retro::RetroTile::equal(edk::retro::RetroTile* tile){
+    if(tile){
+        bool ret = true;
+        if(this->palette == tile->palette){
+            for(edk::uint32 y=0u;y<8u;y++){
+                for(edk::uint32 x=0u;x<8u;x++){
+                    if(this->vec[x][y] != tile->vec[x][y]){
+                        ret=false;
+                        break;
+                    }
+                }
+            }
+        }
+        else{
+            ret = false;
+        }
+        return ret;
+    }
+    return false;
+}
+bool edk::retro::RetroTile::equalFlipH(edk::retro::RetroTile* tile){
+    if(tile){
+        bool ret = true;
+        if(this->palette == tile->palette){
+            for(edk::uint32 y=0u;y<8u;y++){
+                for(edk::uint32 x=0u,x2=7u;x<8u;x++,x2--){
+                    if(this->vec[x2][y] != tile->vec[x][y]){
+                        ret=false;
+                        break;
+                    }
+                }
+            }
+        }
+        else{
+            ret = false;
+        }
+        return ret;
+    }
+    return false;
+}
+bool edk::retro::RetroTile::equalFlipV(edk::retro::RetroTile* tile){
+    if(tile){
+        bool ret = true;
+        if(this->palette == tile->palette){
+            for(edk::uint32 y=0u,y2=7u;y<8u;y++,y2--){
+                for(edk::uint32 x=0u;x<8u;x++){
+                    if(this->vec[x][y2] != tile->vec[x][y]){
+                        ret=false;
+                        break;
+                    }
+                }
+            }
+        }
+        else{
+            ret = false;
+        }
+        return ret;
+    }
+    return false;
+}
+bool edk::retro::RetroTile::equalFlipHV(edk::retro::RetroTile* tile){
+    if(tile){
+        bool ret = true;
+        if(this->palette == tile->palette){
+            for(edk::uint32 y=0u,y2=7u;y<8u;y++,y2--){
+                for(edk::uint32 x=0u,x2=7u;x<8u;x++,x2--){
+                    if(this->vec[x2][y2] != tile->vec[x][y]){
+                        ret=false;
+                        break;
+                    }
+                }
+            }
+        }
+        else{
+            ret = false;
+        }
+        return ret;
+    }
+    return false;
 }
