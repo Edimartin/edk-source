@@ -3798,6 +3798,614 @@ bool edk::String::uint64ToStr(edk::uint64 value,edk::char8* dest,edk::uint32 dig
     return false;
 }
 
+edk::char8* edk::String::uint8HexToStr(edk::uint8 value){
+    edk::char8* str = NULL;
+    edk::uint8 n=0u;
+    edk::uint8* temp = (edk::uint8*)&value;
+
+    //count the number
+    edk::uint64 size = sizeof(value)*2u;
+
+    //test if the size is bigger then 0u
+    if(size>0u){
+        //Positive
+        str = (edk::char8*)malloc(sizeof(edk::char8) * (size+1u));
+        if(str){
+            str[size]='\0';
+        }
+        else{
+            //else set NULL
+            str=0u;
+        }
+        //test if alloc the str
+        if(str){
+            //then convert the number
+            edk::uint32 i=0u;
+            edk::uint32 k=0u;
+            for(edk::uint32 j=sizeof(value);j>0u;j--){
+                k=j-1u;
+                n = temp[i];
+                n = n>>4u;
+                switch(n){
+                case 0u:
+                    str[(k*2u)+0u]='0';
+                    break;
+                case 1u:
+                    str[(k*2u)+0u]='1';
+                    break;
+                case 2u:
+                    str[(k*2u)+0u]='2';
+                    break;
+                case 3u:
+                    str[(k*2u)+0u]='3';
+                    break;
+                case 4u:
+                    str[(k*2u)+0u]='4';
+                    break;
+                case 5u:
+                    str[(k*2u)+0u]='5';
+                    break;
+                case 6u:
+                    str[(k*2u)+0u]='6';
+                    break;
+                case 7u:
+                    str[(k*2u)+0u]='7';
+                    break;
+                case 8u:
+                    str[(k*2u)+0u]='8';
+                    break;
+                case 9u:
+                    str[(k*2u)+0u]='9';
+                    break;
+                case 10u:
+                    str[(k*2u)+0u]='A';
+                    break;
+                case 11u:
+                    str[(k*2u)+0u]='B';
+                    break;
+                case 12u:
+                    str[(k*2u)+0u]='C';
+                    break;
+                case 13u:
+                    str[(k*2u)+0u]='D';
+                    break;
+                case 14u:
+                    str[(k*2u)+0u]='E';
+                    break;
+                case 15u:
+                    str[(k*2u)+0u]='F';
+                    break;
+                default:
+                    str[(k*2u)+0u]='0';
+                    break;
+                }
+
+                n = temp[i];
+                n = n<<4u;
+                n = n>>4u;
+                switch(n){
+                case 0u:
+                    str[(k*2u)+1u]='0';
+                    break;
+                case 1u:
+                    str[(k*2u)+1u]='1';
+                    break;
+                case 2u:
+                    str[(k*2u)+1u]='2';
+                    break;
+                case 3u:
+                    str[(k*2u)+1u]='3';
+                    break;
+                case 4u:
+                    str[(k*2u)+1u]='4';
+                    break;
+                case 5u:
+                    str[(k*2u)+1u]='5';
+                    break;
+                case 6u:
+                    str[(k*2u)+1u]='6';
+                    break;
+                case 7u:
+                    str[(k*2u)+1u]='7';
+                    break;
+                case 8u:
+                    str[(k*2u)+1u]='8';
+                    break;
+                case 9u:
+                    str[(k*2u)+1u]='9';
+                    break;
+                case 10u:
+                    str[(k*2u)+1u]='A';
+                    break;
+                case 11u:
+                    str[(k*2u)+1u]='B';
+                    break;
+                case 12u:
+                    str[(k*2u)+1u]='C';
+                    break;
+                case 13u:
+                    str[(k*2u)+1u]='D';
+                    break;
+                case 14u:
+                    str[(k*2u)+1u]='E';
+                    break;
+                case 15u:
+                    str[(k*2u)+1u]='F';
+                    break;
+                default:
+                    str[(k*2u)+1u]='0';
+                    break;
+                }
+
+                i++;
+            }
+        }
+    }
+    else{
+        //create a zero
+        str = (edk::char8*)malloc(sizeof(edk::char8) * (2u));
+        if(str){
+            str[0u]='0';
+            str[1u]='\0';
+        }
+        else{
+            //else set NULL
+            str=0u;
+        }
+    }
+    return str;
+}
+
+bool edk::String::uint8HexToStr(edk::uint8 value,edk::char8* dest){
+    edk::uint8 n=0u;
+    edk::uint8* temp = (edk::uint8*)&value;
+
+    //count the number
+    edk::uint64 size = sizeof(value)*2u;
+
+    //test if the size is bigger then 0u
+    if(size>0u){
+        //test if alloc the str
+        if(dest){
+            dest[size]='\0';
+            //then convert the number
+            edk::uint32 i=0u;
+            edk::uint32 k=0u;
+            for(edk::uint32 j=sizeof(value);j>0u;j--){
+                k=j-1u;
+                n = temp[i];
+                n = n>>4u;
+                switch(n){
+                case 0u:
+                    dest[(k*2u)+0u]='0';
+                    break;
+                case 1u:
+                    dest[(k*2u)+0u]='1';
+                    break;
+                case 2u:
+                    dest[(k*2u)+0u]='2';
+                    break;
+                case 3u:
+                    dest[(k*2u)+0u]='3';
+                    break;
+                case 4u:
+                    dest[(k*2u)+0u]='4';
+                    break;
+                case 5u:
+                    dest[(k*2u)+0u]='5';
+                    break;
+                case 6u:
+                    dest[(k*2u)+0u]='6';
+                    break;
+                case 7u:
+                    dest[(k*2u)+0u]='7';
+                    break;
+                case 8u:
+                    dest[(k*2u)+0u]='8';
+                    break;
+                case 9u:
+                    dest[(k*2u)+0u]='9';
+                    break;
+                case 10u:
+                    dest[(k*2u)+0u]='A';
+                    break;
+                case 11u:
+                    dest[(k*2u)+0u]='B';
+                    break;
+                case 12u:
+                    dest[(k*2u)+0u]='C';
+                    break;
+                case 13u:
+                    dest[(k*2u)+0u]='D';
+                    break;
+                case 14u:
+                    dest[(k*2u)+0u]='E';
+                    break;
+                case 15u:
+                    dest[(k*2u)+0u]='F';
+                    break;
+                default:
+                    dest[(k*2u)+0u]='0';
+                    break;
+                }
+
+                n = temp[i];
+                n = n<<4u;
+                n = n>>4u;
+                switch(n){
+                case 0u:
+                    dest[(k*2u)+1u]='0';
+                    break;
+                case 1u:
+                    dest[(k*2u)+1u]='1';
+                    break;
+                case 2u:
+                    dest[(k*2u)+1u]='2';
+                    break;
+                case 3u:
+                    dest[(k*2u)+1u]='3';
+                    break;
+                case 4u:
+                    dest[(k*2u)+1u]='4';
+                    break;
+                case 5u:
+                    dest[(k*2u)+1u]='5';
+                    break;
+                case 6u:
+                    dest[(k*2u)+1u]='6';
+                    break;
+                case 7u:
+                    dest[(k*2u)+1u]='7';
+                    break;
+                case 8u:
+                    dest[(k*2u)+1u]='8';
+                    break;
+                case 9u:
+                    dest[(k*2u)+1u]='9';
+                    break;
+                case 10u:
+                    dest[(k*2u)+1u]='A';
+                    break;
+                case 11u:
+                    dest[(k*2u)+1u]='B';
+                    break;
+                case 12u:
+                    dest[(k*2u)+1u]='C';
+                    break;
+                case 13u:
+                    dest[(k*2u)+1u]='D';
+                    break;
+                case 14u:
+                    dest[(k*2u)+1u]='E';
+                    break;
+                case 15u:
+                    dest[(k*2u)+1u]='F';
+                    break;
+                default:
+                    dest[(k*2u)+1u]='0';
+                    break;
+                }
+
+                i++;
+            }
+            return true;
+        }
+    }
+    else{
+        //create a zero
+        if(dest){
+            dest[0u]='0';
+            dest[1u]='\0';
+            return true;
+        }
+    }
+    return false;
+}
+
+edk::char8* edk::String::uint16HexToStr(edk::uint16 value){
+    edk::char8* str = NULL;
+    edk::uint8 n=0u;
+    edk::uint8* temp = (edk::uint8*)&value;
+
+    //count the number
+    edk::uint64 size = sizeof(value)*2u;
+
+    //test if the size is bigger then 0u
+    if(size>0u){
+        //Positive
+        str = (edk::char8*)malloc(sizeof(edk::char8) * (size+1u));
+        if(str){
+            str[size]='\0';
+        }
+        else{
+            //else set NULL
+            str=0u;
+        }
+        //test if alloc the str
+        if(str){
+            //then convert the number
+            edk::uint32 i=0u;
+            edk::uint32 k=0u;
+            for(edk::uint32 j=sizeof(value);j>0u;j--){
+                k=j-1u;
+                n = temp[i];
+                n = n>>4u;
+                switch(n){
+                case 0u:
+                    str[(k*2u)+0u]='0';
+                    break;
+                case 1u:
+                    str[(k*2u)+0u]='1';
+                    break;
+                case 2u:
+                    str[(k*2u)+0u]='2';
+                    break;
+                case 3u:
+                    str[(k*2u)+0u]='3';
+                    break;
+                case 4u:
+                    str[(k*2u)+0u]='4';
+                    break;
+                case 5u:
+                    str[(k*2u)+0u]='5';
+                    break;
+                case 6u:
+                    str[(k*2u)+0u]='6';
+                    break;
+                case 7u:
+                    str[(k*2u)+0u]='7';
+                    break;
+                case 8u:
+                    str[(k*2u)+0u]='8';
+                    break;
+                case 9u:
+                    str[(k*2u)+0u]='9';
+                    break;
+                case 10u:
+                    str[(k*2u)+0u]='A';
+                    break;
+                case 11u:
+                    str[(k*2u)+0u]='B';
+                    break;
+                case 12u:
+                    str[(k*2u)+0u]='C';
+                    break;
+                case 13u:
+                    str[(k*2u)+0u]='D';
+                    break;
+                case 14u:
+                    str[(k*2u)+0u]='E';
+                    break;
+                case 15u:
+                    str[(k*2u)+0u]='F';
+                    break;
+                default:
+                    str[(k*2u)+0u]='0';
+                    break;
+                }
+
+                n = temp[i];
+                n = n<<4u;
+                n = n>>4u;
+                switch(n){
+                case 0u:
+                    str[(k*2u)+1u]='0';
+                    break;
+                case 1u:
+                    str[(k*2u)+1u]='1';
+                    break;
+                case 2u:
+                    str[(k*2u)+1u]='2';
+                    break;
+                case 3u:
+                    str[(k*2u)+1u]='3';
+                    break;
+                case 4u:
+                    str[(k*2u)+1u]='4';
+                    break;
+                case 5u:
+                    str[(k*2u)+1u]='5';
+                    break;
+                case 6u:
+                    str[(k*2u)+1u]='6';
+                    break;
+                case 7u:
+                    str[(k*2u)+1u]='7';
+                    break;
+                case 8u:
+                    str[(k*2u)+1u]='8';
+                    break;
+                case 9u:
+                    str[(k*2u)+1u]='9';
+                    break;
+                case 10u:
+                    str[(k*2u)+1u]='A';
+                    break;
+                case 11u:
+                    str[(k*2u)+1u]='B';
+                    break;
+                case 12u:
+                    str[(k*2u)+1u]='C';
+                    break;
+                case 13u:
+                    str[(k*2u)+1u]='D';
+                    break;
+                case 14u:
+                    str[(k*2u)+1u]='E';
+                    break;
+                case 15u:
+                    str[(k*2u)+1u]='F';
+                    break;
+                default:
+                    str[(k*2u)+1u]='0';
+                    break;
+                }
+
+                i++;
+            }
+        }
+    }
+    else{
+        //create a zero
+        str = (edk::char8*)malloc(sizeof(edk::char8) * (2u));
+        if(str){
+            str[0u]='0';
+            str[1u]='\0';
+        }
+        else{
+            //else set NULL
+            str=0u;
+        }
+    }
+    return str;
+}
+
+bool edk::String::uint16HexToStr(edk::uint16 value,edk::char8* dest){
+    edk::uint8 n=0u;
+    edk::uint8* temp = (edk::uint8*)&value;
+
+    //count the number
+    edk::uint64 size = sizeof(value)*2u;
+
+    //test if the size is bigger then 0u
+    if(size>0u){
+        //test if alloc the str
+        if(dest){
+            dest[size]='\0';
+            //then convert the number
+            edk::uint32 i=0u;
+            edk::uint32 k=0u;
+            for(edk::uint32 j=sizeof(value);j>0u;j--){
+                k=j-1u;
+                n = temp[i];
+                n = n>>4u;
+                switch(n){
+                case 0u:
+                    dest[(k*2u)+0u]='0';
+                    break;
+                case 1u:
+                    dest[(k*2u)+0u]='1';
+                    break;
+                case 2u:
+                    dest[(k*2u)+0u]='2';
+                    break;
+                case 3u:
+                    dest[(k*2u)+0u]='3';
+                    break;
+                case 4u:
+                    dest[(k*2u)+0u]='4';
+                    break;
+                case 5u:
+                    dest[(k*2u)+0u]='5';
+                    break;
+                case 6u:
+                    dest[(k*2u)+0u]='6';
+                    break;
+                case 7u:
+                    dest[(k*2u)+0u]='7';
+                    break;
+                case 8u:
+                    dest[(k*2u)+0u]='8';
+                    break;
+                case 9u:
+                    dest[(k*2u)+0u]='9';
+                    break;
+                case 10u:
+                    dest[(k*2u)+0u]='A';
+                    break;
+                case 11u:
+                    dest[(k*2u)+0u]='B';
+                    break;
+                case 12u:
+                    dest[(k*2u)+0u]='C';
+                    break;
+                case 13u:
+                    dest[(k*2u)+0u]='D';
+                    break;
+                case 14u:
+                    dest[(k*2u)+0u]='E';
+                    break;
+                case 15u:
+                    dest[(k*2u)+0u]='F';
+                    break;
+                default:
+                    dest[(k*2u)+0u]='0';
+                    break;
+                }
+
+                n = temp[i];
+                n = n<<4u;
+                n = n>>4u;
+                switch(n){
+                case 0u:
+                    dest[(k*2u)+1u]='0';
+                    break;
+                case 1u:
+                    dest[(k*2u)+1u]='1';
+                    break;
+                case 2u:
+                    dest[(k*2u)+1u]='2';
+                    break;
+                case 3u:
+                    dest[(k*2u)+1u]='3';
+                    break;
+                case 4u:
+                    dest[(k*2u)+1u]='4';
+                    break;
+                case 5u:
+                    dest[(k*2u)+1u]='5';
+                    break;
+                case 6u:
+                    dest[(k*2u)+1u]='6';
+                    break;
+                case 7u:
+                    dest[(k*2u)+1u]='7';
+                    break;
+                case 8u:
+                    dest[(k*2u)+1u]='8';
+                    break;
+                case 9u:
+                    dest[(k*2u)+1u]='9';
+                    break;
+                case 10u:
+                    dest[(k*2u)+1u]='A';
+                    break;
+                case 11u:
+                    dest[(k*2u)+1u]='B';
+                    break;
+                case 12u:
+                    dest[(k*2u)+1u]='C';
+                    break;
+                case 13u:
+                    dest[(k*2u)+1u]='D';
+                    break;
+                case 14u:
+                    dest[(k*2u)+1u]='E';
+                    break;
+                case 15u:
+                    dest[(k*2u)+1u]='F';
+                    break;
+                default:
+                    dest[(k*2u)+1u]='0';
+                    break;
+                }
+
+                i++;
+            }
+            return true;
+        }
+    }
+    else{
+        //create a zero
+        if(dest){
+            dest[0u]='0';
+            dest[1u]='\0';
+            return true;
+        }
+    }
+    return false;
+}
+
 edk::char8* edk::String::uint32HexToStr(edk::uint32 value){
     edk::char8* str = NULL;
     edk::uint8 n=0u;
@@ -4404,6 +5012,142 @@ bool edk::String::uint64HexToStr(edk::uint64 value,edk::char8* dest){
         }
     }
     return false;
+}
+
+edk::uint8 edk::String::strHexToUi8(edk::char8* str){
+    if(str){
+        edk::uint8 ret = 0u;
+        edk::uint8 temp;
+        edk::uint8 left = sizeof(ret)*8u;
+        for(edk::uint8 i=0u;i<sizeof(ret);i++){
+            for(edk::uint8 j=0u;j<2u;j++){
+                if(str){
+                    temp = 0u;
+                    if(*str>='0' && *str<='9'){
+                        temp = *str-'0';
+                    }
+                    else if(*str>='a' && *str<='f'){
+                        temp = *str-'a'+10u;
+                    }
+                    else if(*str>='A' && *str<='F'){
+                        temp = *str-'A'+10u;
+                    }
+                }
+                else{
+                    return ret;
+                }
+                if(left){
+                    left-=4u;
+                }
+                ret |=temp<<left;
+                str++;
+            }
+        }
+        return ret;
+    }
+    return 0u;
+}
+edk::uint16 edk::String::strHexToUi16(edk::char8* str){
+    if(str){
+        edk::uint16 ret = 0u;
+        edk::uint16 temp;
+
+        edk::uint8 left = sizeof(ret)*8u;
+        for(edk::uint8 i=0u;i<sizeof(ret);i++){
+            for(edk::uint8 j=0u;j<2u;j++){
+                if(str){
+                    temp = 0u;
+                    if(*str>='0' && *str<='9'){
+                        temp = *str-'0';
+                    }
+                    else if(*str>='a' && *str<='f'){
+                        temp = *str-'a'+10u;
+                    }
+                    else if(*str>='A' && *str<='F'){
+                        temp = *str-'A'+10u;
+                    }
+                }
+                else{
+                    return ret;
+                }
+                if(left){
+                    left-=4u;
+                }
+                ret |=temp<<left;
+                str++;
+            }
+        }
+        return ret;
+    }
+    return 0u;
+}
+edk::uint32 edk::String::strHexToUi32(edk::char8* str){
+    if(str){
+        edk::uint32 ret = 0u;
+        edk::uint32 temp;
+
+        edk::uint8 left = sizeof(ret)*8u;
+        for(edk::uint8 i=0u;i<sizeof(ret);i++){
+            for(edk::uint8 j=0u;j<2u;j++){
+                if(str){
+                    temp = 0u;
+                    if(*str>='0' && *str<='9'){
+                        temp = *str-'0';
+                    }
+                    else if(*str>='a' && *str<='f'){
+                        temp = *str-'a'+10u;
+                    }
+                    else if(*str>='A' && *str<='F'){
+                        temp = *str-'A'+10u;
+                    }
+                }
+                else{
+                    return ret;
+                }
+                if(left){
+                    left-=4u;
+                }
+                ret |=temp<<left;
+                str++;
+            }
+        }
+        return ret;
+    }
+    return 0u;
+}
+edk::uint64 edk::String::strHexToUi64(edk::char8* str){
+    if(str){
+        edk::uint64 ret = 0u;
+        edk::uint64 temp;
+
+        edk::uint8 left = sizeof(ret)*8u;
+        for(edk::uint8 i=0u;i<sizeof(ret);i++){
+            for(edk::uint8 j=0u;j<2u;j++){
+                if(str){
+                    temp = 0u;
+                    if(*str>='0' && *str<='9'){
+                        temp = *str-'0';
+                    }
+                    else if(*str>='a' && *str<='f'){
+                        temp = *str-'a'+10u;
+                    }
+                    else if(*str>='A' && *str<='F'){
+                        temp = *str-'A'+10u;
+                    }
+                }
+                else{
+                    return ret;
+                }
+                if(left){
+                    left-=4u;
+                }
+                ret |=temp<<left;
+                str++;
+            }
+        }
+        return ret;
+    }
+    return 0u;
 }
 
 edk::char8* edk::String::strCat(edk::char8 *str1, edk::char8 *str2){

@@ -277,6 +277,14 @@ public:
 
     static bool uint64ToStr(edk::uint64 value,edk::char8* dest,edk::uint32 digits);
 
+    static edk::char8* uint8HexToStr(edk::uint8 value);
+
+    static bool uint8HexToStr(edk::uint8 value,edk::char8* dest);
+
+    static edk::char8* uint16HexToStr(edk::uint16 value);
+
+    static bool uint16HexToStr(edk::uint16 value,edk::char8* dest);
+
     static edk::char8* uint32HexToStr(edk::uint32 value);
 
     static bool uint32HexToStr(edk::uint32 value,edk::char8* dest);
@@ -284,6 +292,23 @@ public:
     static edk::char8* uint64HexToStr(edk::uint64 value);
 
     static bool uint64HexToStr(edk::uint64 value,edk::char8* dest);
+
+    static edk::uint8 strHexToUi8(edk::char8* str);
+    static inline edk::uint8 strHexToUi8(const edk::char8* str){
+        return edk::String::strHexToUi8((edk::char8*) str);
+    }
+    static edk::uint16 strHexToUi16(edk::char8* str);
+    static inline edk::uint16 strHexToUi16(const edk::char8* str){
+        return edk::String::strHexToUi16((edk::char8*) str);
+    }
+    static edk::uint32 strHexToUi32(edk::char8* str);
+    static inline edk::uint32 strHexToUi32(const edk::char8* str){
+        return edk::String::strHexToUi32((edk::char8*) str);
+    }
+    static edk::uint64 strHexToUi64(edk::char8* str);
+    static inline edk::uint64 strHexToUi64(const edk::char8* str){
+        return edk::String::strHexToUi64((edk::char8*) str);
+    }
 
     static edk::char8* strCat(edk::char8 *str1, edk::char8 *str2);
 

@@ -31,10 +31,12 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #pragma once
 #include <stdlib.h>
-#include "edk/TypeDefines.h"
-#include "edk/TypeVars.h"
-#include "edk/TypeColor.h"
-#include "edk/DebugFile.h"
+#include "../vector/Stack.h"
+#include "../MemoryBuffer.h"
+#include "../TypeDefines.h"
+#include "../TypeVars.h"
+#include "../TypeColor.h"
+#include "../DebugFile.h"
 
 #ifdef printMessages
 #pragma message "    Compiling RetroPalette"
@@ -42,6 +44,15 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 namespace edk{
 namespace retro{
+enum edkPaletteFileType{
+    palette_nothing=0,
+    palette_txt,
+    palette_hex,
+    palette_pal,
+    palette_gpl,
+    palette_ase,
+    palette_size
+};
 class RetroPalette{
 public:
     RetroPalette();
@@ -58,6 +69,12 @@ public:
     }
 
     bool newPalette(edk::uint32 size,edk::uint8 channels,edk::uint8 bytesPerChannel);
+
+    //READ AND WRITE
+    bool loadFromFile(edk::char8* fileName);
+    bool loadFromFile(const edk::char8* fileName);
+    bool saveToFile(edk::char8* fileName,edk::char8* name,edk::char8* description);
+    bool saveToFile(const edk::char8* fileName,const edk::char8* name,const edk::char8* description);
 
     //GETTERS
     edk::uint8* getPalette();

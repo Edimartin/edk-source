@@ -27,6 +27,17 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #pragma message "            Inside RetroPalette.cpp"
 #endif
 
+#define HEADER_GIMP "GIMP Palette"
+#define HEADER_JASC "JASC-PAL"
+#define HEADER_PAINT "paint.net"
+#define WORD_GIMP_COLORS "Colors: "
+
+#define paletteExtension_paint "txt"
+#define paletteExtension_HEX   "hex"
+#define paletteExtension_JASP  "pal"
+#define paletteExtension_GIMP  "gpl"
+#define paletteExtension_ASE   "ase"
+
 edk::retro::RetroPalette::RetroPalette(){
     this->classThis=NULL;
     this->Constructor();
@@ -89,6 +100,520 @@ bool edk::retro::RetroPalette::newPalette(edk::uint32 size,edk::uint8 channels,e
         this->lenght=0u;
     }
     return false;
+}
+
+//READ AND WRITE
+bool edk::retro::RetroPalette::loadFromFile(edk::char8* fileName){
+    bool ret = false;
+    if(fileName){
+        edk::retro::edkPaletteFileType type;
+        edk::File file;
+        edk::MemoryBuffer<edk::char8> buffer;
+        edk::char8* extension = edk::String::strFileExtensionNoName(fileName);
+        if(extension){
+            if(edk::String::strCompare(extension,paletteExtension_paint)){
+                //TXT
+                type = edk::retro::palette_txt;
+            }
+            else if(edk::String::strCompare(extension,paletteExtension_HEX)){
+                //HEX
+                type = edk::retro::palette_hex;
+            }
+            else if(edk::String::strCompare(extension,paletteExtension_JASP)){
+                //PAL
+                type = edk::retro::palette_pal;
+            }
+            else if(edk::String::strCompare(extension,paletteExtension_GIMP)){
+                //GIMP
+                type = edk::retro::palette_gpl;
+            }
+            else if(edk::String::strCompare(extension,paletteExtension_ASE)){
+                //photoshop
+                type = edk::retro::palette_ase;
+            }
+
+            if(type != edk::retro::palette_ase){
+                if(file.openTextFile(fileName)){
+                    buffer.writeFileFullToBuffer(&file);
+                    file.closeFile();
+                }
+
+                bool header=false;
+
+                if(buffer.size()){
+                    //start to read the buffers
+                    edk::char8* str = buffer.getPointer();
+                    edk::char8* temp;
+                    edk::int64 size=0u;
+
+                    edk::uint8 a,r,g,b;
+                    edk::uint8 counter=0;
+
+                    //colors
+                    edk::vector::Stack<edk::color4ui8> colors;
+                    edk::color4ui8 color;
+                    edk::uint8 channels=3u;
+
+                    while(*str){
+                        switch(*str){
+                        case 'G':
+                            if(edk::String::strHaveInsideBeggin(str,HEADER_GIMP)){
+                                header=true;
+                                type = edk::retro::palette_gpl;
+                            }
+                            //goto nextLine
+                            str = edk::String::strGoToEndLine(str);
+                            break;
+                        case 'J':
+                            if(edk::String::strHaveInsideBeggin(str,HEADER_JASC)){
+                                header=true;
+                                type = edk::retro::palette_pal;
+                                str = edk::String::strGoToEndLine(str);
+                                while(*str){
+                                    if(*str==13 || *str==10) str++;
+                                    else break;
+                                }
+                                str = edk::String::strGoToEndLine(str);
+                                while(*str){
+                                    if(*str==13 || *str==10) str++;
+                                    else break;
+                                }
+                                //read the number of colors
+                                temp = edk::String::strCopyLine(str);
+                                if(temp){
+                                    size = edk::String::strToInt64(str);
+                                    free(temp);
+                                }
+                            }
+                            //goto nextLine
+                            str = edk::String::strGoToEndLine(str);
+                            break;
+                        case ';':
+                            if(header){
+                                str++;
+                                if(edk::String::strHaveInsideBeggin(str,WORD_GIMP_COLORS)){
+                                    str+=sizeof(WORD_GIMP_COLORS)-1u;
+                                    //read the number of colors
+                                    temp = edk::String::strCopyLine(str);
+                                    if(temp){
+                                        size = edk::String::strToInt64(str);
+                                        free(temp);
+                                    }
+                                }
+                            }
+                            else{
+                                //read the first header
+                                str++;
+                                if(edk::String::strHaveInsideBeggin(str,HEADER_PAINT)){
+                                    header=true;
+                                    type = edk::retro::palette_txt;
+                                }
+                            }
+                            //goto nextLine
+                            str = edk::String::strGoToEndLine(str);
+                            break;
+                        case '#':
+                            if(header){
+                                str++;
+                                if(edk::String::strHaveInsideBeggin(str,WORD_GIMP_COLORS)){
+                                    str+=sizeof(WORD_GIMP_COLORS)-1u;
+                                    //read the number of colors
+                                    temp = edk::String::strCopyLine(str);
+                                    if(temp){
+                                        size = edk::String::strToInt64(str);
+                                        free(temp);
+                                    }
+                                }
+                            }
+                            //goto nextLine
+                            str = edk::String::strGoToEndLine(str);
+                            break;
+                        default:
+                            if((*str>='0'&&*str<='9')
+                                    || (*str>='a'&&*str<='f')
+                                    || (*str>='A'&&*str<='F')
+                                    ){
+                                //its a color value value
+                                if(header){
+                                    if(size){
+                                        a=0xFF;
+                                        //read the values
+                                        switch(type){
+                                        case edk::retro::palette_gpl:
+
+                                            //goto the word 4th
+                                            counter=0u;
+                                            while(*str){
+                                                if(*str==' '
+                                                        ||
+                                                        *str==9
+                                                        ){
+                                                    //
+                                                    counter++;
+                                                    if(counter>=3u){
+                                                        str++;
+                                                        break;
+                                                    }
+                                                }
+                                                str++;
+                                            }
+
+                                            ////XXXXXXXXXXXX
+                                            //str+=sizeof("XXXXXXXXXXXX")-1u;
+                                            temp = edk::String::strCopyLine(str);
+                                            if(temp){
+                                                if(edk::String::strSize(temp) > 6u){
+                                                    r = edk::String::strHexToUi8(&temp[0u]);
+                                                    g = edk::String::strHexToUi8(&temp[2u]);
+                                                    b = edk::String::strHexToUi8(&temp[4u]);
+                                                }
+                                                free(temp);
+                                            }
+                                            break;
+                                        case edk::retro::palette_pal:
+                                            //R
+                                            temp = edk::String::strCopyWord(str);
+                                            if(temp){
+                                                r = edk::String::strToInt32(temp);
+                                                //go to the next value
+                                                while(*str){
+                                                    if(*str==' '){
+                                                        str++;
+                                                        break;
+                                                    }
+                                                    str++;
+                                                }
+                                                free(temp);
+                                            }
+                                            //G
+                                            temp = edk::String::strCopyWord(str);
+                                            if(temp){
+                                                g = edk::String::strToInt32(temp);
+                                                //go to the next value
+                                                while(*str){
+                                                    if(*str==' '){
+                                                        str++;
+                                                        break;
+                                                    }
+                                                    str++;
+                                                }
+                                                free(temp);
+                                            }
+                                            //B
+                                            temp = edk::String::strCopyWord(str);
+                                            if(temp){
+                                                b = edk::String::strToInt32(temp);
+                                                free(temp);
+                                            }
+                                            break;
+                                        case edk::retro::palette_txt:
+                                            temp = edk::String::strCopyLine(str);
+                                            if(temp){
+                                                if(edk::String::strSize(temp) > 8u){
+                                                    a = edk::String::strHexToUi8(&temp[0u]);
+                                                    r = edk::String::strHexToUi8(&temp[2u]);
+                                                    g = edk::String::strHexToUi8(&temp[4u]);
+                                                    b = edk::String::strHexToUi8(&temp[6u]);
+                                                    channels=4u;
+                                                }
+                                                free(temp);
+                                            }
+                                            break;
+                                        default:
+                                            break;
+                                        }
+                                        //save new color
+                                        //printf("\n%u %s %s NEW COLOR([%u][%u][%u][%u])",__LINE__,__FILE__,__func__,r,g,b,a);
+                                        color.r=r;
+                                        color.g=g;
+                                        color.b=b;
+                                        color.a=a;
+                                        colors.pushBack(color);
+                                    }
+                                }
+                                else{
+                                    //read the hex
+                                    temp = edk::String::strCopyLine(str);
+                                    if(temp){
+                                        if(edk::String::strSize(temp) > 6u){
+                                            r = edk::String::strHexToUi8(&temp[0u]);
+                                            g = edk::String::strHexToUi8(&temp[2u]);
+                                            b = edk::String::strHexToUi8(&temp[4u]);
+                                        }
+                                        free(temp);
+                                    }
+                                    //save new color
+                                    //printf("\n%u %s %s NEW COLOR([%u][%u][%u][%u])",__LINE__,__FILE__,__func__,r,g,b,a);
+                                    //fflush(stdout);
+                                    color.r=r;
+                                    color.g=g;
+                                    color.b=b;
+                                    color.a=a;
+                                    colors.pushBack(color);
+                                }
+                            }
+                            //goto nextLine
+                            str = edk::String::strGoToEndLine(str);
+                            break;
+                        }
+                        str++;
+                    }
+
+                    //create the new palette
+                    size = colors.size();
+                    if(size){
+                        if(this->newPalette(size,channels,1u)){
+                            switch(channels){
+                            case 3u:
+                                for(edk::uint32 i=0u;i<size;i++){
+                                    color = colors.get(i);
+                                    this->setColor(i,color.r,color.g,color.b);
+                                }
+                                break;
+                            case 4u:
+                                for(edk::uint32 i=0u;i<size;i++){
+                                    color = colors.get(i);
+                                    this->setColor(i,color.r,color.g,color.b,color.a);
+                                }
+                                break;
+                            }
+                            //
+                        }
+                    }
+
+                    ret=true;
+
+                    buffer.clean();
+                }
+            }
+            free(extension);
+        }
+    }
+    return ret;
+}
+bool edk::retro::RetroPalette::loadFromFile(const edk::char8* fileName){
+    return this->loadFromFile((edk::char8*) fileName);
+}
+bool edk::retro::RetroPalette::saveToFile(edk::char8* fileName,edk::char8* name,edk::char8* description){
+    if(fileName && this->havePalette()){
+        //
+
+        edk::uint32 size = this->getSize();
+        edk::retro::edkPaletteFileType type;
+        edk::File file;
+        edk::MemoryBuffer<edk::char8> buffer;
+        edk::char8* extension = edk::String::strFileExtensionNoName(fileName);
+        edk::color4ui8 color;
+        if(extension){
+            if(edk::String::strCompare(extension,paletteExtension_paint)){
+                //TXT
+                type = edk::retro::palette_txt;
+            }
+            else if(edk::String::strCompare(extension,paletteExtension_HEX)){
+                //HEX
+                type = edk::retro::palette_hex;
+            }
+            else if(edk::String::strCompare(extension,paletteExtension_JASP)){
+                //PAL
+                type = edk::retro::palette_pal;
+            }
+            else if(edk::String::strCompare(extension,paletteExtension_GIMP)){
+                //GIMP
+                type = edk::retro::palette_gpl;
+            }
+            else if(edk::String::strCompare(extension,paletteExtension_ASE)){
+                //photoshop
+                type = edk::retro::palette_ase;
+            }
+
+            if(type != edk::retro::palette_ase){
+                edk::char8* temp;
+
+                //write to the buffer
+                switch(type){
+                case edk::retro::palette_txt:
+                    //write the header
+                    buffer.pushToBuffer(";paint.net Palette File");
+                    buffer.pushToBuffer("\n;Palette Name: ");
+                    if(name)
+                        buffer.pushToBuffer(name);
+                    else
+                        buffer.pushToBuffer("EDK_PALETTE no name");
+                    buffer.pushToBuffer("\n;Description: ");
+                    if(description)
+                        buffer.pushToBuffer(description);
+                    else
+                        buffer.pushToBuffer("No Description");
+                    //colors
+                    buffer.pushToBuffer("\n;");
+                    buffer.pushToBuffer(WORD_GIMP_COLORS);
+                    temp = edk::String::uint32ToStr(this->getSize());
+                    if(temp){
+                        buffer.pushToBuffer(temp);
+                        free(temp);
+                    }
+                    for(edk::uint32 i=0u;i<size;i++){
+                        buffer.pushToBuffer("\n");
+                        color = this->getColor4ui8(i);
+                        //write the color
+                        temp = edk::String::uint8HexToStr(color.a);
+                        if(temp){
+                            buffer.pushToBuffer(temp);
+                            free(temp);
+                        }
+                        temp = edk::String::uint8HexToStr(color.r);
+                        if(temp){
+                            buffer.pushToBuffer(temp);
+                            free(temp);
+                        }
+                        temp = edk::String::uint8HexToStr(color.g);
+                        if(temp){
+                            buffer.pushToBuffer(temp);
+                            free(temp);
+                        }
+                        temp = edk::String::uint8HexToStr(color.b);
+                        if(temp){
+                            buffer.pushToBuffer(temp);
+                            free(temp);
+                        }
+                    }
+                    break;
+                case edk::retro::palette_hex:
+                    for(edk::uint32 i=0u;i<size;i++){
+                        if(i)buffer.pushToBuffer("\n");
+                        color = this->getColor4ui8(i);
+                        //write the color
+                        temp = edk::String::uint8HexToStr(color.r);
+                        if(temp){
+                            buffer.pushToBuffer(temp);
+                            free(temp);
+                        }
+                        temp = edk::String::uint8HexToStr(color.g);
+                        if(temp){
+                            buffer.pushToBuffer(temp);
+                            free(temp);
+                        }
+                        temp = edk::String::uint8HexToStr(color.b);
+                        if(temp){
+                            buffer.pushToBuffer(temp);
+                            free(temp);
+                        }
+                    }
+                    break;
+                case edk::retro::palette_pal:
+                    //write the header
+                    buffer.pushToBuffer("JASC-PAL");
+                    //write the version
+                    buffer.pushToBuffer("\n0100");
+                    //write the colors
+                    buffer.pushToBuffer("\n");
+                    temp = edk::String::uint32ToStr(this->getSize());
+                    if(temp){
+                        buffer.pushToBuffer(temp);
+                        free(temp);
+                    }
+                    for(edk::uint32 i=0u;i<size;i++){
+                        buffer.pushToBuffer("\n");
+                        color = this->getColor4ui8(i);
+                        //write the color
+                        temp = edk::String::uint32ToStr(color.r);
+                        if(temp){
+                            buffer.pushToBuffer(temp);
+                            free(temp);
+                        }
+                        buffer.pushToBuffer(" ");
+                        temp = edk::String::uint32ToStr(color.g);
+                        if(temp){
+                            buffer.pushToBuffer(temp);
+                            free(temp);
+                        }
+                        buffer.pushToBuffer(" ");
+                        temp = edk::String::uint32ToStr(color.b);
+                        if(temp){
+                            buffer.pushToBuffer(temp);
+                            free(temp);
+                        }
+                    }
+                    break;
+                case edk::retro::palette_gpl:
+                    //write the header
+                    buffer.pushToBuffer("GIMP Palette");
+                    buffer.pushToBuffer("\n#Palette Name: ");
+                    if(name)
+                        buffer.pushToBuffer(name);
+                    else
+                        buffer.pushToBuffer("EDK_PALETTE no name");
+                    buffer.pushToBuffer("\n#Description: ");
+                    if(description)
+                        buffer.pushToBuffer(description);
+                    else
+                        buffer.pushToBuffer("No Description");
+                    //colors
+                    buffer.pushToBuffer("\n#");
+                    buffer.pushToBuffer(WORD_GIMP_COLORS);
+                    temp = edk::String::uint32ToStr(this->getSize());
+                    if(temp){
+                        buffer.pushToBuffer(temp);
+                        free(temp);
+                    }
+                    for(edk::uint32 i=0u;i<size;i++){
+                        buffer.pushToBuffer("\n");
+                        color = this->getColor4ui8(i);
+                        //write the color
+                        temp = edk::String::uint32ToStr(color.r);
+                        if(temp){
+                            buffer.pushToBuffer(temp);
+                            free(temp);
+                        }
+                        buffer.pushToBuffer((edk::char8)9u);
+                        temp = edk::String::uint32ToStr(color.g);
+                        if(temp){
+                            buffer.pushToBuffer(temp);
+                            free(temp);
+                        }
+                        buffer.pushToBuffer((edk::char8)9u);
+                        temp = edk::String::uint32ToStr(color.b);
+                        if(temp){
+                            buffer.pushToBuffer(temp);
+                            free(temp);
+                        }
+                        buffer.pushToBuffer((edk::char8)9u);
+                        //write the color
+                        temp = edk::String::uint8HexToStr(color.r);
+                        if(temp){
+                            buffer.pushToBuffer(temp);
+                            free(temp);
+                        }
+                        temp = edk::String::uint8HexToStr(color.g);
+                        if(temp){
+                            buffer.pushToBuffer(temp);
+                            free(temp);
+                        }
+                        temp = edk::String::uint8HexToStr(color.b);
+                        if(temp){
+                            buffer.pushToBuffer(temp);
+                            free(temp);
+                        }
+                    }
+                    break;
+                default:
+                    break;
+                }
+                if(buffer.size()){
+                    if(file.createAndOpenBinFile(fileName)){
+                        file.writeText(buffer.getPointerStr());
+                        file.flush();
+                        file.closeFile();
+                        return true;
+                    }
+                }
+            }
+        }
+    }
+    return false;
+}
+bool edk::retro::RetroPalette::saveToFile(const edk::char8* fileName,const edk::char8* name,const edk::char8* description){
+    return this->saveToFile((edk::char8*) fileName,(edk::char8*) name,(edk::char8*) description);
 }
 
 //GETTERS
