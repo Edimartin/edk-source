@@ -99,9 +99,12 @@ public:
         return this->edk::vector::Stack<edk::retro::RetroTile>::size();
     }
 
-    bool addTile(edk::retro::RetroTile tile,
-                 edk::retro::RetroTileSpecs* specs=&edk::retro::RetroTileSet::staticSpecs
+    bool addTileEqualTest(edk::retro::RetroTile tile,
+                          edk::retro::RetroTileSpecs* specs=&edk::retro::RetroTileSet::staticSpecs
             );
+    bool addTileEqualFlipTest(edk::retro::RetroTile tile,
+                              edk::retro::RetroTileSpecs* specs
+                              );
     bool addTileNoTest(edk::retro::RetroTile tile,
                        edk::retro::RetroTileSpecs* specs=&edk::retro::RetroTileSet::staticSpecs
             );
@@ -125,6 +128,7 @@ public:
 private:
     //search for equal tiles
     bool haveEqualTile(edk::retro::RetroTile tile,edk::retro::RetroTileSpecs* specs);
+    bool haveEqualFlipTile(edk::retro::RetroTile tile,edk::retro::RetroTileSpecs* specs);
 
     static edk::retro::RetroTileSpecs staticSpecs;
 private:

@@ -59,6 +59,19 @@ bool edk::retro::RetroTileSet::haveEqualTile(edk::retro::RetroTile tile,edk::ret
             specs->value = i;
             return true;
         }
+    }
+    return false;
+}
+bool edk::retro::RetroTileSet::haveEqualFlipTile(edk::retro::RetroTile tile,edk::retro::RetroTileSpecs* specs){
+    edk::retro::RetroTile temp;
+    edk::uint32 size = this->size();
+    for(edk::uint32 i=0u;i<size;i++){
+        temp = this->get(i);
+        if(temp == tile){
+            specs->clean();
+            specs->value = i;
+            return true;
+        }
         else if(temp.equalFlipH(tile)){
             specs->clean();
             specs->flipH=true;
@@ -82,10 +95,22 @@ bool edk::retro::RetroTileSet::haveEqualTile(edk::retro::RetroTile tile,edk::ret
     return false;
 }
 
-bool edk::retro::RetroTileSet::addTile(edk::retro::RetroTile tile,
+bool edk::retro::RetroTileSet::addTileEqualTest(edk::retro::RetroTile tile,
                                        edk::retro::RetroTileSpecs* specs
                                        ){
     if(!this->haveEqualTile(tile,specs)){
+        edk::uint32 size = this->size();
+        specs->value = this->pushBack(tile);
+        if(size<this->size()){
+            return true;
+        }
+    }
+    return false;
+}
+bool edk::retro::RetroTileSet::addTileEqualFlipTest(edk::retro::RetroTile tile,
+                                       edk::retro::RetroTileSpecs* specs
+                                       ){
+    if(!this->haveEqualFlipTile(tile,specs)){
         edk::uint32 size = this->size();
         specs->value = this->pushBack(tile);
         if(size<this->size()){
