@@ -224,6 +224,18 @@ edk::MemoryBuffer<edk::char8>* edk::RetroImageConverter::retroIMGtoCodeH_SMS(edk
             buffer->pushToBuffer(" ");
             sprintf(str,"%u",sizeMap);
             buffer->pushToBuffer(str);
+            //WIDTH
+            buffer->pushToBuffer("\n#define widthMap_");
+            buffer->pushToBuffer(name);
+            buffer->pushToBuffer(" ");
+            sprintf(str,"%u",width);
+            buffer->pushToBuffer(str);
+            //HEIGHT
+            buffer->pushToBuffer("\n#define heightMap_");
+            buffer->pushToBuffer(name);
+            buffer->pushToBuffer(" ");
+            sprintf(str,"%u",height);
+            buffer->pushToBuffer(str);
         }
         return buffer;
     }
@@ -336,6 +348,18 @@ edk::MemoryBuffer<edk::char8>* edk::RetroImageConverter::retroIMGtoHeaderH_SMS(e
             buffer->pushToBuffer(name);
             buffer->pushToBuffer(" ");
             sprintf(str,"%u",sizeMap);
+            buffer->pushToBuffer(str);
+            //WIDTH
+            buffer->pushToBuffer("\n#define widthMap_");
+            buffer->pushToBuffer(name);
+            buffer->pushToBuffer(" ");
+            sprintf(str,"%u",width);
+            buffer->pushToBuffer(str);
+            //HEIGHT
+            buffer->pushToBuffer("\n#define heightMap_");
+            buffer->pushToBuffer(name);
+            buffer->pushToBuffer(" ");
+            sprintf(str,"%u",height);
             buffer->pushToBuffer(str);
         }
         return buffer;
