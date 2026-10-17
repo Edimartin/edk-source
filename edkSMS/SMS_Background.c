@@ -7,16 +7,10 @@ static struct CamScrollNext ret;
 void smsBackground_drawZeros(uint8 x,uint8 y,uint8 w,uint8 h){
     w+=x;
     h+=y;
-#if !defined(__GNUC__) && !defined(__clang__)
-    uint16 zero = 0u;
-#endif
     for(;x<w;++x){
         for(;y<h;++y){
 #if !defined(__GNUC__) && !defined(__clang__)
-            SMS_loadTileMapArea(x, y,
-                                &zero,
-                                1, 1
-                                );
+            SMS_setTileatXY(x, y,0);
 #endif
         }
     }
@@ -24,20 +18,26 @@ void smsBackground_drawZeros(uint8 x,uint8 y,uint8 w,uint8 h){
 
 void smsBackground_drawHorizontal(uint16* vec,uint8 x,uint8 y,uint8 sx,uint8 sy,uint8 w,uint16 mapWidth){
     uint8 i=0u;
+    uint16* temp;
     for(;i<w;++i){
-
 #ifdef SMS_DEBUG
         posB+=sprintf(&buffer[posB], "[%u]",sx);
 #endif
-
+        temp = mapVector_getPosition(vec,
+                                     x,y,
+                                     mapWidth
+                                     );
 #if !defined(__GNUC__) && !defined(__clang__)
-        SMS_loadTileMapArea (sx, sy,
+/*
+        SMS_loadTileMapArea(sx, sy,
                              mapVector_getPosition(vec,
                                                    x,y,
                                                    mapWidth
                                                    ),
                              1, 1
                              );
+*/
+        SMS_setTileatXY(sx, sy,*temp);
 #endif
         sx++;
         if(sx>=EDK_SMS_BACKGROUND_WIDTH){
@@ -48,20 +48,23 @@ void smsBackground_drawHorizontal(uint16* vec,uint8 x,uint8 y,uint8 sx,uint8 sy,
 }
 void smsBackground_drawVertical(uint16* vec,uint8 x,uint8 y,uint8 sx,uint8 sy,uint8 h,uint16 mapWidth){
     uint8 i=0u;
+    uint16* temp;
     for(;i<h;++i){
-
 #ifdef SMS_DEBUG
         posB+=sprintf(&buffer[posB], "[%u]",sy);
 #endif
-
+        temp = mapVector_getPosition(vec,
+                                     x,y,
+                                     mapWidth
+                                     );
 #if !defined(__GNUC__) && !defined(__clang__)
-        SMS_loadTileMapArea (sx, sy,
-                             mapVector_getPosition(vec,
-                                                   x,y,
-                                                   mapWidth
-                                                   ),
+/*
+        SMS_loadTileMapArea(sx, sy,
+                             ,
                              1, 1
                              );
+*/
+        SMS_setTileatXY(sx, sy,*temp);
 #endif
         sy++;
         if(sy>=EDK_SMS_BACKGROUND_HEIGHT2){
