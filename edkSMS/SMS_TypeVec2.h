@@ -26,14 +26,14 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifdef printMessages
-#pragma message "Inside TypesVec2"
+#pragma message "Inside TypeVec2"
 #endif
 
 #pragma once
 #include "SMS_TypeVars.h"
 
 #ifdef printMessages
-#pragma message "    Compiling TypesVec2"
+#pragma message "    Compiling TypeVec2"
 #endif
 
 //vec2i8

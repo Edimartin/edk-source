@@ -236,6 +236,12 @@ edk::MemoryBuffer<edk::char8>* edk::RetroImageConverter::retroIMGtoCodeH_SMS(edk
             buffer->pushToBuffer(" ");
             sprintf(str,"%u",height);
             buffer->pushToBuffer(str);
+            //TILES LENGHT
+            buffer->pushToBuffer("\n#define lenghtTiles_");
+            buffer->pushToBuffer(name);
+            buffer->pushToBuffer(" ");
+            sprintf(str,"%u",sizeSet/64u);
+            buffer->pushToBuffer(str);
         }
         return buffer;
     }
@@ -360,6 +366,12 @@ edk::MemoryBuffer<edk::char8>* edk::RetroImageConverter::retroIMGtoHeaderH_SMS(e
             buffer->pushToBuffer(name);
             buffer->pushToBuffer(" ");
             sprintf(str,"%u",height);
+            buffer->pushToBuffer(str);
+            //TILES LENGHT
+            buffer->pushToBuffer("\n#define lenghtTiles_");
+            buffer->pushToBuffer(name);
+            buffer->pushToBuffer(" ");
+            sprintf(str,"%u",sizeSet/64u);
             buffer->pushToBuffer(str);
         }
         return buffer;
