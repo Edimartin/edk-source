@@ -71,6 +71,7 @@ void edk::retro::RetroTileMap::clean(){
     if(this->map.haveMatrix()){
         this->map.deleteMatrix();
     }
+    this->name.cleanName();
 }
 
 void edk::retro::RetroTileMap::cleanIDs(){
@@ -85,6 +86,15 @@ void edk::retro::RetroTileMap::cleanIDs(){
             }
         }
     }
+}
+bool edk::retro::RetroTileMap::setName(edk::char8* name){
+    return this->name.setName(name);
+}
+edk::char8* edk::retro::RetroTileMap::getName(){
+    return this->name.getName();
+}
+bool edk::retro::RetroTileMap::haveName(){
+    return this->name.haveName();
 }
 
 //create a new map

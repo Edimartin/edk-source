@@ -207,7 +207,6 @@ void edk::retro::RetroViewMapEdit::runUpdateViewSize(){
 
 //load the tiles from an image
 bool edk::retro::RetroViewMapEdit::loadMapFromImage(edk::Image2D* img){
-    //
     if(img){
         bool ret=false;
         //test if have the palette
@@ -234,6 +233,11 @@ bool edk::retro::RetroViewMapEdit::loadMapFromImage(edk::Image2D* img){
                 edk::uint32 position = this->maps->createNewMap(this->tiles,tilesW,tilesH);
 
                 if(this->selectMap(position)){
+                    edk::char8* str = edk::String::strFileNameNoExtension(img->getName());
+                    if(str){
+                        this->map->setName(str);
+                        free(str);
+                    }
                     //create the tiles
                     for(edk::uint32 h=0u;h<tilesH;h++){
                         for(edk::uint32 w=0u;w<tilesW;w++){
@@ -290,7 +294,6 @@ bool edk::retro::RetroViewMapEdit::loadMapFromImage(const edk::char8* name){
 }
 //load the tiles from an image with no spec tests
 bool edk::retro::RetroViewMapEdit::loadMapFromImageWithSpecs(edk::Image2D* img){
-    //
     if(img){
         bool ret=false;
         //test if have the palette
@@ -315,6 +318,11 @@ bool edk::retro::RetroViewMapEdit::loadMapFromImageWithSpecs(edk::Image2D* img){
 
                 //create the map
                 this->map->newMap(tilesW,tilesH);
+                edk::char8* str = edk::String::strFileNameNoExtension(img->getName());
+                if(str){
+                    this->map->setName(str);
+                    free(str);
+                }
 
                 //create the tiles
                 for(edk::uint32 h=0u;h<tilesH;h++){

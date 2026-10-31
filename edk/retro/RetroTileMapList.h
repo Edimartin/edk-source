@@ -47,6 +47,9 @@ public:
     void clean();
 
     edk::uint32 size();
+    inline edk::uint32 getSize(){
+        return this->size();
+    }
 
     //create a new tileMap
     edk::uint32 createNewMap(edk::retro::RetroTileSet* set,edk::size2ui32 size);

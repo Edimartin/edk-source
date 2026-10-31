@@ -51,6 +51,7 @@ Bits	Function
 #include "RetroPalette.h"
 #include "RetroTile.h"
 #include "RetroTileMap.h"
+#include "RetroTileMapList.h"
 #include "../MemoryBuffer.h"
 #include "../Math.h"
 #include "../BinaryConverter.h"
@@ -75,19 +76,19 @@ public:
                                                               edk::retro::RetroTileSet* set,
                                                               edk::retro::RetroTileMap* map,
                                                               edk::uint32 translateTile=0u
-                                                              );
+            );
     static bool retroIMGtoCodeFileH_SMS(const edk::char8* fileName,
                                         edk::retro::RetroPalette* palette,
                                         edk::retro::RetroTileSet* set,
                                         edk::retro::RetroTileMap* map,
                                         edk::uint32 translateTile=0u
-                                        );
+            );
     static bool retroIMGtoCodeFileH_SMS(edk::char8* fileName,
                                         edk::retro::RetroPalette* palette,
                                         edk::retro::RetroTileSet* set,
                                         edk::retro::RetroTileMap* map,
                                         edk::uint32 translateTile=0u
-                                        );
+            );
     //CPP
     static edk::MemoryBuffer<edk::char8>* retroIMGtoHeaderH_SMS(edk::char8* name,
                                                                 edk::retro::RetroPalette* palette,
@@ -99,21 +100,69 @@ public:
                                                                 edk::retro::RetroTileSet* set,
                                                                 edk::retro::RetroTileMap* map,
                                                                 edk::uint32 translateTile=0u
-                                                                );
+            );
     static bool retroIMGtoCodeFileCPP_SMS(const edk::char8* fileNameH,
                                           const edk::char8* fileNameCPP,
                                           edk::retro::RetroPalette* palette,
                                           edk::retro::RetroTileSet* set,
                                           edk::retro::RetroTileMap* map,
                                           edk::uint32 translateTile=0u
-                                          );
+            );
     static bool retroIMGtoCodeFileCPP_SMS(edk::char8* fileNameH,
                                           edk::char8* fileNameCPP,
                                           edk::retro::RetroPalette* palette,
                                           edk::retro::RetroTileSet* set,
                                           edk::retro::RetroTileMap* map,
                                           edk::uint32 translateTile=0u
-                                          );
+            );
+
+
+    //convert retroIMGs to sms
+    //H
+    static edk::MemoryBuffer<edk::char8>* retroIMGsToCodeH_SMS(edk::char8* name,
+                                                               edk::retro::RetroPalette* palette,
+                                                               edk::retro::RetroTileSet* set,
+                                                               edk::retro::RetroTileMapList* maps,
+                                                               edk::uint32 translateTile
+                                                               );
+    static bool retroIMGsToCodeFileH_SMS(const edk::char8* fileName,
+                                         edk::retro::RetroPalette* palette,
+                                         edk::retro::RetroTileSet* set,
+                                         edk::retro::RetroTileMapList* maps,
+                                         edk::uint32 translateTile
+                                         );
+    static bool retroIMGsToCodeFileH_SMS(edk::char8* fileName,
+                                         edk::retro::RetroPalette* palette,
+                                         edk::retro::RetroTileSet* set,
+                                         edk::retro::RetroTileMapList* maps,
+                                         edk::uint32 translateTile
+                                         );
+    //CPP
+    static edk::MemoryBuffer<edk::char8>* retroIMGsToHeaderH_SMS(edk::char8* name,
+                                                                 edk::retro::RetroPalette* palette,
+                                                                 edk::retro::RetroTileSet* set,
+                                                                 edk::retro::RetroTileMapList* maps
+                                                                 );
+    static edk::MemoryBuffer<edk::char8>* retroIMGsToCodeCPP_SMS(edk::char8* name,
+                                                                 edk::retro::RetroPalette* palette,
+                                                                 edk::retro::RetroTileSet* set,
+                                                                 edk::retro::RetroTileMapList* maps,
+                                                                 edk::uint32 translateTile
+                                                                 );
+    static bool retroIMGsToCodeFileCPP_SMS(const edk::char8* fileNameH,
+                                           const edk::char8* fileNameCPP,
+                                           edk::retro::RetroPalette* palette,
+                                           edk::retro::RetroTileSet* set,
+                                           edk::retro::RetroTileMapList* maps,
+                                           edk::uint32 translateTile
+                                           );
+    static bool retroIMGsToCodeFileCPP_SMS(edk::char8* fileNameH,
+                                           edk::char8* fileNameCPP,
+                                           edk::retro::RetroPalette* palette,
+                                           edk::retro::RetroTileSet* set,
+                                           edk::retro::RetroTileMapList* maps,
+                                           edk::uint32 translateTile
+                                           );
 private:
     static edk::uint8 rgb8ToSMSRound(edk::uint8 r, edk::uint8 g, edk::uint8 b);
     static edk::uint8 rgb8ToSMSRound(edk::color3ui8 color);

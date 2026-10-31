@@ -56,6 +56,13 @@ public:
 
     void cleanIDs();
 
+    bool setName(edk::char8* name);
+    inline bool setName(const edk::char8* name){
+        return this->setName((edk::char8*) name);
+    }
+    edk::char8* getName();
+    bool haveName();
+
     //create a new map
     bool newMap(edk::size2ui32 size);
     bool newMap(edk::uint32 width,edk::uint32 height);
@@ -186,6 +193,9 @@ private:
     edk::vector::MatrixDynamic<edk::retro::RetroTileMap::TileInsideMap> map;
 
     edk::retro::RetroTileSet* set;
+
+    //map name
+    edk::Name name;
 
     static edk::uint64 staticCounter;
     static edk::retro::RetroTileSet staticSet;
