@@ -69,8 +69,8 @@ public:
     bool setID(edk::uint32 x,edk::uint32 y,edk::uint32 id);
     edk::uint32 getID(edk::vec2ui32 position);
     edk::uint32 getID(edk::uint32 x,edk::uint32 y);
-    edk::uint16 getValueSMS(edk::vec2ui32 position);
-    edk::uint16 getValueSMS(edk::uint32 x,edk::uint32 y);
+    edk::uint16 getValueSMS(edk::vec2ui32 position,edk::uint32 translateTile);
+    edk::uint16 getValueSMS(edk::uint32 x,edk::uint32 y,edk::uint32 translateTile);
     edk::retro::RetroTileSpecs getSpecs(edk::vec2ui32 position);
     edk::retro::RetroTileSpecs getSpecs(edk::uint32 x,edk::uint32 y);
 
@@ -144,8 +144,8 @@ private:
         }
 
         //get the tileValue for sms
-        edk::uint16 getValueSMS(){
-            edk::uint16 ret = (this->value<<9u)>>9u;
+        edk::uint16 getValueSMS(edk::uint32 translateTile){
+            edk::uint16 ret = ((this->value + translateTile)<<9u)>>9u;
             if(this->flipH){
                 //pos 9
                 ret |= 0b0000001000000000;

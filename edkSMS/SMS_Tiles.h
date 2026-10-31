@@ -35,6 +35,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #pragma once
 #include "SMS_TypeVec2.h"
+//#include "SMS_Debugger.h"
 
 #define SMS_TILES_LENGHT 128u
 
@@ -46,10 +47,13 @@ struct Tile{
 
 void tiles_clean(struct Tile* tile);
 void tiles_cleanTiles();
+void tiles_reset();
 struct Tile* tiles_getPointerPosition(uint8 position);
+void tiles_addTile(struct vec2i32 position,int16 id);
 void tiles_drawFirst();
 void tiles_drawLast();
 void tiles_draw(bool even);
 void tiles_drawLenght(bool even);
+void tiles_drawLenghtAll();
 
 #endif // SMS_TILES_H

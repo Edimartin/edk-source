@@ -102,10 +102,17 @@ edk::retro::RetroPalette* edk::retro::RetroPalettes::newPaletteFromVector(edk::u
                                                                           edk::uint8 bytesPerChannel
                                                                           ){
     if(palette && size && channels && bytesPerChannel){
+        //test if have the palette
+        edk::retro::RetroPalette tempPalette;
+        tempPalette.copyPalette(palette,size,channels,bytesPerChannel);
+        if(this->haveElement(&tempPalette)){
+            return this->getElement(&tempPalette);
+        }
+        //else create a new palette
         edk::retro::RetroPalette* temp = new edk::retro::RetroPalette();
         if(temp){
             //create the new palette
-            if(temp->copyPalette(palette,size,channels,bytesPerChannel)){
+            if(temp->clone(&tempPalette)){
                 if(this->add(temp)){
                     return temp;
                 }

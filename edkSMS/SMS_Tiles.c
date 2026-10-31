@@ -43,11 +43,30 @@ void tiles_cleanTiles(){
     }
     lenghtTiles = 0u;
 }
+void tiles_reset(){
+    lenghtTiles = 0u;
+}
 struct Tile* tiles_getPointerPosition(uint8 position){
     if(position<SMS_TILES_LENGHT){
         return &tiles[position];
     }
     return NULL;
+}
+void tiles_addTile(struct vec2i32 position,int16 id){
+    //
+    /*
+    sms_printf("[%d](%d,%d)"
+               ,id
+               ,position.x
+               ,position.y
+               ,NULL
+               );
+*/
+    tiles[lenghtTiles].position.x = position.x;
+    tiles[lenghtTiles].position.y = position.y;
+    tiles[lenghtTiles].id = id;
+    lenghtTiles++;
+    if(lenghtTiles > SMS_TILES_LENGHT)lenghtTiles=0u;
 }
 void tiles_drawFirst(){
     uint8 i=0u;
@@ -101,8 +120,8 @@ void tiles_draw(bool even){
 void tiles_drawLenght(bool even){
     uint8 i=0u;
     uint8 size = lenghtTiles;
-    if(lenghtTiles < (SMS_TILES_LENGHT>>1u)){
-        for(;i<size;++i){
+    if(even){
+        for(;i<size;i+=2u){
 #if !defined(__GNUC__) && !defined(__clang__)
             SMS_addSpriteClipping(tiles[i].position.x,
                                   tiles[i].position.y,
@@ -112,27 +131,27 @@ void tiles_drawLenght(bool even){
         }
     }
     else{
-        if(even){
-            for(;i<size;i+=2u){
+        i=1u;
+        for(;i<size;i+=2u){
 #if !defined(__GNUC__) && !defined(__clang__)
-                SMS_addSpriteClipping(tiles[i].position.x,
-                                      tiles[i].position.y,
-                                      tiles[i].id
-                                      );
+            SMS_addSpriteClipping(tiles[i].position.x,
+                                  tiles[i].position.y,
+                                  tiles[i].id
+                                  );
 #endif
-            }
         }
-        else{
-            i=1u;
-            for(;i<size;i+=2u){
+    }
+}
+void tiles_drawLenghtAll(){
+    uint8 i=0u;
+    uint8 size = lenghtTiles;
+    for(;i<size;i+=1u){
 #if !defined(__GNUC__) && !defined(__clang__)
-                SMS_addSpriteClipping(tiles[i].position.x,
-                                      tiles[i].position.y,
-                                      tiles[i].id
-                                      );
+        SMS_addSpriteClipping(tiles[i].position.x,
+                              tiles[i].position.y,
+                              tiles[i].id
+                              );
 #endif
-            }
-        }
     }
 }
 

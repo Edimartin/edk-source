@@ -90,7 +90,8 @@ edk::uint8 edk::RetroImageConverter::rgb8ToSMSFast(edk::color4ui8 color){
 edk::MemoryBuffer<edk::char8>* edk::RetroImageConverter::retroIMGtoCodeH_SMS(edk::char8* name,
                                                                              edk::retro::RetroPalette* palette,
                                                                              edk::retro::RetroTileSet* set,
-                                                                             edk::retro::RetroTileMap* map
+                                                                             edk::retro::RetroTileMap* map,
+                                                                             edk::uint32 translateTile
                                                                              ){
     if(palette && set && map && name){
         //
@@ -190,7 +191,7 @@ edk::MemoryBuffer<edk::char8>* edk::RetroImageConverter::retroIMGtoCodeH_SMS(edk
                 counterLine = 0u;
                 for(edk::uint32 y=0u;y<height;y++){
                     for(edk::uint32 x=0u;x<width;x++){
-                        value32 = map->getValueSMS(x,y);
+                        value32 = map->getValueSMS(x,y,translateTile);
                         sprintf(str,"0x%04x",value32);
                         buffer->pushToBuffer(str);
                         if(y<height-1u || x<width-1u){
@@ -250,18 +251,21 @@ edk::MemoryBuffer<edk::char8>* edk::RetroImageConverter::retroIMGtoCodeH_SMS(edk
 bool edk::RetroImageConverter::retroIMGtoCodeFileH_SMS(const edk::char8* fileName,
                                                        edk::retro::RetroPalette* palette,
                                                        edk::retro::RetroTileSet* set,
-                                                       edk::retro::RetroTileMap* map
+                                                       edk::retro::RetroTileMap* map,
+                                                       edk::uint32 translateTile
                                                        ){
     return edk::RetroImageConverter::retroIMGtoCodeFileH_SMS((edk::char8*) fileName,
                                                              palette,
                                                              set,
-                                                             map
+                                                             map,
+                                                             translateTile
                                                              );
 }
 bool edk::RetroImageConverter::retroIMGtoCodeFileH_SMS(edk::char8* fileName,
                                                        edk::retro::RetroPalette* palette,
                                                        edk::retro::RetroTileSet* set,
-                                                       edk::retro::RetroTileMap* map
+                                                       edk::retro::RetroTileMap* map,
+                                                       edk::uint32 translateTile
                                                        ){
     //create the file
     edk::File file;
@@ -273,7 +277,8 @@ bool edk::RetroImageConverter::retroIMGtoCodeFileH_SMS(edk::char8* fileName,
             edk::MemoryBuffer<edk::char8>* buffer = edk::RetroImageConverter::retroIMGtoCodeH_SMS(name,
                                                                                                   palette,
                                                                                                   set,
-                                                                                                  map
+                                                                                                  map,
+                                                                                                  translateTile
                                                                                                   );
             if(buffer){
                 //
@@ -381,7 +386,8 @@ edk::MemoryBuffer<edk::char8>* edk::RetroImageConverter::retroIMGtoHeaderH_SMS(e
 edk::MemoryBuffer<edk::char8>* edk::RetroImageConverter::retroIMGtoCodeCPP_SMS(edk::char8* name,
                                                                                edk::retro::RetroPalette* palette,
                                                                                edk::retro::RetroTileSet* set,
-                                                                               edk::retro::RetroTileMap* map
+                                                                               edk::retro::RetroTileMap* map,
+                                                                               edk::uint32 translateTile
                                                                                ){
     if(palette && set && map && name){
         //
@@ -481,7 +487,7 @@ edk::MemoryBuffer<edk::char8>* edk::RetroImageConverter::retroIMGtoCodeCPP_SMS(e
                 counterLine = 0u;
                 for(edk::uint32 y=0u;y<height;y++){
                     for(edk::uint32 x=0u;x<width;x++){
-                        value32 = map->getValueSMS(x,y);
+                        value32 = map->getValueSMS(x,y,translateTile);
                         sprintf(str,"0x%04x",value32);
                         buffer->pushToBuffer(str);
                         if(y<height-1u || x<width-1u){
@@ -505,20 +511,23 @@ bool edk::RetroImageConverter::retroIMGtoCodeFileCPP_SMS(const edk::char8* fileN
                                                          const edk::char8* fileNameCPP,
                                                          edk::retro::RetroPalette* palette,
                                                          edk::retro::RetroTileSet* set,
-                                                         edk::retro::RetroTileMap* map
-                                                         ){
+                                                         edk::retro::RetroTileMap* map,
+                                                         edk::uint32 translateTile
+        ){
     return edk::RetroImageConverter::retroIMGtoCodeFileCPP_SMS((edk::char8*) fileNameH,
                                                                (edk::char8*) fileNameCPP,
                                                                palette,
                                                                set,
-                                                               map
+                                                               map,
+                                                               translateTile
                                                                );
 }
 bool edk::RetroImageConverter::retroIMGtoCodeFileCPP_SMS(edk::char8* fileNameH,
                                                          edk::char8* fileNameCPP,
                                                          edk::retro::RetroPalette* palette,
                                                          edk::retro::RetroTileSet* set,
-                                                         edk::retro::RetroTileMap* map
+                                                         edk::retro::RetroTileMap* map,
+                                                         edk::uint32 translateTile
                                                          ){
     //create the file
     edk::File fileH;
@@ -544,7 +553,8 @@ bool edk::RetroImageConverter::retroIMGtoCodeFileCPP_SMS(edk::char8* fileNameH,
                 buffer = edk::RetroImageConverter::retroIMGtoCodeCPP_SMS(name,
                                                                          palette,
                                                                          set,
-                                                                         map
+                                                                         map,
+                                                                         translateTile
                                                                          );
                 if(buffer){
                     //

@@ -38,6 +38,9 @@ edk::uint32 edk::retro::RetroViewMapEdit::counterTiles=0uL;
 edk::retro::RetroTileMap edk::retro::RetroViewMapEdit::staticMap;
 edk::uint32 edk::retro::RetroViewMapEdit::counterMap=0uL;
 
+edk::retro::RetroTileMapList edk::retro::RetroViewMapEdit::staticMaps;
+edk::uint32 edk::retro::RetroViewMapEdit::counterMaps=0uL;
+
 #define EditorBackImage "PixelEditorBackground.image"
 #define EditorBackDark  0x55
 #define EditorBackLight 0xAA
@@ -123,7 +126,8 @@ void edk::retro::RetroViewMapEdit::Constructor(){
 
         this->setPalettes(NULL);
         this->setTilesSet(NULL);
-        this->setMap(NULL);
+        this->setMapList(NULL);
+        this->selectMap(0u);
     }
 }
 void edk::retro::RetroViewMapEdit::Destructor(){
@@ -174,9 +178,22 @@ bool edk::retro::RetroViewMapEdit::setTilesSet(edk::retro::RetroTileSet* tiles){
     this->tiles = &edk::retro::RetroViewMapEdit::staticTiles;
     return false;
 }
-bool edk::retro::RetroViewMapEdit::setMap(edk::retro::RetroTileMap* map){
-    if(map){
-        this->map=map;
+bool edk::retro::RetroViewMapEdit::setMapList(edk::retro::RetroTileMapList* list){
+    if(list){
+        this->maps=list;
+        return true;
+    }
+    this->maps = &edk::retro::RetroViewMapEdit::staticMaps;
+    return false;
+}
+
+//select a map to edit
+edk::uint32 edk::retro::RetroViewMapEdit::getSizeMaps(){
+    return this->maps->size();
+}
+bool edk::retro::RetroViewMapEdit::selectMap(edk::uint32 position){
+    this->map = this->maps->getMap(position);
+    if(this->map){
         return true;
     }
     this->map = &edk::retro::RetroViewMapEdit::staticMap;
@@ -213,41 +230,43 @@ bool edk::retro::RetroViewMapEdit::loadMapFromImage(edk::Image2D* img){
                 edk::uint8 bytesPerColor = img->getBytesPerColor();
                 edk::retro::RetroTileSpecs specs;
 
-                //create the map
-                this->map->newMap(tilesW,tilesH);
+                //create a new map
+                edk::uint32 position = this->maps->createNewMap(this->tiles,tilesW,tilesH);
 
-                //create the tiles
-                for(edk::uint32 h=0u;h<tilesH;h++){
-                    for(edk::uint32 w=0u;w<tilesW;w++){
-                        //load the ids
-                        vec = img->getColors();
-                        //goto the line
-                        vec+=bytesPerColor*(width*h*8u);
-                        for(edk::uint32 y=0u;y<8u;y++){
-                            //goto the start
-                            vec+=(bytesPerColor*8u*w);
-                            for(edk::uint32 x=0u;x<8u;x++){
-                                id=0u;
-                                edkMemCpy(&id,vec,bytesPerColor);
-                                tempTile.setPixel(x,y,id);
-                                vec+=bytesPerColor;
+                if(this->selectMap(position)){
+                    //create the tiles
+                    for(edk::uint32 h=0u;h<tilesH;h++){
+                        for(edk::uint32 w=0u;w<tilesW;w++){
+                            //load the ids
+                            vec = img->getColors();
+                            //goto the line
+                            vec+=bytesPerColor*(width*h*8u);
+                            for(edk::uint32 y=0u;y<8u;y++){
+                                //goto the start
+                                vec+=(bytesPerColor*8u*w);
+                                for(edk::uint32 x=0u;x<8u;x++){
+                                    id=0u;
+                                    edkMemCpy(&id,vec,bytesPerColor);
+                                    tempTile.setPixel(x,y,id);
+                                    vec+=bytesPerColor;
+                                }
+                                //go to the end
+                                vec+=bytesPerColor*(width - ((8u*w) + 8u));
                             }
-                            //go to the end
-                            vec+=bytesPerColor*(width - ((8u*w) + 8u));
-                        }
-                        //add the tile
-                        specs=0u;
-                        if(this->tiles->addTileEqualTest(tempTile,&specs)){
-                            //set it on the map
-                            this->map->setID(w,h,specs.value);
-                        }
-                        else{
-                            //get the tileID
-                            this->map->setID(w,h,specs.value);
+                            //add the tile
+                            specs=0u;
+                            if(this->tiles->addTileEqualTest(tempTile,&specs)){
+                                //set it on the map
+                                this->map->setID(w,h,specs.value);
+                            }
+                            else{
+                                //get the tileID
+                                this->map->setID(w,h,specs.value);
+                            }
                         }
                     }
+                    ret = true;
                 }
-                ret = true;
             }
         }
         return ret;
@@ -380,6 +399,10 @@ bool edk::retro::RetroViewMapEdit::haveSelectTile(){
 }
 edk::uint32 edk::retro::RetroViewMapEdit::getSelectedTile(){
     return this->selectedID;
+}
+
+edk::uint32 edk::retro::RetroViewMapEdit::getLenghtTiles(){
+    return this->tiles->size();
 }
 
 //set draw grade

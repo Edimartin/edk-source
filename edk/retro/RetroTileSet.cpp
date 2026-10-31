@@ -96,8 +96,8 @@ bool edk::retro::RetroTileSet::haveEqualFlipTile(edk::retro::RetroTile tile,edk:
 }
 
 bool edk::retro::RetroTileSet::addTileEqualTest(edk::retro::RetroTile tile,
-                                       edk::retro::RetroTileSpecs* specs
-                                       ){
+                                                edk::retro::RetroTileSpecs* specs
+                                                ){
     if(!this->haveEqualTile(tile,specs)){
         edk::uint32 size = this->size();
         specs->value = this->pushBack(tile);
@@ -108,8 +108,8 @@ bool edk::retro::RetroTileSet::addTileEqualTest(edk::retro::RetroTile tile,
     return false;
 }
 bool edk::retro::RetroTileSet::addTileEqualFlipTest(edk::retro::RetroTile tile,
-                                       edk::retro::RetroTileSpecs* specs
-                                       ){
+                                                    edk::retro::RetroTileSpecs* specs
+                                                    ){
     if(!this->haveEqualFlipTile(tile,specs)){
         edk::uint32 size = this->size();
         specs->value = this->pushBack(tile);
@@ -210,18 +210,20 @@ bool edk::retro::RetroTileSet::swapColorID(edk::retro::RetroPalette* palette,edk
         for(edk::uint32 i=0u;i<size;i++){
             if(this->havePos(i)){
                 temp = this->get(i);
-                for(edk::uint8 y=0u;y<8u;y++){
-                    for(edk::uint8 x=0u;x<8u;x++){
-                        id = temp.getPixel(x,y);
-                        if(id == start){
-                            temp.setPixel(x,y,end);
-                        }
-                        else if(id==end){
-                            temp.setPixel(x,y,start);
+                if(temp.getPalette() == palette){
+                    for(edk::uint8 y=0u;y<8u;y++){
+                        for(edk::uint8 x=0u;x<8u;x++){
+                            id = temp.getPixel(x,y);
+                            if(id == start){
+                                temp.setPixel(x,y,end);
+                            }
+                            else if(id==end){
+                                temp.setPixel(x,y,start);
+                            }
                         }
                     }
+                    this->set(i,temp);
                 }
-                this->set(i,temp);
             }
         }
         return true;

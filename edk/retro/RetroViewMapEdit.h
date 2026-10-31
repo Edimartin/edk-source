@@ -43,6 +43,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "RetroTile.h"
 #include "RetroTileSet.h"
 #include "RetroTileMap.h"
+#include "RetroTileMapList.h"
 
 #ifdef printMessages
 #pragma message "    Compiling RetroViewMapEdit"
@@ -60,7 +61,11 @@ public:
 
     bool setPalettes(edk::retro::RetroPalettes* palettes);
     bool setTilesSet(edk::retro::RetroTileSet* tiles);
-    bool setMap(edk::retro::RetroTileMap* map);
+    bool setMapList(edk::retro::RetroTileMapList* list);
+
+    //select a map to edit
+    edk::uint32 getSizeMaps();
+    bool selectMap(edk::uint32 position);
 
     void runUpdateViewSize();
 
@@ -85,6 +90,8 @@ public:
         return this->haveSelectTile();
     }
     edk::uint32 getSelectedTile();
+
+    edk::uint32 getLenghtTiles();
 
     //set draw grade
     void setDrawGrade(bool can);
@@ -172,6 +179,11 @@ private:
     edk::retro::RetroTileMap* map;
     static edk::retro::RetroTileMap staticMap;
     static edk::uint32 counterMap;
+
+    //MAP LIST
+    edk::retro::RetroTileMapList* maps;
+    static edk::retro::RetroTileMapList staticMaps;
+    static edk::uint32 counterMaps;
 private:
     edk::classID classThis;
 };

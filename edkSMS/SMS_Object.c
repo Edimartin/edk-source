@@ -28,6 +28,9 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #pragma message "            Inside SMS_Object.c"
 #endif
 
+void obj_cleanDebug(){
+    sms_debugClean();
+}
 void obj_construct(struct Object* obj){
     obj->position.x=0;
     obj->position.y=0;
@@ -63,13 +66,110 @@ void obj_draw(struct Object* obj,uint8 frame){
         for(;x<obj->size.x;++x){
 #if !defined(__GNUC__) && !defined(__clang__)
             SMS_addSpriteClipping(position.x,
-                          position.y,
-                          obj->temp[i]
-                          );
+                                  position.y,
+                                  obj->temp[i]
+                                  );
 #endif
             position.x+=8;
             i++;
         }
+        position.y+=8;
+    }
+}
+void obj_drawEven(struct Object* obj,uint8 frame,bool even){
+    obj->temp = mapVector_getPosition(obj->vector,0u,obj->size.y * frame,obj->size.x);
+    //draw the tiles
+    uint8 x,y=0u,i=0u;
+    struct vec2i32 position;
+    int16 temp = obj->position.x - (obj_getWidthPixels(obj)>>1u);
+    position.y = obj->position.y - (obj_getHeightPixels(obj)>>1u);
+    if(even){
+        sms_printf("(true)",NULL);
+        x=0u;
+    }
+    else{
+        sms_printf("(false)",NULL);
+        x=1u;
+        i=1u;
+    }
+    for(;y<obj->size.y;++y){
+        position.x = temp + (x*8);
+        for(;x<obj->size.x;x+=2u){
+            sms_printf("[%d](%d,%d)"
+                       ,obj->temp[i]
+                       ,obj->position.x
+                       ,obj->position.y
+                       ,NULL
+                       );
+#if !defined(__GNUC__) && !defined(__clang__)
+            SMS_addSprite(position.x,
+                          position.y,
+                          obj->temp[i]
+                          );
+#endif
+            position.x+=16;
+            i+=2u;
+        }
+        x-=obj->size.x;
+        position.y+=8;
+    }
+}
+void obj_drawTiles(struct Object* obj,uint8 frame){
+    obj->temp = mapVector_getPosition(obj->vector,0u,obj->size.y * frame,obj->size.x);
+    //draw the tiles
+    uint8 x,y=0u,i=0u;
+    struct vec2i32 position;
+    int16 temp = obj->position.x - (obj_getWidthPixels(obj)>>1u);
+    position.y = obj->position.y - (obj_getHeightPixels(obj)>>1u);
+    position.x = temp;
+    for(;y<obj->size.y;++y){
+        x=0u;
+        position.x = temp;
+        for(;x<obj->size.x;++x){
+#if !defined(__GNUC__) && !defined(__clang__)
+            tiles_addTile(position,
+                          obj->temp[i]
+                          );
+            /*
+            SMS_addSpriteClipping(position.x,
+                          position.y,
+                          obj->temp[i]
+                          );
+*/
+#endif
+            position.x+=8;
+            i++;
+        }
+        position.y+=8;
+    }
+}
+void obj_drawTilesEven(struct Object* obj,uint8 frame,bool even){
+    obj->temp = mapVector_getPosition(obj->vector,0u,obj->size.y * frame,obj->size.x);
+    //draw the tiles
+    uint8 x,y=0u,i=0u;
+    struct vec2i32 position;
+    int16 temp = obj->position.x - (obj_getWidthPixels(obj)>>1u);
+    position.y = obj->position.y - (obj_getHeightPixels(obj)>>1u);
+    position.x = temp;
+    if(even){
+        x=0u;
+    }
+    else{
+        x=1u;
+        i=1u;
+    }
+    for(;y<obj->size.y;++y){
+        position.x = temp + (x*8);
+        for(;x<obj->size.x;x+=2u){
+#if !defined(__GNUC__) && !defined(__clang__)
+            tiles_addTile(position,
+                          obj->temp[i]
+                          );
+#endif
+            position.x+=16;
+            i+=2u;
+        }
+        x-=obj->size.x;
         position.y+=8;
     }
 }

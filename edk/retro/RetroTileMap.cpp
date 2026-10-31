@@ -131,15 +131,15 @@ edk::uint32 edk::retro::RetroTileMap::getID(edk::vec2ui32 position){
 edk::uint32 edk::retro::RetroTileMap::getID(edk::uint32 x,edk::uint32 y){
     return this->getID(edk::vec2ui32(x,y));
 }
-edk::uint16 edk::retro::RetroTileMap::getValueSMS(edk::vec2ui32 position){
+edk::uint16 edk::retro::RetroTileMap::getValueSMS(edk::vec2ui32 position,edk::uint32 translateTile){
     if(this->map.haveMatrix()){
         edk::retro::RetroTileMap::TileInsideMap tile = this->map.get(position);
-        return tile.getValueSMS();
+        return tile.getValueSMS(translateTile);
     }
     return 0u;
 }
-edk::uint16 edk::retro::RetroTileMap::getValueSMS(edk::uint32 x,edk::uint32 y){
-    return this->getValueSMS(edk::vec2ui32(x,y));
+edk::uint16 edk::retro::RetroTileMap::getValueSMS(edk::uint32 x,edk::uint32 y,edk::uint32 translateTile){
+    return this->getValueSMS(edk::vec2ui32(x,y),translateTile);
 }
 edk::retro::RetroTileSpecs edk::retro::RetroTileMap::getSpecs(edk::vec2ui32 position){
     edk::retro::RetroTileSpecs ret;
