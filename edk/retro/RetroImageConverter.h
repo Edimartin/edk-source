@@ -115,6 +115,27 @@ public:
                                           edk::retro::RetroTileMap* map,
                                           edk::uint32 translateTile=0u
             );
+    //ASM
+    static edk::MemoryBuffer<edk::char8>* retroIMGtoCodeASM_SMS(edk::char8* name,
+                                                                edk::retro::RetroPalette* palette,
+                                                                edk::retro::RetroTileSet* set,
+                                                                edk::retro::RetroTileMap* map,
+                                                                edk::uint32 translateTile
+                                                                );
+    static bool retroIMGtoCodeFileASM_SMS(const edk::char8* fileNameH,
+                                          const edk::char8* fileNameCPP,
+                                          edk::retro::RetroPalette* palette,
+                                          edk::retro::RetroTileSet* set,
+                                          edk::retro::RetroTileMap* map,
+                                          edk::uint32 translateTile
+                                          );
+    static bool retroIMGtoCodeFileASM_SMS(edk::char8* fileNameH,
+                                          edk::char8* fileNameCPP,
+                                          edk::retro::RetroPalette* palette,
+                                          edk::retro::RetroTileSet* set,
+                                          edk::retro::RetroTileMap* map,
+                                          edk::uint32 translateTile
+                                          );
 
 
     //convert retroIMGs to sms
@@ -161,6 +182,27 @@ public:
                                            edk::retro::RetroPalette* palette,
                                            edk::retro::RetroTileSet* set,
                                            edk::retro::RetroTileMapList* maps,
+                                           edk::uint32 translateTile
+                                           );
+    //ASM
+    static edk::MemoryBuffer<edk::char8>* retroIMGsToCodeASM_SMS(edk::char8* name,
+                                                                 edk::retro::RetroPalette* palette,
+                                                                 edk::retro::RetroTileSet* set,
+                                                                 edk::retro::RetroTileMapList* maps,
+                                                                 edk::uint32 translateTile
+                                                                 );
+    static bool retroIMGsToCodeFileASM_SMS(const edk::char8* fileNameH,
+                                           const edk::char8* fileNameCPP,
+                                           edk::retro::RetroPalette* palette,
+                                           edk::retro::RetroTileSet* set,
+                                           edk::retro::RetroTileMapList* map,
+                                           edk::uint32 translateTile
+                                           );
+    static bool retroIMGsToCodeFileASM_SMS(edk::char8* fileNameH,
+                                           edk::char8* fileNameCPP,
+                                           edk::retro::RetroPalette* palette,
+                                           edk::retro::RetroTileSet* set,
+                                           edk::retro::RetroTileMapList* map,
                                            edk::uint32 translateTile
                                            );
 private:

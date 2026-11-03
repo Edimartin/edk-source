@@ -574,6 +574,245 @@ bool edk::RetroImageConverter::retroIMGtoCodeFileCPP_SMS(edk::char8* fileNameH,
     }
     return false;
 }
+//ASM
+edk::MemoryBuffer<edk::char8>* edk::RetroImageConverter::retroIMGtoCodeASM_SMS(edk::char8* name,
+                                                                               edk::retro::RetroPalette* palette,
+                                                                               edk::retro::RetroTileSet* set,
+                                                                               edk::retro::RetroTileMap* map,
+                                                                               edk::uint32 translateTile
+                                                                               ){
+    if(palette && set && map && name){
+        //
+        edk::uint8 counterLine=0u;
+        edk::retro::RetroTile tile;
+        edk::uint8 value8=0u;
+        edk::uint32 value32=0u;
+        edk::color4ui8 color;
+        edk::uint32 size=0u;
+        edk::char8 str[1024u];
+        edk::MemoryBuffer<edk::char8>* buffer = new edk::MemoryBuffer<edk::char8>;
+        edk::uint32 width =0u;
+        edk::uint32 height=0u;
+        edk::uint8 planes[4u];
+        bool newLine = false;
+
+        if(buffer){
+            //SECTION rodata_compiler
+            buffer->pushToBuffer("SECTION rodata_compiler");
+            buffer->pushToBuffer("\n\n");
+
+            size = palette->getSize();
+            if(size){
+                buffer->pushToBuffer("PUBLIC _");
+                buffer->pushToBuffer(name);
+                buffer->pushToBuffer("_palette");
+                buffer->pushToBuffer("\n");
+            }
+            size = set->size();
+            if(size){
+                buffer->pushToBuffer("PUBLIC _");
+                buffer->pushToBuffer(name);
+                buffer->pushToBuffer("_tileSet");
+                buffer->pushToBuffer("\n");
+            }
+            width=map->getWidth();
+            height=map->getHeight();
+            if(width && height){
+                buffer->pushToBuffer("PUBLIC _");
+                buffer->pushToBuffer(name);
+                buffer->pushToBuffer("_tileMap");
+                buffer->pushToBuffer("\n");
+            }
+
+            size = palette->getSize();
+            if(size){
+                buffer->pushToBuffer("\n_");
+                buffer->pushToBuffer(name);
+                buffer->pushToBuffer("_palette:");
+                buffer->pushToBuffer("\n");
+                counterLine = 0u;
+                newLine=true;
+                for(edk::uint32 i=0u;i<size;i++){
+                    if(newLine){
+                        newLine=false;
+                        buffer->pushToBuffer("\tdefb ");
+                    }
+                    color = palette->getColor4ui8(i);
+                    value8 = edk::RetroImageConverter::rgb8ToSMSRound(color);
+                    sprintf(str,"$%02x",value8);
+                    buffer->pushToBuffer(str);
+                    counterLine++;
+                    if(counterLine>=LINE_WIDTH_MAP){
+                        buffer->pushToBuffer("\n");
+                        counterLine=0u;
+                        newLine=true;
+                    }
+                    else{
+                        if(i<size-1u){
+                            buffer->pushToBuffer(",");
+                        }
+                    }
+                }
+            }
+            //
+            size = set->size();
+            if(size){
+                buffer->pushToBuffer("\n_");
+                buffer->pushToBuffer(name);
+                buffer->pushToBuffer("_tileSet:");
+                counterLine = 0u;
+                buffer->pushToBuffer("\n");
+                newLine=true;
+                for(edk::uint32 i=0u;i<size;i++){
+                    tile = set->get(i);
+                    for(edk::uint32 y=0u;y<8u;y++){
+                        //clean the planes
+                        for(edk::uint32 j=0u;j<4u;j++){
+                            planes[0] = 0u;
+                            planes[1] = 0u;
+                            planes[2] = 0u;
+                            planes[3] = 0u;
+                        }
+                        for(edk::uint32 x=0u;x<8u;x++){
+                            value8 = tile.getPixel(x, y) & 0x0F;
+
+                            planes[0] |= ((value8 >> 0) & 1) << (7 - x);
+                            planes[1] |= ((value8 >> 1) & 1) << (7 - x);
+                            planes[2] |= ((value8 >> 2) & 1) << (7 - x);
+                            planes[3] |= ((value8 >> 3) & 1) << (7 - x);
+                        }
+                        for(edk::uint32 j=0u;j<4u;j++){
+                            if(newLine){
+                                newLine=false;
+                                buffer->pushToBuffer("\tdefb ");
+                            }
+                            sprintf(str,"$%02x",planes[j]);
+                            buffer->pushToBuffer(str);
+                            counterLine++;
+                            if(counterLine>=LINE_WIDTH_MAP){
+                                buffer->pushToBuffer("\n");
+                                counterLine=0u;
+                                newLine=true;
+                            }
+                            else{
+                                if(i<size-1u
+                                        ||
+                                        y<7u
+                                        ||
+                                        j<3u
+                                        ){
+                                    buffer->pushToBuffer(",");
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            //
+            width=map->getWidth();
+            height=map->getHeight();
+            if(width && height){
+                buffer->pushToBuffer("\n_");
+                buffer->pushToBuffer(name);
+                buffer->pushToBuffer("_tileMap:");
+                counterLine = 0u;
+                buffer->pushToBuffer("\n");
+                newLine=true;
+                for(edk::uint32 y=0u;y<height;y++){
+                    for(edk::uint32 x=0u;x<width;x++){
+                        if(newLine){
+                            buffer->pushToBuffer("\tdefw ");
+                            newLine=false;
+                        }
+                        value32 = map->getValueSMS(x,y,translateTile);
+                        sprintf(str,"$%04x",value32);
+                        buffer->pushToBuffer(str);
+                        counterLine++;
+                        if(counterLine>=LINE_WIDTH_MAP){
+                            buffer->pushToBuffer("\n");
+                            counterLine=0u;
+                            newLine=true;
+                        }
+                        else{
+                            if(y<height-1u || x<width-1u){
+                                buffer->pushToBuffer(",");
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return buffer;
+    }
+    return NULL;
+}
+bool edk::RetroImageConverter::retroIMGtoCodeFileASM_SMS(const edk::char8* fileNameH,
+                                                         const edk::char8* fileNameCPP,
+                                                         edk::retro::RetroPalette* palette,
+                                                         edk::retro::RetroTileSet* set,
+                                                         edk::retro::RetroTileMap* map,
+                                                         edk::uint32 translateTile
+                                                         ){
+    return edk::RetroImageConverter::retroIMGtoCodeFileASM_SMS((edk::char8*) fileNameH,
+                                                               (edk::char8*) fileNameCPP,
+                                                               palette,
+                                                               set,
+                                                               map,
+                                                               translateTile
+                                                               );
+}
+bool edk::RetroImageConverter::retroIMGtoCodeFileASM_SMS(edk::char8* fileNameH,
+                                                         edk::char8* fileNameCPP,
+                                                         edk::retro::RetroPalette* palette,
+                                                         edk::retro::RetroTileSet* set,
+                                                         edk::retro::RetroTileMap* map,
+                                                         edk::uint32 translateTile
+                                                         ){
+    //create the file
+    edk::File fileH;
+    edk::File fileCPP;
+    if(fileH.createAndOpenBinFile(fileNameH)){
+        bool ret = false;
+        //
+        edk::char8* name = edk::String::strFileNameNoExtension(fileNameH);
+        if(name){
+            if(fileCPP.createAndOpenBinFile(fileNameCPP)){
+                edk::MemoryBuffer<edk::char8>* buffer = edk::RetroImageConverter::retroIMGtoHeaderH_SMS(name,
+                                                                                                        palette,
+                                                                                                        set,
+                                                                                                        map
+                                                                                                        );
+                if(buffer){
+                    //
+                    //printf("\n%u %s %s",__LINE__,__FILE__,__func__);fflush(stdout);
+                    //printf("buffer == '%s'",buffer->getPointerStr());fflush(stdout);
+                    fileH.writeText(buffer->getPointerStr());
+                    ret=true;
+                }
+                buffer = edk::RetroImageConverter::retroIMGtoCodeASM_SMS(name,
+                                                                         palette,
+                                                                         set,
+                                                                         map,
+                                                                         translateTile
+                                                                         );
+                if(buffer){
+                    //
+                    //printf("\n%u %s %s",__LINE__,__FILE__,__func__);fflush(stdout);
+                    //printf("buffer == '%s'",buffer->getPointerStr());fflush(stdout);
+                    fileCPP.writeText(buffer->getPointerStr());
+                    ret=true;
+                }
+                free(name);
+                fileCPP.flush();
+                fileCPP.closeFile();
+            }
+        }
+        fileH.flush();
+        fileCPP.closeFile();
+        return ret;
+    }
+    return false;
+}
 
 
 //convert retroIMGs to sms
@@ -1151,6 +1390,293 @@ bool edk::RetroImageConverter::retroIMGsToCodeFileCPP_SMS(edk::char8* fileNameH,
                     ret=true;
                 }
                 buffer = edk::RetroImageConverter::retroIMGsToCodeCPP_SMS(name,
+                                                                          palette,
+                                                                          set,
+                                                                          map,
+                                                                          translateTile
+                                                                          );
+                if(buffer){
+                    //
+                    //printf("\n%u %s %s",__LINE__,__FILE__,__func__);fflush(stdout);
+                    //printf("buffer == '%s'",buffer->getPointerStr());fflush(stdout);
+                    fileCPP.writeText(buffer->getPointerStr());
+                    ret=true;
+                }
+                free(name);
+                fileCPP.flush();
+                fileCPP.closeFile();
+            }
+        }
+        fileH.flush();
+        fileCPP.closeFile();
+        return ret;
+    }
+    return false;
+}
+//ASM
+edk::MemoryBuffer<edk::char8>* edk::RetroImageConverter::retroIMGsToCodeASM_SMS(edk::char8* name,
+                                                                                edk::retro::RetroPalette* palette,
+                                                                                edk::retro::RetroTileSet* set,
+                                                                                edk::retro::RetroTileMapList* maps,
+                                                                                edk::uint32 translateTile
+                                                                                ){
+    if(palette && set && maps && name){
+        edk::uint32 size = maps->size();
+        if(size){
+            edk::retro::RetroTileMap* map;
+            edk::uint8 counterLine=0u;
+            edk::retro::RetroTile tile;
+            edk::uint8 value8=0u;
+            edk::uint32 value32=0u;
+            edk::color4ui8 color;
+            edk::uint32 size=0u;
+            edk::char8 str[1024u];
+            edk::MemoryBuffer<edk::char8>* buffer = new edk::MemoryBuffer<edk::char8>;
+            edk::uint32 width =0u;
+            edk::uint32 height=0u;
+            edk::uint32 sizeSet;
+            edk::uint8 planes[4u];
+            edk::char8* temp=NULL;
+            edk::char8* temp2=NULL;
+            bool newLine = false;
+
+            if(buffer){
+                //SECTION rodata_compiler
+                buffer->pushToBuffer("SECTION rodata_compiler");
+                buffer->pushToBuffer("\n\n");
+
+
+                size = palette->getSize();
+                if(size){
+                    buffer->pushToBuffer("PUBLIC _");
+                    buffer->pushToBuffer(name);
+                    buffer->pushToBuffer("_palette");
+                    buffer->pushToBuffer("\n");
+                }
+                //
+                sizeSet = size = set->size();
+                if(size){
+                    buffer->pushToBuffer("PUBLIC _");
+                    buffer->pushToBuffer(name);
+                    buffer->pushToBuffer("_tileSet");
+                    buffer->pushToBuffer("\n");
+                }
+                //
+                for(edk::uint32 i=0u;i<size;i++){
+                    map = maps->getMap(i);
+                    if(map){
+                        width=map->getWidth();
+                        height=map->getHeight();
+                        if(map->haveName()){
+                            temp = edk::String::strCopy(map->getName());
+                        }
+                        else{
+                            temp2 = edk::String::uint32ToStr(i);
+                            if(temp2){
+                                temp = edk::String::strCatMulti(name,temp2,NULL);
+                                free(temp2);
+                            }
+                        }
+                        if(temp){
+                            if(width && height){
+                                buffer->pushToBuffer("PUBLIC _");
+                                buffer->pushToBuffer(temp);
+                                buffer->pushToBuffer("_tileMap");
+                                buffer->pushToBuffer("\n");
+                            }
+                            free(temp);
+                        }
+                    }
+                }
+
+
+
+
+                size = palette->getSize();
+                if(size){
+                    buffer->pushToBuffer("\n_");
+                    buffer->pushToBuffer(name);
+                    buffer->pushToBuffer("_palette:");
+                    buffer->pushToBuffer("\n");
+                    counterLine = 0u;
+                    newLine = true;
+                    for(edk::uint32 i=0u;i<size;i++){
+                        if(newLine){
+                            newLine=false;
+                            buffer->pushToBuffer("\tdefb ");
+                        }
+                        color = palette->getColor4ui8(i);
+                        value8 = edk::RetroImageConverter::rgb8ToSMSRound(color);
+                        sprintf(str,"$%02x",value8);
+                        buffer->pushToBuffer(str);
+                        counterLine++;
+                        if(counterLine>=LINE_WIDTH_MAP){
+                            buffer->pushToBuffer("\n");
+                            counterLine=0u;
+                            newLine=true;
+                        }
+                        else{
+                            if(i<size-1u){
+                                buffer->pushToBuffer(",");
+                            }
+                        }
+                    }
+                }
+                //
+                sizeSet = size = set->size();
+                if(size){
+                    buffer->pushToBuffer("\n_");
+                    buffer->pushToBuffer(name);
+                    buffer->pushToBuffer("_tileSet:");
+                    buffer->pushToBuffer("\n");
+                    counterLine = 0u;
+                    newLine = true;
+                    for(edk::uint32 i=0u;i<size;i++){
+                        tile = set->get(i);
+                        for(edk::uint32 y=0u;y<8u;y++){
+                            //clean the planes
+                            for(edk::uint32 j=0u;j<4u;j++){
+                                planes[0] = 0u;
+                                planes[1] = 0u;
+                                planes[2] = 0u;
+                                planes[3] = 0u;
+                            }
+                            for(edk::uint32 x=0u;x<8u;x++){
+                                value8 = tile.getPixel(x, y) & 0x0F;
+
+                                planes[0] |= ((value8 >> 0) & 1) << (7 - x);
+                                planes[1] |= ((value8 >> 1) & 1) << (7 - x);
+                                planes[2] |= ((value8 >> 2) & 1) << (7 - x);
+                                planes[3] |= ((value8 >> 3) & 1) << (7 - x);
+                            }
+                            for(edk::uint32 j=0u;j<4u;j++){
+                                if(newLine){
+                                    newLine=false;
+                                    buffer->pushToBuffer("\tdefb ");
+                                }
+                                sprintf(str,"$%02x",planes[j]);
+                                buffer->pushToBuffer(str);
+                                counterLine++;
+                                if(counterLine>=LINE_WIDTH_MAP){
+                                    buffer->pushToBuffer("\n");
+                                    counterLine=0u;
+                                    newLine=true;
+                                }
+                                else{
+                                    if(i<size-1u
+                                            ||
+                                            y<7u
+                                            ||
+                                            j<3u
+                                            ){
+                                        buffer->pushToBuffer(",");
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                //
+                for(edk::uint32 i=0u;i<size;i++){
+                    map = maps->getMap(i);
+                    if(map){
+                        width=map->getWidth();
+                        height=map->getHeight();
+                        if(map->haveName()){
+                            temp = edk::String::strCopy(map->getName());
+                        }
+                        else{
+                            temp2 = edk::String::uint32ToStr(i);
+                            if(temp2){
+                                temp = edk::String::strCatMulti(name,temp2,NULL);
+                                free(temp2);
+                            }
+                        }
+                        if(temp){
+                            if(width && height){
+                                buffer->pushToBuffer("\n_");
+                                buffer->pushToBuffer(temp);
+                                buffer->pushToBuffer("_tileMap:");
+                                counterLine = 0u;
+                                newLine = true;
+                                buffer->pushToBuffer("\n");
+                                for(edk::uint32 y=0u;y<height;y++){
+                                    for(edk::uint32 x=0u;x<width;x++){
+                                        if(newLine){
+                                            newLine=false;
+                                            buffer->pushToBuffer("\tdefw ");
+                                        }
+                                        value32 = map->getValueSMS(x,y,translateTile);
+                                        sprintf(str,"$%04x",value32);
+                                        buffer->pushToBuffer(str);
+                                        counterLine++;
+                                        if(counterLine>=LINE_WIDTH_MAP){
+                                            buffer->pushToBuffer("\n");
+                                            counterLine=0u;
+                                            newLine=true;
+                                        }
+                                        else{
+                                            if(y<height-1u || x<width-1u){
+                                                buffer->pushToBuffer(",");
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            free(temp);
+                        }
+                    }
+                }
+            }
+            return buffer;
+        }
+    }
+    return NULL;
+}
+bool edk::RetroImageConverter::retroIMGsToCodeFileASM_SMS(const edk::char8* fileNameH,
+                                                          const edk::char8* fileNameCPP,
+                                                          edk::retro::RetroPalette* palette,
+                                                          edk::retro::RetroTileSet* set,
+                                                          edk::retro::RetroTileMapList* map,
+                                                          edk::uint32 translateTile
+                                                          ){
+    return edk::RetroImageConverter::retroIMGsToCodeFileASM_SMS((edk::char8*) fileNameH,
+                                                                (edk::char8*) fileNameCPP,
+                                                                palette,
+                                                                set,
+                                                                map,
+                                                                translateTile
+                                                                );
+}
+bool edk::RetroImageConverter::retroIMGsToCodeFileASM_SMS(edk::char8* fileNameH,
+                                                          edk::char8* fileNameCPP,
+                                                          edk::retro::RetroPalette* palette,
+                                                          edk::retro::RetroTileSet* set,
+                                                          edk::retro::RetroTileMapList* map,
+                                                          edk::uint32 translateTile
+                                                          ){
+    //create the file
+    edk::File fileH;
+    edk::File fileCPP;
+    if(fileH.createAndOpenBinFile(fileNameH)){
+        bool ret = false;
+        //
+        edk::char8* name = edk::String::strFileNameNoExtension(fileNameH);
+        if(name){
+            if(fileCPP.createAndOpenBinFile(fileNameCPP)){
+                edk::MemoryBuffer<edk::char8>* buffer = edk::RetroImageConverter::retroIMGsToHeaderH_SMS(name,
+                                                                                                         palette,
+                                                                                                         set,
+                                                                                                         map
+                                                                                                         );
+                if(buffer){
+                    //
+                    //printf("\n%u %s %s",__LINE__,__FILE__,__func__);fflush(stdout);
+                    //printf("buffer == '%s'",buffer->getPointerStr());fflush(stdout);
+                    fileH.writeText(buffer->getPointerStr());
+                    ret=true;
+                }
+                buffer = edk::RetroImageConverter::retroIMGsToCodeASM_SMS(name,
                                                                           palette,
                                                                           set,
                                                                           map,
