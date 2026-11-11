@@ -316,48 +316,51 @@ bool edk::retro::RetroViewMapEdit::loadMapFromImageWithSpecs(edk::Image2D* img){
                 edk::uint8 bytesPerColor = img->getBytesPerColor();
                 edk::retro::RetroTileSpecs specs;
 
-                //create the map
-                this->map->newMap(tilesW,tilesH);
-                edk::char8* str = edk::String::strFileNameNoExtension(img->getName());
-                if(str){
-                    this->map->setName(str);
-                    free(str);
-                }
+                //create a new map
+                edk::uint32 position = this->maps->createNewMap(this->tiles,tilesW,tilesH);
 
-                //create the tiles
-                for(edk::uint32 h=0u;h<tilesH;h++){
-                    for(edk::uint32 w=0u;w<tilesW;w++){
-                        //load the ids
-                        vec = img->getColors();
-                        //goto the line
-                        vec+=bytesPerColor*(width*h*8u);
-                        for(edk::uint32 y=0u;y<8u;y++){
-                            //goto the start
-                            vec+=(bytesPerColor*8u*w);
-                            for(edk::uint32 x=0u;x<8u;x++){
-                                id=0u;
-                                edkMemCpy(&id,vec,bytesPerColor);
-                                tempTile.setPixel(x,y,id);
-                                vec+=bytesPerColor;
+                if(this->selectMap(position)){
+                    edk::char8* str = edk::String::strFileNameNoExtension(img->getName());
+                    if(str){
+                        this->map->setName(str);
+                        free(str);
+                    }
+
+                    //create the tiles
+                    for(edk::uint32 h=0u;h<tilesH;h++){
+                        for(edk::uint32 w=0u;w<tilesW;w++){
+                            //load the ids
+                            vec = img->getColors();
+                            //goto the line
+                            vec+=bytesPerColor*(width*h*8u);
+                            for(edk::uint32 y=0u;y<8u;y++){
+                                //goto the start
+                                vec+=(bytesPerColor*8u*w);
+                                for(edk::uint32 x=0u;x<8u;x++){
+                                    id=0u;
+                                    edkMemCpy(&id,vec,bytesPerColor);
+                                    tempTile.setPixel(x,y,id);
+                                    vec+=bytesPerColor;
+                                }
+                                //go to the end
+                                vec+=bytesPerColor*(width - ((8u*w) + 8u));
                             }
-                            //go to the end
-                            vec+=bytesPerColor*(width - ((8u*w) + 8u));
-                        }
-                        //add the tile
-                        specs=0u;
-                        if(this->tiles->addTileEqualFlipTest(tempTile,&specs)){
-                            //set it on the map
-                            this->map->setID(w,h,specs.value);
-                        }
-                        else{
-                            //get the tileID
-                            this->map->setID(w,h,specs.value);
-                            this->map->setFlipH(w,h,specs.flipH);
-                            this->map->setFlipV(w,h,specs.flipV);
+                            //add the tile
+                            specs=0u;
+                            if(this->tiles->addTileEqualFlipTest(tempTile,&specs)){
+                                //set it on the map
+                                this->map->setID(w,h,specs.value);
+                            }
+                            else{
+                                //get the tileID
+                                this->map->setID(w,h,specs.value);
+                                this->map->setFlipH(w,h,specs.flipH);
+                                this->map->setFlipV(w,h,specs.flipV);
+                            }
                         }
                     }
+                    ret = true;
                 }
-                ret = true;
             }
         }
         return ret;
