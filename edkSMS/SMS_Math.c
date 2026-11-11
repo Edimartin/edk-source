@@ -28,13 +28,6 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #pragma message "            Inside SMS_Math.c"
 #endif
 
-/*
-bool math_aabb(struct vec2i32 a1,struct vec2i32 a2,struct vec2i32 b1,struct vec2i32 b2){
-    if(a2.x<b1.x || a1.x>b2.x) return false;
-    if(a2.y<b1.y || a1.y>b2.y) return false;
-    return true;
-}
-*/
 bool math_aabb(int32 a1x,int32 a1y,int32 a2x,int32 a2y,
                int32 b1x,int32 b1y,int32 b2x,int32 b2y
                ){
