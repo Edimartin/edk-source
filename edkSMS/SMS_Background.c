@@ -48,9 +48,6 @@ void smsBackground_drawHorizontal(uint16* vec,uint8 x,uint8 y,uint8 sx,uint8 sy,
     uint8 i=0u;
     uint16* temp;
     for(;i<w;++i){
-#ifdef SMS_DEBUG
-        posB+=sprintf(&buffer[posB], "[%u]",sx);
-#endif
         temp = mapVector_getPosition(vec,
                                      x,y,
                                      mapWidth
@@ -78,9 +75,6 @@ void smsBackground_drawVertical(uint16* vec,uint8 x,uint8 y,uint8 sx,uint8 sy,ui
     uint8 i=0u;
     uint16* temp;
     for(;i<h;++i){
-#ifdef SMS_DEBUG
-        posB+=sprintf(&buffer[posB], "[%u]",sy);
-#endif
         temp = mapVector_getPosition(vec,
                                      x,y,
                                      mapWidth
@@ -154,15 +148,6 @@ void smsBackground_moveCameraUP(uint16* vec,uint16 value,uint16 mapWidth,uint16 
                 if(ret.positionH.x+1u<EDK_SMS_BACKGROUND_WIDTH){
                     newPos++;
                 }
-#ifdef SMS_DEBUG
-                posB=0u;
-                memset(buffer,0u,sizeof(buffer));
-                posB+=sprintf(&buffer[posB], "[%u]drawHorizontal11(%d,%d,%d,%u)",__LINE__,
-                              newPos,map1.y,
-                              ret.positionH.x+1u, ret.positionH.y,
-                              ret.size.x
-                              );
-#endif
                 //READ FROM MAP
                 smsBackground_drawHorizontal(vec,
                                              newPos,map1.y,
@@ -178,13 +163,6 @@ void smsBackground_moveCameraUP(uint16* vec,uint16 value,uint16 mapWidth,uint16 
         }
         else if(ret.insert == CAMSCROLL_INSERT_REMOVE_DOWN){
             map2.y--;
-#ifdef SMS_DEBUG
-            posB=0u;
-            memset(buffer,0u,sizeof(buffer));
-            posB+=sprintf(&buffer[posB], "[%u]move2Y(%d)",__LINE__,
-                          map2.y
-                          );
-#endif
         }
     }
 }
@@ -202,15 +180,6 @@ void smsBackground_moveCameraDOWN(uint16* vec,uint16 value,uint16 mapWidth,uint1
                 if(ret.positionH.x+1u<EDK_SMS_BACKGROUND_WIDTH){
                     newPos++;
                 }
-#ifdef SMS_DEBUG
-                posB=0u;
-                memset(buffer,0u,sizeof(buffer));
-                posB+=sprintf(&buffer[posB], "[%u]drawHorizontal12(%d,%d,%d,%u)",__LINE__,
-                              newPos,map2.y,
-                              ret.positionH.x+1u, ret.positionH.y,
-                              ret.size.x
-                              );
-#endif
                 //READ FROM MAP
                 smsBackground_drawHorizontal(vec,
                                              newPos,map2.y,
@@ -226,13 +195,6 @@ void smsBackground_moveCameraDOWN(uint16* vec,uint16 value,uint16 mapWidth,uint1
         }
         else if(ret.insert == CAMSCROLL_INSERT_REMOVE_UP){
             map1.y++;
-#ifdef SMS_DEBUG
-            posB=0u;
-            memset(buffer,0u,sizeof(buffer));
-            posB+=sprintf(&buffer[posB], "[%u]move1Y(%d)",__LINE__,
-                          map1.y
-                          );
-#endif
         }
     }
 }
@@ -245,15 +207,6 @@ void smsBackground_moveCameraLEFT(uint16* vec,uint16 value,uint16 mapWidth,uint1
             if(map1.x>=0
                     && map1.x<mapWidth
                     ){
-#ifdef SMS_DEBUG
-                posB=0u;
-                memset(buffer,0u,sizeof(buffer));
-                posB+=sprintf(&buffer[posB], "[%u]drawVertical11(%d,%d,%d,%u)",__LINE__,
-                              map1.x,map1.y,
-                              ret.positionV.x, ret.positionV.y,
-                              ret.size.y
-                              );
-#endif
                 //READ FROM MAP
                 smsBackground_drawVertical(vec,
                                            map1.x,map1.y,
@@ -270,13 +223,6 @@ void smsBackground_moveCameraLEFT(uint16* vec,uint16 value,uint16 mapWidth,uint1
         }
         else if(ret.insert == CAMSCROLL_INSERT_REMOVE_RIGHT){
             map2.x--;
-#ifdef SMS_DEBUG
-            posB=0u;
-            memset(buffer,0u,sizeof(buffer));
-            posB+=sprintf(&buffer[posB], "[%u]move2X(%d)",__LINE__,
-                          map2.x
-                          );
-#endif
         }
     }
 }
@@ -290,15 +236,6 @@ void smsBackground_moveCameraRIGHT(uint16* vec,uint16 value,uint16 mapWidth,uint
             if(map2.x>=0
                     && map2.x<mapWidth
                     ){
-#ifdef SMS_DEBUG
-                posB=0u;
-                memset(buffer,0u,sizeof(buffer));
-                posB+=sprintf(&buffer[posB], "[%u]drawVertical21(%d,%d,%d,%u)",__LINE__,
-                              map2.x,map1.y,
-                              ret.positionV.x, ret.positionV.y,
-                              ret.size.y
-                              );
-#endif
                 //READ FROM MAP
                 smsBackground_drawVertical(vec,
                                            map2.x,map1.y,
@@ -314,13 +251,6 @@ void smsBackground_moveCameraRIGHT(uint16* vec,uint16 value,uint16 mapWidth,uint
         }
         else if(ret.insert == CAMSCROLL_INSERT_REMOVE_LEFT){
             map1.x++;
-#ifdef SMS_DEBUG
-            posB=0u;
-            memset(buffer,0u,sizeof(buffer));
-            posB+=sprintf(&buffer[posB], "[%u]move1X(%d)",__LINE__,
-                          map1.x
-                          );
-#endif
         }
     }
 }

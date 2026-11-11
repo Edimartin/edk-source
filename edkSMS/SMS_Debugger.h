@@ -38,7 +38,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
 //activate the debugger
-//#define SMS_DEBUG
+#define SMS_DEBUG
 
 
 

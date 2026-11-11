@@ -37,7 +37,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "SMS_TypeVec2.h"
 #include "SMS_MapVector.h"
 #include "SMS_Tiles.h"
-#include "SMS_Debugger.h"
+//#include "SMS_Debugger.h"
 
 //Tile
 struct Object{
@@ -46,12 +46,23 @@ struct Object{
     int32 lenght;
     uint16* vector;
     uint16* temp;
-    struct Tile** tiles;
+    //struct Tile** tiles;
+    uint8 frames;
+    uint8 frame;
+    uint8 lineNext;
+    bool alive;
+    //
+    struct vec2i32 contactInit;
+    struct vec2i32 contactEnd;
 };
 
 void obj_cleanDebug();
 void obj_construct(struct Object* obj);
-void obj_init(struct Object* obj,uint8 width,uint8 height,uint16* vector,int32 lenght);
+void obj_init(struct Object* obj,uint8 width,uint8 height,uint16* vector,int32 lenght,uint8 frames);
+void obj_contactInitX(struct Object* obj,uint32 x1,uint32 x2);
+void obj_contactInitY(struct Object* obj,uint32 y1,uint32 y2);
+void obj_contactIncrementX(struct Object* obj,uint32 x1,uint32 x2);
+void obj_contactIncrementY(struct Object* obj,uint32 y1,uint32 y2);
 uint16 obj_getWidthPixels(struct Object* obj);
 uint16 obj_getHeightPixels(struct Object* obj);
 void obj_draw(struct Object* obj,uint8 frame);

@@ -28,6 +28,6 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #pragma message "            Inside SMS_MapVector.c"
 #endif
 
-uint16 mapVector_getPosition(uint16* vector,uint16 x,uint16 y,uint16 width){
+uint16* mapVector_getPosition(uint16* vector,uint16 x,uint16 y,uint16 width){
     return &vector[x + (y*width)];
 }

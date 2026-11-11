@@ -29,7 +29,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endif
 
 void obj_cleanDebug(){
-    sms_debugClean();
+    //sms_debugClean();
 }
 void obj_construct(struct Object* obj){
     obj->position.x=0;
@@ -38,13 +38,51 @@ void obj_construct(struct Object* obj){
     obj->size.y=0u;
     obj->lenght=0;
     obj->vector=NULL;
-    obj->tiles=NULL;
+    //obj->tiles=NULL;
+    obj->frame = obj->frames = 0u;
+    obj->lineNext = 0xFF;
+    obj->alive=false;
+    obj->contactInit.x = 0;
+    obj->contactInit.y = 0;
+    obj->contactEnd.x = 0;
+    obj->contactEnd.y = 0;
 }
-void obj_init(struct Object* obj,uint8 width,uint8 height,uint16* vector,int32 lenght){
+void obj_init(struct Object* obj,uint8 width,uint8 height,uint16* vector,int32 lenght,uint8 frames){
     obj->vector = vector;
     obj->size.x = width;
     obj->size.y = height;
     obj->lenght = lenght;
+    obj->frames = frames;
+    obj->lineNext = 0xFF;
+    obj->alive=false;
+    obj->contactInit.x = 0;
+    obj->contactInit.y = 0;
+    obj->contactEnd.x = 0;
+    obj->contactEnd.y = 0;
+}
+void obj_contactInitX(struct Object* obj,uint32 x1,uint32 x2){
+    obj->contactInit.x = x1;
+    obj->contactEnd.x = x2;
+}
+void obj_contactInitY(struct Object* obj,uint32 y1,uint32 y2){
+    obj->contactInit.y = y1;
+    obj->contactEnd.y = y2;
+}
+void obj_contactIncrementX(struct Object* obj,uint32 x1,uint32 x2){
+    if(obj->contactInit.x>x1){
+        obj->contactInit.x=x1;
+    }
+    if(obj->contactEnd.x<x1){
+        obj->contactEnd.x=x1;
+    }
+}
+void obj_contactIncrementY(struct Object* obj,uint32 y1,uint32 y2){
+    if(obj->contactInit.y>y1){
+        obj->contactInit.y=y1;
+    }
+    if(obj->contactEnd.y<y1){
+        obj->contactEnd.y=y1;
+    }
 }
 uint16 obj_getWidthPixels(struct Object* obj){
     return obj->size.x*8u;
@@ -84,23 +122,15 @@ void obj_drawEven(struct Object* obj,uint8 frame,bool even){
     int16 temp = obj->position.x - (obj_getWidthPixels(obj)>>1u);
     position.y = obj->position.y - (obj_getHeightPixels(obj)>>1u);
     if(even){
-        sms_printf("(true)",NULL);
         x=0u;
     }
     else{
-        sms_printf("(false)",NULL);
         x=1u;
         i=1u;
     }
     for(;y<obj->size.y;++y){
         position.x = temp + (x*8);
         for(;x<obj->size.x;x+=2u){
-            sms_printf("[%d](%d,%d)"
-                       ,obj->temp[i]
-                       ,obj->position.x
-                       ,obj->position.y
-                       ,NULL
-                       );
 #if !defined(__GNUC__) && !defined(__clang__)
             SMS_addSprite(position.x,
                           position.y,

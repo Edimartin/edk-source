@@ -95,14 +95,6 @@ void camScroll_moveUP(struct CamScroll* scroll,uint16 value,struct CamScrollNext
             scroll->tileStart.y=EDK_SMS_BACKGROUND_HEIGHT2;
         }
         scroll->tileStart.y--;
-        /*
-            printf("\nPUSH %u %u size %u %u"
-                   ,scroll->tileStart.x
-                   ,scroll->tileStart.y
-                   ,EDK_SMS_BACKGROUND_WIDTH
-                   ,1u
-                   );fflush(stdout);
-*/
         ret->positionH.x = scroll->tileStart.x;
         ret->positionH.y = scroll->tileStart.y;
         ret->size.x = EDK_SMS_BACKGROUND_WIDTH;

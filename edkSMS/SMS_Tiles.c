@@ -54,14 +54,6 @@ struct Tile* tiles_getPointerPosition(uint8 position){
 }
 void tiles_addTile(struct vec2i32 position,int16 id){
     //
-    /*
-    sms_printf("[%d](%d,%d)"
-               ,id
-               ,position.x
-               ,position.y
-               ,NULL
-               );
-*/
     tiles[lenghtTiles].position.x = position.x;
     tiles[lenghtTiles].position.y = position.y;
     tiles[lenghtTiles].id = id;
